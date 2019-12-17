@@ -23,8 +23,8 @@
   ];
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   */
   class GrIdentities extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
   ], Polymer.GestureEventListeners(

@@ -25,6 +25,7 @@
 
   /**
    * Fired when a rule that was previously added was removed.
+   *
    * @event added-rule-removed
    */
 
@@ -64,18 +65,18 @@
   ];
 
   /**
-    * @appliesMixin Gerrit.AccessMixin
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.AccessMixin
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrRuleEditor extends Polymer.mixinBehaviors( [
     Gerrit.AccessBehavior,
     Gerrit.BaseUrlBehavior,
     /**
-       * Unused in this element, but called by other elements in tests
-       * e.g gr-permission_test.
-       */
+     * Unused in this element, but called by other elements in tests
+     * e.g gr-permission_test.
+     */
     Gerrit.FireBehavior,
     Gerrit.URLEncodingBehavior,
   ], Polymer.GestureEventListeners(

@@ -82,7 +82,7 @@
 
   /**
    * Registers an endpoint for the plugin.
-  */
+   */
   Plugin.prototype.registerCustomComponent = function(
       endpointName, opt_moduleName, opt_options) {
     return this._registerCustomComponent(endpointName, opt_moduleName,
@@ -94,7 +94,7 @@
    *
    * Dynamic plugins are registered by specific prefix, such as
    * 'change-list-header'.
-  */
+   */
   Plugin.prototype.registerDynamicCustomComponent = function(
       endpointName, opt_moduleName, opt_options) {
     const fullEndpointName = `${endpointName}-${this.getPluginName()}`;
@@ -222,6 +222,7 @@
 
   /**
    * To make REST requests for plugin-provided endpoints, use
+   *
    * @example
    * const pluginRestApi = plugin.restApi(plugin.url());
    *

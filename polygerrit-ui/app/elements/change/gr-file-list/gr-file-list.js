@@ -42,13 +42,13 @@
   };
 
   /**
-    * @appliesMixin Gerrit.AsyncForeachMixin
-    * @appliesMixin Gerrit.DomUtilMixin
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    * @appliesMixin Gerrit.PathListMixin
-    */
+   * @appliesMixin Gerrit.AsyncForeachMixin
+   * @appliesMixin Gerrit.DomUtilMixin
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   * @appliesMixin Gerrit.PathListMixin
+   */
   class GrFileList extends Polymer.mixinBehaviors( [
     Gerrit.AsyncForeachBehavior,
     Gerrit.DomUtilBehavior,
@@ -148,9 +148,9 @@
         },
 
         /**
-       * The amount of files added to the shown files list the last time it was
-       * updated. This is used for reporting the average render time.
-       */
+         * The amount of files added to the shown files list the last time it was
+         * updated. This is used for reporting the average render time.
+         */
         _reportinShownFilesIncrement: Number,
 
         _expandedFilePaths: {
@@ -538,6 +538,7 @@
     /**
      * The closure compiler doesn't realize this.specialFilePathCompare is
      * valid.
+     *
      * @suppress {checkTypes}
      */
     _normalizeChangeFilesResponse(response) {
@@ -972,6 +973,7 @@
     /**
      * Get a descriptive label for use in the status indicator's tooltip and
      * ARIA label.
+     *
      * @param {string} status
      * @return {string}
      */
@@ -1004,6 +1006,7 @@
      * entries in the expanded list, then render each diff corresponding in
      * order by waiting for the previous diff to finish before starting the next
      * one.
+     *
      * @param {!Array} record The splice record in the expanded paths list.
      */
     _expandedPathsChanged(record) {
@@ -1048,6 +1051,7 @@
      * Given an array of paths and a NodeList of diff elements, render the diff
      * for each path in order, awaiting the previous render to complete before
      * continung.
+     *
      * @param  {!Array<string>} paths
      * @param  {!NodeList<!Object>} diffElements (GrDiffHostElement)
      * @param  {number} initialCount The total number of paths in the pass. This
@@ -1093,6 +1097,7 @@
 
     /**
      * In the given NodeList of diff elements, find the diff for the given path.
+     *
      * @param  {string} path
      * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
      * @return {!Object|undefined} (GrDiffElement)
@@ -1107,6 +1112,7 @@
 
     /**
      * Reset the comments of a modified thread
+     *
      * @param  {string} rootId
      * @param  {string} path
      */
@@ -1153,6 +1159,7 @@
      * Update the loading class for the file list rows. The update is inside a
      * debouncer so that the file list doesn't flash gray when the API requests
      * are reasonably fast.
+     *
      * @param {boolean} loading
      */
     _loadingChanged(loading) {
@@ -1178,6 +1185,7 @@
     /**
      * Given a file path, return whether that path should have visible size bars
      * and be included in the size bars calculation.
+     *
      * @param {string} path
      * @return {boolean}
      */
@@ -1187,6 +1195,7 @@
 
     /**
      * Compute size bar layout values from the file list.
+     *
      * @return {Gerrit.LayoutStats|undefined}
      */
     _computeSizeBarLayout(shownFilesRecord) {
@@ -1221,6 +1230,7 @@
 
     /**
      * Get the width of the addition bar for a file.
+     *
      * @param {Object} file
      * @param {Gerrit.LayoutStats} stats
      * @return {number}
@@ -1238,6 +1248,7 @@
 
     /**
      * Get the x-offset of the addition bar for a file.
+     *
      * @param {Object} file
      * @param {Gerrit.LayoutStats} stats
      * @return {number}
@@ -1249,6 +1260,7 @@
 
     /**
      * Get the width of the deletion bar for a file.
+     *
      * @param {Object} file
      * @param {Gerrit.LayoutStats} stats
      * @return {number}
@@ -1266,6 +1278,7 @@
 
     /**
      * Get the x-offset of the deletion bar for a file.
+     *
      * @param {Gerrit.LayoutStats} stats
      * @return {number}
      */
@@ -1302,6 +1315,7 @@
 
     /**
      * Returns true if none of the inline diffs have been expanded.
+     *
      * @return {boolean}
      */
     _noDiffsExpanded() {
@@ -1312,6 +1326,7 @@
      * Method to call via binding when each file list row is rendered. This
      * allows approximate detection of when the dom-repeat has completed
      * rendering.
+     *
      * @param {number} index The index of the row being rendered.
      * @return {string} an empty string.
      */

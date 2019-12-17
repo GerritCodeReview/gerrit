@@ -30,10 +30,10 @@
   const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrChangeListView extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,
@@ -59,8 +59,8 @@
         },
 
         /**
-       * True when user is logged in.
-       */
+         * True when user is logged in.
+         */
         _loggedIn: {
           type: Boolean,
           computed: '_computeLoggedIn(account)',
@@ -72,13 +72,14 @@
         },
 
         /**
-       * State persisted across restamps of the element.
-       *
-       * Need sub-property declaration since it is used in template before
-       * assignment.
-       * @type {{ selectedChangeIndex: (number|undefined) }}
-       *
-       */
+         * State persisted across restamps of the element.
+         *
+         * Need sub-property declaration since it is used in template before
+         * assignment.
+         *
+         * @type {{ selectedChangeIndex: (number|undefined) }}
+         *
+         */
         viewState: {
           type: Object,
           notify: true,
@@ -90,29 +91,29 @@
         _changesPerPage: Number,
 
         /**
-       * Currently active query.
-       */
+         * Currently active query.
+         */
         _query: {
           type: String,
           value: '',
         },
 
         /**
-       * Offset of currently visible query results.
-       */
+         * Offset of currently visible query results.
+         */
         _offset: Number,
 
         /**
-       * Change objects loaded from the server.
-       */
+         * Change objects loaded from the server.
+         */
         _changes: {
           type: Array,
           observer: '_changesChanged',
         },
 
         /**
-       * For showing a "loading..." string during ajax requests.
-       */
+         * For showing a "loading..." string during ajax requests.
+         */
         _loading: {
           type: Boolean,
           value: true,

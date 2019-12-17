@@ -20,8 +20,8 @@
   const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrAccountList extends Polymer.mixinBehaviors( [
     // Used in the tests for gr-account-list and other elements tests.
     Gerrit.FireBehavior,
@@ -52,6 +52,7 @@
 
         /**
          * Returns suggestions and convert them to list item
+         *
          * @type {Gerrit.GrSuggestionsProvider}
          */
         suggestionsProvider: {
@@ -60,6 +61,7 @@
 
         /**
          * Needed for template checking since value is initially set to null.
+         *
          * @type {?Object}
          */
         pendingConfirmation: {
@@ -91,6 +93,7 @@
 
         /**
          * Returns suggestion items
+         *
          * @type {!function(string): Promise<Array<Gerrit.GrSuggestionItem>>}
          */
         _querySuggestions: {

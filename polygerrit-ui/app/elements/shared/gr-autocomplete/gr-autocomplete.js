@@ -21,9 +21,9 @@
   const DEBOUNCE_WAIT_MS = 200;
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   */
   class GrAutocomplete extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
@@ -54,16 +54,16 @@
       return {
 
         /**
-       * Query for requesting autocomplete suggestions. The function should
-       * accept the input as a string parameter and return a promise. The
-       * promise yields an array of suggestion objects with "name", "label",
-       * "value" properties. The "name" property will be displayed in the
-       * suggestion entry. The "label" property will, when specified, appear
-       * next to the "name" as label text. The "value" property will be emitted
-       * if that suggestion is selected.
-       *
-       * @type {function(string): Promise<?>}
-       */
+         * Query for requesting autocomplete suggestions. The function should
+         * accept the input as a string parameter and return a promise. The
+         * promise yields an array of suggestion objects with "name", "label",
+         * "value" properties. The "name" property will be displayed in the
+         * suggestion entry. The "label" property will, when specified, appear
+         * next to the "name" as label text. The "value" property will be emitted
+         * if that suggestion is selected.
+         *
+         * @type {function(string): Promise<?>}
+         */
         query: {
           type: Function,
           value() {
@@ -129,26 +129,26 @@
         },
 
         /**
-       * Multi mode appends autocompleted entries to the value.
-       * If false, autocompleted entries replace value.
-       */
+         * Multi mode appends autocompleted entries to the value.
+         * If false, autocompleted entries replace value.
+         */
         multi: {
           type: Boolean,
           value: false,
         },
 
         /**
-       * When true and uncommitted text is left in the autocomplete input after
-       * blurring, the text will appear red.
-       */
+         * When true and uncommitted text is left in the autocomplete input after
+         * blurring, the text will appear red.
+         */
         warnUncommitted: {
           type: Boolean,
           value: false,
         },
 
         /**
-       * When true, querying for suggestions is not debounced w/r/t keypresses
-       */
+         * When true, querying for suggestions is not debounced w/r/t keypresses
+         */
         noDebounce: {
           type: Boolean,
           value: false,
@@ -235,6 +235,7 @@
 
     /**
      * Set the text of the input without triggering the suggestion dropdown.
+     *
      * @param {string} text The new text for the input.
      */
     setText(text) {

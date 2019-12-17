@@ -21,14 +21,14 @@
   const NEWLINE_PATTERN = /\n/g;
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    * @appliesMixin Gerrit.PathListMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Gerrit.PathListMixin
+   */
   class GrCommentThread extends Polymer.mixinBehaviors( [
     /**
-       * Not used in this element rather other elements tests
-       */
+     * Not used in this element rather other elements tests
+     */
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
     Gerrit.PathListBehavior,
@@ -49,25 +49,25 @@
      */
 
     /**
-              * gr-comment-thread exposes the following attributes that allow a
-              * diff widget like gr-diff to show the thread in the right location:
-              *
-              * line-num:
-              *     1-based line number or undefined if it refers to the entire file.
-              *
-              * comment-side:
-              *     "left" or "right". These indicate which of the two diffed versions
-              *     the comment relates to. In the case of unified diff, the left
-              *     version is the one whose line number column is further to the left.
-              *
-              * range:
-              *     The range of text that the comment refers to (start_line,
-              *     start_character, end_line, end_character), serialized as JSON. If
-              *     set, range's end_line will have the same value as line-num. Line
-              *     numbers are 1-based, char numbers are 0-based. The start position
-              *     (start_line, start_character) is inclusive, and the end position
-              *     (end_line, end_character) is exclusive.
-              */
+     * gr-comment-thread exposes the following attributes that allow a
+     * diff widget like gr-diff to show the thread in the right location:
+     *
+     * line-num:
+     *     1-based line number or undefined if it refers to the entire file.
+     *
+     * comment-side:
+     *     "left" or "right". These indicate which of the two diffed versions
+     *     the comment relates to. In the case of unified diff, the left
+     *     version is the one whose line number column is further to the left.
+     *
+     * range:
+     *     The range of text that the comment refers to (start_line,
+     *     start_character, end_line, end_character), serialized as JSON. If
+     *     set, range's end_line will have the same value as line-num. Line
+     *     numbers are 1-based, char numbers are 0-based. The start position
+     *     (start_line, start_character) is inclusive, and the end position
+     *     (end_line, end_character) is exclusive.
+     */
     static get properties() {
       return {
         changeNum: String,
@@ -76,9 +76,9 @@
           value() { return []; },
         },
         /**
-       * @type {?{start_line: number, start_character: number, end_line: number,
-       *          end_character: number}}
-       */
+         * @type {?{start_line: number, start_character: number, end_line: number,
+         *          end_character: number}}
+         */
         range: {
           type: Object,
           reflectToAttribute: true,
@@ -116,9 +116,9 @@
           computed: '_computeRootId(comments.*)',
         },
         /**
-       * If this is true, the comment thread also needs to have the change and
-       * line properties property set
-       */
+         * If this is true, the comment thread also needs to have the change and
+         * line properties property set
+         */
         showFilePath: {
           type: Boolean,
           value: false,
@@ -512,6 +512,7 @@
 
     /**
      * Load the project config when a project name has been provided.
+     *
      * @param {string} name The project name.
      */
     _projectNameChanged(name) {

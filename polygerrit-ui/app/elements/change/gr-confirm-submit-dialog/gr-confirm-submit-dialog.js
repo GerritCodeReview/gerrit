@@ -44,10 +44,10 @@
         change: Object,
 
         /**
-       * @type {{
-       *    label: string,
-       *  }}
-       */
+         * @type {{
+         *    label: string,
+         *  }}
+         */
         action: Object,
       };
     }

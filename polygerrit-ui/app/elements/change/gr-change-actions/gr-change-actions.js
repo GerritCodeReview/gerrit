@@ -193,10 +193,10 @@
   const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    * @appliesMixin Gerrit.RESTClientMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   * @appliesMixin Gerrit.RESTClientMixin
+   */
   class GrChangeActions extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
@@ -214,7 +214,7 @@
     /**
      * Fired when an action is tapped.
      *
-     * @event <action key>-tap
+     * @event custom-tap - naming pattern: <action key>-tap
      */
 
     /**
@@ -644,8 +644,8 @@
     }
 
     /**
-       * @param {string=} actionName
-       */
+     * @param {string=} actionName
+     */
     _deleteAndNotify(actionName) {
       if (this.actions && this.actions[actionName]) {
         delete this.actions[actionName];
@@ -886,6 +886,7 @@
 
     /**
      * Capitalize the first letter and lowecase all others.
+     *
      * @param {string} s
      * @return {string}
      */
@@ -1413,6 +1414,7 @@
     /**
      * Merge sources of change actions into a single ordered array of action
      * values.
+     *
      * @param {!Array} changeActionsRecord
      * @param {!Array} revisionActionsRecord
      * @param {!Array} primariesRecord

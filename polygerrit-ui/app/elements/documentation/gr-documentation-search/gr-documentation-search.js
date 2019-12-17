@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.ListViewMixin
-    */
+   * @appliesMixin Gerrit.ListViewMixin
+   */
   class GrDocumentationSearch extends Polymer.mixinBehaviors( [
     Gerrit.ListViewBehavior,
   ], Polymer.GestureEventListeners(

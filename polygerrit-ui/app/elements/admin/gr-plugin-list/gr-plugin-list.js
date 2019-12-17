@@ -18,9 +18,9 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.ListViewMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.ListViewMixin
+   */
   class GrPluginList extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.ListViewBehavior,
@@ -39,8 +39,8 @@
           observer: '_paramsChanged',
         },
         /**
-       * Offset of currently visible query results.
-       */
+         * Offset of currently visible query results.
+         */
         _offset: {
           type: Number,
           value: 0,
@@ -52,9 +52,9 @@
         },
         _plugins: Array,
         /**
-       * Because  we request one more than the pluginsPerPage, _shownPlugins
-       * maybe one less than _plugins.
-       * */
+         * Because  we request one more than the pluginsPerPage, _shownPlugins
+         * maybe one less than _plugins.
+         * */
         _shownPlugins: {
           type: Array,
           computed: 'computeShownItems(_plugins)',

@@ -21,8 +21,8 @@
   const REF_PREFIX = 'refs/heads/';
 
   /**
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrRepoBranchPicker extends Polymer.mixinBehaviors( [
     Gerrit.URLEncodingBehavior,
   ], Polymer.GestureEventListeners(

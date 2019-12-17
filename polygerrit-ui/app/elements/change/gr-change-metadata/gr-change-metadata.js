@@ -49,8 +49,8 @@
   };
 
   /**
-    * @appliesMixin Gerrit.RESTClientMixin
-    */
+   * @appliesMixin Gerrit.RESTClientMixin
+   */
   class GrChangeMetadata extends Polymer.mixinBehaviors( [
     Gerrit.RESTClientBehavior,
   ], Polymer.GestureEventListeners(
@@ -96,8 +96,8 @@
           computed: '_computeHashtagReadOnly(_mutable, change)',
         },
         /**
-       * @type {Gerrit.PushCertificateValidation}
-       */
+         * @type {Gerrit.PushCertificateValidation}
+         */
         _pushCertificateValidation: {
           type: Object,
           computed: '_computePushCertificateValidation(serverConfig, change)',
@@ -401,6 +401,7 @@
     /**
      * Get the user with the specified role on the change. Returns null if the
      * user with that role is the same as the owner.
+     *
      * @param {!Object} change
      * @param {string} role One of the values from _CHANGE_ROLE
      * @return {Object|null} either an accound or null.

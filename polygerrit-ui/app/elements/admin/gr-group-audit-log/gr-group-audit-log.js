@@ -20,9 +20,9 @@
   const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.ListViewMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.ListViewMixin
+   */
   class GrGroupAuditLog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.ListViewBehavior,

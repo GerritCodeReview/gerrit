@@ -7,6 +7,7 @@
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.13.0",
     "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-jsdoc": "^18.4.3",
     "fried-twinkie": "^0.2.2",
     "polymer-cli": "^1.9.11",
     "typescript": "^2.x.x",

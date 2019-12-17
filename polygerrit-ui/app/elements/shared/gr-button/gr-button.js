@@ -18,9 +18,9 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    * @appliesMixin Gerrit.TooltipMixin
-    */
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Gerrit.TooltipMixin
+   */
   class GrButton extends Polymer.mixinBehaviors( [
     Gerrit.KeyboardShortcutBehavior,
     Gerrit.TooltipBehavior,

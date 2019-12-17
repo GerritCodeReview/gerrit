@@ -31,10 +31,10 @@
       return {
 
         /**
-       * Used just like the query property of gr-autocomplete.
-       *
-       * @type {function(string): Promise<?>}
-       */
+         * Used just like the query property of gr-autocomplete.
+         *
+         * @type {function(string): Promise<?>}
+         */
         query: {
           type: Function,
           value() {

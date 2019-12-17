@@ -32,6 +32,7 @@ limitations under the License.
      * example, with normal changes this will always return 1. For merge changes
      * wherein the revisions are merge commits this will return 2 or potentially
      * more.
+     *
      * @return {Number}
      */
     RevisionInfo.prototype.getMaxParents = function() {
@@ -45,6 +46,7 @@ limitations under the License.
     /**
      * Get an object that maps revision numbers to the number of parents of the
      * commit of that revision.
+     *
      * @return {!Object}
      */
     RevisionInfo.prototype.getParentCountMap = function() {
@@ -68,6 +70,7 @@ limitations under the License.
     /**
      * Get the commit ID of the (0-offset) indexed parent in the given revision
      * number.
+     *
      * @param {number|string} patchNum
      * @param {number} parentIndex (0-offset)
      * @return {string}

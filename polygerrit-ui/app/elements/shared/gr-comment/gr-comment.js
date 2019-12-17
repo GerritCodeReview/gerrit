@@ -32,9 +32,9 @@
   const FILE = 'FILE';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   */
   class GrComment extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
@@ -151,11 +151,11 @@
         },
 
         /**
-       * Property for storing references to overlay elements. When the overlays
-       * are moved to Gerrit.getRootElement() to be shown they are no-longer
-       * children, so they can't be queried along the tree, so they are stored
-       * here.
-       */
+         * Property for storing references to overlay elements. When the overlays
+         * are moved to Gerrit.getRootElement() to be shown they are no-longer
+         * children, so they can't be queried along the tree, so they are stored
+         * here.
+         */
         _overlays: {
           type: Object,
           value: () => ({}),

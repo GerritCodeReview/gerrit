@@ -25,12 +25,12 @@
   };
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.ChangeTableMixin
-    * @appliesMixin Gerrit.PathListMixin
-    * @appliesMixin Gerrit.RESTClientMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.ChangeTableMixin
+   * @appliesMixin Gerrit.PathListMixin
+   * @appliesMixin Gerrit.RESTClientMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrChangeListItem extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.ChangeTableBehavior,

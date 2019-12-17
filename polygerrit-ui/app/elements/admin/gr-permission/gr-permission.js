@@ -25,9 +25,9 @@
   ];
 
   /**
-    * @appliesMixin Gerrit.AccessMixin
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.AccessMixin
+   * @appliesMixin Gerrit.FireMixin
+   */
   /**
    * Fired when the permission has been modified or removed.
    *
@@ -35,14 +35,15 @@
    */
   /**
    * Fired when a permission that was previously added was removed.
+   *
    * @event added-permission-removed
    */
   class GrPermission extends Polymer.mixinBehaviors( [
     Gerrit.AccessBehavior,
     /**
-       * Unused in this element, but called by other elements in tests
-       * e.g gr-access-section_test.
-       */
+     * Unused in this element, but called by other elements in tests
+     * e.g gr-access-section_test.
+     */
     Gerrit.FireBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(

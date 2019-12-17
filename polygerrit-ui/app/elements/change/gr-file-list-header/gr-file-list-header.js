@@ -22,9 +22,9 @@
   const MERGED_STATUS = 'MERGED';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   */
   class GrFileListHeader extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
@@ -183,6 +183,7 @@
 
     /**
      * Update the patchset description with the rest API.
+     *
      * @param {string} desc
      * @param {?(Event|Node)} e
      * @return {!Promise}

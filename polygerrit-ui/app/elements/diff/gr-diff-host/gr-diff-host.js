@@ -69,9 +69,9 @@
   };
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   */
   /**
    * Wrapper around gr-diff.
    *
@@ -87,6 +87,7 @@
     static get is() { return 'gr-diff-host'; }
     /**
      * Fired when the user selects a line.
+     *
      * @event line-selected
      */
 
@@ -155,20 +156,21 @@
         },
 
         /**
-       * Special line number which should not be collapsed into a shared region.
-       * @type {{
-       *  number: number,
-       *  leftSide: {boolean}
-       * }|null}
-       */
+         * Special line number which should not be collapsed into a shared region.
+         *
+         * @type {{
+         *  number: number,
+         *  leftSide: {boolean}
+         * }|null}
+         */
         lineOfInterest: Object,
 
         /**
-       * If the diff fails to load, show the failure message in the diff rather
-       * than bubbling the error up to the whole page. This is useful for when
-       * loading inline diffs because one diff failing need not mark the whole
-       * page with a failure.
-       */
+         * If the diff fails to load, show the failure message in the diff rather
+         * than bubbling the error up to the whole page. This is useful for when
+         * loading inline diffs because one diff failing need not mark the whole
+         * page with a failure.
+         */
         showLoadFailure: Boolean,
 
         isBlameLoaded: {
@@ -198,8 +200,8 @@
         /** @type {?Object} */
         _revisionImage: Object,
         /**
-       * This is a DiffInfo object.
-       */
+         * This is a DiffInfo object.
+         */
         diff: {
           type: Object,
           notify: true,
@@ -212,8 +214,8 @@
         },
 
         /**
-       * @type {!Array<!Gerrit.CoverageRange>}
-       */
+         * @type {!Array<!Gerrit.CoverageRange>}
+         */
         _coverageRanges: {
           type: Array,
           value: () => [],
@@ -454,6 +456,7 @@
 
     /**
      * Load and display blame information for the base of the diff.
+     *
      * @return {Promise} A promise that resolves when blame finishes rendering.
      */
     loadBlame() {
@@ -476,6 +479,7 @@
 
     /**
      * The thread elements in this diff, in no particular order.
+     *
      * @return {!Array<!HTMLElement>}
      */
     getThreadEls() {

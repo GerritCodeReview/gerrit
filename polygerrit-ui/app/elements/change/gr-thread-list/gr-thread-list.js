@@ -65,6 +65,7 @@
      *  - Unresolved threads without drafts (reverse chronological)
      *  - Resolved threads with drafts (reverse chronological)
      *  - Resolved threads without drafts (reverse chronological)
+     *
      * @param {!Object} changeRecord
      */
     _computeSortedThreads(changeRecord) {

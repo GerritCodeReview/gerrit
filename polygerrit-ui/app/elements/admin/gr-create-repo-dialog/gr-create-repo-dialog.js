@@ -18,9 +18,9 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrCreateRepoDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.URLEncodingBehavior,

@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.TooltipMixin
-    */
+   * @appliesMixin Gerrit.TooltipMixin
+   */
   /*
    * The gr-limited-text element is for displaying text with a maximum length
    * (in number of characters) to display. If the length of the text exceeds the
@@ -51,17 +51,17 @@
         },
 
         /**
-       * Disable the tooltip.
-       * When set to true, will not show tooltip even text is over limit
-       */
+         * Disable the tooltip.
+         * When set to true, will not show tooltip even text is over limit
+         */
         disableTooltip: {
           type: Boolean,
           value: false,
         },
 
         /**
-       * The maximum number of characters to display in the tooltop.
-       */
+         * The maximum number of characters to display in the tooltop.
+         */
         tooltipLimit: {
           type: Number,
           value: 1024,

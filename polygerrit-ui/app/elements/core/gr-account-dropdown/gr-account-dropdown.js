@@ -20,8 +20,8 @@
   const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
 
   /**
-    * @appliesMixin Gerrit.DisplayNameMixin
-    */
+   * @appliesMixin Gerrit.DisplayNameMixin
+   */
   class GrAccountDropdown extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
   ], Polymer.GestureEventListeners(

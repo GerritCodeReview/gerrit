@@ -92,9 +92,9 @@
   const RENDER_DIFF_TABLE_DEBOUNCE_NAME = 'renderDiffTable';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   */
   class GrDiff extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
@@ -104,6 +104,7 @@
     static get is() { return 'gr-diff'; }
     /**
      * Fired when the user selects a line.
+     *
      * @event line-selected
      */
 
@@ -186,7 +187,7 @@
           observer: '_viewModeObserver',
         },
 
-        /** @type ?Gerrit.LineOfInterest */
+        /** @type {?Gerrit.LineOfInterest} */
         lineOfInterest: Object,
 
         loading: {
@@ -218,13 +219,13 @@
         revisionImage: Object,
 
         /**
-       * Whether the safety check for large diffs when whole-file is set has
-       * been bypassed. If the value is null, then the safety has not been
-       * bypassed. If the value is a number, then that number represents the
-       * context preference to use when rendering the bypassed diff.
-       *
-       * @type (number|null)
-       */
+         * Whether the safety check for large diffs when whole-file is set has
+         * been bypassed. If the value is null, then the safety has not been
+         * bypassed. If the value is a number, then that number represents the
+         * context preference to use when rendering the bypassed diff.
+         *
+         * @type {number|null}
+         */
         _safetyBypass: {
           type: Number,
           value: null,
@@ -255,18 +256,20 @@
         _diffLength: Number,
 
         /**
-       * Observes comment nodes added or removed after the initial render.
-       * Can be used to unregister when the entire diff is (re-)rendered or upon
-       * detachment.
-       * @type {?PolymerDomApi.ObserveHandle}
-       */
+         * Observes comment nodes added or removed after the initial render.
+         * Can be used to unregister when the entire diff is (re-)rendered or upon
+         * detachment.
+         *
+         * @type {?PolymerDomApi.ObserveHandle}
+         */
         _incrementalNodeObserver: Object,
 
         /**
-       * Observes comment nodes added or removed at any point.
-       * Can be used to unregister upon detachment.
-       * @type {?PolymerDomApi.ObserveHandle}
-       */
+         * Observes comment nodes added or removed at any point.
+         * Can be used to unregister upon detachment.
+         *
+         * @type {?PolymerDomApi.ObserveHandle}
+         */
         _nodeObserver: Object,
 
         /** Set by Polymer. */
@@ -610,6 +613,7 @@
     /**
      * Gets or creates a comment thread group for a specific line and side on a
      * diff.
+     *
      * @param {!Object} contentEl
      * @param {!Gerrit.DiffSide} commentSide
      * @return {!Node}
@@ -909,6 +913,7 @@
 
     /**
      * Find the last chunk for the given side.
+     *
      * @param {!Object} diff
      * @param {boolean} leftSide true if checking the base of the diff,
      *     false if testing the revision.
@@ -945,6 +950,7 @@
 
     /**
      * Check whether the specified side of the diff has a trailing newline.
+     *
      * @param {!Object} diff
      * @param {boolean} leftSide true if checking the base of the diff,
      *     false if testing the revision.
@@ -995,6 +1001,7 @@
     /**
      * Get the approximate length of the diff as the sum of the maximum
      * length of the chunks.
+     *
      * @param {Object} diff object
      * @return {number}
      */

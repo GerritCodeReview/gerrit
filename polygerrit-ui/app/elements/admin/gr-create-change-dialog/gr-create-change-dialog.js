@@ -21,16 +21,16 @@
   const REF_PREFIX = 'refs/heads/';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrCreateChangeDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     /**
-       * Unused in this element, but called by other elements in tests
-       * e.g gr-repo-commands_test.
-       */
+     * Unused in this element, but called by other elements in tests
+     * e.g gr-repo-commands_test.
+     */
     Gerrit.FireBehavior,
     Gerrit.URLEncodingBehavior,
   ], Polymer.GestureEventListeners(

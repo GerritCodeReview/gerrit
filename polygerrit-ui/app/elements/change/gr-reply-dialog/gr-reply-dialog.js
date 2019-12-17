@@ -53,12 +53,12 @@
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    * @appliesMixin Gerrit.RESTClientMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   * @appliesMixin Gerrit.RESTClientMixin
+   */
   class GrReplyDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,
@@ -102,10 +102,10 @@
      */
 
     /**
-      * Fires when the state of the send button (enabled/disabled) changes.
-      *
-      * @event send-disabled-changed
-      */
+     * Fires when the state of the send button (enabled/disabled) changes.
+     *
+     * @event send-disabled-changed
+     */
 
     constructor() {
       super();
@@ -157,8 +157,8 @@
         },
         permittedLabels: Object,
         /**
-       * @type {{ commentlinks: Array }}
-       */
+         * @type {{ commentlinks: Array }}
+         */
         projectConfig: Object,
         knownLatestState: String,
         underReview: {
@@ -641,6 +641,7 @@
      * Generates a function to filter out reviewer/CC entries. When isCCs is
      * truthy, the function filters out entries that already exist in this._ccs.
      * When falsy, the function filters entries that exist in this._reviewers.
+     *
      * @param {boolean} isCCs
      * @return {!Function}
      */

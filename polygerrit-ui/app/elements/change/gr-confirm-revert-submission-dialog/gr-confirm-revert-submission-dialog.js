@@ -22,8 +22,8 @@
   const CHANGE_SUBJECT_LIMIT = 50;
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrConfirmRevertSubmissionDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
   ], Polymer.GestureEventListeners(

@@ -90,13 +90,41 @@
     "prefer-const": "error",
     "prefer-spread": "error",
     "quote-props": ["error", "consistent-as-needed"],
-    "require-jsdoc": "off",
     "semi": [2, "always"],
     "template-curly-spacing": "error",
-    "valid-jsdoc": "off"
+
+    "require-jsdoc": 0,
+    "valid-jsdoc": 0,
+    "jsdoc/check-alignment": 2,
+    "jsdoc/check-examples": 0,
+    "jsdoc/check-indentation": 0,
+    "jsdoc/check-param-names": 0,
+    "jsdoc/check-syntax": 0,
+    "jsdoc/check-tag-names": 0,
+    "jsdoc/check-types": 0,
+    "jsdoc/implements-on-classes": 2,
+    "jsdoc/match-description": 0,
+    "jsdoc/newline-after-description": 2,
+    "jsdoc/no-types": 0,
+    "jsdoc/no-undefined-types": 0,
+    "jsdoc/require-description": 0,
+    "jsdoc/require-description-complete-sentence": 0,
+    "jsdoc/require-example": 0,
+    "jsdoc/require-hyphen-before-param-description": 0,
+    "jsdoc/require-jsdoc": 0,
+    "jsdoc/require-param": 0,
+    "jsdoc/require-param-description": 0,
+    "jsdoc/require-param-name": 2,
+    "jsdoc/require-param-type": 2,
+    "jsdoc/require-returns": 0,
+    "jsdoc/require-returns-check": 0,
+    "jsdoc/require-returns-description": 0,
+    "jsdoc/require-returns-type": 2,
+    "jsdoc/valid-types": 2
   },
   "plugins": [
-    "html"
+    "html",
+    "jsdoc"
   ],
   "settings": {
     "html/report-bad-indent": "error"

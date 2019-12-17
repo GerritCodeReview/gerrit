@@ -16,9 +16,9 @@
  */
 
 /**
-  * This defines the Gerrit instance. All methods directly attached to Gerrit
-  * should be defined or linked here.
-  */
+ * This defines the Gerrit instance. All methods directly attached to Gerrit
+ * should be defined or linked here.
+ */
 
 (function(window) {
   'use strict';

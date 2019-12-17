@@ -75,7 +75,7 @@ public class StalenessChecker {
 
   /**
    * Returns a {@link StalenessCheckResult} with structured information about staleness of the
-   * provided {@link Change.Id}.
+   * provided {@link com.google.gerrit.entities.Change.Id}.
    */
   public StalenessCheckResult check(Change.Id id) {
     ChangeIndex i = indexes.getSearchIndex();

@@ -45,6 +45,30 @@
       "revId": "46ecd9b7af0f19d7373eb0f43ebeea287a74e264",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31cea62e_d90e308e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-feature-flag/gr-feature-flag.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T09:28:26Z",
+      "side": 1,
+      "message": "ya as you can see that this `_hashCode` is just a placeholder for proof of concept :)  we can definitely change that to support multiple features, use better hash generator (take feature in when generate hash, etc). same for #2 :) \n\nI will hope you focus on the concept other than implementation detail, I did not plan to have this as the final implementation but just a concept to review as one of ways to support feature flags :)",
+      "parentUuid": "9918e367_2c5f78d0",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 68
+      },
+      "revId": "46ecd9b7af0f19d7373eb0f43ebeea287a74e264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

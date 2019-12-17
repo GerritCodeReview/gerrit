@@ -51,7 +51,7 @@ limitations under the License.
       assert.isNotOk(element.message);
       const alertStub = sandbox.stub();
       element.addEventListener('show-alert', alertStub);
-      element.populateRevertSubmissionMessage(
+      element._populateRevertSubmissionMessage(
           'not a commitHash in sight'
       );
       assert.isTrue(alertStub.calledOnce);
@@ -59,7 +59,7 @@ limitations under the License.
 
     test('single line', () => {
       assert.isNotOk(element.message);
-      element.populateRevertSubmissionMessage(
+      element._populateRevertSubmissionMessage(
           'one line commit\n\nChange-Id: abcdefg\n',
           'abcd123');
       const expected = 'Revert submission\n\n' +
@@ -69,7 +69,7 @@ limitations under the License.
 
     test('multi line', () => {
       assert.isNotOk(element.message);
-      element.populateRevertSubmissionMessage(
+      element._populateRevertSubmissionMessage(
           'many lines\ncommit\n\nmessage\n\nChange-Id: abcdefg\n',
           'abcd123');
       const expected = 'Revert submission\n\n' +
@@ -79,7 +79,7 @@ limitations under the License.
 
     test('issue above change id', () => {
       assert.isNotOk(element.message);
-      element.populateRevertSubmissionMessage(
+      element._populateRevertSubmissionMessage(
           'test \nvery\n\ncommit\n\nBug: Issue 42\nChange-Id: abcdefg\n',
           'abcd123');
       const expected = 'Revert submission\n\n' +
@@ -89,7 +89,7 @@ limitations under the License.
 
     test('revert a revert', () => {
       assert.isNotOk(element.message);
-      element.populateRevertSubmissionMessage(
+      element._populateRevertSubmissionMessage(
           'Revert "one line commit"\n\nChange-Id: abcdefg\n',
           'abcd123');
       const expected = 'Revert submission\n\n' +

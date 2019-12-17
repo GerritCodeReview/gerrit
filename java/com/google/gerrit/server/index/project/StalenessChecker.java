@@ -54,7 +54,7 @@ public class StalenessChecker {
 
   /**
    * Returns a {@link StalenessCheckResult} with structured information about staleness of the
-   * provided {@link Project.NameKey}.
+   * provided {@link com.google.gerrit.entities.Project.NameKey}.
    */
   public StalenessCheckResult check(Project.NameKey project) {
     ProjectData projectData = projectCache.get(project).toProjectData();

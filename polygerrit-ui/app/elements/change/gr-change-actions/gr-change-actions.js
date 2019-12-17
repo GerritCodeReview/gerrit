@@ -918,10 +918,26 @@
     }
 
     showRevertDialog() {
-      this.$.confirmRevertDialog.populateRevertMessage(
-          this.commitMessage, this.change.current_revision);
-      this.$.confirmRevertDialog.message = this._modifyRevertMsg();
-      this._showActionDialog(this.$.confirmRevertDialog);
+      const query = 'submissionid:' + this.change.submission_id;
+      this.$.restAPI.getChanges('', query)
+          .then(changes => {
+            this.$.confirmRevertDialog.populateRevertSingleChangeMessage(
+                this.commitMessage, this.change.current_revision);
+            if (changes.length > 1) {
+              this.$.confirmRevertDialog.
+                  populateRevertSubmissionMessage(
+                      this.change, changes);
+              this.$.confirmRevertDialog.revertSubmissionMessage =
+                this._modifyRevertMsg();
+              this.$.confirmRevertDialog.message =
+                  this.$.confirmRevertDialog.revertSubmissionMessage;
+            }
+            this._showActionDialog(this.$.confirmRevertDialog);
+          });
+      // this.$.confirmRevertDialog.populateRevertMessage(
+      //     this.commitMessage, this.change.current_revision);
+      // this.$.confirmRevertDialog.message = this._modifyRevertMsg();
+      // this._showActionDialog(this.$.confirmRevertDialog);
     }
 
     showRevertSubmissionDialog() {
@@ -1142,20 +1158,18 @@
       );
     }
 
-    _handleRevertDialogConfirm() {
+    _handleRevertDialogConfirm(e) {
+      const revertSingleChange = e.detail.revertSingleChange;
       const el = this.$.confirmRevertDialog;
       this.$.overlay.close();
       el.hidden = true;
-      this._fireAction('/revert', this.actions.revert, false,
-          {message: el.message});
-    }
-
-    _handleRevertSubmissionDialogConfirm() {
-      const el = this.$.confirmRevertSubmissionDialog;
-      this.$.overlay.close();
-      el.hidden = true;
-      this._fireAction('/revert_submission', this.actions.revert_submission,
-          false, {message: el.message});
+      if (revertSingleChange) {
+        this._fireAction('/revert', this.actions.revert, false,
+            {message: el.revertSingleChangeMessage});
+      } else {
+        this._fireAction('/revert_submission', this.actions.revert_submission,
+            false, {message: el.revertSubmissionMessage});
+      }
     }
 
     _handleAbandonDialogConfirm() {

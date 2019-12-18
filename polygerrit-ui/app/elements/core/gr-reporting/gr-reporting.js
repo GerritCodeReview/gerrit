@@ -241,7 +241,7 @@
         detail.inBackgroundTab = contextInfo.isInBackgroundTab;
       }
       if (contextInfo && contextInfo.startTimeMs) {
-        detail.startTime = contextInfo.startTimeMs;
+        detail.eventStart = contextInfo.startTimeMs;
       }
       document.dispatchEvent(new CustomEvent(type, {detail}));
       if (opt_noLog) { return; }

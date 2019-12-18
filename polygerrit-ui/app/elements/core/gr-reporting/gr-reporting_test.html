@@ -261,7 +261,7 @@ limitations under the License.
           'timing-report', 'UI Latency', 'timeAction', 0,
           {startTimeMs: 42}
       ));
-      assert.equal(dispatchStub.getCall(2).args[0].detail.startTime, 42);
+      assert.equal(dispatchStub.getCall(2).args[0].detail.eventStart, 42);
     });
 
     suite('plugins', () => {

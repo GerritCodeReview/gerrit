@@ -301,7 +301,7 @@ public class RevertSubmission
       }
       cherryPickInput.base = null;
     }
-    results.sort(Comparator.comparing(c -> c.updated));
+    results.sort(Comparator.comparing(c -> c.revertOf));
     RevertSubmissionInfo revertSubmissionInfo = new RevertSubmissionInfo();
     revertSubmissionInfo.revertChanges = results;
     return revertSubmissionInfo;

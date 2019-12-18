@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ff1a70b_cde6e559",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-18T12:06:04Z",
+      "side": 1,
+      "message": "this needs more analysis: why are they flaky? Unless you can pinpoint the problem, you can\u0027t be sure that your solution fixes it.\n\nBest to do the change internally in Google first to verify it fixes the problem.",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "8b95e2aae9b4e9ec62e596e905f41f2fc071f559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

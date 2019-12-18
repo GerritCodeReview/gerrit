@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndex;
@@ -89,6 +90,12 @@ public class ProjectIndexerImpl implements ProjectIndexer {
                     .indexVersion(i.getSchema().getVersion())
                     .build())) {
           i.replace(projectData);
+        } catch (RuntimeException e) {
+          throw new StorageException(
+              String.format(
+                  "Failed to replace project %s in index version %d",
+                  nameKey.get(), i.getSchema().getVersion()),
+              e);
         }
       }
       fireProjectIndexedEvent(nameKey.get());
@@ -103,6 +110,12 @@ public class ProjectIndexerImpl implements ProjectIndexer {
                     .indexVersion(i.getSchema().getVersion())
                     .build())) {
           i.delete(nameKey);
+        } catch (RuntimeException e) {
+          throw new StorageException(
+              String.format(
+                  "Failed to delete project %s from index version %d",
+                  nameKey.get(), i.getSchema().getVersion()),
+              e);
         }
       }
     }

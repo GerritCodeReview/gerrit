@@ -24,6 +24,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -208,6 +209,12 @@ public class ChangeIndexer {
                   .indexVersion(i.getSchema().getVersion())
                   .build())) {
         i.replace(cd);
+      } catch (RuntimeException e) {
+        throw new StorageException(
+            String.format(
+                "Failed to replace change %d in index version %d (current patch set = %d)",
+                cd.getId().get(), i.getSchema().getVersion(), cd.currentPatchSet().number()),
+            e);
       }
     }
     fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
@@ -417,6 +424,12 @@ public class ChangeIndexer {
                     .indexVersion(i.getSchema().getVersion())
                     .build())) {
           i.delete(id);
+        } catch (RuntimeException e) {
+          throw new StorageException(
+              String.format(
+                  "Failed to delete change %d from index version %d",
+                  id.get(), i.getSchema().getVersion()),
+              e);
         }
       }
       fireChangeDeletedFromIndexEvent(id.get());

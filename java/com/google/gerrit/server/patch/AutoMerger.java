@@ -16,14 +16,18 @@ package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.base.Throwables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.dircache.DirCache;
@@ -50,21 +54,30 @@ public class AutoMerger {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
   }
 
+  private final RetryHelper retryHelper;
   private final PersonIdent gerritIdent;
   private final boolean save;
 
   @Inject
-  AutoMerger(@GerritServerConfig Config cfg, @GerritPersonIdent PersonIdent gerritIdent) {
+  AutoMerger(
+      RetryHelper retryHelper,
+      @GerritServerConfig Config cfg,
+      @GerritPersonIdent PersonIdent gerritIdent) {
+    this.retryHelper = retryHelper;
     save = cacheAutomerge(cfg);
     this.gerritIdent = gerritIdent;
   }
 
   /**
-   * Perform an auto-merge of the parents of the given merge commit.
+   * Creates an auto-merge commit of the parents of the given merge commit.
+   *
+   * <p>In case of an exception the creation of the auto-merge commit is retried a few times. E.g.
+   * this allows the operation to succeed if a Git update fails due to a temporary issue.
    *
    * @return auto-merge commit or {@code null} if an auto-merge commit couldn't be created. Headers
    *     of the returned RevCommit are parsed.
    */
+  @Nullable
   public RevCommit merge(
       Repository repo,
       RevWalk rw,
@@ -72,7 +85,36 @@ public class AutoMerger {
       RevCommit merge,
       ThreeWayMergeStrategy mergeStrategy)
       throws IOException {
+    try {
+      return retryHelper
+          .action(
+              ActionType.GIT_UPDATE,
+              "createAutoMerge",
+              () -> createAutoMergeCommit(repo, rw, ins, merge, mergeStrategy))
+          .call();
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      Throwables.throwIfInstanceOf(e, IOException.class);
+      throw new IllegalStateException(e);
+    }
+  }
+
+  /**
+   * Creates an auto-merge commit of the parents of the given merge commit.
+   *
+   * @return auto-merge commit or {@code null} if an auto-merge commit couldn't be created. Headers
+   *     of the returned RevCommit are parsed.
+   */
+  @Nullable
+  private RevCommit createAutoMergeCommit(
+      Repository repo,
+      RevWalk rw,
+      ObjectInserter ins,
+      RevCommit merge,
+      ThreeWayMergeStrategy mergeStrategy)
+      throws IOException {
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
+
     InMemoryInserter tmpIns = null;
     if (ins instanceof InMemoryInserter) {
       // Caller gave us an in-memory inserter, so ensure anything we write from
@@ -173,8 +215,28 @@ public class AutoMerger {
     RefUpdate ru = repo.updateRef(refName);
     ru.setNewObjectId(commitId);
     ru.disableRefLog();
-    ru.forceUpdate();
-    return rw.parseCommit(commitId);
+    switch (ru.forceUpdate()) {
+      case FAST_FORWARD:
+      case FORCED:
+      case NEW:
+      case NO_CHANGE:
+        return rw.parseCommit(commitId);
+      case LOCK_FAILURE:
+        throw new LockFailureException(
+            String.format("Failed to create auto-merge of %s", merge.name()), ru);
+      case IO_FAILURE:
+      case NOT_ATTEMPTED:
+      case REJECTED:
+      case REJECTED_CURRENT_BRANCH:
+      case REJECTED_MISSING_OBJECT:
+      case REJECTED_OTHER_REASON:
+      case RENAMED:
+      default:
+        throw new IOException(
+            String.format(
+                "Failed to create auto-merge of %s: Cannot write %s (%s)",
+                merge.name(), refName, ru.getResult()));
+    }
   }
 
   private static class NonFlushingWrapper extends ObjectInserter.Filter {

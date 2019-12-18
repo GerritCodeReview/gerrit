@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "283cbc9f_f6bf266b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T13:00:43Z",
+      "side": 1,
+      "message": "Yeah, that is what I meant: Remove the CSS rules for secondary button.",
+      "parentUuid": "1b13e99d_60e630d9",
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b00d5486_9e7307ab",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2
@@ -125,6 +143,47 @@
         "endLine": 46,
         "endChar": 69
       },
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0260bac4_8c1d0abb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T13:00:43Z",
+      "side": 1,
+      "message": "From gr-change-view.js:\n\n    _computeCanStartReview(change) {\n      return !!(change.actions \u0026\u0026 change.actions.ready \u0026\u0026\n          change.actions.ready.enabled);\n    }\n\nYeah, that is not very obvious.\n\nBut the save button is shown, if and only if the send button gets a different name.",
+      "parentUuid": "7909d00d_307370bc",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b05dac4a_5c0dd218",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T13:00:43Z",
+      "side": 1,
+      "message": "I think you can drop this, because if the secondary css rule does not kick int, then this is the default anyway.",
       "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

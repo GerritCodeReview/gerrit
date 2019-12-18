@@ -51,6 +51,7 @@ public class RetryableAction<T> {
   public enum ActionType {
     ACCOUNT_UPDATE,
     CHANGE_UPDATE,
+    GIT_UPDATE,
     GROUP_UPDATE,
     INDEX_QUERY,
     PLUGIN_UPDATE,

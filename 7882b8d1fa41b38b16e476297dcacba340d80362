@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e937546e_a9657c74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T08:22:17Z",
+      "side": 1,
+      "message": "padding: var(--spacing-m) var(--spacing-l);\n\nOr maybe xl instead of l, see app-theme.html.",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89d51e8b_bdc8f8d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T08:22:17Z",
+      "side": 1,
+      "message": "padding: var(--spacing-l);\n\nOr maybe xl instead of l, see app-theme.html.",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f5359a9_389cc520",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T08:22:17Z",
+      "side": 1,
+      "message": "padding: var(--spacing-s) var(--spacing-l);\n\nOr maybe xl instead of l, see app-theme.html.",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f06c5ce3_3383273b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T08:22:17Z",
+      "side": 1,
+      "message": "This color should only be used for selections, better use:\n\nvar(--background-color-secondary)",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0ed4cad_05c57b6c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T08:22:17Z",
+      "side": 1,
+      "message": "margin-left: var(--spacing-l);",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19d5d06f_26c8560c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T08:22:17Z",
+      "side": 1,
+      "message": "padding: var(--spacing-m) var(--spacing-l);\n\nOr maybe xl instead of l, see app-theme.html.",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dcb0d8e_28bdb964",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T08:22:17Z",
+      "side": 1,
+      "message": "Maybe use gr-dialog instead? That already has the header, main, footer separation with a couple of styles set, e.g. it makes sure that the header has the correct font.",
+      "range": {
+        "startLine": 68,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 16
+      },
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ced464ad_aa525eb4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T08:22:17Z",
+      "side": 1,
+      "message": "Curious, why did you add that?",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

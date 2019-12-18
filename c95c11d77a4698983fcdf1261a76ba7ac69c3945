@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b335cab7_3ee33cbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T12:42:10Z",
+      "side": 1,
+      "message": "Maybe remove \"secondary\" from gr-button itself, because with this change it becomes unused.",
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b00d5486_9e7307ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T12:42:10Z",
+      "side": 1,
+      "message": "Maybe \"Send\" is the better choice here? If you don\u0027t comment (only add reviewers, or only vote), then \"reply\" sounds a bit weird.",
+      "range": {
+        "startLine": 297,
+        "startChar": 46,
+        "endLine": 297,
+        "endChar": 51
+      },
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a41823c2_afc1519b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-18T12:42:10Z",
+      "side": 1,
+      "message": "Alternatively \"Send reply, but keep \u0027work in progress\u0027 state\".",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

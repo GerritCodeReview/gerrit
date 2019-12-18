@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38e2129a_21313994",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7064,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-18T13:24:57Z",
+      "side": 1,
+      "message": "it\u0027s better to not document this. Although the behavior seems sensible, by documenting it, we are creating a promise that we must hold ourselves to, which can create extra work in the future.",
+      "range": {
+        "startLine": 7063,
+        "startChar": 57,
+        "endLine": 7064,
+        "endChar": 63
+      },
+      "revId": "2a64edb11fd800f951fbcc9cd836a9d677bf81a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bf0d3dd_42a20a23",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-18T13:24:57Z",
+      "side": 1,
+      "message": "nit: rather than \"first\" , \"second\", why not write\n\n  change1Sha1 \n  change2RevertSha1\n  \netc.\n\nI\u0027d put Sha1 at the end because that is what the string really is.\n\nYou could even do \n\n String changeSha1[3] \u003d  { .. };\n\nwhich would let you write little loops.",
+      "range": {
+        "startLine": 709,
+        "startChar": 15,
+        "endLine": 709,
+        "endChar": 22
+      },
+      "revId": "2a64edb11fd800f951fbcc9cd836a9d677bf81a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

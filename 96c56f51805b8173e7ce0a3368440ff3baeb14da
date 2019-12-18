@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "385e21f1_c043863e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-18T11:40:05Z",
+      "side": 1,
+      "message": "I thought this over for a bit, but I think this is actually not a great idea: in practice, timestamps can aligned (if you do parallel uploads across repositories), and Git only allows a 1 second resolution?\n\nCouldn\u0027t you sort this on the numeric change ID ? Then the changes will be sorted by creation order, and you could get rid of the clock magic in the test.",
+      "range": {
+        "startLine": 307,
+        "startChar": 50,
+        "endLine": 307,
+        "endChar": 59
+      },
+      "revId": "96c56f51805b8173e7ce0a3368440ff3baeb14da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

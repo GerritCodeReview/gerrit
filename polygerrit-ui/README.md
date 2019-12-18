@@ -46,6 +46,9 @@ simply execute:
 
 ```sh
 ./polygerrit-ui/run-server.sh
+
+// or
+npm run start
 ```
 
 Then visit <http://localhost:8081>.
@@ -185,7 +188,7 @@ npm run polylint
 
 ## Template Type Safety
 
-> **Warning**: This feature is temporary disabled, because it doesn't work with Polymer 2 and Polymer 3. 
+> **Warning**: This feature is temporary disabled, because it doesn't work with Polymer 2 and Polymer 3.
 Some of the checks are made by polymer linter.
 
 

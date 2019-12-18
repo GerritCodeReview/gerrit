@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "fd3449e6_e6834cb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "\u003e I think from a chronological ordering perspective, a user replies to the reviewers comments on the old patch set, and uploads a change that generates a new PS. So the current order is in increasing PS ID.\n\n\nIt\u0027s actually the other way around. When I see that someone replied to my comment (e.g. \"Done\") then I expect the content to already have changed. There is an argument to be made that for auto-publishing it doesn\u0027t matter since it\u0027s just a single transaction, but it would be nice anyway to follow the flow that a user would go through manually.\n\nI think it\u0027s totally fine to publish the comments on the new patch set - actually that would align more with what I would expect as a user. That should make BatchUpdate do the right thing.\n\nTalked to Edwin briefly and he would expect the same ordering.",
+      "parentUuid": "3b648fc1_1a8d6dbe",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e3cc735_b3622b8b",
         "filename": "java/com/google/gerrit/server/git/receive/BUILD",
         "patchSetId": 1

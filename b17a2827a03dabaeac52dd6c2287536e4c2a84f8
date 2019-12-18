@@ -1,0 +1,285 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f2882ab_d4044152",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "range": {
+        "startLine": 10,
+        "startChar": 71,
+        "endLine": 10,
+        "endChar": 75
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86a7e629_20b53ae5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "messages",
+      "range": {
+        "startLine": 14,
+        "startChar": 48,
+        "endLine": 14,
+        "endChar": 52
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c3c72b9_d5ae5e0c",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "That sounds pessimistic, don\u0027t you want to merge this in 2019? :-)",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d00724a_b7d15fa6",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "A {@link BatchUpdateOp} that",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 8
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ef5c098_f5b267a0",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "{@link PublishCommentUtil}",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 44
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e26231c8_5bfa4ce8",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "private; Here and below\n\nprivate final where possible; please separate the \"private final\" variable block from the \"private\" (mutable) with a blank line",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 11
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b6b7b9b_6990a4e2",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "You have the Context available later on (postUpdate) as well, so there seems to be no need to store these as members?",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 42
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0e55889_0e842570",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "Should we also skip if comments.isEmpty() ?",
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9db07180_29540690",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 178,
+        "startChar": 2,
+        "endLine": 178,
+        "endChar": 11
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c787450d_92b3e475",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "\"in NoteDb\"\n\n(NoteDb is the equivalent of SQL and you would say \"in SQL\" and not \"on the SQL\")",
+      "range": {
+        "startLine": 923,
+        "startChar": 66,
+        "endLine": 923,
+        "endChar": 72
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0e19f0e_5013bd2b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "You can remove this and have it be the default behavior in PublishCommentsOp - there seems to be no need for this to be a parameter",
+      "range": {
+        "startLine": 925,
+        "startChar": 11,
+        "endLine": 926,
+        "endChar": 65
+      },
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc5a699f_a20ec2f3",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "Please don\u0027t use inheritance for re-using behavior. Composition (through usage of utils) is preferred. Complex inheritance structures make the code hard to understand.\n\nIf you want to see an example for how complex inheritance structures create technical debt, you could look at our email stack.\n\nThe only thing you share here though inheritance is \"insertMessage\". That can easily go into a static utility.",
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7adec3c_c709ef61",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2060,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-18T09:33:38Z",
+      "side": 1,
+      "message": "Can we assert the tags as well?\n\nIn the end, we are doing all of this to make sure that \"Patch Set 2:\\n\\n(3 comments)\" has no tags and that \"Uploaded patch set 3\" has \"autogenerated\"",
+      "revId": "b17a2827a03dabaeac52dd6c2287536e4c2a84f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

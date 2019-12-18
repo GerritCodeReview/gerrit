@@ -119,7 +119,6 @@ limitations under the License.
         --gr-button: {
           height: 20px;
           padding: 0 var(--spacing-s);
-          color: var(--default-button-text-color);
         }
       }
       .editMessage {
@@ -268,7 +267,6 @@ limitations under the License.
         <gr-button
             id="deleteBtn"
             link
-            secondary
             class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
             on-click="_handleCommentDelete">
           <iron-icon id="icon" icon="gr-icons:delete"></iron-icon>
@@ -325,22 +323,18 @@ limitations under the License.
           <div class="rightActions">
             <gr-button
                 link
-                secondary
                 class="action cancel hideOnPublished"
                 on-click="_handleCancel">Cancel</gr-button>
             <gr-button
                 link
-                secondary
                 class="action discard hideOnPublished"
                 on-click="_handleDiscard">Discard</gr-button>
             <gr-button
                 link
-                secondary
                 class="action edit hideOnPublished"
                 on-click="_handleEdit">Edit</gr-button>
             <gr-button
                 link
-                secondary
                 disabled$="[[_computeSaveDisabled(_messageText, comment, resolved)]]"
                 class="action save hideOnPublished"
                 on-click="_handleSave">Save</gr-button>
@@ -351,7 +345,6 @@ limitations under the License.
             <template is="dom-if" if="[[!_hasHumanReply]]">
               <gr-button
                   link
-                  secondary
                   class="action fix"
                   on-click="_handleFix"
                   disabled="[[robotButtonDisabled]]">

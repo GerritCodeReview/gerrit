@@ -37,4 +37,4 @@ cd ${UI_PATH}
 # eslint installation.
 npm link eslint eslint-config-google eslint-plugin-html eslint-plugin-jsdoc
 
-${eslint_bin} -c ${UI_PATH}/.eslintrc.json --ignore-pattern 'node_modules/' --ignore-pattern 'bower_components/' --ignore-pattern 'gr-linked-text' --ignore-pattern 'scripts/vendor' --ext .html,.js ${UI_PATH}
+${eslint_bin} -c ${UI_PATH}/.eslintrc.json --ignore-pattern 'node_modules/' --ignore-pattern 'bower_components/' --ignore-pattern 'scripts/vendor' --ext .html,.js ${UI_PATH}

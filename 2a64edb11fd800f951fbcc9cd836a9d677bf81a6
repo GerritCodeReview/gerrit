@@ -179,6 +179,30 @@
       "revId": "2a64edb11fd800f951fbcc9cd836a9d677bf81a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb6fe05c_c25a944c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-18T14:22:14Z",
+      "side": 1,
+      "message": "curious. Do you have background reading links for me?\n\nfirst, second .. etc will scale poorly. Would you write something like twentySecondX? Numbers are much easier to read when they use digits, and they\u0027re shorter to boot.",
+      "parentUuid": "c77bd638_0b6de754",
+      "range": {
+        "startLine": 709,
+        "startChar": 15,
+        "endLine": 709,
+        "endChar": 22
+      },
+      "revId": "2a64edb11fd800f951fbcc9cd836a9d677bf81a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

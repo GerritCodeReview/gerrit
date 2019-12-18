@@ -22,6 +22,30 @@
       "revId": "4703f3b38b7f5c44ceb8909069a05098faf90759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eb06016_f25b1d97",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-18T22:14:08Z",
+      "side": 1,
+      "message": "there seems to be a lot of work being done on change.revisions before being converted to allPatchsets.\nA lot of code will have to be duplicated as well as the fact that any change in patchset-behaviour will then have to be reflected to all plugins too.\nBetter to pass the property from change-view.",
+      "parentUuid": "9faaaafd_30361f21",
+      "range": {
+        "startLine": 594,
+        "startChar": 41,
+        "endLine": 594,
+        "endChar": 53
+      },
+      "revId": "4703f3b38b7f5c44ceb8909069a05098faf90759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

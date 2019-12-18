@@ -43,7 +43,7 @@
   };
 
   const ButtonTooltips = {
-    SAVE: 'Save reply but do not send notification',
+    REPLY: 'Reply but do not send notification or change review state',
     START_REVIEW: 'Mark as ready for review and send reply',
     SEND: 'Send reply',
   };
@@ -215,9 +215,9 @@
           type: Boolean,
           value: false,
         },
-        _saveTooltip: {
+        _replyTooltip: {
           type: String,
-          value: ButtonTooltips.SAVE,
+          value: ButtonTooltips.REPLY,
           readOnly: true,
         },
         _pluginMessage: {
@@ -686,7 +686,7 @@
       this._rebuildReviewerArrays(this.change.reviewers, this._owner);
     }
 
-    _saveTapHandler(e) {
+    _replyClickHandler(e) {
       e.preventDefault();
       if (!this.$.ccs.submitEntryText()) {
         // Do not proceed with the save if there is an invalid email entry in

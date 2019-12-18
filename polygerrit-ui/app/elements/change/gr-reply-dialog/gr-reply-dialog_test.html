@@ -1009,7 +1009,7 @@ limitations under the License.
       });
 
       test('save review doesn\'t set ready', () => {
-        MockInteractions.tap(element.$$('.save'));
+        MockInteractions.tap(element.$$('.reply'));
         flushAsynchronousOperations();
         assert.isTrue(sendStub.calledWith(true, false));
       });

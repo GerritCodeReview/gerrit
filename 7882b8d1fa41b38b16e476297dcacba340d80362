@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aff8d99a_0e76f4fa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-12-18T22:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e937546e_a9657c74",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89d51e8b_bdc8f8d5",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
         "patchSetId": 35
@@ -33,6 +51,24 @@
       "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6a24c79_3642530f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-12-18T22:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89d51e8b_bdc8f8d5",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1749ccb8_11ec9884",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-12-18T22:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f5359a9_389cc520",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06c5ce3_3383273b",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
         "patchSetId": 35
@@ -67,6 +121,24 @@
       "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "808cbeee_8376b45e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-12-18T22:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06c5ce3_3383273b",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "eba6fc03_6e2c5593",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-12-18T22:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0ed4cad_05c57b6c",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19d5d06f_26c8560c",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
         "patchSetId": 35
@@ -101,6 +191,24 @@
       "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4702434_89ddb3c8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-12-18T22:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d5d06f_26c8560c",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "429b0afe_3b8771c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-12-18T22:14:06Z",
+      "side": 1,
+      "message": "Done. Moved to gr-dialog and removed padding/margin styling. Updated screenshot.",
+      "parentUuid": "7dcb0d8e_28bdb964",
+      "range": {
+        "startLine": 68,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 16
+      },
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ced464ad_aa525eb4",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 35
@@ -141,6 +273,24 @@
       "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bbd98d3_92a503d2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-12-18T22:14:06Z",
+      "side": 1,
+      "message": "It was throwing an error otherwise and diff wasn\u0027t rendering as a result",
+      "parentUuid": "ced464ad_aa525eb4",
+      "revId": "7882b8d1fa41b38b16e476297dcacba340d80362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -707,6 +707,30 @@
     },
     {
       "key": {
+        "uuid": "9f1b023c_ffcd64b4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-12-18T22:14:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a421a9ba_88a12a5a",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 14
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4292168e_d8478593",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 8

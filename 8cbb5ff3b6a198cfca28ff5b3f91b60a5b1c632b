@@ -69,6 +69,24 @@
       "revId": "8cbb5ff3b6a198cfca28ff5b3f91b60a5b1c632b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5d658e0_df83104e",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-18T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20329d39_73af957a",
+      "revId": "8cbb5ff3b6a198cfca28ff5b3f91b60a5b1c632b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

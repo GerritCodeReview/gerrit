@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69e2b0d5_06693a6b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-18T15:50:45Z",
+      "side": 1,
+      "message": "maybe move this entire logic to `revert dialog` as the dialog should be responsible to handle these.\n\nand i will assume that you want to do something when # of changes \u003e 1:\n1. show radio selector\n2. generate revert submission message (maybe only do this if revert submission selected ?)\n\nand what you want to do no matter how many changes you have:\n1. generate revert message for single change\n2. show the dialog\n\nits not very clear here, maybe have a few private methods for some of them and just call those methods when its necessary to make the code easier to read and also more efficient. (the populate message methods are too long to read together :))",
+      "revId": "9c1fb532a84c40a6fbd5031ab9c7da057da3f0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bc7cac0_cb175650",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-18T15:50:45Z",
+      "side": 1,
+      "message": "instead of `revertSingleChange`, maybe pass in the `revertType` and make it an enum ? so in case we may support something else, its easier to extend from that.",
+      "revId": "9c1fb532a84c40a6fbd5031ab9c7da057da3f0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfd10f9c_94bf65fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-18T15:50:45Z",
+      "side": 1,
+      "message": "i think you can just wrap the `input` inside of the `label` with proper styles :) \n\nthe benefit is then if you click on label, it will also select that radio at the same time :)\n\nalso please take a look at the paper-input, it may support radio already",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 90,
+        "endChar": 20
+      },
+      "revId": "9c1fb532a84c40a6fbd5031ab9c7da057da3f0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

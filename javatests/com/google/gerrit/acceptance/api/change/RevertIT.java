@@ -23,7 +23,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -46,6 +45,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -53,6 +53,7 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -687,7 +688,6 @@ public class RevertIT extends AbstractDaemonTest {
 
   // In this test and some of the following, we use @UseClockStep because the test depends on the
   // update time.
-  @UseClockStep
   public void revertSubmissionDifferentRepositoriesWithDependantChange() throws Exception {
     projectOperations.newProject().name("secondProject").create();
     TestRepository<InMemoryRepository> secondRepo =
@@ -695,11 +695,10 @@ public class RevertIT extends AbstractDaemonTest {
     List<PushOneCommit.Result> resultCommits = new ArrayList<>();
     String topic = "topic";
     resultCommits.add(
-        createChange(secondRepo, "master", "first change", "a.txt", "message", topic));
+        createChange(secondRepo, "master", "a", "a.txt", "message\nline2\nline3", topic));
     resultCommits.add(
-        createChange(secondRepo, "master", "second change", "b.txt", "Other message", topic));
-    resultCommits.add(
-        createChange(testRepo, "master", "main repo change", "a.txt", "message", topic));
+        createChange(secondRepo, "master", "b", "b.txt", "Other message\nline2", topic));
+    resultCommits.add(createChange(testRepo, "master", "c", "a.txt", "message", topic));
     for (PushOneCommit.Result result : resultCommits) {
       approve(result.getChangeId());
     }
@@ -711,11 +710,15 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChanges).hasSize(3);
     // Ensures that revertChanges[i] is the revert of resultCommits[i] because the reverts are by
     // update time.
+    sortChangesByDeletions(revertChanges);
     Collections.reverse(resultCommits);
 
     String sha1FirstChange = resultCommits.get(0).getCommit().getName();
     String sha1SecondChange = resultCommits.get(1).getCommit().getName();
     String sha1SecondRevert = revertChanges.get(1).current().commit(false).commit;
+    assertThat(revertChanges.get(2).current().commit(false).parents.get(0).commit)
+        .isEqualTo(sha1SecondRevert);
+
     assertThat(revertChanges.get(0).current().commit(false).parents.get(0).commit)
         .isEqualTo(sha1FirstChange);
     assertThat(revertChanges.get(1).current().commit(false).parents.get(0).commit)
@@ -724,8 +727,8 @@ public class RevertIT extends AbstractDaemonTest {
         .isEqualTo(sha1SecondRevert);
 
     assertThat(revertChanges.get(0).current().files().get("a.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(2).current().files().get("a.txt").linesDeleted).isEqualTo(1);
+    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(2);
+    assertThat(revertChanges.get(2).current().files().get("a.txt").linesDeleted).isEqualTo(3);
     // has size 3 because of the same topic, and submitWholeTopic is true.
     assertThat(gApi.changes().id(revertChanges.get(0).get()._number).submittedTogether())
         .hasSize(3);
@@ -770,13 +773,15 @@ public class RevertIT extends AbstractDaemonTest {
 
   @Test
   public void revertSubmissionWithDependantChange() throws Exception {
-    PushOneCommit.Result firstResult = createChange("first change", "a.txt", "message");
+    PushOneCommit.Result firstResult = createChange("first change", "a.txt", "message\nline2");
     PushOneCommit.Result secondResult = createChange("second change", "b.txt", "other");
     approve(secondResult.getChangeId());
     approve(firstResult.getChangeId());
     gApi.changes().id(secondResult.getChangeId()).current().submit();
     List<ChangeApi> revertChanges =
         getChangeApis(gApi.changes().id(firstResult.getChangeId()).revertSubmission());
+
+    sortChangesByDeletions(revertChanges);
 
     String sha1SecondChange = secondResult.getCommit().getName();
     String sha1FirstRevert = revertChanges.get(0).current().commit(false).commit;
@@ -789,14 +794,14 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChanges.get(1).get().revertOf)
         .isEqualTo(firstResult.getChange().change().getChangeId());
     assertThat(revertChanges.get(0).current().files().get("b.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(1);
+    assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(2);
 
     assertThat(revertChanges).hasSize(2);
   }
 
   @Test
   public void revertSubmissionWithDependantChangeWithoutRevertingLastOne() throws Exception {
-    PushOneCommit.Result firstResult = createChange("first change", "a.txt", "message");
+    PushOneCommit.Result firstResult = createChange("first change", "a.txt", "message\nline2");
     PushOneCommit.Result secondResult = createChange("second change", "b.txt", "other");
     approve(secondResult.getChangeId());
     approve(firstResult.getChangeId());
@@ -806,6 +811,8 @@ public class RevertIT extends AbstractDaemonTest {
     gApi.changes().id(unrelated).current().submit();
     List<ChangeApi> revertChanges =
         getChangeApis(gApi.changes().id(firstResult.getChangeId()).revertSubmission());
+    sortChangesByDeletions(revertChanges);
+
     String sha1SecondChange = secondResult.getCommit().getName();
     String sha1FirstRevert = revertChanges.get(0).current().commit(false).commit;
     assertThat(revertChanges.get(0).current().commit(false).parents.get(0).commit)
@@ -817,14 +824,13 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChanges.get(1).get().revertOf)
         .isEqualTo(firstResult.getChange().change().getChangeId());
     assertThat(revertChanges.get(0).current().files().get("b.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(1);
+    assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(2);
 
     assertThat(revertChanges).hasSize(2);
   }
 
   @Test
   @GerritConfig(name = "change.submitWholeTopic", value = "true")
-  @UseClockStep
   public void revertSubmissionDifferentRepositories() throws Exception {
     projectOperations.newProject().name("secondProject").create();
     TestRepository<InMemoryRepository> secondRepo =
@@ -833,13 +839,15 @@ public class RevertIT extends AbstractDaemonTest {
     PushOneCommit.Result firstResult =
         createChange(testRepo, "master", "first change", "a.txt", "message", topic);
     PushOneCommit.Result secondResult =
-        createChange(secondRepo, "master", "second change", "b.txt", "other", topic);
+        createChange(secondRepo, "master", "second change", "b.txt", "other\nline2", topic);
     approve(secondResult.getChangeId());
     approve(firstResult.getChangeId());
     // submit both changes
     gApi.changes().id(secondResult.getChangeId()).current().submit();
     List<ChangeApi> revertChanges =
         getChangeApis(gApi.changes().id(secondResult.getChangeId()).revertSubmission());
+    sortChangesByDeletions(revertChanges);
+
     // has size 2 because of the same topic, and submitWholeTopic is true.
     assertThat(gApi.changes().id(revertChanges.get(0).get()._number).submittedTogether())
         .hasSize(2);
@@ -854,23 +862,23 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChanges.get(1).get().revertOf)
         .isEqualTo(secondResult.getChange().change().getChangeId());
     assertThat(revertChanges.get(0).current().files().get("a.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(1);
+    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(2);
 
     assertThat(revertChanges).hasSize(2);
   }
 
   @Test
   @GerritConfig(name = "change.submitWholeTopic", value = "true")
-  @UseClockStep
   public void revertSubmissionMultipleBranches() throws Exception {
     List<PushOneCommit.Result> resultCommits = new ArrayList<>();
     String topic = "topic";
     resultCommits.add(createChange(testRepo, "master", "first change", "c.txt", "message", topic));
     testRepo.reset("HEAD~1");
     createBranch(BranchNameKey.create(project, "other"));
-    resultCommits.add(createChange(testRepo, "other", "second change", "a.txt", "message", topic));
     resultCommits.add(
-        createChange(testRepo, "other", "third change", "b.txt", "Other message", topic));
+        createChange(testRepo, "other", "second change", "a.txt", "message\nline2\nline3", topic));
+    resultCommits.add(
+        createChange(testRepo, "other", "third change", "b.txt", "Other message\nline2", topic));
     for (PushOneCommit.Result result : resultCommits) {
       approve(result.getChangeId());
     }
@@ -878,9 +886,11 @@ public class RevertIT extends AbstractDaemonTest {
     gApi.changes().id(resultCommits.get(1).getChangeId()).current().submit();
     List<ChangeApi> revertChanges =
         getChangeApis(gApi.changes().id(resultCommits.get(1).getChangeId()).revertSubmission());
+    sortChangesByDeletions(revertChanges);
+
     assertThat(revertChanges.get(0).current().files().get("c.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(2).current().files().get("a.txt").linesDeleted).isEqualTo(1);
+    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(2);
+    assertThat(revertChanges.get(2).current().files().get("a.txt").linesDeleted).isEqualTo(3);
     String sha1FirstChange = resultCommits.get(0).getCommit().getName();
     String sha1ThirdChange = resultCommits.get(2).getCommit().getName();
     String sha1SecondRevert = revertChanges.get(1).current().commit(false).commit;
@@ -896,14 +906,13 @@ public class RevertIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "change.submitWholeTopic", value = "true")
-  @UseClockStep
   public void revertSubmissionDependantAndUnrelatedWithMerge() throws Exception {
     String topic = "topic";
     PushOneCommit.Result firstResult =
-        createChange(testRepo, "master", "first change", "a.txt", "message", topic);
+        createChange(testRepo, "master", "first change", "a.txt", "message\nline2\nline3", topic);
     approve(firstResult.getChangeId());
     PushOneCommit.Result secondResult =
-        createChange(testRepo, "master", "second change", "b.txt", "message", topic);
+        createChange(testRepo, "master", "second change", "b.txt", "message\nline2", topic);
     approve(secondResult.getChangeId());
     testRepo.reset("HEAD~1");
     PushOneCommit.Result thirdResult =
@@ -925,9 +934,11 @@ public class RevertIT extends AbstractDaemonTest {
 
     List<ChangeApi> revertChanges =
         getChangeApis(gApi.changes().id(secondResult.getChangeId()).revertSubmission());
+    sortChangesByDeletions(revertChanges);
+
     assertThat(revertChanges.get(0).current().files().get("c.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(2).current().files().get("a.txt").linesDeleted).isEqualTo(1);
+    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(2);
+    assertThat(revertChanges.get(2).current().files().get("a.txt").linesDeleted).isEqualTo(3);
     String sha1FirstRevert = revertChanges.get(0).current().commit(false).commit;
     String sha1SecondRevert = revertChanges.get(1).current().commit(false).commit;
     // parent of the first revert is the merged change of previous changes.
@@ -944,15 +955,14 @@ public class RevertIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "change.submitWholeTopic", value = "true")
-  @UseClockStep
   public void revertSubmissionUnrelatedWithTwoMergeCommits() throws Exception {
     String topic = "topic";
     PushOneCommit.Result firstResult =
-        createChange(testRepo, "master", "first change", "a.txt", "message", topic);
+        createChange(testRepo, "master", "first change", "a.txt", "message\nline2\nline3", topic);
     approve(firstResult.getChangeId());
     testRepo.reset("HEAD~1");
     PushOneCommit.Result secondResult =
-        createChange(testRepo, "master", "second change", "b.txt", "message", topic);
+        createChange(testRepo, "master", "second change", "b.txt", "message\nline2", topic);
     approve(secondResult.getChangeId());
     testRepo.reset("HEAD~1");
     PushOneCommit.Result thirdResult =
@@ -974,9 +984,10 @@ public class RevertIT extends AbstractDaemonTest {
 
     List<ChangeApi> revertChanges =
         getChangeApis(gApi.changes().id(secondResult.getChangeId()).revertSubmission());
+    sortChangesByDeletions(revertChanges);
     assertThat(revertChanges.get(0).current().files().get("c.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(1);
-    assertThat(revertChanges.get(2).current().files().get("a.txt").linesDeleted).isEqualTo(1);
+    assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(2);
+    assertThat(revertChanges.get(2).current().files().get("a.txt").linesDeleted).isEqualTo(3);
     String sha1FirstRevert = revertChanges.get(0).current().commit(false).commit;
     String sha1SecondRevert = revertChanges.get(1).current().commit(false).commit;
     // parent of the first revert is the merged change of previous changes.
@@ -1002,6 +1013,19 @@ public class RevertIT extends AbstractDaemonTest {
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;
+  }
+
+  private void sortChangesByDeletions(List<ChangeApi> revertChanges) {
+    revertChanges.sort(
+        Comparator.comparing(
+            c -> {
+              try {
+                return c.get().deletions;
+              } catch (RestApiException e) {
+                e.printStackTrace();
+              }
+              return 0;
+            }));
   }
 
   private void addPureRevertSubmitRule() throws Exception {

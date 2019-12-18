@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bd4c1abe_7ed7e6c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-18T09:40:12Z",
+      "side": 1,
+      "message": "Didn\u0027t find any other subclass of SystemReader used by tests.\n\nAny tests using JGit should use a mock system reader in order to ensure that the tests don\u0027t\ndepend on the git configs of the local system/OS user.",
+      "parentUuid": "9618fab3_cf2e2129",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "93025feead2bcc8e7570489b22f8c1c6a5237419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28030709_b8f1cfbb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "93025feead2bcc8e7570489b22f8c1c6a5237419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f6986e5_76143c06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-18T09:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28030709_b8f1cfbb",
+      "revId": "93025feead2bcc8e7570489b22f8c1c6a5237419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

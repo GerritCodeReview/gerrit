@@ -75,7 +75,10 @@
       return editable === 'false';
     }
 
-    _computeChecked(value) {
+    /**
+     * @param {?boolean} value - fallback to false if undefined
+     */
+    _computeChecked(value = false) {
       return JSON.parse(value);
     }
 

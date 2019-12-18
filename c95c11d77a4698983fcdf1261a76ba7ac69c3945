@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1b13e99d_60e630d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-18T12:49:34Z",
+      "side": 1,
+      "message": "we don\u0027t actually have `secondary` as a known property for gr-button, we only have a few css that will use it. Should I just remove those ?",
+      "parentUuid": "b335cab7_3ee33cbe",
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b00d5486_9e7307ab",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "cc9e6d27_f42a931b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-18T12:49:34Z",
+      "side": 1,
+      "message": "oh that\u0027s a valid point. Just wondering if its possible that this button will show up when `Start review` is `Send`, its not very clear from the code :( \n\nAnd also `Send` may be confusing combined with the tooltip: `but do not send notification` ?\n\nseems it was `Save` for a reason :)",
+      "parentUuid": "b00d5486_9e7307ab",
+      "range": {
+        "startLine": 297,
+        "startChar": 46,
+        "endLine": 297,
+        "endChar": 51
+      },
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a41823c2_afc1519b",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2019-12-18T12:42:10Z",
       "side": 1,
       "message": "Alternatively \"Send reply, but keep \u0027work in progress\u0027 state\".",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7909d00d_307370bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-18T12:49:34Z",
+      "side": 1,
+      "message": "i am not 100% sure that `save` button will only show under WIP ? and as you mentioned, it can also be used to add reviewers / ccs etc",
+      "parentUuid": "a41823c2_afc1519b",
       "range": {
         "startLine": 46,
         "startChar": 12,

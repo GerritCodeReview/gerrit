@@ -7061,7 +7061,7 @@ RevertSubmission endpoint is `revert-{submission_id}-{timestamp.now}`.
 [[revert-submission-info]]
 === RevertSubmissionInfo
 The `RevertSubmissionInfo` describes the revert changes. The changes are sorted
-by update time.
+by revert_of (The numeric id of the change they are reverting).
 
 [options="header",cols="1,6"]
 |==============================

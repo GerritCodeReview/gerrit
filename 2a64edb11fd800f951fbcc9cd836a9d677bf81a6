@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "dd635c90_0c1e4092",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-18T13:29:47Z",
+      "side": 1,
+      "message": "btw, this commit message is much better already. Thanks!",
+      "revId": "2a64edb11fd800f951fbcc9cd836a9d677bf81a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afc9497b_c533c23b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

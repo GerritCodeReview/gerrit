@@ -144,6 +144,11 @@ public abstract class StandaloneSiteTest {
     SystemReader.setInstance(
         new DelegateSystemReader(oldSystemReader) {
           @Override
+          public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+            return new FileBasedConfig(parent, new File(tempDir, "jgit.config"), FS.detect());
+          }
+
+          @Override
           public FileBasedConfig openUserConfig(Config parent, FS fs) {
             return new FileBasedConfig(parent, new File(tempDir, "user.config"), FS.detect());
           }

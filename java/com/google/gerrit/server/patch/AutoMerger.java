@@ -17,7 +17,6 @@ package com.google.gerrit.server.patch;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Throwables;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.RefNames;
@@ -47,8 +46,6 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class AutoMerger {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   @UsedAt(UsedAt.Project.GOOGLE)
   public static boolean cacheAutomerge(Config cfg) {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
@@ -74,10 +71,8 @@ public class AutoMerger {
    * <p>In case of an exception the creation of the auto-merge commit is retried a few times. E.g.
    * this allows the operation to succeed if a Git update fails due to a temporary issue.
    *
-   * @return auto-merge commit or {@code null} if an auto-merge commit couldn't be created. Headers
-   *     of the returned RevCommit are parsed.
+   * @return auto-merge commit. Headers of the returned RevCommit are parsed.
    */
-  @Nullable
   public RevCommit merge(
       Repository repo,
       RevWalk rw,
@@ -102,10 +97,8 @@ public class AutoMerger {
   /**
    * Creates an auto-merge commit of the parents of the given merge commit.
    *
-   * @return auto-merge commit or {@code null} if an auto-merge commit couldn't be created. Headers
-   *     of the returned RevCommit are parsed.
+   * @return auto-merge commit. Headers of the returned RevCommit are parsed.
    */
-  @Nullable
   private RevCommit createAutoMergeCommit(
       Repository repo,
       RevWalk rw,
@@ -144,17 +137,7 @@ public class AutoMerger {
     m.setDirCache(dc);
     m.setObjectInserter(tmpIns == null ? new NonFlushingWrapper(ins) : tmpIns);
 
-    boolean couldMerge;
-    try {
-      couldMerge = m.merge(merge.getParents());
-    } catch (IOException | RuntimeException e) {
-      // It is not safe to continue further down in this method as throwing
-      // an exception most likely means that the merge tree was not created
-      // and m.getMergeResults() is empty. This would mean that all paths are
-      // unmerged and Gerrit UI would show all paths in the patch list.
-      logger.atWarning().withCause(e).log("Error attempting automerge %s", refName);
-      return null;
-    }
+    boolean couldMerge = m.merge(merge.getParents());
 
     ObjectId treeId;
     if (couldMerge) {

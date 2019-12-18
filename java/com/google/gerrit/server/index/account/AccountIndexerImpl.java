@@ -103,6 +103,12 @@ public class AccountIndexerImpl implements AccountIndexer {
                     .indexVersion(i.getSchema().getVersion())
                     .build())) {
           i.replace(accountState.get());
+        } catch (Exception e) {
+          throw new StorageException(
+              String.format(
+                  "Failed to replace account %d in index version %d",
+                  id.get(), i.getSchema().getVersion()),
+              e);
         }
       } else {
         try (TraceTimer traceTimer =
@@ -113,6 +119,12 @@ public class AccountIndexerImpl implements AccountIndexer {
                     .indexVersion(i.getSchema().getVersion())
                     .build())) {
           i.delete(id);
+        } catch (Exception e) {
+          throw new StorageException(
+              String.format(
+                  "Failed to delete account %d from index version %d",
+                  id.get(), i.getSchema().getVersion()),
+              e);
         }
       }
     }

@@ -102,6 +102,12 @@ public class GroupIndexerImpl implements GroupIndexer {
                     .indexVersion(i.getSchema().getVersion())
                     .build())) {
           i.replace(internalGroup.get());
+        } catch (Exception e) {
+          throw new StorageException(
+              String.format(
+                  "Failed to replace group %s in index version %d",
+                  uuid.get(), i.getSchema().getVersion()),
+              e);
         }
       } else {
         try (TraceTimer traceTimer =
@@ -112,6 +118,12 @@ public class GroupIndexerImpl implements GroupIndexer {
                     .indexVersion(i.getSchema().getVersion())
                     .build())) {
           i.delete(uuid);
+        } catch (Exception e) {
+          throw new StorageException(
+              String.format(
+                  "Failed to delete group %s from index version %d",
+                  uuid.get(), i.getSchema().getVersion()),
+              e);
         }
       }
     }

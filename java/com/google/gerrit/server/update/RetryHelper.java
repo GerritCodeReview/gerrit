@@ -363,7 +363,7 @@ public class RetryHelper {
   public <T> RetryableIndexQueryAction<InternalAccountQuery, T> accountIndexQuery(
       String actionName, IndexQueryAction<T, InternalAccountQuery> indexQueryAction) {
     return new RetryableIndexQueryAction<>(
-        this, internalAccountQuery.get(), actionName, indexQueryAction);
+        this, internalAccountQuery, actionName, indexQueryAction);
   }
 
   /**
@@ -379,8 +379,7 @@ public class RetryHelper {
    */
   public <T> RetryableIndexQueryAction<InternalChangeQuery, T> changeIndexQuery(
       String actionName, IndexQueryAction<T, InternalChangeQuery> indexQueryAction) {
-    return new RetryableIndexQueryAction<>(
-        this, internalChangeQuery.get(), actionName, indexQueryAction);
+    return new RetryableIndexQueryAction<>(this, internalChangeQuery, actionName, indexQueryAction);
   }
 
   /**

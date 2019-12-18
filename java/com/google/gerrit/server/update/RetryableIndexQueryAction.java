@@ -18,6 +18,7 @@ import com.github.rholder.retry.RetryListener;
 import com.google.common.base.Throwables;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.InternalQuery;
+import com.google.inject.Provider;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -42,10 +43,14 @@ public class RetryableIndexQueryAction<Q extends InternalQuery<?, Q>, T>
 
   RetryableIndexQueryAction(
       RetryHelper retryHelper,
-      Q internalQuery,
+      Provider<Q> internalQuery,
       String actionName,
       IndexQueryAction<T, Q> indexQuery) {
-    super(retryHelper, ActionType.INDEX_QUERY, actionName, () -> indexQuery.call(internalQuery));
+    super(
+        retryHelper,
+        ActionType.INDEX_QUERY,
+        actionName,
+        () -> indexQuery.call(internalQuery.get()));
   }
 
   @Override

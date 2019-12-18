@@ -672,13 +672,36 @@ public class RevertIT extends AbstractDaemonTest {
 
   @Test
   public void revertSubmissionWithSetMessage() throws Exception {
-    String result = createChange().getChangeId();
+    String result = createChange("change", "a.txt", "message").getChangeId();
     gApi.changes().id(result).current().review(ReviewInput.approve());
     gApi.changes().id(result).current().submit();
     RevertInput revertInput = new RevertInput();
-    revertInput.message = "Message from input";
-    assertThat(gApi.changes().id(result).revertSubmission(revertInput).revertChanges.get(0).subject)
-        .isEqualTo(revertInput.message);
+    String commitMessage = "Message from input";
+    revertInput.message = commitMessage;
+    ChangeInfo revertChange =
+        gApi.changes().id(result).revertSubmission(revertInput).revertChanges.get(0);
+    assertThat(revertChange.subject).isEqualTo("Revert \"change\"");
+    assertThat(gApi.changes().id(revertChange.id).current().commit(false).message)
+        .isEqualTo(
+            String.format(
+                "Revert \"change\"\n\n%s\n\nChange-Id: %s\n",
+                commitMessage, revertChange.changeId));
+  }
+
+  @Test
+  public void revertSubmissionWithoutMessage() throws Exception {
+    String result = createChange("change", "a.txt", "message").getChangeId();
+    gApi.changes().id(result).current().review(ReviewInput.approve());
+    gApi.changes().id(result).current().submit();
+    RevertInput revertInput = new RevertInput();
+    ChangeInfo revertChange =
+        gApi.changes().id(result).revertSubmission(revertInput).revertChanges.get(0);
+    assertThat(revertChange.subject).isEqualTo("Revert \"change\"");
+    assertThat(gApi.changes().id(revertChange.id).current().commit(false).message)
+        .isEqualTo(
+            String.format(
+                "Revert \"change\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
+                gApi.changes().id(result).get().currentRevision, revertChange.changeId));
   }
 
   @Test

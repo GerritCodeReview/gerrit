@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6adab2a3_746bb5f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-18T12:15:01Z",
+      "side": 1,
+      "message": "It still says sort by commit message here.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "8b95e2aae9b4e9ec62e596e905f41f2fc071f559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ff1a70b_cde6e559",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -18,6 +41,52 @@
         "startChar": 1,
         "endLine": 9,
         "endChar": 50
+      },
+      "revId": "8b95e2aae9b4e9ec62e596e905f41f2fc071f559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9744915e_3bba34bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-18T12:15:01Z",
+      "side": 1,
+      "message": "This is really hacky, I wish we would find a better way to make these tests stable.",
+      "range": {
+        "startLine": 10,
+        "startChar": 62,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "8b95e2aae9b4e9ec62e596e905f41f2fc071f559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86efe9a3_8e8803ff",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-18T12:15:01Z",
+      "side": 1,
+      "message": "If the commit message is not used for sorting, we should keep the old commit messages since they were more readable",
+      "range": {
+        "startLine": 698,
+        "startChar": 43,
+        "endLine": 698,
+        "endChar": 46
       },
       "revId": "8b95e2aae9b4e9ec62e596e905f41f2fc071f559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

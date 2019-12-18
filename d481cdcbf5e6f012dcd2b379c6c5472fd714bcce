@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66eee708_298a6fab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-18T15:55:45Z",
+      "side": 0,
+      "message": "this should be covered by this cl: https://gerrit-review.googlesource.com/c/gerrit/+/248932\nyou will need a rebase once its merged :)",
+      "revId": "d481cdcbf5e6f012dcd2b379c6c5472fd714bcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -250,6 +250,8 @@ public class RevertSubmission
           cherryPickInput.base = getBase(changeNotes, commitIdsInProjectAndBranch).name();
         }
 
+        revertInput.message = getMessage(revertInput, changeNotes);
+
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.
         if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
@@ -270,13 +272,7 @@ public class RevertSubmission
               commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get());
           // TODO (paiking): As a future change, the revert should just be done directly on the
           // target rather than just creating a commit and then cherry-picking it.
-          cherryPickInput.message =
-              revertInput.message != null
-                  ? revertInput.message
-                  : MessageFormat.format(
-                      ChangeMessages.get().revertChangeDefaultMessage,
-                      changeNotes.getChange().getSubject(),
-                      changeNotes.getCurrentPatchSet().commitId().name());
+          cherryPickInput.message = revertInput.message;
           ObjectId generatedChangeId = Change.generateChangeId();
           Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
           // TODO (paiking): In the the future, the timestamp should be the same for all the revert
@@ -305,6 +301,21 @@ public class RevertSubmission
     RevertSubmissionInfo revertSubmissionInfo = new RevertSubmissionInfo();
     revertSubmissionInfo.revertChanges = results;
     return revertSubmissionInfo;
+  }
+
+  private String getMessage(RevertInput revertInput, ChangeNotes changeNotes) {
+    String subject = changeNotes.getChange().getSubject();
+    if (subject.length() > 50) {
+      subject = subject.substring(0, 50);
+    }
+    if (revertInput.message == null) {
+      return MessageFormat.format(
+          ChangeMessages.get().revertChangeDefaultMessage,
+          subject,
+          changeNotes.getCurrentPatchSet().commitId().name());
+    }
+
+    return String.format("Revert \"%s\"\n\n%s", subject, revertInput.message);
   }
 
   /**

@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.RefState;
@@ -119,15 +120,17 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
 
   private void updateProjectConfigWithoutIndexUpdate(
       Project.NameKey project, Consumer<ProjectConfig> update) throws Exception {
-    assertThrows(
-        UnsupportedOperationException.class,
-        () -> {
-          try (AutoCloseable ignored = disableProjectIndex()) {
-            try (ProjectConfigUpdate u = updateProject(project)) {
-              update.accept(u.getConfig());
-              u.save();
-            }
-          }
-        });
+    StorageException storageException =
+        assertThrows(
+            StorageException.class,
+            () -> {
+              try (AutoCloseable ignored = disableProjectIndex()) {
+                try (ProjectConfigUpdate u = updateProject(project)) {
+                  update.accept(u.getConfig());
+                  u.save();
+                }
+              }
+            });
+    assertThat(storageException.getCause()).isInstanceOf(UnsupportedOperationException.class);
   }
 }

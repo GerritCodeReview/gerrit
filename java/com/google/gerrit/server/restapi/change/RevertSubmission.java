@@ -230,6 +230,7 @@ public class RevertSubmission
     cherryPickInput.keepReviewers = true;
 
     for (BranchNameKey projectAndBranch : changesPerProjectAndBranch.keySet()) {
+      String groupName = null;
       Project.NameKey project = projectAndBranch.project();
       cherryPickInput.destination = projectAndBranch.branch();
       Collection<ChangeData> changesInProjectAndBranch =
@@ -249,7 +250,6 @@ public class RevertSubmission
         if (cherryPickInput.base == null) {
           cherryPickInput.base = getBase(changeNotes, commitIdsInProjectAndBranch).name();
         }
-
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.
         if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
@@ -264,6 +264,7 @@ public class RevertSubmission
                   .getCurrentPatchSet()
                   .commitId()
                   .getName();
+          groupName = cherryPickInput.base;
         } else {
           // This is the code in case this is the second revert (or more) of this project + branch.
           ObjectId revCommitId =
@@ -279,6 +280,9 @@ public class RevertSubmission
                       changeNotes.getCurrentPatchSet().commitId().name());
           ObjectId generatedChangeId = Change.generateChangeId();
           Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
+          if (groupName == null) {
+            groupName = cherryPickInput.base;
+          }
           // TODO (paiking): In the the future, the timestamp should be the same for all the revert
           // changes.
           try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.nowTs())) {
@@ -289,7 +293,11 @@ public class RevertSubmission
             bu.addOp(
                 changeNotes.getChange().getId(),
                 new CreateCherryPickOp(
-                    revCommitId, revertInput.topic, generatedChangeId, cherryPickRevertChangeId));
+                    revCommitId,
+                    revertInput.topic,
+                    generatedChangeId,
+                    cherryPickRevertChangeId,
+                    groupName));
             bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
             bu.addOp(
                 cherryPickRevertChangeId,
@@ -479,16 +487,19 @@ public class RevertSubmission
     private final String topic;
     private final ObjectId computedChangeId;
     private final Change.Id cherryPickRevertChangeId;
+    private final String groupName;
 
     CreateCherryPickOp(
         ObjectId revCommitId,
         String topic,
         ObjectId computedChangeId,
-        Change.Id cherryPickRevertChangeId) {
+        Change.Id cherryPickRevertChangeId,
+        String groupName) {
       this.revCommitId = revCommitId;
       this.topic = topic;
       this.computedChangeId = computedChangeId;
       this.cherryPickRevertChangeId = cherryPickRevertChangeId;
+      this.groupName = groupName;
     }
 
     @Override
@@ -507,7 +518,8 @@ public class RevertSubmission
               topic,
               change.getId(),
               computedChangeId,
-              cherryPickRevertChangeId);
+              cherryPickRevertChangeId,
+              groupName);
       // save the commit as base for next cherryPick of that branch
       cherryPickInput.base =
           changeNotesFactory

@@ -756,6 +756,8 @@ public class RevertIT extends AbstractDaemonTest {
       assertThat(revertChanges.get(i).get().topic)
           .startsWith("revert-" + resultCommits.get(0).getChange().change().getSubmissionId());
     }
+
+    assertThat(gApi.changes().id(revertChanges.get(1).id()).current().related().changes).hasSize(2);
   }
 
   @Test
@@ -792,6 +794,7 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(1);
 
     assertThat(revertChanges).hasSize(2);
+    assertThat(gApi.changes().id(revertChanges.get(0).id()).current().related().changes).hasSize(2);
   }
 
   @Test
@@ -820,6 +823,7 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(1);
 
     assertThat(revertChanges).hasSize(2);
+    assertThat(gApi.changes().id(revertChanges.get(0).id()).current().related().changes).hasSize(2);
   }
 
   @Test
@@ -892,6 +896,7 @@ public class RevertIT extends AbstractDaemonTest {
         .isEqualTo(sha1SecondRevert);
 
     assertThat(revertChanges).hasSize(3);
+    assertThat(gApi.changes().id(revertChanges.get(1).id()).current().related().changes).hasSize(2);
   }
 
   @Test
@@ -940,6 +945,7 @@ public class RevertIT extends AbstractDaemonTest {
         .isEqualTo(sha1SecondRevert);
 
     assertThat(revertChanges).hasSize(3);
+    assertThat(gApi.changes().id(revertChanges.get(1).id()).current().related().changes).hasSize(3);
   }
 
   @Test
@@ -989,6 +995,7 @@ public class RevertIT extends AbstractDaemonTest {
         .isEqualTo(sha1SecondRevert);
 
     assertThat(revertChanges).hasSize(3);
+    assertThat(gApi.changes().id(revertChanges.get(1).id()).current().related().changes).hasSize(3);
   }
 
   @Override

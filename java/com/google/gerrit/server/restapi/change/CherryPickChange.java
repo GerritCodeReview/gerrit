@@ -168,7 +168,6 @@ public class CherryPickChange {
         patch.commitId(),
         input,
         dest,
-        false,
         null,
         null,
         null,
@@ -212,7 +211,6 @@ public class CherryPickChange {
         sourceCommit,
         input,
         dest,
-        false,
         null,
         null,
         null,
@@ -231,8 +229,6 @@ public class CherryPickChange {
    * @param sourceCommit Id of the commit to be cherry picked.
    * @param input Input object for different configurations of cherry pick.
    * @param dest Destination branch for the cherry pick.
-   * @param ignoreIdenticalTree When false, we throw an error when trying to cherry-pick creates an
-   *     empty commit. When true, we allow creation of an empty commit.
    * @param topic Topic name for the change created.
    * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
    *     field to mark the created cherry pick change as "revertOf" the original change that was
@@ -259,7 +255,6 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       BranchNameKey dest,
-      boolean ignoreIdenticalTree,
       @Nullable String topic,
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
@@ -327,7 +322,7 @@ public class CherryPickChange {
                 commitMessage,
                 revWalk,
                 input.parent - 1,
-                ignoreIdenticalTree,
+                false,
                 input.allowConflicts);
 
         Change.Key changeKey;

@@ -89,7 +89,7 @@ class ChangeControl {
   }
 
   /** Can this user see this change? */
-  private boolean isVisible(@Nullable ChangeData cd) {
+  private boolean isVisible(ChangeData cd) {
     if (getChange().isPrivate() && !isPrivateVisible(cd)) {
       return false;
     }
@@ -153,9 +153,8 @@ class ChangeControl {
   }
 
   /** Is this user a reviewer for the change? */
-  private boolean isReviewer(@Nullable ChangeData cd) {
+  private boolean isReviewer(ChangeData cd) {
     if (getUser().isIdentifiedUser()) {
-      cd = cd != null ? cd : changeDataFactory.create(notes);
       Collection<Account.Id> results = cd.reviewers().all();
       return results.contains(getUser().getAccountId());
     }

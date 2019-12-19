@@ -656,14 +656,16 @@ public class RestApiServlet extends HttpServlet {
                 e);
       } catch (NotImplementedException e) {
         cause = Optional.of(e);
-        logger.atSevere().withCause(e).log("Error in %s %s", req.getMethod(), uriForLogging(req));
+        logger.atSevere().withCause(e).log(
+            "RestError: Error in %s %s", req.getMethod(), uriForLogging(req));
         responseBytes =
             replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
       } catch (UpdateException e) {
         cause = Optional.of(e);
         Throwable t = e.getCause();
         if (t instanceof LockFailureException) {
-          logger.atSevere().withCause(t).log("Error in %s %s", req.getMethod(), uriForLogging(req));
+          logger.atSevere().withCause(t).log(
+              "RestError: Error in %s %s", req.getMethod(), uriForLogging(req));
           responseBytes = replyError(req, res, status = SC_SERVICE_UNAVAILABLE, "Lock failure", e);
         } else {
           status = SC_INTERNAL_SERVER_ERROR;
@@ -1662,7 +1664,8 @@ public class RestApiServlet extends HttpServlet {
   private long handleException(
       TraceContext traceContext, Throwable err, HttpServletRequest req, HttpServletResponse res)
       throws IOException {
-    logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
+    logger.atSevere().withCause(err).log(
+        "RestError: Error in %s %s", req.getMethod(), uriForLogging(req));
     if (!res.isCommitted()) {
       res.reset();
       traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));

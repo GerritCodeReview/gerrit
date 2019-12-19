@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2413aa2_c66c2791",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-19T09:13:44Z",
+      "side": 1,
+      "message": "Not only that unfortunately, they are also referenced in NoteDb. IIRC it\u0027s in comments.\n\nThat is worth adding IMO because one might ask: \"These are many refs, so why not delete them all?\" And that\u0027s the sobering answer.",
+      "range": {
+        "startLine": 56,
+        "startChar": 35,
+        "endLine": 57,
+        "endChar": 22
+      },
+      "revId": "7729de00927ed722b68f220a452c55b2455e3083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

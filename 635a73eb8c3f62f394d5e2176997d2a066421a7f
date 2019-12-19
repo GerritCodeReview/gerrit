@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "23a4b8cf_0ca5a19c",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:35:26Z",
+      "side": 1,
+      "message": "Yeah, I meant documenting _auth as a private field of the class, not as a Polymer property.",
+      "parentUuid": "e8e9e486_484327a6",
+      "revId": "635a73eb8c3f62f394d5e2176997d2a066421a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1aaf172a_92c99cd2",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 4

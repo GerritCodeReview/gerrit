@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2019 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the 'License');
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an 'AS IS' BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<meta name='viewport' content='width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes'>
+<title>gr-apply-fix-dialog</title>
+<script src='/test/common-test-setup.js'></script>
+<script src='/bower_components/webcomponentsjs/custom-elements-es5-adapter.js'></script>
+
+<script src='/bower_components/webcomponentsjs/webcomponents-lite.js'></script>
+<script src='/bower_components/web-component-tester/browser.js'></script>
+<link rel='import' href='../../../test/common-test-setup.html' />
+
+<link rel='import' href='./gr-apply-fix-dialog.html'>
+
+<script>void (0);</script>
+
+<test-fixture id='basic'>
+  <template>
+    <gr-apply-fix-dialog></gr-apply-fix-dialog>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-apply-fix-dialog tests', () => {
+    let element;
+    let sandbox;
+    const ROBOT_COMMENT = {
+      robot_id: 'robot_1',
+      fix_suggestions: [{fix_id: 'fix_1'}, {fix_id: 'fix_2'}],
+    };
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+      element.changeNum = '1';
+      element._patchNum = 2;
+      element.change = {
+        _number: '1',
+        project: 'project',
+      };
+      element.prefs = {
+        font_size: 12,
+        line_length: 100,
+        tab_size: 4,
+      };
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('dialog opens fetch and sets previews', done => {
+      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+          .returns(Promise.resolve({
+            f1: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['loqlwkqll'],
+                },
+                {
+                  b: ['qwqqsqw'],
+                },
+                {
+                  ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
+                },
+              ],
+            },
+            f2: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['eqweqweqwex'],
+                },
+                {
+                  b: ['zassdasd'],
+                },
+                {
+                  ab: ['zassdasd', 'dasdasda', 'asdasdad'],
+                },
+              ],
+            },
+          }));
+      sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
+
+      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}})
+          .then(() => {
+            assert.equal(element._currentFix.fix_id, 'fix_1');
+            assert.equal(element._currentPreviews.length, 2);
+            assert.equal(element._robotId, 'robot_1');
+            done();
+          });
+    });
+
+    test('preview endpoint throws error should reset dialog', done => {
+      element.addEventListener('show-error', () => {
+        assert.deepEqual(element._currentFix, {});
+        assert.equal(element._currentPreviews.length, 0);
+        done();
+      });
+      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview',
+          () => Promise.reject(new Error('backend error')));
+
+      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}});
+    });
+
+    test('apply fix button should call apply' +
+    'and navigate to change view', done => {
+      sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
+          .returns(Promise.resolve());
+      sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      element._currentFix = {fix_id: '123'};
+
+      element._handleApplyFix().then(() => {
+        assert.isTrue(element.$.restAPI.applyFixSuggestion
+            .calledWithExactly('1', 2, '123'));
+        assert.isTrue(Gerrit.Nav.navigateToChange.calledWithExactly({
+          _number: '1',
+          project: 'project',
+        }, 'edit', 2));
+
+        // reset gr-apply-fix-dialog and close
+        assert.deepEqual(element._currentFix, {});
+        assert.equal(element._currentPreviews.length, 0);
+        done();
+      });
+    });
+
+    test('select fix forward and back of multiple suggested fixes', done => {
+      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+          .returns(Promise.resolve({
+            f1: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['loqlwkqll'],
+                },
+                {
+                  b: ['qwqqsqw'],
+                },
+                {
+                  ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
+                },
+              ],
+            },
+            f2: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['eqweqweqwex'],
+                },
+                {
+                  b: ['zassdasd'],
+                },
+                {
+                  ab: ['zassdasd', 'dasdasda', 'asdasdad'],
+                },
+              ],
+            },
+          }));
+      sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
+
+      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}})
+          .then(() => {
+            element._onNextFixClick();
+            assert.equal(element._currentFix.fix_id, 'fix_2');
+            element._onPrevFixClick();
+            assert.equal(element._currentFix.fix_id, 'fix_1');
+            done();
+          });
+    });
+  });
+</script>

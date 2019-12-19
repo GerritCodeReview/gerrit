@@ -37,6 +37,7 @@ limitations under the License.
 <link rel="import" href="../../shared/revision-info/revision-info.html">
 <link rel="import" href="../gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
+<link rel="import" href="../gr-apply-fix-dialog/gr-apply-fix-dialog.html">
 <link rel="import" href="../gr-diff-host/gr-diff-host.html">
 <link rel="import" href="../gr-diff-mode-selector/gr-diff-mode-selector.html">
 <link rel="import" href="../gr-diff-preferences-dialog/gr-diff-preferences-dialog.html">
@@ -343,6 +344,12 @@ limitations under the License.
         on-comment-anchor-tap="_onLineSelected"
         on-line-selected="_onLineSelected">
     </gr-diff-host>
+    <gr-apply-fix-dialog
+      id="applyFixDialog"
+      prefs="[[_prefs]]"
+      change="[[_change]]"
+      change-num="[[_changeNum]]">
+    </gr-apply-fix-dialog>
     <gr-diff-preferences-dialog
         id="diffPreferencesDialog"
         diff-prefs="{{_prefs}}"

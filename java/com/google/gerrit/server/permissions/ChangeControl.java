@@ -144,7 +144,7 @@ class ChangeControl {
 
   /** Is this user assigned to this change? */
   private boolean isAssignee() {
-    Account.Id currentAssignee = notes.getChange().getAssignee();
+    Account.Id currentAssignee = getChange().getAssignee();
     if (currentAssignee != null && getUser().isIdentifiedUser()) {
       Account.Id id = getUser().getAccountId();
       return id.equals(currentAssignee);

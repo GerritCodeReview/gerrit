@@ -25,6 +25,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
@@ -100,6 +101,8 @@ import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuilder> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface ChangeOperatorFactory extends OperatorFactory<ChangeData, ChangeQueryBuilder> {}
 
   /**
@@ -1441,8 +1444,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
                 accounts.stream()
                     .map(id -> ReviewerPredicate.forState(id, state))
                     .collect(toList()));
+      } else {
+        logger.atFine().log(
+            "Skipping reviewer predicate for %s in default field query"
+                + " because the number of matched accounts (%d) exceeds the limit of %d",
+            who, accounts.size(), MAX_ACCOUNTS_PER_DEFAULT_FIELD);
       }
     } catch (QueryParseException e) {
+      logger.atFine().log("Parsing %s as account failed: %s", who, e.getMessage());
       // Propagate this exception only if we can't use 'who' to query by email
       if (reviewerByEmailPredicate == null) {
         throw e;

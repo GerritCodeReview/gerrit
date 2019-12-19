@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -53,7 +52,7 @@ import org.eclipse.jgit.lib.Config;
  * included.
  */
 public class MergeSuperSet {
-
+  private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOpRepoManager> repoManagerProvider;
   private final DynamicItem<MergeSuperSetComputation> mergeSuperSetComputation;
@@ -67,12 +66,14 @@ public class MergeSuperSet {
   @Inject
   MergeSuperSet(
       @GerritServerConfig Config cfg,
+      ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider,
       DynamicItem<MergeSuperSetComputation> mergeSuperSetComputation,
       PermissionBackend permissionBackend,
       ProjectCache projectCache) {
     this.cfg = cfg;
+    this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
     this.mergeSuperSetComputation = mergeSuperSetComputation;
@@ -98,14 +99,7 @@ public class MergeSuperSet {
         orm = repoManagerProvider.get();
         closeOrm = true;
       }
-      List<ChangeData> cds = queryProvider.get().byLegacyChangeId(change.getId());
-      checkState(
-          cds.size() == 1,
-          "Expected exactly one ChangeData for change ID %s, got %s",
-          change.getId(),
-          cds.size());
-      ChangeData cd = Iterables.getFirst(cds, null);
-
+      ChangeData cd = changeDataFactory.create(change.getProject(), change.getId());
       boolean visible = false;
       if (cd != null) {
         ProjectState projectState = projectCache.checkedGet(cd.project());

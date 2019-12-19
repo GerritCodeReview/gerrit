@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -35,10 +36,13 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.patch.DiffSummary;
+import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -57,8 +61,9 @@ public class BatchUpdateTest {
       new InMemoryTestEnvironment(
           () -> {
             Config cfg = new Config();
-            cfg.setInt("change", null, "maxUpdates", MAX_UPDATES);
+            cfg.setInt("change", null, "maxFiles", 2);
             cfg.setInt("change", null, "maxPatchSets", MAX_PATCH_SETS);
+            cfg.setInt("change", null, "maxUpdates", MAX_UPDATES);
             return cfg;
           });
 
@@ -69,6 +74,9 @@ public class BatchUpdateTest {
   @Inject private PatchSetInserter.Factory patchSetInserterFactory;
   @Inject private Provider<CurrentUser> user;
   @Inject private Sequences sequences;
+
+  @Inject
+  private @Named("diff_summary") Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
 
   private Project.NameKey project;
   private TestRepository<Repository> repo;
@@ -241,6 +249,59 @@ public class BatchUpdateTest {
     }
     assertThat(changeNotesFactory.create(project, changeId).getPatchSets()).hasSize(MAX_PATCH_SETS);
     assertThat(getMetaId(changeId)).isEqualTo(oldMetaId);
+  }
+
+  @Test
+  public void limitFileCount_exceed() throws Exception {
+    Change.Id changeId = createChangeWithUpdates(1);
+    ChangeNotes notes = changeNotesFactory.create(project, changeId);
+
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      ObjectId commitId =
+          repo.amend(notes.getCurrentPatchSet().commitId())
+              .add("bar.txt", "bar")
+              .add("baz.txt", "baz")
+              .add("boom.txt", "boom")
+              .message("blah")
+              .create();
+      bu.addOp(
+          changeId,
+          patchSetInserterFactory
+              .create(notes, PatchSet.id(changeId, 2), commitId)
+              .setMessage("blah"));
+      ResourceConflictException thrown = assertThrows(ResourceConflictException.class, bu::execute);
+      assertThat(thrown)
+          .hasMessageThat()
+          .contains("Exceeding maximum number of files per change (3 > 2)");
+    }
+  }
+
+  @Test
+  public void limitFileCount_cacheKeyMatches() throws Exception {
+    Change.Id changeId = createChangeWithUpdates(1);
+    ChangeNotes notes = changeNotesFactory.create(project, changeId);
+
+    int cacheSizeBefore = diffSummaryCache.asMap().size();
+
+    // We don't want to depend on the test helper used above so we perform an explicit commit here.
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      ObjectId commitId =
+          repo.amend(notes.getCurrentPatchSet().commitId())
+              .add("bar.txt", "bar")
+              .add("baz.txt", "baz")
+              .message("blah")
+              .create();
+      bu.addOp(
+          changeId,
+          patchSetInserterFactory
+              .create(notes, PatchSet.id(changeId, 3), commitId)
+              .setMessage("blah"));
+      bu.execute();
+    }
+
+    // Assert that we only performed the diff computation once. This would e.g. catch
+    // bugs/deviations in the computation of the cache key.
+    assertThat(diffSummaryCache.asMap()).hasSize(cacheSizeBefore + 1);
   }
 
   private Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {

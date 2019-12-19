@@ -22,6 +22,30 @@
       "revId": "4e896a499822aff080423602636845c3d832fdab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "636f686b_29d2fc41",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-19T11:59:49Z",
+      "side": 1,
+      "message": "I think it\u0027s intended to do permission checks always against the NoteDb state, in case the index is stale (e.g. the change was set to private, but the index doesn\u0027t know about this yet). If we don\u0027t care about this, we could also change ChangeControl to operate on ChangeData instead of on ChangeNotes so that we never need to load change notes for change permission checks (but I think that\u0027s not what we want?).",
+      "parentUuid": "00afc261_78de2100",
+      "range": {
+        "startLine": 237,
+        "startChar": 14,
+        "endLine": 237,
+        "endChar": 64
+      },
+      "revId": "4e896a499822aff080423602636845c3d832fdab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

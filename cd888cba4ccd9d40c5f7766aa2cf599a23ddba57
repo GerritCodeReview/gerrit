@@ -1,0 +1,272 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d50eff05_a4920c74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Add a screenshot",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47df4689_2b7de98a",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "padding must be based on spacing-... variables.",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62a42281_9540cabb",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Add a screenshot. Maybe use --border-color?",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bc84329_b57ded9c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Use --border-radius",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99cd979e_e347a043",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "I cannot find a class \"or\".",
+      "range": {
+        "startLine": 82,
+        "startChar": 24,
+        "endLine": 82,
+        "endChar": 27
+      },
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1021372e_64b1615b",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Use deemphasized-text-color",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "451ab424_ad6bad49",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Maybe add a comment about why this CSS needs all this clip and absolute positioning.",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa16ff28_245c54b5",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "remove \"important\"",
+      "range": {
+        "startLine": 91,
+        "startChar": 28,
+        "endLine": 91,
+        "endChar": 37
+      },
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54b4b867_e36ba4fb",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Not close the dialog?",
+      "range": {
+        "startLine": 197,
+        "startChar": 46,
+        "endLine": 197,
+        "endChar": 52
+      },
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e123ae4_1b3724a6",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Rename such that it is clear what kind of key press that is. Or add a method comment.",
+      "range": {
+        "startLine": 251,
+        "startChar": 4,
+        "endLine": 251,
+        "endChar": 19
+      },
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9ee185c_ee4412a3",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Add a comment why.",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22403fd8_a5d8e39a",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Rename such that it is clear what kind of drop event that is. Or add a method comment.",
+      "range": {
+        "startLine": 259,
+        "startChar": 4,
+        "endLine": 259,
+        "endChar": 15
+      },
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32643e48_360024a3",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Add a comment why.",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8200d3c2_861c34bb",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-19T12:44:53Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

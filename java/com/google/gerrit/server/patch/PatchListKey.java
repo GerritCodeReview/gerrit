@@ -59,6 +59,12 @@ public class PatchListKey implements Serializable {
     return new PatchListKey(otherCommitId, newId, whitespace);
   }
 
+  public static PatchListKey againstBase(ObjectId id, int parentCount) {
+    return parentCount > 1
+        ? PatchListKey.againstParentNum(1, id, Whitespace.IGNORE_NONE)
+        : PatchListKey.againstDefaultBase(id, Whitespace.IGNORE_NONE);
+  }
+
   /**
    * Old patch-set ID
    *

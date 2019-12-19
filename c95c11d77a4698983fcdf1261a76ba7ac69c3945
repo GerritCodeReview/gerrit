@@ -102,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "422769a1_060620bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-19T12:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc9e6d27_f42a931b",
+      "range": {
+        "startLine": 297,
+        "startChar": 46,
+        "endLine": 297,
+        "endChar": 51
+      },
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a41823c2_afc1519b",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -173,6 +197,30 @@
     },
     {
       "key": {
+        "uuid": "49dd0f4c_1bd38180",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-19T12:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0260bac4_8c1d0abb",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b05dac4a_5c0dd218",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
         "patchSetId": 2
@@ -187,6 +235,24 @@
       "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f2e422b_cb503684",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-19T12:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b05dac4a_5c0dd218",
+      "revId": "c95c11d77a4698983fcdf1261a76ba7ac69c3945",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "d481cdcbf5e6f012dcd2b379c6c5472fd714bcce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "459e9993_1c137d41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-19T13:40:42Z",
+      "side": 0,
+      "message": "sure, just remember update the commit message if you submit that lint change together with your changes :)",
+      "parentUuid": "737e486b_0d67837a",
+      "revId": "d481cdcbf5e6f012dcd2b379c6c5472fd714bcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

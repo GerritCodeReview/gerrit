@@ -43,7 +43,7 @@
   };
 
   const ButtonTooltips = {
-    SAVE: 'Save reply but do not send notification',
+    SAVE: 'Send but do not send notification or change review state',
     START_REVIEW: 'Mark as ready for review and send reply',
     SEND: 'Send reply',
   };
@@ -686,7 +686,7 @@
       this._rebuildReviewerArrays(this.change.reviewers, this._owner);
     }
 
-    _saveTapHandler(e) {
+    _saveClickHandler(e) {
       e.preventDefault();
       if (!this.$.ccs.submitEntryText()) {
         // Do not proceed with the save if there is an invalid email entry in

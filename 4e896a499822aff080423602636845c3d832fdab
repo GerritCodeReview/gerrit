@@ -46,6 +46,30 @@
       "revId": "4e896a499822aff080423602636845c3d832fdab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4390bd14_70afab90",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-19T14:34:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "636f686b_29d2fc41",
+      "range": {
+        "startLine": 237,
+        "startChar": 14,
+        "endLine": 237,
+        "endChar": 64
+      },
+      "revId": "4e896a499822aff080423602636845c3d832fdab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

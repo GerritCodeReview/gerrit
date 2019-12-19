@@ -18,6 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
@@ -172,6 +173,7 @@ public class CherryPickChange {
         null,
         null,
         null,
+        null,
         null);
   }
 
@@ -216,6 +218,7 @@ public class CherryPickChange {
         null,
         null,
         null,
+        null,
         null);
   }
 
@@ -241,6 +244,8 @@ public class CherryPickChange {
    * @param idForNewChange The ID that the new change of the cherry pick will have. If provided and
    *     the cherry-pick doesn't result in creating a new change, then
    *     InvalidChangeOperationException is thrown.
+   * @param groupName The name of the group for grouping related changes (used by GetRelated
+   *     endpoint).
    * @return Result object that describes the cherry pick.
    * @throws IOException Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
@@ -263,7 +268,8 @@ public class CherryPickChange {
       @Nullable String topic,
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
-      @Nullable Change.Id idForNewChange)
+      @Nullable Change.Id idForNewChange,
+      @Nullable String groupName)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
 
@@ -388,7 +394,8 @@ public class CherryPickChange {
                     sourceCommit,
                     input,
                     revertedChange,
-                    idForNewChange);
+                    idForNewChange,
+                    groupName);
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -469,7 +476,8 @@ public class CherryPickChange {
       @Nullable ObjectId sourceCommit,
       CherryPickInput input,
       @Nullable Change.Id revertOf,
-      @Nullable Change.Id idForNewChange)
+      @Nullable Change.Id idForNewChange,
+      @Nullable String groupName)
       throws IOException {
     Change.Id changeId = idForNewChange != null ? idForNewChange : Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
@@ -495,6 +503,9 @@ public class CherryPickChange {
       Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
       ccs.remove(user.get().getAccountId());
       ins.setReviewersAndCcs(reviewers, ccs);
+      if (groupName != null) {
+        ins.setGroups(ImmutableList.of(groupName));
+      }
     }
     bu.insertChange(ins);
     return changeId;

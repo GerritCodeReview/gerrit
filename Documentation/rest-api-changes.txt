@@ -3902,6 +3902,10 @@ labels, adding reviewers or CCs, and modifying the work in progress property.
 The review must be provided in the request body as a
 link:#review-input[ReviewInput] entity.
 
+If the labels are set, the user sending the request will automatically be
+added as a reviewer, otherwise (if they only commented) they are added to
+the CC list.
+
 A review cannot be set on a change edit. Trying to post a review for a
 change edit fails with `409 Conflict`.
 

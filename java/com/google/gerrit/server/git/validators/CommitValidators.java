@@ -31,6 +31,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -44,6 +45,11 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.validators.ValidationMessage.Type;
+import com.google.gerrit.server.patch.DiffSummary;
+import com.google.gerrit.server.patch.DiffSummaryKey;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -76,7 +82,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
- * Represents a list of CommitValidationListeners to run for a push to one branch of one project.
+ * Represents a list of {@link CommitValidationListener}s to run for a push to one branch of one
+ * project.
  */
 public class CommitValidators {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -94,15 +101,16 @@ public class CommitValidators {
     private final AllProjectsName allProjects;
     private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
     private final AccountValidator accountValidator;
-    private final String installCommitMsgHookCommand;
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
+    private final PatchListCache patchListCache;
+    private final Config config;
 
     @Inject
     Factory(
         @GerritPersonIdent PersonIdent gerritIdent,
         DynamicItem<UrlFormatter> urlFormatter,
-        @GerritServerConfig Config cfg,
+        @GerritServerConfig Config config,
         PluginSetContext<CommitValidationListener> pluginValidators,
         GitRepositoryManager repoManager,
         AllUsersName allUsers,
@@ -110,19 +118,20 @@ public class CommitValidators {
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
         AccountValidator accountValidator,
         ProjectCache projectCache,
-        ProjectConfig.Factory projectConfigFactory) {
+        ProjectConfig.Factory projectConfigFactory,
+        PatchListCache patchListCache) {
       this.gerritIdent = gerritIdent;
       this.urlFormatter = urlFormatter;
+      this.config = config;
       this.pluginValidators = pluginValidators;
       this.repoManager = repoManager;
       this.allUsers = allUsers;
       this.allProjects = allProjects;
       this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
       this.accountValidator = accountValidator;
-      this.installCommitMsgHookCommand =
-          cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
+      this.patchListCache = patchListCache;
     }
 
     public CommitValidators forReceiveCommits(
@@ -146,12 +155,7 @@ public class CommitValidators {
               new CommitterUploaderValidator(user, perm, urlFormatter.get()),
               new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
-                  projectState,
-                  user,
-                  urlFormatter.get(),
-                  installCommitMsgHookCommand,
-                  sshInfo,
-                  change),
+                  projectState, user, urlFormatter.get(), config, sshInfo, change),
               new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators, skipValidation),
@@ -176,14 +180,10 @@ public class CommitValidators {
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, urlFormatter.get()),
+              new FileCountValidator(patchListCache, config),
               new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.project())),
               new ChangeIdValidator(
-                  projectState,
-                  user,
-                  urlFormatter.get(),
-                  installCommitMsgHookCommand,
-                  sshInfo,
-                  change),
+                  projectState, user, urlFormatter.get(), config, sshInfo, change),
               new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -268,14 +268,14 @@ public class CommitValidators {
         ProjectState projectState,
         IdentifiedUser user,
         UrlFormatter urlFormatter,
-        String installCommitMsgHookCommand,
+        Config config,
         SshInfo sshInfo,
         Change change) {
       this.projectState = projectState;
-      this.urlFormatter = urlFormatter;
-      this.installCommitMsgHookCommand = installCommitMsgHookCommand;
-      this.sshInfo = sshInfo;
       this.user = user;
+      this.urlFormatter = urlFormatter;
+      installCommitMsgHookCommand = config.getString("gerrit", null, "installCommitMsgHookCommand");
+      this.sshInfo = sshInfo;
       this.change = change;
     }
 
@@ -384,6 +384,43 @@ public class CommitValidators {
       return String.format(
           "  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
           sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
+    }
+  }
+
+  /** Limits the number of files per change. */
+  private static class FileCountValidator implements CommitValidationListener {
+
+    private final PatchListCache patchListCache;
+    private final int maxFileCount;
+
+    FileCountValidator(PatchListCache patchListCache, @Nullable Config config) {
+      this.patchListCache = patchListCache;
+      maxFileCount = config.getInt("change", null, "maxFiles", 50_000);
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      PatchListKey patchListKey =
+          receiveEvent.commit.getParentCount() > 1
+              ? PatchListKey.againstParentNum(
+                  1, receiveEvent.commit.getId(), Whitespace.IGNORE_NONE)
+              : PatchListKey.againstDefaultBase(
+                  receiveEvent.commit.getId(), Whitespace.IGNORE_NONE);
+      DiffSummaryKey diffSummaryKey = DiffSummaryKey.fromPatchListKey(patchListKey);
+      try {
+        DiffSummary diffSummary =
+            patchListCache.getDiffSummary(diffSummaryKey, receiveEvent.project.getNameKey());
+        if (diffSummary.getPaths().size() > maxFileCount) {
+          throw new CommitValidationException(
+              String.format(
+                  "Exceeding maximum number of files per change (%d > %d)",
+                  diffSummary.getPaths().size(), maxFileCount));
+        }
+      } catch (PatchListNotAvailableException e) {
+        logger.atWarning().withCause(e).log("Failed to validate file count");
+      }
+      return Collections.emptyList();
     }
   }
 

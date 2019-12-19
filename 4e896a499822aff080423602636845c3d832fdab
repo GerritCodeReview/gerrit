@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00afc261_78de2100",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-19T11:55:20Z",
+      "side": 1,
+      "message": "Why not always use createFronIndexedChange?\n\nFor permission checks, that\u0027s sufficient and calling ChangeData#notes will load the notes which is expensive if it\u0027s a cache miss.",
+      "range": {
+        "startLine": 237,
+        "startChar": 14,
+        "endLine": 237,
+        "endChar": 64
+      },
+      "revId": "4e896a499822aff080423602636845c3d832fdab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

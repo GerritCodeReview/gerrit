@@ -146,12 +146,14 @@ public class CommitUtil {
     revertCommitBuilder.setCommitter(authorIdent);
 
     Change changeToRevert = notes.getChange();
+    String subject = changeToRevert.getSubject();
+    if (subject.length() > 50) {
+      subject = subject.substring(0, 50) + "...";
+    }
     if (message == null) {
       message =
           MessageFormat.format(
-              ChangeMessages.get().revertChangeDefaultMessage,
-              changeToRevert.getSubject(),
-              patch.commitId().name());
+              ChangeMessages.get().revertChangeDefaultMessage, subject, patch.commitId().name());
     }
     if (generatedChangeId != null) {
       revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));

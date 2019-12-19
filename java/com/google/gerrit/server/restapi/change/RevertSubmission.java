@@ -313,6 +313,9 @@ public class RevertSubmission
 
   private String getMessage(RevertInput revertInput, ChangeNotes changeNotes) {
     String subject = changeNotes.getChange().getSubject();
+    if (subject.length() > 50) {
+      subject = subject.substring(0, 50) + "...";
+    }
     if (revertInput.message == null) {
       return MessageFormat.format(
           ChangeMessages.get().revertChangeDefaultMessage,

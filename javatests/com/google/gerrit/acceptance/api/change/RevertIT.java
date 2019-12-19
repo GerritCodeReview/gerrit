@@ -284,6 +284,27 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertChangeWithLongTitle() throws Exception {
+    String changeTitle =
+        "This change has a very long title and therefore it will be cut to 50 characters when the"
+            + " revert change will revert this change";
+    String result = createChange(changeTitle, "a.txt", "message").getChangeId();
+    gApi.changes().id(result).current().review(ReviewInput.approve());
+    gApi.changes().id(result).current().submit();
+    RevertInput revertInput = new RevertInput();
+    ChangeInfo revertChange = gApi.changes().id(result).revert(revertInput).get();
+    assertThat(revertChange.subject)
+        .isEqualTo(String.format("Revert \"%s\"", changeTitle.substring(0, 50)));
+    assertThat(gApi.changes().id(revertChange.id).current().commit(false).message)
+        .isEqualTo(
+            String.format(
+                "Revert \"%s\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
+                changeTitle.substring(0, 50),
+                gApi.changes().id(result).get().currentRevision,
+                revertChange.changeId));
+  }
+
+  @Test
   public void revertNotifications() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
@@ -702,6 +723,28 @@ public class RevertIT extends AbstractDaemonTest {
             String.format(
                 "Revert \"change\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
                 gApi.changes().id(result).get().currentRevision, revertChange.changeId));
+  }
+
+  @Test
+  public void revertSubmissionRevertsChangeWithLongTitle() throws Exception {
+    String changeTitle =
+        "This change has a very long title and therefore it will be cut to 50 characters when the"
+            + " revert change will revert this change";
+    String result = createChange(changeTitle, "a.txt", "message").getChangeId();
+    gApi.changes().id(result).current().review(ReviewInput.approve());
+    gApi.changes().id(result).current().submit();
+    RevertInput revertInput = new RevertInput();
+    ChangeInfo revertChange =
+        gApi.changes().id(result).revertSubmission(revertInput).revertChanges.get(0);
+    assertThat(revertChange.subject)
+        .isEqualTo(String.format("Revert \"%s\"", changeTitle.substring(0, 50)));
+    assertThat(gApi.changes().id(revertChange.id).current().commit(false).message)
+        .isEqualTo(
+            String.format(
+                "Revert \"%s\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
+                changeTitle.substring(0, 50),
+                gApi.changes().id(result).get().currentRevision,
+                revertChange.changeId));
   }
 
   @Test

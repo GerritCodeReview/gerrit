@@ -69,6 +69,30 @@
       "revId": "baf6bc1a06d6250d207bbfa40746c74eefa89d58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27d7afda_8a4d2ed8",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-19T16:43:41Z",
+      "side": 1,
+      "message": "I would say that\u0027s implied in \"protect tasks\".",
+      "parentUuid": "dba79c85_eedc3eb0",
+      "range": {
+        "startLine": 494,
+        "startChar": 61,
+        "endLine": 494,
+        "endChar": 92
+      },
+      "revId": "baf6bc1a06d6250d207bbfa40746c74eefa89d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

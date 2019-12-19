@@ -31,6 +31,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
   public RevWalk revWalk;
   public RevCommit commit;
   public IdentifiedUser user;
+  public ObjectId commitId;
 
   public CommitReceivedEvent() {
     super(TYPE);
@@ -51,6 +52,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
     this.revWalk = new RevWalk(reader);
     this.commit = revWalk.parseCommit(commitId);
     this.user = user;
+    this.commitId = commitId;
     revWalk.parseBody(commit);
   }
 

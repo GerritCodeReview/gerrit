@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be954ec7_5d47debe",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-19T10:59:35Z",
+      "side": 1,
+      "message": "tiny-nit: missing trailing \u0027.\u0027",
+      "range": {
+        "startLine": 1518,
+        "startChar": 77,
+        "endLine": 1518,
+        "endChar": 78
+      },
+      "revId": "4af6ad6e7d5719dc1db611df01468b03ebd3062f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

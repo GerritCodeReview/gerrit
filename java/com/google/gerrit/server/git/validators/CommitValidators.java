@@ -61,11 +61,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
@@ -73,10 +77,13 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
- * Represents a list of CommitValidationListeners to run for a push to one branch of one project.
+ * Represents a list of {@link CommitValidationListener}s to run for a push to one branch of one
+ * project.
  */
 public class CommitValidators {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -176,6 +183,7 @@ public class CommitValidators {
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, urlFormatter.get()),
+              new FileCountValidator(repoManager),
               new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.project())),
               new ChangeIdValidator(
                   projectState,
@@ -219,7 +227,7 @@ public class CommitValidators {
 
   private final List<CommitValidationListener> validators;
 
-  CommitValidators(List<CommitValidationListener> validators) {
+  private CommitValidators(List<CommitValidationListener> validators) {
     this.validators = validators;
   }
 
@@ -252,7 +260,7 @@ public class CommitValidators {
         "invalid Change-Id line format in message footer";
 
     @VisibleForTesting
-    public static final String CHANGE_ID_MISMATCH_MSG =
+    static final String CHANGE_ID_MISMATCH_MSG =
         "Change-Id in message footer does not match Change-Id of target change";
 
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
@@ -264,7 +272,7 @@ public class CommitValidators {
     private final IdentifiedUser user;
     private final Change change;
 
-    public ChangeIdValidator(
+    ChangeIdValidator(
         ProjectState projectState,
         IdentifiedUser user,
         UrlFormatter urlFormatter,
@@ -359,7 +367,8 @@ public class CommitValidators {
       if (hostKeys.isEmpty()) {
         checkState(webUrl.isPresent());
         return String.format(
-            "  f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
+            "  f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\""
+                + " %stools/hooks/commit-msg ; chmod +x \"$f\"",
             webUrl.get());
       }
 
@@ -382,8 +391,82 @@ public class CommitValidators {
       }
 
       return String.format(
-          "  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
+          "  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg"
+              + " ${gitdir}/hooks/",
           sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
+    }
+  }
+
+  public static class FileCountValidator implements CommitValidationListener {
+    static final int MAX_FILE_COUNT = 2; // ö Make this configurable.
+
+    private final GitRepositoryManager repoManager;
+
+    FileCountValidator(GitRepositoryManager repoManager) {
+      this.repoManager = repoManager;
+    }
+
+    private interface TreeWalkVisitor {
+      void onVisit(TreeWalk tw);
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      try (Repository repo = repoManager.openRepository(receiveEvent.project.getNameKey())) {
+        // ö Deduplicate all this code copied from CommitUtils
+
+        final Map<String, ObjectId> content = new HashMap<>();
+
+        TreeWalkVisitor visitor =
+            tw -> {
+              if (FileMode.EXECUTABLE_FILE.equals(tw.getRawMode(0))
+                  || FileMode.REGULAR_FILE.equals(tw.getRawMode(0))) {
+                content.put(tw.getPathString(), tw.getObjectId(0));
+              }
+            };
+
+        try (TreeWalk tw = new TreeWalk(receiveEvent.revWalk.getObjectReader())) {
+          tw.setRecursive(true);
+          tw.setFilter(TreeFilter.ANY_DIFF);
+          tw.addTree(receiveEvent.commit.getTree());
+          if (receiveEvent.commit.getParentCount() > 0) {
+            for (RevCommit p : receiveEvent.commit.getParents()) {
+              if (p.getTree() == null) {
+                receiveEvent.revWalk.parseHeaders(p);
+              }
+              tw.addTree(p.getTree());
+            }
+            while (tw.next()) {
+              boolean result = true;
+              if (receiveEvent.commit.getParentCount() > 1) {
+                for (int p = 1; p <= receiveEvent.commit.getParentCount(); p++) {
+                  if (tw.getObjectId(0).equals(tw.getObjectId(p))) {
+                    result = false;
+                    break;
+                  }
+                }
+              }
+              if (result) {
+                visitor.onVisit(tw);
+              }
+            }
+          } else {
+            while (tw.next()) {
+              visitor.onVisit(tw);
+            }
+          }
+        }
+        if (content.size() > MAX_FILE_COUNT) {
+          throw new CommitValidationException(
+              String.format(
+                  "Exceeding maximum number of files per change (%d > %d)",
+                  content.size(), MAX_FILE_COUNT));
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      return Collections.emptyList();
     }
   }
 
@@ -396,7 +479,7 @@ public class CommitValidators {
     private final AllUsersName allUsers;
     private final AllProjectsName allProjects;
 
-    public ConfigValidator(
+    ConfigValidator(
         ProjectConfig.Factory projectConfigFactory,
         BranchNameKey branch,
         IdentifiedUser user,
@@ -453,7 +536,7 @@ public class CommitValidators {
   public static class UploadMergesPermissionValidator implements CommitValidationListener {
     private final PermissionBackend.ForRef perm;
 
-    public UploadMergesPermissionValidator(PermissionBackend.ForRef perm) {
+    UploadMergesPermissionValidator(PermissionBackend.ForRef perm) {
       this.perm = perm;
     }
 
@@ -480,12 +563,12 @@ public class CommitValidators {
     private boolean skipValidation;
     private final PluginSetContext<CommitValidationListener> commitValidationListeners;
 
-    public PluginCommitValidationListener(
+    PluginCommitValidationListener(
         final PluginSetContext<CommitValidationListener> commitValidationListeners) {
       this(commitValidationListeners, false);
     }
 
-    public PluginCommitValidationListener(
+    PluginCommitValidationListener(
         final PluginSetContext<CommitValidationListener> commitValidationListeners,
         boolean skipValidation) {
       this.skipValidation = skipValidation;
@@ -519,7 +602,8 @@ public class CommitValidators {
 
     @Override
     public boolean shouldValidateAllCommits() {
-      return commitValidationListeners.stream().anyMatch(v -> v.shouldValidateAllCommits());
+      return commitValidationListeners.stream()
+          .anyMatch(CommitValidationListener::shouldValidateAllCommits);
     }
   }
 
@@ -528,8 +612,7 @@ public class CommitValidators {
     private final PermissionBackend.ForRef perm;
     private final ProjectState state;
 
-    public SignedOffByValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, ProjectState state) {
+    SignedOffByValidator(IdentifiedUser user, PermissionBackend.ForRef perm, ProjectState state) {
       this.user = user;
       this.perm = perm;
       this.state = state;
@@ -580,7 +663,7 @@ public class CommitValidators {
     private final PermissionBackend.ForRef perm;
     private final UrlFormatter urlFormatter;
 
-    public AuthorUploaderValidator(
+    AuthorUploaderValidator(
         IdentifiedUser user, PermissionBackend.ForRef perm, UrlFormatter urlFormatter) {
       this.user = user;
       this.perm = perm;
@@ -613,7 +696,7 @@ public class CommitValidators {
     private final PermissionBackend.ForRef perm;
     private final UrlFormatter urlFormatter;
 
-    public CommitterUploaderValidator(
+    CommitterUploaderValidator(
         IdentifiedUser user, PermissionBackend.ForRef perm, UrlFormatter urlFormatter) {
       this.user = user;
       this.perm = perm;
@@ -649,7 +732,7 @@ public class CommitValidators {
     private final PermissionBackend.ForRef perm;
     private final PersonIdent gerritIdent;
 
-    public AmendedGerritMergeCommitValidationListener(
+    AmendedGerritMergeCommitValidationListener(
         PermissionBackend.ForRef perm, PersonIdent gerritIdent) {
       this.perm = perm;
       this.gerritIdent = gerritIdent;
@@ -685,7 +768,7 @@ public class CommitValidators {
   public static class BannedCommitsValidator implements CommitValidationListener {
     private final NoteMap rejectCommits;
 
-    public BannedCommitsValidator(NoteMap rejectCommits) {
+    BannedCommitsValidator(NoteMap rejectCommits) {
       this.rejectCommits = rejectCommits;
     }
 
@@ -711,7 +794,7 @@ public class CommitValidators {
     private final AllUsersName allUsers;
     private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
 
-    public ExternalIdUpdateListener(
+    ExternalIdUpdateListener(
         AllUsersName allUsers, ExternalIdsConsistencyChecker externalIdsConsistencyChecker) {
       this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
       this.allUsers = allUsers;
@@ -754,7 +837,7 @@ public class CommitValidators {
     private final AllUsersName allUsers;
     private final AccountValidator accountValidator;
 
-    public AccountCommitValidator(
+    AccountCommitValidator(
         GitRepositoryManager repoManager,
         AllUsersName allUsers,
         AccountValidator accountValidator) {
@@ -809,7 +892,7 @@ public class CommitValidators {
   public static class GroupCommitValidator implements CommitValidationListener {
     private final AllUsersName allUsers;
 
-    public GroupCommitValidator(AllUsersName allUsers) {
+    GroupCommitValidator(AllUsersName allUsers) {
       this.allUsers = allUsers;
     }
 
@@ -838,7 +921,7 @@ public class CommitValidators {
   public static class ProjectStateValidationListener implements CommitValidationListener {
     private final ProjectState projectState;
 
-    public ProjectStateValidationListener(ProjectState projectState) {
+    ProjectStateValidationListener(ProjectState projectState) {
       this.projectState = projectState;
     }
 

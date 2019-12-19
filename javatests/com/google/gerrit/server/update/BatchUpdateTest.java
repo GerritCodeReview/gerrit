@@ -243,6 +243,44 @@ public class BatchUpdateTest {
     assertThat(getMetaId(changeId)).isEqualTo(oldMetaId);
   }
 
+  @Test
+  public void limitFileCount_exceed() throws Exception {
+    Change.Id changeId = createChangeWithUpdates(1);
+    ChangeNotes notes = changeNotesFactory.create(project, changeId);
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      ObjectId commitId =
+          repo.amend(notes.getCurrentPatchSet().commitId())
+              .add("foo.txt", "foo")
+              .message("blah")
+              .create();
+      bu.addOp(
+          changeId,
+          patchSetInserterFactory
+              .create(notes, PatchSet.id(changeId, 2), commitId)
+              .setMessage("blah"));
+      // Don't fail yet.
+      bu.execute();
+    }
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      ObjectId commitId =
+          repo.amend(notes.getCurrentPatchSet().commitId())
+              .add("bar.txt", "bar")
+              .add("baz.txt", "baz")
+              .add("boom.txt", "boom")
+              .message("blah")
+              .create();
+      bu.addOp(
+          changeId,
+          patchSetInserterFactory
+              .create(notes, PatchSet.id(changeId, 3), commitId)
+              .setMessage("blah"));
+      ResourceConflictException thrown = assertThrows(ResourceConflictException.class, bu::execute);
+      assertThat(thrown)
+          .hasMessageThat()
+          .contains("Exceeding maximum number of files per change"); // ö append " (N > M)"
+    }
+  }
+
   private Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {
     checkArgument(totalUpdates > 0);
     checkArgument(totalUpdates <= MAX_UPDATES);

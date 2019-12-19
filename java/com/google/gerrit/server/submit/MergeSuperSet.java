@@ -19,16 +19,19 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginContext;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -53,6 +56,7 @@ import org.eclipse.jgit.lib.Config;
  * included.
  */
 public class MergeSuperSet {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOpRepoManager> repoManagerProvider;
@@ -60,6 +64,7 @@ public class MergeSuperSet {
   private final PermissionBackend permissionBackend;
   private final Config cfg;
   private final ProjectCache projectCache;
+  private final ChangeNotes.Factory notesFactory;
 
   private MergeOpRepoManager orm;
   private boolean closeOrm;
@@ -71,13 +76,15 @@ public class MergeSuperSet {
       Provider<MergeOpRepoManager> repoManagerProvider,
       DynamicItem<MergeSuperSetComputation> mergeSuperSetComputation,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ChangeNotes.Factory notesFactory) {
     this.cfg = cfg;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
     this.mergeSuperSetComputation = mergeSuperSetComputation;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.notesFactory = notesFactory;
   }
 
   public static boolean wholeTopicEnabled(Config config) {
@@ -215,8 +222,23 @@ public class MergeSuperSet {
       return false;
     }
 
+    ChangeNotes notes;
     try {
-      permissionBackend.user(user).change(cd).check(ChangePermission.READ);
+      notes = cd.notes();
+    } catch (NoSuchChangeException e) {
+      // The change was found in the index but is missing in NoteDb.
+      // This can happen in systems with multiple primary nodes when the replication of the index
+      // documents is faster than the replication of the Git data.
+      // Instead of failing, create the change notes from the index data so that the read permission
+      // check can be performed successfully.
+      logger.atWarning().log(
+          "Got change %d of project %s from index, but couldn't find it in NoteDb",
+          cd.getId().get(), cd.project().get());
+      notes = notesFactory.createFromIndexedChange(cd.change());
+    }
+
+    try {
+      permissionBackend.user(user).change(notes).check(ChangePermission.READ);
       return true;
     } catch (AuthException e) {
       return false;

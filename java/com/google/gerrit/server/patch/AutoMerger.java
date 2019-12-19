@@ -45,6 +45,27 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * Utility class for creating an auto-merge commit of a merge commit.
+ *
+ * <p>An auto-merge commit is the result of merging the 2 parents of a merge commit automatically.
+ * If there are conflicts the auto-merge commit contains Git conflict markers that indicate these
+ * conflicts.
+ *
+ * <p>Creating auto-merge commits for octopus merges (merge commits with more than 2 parents) is not
+ * supported. In this case the auto-merge is created between the first 2 parent commits.
+ *
+ * <p>All created auto-merge commits are stored in the repository of their merge commit as {@code
+ * refs/cache-automerge/} branches. These branches serve:
+ *
+ * <ul>
+ *   <li>as a cache so that the each auto-merge gets computed only once
+ *   <li>as base for merge commits on which users can comment
+ * </ul>
+ *
+ * <p>The second point means that these commits are referenced from NoteDb. The consequence of this
+ * is that these refs should never be deleted.
+ */
 public class AutoMerger {
   @UsedAt(UsedAt.Project.GOOGLE)
   public static boolean cacheAutomerge(Config cfg) {

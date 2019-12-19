@@ -45,7 +45,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -396,12 +395,7 @@ public class ChangeData {
         return Optional.empty();
       }
 
-      ObjectId id = ps.commitId();
-      Whitespace ws = Whitespace.IGNORE_NONE;
-      PatchListKey pk =
-          parentCount > 1
-              ? PatchListKey.againstParentNum(1, id, ws)
-              : PatchListKey.againstDefaultBase(id, ws);
+      PatchListKey pk = PatchListKey.againstBase(ps.commitId(), parentCount);
       DiffSummaryKey key = DiffSummaryKey.fromPatchListKey(pk);
       try {
         diffSummary = Optional.of(patchListCache.getDiffSummary(key, c.getProject()));

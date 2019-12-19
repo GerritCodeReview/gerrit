@@ -22,6 +22,30 @@
       "revId": "7729de00927ed722b68f220a452c55b2455e3083",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a104d9e_aa3a6e38",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-19T09:46:17Z",
+      "side": 1,
+      "message": "Oh, really good you thought of this. That\u0027s important to be mentioned here.\n\nDone.",
+      "parentUuid": "a2413aa2_c66c2791",
+      "range": {
+        "startLine": 56,
+        "startChar": 35,
+        "endLine": 57,
+        "endChar": 22
+      },
+      "revId": "7729de00927ed722b68f220a452c55b2455e3083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

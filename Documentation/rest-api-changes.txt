@@ -1515,6 +1515,8 @@ the error message is contained in the response body.
 
 Creates open revert changes for all of the changes of a certain submission.
 
+The subject of each revert change will be "Revert <subject-of-reverted-change".
+
 Details for the revert can be specified in the request body inside a link:#revert-input[
 RevertInput] The topic of all created revert changes will be
 `revert-{submission_id}-{random_string_of_size_10}`.

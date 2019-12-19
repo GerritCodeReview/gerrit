@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "808b3618_9473719a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-19T10:49:41Z",
+      "side": 1,
+      "message": "better: \"each revert change\"\n\nI think then you can also drop the \"created by the endpoint\" part, since the previous sentence already says that the this endpoint creates the revert changes.",
+      "range": {
+        "startLine": 1518,
+        "startChar": 13,
+        "endLine": 1518,
+        "endChar": 28
+      },
+      "revId": "2b979abefa09a4154d1165fc431dfecb6580b90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6eb7891_9f9bd332",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-19T10:49:41Z",
+      "side": 1,
+      "message": "In Git this is called \"subject\".",
+      "range": {
+        "startLine": 1518,
+        "startChar": 4,
+        "endLine": 1518,
+        "endChar": 9
+      },
+      "revId": "2b979abefa09a4154d1165fc431dfecb6580b90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b807d3af_ac097299",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-19T10:49:41Z",
+      "side": 1,
+      "message": "better: subject-of-reverted-change",
+      "range": {
+        "startLine": 1519,
+        "startChar": 9,
+        "endLine": 1519,
+        "endChar": 30
+      },
+      "revId": "2b979abefa09a4154d1165fc431dfecb6580b90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

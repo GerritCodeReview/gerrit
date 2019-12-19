@@ -124,13 +124,12 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
         assertThrows(
             StorageException.class,
             () -> {
-              try (AutoCloseable ignored = disableProjectIndex()) {
-                try (ProjectConfigUpdate u = updateProject(project)) {
-                  update.accept(u.getConfig());
-                  u.save();
-                }
+              try (AutoCloseable ignored = disableProjectIndex();
+                  ProjectConfigUpdate u = updateProject(project)) {
+                update.accept(u.getConfig());
+                u.save();
               }
             });
-    assertThat(storageException.getCause()).isInstanceOf(UnsupportedOperationException.class);
+    assertThat(storageException).hasCauseThat().isInstanceOf(UnsupportedOperationException.class);
   }
 }

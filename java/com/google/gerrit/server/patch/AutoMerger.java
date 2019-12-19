@@ -214,12 +214,11 @@ public class AutoMerger {
       case REJECTED_MISSING_OBJECT:
       case REJECTED_OTHER_REASON:
       case RENAMED:
-      default:
-        throw new IOException(
-            String.format(
-                "Failed to create auto-merge of %s: Cannot write %s (%s)",
-                merge.name(), refName, ru.getResult()));
     }
+    throw new IOException(
+        String.format(
+            "Failed to create auto-merge of %s: Cannot write %s (%s)",
+            merge.name(), refName, ru.getResult()));
   }
 
   private static class NonFlushingWrapper extends ObjectInserter.Filter {

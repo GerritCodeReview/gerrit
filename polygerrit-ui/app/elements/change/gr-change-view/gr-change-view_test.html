@@ -1617,6 +1617,30 @@ limitations under the License.
       });
     });
 
+    test('_selectedRevision is assigned when patchNum is edit', () => {
+      const revision1 = {_number: 1, commit: {parents: []}};
+      const revision2 = {_number: 2, commit: {parents: []}};
+      const revision3 = {_number: 'edit', commit: {parents: []}};
+      sandbox.stub(element.$.restAPI, 'getChangeDetail').returns(
+          Promise.resolve({
+            revisions: {
+              aaa: revision1,
+              bbb: revision2,
+              ccc: revision3,
+            },
+            labels: {},
+            actions: {},
+            current_revision: 'ccc',
+            change_id: 'loremipsumdolorsitamet',
+          }));
+      sandbox.stub(element, '_getEdit').returns(Promise.resolve());
+      sandbox.stub(element, '_getPreferences').returns(Promise.resolve({}));
+      element._patchRange = {patchNum: 'edit'};
+      return element._getChangeDetail().then(() => {
+        assert.strictEqual(element._selectedRevision, revision3);
+      });
+    });
+
     test('_sendShowChangeEvent', () => {
       element._change = {labels: {}};
       element._patchRange = {patchNum: 4};

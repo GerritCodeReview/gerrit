@@ -1821,7 +1821,8 @@
       if (!this._selectedRevision) {
         return;
       }
-      const patchNum = parseInt(patchNumStr, 10);
+      // If patchNumStr is"edit", then patchNum is undefined hence an OR
+      const patchNum = parseInt(patchNumStr, 10) || patchNumStr;
       if (patchNum === this._selectedRevision._number) {
         return;
       }

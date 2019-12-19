@@ -1,0 +1,48 @@
+{
+  "comments": [
+    {
+      "robotId": "my_robot",
+      "robotRunId": "1",
+      "fixSuggestions": [
+        {
+          "fixId": "e866fbe7_8a02a555",
+          "description": "Robot suggestion",
+          "replacements": [
+            {
+              "path": "javatests/com/google/gerrit/prettify/common/BUILD",
+              "range": {
+                "startLine": 6,
+                "startChar": 1,
+                "endLine": 7,
+                "endChar": 4
+              },
+              "replacement": "Some replacement"
+            }
+          ]
+        }
+      ],
+      "key": {
+        "uuid": "8a82177d_9a45ecf7",
+        "filename": "javatests/com/google/gerrit/prettify/common/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-19T15:31:35Z",
+      "side": 1,
+      "message": "Robot second message",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "tag": "robot",
+      "revId": "2f7b18bbd3115ddf95385f940fa8e1f0d570cf0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

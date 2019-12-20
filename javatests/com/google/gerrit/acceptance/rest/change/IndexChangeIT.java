@@ -59,7 +59,9 @@ public class IndexChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "index.change.indexMergeable", value = "true")
+  @GerritConfig(
+      name = "change.mergeabilityComputationBehavior",
+      value = "API_REF_UPDATED_AND_CHANGE_REINDEX")
   public void indexChangeAfterOwnerLosesVisibility() throws Exception {
     // Create a test group with 2 users as members
     TestAccount user2 = accountCreator.user2();

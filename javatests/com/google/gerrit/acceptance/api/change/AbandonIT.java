@@ -143,7 +143,9 @@ public class AbandonIT extends AbstractDaemonTest {
   @UseClockStep
   @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
   @GerritConfig(name = "changeCleanup.abandonIfMergeable", value = "false")
-  @GerritConfig(name = "index.change.indexMergeable", value = "true")
+  @GerritConfig(
+      name = "change.mergeabilityComputationBehavior",
+      value = "API_REF_UPDATED_AND_CHANGE_REINDEX")
   public void notAbandonedIfMergeableWhenMergeableOperatorIsEnabled() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
@@ -180,14 +182,14 @@ public class AbandonIT extends AbstractDaemonTest {
   }
 
   /**
-   * When indexMergeable is disabled then the abandonIfMergeable option is ineffective and the auto
-   * abandon behaves as though it were set to its default value (true).
+   * When indexing mergeable is disabled then the abandonIfMergeable option is ineffective and the
+   * auto abandon behaves as though it were set to its default value (true).
    */
   @Test
   @UseClockStep
   @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
   @GerritConfig(name = "changeCleanup.abandonIfMergeable", value = "false")
-  @GerritConfig(name = "index.change.indexMergeable", value = "false")
+  @GerritConfig(name = "change.mergeabilityComputationBehavior", value = "NEVER")
   public void abandonedIfMergeableWhenMergeableOperatorIsDisabled() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 

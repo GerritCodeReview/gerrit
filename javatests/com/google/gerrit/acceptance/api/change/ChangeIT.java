@@ -295,19 +295,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void skipMergeable() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
-    ChangeInfo c =
-        gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_MERGEABLE));
-    assertThat(c.mergeable).isNull();
-
-    c = gApi.changes().id(triplet).get();
-    assertThat(c.mergeable).isTrue();
-  }
-
-  @Test
-  @GerritConfig(name = "change.api.excludeMergeableInChangeInfo", value = "true")
+  @GerritConfig(name = "change.mergeabilityComputationBehavior", value = "NEVER")
   public void excludeMergeableInChangeInfo() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
@@ -4425,7 +4413,6 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.MESSAGES,
             ListChangesOption.SUBMITTABLE,
             ListChangesOption.WEB_LINKS,
-            ListChangesOption.SKIP_MERGEABLE,
             ListChangesOption.SKIP_DIFFSTAT);
 
     PushOneCommit.Result change = createChange();
@@ -4438,14 +4425,16 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "index.change.indexMergeable", value = "true")
+  @GerritConfig(
+      name = "change.mergeabilityComputationBehavior",
+      value = "API_REF_UPDATED_AND_CHANGE_REINDEX")
   public void changeQueryReturnsMergeableWhenGerritIndexMergeable() throws Exception {
     String changeId = createChange().getChangeId();
     assertThat(gApi.changes().query(changeId).get().get(0).mergeable).isTrue();
   }
 
   @Test
-  @GerritConfig(name = "index.change.indexMergeable", value = "false")
+  @GerritConfig(name = "change.mergeabilityComputationBehavior", value = "NEVER")
   public void changeQueryDoesNotReturnMergeableWhenGerritDoesNotIndexMergeable() throws Exception {
     String changeId = createChange().getChangeId();
     assertThat(gApi.changes().query(changeId).get().get(0).mergeable).isNull();

@@ -16,7 +16,6 @@ package com.google.gerrit.server.submit;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
@@ -459,11 +458,17 @@ public class MergeOp implements AutoCloseable {
       try {
         ChangeSet indexBackedChangeSet =
             mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(change, caller);
-        checkState(
-            indexBackedChangeSet.ids().contains(change.getId()),
-            "change %s missing from %s",
-            change.getId(),
-            indexBackedChangeSet);
+        if (!indexBackedChangeSet.ids().contains(change.getId())) {
+          // indexBackedChangeSet contains only open changes, if the change is missing in this set
+          // it might be that the change was concurrently submitted in the meantime.
+          change = changeDataFactory.create(change).reloadChange();
+          if (!change.isNew()) {
+            throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+          }
+          throw new IllegalStateException(
+              String.format("change %s missing from %s", change.getId(), indexBackedChangeSet));
+        }
+
         if (indexBackedChangeSet.furtherHiddenChanges()) {
           throw new AuthException(
               "A change to be submitted with " + change.getId() + " is not visible");

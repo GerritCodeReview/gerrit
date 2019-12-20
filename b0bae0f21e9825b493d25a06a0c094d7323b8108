@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e610d08_0fb4eae0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-20T11:01:56Z",
+      "side": 1,
+      "message": "Why is 50 chosen here? If I see this correctly, the subject of the revert change will be \u0027Revert \"\u003csubject\u003e\"\u0027. This means 9 characters are consumed by \u0027Revert\u0027, the one space and the two quotes. If we want to cap the subject at 70 chars, we should use all the remaining 61 chars for the subject of the revert change, shouldn\u0027t we?",
+      "range": {
+        "startLine": 15,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "b0bae0f21e9825b493d25a06a0c094d7323b8108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba0c54f5_438d0d3c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-20T11:01:56Z",
+      "side": 1,
+      "message": "Actually this is surrounded by quotes. Maybe make this:\n\n  \u0027Revert \"\u003csubject-of-reverted-change\u003e\"\u0027",
+      "range": {
+        "startLine": 1461,
+        "startChar": 8,
+        "endLine": 1461,
+        "endChar": 36
+      },
+      "revId": "b0bae0f21e9825b493d25a06a0c094d7323b8108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "218bc2c5_d276e97b",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-20T11:01:56Z",
+      "side": 1,
+      "message": "What if the subject has 51 characters? Then we replace its last character with \u0027...\u0027 which consumes more space then the original subject. You should only shorten the subject if the original subject is larger than the shortened subject that includes the \"...\". See ChangeEmail#shortenSubject to see how to do this correctly.",
+      "range": {
+        "startLine": 150,
+        "startChar": 3,
+        "endLine": 151,
+        "endChar": 49
+      },
+      "revId": "b0bae0f21e9825b493d25a06a0c094d7323b8108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -24,5 +24,5 @@ public class ChangeConfigInfo {
   public String replyTooltip;
   public int updateDelay;
   public Boolean submitWholeTopic;
-  public Boolean excludeMergeableInChangeInfo;
+  public String mergeabilityComputationBehavior;
 }

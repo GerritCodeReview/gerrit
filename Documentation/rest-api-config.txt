@@ -1566,10 +1566,11 @@ link:config-gerrit.html#change.submitWholeTopic[A configuration if
 the whole topic is submitted].
 |`disable_private_changes` |not set if `false`|
 Returns true if private changes are disabled.
-|`exclude_mergeable_in_change_info` |not set if `false`|
-Value of the link:config-gerrit.html#change.api.excludeMergeableInChangeInfo[
+|`mergeability_computation_behavior` ||
+Value of the link:config-gerrit.html#change.mergeabilityComputationBehavior[
 configuration parameter] that controls whether the mergeability bit in
-link:rest-api-changes.html#change-info[ChangeInfo] will never be set.
+link:rest-api-changes.html#change-info[ChangeInfo] will never be set and if the
+bit is indexed.
 |=============================
 
 [[change-index-config-info]]

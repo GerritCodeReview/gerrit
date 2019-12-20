@@ -1001,7 +1001,6 @@
         this.ListChangesOption.MESSAGES,
         this.ListChangesOption.SUBMITTABLE,
         this.ListChangesOption.WEB_LINKS,
-        this.ListChangesOption.SKIP_MERGEABLE,
         this.ListChangesOption.SKIP_DIFFSTAT,
       ];
       return this.getConfig(false).then(config => {
@@ -1024,7 +1023,6 @@
       const optionsHex = this.listChangesOptionsToHex(
           this.ListChangesOption.ALL_COMMITS,
           this.ListChangesOption.ALL_REVISIONS,
-          this.ListChangesOption.SKIP_MERGEABLE,
           this.ListChangesOption.SKIP_DIFFSTAT
       );
       return this._getChangeDetail(changeNum, optionsHex, opt_errFn,

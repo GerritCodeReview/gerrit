@@ -114,10 +114,12 @@ import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupAuditService;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -718,7 +720,8 @@ public class RestApiServlet extends HttpServlet {
       ViewData viewData,
       ETagView<RestResource> view,
       RestResource rsrc) {
-    try {
+    try (TraceTimer ignored =
+        TraceContext.newTimer("RestApiServlet#getEtagWithRetry:view", Metadata.empty())) {
       return invokeRestEndpointWithRetry(
           req,
           traceContext,
@@ -733,7 +736,8 @@ public class RestApiServlet extends HttpServlet {
 
   private String getEtagWithRetry(
       HttpServletRequest req, TraceContext traceContext, RestResource.HasETag rsrc) {
-    try {
+    try (TraceTimer ignored =
+        TraceContext.newTimer("RestApiServlet#getEtagWithRetry:resource", Metadata.empty())) {
       return invokeRestEndpointWithRetry(
           req,
           traceContext,

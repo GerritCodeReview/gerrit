@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -51,7 +52,7 @@ public class ChangeCleanupConfig {
     this.urlFormatter = urlFormatter;
     schedule = ScheduleConfig.createSchedule(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
-    boolean indexMergeable = cfg.getBoolean("index", "change", "indexMergeable", true);
+    boolean indexMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex();
     if (!indexMergeable) {
       if (!readAbandonIfMergeable(cfg)) {
         logger.atWarning().log(

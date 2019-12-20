@@ -1102,7 +1102,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "index.change.indexMergeable", value = "true")
+  @GerritConfig(name = "change.mergeabilityComputationBehavior", value = "ALWAYS_COMPUTE")
   public void mergeable() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 

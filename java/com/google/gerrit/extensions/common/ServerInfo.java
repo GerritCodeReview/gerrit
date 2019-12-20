@@ -21,7 +21,6 @@ public class ServerInfo {
   public ChangeConfigInfo change;
   public DownloadInfo download;
   public GerritInfo gerrit;
-  public IndexConfigInfo index;
   public Boolean noteDbEnabled;
   public PluginConfigInfo plugin;
   public SshdInfo sshd;

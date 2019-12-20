@@ -28,6 +28,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
@@ -85,7 +86,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     this.accountCache = accountCache;
     this.indexer = indexer;
     this.executor = executor;
-    this.enabled = cfg.getBoolean("index", "change", "indexMergeable", true);
+    this.enabled = MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex();
   }
 
   @Override

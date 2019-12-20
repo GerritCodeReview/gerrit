@@ -63,6 +63,7 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.VersionedAccountDestinations;
 import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -293,7 +294,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           groupMembers,
           anonymousUserProvider,
           operatorAliasConfig,
-          gerritConfig.getBoolean("index", "change", "indexMergeable", true));
+          MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex());
     }
 
     private Arguments(

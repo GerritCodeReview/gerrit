@@ -49,6 +49,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
@@ -111,7 +112,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     this.idField =
         this.schema.useLegacyNumericFields() ? ChangeField.LEGACY_ID : ChangeField.LEGACY_ID_STR;
     this.skipFields =
-        gerritConfig.getBoolean("index", "change", "indexMergeable", true)
+        MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex()
             ? ImmutableSet.of()
             : ImmutableSet.of(ChangeField.MERGEABLE.getName());
   }

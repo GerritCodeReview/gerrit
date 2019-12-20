@@ -1171,15 +1171,6 @@ explicitly.
 +
 Default is `ALL`.
 
-[[change.api.excludeMergeableInChangeInfo]]change.api.excludeMergeableInChangeInfo::
-+
-If true, the mergeability bit in
-link:rest-api-changes.html#change-info[ChangeInfo] will never be set. It can
-be requested separately through the
-link:rest-api-changes.html#get-mergeable[get-mergeable] endpoint.
-+
-Default is false.
-
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
 When reviewing diff commits, the left-hand side shows the output of the
@@ -1230,6 +1221,31 @@ The following operations are allowed even when a change is at the limit:
 * Fix with link:rest-api-changes.html#fix-input[`expect_merged_as`]
 +
 By default 1000.
+
+[[change.mergeabilityComputationBehavior]]change.mergeabilityComputationBehavior::
++
+This setting determines when Gerrit computes if a change is mergeable or not.
+This computation is expensive, especially when the repository is large or when
+there are many open changes.
++
+This config can have the following states:
+* `ALWAYS_COMPUTE`: Gerrit indexes `mergeability` enabling the `is:mergeable`
+predicate in change search and allowing fast retrieval of this bit in query
+responses. Gerrit will always serve `mergeable` in
+link:rest-api-changes.html#change-info[ChangeInfo] objects.
+* `COMPUTE_WHEN_INDEXING`: Gerrit indexes `mergeability` enabling the
+`is:mergeable` predicate in change search and allowing fast retrieval of this
+bit in query responses. Gerrit will never serve `mergeable` in
+link:rest-api-changes.html#change-info[ChangeInfo]
+objects. This state can be a final state for instances that only want to
+optimize the read path, but not the write path for speed or serve as an
+intermediary step for instances that want to optimize both and need to migrate
+callers of their API.
+* `NEVER_COMPUTE`: Gerrit does not index `mergeable`, so `is:mergeable` is
+disabled as query operator. Gerrit does not serve `mergeable` in
+link:rest-api-changes.html#change-info[ChangeInfo].
++
+Default is `ALWAYS_COMPUTE`.
 
 [[change.move]]change.move::
 +
@@ -3101,7 +3117,7 @@ Depending on the setup, these events might get serialized using stream
 events.
 +
 This can be set to the set of minimal options that consumers of Gerrit's
-events need. A minimal set would be (`SKIP_MERGEABLE`,`SKIP_DIFFSTAT`).
+events need. A minimal set would be (`SKIP_DIFFSTAT`).
 +
 Every option that gets added here will have a performance impact. The
 general recommendation is therefore to set this to a minimal set of

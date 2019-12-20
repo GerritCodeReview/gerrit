@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAI
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -37,6 +38,11 @@ import org.eclipse.jgit.lib.Config;
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
 public class AuthConfig {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final int DEFAULT_HTTP_PASSWORD_LENGTH = 42;
+  private static final int MIN_HTTP_PASSWORD_LENGTH = 16;
+  private static final int MAX_HTTP_PASSWORD_LENGTH = 72;
   private final AuthType authType;
   private final String httpHeader;
   private final String httpDisplaynameHeader;
@@ -65,6 +71,7 @@ public class AuthConfig {
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
+  private int httpPasswordLength;
 
   @Inject
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
@@ -95,6 +102,7 @@ public class AuthConfig {
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
+    httpPasswordLength = cfg.getInt("auth", "httpPasswordLength", DEFAULT_HTTP_PASSWORD_LENGTH);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -120,6 +128,15 @@ public class AuthConfig {
       emailReg = new SignedToken(age, key);
     } else {
       emailReg = null;
+    }
+
+    if (httpPasswordLength < MIN_HTTP_PASSWORD_LENGTH
+        || httpPasswordLength > MAX_HTTP_PASSWORD_LENGTH) {
+      logger.atSevere().log(
+        "auth.httpPasswordLength must be greater than %s and smaller than %s.",
+        MIN_HTTP_PASSWORD_LENGTH, MAX_HTTP_PASSWORD_LENGTH);
+      logger.atWarning().log("using default value");
+      httpPasswordLength = DEFAULT_HTTP_PASSWORD_LENGTH;
     }
   }
 
@@ -333,5 +350,9 @@ public class AuthConfig {
 
   public boolean isAllowRegisterNewEmail() {
     return allowRegisterNewEmail;
+  }
+
+  public int getHttpPasswordLength() {
+    return httpPasswordLength;
   }
 }

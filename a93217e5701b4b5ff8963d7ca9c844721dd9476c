@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18763181_2ca67d38",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-20T10:18:30Z",
+      "side": 1,
+      "message": "here it should be \"getViewName(viewData)\" as in line 730 below",
+      "range": {
+        "startLine": 726,
+        "startChar": 44,
+        "endLine": 726,
+        "endChar": 75
+      },
+      "revId": "a93217e5701b4b5ff8963d7ca9c844721dd9476c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

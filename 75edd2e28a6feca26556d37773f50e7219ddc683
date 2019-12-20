@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ceace89d_9ecb3ef5",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-20T12:44:31Z",
+      "side": 1,
+      "message": "optional: This logic could live in a a static method in PatchListKey",
+      "revId": "75edd2e28a6feca26556d37773f50e7219ddc683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

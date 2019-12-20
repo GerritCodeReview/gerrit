@@ -121,7 +121,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     @Override
     public Response<?> apply(ChangeResource resource, IdString id, FileContentInput input)
         throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
-      putEdit.apply(resource, id.get(), input.content);
+      putEdit.apply(resource, id.get(), input);
       return Response.none();
     }
   }
@@ -281,15 +281,16 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     @Override
     public Response<?> apply(ChangeEditResource rsrc, FileContentInput input)
         throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
-      return apply(rsrc.getChangeResource(), rsrc.getPath(), input.content);
+      return apply(rsrc.getChangeResource(), rsrc.getPath(), input);
     }
 
-    public Response<?> apply(ChangeResource rsrc, String path, RawInput newContent)
+    public Response<?> apply(ChangeResource rsrc, String path, FileContentInput input)
         throws ResourceConflictException, AuthException, IOException, PermissionBackendException {
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
 
+      RawInput newContent = input.content;
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
         editModifier.modifyFile(repository, rsrc.getNotes(), path, newContent);
       } catch (InvalidChangeOperationException e) {

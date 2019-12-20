@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -55,17 +56,20 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private final PatchSetUtil psUtil;
   private final RelatedChangesSorter sorter;
   private final IndexConfig indexConfig;
+  private final ChangeData.Factory changeDataFactory;
 
   @Inject
   GetRelated(
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
       RelatedChangesSorter sorter,
-      IndexConfig indexConfig) {
+      IndexConfig indexConfig,
+      ChangeData.Factory changeDataFactory) {
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
     this.sorter = sorter;
     this.indexConfig = indexConfig;
+    this.changeDataFactory = changeDataFactory;
   }
 
   @Override
@@ -98,7 +102,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     boolean isEdit = rsrc.getEdit().isPresent();
     PatchSet basePs = isEdit ? rsrc.getEdit().get().getBasePatchSet() : rsrc.getPatchSet();
 
-    reloadChangeIfStale(cds, basePs);
+    cds = reloadChangeIfStale(cds, rsrc.getChange(), basePs);
 
     for (RelatedChangesSorter.PatchSetData d : sorter.sort(cds, basePs)) {
       PatchSet ps = d.patchSet();
@@ -127,14 +131,30 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return psUtil.byChange(notes).stream().flatMap(ps -> ps.groups().stream()).collect(toSet());
   }
 
-  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) {
-    for (ChangeData cd : cds) {
-      if (cd.getId().equals(wantedPs.id().changeId())) {
-        if (cd.patchSet(wantedPs.id()) == null) {
-          cd.reloadChange();
-        }
-      }
+  private List<ChangeData> reloadChangeIfStale(
+      List<ChangeData> changeDatasFromIndex, Change wantedChange, PatchSet wantedPs) {
+    checkArgument(
+        wantedChange.getId().equals(wantedPs.id().changeId()),
+        "change of wantedPs (%s) doesn't match wantedChange (%s)",
+        wantedPs.id().changeId(),
+        wantedChange.getId());
+
+    List<ChangeData> changeDatas = new ArrayList<>(changeDatasFromIndex.size() + 1);
+    changeDatas.addAll(changeDatasFromIndex);
+
+    // Reload the change in case the patch set is absent.
+    changeDatas.stream()
+        .filter(
+            cd -> cd.getId().equals(wantedPs.id().changeId()) && cd.patchSet(wantedPs.id()) == null)
+        .forEach(ChangeData::reloadChange);
+
+    if (changeDatas.stream().noneMatch(cd -> cd.getId().equals(wantedPs.id().changeId()))) {
+      // The change of the wanted patch set is missing in the result from the index.
+      // Load it from NoteDb and add it to the result.
+      changeDatas.add(changeDataFactory.create(wantedChange));
     }
+
+    return changeDatas;
   }
 
   static RelatedChangeAndCommitInfo newChangeAndCommit(

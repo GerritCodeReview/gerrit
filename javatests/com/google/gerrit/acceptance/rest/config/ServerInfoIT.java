@@ -169,7 +169,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.updateDelay).isEqualTo(300);
     assertThat(i.change.disablePrivateChanges).isNull();
     assertThat(i.change.submitWholeTopic).isNull();
-    assertThat(i.change.excludeMergeableInChangeInfo).isNull();
+    assertThat(i.change.mergeabilityComputationBehavior)
+        .isEqualTo("API_REF_UPDATED_AND_CHANGE_REINDEX");
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");
@@ -179,9 +180,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.allProjects).isEqualTo(AllProjectsNameProvider.DEFAULT);
     assertThat(i.gerrit.allUsers).isEqualTo(AllUsersNameProvider.DEFAULT);
     assertThat(i.gerrit.reportBugUrl).isNull();
-
-    // index
-    assertThat(i.index.change.indexMergeable).isNull(); // false in all tests
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();
@@ -204,16 +202,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "change.api.excludeMergeableInChangeInfo", value = "true")
-  public void serverConfigWithExcludeMergeableInChangeInfo() throws Exception {
+  @GerritConfig(name = "change.mergeabilityComputationBehavior", value = "NEVER")
+  public void mergeabilityComputationBehavior_neverCompute() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
-    assertThat(i.change.excludeMergeableInChangeInfo).isTrue();
-  }
-
-  @Test
-  @GerritConfig(name = "index.change.indexMergeable", value = "true")
-  public void indexMergeableIsTrueWhenTrueInConfig() throws Exception {
-    ServerInfo i = gApi.config().server().getInfo();
-    assertThat(i.index.change.indexMergeable).isTrue();
+    assertThat(i.change.mergeabilityComputationBehavior).isEqualTo("NEVER");
   }
 }

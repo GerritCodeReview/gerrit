@@ -1205,7 +1205,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "index.change.indexMergeable", value = "true")
+  @GerritConfig(
+      name = "change.mergeabilityComputationBehavior",
+      value = "API_REF_UPDATED_AND_CHANGE_REINDEX")
   public void submitSchedulesOpenChangesOfSameBranchForReindexing() throws Throwable {
     // Create a merged change.
     PushOneCommit push =

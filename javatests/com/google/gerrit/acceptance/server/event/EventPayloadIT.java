@@ -32,32 +32,26 @@ public class EventPayloadIT extends AbstractDaemonTest {
   @Test
   public void defaultOptions() throws Exception {
     RevisionCreatedListener listener =
-        new RevisionCreatedListener() {
-          @Override
-          public void onRevisionCreated(Event event) {
-            assertThat(event.getChange().submittable).isNotNull();
-            assertThat(event.getRevision().files).isNotEmpty();
-          }
+        event -> {
+          assertThat(event.getChange().submittable).isNotNull();
+          assertThat(event.getRevision().files).isNotEmpty();
         };
-    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+    try (Registration ignored = extensionRegistry.newRegistration().add(listener)) {
       createChange();
     }
   }
 
   @Test
-  @GerritConfig(name = "event.payload.listChangeOptions", value = "SKIP_MERGEABLE")
+  @GerritConfig(name = "event.payload.listChangeOptions", value = "SKIP_DIFFSTAT")
   public void configuredOptions() throws Exception {
     RevisionCreatedListener listener =
-        new RevisionCreatedListener() {
-          @Override
-          public void onRevisionCreated(Event event) {
-            assertThat(event.getChange().submittable).isNull();
-            assertThat(event.getChange().mergeable).isNull();
-            assertThat(event.getRevision().files).isNull();
-            assertThat(event.getChange().subject).isNotEmpty();
-          }
+        event -> {
+          assertThat(event.getChange().submittable).isNull();
+          assertThat(event.getChange().insertions).isNull();
+          assertThat(event.getRevision().files).isNull();
+          assertThat(event.getChange().subject).isNotEmpty();
         };
-    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+    try (Registration ignored = extensionRegistry.newRegistration().add(listener)) {
       createChange();
     }
   }

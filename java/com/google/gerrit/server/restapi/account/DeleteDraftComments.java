@@ -27,7 +27,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
-import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -190,9 +189,7 @@ public class DeleteDraftComments
       if (dirty) {
         result = new DeletedDraftCommentInfo();
         result.change =
-            changeJsonFactory
-                .create(ListChangesOption.SKIP_MERGEABLE)
-                .format(changeDataFactory.create(ctx.getNotes()));
+            changeJsonFactory.noOptions().format(changeDataFactory.create(ctx.getNotes()));
         result.deleted = comments.build();
       }
       return dirty;

@@ -306,26 +306,6 @@ default. Optional fields are:
     from the change owner, i.e. this change would show up in the results of
     link:user-search.html#reviewedby[reviewedby:self].
 --
-
-[[skip_mergeable]]
---
-* `SKIP_MERGEABLE`: skip the `mergeable` field in
-link:#change-info[ChangeInfo]. For fast moving projects, this field must
-be recomputed often, which is slow for projects with big trees.
-+
-When link:config-gerrit.html#change.api.excludeMergeableInChangeInfo[
-`change.api.excludeMergeableInChangeInfo`] is set in the `gerrit.config`,
-the `mergeable` field will always be omitted and `SKIP_MERGEABLE` has no
-effect.
-+
-When link:config-gerrit.html#index.change.indexMergeable[
-`index.change.indexMergeable`] is set to `false` in the `gerrit.config`,
-the `mergeable` field will always be omitted when querying changes and
-`SKIP_MERGEABLE` has no effect.
-+
-A change's mergeability can be requested separately by calling the
-link:#get-mergeable[get-mergeable] endpoint.
---
 [[skip_diffstat]]
 --
 * `SKIP_DIFFSTAT`: skip the 'insertions' and 'deletions' field in link:#change-info[ChangeInfo].
@@ -5964,10 +5944,9 @@ The link:config-project-config.html#submit-type[submit type] of the change. +
 Not set for merged changes.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
-Not set for merged changes, if the change has not yet been tested, or
-if the link:#skip_mergeable[skip_mergeable] option is set or when
-link:config-gerrit.html#change.api.excludeMergeableInChangeInfo[change.api.excludeMergeableInChangeInfo]
-is set.
+Only set for open changes if
+link:config-gerrit.html#change.mergeabilityComputationBehavior[change.mergeabilityComputationBehavior]
+is `API_REF_UPDATED_AND_CHANGE_REINDEX`.
 |`submittable`        |optional|
 Whether the change has been approved by the project submit rules. +
 Only set if link:#submittable[requested].

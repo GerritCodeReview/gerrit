@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e364e13e_80ab8f40",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-20T18:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcc5a5e0_c91ce53c",
+      "range": {
+        "startLine": 233,
+        "startChar": 20,
+        "endLine": 233,
+        "endChar": 29
+      },
+      "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8225cc28_28133ba3",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 21
@@ -45,6 +69,30 @@
       "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66094824_d47e6bc6",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-20T18:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8225cc28_28133ba3",
+      "range": {
+        "startLine": 237,
+        "startChar": 20,
+        "endLine": 237,
+        "endChar": 30
+      },
+      "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8ff576ec_200cef7c",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-20T18:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "674f7f62_7278a913",
+      "range": {
+        "startLine": 240,
+        "startChar": 19,
+        "endLine": 240,
+        "endChar": 22
+      },
+      "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98b91c5d_fe476a86",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 21
@@ -91,6 +163,30 @@
       "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ea6060b_150b57d7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-20T18:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98b91c5d_fe476a86",
+      "range": {
+        "startLine": 1272,
+        "startChar": 31,
+        "endLine": 1272,
+        "endChar": 43
+      },
+      "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "4533ea1f_3f157cd2",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-20T18:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb4c3647_3466ea88",
+      "range": {
+        "startLine": 1277,
+        "startChar": 12,
+        "endLine": 1277,
+        "endChar": 62
+      },
+      "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6581ca9_810097ca",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 21
@@ -137,6 +257,30 @@
       "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "922959b3_55961981",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-20T18:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6581ca9_810097ca",
+      "range": {
+        "startLine": 1285,
+        "startChar": 96,
+        "endLine": 1285,
+        "endChar": 99
+      },
+      "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "5447b1f3_495af11e",
+        "filename": "java/com/google/gerrit/server/query/change/CherryPickOfChangePredicate.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-20T18:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "131a37cb_486aa86d",
+      "range": {
+        "startLine": 29,
+        "startChar": 51,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3073f75e_37f16940",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
         "patchSetId": 21
@@ -177,6 +345,24 @@
       "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19197fb5_abd81f02",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-20T18:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3073f75e_37f16940",
+      "revId": "045817af19b9d4e6b4f240cb2edba0fe7893180f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1457,6 +1457,10 @@ response body.
 
 Reverts a change.
 
+The subject of the newly created change will be
+'Revert "<subject-of-reverted-change>"'. If the subject of the change reverted is
+above 63 characters, it will be cut down to 59 characters with "..." in the end.
+
 The request body does not need to include a link:#revert-input[
 RevertInput] entity if no review comment is added.
 
@@ -1515,7 +1519,9 @@ the error message is contained in the response body.
 
 Creates open revert changes for all of the changes of a certain submission.
 
-The subject of each revert change will be "Revert <subject-of-reverted-change".
+The subject of each revert change will be 'Revert "<subject-of-reverted-change"'.
+If the subject is above 63 characters, the subject will be cut to 59 characters
+with "..." in the end.
 
 Details for the revert can be specified in the request body inside a link:#revert-input[
 RevertInput] The topic of all created revert changes will be

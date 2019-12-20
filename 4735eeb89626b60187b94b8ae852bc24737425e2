@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c383105d_65bb131c",
+        "filename": "java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-20T12:11:47Z",
+      "side": 1,
+      "message": "This is unnecessary because the RevCommit has that information encapsulated. (RevCommit inherits from ObjectId)",
+      "revId": "4735eeb89626b60187b94b8ae852bc24737425e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "700a6834_5938d24c",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-20T12:11:47Z",
+      "side": 1,
+      "message": "GerritServerConfig is always non-null. I\u0027d be a bug if it was null",
+      "range": {
+        "startLine": 113,
+        "startChar": 28,
+        "endLine": 113,
+        "endChar": 37
+      },
+      "revId": "4735eeb89626b60187b94b8ae852bc24737425e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7daa32a4_b91a185f",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-20T12:11:47Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 271,
+        "startChar": 8,
+        "endLine": 271,
+        "endChar": 18
+      },
+      "revId": "4735eeb89626b60187b94b8ae852bc24737425e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d59e20_6db8bda9",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-20T12:11:47Z",
+      "side": 1,
+      "message": "nit: unnecessary because the member is in the same class\n\nsuper-nit: For configs I find it easier to inline the number. I frequently search for configs using \"\"maxFiles\"\". In lining the number means you see the default in search results. There is an argument to be made about magic numbers in code, but for this occurence, I think the number does not become less magic when stored in a static variable.",
+      "range": {
+        "startLine": 404,
+        "startChar": 46,
+        "endLine": 404,
+        "endChar": 64
+      },
+      "revId": "4735eeb89626b60187b94b8ae852bc24737425e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "989b92b6_22e9b39c",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-20T12:11:47Z",
+      "side": 1,
+      "message": "I thought this was a user-preference, but my quick check of the code revealed it\u0027s not and PatchListCache always uses IGNORE_WHITESPACE. Would be nice if you would spend a short cycle double-checking this :-)",
+      "range": {
+        "startLine": 413,
+        "startChar": 72,
+        "endLine": 413,
+        "endChar": 94
+      },
+      "revId": "4735eeb89626b60187b94b8ae852bc24737425e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

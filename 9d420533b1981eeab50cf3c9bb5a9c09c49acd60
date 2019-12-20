@@ -22,6 +22,30 @@
       "revId": "9d420533b1981eeab50cf3c9bb5a9c09c49acd60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d60cdac5_30ac8b1b",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRelated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-20T13:01:22Z",
+      "side": 1,
+      "message": "Thanks, LGTM. Done.",
+      "parentUuid": "1269ca6c_3688b93b",
+      "range": {
+        "startLine": 143,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 23
+      },
+      "revId": "9d420533b1981eeab50cf3c9bb5a9c09c49acd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

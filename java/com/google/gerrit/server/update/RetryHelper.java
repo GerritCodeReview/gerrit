@@ -481,9 +481,9 @@ public class RetryHelper {
                   if (!traceContext.isTracing()) {
                     String traceId = "retry-on-failure-" + new RequestId();
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
-                    opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
                     logger.atFine().withCause(t).log(
                         "AutoRetry: %s failed, retry with tracing enabled", actionName);
+                    opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
                     metrics.autoRetryCount.increment(actionType, actionName, cause);
                     return true;
                   }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "438fb3e3_a2baa9b6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-20T14:00:56Z",
+      "side": 1,
+      "message": "needs to be updated now",
+      "range": {
+        "startLine": 1462,
+        "startChar": 6,
+        "endLine": 1462,
+        "endChar": 8
+      },
+      "revId": "1f36fcaa32b6ca8bd512658fa61d46e5ce1be99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72668c7d_0ec4f234",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-20T14:00:56Z",
+      "side": 1,
+      "message": "While you are here, can you fix this too and add the quotes?",
+      "range": {
+        "startLine": 1522,
+        "startChar": 43,
+        "endLine": 1522,
+        "endChar": 77
+      },
+      "revId": "1f36fcaa32b6ca8bd512658fa61d46e5ce1be99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38d487c3_592076c5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1523,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-20T14:00:56Z",
+      "side": 1,
+      "message": "needs to be updated now",
+      "range": {
+        "startLine": 1523,
+        "startChar": 24,
+        "endLine": 1523,
+        "endChar": 26
+      },
+      "revId": "1f36fcaa32b6ca8bd512658fa61d46e5ce1be99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

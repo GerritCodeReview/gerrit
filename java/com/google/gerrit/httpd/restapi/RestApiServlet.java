@@ -1662,43 +1662,47 @@ public class RestApiServlet extends HttpServlet {
   private long handleException(
       TraceContext traceContext, Throwable err, HttpServletRequest req, HttpServletResponse res)
       throws IOException {
-    logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
-    if (!res.isCommitted()) {
-      res.reset();
-      traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
-      ImmutableList<String> userMessages =
-          globals.exceptionHooks.stream()
-              .map(h -> h.getUserMessage(err))
-              .filter(Optional::isPresent)
-              .map(Optional::get)
-              .collect(toImmutableList());
+    if (res.isCommitted()) {
+      logger.atSevere().withCause(err).log(
+          "Error in %s %s, response already committed", req.getMethod(), uriForLogging(req));
+      return 0;
+    }
 
-      Optional<Integer> statusCode =
-          globals.exceptionHooks.stream()
-              .map(h -> h.getStatusCode(err))
-              .filter(Optional::isPresent)
-              .map(Optional::get)
-              .findFirst();
-      if (statusCode.isPresent() && statusCode.get() < 400) {
-        StringBuilder msg = new StringBuilder();
-        if (userMessages.size() == 1) {
-          msg.append(userMessages.get(0));
-        } else {
-          userMessages.forEach(m -> msg.append("\n* ").append(m));
-        }
+    res.reset();
+    traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
+    ImmutableList<String> userMessages =
+        globals.exceptionHooks.stream()
+            .map(h -> h.getUserMessage(err))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(toImmutableList());
 
-        res.setStatus(statusCode.get());
-        logger.atFinest().withCause(err).log("REST call finished: %d", statusCode.get().intValue());
-        return replyText(req, res, true, msg.toString());
-      }
-
-      StringBuilder msg = new StringBuilder("Internal server error");
-      if (!userMessages.isEmpty()) {
+    Optional<Integer> statusCode =
+        globals.exceptionHooks.stream()
+            .map(h -> h.getStatusCode(err))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst();
+    if (statusCode.isPresent() && statusCode.get() < 400) {
+      StringBuilder msg = new StringBuilder();
+      if (userMessages.size() == 1) {
+        msg.append(userMessages.get(0));
+      } else {
         userMessages.forEach(m -> msg.append("\n* ").append(m));
       }
-      return replyError(req, res, statusCode.orElse(SC_INTERNAL_SERVER_ERROR), msg.toString(), err);
+
+      res.setStatus(statusCode.get());
+      logger.atFinest().withCause(err).log("REST call finished: %d", statusCode.get().intValue());
+      return replyText(req, res, true, msg.toString());
     }
-    return 0;
+
+    logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
+
+    StringBuilder msg = new StringBuilder("Internal server error");
+    if (!userMessages.isEmpty()) {
+      userMessages.forEach(m -> msg.append("\n* ").append(m));
+    }
+    return replyError(req, res, statusCode.orElse(SC_INTERNAL_SERVER_ERROR), msg.toString(), err);
   }
 
   private static String uriForLogging(HttpServletRequest req) {

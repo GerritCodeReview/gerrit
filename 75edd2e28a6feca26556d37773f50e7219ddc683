@@ -16,6 +16,24 @@
       "revId": "75edd2e28a6feca26556d37773f50e7219ddc683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4700aedf_ea146a1a",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-12-20T16:19:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceace89d_9ecb3ef5",
+      "revId": "75edd2e28a6feca26556d37773f50e7219ddc683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

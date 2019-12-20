@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -51,6 +52,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class GetRelated implements RestReadView<RevisionResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
   private final RelatedChangesSorter sorter;
@@ -80,6 +83,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
       throws IOException, PermissionBackendException {
     Set<String> groups = getAllGroups(rsrc.getNotes(), psUtil);
+    logger.atFine().log("groups = %s", groups);
     if (groups.isEmpty()) {
       return Collections.emptyList();
     }
@@ -97,6 +101,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     boolean isEdit = rsrc.getEdit().isPresent();
     PatchSet basePs = isEdit ? rsrc.getEdit().get().getBasePatchSet() : rsrc.getPatchSet();
+    logger.atFine().log("isEdit = %s, basePs = %s", isEdit, basePs);
 
     reloadChangeIfStale(cds, basePs);
 
@@ -107,6 +112,9 @@ public class GetRelated implements RestReadView<RevisionResource> {
         // Replace base of an edit with the edit itself.
         ps = rsrc.getPatchSet();
         commit = rsrc.getEdit().get().getEditCommit();
+        logger.atFine().log(
+            "Replaced base of edit (patch set %s, commit %s) with edit (patch set %s, commit %s)",
+            d.patchSet().id(), d.commit(), ps.id(), commit);
       } else {
         commit = d.commit();
       }

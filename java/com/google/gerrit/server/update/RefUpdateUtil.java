@@ -119,6 +119,7 @@ public class RefUpdateUtil {
   public static void deleteChecked(Repository repo, String refName) throws IOException {
     RefUpdate ru = repo.updateRef(refName);
     ru.setForceUpdate(true);
+    ru.setCheckConflicting(false);
     switch (ru.delete()) {
       case FORCED:
         // Ref was deleted.

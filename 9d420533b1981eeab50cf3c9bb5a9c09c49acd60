@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1269ca6c_3688b93b",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRelated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-20T12:31:26Z",
+      "side": 1,
+      "message": "This took me a while to understand because of the early return. How about we do:\n\n// Reload the change in case the PS is absent\nchangeDatas.stream().filter(cd.getId().equals(...) \u0026\u0026 cd.ps(...) \u003d\u003d null).forEach(ChangeData::reloadChange)\n\nif (changeDatas.stream().filter(cd.getId().equals(wantedPs.id().changeId())).isEmpty()) {\n     // The change of the wanted patch set is missing in the result from the index.\n    // Load it from NoteDb and add it to the result.\n    changeDatas.add(changeDataFactory.create(wantedChange));\n}\nreturn changeDatas;\n\nOr something else that makes this easier to read :-)",
+      "range": {
+        "startLine": 143,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 23
+      },
+      "revId": "9d420533b1981eeab50cf3c9bb5a9c09c49acd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

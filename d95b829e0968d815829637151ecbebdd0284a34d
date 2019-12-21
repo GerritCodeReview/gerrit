@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9378484e_e2db13b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-21T22:04:57Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 9,
+        "startChar": 71,
+        "endLine": 9,
+        "endChar": 77
+      },
+      "revId": "d95b829e0968d815829637151ecbebdd0284a34d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d57bbbc6_a2810dee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-21T22:04:57Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 10,
+        "startChar": 70,
+        "endLine": 10,
+        "endChar": 78
+      },
+      "revId": "d95b829e0968d815829637151ecbebdd0284a34d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d81e99d9_d4b0f28a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-21T22:04:57Z",
+      "side": 1,
+      "message": "nit: space at EOL",
+      "range": {
+        "startLine": 591,
+        "startChar": 70,
+        "endLine": 591,
+        "endChar": 71
+      },
+      "revId": "d95b829e0968d815829637151ecbebdd0284a34d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4536baf3_1a0e5136",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-21T22:04:57Z",
+      "side": 1,
+      "message": "If the configuration value isn\u0027t valid, should we start Gerrit? Possibly not?",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 56
+      },
+      "revId": "d95b829e0968d815829637151ecbebdd0284a34d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3b6c0de_c477e49a",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-21T22:04:57Z",
+      "side": 1,
+      "message": "This isn\u0027t secure: you can\u0027t take a pseudo-random generated number and just truncate it, it could not have the necessary entropy. Why not changing the rng and byte size instead?",
+      "range": {
+        "startLine": 159,
+        "startChar": 23,
+        "endLine": 159,
+        "endChar": 73
+      },
+      "revId": "d95b829e0968d815829637151ecbebdd0284a34d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

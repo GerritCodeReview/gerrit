@@ -556,10 +556,16 @@ public class ChangeInserter implements InsertChangeOp {
             reviewerInputs.stream(),
             Streams.stream(
                 newAddReviewerInputFromCommitIdentity(
-                    change, patchSetInfo.getAuthor().getAccount(), NotifyHandling.NONE)),
+                    change,
+                    patchSetInfo.getCommitId(),
+                    patchSetInfo.getAuthor().getAccount(),
+                    NotifyHandling.NONE)),
             Streams.stream(
                 newAddReviewerInputFromCommitIdentity(
-                    change, patchSetInfo.getCommitter().getAccount(), NotifyHandling.NONE)))
+                    change,
+                    patchSetInfo.getCommitId(),
+                    patchSetInfo.getCommitter().getAccount(),
+                    NotifyHandling.NONE)))
         .collect(toImmutableList());
   }
 }

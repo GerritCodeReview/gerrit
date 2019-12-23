@@ -45,7 +45,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
-import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.WalkSorter;
@@ -75,7 +74,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -352,17 +350,37 @@ public class RevertSubmission
 
   private String getMessage(String initialMessage, ChangeNotes changeNotes) {
     String subject = changeNotes.getChange().getSubject();
-    if (subject.length() > 63) {
-      subject = subject.substring(0, 59) + "...";
+    if (subject.length() > 60) {
+      subject = subject.substring(0, 56) + "...";
     }
     if (initialMessage == null) {
-      return MessageFormat.format(
-          ChangeMessages.get().revertChangeDefaultMessage,
-          subject,
-          changeNotes.getCurrentPatchSet().commitId().name());
+      initialMessage =
+          String.format(
+              "This reverts commit %s.", changeNotes.getCurrentPatchSet().commitId().name());
+    }
+
+    if (subject.matches("Revert\\^\\d+ .+")) {
+      String revertNumber = subject.replaceAll("Revert\\^(\\d+).+", "$1");
+      return String.format(
+          "Revert^%d \"%s\"\n\n%s",
+          Integer.valueOf(revertNumber) + 1, trimRevertSubject(subject), initialMessage);
+    }
+
+    if (subject.startsWith("Revert \"")) {
+      return String.format("Revert^2 \"%s\"\n\n%s", trimRevertSubject(subject), initialMessage);
     }
 
     return String.format("Revert \"%s\"\n\n%s", subject, initialMessage);
+  }
+
+  private String trimRevertSubject(String subject) {
+    if (subject.startsWith("Revert")) {
+      subject = subject.replaceFirst("Revert\\^?\\d* ?\"?", "");
+      if (subject.endsWith("\"")) {
+        subject = subject.substring(0, subject.length() - 1);
+      }
+    }
+    return subject;
   }
 
   /**

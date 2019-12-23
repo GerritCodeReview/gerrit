@@ -746,7 +746,7 @@ public class RevertIT extends AbstractDaemonTest {
   @Test
   public void revertSubmissionRevertsChangeWithLongSubject() throws Exception {
     String changeTitle =
-        "This change has a very long title and therefore it will be cut to 50 characters when the"
+        "This change has a very long title and therefore it will be cut to 56 characters when the"
             + " revert change will revert this change";
     String result = createChange(changeTitle, "a.txt", "message").getChangeId();
     gApi.changes().id(result).current().review(ReviewInput.approve());
@@ -755,12 +755,12 @@ public class RevertIT extends AbstractDaemonTest {
     ChangeInfo revertChange =
         gApi.changes().id(result).revertSubmission(revertInput).revertChanges.get(0);
     assertThat(revertChange.subject)
-        .isEqualTo(String.format("Revert \"%s...\"", changeTitle.substring(0, 59)));
+        .isEqualTo(String.format("Revert \"%s...\"", changeTitle.substring(0, 56)));
     assertThat(gApi.changes().id(revertChange.id).current().commit(false).message)
         .isEqualTo(
             String.format(
                 "Revert \"%s...\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
-                changeTitle.substring(0, 59),
+                changeTitle.substring(0, 56),
                 gApi.changes().id(result).get().currentRevision,
                 revertChange.changeId));
   }
@@ -1116,6 +1116,56 @@ public class RevertIT extends AbstractDaemonTest {
 
     assertThat(revertChanges).hasSize(3);
     assertThat(gApi.changes().id(revertChanges.get(1).id()).current().related().changes).hasSize(3);
+  }
+
+  @Test
+  public void revertSubmissionSubjects() throws Exception {
+    String firstResult = createChange("first change", "a.txt", "message").getChangeId();
+    String secondResult = createChange("second change", "b.txt", "other").getChangeId();
+    approve(firstResult);
+    approve(secondResult);
+    gApi.changes().id(secondResult).current().submit();
+
+    List<ChangeApi> firstRevertChanges =
+        getChangeApis(gApi.changes().id(firstResult).revertSubmission());
+    assertThat(firstRevertChanges.get(0).get().subject).isEqualTo("Revert \"first change\"");
+    assertThat(firstRevertChanges.get(1).get().subject).isEqualTo("Revert \"second change\"");
+    approve(firstRevertChanges.get(0).id());
+    approve(firstRevertChanges.get(1).id());
+    gApi.changes().id(firstRevertChanges.get(0).id()).current().submit();
+
+    List<ChangeApi> secondRevertChanges =
+        getChangeApis(gApi.changes().id(firstRevertChanges.get(0).id()).revertSubmission());
+    assertThat(secondRevertChanges.get(0).get().subject).isEqualTo("Revert^2 \"second change\"");
+    assertThat(secondRevertChanges.get(1).get().subject).isEqualTo("Revert^2 \"first change\"");
+    approve(secondRevertChanges.get(0).id());
+    approve(secondRevertChanges.get(1).id());
+    gApi.changes().id(secondRevertChanges.get(0).id()).current().submit();
+
+    List<ChangeApi> thirdRevertChanges =
+        getChangeApis(gApi.changes().id(secondRevertChanges.get(0).id()).revertSubmission());
+    assertThat(thirdRevertChanges.get(0).get().subject).isEqualTo("Revert^3 \"first change\"");
+    assertThat(thirdRevertChanges.get(1).get().subject).isEqualTo("Revert^3 \"second change\"");
+  }
+
+  @Test
+  public void revertSubmissionWithUserChangedSubjects() throws Exception {
+    String firstResult = createChange("Revert^aa", "a.txt", "message").getChangeId();
+    String secondResult = createChange("Revert", "b.txt", "other").getChangeId();
+    String thirdResult = createChange("Revert^934 \"change x\"", "c.txt", "another").getChangeId();
+    String fourthResult = createChange("Revert^934", "d.txt", "last").getChangeId();
+    approve(firstResult);
+    approve(secondResult);
+    approve(thirdResult);
+    approve(fourthResult);
+    gApi.changes().id(fourthResult).current().submit();
+
+    List<ChangeApi> firstRevertChanges =
+        getChangeApis(gApi.changes().id(firstResult).revertSubmission());
+    assertThat(firstRevertChanges.get(0).get().subject).isEqualTo("Revert \"Revert^aa\"");
+    assertThat(firstRevertChanges.get(1).get().subject).isEqualTo("Revert \"Revert\"");
+    assertThat(firstRevertChanges.get(2).get().subject).isEqualTo("Revert^935 \"change x\"");
+    assertThat(firstRevertChanges.get(3).get().subject).isEqualTo("Revert \"Revert^934\"");
   }
 
   @Override

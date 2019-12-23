@@ -43,6 +43,6 @@ public class DeleteDashboard implements RestModifyView<DashboardResource, SetDas
     }
 
     // TODO: Implement delete of dashboards by API.
-    throw new MethodNotAllowedException();
+    throw new MethodNotAllowedException("cannot delete non-default dashboard");
   }
 }

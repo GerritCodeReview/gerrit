@@ -40,7 +40,7 @@ public class SetDashboard implements RestModifyView<DashboardResource, SetDashbo
       return defaultSetter.get().apply(resource, input);
     }
 
-    // TODO: Implement creation/update of dashboards by API.
-    throw new MethodNotAllowedException();
+    // TODO: Implement update of dashboards by API.
+    throw new MethodNotAllowedException("cannot update non-default dashboard");
   }
 }

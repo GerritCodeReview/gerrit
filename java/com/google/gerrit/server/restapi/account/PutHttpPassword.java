@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -49,7 +50,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PutHttpPassword implements RestModifyView<AccountResource, HttpPasswordInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final int LEN = 31;
   private static final SecureRandom rng;
 
   static {
@@ -65,6 +65,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   private final ExternalIds externalIds;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final HttpPasswordUpdateSender.Factory httpPasswordUpdateSenderFactory;
+  private final AuthConfig authConfig;
 
   @Inject
   PutHttpPassword(
@@ -72,12 +73,14 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
       PermissionBackend permissionBackend,
       ExternalIds externalIds,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      HttpPasswordUpdateSender.Factory httpPasswordUpdateSenderFactory) {
+      HttpPasswordUpdateSender.Factory httpPasswordUpdateSenderFactory,
+      AuthConfig authConfig) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.httpPasswordUpdateSenderFactory = httpPasswordUpdateSenderFactory;
+    this.authConfig = authConfig;
   }
 
   @Override
@@ -138,18 +141,10 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
-  public static String generate() {
-    byte[] rand = new byte[LEN];
+  public String generate() {
+    byte[] rand = new byte[authConfig.getHttpPasswordLength()];
     rng.nextBytes(rand);
-
-    byte[] enc = Base64.encodeBase64(rand, false);
-    StringBuilder r = new StringBuilder(enc.length);
-    for (int i = 0; i < enc.length; i++) {
-      if (enc[i] == '=') {
-        break;
-      }
-      r.append((char) enc[i]);
-    }
-    return r.toString();
+    String enc Base64.encodeBase64URLSafeString(rand);
+    return enc.substring(0, authConfig.getHttpPasswordLength());
   }
 }

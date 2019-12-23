@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import java.util.Optional;
 
@@ -96,16 +97,16 @@ public interface ExceptionHook {
   }
 
   /**
-   * Returns a message that should be returned to the user.
+   * Returns messages that should be returned to the user.
    *
-   * <p>This message is included into the HTTP response that is sent to the user.
+   * <p>These messages are included into the HTTP response that is sent to the user.
    *
    * @param throwable throwable that was thrown while executing an operation
-   * @return error message that should be returned to the user, {@link Optional#empty()} if no
+   * @return error messages that should be returned to the user, {@link Optional#empty()} if no
    *     message should be returned to the user
    */
-  default Optional<String> getUserMessage(Throwable throwable) {
-    return Optional.empty();
+  default ImmutableList<String> getUserMessages(Throwable throwable) {
+    return ImmutableList.of();
   }
 
   /**
@@ -114,7 +115,7 @@ public interface ExceptionHook {
    * <p>If no value is returned ({@link Optional#empty()}) the HTTP status code defaults to {@code
    * 500 Internal Server Error}.
    *
-   * <p>{@link #getUserMessage(Throwable)} allows to define which additional messages should be
+   * <p>{@link #getUserMessages(Throwable)} allows to define which additional messages should be
    * included into the body of the HTTP response.
    *
    * <p>Implementors may use this method to change the status for certain exceptions (e.g. using

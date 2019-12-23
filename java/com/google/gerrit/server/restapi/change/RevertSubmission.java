@@ -85,6 +85,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -352,14 +354,34 @@ public class RevertSubmission
 
   private String getMessage(String initialMessage, ChangeNotes changeNotes) {
     String subject = changeNotes.getChange().getSubject();
-    if (subject.length() > 63) {
-      subject = subject.substring(0, 59) + "...";
+    if (subject.length() > 60) {
+      subject = subject.substring(0, 56) + "...";
     }
     if (initialMessage == null) {
-      return MessageFormat.format(
-          ChangeMessages.get().revertChangeDefaultMessage,
-          subject,
-          changeNotes.getCurrentPatchSet().commitId().name());
+      initialMessage =
+          MessageFormat.format(
+              ChangeMessages.get().revertSubmissionDefaultMessage,
+              changeNotes.getCurrentPatchSet().commitId().name());
+    }
+
+    // For performance purposes: Almost all cases will end here.
+    if (!subject.startsWith("Revert")) {
+      return String.format("Revert \"%s\"\n\n%s", subject, initialMessage);
+    }
+
+    Pattern pattern = Pattern.compile("Revert\\^(\\d+) \"(.+)\"");
+    Matcher matcher = pattern.matcher(subject);
+
+    if (matcher.matches()) {
+      return String.format(
+          "Revert^%d \"%s\"\n\n%s",
+          Integer.valueOf(matcher.group(1)) + 1, matcher.group(2), initialMessage);
+    }
+
+    pattern = Pattern.compile("Revert \"(.+)\"");
+    matcher = pattern.matcher(subject);
+    if (matcher.matches()) {
+      return String.format("Revert^2 \"%s\"\n\n%s", matcher.group(1), initialMessage);
     }
 
     return String.format("Revert \"%s\"\n\n%s", subject, initialMessage);

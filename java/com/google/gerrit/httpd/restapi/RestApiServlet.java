@@ -316,7 +316,7 @@ public class RestApiServlet extends HttpServlet {
     long auditStartTs = TimeUtil.nowMs();
     res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
-    int status = SC_OK;
+    int statusCode = SC_OK;
     long responseBytes = -1;
     Optional<Exception> cause = Optional.empty();
     Response<?> response = null;
@@ -585,10 +585,10 @@ public class RestApiServlet extends HttpServlet {
             return;
           }
 
-          status = response.statusCode();
+          statusCode = response.statusCode();
           configureCaching(req, res, traceContext, rsrc, viewData, response.caching());
-          res.setStatus(status);
-          logger.atFinest().log("REST call succeeded: %d", status);
+          res.setStatus(statusCode);
+          logger.atFinest().log("REST call succeeded: %d", statusCode);
         }
 
         if (response != Response.none()) {
@@ -603,44 +603,48 @@ public class RestApiServlet extends HttpServlet {
         cause = Optional.of(e);
         responseBytes =
             replyError(
-                req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
+                req, res, statusCode = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
       } catch (BadRequestException e) {
         cause = Optional.of(e);
         responseBytes =
             replyError(
-                req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
+                req, res, statusCode = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
       } catch (AuthException e) {
         cause = Optional.of(e);
         responseBytes =
-            replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
+            replyError(
+                req, res, statusCode = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
       } catch (AmbiguousViewException e) {
         cause = Optional.of(e);
-        responseBytes = replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
+        responseBytes =
+            replyError(req, res, statusCode = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
       } catch (ResourceNotFoundException e) {
         cause = Optional.of(e);
         responseBytes =
-            replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
+            replyError(
+                req, res, statusCode = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
       } catch (MethodNotAllowedException e) {
         cause = Optional.of(e);
         responseBytes =
             replyError(
                 req,
                 res,
-                status = SC_METHOD_NOT_ALLOWED,
+                statusCode = SC_METHOD_NOT_ALLOWED,
                 messageOr(e, "Method Not Allowed"),
                 e.caching(),
                 e);
       } catch (ResourceConflictException e) {
         cause = Optional.of(e);
         responseBytes =
-            replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
+            replyError(
+                req, res, statusCode = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
       } catch (PreconditionFailedException e) {
         cause = Optional.of(e);
         responseBytes =
             replyError(
                 req,
                 res,
-                status = SC_PRECONDITION_FAILED,
+                statusCode = SC_PRECONDITION_FAILED,
                 messageOr(e, "Precondition Failed"),
                 e.caching(),
                 e);
@@ -650,7 +654,7 @@ public class RestApiServlet extends HttpServlet {
             replyError(
                 req,
                 res,
-                status = SC_UNPROCESSABLE_ENTITY,
+                statusCode = SC_UNPROCESSABLE_ENTITY,
                 messageOr(e, "Unprocessable Entity"),
                 e.caching(),
                 e);
@@ -658,27 +662,43 @@ public class RestApiServlet extends HttpServlet {
         cause = Optional.of(e);
         logger.atSevere().withCause(e).log("Error in %s %s", req.getMethod(), uriForLogging(req));
         responseBytes =
-            replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
+            replyError(
+                req, res, statusCode = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
       } catch (QuotaException e) {
         cause = Optional.of(e);
         responseBytes =
             replyError(
                 req,
                 res,
-                status = SC_TOO_MANY_REQUESTS,
+                statusCode = SC_TOO_MANY_REQUESTS,
                 messageOr(e, "Quota limit reached"),
                 e.caching(),
                 e);
       } catch (Exception e) {
         cause = Optional.of(e);
-        status = SC_INTERNAL_SERVER_ERROR;
-        responseBytes = handleException(traceContext, e, req, res);
+        statusCode = SC_INTERNAL_SERVER_ERROR;
+
+        if (res.isCommitted()) {
+          logger.atSevere().withCause(e).log(
+              "Error in %s %s, response already committed", req.getMethod(), uriForLogging(req));
+          responseBytes = 0;
+        } else {
+          res.reset();
+          traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
+
+          Optional<ExceptionHook.Status> status = getStatus(e);
+          if (status.isPresent()) {
+            statusCode = status.get().statusCode();
+            responseBytes = reply(req, res, e, status.get(), getUserMessages(traceContext, e));
+          }
+          responseBytes = replyInternalServerError(req, res, e, getUserMessages(traceContext, e));
+        }
       } finally {
         String metric = getViewName(viewData);
         String formattedCause = cause.map(globals.retryHelper::formatCause).orElse("_none");
         globals.metrics.count.increment(metric);
-        if (status >= SC_BAD_REQUEST) {
-          globals.metrics.errorCount.increment(metric, status, formattedCause);
+        if (statusCode >= SC_BAD_REQUEST) {
+          globals.metrics.errorCount.increment(metric, statusCode, formattedCause);
         }
         if (responseBytes != -1) {
           globals.metrics.responseBytes.record(metric, responseBytes);
@@ -693,7 +713,7 @@ public class RestApiServlet extends HttpServlet {
                 auditStartTs,
                 qp != null ? qp.params() : ImmutableListMultimap.of(),
                 inputRequestBody,
-                status,
+                statusCode,
                 response,
                 rsrc,
                 viewData == null ? null : viewData.view));
@@ -1727,47 +1747,51 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private long handleException(
-      TraceContext traceContext, Throwable err, HttpServletRequest req, HttpServletResponse res)
+  private Optional<ExceptionHook.Status> getStatus(Throwable err) {
+    return globals.exceptionHooks.stream()
+        .map(h -> h.getStatus(err))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .findFirst();
+  }
+
+  private ImmutableList<String> getUserMessages(TraceContext traceContext, Throwable err) {
+    return globals.exceptionHooks.stream()
+        .flatMap(h -> h.getUserMessages(err, traceContext.getTraceId().orElse(null)).stream())
+        .collect(toImmutableList());
+  }
+
+  private static long reply(
+      HttpServletRequest req,
+      HttpServletResponse res,
+      Throwable err,
+      ExceptionHook.Status status,
+      ImmutableList<String> userMessages)
       throws IOException {
-    if (res.isCommitted()) {
-      logger.atSevere().withCause(err).log(
-          "Error in %s %s, response already committed", req.getMethod(), uriForLogging(req));
-      return 0;
+    res.setStatus(status.statusCode());
+
+    StringBuilder msg = new StringBuilder(status.statusMessage());
+    if (!userMessages.isEmpty()) {
+      msg.append("\n");
+      userMessages.forEach(m -> msg.append("\n* ").append(m));
     }
 
-    res.reset();
-    traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
-    ImmutableList<String> userMessages =
-        globals.exceptionHooks.stream()
-            .flatMap(h -> h.getUserMessages(err, traceContext.getTraceId().orElse(null)).stream())
-            .collect(toImmutableList());
-
-    Optional<ExceptionHook.Status> status =
-        globals.exceptionHooks.stream()
-            .map(h -> h.getStatus(err))
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findFirst();
-    if (status.isPresent()) {
-      res.setStatus(status.get().statusCode());
-
-      StringBuilder msg = new StringBuilder(status.get().statusMessage());
-      if (!userMessages.isEmpty()) {
-        msg.append("\n");
-        userMessages.forEach(m -> msg.append("\n* ").append(m));
-      }
-
-      if (status.get().statusCode() < SC_BAD_REQUEST) {
-        logger.atFinest().withCause(err).log("REST call finished: %d", status.get().statusCode());
-        return replyText(req, res, true, msg.toString());
-      }
-      if (status.get().statusCode() >= SC_INTERNAL_SERVER_ERROR) {
-        logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
-      }
-      return replyError(req, res, status.get().statusCode(), msg.toString(), err);
+    if (status.statusCode() < SC_BAD_REQUEST) {
+      logger.atFinest().withCause(err).log("REST call finished: %d", status.statusCode());
+      return replyText(req, res, true, msg.toString());
     }
+    if (status.statusCode() >= SC_INTERNAL_SERVER_ERROR) {
+      logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
+    }
+    return replyError(req, res, status.statusCode(), msg.toString(), err);
+  }
 
+  private static long replyInternalServerError(
+      HttpServletRequest req,
+      HttpServletResponse res,
+      Throwable err,
+      ImmutableList<String> userMessages)
+      throws IOException {
     logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
 
     StringBuilder msg = new StringBuilder("Internal server error");

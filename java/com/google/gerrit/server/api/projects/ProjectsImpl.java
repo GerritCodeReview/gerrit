@@ -156,7 +156,7 @@ class ProjectsImpl implements Projects {
           .withStart(r.getStart())
           .apply();
     } catch (StorageException e) {
-      throw new RestApiException("Cannot query projects", e);
+      throw asRestApiException("Cannot query projects", e);
     }
   }
 }

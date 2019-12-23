@@ -116,6 +116,9 @@ limitations under the License.
         cursor: pointer;
         flex: 1;
         text-decoration: none;
+        /* Wrap it into multiple lines if too long. */
+        white-space: normal;
+        word-break: break-word;
       }
       .path:hover :first-child {
         text-decoration: underline;
@@ -197,10 +200,6 @@ limitations under the License.
       .truncatedFileName {
         display: none;
       }
-      .expanded .fullFileName {
-        white-space: normal;
-        word-wrap: break-word;
-      }
       .mobile {
         display: none;
       }
@@ -247,7 +246,9 @@ limitations under the License.
         margin: -2px 0;
         padding: var(--spacing-s) 0;
       }
-      @media screen and (max-width: 50em) {
+
+      /** small screen breakpoint: 768px */
+      @media screen and (max-width: 55em) {
         .desktop {
           display: none;
         }

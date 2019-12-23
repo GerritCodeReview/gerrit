@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.git.LockFailureException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -44,11 +45,11 @@ public class ExceptionHookImpl implements ExceptionHook {
   }
 
   @Override
-  public Optional<String> getUserMessage(Throwable throwable) {
+  public ImmutableList<String> getUserMessages(Throwable throwable) {
     if (isLockFailure(throwable)) {
-      return Optional.of(LOCK_FAILURE_USER_MESSAGE);
+      return ImmutableList.of(LOCK_FAILURE_USER_MESSAGE);
     }
-    return Optional.empty();
+    return ImmutableList.of();
   }
 
   @Override

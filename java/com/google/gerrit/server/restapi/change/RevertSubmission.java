@@ -266,13 +266,14 @@ public class RevertSubmission
           NoSuchProjectException, ConfigInvalidException {
 
     String groupName = null;
+    String initialMessage = revertInput.message;
     while (sortedChangesInProjectAndBranch.hasNext()) {
       ChangeNotes changeNotes = sortedChangesInProjectAndBranch.next().data().notes();
       if (cherryPickInput.base == null) {
         cherryPickInput.base = getBase(changeNotes, commitIdsInProjectAndBranch).name();
       }
 
-      revertInput.message = getMessage(revertInput, changeNotes);
+      revertInput.message = getMessage(initialMessage, changeNotes);
       if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.
@@ -348,19 +349,19 @@ public class RevertSubmission
     return cherryPickInput;
   }
 
-  private String getMessage(RevertInput revertInput, ChangeNotes changeNotes) {
+  private String getMessage(String initialMessage, ChangeNotes changeNotes) {
     String subject = changeNotes.getChange().getSubject();
     if (subject.length() > 63) {
       subject = subject.substring(0, 59) + "...";
     }
-    if (revertInput.message == null) {
+    if (initialMessage == null) {
       return MessageFormat.format(
           ChangeMessages.get().revertChangeDefaultMessage,
           subject,
           changeNotes.getCurrentPatchSet().commitId().name());
     }
 
-    return String.format("Revert \"%s\"\n\n%s", subject, revertInput.message);
+    return String.format("Revert \"%s\"\n\n%s", subject, initialMessage);
   }
 
   /**

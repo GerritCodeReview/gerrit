@@ -693,36 +693,54 @@ public class RevertIT extends AbstractDaemonTest {
 
   @Test
   public void revertSubmissionWithSetMessage() throws Exception {
-    String result = createChange("change", "a.txt", "message").getChangeId();
-    gApi.changes().id(result).current().review(ReviewInput.approve());
-    gApi.changes().id(result).current().submit();
+    String firstResult = createChange("first change", "a.txt", "message").getChangeId();
+    String secondResult = createChange("second change", "b.txt", "message").getChangeId();
+    approve(firstResult);
+    approve(secondResult);
+    gApi.changes().id(secondResult).current().submit();
     RevertInput revertInput = new RevertInput();
     String commitMessage = "Message from input";
     revertInput.message = commitMessage;
-    ChangeInfo revertChange =
-        gApi.changes().id(result).revertSubmission(revertInput).revertChanges.get(0);
-    assertThat(revertChange.subject).isEqualTo("Revert \"change\"");
-    assertThat(gApi.changes().id(revertChange.id).current().commit(false).message)
+    List<ChangeInfo> revertChanges =
+        gApi.changes().id(firstResult).revertSubmission(revertInput).revertChanges;
+    assertThat(revertChanges.get(0).subject).isEqualTo("Revert \"first change\"");
+    assertThat(gApi.changes().id(revertChanges.get(0).id).current().commit(false).message)
         .isEqualTo(
             String.format(
-                "Revert \"change\"\n\n%s\n\nChange-Id: %s\n",
-                commitMessage, revertChange.changeId));
+                "Revert \"first change\"\n\n%s\n\nChange-Id: %s\n",
+                commitMessage, revertChanges.get(0).changeId));
+    assertThat(revertChanges.get(1).subject).isEqualTo("Revert \"second change\"");
+    assertThat(gApi.changes().id(revertChanges.get(1).id).current().commit(false).message)
+        .isEqualTo(
+            String.format(
+                "Revert \"second change\"\n\n%s\n\nChange-Id: %s\n",
+                commitMessage, revertChanges.get(1).changeId));
   }
 
   @Test
   public void revertSubmissionWithoutMessage() throws Exception {
-    String result = createChange("change", "a.txt", "message").getChangeId();
-    gApi.changes().id(result).current().review(ReviewInput.approve());
-    gApi.changes().id(result).current().submit();
+    String firstResult = createChange("first change", "a.txt", "message").getChangeId();
+    String secondResult = createChange("second change", "b.txt", "message").getChangeId();
+    approve(firstResult);
+    approve(secondResult);
+    gApi.changes().id(secondResult).current().submit();
     RevertInput revertInput = new RevertInput();
-    ChangeInfo revertChange =
-        gApi.changes().id(result).revertSubmission(revertInput).revertChanges.get(0);
-    assertThat(revertChange.subject).isEqualTo("Revert \"change\"");
-    assertThat(gApi.changes().id(revertChange.id).current().commit(false).message)
+    List<ChangeInfo> revertChanges =
+        gApi.changes().id(firstResult).revertSubmission(revertInput).revertChanges;
+    assertThat(revertChanges.get(0).subject).isEqualTo("Revert \"first change\"");
+    assertThat(gApi.changes().id(revertChanges.get(0).id).current().commit(false).message)
         .isEqualTo(
             String.format(
-                "Revert \"change\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
-                gApi.changes().id(result).get().currentRevision, revertChange.changeId));
+                "Revert \"first change\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
+                gApi.changes().id(firstResult).get().currentRevision,
+                revertChanges.get(0).changeId));
+    assertThat(revertChanges.get(1).subject).isEqualTo("Revert \"second change\"");
+    assertThat(gApi.changes().id(revertChanges.get(1).id).current().commit(false).message)
+        .isEqualTo(
+            String.format(
+                "Revert \"second change\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
+                gApi.changes().id(secondResult).get().currentRevision,
+                revertChanges.get(1).changeId));
   }
 
   @Test

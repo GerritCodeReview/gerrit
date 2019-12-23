@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -33,6 +34,7 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 
 public class MailUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static MailRecipients getRecipientsFromFooters(
       AccountResolver accountResolver, List<FooterLine> footerLines)
@@ -46,6 +48,9 @@ public class MailUtil {
           recipients.cc.add(toAccountId(accountResolver, footerLine.getValue().trim()));
         }
       } catch (UnprocessableEntityException e) {
+        logger.atFine().log(
+            "Skip adding reviewer/cc from footer line \"%s\": %s",
+            footerLine.getValue().trim(), e.getMessage());
         continue;
       }
     }

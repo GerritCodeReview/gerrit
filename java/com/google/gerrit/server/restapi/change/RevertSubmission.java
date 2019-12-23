@@ -27,6 +27,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -34,6 +35,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -185,6 +187,22 @@ public class RevertSubmission
     }
     List<ChangeData> changeDatas = queryProvider.get().bySubmissionId(submissionId);
 
+    checkPermissionsForAllChanges(changeResource, changeDatas);
+    input.topic = createTopic(input.topic, submissionId);
+    return Response.ok(revertSubmission(changeDatas, input));
+  }
+
+  private String createTopic(String topic, String submissionId) {
+    if (topic == null) {
+      return String.format(
+          "revert-%s-%s", submissionId, RandomStringUtils.randomAlphabetic(10).toUpperCase());
+    }
+    return topic;
+  }
+
+  private void checkPermissionsForAllChanges(
+      ChangeResource changeResource, List<ChangeData> changeDatas)
+      throws IOException, AuthException, PermissionBackendException, ResourceConflictException {
     for (ChangeData changeData : changeDatas) {
       Change change = changeData.change();
 
@@ -203,23 +221,122 @@ public class RevertSubmission
               "current patch set %s of change %s not found",
               change.currentPatchSetId(), change.currentPatchSetId()));
     }
-
-    if (input.topic == null) {
-      input.topic =
-          String.format(
-              "revert-%s-%s", submissionId, RandomStringUtils.randomAlphabetic(10).toUpperCase());
-    }
-
-    return Response.ok(revertSubmission(changeDatas, input));
   }
 
   private RevertSubmissionInfo revertSubmission(
       List<ChangeData> changeData, RevertInput revertInput)
       throws RestApiException, IOException, UpdateException, PermissionBackendException,
           NoSuchProjectException, ConfigInvalidException, StorageException {
+
     Multimap<BranchNameKey, ChangeData> changesPerProjectAndBranch = ArrayListMultimap.create();
     changeData.stream().forEach(c -> changesPerProjectAndBranch.put(c.change().getDest(), c));
+    cherryPickInput = createCherryPickInput(revertInput);
 
+    for (BranchNameKey projectAndBranch : changesPerProjectAndBranch.keySet()) {
+      cherryPickInput.base = null;
+      Project.NameKey project = projectAndBranch.project();
+      cherryPickInput.destination = projectAndBranch.branch();
+      Collection<ChangeData> changesInProjectAndBranch =
+          changesPerProjectAndBranch.get(projectAndBranch);
+
+      // Sort the changes topologically.
+      Iterator<PatchSetData> sortedChangesInProjectAndBranch =
+          sorter.sort(changesInProjectAndBranch).iterator();
+
+      Set<ObjectId> commitIdsInProjectAndBranch =
+          changesInProjectAndBranch.stream()
+              .map(c -> c.currentPatchSet().commitId())
+              .collect(Collectors.toSet());
+
+      revertAllChangesInProjectAndBranch(
+          revertInput, project, sortedChangesInProjectAndBranch, commitIdsInProjectAndBranch);
+    }
+    results.sort(Comparator.comparing(c -> c.revertOf));
+    RevertSubmissionInfo revertSubmissionInfo = new RevertSubmissionInfo();
+    revertSubmissionInfo.revertChanges = results;
+    return revertSubmissionInfo;
+  }
+
+  private void revertAllChangesInProjectAndBranch(
+      RevertInput revertInput,
+      NameKey project,
+      Iterator<PatchSetData> sortedChangesInProjectAndBranch,
+      Set<ObjectId> commitIdsInProjectAndBranch)
+      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+          NoSuchProjectException, ConfigInvalidException {
+
+    String groupName = null;
+    while (sortedChangesInProjectAndBranch.hasNext()) {
+      ChangeNotes changeNotes = sortedChangesInProjectAndBranch.next().data().notes();
+      if (cherryPickInput.base == null) {
+        cherryPickInput.base = getBase(changeNotes, commitIdsInProjectAndBranch).name();
+      }
+
+      revertInput.message = getMessage(revertInput, changeNotes);
+      if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
+        // This is the code in case this is the first revert of this project + branch, and the
+        // revert would be on top of the change being reverted.
+        craeteNormalRevert(revertInput, changeNotes);
+        groupName = cherryPickInput.base;
+      } else {
+        // This is the code in case this is the second revert (or more) of this project + branch.
+        if (groupName == null) {
+          groupName = cherryPickInput.base;
+        }
+        createCherryPickedRevert(revertInput, project, groupName, changeNotes);
+      }
+    }
+  }
+
+  private void createCherryPickedRevert(
+      RevertInput revertInput, NameKey project, String groupName, ChangeNotes changeNotes)
+      throws IOException, ConfigInvalidException, UpdateException, RestApiException {
+    ObjectId revCommitId =
+        commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get());
+    // TODO (paiking): As a future change, the revert should just be done directly on the
+    // target rather than just creating a commit and then cherry-picking it.
+    cherryPickInput.message = revertInput.message;
+    ObjectId generatedChangeId = Change.generateChangeId();
+    Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
+    // TODO (paiking): In the the future, the timestamp should be the same for all the revert
+    // changes.
+    try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      bu.setNotify(
+          notifyResolver.resolve(
+              firstNonNull(cherryPickInput.notify, NotifyHandling.ALL),
+              cherryPickInput.notifyDetails));
+      bu.addOp(
+          changeNotes.getChange().getId(),
+          new CreateCherryPickOp(
+              revCommitId,
+              revertInput.topic,
+              generatedChangeId,
+              cherryPickRevertChangeId,
+              groupName));
+      bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
+      bu.addOp(
+          cherryPickRevertChangeId,
+          new NotifyOp(changeNotes.getChange(), cherryPickRevertChangeId));
+
+      bu.execute();
+    }
+  }
+
+  private void craeteNormalRevert(RevertInput revertInput, ChangeNotes changeNotes)
+      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+          NoSuchProjectException, ConfigInvalidException {
+    ChangeInfo revertChangeInfo =
+        revert.apply(changeResourceFactory.create(changeNotes, user.get()), revertInput).value();
+    results.add(revertChangeInfo);
+    cherryPickInput.base =
+        changeNotesFactory
+            .createChecked(Change.id(revertChangeInfo._number))
+            .getCurrentPatchSet()
+            .commitId()
+            .getName();
+  }
+
+  private CherryPickInput createCherryPickInput(RevertInput revertInput) {
     cherryPickInput = new CherryPickInput();
     // To create a revert change, we create a revert commit that is then cherry-picked. The revert
     // change is created for the cherry-picked commit. Notifications are sent only for this change,
@@ -228,87 +345,7 @@ public class RevertSubmission
     cherryPickInput.notifyDetails = revertInput.notifyDetails;
     cherryPickInput.parent = 1;
     cherryPickInput.keepReviewers = true;
-
-    for (BranchNameKey projectAndBranch : changesPerProjectAndBranch.keySet()) {
-      String groupName = null;
-      Project.NameKey project = projectAndBranch.project();
-      cherryPickInput.destination = projectAndBranch.branch();
-      Collection<ChangeData> changesInProjectAndBranch =
-          changesPerProjectAndBranch.get(projectAndBranch);
-
-      // Sort the changes topologically.
-      Iterator<PatchSetData> sortedChangesInProject =
-          sorter.sort(changesInProjectAndBranch).iterator();
-
-      Set<ObjectId> commitIdsInProjectAndBranch =
-          changesInProjectAndBranch.stream()
-              .map(c -> c.currentPatchSet().commitId())
-              .collect(Collectors.toSet());
-
-      while (sortedChangesInProject.hasNext()) {
-        ChangeNotes changeNotes = sortedChangesInProject.next().data().notes();
-        if (cherryPickInput.base == null) {
-          cherryPickInput.base = getBase(changeNotes, commitIdsInProjectAndBranch).name();
-        }
-
-        revertInput.message = getMessage(revertInput, changeNotes);
-        // This is the code in case this is the first revert of this project + branch, and the
-        // revert would be on top of the change being reverted.
-        if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
-          ChangeInfo revertChangeInfo =
-              revert
-                  .apply(changeResourceFactory.create(changeNotes, user.get()), revertInput)
-                  .value();
-          results.add(revertChangeInfo);
-          cherryPickInput.base =
-              changeNotesFactory
-                  .createChecked(Change.id(revertChangeInfo._number))
-                  .getCurrentPatchSet()
-                  .commitId()
-                  .getName();
-          groupName = cherryPickInput.base;
-        } else {
-          // This is the code in case this is the second revert (or more) of this project + branch.
-          ObjectId revCommitId =
-              commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get());
-          // TODO (paiking): As a future change, the revert should just be done directly on the
-          // target rather than just creating a commit and then cherry-picking it.
-          cherryPickInput.message = revertInput.message;
-          ObjectId generatedChangeId = Change.generateChangeId();
-          Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
-          if (groupName == null) {
-            groupName = cherryPickInput.base;
-          }
-          // TODO (paiking): In the the future, the timestamp should be the same for all the revert
-          // changes.
-          try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.nowTs())) {
-            bu.setNotify(
-                notifyResolver.resolve(
-                    firstNonNull(cherryPickInput.notify, NotifyHandling.ALL),
-                    cherryPickInput.notifyDetails));
-            bu.addOp(
-                changeNotes.getChange().getId(),
-                new CreateCherryPickOp(
-                    revCommitId,
-                    revertInput.topic,
-                    generatedChangeId,
-                    cherryPickRevertChangeId,
-                    groupName));
-            bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
-            bu.addOp(
-                cherryPickRevertChangeId,
-                new NotifyOp(changeNotes.getChange(), cherryPickRevertChangeId));
-
-            bu.execute();
-          }
-        }
-      }
-      cherryPickInput.base = null;
-    }
-    results.sort(Comparator.comparing(c -> c.revertOf));
-    RevertSubmissionInfo revertSubmissionInfo = new RevertSubmissionInfo();
-    revertSubmissionInfo.revertChanges = results;
-    return revertSubmissionInfo;
+    return cherryPickInput;
   }
 
   private String getMessage(RevertInput revertInput, ChangeNotes changeNotes) {

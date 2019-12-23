@@ -1740,7 +1740,7 @@ public class RestApiServlet extends HttpServlet {
     traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
     ImmutableList<String> userMessages =
         globals.exceptionHooks.stream()
-            .flatMap(h -> h.getUserMessages(err).stream())
+            .flatMap(h -> h.getUserMessages(err, traceContext.getTraceId().orElse(null)).stream())
             .collect(toImmutableList());
 
     Optional<ExceptionHook.Status> status =

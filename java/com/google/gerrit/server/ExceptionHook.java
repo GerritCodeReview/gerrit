@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server;
 
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import java.util.Optional;
 
@@ -118,11 +121,11 @@ public interface ExceptionHook {
   }
 
   /**
-   * Returns the HTTP status code that should be returned to the user.
+   * Returns the HTTP status that should be returned to the user.
    *
-   * <p>Implementors may use this method to change the status code for certain exceptions (e.g.
-   * using this method it would be possible to return {@code 409 Conflict} for {@link
-   * com.google.gerrit.git.LockFailureException}s instead of {@code 500 Internal Server Error}).
+   * <p>Implementors may use this method to change the status for certain exceptions (e.g. using
+   * this method it would be possible to return {@code 503 Lock failure} for {@link
+   * com.google.gerrit.git.LockFailureException}s instead of {@code 500 Internal server error}).
    *
    * <p>If no value is returned ({@link Optional#empty()}) it means that this exception hook doesn't
    * want to change the default response code for the given exception which is {@code 500 Internal
@@ -131,14 +134,26 @@ public interface ExceptionHook {
    * <p>If multiple exception hooks return a value from this method, the value from exception hook
    * that is registered first is used.
    *
-   * <p>{@link #getUserMessage(Throwable)} allows to define which message should be included into
-   * the body of the HTTP response.
+   * <p>{@link #getUserMessage(Throwable)} allows to define which additional messages should be
+   * included into the body of the HTTP response.
    *
    * @param throwable throwable that was thrown while executing an operation
-   * @return HTTP status code that should be returned to the user, {@link Optional#empty()} if the
+   * @return HTTP status that should be returned to the user, {@link Optional#empty()} if the
    *     exception should result in {@code 500 Internal Server Error}
    */
-  default Optional<Integer> getStatusCode(Throwable throwable) {
+  default Optional<Status> getStatus(Throwable throwable) {
     return Optional.empty();
+  }
+
+  @AutoValue
+  public abstract class Status {
+    public abstract int statusCode();
+
+    public abstract String statusMessage();
+
+    public static Status create(int statusCode, String statusMessage) {
+      return new AutoValue_ExceptionHook_Status(
+          statusCode, requireNonNull(statusMessage, "statusMessage"));
+    }
   }
 }

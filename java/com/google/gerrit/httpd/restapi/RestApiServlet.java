@@ -45,7 +45,6 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
-import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
@@ -105,7 +104,6 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ExceptionHook;
-import com.google.gerrit.server.ExceptionHookImpl;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
@@ -673,13 +671,6 @@ public class RestApiServlet extends HttpServlet {
                 e);
       } catch (Exception e) {
         cause = Optional.of(e);
-
-        if (ExceptionHookImpl.isLockFailure(e)) {
-          logger.atSevere().withCause(e.getCause()).log(
-              "Error in %s %s", req.getMethod(), uriForLogging(req));
-          responseBytes = replyError(req, res, status = SC_SERVICE_UNAVAILABLE, "Lock failure", e);
-        }
-
         status = SC_INTERNAL_SERVER_ERROR;
         responseBytes = handleException(traceContext, e, req, res);
       } finally {
@@ -1754,32 +1745,40 @@ public class RestApiServlet extends HttpServlet {
             .map(Optional::get)
             .collect(toImmutableList());
 
-    Optional<Integer> statusCode =
+    Optional<ExceptionHook.Status> status =
         globals.exceptionHooks.stream()
-            .map(h -> h.getStatusCode(err))
+            .map(h -> h.getStatus(err))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .findFirst();
-    if (statusCode.isPresent() && statusCode.get() < 400) {
-      StringBuilder msg = new StringBuilder();
-      if (userMessages.size() == 1) {
-        msg.append(userMessages.get(0));
-      } else {
+    if (status.isPresent()) {
+      res.setStatus(status.get().statusCode());
+
+      StringBuilder msg = new StringBuilder(status.get().statusMessage());
+      if (!userMessages.isEmpty()) {
+        msg.append("\n");
         userMessages.forEach(m -> msg.append("\n* ").append(m));
       }
 
-      res.setStatus(statusCode.get());
-      logger.atFinest().withCause(err).log("REST call finished: %d", statusCode.get().intValue());
-      return replyText(req, res, true, msg.toString());
+      if (status.get().statusCode() < SC_BAD_REQUEST) {
+        logger.atFinest().withCause(err).log("REST call finished: %d", status.get().statusCode());
+        return replyText(req, res, true, msg.toString());
+      }
+      if (status.get().statusCode() >= SC_INTERNAL_SERVER_ERROR) {
+        logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
+      }
+      return replyError(req, res, status.get().statusCode(), msg.toString(), err);
     }
 
     logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
 
     StringBuilder msg = new StringBuilder("Internal server error");
     if (!userMessages.isEmpty()) {
+      msg.append("\n");
       userMessages.forEach(m -> msg.append("\n* ").append(m));
     }
-    return replyError(req, res, statusCode.orElse(SC_INTERNAL_SERVER_ERROR), msg.toString(), err);
+
+    return replyError(req, res, SC_INTERNAL_SERVER_ERROR, msg.toString(), err);
   }
 
   private static String uriForLogging(HttpServletRequest req) {

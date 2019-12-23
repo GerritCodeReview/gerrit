@@ -583,6 +583,16 @@ By default this is set to `LDAP` when link:#auth.type[`auth.type`] is `LDAP`
 and `OAUTH` when link:#auth.type[`auth.type`] is `OAUTH`.
 Otherwise, the default value is `HTTP`.
 
+[[auth.httpPasswordLength]]auth.httpPasswordLength::
++
+Defines the auto-generated HTTP password length.
++
+The minimum value is arbitrarily set to `16`.
+The maximum value is `72` as the stored password is using BouncyCastle's
+BCrypt implementation with a limit of `72` bytes.
++
+Defaults to `42` and must be between `16` and `72`.
+
 [[auth.gitOAuthProvider]]auth.gitOAuthProvider::
 +
 Selects the OAuth 2 provider to authenticate git over HTTP traffic with.

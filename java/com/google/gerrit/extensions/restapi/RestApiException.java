@@ -23,7 +23,7 @@ public class RestApiException extends Exception {
 
   protected RestApiException() {}
 
-  public RestApiException(String msg) {
+  protected RestApiException(String msg) {
     super(msg);
   }
 

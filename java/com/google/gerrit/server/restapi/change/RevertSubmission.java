@@ -317,7 +317,8 @@ public class RevertSubmission
               revertInput.topic,
               generatedChangeId,
               cherryPickRevertChangeId,
-              groupName));
+              groupName,
+              timestamp));
       bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
       bu.addOp(
           cherryPickRevertChangeId,
@@ -539,18 +540,21 @@ public class RevertSubmission
     private final ObjectId computedChangeId;
     private final Change.Id cherryPickRevertChangeId;
     private final String groupName;
+    private final Timestamp timestamp;
 
     CreateCherryPickOp(
         ObjectId revCommitId,
         String topic,
         ObjectId computedChangeId,
         Change.Id cherryPickRevertChangeId,
-        String groupName) {
+        String groupName,
+        Timestamp timestamp) {
       this.revCommitId = revCommitId;
       this.topic = topic;
       this.computedChangeId = computedChangeId;
       this.cherryPickRevertChangeId = cherryPickRevertChangeId;
       this.groupName = groupName;
+      this.timestamp = timestamp;
     }
 
     @Override
@@ -566,6 +570,7 @@ public class RevertSubmission
               BranchNameKey.create(
                   change.getProject(), RefNames.fullName(cherryPickInput.destination)),
               true,
+              timestamp,
               topic,
               change.getId(),
               computedChangeId,

@@ -170,6 +170,7 @@ public class CherryPickChange {
         input,
         dest,
         false,
+        TimeUtil.nowTs(),
         null,
         null,
         null,
@@ -215,6 +216,7 @@ public class CherryPickChange {
         input,
         dest,
         false,
+        TimeUtil.nowTs(),
         null,
         null,
         null,
@@ -236,6 +238,7 @@ public class CherryPickChange {
    * @param dest Destination branch for the cherry pick.
    * @param ignoreIdenticalTree When false, we throw an error when trying to cherry-pick creates an
    *     empty commit. When true, we allow creation of an empty commit.
+   * @param timestamp the current timestamp.
    * @param topic Topic name for the change created.
    * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
    *     field to mark the created cherry pick change as "revertOf" the original change that was
@@ -265,6 +268,7 @@ public class CherryPickChange {
       CherryPickInput input,
       BranchNameKey dest,
       boolean ignoreIdenticalTree,
+      Timestamp timestamp,
       @Nullable String topic,
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
@@ -302,8 +306,7 @@ public class CherryPickChange {
       String message = Strings.nullToEmpty(input.message).trim();
       message = message.isEmpty() ? commitToCherryPick.getFullMessage() : message;
 
-      Timestamp now = TimeUtil.nowTs();
-      PersonIdent committerIdent = identifiedUser.newCommitterIdent(now, serverTimeZone);
+      PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverTimeZone);
 
       final ObjectId generatedChangeId =
           changeIdForNewChange != null ? changeIdForNewChange : Change.generateChangeId();
@@ -355,7 +358,7 @@ public class CherryPickChange {
                   + " reside on the same branch. "
                   + "Cannot create a new patch set.");
         }
-        try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, now)) {
+        try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, timestamp)) {
           bu.setRepository(git, revWalk, oi);
           bu.setNotify(resolveNotify(input));
           Change.Id changeId;

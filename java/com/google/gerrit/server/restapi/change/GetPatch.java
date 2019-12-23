@@ -77,7 +77,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
         final RevCommit base = parents[0];
         rw.parseBody(base);
 
-        BinaryResult bin =
+        try (BinaryResult bin =
             new BinaryResult() {
               @Override
               public void writeTo(OutputStream out) throws IOException {
@@ -114,24 +114,25 @@ public class GetPatch implements RestReadView<RevisionResource> {
                 rw.close();
                 repo.close();
               }
-            };
+            }) {
 
-        if (path != null && bin.asString().isEmpty()) {
-          throw new ResourceNotFoundException(String.format(FILE_NOT_FOUND, path));
+          if (path != null && bin.asString().isEmpty()) {
+            throw new ResourceNotFoundException(String.format(FILE_NOT_FOUND, path));
+          }
+
+          if (zip) {
+            bin.disableGzip()
+                .setContentType("application/zip")
+                .setAttachmentName(fileName(rw, commit) + ".zip");
+          } else {
+            bin.base64()
+                .setContentType("application/mbox")
+                .setAttachmentName(download ? fileName(rw, commit) + ".base64" : null);
+          }
+
+          close = false;
+          return Response.ok(bin);
         }
-
-        if (zip) {
-          bin.disableGzip()
-              .setContentType("application/zip")
-              .setAttachmentName(fileName(rw, commit) + ".zip");
-        } else {
-          bin.base64()
-              .setContentType("application/mbox")
-              .setAttachmentName(download ? fileName(rw, commit) + ".base64" : null);
-        }
-
-        close = false;
-        return Response.ok(bin);
       } finally {
         if (close) {
           rw.close();

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d1ce641e_1114e4b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-23T15:53:53Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d50eff05_a4920c74",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47df4689_2b7de98a",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
         "patchSetId": 33
@@ -68,6 +86,24 @@
       "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0298b67d_d9487f3f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-23T15:53:53Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nhttps://imgur.com/a/p6GNTal",
+      "parentUuid": "62a42281_9540cabb",
+      "revId": "cd888cba4ccd9d40c5f7766aa2cf599a23ddba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

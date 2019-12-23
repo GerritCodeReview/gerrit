@@ -32,7 +32,7 @@ public class ApiUtil {
   public static RestApiException asRestApiException(String msg, Exception e)
       throws RuntimeException {
     Throwables.throwIfUnchecked(e);
-    return e instanceof RestApiException ? (RestApiException) e : new RestApiException(msg, e);
+    return e instanceof RestApiException ? (RestApiException) e : RestApiException.wrap(msg, e);
   }
 
   private ApiUtil() {}

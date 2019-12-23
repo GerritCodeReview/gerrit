@@ -37,6 +37,10 @@ import org.eclipse.jgit.lib.Config;
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
 public class AuthConfig {
+  static final int DEFAULT_HTTP_PASSWORD_LENGTH = 42;
+  static final int MIN_HTTP_PASSWORD_LENGTH = 16;
+  static final int MAX_HTTP_PASSWORD_LENGTH = 72;
+  static final String SECTION_NAME = "auth";
   private final AuthType authType;
   private final String httpHeader;
   private final String httpDisplaynameHeader;
@@ -65,36 +69,39 @@ public class AuthConfig {
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
+  private int httpPasswordLength;
 
   @Inject
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
     authType = toType(cfg);
-    httpHeader = cfg.getString("auth", null, "httpheader");
-    httpDisplaynameHeader = cfg.getString("auth", null, "httpdisplaynameheader");
-    httpEmailHeader = cfg.getString("auth", null, "httpemailheader");
-    httpExternalIdHeader = cfg.getString("auth", null, "httpexternalidheader");
-    loginUrl = cfg.getString("auth", null, "loginurl");
-    loginText = cfg.getString("auth", null, "logintext");
-    logoutUrl = cfg.getString("auth", null, "logouturl");
-    switchAccountUrl = cfg.getString("auth", null, "switchAccountUrl");
-    editFullNameUrl = cfg.getString("auth", null, "editFullNameUrl");
-    httpPasswordUrl = cfg.getString("auth", null, "httpPasswordUrl");
-    registerPageUrl = cfg.getString("auth", null, "registerPageUrl");
-    registerUrl = cfg.getString("auth", null, "registerUrl");
-    registerText = cfg.getString("auth", null, "registerText");
-    openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
-    openIdDomains = Arrays.asList(cfg.getStringList("auth", null, "openIdDomain"));
+    httpHeader = cfg.getString(SECTION_NAME, null, "httpheader");
+    httpDisplaynameHeader = cfg.getString(SECTION_NAME, null, "httpdisplaynameheader");
+    httpEmailHeader = cfg.getString(SECTION_NAME, null, "httpemailheader");
+    httpExternalIdHeader = cfg.getString(SECTION_NAME, null, "httpexternalidheader");
+    loginUrl = cfg.getString(SECTION_NAME, null, "loginurl");
+    loginText = cfg.getString(SECTION_NAME, null, "logintext");
+    logoutUrl = cfg.getString(SECTION_NAME, null, "logouturl");
+    switchAccountUrl = cfg.getString(SECTION_NAME, null, "switchAccountUrl");
+    editFullNameUrl = cfg.getString(SECTION_NAME, null, "editFullNameUrl");
+    httpPasswordUrl = cfg.getString(SECTION_NAME, null, "httpPasswordUrl");
+    registerPageUrl = cfg.getString(SECTION_NAME, null, "registerPageUrl");
+    registerUrl = cfg.getString(SECTION_NAME, null, "registerUrl");
+    registerText = cfg.getString(SECTION_NAME, null, "registerText");
+    openIdSsoUrl = cfg.getString(SECTION_NAME, null, "openidssourl");
+    openIdDomains = Arrays.asList(cfg.getStringList(SECTION_NAME, null, "openIdDomain"));
     trustedOpenIDs = toPatterns(cfg, "trustedOpenID");
     allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
-    cookiePath = cfg.getString("auth", null, "cookiepath");
-    cookieDomain = cfg.getString("auth", null, "cookiedomain");
-    cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
-    trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
-    enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
+    cookiePath = cfg.getString(SECTION_NAME, null, "cookiepath");
+    cookieDomain = cfg.getString(SECTION_NAME, null, "cookiedomain");
+    cookieSecure = cfg.getBoolean(SECTION_NAME, "cookiesecure", false);
+    trustContainerAuth = cfg.getBoolean(SECTION_NAME, "trustContainerAuth", false);
+    enableRunAs = cfg.getBoolean(SECTION_NAME, null, "enableRunAs", true);
     gitBasicAuthPolicy = getBasicAuthPolicy(cfg);
-    useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
-    userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
-    allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
+    useContributorAgreements = cfg.getBoolean(SECTION_NAME, "contributoragreements", false);
+    userNameToLowerCase = cfg.getBoolean(SECTION_NAME, "userNameToLowerCase", false);
+    allowRegisterNewEmail = cfg.getBoolean(SECTION_NAME, "allowRegisterNewEmail", true);
+    httpPasswordLength =
+        cfg.getInt(SECTION_NAME, "httpPasswordLength", DEFAULT_HTTP_PASSWORD_LENGTH);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -106,13 +113,13 @@ public class AuthConfig {
           "use auth.gitBasicAuthPolicy OAUTH only with auth.type OAUTH");
     }
 
-    String key = cfg.getString("auth", null, "registerEmailPrivateKey");
+    String key = cfg.getString(SECTION_NAME, null, "registerEmailPrivateKey");
     if (key != null && !key.isEmpty()) {
       int age =
           (int)
               ConfigUtil.getTimeUnit(
                   cfg,
-                  "auth",
+                  SECTION_NAME,
                   null,
                   "maxRegisterEmailTokenAge",
                   TimeUnit.SECONDS.convert(12, TimeUnit.HOURS),
@@ -121,10 +128,19 @@ public class AuthConfig {
     } else {
       emailReg = null;
     }
+
+    if (httpPasswordLength < MIN_HTTP_PASSWORD_LENGTH
+        || httpPasswordLength > MAX_HTTP_PASSWORD_LENGTH) {
+      throw new IllegalStateException(
+          "auth.httpPasswordLength must be greater than "
+              + MIN_HTTP_PASSWORD_LENGTH
+              + " and smaller than "
+              + MAX_HTTP_PASSWORD_LENGTH);
+    }
   }
 
   private static List<OpenIdProviderPattern> toPatterns(Config cfg, String name) {
-    String[] s = cfg.getStringList("auth", null, name);
+    String[] s = cfg.getStringList(SECTION_NAME, null, name);
     if (s.length == 0) {
       s = new String[] {"http://", "https://"};
     }
@@ -137,7 +153,7 @@ public class AuthConfig {
   }
 
   private static AuthType toType(Config cfg) {
-    return cfg.getEnum("auth", null, "type", AuthType.OPENID);
+    return cfg.getEnum(SECTION_NAME, null, "type", AuthType.OPENID);
   }
 
   private GitBasicAuthPolicy getBasicAuthPolicy(Config cfg) {
@@ -145,7 +161,7 @@ public class AuthConfig {
         isLdapAuthType()
             ? GitBasicAuthPolicy.LDAP
             : isOAuthType() ? GitBasicAuthPolicy.OAUTH : GitBasicAuthPolicy.HTTP;
-    return cfg.getEnum("auth", null, "gitBasicAuthPolicy", defaultAuthPolicy);
+    return cfg.getEnum(SECTION_NAME, null, "gitBasicAuthPolicy", defaultAuthPolicy);
   }
 
   /** Type of user authentication used by this Gerrit server. */
@@ -333,5 +349,9 @@ public class AuthConfig {
 
   public boolean isAllowRegisterNewEmail() {
     return allowRegisterNewEmail;
+  }
+
+  public int getHttpPasswordLength() {
+    return httpPasswordLength;
   }
 }

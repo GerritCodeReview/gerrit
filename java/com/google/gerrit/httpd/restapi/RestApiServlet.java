@@ -1237,7 +1237,7 @@ public class RestApiServlet extends HttpServlet {
         return obj;
       }
     }
-    throw new MethodNotAllowedException();
+    throw new MethodNotAllowedException("raw input not supported");
   }
 
   private Object parseString(String value, Type type)

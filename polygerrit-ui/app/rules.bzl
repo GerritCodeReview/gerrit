@@ -20,6 +20,7 @@ def polygerrit_bundle(name, srcs, outs, app):
         ],
         language = "ECMASCRIPT5",
         deps = [name + "_closure_lib"],
+        dependency_mode = "PRUNE_LEGACY",
     )
 
     # TODO(davido): Remove JSC_REFERENCE_BEFORE_DECLARE when this is fixed upstream:

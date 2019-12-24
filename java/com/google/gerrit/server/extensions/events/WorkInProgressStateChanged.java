@@ -33,6 +33,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 
+/** Helper class to fire an event when the work-in-progress state of a change has been toggled. */
 @Singleton
 public class WorkInProgressStateChanged {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -68,6 +69,7 @@ public class WorkInProgressStateChanged {
     }
   }
 
+  /** Event to be fired when the work-in-progress state of a change has been toggled. */
   private static class Event extends AbstractRevisionEvent
       implements WorkInProgressStateChangedListener.Event {
 

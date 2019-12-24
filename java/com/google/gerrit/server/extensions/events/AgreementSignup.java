@@ -21,6 +21,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/** Helper class to fire an event when a user has signed a contributor agreement. */
 @Singleton
 public class AgreementSignup {
   private final PluginSetContext<AgreementSignupListener> listeners;
@@ -40,6 +41,7 @@ public class AgreementSignup {
     listeners.runEach(l -> l.onAgreementSignup(event));
   }
 
+  /** Event to be fired when a user has signed a contributor agreement. */
   private static class Event extends AbstractNoNotifyEvent
       implements AgreementSignupListener.Event {
     private final AccountInfo account;

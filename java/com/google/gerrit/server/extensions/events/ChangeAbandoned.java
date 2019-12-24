@@ -34,6 +34,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 
+/** Helper class to fire an event when a change has been abandoned. */
 @Singleton
 public class ChangeAbandoned {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -78,6 +79,7 @@ public class ChangeAbandoned {
     }
   }
 
+  /** Event to be fired when a change has been abandoned. */
   private static class Event extends AbstractRevisionEvent
       implements ChangeAbandonedListener.Event {
     private final String reason;

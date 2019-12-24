@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
 
+/** Helper class to fire an event when the topic of a change has been edited. */
 @Singleton
 public class TopicEdited {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -53,6 +54,7 @@ public class TopicEdited {
     }
   }
 
+  /** Event to be fired when the topic of a change has been edited. */
   private static class Event extends AbstractChangeEvent implements TopicEditedListener.Event {
     private final String oldTopic;
 

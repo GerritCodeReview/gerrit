@@ -30,6 +30,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Set;
 
+/** Helper class to fire an event when the hashtags of a change has been edited. */
 @Singleton
 public class HashtagsEdited {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -63,6 +64,7 @@ public class HashtagsEdited {
     }
   }
 
+  /** Event to be fired when the hashtags of a change has been edited. */
   private static class Event extends AbstractChangeEvent implements HashtagsEditedListener.Event {
 
     private Collection<String> updatedHashtags;

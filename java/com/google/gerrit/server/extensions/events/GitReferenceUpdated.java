@@ -27,6 +27,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
+/** Helper class to fire an event when a Git reference has been updated. */
 @Singleton
 public class GitReferenceUpdated {
   public static final GitReferenceUpdated DISABLED =
@@ -153,6 +154,7 @@ public class GitReferenceUpdated {
     listeners.runEach(l -> l.onGitReferenceUpdated(event));
   }
 
+  /** Event to be fired when a Git reference has been updated. */
   public static class Event implements GitReferenceUpdatedListener.Event {
     private final String projectName;
     private final String ref;

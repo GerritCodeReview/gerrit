@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
+/** Helper class to fire an event when reviewers have been added to a change. */
 @Singleton
 public class ReviewerAdded {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -79,6 +80,7 @@ public class ReviewerAdded {
     }
   }
 
+  /** Event to be fired when reviewers have been added to a change. */
   private static class Event extends AbstractRevisionEvent implements ReviewerAddedListener.Event {
     private final List<AccountInfo> reviewers;
 

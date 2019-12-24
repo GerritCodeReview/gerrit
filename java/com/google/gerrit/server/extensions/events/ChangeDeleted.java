@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
 
+/** Helper class to fire an event when a change has been deleted. */
 @Singleton
 public class ChangeDeleted {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -52,6 +53,7 @@ public class ChangeDeleted {
     }
   }
 
+  /** Event to be fired when a change has been deleted. */
   private static class Event extends AbstractChangeEvent implements ChangeDeletedListener.Event {
     Event(ChangeInfo change, AccountInfo deleter, Timestamp when) {
       super(change, deleter, when, NotifyHandling.ALL);

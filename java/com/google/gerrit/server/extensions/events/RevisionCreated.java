@@ -35,6 +35,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 
+/** Helper class to fire an event when a revision has been created for a change. */
 @Singleton
 public class RevisionCreated {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -93,6 +94,7 @@ public class RevisionCreated {
     }
   }
 
+  /** Event to be fired when a revision has been created for a change. */
   private static class Event extends AbstractRevisionEvent
       implements RevisionCreatedListener.Event {
 

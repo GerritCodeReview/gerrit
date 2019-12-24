@@ -33,6 +33,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 
+/** Helper class to fire an event when the private flag of a change has been toggled. */
 @Singleton
 public class PrivateStateChanged {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -67,6 +68,7 @@ public class PrivateStateChanged {
     }
   }
 
+  /** Event to be fired when the private flag of a change has been toggled. */
   private static class Event extends AbstractRevisionEvent
       implements PrivateStateChangedListener.Event {
 

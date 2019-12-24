@@ -19,6 +19,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/** Helper class to let plugins fire a plugin-specific event. */
 @Singleton
 public class PluginEvent {
   private final PluginSetContext<PluginEventListener> listeners;
@@ -36,6 +37,7 @@ public class PluginEvent {
     listeners.runEach(l -> l.onPluginEvent(e));
   }
 
+  /** Event to be fired by plugins. */
   private static class Event extends AbstractNoNotifyEvent implements PluginEventListener.Event {
     private final String pluginName;
     private final String type;

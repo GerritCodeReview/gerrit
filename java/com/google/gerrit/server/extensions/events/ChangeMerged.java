@@ -34,6 +34,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 
+/** Helper class to fire an event when a change has been merged. */
 @Singleton
 public class ChangeMerged {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -72,6 +73,7 @@ public class ChangeMerged {
     }
   }
 
+  /** Event to be fired when a change has been merged. */
   private static class Event extends AbstractRevisionEvent implements ChangeMergedListener.Event {
     private final String newRevisionId;
 

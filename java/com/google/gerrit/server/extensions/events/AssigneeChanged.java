@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
 
+/** Helper class to fire an event when a user has been set as assignee on a change. */
 @Singleton
 public class AssigneeChanged {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -58,6 +59,7 @@ public class AssigneeChanged {
     }
   }
 
+  /** Event to be fired when a user has been set as assignee on a change. */
   private static class Event extends AbstractChangeEvent implements AssigneeChangedListener.Event {
     private final AccountInfo oldAssignee;
 

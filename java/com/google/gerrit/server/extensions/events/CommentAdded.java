@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Map;
 
+/** Helper class to fire an event when a comment or vote has been added to a change. */
 @Singleton
 public class CommentAdded {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -82,6 +83,7 @@ public class CommentAdded {
     }
   }
 
+  /** Event to be fired when a comment or vote has been added to a change. */
   private static class Event extends AbstractRevisionEvent implements CommentAddedListener.Event {
 
     private final String comment;

@@ -46,8 +46,8 @@ import org.eclipse.jgit.lib.Config;
 /**
  * Formats change and revision info objects to serve as payload for Gerrit events.
  *
- * <p>Uses configurable options ({@code event.payload.listChangeOptions}) to decide which fields to
- * populate.
+ * <p>Uses configurable options ({@code event.payload.listChangeOptions}) to decide which change
+ * fields to populate.
  */
 @Singleton
 public class EventUtil {

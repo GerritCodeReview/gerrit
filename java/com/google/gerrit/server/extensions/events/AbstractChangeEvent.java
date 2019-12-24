@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeEvent;
 import java.sql.Timestamp;
 
+/** Base class for all change events. */
 public abstract class AbstractChangeEvent implements ChangeEvent {
   private final ChangeInfo changeInfo;
   private final AccountInfo who;

@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Map;
 
+/** Helper class to fire an event when a reviewer has been deleted from a change. */
 @Singleton
 public class ReviewerDeleted {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -86,6 +87,7 @@ public class ReviewerDeleted {
     }
   }
 
+  /** Event to be fired when a reviewer has been deleted from a change. */
   private static class Event extends AbstractRevisionEvent
       implements ReviewerDeletedListener.Event {
     private final AccountInfo reviewer;

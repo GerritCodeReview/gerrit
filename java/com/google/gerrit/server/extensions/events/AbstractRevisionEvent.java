@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.RevisionEvent;
 import java.sql.Timestamp;
 
+/** Base class for all revision events. */
 public abstract class AbstractRevisionEvent extends AbstractChangeEvent implements RevisionEvent {
 
   private final RevisionInfo revisionInfo;

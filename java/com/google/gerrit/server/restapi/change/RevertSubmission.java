@@ -27,7 +27,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -75,6 +74,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -112,12 +112,10 @@ public class RevertSubmission
   private final ChangeMessagesUtil cmUtil;
   private final CommitUtil commitUtil;
   private final ChangeNotes.Factory changeNotesFactory;
-  private final ChangeResource.Factory changeResourceFactory;
   private final ChangeReverted changeReverted;
   private final RevertedSender.Factory revertedSenderFactory;
   private final Sequences seq;
   private final NotifyResolver notifyResolver;
-  private final Revert revert;
   private final BatchUpdate.Factory updateFactory;
 
   private CherryPickInput cherryPickInput;
@@ -138,12 +136,10 @@ public class RevertSubmission
       ChangeMessagesUtil cmUtil,
       CommitUtil commitUtil,
       ChangeNotes.Factory changeNotesFactory,
-      ChangeResource.Factory changeResourceFactory,
       ChangeReverted changeReverted,
       RevertedSender.Factory revertedSenderFactory,
       Sequences seq,
       NotifyResolver notifyResolver,
-      Revert revert,
       BatchUpdate.Factory updateFactory) {
     this.queryProvider = queryProvider;
     this.user = user;
@@ -158,12 +154,10 @@ public class RevertSubmission
     this.cmUtil = cmUtil;
     this.commitUtil = commitUtil;
     this.changeNotesFactory = changeNotesFactory;
-    this.changeResourceFactory = changeResourceFactory;
     this.changeReverted = changeReverted;
     this.revertedSenderFactory = revertedSenderFactory;
     this.seq = seq;
     this.notifyResolver = notifyResolver;
-    this.revert = revert;
     this.updateFactory = updateFactory;
     results = new ArrayList<>();
     cherryPickInput = null;
@@ -231,6 +225,7 @@ public class RevertSubmission
     Multimap<BranchNameKey, ChangeData> changesPerProjectAndBranch = ArrayListMultimap.create();
     changeData.stream().forEach(c -> changesPerProjectAndBranch.put(c.change().getDest(), c));
     cherryPickInput = createCherryPickInput(revertInput);
+    Timestamp timestamp = TimeUtil.nowTs();
 
     for (BranchNameKey projectAndBranch : changesPerProjectAndBranch.keySet()) {
       cherryPickInput.base = null;
@@ -249,7 +244,11 @@ public class RevertSubmission
               .collect(Collectors.toSet());
 
       revertAllChangesInProjectAndBranch(
-          revertInput, project, sortedChangesInProjectAndBranch, commitIdsInProjectAndBranch);
+          revertInput,
+          project,
+          sortedChangesInProjectAndBranch,
+          commitIdsInProjectAndBranch,
+          timestamp);
     }
     results.sort(Comparator.comparing(c -> c.revertOf));
     RevertSubmissionInfo revertSubmissionInfo = new RevertSubmissionInfo();
@@ -259,11 +258,11 @@ public class RevertSubmission
 
   private void revertAllChangesInProjectAndBranch(
       RevertInput revertInput,
-      NameKey project,
+      Project.NameKey project,
       Iterator<PatchSetData> sortedChangesInProjectAndBranch,
-      Set<ObjectId> commitIdsInProjectAndBranch)
-      throws IOException, RestApiException, UpdateException, PermissionBackendException,
-          NoSuchProjectException, ConfigInvalidException {
+      Set<ObjectId> commitIdsInProjectAndBranch,
+      Timestamp timestamp)
+      throws IOException, RestApiException, UpdateException, ConfigInvalidException {
 
     String groupName = null;
     String initialMessage = revertInput.message;
@@ -277,23 +276,27 @@ public class RevertSubmission
       if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.
-        craeteNormalRevert(revertInput, changeNotes);
+        craeteNormalRevert(revertInput, changeNotes, timestamp);
         groupName = cherryPickInput.base;
       } else {
         // This is the code in case this is the second revert (or more) of this project + branch.
         if (groupName == null) {
           groupName = cherryPickInput.base;
         }
-        createCherryPickedRevert(revertInput, project, groupName, changeNotes);
+        createCherryPickedRevert(revertInput, project, groupName, changeNotes, timestamp);
       }
     }
   }
 
   private void createCherryPickedRevert(
-      RevertInput revertInput, NameKey project, String groupName, ChangeNotes changeNotes)
+      RevertInput revertInput,
+      Project.NameKey project,
+      String groupName,
+      ChangeNotes changeNotes,
+      Timestamp timestamp)
       throws IOException, ConfigInvalidException, UpdateException, RestApiException {
     ObjectId revCommitId =
-        commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get());
+        commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get(), timestamp);
     // TODO (paiking): As a future change, the revert should just be done directly on the
     // target rather than just creating a commit and then cherry-picking it.
     cherryPickInput.message = revertInput.message;
@@ -313,7 +316,8 @@ public class RevertSubmission
               revertInput.topic,
               generatedChangeId,
               cherryPickRevertChangeId,
-              groupName));
+              groupName,
+              timestamp));
       bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
       bu.addOp(
           cherryPickRevertChangeId,
@@ -323,18 +327,15 @@ public class RevertSubmission
     }
   }
 
-  private void craeteNormalRevert(RevertInput revertInput, ChangeNotes changeNotes)
-      throws IOException, RestApiException, UpdateException, PermissionBackendException,
-          NoSuchProjectException, ConfigInvalidException {
-    ChangeInfo revertChangeInfo =
-        revert.apply(changeResourceFactory.create(changeNotes, user.get()), revertInput).value();
-    results.add(revertChangeInfo);
+  private void craeteNormalRevert(
+      RevertInput revertInput, ChangeNotes changeNotes, Timestamp timestamp)
+      throws IOException, RestApiException, UpdateException, ConfigInvalidException {
+
+    Change.Id revertId =
+        commitUtil.createRevertChange(changeNotes, user.get(), revertInput, timestamp);
+    results.add(json.noOptions().format(changeNotes.getProjectName(), revertId));
     cherryPickInput.base =
-        changeNotesFactory
-            .createChecked(Change.id(revertChangeInfo._number))
-            .getCurrentPatchSet()
-            .commitId()
-            .getName();
+        changeNotesFactory.createChecked(revertId).getCurrentPatchSet().commitId().getName();
   }
 
   private CherryPickInput createCherryPickInput(RevertInput revertInput) {
@@ -537,18 +538,21 @@ public class RevertSubmission
     private final ObjectId computedChangeId;
     private final Change.Id cherryPickRevertChangeId;
     private final String groupName;
+    private final Timestamp timestamp;
 
     CreateCherryPickOp(
         ObjectId revCommitId,
         String topic,
         ObjectId computedChangeId,
         Change.Id cherryPickRevertChangeId,
-        String groupName) {
+        String groupName,
+        Timestamp timestamp) {
       this.revCommitId = revCommitId;
       this.topic = topic;
       this.computedChangeId = computedChangeId;
       this.cherryPickRevertChangeId = cherryPickRevertChangeId;
       this.groupName = groupName;
+      this.timestamp = timestamp;
     }
 
     @Override
@@ -564,6 +568,7 @@ public class RevertSubmission
               BranchNameKey.create(
                   change.getProject(), RefNames.fullName(cherryPickInput.destination)),
               true,
+              timestamp,
               topic,
               change.getId(),
               computedChangeId,

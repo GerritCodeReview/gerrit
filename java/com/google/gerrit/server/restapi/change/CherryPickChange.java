@@ -107,6 +107,7 @@ public class CherryPickChange {
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
   private final NotifyResolver notifyResolver;
+  private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
   CherryPickChange(
@@ -121,7 +122,8 @@ public class CherryPickChange {
       ChangeNotes.Factory changeNotesFactory,
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
-      NotifyResolver notifyResolver) {
+      NotifyResolver notifyResolver,
+      BatchUpdate.Factory batchUpdateFactory) {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
@@ -134,12 +136,12 @@ public class CherryPickChange {
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
     this.notifyResolver = notifyResolver;
+    this.batchUpdateFactory = batchUpdateFactory;
   }
 
   /**
    * This function is used for cherry picking a change.
    *
-   * @param batchUpdateFactory Used for applying changes to the database.
    * @param change Change to cherry pick.
    * @param patch The patch of that change.
    * @param input Input object for different configurations of cherry pick.
@@ -154,16 +156,10 @@ public class CherryPickChange {
    * @throws ConfigInvalidException Can't find account to notify.
    * @throws NoSuchProjectException Can't find project state.
    */
-  public Result cherryPick(
-      BatchUpdate.Factory batchUpdateFactory,
-      Change change,
-      PatchSet patch,
-      CherryPickInput input,
-      BranchNameKey dest)
+  public Result cherryPick(Change change, PatchSet patch, CherryPickInput input, BranchNameKey dest)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        batchUpdateFactory,
         change,
         change.getProject(),
         patch.commitId(),
@@ -181,7 +177,6 @@ public class CherryPickChange {
    * This function is called directly to cherry pick a commit. Also, it is used to cherry pick a
    * change as well as long as sourceChange is not null.
    *
-   * @param batchUpdateFactory Used for applying changes to the database.
    * @param sourceChange Change to cherry pick. Can be null, and then the function will only cherry
    *     pick a commit.
    * @param project Project name
@@ -199,7 +194,6 @@ public class CherryPickChange {
    * @throws NoSuchProjectException Can't find project state.
    */
   public Result cherryPick(
-      BatchUpdate.Factory batchUpdateFactory,
       @Nullable Change sourceChange,
       Project.NameKey project,
       ObjectId sourceCommit,
@@ -208,18 +202,7 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        batchUpdateFactory,
-        sourceChange,
-        project,
-        sourceCommit,
-        input,
-        dest,
-        false,
-        null,
-        null,
-        null,
-        null,
-        null);
+        sourceChange, project, sourceCommit, input, dest, false, null, null, null, null, null);
   }
 
   /**
@@ -227,7 +210,6 @@ public class CherryPickChange {
    * null) with a few other parameters that are especially useful for cherry-picking a commit that
    * is the revert-of another change.
    *
-   * @param batchUpdateFactory Used for applying changes to the database.
    * @param sourceChange Change to cherry pick. Can be null, and then the function will only cherry
    *     pick a commit.
    * @param project Project name
@@ -258,7 +240,6 @@ public class CherryPickChange {
    * @throws NoSuchProjectException Can't find project state.
    */
   public Result cherryPick(
-      BatchUpdate.Factory batchUpdateFactory,
       @Nullable Change sourceChange,
       Project.NameKey project,
       ObjectId sourceCommit,

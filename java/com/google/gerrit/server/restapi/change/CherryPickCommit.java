@@ -35,7 +35,6 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.IntegrationException;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,7 +45,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CherryPickCommit implements RestModifyView<CommitResource, CherryPickInput> {
   private final PermissionBackend permissionBackend;
-  private final BatchUpdate.Factory updateFactory;
   private final Provider<CurrentUser> user;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
@@ -55,13 +53,11 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
   @Inject
   CherryPickCommit(
       PermissionBackend permissionBackend,
-      BatchUpdate.Factory updateFactory,
       Provider<CurrentUser> user,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
       ContributorAgreementsChecker contributorAgreements) {
     this.permissionBackend = permissionBackend;
-    this.updateFactory = updateFactory;
     this.user = user;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
@@ -92,7 +88,6 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
     try {
       CherryPickChange.Result cherryPickResult =
           cherryPickChange.cherryPick(
-              updateFactory,
               null,
               projectName,
               rsrc.getCommit(),

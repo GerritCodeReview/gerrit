@@ -556,7 +556,6 @@ public class RevertSubmission
       Change change = ctx.getChange();
       Result cherryPickResult =
           cherryPickChange.cherryPick(
-              updateFactory,
               change,
               change.getProject(),
               revCommitId,

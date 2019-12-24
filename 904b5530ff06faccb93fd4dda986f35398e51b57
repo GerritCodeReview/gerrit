@@ -566,6 +566,30 @@
     },
     {
       "key": {
+        "uuid": "cc6042b6_0020df07",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T10:05:38Z",
+      "side": 1,
+      "message": "I actually meant inlining \"TimeUtil.nowTs()\", but that\u0027s also fine.",
+      "parentUuid": "f1063c54_38f807d1",
+      "range": {
+        "startLine": 104,
+        "startChar": 83,
+        "endLine": 104,
+        "endChar": 92
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8edaec74_65440bdc",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1

@@ -494,6 +494,7 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
         deps = [
             name + "_closure_lib",
         ],
+        dependency_mode = "PRUNE_LEGACY",
     )
 
     if html_plugin:

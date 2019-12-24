@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a979bad0_10bea255",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "drop this, the factory only create the BatchUpdate instance, the BatchUpdate instance then does the batch update, not the factory",
+      "range": {
+        "startLine": 139,
+        "startChar": 71,
+        "endLine": 139,
+        "endChar": 86
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0e28a04_2e4fa8ca",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "Can be also a non-current timestamp?",
+      "range": {
+        "startLine": 140,
+        "startChar": 22,
+        "endLine": 140,
+        "endChar": 29
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e8fde41_643638cd",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "drop this if you are not describing when these are thrown",
+      "range": {
+        "startLine": 142,
+        "startChar": 5,
+        "endLine": 146,
+        "endChar": 0
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "148fde00_52209a9c",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "You shouldn\u0027t pass this in as an argument, but the CommitUtil class can get this factory injected.",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 151,
+        "endChar": 25
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e444c44_85f307a8",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "for?\n\nMaybe better add real Javadoc?",
+      "range": {
+        "startLine": 179,
+        "startChar": 22,
+        "endLine": 179,
+        "endChar": 26
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "386d62c5_4a7092b8",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "Should this be the project name, since it\u0027s the repository that was not found (not the change)?\n\nI see, this was already wrong before this change, but please fix.",
+      "range": {
+        "startLine": 190,
+        "startChar": 42,
+        "endLine": 190,
+        "endChar": 72
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9666ee88_a5892785",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "nit, should start with a capital letter. Maybe better: \"Creates\"",
+      "range": {
+        "startLine": 195,
+        "startChar": 5,
+        "endLine": 195,
+        "endChar": 20
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9e118c6_5cfd61c5",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "Can this be private now?",
+      "range": {
+        "startLine": 209,
+        "startChar": 2,
+        "endLine": 209,
+        "endChar": 8
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39ae936a_9797341e",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "Can be private",
+      "range": {
+        "startLine": 256,
+        "startChar": 2,
+        "endLine": 256,
+        "endChar": 8
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df2e57a0_3a8ed328",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "Should be injected into this class.",
+      "range": {
+        "startLine": 266,
+        "startChar": 6,
+        "endLine": 266,
+        "endChar": 25
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a007197_371c1156",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "nit: unneeded blank line\n\nwe usually do not have a blank line at the beginning of a method",
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a90b52ad_2e2bd116",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "[optional] inline this",
+      "range": {
+        "startLine": 104,
+        "startChar": 83,
+        "endLine": 104,
+        "endChar": 92
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8edaec74_65440bdc",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "not directly related to this change, but NameKey classes should not be imported directly, maybe you can fix this in this change as well",
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2b8cf2a_920c4561",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-24T08:47:31Z",
+      "side": 1,
+      "message": "These exceptions can no longer be thrown, drop them from the throws declaration.",
+      "range": {
+        "startLine": 266,
+        "startChar": 61,
+        "endLine": 267,
+        "endChar": 32
+      },
+      "revId": "904b5530ff06faccb93fd4dda986f35398e51b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

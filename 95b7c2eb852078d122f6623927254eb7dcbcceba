@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1577171148 +0100\nnonce AC6AUtOnBhSn7jCtBFvMWxTbHOaLNJtdGrIdRQuPPV0mQqvEqOpfrPcqMpBYqO/QtBIuycEvx86D\n\n0000000000000000000000000000000000000000 95b7c2eb852078d122f6623927254eb7dcbcceba refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJeAbjMAAoJEHFVO370GiZWZBsH/jVi0cUHB6a/0EuxXV6+3jOt\n+BHbG8veDJnTO4J+a+DLz77j178oljxNdX+5CFPC5dVJl/27pw1d7/qR9KVHXal3\njeKsi9IwqkHPIgotO1sUdkMhG3ETbA6qeLiQh1wFT0uEtV6aPSAs+oTIxfET22Ii\nBQ40ptjzNKlpTuIyyn7LT1BGI+WQBqdTPFxxo0L3rrlLhW5h7eu+h5Ev6Dk85D1/\n97Qj58uLZ4Eu9t6tzxMY3BlrvS9ivSkMzxq2eGzWOy7BtHVvI7t+ckOgPAvodJ+1\nYO8P/mh5g1VteRX7SOt7eoPWGR+7zzW/TyZN4I0OupUcgUQXC+yKuEDBMoEuHgU\u003d\n\u003dmoIS\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "72bb35ab_6770f0b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-24T13:08:18Z",
+      "side": 1,
+      "message": "debug logs?",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "95b7c2eb852078d122f6623927254eb7dcbcceba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a8b6d5b_21b52678",
+        "filename": "java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-24T13:08:18Z",
+      "side": 1,
+      "message": "Intentionally changed the comment style: // instead of /**/?",
+      "revId": "95b7c2eb852078d122f6623927254eb7dcbcceba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0d601d2_79775079",
+        "filename": "java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-24T13:08:18Z",
+      "side": 1,
+      "message": "This method is called on line 137 above, right? Therefore, the whole logging would be done twice and this would be too verbose.",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 5
+      },
+      "revId": "95b7c2eb852078d122f6623927254eb7dcbcceba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

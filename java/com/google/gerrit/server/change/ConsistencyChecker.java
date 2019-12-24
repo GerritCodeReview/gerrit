@@ -225,7 +225,9 @@ public class ConsistencyChecker {
         problem("Missing change owner: " + change().getOwner());
       }
     } catch (IOException | ConfigInvalidException e) {
-      error("Failed to look up owner", e);
+      ProblemInfo problem = problem("Failed to look up owner");
+      logger.atWarning().withCause(e).log(
+          "Error in consistency check of change %s: %s", notes.getChangeId(), problem);
     }
   }
 
@@ -237,7 +239,9 @@ public class ConsistencyChecker {
             String.format("Current patch set %d not found", change().currentPatchSetId().get()));
       }
     } catch (StorageException e) {
-      error("Failed to look up current patch set", e);
+      ProblemInfo problem = problem("Failed to look up current patch set");
+      logger.atWarning().withCause(e).log(
+          "Error in consistency check of change %s: %s", notes.getChangeId(), problem);
     }
   }
 
@@ -249,9 +253,15 @@ public class ConsistencyChecker {
       rw = new RevWalk(oi.newReader());
       return true;
     } catch (RepositoryNotFoundException e) {
-      return error("Destination repository not found: " + project, e);
+      ProblemInfo problem = problem("Destination repository not found: " + project);
+      logger.atWarning().withCause(e).log(
+          "Error in consistency check of change %s: %s", notes.getChangeId(), problem);
+      return false;
     } catch (IOException e) {
-      return error("Failed to open repository: " + project, e);
+      ProblemInfo problem = problem("Failed to open repository: " + project);
+      logger.atWarning().withCause(e).log(
+          "Error in consistency check of change %s: %s", notes.getChangeId(), problem);
+      return false;
     }
   }
 
@@ -261,7 +271,10 @@ public class ConsistencyChecker {
       // Iterate in descending order.
       all = PS_ID_ORDER.sortedCopy(psUtil.byChange(notes));
     } catch (StorageException e) {
-      return error("Failed to look up patch sets", e);
+      ProblemInfo problem = problem("Failed to look up patch sets");
+      logger.atWarning().withCause(e).log(
+          "Error in consistency check of change %s: %s", notes.getChangeId(), problem);
+      return false;
     }
     patchSetsBySha = MultimapBuilder.hashKeys(all.size()).treeSetValues(PS_ID_ORDER).build();
 
@@ -271,7 +284,9 @@ public class ConsistencyChecker {
           repo.getRefDatabase()
               .exactRef(all.stream().map(ps -> ps.id().toRefName()).toArray(String[]::new));
     } catch (IOException e) {
-      error("error reading refs", e);
+      ProblemInfo problem = problem("Error reading refs");
+      logger.atWarning().withCause(e).log(
+          "Error in consistency check of change %s: %s", notes.getChangeId(), problem);
       refs = Collections.emptyMap();
     }
 
@@ -430,7 +445,8 @@ public class ConsistencyChecker {
             continue;
           }
         } catch (StorageException e) {
-          warn(e);
+          logger.atWarning().withCause(e).log(
+              "Error in consistency check of change %s", notes.getChangeId());
           // Include this patch set; should cause an error below, which is good.
         }
         thisCommitPsIds.add(psId);
@@ -480,7 +496,10 @@ public class ConsistencyChecker {
           break;
       }
     } catch (IOException e) {
-      error("Error looking up expected merged commit " + fix.expectMergedAs, e);
+      ProblemInfo problem =
+          problem("Error looking up expected merged commit " + fix.expectMergedAs);
+      logger.atWarning().withCause(e).log(
+          "Error in consistency check of change %s: %s", notes.getChangeId(), problem);
     }
   }
 
@@ -561,7 +580,8 @@ public class ConsistencyChecker {
       insertPatchSetProblem.status = Status.FIXED;
       insertPatchSetProblem.outcome = "Inserted as patch set " + psId.get();
     } catch (StorageException | IOException | UpdateException | RestApiException e) {
-      warn(e);
+      logger.atWarning().withCause(e).log(
+          "Error in consistency check of change %s", notes.getChangeId());
       for (ProblemInfo pi : currProblems) {
         pi.status = Status.FIX_FAILED;
         pi.outcome = "Error inserting merged patch set";
@@ -761,18 +781,6 @@ public class ConsistencyChecker {
 
   private ProblemInfo lastProblem() {
     return problems.get(problems.size() - 1);
-  }
-
-  private boolean error(String msg, Throwable t) {
-    problem(msg);
-    // TODO(dborowitz): Expose stack trace to administrators.
-    warn(t);
-    return false;
-  }
-
-  private void warn(Throwable t) {
-    logger.atWarning().withCause(t).log(
-        "Error in consistency check of change %s", notes.getChangeId());
   }
 
   private Result result() {

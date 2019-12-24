@@ -39,6 +39,9 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * An object blob in a Git repository that stores a single integer value.
+ */
 @AutoValue
 public abstract class IntBlob {
   public static Optional<IntBlob> parse(Repository repo, String refName) throws IOException {

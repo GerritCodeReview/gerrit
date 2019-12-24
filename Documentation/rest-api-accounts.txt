@@ -1251,7 +1251,6 @@ any account.
   )]}'
   {
     "changes_per_page": 25,
-    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
@@ -1305,7 +1304,6 @@ link:#preferences-input[PreferencesInput] entity.
   {
     "changes_per_page": 50,
     "expand_inline_diffs": true,
-    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
@@ -1353,7 +1351,6 @@ link:#preferences-info[PreferencesInfo] entity.
   {
     "changes_per_page": 50,
     "expand_inline_diffs": true,
-    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
@@ -2737,8 +2734,6 @@ Whether to expand diffs inline instead of opening as separate page
 The type of download URL the user prefers to use. May be any key from
 the `schemes` map in
 link:rest-api-config.html#download-info[DownloadInfo].
-|`download_command`             ||
-The type of download command the user prefers to use.
 |`date_format`                  ||
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -2799,8 +2794,6 @@ Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).
 |`download_scheme`              |optional|
 The type of download URL the user prefers to use.
-|`download_command`             |optional|
-The type of download command the user prefers to use.
 |`date_format`                  |optional|
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.

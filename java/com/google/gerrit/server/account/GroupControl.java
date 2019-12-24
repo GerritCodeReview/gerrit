@@ -160,7 +160,7 @@ public class GroupControl {
       return isOwner;
     }
 
-    // Keep this logic in sync with VisibleRefFilter#isOwner(...).
+    // Keep this logic in sync with DefaultRefFilter#isGroupOwner(...).
     if (group instanceof GroupDescription.Internal) {
       AccountGroup.UUID ownerUUID = ((GroupDescription.Internal) group).getOwnerGroupUUID();
       if (getUser().getEffectiveGroups().contains(ownerUUID)) {

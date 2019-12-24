@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -29,6 +30,7 @@ import com.google.inject.Singleton;
 
 /** Access control management for a group of accounts managed in Gerrit. */
 public class GroupControl {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Singleton
   public static class GenericFactory {
@@ -111,15 +113,46 @@ public class GroupControl {
 
   /** Can this user see this group exists? */
   public boolean isVisible() {
-    /* Check for canAdministrateServer may seem redundant, but allows
-     * for visibility of all groups that are not an internal group to
-     * server administrators.
-     */
-    return user.isInternalUser()
-        || groupBackend.isVisibleToAll(group.getGroupUUID())
-        || user.getEffectiveGroups().contains(group.getGroupUUID())
-        || isOwner()
-        || canAdministrateServer();
+    if (user.isInternalUser()) {
+      logger.atFine().log(
+          "group %s is visible to internal user %s",
+          group.getGroupUUID().get(), user.getLoggableName());
+      return true;
+    }
+
+    if (groupBackend.isVisibleToAll(group.getGroupUUID())) {
+      logger.atFine().log(
+          "group %s is visible to user %s (group is visible to all users)",
+          group.getGroupUUID().get(), user.getLoggableName());
+      return true;
+    }
+
+    if (user.getEffectiveGroups().contains(group.getGroupUUID())) {
+      logger.atFine().log(
+          "group %s is visible to user %s (user is member of the group)",
+          group.getGroupUUID().get(), user.getLoggableName());
+      return true;
+    }
+
+    if (isOwner()) {
+      logger.atFine().log(
+          "group %s is visible to user %s (user is owner of the group)",
+          group.getGroupUUID().get(), user.getLoggableName());
+      return true;
+    }
+
+    // The check for canAdministrateServer may seem redundant, but it's needed to make external
+    // groups visible to server administrators.
+    if (canAdministrateServer()) {
+      logger.atFine().log(
+          "group %s is visible to user %s (user is admin)",
+          group.getGroupUUID().get(), user.getLoggableName());
+      return true;
+    }
+
+    logger.atFine().log(
+        "group %s is not visible to user %s", group.getGroupUUID().get(), user.getLoggableName());
+    return false;
   }
 
   public boolean isOwner() {
@@ -130,8 +163,25 @@ public class GroupControl {
     // Keep this logic in sync with VisibleRefFilter#isOwner(...).
     if (group instanceof GroupDescription.Internal) {
       AccountGroup.UUID ownerUUID = ((GroupDescription.Internal) group).getOwnerGroupUUID();
-      isOwner = getUser().getEffectiveGroups().contains(ownerUUID) || canAdministrateServer();
+      if (getUser().getEffectiveGroups().contains(ownerUUID)) {
+        logger.atFine().log(
+            "user %s is owner of group %s", user.getLoggableName(), group.getGroupUUID().get());
+        isOwner = true;
+      } else if (canAdministrateServer()) {
+        logger.atFine().log(
+            "user %s is owner of group %s (user is admin)",
+            user.getLoggableName(), group.getGroupUUID().get());
+        isOwner = true;
+      } else {
+        logger.atFine().log(
+            "user %s is not an owner of group %s",
+            user.getLoggableName(), group.getGroupUUID().get());
+        isOwner = false;
+      }
     } else {
+      logger.atFine().log(
+          "user %s is not an owner of external group %s",
+          user.getLoggableName(), group.getGroupUUID().get());
       isOwner = false;
     }
     return isOwner;
@@ -141,7 +191,12 @@ public class GroupControl {
     try {
       perm.check(GlobalPermission.ADMINISTRATE_SERVER);
       return true;
-    } catch (AuthException | PermissionBackendException denied) {
+    } catch (AuthException e) {
+      return false;
+    } catch (PermissionBackendException e) {
+      logger.atFine().log(
+          "Failed to check %s global capability for user %s",
+          GlobalPermission.ADMINISTRATE_SERVER, user.getLoggableName());
       return false;
     }
   }

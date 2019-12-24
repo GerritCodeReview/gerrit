@@ -74,6 +74,7 @@ def _generate_build_files(ctx, binjar, srcjar):
         srcjar_attr = 'srcjar = "%s",' % srcjar
     contents = """
 {header}
+load("@rules_java//java:defs.bzl", "java_import")
 package(default_visibility = ['//visibility:public'])
 java_import(
     name = 'jar',

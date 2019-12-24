@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.events.PluginEventListener;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
@@ -21,6 +22,7 @@ import com.google.inject.Singleton;
 
 /** Helper class to let plugins fire a plugin-specific event. */
 @Singleton
+@UsedAt(UsedAt.Project.PLUGINS_ALL)
 public class PluginEvent {
   private final PluginSetContext<PluginEventListener> listeners;
 

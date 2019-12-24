@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
@@ -39,8 +38,6 @@ public abstract class Preferences {
     public abstract Optional<Integer> changesPerPage();
 
     public abstract Optional<String> downloadScheme();
-
-    public abstract Optional<DownloadCommand> downloadCommand();
 
     public abstract Optional<DateFormat> dateFormat();
 
@@ -81,8 +78,6 @@ public abstract class Preferences {
       abstract Builder changesPerPage(@Nullable Integer val);
 
       abstract Builder downloadScheme(@Nullable String val);
-
-      abstract Builder downloadCommand(@Nullable DownloadCommand val);
 
       abstract Builder dateFormat(@Nullable DateFormat val);
 
@@ -125,7 +120,6 @@ public abstract class Preferences {
       return (new AutoValue_Preferences_General.Builder())
           .changesPerPage(info.changesPerPage)
           .downloadScheme(info.downloadScheme)
-          .downloadCommand(info.downloadCommand)
           .dateFormat(info.dateFormat)
           .timeFormat(info.timeFormat)
           .expandInlineDiffs(info.expandInlineDiffs)
@@ -150,7 +144,6 @@ public abstract class Preferences {
       GeneralPreferencesInfo info = new GeneralPreferencesInfo();
       info.changesPerPage = changesPerPage().orElse(null);
       info.downloadScheme = downloadScheme().orElse(null);
-      info.downloadCommand = downloadCommand().orElse(null);
       info.dateFormat = dateFormat().orElse(null);
       info.timeFormat = timeFormat().orElse(null);
       info.expandInlineDiffs = expandInlineDiffs().orElse(null);

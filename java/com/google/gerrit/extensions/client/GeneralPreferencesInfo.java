@@ -124,8 +124,6 @@ public class GeneralPreferencesInfo {
   public Integer changesPerPage;
   /** Type of download URL the user prefers to use. */
   public String downloadScheme;
-  /** Type of download command the user prefers to use. */
-  public DownloadCommand downloadCommand;
 
   public DateFormat dateFormat;
   public TimeFormat timeFormat;
@@ -184,7 +182,6 @@ public class GeneralPreferencesInfo {
     GeneralPreferencesInfo p = new GeneralPreferencesInfo();
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.downloadScheme = null;
-    p.downloadCommand = DownloadCommand.CHECKOUT;
     p.dateFormat = DateFormat.STD;
     p.timeFormat = TimeFormat.HHMM_12;
     p.expandInlineDiffs = false;

@@ -96,7 +96,6 @@ public class CherryPick
     try {
       CherryPickChange.Result cherryPickResult =
           cherryPickChange.cherryPick(
-              updateFactory,
               rsrc.getChange(),
               rsrc.getPatchSet(),
               input,

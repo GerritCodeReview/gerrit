@@ -76,9 +76,9 @@
     }
 
     /**
-     * @param {?boolean} value - fallback to false if undefined
+     * @param {string} value - fallback to 'false' if undefined
      */
-    _computeChecked(value = false) {
+    _computeChecked(value = 'false') {
       return JSON.parse(value);
     }
 

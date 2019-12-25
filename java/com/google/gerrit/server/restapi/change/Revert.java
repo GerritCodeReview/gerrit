@@ -40,7 +40,6 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -55,7 +54,6 @@ public class Revert
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
-  private final BatchUpdate.Factory updateFactory;
   private final PatchSetUtil psUtil;
   private final ChangeJson.Factory json;
   private final ContributorAgreementsChecker contributorAgreements;
@@ -65,14 +63,12 @@ public class Revert
   @Inject
   Revert(
       PermissionBackend permissionBackend,
-      BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil,
       ChangeJson.Factory json,
       ContributorAgreementsChecker contributorAgreements,
       ProjectCache projectCache,
       CommitUtil commitUtil) {
     this.permissionBackend = permissionBackend;
-    this.updateFactory = updateFactory;
     this.psUtil = psUtil;
     this.json = json;
     this.contributorAgreements = contributorAgreements;

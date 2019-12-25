@@ -124,6 +124,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.util.git.DelegateSystemReader;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -135,6 +136,7 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -170,11 +172,14 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportBundleStream;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -289,6 +294,7 @@ public abstract class AbstractDaemonTest {
   private ProjectResetter resetter;
   private List<Repository> toClose;
   private String systemTimeZone;
+  private SystemReader oldSystemReader;
 
   @Before
   public void clearSender() {
@@ -385,6 +391,10 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void beforeTest(Description description) throws Exception {
+    // SystemReader must be overridden before creating any repos, since they read the user/system
+    // configs at initialization time, and are then stored in the RepositoryCache forever.
+    oldSystemReader = setFakeSystemReader(temporaryFolder.getRoot());
+
     this.description = description;
     GerritServer.Description classDesc =
         GerritServer.Description.forTestClass(description, configName);
@@ -445,6 +455,28 @@ public abstract class AbstractDaemonTest {
     setTimeSettings(classDesc.useSystemTime(), classDesc.useClockStep(), classDesc.useTimezone());
     setTimeSettings(
         methodDesc.useSystemTime(), methodDesc.useClockStep(), methodDesc.useTimezone());
+  }
+
+  private static SystemReader setFakeSystemReader(File tempDir) {
+    SystemReader oldSystemReader = SystemReader.getInstance();
+    SystemReader.setInstance(
+        new DelegateSystemReader(oldSystemReader) {
+          @Override
+          public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+            return new FileBasedConfig(parent, new File(tempDir, "jgit.config"), FS.detect());
+          }
+
+          @Override
+          public FileBasedConfig openUserConfig(Config parent, FS fs) {
+            return new FileBasedConfig(parent, new File(tempDir, "user.config"), FS.detect());
+          }
+
+          @Override
+          public FileBasedConfig openSystemConfig(Config parent, FS fs) {
+            return new FileBasedConfig(parent, new File(tempDir, "system.config"), FS.detect());
+          }
+        });
+    return oldSystemReader;
   }
 
   private void setTimeSettings(
@@ -602,6 +634,8 @@ public abstract class AbstractDaemonTest {
       server.close();
       server = null;
     }
+    SystemReader.setInstance(oldSystemReader);
+    oldSystemReader = null;
   }
 
   protected void closeSsh() {

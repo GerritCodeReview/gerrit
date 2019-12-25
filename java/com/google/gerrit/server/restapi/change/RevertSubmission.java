@@ -217,10 +217,9 @@ public class RevertSubmission
     }
   }
 
-  private RevertSubmissionInfo revertSubmission(
-      List<ChangeData> changeData, RevertInput revertInput)
-      throws RestApiException, IOException, UpdateException, PermissionBackendException,
-          NoSuchProjectException, ConfigInvalidException, StorageException {
+  private RevertSubmissionInfo revertSubmission(List<ChangeData> changeData,
+      RevertInput revertInput) throws RestApiException, IOException, UpdateException,
+      ConfigInvalidException, StorageException {
 
     Multimap<BranchNameKey, ChangeData> changesPerProjectAndBranch = ArrayListMultimap.create();
     changeData.stream().forEach(c -> changesPerProjectAndBranch.put(c.change().getDest(), c));

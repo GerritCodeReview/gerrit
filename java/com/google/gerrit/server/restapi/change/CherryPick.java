@@ -39,7 +39,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.submit.IntegrationException;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -52,7 +51,6 @@ public class CherryPick
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
-  private final BatchUpdate.Factory updateFactory;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
   private final ContributorAgreementsChecker contributorAgreements;
@@ -61,13 +59,11 @@ public class CherryPick
   @Inject
   CherryPick(
       PermissionBackend permissionBackend,
-      BatchUpdate.Factory updateFactory,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
       ContributorAgreementsChecker contributorAgreements,
       ProjectCache projectCache) {
     this.permissionBackend = permissionBackend;
-    this.updateFactory = updateFactory;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
     this.contributorAgreements = contributorAgreements;

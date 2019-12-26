@@ -31,7 +31,6 @@ def polygerrit_bundle(name, srcs, outs, app):
         suppress = [
             "JSC_JSDOC_MISSING_TYPE_WARNING",
             "JSC_UNNECESSARY_ESCAPE",
-            "JSC_UNUSED_LOCAL_ASSIGNMENT",
         ],
         deps = [
             "//lib/polymer_externs:polymer_closure",

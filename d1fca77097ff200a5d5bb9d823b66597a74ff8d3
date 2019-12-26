@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "228b6756_8601f938",
+        "filename": "javatests/com/google/gerrit/server/config/AuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1058345
+      },
+      "writtenOn": "2019-12-26T19:28:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66465003_ab28f113",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d1fca77097ff200a5d5bb9d823b66597a74ff8d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fde1e28d_d195b4f6",
         "filename": "javatests/com/google/gerrit/server/config/AuthConfigTest.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "d1fca77097ff200a5d5bb9d823b66597a74ff8d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93d5ae2f_202b136f",
+        "filename": "javatests/com/google/gerrit/server/config/AuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1058345
+      },
+      "writtenOn": "2019-12-26T19:28:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fde1e28d_d195b4f6",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 3
+      },
+      "revId": "d1fca77097ff200a5d5bb9d823b66597a74ff8d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

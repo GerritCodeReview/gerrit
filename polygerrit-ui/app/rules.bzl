@@ -21,8 +21,6 @@ def polygerrit_bundle(name, srcs, outs, app):
         deps = [name + "_closure_lib"],
     )
 
-    # TODO(davido): Remove JSC_REFERENCE_BEFORE_DECLARE when this is fixed upstream:
-    # https://github.com/Polymer/polymer-resin/issues/7
     closure_js_library(
         name = name + "_closure_lib",
         srcs = [appName + ".js"],
@@ -31,7 +29,6 @@ def polygerrit_bundle(name, srcs, outs, app):
         # and remove this supression
         suppress = [
             "JSC_JSDOC_MISSING_TYPE_WARNING",
-            "JSC_REFERENCE_BEFORE_DECLARE",
             "JSC_UNNECESSARY_ESCAPE",
             "JSC_UNUSED_LOCAL_ASSIGNMENT",
         ],

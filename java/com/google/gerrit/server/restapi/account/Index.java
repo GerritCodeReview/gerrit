@@ -29,6 +29,14 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 
+/**
+ * REST endpoint to (re)index an account.
+ *
+ * <p>This REST endpoint handles {@code POST /accounts/<account-identifier>/index} requests.
+ *
+ * <p>If the document of an account in the account index is stale, this REST endpoint can be used to
+ * update the index.
+ */
 @Singleton
 public class Index implements RestModifyView<AccountResource, Input> {
 

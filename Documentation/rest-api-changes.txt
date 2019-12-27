@@ -1520,8 +1520,14 @@ the error message is contained in the response body.
 Creates open revert changes for all of the changes of a certain submission.
 
 The subject of each revert change will be 'Revert "<subject-of-reverted-change"'.
-If the subject is above 63 characters, the subject will be cut to 59 characters
-with "..." in the end.
+If the subject is above 60 characters, the subject will be cut to 56 characters
+with "..." in the end. However, whenever reverting the submission of a revert
+submission, the subject will be shortened from
+'Revert "Revert "<subject-of-reverted-change""' to
+'Revert^2 "<subject-of-reverted-change"'. Also, for every future revert submission,
+the only difference in the subject will be the number of the revert (instead of
+Revert^2 the subject will change to Revert^3 and so on).
+There are no guarantees about the subjects if the users change the default subjects.
 
 Details for the revert can be specified in the request body inside a link:#revert-input[
 RevertInput] The topic of all created revert changes will be

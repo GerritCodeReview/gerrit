@@ -23,6 +23,9 @@ public class ChangeMessages extends TranslationBundle {
   }
 
   public String revertChangeDefaultMessage;
+  public String revertSubmissionDefaultMessage;
+  public String revertSubmissionUserMessage;
+  public String revertSubmissionOfRevertSubmissionUserMessage;
 
   public String reviewerCantSeeChange;
   public String reviewerInvalid;

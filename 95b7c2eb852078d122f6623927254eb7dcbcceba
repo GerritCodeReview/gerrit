@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "dfcee969_adc1ae57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T06:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72bb35ab_6770f0b8",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "95b7c2eb852078d122f6623927254eb7dcbcceba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a8b6d5b_21b52678",
         "filename": "java/com/google/gerrit/server/account/GroupControl.java",
         "patchSetId": 1
@@ -40,6 +64,24 @@
       "revId": "95b7c2eb852078d122f6623927254eb7dcbcceba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0aba962f_bd4e53a3",
+        "filename": "java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T06:59:15Z",
+      "side": 1,
+      "message": "Yes, I thought while I\u0027m here, I fix that comment as well.",
+      "parentUuid": "9a8b6d5b_21b52678",
+      "revId": "95b7c2eb852078d122f6623927254eb7dcbcceba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -63,6 +105,30 @@
       "revId": "95b7c2eb852078d122f6623927254eb7dcbcceba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b471af3_95d7cb05",
+        "filename": "java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T06:59:15Z",
+      "side": 1,
+      "message": "No, it\u0027s only logged once, since  the computation of the owner is locally cached in the \"isOwner\" class variable. On the second call this method will exit above in line 160 without doing any logging.",
+      "parentUuid": "b0d601d2_79775079",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 5
+      },
+      "revId": "95b7c2eb852078d122f6623927254eb7dcbcceba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

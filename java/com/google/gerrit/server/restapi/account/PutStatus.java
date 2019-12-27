@@ -35,6 +35,14 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to set the status of an account.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>/status} requests.
+ *
+ * <p>The account status is a free-form text that a user can set for the own account (e.g. the 'OOO'
+ * string is often used to signal that the user is out-of-office).
+ */
 @Singleton
 public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
   private final Provider<CurrentUser> self;

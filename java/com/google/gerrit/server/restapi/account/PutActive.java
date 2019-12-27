@@ -27,6 +27,15 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to mark an account as active.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>/active} requests.
+ *
+ * <p>Only active accounts can login into Gerrit.
+ *
+ * <p>Marking an account as inactive is handled by {@link DeleteActive}.
+ */
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
 public class PutActive implements RestModifyView<AccountResource, Input> {

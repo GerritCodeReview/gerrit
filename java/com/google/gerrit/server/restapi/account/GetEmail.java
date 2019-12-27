@@ -21,6 +21,12 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint to get an email of an account.
+ *
+ * <p>This REST endpoint handles {@code GET
+ * /accounts/<account-identifier>/emails/<email-identifier>} requests.
+ */
 @Singleton
 public class GetEmail implements RestReadView<AccountResource.Email> {
   @Inject

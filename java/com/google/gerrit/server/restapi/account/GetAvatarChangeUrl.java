@@ -24,6 +24,15 @@ import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint to get the URL for changing the avatar image of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/avatar.change.url}
+ * requests.
+ *
+ * <p>Avatar images are only available if an {@link AvatarProvider} plugin is installed. Not all
+ * avatar plugins provide an URL for changing avatar images.
+ */
 @Singleton
 public class GetAvatarChangeUrl implements RestReadView<AccountResource> {
   private final DynamicItem<AvatarProvider> avatarProvider;

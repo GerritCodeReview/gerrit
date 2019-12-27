@@ -16,6 +16,24 @@
       "revId": "5b823100cd0ca1463784635742dcbe173abdef6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0014ae7_15fd79d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T06:45:23Z",
+      "side": 1,
+      "message": "No, we really return response code 503 with the text \"Lock failure\". I was also wondering why it was not \"Service Unavailable\". I\u0027m afraid that changing this could break clients.",
+      "parentUuid": "785fca2a_a85c58fc",
+      "revId": "5b823100cd0ca1463784635742dcbe173abdef6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

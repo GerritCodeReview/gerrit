@@ -21,6 +21,7 @@ import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.FileInfoSubject.assertThat;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 
@@ -41,6 +42,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.testing.ConfigSuite;
@@ -2716,6 +2718,23 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     // a comment is present.
     assertThat(diffInfo).content().element(0).commonLines().isNull();
     assertThat(diffInfo).content().element(0).numberOfSkippedLines().isGreaterThan(0);
+  }
+
+  @Test
+  public void editNotAllowedAsBase() throws Exception {
+    gApi.changes().id(changeId).edit().create();
+
+    BadRequestException e =
+        assertThrows(
+            BadRequestException.class,
+            () -> getDiffRequest(changeId, CURRENT, FILE_NAME).withBase("edit").get());
+    assertThat(e).hasMessageThat().isEqualTo("edit not allowed as base");
+
+    e =
+        assertThrows(
+            BadRequestException.class,
+            () -> getDiffRequest(changeId, CURRENT, FILE_NAME).withBase("0").get());
+    assertThat(e).hasMessageThat().isEqualTo("edit not allowed as base");
   }
 
   private static CommentInput createCommentInput(

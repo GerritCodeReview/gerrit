@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -102,8 +103,8 @@ public class GetDiff implements RestReadView<FileResource> {
 
   @Override
   public Response<DiffInfo> apply(FileResource resource)
-      throws ResourceConflictException, ResourceNotFoundException, AuthException,
-          InvalidChangeOperationException, IOException, PermissionBackendException {
+      throws BadRequestException, ResourceConflictException, ResourceNotFoundException,
+          AuthException, InvalidChangeOperationException, IOException, PermissionBackendException {
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {
       prefs.ignoreWhitespace = whitespace;
@@ -130,6 +131,9 @@ public class GetDiff implements RestReadView<FileResource> {
       RevisionResource baseResource =
           revisions.parse(resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet();
+      if (basePatchSet.id().get() == 0) {
+        throw new BadRequestException("edit not allowed as base");
+      }
       psf = patchScriptFactoryFactory.create(notes, fileName, basePatchSet.id(), pId, prefs);
     } else if (parentNum > 0) {
       psf = patchScriptFactoryFactory.create(notes, fileName, parentNum - 1, pId, prefs);

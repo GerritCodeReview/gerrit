@@ -42,6 +42,14 @@ import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * REST endpoint to get all contributor agreements that have been signed by an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/agreements} requests.
+ *
+ * <p>Contributor agreements are only available if contributor agreements have been enabled in
+ * {@code gerrit.config} (see {@code auth.contributorAgreements}).
+ */
 @Singleton
 public class GetAgreements implements RestReadView<AccountResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

@@ -41,6 +41,12 @@ import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to get the project watches of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/watched.projects}
+ * requests.
+ */
 @Singleton
 public class GetWatchedProjects implements RestReadView<AccountResource> {
   private final PermissionBackend permissionBackend;

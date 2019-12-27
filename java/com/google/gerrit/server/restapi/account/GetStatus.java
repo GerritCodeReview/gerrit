@@ -20,6 +20,14 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint to get the status of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/status} requests.
+ *
+ * <p>The account status is a free-form text that a user can set for the own account (e.g. the 'OOO'
+ * string is often used to signal that the user is out-of-office).
+ */
 @Singleton
 public class GetStatus implements RestReadView<AccountResource> {
   @Override

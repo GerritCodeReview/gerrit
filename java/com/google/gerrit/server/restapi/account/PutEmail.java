@@ -21,6 +21,22 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint for updating an existing email address of an account.
+ *
+ * <p>This REST endpoint handles {@code PUT
+ * /accounts/<account-identifier>/emails/<email-identifier>} requests if the specified email address
+ * already exists for the account. If it doesn't exist yet, the request is handled by {@link
+ * CreateEmail}.
+ *
+ * <p>We do not support email address updates via this path, hence this REST endpoint always throws
+ * a {@link ResourceConflictException} which results in a {@code 409 Conflict} response.
+ *
+ * <p>This REST endpoint solely exists to avoid user confusion if they create a new email address
+ * with {@code PUT /accounts/<account-identifier>/emails/<email-identifier>} and then repeat the
+ * same request. Without this REST endpoint the second request would fail with {@code 404 Not
+ * Found}, which would be surprising to the user.
+ */
 @Singleton
 public class PutEmail implements RestModifyView<AccountResource.Email, EmailInput> {
   @Override

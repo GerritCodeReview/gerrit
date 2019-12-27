@@ -48,6 +48,26 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint for registering a new email address for an account.
+ *
+ * <p>This REST endpoint handles {@code PUT
+ * /accounts/<account-identifier>/emails/<email-identifier>} requests if the specified email doesn't
+ * exist for the account yet. If it already exists, the request is handled by {@link PutEmail}.
+ *
+ * <p>Whether an email address can be registered for the account depends on whether the used {@link
+ * Realm} supports this.
+ *
+ * <p>When a new email address is registered an email with a confirmation link is sent to that
+ * address. Only when the receiver confirms the email by clicking on the confirmation link, the
+ * email address is added to the account (see {@link
+ * com.google.gerrit.server.restapi.config.ConfirmEmail}). Confirming an email address for an
+ * account creates an external ID that links the email address to the account. An email address can
+ * only be added to an account if it is not assigned to any other account yet.
+ *
+ * <p>In some cases it is allowed to skip the email confirmation and add the email directly (calling
+ * user has 'Modify Account' capability or server is running in dev mode).
+ */
 @Singleton
 public class CreateEmail
     implements RestCollectionCreateView<AccountResource, AccountResource.Email, EmailInput> {

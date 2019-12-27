@@ -38,6 +38,13 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to set the full name of an account.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>/name} requests.
+ *
+ * <p>Whether a full name can be set depends on whether the used {@link Realm} supports this.
+ */
 @Singleton
 public class PutName implements RestModifyView<AccountResource, NameInput> {
   private final Provider<CurrentUser> self;

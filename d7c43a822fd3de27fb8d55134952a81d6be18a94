@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfbd63af_17d2f1f4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1530,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T10:59:05Z",
+      "side": 1,
+      "message": "I think this can be dropped here, as all of this description only applies to the Revert Submission REST endpoint.",
+      "range": {
+        "startLine": 1530,
+        "startChar": 0,
+        "endLine": 1530,
+        "endChar": 50
+      },
+      "revId": "d7c43a822fd3de27fb8d55134952a81d6be18a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac3f7cb0_f67709c7",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T10:59:05Z",
+      "side": 1,
+      "message": "I think it would be better if this was:\n\n  return MessageFormat.format(\n          ChangeMessages.get().revertChangeDefaultMessage,\n          subject,\n          changeNotes.getCurrentPatchSet().commitId().name());\n\nThen the \u0027if (initialMessage \u003d\u003d null) {\u0027 block above should be moved below.",
+      "range": {
+        "startLine": 369,
+        "startChar": 6,
+        "endLine": 369,
+        "endChar": 75
+      },
+      "revId": "d7c43a822fd3de27fb8d55134952a81d6be18a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2737850d_142e67dd",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T10:59:05Z",
+      "side": 1,
+      "message": "Here and below, the pattern is the same for every revert, hence it can be a static member in this class so that the pattern doesn\u0027t need to be compiled for each request again and again.",
+      "revId": "d7c43a822fd3de27fb8d55134952a81d6be18a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f243ec7_fb00ac0d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T10:59:05Z",
+      "side": 1,
+      "message": "I think it would be more consistent if the \"Revert ...\" part is part of the message that is defined in ChangeMessages.properties:\n\n  return MessageFormat.format(\n          ChangeMessages.get().revertSubmissionDefaultMessage,\n          Integer.valueOf(matcher.group(1)) + 1,\n          matcher.group(2),\n          changeNotes.getCurrentPatchSet().commitId().name());",
+      "range": {
+        "startLine": 376,
+        "startChar": 6,
+        "endLine": 378,
+        "endChar": 83
+      },
+      "revId": "d7c43a822fd3de27fb8d55134952a81d6be18a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4af02256_ed07d744",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T10:59:05Z",
+      "side": 1,
+      "message": "Then this should be:\n\n  return MessageFormat.format(\n          ChangeMessages.get().revertSubmissionDefaultMessage,\n          2,\n          matcher.group(1),\n          changeNotes.getCurrentPatchSet().commitId().name());",
+      "range": {
+        "startLine": 384,
+        "startChar": 6,
+        "endLine": 384,
+        "endChar": 86
+      },
+      "revId": "d7c43a822fd3de27fb8d55134952a81d6be18a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

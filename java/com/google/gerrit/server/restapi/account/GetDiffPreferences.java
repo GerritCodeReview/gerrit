@@ -34,6 +34,18 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to get the diff preferences of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/preferences.diff}
+ * requests.
+ *
+ * <p>General preferences can be retrieved by {@link GetPreferences} and edit preferences can be
+ * retrieved by {@link GetEditPreferences}.
+ *
+ * <p>Default diff preferences that apply for all accounts can be retrieved by {@link
+ * com.google.gerrit.server.restapi.config.GetDiffPreferences}.
+ */
 @Singleton
 public class GetDiffPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;

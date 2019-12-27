@@ -37,6 +37,18 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
+/**
+ * REST endpoint to set diff preferences for an account.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>/preferences.diff}
+ * requests.
+ *
+ * <p>General preferences can be set by {@link SetPreferences} and edit preferences can be set by
+ * {@link SetEditPreferences}.
+ *
+ * <p>Default diff preferences that apply for all accounts can be set by {@link
+ * com.google.gerrit.server.restapi.config.SetDiffPreferences}.
+ */
 @Singleton
 public class SetDiffPreferences implements RestModifyView<AccountResource, DiffPreferencesInfo> {
   private final Provider<CurrentUser> self;

@@ -41,6 +41,17 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to set general preferences for an account.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>/preferences} requests.
+ *
+ * <p>Diff preferences can be set by {@link SetDiffPreferences} and edit preferences can be set by
+ * {@link SetEditPreferences}.
+ *
+ * <p>Default general preferences that apply for all accounts can be set by {@link
+ * com.google.gerrit.server.restapi.config.SetPreferences}.
+ */
 @Singleton
 public class SetPreferences implements RestModifyView<AccountResource, GeneralPreferencesInfo> {
   private final Provider<CurrentUser> self;

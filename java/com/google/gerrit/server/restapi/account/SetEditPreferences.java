@@ -37,6 +37,18 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
+/**
+ * REST endpoint to set edit preferences for an account.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>/preferences.edit}
+ * requests.
+ *
+ * <p>General preferences can be set by {@link SetPreferences} and diff preferences can be set by
+ * {@link SetDiffPreferences}.
+ *
+ * <p>Default edit preferences that apply for all accounts can be set by {@link
+ * com.google.gerrit.server.restapi.config.SetEditPreferences}.
+ */
 @Singleton
 public class SetEditPreferences implements RestModifyView<AccountResource, EditPreferencesInfo> {
 

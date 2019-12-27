@@ -31,6 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * REST endpoint to get all known groups of an account (groups that contain the account as member).
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/groups} requests.
+ *
+ * <p>The response may not contain all groups of the account as not all groups may be known (see
+ * {@link com.google.gerrit.server.account.GroupMembership#getKnownGroups()}). In addition groups
+ * that are not visible to the calling user are filtered out.
+ */
 @Singleton
 public class GetGroups implements RestReadView<AccountResource> {
   private final GroupControl.Factory groupControlFactory;

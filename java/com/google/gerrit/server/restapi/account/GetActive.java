@@ -19,6 +19,13 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint to get the active state of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/active} requests.
+ *
+ * <p>Only active accounts can login into Gerrit.
+ */
 @Singleton
 public class GetActive implements RestReadView<AccountResource> {
   @Override

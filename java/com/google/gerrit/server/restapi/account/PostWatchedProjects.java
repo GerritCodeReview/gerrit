@@ -41,6 +41,12 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to set project watches for an account.
+ *
+ * <p>This REST endpoint handles {@code POST /accounts/<account-identifier>/watched.projects}
+ * requests.
+ */
 @Singleton
 public class PostWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {

@@ -39,6 +39,12 @@ import java.util.List;
 import java.util.Objects;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to delete project watches from an account.
+ *
+ * <p>This REST endpoint handles {@code POST /accounts/<account-identifier>/watched.projects:delete}
+ * requests.
+ */
 @Singleton
 public class DeleteWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {

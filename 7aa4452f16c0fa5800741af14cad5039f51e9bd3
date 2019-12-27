@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fdf373b_e1610b65",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutHttpPassword.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1058345
+      },
+      "writtenOn": "2019-12-27T09:43:08Z",
+      "side": 1,
+      "message": "@lucas : \nI\u0027ve rolled-back to use trunked base64 as what we want is the resulting String used as the password to have a specific length.\nJust limiting the source random bucket is not enough as the length of the rand array is not the length of the resulting base64 output.\nAlso, I\u0027ve simplified the code by using URLSafe base64 that does not use \u0027+\u0027 and \u0027/\u0027 but \u0027-\u0027 and \u0027_\u0027 without padding.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 64
+      },
+      "revId": "7aa4452f16c0fa5800741af14cad5039f51e9bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

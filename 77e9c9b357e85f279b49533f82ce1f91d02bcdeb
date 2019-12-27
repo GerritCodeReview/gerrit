@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8493b842_93f7a60c",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T07:02:13Z",
+      "side": 1,
+      "message": "I think in this case it was intentional that the BinaryResult (and hence rw + repo), was not closed?",
+      "range": {
+        "startLine": 133,
+        "startChar": 10,
+        "endLine": 133,
+        "endChar": 24
+      },
+      "revId": "77e9c9b357e85f279b49533f82ce1f91d02bcdeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

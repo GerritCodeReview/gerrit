@@ -41,6 +41,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * <p>Gerrit only stores the hash of the HTTP password, hence if an HTTP password was set it's not
  * possible to get it back from Gerrit.
  */
+@Singleton
 public class PutHttpPassword implements RestModifyView<AccountResource, HttpPasswordInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

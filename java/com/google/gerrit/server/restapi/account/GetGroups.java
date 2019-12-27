@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.exceptions.NoSuchGroupException;
@@ -42,6 +43,8 @@ import java.util.Set;
  */
 @Singleton
 public class GetGroups implements RestReadView<AccountResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final GroupControl.Factory groupControlFactory;
   private final GroupJson json;
 
@@ -63,11 +66,22 @@ public class GetGroups implements RestReadView<AccountResource> {
       try {
         ctl = groupControlFactory.controlFor(uuid);
       } catch (NoSuchGroupException e) {
+        logger.atFine().log("skipping non-existing group %s", uuid);
         continue;
       }
-      if (ctl.isVisible() && ctl.canSeeMember(userId)) {
-        visibleGroups.add(json.format(ctl.getGroup()));
+
+      if (!ctl.isVisible()) {
+        logger.atFine().log("skipping non-visible group %s", uuid);
+        continue;
       }
+
+      if (!ctl.canSeeMember(userId)) {
+        logger.atFine().log(
+            "skipping group %s because member %d cannot be seen", uuid, userId.get());
+        continue;
+      }
+
+      visibleGroups.add(json.format(ctl.getGroup()));
     }
     return Response.ok(visibleGroups);
   }

@@ -36,6 +36,11 @@ import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
+/**
+ * REST endpoint to list the SSH keys of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/sshkeys/} requests.
+ */
 @Singleton
 public class GetSshKeys implements RestReadView<AccountResource> {
 

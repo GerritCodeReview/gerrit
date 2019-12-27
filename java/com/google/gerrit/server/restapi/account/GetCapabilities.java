@@ -49,6 +49,11 @@ import java.util.Map;
 import java.util.Set;
 import org.kohsuke.args4j.Option;
 
+/**
+ * REST endpoint to list the global capabilities that are assigned to an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/capabilities/} requests.
+ */
 public class GetCapabilities implements RestReadView<AccountResource> {
   @Option(name = "-q", metaVar = "CAP", usage = "Capability to inspect")
   void addQuery(String name) {
@@ -159,6 +164,12 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     }
   }
 
+  /**
+   * REST endpoint to check if a global capability is assigned to an account.
+   *
+   * <p>This REST endpoint handles {@code GET
+   * /accounts/<account-identifier>/capabilities/<capability-identifier>} requests.
+   */
   @Singleton
   public static class CheckOne implements RestReadView<AccountResource.Capability> {
     private final PermissionBackend permissionBackend;

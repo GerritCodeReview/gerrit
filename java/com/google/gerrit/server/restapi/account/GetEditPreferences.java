@@ -34,6 +34,18 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to get the edit preferences of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/preferences.edit}
+ * requests.
+ *
+ * <p>General preferences can be retrieved by {@link GetPreferences} and diff preferences can be
+ * retrieved by {@link GetDiffPreferences}.
+ *
+ * <p>Default edit preferences that apply for all accounts can be retrieved by {@link
+ * com.google.gerrit.server.restapi.config.GetEditPreferences}.
+ */
 @Singleton
 public class GetEditPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;

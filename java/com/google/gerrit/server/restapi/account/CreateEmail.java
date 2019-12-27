@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.extensions.client.AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
@@ -101,6 +102,7 @@ public class CreateEmail
   }
 
   /** To be used from plugins that want to create emails without permission checks. */
+  @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
   public EmailInfo apply(IdentifiedUser user, IdString id, EmailInput input)
       throws RestApiException, EmailException, MethodNotAllowedException, IOException,
           ConfigInvalidException, PermissionBackendException {

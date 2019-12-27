@@ -22,6 +22,11 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint to get the username of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/username} requests.
+ */
 @Singleton
 public class GetUsername implements RestReadView<AccountResource> {
   @Inject

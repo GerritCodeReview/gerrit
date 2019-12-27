@@ -32,6 +32,11 @@ import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * REST endpoint to list the emails of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/emails/} requests.
+ */
 @Singleton
 public class GetEmails implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;

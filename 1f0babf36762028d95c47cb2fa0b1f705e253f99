@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8378a1d_34700d76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T07:24:45Z",
+      "side": 1,
+      "message": "Please adapt the documentation in rest-api-changes.txt.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 52
+      },
+      "revId": "1f0babf36762028d95c47cb2fa0b1f705e253f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04491f2d_f36e5ddc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T07:24:45Z",
+      "side": 1,
+      "message": "Please include the reason why the same is not done for the normal Revert REST endpoint.",
+      "revId": "1f0babf36762028d95c47cb2fa0b1f705e253f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc67dab_c256ae64",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T07:24:45Z",
+      "side": 1,
+      "message": "Instead of hard-coding the message here, it would be better to define it in ChangeMessages, where also the revertChangeDefaultMessage is defined. This allows to translate this message, if wanted.",
+      "revId": "1f0babf36762028d95c47cb2fa0b1f705e253f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2be91b0d_cd11c1dd",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T07:24:45Z",
+      "side": 1,
+      "message": "What is this part for? \u0027.+\u0027 matches a single random character, doesn\u0027t it? Should this be \u0027.*\u0027?",
+      "range": {
+        "startLine": 362,
+        "startChar": 39,
+        "endLine": 362,
+        "endChar": 41
+      },
+      "revId": "1f0babf36762028d95c47cb2fa0b1f705e253f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d37ef52_a1b56c95",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T07:24:45Z",
+      "side": 1,
+      "message": "Is it intentional that this regexp differs from the one in the line above (missing space)?",
+      "range": {
+        "startLine": 363,
+        "startChar": 47,
+        "endLine": 363,
+        "endChar": 67
+      },
+      "revId": "1f0babf36762028d95c47cb2fa0b1f705e253f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44bc19c9_a0180f15",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T07:24:45Z",
+      "side": 1,
+      "message": "To extract the revert number use java.util.regex.Pattern#matcher and then Matcher.group(...).",
+      "range": {
+        "startLine": 363,
+        "startChar": 28,
+        "endLine": 363,
+        "endChar": 74
+      },
+      "revId": "1f0babf36762028d95c47cb2fa0b1f705e253f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d4b8827_25c5c8a6",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-27T07:24:45Z",
+      "side": 1,
+      "message": "I think you shouldn\u0027t compute the subject by replacing substrings, but rather use java.util.regex.Pattern#matcher above and then use Matcher.group(...) to get the parts that you need to construct the new subject.",
+      "range": {
+        "startLine": 377,
+        "startChar": 4,
+        "endLine": 383,
+        "endChar": 19
+      },
+      "revId": "1f0babf36762028d95c47cb2fa0b1f705e253f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -162,7 +162,7 @@ limitations under the License.
           assert.isFalse(element.$.replyOverlay.opened);
           assert(openSpy.lastCall.calledWithExactly(
               element.$.replyDialog.FocusTarget.ANY),
-              '_openReplyDialog should have been passed ANY');
+          '_openReplyDialog should have been passed ANY');
           assert.equal(openSpy.callCount, 1);
           done();
         });
@@ -1074,7 +1074,7 @@ limitations under the License.
           MockInteractions.tap(element.$.replyBtn);
           assert(openStub.lastCall.calledWithExactly(
               element.$.replyDialog.FocusTarget.ANY),
-              '_openReplyDialog should have been passed ANY');
+          '_openReplyDialog should have been passed ANY');
           assert.equal(openStub.callCount, 1);
         });
 
@@ -1086,7 +1086,7 @@ limitations under the License.
             {message: {message: 'text'}});
         assert(openStub.lastCall.calledWithExactly(
             element.$.replyDialog.FocusTarget.BODY),
-            '_openReplyDialog should have been passed BODY');
+        '_openReplyDialog should have been passed BODY');
         assert.equal(openStub.callCount, 1);
         done();
       });
@@ -1511,7 +1511,7 @@ limitations under the License.
 
     test('_computeEditMode', () => {
       const callCompute = (range, params) =>
-          element._computeEditMode({base: range}, {base: params});
+        element._computeEditMode({base: range}, {base: params});
       assert.isFalse(callCompute({}, {}));
       assert.isTrue(callCompute({}, {edit: true}));
       assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}, {}));
@@ -1719,7 +1719,7 @@ limitations under the License.
 
       element._patchRange = {patchNum: 1};
       element.$.actions.dispatchEvent(new CustomEvent('stop-edit-tap',
-            {bubbles: false}));
+          {bubbles: false}));
     });
 
     suite('plugin endpoints', () => {

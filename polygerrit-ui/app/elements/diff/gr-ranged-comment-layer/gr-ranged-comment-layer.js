@@ -53,12 +53,12 @@
     annotate(el, line) {
       let ranges = [];
       if (line.type === GrDiffLine.Type.REMOVE || (
-          line.type === GrDiffLine.Type.BOTH &&
+        line.type === GrDiffLine.Type.BOTH &&
           el.getAttribute('data-side') !== 'right')) {
         ranges = ranges.concat(this._getRangesForLine(line, 'left'));
       }
       if (line.type === GrDiffLine.Type.ADD || (
-          line.type === GrDiffLine.Type.BOTH &&
+        line.type === GrDiffLine.Type.BOTH &&
           el.getAttribute('data-side') !== 'left')) {
         ranges = ranges.concat(this._getRangesForLine(line, 'right'));
       }
@@ -165,8 +165,8 @@
 
       for (const splice of record.indexSplices) {
         const ranges = splice.removed.length ?
-            splice.removed.map(c => { return c.range; }) :
-            [splice.object[splice.index].range];
+          splice.removed.map(c => { return c.range; }) :
+          [splice.object[splice.index].range];
         for (const range of ranges) {
           if (!range) { continue; }
           this._notifyUpdateRange(range.start_line, range.end_line, side);

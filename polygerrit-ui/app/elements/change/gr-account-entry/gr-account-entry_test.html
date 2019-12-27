@@ -217,10 +217,10 @@ limitations under the License.
     test('allowAnyUser', done => {
       const suggestReviewerStub =
           sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
-          .returns(Promise.resolve([]));
+              .returns(Promise.resolve([]));
       const suggestAccountStub =
           sandbox.stub(element.$.restAPI, 'getSuggestedAccounts')
-          .returns(Promise.resolve([]));
+              .returns(Promise.resolve([]));
 
       element._getReviewerSuggestions('').then(() => {
         assert.isTrue(suggestReviewerStub.calledOnce);
@@ -252,7 +252,7 @@ limitations under the License.
 
     test('account-text-changed not fired when input text changed without ' +
         'allowAnyUser', () => {
-          // Spy on query, as that is called when _updateSuggestions proceeds.
+      // Spy on query, as that is called when _updateSuggestions proceeds.
       const changeStub = sandbox.stub();
       sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
           .returns(Promise.resolve([]));

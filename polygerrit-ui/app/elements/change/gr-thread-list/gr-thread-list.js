@@ -109,8 +109,8 @@
 
       const lastNonDraftComment =
           (lastComment.__draft && thread.comments.length > 1) ?
-          thread.comments[thread.comments.length - 2] :
-          lastComment;
+            thread.comments[thread.comments.length - 2] :
+            lastComment;
 
       return {
         thread,

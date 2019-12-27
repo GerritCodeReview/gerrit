@@ -69,7 +69,7 @@
      * @event diff-comments-modified
      */
 
-     /**
+    /**
       * Fired when a draft is added or edited.
       *
       * @event draft-interaction
@@ -353,8 +353,8 @@
         return false;
       }
       const patchNum = el.classList.contains(DiffSide.LEFT) ?
-          this.patchRange.basePatchNum :
-          this.patchRange.patchNum;
+        this.patchRange.basePatchNum :
+        this.patchRange.patchNum;
 
       const isEdit = this.patchNumEquals(patchNum, this.EDIT_NAME);
       const isEditBase = this.patchNumEquals(patchNum, this.PARENT_NAME) &&
@@ -763,8 +763,8 @@
         chunkIndex--;
         chunk = diff.content[chunkIndex];
       } while (
-          // We haven't reached the beginning.
-          chunkIndex >= 0 &&
+      // We haven't reached the beginning.
+        chunkIndex >= 0 &&
 
           // The chunk doesn't have both sides.
           !chunk.ab &&

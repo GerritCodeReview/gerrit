@@ -90,7 +90,7 @@
     _determineIfOwner(repo) {
       return this.$.restAPI.getRepoAccess(repo)
           .then(access =>
-                this._isOwner = access && !!access[repo].is_owner);
+            this._isOwner = access && !!access[repo].is_owner);
     },
 
     _paramsChanged(params) {
@@ -124,17 +124,17 @@
       if (detailType === DETAIL_TYPES.BRANCHES) {
         return this.$.restAPI.getRepoBranches(
             filter, repo, itemsPerPage, offset, errFn).then(items => {
-              if (!items) { return; }
-              this._items = items;
-              this._loading = false;
-            });
+          if (!items) { return; }
+          this._items = items;
+          this._loading = false;
+        });
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return this.$.restAPI.getRepoTags(
             filter, repo, itemsPerPage, offset, errFn).then(items => {
-              if (!items) { return; }
-              this._items = items;
-              this._loading = false;
-            });
+          if (!items) { return; }
+          this._items = items;
+          this._loading = false;
+        });
       }
     },
 
@@ -173,7 +173,7 @@
 
     _computeCanEditClass(ref, detailType, isOwner) {
       return isOwner && this._stripRefs(ref, detailType) === 'HEAD' ?
-          'canEdit' : '';
+        'canEdit' : '';
     },
 
     _handleEditRevision(e) {

@@ -124,7 +124,7 @@
   GrAnnotationActionsInterface.prototype.getLayer = function(
       path, changeNum, patchNum) {
     const annotationLayer = new AnnotationLayer(path, changeNum, patchNum,
-                                                this._addLayerFunc);
+        this._addLayerFunc);
     this._annotationLayers.push(annotationLayer);
     return annotationLayer;
   };

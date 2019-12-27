@@ -66,11 +66,11 @@ limitations under the License.
           element.reporter.calledWithExactly(
               'timing-report', 'UI Latency', 'App Started',
               NOW_TIME - fakePerformance.navigationStart
-      ));
+          ));
       assert.isTrue(
           element.reporter.calledWithExactly(
               'lifecycle', 'Page Visibility', 'hidden'
-      ));
+          ));
     });
 
     test('WebComponentsReady', () => {

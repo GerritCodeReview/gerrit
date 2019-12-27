@@ -568,7 +568,7 @@
       }
     },
 
-      /**
+    /**
        * @param {string=} actionName
        */
     _deleteAndNotify(actionName) {
@@ -1370,9 +1370,9 @@
 
     _filterPrimaryActions(_topLevelActions) {
       this._topLevelPrimaryActions = _topLevelActions.filter(action =>
-          action.__primary);
+        action.__primary);
       this._topLevelSecondaryActions = _topLevelActions.filter(action =>
-          !action.__primary);
+        !action.__primary);
     },
 
     _computeMenuActions(actionRecord, hiddenActionsRecord) {

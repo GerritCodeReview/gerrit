@@ -140,15 +140,15 @@
     _handleSavingGroupMember() {
       return this.$.restAPI.saveGroupMembers(this._groupName,
           this._groupMemberSearchId).then(config => {
-            if (!config) {
-              return;
-            }
-            this.$.restAPI.getGroupMembers(this._groupName).then(members => {
-              this._groupMembers = members;
-            });
-            this._groupMemberSearchName = '';
-            this._groupMemberSearchId = '';
-          });
+        if (!config) {
+          return;
+        }
+        this.$.restAPI.getGroupMembers(this._groupName).then(members => {
+          this._groupMembers = members;
+        });
+        this._groupMemberSearchName = '';
+        this._groupMemberSearchId = '';
+      });
     },
 
     _handleDeleteConfirm() {
@@ -237,24 +237,24 @@
       if (input.length === 0) { return Promise.resolve([]); }
       return this.$.restAPI.getSuggestedAccounts(
           input, SUGGESTIONS_LIMIT).then(accounts => {
-            const accountSuggestions = [];
-            let nameAndEmail;
-            if (!accounts) { return []; }
-            for (const key in accounts) {
-              if (!accounts.hasOwnProperty(key)) { continue; }
-              if (accounts[key].email !== undefined) {
-                nameAndEmail = accounts[key].name +
+        const accountSuggestions = [];
+        let nameAndEmail;
+        if (!accounts) { return []; }
+        for (const key in accounts) {
+          if (!accounts.hasOwnProperty(key)) { continue; }
+          if (accounts[key].email !== undefined) {
+            nameAndEmail = accounts[key].name +
                   ' <' + accounts[key].email + '>';
-              } else {
-                nameAndEmail = accounts[key].name;
-              }
-              accountSuggestions.push({
-                name: nameAndEmail,
-                value: accounts[key]._account_id,
-              });
-            }
-            return accountSuggestions;
+          } else {
+            nameAndEmail = accounts[key].name;
+          }
+          accountSuggestions.push({
+            name: nameAndEmail,
+            value: accounts[key]._account_id,
           });
+        }
+        return accountSuggestions;
+      });
     },
 
     _getGroupSuggestions(input) {

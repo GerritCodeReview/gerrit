@@ -394,7 +394,7 @@
       // digits. Diffs with no delta are considered 0%.
       const totalDelta = rebaseDelta + nonRebaseDelta;
       const percentRebaseDelta = !totalDelta ? 0 :
-          Math.round(100 * rebaseDelta / totalDelta);
+        Math.round(100 * rebaseDelta / totalDelta);
 
       // Report the due_to_rebase percentage in the "diff" category when
       // applicable.

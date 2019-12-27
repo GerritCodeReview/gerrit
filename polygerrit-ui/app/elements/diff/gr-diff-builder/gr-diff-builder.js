@@ -186,7 +186,7 @@
           continue;
         }
         const lineNumber = opt_side === 'left' ?
-            line.beforeNumber : line.afterNumber;
+          line.beforeNumber : line.afterNumber;
         if (lineNumber < start || lineNumber > end) { continue; }
 
         if (out_lines) { out_lines.push(line); }
@@ -369,7 +369,7 @@
       // thread and append to it.
       if (comment.in_reply_to) {
         const thread = threads.find(thread =>
-            thread.comments.some(c => c.id === comment.in_reply_to));
+          thread.comments.some(c => c.id === comment.in_reply_to));
         if (thread) {
           thread.comments.push(comment);
           continue;

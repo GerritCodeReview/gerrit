@@ -69,7 +69,7 @@
         changeComments, revisionInfo) {
       const parentCounts = revisionInfo.getParentCountMap();
       const currentParentCount = parentCounts.hasOwnProperty(patchNum) ?
-          parentCounts[patchNum] : 1;
+        parentCounts[patchNum] : 1;
       const maxParents = revisionInfo.getMaxParents();
       const isMerge = currentParentCount > 1;
 
@@ -225,7 +225,7 @@
     _computePatchSetDescription(revisions, patchNum, opt_addFrontSpace) {
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
-          (opt_addFrontSpace ? ' ' : '') +
+        (opt_addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 

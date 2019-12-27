@@ -254,8 +254,8 @@
     _getTop(target) {
       let top = target.offsetTop;
       for (let offsetParent = target.offsetParent;
-           offsetParent;
-           offsetParent = offsetParent.offsetParent) {
+        offsetParent;
+        offsetParent = offsetParent.offsetParent) {
         top += offsetParent.offsetTop;
       }
       return top;
@@ -284,7 +284,7 @@
       const dims = this._getWindowDims();
       const top = this._getTop(this.target);
       const bottomIsVisible = this._targetHeight ?
-          this._targetIsVisible(top + this._targetHeight) : true;
+        this._targetIsVisible(top + this._targetHeight) : true;
       const scrollToValue = this._calculateScrollToValue(top, this.target);
 
       if (this._targetIsVisible(top)) {

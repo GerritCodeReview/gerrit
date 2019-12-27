@@ -278,7 +278,7 @@
      */
     _logCall(req, startTime, status) {
       const method = (req.fetchOptions && req.fetchOptions.method) ?
-          req.fetchOptions.method : 'GET';
+        req.fetchOptions.method : 'GET';
       const elapsed = (Date.now() - startTime);
       console.log([
         'HTTP',
@@ -1149,7 +1149,7 @@
         return Promise.resolve({
           changes_per_page: 25,
           default_diff_view: this._isNarrowScreen() ?
-              DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
+            DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
           diff_view: 'SIDE_BY_SIDE',
           size_bar_in_change_table: true,
         });
@@ -1391,8 +1391,8 @@
           }
 
           const payloadPromise = response ?
-              this._readResponsePayload(response) :
-              Promise.resolve(null);
+            this._readResponsePayload(response) :
+            Promise.resolve(null);
 
           return payloadPromise.then(payload => {
             if (!payload) { return null; }
@@ -1480,7 +1480,7 @@
     getChangeOrEditFiles(changeNum, patchRange) {
       if (this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME)) {
         return this.getChangeEditFiles(changeNum, patchRange).then(res =>
-            res.files);
+          res.files);
       }
       return this.getChangeFiles(changeNum, patchRange);
     },
@@ -2013,8 +2013,8 @@
         return res;
       };
       const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
-          this._getFileInChangeEdit(changeNum, path) :
-          this._getFileInRevision(changeNum, path, patchNum, suppress404s);
+        this._getFileInChangeEdit(changeNum, path) :
+        this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
       return promise.then(res => {
         if (!res.ok) { return res; }
@@ -2185,7 +2185,7 @@
         options.headers.set(
             'Content-Type', req.contentType || 'application/json');
         options.body = typeof req.body === 'string' ?
-            req.body : JSON.stringify(req.body);
+          req.body : JSON.stringify(req.body);
       }
       if (req.headers) {
         if (!options.headers) { options.headers = new Headers(); }
@@ -2195,7 +2195,7 @@
         }
       }
       const url = req.url.startsWith('http') ?
-          req.url : this.getBaseUrl() + req.url;
+        req.url : this.getBaseUrl() + req.url;
       const fetchReq = {
         url,
         fetchOptions: options,
@@ -2531,7 +2531,7 @@
      */
     getB64FileContents(changeId, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
-          '?parent=' + opt_parentIndex : '';
+        '?parent=' + opt_parentIndex : '';
       return this._changeBaseURL(changeId, patchNum).then(url => {
         url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
         return this._fetchB64File(url);
@@ -2590,8 +2590,8 @@
       // TODO(kaspern): For full slicer migration, app should warn with a call
       // stack every time _changeBaseURL is called without a project.
       const projectPromise = opt_project ?
-          Promise.resolve(opt_project) :
-          this.getFromProjectLookup(changeNum);
+        Promise.resolve(opt_project) :
+        this.getFromProjectLookup(changeNum);
       return projectPromise.then(project => {
         let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
         if (opt_patchNum) {
@@ -2923,9 +2923,9 @@
      */
     _getChangeURLAndSend(req) {
       const anonymizedBaseUrl = req.patchNum ?
-          ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
+        ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
       const anonymizedEndpoint = req.reportEndpointAsIs ?
-          req.endpoint : req.anonymizedEndpoint;
+        req.endpoint : req.anonymizedEndpoint;
 
       return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
         return this._send({
@@ -2937,7 +2937,7 @@
           headers: req.headers,
           parseResponse: req.parseResponse,
           anonymizedUrl: anonymizedEndpoint ?
-              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
+            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
         });
       });
     },
@@ -2949,9 +2949,9 @@
      */
     _getChangeURLAndFetch(req) {
       const anonymizedEndpoint = req.reportEndpointAsIs ?
-          req.endpoint : req.anonymizedEndpoint;
+        req.endpoint : req.anonymizedEndpoint;
       const anonymizedBaseUrl = req.patchNum ?
-          ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
+        ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
       return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
         return this._fetchJSON({
           url: url + req.endpoint,
@@ -2959,7 +2959,7 @@
           params: req.params,
           fetchOptions: req.fetchOptions,
           anonymizedUrl: anonymizedEndpoint ?
-              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
+            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
         });
       });
     },

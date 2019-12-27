@@ -38,8 +38,8 @@
           .filter(p => !Gerrit._isPluginPreloaded(p));
       const jsPlugins =
           this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins)
-          .map(p => this._urlFor(p))
-          .filter(p => !Gerrit._isPluginPreloaded(p));
+              .map(p => this._urlFor(p))
+              .filter(p => !Gerrit._isPluginPreloaded(p));
       const shouldLoadTheme = config.default_theme &&
             !Gerrit._isPluginPreloaded('preloaded:gerrit-theme');
       const defaultTheme =

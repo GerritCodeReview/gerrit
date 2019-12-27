@@ -177,11 +177,11 @@
       // Determine the side.
       let side;
       if (line.type === GrDiffLine.Type.REMOVE || (
-          line.type === GrDiffLine.Type.BOTH &&
+        line.type === GrDiffLine.Type.BOTH &&
           el.getAttribute('data-side') !== 'right')) {
         side = 'left';
       } else if (line.type === GrDiffLine.Type.ADD || (
-          el.getAttribute('data-side') !== 'left')) {
+        el.getAttribute('data-side') !== 'left')) {
         side = 'right';
       }
 

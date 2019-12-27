@@ -425,7 +425,7 @@
       // Ignore saves started while already saving.
       if (this.disabled) { return; }
       const timingLabel = this.comment.id ?
-          REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
+        REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
       const timer = this.$.reporting.getTimer(timingLabel);
       this.set('comment.__editing', false);
       return this.save().then(() => { timer.end(); });
@@ -568,13 +568,13 @@
       this._showStartRequest();
       return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
           draft).then(result => {
-            if (result.ok) {
-              this._showEndRequest();
-            } else {
-              this._handleFailedDraftRequest();
-            }
-            return result;
-          });
+        if (result.ok) {
+          this._showEndRequest();
+        } else {
+          this._handleFailedDraftRequest();
+        }
+        return result;
+      });
     },
 
     _getPatchNum() {

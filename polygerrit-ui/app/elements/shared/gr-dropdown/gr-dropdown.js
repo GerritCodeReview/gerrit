@@ -206,7 +206,7 @@
      */
     _computeURLHelper(host, path) {
       const base = path.startsWith(this.getBaseUrl()) ?
-          '' : this.getBaseUrl();
+        '' : this.getBaseUrl();
       return '//' + host + base + path;
     },
 

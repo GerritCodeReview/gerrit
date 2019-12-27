@@ -128,7 +128,7 @@
         commentEl.collapsed = false;
       } else {
         const range = opt_range ? opt_range :
-            lastComment ? lastComment.range : undefined;
+          lastComment ? lastComment.range : undefined;
         const unresolved = lastComment ? lastComment.unresolved : undefined;
         this.addDraft(opt_lineNum, range, unresolved);
       }

@@ -441,13 +441,13 @@ limitations under the License.
       };
       assert.deepEqual(builder._getCommentsForLine(comments, line),
           [{id: 'l3', line: 3, __commentSide: 'left'},
-          {id: 'r5', line: 5, __commentSide: 'right'}]);
+            {id: 'r5', line: 5, __commentSide: 'right'}]);
       assert.deepEqual(builder._getCommentsForLine(comments, line,
           GrDiffBuilder.Side.LEFT), [{id: 'l3', line: 3,
-            __commentSide: 'left'}]);
+        __commentSide: 'left'}]);
       assert.deepEqual(builder._getCommentsForLine(comments, line,
           GrDiffBuilder.Side.RIGHT), [{id: 'r5', line: 5,
-            __commentSide: 'right'}]);
+        __commentSide: 'right'}]);
     });
 
     test('comment thread group creation', () => {
@@ -901,7 +901,7 @@ limitations under the License.
 
       test('no plugin layers', () => {
         const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
-                                       .returns([]);
+            .returns([]);
         element.attached();
         assert.isTrue(getDiffLayersStub.called);
         assert.equal(element._layers.length, initialLayersCount);
@@ -909,7 +909,7 @@ limitations under the License.
 
       test('with plugin layers', () => {
         const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
-                                       .returns([{}, {}]);
+            .returns([{}, {}]);
         element.attached();
         assert.isTrue(getDiffLayersStub.called);
         assert.equal(element._layers.length, initialLayersCount+2);

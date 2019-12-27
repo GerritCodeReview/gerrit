@@ -372,8 +372,8 @@ limitations under the License.
       }).then(() => {
         assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
         const additions = cc ?
-            element.$$('#ccs').additions() :
-            element.$.reviewers.additions();
+          element.$$('#ccs').additions() :
+          element.$.reviewers.additions();
         assert.deepEqual(
             additions,
             [
@@ -761,7 +761,7 @@ limitations under the License.
       // Send and purge and verify moves, delete cc3.
       element.send()
           .then(keepReviewers =>
-              element._purgeReviewersPendingRemove(false, keepReviewers))
+            element._purgeReviewersPendingRemove(false, keepReviewers))
           .then(() => {
             assert.deepEqual(
                 mutations, [

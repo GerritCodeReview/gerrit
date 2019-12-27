@@ -206,6 +206,30 @@
     },
     {
       "key": {
+        "uuid": "9b5e0358_e6d5a874",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-12-27T12:28:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4106a9b_2119e0b5",
+      "range": {
+        "startLine": 376,
+        "startChar": 6,
+        "endLine": 378,
+        "endChar": 83
+      },
+      "revId": "d7c43a822fd3de27fb8d55134952a81d6be18a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4af02256_ed07d744",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 2

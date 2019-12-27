@@ -23,6 +23,15 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint to get an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>} requests.
+ *
+ * <p>In the response only a subset of fields is populated (see {@link
+ * AccountLoader#DETAILED_OPTIONS}). In contrast to this {@link GetDetail} populates all fields in
+ * the response.
+ */
 @Singleton
 public class GetAccount implements RestReadView<AccountResource> {
   private final AccountLoader.Factory infoFactory;

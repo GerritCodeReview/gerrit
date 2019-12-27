@@ -27,6 +27,14 @@ import com.google.inject.Singleton;
 import java.util.Collections;
 import java.util.EnumSet;
 
+/**
+ * REST endpoint to get details of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/detail} requests.
+ *
+ * <p>In the response all fields are populated. In contrast to this {@link GetAccount} populates
+ * only a subset of the fields in the response.
+ */
 @Singleton
 public class GetDetail implements RestReadView<AccountResource> {
   private final InternalAccountDirectory directory;

@@ -42,6 +42,11 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * REST endpoint to sign a contributor agreement for an account.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>/agreements} requests.
+ */
 @Singleton
 public class PutAgreement implements RestModifyView<AccountResource, AgreementInput> {
   private final ProjectCache projectCache;

@@ -96,5 +96,12 @@
       const lastPage = items.length < this.itemsPerPage + 1;
       return lastPage;
     },
+
+    // TODO: fix offset (including itemsPerPage)
+    // to either support a decimal or make it go to the nearest
+    // whole number (e.g 3).
+    _computePage(offset, itemsPerPage) {
+      return offset / itemsPerPage + 1;
+    },
   });
 })();

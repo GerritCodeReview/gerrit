@@ -104,6 +104,10 @@
       const lastPage = items.length < this.itemsPerPage + 1;
       return lastPage;
     }
+
+    _computePage(offset, itemsPerPage) {
+      return offset / itemsPerPage + 1;
+    }
   }
 
   customElements.define(GrListView.is, GrListView);

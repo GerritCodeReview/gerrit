@@ -45,7 +45,7 @@ public class PluginCollection implements ChildCollection<ConfigResource, PluginR
   @Override
   public PluginResource parse(ConfigResource parent, IdString id)
       throws ResourceNotFoundException, Exception {
-    throw new ResourceNotFoundException();
+    throw new ResourceNotFoundException(id);
   }
 
   @Override

@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
@@ -48,7 +48,7 @@ public class CreateDashboard
       throws RestApiException, IOException, PermissionBackendException {
     parent.getProjectState().checkStatePermitsWrite();
     if (!DashboardsCollection.isDefaultDashboard(id)) {
-      throw new ResourceNotFoundException(id);
+      throw new MethodNotAllowedException("cannot create non-default dashboard");
     }
     SetDefaultDashboard set = setDefault.get();
     set.inherited = inherited;

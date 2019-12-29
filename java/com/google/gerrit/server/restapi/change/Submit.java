@@ -212,12 +212,10 @@ public class Submit
         return Response.ok(new Output(change));
       }
 
-      String msg =
+      throw new IllegalStateException(
           String.format(
               "change %s of project %s unexpectedly had status %s after submit attempt",
-              updatedChange.getId(), updatedChange.getProject(), updatedChange.getStatus());
-      logger.atWarning().log(msg);
-      throw new RestApiException(msg);
+              updatedChange.getId(), updatedChange.getProject(), updatedChange.getStatus()));
     }
   }
 

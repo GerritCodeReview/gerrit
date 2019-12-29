@@ -21,13 +21,17 @@ public class RestApiException extends Exception {
   private static final long serialVersionUID = 1L;
   private CacheControl caching = CacheControl.NONE;
 
-  public RestApiException() {}
+  public static RestApiException wrap(String msg, Exception e) {
+    return new RestApiException(msg, e);
+  }
 
-  public RestApiException(String msg) {
+  protected RestApiException() {}
+
+  protected RestApiException(String msg) {
     super(msg);
   }
 
-  public RestApiException(String msg, Throwable cause) {
+  protected RestApiException(String msg, Throwable cause) {
     super(msg, cause);
   }
 

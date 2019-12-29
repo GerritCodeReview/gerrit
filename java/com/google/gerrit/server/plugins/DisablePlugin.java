@@ -45,12 +45,9 @@ public class DisablePlugin implements RestModifyView<PluginResource, Input> {
   }
 
   @Override
-  public Response<PluginInfo> apply(PluginResource resource, Input input) throws RestApiException {
-    try {
-      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
-    } catch (PermissionBackendException e) {
-      throw new RestApiException("Could not check permission", e);
-    }
+  public Response<PluginInfo> apply(PluginResource resource, Input input)
+      throws RestApiException, PermissionBackendException {
+    permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     loader.checkRemoteAdminEnabled();
     String name = resource.getName();
     if (mandatoryPluginsCollection.contains(name)) {

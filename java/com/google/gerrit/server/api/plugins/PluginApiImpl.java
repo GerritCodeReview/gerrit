@@ -69,7 +69,11 @@ public class PluginApiImpl implements PluginApi {
 
   @Override
   public void disable() throws RestApiException {
-    disable.apply(resource, new Input());
+    try {
+      disable.apply(resource, new Input());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot disable plugin", e);
+    }
   }
 
   @Override

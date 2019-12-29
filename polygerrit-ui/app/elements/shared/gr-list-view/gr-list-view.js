@@ -95,6 +95,20 @@
       }
       const lastPage = items.length < this.itemsPerPage + 1;
       return lastPage;
+<<<<<<< HEAD   (852ba2 Merge branch 'stable-3.0' into stable-3.1)
     },
   });
+=======
+    }
+
+    // TODO: fix offset (including itemsPerPage)
+    // to either support a decimal or make it go to the nearest
+    // whole number (e.g 3).
+    _computePage(offset, itemsPerPage) {
+      return offset / itemsPerPage + 1;
+    }
+  }
+
+  customElements.define(GrListView.is, GrListView);
+>>>>>>> CHANGE (e7cb81 Add "Page ..." next to back and forward arrows)
 })();

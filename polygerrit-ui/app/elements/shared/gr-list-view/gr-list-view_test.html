@@ -155,5 +155,10 @@ limitations under the License.
       element.path = TAGS_PATH;
       assert.equal(element._computeNavLink.lastCall.args[4], TAGS_PATH);
     });
+
+    test('_computePage', () => {
+      assert.equal(element._computePage(0, 25), 1);
+      assert.equal(element._computePage(50, 25), 3);
+    });
   });
 </script>

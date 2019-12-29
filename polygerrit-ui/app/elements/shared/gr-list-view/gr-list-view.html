@@ -89,6 +89,7 @@ limitations under the License.
     </div>
     <slot></slot>
     <nav>
+      Page [[_computePage(offset, itemsPerPage)]]
       <a id="prevArrow"
           href$="[[_computeNavLink(offset, -1, itemsPerPage, filter, path)]]"
           hidden$="[[_hidePrevArrow(loading, offset)]]" hidden>

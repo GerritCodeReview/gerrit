@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -27,7 +26,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
-import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -273,7 +272,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
    * @throws IOException if a storage layer error occurs.
    */
   private void stage() throws IOException {
-    try (Timer1.Context<NoteDbTable> timer = metrics.stageUpdateLatency.start(CHANGES)) {
+    try (Timer0.Context timer = metrics.stageUpdateLatency.start()) {
       if (isEmpty()) {
         return;
       }
@@ -298,7 +297,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       executed = true;
       return null;
     }
-    try (Timer1.Context<NoteDbTable> timer = metrics.updateLatency.start(CHANGES)) {
+    try (Timer0.Context timer = metrics.updateLatency.start()) {
       stage();
       // ChangeUpdates must execute before ChangeDraftUpdates.
       //

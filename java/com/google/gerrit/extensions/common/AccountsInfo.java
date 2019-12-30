@@ -14,6 +14,12 @@
 
 package com.google.gerrit.extensions.common;
 
+/**
+ * Representation of account-related server configuration in the REST API.
+ *
+ * <p>This class determines the JSON format of account-related server configuration in the REST API.
+ */
 public class AccountsInfo {
+  /** The value of the {@code accounts.visibility} parameter in {@code gerrit.config}. */
   public AccountVisibility visibility;
 }

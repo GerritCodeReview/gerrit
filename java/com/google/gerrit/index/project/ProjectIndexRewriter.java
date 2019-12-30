@@ -23,6 +23,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/** Rewriter for the project index. See {@link IndexRewriter} for details. */
 @Singleton
 public class ProjectIndexRewriter implements IndexRewriter<ProjectData> {
   private final ProjectIndexCollection indexes;

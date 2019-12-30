@@ -98,6 +98,13 @@
       }
     }
 
+    _computeVoteClass(label) {
+      if (label) {
+        return Number(label.value) == 0 ? 'no-vote' : 'has-vote';
+      }
+      return '';
+    }
+
     _computeButtonClass(value, index, totalItems) {
       const classes = [];
       if (value === this.selectedValue) {

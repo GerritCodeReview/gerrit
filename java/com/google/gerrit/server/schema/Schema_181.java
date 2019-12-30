@@ -17,6 +17,12 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.gpg.PublicKeyStore;
 import org.eclipse.jgit.lib.Repository;
 
+/**
+ * Schema 181 for Gerrit metadata.
+ *
+ * <p>Upgrading to this schema version populates the GPG subkey to master key map (see {@link
+ * PublicKeyStore}.
+ */
 public class Schema_181 implements NoteDbSchemaVersion {
   @Override
   public void upgrade(Arguments args, UpdateUI ui) throws Exception {

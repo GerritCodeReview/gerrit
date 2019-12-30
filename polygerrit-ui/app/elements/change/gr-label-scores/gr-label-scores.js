@@ -141,6 +141,17 @@
       return permittedLabels.hasOwnProperty(label) &&
         permittedLabels[label].length ? 'access' : 'no-access';
     }
+
+    /**
+     * @param {Object|undefined} labelObj
+     * @return {string}
+     */
+    _computeLabelVoteClass(labelObj) {
+      if (labelObj) {
+        return Number(labelObj.value) == 0 ? 'no-vote' : 'has-vote';
+      }
+      return '';
+    }
   }
 
   customElements.define(GrLabelScores.is, GrLabelScores);

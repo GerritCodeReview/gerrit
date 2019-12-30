@@ -1518,7 +1518,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   )]}'
   {
     "theme": "ECLIPSE",
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1551,7 +1550,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   {
     "theme": "ECLIPSE",
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1579,7 +1577,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   )]}'
   {
     "theme": "ECLIPSE",
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "cursor_blink_rate": 530,
@@ -2571,9 +2568,6 @@ preferences of a user.
 |`theme`                       ||
 The CodeMirror theme name in upper case, for example `DEFAULT`. All the themes
 from the CodeMirror release that Gerrit is using are available.
-|`key_map_type`                ||
-The CodeMirror key map. Currently only a subset of key maps are
-supported: `DEFAULT`, `EMACS`, `SUBLIME`, `VIM`.
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
 |`line_length`                 ||

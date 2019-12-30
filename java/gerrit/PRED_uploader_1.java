@@ -27,6 +27,16 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
+/**
+ * Prolog predicate for the uploader of the current patch set of a change.
+ *
+ * <p>Checks that the term that is provided as input to this Prolog predicate is a user ID term that
+ * matches the account ID of the uploader of the current patch set.
+ *
+ * <pre>
+ *   'uploader'(user(-ID))
+ * </pre>
+ */
 public class PRED_uploader_1 extends Predicate.P1 {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

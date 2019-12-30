@@ -22,7 +22,17 @@ import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.Term;
 
-/** Checks if change is a pure revert of the change it references in 'revertOf'. */
+/**
+ * Prolog Predicate that checks if the change is a pure revert of the change it references in
+ * 'revertOf'.
+ *
+ * <p>The input is an integer atom where '1' represents a pure revert and '0' represents a non-pure
+ * revert.
+ *
+ * <pre>
+ *   'pure_revert'(-PureRevert)
+ * </pre>
+ */
 public class PRED_pure_revert_1 extends Predicate.P1 {
   public PRED_pure_revert_1(Term a1, Operation n) {
     arg1 = a1;

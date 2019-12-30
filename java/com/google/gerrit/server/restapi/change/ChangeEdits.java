@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -120,7 +119,8 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<?> apply(ChangeResource resource, IdString id, FileContentInput input)
-        throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+        throws AuthException, BadRequestException, ResourceConflictException, IOException,
+            PermissionBackendException {
       putEdit.apply(resource, id.get(), input);
       return Response.none();
     }
@@ -280,19 +280,24 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc, FileContentInput input)
-        throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+        throws AuthException, BadRequestException, ResourceConflictException, IOException,
+            PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath(), input);
     }
 
     public Response<?> apply(ChangeResource rsrc, String path, FileContentInput input)
-        throws ResourceConflictException, AuthException, IOException, PermissionBackendException {
+        throws AuthException, BadRequestException, ResourceConflictException, IOException,
+            PermissionBackendException {
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
 
-      RawInput newContent = input.content;
+      if (input.content == null) {
+        throw new BadRequestException("new content required");
+      }
+
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
-        editModifier.modifyFile(repository, rsrc.getNotes(), path, newContent);
+        editModifier.modifyFile(repository, rsrc.getNotes(), path, input.content);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

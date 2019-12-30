@@ -17,7 +17,7 @@ package com.google.gerrit.index.query;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 
-/** Index-aware predicate that includes a field type annotation. */
+/** Predicate that is mapped to a field in the index. */
 public abstract class IndexPredicate<I> extends OperatorPredicate<I> {
   private final FieldDef<I, ?> def;
 

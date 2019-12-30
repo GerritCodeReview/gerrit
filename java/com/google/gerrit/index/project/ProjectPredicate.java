@@ -17,6 +17,7 @@ package com.google.gerrit.index.project;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.IndexPredicate;
 
+/** Predicate that is mapped to a field in the project index. */
 public class ProjectPredicate extends IndexPredicate<ProjectData> {
   public ProjectPredicate(FieldDef<ProjectData, ?> def, String value) {
     super(def, value);

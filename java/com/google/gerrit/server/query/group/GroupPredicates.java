@@ -63,6 +63,7 @@ public class GroupPredicates {
     return new GroupPredicate(GroupField.SUBGROUP, subgroupUuid.get());
   }
 
+  /** Predicate that is mapped to a field in the group index. */
   static class GroupPredicate extends IndexPredicate<InternalGroup> {
     GroupPredicate(FieldDef<InternalGroup, ?> def, String value) {
       super(def, value);

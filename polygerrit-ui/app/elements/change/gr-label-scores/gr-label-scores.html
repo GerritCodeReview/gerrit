@@ -39,7 +39,7 @@ limitations under the License.
     </style>
     <template is="dom-repeat" items="[[_labels]]" as="label">
       <gr-label-score-row
-          class$="[[_computeLabelAccessClass(label.name, permittedLabels)]]"
+          class$="[[_computeLabelAccessClass(label.name, permittedLabels)]] [[_computeLabelVoteClass(label)]]"
           label="[[label]]"
           name="[[label.name]]"
           labels="[[change.labels]]"

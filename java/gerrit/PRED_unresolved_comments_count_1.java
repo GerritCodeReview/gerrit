@@ -22,6 +22,16 @@ import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.Term;
 
+/**
+ * Prolog predicate for the number of unresolved comments of a change.
+ *
+ * <p>Checks that the term that is provided as input to this Prolog predicate is an integer atom
+ * that matches the number of unresolved comments of the change.
+ *
+ * <pre>
+ *   'unresolved_comments_count'(-NumberOfUnresolvedComments)
+ * </pre>
+ */
 public class PRED_unresolved_comments_count_1 extends Predicate.P1 {
   public PRED_unresolved_comments_count_1(Term a1, Operation n) {
     arg1 = a1;

@@ -23,6 +23,16 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
+/**
+ * Prolog predicate for the project of a change.
+ *
+ * <p>Checks that the term that is provided as input to this Prolog predicate is a string atom that
+ * matches the project of the change.
+ *
+ * <pre>
+ *   'change_project'(-Project)
+ * </pre>
+ */
 public class PRED_change_project_1 extends Predicate.P1 {
   public PRED_change_project_1(Term a1, Operation n) {
     arg1 = a1;

@@ -70,7 +70,7 @@ import org.eclipse.jgit.lib.Repository;
  *   private final PermissionBackend permissions;
  *   private final Provider<CurrentUser> user;
  *
- *   @Inject
+ *   {@literal @}Inject
  *   Foo(PermissionBackend permissions, Provider<CurrentUser> user) {
  *     this.permissions = permissions;
  *     this.user = user;

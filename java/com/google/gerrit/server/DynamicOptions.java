@@ -80,7 +80,7 @@ public class DynamicOptions {
    *       .to(MyOptionsClassNameProvider.class);
    *
    *   static class MyOptionsClassNameProvider implements DynamicOptions.ClassNameProvider {
-   *     @Override
+   *     {@literal @}Override
    *     public String getClassName() {
    *       return "com.googlesource.gerrit.plugins.myplugin.CommandOptions";
    *     }
@@ -107,11 +107,11 @@ public class DynamicOptions {
    *       .to(MyOptionsModulesClassNamesProvider.class);
    *
    *   static class MyOptionsModulesClassNamesProvider implements DynamicOptions.ClassNameProvider {
-   *     @Override
+   *     {@literal @}Override
    *     public String getClassName() {
    *       return "com.googlesource.gerrit.plugins.myplugin.CommandOptions";
    *     }
-   *     @Override
+   *     {@literal @}Override
    *     public Iterable<String> getModulesClassNames()() {
    *       return "com.googlesource.gerrit.plugins.myplugin.MyOptionsModule";
    *     }

@@ -14,6 +14,15 @@
 
 package com.google.gerrit.server.schema;
 
+/**
+ * Schema 180 for Gerrit metadata.
+ *
+ * <p>180 is the first schema version that is supported by NoteDb. All previous schema versions were
+ * for ReviewDb. Since ReviewDb no longer exists those schema versions have been deleted.
+ *
+ * <p>Upgrading to this schema version creates the {@code refs/meta/version} ref in NoteDb that
+ * stores the number of the current schema version.
+ */
 public class Schema_180 implements NoteDbSchemaVersion {
   @Override
   public void upgrade(Arguments args, UpdateUI ui) {

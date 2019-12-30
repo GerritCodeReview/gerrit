@@ -23,6 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Representation of a Gerrit project in the project index.
+ *
+ * <p>Includes information about all parent projects.
+ */
 public class ProjectData {
   private final Project project;
   private final Optional<ProjectData> parent;

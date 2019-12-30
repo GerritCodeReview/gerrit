@@ -22,6 +22,10 @@ import com.google.gerrit.index.query.IndexedQuery;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 
+/**
+ * Wrapper around {@link Predicate}s that are returned by the {@link
+ * com.google.gerrit.index.IndexRewriter}. See {@link IndexedQuery}.
+ */
 public class IndexedProjectQuery extends IndexedQuery<Project.NameKey, ProjectData>
     implements DataSource<ProjectData> {
 

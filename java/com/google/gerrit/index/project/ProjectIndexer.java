@@ -16,6 +16,7 @@ package com.google.gerrit.index.project;
 
 import com.google.gerrit.entities.Project;
 
+/** Interface for indexing a Gerrit project. */
 public interface ProjectIndexer {
 
   /**

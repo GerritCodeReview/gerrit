@@ -19,6 +19,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.IndexCollection;
 import com.google.inject.Singleton;
 
+/** Collection of active project indices. See {@link IndexCollection} for details on collections. */
 @Singleton
 public class ProjectIndexCollection
     extends IndexCollection<Project.NameKey, ProjectData, ProjectIndex> {

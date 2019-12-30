@@ -19,6 +19,10 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
 
+/**
+ * Index for Gerrit projects (repositories). This class is mainly used for typing the generic parent
+ * class that contains actual implementations.
+ */
 public interface ProjectIndex extends Index<Project.NameKey, ProjectData> {
 
   public interface Factory

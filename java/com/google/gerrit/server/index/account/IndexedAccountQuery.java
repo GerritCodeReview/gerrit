@@ -27,7 +27,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.account.AccountState;
 
 /**
- * Wrapper around {@link Predicate}s that is returned by the {@link
+ * Wrapper around {@link Predicate}s that are returned by the {@link
  * com.google.gerrit.index.IndexRewriter}. See {@link IndexedQuery}.
  */
 public class IndexedAccountQuery extends IndexedQuery<Account.Id, AccountState>

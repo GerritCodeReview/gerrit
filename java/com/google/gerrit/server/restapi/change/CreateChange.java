@@ -86,7 +86,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
-import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -512,12 +511,8 @@ public class CreateChange
           commitMessage,
           rw);
     } catch (NoMergeBaseException e) {
-      if (MergeBaseFailureReason.TOO_MANY_MERGE_BASES == e.getReason()
-          || MergeBaseFailureReason.CONFLICTS_DURING_MERGE_BASE_CALCULATION == e.getReason()) {
-        throw new ResourceConflictException(
-            String.format("Cannot create merge commit: %s", e.getMessage()), e);
-      }
-      throw e;
+      throw new ResourceConflictException(
+          String.format("Cannot create merge commit: %s", e.getMessage()), e);
     }
   }
 

@@ -22,6 +22,7 @@ import com.google.gerrit.index.project.ProjectPredicate;
 import com.google.gerrit.index.query.Predicate;
 import java.util.Locale;
 
+/** Utility class to create predicates for project index queries. */
 public class ProjectPredicates {
   public static Predicate<ProjectData> name(Project.NameKey nameKey) {
     return new ProjectPredicate(ProjectField.NAME, nameKey.get());

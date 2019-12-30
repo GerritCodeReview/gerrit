@@ -2389,13 +2389,18 @@ link:access-control.html#capability_viewQueue[View Queue] capability.
 The `ContributorAgreementInfo` entity contains information about a
 contributor agreement.
 
-[options="header",cols="1,6"]
-|=================================
-|Field Name                 |Description
-|`name`                     |The name of the agreement.
-|`description`              |The description of the agreement.
-|`url`                      |The URL of the agreement.
-|=================================
+[options="header",cols="1,^1,5"]
+|================================
+|Field Name         ||Description
+|`name`             ||The unique name of the contributor agreement.
+|`description`      ||The description of the contributor agreement.
+|`url`              ||The URL of the contributor agreement.
+|`auto_verify_group`|optional|
+The group to which a user that signs the contributor agreement online
+is added automatically as a link:rest-api-groups.html#group-info[
+GroupInfo] entity. If not set, users cannot sign the contributor
+agreement online.
+|================================
 
 [[contributor-agreement-input]]
 === ContributorAgreementInput

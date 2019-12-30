@@ -18,6 +18,14 @@ import com.google.common.base.MoreObjects;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Representation of an account in the REST API.
+ *
+ * <p>This class determines the JSON format of accounts in the REST API.
+ *
+ * <p>This class defines fields for account properties that are frequently used. Additional fields
+ * are defined in {@link AccountDetailInfo}.
+ */
 public class AccountInfo {
   public Integer _accountId;
   public String name;

@@ -14,9 +14,25 @@
 
 package com.google.gerrit.extensions.common;
 
+/**
+ * Representation of a contributor agreement in the REST API.
+ *
+ * <p>This class determines the JSON format of a contributor agreement in the REST API.
+ */
 public class AgreementInfo {
+  /** The unique name of the contributor agreement. */
   public String name;
+
+  /** The description of the contributor agreement. */
   public String description;
+
+  /** The URL of the contributor agreement. */
   public String url;
+
+  /**
+   * Group to which a user that signs the contributor agreement online is added automatically.
+   *
+   * <p>May be {@code null}. In this case users cannot sign the contributor agreement online.
+   */
   public GroupInfo autoVerifyGroup;
 }

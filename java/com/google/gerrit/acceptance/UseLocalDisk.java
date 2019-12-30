@@ -21,6 +21,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+/**
+ * Annotation to mark tests that require a local disk for the execution.
+ *
+ * <p>Tests that do not have this annotation are executed in memory.
+ *
+ * <p>Using this annotation makes the execution of the test more expensive/slower. This is why it
+ * should only be used if the test requires a local disk (e.g. if the test triggers the Git garbage
+ * collection functionality which only works with a local disk).
+ */
 @Target({TYPE, METHOD})
 @Retention(RUNTIME)
 public @interface UseLocalDisk {}

@@ -29,6 +29,7 @@ import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import java.util.List;
 
+/** Utility class to create predicates for account index queries. */
 public class AccountPredicates {
   public static boolean hasActive(Predicate<AccountState> p) {
     return QueryBuilder.find(p, AccountPredicate.class, AccountField.ACTIVE.getName()) != null;

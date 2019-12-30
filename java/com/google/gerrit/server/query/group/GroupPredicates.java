@@ -23,6 +23,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupField;
 import java.util.Locale;
 
+/** Utility class to create predicates for group index queries. */
 public class GroupPredicates {
   public static Predicate<InternalGroup> id(AccountGroup.Id groupId) {
     return new GroupPredicate(GroupField.ID, groupId.toString());

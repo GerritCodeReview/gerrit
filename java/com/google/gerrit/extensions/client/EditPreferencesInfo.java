@@ -30,7 +30,6 @@ public class EditPreferencesInfo {
   public Boolean indentWithTabs;
   public Boolean autoCloseBrackets;
   public Boolean showBase;
-  public KeyMapType keyMapType;
 
   public static EditPreferencesInfo defaults() {
     EditPreferencesInfo i = new EditPreferencesInfo();
@@ -48,7 +47,6 @@ public class EditPreferencesInfo {
     i.indentWithTabs = false;
     i.autoCloseBrackets = false;
     i.showBase = false;
-    i.keyMapType = KeyMapType.DEFAULT;
     return i;
   }
 }

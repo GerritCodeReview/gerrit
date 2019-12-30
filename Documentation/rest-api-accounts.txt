@@ -1503,7 +1503,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   )]}'
   {
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1535,7 +1534,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1562,7 +1560,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   )]}'
   {
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "cursor_blink_rate": 530,
@@ -2564,9 +2561,6 @@ preferences of a user.
 [options="header",cols="1,^1,5"]
 |===========================================
 |Field Name                    ||Description
-|`key_map_type`                ||
-The CodeMirror key map. Currently only a subset of key maps are
-supported: `DEFAULT`, `EMACS`, `SUBLIME`, `VIM`.
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
 |`line_length`                 ||

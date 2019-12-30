@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.client.KeyMapType;
 import org.junit.Test;
 
 @NoHttpd
@@ -42,7 +41,6 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     assertThat(out.indentWithTabs).isNull();
     assertThat(out.autoCloseBrackets).isNull();
     assertThat(out.showBase).isNull();
-    assertThat(out.keyMapType).isEqualTo(KeyMapType.DEFAULT);
 
     // change some default values
     out.lineLength = 80;
@@ -59,7 +57,6 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     out.indentWithTabs = true;
     out.autoCloseBrackets = true;
     out.showBase = true;
-    out.keyMapType = KeyMapType.EMACS;
 
     EditPreferencesInfo info = gApi.accounts().id(admin.id().toString()).setEditPreferences(out);
 
@@ -91,6 +88,5 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     assertThat(out.indentWithTabs).isEqualTo(in.indentWithTabs);
     assertThat(out.autoCloseBrackets).isEqualTo(in.autoCloseBrackets);
     assertThat(out.showBase).isEqualTo(in.showBase);
-    assertThat(out.keyMapType).isEqualTo(in.keyMapType);
   }
 }

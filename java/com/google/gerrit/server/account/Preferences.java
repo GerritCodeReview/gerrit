@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
-import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.MenuItem;
 import java.util.Optional;
 
@@ -194,8 +193,6 @@ public abstract class Preferences {
 
     public abstract Optional<Boolean> showBase();
 
-    public abstract Optional<KeyMapType> keyMapType();
-
     @AutoValue.Builder
     public abstract static class Builder {
       abstract Builder tabSize(@Nullable Integer val);
@@ -226,8 +223,6 @@ public abstract class Preferences {
 
       abstract Builder showBase(@Nullable Boolean val);
 
-      abstract Builder keyMapType(@Nullable KeyMapType val);
-
       abstract Edit build();
     }
 
@@ -247,7 +242,6 @@ public abstract class Preferences {
           .indentWithTabs(info.indentWithTabs)
           .autoCloseBrackets(info.autoCloseBrackets)
           .showBase(info.showBase)
-          .keyMapType(info.keyMapType)
           .build();
     }
 
@@ -267,7 +261,6 @@ public abstract class Preferences {
       info.indentWithTabs = indentWithTabs().orElse(null);
       info.autoCloseBrackets = autoCloseBrackets().orElse(null);
       info.showBase = showBase().orElse(null);
-      info.keyMapType = keyMapType().orElse(null);
       return info;
     }
   }

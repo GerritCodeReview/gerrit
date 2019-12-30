@@ -19,6 +19,7 @@ import static com.google.gerrit.server.restapi.access.AccessResource.ACCESS_KIND
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /access/}. */
 public class Module extends RestApiModule {
   @Override
   protected void configure() {

@@ -1423,7 +1423,6 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   )]}'
   {
     "context": 10,
-    "theme": "DEFAULT",
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
@@ -1454,7 +1453,6 @@ link:#diff-preferences-input[DiffPreferencesInput] entity.
 
   {
     "context": 10,
-    "theme": "ECLIPSE",
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
@@ -1480,7 +1478,6 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   )]}'
   {
     "context": 10,
-    "theme": "ECLIPSE",
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
@@ -1517,7 +1514,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   )]}'
   {
-    "theme": "ECLIPSE",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1549,7 +1545,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "theme": "ECLIPSE",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1576,7 +1571,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   )]}'
   {
-    "theme": "ECLIPSE",
     "tab_size": 4,
     "line_length": 80,
     "cursor_blink_rate": 530,
@@ -2441,9 +2435,6 @@ preferences of a user.
 |Field Name                    ||Description
 |`context`                     ||
 The number of lines of context when viewing a patch.
-|`theme`                       ||
-The CodeMirror theme name in upper case, for example `DEFAULT`. All the themes
-from the CodeMirror release that Gerrit is using are available.
 |`expand_all_comments`         |not set if `false`|
 Whether all inline comments should be automatically expanded.
 |`ignore_whitespace`           ||
@@ -2565,9 +2556,6 @@ preferences of a user.
 [options="header",cols="1,^1,5"]
 |===========================================
 |Field Name                    ||Description
-|`theme`                       ||
-The CodeMirror theme name in upper case, for example `DEFAULT`. All the themes
-from the CodeMirror release that Gerrit is using are available.
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
 |`line_length`                 ||

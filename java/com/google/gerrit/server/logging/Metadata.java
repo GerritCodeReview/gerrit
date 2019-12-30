@@ -116,9 +116,6 @@ public abstract class Metadata {
   // Type of a sequence in NoteDb (ACCOUNTS, CHANGES, GROUPS).
   public abstract Optional<String> noteDbSequenceType();
 
-  // Name of a "table" in NoteDb (if set, always CHANGES).
-  public abstract Optional<String> noteDbTable();
-
   // The ID of a patch set.
   public abstract Optional<Integer> patchSetId();
 
@@ -164,10 +161,10 @@ public abstract class Metadata {
    * httpStatus=Optional.empty, indexName=Optional.empty, indexVersion=Optional[0],
    * methodName=Optional.empty, multiple=Optional.empty, operationName=Optional.empty,
    * partial=Optional.empty, noteDbFilePath=Optional.empty, noteDbRefName=Optional.empty,
-   * noteDbSequenceType=Optional.empty, noteDbTable=Optional.empty, patchSetId=Optional.empty,
-   * pluginMetadata=[], pluginName=Optional.empty, projectName=Optional.empty,
-   * pushType=Optional.empty, resourceCount=Optional.empty, restViewName=Optional.empty,
-   * revision=Optional.empty, username=Optional.empty}
+   * noteDbSequenceType=Optional.empty, patchSetId=Optional.empty, pluginMetadata=[],
+   * pluginName=Optional.empty, projectName=Optional.empty, pushType=Optional.empty,
+   * resourceCount=Optional.empty, restViewName=Optional.empty, revision=Optional.empty,
+   * username=Optional.empty}
    * </pre>
    *
    * <p>That's hard to read in logs. This is why this method
@@ -313,8 +310,6 @@ public abstract class Metadata {
     public abstract Builder noteDbRefName(@Nullable String noteDbRefName);
 
     public abstract Builder noteDbSequenceType(@Nullable String noteDbSequenceType);
-
-    public abstract Builder noteDbTable(@Nullable String noteDbTable);
 
     public abstract Builder patchSetId(int patchSetId);
 

@@ -36,7 +36,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
-import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 
@@ -65,7 +64,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -185,7 +184,7 @@ class ChangeNotesParser {
     walk.reset();
     walk.markStart(walk.parseCommit(tip));
 
-    try (Timer1.Context<NoteDbTable> timer = metrics.parseLatency.start(CHANGES)) {
+    try (Timer0.Context timer = metrics.parseLatency.start()) {
       ChangeNotesCommit commit;
       while ((commit = walk.next()) != null) {
         parse(commit);

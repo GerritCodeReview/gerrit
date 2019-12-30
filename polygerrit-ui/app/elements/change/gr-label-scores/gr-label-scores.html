@@ -31,6 +31,12 @@ limitations under the License.
       gr-label-score-row.no-access {
         display: var(--label-no-access-display, initial);
       }
+      gr-label-score-row.no-vote {
+        display: var(--no-vote-display, unset);
+      }
+      gr-label-score-row.has-vote {
+        display: var(--has-vote-display, unset);
+      }
       @media only screen and (max-width: 25em) {
         :host {
           text-align: center;
@@ -39,7 +45,7 @@ limitations under the License.
     </style>
     <template is="dom-repeat" items="[[_labels]]" as="label">
       <gr-label-score-row
-          class$="[[_computeLabelAccessClass(label.name, permittedLabels)]]"
+          class$="[[_computeLabelAccessClass(label.name, permittedLabels)]] [[_computeLabelVoteClass(label)]]"
           label="[[label]]"
           name="[[label.name]]"
           labels="[[change.labels]]"

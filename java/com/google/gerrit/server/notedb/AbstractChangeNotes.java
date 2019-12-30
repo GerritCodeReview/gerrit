@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -23,7 +22,7 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -141,7 +140,7 @@ public abstract class AbstractChangeNotes<T> {
     if (args.failOnLoadForTest.get()) {
       throw new StorageException("Reading from NoteDb is disabled");
     }
-    try (Timer1.Context<NoteDbTable> timer = args.metrics.readLatency.start(CHANGES);
+    try (Timer0.Context timer = args.metrics.readLatency.start();
         Repository repo = args.repoManager.openRepository(getProjectName());
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.

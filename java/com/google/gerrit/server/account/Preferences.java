@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.MenuItem;
-import com.google.gerrit.extensions.client.Theme;
 import java.util.Optional;
 
 @AutoValue
@@ -195,8 +194,6 @@ public abstract class Preferences {
 
     public abstract Optional<Boolean> showBase();
 
-    public abstract Optional<Theme> theme();
-
     public abstract Optional<KeyMapType> keyMapType();
 
     @AutoValue.Builder
@@ -229,8 +226,6 @@ public abstract class Preferences {
 
       abstract Builder showBase(@Nullable Boolean val);
 
-      abstract Builder theme(@Nullable Theme val);
-
       abstract Builder keyMapType(@Nullable KeyMapType val);
 
       abstract Edit build();
@@ -252,7 +247,6 @@ public abstract class Preferences {
           .indentWithTabs(info.indentWithTabs)
           .autoCloseBrackets(info.autoCloseBrackets)
           .showBase(info.showBase)
-          .theme(info.theme)
           .keyMapType(info.keyMapType)
           .build();
     }
@@ -273,7 +267,6 @@ public abstract class Preferences {
       info.indentWithTabs = indentWithTabs().orElse(null);
       info.autoCloseBrackets = autoCloseBrackets().orElse(null);
       info.showBase = showBase().orElse(null);
-      info.theme = theme().orElse(null);
       info.keyMapType = keyMapType().orElse(null);
       return info;
     }
@@ -318,8 +311,6 @@ public abstract class Preferences {
     public abstract Optional<Boolean> matchBrackets();
 
     public abstract Optional<Boolean> lineWrapping();
-
-    public abstract Optional<Theme> theme();
 
     public abstract Optional<Whitespace> ignoreWhitespace();
 
@@ -371,8 +362,6 @@ public abstract class Preferences {
 
       abstract Builder lineWrapping(@Nullable Boolean val);
 
-      abstract Builder theme(@Nullable Theme val);
-
       abstract Builder ignoreWhitespace(@Nullable Whitespace val);
 
       abstract Builder retainHeader(@Nullable Boolean val);
@@ -407,7 +396,6 @@ public abstract class Preferences {
           .hideEmptyPane(info.hideEmptyPane)
           .matchBrackets(info.matchBrackets)
           .lineWrapping(info.lineWrapping)
-          .theme(info.theme)
           .ignoreWhitespace(info.ignoreWhitespace)
           .retainHeader(info.retainHeader)
           .skipDeleted(info.skipDeleted)
@@ -437,7 +425,6 @@ public abstract class Preferences {
       info.hideEmptyPane = hideEmptyPane().orElse(null);
       info.matchBrackets = matchBrackets().orElse(null);
       info.lineWrapping = lineWrapping().orElse(null);
-      info.theme = theme().orElse(null);
       info.ignoreWhitespace = ignoreWhitespace().orElse(null);
       info.retainHeader = retainHeader().orElse(null);
       info.skipDeleted = skipDeleted().orElse(null);

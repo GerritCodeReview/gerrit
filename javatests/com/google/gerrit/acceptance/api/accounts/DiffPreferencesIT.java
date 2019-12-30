@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-import com.google.gerrit.extensions.client.Theme;
 import org.junit.Test;
 
 @NoHttpd
@@ -43,7 +42,6 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.fontSize *= -1;
     i.lineLength *= -1;
     i.cursorBlinkRate = 500;
-    i.theme = Theme.MIDNIGHT;
     i.ignoreWhitespace = Whitespace.IGNORE_ALL;
     i.expandAllComments ^= true;
     i.intralineDifference ^= true;

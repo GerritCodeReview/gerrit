@@ -22,7 +22,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.gerrit.extensions.client.Theme;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -48,8 +47,6 @@ public class ConfigUtilTest {
     public String s;
     public String sd;
     public String nd;
-    public Theme t;
-    public Theme td;
     public List<String> list;
     public Map<String, String> map;
 
@@ -67,8 +64,6 @@ public class ConfigUtilTest {
       i.s = "foo";
       i.sd = "bar";
       // i.nd = null; // Don't need to explicitly set it; it's null by default
-      i.t = Theme.DEFAULT;
-      i.td = Theme.DEFAULT;
       return i;
     }
   }
@@ -86,7 +81,6 @@ public class ConfigUtilTest {
     in.bb = true;
     in.bd = false;
     in.s = "baz";
-    in.t = Theme.MIDNIGHT;
 
     Config cfg = new Config();
     ConfigUtil.storeSection(cfg, SECT, SUB, in, d);
@@ -117,8 +111,6 @@ public class ConfigUtilTest {
     assertThat(out.s).isEqualTo(in.s);
     assertThat(out.sd).isEqualTo(d.sd);
     assertThat(out.nd).isNull();
-    assertThat(out.t).isEqualTo(in.t);
-    assertThat(out.td).isEqualTo(d.td);
   }
 
   @Test

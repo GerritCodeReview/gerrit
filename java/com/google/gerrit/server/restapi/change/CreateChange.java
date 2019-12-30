@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
@@ -103,6 +104,8 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 @Singleton
 public class CreateChange
     implements RestCollectionModifyView<TopLevelResource, ChangeResource, ChangeInput> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final BatchUpdate.Factory updateFactory;
   private final String anonymousCowardName;
   private final GitRepositoryManager gitManager;
@@ -293,20 +296,30 @@ public class CreateChange
       BatchUpdate.Factory updateFactory)
       throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
           UpdateException {
+    logger.atFine().log(
+        "Creating new change for target branch %s in project %s"
+            + " (new branch = %s, base change = %s, base commit = %s)",
+        input.branch, projectState.getName(), input.newBranch, input.baseChange, input.baseCommit);
+
     try (Repository git = gitManager.openRepository(projectState.getNameKey());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk rw = new RevWalk(reader)) {
       PatchSet basePatchSet = null;
       List<String> groups = Collections.emptyList();
+
       if (input.baseChange != null) {
         ChangeNotes baseChange = getBaseChange(input.baseChange);
         basePatchSet = psUtil.current(baseChange);
         groups = basePatchSet.groups();
+        logger.atFine().log("base patch set = %s (groups = %s)", basePatchSet.id(), groups);
       }
+
       ObjectId parentCommit =
           getParentCommit(
               git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit, input.merge);
+      logger.atFine().log(
+          "parent commit = %s", parentCommit != null ? parentCommit.name() : "NULL");
 
       RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 
@@ -463,6 +476,7 @@ public class CreateChange
       RevCommit mergeTip,
       String commitMessage)
       throws IOException {
+    logger.atFine().log("Creating empty commit");
     CommitBuilder commit = new CommitBuilder();
     if (mergeTip == null) {
       commit.setTreeId(emptyTreeId(oi));
@@ -486,6 +500,9 @@ public class CreateChange
       PersonIdent authorIdent,
       String commitMessage)
       throws RestApiException, IOException {
+    logger.atFine().log(
+        "Creating merge commit: source = %s, strategy = %s", merge.source, merge.strategy);
+
     if (Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
     }
@@ -499,6 +516,7 @@ public class CreateChange
     // default merge strategy from project settings
     String mergeStrategy =
         firstNonNull(Strings.emptyToNull(merge.strategy), mergeUtil.mergeStrategyName());
+    logger.atFine().log("merge strategy = %s", mergeStrategy);
 
     try {
       return MergeUtil.createMergeCommit(

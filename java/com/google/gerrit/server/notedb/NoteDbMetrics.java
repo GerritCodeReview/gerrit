@@ -21,6 +21,7 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/** Metrics for accessing and updating changes in NoteDb. */
 @Singleton
 class NoteDbMetrics {
   /** End-to-end latency for writing a collection of updates. */

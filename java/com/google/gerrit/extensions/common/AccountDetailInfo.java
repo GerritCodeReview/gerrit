@@ -16,6 +16,15 @@ package com.google.gerrit.extensions.common;
 
 import java.sql.Timestamp;
 
+/**
+ * Representation of a (detailed) account in the REST API.
+ *
+ * <p>This class determines the JSON format of (detailed) accounts in the REST API.
+ *
+ * <p>This class extends {@link AccountInfo} (which defines fields for account properties that are
+ * frequently used) and provides additional fields for account details which are needed only in some
+ * cases.
+ */
 public class AccountDetailInfo extends AccountInfo {
   public Timestamp registeredOn;
 

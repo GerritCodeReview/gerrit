@@ -19,10 +19,30 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 import com.google.common.collect.ComparisonChain;
 import java.util.Objects;
 
+/**
+ * Representation of an external ID in the REST API.
+ *
+ * <p>This class determines the JSON format of external IDs in the REST API.
+ *
+ * <p>External IDs are user identities that are assigned to an account. Often they are used to link
+ * user identities in external systems.
+ */
 public class AccountExternalIdInfo implements Comparable<AccountExternalIdInfo> {
+  /** The external ID key, formatted as {@code <scheme>:<ID>}. */
   public String identity;
+
+  /** The email address of the external ID. */
   public String emailAddress;
+
+  /**
+   * Whether the external ID is trusted.
+   *
+   * <p>Also see {@link
+   * com.google.gerrit.server.config.AuthConfig#isIdentityTrustable(java.util.Collection)}.
+   */
   public Boolean trusted;
+
+  /** Whether the external ID can be deleted by the calling user. */
   public Boolean canDelete;
 
   @Override

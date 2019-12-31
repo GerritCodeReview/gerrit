@@ -520,6 +520,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeEditNoContentProvidedRest() throws Exception {
+    createEmptyEditFor(changeId);
+    adminRestSession
+        .put(urlEditFile(changeId, FILE_NAME), new FileContentInput())
+        .assertBadRequest();
+  }
+
+  @Test
   public void emptyPutRequest() throws Exception {
     createEmptyEditFor(changeId);
     adminRestSession.put(urlEditFile(changeId, FILE_NAME)).assertNoContent();

@@ -26,6 +26,7 @@ import java.sql.Timestamp;
  * cases.
  */
 public class AccountDetailInfo extends AccountInfo {
+  /** The timestamp of when the account was registered. */
   public Timestamp registeredOn;
 
   public AccountDetailInfo(Integer id) {

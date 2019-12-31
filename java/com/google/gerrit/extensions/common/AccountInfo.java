@@ -27,14 +27,34 @@ import java.util.Objects;
  * are defined in {@link AccountDetailInfo}.
  */
 public class AccountInfo {
+  /** The numeric ID of the account. */
   public Integer _accountId;
+
+  /** The full name of the user. */
   public String name;
+
+  /** The preferred email address of the user. */
   public String email;
+
+  /** List of the secondary email addresses of the user. */
   public List<String> secondaryEmails;
+
+  /** The username of the user. */
   public String username;
+
+  /** List of avatars of the user. */
   public List<AvatarInfo> avatars;
+
+  /**
+   * Whether the query would deliver more results if not limited. Only set on the last account that
+   * is returned as a query result.
+   */
   public Boolean _moreAccounts;
+
+  /** Status message of the account (e.g. 'OOO' for out-of-office). */
   public String status;
+
+  /** Whether the account is inactive. */
   public Boolean inactive;
 
   public AccountInfo(Integer id) {

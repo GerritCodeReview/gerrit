@@ -1477,8 +1477,8 @@ type] is `CUSTOM_EXTENSION`.
 |`git_basic_auth_policy`      |optional|
 The link:config-gerrit.html#auth.gitBasicAuthPolicy[policy] to authenticate
 Git over HTTP and REST API requests when
-link:config-gerrit.html#auth.type[authentication type] is `LDAP`.
-Can be `HTTP`, `LDAP` or `HTTP_LDAP`.
+link:config-gerrit.html#auth.type[authentication type] is `LDAP`,
+`LDAP_BIND` or `OAUTH`. Can be `HTTP`, `LDAP`, `HTTP_LDAP` or `OAUTH`.
 |==========================================
 
 [[cache-info]]

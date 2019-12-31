@@ -14,6 +14,13 @@
 
 package com.google.gerrit.extensions.common;
 
+/**
+ * Representation of an avatar in the REST API.
+ *
+ * <p>This class determines the JSON format of avatars in the REST API.
+ *
+ * <p>An avatar is the graphical representation of a user.
+ */
 public class AvatarInfo {
   /**
    * Size in pixels the UI prefers an avatar image to be.
@@ -23,7 +30,12 @@ public class AvatarInfo {
    */
   public static final int DEFAULT_SIZE = 32;
 
+  /** The URL to the avatar image. */
   public String url;
+
+  /** The height of the avatar image in pixels. */
   public Integer height;
+
+  /** The width of the avatar image in pixels. */
   public Integer width;
 }

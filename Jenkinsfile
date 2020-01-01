@@ -53,15 +53,11 @@ class Builds {
 
 class GerritCheck {
     String uuid
-    String changeNum
-    String sha1
     Build build
 
-    GerritCheck(name, changeNum, sha1, build) {
+    GerritCheck(name, build) {
         this.uuid = "gerritforge:" + name.replaceAll("(bazel/)", "") +
             Globals.gerritRepositoryNameSha1Suffix
-        this.changeNum = changeNum
-        this.sha1 = sha1
         this.build = build
     }
 
@@ -93,21 +89,7 @@ def hasChangeNumber() {
 }
 
 def postCheck(check) {
-    def gerritPostUrl = Globals.gerritUrl +
-        "a/changes/${check.changeNum}/revisions/${check.sha1}/checks"
-
-    try {
-        def json = check.createCheckPayload()
-        httpRequest(httpMode: 'POST', authentication: Globals.gerritCredentialsId,
-            contentType: 'APPLICATION_JSON', requestBody: json,
-            validResponseCodes: '200', url: gerritPostUrl)
-        echo "----------------------------------------------------------------------------"
-        echo "Gerrit Check: ${check.uuid}=" + check.build.result + " to change " +
-            check.changeNum + "/" + check.sha1
-        echo "----------------------------------------------------------------------------"
-    } catch(Exception e) {
-        echo "ERROR> Failed to post check results to Gerrit: ${e}"
-    }
+    gerritCheck checks: [ check.name: check.getCheckResultFromBuild() ]
 }
 
 def queryChangedFiles(url, changeNum, sha1) {
@@ -313,7 +295,7 @@ node ('master') {
             gerritReview(
                 labels: ['Code-Style': resCodeStyle],
                 message: createCodeStyleMsgBody(Builds.codeStyle, resCodeStyle))
-            postCheck(new GerritCheck("codestyle", Change.number, Change.sha1, Builds.codeStyle))
+            postCheck(new GerritCheck("codestyle", Builds.codeStyle))
 
             def verificationResults = Builds.verification.collect { k, v -> v }
             def resVerify = verificationResults.inject(1) {
@@ -324,7 +306,7 @@ node ('master') {
                 message: createVerifyMsgBody(Builds.verification))
 
             Builds.verification.each { type, build -> postCheck(
-                new GerritCheck(type, Change.number, Change.sha1, build)
+                new GerritCheck(type, build)
             )}
 
             setResult(resVerify, resCodeStyle)

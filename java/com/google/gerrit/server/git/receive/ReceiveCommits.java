@@ -1992,9 +1992,9 @@ class ReceiveCommits {
       }
 
       if (magicBranch != null && magicBranch.shouldPublishComments()) {
-        List<Comment> drafts =
-            commentsUtil.draftByChangeAuthor(
-                notesFactory.createChecked(change), user.getAccountId());
+        ChangeNotes notes = notesFactory.createChecked(change);
+        List<Comment> drafts = commentsUtil.draftByChangeAuthor(notes, user.getAccountId());
+        System.out.println("##### n " + notes.getComments().size());
         ImmutableList<CommentForValidation> draftsForValidation =
             drafts.stream()
                 .map(

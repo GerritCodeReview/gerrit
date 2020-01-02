@@ -133,4 +133,27 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
             CommentForValidation.create(
                 CommentForValidation.CommentType.FILE_COMMENT, draftFile.message));
   }
+
+  @Test
+  public void countComments_XXX() throws Exception {
+    when(mockCommentValidator.validateComments(capture.capture())).thenReturn(ImmutableList.of());
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+    DraftInput draftFile = testCommentHelper.newDraft(COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftFile);
+    DraftInput draftInline =
+        testCommentHelper.newDraft(
+            result.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(2);
+
+    draftInline =
+        testCommentHelper.newDraft(
+            result.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(3);
+  }
 }

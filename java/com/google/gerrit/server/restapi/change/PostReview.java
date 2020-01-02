@@ -962,6 +962,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       Set<CommentSetEntry> existingComments =
           in.omitDuplicateComments ? readExistingComments(ctx) : Collections.emptySet();
+      System.out.println("##### e " + readExistingComments(ctx).size());
 
       // Deduplication:
       // - Ignore drafts with the same ID as an inputComment here. These are deleted later.

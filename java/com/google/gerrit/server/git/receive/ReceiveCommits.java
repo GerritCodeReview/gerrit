@@ -139,6 +139,7 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -1440,11 +1441,16 @@ class ReceiveCommits {
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
     /**
-     * Result of running {@link CommentValidator}-s on drafts that are published with the commit
-     * (which happens iff {@code --publish-comments} is set). Remains {@code true} if none are
-     * installed.
+     * Draft comments are published with the commit iff {@code --publish-comments} is set. All
+     * drafts are withheld (overriding the option) if at least one of the following conditions are
+     * met:
+     *
+     * <ul>
+     *   <li>Installed {@link CommentValidator} plugins reject one or more draft comments.
+     *   <li>The maximum number of comments would be exceeded.
+     * </ul>
      */
-    private boolean commentsValid = true;
+    private boolean withholdComments = false;
 
     BranchNameKey dest;
     PermissionBackend.ForRef perm;
@@ -1641,18 +1647,19 @@ class ReceiveCommits {
           .collect(toImmutableSet());
     }
 
-    void setCommentsValid(boolean commentsValid) {
-      this.commentsValid = commentsValid;
+    void setWithholdComments(boolean withholdComments) {
+      this.withholdComments = withholdComments;
     }
 
     boolean shouldPublishComments() {
-      if (!commentsValid) {
+      if (withholdComments) {
         // Validation messages of type WARNING have already been added, now withhold the comments.
         return false;
       }
       if (publishComments) {
         return true;
-      } else if (noPublishComments) {
+      }
+      if (noPublishComments) {
         return false;
       }
       return defaultPublishComments;
@@ -2001,27 +2008,38 @@ class ReceiveCommits {
       }
 
       if (magicBranch != null && magicBranch.shouldPublishComments()) {
-        List<Comment> drafts =
-            commentsUtil.draftByChangeAuthor(
-                notesFactory.createChecked(change), user.getAccountId());
-        ImmutableList<CommentForValidation> draftsForValidation =
-            drafts.stream()
-                .map(
-                    comment ->
-                        CommentForValidation.create(
-                            comment.lineNbr > 0
-                                ? CommentType.INLINE_COMMENT
-                                : CommentType.FILE_COMMENT,
-                            comment.message))
-                .collect(toImmutableList());
-        ImmutableList<CommentValidationFailure> commentValidationFailures =
-            PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
-        magicBranch.setCommentsValid(commentValidationFailures.isEmpty());
-        commentValidationFailures.forEach(
-            failure ->
-                addMessage(
-                    "Comment validation failure: " + failure.getMessage(),
-                    ValidationMessage.Type.WARNING));
+        ChangeNotes notes = notesFactory.createChecked(change);
+        List<Comment> drafts = commentsUtil.draftByChangeAuthor(notes, user.getAccountId());
+        // ö 5k ok? Extract somewhere central.
+        int maxComments = config.getInt("change", null, "maxComments", 5_000);
+        int existingComments = notes.getComments().size() + notes.getRobotComments().size();
+        if (existingComments + drafts.size() > maxComments) {
+          addMessage(
+              String.format(
+                  "Maximum number of comments exceeded (%d > %d), drafts not published ",
+                  existingComments + drafts.size(), maxComments),
+              ValidationMessage.Type.WARNING);
+          magicBranch.setWithholdComments(true);
+        } else {
+          ImmutableList<CommentForValidation> draftsForValidation =
+              drafts.stream()
+                  .map(
+                      comment ->
+                          CommentForValidation.create(
+                              comment.lineNbr > 0
+                                  ? CommentType.INLINE_COMMENT
+                                  : CommentType.FILE_COMMENT,
+                              comment.message))
+                  .collect(toImmutableList());
+          ImmutableList<CommentValidationFailure> commentValidationFailures =
+              PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
+          magicBranch.setWithholdComments(!commentValidationFailures.isEmpty());
+          commentValidationFailures.forEach(
+              failure ->
+                  addMessage(
+                      "Comment validation failure: " + failure.getMessage(),
+                      ValidationMessage.Type.WARNING));
+        }
       }
 
       replaceByChange.put(req.ontoChange, req);
@@ -3337,7 +3355,8 @@ class ReceiveCommits {
                     }
 
                     logger.atFine().log(
-                        "Auto-closing %d changes with existing patch sets and %d with new patch sets",
+                        "Auto-closing %d changes with existing patch sets and %d with new patch"
+                            + " sets",
                         existingPatchSets, newPatchSets);
                     bu.execute();
                   } catch (IOException | StorageException | PermissionBackendException e) {

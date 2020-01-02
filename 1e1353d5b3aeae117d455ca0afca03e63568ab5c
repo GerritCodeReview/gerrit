@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82b7d251_e2916395",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2020-01-02T18:08:21Z",
+      "side": 1,
+      "message": "for consistency: \n\n--label-no-vote-display\n--label-has-vote-display",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "1e1353d5b3aeae117d455ca0afca03e63568ab5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

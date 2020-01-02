@@ -1195,6 +1195,15 @@ performance improvements by reducing the number of refs in the repo.
 +
 Default is true.
 
+[[change.commentSizeLimit]]change.commentSizeLimit::
++
+Maximum allowed size in characters of a regular (non-robot) comment. Comments
+which exceed this size will be rejected. Size computation is approximate and may
+be off by roughly 1%. Common unit suffixes of 'k', 'm', or 'g' are supported.
+The value must be positive.
++
+The default limit is 16kB.
+
 [[change.disablePrivateChanges]]change.disablePrivateChanges::
 +
 If set to true, users are not allowed to create private changes.
@@ -1211,6 +1220,13 @@ The specified value is used to visualize the change sizes in the Web UI
 in change tables and user dashboards.
 +
 By default 500.
+
+[[change.maxComments]]change.maxComments::
++
+Maximum number of comments (regular plus robot) allowed per change. Additional
+comments are rejected.
++
+By default 5,000.
 
 [[change.maxUpdates]]change.maxUpdates::
 +
@@ -1266,11 +1282,10 @@ and score (Shortcut: a)".
 
 [[change.robotCommentSizeLimit]]change.robotCommentSizeLimit::
 +
-Maximum allowed size of a robot comment that will be accepted. Robot comments
-which exceed the indicated size will be rejected on addition. The specified
-value is interpreted as the maximum size in bytes of the JSON representation of
-the robot comment. Common unit suffixes of 'k', 'm', or 'g' are supported.
-Zero or negative values allow robot comments of unlimited size.
+Maximum allowed size in characters of a robot comment. Robot comments which
+exceed this size will be rejected on addition. Size computation is approximate
+and may be off by roughly 1%. Common unit suffixes of 'k', 'm', or 'g' are
+supported. Zero or negative values allow robot comments of unlimited size.
 +
 The default limit is 1024kB.
 

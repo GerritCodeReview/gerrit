@@ -16,10 +16,10 @@ package com.google.gerrit.entities;
 
 import java.util.List;
 
-public class FixSuggestion {
-  public String fixId;
-  public String description;
-  public List<FixReplacement> replacements;
+public final class FixSuggestion {
+  public final String fixId;
+  public final String description;
+  public final List<FixReplacement> replacements;
 
   public FixSuggestion(String fixId, String description, List<FixReplacement> replacements) {
     this.fixId = fixId;
@@ -39,5 +39,12 @@ public class FixSuggestion {
         + ", replacements="
         + replacements
         + '}';
+  }
+
+  /** Returns this instance's approximate size in bytes for the purpose of applying size limits. */
+  int getApproximateSize() {
+    return fixId.length()
+        + description.length()
+        + replacements.stream().map(FixReplacement::getApproximateSize).reduce(0, Integer::sum);
   }
 }

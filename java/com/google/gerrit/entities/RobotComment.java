@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class RobotComment extends Comment {
+public final class RobotComment extends Comment {
   public String robotId;
   public String robotRunId;
   public String url;
@@ -38,6 +38,22 @@ public class RobotComment extends Comment {
     super(key, author, writtenOn, side, message, serverId, false);
     this.robotId = robotId;
     this.robotRunId = robotRunId;
+  }
+
+  @Override
+  public int getApproximateSize() {
+    int approximateSize = super.getApproximateSize() + nullableLength(robotId, robotRunId, url);
+    approximateSize +=
+        properties != null
+            ? properties.entrySet().stream()
+                .map(entry -> nullableLength(entry.getKey(), entry.getValue()))
+                .reduce(0, Integer::sum)
+            : 0;
+    approximateSize +=
+        fixSuggestions != null
+            ? fixSuggestions.stream().map(FixSuggestion::getApproximateSize).reduce(0, Integer::sum)
+            : 0;
+    return approximateSize;
   }
 
   @Override

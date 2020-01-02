@@ -23,12 +23,13 @@ import com.google.gerrit.exceptions.StorageException;
  * <ul>
  *   <li>The number of NoteDb updates per change.
  *   <li>The number of patch sets per change.
+ *   <li>The number of files per change.
  * </ul>
  */
 public class LimitExceededException extends StorageException {
   private static final long serialVersionUID = 1L;
 
-  LimitExceededException(String message) {
+  public LimitExceededException(String message) {
     super(message);
   }
 }

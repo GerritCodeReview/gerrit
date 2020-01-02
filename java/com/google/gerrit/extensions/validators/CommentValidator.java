@@ -25,7 +25,10 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 public interface CommentValidator {
 
   /**
-   * Validate the specified comments.
+   * Validate the specified comments. This method will be called with all new comments that need to
+   * be validated. This allows validators to statelessly count the new comments. Note that the
+   * method may be called separately for texts that are not comments, but similar in nature and also
+   * subject to size limits, such as a change message.
    *
    * @return An empty list if all comments are valid, or else a list of validation failures.
    */

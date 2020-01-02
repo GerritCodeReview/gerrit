@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.git.receive;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -24,6 +25,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.Side;
@@ -132,5 +134,31 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
                 CommentForValidation.CommentType.INLINE_COMMENT, draftInline.message),
             CommentForValidation.create(
                 CommentForValidation.CommentType.FILE_COMMENT, draftFile.message));
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxComments", value = "3")
+  public void countComments_limitNumberOfComments() throws Exception {
+    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+    String filePath = result.getChange().currentFilePaths().get(0);
+    DraftInput draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+
+    for (int i = 1; i < 3; ++i) {
+      testCommentHelper.addRobotComment(
+          changeId,
+          TestCommentHelper.createRobotCommentInput(result.getChange().currentFilePaths().get(0)));
+    }
+
+    draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+    amendResult.assertMessage("Maximum number of comments exceeded");
   }
 }

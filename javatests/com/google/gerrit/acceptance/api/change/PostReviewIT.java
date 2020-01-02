@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.stream.Collectors.toList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
@@ -27,15 +28,19 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
@@ -46,6 +51,8 @@ import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -84,10 +91,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   public void validateCommentsInInput_commentOK() throws Exception {
     PushOneCommit.Result r = createChange();
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.builder()
-                .changeId(r.getChange().getId().get())
-                .project(r.getChange().project().get())
-                .build(),
+            contextFor(r),
             ImmutableList.of(
                 CommentForValidation.create(
                     CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
@@ -110,10 +114,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     CommentForValidation commentForValidation =
         CommentForValidation.create(CommentType.FILE_COMMENT, COMMENT_TEXT);
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.builder()
-                .changeId(r.getChange().getId().get())
-                .project(r.getChange().project().get())
-                .build(),
+            contextFor(r),
             ImmutableList.of(CommentForValidation.create(CommentType.FILE_COMMENT, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
 
@@ -161,10 +162,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   public void validateDrafts_draftOK() throws Exception {
     PushOneCommit.Result r = createChange();
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.builder()
-                .changeId(r.getChange().getId().get())
-                .project(r.getChange().project().get())
-                .build(),
+            contextFor(r),
             ImmutableList.of(
                 CommentForValidation.create(
                     CommentForValidation.CommentType.INLINE_COMMENT, COMMENT_TEXT))))
@@ -173,7 +171,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     DraftInput draft =
         testCommentHelper.newDraft(
             r.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft).get();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
 
     ReviewInput input = new ReviewInput();
@@ -189,10 +187,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     CommentForValidation commentForValidation =
         CommentForValidation.create(CommentType.INLINE_COMMENT, COMMENT_TEXT);
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.builder()
-                .changeId(r.getChange().getId().get())
-                .project(r.getChange().project().get())
-                .build(),
+            contextFor(r),
             ImmutableList.of(
                 CommentForValidation.create(
                     CommentForValidation.CommentType.INLINE_COMMENT, COMMENT_TEXT))))
@@ -254,10 +249,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   public void validateCommentsInChangeMessage_messageOK() throws Exception {
     PushOneCommit.Result r = createChange();
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.builder()
-                .changeId(r.getChange().getId().get())
-                .project(r.getChange().project().get())
-                .build(),
+            contextFor(r),
             ImmutableList.of(
                 CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of());
@@ -277,10 +269,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     CommentForValidation commentForValidation =
         CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT);
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.builder()
-                .changeId(r.getChange().getId().get())
-                .project(r.getChange().project().get())
-                .build(),
+            contextFor(r),
             ImmutableList.of(
                 CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
@@ -308,7 +297,56 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(message.message).doesNotContain(COMMENT_TEXT);
   }
 
+  @Test
+  @GerritConfig(name = "change.maxComments", value = "4")
+  public void restrictNumberOfComments() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+    String filePath = r.getChange().currentFilePaths().get(0);
+    CommentInput commentInput = new CommentInput();
+    commentInput.line = 1;
+    commentInput.message = "foo";
+    commentInput.path = filePath;
+    RobotCommentInput robotCommentInput =
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields(filePath);
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(filePath, ImmutableList.of(commentInput));
+    reviewInput.robotComments = ImmutableMap.of(filePath, ImmutableList.of(robotCommentInput));
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+
+    // reviewInput still has both a user and a robot comment (and deduplication is false). We also
+    // create a draft so that in total there would be 5 comments. The limit is set to 4, so this
+    // verifies that all three channels are considered.
+    DraftInput draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, "a draft");
+    testCommentHelper.addDraft(r.getChangeId(), r.getPatchSetId().getId(), draftInline);
+    reviewInput.drafts = DraftHandling.PUBLISH;
+    reviewInput.omitDuplicateComments = false;
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().review(reviewInput));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Exceeding maximum number of comments: 2 (existing) + 3 (new) > 4");
+
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
+    assertThat(getRobotComments(r.getChangeId())).hasSize(1);
+  }
+
+  private List<RobotCommentInfo> getRobotComments(String changeId) throws RestApiException {
+    return gApi.changes().id(changeId).robotComments().values().stream()
+        .flatMap(Collection::stream)
+        .collect(toList());
+  }
+
   private static CommentInput newComment(String path) {
     return TestCommentHelper.populate(new CommentInput(), path, PostReviewIT.COMMENT_TEXT);
+  }
+
+  private static CommentValidationContext contextFor(PushOneCommit.Result result) {
+    return CommentValidationContext.create(
+        result.getChange().getId().get(), result.getChange().project().get(), 0);
   }
 }

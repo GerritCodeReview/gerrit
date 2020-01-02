@@ -31,7 +31,13 @@ public abstract class CommentForValidation {
     /** A file comment. */
     FILE_COMMENT,
     /** A change message. */
-    CHANGE_MESSAGE
+    CHANGE_MESSAGE,
+    /**
+     * Placeholder for a robot comment. This is used to report that too many robot comments were
+     * sent in {@link com.google.gerrit.server.restapi.change.PostReview}. Validators only know
+     * about the number of robot comments so actual text is not included.
+     */
+    ROBOT_COMMENT_PLACEHOLDER
   }
 
   public static CommentForValidation create(CommentType type, String text) {

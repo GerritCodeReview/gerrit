@@ -909,8 +909,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
-      boolean dirty = insertComments(ctx);
-      dirty |= insertRobotComments(ctx);
+      List<RobotComment> newRobotComments =
+          in.robotComments == null ? ImmutableList.of() : getNewRobotComments(ctx);
+      boolean dirty = insertComments(ctx, newRobotComments.size());
+      dirty |= insertRobotComments(ctx, newRobotComments);
       dirty |= updateLabels(projectState, ctx);
       dirty |= insertMessage(ctx);
       return dirty;
@@ -937,7 +939,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ctx.getWhen());
     }
 
-    private boolean insertComments(ChangeContext ctx)
+    private boolean insertComments(ChangeContext ctx, int numNewRobotComments)
         throws UnprocessableEntityException, PatchListNotAvailableException,
             CommentsRejectedException {
       Map<String, List<CommentInput>> inputComments = in.comments;
@@ -1001,10 +1003,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       CommentValidationContext commentValidationCtx =
-          CommentValidationContext.builder()
-              .changeId(ctx.getChange().getChangeId())
-              .project(ctx.getChange().getProject().get())
-              .build();
+          CommentValidationContext.create(
+              ctx.getChange().getChangeId(),
+              ctx.getChange().getProject().get(),
+              numNewRobotComments);
       switch (in.drafts) {
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:
@@ -1014,7 +1016,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           comments.addAll(drafts.values());
           break;
         case KEEP:
-        default:
           validateComments(commentValidationCtx, toPublish.stream());
           break;
       }
@@ -1043,12 +1044,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     }
 
-    private boolean insertRobotComments(ChangeContext ctx) throws PatchListNotAvailableException {
+    private boolean insertRobotComments(ChangeContext ctx, List<RobotComment> newRobotComments) {
       if (in.robotComments == null) {
         return false;
       }
-
-      List<RobotComment> newRobotComments = getNewRobotComments(ctx);
       commentsUtil.putRobotComments(ctx.getUpdate(psId), newRobotComments);
       comments.addAll(newRobotComments);
       return !newRobotComments.isEmpty();
@@ -1424,10 +1423,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
       if (!msg.isEmpty()) {
         CommentValidationContext commentValidationCtx =
-            CommentValidationContext.builder()
-                .changeId(ctx.getChange().getChangeId())
-                .project(ctx.getChange().getProject().get())
-                .build();
+            CommentValidationContext.create(
+                ctx.getChange().getChangeId(), ctx.getChange().getProject().get(), 0);
         ImmutableList<CommentValidationFailure> messageValidationFailure =
             PublishCommentUtil.findInvalidComments(
                 commentValidationCtx,

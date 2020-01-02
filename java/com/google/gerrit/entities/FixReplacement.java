@@ -14,10 +14,10 @@
 
 package com.google.gerrit.entities;
 
-public class FixReplacement {
-  public String path;
-  public Comment.Range range;
-  public String replacement;
+public final class FixReplacement {
+  public final String path;
+  public final Comment.Range range;
+  public final String replacement;
 
   public FixReplacement(String path, Comment.Range range, String replacement) {
     this.path = path;
@@ -37,5 +37,10 @@ public class FixReplacement {
         + replacement
         + '\''
         + '}';
+  }
+
+  /** Returns this instance's approximate size in bytes for the purpose of applying size limits. */
+  int getApproximateSize() {
+    return path.length() + replacement.length();
   }
 }

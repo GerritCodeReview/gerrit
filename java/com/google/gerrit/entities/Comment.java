@@ -29,6 +29,8 @@ import org.eclipse.jgit.lib.ObjectId;
  *
  * <p>Changing fields in this class changes the storage format of inline comments in NoteDb and may
  * require a corresponding data migration (adding new optional fields is generally okay).
+ *
+ * <p>Consider updating {@link #getApproximateSize()} when adding/changing fields.
  */
 public class Comment {
   public enum Status {
@@ -56,7 +58,7 @@ public class Comment {
     }
   }
 
-  public static class Key {
+  public static final class Key {
     public String uuid;
     public String filename;
     public int patchSetId;
@@ -97,7 +99,7 @@ public class Comment {
     }
   }
 
-  public static class Identity {
+  public static final class Identity {
     int id;
 
     public Identity(Account.Id id) {
@@ -147,7 +149,7 @@ public class Comment {
    *       </ul>
    * </ul>
    */
-  public static class Range implements Comparable<Range> {
+  public static final class Range implements Comparable<Range> {
     private static final Comparator<Range> RANGE_COMPARATOR =
         Comparator.<Range>comparingInt(range -> range.startLine)
             .thenComparingInt(range -> range.startChar)
@@ -220,10 +222,12 @@ public class Comment {
   public Range range;
   public String tag;
 
-  // Hex commit SHA1 of the commit of the patchset to which this comment applies. Other classes call
-  // this "commitId", but this class uses the old ReviewDb term "revId", and this field name is
-  // serialized into JSON in NoteDb, so it can't easily be changed. Callers do not access this field
-  // directly, and instead use the public getter/setter that wraps an ObjectId.
+  /**
+   * Hex commit SHA1 of the commit of the patchset to which this comment applies. Other classes call
+   * this "commitId", but this class uses the old ReviewDb term "revId", and this field name is
+   * serialized into JSON in NoteDb, so it can't easily be changed. Callers do not access this field
+   * directly, and instead use the public getter/setter that wraps an ObjectId.
+   */
   private String revId;
 
   public String serverId;
@@ -291,6 +295,23 @@ public class Comment {
 
   public Identity getRealAuthor() {
     return realAuthor != null ? realAuthor : author;
+  }
+
+  /**
+   * Returns the comment's approximate size. This is used to enforce size limits and should
+   * therefore include all unbounded fields (e.g. String-s).
+   */
+  public int getApproximateSize() {
+    return nullableLength(message, parentUuid, tag, revId, serverId)
+        + (key != null ? nullableLength(key.filename, key.uuid) : 0);
+  }
+
+  static int nullableLength(String... strings) {
+    int length = 0;
+    for (String s : strings) {
+      length += s == null ? 0 : s.length();
+    }
+    return length;
   }
 
   @Override

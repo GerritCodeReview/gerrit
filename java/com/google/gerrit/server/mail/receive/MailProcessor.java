@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -243,7 +244,7 @@ public class MailProcessor {
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.INTERNAL_EXCEPTION);
         return;
       }
-      ChangeData cd = changeDataList.get(0);
+      ChangeData cd = Iterables.getOnlyElement(changeDataList);
       if (existingMessageIds(cd).contains(message.id())) {
         logger.atInfo().log("Message %s was already processed. Will delete message.", message.id());
         return;
@@ -285,14 +286,14 @@ public class MailProcessor {
               .map(
                   comment ->
                       CommentForValidation.create(
+                          CommentForValidation.CommentSource.HUMAN,
                           MAIL_COMMENT_TYPE_TO_VALIDATION_TYPE.get(comment.getType()),
-                          comment.getMessage()))
+                          comment.getMessage(),
+                          comment.getMessage().length()))
               .collect(ImmutableList.toImmutableList());
       CommentValidationContext commentValidationCtx =
-          CommentValidationContext.builder()
-              .changeId(cd.change().getChangeId())
-              .project(cd.change().getProject().get())
-              .build();
+          CommentValidationContext.create(
+              cd.change().getChangeId(), cd.change().getProject().get());
       ImmutableList<CommentValidationFailure> commentValidationFailures =
           PublishCommentUtil.findInvalidComments(
               commentValidationCtx, commentValidators, parsedCommentsForValidation);

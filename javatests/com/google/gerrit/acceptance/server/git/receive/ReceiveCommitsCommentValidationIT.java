@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.validators.CommentForValidation;
-import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.testing.TestCommentHelper;
@@ -49,9 +48,15 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
   @Inject private CommentValidator mockCommentValidator;
   @Inject private TestCommentHelper testCommentHelper;
 
-  private static final int MAX_COMMENT_LENGTH = 666;
+  private static final int COMMENT_SIZE_LIMIT = 666;
 
   private static final String COMMENT_TEXT = "The comment text";
+  private static final CommentForValidation COMMENT_FOR_VALIDATION =
+      CommentForValidation.create(
+          CommentForValidation.CommentSource.HUMAN,
+          CommentForValidation.CommentType.FILE_COMMENT,
+          COMMENT_TEXT,
+          COMMENT_TEXT.length());
 
   @Captor private ArgumentCaptor<ImmutableList<CommentForValidation>> capture;
   @Captor private ArgumentCaptor<CommentValidationContext> captureCtx;
@@ -82,13 +87,9 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.builder()
-                .changeId(result.getChange().getId().get())
-                .project(result.getChange().project().get())
-                .build(),
-            ImmutableList.of(
-                CommentForValidation.create(
-                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
+            CommentValidationContext.create(
+                result.getChange().getId().get(), result.getChange().project().get()),
+            ImmutableList.of(COMMENT_FOR_VALIDATION)))
         .thenReturn(ImmutableList.of());
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
     testCommentHelper.addDraft(changeId, revId, comment);
@@ -101,20 +102,14 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
   @Test
   public void validateComments_commentRejected() throws Exception {
-    CommentForValidation commentForValidation =
-        CommentForValidation.create(CommentType.FILE_COMMENT, COMMENT_TEXT);
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.builder()
-                .changeId(result.getChange().getId().get())
-                .project(result.getChange().project().get())
-                .build(),
-            ImmutableList.of(
-                CommentForValidation.create(
-                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
-        .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
+            CommentValidationContext.create(
+                result.getChange().getId().get(), result.getChange().project().get()),
+            ImmutableList.of(COMMENT_FOR_VALIDATION)))
+        .thenReturn(ImmutableList.of(COMMENT_FOR_VALIDATION.failValidation("Oh no!")));
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
     testCommentHelper.addDraft(changeId, revId, comment);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
@@ -149,18 +144,24 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     assertThat(capture.getAllValues().get(0))
         .containsExactly(
             CommentForValidation.create(
-                CommentForValidation.CommentType.INLINE_COMMENT, draftInline.message),
+                CommentForValidation.CommentSource.HUMAN,
+                CommentForValidation.CommentType.INLINE_COMMENT,
+                draftInline.message,
+                draftInline.message.length()),
             CommentForValidation.create(
-                CommentForValidation.CommentType.FILE_COMMENT, draftFile.message));
+                CommentForValidation.CommentSource.HUMAN,
+                CommentForValidation.CommentType.FILE_COMMENT,
+                draftFile.message,
+                draftFile.message.length()));
   }
 
   @Test
-  @GerritConfig(name = "change.maxCommentLength", value = "" + MAX_COMMENT_LENGTH)
+  @GerritConfig(name = "change.commentSizeLimit", value = "" + COMMENT_SIZE_LIMIT)
   public void validateComments_enforceLimits_commentTooLarge() throws Exception {
     when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
-    int commentLength = MAX_COMMENT_LENGTH + 1;
+    int commentLength = COMMENT_SIZE_LIMIT + 1;
     DraftInput comment =
         testCommentHelper.newDraft(new String(new char[commentLength]).replace("\0", "x"));
     testCommentHelper.addDraft(changeId, result.getCommit().getName(), comment);
@@ -169,7 +170,33 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
     amendResult.assertOkStatus();
     amendResult.assertMessage(
-        String.format("Comment too large (%d > %d)", commentLength, MAX_COMMENT_LENGTH));
+        String.format("Comment size exceeds limit (%d > %d)", commentLength, COMMENT_SIZE_LIMIT));
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxComments", value = "3")
+  public void countComments_limitNumberOfComments() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+    String filePath = result.getChange().currentFilePaths().get(0);
+    DraftInput draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+
+    for (int i = 1; i < 3; ++i) {
+      testCommentHelper.addRobotComment(
+          changeId,
+          TestCommentHelper.createRobotCommentInput(result.getChange().currentFilePaths().get(0)));
+    }
+
+    draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+    amendResult.assertMessage("exceeding maximum number of comments");
   }
 }

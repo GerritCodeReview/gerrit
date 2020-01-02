@@ -1268,9 +1268,10 @@ and score (Shortcut: a)".
 +
 Maximum allowed size of a robot comment that will be accepted. Robot comments
 which exceed the indicated size will be rejected on addition. The specified
-value is interpreted as the maximum size in bytes of the JSON representation of
-the robot comment. Common unit suffixes of 'k', 'm', or 'g' are supported.
-Zero or negative values allow robot comments of unlimited size.
+value is interpreted as the maximum size in bytes. Size computation is
+approximate and may be off by roughly 1%. Common unit suffixes of 'k', 'm', or
+'g' are supported. Zero or negative values allow robot comments of unlimited
+size.
 +
 The default limit is 1024kB.
 

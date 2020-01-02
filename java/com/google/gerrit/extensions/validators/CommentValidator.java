@@ -19,7 +19,8 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
 /**
  * Validates review comments and messages. Rejecting any comment/message will prevent all comments
- * from being published.
+ * from being published. This method will be called exactly once per validator, with all new
+ * comments that need to be validated. This allows validators to statelessly count the new comments.
  */
 @ExtensionPoint
 public interface CommentValidator {

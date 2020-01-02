@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.stream.Collectors.toList;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,19 +33,27 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.CommentsRejectedException;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -55,8 +65,16 @@ public class PostReviewIT extends AbstractDaemonTest {
   @Inject private TestCommentHelper testCommentHelper;
 
   private static final String COMMENT_TEXT = "The comment text";
+  private static final int MAX_COMMENTS = 4;
 
   @Captor private ArgumentCaptor<ImmutableList<CommentForValidation>> capture;
+
+  @ConfigSuite.Default
+  public static Config maxCommentsConfig() {
+    Config cfg = new Config();
+    cfg.setInt("change", null, "maxComments", MAX_COMMENTS);
+    return cfg;
+  }
 
   @Override
   public Module createModule() {
@@ -162,7 +180,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     DraftInput draft =
         testCommentHelper.newDraft(
             r.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft).get();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
 
     ReviewInput input = new ReviewInput();
@@ -282,6 +300,49 @@ public class PostReviewIT extends AbstractDaemonTest {
     ChangeMessageInfo message =
         Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages);
     assertThat(message.message).doesNotContain(COMMENT_TEXT);
+  }
+
+  @Test
+  public void restrictNumberOfComments() throws Exception {
+    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+    String filePath = r.getChange().currentFilePaths().get(0);
+    CommentInput commentInput = new CommentInput();
+    commentInput.line = 1;
+    commentInput.message = "foo";
+    commentInput.path = filePath;
+    RobotCommentInput robotCommentInput =
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields(filePath);
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(filePath, ImmutableList.of(commentInput));
+    reviewInput.robotComments = ImmutableMap.of(filePath, ImmutableList.of(robotCommentInput));
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+
+    // reviewInput still has both a user and a robot comment (and deduplication is false). We also
+    // create a draft so that in total there would be 5 comments. The limit is set to 4, so this
+    // verifies that all three channels are considered.
+    DraftInput draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, "a draft");
+    testCommentHelper.addDraft(r.getChangeId(), r.getPatchSetId().getId(), draftInline);
+    reviewInput.drafts = DraftHandling.PUBLISH;
+    reviewInput.omitDuplicateComments = false;
+
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().review(reviewInput));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Exceeding maximum number of comments: 1 (user) + 1 (robot) + 3 (new) > 4");
+
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
+    assertThat(getRobotComments(r.getChangeId())).hasSize(1);
+  }
+
+  private List<RobotCommentInfo> getRobotComments(String changeId) throws RestApiException {
+    return gApi.changes().id(changeId).robotComments().values().stream()
+        .flatMap(Collection::stream)
+        .collect(toList());
   }
 
   private static CommentInput newComment(String path) {

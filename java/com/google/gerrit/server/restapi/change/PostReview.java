@@ -31,6 +31,7 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -101,8 +102,10 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
+import com.google.gerrit.server.git.validators.DefaultLimits;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -908,8 +911,23 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
-      boolean dirty = insertComments(ctx);
-      dirty |= insertRobotComments(ctx);
+      Set<CommentSetEntry> existingComments = readExistingComments(ctx);
+      Set<CommentSetEntry> existingRobotComments = readExistingRobotComments(ctx);
+      boolean dirty = insertComments(ctx, existingComments);
+      dirty |= insertRobotComments(ctx, existingRobotComments);
+      // At this point we have amassed all new user and robot comments. Limit their total number.
+      int maxComments =
+          gerritConfig.getInt(
+              "change", null, "maxComments", DefaultLimits.MAX_NUM_COMMENTS_PER_CHANGE);
+      if (comments.size() + existingComments.size() + existingRobotComments.size() > maxComments) {
+        throw new LimitExceededException(
+            String.format(
+                "Exceeding maximum number of comments: %d (user) + %d (robot) + %d (new) > %d",
+                existingComments.size(),
+                existingRobotComments.size(),
+                comments.size(),
+                maxComments));
+      }
       dirty |= updateLabels(projectState, ctx);
       dirty |= insertMessage(ctx);
       return dirty;
@@ -936,7 +954,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ctx.getWhen());
     }
 
-    private boolean insertComments(ChangeContext ctx)
+    private boolean insertComments(ChangeContext ctx, Set<CommentSetEntry> existingComments)
         throws UnprocessableEntityException, PatchListNotAvailableException,
             CommentsRejectedException {
       Map<String, List<CommentInput>> inputComments = in.comments;
@@ -959,9 +977,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       // This will be populated with Comment-s created from inputComments.
       List<Comment> toPublish = new ArrayList<>();
-
-      Set<CommentSetEntry> existingComments =
-          in.omitDuplicateComments ? readExistingComments(ctx) : Collections.emptySet();
 
       // Deduplication:
       // - Ignore drafts with the same ID as an inputComment here. These are deleted later.
@@ -992,7 +1007,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           comment.setLineNbrAndRange(inputComment.line, inputComment.range);
           comment.tag = in.tag;
 
-          if (existingComments.contains(CommentSetEntry.create(comment))) {
+          if (in.omitDuplicateComments
+              && existingComments.contains(CommentSetEntry.create(comment))) {
             continue;
           }
           toPublish.add(comment);
@@ -1007,7 +1023,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           comments.addAll(drafts.values());
           break;
         case KEEP:
-        default:
           validateComments(toPublish.stream());
           break;
       }
@@ -1035,29 +1050,31 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     }
 
-    private boolean insertRobotComments(ChangeContext ctx) throws PatchListNotAvailableException {
+    private boolean insertRobotComments(
+        ChangeContext ctx, Set<CommentSetEntry> existingRobotComments)
+        throws PatchListNotAvailableException {
       if (in.robotComments == null) {
         return false;
       }
 
-      List<RobotComment> newRobotComments = getNewRobotComments(ctx);
+      List<RobotComment> newRobotComments = getNewRobotComments(ctx, existingRobotComments);
+
       commentsUtil.putRobotComments(ctx.getUpdate(psId), newRobotComments);
       comments.addAll(newRobotComments);
       return !newRobotComments.isEmpty();
     }
 
-    private List<RobotComment> getNewRobotComments(ChangeContext ctx)
+    private List<RobotComment> getNewRobotComments(
+        ChangeContext ctx, Set<CommentSetEntry> existingRobotComments)
         throws PatchListNotAvailableException {
       List<RobotComment> toAdd = new ArrayList<>(in.robotComments.size());
-
-      Set<CommentSetEntry> existingIds =
-          in.omitDuplicateComments ? readExistingRobotComments(ctx) : Collections.emptySet();
 
       for (Map.Entry<String, List<RobotCommentInput>> ent : in.robotComments.entrySet()) {
         String path = ent.getKey();
         for (RobotCommentInput c : ent.getValue()) {
           RobotComment e = createRobotCommentFromInput(ctx, path, c);
-          if (existingIds.contains(CommentSetEntry.create(e))) {
+          if (in.omitDuplicateComments
+              && existingRobotComments.contains(CommentSetEntry.create(e))) {
             continue;
           }
           toAdd.add(e);

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,10 +32,13 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidator;
@@ -44,6 +48,7 @@ import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.sql.Timestamp;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -162,7 +167,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     DraftInput draft =
         testCommentHelper.newDraft(
             r.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft).get();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
 
     ReviewInput input = new ReviewInput();
@@ -282,6 +287,44 @@ public class PostReviewIT extends AbstractDaemonTest {
     ChangeMessageInfo message =
         Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages);
     assertThat(message.message).doesNotContain(COMMENT_TEXT);
+  }
+
+  @Test
+  public void restrictNumberOfComments_XXX() throws Exception {
+    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+
+    DraftInput draft =
+        testCommentHelper.newDraft(
+            r.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft);
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
+
+    ReviewInput input = new ReviewInput();
+    input.drafts = DraftHandling.PUBLISH;
+
+    gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
+
+    // Count should now include the above comment.
+    // draft =
+    //     testCommentHelper.newDraft(
+    //         r.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
+    // gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft);
+    input = new ReviewInput();
+    input.drafts = DraftHandling.PUBLISH;
+    // input.robotComments = ImmutableMap.of("/COMMIT_MSG",  // so it exists
+    //     ImmutableList.of(createRobotCommentInputWithMandatoryFields()));
+    input.message = "the message is love";
+
+    gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(2);
+    assertThat(getRobotComments(r.getChangeId())).hasSize(1);
+  }
+
+  private List<RobotCommentInfo> getRobotComments(String changeId) throws RestApiException {
+    return gApi.changes().id(changeId).current().robotCommentsAsList();
   }
 
   private static CommentInput newComment(String path) {

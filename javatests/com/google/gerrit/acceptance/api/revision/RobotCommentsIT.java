@@ -28,7 +28,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -45,9 +44,10 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.testing.BinaryResultSubject;
+import com.google.gerrit.testing.TestCommentHelper;
+import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -57,6 +57,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class RobotCommentsIT extends AbstractDaemonTest {
+  @Inject private TestCommentHelper testCommentHelper;
+
   private static final String PLAIN_TEXT_CONTENT_TYPE = "text/plain";
 
   private static final String FILE_NAME = "file_to_fix.txt";
@@ -86,7 +88,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     fixReplacementInfo = createFixReplacementInfo();
     fixSuggestionInfo = createFixSuggestionInfo(fixReplacementInfo);
-    withFixRobotCommentInput = createRobotCommentInput(fixSuggestionInfo);
+    withFixRobotCommentInput =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo);
   }
 
   @Test
@@ -100,8 +103,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void addedRobotCommentsCanBeRetrieved() throws Exception {
-    RobotCommentInput in = createRobotCommentInput();
-    addRobotComment(changeId, in);
+    RobotCommentInput in = TestCommentHelper.createRobotCommentInput(FILE_NAME);
+    testCommentHelper.addRobotComment(changeId, in);
 
     Map<String, List<RobotCommentInfo>> out = gApi.changes().id(changeId).current().robotComments();
 
@@ -112,13 +115,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void addedRobotCommentsCanBeRetrievedByChange() throws Exception {
-    RobotCommentInput in = createRobotCommentInput();
-    addRobotComment(changeId, in);
+    RobotCommentInput in = TestCommentHelper.createRobotCommentInput(FILE_NAME);
+    testCommentHelper.addRobotComment(changeId, in);
 
     pushFactory.create(admin.newIdent(), testRepo, changeId).to("refs/for/master");
 
-    RobotCommentInput in2 = createRobotCommentInput();
-    addRobotComment(changeId, in2);
+    RobotCommentInput in2 = TestCommentHelper.createRobotCommentInput(FILE_NAME);
+    testCommentHelper.addRobotComment(changeId, in2);
 
     Map<String, List<RobotCommentInfo>> out = gApi.changes().id(changeId).robotComments();
 
@@ -133,8 +136,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void robotCommentsCanBeRetrievedAsList() throws Exception {
-    RobotCommentInput robotCommentInput = createRobotCommentInput();
-    addRobotComment(changeId, robotCommentInput);
+    RobotCommentInput robotCommentInput = TestCommentHelper.createRobotCommentInput(FILE_NAME);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos =
         gApi.changes().id(changeId).current().robotCommentsAsList();
@@ -146,8 +149,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void specificRobotCommentCanBeRetrieved() throws Exception {
-    RobotCommentInput robotCommentInput = createRobotCommentInput();
-    addRobotComment(changeId, robotCommentInput);
+    RobotCommentInput robotCommentInput = TestCommentHelper.createRobotCommentInput(FILE_NAME);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     RobotCommentInfo robotCommentInfo = Iterables.getOnlyElement(robotCommentInfos);
@@ -159,8 +162,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void robotCommentWithoutOptionalFieldsCanBeAdded() throws Exception {
-    RobotCommentInput in = createRobotCommentInputWithMandatoryFields();
-    addRobotComment(changeId, in);
+    RobotCommentInput in = TestCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME);
+    testCommentHelper.addRobotComment(changeId, in);
 
     Map<String, List<RobotCommentInfo>> out = gApi.changes().id(changeId).current().robotComments();
     assertThat(out).hasSize(1);
@@ -169,14 +172,15 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void hugeRobotCommentIsRejected() throws Exception {
+  public void hugeRobotCommentIsRejected() {
     int defaultSizeLimit = 1024 * 1024;
     int sizeOfRest = 451;
     fixReplacementInfo.replacement = getStringFor(defaultSizeLimit - sizeOfRest + 1);
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+            BadRequestException.class,
+            () -> testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput));
     assertThat(thrown).hasMessageThat().contains("limit");
   }
 
@@ -186,7 +190,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     int sizeOfRest = 451;
     fixReplacementInfo.replacement = getStringFor(defaultSizeLimit - sizeOfRest);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     assertThat(robotCommentInfos).hasSize(1);
@@ -194,13 +198,14 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "change.robotCommentSizeLimit", value = "10k")
-  public void maximumAllowedSizeOfRobotCommentCanBeAdjusted() throws Exception {
+  public void maximumAllowedSizeOfRobotCommentCanBeAdjusted() {
     int sizeLimit = 10 * 1024;
     fixReplacementInfo.replacement = getStringFor(sizeLimit);
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+            BadRequestException.class,
+            () -> testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput));
     assertThat(thrown).hasMessageThat().contains("limit");
   }
 
@@ -210,7 +215,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     int defaultSizeLimit = 1024 * 1024;
     fixReplacementInfo.replacement = getStringFor(defaultSizeLimit);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     assertThat(robotCommentInfos).hasSize(1);
@@ -223,7 +228,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     int defaultSizeLimit = 1024 * 1024;
     fixReplacementInfo.replacement = getStringFor(defaultSizeLimit);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     assertThat(robotCommentInfos).hasSize(1);
@@ -231,7 +236,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void addedFixSuggestionCanBeRetrieved() throws Exception {
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     assertThatList(robotCommentInfos).onlyElement().onlyFixSuggestion().isNotNull();
@@ -239,7 +244,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixIdIsGeneratedForFixSuggestion() throws Exception {
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     assertThatList(robotCommentInfos).onlyElement().onlyFixSuggestion().fixId().isNotEmpty();
@@ -252,7 +257,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void descriptionOfFixSuggestionIsAcceptedAsIs() throws Exception {
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     assertThatList(robotCommentInfos)
@@ -263,12 +268,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void descriptionOfFixSuggestionIsMandatory() throws Exception {
+  public void descriptionOfFixSuggestionIsMandatory() {
     fixSuggestionInfo.description = null;
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+            BadRequestException.class,
+            () -> testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput));
     assertThat(thrown)
         .hasMessageThat()
         .contains(
@@ -279,7 +285,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void addedFixReplacementCanBeRetrieved() throws Exception {
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     assertThatList(robotCommentInfos)
@@ -290,12 +296,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixReplacementsAreMandatory() throws Exception {
+  public void fixReplacementsAreMandatory() {
     fixSuggestionInfo.replacements = Collections.emptyList();
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+            BadRequestException.class,
+            () -> testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput));
     assertThat(thrown)
         .hasMessageThat()
         .contains(
@@ -307,7 +314,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void pathOfFixReplacementIsAcceptedAsIs() throws Exception {
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
@@ -320,12 +327,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pathOfFixReplacementIsMandatory() throws Exception {
+  public void pathOfFixReplacementIsMandatory() {
     fixReplacementInfo.path = null;
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+            BadRequestException.class,
+            () -> testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput));
     assertThat(thrown)
         .hasMessageThat()
         .contains(
@@ -336,7 +344,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void rangeOfFixReplacementIsAcceptedAsIs() throws Exception {
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
@@ -349,12 +357,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rangeOfFixReplacementIsMandatory() throws Exception {
+  public void rangeOfFixReplacementIsMandatory() {
     fixReplacementInfo.range = null;
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+            BadRequestException.class,
+            () -> testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput));
     assertThat(thrown)
         .hasMessageThat()
         .contains(
@@ -364,17 +373,17 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rangeOfFixReplacementNeedsToBeValid() throws Exception {
+  public void rangeOfFixReplacementNeedsToBeValid() {
     fixReplacementInfo.range = createRange(13, 9, 5, 10);
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+            BadRequestException.class,
+            () -> testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput));
     assertThat(thrown).hasMessageThat().contains("Range (13:9 - 5:10)");
   }
 
   @Test
-  public void rangesOfFixReplacementsOfSameFixSuggestionForSameFileMayNotOverlap()
-      throws Exception {
+  public void rangesOfFixReplacementsOfSameFixSuggestionForSameFileMayNotOverlap() {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 1);
@@ -391,7 +400,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+            BadRequestException.class,
+            () -> testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput));
     assertThat(thrown).hasMessageThat().contains("overlap");
   }
 
@@ -412,7 +422,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         createFixSuggestionInfo(fixReplacementInfo1, fixReplacementInfo2);
     withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     assertThatList(robotCommentInfos).onlyElement().fixSuggestions().hasSize(1);
@@ -436,7 +446,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     withFixRobotCommentInput.fixSuggestions =
         ImmutableList.of(fixSuggestionInfo1, fixSuggestionInfo2);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     assertThatList(robotCommentInfos).onlyElement().fixSuggestions().hasSize(2);
@@ -463,7 +473,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         createFixSuggestionInfo(fixReplacementInfo2, fixReplacementInfo1, fixReplacementInfo3);
     withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     assertThatList(robotCommentInfos).onlyElement().onlyFixSuggestion().replacements().hasSize(3);
@@ -471,7 +481,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void replacementStringOfFixReplacementIsAcceptedAsIs() throws Exception {
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
@@ -484,12 +494,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void replacementStringOfFixReplacementIsMandatory() throws Exception {
+  public void replacementStringOfFixReplacementIsMandatory() {
     fixReplacementInfo.replacement = null;
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+            BadRequestException.class,
+            () -> testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput));
     assertThat(thrown)
         .hasMessageThat()
         .contains(
@@ -505,7 +516,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -528,7 +539,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content\n5";
     fixReplacementInfo.range = createRange(3, 2, 5, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
@@ -560,7 +571,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         createFixSuggestionInfo(fixReplacementInfo1, fixReplacementInfo2);
     withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
@@ -590,10 +601,12 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo2.replacement = "Some other modified content\n";
     FixSuggestionInfo fixSuggestionInfo2 = createFixSuggestionInfo(fixReplacementInfo2);
 
-    RobotCommentInput robotCommentInput1 = createRobotCommentInput(fixSuggestionInfo1);
-    RobotCommentInput robotCommentInput2 = createRobotCommentInput(fixSuggestionInfo2);
-    addRobotComment(changeId, robotCommentInput1);
-    addRobotComment(changeId, robotCommentInput2);
+    RobotCommentInput robotCommentInput1 =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo1);
+    RobotCommentInput robotCommentInput2 =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo2);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput1);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput2);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -623,10 +636,12 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo2.replacement = "Some other modified content\n";
     FixSuggestionInfo fixSuggestionInfo2 = createFixSuggestionInfo(fixReplacementInfo2);
 
-    RobotCommentInput robotCommentInput1 = createRobotCommentInput(fixSuggestionInfo1);
-    RobotCommentInput robotCommentInput2 = createRobotCommentInput(fixSuggestionInfo2);
-    addRobotComment(changeId, robotCommentInput1);
-    addRobotComment(changeId, robotCommentInput2);
+    RobotCommentInput robotCommentInput1 =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo1);
+    RobotCommentInput robotCommentInput2 =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo2);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput1);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput2);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -655,7 +670,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     withFixRobotCommentInput.fixSuggestions =
         ImmutableList.of(fixSuggestionInfo1, fixSuggestionInfo2);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -677,7 +692,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.range = createRange(2, 0, 3, 0);
     fixReplacementInfo.replacement = "Modified content\n";
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
@@ -707,7 +722,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         createFixSuggestionInfo(fixReplacementInfo1, fixReplacementInfo2);
     withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
@@ -734,7 +749,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.range = createRange(1, 0, 2, 0);
     fixReplacementInfo.replacement = "Modified content\n";
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
@@ -750,7 +765,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     // Remember patch set and add another one.
@@ -776,7 +791,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     // Remember patch set and add another one.
@@ -811,7 +826,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -833,7 +848,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -851,7 +866,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -874,7 +889,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -892,7 +907,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -915,7 +930,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -938,7 +953,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -957,7 +972,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
             .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
             .to("refs/for/master");
 
-    addRobotComment(r2.getChangeId(), createRobotCommentInputWithMandatoryFields());
+    testCommentHelper.addRobotComment(
+        r2.getChangeId(), TestCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME));
 
     try (AutoCloseable ignored = disableNoteDb()) {
       ChangeInfo result = Iterables.getOnlyElement(query(r2.getChangeId()));
@@ -971,7 +987,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void getFixPreviewWithNonexistingFixId() throws Exception {
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     assertThrows(
         ResourceNotFoundException.class,
@@ -986,7 +1002,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.range = createRange(1, 0, 2, 0);
     fixReplacementInfo.replacement = "Modified content\n";
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
@@ -1010,9 +1026,10 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     fixSuggestionInfo = createFixSuggestionInfo(fixReplacementInfoFile1, fixReplacementInfoFile2);
 
-    withFixRobotCommentInput = createRobotCommentInput(fixSuggestionInfo);
+    withFixRobotCommentInput =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo);
 
-    addRobotComment(changeId, withFixRobotCommentInput);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
@@ -1105,27 +1122,6 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThat(diff2).content().element(2).linesOfB().isNull();
   }
 
-  private static RobotCommentInput createRobotCommentInputWithMandatoryFields() {
-    RobotCommentInput in = new RobotCommentInput();
-    in.robotId = "happyRobot";
-    in.robotRunId = "1";
-    in.line = 1;
-    in.message = "nit: trailing whitespace";
-    in.path = FILE_NAME;
-    return in;
-  }
-
-  private static RobotCommentInput createRobotCommentInput(
-      FixSuggestionInfo... fixSuggestionInfos) {
-    RobotCommentInput in = createRobotCommentInputWithMandatoryFields();
-    in.url = "http://www.happy-robot.com";
-    in.properties = new HashMap<>();
-    in.properties.put("key1", "value1");
-    in.properties.put("key2", "value2");
-    in.fixSuggestions = Arrays.asList(fixSuggestionInfos);
-    return in;
-  }
-
   private static FixSuggestionInfo createFixSuggestionInfo(
       FixReplacementInfo... fixReplacementInfos) {
     FixSuggestionInfo newFixSuggestionInfo = new FixSuggestionInfo();
@@ -1151,15 +1147,6 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     range.endLine = endLine;
     range.endCharacter = endCharacter;
     return range;
-  }
-
-  private void addRobotComment(String targetChangeId, RobotCommentInput robotCommentInput)
-      throws Exception {
-    ReviewInput reviewInput = new ReviewInput();
-    reviewInput.robotComments =
-        Collections.singletonMap(robotCommentInput.path, ImmutableList.of(robotCommentInput));
-    reviewInput.message = "robot comment test";
-    gApi.changes().id(targetChangeId).current().review(reviewInput);
   }
 
   private List<RobotCommentInfo> getRobotComments() throws RestApiException {

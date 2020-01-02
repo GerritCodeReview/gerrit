@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.git.receive;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,9 +32,11 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -47,8 +50,16 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
   @Inject private TestCommentHelper testCommentHelper;
 
   private static final String COMMENT_TEXT = "The comment text";
+  private static final int MAX_COMMENTS = 3;
 
   @Captor private ArgumentCaptor<ImmutableList<CommentForValidation>> capture;
+
+  @ConfigSuite.Default
+  public static Config maxCommentsConfig() {
+    Config cfg = new Config();
+    cfg.setInt("change", null, "maxComments", MAX_COMMENTS);
+    return cfg;
+  }
 
   @Override
   public Module createModule() {
@@ -132,5 +143,33 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
                 CommentForValidation.CommentType.INLINE_COMMENT, draftInline.message),
             CommentForValidation.create(
                 CommentForValidation.CommentType.FILE_COMMENT, draftFile.message));
+  }
+
+  @Test
+  public void countComments_limitNumberOfComments() throws Exception {
+    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+    DraftInput draftInline =
+        testCommentHelper.newDraft(
+            result.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+
+    for (int i = 1; i < MAX_COMMENTS; ++i) {
+      testCommentHelper.addRobotComment(
+          changeId,
+          TestCommentHelper.createRobotCommentInput(result.getChange().currentFilePaths().get(0)));
+    }
+
+    draftInline =
+        testCommentHelper.newDraft(
+            result.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+    amendResult.assertMessage("Maximum number of comments exceeded");
   }
 }

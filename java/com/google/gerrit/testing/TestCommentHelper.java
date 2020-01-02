@@ -16,14 +16,21 @@ package com.google.gerrit.testing;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.inject.Inject;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 
 /** Test helper for dealing with comments/drafts. */
 public class TestCommentHelper {
@@ -103,5 +110,35 @@ public class TestCommentHelper {
     range.endLine = line;
     range.endCharacter = 5;
     return range;
+  }
+
+  public static RobotCommentInput createRobotCommentInputWithMandatoryFields(String path) {
+    RobotCommentInput in = new RobotCommentInput();
+    in.robotId = "happyRobot";
+    in.robotRunId = "1";
+    in.line = 1;
+    in.message = "nit: trailing whitespace";
+    in.path = path;
+    return in;
+  }
+
+  public static RobotCommentInput createRobotCommentInput(
+      String path, FixSuggestionInfo... fixSuggestionInfos) {
+    RobotCommentInput in = TestCommentHelper.createRobotCommentInputWithMandatoryFields(path);
+    in.url = "http://www.happy-robot.com";
+    in.properties = new HashMap<>();
+    in.properties.put("key1", "value1");
+    in.properties.put("key2", "value2");
+    in.fixSuggestions = Arrays.asList(fixSuggestionInfos);
+    return in;
+  }
+
+  public void addRobotComment(String targetChangeId, RobotCommentInput robotCommentInput)
+      throws Exception {
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.robotComments =
+        Collections.singletonMap(robotCommentInput.path, ImmutableList.of(robotCommentInput));
+    reviewInput.message = "robot comment test";
+    gApi.changes().id(targetChangeId).current().review(reviewInput);
   }
 }

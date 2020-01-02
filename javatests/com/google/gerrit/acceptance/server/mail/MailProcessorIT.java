@@ -21,9 +21,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -33,6 +37,7 @@ import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.mail.receive.MailProcessor;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
@@ -41,6 +46,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,6 +59,13 @@ public class MailProcessorIT extends AbstractMailIT {
   private static final CommentValidator mockCommentValidator = mock(CommentValidator.class);
 
   private static final String COMMENT_TEXT = "The comment text";
+
+  @ConfigSuite.Default
+  public static Config maxCommentsConfig() {
+    Config cfg = new Config();
+    cfg.setInt("change", null, "maxComments", 4);
+    return cfg;
+  }
 
   @Override
   public Module createModule() {
@@ -323,6 +336,40 @@ public class MailProcessorIT extends AbstractMailIT {
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     setupFailValidation(CommentForValidation.CommentType.FILE_COMMENT);
+
+    MailMessage.Builder b = messageBuilderWithDefaultFields();
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT, null);
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    mailProcessor.process(b.build());
+    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body()).contains("rejected one or more comments");
+  }
+
+  @Test
+  public void limitNumberOfComments() throws Exception {
+    String changeId = createChangeWithReview();
+    ReviewInput reviewInput = new ReviewInput();
+    String FILE_NAME = "gerrit-server/test.txt"; // ö
+    CommentInput commentInput = new CommentInput();
+    commentInput.line = 1;
+    commentInput.message = "foo";
+    commentInput.path = FILE_NAME;
+    RobotCommentInput robotCommentInput =
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME);
+    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(commentInput));
+    reviewInput.robotComments = ImmutableMap.of(FILE_NAME, ImmutableList.of(robotCommentInput));
+    gApi.changes().id(changeId).current().review(reviewInput);
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT, null);

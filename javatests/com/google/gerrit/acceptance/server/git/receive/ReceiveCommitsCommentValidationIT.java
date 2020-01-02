@@ -158,4 +158,30 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
         String.format("Comment too large (%d > %d)", commentLength, MAX_COMMENT_LENGTH));
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
   }
+
+  @Test
+  @GerritConfig(name = "change.maxComments", value = "3")
+  public void countComments_limitNumberOfComments() throws Exception {
+    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+    String filePath = result.getChange().currentFilePaths().get(0);
+    DraftInput draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+
+    for (int i = 1; i < 3; ++i) {
+      testCommentHelper.addRobotComment(
+          changeId,
+          TestCommentHelper.createRobotCommentInput(result.getChange().currentFilePaths().get(0)));
+    }
+
+    draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+    amendResult.assertMessage("Maximum number of comments exceeded");
+  }
 }

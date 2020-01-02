@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -242,7 +243,7 @@ public class MailProcessor {
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.INTERNAL_EXCEPTION);
         return;
       }
-      ChangeData cd = changeDataList.get(0);
+      ChangeData cd = Iterables.getOnlyElement(changeDataList);
       if (existingMessageIds(cd).contains(message.id())) {
         logger.atInfo().log("Message %s was already processed. Will delete message.", message.id());
         return;
@@ -250,8 +251,10 @@ public class MailProcessor {
       // Get all comments; filter and sort them to get the original list of
       // comments from the outbound email.
       // TODO(hiesel) Also filter by original comment author.
+      Collection<Comment> publishedComments = cd.publishedComments();
+      System.out.println("##### p " + publishedComments.size());
       Collection<Comment> comments =
-          cd.publishedComments().stream()
+          publishedComments.stream()
               .filter(c -> (c.writtenOn.getTime() / 1000) == (metadata.timestamp.getTime() / 1000))
               .sorted(CommentsUtil.COMMENT_ORDER)
               .collect(toList());

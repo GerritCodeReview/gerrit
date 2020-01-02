@@ -206,7 +206,7 @@ limitations under the License.
         };
         assert.equal(element._computePermissionName(name, permission,
             element.permissionValues, element.capabilities),
-            element.capabilities[permission.id].name);
+        element.capabilities[permission.id].name);
 
         name = 'refs/for/*';
         permission = {
@@ -216,7 +216,7 @@ limitations under the License.
 
         assert.equal(element._computePermissionName(
             name, permission, element.permissionValues, element.capabilities),
-            element.permissionValues[permission.id].name);
+        element.permissionValues[permission.id].name);
 
         name = 'refs/for/*';
         permission = {
@@ -228,7 +228,7 @@ limitations under the License.
 
         assert.equal(element._computePermissionName(name, permission,
             element.permissionValues, element.capabilities),
-            'Label Code-Review');
+        'Label Code-Review');
 
         permission = {
           id: 'labelAs-Code-Review',
@@ -239,7 +239,7 @@ limitations under the License.
 
         assert.equal(element._computePermissionName(name, permission,
             element.permissionValues, element.capabilities),
-            'Label Code-Review(On Behalf Of)');
+        'Label Code-Review(On Behalf Of)');
       });
 
       test('_computeSectionName', () => {

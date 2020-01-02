@@ -70,7 +70,7 @@
         changeComments, revisionInfo) {
       const parentCounts = revisionInfo.getParentCountMap();
       const currentParentCount = parentCounts.hasOwnProperty(patchNum) ?
-          parentCounts[patchNum] : 1;
+        parentCounts[patchNum] : 1;
       const maxParents = revisionInfo.getMaxParents();
       const isMerge = currentParentCount > 1;
 
@@ -158,6 +158,7 @@
      * The basePatchNum should always be <= patchNum -- because sortedRevisions
      * is sorted in reverse order (higher patchset nums first), invalid base
      * patch nums have an index greater than the index of patchNum.
+     *
      * @param {number|string} basePatchNum The possible base patch num.
      * @param {number|string} patchNum The current selected patch num.
      * @param {!Array} sortedRevisions
@@ -226,7 +227,7 @@
     _computePatchSetDescription(revisions, patchNum, opt_addFrontSpace) {
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
-          (opt_addFrontSpace ? ' ' : '') +
+        (opt_addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 

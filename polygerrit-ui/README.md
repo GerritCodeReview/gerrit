@@ -27,14 +27,7 @@ Various steps below require installing additional npm packages. The full list of
 dependencies can be installed with:
 
 ```sh
-sudo npm install -g \
-  eslint \
-  eslint-config-google \
-  eslint-plugin-html \
-  typescript \
-  fried-twinkie \
-  polylint \
-  web-component-tester
+npm install
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
@@ -53,14 +46,16 @@ you to use the "test data" technique described below.
 To test the local UI against gerrit-review.googlesource.com:
 
 ```sh
-./run-server.sh
+./polygerrit-ui/run-server.sh
 ```
 
 Then visit http://localhost:8081
 
 ## Local UI, Test Data
 
-One-time setup:
+```sh
+./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
+```
 
 1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_gerrit_development_war_file)
 2. Set up a local test site. Docs
@@ -100,10 +95,17 @@ This step requires the `web-component-tester` npm module.
 Note: it may be necessary to add the options `--unsafe-perm=true --allow-root`
 to the `npm install` command to avoid file permission errors.
 
-Run all web tests:
+For daily development you typically only want to run and debug individual tests.
+Run the local [Go proxy server](#go-server) and navigate for example to
+<http://localhost:8081/elements/change/gr-account-entry/gr-account-entry_test.html>.
+Check "Disable cache" in the "Network" tab of Chrome's dev tools, so code
+changes are picked up on "reload".
+
+Our CI integration ensures that all tests are run when you upload a change to
+Gerrit, but you can also run all tests locally in headless mode:
 
 ```sh
-./polygerrit-ui/app/run_test.sh
+npm test
 ```
 
 To allow the tests to run in Safari:
@@ -111,26 +113,10 @@ To allow the tests to run in Safari:
 * In the Advanced preferences tab, check "Show Develop menu in menu bar".
 * In the Develop menu, enable the "Allow Remote Automation" option.
 
-If you need to pass additional arguments to `wct`:
-
-```sh
-WCT_ARGS='-p --some-flag="foo bar"' ./polygerrit-ui/app/run_test.sh
-```
-
-For interactively working on a single test file, do the following:
-
-```sh
-./polygerrit-ui/run-server.sh
-```
-
-Then visit http://localhost:8081/elements/foo/bar_test.html and check "Disable
-cache" in the "Network" tab of Chrome's dev tools, so code changes are picked
-up on "reload".
-
 To run Chrome tests in headless mode:
 
 ```sh
-WCT_HEADLESS_MODE=1 ./polygerrit-ui/app/run_test.sh
+WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh
 ```
 
 Toolchain requirements for headless mode:
@@ -161,11 +147,22 @@ to supply the `--ext .html` flag.
 Some useful commands:
 
 * To run ESLint on the whole app, less some dependency code:
-`eslint --ignore-pattern 'bower_components/' --ignore-pattern 'gr-linked-text' --ignore-pattern 'scripts/vendor' --ext .html,.js polygerrit-ui/app`
+
+```sh
+npm run eslint
+```
+
 * To run ESLint on just the subdirectory you modified:
-`eslint --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HERE`
+
+```sh
+node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HERE
+```
+
 * To run the linter on all of your local changes:
-`git diff --name-only master | xargs eslint --ext .html,.js`
+
+```sh
+git diff --name-only master | xargs node_modules/eslint/bin/eslint.js --ext .html,.js
+```
 
 We also use the `polylint` tool to lint use of Polymer. To install polylint,
 execute the following command.
@@ -175,6 +172,13 @@ To run polylint, execute the following command.
 ```sh
 bazel test //polygerrit-ui/app:polylint_test
 ```
+
+or
+
+```sh
+npm run polylint
+```
+
 ## Template Type Safety
 Polymer elements are not type checked against the element definition, making it trivial to break the display when refactoring or moving code. We now run additional tests to help ensure that template types are checked.
 
@@ -188,6 +192,12 @@ To run on all files, execute the following command:
 
 ```sh
 ./polygerrit-ui/app/run_template_test.sh
+```
+
+or
+
+```sh
+npm run test-template
 ```
 
 To run on a specific top level directory (ex: change-list)

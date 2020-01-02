@@ -33,8 +33,7 @@
         "functions": "never"
     }],
     "eol-last": "off",
-    "indent": "off",
-    "indent-legacy": ["error", 2, {
+    "indent": ["error", 2, {
       "MemberExpression": 2,
       "FunctionDeclaration": {"body": 1, "parameters": 2},
       "FunctionExpression": {"body": 1, "parameters": 2},
@@ -44,13 +43,14 @@
       "SwitchCase": 1
     }],
     "keyword-spacing": ["error", { "after": true, "before": true }],
+    "lines-between-class-members": ["error", "always"],
     "max-len": [
       "error",
       80,
       2,
       {"ignoreComments": true}
     ],
-    "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
+    "new-cap": ["error", { "capIsNewExceptions": ["Polymer", "LegacyElementMixin", "GestureEventListeners", "LegacyDataMixin"] }],
     "no-console": "off",
     "no-restricted-syntax": [
       "error",
@@ -70,17 +70,58 @@
     "no-redeclare": "off",
     "operator-linebreak": "off",
     "object-shorthand": ["error", "always"],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "class",
+        "next": "*"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "class"
+      }
+    ],
     "prefer-arrow-callback": "error",
     "prefer-const": "error",
     "prefer-spread": "error",
     "quote-props": ["error", "consistent-as-needed"],
-    "require-jsdoc": "off",
     "semi": [2, "always"],
     "template-curly-spacing": "error",
-    "valid-jsdoc": "off"
+
+    "require-jsdoc": 0,
+    "valid-jsdoc": 0,
+    "jsdoc/check-alignment": 2,
+    "jsdoc/check-examples": 0,
+    "jsdoc/check-indentation": 0,
+    "jsdoc/check-param-names": 0,
+    "jsdoc/check-syntax": 0,
+    "jsdoc/check-tag-names": 0,
+    "jsdoc/check-types": 0,
+    "jsdoc/implements-on-classes": 2,
+    "jsdoc/match-description": 0,
+    "jsdoc/newline-after-description": 2,
+    "jsdoc/no-types": 0,
+    "jsdoc/no-undefined-types": 0,
+    "jsdoc/require-description": 0,
+    "jsdoc/require-description-complete-sentence": 0,
+    "jsdoc/require-example": 0,
+    "jsdoc/require-hyphen-before-param-description": 0,
+    "jsdoc/require-jsdoc": 0,
+    "jsdoc/require-param": 0,
+    "jsdoc/require-param-description": 0,
+    "jsdoc/require-param-name": 2,
+    "jsdoc/require-param-type": 2,
+    "jsdoc/require-returns": 0,
+    "jsdoc/require-returns-check": 0,
+    "jsdoc/require-returns-description": 0,
+    "jsdoc/require-returns-type": 2,
+    "jsdoc/valid-types": 2
   },
   "plugins": [
-    "html"
+    "html",
+    "jsdoc"
   ],
   "settings": {
     "html/report-bad-indent": "error"

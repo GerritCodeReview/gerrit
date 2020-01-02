@@ -25,6 +25,7 @@
 
   /**
    * Fired when a section that was previously added was removed.
+   *
    * @event added-section-removed
    */
 

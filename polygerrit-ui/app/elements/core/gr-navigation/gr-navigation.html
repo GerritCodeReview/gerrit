@@ -219,6 +219,7 @@ limitations under the License.
 
       /**
        * Setup router implementation.
+       *
        * @param {function(!string)} navigate the router-abstracted equivalent of
        *     `window.location.href = ...`. Takes a string.
        * @param {function(!Object): string} generateUrl generates a URL given
@@ -255,6 +256,7 @@ limitations under the License.
 
       /**
        * Generate a URL for the given route parameters.
+       *
        * @param {Object} params
        * @return {string}
        */
@@ -331,6 +333,7 @@ limitations under the License.
 
       /**
        * Navigate to a search for changes with the given status.
+       *
        * @param {string} status
        */
       navigateToStatusSearch(status) {
@@ -342,6 +345,7 @@ limitations under the License.
 
       /**
        * Navigate to a search query
+       *
        * @param {string} query
        * @param {number=} opt_offset
        */
@@ -543,6 +547,7 @@ limitations under the License.
 
       /**
        * Navigate to an arbitrary relative URL.
+       *
        * @param {string} relativeUrl
        */
       navigateToRelativeUrl(relativeUrl) {
@@ -565,6 +570,7 @@ limitations under the License.
 
       /**
        * Navigate to a repo settings page.
+       *
        * @param {string} repoName
        */
       navigateToRepo(repoName) {
@@ -727,11 +733,11 @@ limitations under the License.
       getUserDashboard(user = 'self', sections = DEFAULT_SECTIONS,
           title = '') {
         sections = sections
-          .filter(section => (user === 'self' || !section.selfOnly))
-          .map(section => Object.assign({}, section, {
-            name: section.name,
-            query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
-          }));
+            .filter(section => (user === 'self' || !section.selfOnly))
+            .map(section => Object.assign({}, section, {
+              name: section.name,
+              query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
+            }));
         return {title, sections};
       },
     };

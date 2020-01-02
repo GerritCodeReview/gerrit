@@ -47,11 +47,11 @@
           return;
         }
         this._keys = Object.keys(keys)
-         .map(key => {
-           const gpgKey = keys[key];
-           gpgKey.id = key;
-           return gpgKey;
-         });
+            .map(key => {
+              const gpgKey = keys[key];
+              gpgKey.id = key;
+              return gpgKey;
+            });
       });
     },
 

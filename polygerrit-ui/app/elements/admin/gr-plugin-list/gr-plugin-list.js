@@ -92,11 +92,11 @@
               return;
             }
             this._plugins = Object.keys(plugins)
-             .map(key => {
-               const plugin = plugins[key];
-               plugin.name = key;
-               return plugin;
-             });
+                .map(key => {
+                  const plugin = plugins[key];
+                  plugin.name = key;
+                  return plugin;
+                });
             this._loading = false;
           });
     },

@@ -40,6 +40,7 @@
       placeholder: String,
       /**
        * Needed for template checking since value is initially set to null.
+       *
        * @type {?Object} */
       pendingConfirmation: {
         type: Object,
@@ -124,7 +125,7 @@
           // a toast tell them why they can't enter it.
           this.$.entry.setText(reviewer);
           this.dispatchEvent(new CustomEvent('show-alert',
-            {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
+              {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
           return false;
         } else {
           const account = {email: reviewer, _pendingAdd: true};

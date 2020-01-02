@@ -103,8 +103,8 @@
       el.set('message.expanded', true);
       let top = el.offsetTop;
       for (let offsetParent = el.offsetParent;
-           offsetParent;
-           offsetParent = offsetParent.offsetParent) {
+        offsetParent;
+        offsetParent = offsetParent.offsetParent) {
         top += offsetParent.offsetTop;
       }
       window.scrollTo(0, top);
@@ -207,6 +207,7 @@
      * Computes message author's file comments for change's message.
      * Method uses this.messages to find next message and relies on messages
      * to be sorted by date field descending.
+     *
      * @param {!Object} changeComments changeComment object, which includes
      *     a method to get all published comments (including robot comments),
      *     which returns a Hash of arrays of comments, filename as key.

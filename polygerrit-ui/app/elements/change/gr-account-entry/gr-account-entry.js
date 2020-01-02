@@ -160,8 +160,8 @@
 
       const api = this.$.restAPI;
       const xhr = this.allowAnyUser ?
-          api.getSuggestedAccounts(`cansee:${this.change._number} ${input}`) :
-          api.getChangeSuggestedReviewers(this.change._number, input);
+        api.getSuggestedAccounts(`cansee:${this.change._number} ${input}`) :
+        api.getChangeSuggestedReviewers(this.change._number, input);
 
       return xhr.then(reviewers => {
         if (!reviewers) { return []; }

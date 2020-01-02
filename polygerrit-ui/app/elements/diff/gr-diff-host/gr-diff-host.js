@@ -70,6 +70,7 @@
 
     /**
      * Fired when the user selects a line.
+     *
      * @event line-selected
      */
 
@@ -136,6 +137,7 @@
 
       /**
        * Special line number which should not be collapsed into a shared region.
+       *
        * @type {{
        *  number: number,
        *  leftSide: {boolean}
@@ -321,6 +323,7 @@
 
     /**
      * Load and display blame information for the base of the diff.
+     *
      * @return {Promise} A promise that resolves when blame finishes rendering.
      */
     loadBlame() {
@@ -343,6 +346,7 @@
 
     /**
      * The thread elements in this diff, in no particular order.
+     *
      * @return {!Array<!HTMLElement>}
      */
     getThreadEls() {
@@ -436,7 +440,7 @@
       // digits. Diffs with no delta are considered 0%.
       const totalDelta = rebaseDelta + nonRebaseDelta;
       const percentRebaseDelta = !totalDelta ? 0 :
-          Math.round(100 * rebaseDelta / totalDelta);
+        Math.round(100 * rebaseDelta / totalDelta);
 
       // Report the due_to_rebase percentage in the "diff" category when
       // applicable.
@@ -513,7 +517,7 @@
         // thread and append to it.
         if (comment.in_reply_to) {
           const thread = threads.find(thread =>
-              thread.comments.some(c => c.id === comment.in_reply_to));
+            thread.comments.some(c => c.id === comment.in_reply_to));
           if (thread) {
             thread.comments.push(comment);
             continue;
@@ -654,7 +658,7 @@
       }
       function matchesRange(threadEl) {
         const threadRange = /** @type {!Gerrit.Range} */(
-            JSON.parse(threadEl.getAttribute('range')));
+          JSON.parse(threadEl.getAttribute('range')));
         return Gerrit.rangesEqual(threadRange, range);
       }
 
@@ -705,13 +709,14 @@
         matchers.push(matchesFileComment);
       }
       return threadEls.filter(threadEl =>
-          matchers.some(matcher => matcher(threadEl)));
+        matchers.some(matcher => matcher(threadEl)));
     },
 
     /**
      * Take a diff that was loaded with a ignore-whitespace other than
      * IGNORE_NONE, and convert delta chunks labeled as common into shared
      * chunks.
+     *
      * @param {!Object} diff
      * @returns {!Object}
      */
@@ -772,7 +777,7 @@
      */
     _computeParentIndex(patchRangeRecord) {
       return this.isMergeParent(patchRangeRecord.base.basePatchNum) ?
-          this.getParentIndex(patchRangeRecord.base.basePatchNum) : null;
+        this.getParentIndex(patchRangeRecord.base.basePatchNum) : null;
     },
 
     _handleCommentSave(e) {

@@ -77,6 +77,7 @@
   /**
    * Get instance of last DOM hook element attached into the endpoint.
    * Returns a Promise, that's resolved when attachment is done.
+   *
    * @return {!Promise<!Element>}
    */
   GrDomHook.prototype.getLastAttached = function() {
@@ -109,6 +110,7 @@
   /**
    * Install a new callback to invoke when a new instance of DOM hook element
    * is attached.
+   *
    * @param {function(Element)} callback
    */
   GrDomHook.prototype.onAttached = function(callback) {

@@ -67,17 +67,17 @@ limitations under the License.
             name: 'Andrew Bonventre',
             email: 'andybons+gerrit@gmail.com',
           }),
-          'Andrew Bonventre <andybons+gerrit@gmail.com>');
+      'Andrew Bonventre <andybons+gerrit@gmail.com>');
 
       assert.equal(element._computeAccountTitle(
           {name: 'Andrew Bonventre'}),
-          'Andrew Bonventre');
+      'Andrew Bonventre');
 
       assert.equal(element._computeAccountTitle(
           {
             email: 'andybons+gerrit@gmail.com',
           }),
-          'Anonymous <andybons+gerrit@gmail.com>');
+      'Anonymous <andybons+gerrit@gmail.com>');
 
       assert.equal(element._computeShowEmailClass(
           {

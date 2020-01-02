@@ -19,6 +19,7 @@
 
   /**
    * Used to create a context for GrAnnotationActionsInterface.
+   *
    * @param {HTMLElement} contentEl The DIV.contentText element of the line
    *     content to apply the annotation to using annotateRange.
    * @param {HTMLElement} lineNumberEl The TD element of the line number to
@@ -41,6 +42,7 @@
 
   /**
    * Method to add annotations to a content line.
+   *
    * @param {number} offset The char offset where the update starts.
    * @param {number} length The number of chars that the update covers.
    * @param {string} cssClass The name of a CSS class created using Gerrit.css.
@@ -55,6 +57,7 @@
 
   /**
    * Method to add a CSS class to the line number TD element.
+   *
    * @param {string} cssClass The name of a CSS class created using Gerrit.css.
    * @param {string} side The side of the update. ('left' or 'right')
    */

@@ -136,8 +136,8 @@
 
     _computeShowHideIcon(showOptionalLabels) {
       return showOptionalLabels ?
-          'gr-icons:expand-less' :
-          'gr-icons:expand-more';
+        'gr-icons:expand-less' :
+        'gr-icons:expand-more';
     },
 
     _computeSectionClass(show) {

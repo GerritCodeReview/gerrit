@@ -246,6 +246,7 @@
 
     /**
      * Map an array of block objects to an array of DOM nodes.
+     *
      * @param  {!Array<!Object>} blocks
      * @return {!Array<!HTMLElement>}
      */

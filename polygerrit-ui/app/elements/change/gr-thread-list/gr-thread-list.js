@@ -63,6 +63,7 @@
      *  - Unresolved threads without drafts (reverse chronological)
      *  - Resolved threads with drafts (reverse chronological)
      *  - Resolved threads without drafts (reverse chronological)
+     *
      * @param {!Object} changeRecord
      */
     _computeSortedThreads(changeRecord) {
@@ -110,8 +111,8 @@
 
       const lastNonDraftComment =
           (lastComment.__draft && thread.comments.length > 1) ?
-          thread.comments[thread.comments.length - 2] :
-          lastComment;
+            thread.comments[thread.comments.length - 2] :
+            lastComment;
 
       return {
         thread,

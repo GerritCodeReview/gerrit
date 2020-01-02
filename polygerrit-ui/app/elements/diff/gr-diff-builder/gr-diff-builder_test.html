@@ -590,7 +590,7 @@ limitations under the License.
 
       test('no plugin layers', () => {
         const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
-                                       .returns([]);
+            .returns([]);
         element._setupAnnotationLayers();
         assert.isTrue(getDiffLayersStub.called);
         assert.equal(element._layers.length, initialLayersCount);
@@ -598,7 +598,7 @@ limitations under the License.
 
       test('with plugin layers', () => {
         const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
-                                       .returns([{}, {}]);
+            .returns([{}, {}]);
         element._setupAnnotationLayers();
         assert.isTrue(getDiffLayersStub.called);
         assert.equal(element._layers.length, initialLayersCount + 2);

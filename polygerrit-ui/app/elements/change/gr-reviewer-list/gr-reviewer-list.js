@@ -102,6 +102,7 @@
 
     /**
      * Returns hash of labels to max permitted score.
+     *
      * @param {!Object} change
      * @returns {!Object} labels to max permitted scores hash
      */
@@ -116,6 +117,7 @@
 
     /**
      * Returns max permitted score for reviewer.
+     *
      * @param {!Object} reviewer
      * @param {!Object} change
      * @param {string} label

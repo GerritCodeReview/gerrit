@@ -43,6 +43,7 @@
    * - cancelCondition is a function that, if provided and returns true, will
    *     cancel the response after it resolves.
    * - params is a key-value hash to specify get params for the request URL.
+   *
    * @typedef {{
    *    url: string,
    *    errFn: (function(?Response, string=)|null|undefined),
@@ -82,6 +83,7 @@
    * - headers is a key-value hash to describe HTTP headers for the request.
    * - parseResponse states whether the result should be parsed as a JSON
    *     object using getResponseObject.
+   *
    * @typedef {{
    *   method: string,
    *   url: string,
@@ -254,6 +256,7 @@
     /**
      * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
      * with timing and logging.
+     *
      * @param {Defs.FetchRequest} req
      */
     _fetch(req) {
@@ -271,6 +274,7 @@
      * Log information about a REST call. Because the elapsed time is determined
      * by this method, it should be called immediately after the request
      * finishes.
+     *
      * @param {Defs.FetchRequest} req
      * @param {number} startTime the time that the request was started.
      * @param {number} status the HTTP status of the response. The status value
@@ -279,7 +283,7 @@
      */
     _logCall(req, startTime, status) {
       const method = (req.fetchOptions && req.fetchOptions.method) ?
-          req.fetchOptions.method : 'GET';
+        req.fetchOptions.method : 'GET';
       const elapsed = (Date.now() - startTime);
       console.log([
         'HTTP',
@@ -299,6 +303,7 @@
      * Returns a Promise that resolves to a native Response.
      * Doesn't do error checking. Supports cancel condition. Performs auth.
      * Validates auth expiry errors.
+     *
      * @param {Defs.FetchJSONRequest} req
      */
     _fetchRawJSON(req) {
@@ -333,6 +338,7 @@
      * Fetch JSON from url provided.
      * Returns a Promise that resolves to a parsed response.
      * Same as {@link _fetchRawJSON}, plus error handling.
+     *
      * @param {Defs.FetchJSONRequest} req
      */
     _fetchJSON(req) {
@@ -1151,7 +1157,7 @@
         return Promise.resolve({
           changes_per_page: 25,
           default_diff_view: this._isNarrowScreen() ?
-              DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
+            DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
           diff_view: 'SIDE_BY_SIDE',
           size_bar_in_change_table: true,
         });
@@ -1295,6 +1301,7 @@
 
     /**
      * Inserts a change into _projectLookup iff it has a valid structure.
+     *
      * @param {?{ _number: (number|string) }} change
      */
     _maybeInsertInLookup(change) {
@@ -1397,8 +1404,8 @@
           }
 
           const payloadPromise = response ?
-              this._readResponsePayload(response) :
-              Promise.resolve(null);
+            this._readResponsePayload(response) :
+            Promise.resolve(null);
 
           return payloadPromise.then(payload => {
             if (!payload) { return null; }
@@ -1486,7 +1493,7 @@
     getChangeOrEditFiles(changeNum, patchRange) {
       if (this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME)) {
         return this.getChangeEditFiles(changeNum, patchRange).then(res =>
-            res.files);
+          res.files);
       }
       return this.getChangeFiles(changeNum, patchRange);
     },
@@ -1494,6 +1501,7 @@
     /**
      * The closure compiler doesn't realize this.specialFilePathCompare is
      * valid.
+     *
      * @suppress {checkTypes}
      */
     getChangeFilePathsAsSpeciallySortedArray(changeNum, patchRange) {
@@ -2021,8 +2029,8 @@
         return res;
       };
       const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
-          this._getFileInChangeEdit(changeNum, path) :
-          this._getFileInRevision(changeNum, path, patchNum, suppress404s);
+        this._getFileInChangeEdit(changeNum, path) :
+        this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
       return promise.then(res => {
         if (!res.ok) { return res; }
@@ -2038,6 +2046,7 @@
 
     /**
      * Gets a file in a specific change and revision.
+     *
      * @param {number|string} changeNum
      * @param {string} path
      * @param {number|string} patchNum
@@ -2057,6 +2066,7 @@
 
     /**
      * Gets a file in a change edit.
+     *
      * @param {number|string} changeNum
      * @param {string} path
      */
@@ -2183,6 +2193,7 @@
 
     /**
      * Send an XHR.
+     *
      * @param {Defs.SendRequest} req
      * @return {Promise}
      */
@@ -2193,7 +2204,7 @@
         options.headers.set(
             'Content-Type', req.contentType || 'application/json');
         options.body = typeof req.body === 'string' ?
-            req.body : JSON.stringify(req.body);
+          req.body : JSON.stringify(req.body);
       }
       if (req.headers) {
         if (!options.headers) { options.headers = new Headers(); }
@@ -2203,7 +2214,7 @@
         }
       }
       const url = req.url.startsWith('http') ?
-          req.url : this.getBaseUrl() + req.url;
+        req.url : this.getBaseUrl() + req.url;
       const fetchReq = {
         url,
         fetchOptions: options,
@@ -2235,6 +2246,7 @@
 
     /**
      * Public version of the _send method preserved for plugins.
+     *
      * @param {string} method
      * @param {string} url
      * @param {?string|number|Object=} opt_body passed as null sometimes
@@ -2541,7 +2553,7 @@
      */
     getB64FileContents(changeId, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
-          '?parent=' + opt_parentIndex : '';
+        '?parent=' + opt_parentIndex : '';
       return this._changeBaseURL(changeId, patchNum).then(url => {
         url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
         return this._fetchB64File(url);
@@ -2600,8 +2612,8 @@
       // TODO(kaspern): For full slicer migration, app should warn with a call
       // stack every time _changeBaseURL is called without a project.
       const projectPromise = opt_project ?
-          Promise.resolve(opt_project) :
-          this.getFromProjectLookup(changeNum);
+        Promise.resolve(opt_project) :
+        this.getFromProjectLookup(changeNum);
       return projectPromise.then(project => {
         let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
         if (opt_patchNum) {
@@ -2927,15 +2939,16 @@
 
     /**
      * Alias for _changeBaseURL.then(send).
+     *
      * @todo(beckysiegel) clean up comments
      * @param {Defs.ChangeSendRequest} req
      * @return {!Promise<!Object>}
      */
     _getChangeURLAndSend(req) {
       const anonymizedBaseUrl = req.patchNum ?
-          ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
+        ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
       const anonymizedEndpoint = req.reportEndpointAsIs ?
-          req.endpoint : req.anonymizedEndpoint;
+        req.endpoint : req.anonymizedEndpoint;
 
       return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
         return this._send({
@@ -2947,21 +2960,22 @@
           headers: req.headers,
           parseResponse: req.parseResponse,
           anonymizedUrl: anonymizedEndpoint ?
-              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
+            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
         });
       });
     },
 
     /**
      * Alias for _changeBaseURL.then(_fetchJSON).
+     *
      * @param {Defs.ChangeFetchRequest} req
      * @return {!Promise<!Object>}
      */
     _getChangeURLAndFetch(req) {
       const anonymizedEndpoint = req.reportEndpointAsIs ?
-          req.endpoint : req.anonymizedEndpoint;
+        req.endpoint : req.anonymizedEndpoint;
       const anonymizedBaseUrl = req.patchNum ?
-          ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
+        ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
       return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
         return this._fetchJSON({
           url: url + req.endpoint,
@@ -2969,13 +2983,14 @@
           params: req.params,
           fetchOptions: req.fetchOptions,
           anonymizedUrl: anonymizedEndpoint ?
-              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
+            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
         });
       });
     },
 
     /**
      * Execute a change action or revision action on a change.
+     *
      * @param {number} changeNum
      * @param {string} method
      * @param {string} endpoint
@@ -2998,6 +3013,7 @@
 
     /**
      * Get blame information for the given diff.
+     *
      * @param {string|number} changeNum
      * @param {string|number} patchNum
      * @param {string} path
@@ -3019,6 +3035,7 @@
     /**
      * Modify the given create draft request promise so that it fails and throws
      * an error if the response bears HTTP status 200 instead of HTTP 201.
+     *
      * @see Issue 7763
      * @param {Promise} promise The original promise.
      * @return {Promise} The modified promise.
@@ -3048,6 +3065,7 @@
     /**
      * Fetch a project dashboard definition.
      * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-dashboard
+     *
      * @param {string} project
      * @param {string} dashboard
      * @param {function(?Response, string=)=} opt_errFn

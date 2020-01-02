@@ -268,9 +268,9 @@
     const all = comments.concat(drafts).concat(robotComments);
 
     const baseComments = all.filter(c =>
-        this._isInBaseOfPatchRange(c, patchRange));
+      this._isInBaseOfPatchRange(c, patchRange));
     const revisionComments = all.filter(c =>
-        this._isInRevisionOfPatchRange(c, patchRange));
+      this._isInRevisionOfPatchRange(c, patchRange));
 
     return {
       meta: {
@@ -368,7 +368,7 @@
     const threads = this.getCommentThreads(this._sortComments(comments));
 
     const unresolvedThreads = threads
-      .filter(thread =>
+        .filter(thread =>
           thread.comments.length &&
           thread.comments[thread.comments.length - 1].unresolved);
 
@@ -426,12 +426,13 @@
   };
 
   /**
-  * Whether the given comment should be included in the base side of the
-  * given patch range.
-  * @param {!Object} comment
-  * @param {!Defs.patchRange} range
-  * @return {boolean}
-  */
+   * Whether the given comment should be included in the base side of the
+   * given patch range.
+   *
+   * @param {!Object} comment
+   * @param {!Defs.patchRange} range
+   * @return {boolean}
+   */
   ChangeComments.prototype._isInBaseOfPatchRange = function(comment, range) {
     // If the base of the patch range is a parent of a merge, and the comment
     // appears on a specific parent then only show the comment if the parent
@@ -459,6 +460,7 @@
   /**
    * Whether the given comment should be included in the revision side of the
    * given patch range.
+   *
    * @param {!Object} comment
    * @param {!Defs.patchRange} range
    * @return {boolean}
@@ -471,6 +473,7 @@
 
   /**
    * Whether the given comment should be included in the given patch range.
+   *
    * @param {!Object} comment
    * @param {!Defs.patchRange} range
    * @return {boolean|undefined}
@@ -512,7 +515,7 @@
 
       return Promise.all(promises).then(([comments, robotComments, drafts]) => {
         this._changeComments = new ChangeComments(comments,
-          robotComments, drafts, changeNum);
+            robotComments, drafts, changeNum);
         return this._changeComments;
       });
     },

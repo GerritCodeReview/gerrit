@@ -91,6 +91,7 @@
 
     /**
      * Opens the create overlay if the route has a hash 'create'
+     *
      * @param {!Object} params
      */
     _maybeOpenCreateOverlay(params) {

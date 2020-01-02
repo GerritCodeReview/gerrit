@@ -36,26 +36,26 @@
      * @event thread-changed
      */
 
-     /**
-      * gr-comment-thread exposes the following attributes that allow a
-      * diff widget like gr-diff to show the thread in the right location:
-      *
-      * line-num:
-      *     1-based line number or undefined if it refers to the entire file.
-      *
-      * comment-side:
-      *     "left" or "right". These indicate which of the two diffed versions
-      *     the comment relates to. In the case of unified diff, the left
-      *     version is the one whose line number column is further to the left.
-      *
-      * range:
-      *     The range of text that the comment refers to (start_line,
-      *     start_character, end_line, end_character), serialized as JSON. If
-      *     set, range's end_line will have the same value as line-num. Line
-      *     numbers are 1-based, char numbers are 0-based. The start position
-      *     (start_line, start_character) is inclusive, and the end position
-      *     (end_line, end_character) is exclusive.
-      */
+    /**
+     * gr-comment-thread exposes the following attributes that allow a
+     * diff widget like gr-diff to show the thread in the right location:
+     *
+     * line-num:
+     *     1-based line number or undefined if it refers to the entire file.
+     *
+     * comment-side:
+     *     "left" or "right". These indicate which of the two diffed versions
+     *     the comment relates to. In the case of unified diff, the left
+     *     version is the one whose line number column is further to the left.
+     *
+     * range:
+     *     The range of text that the comment refers to (start_line,
+     *     start_character, end_line, end_character), serialized as JSON. If
+     *     set, range's end_line will have the same value as line-num. Line
+     *     numbers are 1-based, char numbers are 0-based. The start position
+     *     (start_line, start_character) is inclusive, and the end position
+     *     (end_line, end_character) is exclusive.
+     */
     properties: {
       changeNum: String,
       comments: {
@@ -162,7 +162,7 @@
         commentEl.collapsed = false;
       } else {
         const range = opt_range ? opt_range :
-            lastComment ? lastComment.range : undefined;
+          lastComment ? lastComment.range : undefined;
         const unresolved = lastComment ? lastComment.unresolved : undefined;
         this.addDraft(opt_lineNum, range, unresolved);
       }
@@ -482,6 +482,7 @@
 
     /**
      * Load the project config when a project name has been provided.
+     *
      * @param {string} name The project name.
      */
     _projectNameChanged(name) {

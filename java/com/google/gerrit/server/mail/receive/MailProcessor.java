@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.EmailReviewComments;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
@@ -83,6 +85,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 /** A service that can attach the comments from a {@link MailMessage} to a change. */
 @Singleton
@@ -114,6 +117,7 @@ public class MailProcessor {
   private final AccountCache accountCache;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final PluginSetContext<CommentValidator> commentValidators;
+  private final Config gerritConfig;
 
   @Inject
   public MailProcessor(
@@ -132,7 +136,8 @@ public class MailProcessor {
       CommentAdded commentAdded,
       AccountCache accountCache,
       DynamicItem<UrlFormatter> urlFormatter,
-      PluginSetContext<CommentValidator> commentValidators) {
+      PluginSetContext<CommentValidator> commentValidators,
+      @GerritServerConfig Config gerritConfig) {
     this.emails = emails;
     this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
@@ -149,6 +154,7 @@ public class MailProcessor {
     this.accountCache = accountCache;
     this.urlFormatter = urlFormatter;
     this.commentValidators = commentValidators;
+    this.gerritConfig = gerritConfig;
   }
 
   /**
@@ -243,7 +249,7 @@ public class MailProcessor {
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.INTERNAL_EXCEPTION);
         return;
       }
-      ChangeData cd = changeDataList.get(0);
+      ChangeData cd = Iterables.getOnlyElement(changeDataList);
       if (existingMessageIds(cd).contains(message.id())) {
         logger.atInfo().log("Message %s was already processed. Will delete message.", message.id());
         return;
@@ -280,6 +286,15 @@ public class MailProcessor {
         return;
       }
 
+      int existingComments = cd.publishedComments().size() + cd.robotComments().size();
+      int maxComments =
+          gerritConfig.getInt(
+              "change", null, "maxComments", 5000 /*ö DefaultLimits.MAX_NUM_COMMENTS_PER_CHANGE*/);
+      if (existingComments + parsedComments.size() > maxComments) {
+        sendRejectionEmail(message, InboundEmailRejectionSender.Error.COMMENT_REJECTED);
+        return;
+      }
+
       ImmutableList<CommentForValidation> parsedCommentsForValidation =
           parsedComments.stream()
               .map(
@@ -289,10 +304,8 @@ public class MailProcessor {
                           comment.getMessage()))
               .collect(ImmutableList.toImmutableList());
       CommentValidationContext commentValidationCtx =
-          CommentValidationContext.builder()
-              .changeId(cd.change().getChangeId())
-              .project(cd.change().getProject().get())
-              .build();
+          CommentValidationContext.create(
+              cd.change().getChangeId(), cd.change().getProject().get(), 0);
       ImmutableList<CommentValidationFailure> commentValidationFailures =
           PublishCommentUtil.findInvalidComments(
               commentValidationCtx, commentValidators, parsedCommentsForValidation);

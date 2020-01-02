@@ -34,16 +34,15 @@ public abstract class CommentValidationContext {
   /** Returns the project the comment is being added to. */
   public abstract String getProject();
 
-  public static Builder builder() {
-    return new AutoValue_CommentValidationContext.Builder();
-  }
+  /**
+   * Returns the number of new robot comments. This is intended for limiting the number of comments.
+   * NOTE: Other aspects of robot comments are validated separately in {@link
+   * com.google.gerrit.server.restapi.change.PostReview}.
+   */
+  public abstract int getNumNewRobotComments();
 
-  @AutoValue.Builder
-  public abstract static class Builder {
-    public abstract Builder changeId(int value);
-
-    public abstract Builder project(String value);
-
-    public abstract CommentValidationContext build();
+  public static CommentValidationContext create(
+      int changeId, String project, int numNewRobotComments) {
+    return new AutoValue_CommentValidationContext(changeId, project, numNewRobotComments);
   }
 }

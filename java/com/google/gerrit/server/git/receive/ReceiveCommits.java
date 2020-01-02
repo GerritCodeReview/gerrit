@@ -1441,11 +1441,17 @@ class ReceiveCommits {
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
     /**
-     * Result of running {@link CommentValidator}-s on drafts that are published with the commit
-     * (which happens iff {@code --publish-comments} is set). Remains {@code true} if none are
-     * installed.
+     * Draft comments are published with the commit iff {@code --publish-comments} is set. All
+     * drafts are withheld (overriding the option) if at least one of the following conditions are
+     * met:
+     *
+     * <ul>
+     *   <li>Installed {@link CommentValidator} plugins reject one or more draft comments.
+     *   <li>One or more comments exceed the maximum comment size.
+     *   <li>The maximum number of comments would be exceeded.
+     * </ul>
      */
-    private boolean commentsValid = true;
+    private boolean withholdComments = false;
 
     BranchNameKey dest;
     PermissionBackend.ForRef perm;
@@ -1642,18 +1648,19 @@ class ReceiveCommits {
           .collect(toImmutableSet());
     }
 
-    void setCommentsValid(boolean commentsValid) {
-      this.commentsValid = commentsValid;
+    void setWithholdComments(boolean withholdComments) {
+      this.withholdComments = withholdComments;
     }
 
     boolean shouldPublishComments() {
-      if (!commentsValid) {
+      if (withholdComments) {
         // Validation messages of type WARNING have already been added, now withhold the comments.
         return false;
       }
       if (publishComments) {
         return true;
-      } else if (noPublishComments) {
+      }
+      if (noPublishComments) {
         return false;
       }
       return defaultPublishComments;
@@ -2016,13 +2023,10 @@ class ReceiveCommits {
                             comment.message))
                 .collect(toImmutableList());
         CommentValidationContext ctx =
-            CommentValidationContext.builder()
-                .changeId(change.getChangeId())
-                .project(change.getProject().get())
-                .build();
+            CommentValidationContext.create(change.getChangeId(), change.getProject().get(), 0);
         ImmutableList<CommentValidationFailure> commentValidationFailures =
             PublishCommentUtil.findInvalidComments(ctx, commentValidators, draftsForValidation);
-        magicBranch.setCommentsValid(commentValidationFailures.isEmpty());
+        magicBranch.setWithholdComments(!commentValidationFailures.isEmpty());
         commentValidationFailures.forEach(
             failure ->
                 addMessage(

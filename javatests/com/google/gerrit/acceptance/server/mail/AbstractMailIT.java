@@ -33,7 +33,9 @@ import org.junit.Ignore;
 public class AbstractMailIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
 
-  protected MailMessage.Builder messageBuilderWithDefaultFields() {
+  static final String FILE_NAME = "gerrit-server/test.txt";
+
+  MailMessage.Builder messageBuilderWithDefaultFields() {
     MailMessage.Builder b = MailMessage.builder();
     b.id("some id");
     b.from(user.getEmailAddress());
@@ -43,16 +45,15 @@ public class AbstractMailIT extends AbstractDaemonTest {
     return b;
   }
 
-  protected String createChangeWithReview() throws Exception {
+  String createChangeWithReview() throws Exception {
     return createChangeWithReview(admin);
   }
 
-  protected String createChangeWithReview(TestAccount reviewer) throws Exception {
+  String createChangeWithReview(TestAccount reviewer) throws Exception {
     // Create change
-    String file = "gerrit-server/test.txt";
     String contents = "contents \nlorem \nipsum \nlorem";
     PushOneCommit push =
-        pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
+        pushFactory.create(admin.newIdent(), testRepo, "first subject", FILE_NAME, contents);
     PushOneCommit.Result r = push.to("refs/for/master");
     String changeId = r.getChangeId();
 
@@ -61,8 +62,8 @@ public class AbstractMailIT extends AbstractDaemonTest {
     ReviewInput input = new ReviewInput();
     input.message = "I have two comments";
     input.comments = new HashMap<>();
-    CommentInput c1 = newComment(file, Side.REVISION, 0, "comment on file");
-    CommentInput c2 = newComment(file, Side.REVISION, 2, "inline comment");
+    CommentInput c1 = newComment(FILE_NAME, Side.REVISION, 0, "comment on file");
+    CommentInput c2 = newComment(FILE_NAME, Side.REVISION, 2, "inline comment");
     input.comments.put(c1.path, ImmutableList.of(c1, c2));
     revision(r).review(input);
     return changeId;
@@ -94,7 +95,7 @@ public class AbstractMailIT extends AbstractDaemonTest {
    * @param fc1 Comment in reply to a comment of file 1.
    * @return A string with all inline comments and the original quoted email.
    */
-  protected static String newPlaintextBody(
+  static String newPlaintextBody(
       String changeURL, String changeMessage, String c1, String f1, String fc1) {
     return (changeMessage == null ? "" : changeMessage + "\n")
         + "> Foo Bar has posted comments on this change. (  \n"
@@ -137,7 +138,7 @@ public class AbstractMailIT extends AbstractDaemonTest {
         + "> \n";
   }
 
-  protected static String textFooterForChange(int changeNumber, String timestamp) {
+  static String textFooterForChange(int changeNumber, String timestamp) {
     return "Gerrit-Change-Number: "
         + changeNumber
         + "\n"

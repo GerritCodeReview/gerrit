@@ -1,6 +1,6 @@
 {
   "name": "gerrit",
-  "version": "3.1.0-SNAPSHOT",
+  "version": "2.16.16-SNAPSHOT",
   "description": "Gerrit Code Review",
   "dependencies": {},
   "devDependencies": {

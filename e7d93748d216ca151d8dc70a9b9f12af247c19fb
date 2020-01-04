@@ -6,6 +6,13 @@
       "finished": "2020-01-04T12:46:43Z",
       "created": "2020-01-04T12:36:49Z",
       "updated": "2020-01-04T12:36:49Z"
+    },
+    "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/50%252F249550%252F1/1/console",
+      "finished": "2020-01-04T12:46:51Z",
+      "created": "2020-01-04T12:36:56Z",
+      "updated": "2020-01-04T12:36:56Z"
     }
   }
 }

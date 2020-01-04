@@ -106,8 +106,8 @@
         const side = this.diffBuilder.getSideByLineEl(lineEl);
 
         targetClasses.push(side === 'left' ?
-            SelectionClass.LEFT :
-            SelectionClass.RIGHT);
+          SelectionClass.LEFT :
+          SelectionClass.RIGHT);
 
         if (commentSelected) {
           targetClasses.push(SelectionClass.COMMENT);
@@ -120,6 +120,7 @@
     /**
      * Set the provided list of classes on the element, to the exclusion of all
      * other SelectionClass values.
+     *
      * @param {!Array<!string>} targetClasses
      */
     _setClasses(targetClasses) {

@@ -22,6 +22,7 @@
    * Provides method for opening and closing popups from plugin.
    * opt_moduleName is a name of custom element that will be automatically
    * inserted on popup opening.
+   *
    * @param {!Object} plugin
    * @param {opt_moduleName=} string
    */
@@ -40,23 +41,24 @@
    * Opens the popup, inserts it into DOM over current UI.
    * Creates the popup if not previously created. Creates popup content element,
    * if it was provided with constructor.
+   *
    * @returns {!Promise<!Object>}
    */
   GrPopupInterface.prototype.open = function() {
     if (!this._openingPromise) {
       this._openingPromise =
           this.plugin.hook('plugin-overlay').getLastAttached()
-      .then(hookEl => {
-        const popup = document.createElement('gr-plugin-popup');
-        if (this._moduleName) {
-          const el = Polymer.dom(popup).appendChild(
-              document.createElement(this._moduleName));
-          el.plugin = this.plugin;
-        }
-        this._popup = Polymer.dom(hookEl).appendChild(popup);
-        Polymer.dom.flush();
-        return this._popup.open().then(() => this);
-      });
+              .then(hookEl => {
+                const popup = document.createElement('gr-plugin-popup');
+                if (this._moduleName) {
+                  const el = Polymer.dom(popup).appendChild(
+                      document.createElement(this._moduleName));
+                  el.plugin = this.plugin;
+                }
+                this._popup = Polymer.dom(hookEl).appendChild(popup);
+                Polymer.dom.flush();
+                return this._popup.open().then(() => this);
+              });
     }
     return this._openingPromise;
   };

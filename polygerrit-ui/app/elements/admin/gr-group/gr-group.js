@@ -172,15 +172,15 @@
       }
       return this.$.restAPI.saveGroupOwner(this.groupId,
           owner).then(config => {
-            this._owner = false;
-          });
+        this._owner = false;
+      });
     },
 
     _handleSaveDescription() {
       return this.$.restAPI.saveGroupDescription(this.groupId,
           this._groupConfig.description).then(config => {
-            this._description = false;
-          });
+        this._description = false;
+      });
     },
 
     _handleSaveOptions() {
@@ -190,8 +190,8 @@
 
       return this.$.restAPI.saveGroupOptions(this.groupId,
           options).then(config => {
-            this._options = false;
-          });
+        this._options = false;
+      });
     },
 
     _handleConfigName() {

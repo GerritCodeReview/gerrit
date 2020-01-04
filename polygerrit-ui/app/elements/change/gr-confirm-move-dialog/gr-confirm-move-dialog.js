@@ -68,21 +68,21 @@
       }
       return this.$.restAPI.getRepoBranches(
           input, this.project, SUGGESTIONS_LIMIT).then(response => {
-            const branches = [];
-            let branch;
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              if (response[key].ref.startsWith('refs/heads/')) {
-                branch = response[key].ref.substring('refs/heads/'.length);
-              } else {
-                branch = response[key].ref;
-              }
-              branches.push({
-                name: branch,
-              });
-            }
-            return branches;
+        const branches = [];
+        let branch;
+        for (const key in response) {
+          if (!response.hasOwnProperty(key)) { continue; }
+          if (response[key].ref.startsWith('refs/heads/')) {
+            branch = response[key].ref.substring('refs/heads/'.length);
+          } else {
+            branch = response[key].ref;
+          }
+          branches.push({
+            name: branch,
           });
+        }
+        return branches;
+      });
     },
   });
 })();

@@ -89,7 +89,7 @@
 
     _computeDashboardLinkClass(showDashboardLink, loggedIn) {
       return showDashboardLink && loggedIn ?
-          'dashboardLink' : 'dashboardLink hide';
+        'dashboardLink' : 'dashboardLink hide';
     },
   });
 })();

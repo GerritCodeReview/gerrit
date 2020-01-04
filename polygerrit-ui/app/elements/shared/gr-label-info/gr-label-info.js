@@ -125,14 +125,14 @@
       const accountID = parseInt(target.getAttribute('data-account-id'), 10);
       this._xhrPromise =
           this.$.restAPI.deleteVote(this.change._number, accountID, this.label)
-          .then(response => {
-            target.disabled = false;
-            if (!response.ok) { return; }
-            Gerrit.Nav.navigateToChange(this.change);
-          }).catch(err => {
-            target.disabled = false;
-            return;
-          });
+              .then(response => {
+                target.disabled = false;
+                if (!response.ok) { return; }
+                Gerrit.Nav.navigateToChange(this.change);
+              }).catch(err => {
+                target.disabled = false;
+                return;
+              });
     },
 
     _computeValueTooltip(labelInfo, score) {

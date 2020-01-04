@@ -157,7 +157,7 @@
       for (const rev of Object.values(change.revisions || {})) {
         if (this.patchNumEquals(rev._number, patchNum)) {
           const parentLength = rev.commit && rev.commit.parents ?
-                rev.commit.parents.length : 0;
+            rev.commit.parents.length : 0;
           return parentLength == 0;
         }
       }

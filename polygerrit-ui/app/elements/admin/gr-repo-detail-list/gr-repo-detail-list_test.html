@@ -155,9 +155,9 @@ limitations under the License.
         const cancelBtn = Polymer.dom(element.root).querySelector('.cancelBtn');
         const editBtn = Polymer.dom(element.root).querySelector('.editBtn');
         const revisionNoEditing = Polymer.dom(element.root)
-              .querySelector('.revisionNoEditing');
+            .querySelector('.revisionNoEditing');
         const revisionWithEditing = Polymer.dom(element.root)
-              .querySelector('.revisionWithEditing');
+            .querySelector('.revisionWithEditing');
 
         sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
         sandbox.stub(element.$.restAPI, 'getRepoAccess').returns(

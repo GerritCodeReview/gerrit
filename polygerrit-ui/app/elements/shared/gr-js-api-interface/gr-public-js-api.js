@@ -90,7 +90,7 @@
 
   /**
    * Registers an endpoint for the plugin.
-  */
+   */
   Plugin.prototype.registerCustomComponent = function(
       endpointName, opt_moduleName, opt_options) {
     return this._registerCustomComponent(endpointName, opt_moduleName,
@@ -102,7 +102,7 @@
    *
    * Dynamic plugins are registered by specific prefix, such as
    * 'change-list-header'.
-  */
+   */
   Plugin.prototype.registerDynamicCustomComponent = function(
       endpointName, opt_moduleName, opt_options) {
     const fullEndpointName = `${endpointName}-${this.getPluginName()}`;
@@ -113,7 +113,7 @@
   Plugin.prototype._registerCustomComponent = function(
       endpointName, opt_moduleName, opt_options, dynamicEndpoint) {
     const type = opt_options && opt_options.replace ?
-          EndpointType.REPLACE : EndpointType.DECORATE;
+      EndpointType.REPLACE : EndpointType.DECORATE;
     const hook = this._domHooks.getDomHook(endpointName, opt_moduleName);
     const moduleName = opt_moduleName || hook.getModuleName();
     Gerrit._endpoints.registerModule(
@@ -184,14 +184,14 @@
 
   Plugin.prototype.changeActions = function() {
     return new GrChangeActionsInterface(this,
-      Plugin._sharedAPIElement.getElement(
-          Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
+        Plugin._sharedAPIElement.getElement(
+            Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
   };
 
   Plugin.prototype.changeReply = function() {
     return new GrChangeReplyInterface(this,
-      Plugin._sharedAPIElement.getElement(
-          Plugin._sharedAPIElement.Element.REPLY_DIALOG));
+        Plugin._sharedAPIElement.getElement(
+            Plugin._sharedAPIElement.Element.REPLY_DIALOG));
   };
 
   Plugin.prototype.changeView = function() {
@@ -224,6 +224,7 @@
 
   /**
    * To make REST requests for plugin-provided endpoints, use
+   *
    * @example
    * const pluginRestApi = plugin.restApi(plugin.url());
    *

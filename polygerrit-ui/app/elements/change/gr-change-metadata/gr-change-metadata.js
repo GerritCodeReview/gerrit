@@ -228,12 +228,13 @@
       this._newHashtag = '';
       this.$.restAPI.setChangeHashtag(
           this.change._number, {add: [newHashtag]}).then(newHashtag => {
-            this.set(['change', 'hashtags'], newHashtag);
-            if (newHashtag !== lastHashtag) {
-              this.dispatchEvent(new CustomEvent(
-                  'hashtag-changed', {bubbles: true, composed: true}));
-            }
-          });
+        this.set(['change', 'hashtags'], newHashtag);
+        if (newHashtag !== lastHashtag) {
+          this.dispatchEvent(
+              new CustomEvent('hashtag-changed', {
+                bubbles: true, composed: true}));
+        }
+      });
     },
 
     _computeTopicReadOnly(mutable, change) {
@@ -344,7 +345,7 @@
       if (!this.change || !this.change.status) return '';
       return Gerrit.Nav.getUrlForBranch(branch, project,
           this.change.status == this.ChangeStatus.NEW ? 'open' :
-              this.change.status.toLowerCase());
+            this.change.status.toLowerCase());
     },
 
     _computeTopicURL(topic) {
@@ -395,6 +396,7 @@
     /**
      * Get the user with the specified role on the change. Returns null if the
      * user with that role is the same as the owner.
+     *
      * @param {!Object} change
      * @param {string} role One of the values from _CHANGE_ROLE
      * @return {Object|null} either an accound or null.

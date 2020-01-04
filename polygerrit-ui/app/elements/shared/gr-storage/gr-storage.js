@@ -77,9 +77,9 @@
 
     _getDraftKey(location) {
       const range = location.range ?
-          `${location.range.start_line}-${location.range.start_character}` +
+        `${location.range.start_line}-${location.range.start_character}` +
               `-${location.range.end_character}-${location.range.end_line}` :
-          null;
+        null;
       let key = ['draft', location.changeNum, location.patchNum, location.path,
         location.line || ''].join(':');
       if (range) {

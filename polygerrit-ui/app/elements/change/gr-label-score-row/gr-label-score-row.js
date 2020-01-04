@@ -123,7 +123,7 @@
       if (!labels[label.name]) { return null; }
       const labelValue = this._getLabelValue(labels, permittedLabels, label);
       const len = permittedLabels[label.name] != null ?
-          permittedLabels[label.name].length : 0;
+        permittedLabels[label.name].length : 0;
       for (let i = 0; i < len; i++) {
         const val = permittedLabels[label.name][i];
         if (val === labelValue) {
@@ -154,7 +154,7 @@
 
     _computeHiddenClass(permittedLabels, label) {
       return !this._computeAnyPermittedLabelValues(permittedLabels, label) ?
-          'hidden' : '';
+        'hidden' : '';
     },
 
     _computePermittedLabelValues(permittedLabels, label) {

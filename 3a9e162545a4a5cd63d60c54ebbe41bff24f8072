@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1577774332 +0100\nnonce AC6AUtMPpsZyJ4F0ogim7aaqIliSnO5jVwlmwHwWzXS+0nsfStrZR4s/IC8NiwAdxqxifMhOkUDz\n\n0000000000000000000000000000000000000000 25cfd90be149c36dc3c8acc26b31343f5cb5a502 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJeCuz8AAoJEHFVO370GiZWHhkIAJ6Z2dNjIQHEiXaB6lfggjOW\nD4lit4u32D7GrB9By/EWI908feDVUiH2YrocCM82+1TiG9tGW5nAnIkkkS7rhctE\n/YlbnbJmPU38xGjgecXDyezIJiX+cKIZkid4NIjaoNS6ByoWbHYg9qS9lTs+/ybG\n3v3JT/qR7WUOzJGjAdOZE/h1ijBoSKMPPhLqAekgiIta/WvCJ2YrqzksfarqPohe\nbPDG3X2pHdOJpcXUAtV3O3TW6nsKHW299Ldwxs5rq/wguutsPxuj6a0hvg/Da676\nDYY+6N36LuRuCL/Wc7VwPjrws/JgTRQFxFBmthb8RMmXCkuMYgowAylAENv5rSU\u003d\n\u003deGHw\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff20814d_79cd814c",
+        "filename": "java/gerrit/PRED_change_branch_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-04T18:31:59Z",
+      "side": 1,
+      "message": "Why the parameters are prefixed with \u0027-\u0027?",
+      "range": {
+        "startLine": 33,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "3a9e162545a4a5cd63d60c54ebbe41bff24f8072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

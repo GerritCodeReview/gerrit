@@ -143,6 +143,7 @@
      *
      * @param {!Array<!Gerrit.DiffChunk>} chunks
      * @param {boolean} isBinary
+     *
      * @return {!Promise<!Array<!Object>>} A promise that resolves with an
      *     array of GrDiffGroups when the diff is completely processed.
      */

@@ -110,8 +110,7 @@
         const message = change ?
           CREATE_CHANGE_SUCCEEDED_MESSAGE :
           CREATE_CHANGE_FAILED_MESSAGE;
-        this.dispatchEvent(new CustomEvent(
-            'show-alert',
+        this.dispatchEvent(new CustomEvent('show-alert',
             {detail: {message}, bubbles: true, composed: true}));
         if (!change) { return; }
 

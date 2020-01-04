@@ -1197,6 +1197,7 @@
      * Compute size bar layout values from the file list.
      *
      * @return {Gerrit.LayoutStats|undefined}
+     *
      */
     _computeSizeBarLayout(shownFilesRecord) {
       if (!shownFilesRecord || !shownFilesRecord.base) { return undefined; }
@@ -1280,6 +1281,7 @@
      * Get the x-offset of the deletion bar for a file.
      *
      * @param {Gerrit.LayoutStats} stats
+     *
      * @return {number}
      */
     _computeBarDeletionX(stats) {

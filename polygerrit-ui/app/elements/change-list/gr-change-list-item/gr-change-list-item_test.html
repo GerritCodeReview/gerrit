@@ -57,10 +57,9 @@ limitations under the License.
           'cell label u-gray-background');
       assert.equal(element._computeLabelClass(
           {labels: {}}, 'Verified'), 'cell label u-gray-background');
-      assert.equal(
-          element._computeLabelClass(
-              {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
-          'cell label u-green u-monospace');
+      assert.equal(element._computeLabelClass(
+          {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
+      'cell label u-green u-monospace');
       assert.equal(element._computeLabelClass(
           {labels: {Verified: {rejected: true, value: -1}}}, 'Verified'),
       'cell label u-monospace u-red');

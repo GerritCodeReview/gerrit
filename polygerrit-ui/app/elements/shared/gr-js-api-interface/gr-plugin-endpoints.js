@@ -33,7 +33,7 @@
   GrPluginEndpoints.prototype._getOrCreateModuleInfo = function(plugin,
       endpoint, type, moduleName, domHook) {
     const existingModule = this._endpoints[endpoint].find(info =>
-        info.plugin === plugin &&
+      info.plugin === plugin &&
         info.moduleName === moduleName &&
         info.domHook === domHook
     );
@@ -86,6 +86,7 @@
   /**
    * Get detailed information about modules registered with an extension
    * endpoint.
+   *
    * @param {string} name Endpoint name.
    * @param {?{
    *   type: (string|undefined),
@@ -112,6 +113,7 @@
 
   /**
    * Get detailed module names for instantiating at the endpoint.
+   *
    * @param {string} name Endpoint name.
    * @param {?{
    *   type: (string|undefined),
@@ -129,6 +131,7 @@
 
   /**
    * Get .html plugin URLs with element and module definitions.
+   *
    * @param {string} name Endpoint name.
    * @param {?{
    *   type: (string|undefined),

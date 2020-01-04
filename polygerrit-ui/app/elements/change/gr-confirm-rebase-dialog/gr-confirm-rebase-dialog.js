@@ -82,7 +82,7 @@
 
     _getChangeSuggestions(input) {
       return this._getRecentChanges().then(changes =>
-          this._filterChanges(input, changes));
+        this._filterChanges(input, changes));
     },
 
     _filterChanges(input, changes) {

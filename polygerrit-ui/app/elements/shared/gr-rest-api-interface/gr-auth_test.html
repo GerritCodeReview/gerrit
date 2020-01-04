@@ -111,8 +111,8 @@ limitations under the License.
       test('getToken calls are cached', () => {
         return Promise.all([
           auth.fetch('/url-one'), auth.fetch('/url-two')]).then(() => {
-            assert.equal(getToken.callCount, 1);
-          });
+          assert.equal(getToken.callCount, 1);
+        });
       });
 
       test('getToken refreshes token', () => {

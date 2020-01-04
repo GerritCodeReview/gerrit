@@ -92,6 +92,7 @@
 
     /**
      * Handle the up key.
+     *
      * @param {!Event} e
      */
     _handleUp(e) {
@@ -106,6 +107,7 @@
 
     /**
      * Handle the down key.
+     *
      * @param {!Event} e
      */
     _handleDown(e) {
@@ -120,6 +122,7 @@
 
     /**
      * Handle the tab key.
+     *
      * @param {!Event} e
      */
     _handleTab(e) {
@@ -132,6 +135,7 @@
 
     /**
      * Handle the enter key.
+     *
      * @param {!Event} e
      */
     _handleEnter(e) {
@@ -150,6 +154,7 @@
 
     /**
      * Handle a click on the iron-dropdown element.
+     *
      * @param {!Event} e
      */
     _handleDropdownClick(e) {
@@ -158,6 +163,7 @@
 
     /**
      * Hanlde a click on the button to open the dropdown.
+     *
      * @param {!Event} e
      */
     _dropdownTriggerTapHandler(e) {
@@ -190,6 +196,7 @@
 
     /**
      * Get the class for a top-content item based on the given boolean.
+     *
      * @param {boolean} bold Whether the item is bold.
      * @return {string} The class for the top-content item.
      */
@@ -200,13 +207,14 @@
     /**
      * Build a URL for the given host and path. The base URL will be only added,
      * if it is not already included in the path.
+     *
      * @param {!string} host
      * @param {!string} path
      * @return {!string} The scheme-relative URL.
      */
     _computeURLHelper(host, path) {
       const base = path.startsWith(this.getBaseUrl()) ?
-          '' : this.getBaseUrl();
+        '' : this.getBaseUrl();
       return '//' + host + base + path;
     },
 
@@ -214,6 +222,7 @@
      * Build a scheme-relative URL for the current host. Will include the base
      * URL if one is present. Note: the URL will be scheme-relative but absolute
      * with regard to the host.
+     *
      * @param {!string} path The path for the URL.
      * @return {!string} The scheme-relative URL.
      */
@@ -224,6 +233,7 @@
 
     /**
      * Compute the URL for a link object.
+     *
      * @param {!Object} link The object describing the link.
      * @return {!string} The URL.
      */
@@ -241,6 +251,7 @@
      * Compute the value for the rel attribute of an anchor for the given link
      * object. If the link has a target value, then the rel must be "noopener"
      * for security reasons.
+     *
      * @param {!Object} link The object describing the link.
      * @return {?string} The rel value for the link.
      */
@@ -253,6 +264,7 @@
 
     /**
      * Handle a click on an item of the dropdown.
+     *
      * @param {!Event} e
      */
     _handleItemTap(e) {
@@ -268,6 +280,7 @@
 
     /**
      * If a dropdown item is shown as a button, get the class for the button.
+     *
      * @param {string} id
      * @param {!Object} disabledIdsRecord The change record for the disabled IDs
      *     list.

@@ -25,6 +25,7 @@
   /**
    * Add a callback to arbitrary event.
    * The callback may return false to prevent event bubbling.
+   *
    * @param {string} event Event name
    * @param {function(Event):boolean} callback
    * @return {function()} Unsubscribe function.
@@ -44,6 +45,7 @@
   /**
    * Add a callback to element click or touch.
    * The callback may return false to prevent event bubbling.
+   *
    * @param {function(Event):boolean} callback
    * @return {function()} Unsubscribe function.
    */
@@ -64,6 +66,7 @@
    * Callback is installed on parent during capture phase.
    * https://www.w3.org/TR/DOM-Level-3-Events/#event-flow
    * The callback may return false to cancel regular event listeners.
+   *
    * @param {function(Event):boolean} callback
    * @return {function()} Unsubscribe function.
    */

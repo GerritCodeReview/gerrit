@@ -49,7 +49,7 @@
 
         // Group by ref and sort by id.
         const dashboards = res.concat.apply([], res).sort((a, b) =>
-            a.id < b.id ? -1 : 1);
+          a.id < b.id ? -1 : 1);
         const dashboardsByRef = {};
         dashboards.forEach(d => {
           if (!dashboardsByRef[d.ref]) {

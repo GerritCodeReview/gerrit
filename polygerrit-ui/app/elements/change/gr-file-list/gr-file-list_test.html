@@ -440,10 +440,10 @@ limitations under the License.
               '/COMMIT_MSG', 'comment'), '3 comments (1 unresolved)');
       assert.equal(
           element._computeCommentsStringMobile(element.changeComments, parentTo1
-          , '/COMMIT_MSG'), '2c');
+              , '/COMMIT_MSG'), '2c');
       assert.equal(
           element._computeCommentsStringMobile(element.changeComments, _1To2
-          , '/COMMIT_MSG'), '3c');
+              , '/COMMIT_MSG'), '3c');
       assert.equal(
           element._computeDraftsString(element.changeComments, parentTo1,
               'unresolved.file'), '1 draft');
@@ -639,7 +639,7 @@ limitations under the License.
 
         assert(navStub.lastCall.calledWith(element.change,
             'file_added_in_rev2.txt', '2'),
-            'Should navigate to /c/42/2/file_added_in_rev2.txt');
+        'Should navigate to /c/42/2/file_added_in_rev2.txt');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
@@ -1639,7 +1639,7 @@ limitations under the License.
 
       element.set('_filesByPath', _filesByPath);
       flushAsynchronousOperations();
-       // Navigates when a file is selected.
+      // Navigates when a file is selected.
       element._openSelectedFile();
       assert.isTrue(navStub.called);
     });
@@ -1701,7 +1701,7 @@ limitations under the License.
       const editControls =
           Array.from(
               Polymer.dom(element.root)
-              .querySelectorAll('.row:not(.header-row)'))
+                  .querySelectorAll('.row:not(.header-row)'))
               .map(row => row.querySelector('gr-edit-file-controls'));
       assert.isTrue(editControls[0].classList.contains('invisible'));
     });

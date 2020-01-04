@@ -44,6 +44,7 @@
 
       /**
        * Returns suggestions and convert them to list item
+       *
        * @type {Gerrit.GrSuggestionsProvider}
        */
       suggestionsProvider: {
@@ -52,6 +53,7 @@
 
       /**
        * Needed for template checking since value is initially set to null.
+       *
        * @type {?Object} */
       pendingConfirmation: {
         type: Object,
@@ -81,8 +83,9 @@
       },
 
       /** Returns suggestion items
-      * @type {!function(string): Promise<Array<Gerrit.GrSuggestionItem>>}
-      */
+       *
+       * @type {!function(string): Promise<Array<Gerrit.GrSuggestionItem>>}
+       */
       _querySuggestions: {
         type: Function,
         value() {
@@ -120,7 +123,7 @@
           suggestions = suggestions.filter(this.filter);
         }
         return suggestions.map(suggestion =>
-            provider.makeSuggestionItem(suggestion));
+          provider.makeSuggestionItem(suggestion));
       });
     },
 

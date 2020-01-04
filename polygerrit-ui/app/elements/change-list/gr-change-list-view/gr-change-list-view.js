@@ -71,6 +71,7 @@
        *
        * Need sub-property declaration since it is used in template before
        * assignment.
+       *
        * @type {{ selectedChangeIndex: (number|undefined) }}
        *
        */

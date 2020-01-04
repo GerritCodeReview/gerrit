@@ -201,7 +201,7 @@
     /**
      * Fired when an action is tapped.
      *
-     * @event <action key>-tap
+     * @event custom-tap - naming pattern: <action key>-tap
      */
 
     /**
@@ -625,9 +625,9 @@
       }
     },
 
-      /**
-       * @param {string=} actionName
-       */
+    /**
+     * @param {string=} actionName
+     */
     _deleteAndNotify(actionName) {
       if (this.actions && this.actions[actionName]) {
         delete this.actions[actionName];
@@ -868,6 +868,7 @@
 
     /**
      * Capitalize the first letter and lowecase all others.
+     *
      * @param {string} s
      * @return {string}
      */
@@ -1362,6 +1363,7 @@
     /**
      * Merge sources of change actions into a single ordered array of action
      * values.
+     *
      * @param {!Array} changeActionsRecord
      * @param {!Array} revisionActionsRecord
      * @param {!Array} primariesRecord
@@ -1448,9 +1450,9 @@
 
     _filterPrimaryActions(_topLevelActions) {
       this._topLevelPrimaryActions = _topLevelActions.filter(action =>
-          action.__primary);
+        action.__primary);
       this._topLevelSecondaryActions = _topLevelActions.filter(action =>
-          !action.__primary);
+        !action.__primary);
     },
 
     _computeMenuActions(actionRecord, hiddenActionsRecord) {

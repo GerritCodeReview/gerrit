@@ -122,8 +122,8 @@
     },
 
     /**
-     * @param label {string|undefined}
-     * @param permittedLabels {Object|undefined}
+     * @param {string|undefined} label
+     * @param {Object|undefined} permittedLabels
      * @return {string}
      */
     _computeLabelAccessClass(label, permittedLabels) {

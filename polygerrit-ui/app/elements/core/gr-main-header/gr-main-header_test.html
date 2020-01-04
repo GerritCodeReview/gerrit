@@ -118,26 +118,26 @@ limitations under the License.
           /* topMenus= */[],
           /* docBaseUrl= */ ''
       ),
-          defaultLinks.concat({
-            title: 'Browse',
-            links: adminLinks,
-          }));
+      defaultLinks.concat({
+        title: 'Browse',
+        links: adminLinks,
+      }));
       assert.deepEqual(element._computeLinks(
           defaultLinks,
           userLinks,
           adminLinks,
           /* topMenus= */[],
           /* docBaseUrl= */ ''
-        ),
-          defaultLinks.concat([
-            {
-              title: 'Your',
-              links: userLinks,
-            },
-            {
-              title: 'Browse',
-              links: adminLinks,
-            }])
+      ),
+      defaultLinks.concat([
+        {
+          title: 'Your',
+          links: userLinks,
+        },
+        {
+          title: 'Browse',
+          links: adminLinks,
+        }])
       );
     });
 

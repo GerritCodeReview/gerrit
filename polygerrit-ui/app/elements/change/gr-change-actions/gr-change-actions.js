@@ -434,7 +434,7 @@
 
     _getRebaseAction(revisionActions) {
       return this._getRevisionAction(revisionActions, 'rebase',
-        {rebaseOnCurrent: null}
+          {rebaseOnCurrent: null}
       );
     },
 

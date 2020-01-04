@@ -691,7 +691,7 @@ limitations under the License.
 
     test('setAccountStatus', () => {
       const sendStub = sandbox.stub(element._restApiHelper, 'send')
-        .returns(Promise.resolve('OOO'));
+          .returns(Promise.resolve('OOO'));
       element._cache.set('/accounts/self/detail', {});
       return element.setAccountStatus('OOO').then(() => {
         assert.isTrue(sendStub.calledOnce);
@@ -702,7 +702,7 @@ limitations under the License.
             {status: 'OOO'});
         assert.deepEqual(element._restApiHelper
             ._cache.get('/accounts/self/detail'),
-           {status: 'OOO'});
+        {status: 'OOO'});
       });
     });
 

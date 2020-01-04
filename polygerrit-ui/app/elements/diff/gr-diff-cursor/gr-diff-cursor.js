@@ -197,7 +197,7 @@
       if (!this.diffRow) return null;
 
       const hostOwner = Polymer.dom(/** @type {Node} */ (this.diffRow))
-        .getOwnerRoot();
+          .getOwnerRoot();
       if (hostOwner && hostOwner.host &&
           hostOwner.host.tagName === 'GR-DIFF') {
         return hostOwner.host;
@@ -233,8 +233,8 @@
       if (!this.diffRow) {
         // does not scroll during init unless requested
         const scrollingBehaviorForInit = this.initialLineNumber ?
-            ScrollBehavior.KEEP_VISIBLE :
-            ScrollBehavior.NEVER;
+          ScrollBehavior.KEEP_VISIBLE :
+          ScrollBehavior.NEVER;
         this._scrollBehavior = scrollingBehaviorForInit;
         this.reInitCursor();
       }

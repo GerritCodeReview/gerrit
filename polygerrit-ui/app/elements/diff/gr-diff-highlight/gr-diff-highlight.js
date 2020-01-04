@@ -137,7 +137,7 @@
       }
 
       return this.commentRanges.findIndex(commentRange =>
-          commentRange.side === side && rangesEqual(commentRange.range, range));
+        commentRange.side === side && rangesEqual(commentRange.range, range));
     },
 
     /**
@@ -145,6 +145,7 @@
      * Merges multiple ranges, accounts for triple click, accounts for
      * syntax highligh, convert native DOM Range objects to Gerrit concepts
      * (line, side, etc).
+     *
      * @param {Selection} selection
      * @return {({
      *   start: {
@@ -180,6 +181,7 @@
 
     /**
      * Normalize a specific DOM Range.
+     *
      * @return {!Object} fixed normalized range
      */
     _normalizeRange(domRange) {

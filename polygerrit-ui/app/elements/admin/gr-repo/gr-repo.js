@@ -283,8 +283,8 @@
     _handleSaveRepoConfig() {
       return this.$.restAPI.saveRepoConfig(this.repo,
           this._formatRepoConfigForSave(this._repoConfig)).then(() => {
-            this._configChanged = false;
-          });
+        this._configChanged = false;
+      });
     },
 
     _handleConfigChanged() {
@@ -327,7 +327,7 @@
           command: commandObj[title]
               .replace(/\$\{project\}/gi, encodeURI(repo))
               .replace(/\$\{project-base-name\}/gi,
-              encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
+                  encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
         });
       }
       return commands;

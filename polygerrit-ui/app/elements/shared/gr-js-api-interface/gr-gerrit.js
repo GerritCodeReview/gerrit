@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
- /**
-  * This defines the Gerrit instance. All methods directly attached to Gerrit
-  * should be defined or linked here.
-  */
+/**
+ * This defines the Gerrit instance. All methods directly attached to Gerrit
+ * should be defined or linked here.
+ */
 
 (function(window) {
   'use strict';
 
   // Import utils methods
   const {
-      send,
-      getRestAPI,
+    send,
+    getRestAPI,
   } = window._apiUtils;
 
   /**
@@ -54,7 +54,7 @@
       testOnly_resetInternalState,
     } = window._apiUtils;
     Gerrit._testOnly_installPreloadedPlugins = (...args) => Gerrit._pluginLoader
-      .installPreloadedPlugins(...args);
+        .installPreloadedPlugins(...args);
     Gerrit._testOnly_flushPreinstalls = flushPreinstalls;
     Gerrit._testOnly_resetPlugins = () => {
       testOnly_resetInternalState();

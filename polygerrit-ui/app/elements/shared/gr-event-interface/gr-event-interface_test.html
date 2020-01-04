@@ -62,7 +62,7 @@ limitations under the License.
           p = plugin;
           Gerrit.emit(eventName, {value: 'test', plugin});
         }, '0.1',
-            'http://test.com/plugins/testplugin/static/test.js');
+        'http://test.com/plugins/testplugin/static/test.js');
       });
 
       test('listen on events from core', done => {
@@ -83,19 +83,21 @@ limitations under the License.
             done();
           });
         }, '0.1',
-            'http://test.com/plugins/testA/static/testA.js');
+        'http://test.com/plugins/testA/static/testA.js');
 
         Gerrit.install(plugin => {
           Gerrit.emit(eventName, {plugin});
         }, '0.1',
-            'http://test.com/plugins/testB/static/testB.js');
+        'http://test.com/plugins/testB/static/testB.js');
       });
     });
 
     suite('test on interfaces', () => {
       let testObj;
+
       class TestClass extends EventEmitter {
       }
+
       setup(() => {
         testObj = new TestClass();
       });

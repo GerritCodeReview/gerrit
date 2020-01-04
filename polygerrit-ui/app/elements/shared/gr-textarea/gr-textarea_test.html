@@ -209,17 +209,17 @@ limitations under the License.
       assert.isTrue(formatSpy.lastCall.calledWithExactly(
           [{dataValue: '😂', value: '😂', match: 'tears :\')',
             text: '😂 tears :\')'},
-            {dataValue: '😢', value: '😢', match: 'tear', text: '😢 tear'},
+          {dataValue: '😢', value: '😢', match: 'tear', text: '😢 tear'},
           ]));
     });
 
     test('_formatSuggestions', () => {
       const matchedSuggestions = [{value: '😢', match: 'tear'},
-          {value: '😂', match: 'tears'}];
+        {value: '😂', match: 'tears'}];
       element._formatSuggestions(matchedSuggestions);
       assert.deepEqual(
           [{value: '😢', dataValue: '😢', match: 'tear', text: '😢 tear'},
-          {value: '😂', dataValue: '😂', match: 'tears', text: '😂 tears'}],
+            {value: '😂', dataValue: '😂', match: 'tears', text: '😂 tears'}],
           element._suggestions);
     });
 

@@ -99,6 +99,7 @@ Gerrit.ChangeFetchRequest;
  * - headers is a key-value hash to describe HTTP headers for the request.
  * - parseResponse states whether the result should be parsed as a JSON
  *     object using getResponseObject.
+ *
  * @typedef {{
  *   method: string,
  *   url: string,
@@ -146,6 +147,7 @@ Gerrit.FetchRequest;
  * - cancelCondition is a function that, if provided and returns true, will
  *     cancel the response after it resolves.
  * - params is a key-value hash to specify get params for the request URL.
+ *
  * @typedef {{
  *    url: string,
  *    errFn: (function(?Response, string=)|null|undefined),
@@ -217,6 +219,7 @@ Gerrit.CommentsBySide;
  * Note that the implied newline character at the end of each line is included
  * in the length calculation, and thus it is possible for the edits to span
  * newlines.
+ *
  * @typedef {!Array<number>}
  */
 Gerrit.IntralineInfo;

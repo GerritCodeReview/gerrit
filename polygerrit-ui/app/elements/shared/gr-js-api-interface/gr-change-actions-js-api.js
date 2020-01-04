@@ -20,6 +20,7 @@
   /**
    * Ensure GrChangeActionsInterface instance has access to gr-change-actions
    * element and retrieve if the interface was created before element.
+   *
    * @param {!GrChangeActionsInterface} api
    */
   function ensureEl(api) {
@@ -32,6 +33,7 @@
 
   /**
    * Set gr-change-actions element to a GrChangeActionsInterface instance.
+   *
    * @param {!GrChangeActionsInterface} api
    * @param {!Element} el gr-change-actions
    */

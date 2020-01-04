@@ -146,7 +146,7 @@
         params.push(`access_token=${accessToken}`);
         const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
         const pathname = baseUrl ?
-              url.substring(url.indexOf(baseUrl) + baseUrl.length) : url;
+          url.substring(url.indexOf(baseUrl) + baseUrl.length) : url;
         if (!pathname.startsWith('/a/')) {
           url = url.replace(pathname, '/a' + pathname);
         }

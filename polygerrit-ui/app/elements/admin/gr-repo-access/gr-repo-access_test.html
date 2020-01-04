@@ -676,7 +676,7 @@ limitations under the License.
             Polymer.dom(element.$$('gr-access-section').root).querySelectorAll(
                 'gr-permission')[2];
         newPermission._handleAddRuleItem(
-           {detail: {value: {id: 'Maintainers'}}});
+            {detail: {value: {id: 'Maintainers'}}});
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
         // Modify a section reference.
@@ -909,7 +909,7 @@ limitations under the License.
             Polymer.dom(element.$$('gr-access-section').root).querySelectorAll(
                 'gr-permission')[1];
         readPermission._handleAddRuleItem(
-           {detail: {value: {id: 'Maintainers'}}});
+            {detail: {value: {id: 'Maintainers'}}});
 
         expectedInput = {
           add: {

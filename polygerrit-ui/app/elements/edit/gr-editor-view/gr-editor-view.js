@@ -141,11 +141,11 @@
       }
       return this.$.restAPI.renameFileInChangeEdit(this._changeNum,
           this._path, path).then(res => {
-            if (!res.ok) { return; }
+        if (!res.ok) { return; }
 
-            this._successfulSave = true;
-            this._viewEditInChangeView();
-          });
+        this._successfulSave = true;
+        this._viewEditInChangeView();
+      });
     },
 
     _viewEditInChangeView() {
@@ -191,13 +191,13 @@
       this.$.storage.eraseEditableContentItem(this.storageKey);
       return this.$.restAPI.saveChangeEdit(this._changeNum, this._path,
           this._newContent).then(res => {
-            this._saving = false;
-            this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
-            if (!res.ok) { return; }
+        this._saving = false;
+        this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
+        if (!res.ok) { return; }
 
-            this._content = this._newContent;
-            this._successfulSave = true;
-          });
+        this._content = this._newContent;
+        this._successfulSave = true;
+      });
     },
 
     _showAlert(message) {

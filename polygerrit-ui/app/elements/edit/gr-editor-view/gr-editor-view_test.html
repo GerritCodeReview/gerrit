@@ -106,7 +106,7 @@ suite('gr-editor-view tests', () => {
     // Calling with the same path should not navigate.
     return element._handlePathChanged({detail: mockParams.path}).then(() => {
       assert.isFalse(savePathStub.called);
-        // !ok response
+      // !ok response
       element._handlePathChanged({detail: 'newPath'}).then(() => {
         assert.isTrue(savePathStub.called);
         assert.isFalse(navigateStub.called);

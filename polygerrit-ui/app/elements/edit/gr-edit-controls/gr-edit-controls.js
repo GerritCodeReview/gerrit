@@ -112,6 +112,7 @@
 
     /**
      * Given a path string, checks that it is a valid file path.
+     *
      * @param {string} path
      * @return {boolean}
      */
@@ -126,6 +127,7 @@
 
     /**
      * Given a dom event, gets the dialog that lies along this event path.
+     *
      * @param {!Event} e
      * @return {!Element|undefined}
      */
@@ -214,17 +216,17 @@
       const dialog = this._getDialogFromEvent(e);
       return this.$.restAPI.renameFileInChangeEdit(this.change._number,
           this._path, this._newPath).then(res => {
-            if (!res.ok) { return; }
-            this._closeDialog(dialog, true);
-            Gerrit.Nav.navigateToChange(this.change);
-          });
+        if (!res.ok) { return; }
+        this._closeDialog(dialog, true);
+        Gerrit.Nav.navigateToChange(this.change);
+      });
     },
 
     _queryFiles(input) {
       return this.$.restAPI.queryChangeFiles(this.change._number,
           this.patchNum, input).then(res => res.map(file => {
-            return {name: file};
-          }));
+        return {name: file};
+      }));
     },
 
     _computeIsInvisible(id, hiddenActions) {

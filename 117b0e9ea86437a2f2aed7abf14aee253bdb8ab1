@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1577774332 +0100\nnonce AC6AUtMPpsZyJ4F0ogim7aaqIliSnO5jVwlmwHwWzXS+0nsfStrZR4s/IC8NiwAdxqxifMhOkUDz\n\n0000000000000000000000000000000000000000 25cfd90be149c36dc3c8acc26b31343f5cb5a502 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJeCuz8AAoJEHFVO370GiZWHhkIAJ6Z2dNjIQHEiXaB6lfggjOW\nD4lit4u32D7GrB9By/EWI908feDVUiH2YrocCM82+1TiG9tGW5nAnIkkkS7rhctE\n/YlbnbJmPU38xGjgecXDyezIJiX+cKIZkid4NIjaoNS6ByoWbHYg9qS9lTs+/ybG\n3v3JT/qR7WUOzJGjAdOZE/h1ijBoSKMPPhLqAekgiIta/WvCJ2YrqzksfarqPohe\nbPDG3X2pHdOJpcXUAtV3O3TW6nsKHW299Ldwxs5rq/wguutsPxuj6a0hvg/Da676\nDYY+6N36LuRuCL/Wc7VwPjrws/JgTRQFxFBmthb8RMmXCkuMYgowAylAENv5rSU\u003d\n\u003deGHw\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a46b2c0_296ffa94",
+        "filename": "java/com/google/gerrit/server/index/account/IndexedAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-04T18:21:57Z",
+      "side": 1,
+      "message": "The changes in this and another class in c.g.g.s.i.account package contradicts with the subject of this change. Move the change in its own change or extend the commit message.",
+      "revId": "117b0e9ea86437a2f2aed7abf14aee253bdb8ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

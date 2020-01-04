@@ -23,6 +23,29 @@
       "revId": "25cfd90be149c36dc3c8acc26b31343f5cb5a502",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "205fd62c_a3937bdb",
+        "filename": "java/com/google/gerrit/acceptance/UseSsh.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-04T18:39:52Z",
+      "side": 1,
+      "message": "The default is the opposite: SSH is not used, so may be swap the logic.e.g.: The SSH is not used unless @UseSsh annotation is used.",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "25cfd90be149c36dc3c8acc26b31343f5cb5a502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

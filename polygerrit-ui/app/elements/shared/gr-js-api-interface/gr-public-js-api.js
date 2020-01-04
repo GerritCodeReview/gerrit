@@ -26,8 +26,8 @@
 
   // Import utils methods
   const {
-      getPluginNameFromUrl,
-      send,
+    getPluginNameFromUrl,
+    send,
   } = window._apiUtils;
 
   /**

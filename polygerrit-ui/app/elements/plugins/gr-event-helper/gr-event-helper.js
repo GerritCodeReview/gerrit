@@ -36,6 +36,7 @@
 
   /**
    * Alias of onClick
+   *
    * @see onClick
    */
   GrEventHelper.prototype.onTap = function(callback) {
@@ -55,6 +56,7 @@
 
   /**
    * Alias of captureClick
+   *
    * @see captureClick
    */
   GrEventHelper.prototype.captureTap = function(callback) {

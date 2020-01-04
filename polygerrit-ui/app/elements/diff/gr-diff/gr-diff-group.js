@@ -36,6 +36,7 @@
     /**
      * True means all changes in this line are whitespace changes that should
      * not be highlighted as changed as per the user settings.
+     *
      * @type{boolean}
      */
     this.ignoredWhitespaceOnly = false;
@@ -185,11 +186,11 @@
 
       if (before.length) {
         beforeGroups.push(before.length === group.lines.length ?
-            group : group.cloneWithLines(before));
+          group : group.cloneWithLines(before));
       }
       if (after.length) {
         afterGroups.push(after.length === group.lines.length ?
-            group : group.cloneWithLines(after));
+          group : group.cloneWithLines(after));
       }
     }
     return [beforeGroups, afterGroups];

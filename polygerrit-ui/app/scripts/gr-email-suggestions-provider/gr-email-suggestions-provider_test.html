@@ -68,7 +68,7 @@ limitations under the License.
     test('getSuggestions', done => {
       const getSuggestedAccountsStub =
           sandbox.stub(restAPI, 'getSuggestedAccounts')
-            .returns(Promise.resolve([account1, account2]));
+              .returns(Promise.resolve([account1, account2]));
 
       provider.getSuggestions('Some input').then(res => {
         assert.deepEqual(res, [account1, account2]);

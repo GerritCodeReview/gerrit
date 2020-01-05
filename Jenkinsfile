@@ -23,7 +23,6 @@ class Globals {
     static final long curlTimeout = 10000
     static final int waitForResultTimeout = 10000
     static final String gerritRepositoryNameSha1Suffix = "-a6a0e4682515f3521897c5f950d1394f4619d928"
-    static final resTicks = [ 'ABORTED':'\u26aa', 'SUCCESS':'\u2705', 'FAILURE':'\u274c' ]
 }
 
 class Change {
@@ -241,25 +240,6 @@ def findCodestyleFilesInLog(build) {
     return codeStyleFiles
 }
 
-def createCodeStyleMsgBody(build, label) {
-    def codeStyleFiles = findCodestyleFilesInLog(build)
-    def formattingMsg = label < 0 ? ('The following files need formatting:\n    ' +
-        codeStyleFiles.join('\n    ')) : 'All files are correctly formatted'
-    def url = build.url + "consoleText"
-
-    return "${Globals.resTicks[build.result]} $formattingMsg\n    (${url})"
-}
-
-def createVerifyMsgBody(builds) {
-    def msgList = builds.collect { type, build -> [
-        'type': type, 'res': build.result, 'url': build.url + "consoleText" ]
-    }
-
-    return msgList.collect {
-        "${Globals.resTicks[it.res]} ${it.type} : ${it.res}\n    (${it.url})"
-    } .join('\n')
-}
-
 node ('master') {
 
     if (hasChangeNumber()) {
@@ -286,18 +266,14 @@ node ('master') {
 
         stage('Report to Gerrit'){
             resCodeStyle = getLabelValue(1, Builds.codeStyle.result)
-            gerritReview(
-                labels: ['Code-Style': resCodeStyle],
-                message: createCodeStyleMsgBody(Builds.codeStyle, resCodeStyle))
+            gerritReview labels: ['Code-Style': resCodeStyle]
             postCheck(new GerritCheck("codestyle", Builds.codeStyle))
 
             def verificationResults = Builds.verification.collect { k, v -> v }
             def resVerify = verificationResults.inject(1) {
                 acc, build -> getLabelValue(acc, build.result)
             }
-            gerritReview(
-                labels: ['Verified': resVerify],
-                message: createVerifyMsgBody(Builds.verification))
+            gerritReview labels: ['Verified': resVerify]
 
             Builds.verification.each { type, build -> postCheck(
                 new GerritCheck(type, build)

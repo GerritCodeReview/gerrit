@@ -54,11 +54,13 @@ class Builds {
 class GerritCheck {
     String uuid
     Build build
+    String consoleUrl
 
     GerritCheck(name, build) {
         this.uuid = "gerritforge:" + name.replaceAll("(bazel/)", "") +
             Globals.gerritRepositoryNameSha1Suffix
         this.build = build
+        this.consoleUrl = "{build.url}console"
     }
 
     def getCheckResultFromBuild() {
@@ -81,7 +83,7 @@ def hasChangeNumber() {
 }
 
 def postCheck(check) {
-    gerritCheck(checks: [ "${check.uuid}" : "${check.getCheckResultFromBuild()}" ])
+    gerritCheck(checks: [ "${check.uuid}" : "${check.getCheckResultFromBuild()}" ], url: "${check.consoleUrl}")
 }
 
 def queryChangedFiles(url, changeNum, sha1) {

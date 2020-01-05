@@ -74,14 +74,6 @@ class GerritCheck {
                 return "FAILED"
         }
     }
-
-    def createCheckPayload() {
-        return JsonOutput.toJson([
-            checker_uuid: uuid,
-            state: getCheckResultFromBuild(),
-            url: "${build.url}consoleText"
-        ])
-    }
 }
 
 def hasChangeNumber() {

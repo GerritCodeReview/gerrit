@@ -436,8 +436,13 @@
 
       // Finalize the interval. Either from a registered start mark or
       // the navigation start time (if baseTime is 0).
-      const startMark = baseTime === 0 ? undefined : `${name}-start`;
-      window.performance.measure(name, startMark);
+      if (baseTime !== 0) {
+        window.performance.measure(name, `${name}-start`);
+      } else {
+        // Microsft Edge does not handle the 2nd param correctly
+        // (if undefined).
+        window.performance.measure(name);
+      }
     },
 
     /**

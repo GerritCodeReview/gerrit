@@ -66,6 +66,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
     boolean close = true;
     try {
       final RevWalk rw = new RevWalk(repo);
+      BinaryResult bin = null;
       try {
         final RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
         RevCommit[] parents = commit.getParents();
@@ -77,8 +78,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
         final RevCommit base = parents[0];
         rw.parseBody(base);
 
-        BinaryResult bin =
-            new BinaryResult() {
+		bin = new BinaryResult() {
               @Override
               public void writeTo(OutputStream out) throws IOException {
                 if (zip) {
@@ -135,6 +135,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
       } finally {
         if (close) {
           rw.close();
+          bin.close();
         }
       }
     } finally {

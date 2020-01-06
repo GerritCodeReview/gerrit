@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44c46314_df16dbd8",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-06T09:11:01Z",
+      "side": 1,
+      "message": "border-radius: var(--border-radius);",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc0b3b8a_bb05e2ca",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-06T09:11:01Z",
+      "side": 1,
+      "message": "font-weight: var(--font-weight-bold);",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad7dbe4e_f589d4e3",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-06T09:11:01Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c63115_f2d4c4c6",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-06T09:11:01Z",
+      "side": 1,
+      "message": "padding: var(--spacing-s);",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fac88b7b_0814902c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-06T09:11:01Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3211ca20_b4ee67d3",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-06T09:11:01Z",
+      "side": 1,
+      "message": "*a* file",
+      "range": {
+        "startLine": 111,
+        "startChar": 29,
+        "endLine": 111,
+        "endChar": 33
+      },
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4396d78_ba76e74d",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-06T09:11:01Z",
+      "side": 1,
+      "message": "Can you try to find out why this is not centered below \"or\"?",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

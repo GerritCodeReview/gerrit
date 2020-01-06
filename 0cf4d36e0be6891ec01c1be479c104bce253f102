@@ -103,6 +103,30 @@
       "revId": "0cf4d36e0be6891ec01c1be479c104bce253f102",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e78e2678_c90efdc3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-01-06T19:48:15Z",
+      "side": 1,
+      "message": "Agreed, the message seems bad also. Imagine the users enters: \"I23423907890460349063480\" and they get a message saying: \"\u0027I23423907890460349063480\u0027 is not a valid patchset representation \u0027ChangeNumber,PatchsetNumber\u0027\", then I suspect they will be confused and not know what they can enter legally.",
+      "parentUuid": "05a7b7f0_9b84d678",
+      "range": {
+        "startLine": 1288,
+        "startChar": 69,
+        "endLine": 1288,
+        "endChar": 96
+      },
+      "revId": "0cf4d36e0be6891ec01c1be479c104bce253f102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

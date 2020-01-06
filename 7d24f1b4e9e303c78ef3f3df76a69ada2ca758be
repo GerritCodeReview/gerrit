@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e03c7c99_2cad2337",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-06T21:45:06Z",
+      "side": 1,
+      "message": "CI.",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "7d24f1b4e9e303c78ef3f3df76a69ada2ca758be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "414799a2_cf35ff3d",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-06T21:45:06Z",
+      "side": 1,
+      "message": "\u0026\u0026 \\",
+      "range": {
+        "startLine": 20,
+        "startChar": 39,
+        "endLine": 20,
+        "endChar": 42
+      },
+      "revId": "7d24f1b4e9e303c78ef3f3df76a69ada2ca758be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

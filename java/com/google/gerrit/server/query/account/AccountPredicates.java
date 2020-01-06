@@ -130,6 +130,7 @@ public class AccountPredicates {
     return new CanSeeChangePredicate(args.permissionBackend, changeNotes);
   }
 
+  /** Predicate that is mapped to a field in the account index. */
   static class AccountPredicate extends IndexPredicate<AccountState>
       implements Matchable<AccountState> {
     AccountPredicate(FieldDef<AccountState, ?> def, String value) {

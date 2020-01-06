@@ -429,15 +429,25 @@
      * Finish named timer and report it to server.
      */
     timeEnd(name) {
-      if (!this._baselines.hasOwnProperty(name)) { return; }
+      if (!this._baselines.hasOwnProperty(name)) return;
+
       const baseTime = this._baselines[name];
       delete this._baselines[name];
       this._reportTiming(name, this.now() - baseTime);
 
-      // Finalize the interval. Either from a registered start mark or
-      // the navigation start time (if baseTime is 0).
-      const startMark = baseTime === 0 ? undefined : `${name}-start`;
-      window.performance.measure(name, startMark);
+      try {
+        // Finalize the interval. Either from a registered start mark or
+        // the navigation start time (if baseTime is 0).
+        const startMark = baseTime === 0 ? undefined : `${name}-start`;
+        window.performance.measure(name, startMark);
+      } catch(e) {
+        // Microsoft Edge throws a SyntaxError exception
+        // when using the 2nd param of window.performance.measure.
+        // We fail gracefully to allow gerrit to continue to run
+        // under Microsoft Edge.
+        // This is empty on purpose as we only want to fail
+        // gracefully.
+      }
     },
 
     /**

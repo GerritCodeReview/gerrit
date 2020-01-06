@@ -345,7 +345,20 @@
       if (!this._baselines.hasOwnProperty(name)) { return; }
       const baseTime = this._baselines[name];
       this._reportTiming(name, this.now() - baseTime);
+<<<<<<< HEAD   (e7d937 Merge branch 'stable-2.16' into stable-3.0)
       delete this._baselines[name];
+=======
+
+      // Finalize the interval. Either from a registered start mark or
+      // the navigation start time (if baseTime is 0).
+      if (baseTime !== 0) {
+        window.performance.measure(name, `${name}-start`);
+      } else {
+        // Microsft Edge does not handle the 2nd param correctly
+        // (if undefined).
+        window.performance.measure(name);
+      }
+>>>>>>> CHANGE (5ad208 Fix failures on performance.measure with undefined mark name)
     },
 
     /**

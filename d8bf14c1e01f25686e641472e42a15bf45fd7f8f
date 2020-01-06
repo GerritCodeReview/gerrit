@@ -277,6 +277,24 @@
       "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "317a1dee_3aee5e52",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-06T22:14:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd1e784_1633fe26",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

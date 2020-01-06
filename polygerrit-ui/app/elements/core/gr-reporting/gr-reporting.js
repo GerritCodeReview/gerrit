@@ -429,7 +429,12 @@
      * Finish named timer and report it to server.
      */
     timeEnd(name) {
-      if (!this._baselines.hasOwnProperty(name)) { return; }
+      // For now disable timeEnd until a fix to support
+      // window.performance.measure under Microsoft Edge is found.
+      if (/Edge/.test(navigator.userAgent) ||
+          !this._baselines.hasOwnProperty(name)) {
+        return;
+      }
       const baseTime = this._baselines[name];
       delete this._baselines[name];
       this._reportTiming(name, this.now() - baseTime);

@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "8ceff93c_233f48b2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-01-06T19:40:01Z",
+      "side": 1,
+      "message": "Exceptions (RuntimeExceptions are likely?) here should probably be converted to ConfigInvalidException? Some of the methods in here do capture stuff like that to throw a better exception, but not all.",
+      "range": {
+        "startLine": 981,
+        "startChar": 11,
+        "endLine": 981,
+        "endChar": 43
+      },
+      "revId": "0cf4d36e0be6891ec01c1be479c104bce253f102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64c4153e_8dba68bf",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 25

@@ -62,6 +62,30 @@
       "revId": "0cf4d36e0be6891ec01c1be479c104bce253f102",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05a7b7f0_9b84d678",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-01-06T19:41:14Z",
+      "side": 1,
+      "message": "Since we mention \u0027patchset representation\u0027 in the message, the square brackets are probably not needed as PatchsetNumber is not optional.",
+      "parentUuid": "64c4153e_8dba68bf",
+      "range": {
+        "startLine": 1288,
+        "startChar": 69,
+        "endLine": 1288,
+        "endChar": 96
+      },
+      "revId": "0cf4d36e0be6891ec01c1be479c104bce253f102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

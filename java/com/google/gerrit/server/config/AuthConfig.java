@@ -37,6 +37,9 @@ import org.eclipse.jgit.lib.Config;
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
 public class AuthConfig {
+  static final int DEFAULT_HTTP_PASSWORD_LENGTH = 42;
+  static final int MIN_HTTP_PASSWORD_LENGTH = 16;
+  static final int MAX_HTTP_PASSWORD_LENGTH = 72;
   private final AuthType authType;
   private final String httpHeader;
   private final String httpDisplaynameHeader;
@@ -65,6 +68,7 @@ public class AuthConfig {
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
+  private int httpPasswordLength;
 
   @Inject
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
@@ -95,6 +99,8 @@ public class AuthConfig {
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
+    httpPasswordLength =
+        cfg.getInt("auth", "httpPasswordLength", DEFAULT_HTTP_PASSWORD_LENGTH);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -120,6 +126,15 @@ public class AuthConfig {
       emailReg = new SignedToken(age, key);
     } else {
       emailReg = null;
+    }
+
+    if (httpPasswordLength < MIN_HTTP_PASSWORD_LENGTH
+        || httpPasswordLength > MAX_HTTP_PASSWORD_LENGTH) {
+      throw new IllegalStateException(
+          "auth.httpPasswordLength must be greater than "
+              + MIN_HTTP_PASSWORD_LENGTH
+              + " and smaller than "
+              + MAX_HTTP_PASSWORD_LENGTH);
     }
   }
 
@@ -333,5 +348,9 @@ public class AuthConfig {
 
   public boolean isAllowRegisterNewEmail() {
     return allowRegisterNewEmail;
+  }
+
+  public int getHttpPasswordLength() {
+    return httpPasswordLength;
   }
 }

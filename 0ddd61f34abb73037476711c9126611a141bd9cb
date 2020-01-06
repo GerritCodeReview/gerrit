@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70555c0b_91fdf3e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-06T15:10:45Z",
+      "side": 1,
+      "message": "maybe `Fix failures on performance.measure with undefined mark name`",
+      "revId": "0ddd61f34abb73037476711c9126611a141bd9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "527cd142_fa7dc93d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-06T15:10:45Z",
+      "side": 1,
+      "message": "this should be self explained from the code, no need to mention it here :)",
+      "revId": "0ddd61f34abb73037476711c9126611a141bd9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44ba5be2_7f8d17e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-06T15:10:45Z",
+      "side": 1,
+      "message": "lol this is not necessary :) team effort!",
+      "revId": "0ddd61f34abb73037476711c9126611a141bd9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c286f294_e98c9346",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-06T15:10:45Z",
+      "side": 1,
+      "message": "maybe just use `baseTime \u003d\u003d\u003d 0` to get rid of the `startMark` temp variable entirely.",
+      "range": {
+        "startLine": 440,
+        "startChar": 10,
+        "endLine": 440,
+        "endChar": 19
+      },
+      "revId": "0ddd61f34abb73037476711c9126611a141bd9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70a0271c_9679517f",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-06T15:10:45Z",
+      "side": 1,
+      "message": "can be removed. the code says it all",
+      "range": {
+        "startLine": 444,
+        "startChar": 25,
+        "endLine": 445,
+        "endChar": 52
+      },
+      "revId": "0ddd61f34abb73037476711c9126611a141bd9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

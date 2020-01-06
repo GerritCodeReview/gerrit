@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "faae6d49_8c86d85c",
+        "filename": "java/com/google/gerrit/server/change/SetCherryPickOp.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-01-06T19:36:21Z",
+      "side": 1,
+      "message": "Style guide says to remove the blank line above?",
+      "revId": "0cf4d36e0be6891ec01c1be479c104bce253f102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64c4153e_8dba68bf",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 25

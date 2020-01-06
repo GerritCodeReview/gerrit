@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "212a70bc_a5304794",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-01-06T20:18:25Z",
+      "side": 1,
+      "message": "Where will I be using it though?",
+      "parentUuid": "e4c85b24_523dc036",
+      "revId": "0cf4d36e0be6891ec01c1be479c104bce253f102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64c4153e_8dba68bf",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 25
@@ -127,6 +145,30 @@
       "revId": "0cf4d36e0be6891ec01c1be479c104bce253f102",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19d6d2c6_0f18388c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-01-06T20:18:25Z",
+      "side": 1,
+      "message": "Hmm, I can just remove the \u0027ChangeNumber,PatchsetNumber\u0027 as the patchset representation is anyway described in the query documentation with an example?",
+      "parentUuid": "e78e2678_c90efdc3",
+      "range": {
+        "startLine": 1288,
+        "startChar": 69,
+        "endLine": 1288,
+        "endChar": 96
+      },
+      "revId": "0cf4d36e0be6891ec01c1be479c104bce253f102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

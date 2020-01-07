@@ -1,0 +1,232 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dffb901_bb8fdedc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "compared to `init`, maybe just pass down these in the html ? just add a few more attributes in `revert dialog`",
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7fffb07_f3b511a1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "if you have the revertType to differentiate different reverts, then just use `message` should be good enough",
+      "range": {
+        "startLine": 1157,
+        "startChar": 27,
+        "endLine": 1157,
+        "endChar": 52
+      },
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f368ba_d22666b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "same here, can just use `revert` or `revertId`",
+      "range": {
+        "startLine": 1160,
+        "startChar": 62,
+        "endLine": 1160,
+        "endChar": 79
+      },
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e5ff009_97917791",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "a good practice when using `switch` case is always add a `default`, you can just throw an error if it should never be called",
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4eb28008_cccf1ade",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "over 80",
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b76e511_51ac3deb",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "should not we have a different endpoint for revert submission ?",
+      "range": {
+        "startLine": 68,
+        "startChar": 9,
+        "endLine": 68,
+        "endChar": 30
+      },
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a958a29_bde9b548",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "over length ?",
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bee9de8a_4258f958",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "add a TODO to clean up these repeated definitions once we move to js modules",
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54a34641_f4489ffa",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "use `REVERT_TYPES.REVERT_SINGLE_CHANGE` instead",
+      "range": {
+        "startLine": 55,
+        "startChar": 17,
+        "endLine": 55,
+        "endChar": 18
+      },
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d43fb8c2_bb599e5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "just split this into two methods: `_computeIfSingleRevert` + `_computeIfSubmissionRevert`. we should try to avoid using any hardcoded keys or values from type definitions unless necessary",
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08ab1f60_506ab979",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "this and the `populateRevertSubmissionMessage` can be rewritten as an observer or computed for `message` right ? And you don\u0027t need the revertSingleChangeMessage at all, see comment before.",
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ec012db_e6e77f3f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T13:33:31Z",
+      "side": 1,
+      "message": "private ?",
+      "revId": "b8200e768ed6617feb4d17b94ddcaf0a8984a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

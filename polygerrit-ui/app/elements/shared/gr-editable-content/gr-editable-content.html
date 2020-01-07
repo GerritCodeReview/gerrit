@@ -41,9 +41,11 @@ limitations under the License.
         background-color: var(--view-background-color);
         width: 100%;
 
+        /* You have to also repeat everything from shared-styles here, because
+           you can only *replace* --iron-autogrow-textarea vars as a whole. */
         --iron-autogrow-textarea: {
-          padding: var(--spacing-m);
           box-sizing: border-box;
+          padding: var(--spacing-m);
           overflow-y: hidden;
           white-space: pre;
         };

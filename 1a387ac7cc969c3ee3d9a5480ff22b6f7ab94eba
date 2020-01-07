@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b0695cc_d1ef803d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T12:31:06Z",
+      "side": 1,
+      "message": "over 80 ?",
+      "revId": "1a387ac7cc969c3ee3d9a5480ff22b6f7ab94eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df69d6e1_3ebb52dd",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T12:31:06Z",
+      "side": 1,
+      "message": "no border ? `border: 1px solid var(--border-color);` seems exist in `--iron-autogrow-textarea` before",
+      "revId": "1a387ac7cc969c3ee3d9a5480ff22b6f7ab94eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

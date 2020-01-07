@@ -508,7 +508,13 @@ public class CreateChange
     }
 
     RevCommit sourceCommit = MergeUtil.resolveCommit(repo, rw, merge.source);
-    if (!commits.canRead(projectState, repo, sourceCommit)) {
+    if (merge.source_branch != null) {
+      // NOSUBMIT: findRef ?
+      Ref ref = repo.exactRef(merge.source_branch);
+      if (ref == null || !commits.canRead(projectState, repo, sourceCommit, ref)) {
+        throw new BadRequestException("do not have read permission for: " + merge.source);
+      }
+    } else if (!commits.canRead(projectState, repo, sourceCommit)) {
       throw new BadRequestException("do not have read permission for: " + merge.source);
     }
 

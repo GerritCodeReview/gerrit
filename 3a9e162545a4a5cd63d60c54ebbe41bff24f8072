@@ -47,6 +47,30 @@
       "revId": "3a9e162545a4a5cd63d60c54ebbe41bff24f8072",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d64a3b8_e82b2181",
+        "filename": "java/gerrit/PRED_change_branch_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-07T14:39:05Z",
+      "side": 1,
+      "message": "There is no complete agreement on mode indicators for predicate parameters in the Prolog community. IIRC, SWI-prolog is used in Gerrit build tool chain. See the reference in: [1], [2]. Should we then use \u0027+\u0027 indicator for input mode und \u0027-\u0027 for output mode?\n\n* ++\tArgument must be ground, i.e., the argument may not contain a variable anywhere.\n* +\tArgument must be fully instantiated to a term that satisfies the type. This is not necessarily ground, e.g., the term [_] is a list, although its only member is unbound.\n* -\tArgument is an output argument. Unless specified otherwise, output arguments need not to be unbound. For example, the goal findall(X, Goal, [T]) is good style and equivalent to findall(X, Goal, Xs), Xs \u003d [T]45 Note that the determinism specification, e.g., ``det\u0027\u0027 only applies if this argument is unbound.\n* --\tArgument must be unbound. Typically used by predicates that create `something\u0027 and return a handle to the created object, such as open/3 which creates a stream.\n* ?\tArgument must be bound to a partial term of the indicated type. Note that a variable is a partial term for any type. Think of the argument as either input or output or both input and output. For example, in stream_property(S, reposition(Bool)), the reposition part of the term is input and the uninstantiated Bool is output.\n\n\n* [1] https://www.swi-prolog.org/pldoc/man?section\u003dpreddesc\n* [2] https://stackoverflow.com/questions/4220651/question-mark-plus-minus-preceding-prolog-variable-names",
+      "parentUuid": "6af29523_30830645",
+      "range": {
+        "startLine": 33,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "3a9e162545a4a5cd63d60c54ebbe41bff24f8072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

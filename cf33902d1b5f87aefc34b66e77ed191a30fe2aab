@@ -23,6 +23,30 @@
       "revId": "cf33902d1b5f87aefc34b66e77ed191a30fe2aab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e622d957_ae9e805e",
+        "filename": "java/com/google/gerrit/server/schema/Schema_181.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-07T13:10:57Z",
+      "side": 1,
+      "message": "Good catch. Done in https://gerrit-review.googlesource.com/c/gerrit/+/249609",
+      "parentUuid": "2a97cd01_e6a02863",
+      "range": {
+        "startLine": 29,
+        "startChar": 24,
+        "endLine": 29,
+        "endChar": 28
+      },
+      "revId": "cf33902d1b5f87aefc34b66e77ed191a30fe2aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

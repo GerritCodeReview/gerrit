@@ -20,7 +20,7 @@ import org.eclipse.jgit.lib.Repository;
 public class Schema_181 implements NoteDbSchemaVersion {
   @Override
   public void upgrade(Arguments args, UpdateUI ui) throws Exception {
-    ui.message("Rebuild GPGP note map to build subkey to master key map");
+    ui.message("Rebuild GPG note map to build subkey to master key map");
     try (Repository repo = args.repoManager.openRepository(args.allUsers);
         PublicKeyStore store = new PublicKeyStore(repo)) {
       store.rebuildSubkeyMasterKeyMap();

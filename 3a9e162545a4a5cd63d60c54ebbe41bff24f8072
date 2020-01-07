@@ -71,6 +71,30 @@
       "revId": "3a9e162545a4a5cd63d60c54ebbe41bff24f8072",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c456dd50_f1fbf1a2",
+        "filename": "java/gerrit/PRED_change_branch_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-07T16:17:52Z",
+      "side": 1,
+      "message": "Thanks a lot for digging this up. \n\n\u003e Should we then use \u0027+\u0027 indicator for input mode und \u0027-\u0027 for output mode?\n\nMakes sense to me. But since I\u0027m  not knowing much about Prolog, I\u0027m still having trouble to understand which parameters are for input and which ones are for output. It seems to me that all parameters that are touched in this change are for output?",
+      "parentUuid": "9d64a3b8_e82b2181",
+      "range": {
+        "startLine": 33,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "3a9e162545a4a5cd63d60c54ebbe41bff24f8072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

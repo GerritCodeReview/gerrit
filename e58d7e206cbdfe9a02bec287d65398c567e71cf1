@@ -52,6 +52,24 @@
       "revId": "e58d7e206cbdfe9a02bec287d65398c567e71cf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce832dce_67cf6ade",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T12:00:52Z",
+      "side": 1,
+      "message": "also I am not sure should we show the `Page 1` if its only one page ?",
+      "parentUuid": "7462811c_970c8a74",
+      "revId": "e58d7e206cbdfe9a02bec287d65398c567e71cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -17,6 +17,24 @@
       "revId": "117b0e9ea86437a2f2aed7abf14aee253bdb8ab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9845060_28b0e82d",
+        "filename": "java/com/google/gerrit/server/index/account/IndexedAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-07T12:36:25Z",
+      "side": 1,
+      "message": "Done:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/249608",
+      "parentUuid": "6a46b2c0_296ffa94",
+      "revId": "117b0e9ea86437a2f2aed7abf14aee253bdb8ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

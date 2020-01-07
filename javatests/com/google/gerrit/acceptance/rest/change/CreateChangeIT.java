@@ -619,6 +619,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     gApi.projects().name(project.get()).branch(mergeTarget).create(branchInput);
 
+    // To create a merge commit, create two changes from the same parent,
+    // and submit them one after the other.
     PushOneCommit.Result result1 =
         pushFactory
             .create(
@@ -666,6 +668,28 @@ public class CreateChangeIT extends AbstractDaemonTest {
     in.subject = "propagate merge";
 
     gApi.changes().create(in);
+
+    // Succeeds with a visible branch
+    in.merge.sourceBranch = "refs/heads/master";
+    gApi.changes().create(in);
+
+    // Setup a new branch.
+    String invisibleRef = "refs/heads/invisible";
+    BranchInput invisibleInput = new BranchInput();
+    invisibleInput.revision = mergeRev;
+    invisibleInput.ref = invisibleRef;
+    gApi.projects().name(project.get()).branch(invisibleRef).create(invisibleInput);
+
+    // Make it invisible
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(READ).ref(invisibleRef).group(REGISTERED_USERS))
+        .update();
+
+    // Now it fails.
+    in.merge.sourceBranch = invisibleRef;
+    assertThrows(BadRequestException.class, () -> gApi.changes().create(in));
   }
 
   private ChangeInput newChangeInput(ChangeStatus status) {

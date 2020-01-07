@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "35cebe3b_6e5e9a23",
+        "filename": "java/com/google/gerrit/acceptance/UseLocalDisk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-07T13:34:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfda0e88_8c6ed7d5",
+      "range": {
+        "startLine": 29,
+        "startChar": 83,
+        "endLine": 30,
+        "endChar": 56
+      },
+      "revId": "25cfd90be149c36dc3c8acc26b31343f5cb5a502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "205fd62c_a3937bdb",
         "filename": "java/com/google/gerrit/acceptance/UseSsh.java",
         "patchSetId": 3
@@ -46,6 +70,30 @@
       "revId": "25cfd90be149c36dc3c8acc26b31343f5cb5a502",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc292987_0a80ee19",
+        "filename": "java/com/google/gerrit/acceptance/UseSsh.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-07T13:34:13Z",
+      "side": 1,
+      "message": "This is about executing the tests, and for executing the tests the default is to include SSH tests, isn\u0027t it?\n\n\u003e The SSH is not used unless @UseSsh annotation is used.\n\nThat\u0027s a good addition, added it.",
+      "parentUuid": "205fd62c_a3937bdb",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "25cfd90be149c36dc3c8acc26b31343f5cb5a502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

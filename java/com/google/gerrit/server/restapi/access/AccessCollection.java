@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+/** REST collection that serves requests to {@code /access/}. */
 @Singleton
 public class AccessCollection implements RestCollection<TopLevelResource, AccessResource> {
   private final Provider<ListAccess> list;

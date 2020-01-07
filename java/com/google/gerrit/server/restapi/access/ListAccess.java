@@ -27,6 +27,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import org.kohsuke.args4j.Option;
 
+/**
+ * REST endpoint to list members of the {@link AccessCollection}.
+ *
+ * <p>This REST endpoint handles {@code GET /access/} requests.
+ */
 public class ListAccess implements RestReadView<TopLevelResource> {
 
   @Option(

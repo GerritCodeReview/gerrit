@@ -18,6 +18,13 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
+/**
+ * REST resource that represents members in {@link AccessCollection}.
+ *
+ * <p>{@link AccessCollection} doesn't support accessing single members, hence this class only
+ * defines the {@link TypeLiteral} for the resource kind that is needed for binding the REST
+ * collection.
+ */
 public class AccessResource implements RestResource {
   public static final TypeLiteral<RestView<AccessResource>> ACCESS_KIND =
       new TypeLiteral<RestView<AccessResource>>() {};

@@ -24,6 +24,12 @@ public class MergeInput {
   public String source;
 
   /**
+   * If specified, visibility of the {@code source} commit will only be checked against {@code
+   * source_branch}, rather than all visible branches.
+   */
+  public String sourceBranch;
+
+  /**
    * {@code strategy} name of the merge strategy.
    *
    * @see org.eclipse.jgit.merge.MergeStrategy

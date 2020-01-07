@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -108,6 +109,14 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   @Override
   public DynamicMap<RestView<CommitResource>> views() {
     return views;
+  }
+
+  /**
+   * @return true if {@code commit} is visible to the caller and {@code commit} is reachable from
+   *     the given branch.
+   */
+  public boolean canRead(ProjectState state, Repository repo, RevCommit commit, Ref ref) {
+    return reachable.fromRefs(state.getNameKey(), repo, commit, ImmutableList.of(ref));
   }
 
   /** @return true if {@code commit} is visible to the caller. */

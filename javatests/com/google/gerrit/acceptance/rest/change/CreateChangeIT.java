@@ -619,6 +619,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     gApi.projects().name(project.get()).branch(mergeTarget).create(branchInput);
 
+    // To create a merge commit, create two changes from the same parent,
+    // and submit them one after the other.
     PushOneCommit.Result result1 =
         pushFactory
             .create(
@@ -666,6 +668,39 @@ public class CreateChangeIT extends AbstractDaemonTest {
     in.subject = "propagate merge";
 
     gApi.changes().create(in);
+  }
+
+  @Test
+  public void createChangeWithSourceBranch() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+
+    // create a merge change from branchA to master in gerrit
+    ChangeInput in = new ChangeInput();
+    in.project = project.get();
+    in.branch = "branchA";
+    in.subject = "message";
+    in.status = ChangeStatus.NEW;
+    MergeInput mergeInput = new MergeInput();
+
+    String mergeRev = gApi.projects().name(project.get()).branch("branchB").get().revision;
+    mergeInput.source = mergeRev;
+    in.merge = mergeInput;
+
+    assertCreateSucceeds(in);
+
+    // Succeeds with a visible branch
+    in.merge.sourceBranch = "refs/heads/branchB";
+    gApi.changes().create(in);
+
+    // Make it invisible
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(READ).ref(in.merge.sourceBranch).group(REGISTERED_USERS))
+        .update();
+
+    // Now it fails.
+    assertThrows(BadRequestException.class, () -> gApi.changes().create(in));
   }
 
   private ChangeInput newChangeInput(ChangeStatus status) {

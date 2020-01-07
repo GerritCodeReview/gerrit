@@ -34,6 +34,24 @@
       "revId": "e58d7e206cbdfe9a02bec287d65398c567e71cf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7462811c_970c8a74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-07T11:59:51Z",
+      "side": 1,
+      "message": "hmm as the `offset` is retrieved from the URL param, so it can be modified by the user with arbitrary number, even something not a number. But handle cases like that maybe out of this change\u0027s scope, can you add a TODO here to mention this ? thx",
+      "parentUuid": "674a7a00_b238a712",
+      "revId": "e58d7e206cbdfe9a02bec287d65398c567e71cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

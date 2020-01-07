@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Wrapper around {@link Predicate}s that is returned by the {@link
+ * Wrapper around {@link Predicate}s that are returned by the {@link
  * com.google.gerrit.index.IndexRewriter}. See {@link IndexedQuery}.
  */
 public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, InternalGroup>

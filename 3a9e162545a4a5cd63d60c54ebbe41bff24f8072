@@ -95,6 +95,30 @@
       "revId": "3a9e162545a4a5cd63d60c54ebbe41bff24f8072",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d279bad_d07a538f",
+        "filename": "java/gerrit/PRED_change_branch_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-07T16:37:53Z",
+      "side": 1,
+      "message": "\u003e It seems to me that all parameters that are touched in this change are for output?\n\nRight.",
+      "parentUuid": "c456dd50_f1fbf1a2",
+      "range": {
+        "startLine": 33,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "3a9e162545a4a5cd63d60c54ebbe41bff24f8072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "5b823100cd0ca1463784635742dcbe173abdef6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b6cb6df_c0b9b6d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T16:24:20Z",
+      "side": 1,
+      "message": "I don\u0027t think clients rely on the text status, but use only the integer status code. I had the same thought as David and had to go to the HTTP spec to see if there is actually a dedicated status code for lock failures (there isn\u0027t).\n\nBut in any case, being more consistent seems good!",
+      "parentUuid": "d0014ae7_15fd79d2",
+      "revId": "5b823100cd0ca1463784635742dcbe173abdef6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

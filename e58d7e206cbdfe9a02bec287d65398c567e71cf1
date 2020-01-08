@@ -70,6 +70,24 @@
       "revId": "e58d7e206cbdfe9a02bec287d65398c567e71cf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16d83898_ad9ef1d9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-08T18:55:24Z",
+      "side": 1,
+      "message": "I guess it\u0027s simple to just say \"Page 1\" rather then \"\" then \"Page 2\" and so on. (by that i mean it won\u0027t confuse users :))\n\nThanks, done!",
+      "parentUuid": "ce832dce_67cf6ade",
+      "revId": "e58d7e206cbdfe9a02bec287d65398c567e71cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

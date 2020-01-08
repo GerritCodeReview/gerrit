@@ -30,6 +30,20 @@ import com.googlecode.prolog_cafe.lang.Term;
 import java.io.IOException;
 import org.eclipse.jgit.lib.PersonIdent;
 
+/**
+ * Abstract Prolog predicate for a Git person identity of a change.
+ *
+ * <p>Checks that the terms that are provided as input to this Prolog predicate match a Git person
+ * identity of the change (either author or committer).
+ *
+ * <p>The terms that are provided as input to this Prolog predicate are:
+ *
+ * <ul>
+ *   <li>a user ID term that matches the account ID of the Git person identity
+ *   <li>a string atom that matches the full name of the Git person identity
+ *   <li>a string atom that matches the email of the Git person identity
+ * </ul>
+ */
 abstract class AbstractCommitUserIdentityPredicate extends Predicate.P3 {
   private static final SymbolTerm user = SymbolTerm.intern("user", 1);
   private static final SymbolTerm anonymous = SymbolTerm.intern("anonymous");

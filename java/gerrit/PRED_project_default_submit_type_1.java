@@ -24,6 +24,16 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
+/**
+ * Prolog predicate for the default submit type of the project of a change.
+ *
+ * <p>Checks that the term that is provided as input to this Prolog predicate is a string atom that
+ * matches the default submit type of the change's project.
+ *
+ * <pre>
+ *   'project_default_submit_type'(-SubmitType)
+ * </pre>
+ */
 public class PRED_project_default_submit_type_1 extends Predicate.P1 {
 
   private static final SymbolTerm[] term;

@@ -24,7 +24,10 @@ import com.googlecode.prolog_cafe.lang.Term;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
- * Returns the commit message as a symbol
+ * Prolog predicate for the commit message of a change.
+ *
+ * <p>Checks that the term that is provided as input to this Prolog predicate is a string atom that
+ * matches the commit message of the change.
  *
  * <pre>
  *   'commit_message'(-Msg)

@@ -79,9 +79,9 @@
       if (response.status < 200 || response.status >= 300) {
         return response.text().then(text => {
           if (text) {
-            return Promise.reject(text);
+            return Promise.reject(new Error(text));
           } else {
-            return Promise.reject(response.status);
+            return Promise.reject(new Error(response.status));
           }
         });
       } else {

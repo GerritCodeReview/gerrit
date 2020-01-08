@@ -31,9 +31,9 @@ import org.eclipse.jgit.lib.Config;
 public class Schema_127 extends SchemaVersion {
   private static final int MAX_BATCH_SIZE = 1000;
 
-  private final SitePaths sitePaths;
-  private final Config cfg;
-  private final ThreadSettingsConfig threadSettingsConfig;
+  private static SitePaths sitePaths;
+  private static Config cfg;
+  private static ThreadSettingsConfig threadSettingsConfig;
 
   @Inject
   Schema_127(
@@ -48,40 +48,70 @@ public class Schema_127 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    JdbcAccountPatchReviewStore jdbcAccountPatchReviewStore =
-        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(
-            cfg, sitePaths, threadSettingsConfig);
-    jdbcAccountPatchReviewStore.dropTableIfExists();
-    jdbcAccountPatchReviewStore.createTableIfNotExists();
-    try (Connection con = jdbcAccountPatchReviewStore.getConnection();
-        PreparedStatement stmt =
-            con.prepareStatement(
-                "INSERT INTO account_patch_reviews "
-                    + "(account_id, change_id, patch_set_id, file_name) VALUES "
-                    + "(?, ?, ?, ?)")) {
-      int batchCount = 0;
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    ParallelSqlTasksUtil.run(db, Migrator.class, JdbcUtil.getLastChange(db));
+  }
 
-      try (Statement s = newStatement(db);
-          ResultSet rs = s.executeQuery("SELECT * from account_patch_reviews")) {
-        while (rs.next()) {
-          stmt.setInt(1, rs.getInt("account_id"));
-          stmt.setInt(2, rs.getInt("change_id"));
-          stmt.setInt(3, rs.getInt("patch_set_id"));
-          stmt.setString(4, rs.getString("file_name"));
-          stmt.addBatch();
-          batchCount++;
-          if (batchCount >= MAX_BATCH_SIZE) {
-            stmt.executeBatch();
-            batchCount = 0;
+  public static class Migrator implements Runnable {
+    protected ReviewDb db;
+    protected int start;
+    protected int end;
+
+    public Migrator(ReviewDb db, int start, int end) {
+      this.db = db;
+      this.start = start;
+      this.end = end;
+    }
+
+    @Override
+    public void run() {
+      try {
+        migrateData();
+      } catch (OrmException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
+    public void migrateData() throws OrmException {
+      JdbcAccountPatchReviewStore jdbcAccountPatchReviewStore =
+          JdbcAccountPatchReviewStore.createAccountPatchReviewStore(
+              cfg, sitePaths, threadSettingsConfig);
+      jdbcAccountPatchReviewStore.dropTableIfExists();
+      jdbcAccountPatchReviewStore.createTableIfNotExists();
+      try (Connection con = jdbcAccountPatchReviewStore.getConnection();
+          PreparedStatement stmt =
+              con.prepareStatement(
+                  "INSERT INTO account_patch_reviews "
+                      + "(account_id, change_id, patch_set_id, file_name) VALUES "
+                      + "(?, ?, ?, ?)")) {
+        int batchCount = 0;
+
+        try (Statement s = newStatement(db);
+            ResultSet rs =
+                s.executeQuery(
+                    "SELECT * from account_patch_reviews WHERE change_id >= "
+                        + start
+                        + " and change_id <= "
+                        + end)) {
+          while (rs.next()) {
+            stmt.setInt(1, rs.getInt("account_id"));
+            stmt.setInt(2, rs.getInt("change_id"));
+            stmt.setInt(3, rs.getInt("patch_set_id"));
+            stmt.setString(4, rs.getString("file_name"));
+            stmt.addBatch();
+            batchCount++;
+            if (batchCount >= MAX_BATCH_SIZE) {
+              stmt.executeBatch();
+              batchCount = 0;
+            }
           }
         }
+        if (batchCount > 0) {
+          stmt.executeBatch();
+        }
+      } catch (SQLException e) {
+        throw jdbcAccountPatchReviewStore.convertError("insert", e);
       }
-      if (batchCount > 0) {
-        stmt.executeBatch();
-      }
-    } catch (SQLException e) {
-      throw jdbcAccountPatchReviewStore.convertError("insert", e);
     }
   }
 }

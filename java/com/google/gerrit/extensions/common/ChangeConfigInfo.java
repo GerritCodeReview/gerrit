@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+/** API response containing values from the {@code change} section of {@code gerrit.config}. */
 public class ChangeConfigInfo {
   public Boolean allowBlame;
   public Boolean showAssigneeInChangesTable;

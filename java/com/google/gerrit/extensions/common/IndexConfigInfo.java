@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+/** API response containing values from the {@code index} section of {@code gerrit.config}. */
 public class IndexConfigInfo {
   public ChangeIndexConfigInfo change;
 }

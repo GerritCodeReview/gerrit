@@ -130,6 +130,9 @@ public class IndexHtmlUtil {
     if (urlParameterMap.containsKey("sc")) {
       data.put("polyfillSC", "true");
     }
+    if (urlParameterMap.containsKey("gf")) {
+      data.put("useGoogleFonts", "true");
+    }
     return data.build();
   }
 

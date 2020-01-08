@@ -64,15 +64,29 @@
       };
     }
 
+    constructor() {
+      super();
+
+      /** @type {!Gerrit.Auth} */
+      this._authService = Gerrit.Auth;
+
+      /** @type {?Function} */
+      this._authErrorHandlerDeregistrationHook;
+    }
+
     attached() {
       super.attached();
       this.listen(document, 'server-error', '_handleServerError');
       this.listen(document, 'network-error', '_handleNetworkError');
-      this.listen(document, 'auth-error', '_handleAuthError');
       this.listen(document, 'show-alert', '_handleShowAlert');
       this.listen(document, 'show-error', '_handleShowErrorDialog');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
       this.listen(document, 'show-auth-required', '_handleAuthRequired');
+
+      this._authErrorHandlerDeregistrationHook = Gerrit.on('auth-error',
+          event => {
+            this._handleAuthError(event.message, event.action);
+          });
     }
 
     detached() {
@@ -80,10 +94,11 @@
       this._clearHideAlertHandle();
       this.unlisten(document, 'server-error', '_handleServerError');
       this.unlisten(document, 'network-error', '_handleNetworkError');
-      this.unlisten(document, 'auth-error', '_handleAuthError');
       this.unlisten(document, 'show-auth-required', '_handleAuthRequired');
       this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
       this.unlisten(document, 'show-error', '_handleShowErrorDialog');
+
+      this._authErrorHandlerDeregistrationHook();
     }
 
     _shouldSuppressError(msg) {
@@ -95,32 +110,41 @@
           'Log in is required to perform that action.', 'Log in.');
     }
 
-    _handleAuthError() {
-      this._showAuthErrorAlert('Auth error', 'Refresh credentials.');
+    _handleAuthError(msg, action) {
+      this.$.noOpOverlay.open().then(() => {
+        this._showAuthErrorAlert(msg, action);
+      });
     }
 
     _handleServerError(e) {
       const {request, response} = e.detail;
-      Promise.all([response.text(), this._getLoggedIn()])
-          .then(([errorText, loggedIn]) => {
-            const url = request && (request.anonymizedUrl || request.url);
-            const {status, statusText} = response;
-            if (response.status === 403 &&
-                loggedIn &&
-                errorText === AUTHENTICATION_REQUIRED) {
-              // The app was logged at one point and is now getting auth errors.
-              // This indicates the auth token is no longer valid.
-              this._handleAuthError();
-            } else if (!this._shouldSuppressError(errorText)) {
-              this._showErrorDialog(this._constructServerErrorMsg({
-                status,
-                statusText,
-                errorText,
-                url,
-              }));
-            }
-            console.error(errorText);
-          });
+      response.text().then(errorText => {
+        const url = request && (request.anonymizedUrl || request.url);
+        const {status, statusText} = response;
+        if (response.status === 403
+                && !this._authService.isAuthed
+                && errorText === AUTHENTICATION_REQUIRED) {
+          // if not authed previously, this is trying to access auth required APIs
+          // show auth required alert
+          this._handleAuthRequired();
+        } else if (response.status === 403
+                && this._authService.isAuthed
+                && errorText === AUTHENTICATION_REQUIRED) {
+          // The app was logged at one point and is now getting auth errors.
+          // This indicates the auth token may no longer valid.
+          // Re-check on auth
+          this._authService.clearCache();
+          this.$.restAPI.getLoggedIn();
+        } else if (!this._shouldSuppressError(errorText)) {
+          this._showErrorDialog(this._constructServerErrorMsg({
+            status,
+            statusText,
+            errorText,
+            url,
+          }));
+        }
+        console.log(`server error: ${errorText}`);
+      });
     }
 
     _constructServerErrorMsg({errorText, status, statusText, url}) {
@@ -140,10 +164,6 @@
     _handleNetworkError(e) {
       this._showAlert('Server unavailable');
       console.error(e.detail.error.message);
-    }
-
-    _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
     }
 
     /**
@@ -222,7 +242,11 @@
           this.knownAccountId !== undefined &&
           timeSinceLastCheck > STALE_CREDENTIAL_THRESHOLD_MS) {
         this._lastCredentialCheck = Date.now();
-        this.$.restAPI.checkCredentials();
+
+        // check auth status in case:
+        // - user signed out
+        // - user switched account
+        this._checkSignedIn();
       }
     }
 
@@ -232,22 +256,36 @@
     }
 
     _checkSignedIn() {
-      this.$.restAPI.checkCredentials().then(account => {
-        const isLoggedIn = !!account;
-        this._lastCredentialCheck = Date.now();
-        if (this._refreshingCredentials) {
-          if (isLoggedIn) {
-            // If the credentials were refreshed but the account is different
-            // then reload the page completely.
-            if (account._account_id !== this.knownAccountId) {
-              this._reloadPage();
-              return;
-            }
+      this._lastCredentialCheck = Date.now();
 
-            this._handleCredentialRefreshed();
-          } else {
-            this._requestCheckLoggedIn();
-          }
+      // force to refetch account info
+      this.$.restAPI.invalidateAccountsCache();
+      this._authService.clearCache();
+
+      this.$.restAPI.getLoggedIn().then(isLoggedIn => {
+        // do nothing if its refreshing
+        if (!this._refreshingCredentials) return;
+
+        if (!isLoggedIn) {
+          // check later
+          // 1. guest mode
+          // 2. or signed out
+          // in case #2, auth-error is taken care of separately
+          this._requestCheckLoggedIn();
+        } else {
+          // check account
+          this.$.restAPI.getAccount().then(account => {
+            if (this._refreshingCredentials) {
+              // If the credentials were refreshed but the account is different
+              // then reload the page completely.
+              if (account._account_id !== this.knownAccountId) {
+                this._reloadPage();
+                return;
+              }
+
+              this._handleCredentialRefreshed();
+            }
+          });
         }
       });
     }
@@ -277,6 +315,10 @@
       this._refreshingCredentials = false;
       this._hideAlert();
       this._showAlert('Credentials refreshed.');
+      this.$.noOpOverlay.close();
+
+      // Clear the cache for auth
+      this._authService.clearCache();
     }
 
     _handleWindowFocus() {

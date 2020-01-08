@@ -368,10 +368,16 @@ public class ReplaceOp implements BatchUpdateOp {
         Streams.concat(
             Streams.stream(
                 newAddReviewerInputFromCommitIdentity(
-                    change, psInfo.getAuthor().getAccount(), NotifyHandling.NONE)),
+                    change,
+                    psInfo.getCommitId(),
+                    psInfo.getAuthor().getAccount(),
+                    NotifyHandling.NONE)),
             Streams.stream(
                 newAddReviewerInputFromCommitIdentity(
-                    change, psInfo.getCommitter().getAccount(), NotifyHandling.NONE)));
+                    change,
+                    psInfo.getCommitId(),
+                    psInfo.getCommitter().getAccount(),
+                    NotifyHandling.NONE)));
     if (magicBranch != null) {
       inputs =
           Streams.concat(

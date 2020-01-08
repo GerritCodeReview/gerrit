@@ -81,6 +81,7 @@ import java.util.Set;
 import java.util.function.Function;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class ReviewerAdder {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -125,11 +126,15 @@ public class ReviewerAdder {
   }
 
   public static Optional<InternalAddReviewerInput> newAddReviewerInputFromCommitIdentity(
-      Change change, @Nullable Account.Id accountId, NotifyHandling notify) {
+      Change change, ObjectId commitId, @Nullable Account.Id accountId, NotifyHandling notify) {
     if (accountId == null || accountId.equals(change.getOwner())) {
       // If git ident couldn't be resolved to a user, or if it's not forged, do nothing.
       return Optional.empty();
     }
+
+    logger.atFine().log(
+        "Adding account %d from author/committer identity of commit %s as reviewer to change %d",
+        accountId.get(), commitId.name(), change.getChangeId());
 
     InternalAddReviewerInput in = new InternalAddReviewerInput();
     in.reviewer = accountId.toString();

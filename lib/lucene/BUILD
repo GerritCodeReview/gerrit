@@ -3,15 +3,21 @@ load("//tools/bzl:maven.bzl", "merge_maven_jars")
 
 package(default_visibility = ["//visibility:public"])
 
-# core and backward-codecs both provide
-# META-INF/services/org.apache.lucene.codecs.Codec, so they must be merged.
-merge_maven_jars(
+# merge jars so there is only one
+# META-INF/services/org.apache.lucene.codecs.Codec
+java_library(
     name = "lucene-core-and-backward-codecs",
-    srcs = [
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = [
+        # Backward codecs should come before lucene-core. We want
+        # backward-codecs to take precedence so schema upgrades can read data
+        # from older Lucene versions.
         "@backward-codecs//jar",
+
+        # The comments here and above is an extra safeguard to ensure that
+        # buildifier will not reorder these entries.
         "@lucene-core//jar",
     ],
-    data = ["//lib:LICENSE-Apache2.0"],
 )
 
 java_library(

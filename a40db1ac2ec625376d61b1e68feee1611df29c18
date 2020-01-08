@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6bc3b69_85460768",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4791,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T16:17:29Z",
+      "side": 1,
+      "message": "go over is `suggest.relevantChanges`",
+      "range": {
+        "startLine": 4791,
+        "startChar": 32,
+        "endLine": 4791,
+        "endChar": 37
+      },
+      "revId": "a40db1ac2ec625376d61b1e68feee1611df29c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65984fcb_b30413ed",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4793,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T16:17:29Z",
+      "side": 1,
+      "message": "Please explain that this number is a trade-off between speed (low number) and accuracy (high number).",
+      "revId": "a40db1ac2ec625376d61b1e68feee1611df29c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0f12510_0759757f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T16:17:29Z",
+      "side": 1,
+      "message": "nit: number",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 204,
+        "endChar": 14
+      },
+      "revId": "a40db1ac2ec625376d61b1e68feee1611df29c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

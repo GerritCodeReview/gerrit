@@ -46,6 +46,30 @@
       "revId": "1e3180309fb4cfdd3790415cb5aa83bc104c2c8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "253b0e9d_f91eb7d6",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-08T18:16:06Z",
+      "side": 1,
+      "message": "Yes, we should do a global sanitization of the docs. Using \u0027bazel\u0027 command directly, you should first verify the version that is supported on the specific commit you are building and installing that one manually. Then, when you switch commit/branch, do that again manually.\n\nThat\u0027s why we started suggesting using bazelisk instead, that does that automatically.",
+      "parentUuid": "65ed215f_dc4bb9f5",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "1e3180309fb4cfdd3790415cb5aa83bc104c2c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

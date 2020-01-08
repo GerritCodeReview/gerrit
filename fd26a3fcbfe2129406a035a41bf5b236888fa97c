@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f851c6a0_29b0198c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-08T00:29:54Z",
+      "side": 1,
+      "message": "I still don\u0027t think this makes sense as a message if someone entered \"I23423907890460349063480\". Perhaps you are making the assumption that if the code reaches this point that the user intended to specify a patchset? I don\u0027t believe that would hold true since they may have intended to only enter a change number, but included a letter in the number by accident and I think they would still end up here in the code?",
+      "range": {
+        "startLine": 1291,
+        "startChar": 18,
+        "endLine": 1291,
+        "endChar": 20
+      },
+      "revId": "fd26a3fcbfe2129406a035a41bf5b236888fa97c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.Test;
 
 public class IndexHtmlUtilTest {
@@ -68,6 +69,20 @@ public class IndexHtmlUtilTest {
                 IndexHtmlUtilTest::ordain))
         .containsExactly(
             "canonicalPath", "/gerrit", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));
+  }
+
+  @Test
+  public void useGoogleFonts() throws Exception {
+    Map<String, String[]> urlParms = new HashMap<>();
+    urlParms.put("gf", "true");
+    assertThat(
+            staticTemplateData(
+                "http://example.com/gerrit",
+                null,
+                null,
+                urlParms,
+                IndexHtmlUtilTest::ordain))
+        .containsExactly("useGoogleFonts", "true");
   }
 
   private static SanitizedContent ordain(String s) {

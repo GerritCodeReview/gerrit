@@ -31,3 +31,6 @@
 /tools/format
 /.vscode
 /.ijwb
+node_modules
+plugins
+package-lock.json

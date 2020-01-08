@@ -22,6 +22,30 @@
       "revId": "1e3180309fb4cfdd3790415cb5aa83bc104c2c8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65ed215f_dc4bb9f5",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-01-08T18:05:16Z",
+      "side": 1,
+      "message": "bazelisk is just mentioned in l.26 - I didn\u0027t know this is now the recommended approach, and this doc doesn\u0027t reflect it.",
+      "parentUuid": "e83d95cc_ab20ec53",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "1e3180309fb4cfdd3790415cb5aa83bc104c2c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

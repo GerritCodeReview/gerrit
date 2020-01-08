@@ -14,8 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// test
 (function() {
   'use strict';
+  window.Gerrit = window.Gerrit || {};
 
   // eslint-disable-next-line no-unused-vars
   const QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
@@ -41,7 +44,13 @@
 
     ready() {
       if (this.noTrailingMargin) {
-        this.classList.add('noTrailingMargin');
+        this.classList.add('noTrailingMargin'); 
+      }
+      
+      if (Gerrit.on) {
+        Gerrit.on('plugin-format-added', () => {
+          this._contentOrConfigChanged(this.content) ;
+        });
       }
     },
 

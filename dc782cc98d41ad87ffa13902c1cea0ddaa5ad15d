@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e11fd937_dc447146",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-08T13:49:48Z",
+      "side": 1,
+      "message": "are created",
+      "range": {
+        "startLine": 16,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7c76afb_07caf3fc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6833,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-08T13:49:48Z",
+      "side": 1,
+      "message": "This is the column which should contain the \u0027optional\u0027 string.",
+      "range": {
+        "startLine": 6833,
+        "startChar": 19,
+        "endLine": 6833,
+        "endChar": 20
+      },
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84c297c2_7ea03251",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6835,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-08T13:49:48Z",
+      "side": 1,
+      "message": "Mention that setting the source branch results in better performance?",
+      "range": {
+        "startLine": 6835,
+        "startChar": 70,
+        "endLine": 6835,
+        "endChar": 76
+      },
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31bf6d08_acc322db",
+        "filename": "java/com/google/gerrit/extensions/common/MergeInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-08T13:49:48Z",
+      "side": 1,
+      "message": "Should be camelCase here.",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb7ff015_69d2ed73",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-08T13:49:48Z",
+      "side": 1,
+      "message": "Can you please add a debug log that writes the given source branch into traces?",
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b339d5_1d6c53a8",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-08T13:49:48Z",
+      "side": 1,
+      "message": "remove this? using exactRef should be fine, if you handle the refs/heads/ prefix as suggested below.",
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c0ea2c1_644b99d6",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-08T13:49:48Z",
+      "side": 1,
+      "message": "Add refs/heads/ if merge.source_branch doesn\u0027t start with this prefix. Maybe then also mention in the documentation that this prefix can be omitted.",
+      "range": {
+        "startLine": 513,
+        "startChar": 30,
+        "endLine": 513,
+        "endChar": 49
+      },
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b9b871a_252bc0ba",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-08T13:49:48Z",
+      "side": 1,
+      "message": "Should that be a separate test?",
+      "range": {
+        "startLine": 676,
+        "startChar": 4,
+        "endLine": 692,
+        "endChar": 77
+      },
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -56,3 +56,6 @@
 	path = plugins/webhooks
 	url = ../plugins/webhooks
 	branch = .
+[submodule "polymer-bridges"]
+	path = polymer-bridges
+	url = https://gerrit.googlesource.com/polymer-bridges

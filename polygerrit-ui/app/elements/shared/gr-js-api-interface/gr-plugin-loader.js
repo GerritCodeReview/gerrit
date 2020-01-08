@@ -408,7 +408,7 @@
             new Promise(resolve => this._loadingResolver = resolve),
             new Promise((_, reject) => timerId = setTimeout(
                 () => {
-                  reject(this._timeout());
+                  reject(new Error(this._timeout()));
                 }, PLUGIN_LOADING_TIMEOUT_MS)),
           ]).then(() => {
             if (timerId) clearTimeout(timerId);

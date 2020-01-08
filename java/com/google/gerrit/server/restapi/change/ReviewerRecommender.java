@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -202,23 +201,24 @@ public class ReviewerRecommender {
   private Map<Account.Id, MutableDouble> baseRanking(
       double baseWeight, String query, List<Account.Id> candidateList)
       throws IOException, ConfigInvalidException {
-    // Get the user's last 25 changes, check approvals
+    // Get the user's last 25 changes, check reviewers
     try {
       List<ChangeData> result =
           queryProvider
               .get()
               .setLimit(25)
-              .setRequestedFields(ChangeField.APPROVAL)
+              .setRequestedFields(ChangeField.REVIEWER)
               .query(changeQueryBuilder.owner("self"));
       Map<Account.Id, MutableDouble> suggestions = new LinkedHashMap<>();
       // Put those candidates at the bottom of the list
       candidateList.stream().forEach(id -> suggestions.put(id, new MutableDouble(0)));
 
       for (ChangeData cd : result) {
-        for (PatchSetApproval approval : cd.currentApprovals()) {
-          Account.Id id = approval.accountId();
-          if (Strings.isNullOrEmpty(query) || accountMatchesQuery(id, query)) {
-            suggestions.computeIfAbsent(id, (ignored) -> new MutableDouble(0)).add(baseWeight);
+        for (Account.Id reviewer : cd.reviewers().all()) {
+          if (Strings.isNullOrEmpty(query) || accountMatchesQuery(reviewer, query)) {
+            suggestions
+                .computeIfAbsent(reviewer, (ignored) -> new MutableDouble(0))
+                .add(baseWeight);
           }
         }
       }

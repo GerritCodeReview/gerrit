@@ -39,7 +39,6 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -397,19 +396,13 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user1.id());
     String changeId1 = createChangeFromApi();
 
-    requestScopeOperations.setApiUser(reviewer1.id());
-    reviewChange(changeId1);
+    reviewChange(changeId1, reviewer1);
 
-    requestScopeOperations.setApiUser(user1.id());
     String changeId2 = createChangeFromApi();
 
-    requestScopeOperations.setApiUser(reviewer1.id());
-    reviewChange(changeId2);
+    reviewChange(changeId2, reviewer1);
+    reviewChange(changeId2, reviewer2);
 
-    requestScopeOperations.setApiUser(reviewer2.id());
-    reviewChange(changeId2);
-
-    requestScopeOperations.setApiUser(user1.id());
     String changeId3 = createChangeFromApi();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId3, null, 4);
     assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
@@ -440,13 +433,11 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     String name = name("foo");
     TestAccount foo1 = accountCreator.create(name + "-1");
-    requestScopeOperations.setApiUser(foo1.id());
-    reviewChange(changeIdReviewed);
+    reviewChange(changeIdReviewed, foo1);
     assertThat(gApi.accounts().id(foo1.username()).getActive()).isTrue();
 
     TestAccount foo2 = accountCreator.create(name + "-2");
-    requestScopeOperations.setApiUser(foo2.id());
-    reviewChange(changeIdReviewed);
+    reviewChange(changeIdReviewed, foo2);
     assertThat(gApi.accounts().id(foo2.username()).getActive()).isTrue();
 
     assertReviewers(
@@ -466,12 +457,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     String name = name("foo");
     TestAccount foo1 = accountCreator.create(name + "-1");
-    requestScopeOperations.setApiUser(foo1.id());
-    reviewChange(changeIdReviewed);
+    reviewChange(changeIdReviewed, foo1);
 
     TestAccount foo2 = accountCreator.create(name + "-2");
-    requestScopeOperations.setApiUser(foo2.id());
-    reviewChange(changeIdReviewed);
+    reviewChange(changeIdReviewed, foo2);
 
     assertReviewers(
         suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
@@ -488,12 +477,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     String name = name("foo");
     TestAccount foo1 = accountCreator.create(name + "-1");
-    requestScopeOperations.setApiUser(foo1.id());
-    reviewChange(changeIdReviewed);
+    reviewChange(changeIdReviewed, foo1);
 
     TestAccount foo2 = accountCreator.create(name + "-2");
-    requestScopeOperations.setApiUser(foo2.id());
-    reviewChange(changeIdReviewed);
+    reviewChange(changeIdReviewed, foo2);
 
     assertReviewers(
         suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
@@ -514,12 +501,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     String name = name("foo");
     TestAccount foo1 = accountCreator.create(name + "-1");
-    requestScopeOperations.setApiUser(foo1.id());
-    reviewChange(changeIdReviewed);
+    reviewChange(changeIdReviewed, foo1);
 
     TestAccount foo2 = accountCreator.create(name + "-2");
-    requestScopeOperations.setApiUser(foo2.id());
-    reviewChange(changeIdReviewed);
+    reviewChange(changeIdReviewed, foo2);
 
     assertReviewers(suggestCcs(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
 
@@ -575,8 +560,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String changeIdReviewed = createChangeFromApi();
 
     TestAccount reviewer = accountCreator.create("newReviewer");
-    requestScopeOperations.setApiUser(reviewer.id());
-    reviewChange(changeIdReviewed);
+    reviewChange(changeIdReviewed, reviewer);
 
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "new", 4);
     assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
@@ -624,10 +608,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     return user(name, fullName, name);
   }
 
-  private void reviewChange(String changeId) throws RestApiException {
-    ReviewInput ri = new ReviewInput();
-    ri.label("Code-Review", 1);
-    gApi.changes().id(changeId).current().review(ri);
+  private void reviewChange(String changeId, TestAccount reviewer) throws RestApiException {
+    gApi.changes().id(changeId).addReviewer(reviewer.id().toString());
   }
 
   private String createChangeFromApi() throws RestApiException {

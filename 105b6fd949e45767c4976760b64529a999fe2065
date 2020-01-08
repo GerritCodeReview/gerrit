@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7350130c_e07af15c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-08T10:03:05Z",
+      "side": 1,
+      "message": "my guess of the test errors may be caused by this. You may need a\n\n`window.Gerrit \u003d window.Gerrit || {};` to make `Gerrit` available. Maybe try add that ?",
+      "revId": "105b6fd949e45767c4976760b64529a999fe2065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

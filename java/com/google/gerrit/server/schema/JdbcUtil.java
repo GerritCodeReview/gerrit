@@ -14,7 +14,11 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UsedAt;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class JdbcUtil {
 
@@ -34,5 +38,15 @@ public class JdbcUtil {
       return ":" + port;
     }
     return "";
+  }
+
+  public static int getLastChange(ReviewDb db) throws SQLException {
+    try (Statement s = SchemaVersion.newStatement(db)) {
+      ResultSet rs = s.executeQuery("select last_value from change_id;");
+      if (rs.next()) {
+        return rs.getInt("last_value");
+      }
+    }
+    throw new SQLException("Unable to get last change");
   }
 }

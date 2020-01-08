@@ -70,6 +70,21 @@ public class IndexHtmlUtilTest {
             "canonicalPath", "/gerrit", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));
   }
 
+  @Test
+  public void useGoogleFonts() throws Exception {
+    Map<String, String[]> urlParms = new HashMap<>();
+    urlParms.put("gf", "true");
+    assertThat(
+            staticTemplateData(
+                "http://example.com/gerrit",
+                "http://my-cdn.com/foo/bar/",
+                null,
+                urlParms,
+                IndexHtmlUtilTest::ordain))
+        .containsExactly(
+            "canonicalPath", "/gerrit", "staticResourcePath", ordain("https://fonts.googleapis.com/css?family="));
+  }
+
   private static SanitizedContent ordain(String s) {
     return UnsafeSanitizedContentOrdainer.ordainAsSafe(
         s, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);

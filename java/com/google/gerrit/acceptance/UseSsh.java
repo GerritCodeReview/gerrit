@@ -21,6 +21,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+/**
+ * Annotation to mark SSH tests.
+ *
+ * <p>When running tests the SSH functionality is disabled unless the {@link UseSsh} annotation is
+ * used.
+ *
+ * <p>SSH tests can be skipped when executing tests (see {@link com.google.gerrit.testing.SshMode}).
+ */
 @Target({TYPE, METHOD})
 @Retention(RUNTIME)
 public @interface UseSsh {}

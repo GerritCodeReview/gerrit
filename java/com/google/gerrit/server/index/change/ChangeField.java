@@ -269,6 +269,24 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Integer> OWNER =
       integer(ChangeQueryBuilder.FIELD_OWNER).build(changeGetter(c -> c.getOwner().get()));
 
+  /** References the source change number that this change was cherry-picked from. */
+  public static final FieldDef<ChangeData, Integer> CHERRY_PICK_OF_CHANGE =
+      integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_CHANGE)
+          .build(
+              cd ->
+                  cd.change().getCherryPickOf() != null
+                      ? cd.change().getCherryPickOf().changeId().get()
+                      : null);
+
+  /** References the source change patch-set that this change was cherry-picked from. */
+  public static final FieldDef<ChangeData, Integer> CHERRY_PICK_OF_PATCHSET =
+      integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_PATCHSET)
+          .build(
+              cd ->
+                  cd.change().getCherryPickOf() != null
+                      ? cd.change().getCherryPickOf().get()
+                      : null);
+
   /** The user assigned to the change. */
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
       integer(ChangeQueryBuilder.FIELD_ASSIGNEE)

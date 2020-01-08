@@ -227,6 +227,13 @@
       return hasTopic && !settingTopic;
     }
 
+    _showCherryPickOf(changeRecord) {
+      const hasCherryPickOf = !!changeRecord &&
+          !!changeRecord.base && !!changeRecord.base.cherry_pick_of_change &&
+          !!changeRecord.base.cherry_pick_of_patch_set;
+      return hasCherryPickOf;
+    }
+
     _handleHashtagChanged(e) {
       const lastHashtag = this.change.hashtag;
       if (!this._newHashtag.length) { return; }
@@ -351,6 +358,10 @@
       return Gerrit.Nav.getUrlForBranch(branch, project,
           this.change.status == this.ChangeStatus.NEW ? 'open' :
             this.change.status.toLowerCase());
+    }
+
+    _computeCherryPickOfURL(change, patchset, project) {
+      return Gerrit.Nav.getUrlForChangeById(change, project, patchset);
     }
 
     _computeTopicURL(topic) {

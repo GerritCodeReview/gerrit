@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c0b9bf8_5184e00c",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T14:47:18Z",
+      "side": 1,
+      "message": "nit: unused",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 54,
+        "endChar": 66
+      },
+      "revId": "c2c98c13d97f20434c155e94d2c1cd4e67b3a1cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f96cca5a_f67b4cb1",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T14:47:18Z",
+      "side": 1,
+      "message": "This method can stay in ReplaceOp for most parts. Please see my comment there.\n\nWe still have to call commentAdded.fire here because we did add comments, but we can leave approvals empty since there is no change made to approvals here. So everything until l.164 can be removed.",
+      "revId": "c2c98c13d97f20434c155e94d2c1cd4e67b3a1cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0ccc761_d435a3fa",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T14:47:18Z",
+      "side": 1,
+      "message": "If we go with the interface change, it\u0027s easier to keep the data separate:\n\n    /** Updates where the caller allowed us to combine potentially multiple adjustments into a single commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per patch set. */\n    private final Map\u003cPatchSet.Id, ChangeUpdate\u003e defaultUpdates;\n    /** Updates where the caller instructed us to create one NoteDb commit per update. Keyed by PatchSet.Id only for convenience. */\n    private final List\u003cChangeUpdate\u003e distinctUpdates;\n\n\n(nit that is not relevant here: Instead of Map\u003cx,List\u003cy\u003e\u003e you can use ListMultiMap\u003cX,Y\u003e)",
+      "range": {
+        "startLine": 260,
+        "startChar": 18,
+        "endLine": 260,
+        "endChar": 21
+      },
+      "revId": "c2c98c13d97f20434c155e94d2c1cd4e67b3a1cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42487a5f_6f7b41fb",
+        "filename": "java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T14:47:18Z",
+      "side": 1,
+      "message": "This API is hard to use because it requires callers to have inside knowledge of the implementation and inner state (how many ChangeUpdates there are) and has some undefined behavior / side effects. For example: What if I pass getUpdate(x,99). From the code it looks like it would just create 99 updates.\n\nHow about instead of exposing how many updates there are, we just let callers decide if they want the \u0027default\u0027 update or a distinct/unique update that only that caller will ever get?\n\nSo basically we let the caller only decide if they want a separate update (\u003d separate commit) or not.\n\n\n... Get the default update for this change at the given patch set. Will create a new ChangeUpdate in case it wasn\u0027t created before and consistently return this ChangeUpdate.\n...\nUse this method if you want the adjustments made in this ChangeUpdate to go into one combined NoteDb commit per patch set.\nChangeUpdate getUpdate(PatrchSet.Id psId)\n\n\n...\nUse this method if you want the adjustments made to ChangeUpdate to go into a separate NoteDb commit.\n...\nChangeUpdate getDistinctUpdate(PatrchSet.Id psId)",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 52
+      },
+      "revId": "c2c98c13d97f20434c155e94d2c1cd4e67b3a1cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d1fd50f_7e07b4ba",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T14:47:18Z",
+      "side": 1,
+      "message": "Nice :-)",
+      "range": {
+        "startLine": 2064,
+        "startChar": 0,
+        "endLine": 2067,
+        "endChar": 43
+      },
+      "revId": "c2c98c13d97f20434c155e94d2c1cd4e67b3a1cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

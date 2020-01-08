@@ -275,6 +275,29 @@
       "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef2b608d_2a23d147",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T14:47:18Z",
+      "side": 0,
+      "message": "This (especially fireCommentsAddedEvent) has to stay, though we should rename it.\n\nYou can see that it is outside of the shouldPublishComments block, so it has nothing to do with publishing draft comments. Gerrit has a feature where you can push a new patch set and vote directly (documentation: https://gerrit-review.googlesource.com/Documentation/user-upload.html#review_labels)\n\nFor that, we have to fire this hook.",
+      "range": {
+        "startLine": 524,
+        "startChar": 4,
+        "endLine": 530,
+        "endChar": 17
+      },
+      "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

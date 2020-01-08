@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d560b85_0b9ec7b7",
+        "filename": "java/com/google/gerrit/server/ExceptionHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-08T16:29:43Z",
+      "side": 1,
+      "message": "Instead of documenting this and using an Optional, I would just return that Status object from the default implementation. Then you don\u0027t have to deal with #isPresent",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 4
+      },
+      "revId": "9345bfb639023c59d8f849f9c5703243a2f50d85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

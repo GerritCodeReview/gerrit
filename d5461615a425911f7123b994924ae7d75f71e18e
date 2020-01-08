@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4c61b33_474cbbc8",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-08T17:57:12Z",
+      "side": 1,
+      "message": "Nit: Capitalize first letter.",
+      "range": {
+        "startLine": 6,
+        "startChar": 2,
+        "endLine": 6,
+        "endChar": 7
+      },
+      "revId": "d5461615a425911f7123b994924ae7d75f71e18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1957c41_89aaee79",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-08T17:57:12Z",
+      "side": 1,
+      "message": "Should be imported from: @rules_java//java:defs.bzl:\n\n  load(\"@rules_java//java:defs.bzl\", \"java_binary\")",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 11
+      },
+      "revId": "d5461615a425911f7123b994924ae7d75f71e18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81d4c8f4_ffe3b4dc",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-08T17:57:12Z",
+      "side": 1,
+      "message": "Same here, should be imported from:\n\n  @rules_java//java:defs.bzl",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "d5461615a425911f7123b994924ae7d75f71e18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

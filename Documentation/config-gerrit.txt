@@ -4784,6 +4784,13 @@ are provided. If set to 0, suggestions are always provided. This is only
 used for suggesting accounts when adding members to a group.
 +
 By default 0.
+[[suggest.relevantChanges]]suggest.relevantChanges::
++
+When suggesting reviewers, we go over recent changes of the user, and
+give priority to users that are present as reviewers in any of those
+changes. The number of changes we over is sugggest.relevantChanges.
++
+By default 50.
 
 [[tracing]]
 === Section tracing

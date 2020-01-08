@@ -201,12 +201,13 @@ public class ReviewerRecommender {
   private Map<Account.Id, MutableDouble> baseRanking(
       double baseWeight, String query, List<Account.Id> candidateList)
       throws IOException, ConfigInvalidException {
+    int amountOfRelevantChanges = config.getInt("suggest", "relevantChanges", 50);
     // Get the user's last 25 changes, check reviewers
     try {
       List<ChangeData> result =
           queryProvider
               .get()
-              .setLimit(25)
+              .setLimit(amountOfRelevantChanges)
               .setRequestedFields(ChangeField.REVIEWER)
               .query(changeQueryBuilder.owner("self"));
       Map<Account.Id, MutableDouble> suggestions = new LinkedHashMap<>();

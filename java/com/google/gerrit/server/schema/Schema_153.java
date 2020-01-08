@@ -19,6 +19,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.sql.SQLException;
 
 /** Add reviewStarted field to change. */
 public class Schema_153 extends SchemaVersion {
@@ -28,14 +29,39 @@ public class Schema_153 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    try (StatementExecutor e = newExecutor(db)) {
-      // Initialize review_started to a sensible default value according to
-      // whether change is currently WIP. No migration is needed in NoteDb,
-      // where the value of review_started is always derived from the history
-      // of assignments to work_in_progress.
-      e.execute(
-          "UPDATE changes SET review_started = 'Y', created_on = created_on WHERE work_in_progress = 'N'");
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    ParallelSqlTasksUtil.run(db, Migrator.class, JdbcUtil.getLastChange(db));
+  }
+
+  public static class Migrator implements Runnable {
+    protected ReviewDb db;
+    protected int start;
+    protected int end;
+
+    public Migrator(ReviewDb db, int start, int end) {
+      this.db = db;
+      this.start = start;
+      this.end = end;
+    }
+
+    @Override
+    public void run() {
+      try {
+        try (StatementExecutor e = newExecutor(db)) {
+          // Initialize review_started to a sensible default value according to
+          // whether change is currently WIP. No migration is needed in NoteDb,
+          // where the value of review_started is always derived from the history
+          // of assignments to work_in_progress.
+          e.execute(
+              "UPDATE changes SET review_started = 'Y', created_on = created_on "
+                  + "WHERE work_in_progress = 'N' AND change_id >= "
+                  + start
+                  + " AND change_id <= "
+                  + end);
+        }
+      } catch (OrmException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 }

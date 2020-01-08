@@ -3,15 +3,15 @@ load("//tools/bzl:maven.bzl", "merge_maven_jars")
 
 package(default_visibility = ["//visibility:public"])
 
-# core and backward-codecs both provide
-# META-INF/services/org.apache.lucene.codecs.Codec, so they must be merged.
-merge_maven_jars(
+# merge jars so there is only one
+# META-INF/services/org.apache.lucene.codecs.Codec
+java_library(
     name = "lucene-core-and-backward-codecs",
-    srcs = [
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = [
         "@backward-codecs//jar",
         "@lucene-core//jar",
     ],
-    data = ["//lib:LICENSE-Apache2.0"],
 )
 
 java_library(

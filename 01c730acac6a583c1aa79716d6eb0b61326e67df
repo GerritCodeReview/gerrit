@@ -117,6 +117,24 @@
       "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e800bb8_14bd8c06",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-01-09T02:13:29Z",
+      "side": 1,
+      "message": "Which you already did. :)",
+      "parentUuid": "1dec1a1c_abe51cb0",
+      "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

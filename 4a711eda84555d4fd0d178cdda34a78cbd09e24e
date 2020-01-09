@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b701a1db_b716be24",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-09T00:45:07Z",
+      "side": 1,
+      "message": "This is unused. Was there intention to use it somewhere and it got missed?\n\nSee [1] where is is being removed.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/249865",
+      "revId": "4a711eda84555d4fd0d178cdda34a78cbd09e24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

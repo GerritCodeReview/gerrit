@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b47eceb6_059c5027",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T09:33:17Z",
+      "side": 1,
+      "message": "I was able to narrow it down to this line which caused the failure. Not sure why yet. But I am testing it with https://gerrit-review.googlesource.com/c/gerrit/+/249833",
+      "revId": "c6e368d5e4c7b465dfb76ed608b302f66b9d0020",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

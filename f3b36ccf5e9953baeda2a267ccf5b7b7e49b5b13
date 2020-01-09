@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be43be6f_0433d908",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-09T10:42:03Z",
+      "side": 1,
+      "message": "Can you maybe find a better name for this?",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 21
+      },
+      "revId": "f3b36ccf5e9953baeda2a267ccf5b7b7e49b5b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6a7a586_921bd1ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-09T10:42:03Z",
+      "side": 1,
+      "message": "Maybe rename to ..._MS",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "f3b36ccf5e9953baeda2a267ccf5b7b7e49b5b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

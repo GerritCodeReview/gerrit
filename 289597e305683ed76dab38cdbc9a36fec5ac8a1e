@@ -1,0 +1,302 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "481bf56a_4c4348b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "if you only specify the type, can be short as `revertChanges: Array`, and `_` to indicate that its private (not expected to be passed in)",
+      "range": {
+        "startLine": 428,
+        "startChar": 23,
+        "endLine": 430,
+        "endChar": 9
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63617aa6_db146cb7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "existing code, but can you just emit the message along with the `revertType` ? relying on an invisible dialog element is definitely not a good practice...",
+      "range": {
+        "startLine": 1159,
+        "startChar": 24,
+        "endLine": 1159,
+        "endChar": 34
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28ab4c64_4e5c7746",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "nit: new line before `test`",
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd9ce00_dcb17dcb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "ditto.",
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6813b8c3_88f04cd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "i am confused, why not use `shadowRoot.querySelector` same as other places ? `$$` is deprecated as well.",
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f2cf868_84729c67",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "why not just use `MockInteractions.tap` on the confirm button instead ? so you don\u0027t need to change here if you change the confirm behavior (like the emitted value), and no need to redefine the `REVERT_TYPES` in the test as well.",
+      "range": {
+        "startLine": 887,
+        "startChar": 11,
+        "endLine": 889,
+        "endChar": 32
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2148843_fdaff1c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "this is too ugly... please use `on-change` on checkbox to detect the value change. You need the value change event, not the click (and `on-change` will make sure when the function was called, checkbox has the updated value while `click` on out side container won\u0027t)\n\nAnd too many `div`s here, its almost unacceptable ugly 😞",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 90
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3969a0b2_07c498ea",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "why not fix these `over-length` lines ?",
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e0d2504_aa87dfa1",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "trailing whitespaces",
+      "range": {
+        "startLine": 116,
+        "startChar": 66,
+        "endLine": 116,
+        "endChar": 68
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d030ad3_df64a9b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "is it a string or object ?",
+      "range": {
+        "startLine": 67,
+        "startChar": 23,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f47c3486_8628b600",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "please be consistent :) either use the arg or `this._revertType` is fine, but make sure use the same for both methods",
+      "range": {
+        "startLine": 77,
+        "startChar": 3,
+        "endLine": 83,
+        "endChar": 5
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d29d37f6_e622083b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "nit: `init` is not a very good name... maybe `onInputUpdate` ?",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 8
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47f31024_37deee52",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "i am confused, `_modifyRevertMsg` should be called on `singleRevert` while `_modifyRevertSubmissionMsg` should be called on `multi-revert` right ?",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 41
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0468deac_9e5e90d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T10:40:21Z",
+      "side": 1,
+      "message": "private ? and we don\u0027t need to test private methods by just calling them, we test on public methods using them",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 37
+      },
+      "revId": "289597e305683ed76dab38cdbc9a36fec5ac8a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

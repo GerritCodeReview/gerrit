@@ -1,4 +1,27 @@
-workspace(name = "gerrit")
+# npm packages are splitted to different node_modules directories based on their usage.
+# 1. /node_modules (references as @npm) - contains packages to run tests, check code, etc...
+#    It is expected that @npm is used ONLY to run tools. No packages from @npm are used by
+#    other code in gerrit.
+# 2. @tools_npm (tools/node_tools/node_modules) - the tools/node_tools folder contains self-written tools
+#    which are run for building and/or testing. The @tools_npm directory contains all the packages needed to
+#    run this tools.
+# 3. @ui_npm (polygerrit-ui/app/node_modules) - packages with source code which are necessary to run polygerrit
+#    and to bundle it. Only code from these packages can be included in the final bundle for polygerrit.
+#    @ui_npm folder must not have devDependencies. All dev dependencies must be placed in @ui_dev_npm
+# 4. @ui_dev_npm (polygerrit-ui/node_modules) - devDependencies for polygerrit. The packages from these
+#    folder can be used for testing, but must not be included in the final bundle.
+# Note: separation between @ui_npm and @ui_dev_npm is necessary because with bazel we can't generate
+#    two managed directories from the same package.json. At the same time we want to avoid accidental
+#    usages of code from devDependencies in polygerrit bundle.
+workspace(
+    name = "gerrit",
+    managed_directories = {
+        "@npm": ["node_modules"],
+        "@ui_npm": ["polygerrit-ui/app/node_modules"],
+        "@ui_dev_npm": ["polygerrit-ui/node_modules"],
+        "@tools_npm": ["tools/node_tools/node_modules"],
+    },
+)
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
@@ -35,6 +58,12 @@ http_archive(
     sha256 = "03c3b16f205085817fd89cfdcb2220a0138647ee7992be9cef291b069dd90301",
     strip_prefix = "rules_closure-196a45f0ede2faec11dcc6c60fbc5e7471f4bd58",
     urls = ["https://github.com/bazelbuild/rules_closure/archive/196a45f0ede2faec11dcc6c60fbc5e7471f4bd58.tar.gz"],
+)
+
+http_archive(
+    name = "build_bazel_rules_nodejs",
+    sha256 = "e1a0d6eb40ec89f61a13a028e7113aa3630247253bcb1406281b627e44395145",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/1.0.1/rules_nodejs-1.0.1.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -1177,6 +1206,35 @@ bower_archive(
     package = "polymer/web-component-tester",
     sha1 = "62739cb633fccfddc5eeed98e9e3f69cd0388b5b",
     version = "6.5.0",
+)
+
+load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
+
+yarn_install(
+    name = "npm",
+    args = ["--prod"],
+    package_json = "//:package.json",
+    yarn_lock = "//:yarn.lock",
+)
+
+yarn_install(
+    name = "ui_npm",
+    args = ["--prod"],
+    package_json = "//:polygerrit-ui/app/package.json",
+    yarn_lock = "//:polygerrit-ui/app/yarn.lock",
+)
+
+yarn_install(
+    name = "ui_dev_npm",
+    package_json = "//:polygerrit-ui/package.json",
+    yarn_lock = "//:polygerrit-ui/yarn.lock",
+)
+
+yarn_install(
+    name = "tools_npm",
+    args = ["--prod"],
+    package_json = "//:tools/node_tools/package.json",
+    yarn_lock = "//:tools/node_tools/yarn.lock",
 )
 
 # Bower component transitive dependencies.

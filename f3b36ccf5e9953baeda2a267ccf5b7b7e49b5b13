@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79a6f9e9_8969a607",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T12:22:59Z",
+      "side": 1,
+      "message": "any suggestions ? was using `noOpOverlay` to mean this overlay will prevent any operation on the content",
+      "parentUuid": "be43be6f_0433d908",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 21
+      },
+      "revId": "f3b36ccf5e9953baeda2a267ccf5b7b7e49b5b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6a7a586_921bd1ed",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "f3b36ccf5e9953baeda2a267ccf5b7b7e49b5b13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ce99d39_cbc28f25",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T12:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6a7a586_921bd1ed",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "f3b36ccf5e9953baeda2a267ccf5b7b7e49b5b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

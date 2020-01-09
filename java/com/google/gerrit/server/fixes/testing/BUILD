@@ -7,8 +7,6 @@ java_library(
     testonly = True,
     srcs = glob(["*.java"]),
     deps = [
-        "//java/com/google/gerrit/common:server",
-        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/jgit",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/truth",

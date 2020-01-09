@@ -14,7 +14,6 @@ junit_tests(
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",

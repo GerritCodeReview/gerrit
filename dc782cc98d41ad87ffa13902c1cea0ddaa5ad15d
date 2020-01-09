@@ -265,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "9b436c7f_d1cc587c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-09T16:13:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4d0fcb37_afaa2b6f",
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c0ea2c1_644b99d6",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 2
@@ -358,6 +376,30 @@
       "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a039974_7c15e6a0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-09T16:13:41Z",
+      "side": 1,
+      "message": "OK, I thought all the complicated setup is not needed for this case, since this checking if the source branch exists happens very early.",
+      "parentUuid": "3e0abec4_5c800c8f",
+      "range": {
+        "startLine": 676,
+        "startChar": 4,
+        "endLine": 692,
+        "endChar": 77
+      },
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

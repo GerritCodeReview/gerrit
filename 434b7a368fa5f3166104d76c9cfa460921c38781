@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe6d30dd_53911437",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-09T08:54:08Z",
+      "side": 1,
+      "message": "is it intended that no shadow for dark theme ?",
+      "revId": "434b7a368fa5f3166104d76c9cfa460921c38781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

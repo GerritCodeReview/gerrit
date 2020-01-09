@@ -6632,10 +6632,10 @@ change by creating a new merge commit.
 |`subject`            |optional|
 The new subject for the change, if not specified, will reuse the current patch
 set's subject
-|`inheritParent`      |optional, default to `false`|
+|`inherit_parent`     |optional, default to `false`|
 Use the current patch set's first parent as the merge tip when set to `true`.
 |`base_change`        |optional|
-A link:#change-id[\{change-id\}] that identifies a change. When `inheritParent`
+A link:#change-id[\{change-id\}] that identifies a change. When `inherit_parent`
 is `false`, the merge tip will be the current patch set of the `base_change` if
 it's set. Otherwise, the current branch tip of the destination branch will be used.
 |`merge`              ||

@@ -323,6 +323,7 @@ def _bundle_impl(ctx):
         "$p/" + ctx.file._bundler_archive.path,
         "--inline-scripts",
         "--inline-css",
+        "--sourcemaps",
         "--strip-comments",
         "--out-file",
         "$p/" + bundled.path,

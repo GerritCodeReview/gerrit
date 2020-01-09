@@ -4,7 +4,7 @@
 This document is about configuring Gerrit Code Review into an
 Eclipse workspace for development.
 
-Java 8 or later SDK is require
+Java 8 or later SDK is required.
 
 [[setup]]
 == Project Setup

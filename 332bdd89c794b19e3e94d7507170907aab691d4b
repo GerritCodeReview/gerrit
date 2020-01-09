@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f182d52_7fc2950e",
+        "filename": "java/com/google/gerrit/server/account/AccountControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-09T08:16:51Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 221,
+        "startChar": 72,
+        "endLine": 221,
+        "endChar": 74
+      },
+      "revId": "332bdd89c794b19e3e94d7507170907aab691d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

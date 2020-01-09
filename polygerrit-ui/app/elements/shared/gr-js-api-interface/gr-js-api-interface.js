@@ -216,7 +216,7 @@
     getDiffLayers(path, changeNum, patchNum) {
       const layers = [];
       for (const annotationApi of
-           this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+        this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
         try {
           const layer = annotationApi.getLayer(path, changeNum, patchNum);
           layers.push(layer);
@@ -243,7 +243,7 @@
     getCoverageRanges(changeNum, path, basePatchNum, patchNum) {
       return Gerrit.awaitPluginsLoaded().then(() => {
         for (const annotationApi of
-            this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+          this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
           const provider = annotationApi.getCoverageProvider();
           // Only one coverage provider makes sense. If there are more, then we
           // simply ignore them.
@@ -258,7 +258,7 @@
     getAdminMenuLinks() {
       const links = [];
       for (const adminApi of
-          this._getEventCallbacks(EventType.ADMIN_MENU_LINKS)) {
+        this._getEventCallbacks(EventType.ADMIN_MENU_LINKS)) {
         links.push(...adminApi.getMenuLinks());
       }
       return links;

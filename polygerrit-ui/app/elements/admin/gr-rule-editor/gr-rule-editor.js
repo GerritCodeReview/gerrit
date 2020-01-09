@@ -25,6 +25,7 @@
 
   /**
    * Fired when a rule that was previously added was removed.
+   *
    * @event added-rule-removed
    */
 

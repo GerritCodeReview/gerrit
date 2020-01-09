@@ -167,7 +167,7 @@
             // current value appears. If there is no parent repo, it is
             // initialized as an empty string.
             this._inheritFromFilter = res.inherits_from ?
-                this._inheritsFrom.name : '';
+              this._inheritsFrom.name : '';
             this._local = res.local;
             this._groups = res.groups;
             this._weblinks = res.config_web_links || [];
@@ -346,6 +346,7 @@
             /**
              * As add / delete both can happen in the new section,
              * so here to make sure it will remove the deleted ones.
+             *
              * @see Issue 11339
              */
             this._recursivelyRemoveDeleted(addRemoveObj.add[k]);
@@ -370,11 +371,11 @@
       };
 
       const originalInheritsFromId = this._originalInheritsFrom ?
-          this.singleDecodeURL(this._originalInheritsFrom.id) :
-          null;
+        this.singleDecodeURL(this._originalInheritsFrom.id) :
+        null;
       const inheritsFromId = this._inheritsFrom ?
-          this.singleDecodeURL(this._inheritsFrom.id) :
-          null;
+        this.singleDecodeURL(this._inheritsFrom.id) :
+        null;
 
       const inheritFromChanged =
           // Inherit from changed

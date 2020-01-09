@@ -33,12 +33,13 @@
    * if it hasn't been added yet. A root node is an document or is the
    * associated shadowRoot. This class can be added to any element with the same
    * root node.
+   *
    * @param {HTMLElement} element The element to get class name for.
    * @return {string} Appropriate class name for the element is returned
    */
   GrStyleObject.prototype.getClassName = function(element) {
     let rootNode = Polymer.Settings.useShadow
-        ? element.getRootNode() : document.body;
+      ? element.getRootNode() : document.body;
     if (rootNode === document) {
       rootNode = document.head;
     }
@@ -56,6 +57,7 @@
 
   /**
    * Apply shared style to the element.
+   *
    * @param {HTMLElement} element The element to apply style for
    */
   GrStyleObject.prototype.apply = function(element) {
@@ -68,9 +70,10 @@
 
   /**
    * Creates a new GrStyleObject with specified style properties.
+   *
    * @param {string} String with style properties.
    * @return {GrStyleObject}
-  */
+   */
   GrStylesApi.prototype.css = function(ruleStr) {
     return new GrStyleObject(ruleStr);
   };

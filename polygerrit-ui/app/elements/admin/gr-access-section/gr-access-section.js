@@ -25,6 +25,7 @@
 
   /**
    * Fired when a section that was previously added was removed.
+   *
    * @event added-section-removed
    */
 
@@ -224,8 +225,8 @@
 
     editRefInput() {
       return Polymer.dom(this.root).querySelector(Polymer.Element ?
-          'iron-input.editRefInput' :
-          'input[is=iron-input].editRefInput');
+        'iron-input.editRefInput' :
+        'input[is=iron-input].editRefInput');
     },
 
     editReference() {

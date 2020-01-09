@@ -70,6 +70,7 @@
 
     /**
      * Fetch from the API the predicted projects.
+     *
      * @param {string} predicate - The first part of the search term, e.g.
      *     'project'
      * @param {string} expression - The second part of the search term, e.g.
@@ -90,6 +91,7 @@
 
     /**
      * Fetch from the API the predicted groups.
+     *
      * @param {string} predicate - The first part of the search term, e.g.
      *     'ownerin'
      * @param {string} expression - The second part of the search term, e.g.
@@ -111,6 +113,7 @@
 
     /**
      * Fetch from the API the predicted accounts.
+     *
      * @param {string} predicate - The first part of the search term, e.g.
      *     'owner'
      * @param {string} expression - The second part of the search term, e.g.
@@ -144,8 +147,8 @@
       return accounts.map(account => ({
         label: account.name || '',
         text: account.email ?
-            `${predicate}:${account.email}` :
-            `${predicate}:"${this._accountOrAnon(account)}"`,
+          `${predicate}:${account.email}` :
+          `${predicate}:"${this._accountOrAnon(account)}"`,
       }));
     },
   });

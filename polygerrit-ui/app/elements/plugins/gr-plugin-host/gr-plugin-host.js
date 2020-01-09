@@ -32,7 +32,6 @@
       const htmlPlugins = (plugins.html_resource_paths || []);
       const jsPlugins =
           this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins);
-
       const shouldLoadTheme = config.default_theme &&
             !Gerrit._isPluginPreloaded('preloaded:gerrit-theme');
       const themeToLoad =

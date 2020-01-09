@@ -167,8 +167,8 @@
 
     _timeToSecondsFormat(timeFormat) {
       return timeFormat === TimeFormats.TIME_12 ?
-          TimeFormats.TIME_12_WITH_SEC :
-          TimeFormats.TIME_24_WITH_SEC;
+        TimeFormats.TIME_12_WITH_SEC :
+        TimeFormats.TIME_24_WITH_SEC;
     },
 
     _computeFullDateStr(dateStr, timeFormat) {

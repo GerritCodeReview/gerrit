@@ -400,6 +400,30 @@
       "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f7bc45a_00d99f23",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-01-09T19:27:07Z",
+      "side": 1,
+      "message": "you\u0027re right. I\u0027ll look at it next week.",
+      "parentUuid": "7a039974_7c15e6a0",
+      "range": {
+        "startLine": 676,
+        "startChar": 4,
+        "endLine": 692,
+        "endChar": 77
+      },
+      "revId": "dc782cc98d41ad87ffa13902c1cea0ddaa5ad15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

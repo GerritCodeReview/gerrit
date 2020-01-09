@@ -54,7 +54,7 @@ limitations under the License.
      * number).
      *
      * @param  {string|number} n
-     * @return {Boolean}
+     * @return {boolean}
      */
     isMergeParent(n) {
       return (n + '')[0] === '-';
@@ -210,13 +210,13 @@ limitations under the License.
       return allPatchSets[0].num;
     },
 
-    /** @return {Boolean} */
+    /** @return {boolean} */
     hasEditBasedOnCurrentPatchSet(allPatchSets) {
       if (!allPatchSets || allPatchSets.length < 2) { return false; }
       return allPatchSets[0].num === Gerrit.PatchSetBehavior.EDIT_NAME;
     },
 
-    /** @return {Boolean} */
+    /** @return {boolean} */
     hasEditPatchsetLoaded(patchRangeRecord) {
       const patchRange = patchRangeRecord.base;
       if (!patchRange) { return false; }

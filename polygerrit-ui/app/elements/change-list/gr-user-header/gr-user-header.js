@@ -24,7 +24,7 @@
 
     static get properties() {
       return {
-      /** @type {?String} */
+      /** @type {?string} */
         userId: {
           type: String,
           observer: '_accountChanged',
@@ -48,7 +48,7 @@
           value: null,
         },
 
-        /** @type {?String} */
+        /** @type {?string} */
         _status: {
           type: String,
           value: null,

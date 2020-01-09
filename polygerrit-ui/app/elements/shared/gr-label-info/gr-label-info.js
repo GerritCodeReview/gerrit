@@ -98,7 +98,7 @@
      *
      * @param {!Object} reviewer An object describing the reviewer that left the
      *     vote.
-     * @param {Boolean} mutable
+     * @param {boolean} mutable
      * @param {!Object} change
      */
     _computeDeleteClass(reviewer, mutable, change) {

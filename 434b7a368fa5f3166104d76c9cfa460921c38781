@@ -16,6 +16,24 @@
       "revId": "434b7a368fa5f3166104d76c9cfa460921c38781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad87d3b_313c0393",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-09T10:46:21Z",
+      "side": 1,
+      "message": "Dark theme inherits these values, which is ok.\n\nWhat we would actually have to do is changing the background color in the dark theme, because that is how elevation in dark theme is supposed to work. But I leave that as a follow-up. Maybe you want to look into it? :-)",
+      "parentUuid": "fe6d30dd_53911437",
+      "revId": "434b7a368fa5f3166104d76c9cfa460921c38781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

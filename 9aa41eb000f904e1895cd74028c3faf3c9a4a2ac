@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70a01e9a_a266ea8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T22:42:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f549e55_fdd29c6d",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "9aa41eb000f904e1895cd74028c3faf3c9a4a2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8502b0e_a136253e",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
         "patchSetId": 11
@@ -45,6 +69,30 @@
       "revId": "9aa41eb000f904e1895cd74028c3faf3c9a4a2ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dcaeb3e_fa4de804",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T22:42:10Z",
+      "side": 1,
+      "message": "Done. Didn\u0027t catch this, thank you!",
+      "parentUuid": "b8502b0e_a136253e",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9aa41eb000f904e1895cd74028c3faf3c9a4a2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window, GrDiffLine) {
+(function(window) {
   'use strict';
 
   // Prevent redefinition.
@@ -23,6 +23,7 @@
   /**
    * A chunk of the diff that should be rendered together.
    *
+   * @constructor
    * @param {!GrDiffGroup.Type} type
    * @param {!Array<!GrDiffLine>=} opt_lines
    */
@@ -285,4 +286,4 @@
   };
 
   window.GrDiffGroup = GrDiffGroup;
-})(window, GrDiffLine);
+})(window);

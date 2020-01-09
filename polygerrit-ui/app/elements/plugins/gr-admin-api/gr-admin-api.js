@@ -20,6 +20,7 @@
   // Prevent redefinition.
   if (window.GrAdminApi) { return; }
 
+  /** @constructor */
   function GrAdminApi(plugin) {
     this.plugin = plugin;
     plugin.on('admin-menu-links', this);

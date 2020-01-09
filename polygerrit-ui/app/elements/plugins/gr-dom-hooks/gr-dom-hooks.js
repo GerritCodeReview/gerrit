@@ -17,6 +17,7 @@
 (function(window) {
   'use strict';
 
+  /** @constructor */
   function GrDomHooksManager(plugin) {
     this._plugin = plugin;
     this._hooks = {};

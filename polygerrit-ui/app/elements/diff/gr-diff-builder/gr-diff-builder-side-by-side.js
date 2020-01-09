@@ -20,6 +20,7 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderSideBySide) { return; }
 
+  /** @constructor */
   function GrDiffBuilderSideBySide(diff, prefs, outputEl, layers) {
     GrDiffBuilder.call(this, diff, prefs, outputEl, layers);
   }

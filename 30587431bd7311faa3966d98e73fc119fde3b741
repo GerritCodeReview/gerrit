@@ -6,6 +6,13 @@
       "finished": "2020-01-09T04:41:22Z",
       "created": "2020-01-09T04:31:22Z",
       "updated": "2020-01-09T04:31:22Z"
+    },
+    "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77379/console",
+      "finished": "2020-01-09T04:41:29Z",
+      "created": "2020-01-09T04:31:30Z",
+      "updated": "2020-01-09T04:31:30Z"
     }
   }
 }

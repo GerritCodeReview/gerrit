@@ -1,0 +1,10 @@
+{
+  "name": "polygerrit-ui-dev-dependencies",
+  "description": "Gerrit Code Review - Polygerrit dev dependencies",
+  "browser": true,
+  "dependencies": {},
+  "devDependencies": {
+  },
+  "license": "Apache-2.0",
+  "private": true
+}

@@ -99,6 +99,24 @@
       "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dec1a1c_abe51cb0",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-01-09T02:09:25Z",
+      "side": 1,
+      "message": "\u003e It didn\u0027t looks like those identifiers were visible from the extensions package.\n\nIn that case, it can simply use a string and an integer (`String project, int id`), since that\u0027s suitable for passing to `gerritApi.changes().id`.",
+      "parentUuid": "04b61da5_04790034",
+      "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

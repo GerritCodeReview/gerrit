@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.mail.HtmlParser;
@@ -287,8 +288,14 @@ public class MailProcessor {
                           MAIL_COMMENT_TYPE_TO_VALIDATION_TYPE.get(comment.getType()),
                           comment.getMessage()))
               .collect(ImmutableList.toImmutableList());
+      CommentValidationContext commentValidationCtx =
+          CommentValidationContext.builder()
+              .changeId(cd.change().getChangeId())
+              .project(cd.change().getProject().get())
+              .build();
       ImmutableList<CommentValidationFailure> commentValidationFailures =
-          PublishCommentUtil.findInvalidComments(commentValidators, parsedCommentsForValidation);
+          PublishCommentUtil.findInvalidComments(
+              commentValidators, parsedCommentsForValidation, commentValidationCtx);
       if (!commentValidationFailures.isEmpty()) {
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.COMMENT_REJECTED);
         return;

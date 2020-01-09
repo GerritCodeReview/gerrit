@@ -30,5 +30,5 @@ public interface CommentValidator {
    * @return An empty list if all comments are valid, or else a list of validation failures.
    */
   ImmutableList<CommentValidationFailure> validateComments(
-      ImmutableList<CommentForValidation> comments);
+      ImmutableList<CommentForValidation> comments, CommentValidationContext ctx);
 }

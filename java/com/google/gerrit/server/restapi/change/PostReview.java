@@ -77,6 +77,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.json.OutputFormat;
@@ -999,16 +1000,22 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
+      CommentValidationContext commentValidationCtx =
+          CommentValidationContext.builder()
+              .changeId(ctx.getChange().getChangeId())
+              .project(ctx.getChange().getProject().get())
+              .build();
       switch (in.drafts) {
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:
-          validateComments(Streams.concat(drafts.values().stream(), toPublish.stream()));
+          validateComments(
+              commentValidationCtx, Streams.concat(drafts.values().stream(), toPublish.stream()));
           publishCommentUtil.publish(ctx, ctx.getUpdate(psId), drafts.values(), in.tag);
           comments.addAll(drafts.values());
           break;
         case KEEP:
         default:
-          validateComments(toPublish.stream());
+          validateComments(commentValidationCtx, toPublish.stream());
           break;
       }
       ChangeUpdate changeUpdate = ctx.getUpdate(psId);
@@ -1017,7 +1024,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return !toPublish.isEmpty();
     }
 
-    private void validateComments(Stream<Comment> comments) throws CommentsRejectedException {
+    private void validateComments(CommentValidationContext ctx, Stream<Comment> comments)
+        throws CommentsRejectedException {
       ImmutableList<CommentForValidation> draftsForValidation =
           comments
               .map(
@@ -1029,7 +1037,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                           comment.message))
               .collect(toImmutableList());
       ImmutableList<CommentValidationFailure> draftValidationFailures =
-          PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
+          PublishCommentUtil.findInvalidComments(ctx, commentValidators, draftsForValidation);
       if (!draftValidationFailures.isEmpty()) {
         throw new CommentsRejectedException(draftValidationFailures);
       }
@@ -1415,8 +1423,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         buf.append(String.format("\n\n(%d comments)", comments.size()));
       }
       if (!msg.isEmpty()) {
+        CommentValidationContext commentValidationCtx =
+            CommentValidationContext.builder()
+                .changeId(ctx.getChange().getChangeId())
+                .project(ctx.getChange().getProject().get())
+                .build();
         ImmutableList<CommentValidationFailure> messageValidationFailure =
             PublishCommentUtil.findInvalidComments(
+                commentValidationCtx,
                 commentValidators,
                 ImmutableList.of(
                     CommentForValidation.create(

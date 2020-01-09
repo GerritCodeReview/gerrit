@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -37,6 +38,7 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
+import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.CommentsRejectedException;
@@ -80,13 +82,16 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   @Test
   public void validateCommentsInInput_commentOK() throws Exception {
+    PushOneCommit.Result r = createChange();
     when(mockCommentValidator.validateComments(
+            CommentValidationContext.builder()
+                .changeId(r.getChange().getId().get())
+                .project(r.getChange().project().get())
+                .build(),
             ImmutableList.of(
                 CommentForValidation.create(
                     CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of());
-
-    PushOneCommit.Result r = createChange();
 
     ReviewInput input = new ReviewInput();
     CommentInput comment = newComment(r.getChange().currentFilePaths().get(0));
@@ -101,13 +106,16 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   @Test
   public void validateCommentsInInput_commentRejected() throws Exception {
+    PushOneCommit.Result r = createChange();
     CommentForValidation commentForValidation =
         CommentForValidation.create(CommentType.FILE_COMMENT, COMMENT_TEXT);
     when(mockCommentValidator.validateComments(
+            CommentValidationContext.builder()
+                .changeId(r.getChange().getId().get())
+                .project(r.getChange().project().get())
+                .build(),
             ImmutableList.of(CommentForValidation.create(CommentType.FILE_COMMENT, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
-
-    PushOneCommit.Result r = createChange();
 
     ReviewInput input = new ReviewInput();
     CommentInput comment = newComment(r.getChange().currentFilePaths().get(0));
@@ -151,13 +159,16 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   @Test
   public void validateDrafts_draftOK() throws Exception {
+    PushOneCommit.Result r = createChange();
     when(mockCommentValidator.validateComments(
+            CommentValidationContext.builder()
+                .changeId(r.getChange().getId().get())
+                .project(r.getChange().project().get())
+                .build(),
             ImmutableList.of(
                 CommentForValidation.create(
                     CommentForValidation.CommentType.INLINE_COMMENT, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of());
-
-    PushOneCommit.Result r = createChange();
 
     DraftInput draft =
         testCommentHelper.newDraft(
@@ -174,14 +185,18 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   @Test
   public void validateDrafts_draftRejected() throws Exception {
+    PushOneCommit.Result r = createChange();
     CommentForValidation commentForValidation =
         CommentForValidation.create(CommentType.INLINE_COMMENT, COMMENT_TEXT);
     when(mockCommentValidator.validateComments(
+            CommentValidationContext.builder()
+                .changeId(r.getChange().getId().get())
+                .project(r.getChange().project().get())
+                .build(),
             ImmutableList.of(
                 CommentForValidation.create(
                     CommentForValidation.CommentType.INLINE_COMMENT, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
-    PushOneCommit.Result r = createChange();
 
     DraftInput draft =
         testCommentHelper.newDraft(
@@ -218,7 +233,8 @@ public class PostReviewIT extends AbstractDaemonTest {
     testCommentHelper.addDraft(r.getChangeId(), r.getCommit().getName(), draftFile);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
 
-    when(mockCommentValidator.validateComments(capture.capture())).thenReturn(ImmutableList.of());
+    when(mockCommentValidator.validateComments(any(), capture.capture()))
+        .thenReturn(ImmutableList.of());
 
     ReviewInput input = new ReviewInput();
     input.drafts = DraftHandling.PUBLISH;
@@ -236,11 +252,15 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   @Test
   public void validateCommentsInChangeMessage_messageOK() throws Exception {
+    PushOneCommit.Result r = createChange();
     when(mockCommentValidator.validateComments(
+            CommentValidationContext.builder()
+                .changeId(r.getChange().getId().get())
+                .project(r.getChange().project().get())
+                .build(),
             ImmutableList.of(
                 CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of());
-    PushOneCommit.Result r = createChange();
 
     ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
     int numMessages = gApi.changes().id(r.getChangeId()).get().messages.size();
@@ -253,13 +273,17 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   @Test
   public void validateCommentsInChangeMessage_messageRejected() throws Exception {
+    PushOneCommit.Result r = createChange();
     CommentForValidation commentForValidation =
         CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT);
     when(mockCommentValidator.validateComments(
+            CommentValidationContext.builder()
+                .changeId(r.getChange().getId().get())
+                .project(r.getChange().project().get())
+                .build(),
             ImmutableList.of(
                 CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
-    PushOneCommit.Result r = createChange();
 
     ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
     assertThat(gApi.changes().id(r.getChangeId()).get().messages)

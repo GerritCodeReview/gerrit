@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae13d4be_d278def7",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-09T15:40:27Z",
+      "side": 0,
+      "message": "unintended submodule update?",
+      "revId": "88bf8f84933ece52f4e02632fd22a868ef1f06a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

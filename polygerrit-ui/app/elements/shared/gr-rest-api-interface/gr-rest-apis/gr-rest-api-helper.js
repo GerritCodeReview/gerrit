@@ -18,7 +18,6 @@
   'use strict';
 
   const JSON_PREFIX = ')]}\'';
-  const FAILED_TO_FETCH_ERROR = 'Failed to fetch';
 
   /**
    * Wrapper around Map for caching server responses. Site-based so that
@@ -107,15 +106,13 @@
      * @param {SiteBasedCache} cache
      * @param {object} auth
      * @param {FetchPromisesCache} fetchPromisesCache
-     * @param {object} credentialCheck
      * @param {object} restApiInterface
      */
-    constructor(cache, auth, fetchPromisesCache, credentialCheck,
+    constructor(cache, auth, fetchPromisesCache,
         restApiInterface) {
       this._cache = cache;// TODO: make it public
       this._auth = auth;
       this._fetchPromisesCache = fetchPromisesCache;
-      this._credentialCheck = credentialCheck;
       this._restApiInterface = restApiInterface;
     }
 
@@ -190,15 +187,10 @@
         }
         return res;
       }).catch(err => {
-        const isLoggedIn = !!this._cache.get('/accounts/self/detail');
-        if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
-          this.checkCredentials();
+        if (req.errFn) {
+          req.errFn.call(undefined, null, err);
         } else {
-          if (req.errFn) {
-            req.errFn.call(undefined, null, err);
-          } else {
-            this.fire('network-error', {error: err});
-          }
+          this.fire('network-error', {error: err});
         }
         throw err;
       });
@@ -384,37 +376,6 @@
       return xhr;
     }
 
-    checkCredentials() {
-      if (this._credentialCheck.checking) {
-        return;
-      }
-      this._credentialCheck.checking = true;
-      let req = {url: '/accounts/self/detail', reportUrlAsIs: true};
-      req = this.addAcceptJsonHeader(req);
-      // Skip the REST response cache.
-      return this.fetchRawJSON(req).then(res => {
-        if (!res) { return; }
-        if (res.status === 403) {
-          this.fire('auth-error');
-          this._cache.delete('/accounts/self/detail');
-        } else if (res.ok) {
-          return this.getResponseObject(res);
-        }
-      }).then(res => {
-        this._credentialCheck.checking = false;
-        if (res) {
-          this._cache.set('/accounts/self/detail', res);
-        }
-        return res;
-      }).catch(err => {
-        this._credentialCheck.checking = false;
-        if (err && err.message === FAILED_TO_FETCH_ERROR) {
-          this.fire('auth-error');
-          this._cache.delete('/accounts/self/detail');
-        }
-      });
-    }
-
     /**
      * @param {string} prefix
      */
@@ -428,4 +389,3 @@
   window.FetchPromisesCache = FetchPromisesCache;
   window.GrRestApiHelper = GrRestApiHelper;
 })(window);
-

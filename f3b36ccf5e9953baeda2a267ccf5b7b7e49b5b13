@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d4cbe181_ca0a14d1",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-09T12:57:38Z",
+      "side": 1,
+      "message": "noInteractionOverlay?\nprotectionOverlay?",
+      "parentUuid": "79a6f9e9_8969a607",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 21
+      },
+      "revId": "f3b36ccf5e9953baeda2a267ccf5b7b7e49b5b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6a7a586_921bd1ed",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 7

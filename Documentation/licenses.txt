@@ -78,7 +78,7 @@ Apache2.0
 * log:jsonevent-layout
 * log:log4j
 * lucene:lucene-analyzers-common
-* lucene:lucene-core-and-backward-codecs
+* lucene:lucene-core-and-backward-codecs-merged
 * lucene:lucene-misc
 * lucene:lucene-queryparser
 * mime4j:core

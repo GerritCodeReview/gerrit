@@ -39,6 +39,24 @@
       "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cfa1790_68f14e67",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-01-09T00:26:43Z",
+      "side": 1,
+      "message": "What happened to hiesel\u0027s suggestion of Project.NameKey plus Change.Id?\n\nSimpler and more flexible. Passing identifiers instead of what they refer to.",
+      "parentUuid": "dd065cfa_f2c1de10",
+      "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -98,7 +98,6 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.json.OutputFormat;
@@ -106,6 +105,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.ExceptionHookImpl;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
@@ -132,7 +132,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryableAction;
 import com.google.gerrit.server.update.RetryableAction.Action;
 import com.google.gerrit.server.update.RetryableAction.ActionType;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gerrit.util.http.RequestUtil;
@@ -662,16 +661,6 @@ public class RestApiServlet extends HttpServlet {
         logger.atSevere().withCause(e).log("Error in %s %s", req.getMethod(), uriForLogging(req));
         responseBytes =
             replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
-      } catch (UpdateException e) {
-        cause = Optional.of(e);
-        Throwable t = e.getCause();
-        if (t instanceof LockFailureException) {
-          logger.atSevere().withCause(t).log("Error in %s %s", req.getMethod(), uriForLogging(req));
-          responseBytes = replyError(req, res, status = SC_SERVICE_UNAVAILABLE, "Lock failure", e);
-        } else {
-          status = SC_INTERNAL_SERVER_ERROR;
-          responseBytes = handleException(traceContext, e, req, res);
-        }
       } catch (QuotaException e) {
         cause = Optional.of(e);
         responseBytes =
@@ -684,6 +673,13 @@ public class RestApiServlet extends HttpServlet {
                 e);
       } catch (Exception e) {
         cause = Optional.of(e);
+
+        if (ExceptionHookImpl.isLockFailure(e)) {
+          logger.atSevere().withCause(e.getCause()).log(
+              "Error in %s %s", req.getMethod(), uriForLogging(req));
+          responseBytes = replyError(req, res, status = SC_SERVICE_UNAVAILABLE, "Lock failure", e);
+        }
+
         status = SC_INTERNAL_SERVER_ERROR;
         responseBytes = handleException(traceContext, e, req, res);
       } finally {

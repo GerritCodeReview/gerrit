@@ -51,7 +51,7 @@ public class ExceptionHookImpl implements ExceptionHook {
     return Optional.empty();
   }
 
-  private static boolean isLockFailure(Throwable throwable) {
+  public static boolean isLockFailure(Throwable throwable) {
     return isMatching(throwable, t -> t instanceof LockFailureException);
   }
 

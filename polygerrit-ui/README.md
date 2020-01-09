@@ -51,7 +51,13 @@ simply execute:
 npm run start
 ```
 
-Then visit <http://localhost:8081>.
+Then visit http://localhost:8081
+
+## Local UI, Test Data
+
+```sh
+./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
+```
 
 This method is based on a
 [simple hand-written Go webserver](https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/server.go).

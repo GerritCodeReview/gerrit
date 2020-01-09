@@ -243,8 +243,9 @@
           this.change._number, {add: [newHashtag]}).then(newHashtag => {
         this.set(['change', 'hashtags'], newHashtag);
         if (newHashtag !== lastHashtag) {
-          this.dispatchEvent(new CustomEvent(
-              'hashtag-changed', {bubbles: true, composed: true}));
+          this.dispatchEvent(
+              new CustomEvent('hashtag-changed', {
+                bubbles: true, composed: true}));
         }
       });
     }

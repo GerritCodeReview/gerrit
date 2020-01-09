@@ -35,8 +35,8 @@
       switch (usersType) {
         case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER:
           return new GrReviewerSuggestionsProvider(restApi, changeNumber,
-              input =>
-                restApi.getChangeSuggestedReviewers(changeNumber, input));
+              input => restApi.getChangeSuggestedReviewers(changeNumber,
+                  input));
         case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC:
           return new GrReviewerSuggestionsProvider(restApi, changeNumber,
               input => restApi.getChangeSuggestedCCs(changeNumber, input));

@@ -45,13 +45,17 @@
     STYLE: 'style',
   };
 
+  /**
+   * @constructor
+   * @param {string=} opt_url
+   */
   function Plugin(opt_url) {
     this._domHooks = new GrDomHooksManager(this);
 
     if (!opt_url) {
       console.warn('Plugin not being loaded from /plugins base path.',
           'Unable to determine name.');
-      return;
+      return this;
     }
     this.deprecated = {
       _loadedGwt: deprecatedAPI._loadedGwt.bind(this),
@@ -226,7 +230,7 @@
    * @example
    * const pluginRestApi = plugin.restApi(plugin.url());
    *
-   * @param {string} Base url for subsequent .get(), .post() etc requests.
+   * @param {string=} opt_prefix url for subsequent .get(), .post() etc requests.
    */
   Plugin.prototype.restApi = function(opt_prefix) {
     return new GrPluginRestApi(opt_prefix);

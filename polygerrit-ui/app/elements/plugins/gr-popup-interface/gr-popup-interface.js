@@ -23,6 +23,7 @@
    * opt_moduleName is a name of custom element that will be automatically
    * inserted on popup opening.
    *
+   * @constructor
    * @param {!Object} plugin
    * @param {opt_moduleName=} string
    */

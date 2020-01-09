@@ -24,6 +24,7 @@
   // arbitrary JavaScript.
   const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp)$/;
 
+  /** @constructor */
   function GrDiffBuilderImage(diff, prefs, outputEl, baseImage, revisionImage) {
     GrDiffBuilderSideBySide.call(this, diff, prefs, outputEl, []);
     this._baseImage = baseImage;

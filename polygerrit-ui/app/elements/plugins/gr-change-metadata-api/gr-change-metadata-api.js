@@ -17,6 +17,7 @@
 (function(window) {
   'use strict';
 
+  /** @constructor */
   function GrChangeMetadataApi(plugin) {
     this._hook = null;
     this.plugin = plugin;

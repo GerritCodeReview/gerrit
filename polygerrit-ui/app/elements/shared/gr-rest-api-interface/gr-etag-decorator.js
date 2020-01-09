@@ -23,6 +23,7 @@
   // Limit cache size because /change/detail responses may be large.
   const MAX_CACHE_SIZE = 30;
 
+  /** @constructor */
   function GrEtagDecorator() {
     this._etags = new Map();
     this._payloadCache = new Map();

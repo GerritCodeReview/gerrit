@@ -21,6 +21,7 @@
   if (window.GrDiffLine) { return; }
 
   /**
+   * @constructor
    * @param {GrDiffLine.Type} type
    * @param {number|string=} opt_beforeLine
    * @param {number|string=} opt_afterLine
@@ -46,6 +47,7 @@
     this.text = '';
   }
 
+  /** @enum {string} */
   GrDiffLine.Type = {
     ADD: 'add',
     BOTH: 'both',

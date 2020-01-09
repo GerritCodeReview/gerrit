@@ -29,6 +29,7 @@
    * in the text as well as custom links if any are specified in the linkConfig
    * parameter.
    *
+   * @constructor
    * @param {Object|null|undefined} linkConfig Comment links as specified by the
    *     commentlinks field on a project config.
    * @param {Function} callback The callback to be fired when an intermediate

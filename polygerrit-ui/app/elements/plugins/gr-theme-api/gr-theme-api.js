@@ -20,6 +20,7 @@
   // Prevent redefinition.
   if (window.GrThemeApi) { return; }
 
+  /** @constructor */
   function GrThemeApi(plugin) {
     this.plugin = plugin;
   }

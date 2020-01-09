@@ -23,11 +23,11 @@
    * Construct a change comments object, which can be data-bound to child
    * elements of that which uses the gr-comment-api.
    *
+   * @constructor
    * @param {!Object} comments
    * @param {!Object} robotComments
    * @param {!Object} drafts
    * @param {number} changeNum
-   * @constructor
    */
   function ChangeComments(comments, robotComments, drafts, changeNum) {
     this._comments = comments;
@@ -465,6 +465,7 @@
 
   /**
    * @appliesMixin Gerrit.PatchSetMixin
+   * @extends Polymer.Element
    */
   class GrCommentApi extends Polymer.mixinBehaviors( [
     Gerrit.PatchSetBehavior,
@@ -473,6 +474,9 @@
           Polymer.Element))) {
     static get is() { return 'gr-comment-api'; }
 
+    /**
+     * @suppress {checkTypes}
+     */
     static get properties() {
       return {
         _changeComments: Object,

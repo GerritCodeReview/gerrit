@@ -20,6 +20,7 @@
   // Prevent redefinition.
   if (window.GrRepoApi) { return; }
 
+  /** @constructor */
   function GrRepoApi(plugin) {
     this._hook = null;
     this.plugin = plugin;

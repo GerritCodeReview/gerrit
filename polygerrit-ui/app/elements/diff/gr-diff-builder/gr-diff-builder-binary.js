@@ -20,6 +20,7 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderBinary) { return; }
 
+  /** @constructor */
   function GrDiffBuilderBinary(diff, prefs, outputEl) {
     GrDiffBuilder.call(this, diff, prefs, outputEl);
   }

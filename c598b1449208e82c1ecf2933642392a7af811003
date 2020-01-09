@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "973dcd18_250f7d48",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-09T08:50:20Z",
+      "side": 1,
+      "message": "What means this option? Does it make clickable popup for auth refresh? But could it be user can click on other real buttons through overlay?",
+      "range": {
+        "startLine": 45,
+        "startChar": 5,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "c598b1449208e82c1ecf2933642392a7af811003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

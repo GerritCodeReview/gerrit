@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "46f43455_6a2993f6",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-01-09T02:16:19Z",
+      "side": 1,
+      "message": "Is this still needed, or can it be removed?\n\n(E.g. if it\u0027s planned for removal but part of a gradual migration, could use a note in the javadoc saying so.)",
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c383dfb_015db880",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
         "patchSetId": 9

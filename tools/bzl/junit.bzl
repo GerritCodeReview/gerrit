@@ -79,12 +79,7 @@ def junit_tests(name, srcs, **kwargs):
         srcs = srcs,
         outname = s_name,
     )
-    jvm_flags = kwargs.get("jvm_flags", [])
-    jvm_flags = jvm_flags + select({
-        "//:java11": POST_JDK8_OPTS,
-        "//:java_next": POST_JDK8_OPTS,
-        "//conditions:default": [],
-    })
+    jvm_flags = kwargs.get("jvm_flags", []) + POST_JDK8_OPTS
     java_test(
         name = name,
         test_class = s_name,

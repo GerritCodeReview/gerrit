@@ -119,13 +119,13 @@
           value: true,
         },
 
-        /** @type {?String} */
+        /** @type {?string} */
         _userId: {
           type: String,
           value: null,
         },
 
-        /** @type {?String} */
+        /** @type {?string} */
         _repo: {
           type: String,
           value: null,

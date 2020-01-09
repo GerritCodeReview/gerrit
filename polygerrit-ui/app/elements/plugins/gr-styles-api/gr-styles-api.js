@@ -71,7 +71,7 @@
   /**
    * Creates a new GrStyleObject with specified style properties.
    *
-   * @param {string} String with style properties.
+   * @param {string} ruleStr with style properties.
    * @return {GrStyleObject}
    */
   GrStylesApi.prototype.css = function(ruleStr) {

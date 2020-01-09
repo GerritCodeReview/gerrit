@@ -94,7 +94,7 @@
           type: Boolean,
           value: false,
         },
-        /** @type(?number) */
+        /** @type {?number} */
         _colonIndex: Number,
         _currentSearchString: {
           type: String,

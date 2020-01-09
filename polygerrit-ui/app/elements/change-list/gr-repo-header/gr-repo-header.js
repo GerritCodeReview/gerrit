@@ -24,12 +24,12 @@
 
     static get properties() {
       return {
-      /** @type {?String} */
+      /** @type {?string} */
         repo: {
           type: String,
           observer: '_repoChanged',
         },
-        /** @type {String|null} */
+        /** @type {string|null} */
         _repoUrl: String,
       };
     }

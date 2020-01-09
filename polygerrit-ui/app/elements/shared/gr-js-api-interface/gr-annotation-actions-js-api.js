@@ -101,7 +101,7 @@
    *        https://bugs.chromium.org/p/gerrit/issues/detail?id=8077 is
    *        implemented.
    *
-   * @param {String} checkboxLabel Will be used as the label for the checkbox.
+   * @param {string} checkboxLabel Will be used as the label for the checkbox.
    *     Optional. "Enable" is used if this is not specified.
    * @param {function(HTMLElement)} onAttached The function that will be called
    *     when the checkbox is attached to the page.
@@ -133,10 +133,10 @@
    * layers. Intended to be called by the plugin when all required data for
    * annotation is available.
    *
-   * @param {String} path The file path whose listeners should be notified.
-   * @param {Number} start The line where the update starts.
-   * @param {Number} end The line where the update ends.
-   * @param {String} side The side of the update ('left' or 'right').
+   * @param {string} path The file path whose listeners should be notified.
+   * @param {number} start The line where the update starts.
+   * @param {number} end The line where the update ends.
+   * @param {string} side The side of the update ('left' or 'right').
    */
   GrAnnotationActionsInterface.prototype.notify = function(
       path, startRange, endRange, side) {
@@ -154,9 +154,9 @@
    * Should be called to register annotation layers by the framework. Not
    * intended to be called by plugins.
    *
-   * @param {String} path The file path (eg: /COMMIT_MSG').
-   * @param {String} changeNum The Gerrit change number.
-   * @param {String} patchNum The Gerrit patch number.
+   * @param {string} path The file path (eg: /COMMIT_MSG').
+   * @param {string} changeNum The Gerrit change number.
+   * @param {string} patchNum The Gerrit patch number.
    */
   GrAnnotationActionsInterface.prototype.getLayer = function(
       path, changeNum, patchNum) {
@@ -170,9 +170,9 @@
    * Used to create an instance of the Annotation Layer interface.
    *
    * @constructor
-   * @param {String} path The file path (eg: /COMMIT_MSG').
-   * @param {String} changeNum The Gerrit change number.
-   * @param {String} patchNum The Gerrit patch number.
+   * @param {string} path The file path (eg: /COMMIT_MSG').
+   * @param {string} changeNum The Gerrit change number.
+   * @param {string} patchNum The Gerrit patch number.
    * @param {function(GrAnnotationActionsContext)} addLayerFunc The function
    *     that will be called when the AnnotationLayer is ready to annotate.
    */
@@ -188,7 +188,7 @@
   /**
    * Register a listener for layer updates.
    *
-   * @param {function(Number, Number, String)} fn The update handler function.
+   * @param {Function} fn The update handler function.
    *     Should accept as arguments the line numbers for the start and end of
    *     the update and the side as a string.
    */
@@ -215,9 +215,9 @@
   /**
    * Notify Layer listeners of changes to annotations.
    *
-   * @param {Number} start The line where the update starts.
-   * @param {Number} end The line where the update ends.
-   * @param {String} side The side of the update. ('left' or 'right')
+   * @param {number} start The line where the update starts.
+   * @param {number} end The line where the update ends.
+   * @param {string} side The side of the update. ('left' or 'right')
    */
   AnnotationLayer.prototype.notifyListeners = function(
       startRange, endRange, side) {

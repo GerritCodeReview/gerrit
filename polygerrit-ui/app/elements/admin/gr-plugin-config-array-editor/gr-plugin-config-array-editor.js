@@ -31,7 +31,7 @@
       return {
       /** @type {?} */
         pluginOption: Object,
-        /** @type {Boolean} */
+        /** @type {boolean} */
         disabled: {
           type: Boolean,
           computed: '_computeDisabled(pluginOption.*)',

@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "1e8c146d_e777456e",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-09T16:35:38Z",
+      "side": 1,
+      "message": "I think it would be fine to switch to the new method in this change.",
+      "parentUuid": "46f43455_6a2993f6",
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c383dfb_015db880",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
         "patchSetId": 9

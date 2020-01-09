@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62a84f76_77043eba",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-01-09T22:57:58Z",
+      "side": 1,
+      "message": "My first instinct was that this should be package-private. That way there\u0027s less risk of breaking callers if we want to add new fields later.\n\nCould we expose a builder \u003chttps://github.com/google/auto/blob/master/value/userguide/builders-howto.md\u003e instead?",
+      "revId": "3dc6e4d84fa578f9c9ae340188e2534df63bfddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

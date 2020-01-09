@@ -17,6 +17,7 @@
 (function(window) {
   'use strict';
 
+  /** @constructor */
   function GrEventHelper(element) {
     this.element = element;
     this._unsubscribers = [];

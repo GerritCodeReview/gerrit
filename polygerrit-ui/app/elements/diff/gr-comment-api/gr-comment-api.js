@@ -23,11 +23,11 @@
    * Construct a change comments object, which can be data-bound to child
    * elements of that which uses the gr-comment-api.
    *
+   * @constructor
    * @param {!Object} comments
    * @param {!Object} robotComments
    * @param {!Object} drafts
    * @param {number} changeNum
-   * @constructor
    */
   function ChangeComments(comments, robotComments, drafts, changeNum) {
     this._comments = comments;

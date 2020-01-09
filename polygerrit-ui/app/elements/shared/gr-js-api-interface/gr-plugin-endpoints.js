@@ -17,6 +17,7 @@
 (function(window) {
   'use strict';
 
+  /** @constructor */
   function GrPluginEndpoints() {
     this._endpoints = {};
     this._callbacks = {};

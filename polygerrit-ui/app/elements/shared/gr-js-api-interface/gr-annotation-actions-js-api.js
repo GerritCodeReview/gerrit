@@ -17,6 +17,7 @@
 (function(window) {
   'use strict';
 
+  /** @constructor */
   function GrAnnotationActionsInterface(plugin) {
     this.plugin = plugin;
     // Return this instance when there is an annotatediff event.
@@ -168,6 +169,7 @@
   /**
    * Used to create an instance of the Annotation Layer interface.
    *
+   * @constructor
    * @param {String} path The file path (eg: /COMMIT_MSG').
    * @param {String} changeNum The Gerrit change number.
    * @param {String} patchNum The Gerrit patch number.

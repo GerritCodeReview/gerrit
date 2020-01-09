@@ -22,6 +22,7 @@
 
   let styleObjectCount = 0;
 
+  /** @constructor */
   function GrStyleObject(rulesStr) {
     this._rulesStr = rulesStr;
     this._className = `__pg_js_api_class_${styleObjectCount}`;

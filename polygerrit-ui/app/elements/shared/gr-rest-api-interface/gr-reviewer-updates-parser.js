@@ -20,6 +20,7 @@
   // Prevent redefinition.
   if (window.GrReviewerUpdatesParser) { return; }
 
+  /** @constructor */
   function GrReviewerUpdatesParser(change) {
     this.result = Object.assign({}, change);
     this._lastState = {};

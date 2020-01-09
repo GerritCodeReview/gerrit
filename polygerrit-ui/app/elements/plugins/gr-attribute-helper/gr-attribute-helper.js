@@ -17,6 +17,7 @@
 (function(window) {
   'use strict';
 
+  /** @constructor */
   function GrAttributeHelper(element) {
     this.element = element;
     this._promises = {};

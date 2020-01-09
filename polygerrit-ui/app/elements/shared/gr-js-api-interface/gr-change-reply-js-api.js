@@ -33,6 +33,7 @@
 
   /**
    * @deprecated
+   * @constructor
    */
   function GrChangeReplyInterfaceOld(el) {
     this._el = el;

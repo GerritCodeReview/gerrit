@@ -22,6 +22,30 @@
       "revId": "9345bfb639023c59d8f849f9c5703243a2f50d85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01c9b243_44f04827",
+        "filename": "java/com/google/gerrit/server/ExceptionHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-09T09:01:53Z",
+      "side": 1,
+      "message": "Good that you are asking, for a moment I was confused myself. This is an Optional to allow an exception hook implementation to make no decision about the response code and leave it to other exception hooks that might be registered. The behaviour of the methods in case multiple exception hooks are registered was not documented, I now did this in a predecessor change [1]. I hope this makes it understandable why this is an Optional.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/250013",
+      "parentUuid": "2d560b85_0b9ec7b7",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 4
+      },
+      "revId": "9345bfb639023c59d8f849f9c5703243a2f50d85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

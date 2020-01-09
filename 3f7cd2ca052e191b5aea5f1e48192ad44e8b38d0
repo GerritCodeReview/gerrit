@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae1fa876_021ef438",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T21:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9fc8a61_46192d49",
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e506056_fb20feeb",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97572a44_25e6c915",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T21:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e506056_fb20feeb",
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e2d63e0_c52cafba",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T21:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74505b53_560f2e29",
+      "range": {
+        "startLine": 33,
+        "startChar": 25,
+        "endLine": 33,
+        "endChar": 37
+      },
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "b061c519_c9f7bddc",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T21:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8c146d_e777456e",
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c383dfb_015db880",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
         "patchSetId": 9
@@ -108,6 +186,24 @@
       "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da1f652e_b1e38bc1",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T21:32:11Z",
+      "side": 1,
+      "message": "This was for backward compatibility, but it is no longer needed so I removed it.",
+      "parentUuid": "0c383dfb_015db880",
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -131,6 +227,30 @@
       "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ce0c57f_9cdbf2f5",
+        "filename": "java/com/google/gerrit/server/PublishCommentUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T21:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e9a04a9_b948039f",
+      "range": {
+        "startLine": 122,
+        "startChar": 58,
+        "endLine": 122,
+        "endChar": 82
+      },
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

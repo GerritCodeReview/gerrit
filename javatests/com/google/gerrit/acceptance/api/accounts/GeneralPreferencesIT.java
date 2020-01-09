@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
@@ -69,7 +68,6 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
     // change all default values
     i.changesPerPage *= -1;
-    i.downloadCommand = DownloadCommand.REPO_DOWNLOAD;
     i.dateFormat = DateFormat.US;
     i.timeFormat = TimeFormat.HHMM_24;
     i.emailStrategy = EmailStrategy.DISABLED;

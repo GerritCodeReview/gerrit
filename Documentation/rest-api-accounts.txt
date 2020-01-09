@@ -1250,7 +1250,6 @@ any account.
   )]}'
   {
     "changes_per_page": 25,
-    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
@@ -1304,7 +1303,6 @@ link:#preferences-input[PreferencesInput] entity.
   {
     "changes_per_page": 50,
     "expand_inline_diffs": true,
-    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
@@ -1352,7 +1350,6 @@ link:#preferences-info[PreferencesInfo] entity.
   {
     "changes_per_page": 50,
     "expand_inline_diffs": true,
-    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
@@ -1414,7 +1411,6 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   )]}'
   {
     "context": 10,
-    "theme": "DEFAULT",
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
@@ -1445,7 +1441,6 @@ link:#diff-preferences-input[DiffPreferencesInput] entity.
 
   {
     "context": 10,
-    "theme": "ECLIPSE",
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
@@ -1471,7 +1466,6 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   )]}'
   {
     "context": 10,
-    "theme": "ECLIPSE",
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
@@ -1508,8 +1502,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   )]}'
   {
-    "theme": "ECLIPSE",
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1541,8 +1533,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "theme": "ECLIPSE",
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1569,8 +1559,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   )]}'
   {
-    "theme": "ECLIPSE",
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "cursor_blink_rate": 530,
@@ -2451,9 +2439,6 @@ preferences of a user.
 |Field Name                    ||Description
 |`context`                     ||
 The number of lines of context when viewing a patch.
-|`theme`                       ||
-The CodeMirror theme name in upper case, for example `DEFAULT`. All the themes
-from the CodeMirror release that Gerrit is using are available.
 |`expand_all_comments`         |not set if `false`|
 Whether all inline comments should be automatically expanded.
 |`ignore_whitespace`           ||
@@ -2575,12 +2560,6 @@ preferences of a user.
 [options="header",cols="1,^1,5"]
 |===========================================
 |Field Name                    ||Description
-|`theme`                       ||
-The CodeMirror theme name in upper case, for example `DEFAULT`. All the themes
-from the CodeMirror release that Gerrit is using are available.
-|`key_map_type`                ||
-The CodeMirror key map. Currently only a subset of key maps are
-supported: `DEFAULT`, `EMACS`, `SUBLIME`, `VIM`.
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
 |`line_length`                 ||
@@ -2736,8 +2715,6 @@ Whether to expand diffs inline instead of opening as separate page
 The type of download URL the user prefers to use. May be any key from
 the `schemes` map in
 link:rest-api-config.html#download-info[DownloadInfo].
-|`download_command`             ||
-The type of download command the user prefers to use.
 |`date_format`                  ||
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -2798,8 +2775,6 @@ Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).
 |`download_scheme`              |optional|
 The type of download URL the user prefers to use.
-|`download_command`             |optional|
-The type of download command the user prefers to use.
 |`date_format`                  |optional|
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.

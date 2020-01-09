@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "e9fc8a61_46192d49",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-09T16:13:17Z",
+      "side": 1,
+      "message": "Can you explain why this is needed for validating comments, maybe give an example use case?",
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e506056_fb20feeb",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-09T16:13:17Z",
+      "side": 1,
+      "message": "Please add javadoc for the public API.",
+      "revId": "3f7cd2ca052e191b5aea5f1e48192ad44e8b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74505b53_560f2e29",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
         "patchSetId": 9

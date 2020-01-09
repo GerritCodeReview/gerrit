@@ -16,6 +16,24 @@
       "revId": "3dc6e4d84fa578f9c9ae340188e2534df63bfddc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "940ea3d7_4a2a8a2b",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T23:48:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62a84f76_77043eba",
+      "revId": "3dc6e4d84fa578f9c9ae340188e2534df63bfddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

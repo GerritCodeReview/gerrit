@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "88c1dadb_7914113b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T00:28:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "305339c0_e89164b5",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd065cfa_f2c1de10",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
         "patchSetId": 6
@@ -53,6 +77,24 @@
       "writtenOn": "2020-01-09T00:26:43Z",
       "side": 1,
       "message": "What happened to hiesel\u0027s suggestion of Project.NameKey plus Change.Id?\n\nSimpler and more flexible. Passing identifiers instead of what they refer to.",
+      "parentUuid": "dd065cfa_f2c1de10",
+      "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04b61da5_04790034",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-09T00:28:39Z",
+      "side": 1,
+      "message": "It didn\u0027t looks like those identifiers were visible from the extensions package. Forgive me if it was just my lack of java knowledge and there is a way to do it.",
       "parentUuid": "dd065cfa_f2c1de10",
       "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

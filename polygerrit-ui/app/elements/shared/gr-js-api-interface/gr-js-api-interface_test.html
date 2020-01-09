@@ -108,7 +108,7 @@ limitations under the License.
       sendStub.returns(Promise.resolve(
           {status: 400, text() { return Promise.resolve('text'); }}));
       return plugin._send().catch(r => {
-        assert.equal(r, 'text');
+        assert.equal(r.message, 'text');
       });
     });
 
@@ -116,7 +116,7 @@ limitations under the License.
       sendStub.returns(Promise.resolve(
           {status: 400, text() { return Promise.resolve(null); }}));
       return plugin._send().catch(r => {
-        assert.equal(r, '400');
+        assert.equal(r.message, '400');
       });
     });
 
@@ -180,7 +180,7 @@ limitations under the License.
       }).catch(err => {
         assert.isTrue(sendStub.calledWith(
             'DELETE', 'http://test.com/plugins/testplugin/url'));
-        assert.equal('text', err);
+        assert.equal('text', err.message);
       });
     });
 

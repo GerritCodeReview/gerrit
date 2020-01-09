@@ -123,7 +123,7 @@ limitations under the License.
         throw new Error('Should not resolve');
       }).catch(err => {
         assert.isTrue(sendStub.calledWith('DELETE', '/url'));
-        assert.equal('text', err);
+        assert.equal('text', err.message);
       });
     });
 

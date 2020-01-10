@@ -62,6 +62,20 @@ public class PushAccountIT extends AbstractDaemonTest {
 
   @ConfigSuite.Default
   public static Config enableSignedPushConfig() {
+    return defaultConfig();
+  }
+
+  @ConfigSuite.Config
+  public static Config disableInMemoryRefCache() {
+    // Run these tests for both enabled and disabled in-memory ref caches. This is an implementation
+    // detail of ReceiveCommits that makes the logic either base it's computation on previously
+    // advertised refs or a make it query a ref database.
+    Config cfg = defaultConfig();
+    cfg.setBoolean("receive", null, "enableInMemoryRefCache", false);
+    return cfg;
+  }
+
+  private static Config defaultConfig() {
     Config cfg = new Config();
     cfg.setBoolean("receive", null, "enableSignedPush", true);
 

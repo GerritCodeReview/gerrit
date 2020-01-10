@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends PolymerElement */
   class GrShellCommand extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

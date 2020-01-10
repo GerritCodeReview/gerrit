@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends PolymerElement */
   class GrSshEditor extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

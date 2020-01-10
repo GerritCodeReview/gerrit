@@ -55,6 +55,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @extends PolymerElement
    */
   class GrTextarea extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -125,6 +126,7 @@
       };
     }
 
+    /** @override */
     ready() {
       super.ready();
       if (this.monospace) {

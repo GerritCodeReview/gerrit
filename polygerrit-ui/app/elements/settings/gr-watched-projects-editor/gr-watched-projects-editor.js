@@ -25,6 +25,7 @@
     {name: 'Abandons', key: 'notify_abandoned_changes'},
   ];
 
+  /** @extends PolymerElement */
   class GrWatchedProjectsEditor extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

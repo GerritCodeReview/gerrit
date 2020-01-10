@@ -29,6 +29,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrUploadHelpDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -65,6 +66,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.$.restAPI.getLoggedIn()

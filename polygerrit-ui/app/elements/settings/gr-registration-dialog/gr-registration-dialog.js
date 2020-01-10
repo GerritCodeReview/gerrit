@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrRegistrationDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -67,6 +68,7 @@
       };
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._ensureAttribute('role', 'dialog');

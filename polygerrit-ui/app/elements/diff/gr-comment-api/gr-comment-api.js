@@ -466,6 +466,7 @@
 
   /**
    * @appliesMixin Gerrit.PatchSetMixin
+   * @extends PolymerElement
    */
   class GrCommentApi extends Polymer.mixinBehaviors( [
     Gerrit.PatchSetBehavior,
@@ -480,6 +481,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('reload-drafts',

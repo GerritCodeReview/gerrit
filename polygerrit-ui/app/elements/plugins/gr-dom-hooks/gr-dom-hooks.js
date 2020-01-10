@@ -41,6 +41,7 @@
     return this._hooks[hookName];
   };
 
+  /** @constructor */
   function GrDomHook(hookName, opt_moduleName) {
     this._instances = [];
     this._callbacks = [];

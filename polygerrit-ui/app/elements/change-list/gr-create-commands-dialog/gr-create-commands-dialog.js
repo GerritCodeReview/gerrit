@@ -23,6 +23,7 @@
     PUSH_PREFIX: 'git push origin HEAD:refs/for/',
   };
 
+  /** @extends PolymerElement */
   class GrCreateCommandsDialog extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

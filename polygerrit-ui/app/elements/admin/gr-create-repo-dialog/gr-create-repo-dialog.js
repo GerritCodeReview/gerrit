@@ -20,6 +20,7 @@
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends PolymerElement
    */
   class GrCreateRepoDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,

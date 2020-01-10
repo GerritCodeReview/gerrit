@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrSelectionActionBox extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -42,6 +43,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
 

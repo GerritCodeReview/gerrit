@@ -20,6 +20,7 @@
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends PolymerElement
    */
   class GrCreateGroupDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,

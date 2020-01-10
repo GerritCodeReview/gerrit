@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrDiffHighlight extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -57,6 +58,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('comment-thread-mouseleave',

@@ -39,6 +39,7 @@
 
   /**
    * @appliesMixin Gerrit.PatchSetMixin
+   * @extends PolymerElement
    */
   class GrJsApiInterface extends Polymer.mixinBehaviors( [
     Gerrit.PatchSetBehavior,

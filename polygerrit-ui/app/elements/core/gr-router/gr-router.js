@@ -214,6 +214,7 @@
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends PolymerElement
    */
   class GrRouter extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,

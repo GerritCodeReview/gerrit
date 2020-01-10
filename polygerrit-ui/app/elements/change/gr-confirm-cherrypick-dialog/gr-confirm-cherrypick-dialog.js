@@ -21,6 +21,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrConfirmCherrypickDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

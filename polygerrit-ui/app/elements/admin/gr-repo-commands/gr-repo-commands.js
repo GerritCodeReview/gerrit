@@ -28,6 +28,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrRepoCommands extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -50,6 +51,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._loadRepo();

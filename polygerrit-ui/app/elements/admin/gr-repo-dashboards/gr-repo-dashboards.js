@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrRepoDashboards extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

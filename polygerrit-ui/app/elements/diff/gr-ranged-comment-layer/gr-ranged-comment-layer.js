@@ -23,6 +23,7 @@
   const RANGE_HIGHLIGHT = 'style-scope gr-diff range';
   const HOVER_HIGHLIGHT = 'style-scope gr-diff rangeHighlight';
 
+  /** @extends PolymerElement */
   class GrRangedCommentLayer extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

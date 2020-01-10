@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends PolymerElement */
   class GrFixedPanel extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -61,6 +62,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       if (this.floatingDisabled) {
@@ -76,6 +78,7 @@
       this._observer.observe(this.$.header, {childList: true, subtree: true});
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.unlisten(window, 'scroll', '_updateOnScroll');

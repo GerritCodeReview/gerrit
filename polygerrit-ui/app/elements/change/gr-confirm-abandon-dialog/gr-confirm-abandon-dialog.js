@@ -20,6 +20,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @extends PolymerElement
    */
   class GrConfirmAbandonDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends PolymerElement */
   class GrHttpPassword extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -30,6 +31,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.loadData();

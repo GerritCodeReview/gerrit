@@ -22,6 +22,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrEditableContent extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

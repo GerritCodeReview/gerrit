@@ -21,6 +21,7 @@
    * Fired when a comment is saved or deleted
    *
    * @event thread-list-modified
+   * @extends PolymerElement
    */
   class GrThreadList extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(

@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
+   * @extends PolymerElement
    */
   class GrAccountLink extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,

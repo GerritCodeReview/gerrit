@@ -17,6 +17,7 @@
 (function(window) {
   'use strict';
 
+  /** @extends PolymerElement */
   class GrPluginPopup extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

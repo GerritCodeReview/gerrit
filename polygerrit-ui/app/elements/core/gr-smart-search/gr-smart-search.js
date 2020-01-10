@@ -23,6 +23,7 @@
 
   /**
    * @appliesMixin Gerrit.DisplayNameMixin
+   * @extends PolymerElement
    */
   class GrSmartSearch extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
@@ -56,6 +57,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.$.restAPI.getConfig().then(cfg => {

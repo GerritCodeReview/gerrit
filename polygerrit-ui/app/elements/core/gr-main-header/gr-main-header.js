@@ -301,7 +301,8 @@
       if (!account) { return; }
 
       this.$.restAPI.getPreferences().then(prefs => {
-        this._userLinks = prefs.my.map(this._fixCustomMenuItem);
+        this._userLinks = prefs && prefs.my ?
+          prefs.my.map(this._fixCustomMenuItem) : [];
       });
     }
 

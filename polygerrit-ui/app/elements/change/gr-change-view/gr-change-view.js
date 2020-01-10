@@ -608,11 +608,11 @@
         }
       }
       diffDrafts[draft.path].push(draft);
-      diffDrafts[draft.path].sort((c1, c2) => {
+      diffDrafts[draft.path].sort((c1, c2) =>
         // No line number means that it’s a file comment. Sort it above the
         // others.
-        return (c1.line || -1) - (c2.line || -1);
-      });
+        (c1.line || -1) - (c2.line || -1)
+      );
       this._diffDrafts = diffDrafts;
     }
 
@@ -694,7 +694,7 @@
     _handleMessageReply(e) {
       const msg = e.detail.message.message;
       const quoteStr = msg.split('\n').map(
-          line => { return '> ' + line; })
+          line => '> ' + line)
           .join('\n') + '\n\n';
       this.$.replyDialog.quote = quoteStr;
       this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
@@ -1093,9 +1093,8 @@
       }
 
       const drafts = (changeRecord && changeRecord.base) || {};
-      const draftCount = Object.keys(drafts).reduce((count, file) => {
-        return count + drafts[file].length;
-      }, 0);
+      const draftCount = Object.keys(drafts)
+          .reduce((count, file) => count + drafts[file].length, 0);
 
       let label = 'Reply';
       if (draftCount > 0) {
@@ -1401,9 +1400,7 @@
     }
 
     _reloadDraftsWithCallback(e) {
-      return this._reloadDrafts().then(() => {
-        return e.detail.resolve();
-      });
+      return this._reloadDrafts().then(() => e.detail.resolve());
     }
 
     /**

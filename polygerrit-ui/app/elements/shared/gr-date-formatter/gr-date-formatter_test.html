@@ -89,15 +89,13 @@ limitations under the License.
     }
 
     suite('24 hours time format preference', () => {
-      setup(() => {
-        return stubRestAPI(
-            {time_format: 'HHMM_24', relative_date_in_change_table: false}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        });
-      });
+      setup(() => stubRestAPI(
+          {time_format: 'HHMM_24', relative_date_in_change_table: false}
+      ).then(() => {
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        return element._loadPreferences();
+      }));
 
       test('invalid dates are quietly rejected', () => {
         assert.notOk((new Date('foo')).valueOf());
@@ -138,16 +136,16 @@ limitations under the License.
     });
 
     suite('12 hours time format preference', () => {
-      setup(() => {
-        // relative_date_in_change_table is not set when false.
-        return stubRestAPI(
+      setup(() =>
+      // relative_date_in_change_table is not set when false.
+        stubRestAPI(
             {time_format: 'HHMM_12'}
         ).then(() => {
           element = fixture('basic');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
           return element._loadPreferences();
-        });
-      });
+        })
+      );
 
       test('Within 24 hours on same day', done => {
         testDates('2015-07-29 20:34:14.985000000',
@@ -159,15 +157,13 @@ limitations under the License.
     });
 
     suite('relative date preference', () => {
-      setup(() => {
-        return stubRestAPI(
-            {time_format: 'HHMM_12', relative_date_in_change_table: true}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        });
-      });
+      setup(() => stubRestAPI(
+          {time_format: 'HHMM_12', relative_date_in_change_table: true}
+      ).then(() => {
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        return element._loadPreferences();
+      }));
 
       test('Within 24 hours on same day', done => {
         testDates('2015-07-29 20:34:14.985000000',
@@ -187,14 +183,12 @@ limitations under the License.
     });
 
     suite('logged in', () => {
-      setup(() => {
-        return stubRestAPI(
-            {time_format: 'HHMM_12', relative_date_in_change_table: true}
-        ).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        });
-      });
+      setup(() => stubRestAPI(
+          {time_format: 'HHMM_12', relative_date_in_change_table: true}
+      ).then(() => {
+        element = fixture('basic');
+        return element._loadPreferences();
+      }));
 
       test('Preferences are respected', () => {
         assert.equal(element._timeFormat, 'h:mm A');
@@ -203,12 +197,10 @@ limitations under the License.
     });
 
     suite('logged out', () => {
-      setup(() => {
-        return stubRestAPI(null).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        });
-      });
+      setup(() => stubRestAPI(null).then(() => {
+        element = fixture('basic');
+        return element._loadPreferences();
+      }));
 
       test('Default preferences are respected', () => {
         assert.equal(element._timeFormat, 'HH:mm');

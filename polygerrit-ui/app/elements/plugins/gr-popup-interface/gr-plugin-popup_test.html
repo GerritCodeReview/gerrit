@@ -56,11 +56,9 @@ limitations under the License.
       assert.isOk(element);
     });
 
-    test('open uses open() from gr-overlay', () => {
-      return element.open().then(() => {
-        assert.isTrue(element.$.overlay.open.called);
-      });
-    });
+    test('open uses open() from gr-overlay', () => element.open().then(() => {
+      assert.isTrue(element.$.overlay.open.called);
+    }));
 
     test('close uses close() from gr-overlay', () => {
       element.close();

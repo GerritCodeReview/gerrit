@@ -169,7 +169,7 @@
         },
         _panelFloatingDisabled: {
           type: Boolean,
-          value: () => { return window.PANEL_FLOATING_DISABLED; },
+          value: () => window.PANEL_FLOATING_DISABLED,
         },
         _editMode: {
           type: Boolean,

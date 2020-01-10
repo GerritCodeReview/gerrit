@@ -812,9 +812,8 @@ limitations under the License.
           sandbox.stub(builder, 'addColumns');
           builder.buildSectionElement = function(group) {
             const section = document.createElement('stub');
-            section.textContent = group.lines.reduce((acc, line) => {
-              return acc + line.text;
-            }, '');
+            section.textContent = group.lines
+                .reduce((acc, line) => acc + line.text, '');
             return section;
           };
           return builder;
@@ -859,7 +858,7 @@ limitations under the License.
         const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
         element.render(keyLocations, {}).then(() => {
           const firedEventTypes = dispatchEventStub.getCalls()
-              .map(c => { return c.args[0].type; });
+              .map(c => c.args[0].type);
           assert.include(firedEventTypes, 'render-start');
           assert.include(firedEventTypes, 'render-content');
           done();

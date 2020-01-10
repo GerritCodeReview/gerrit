@@ -80,9 +80,10 @@
     }
 
     _getHasAvatars() {
-      return this.$.restAPI.getConfig().then(cfg => {
-        return Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars));
-      });
+      return this.$.restAPI.getConfig()
+          .then(cfg => Promise.resolve(!!(
+            cfg && cfg.plugin && cfg.plugin.has_avatars
+          )));
     }
   }
 

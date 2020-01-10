@@ -120,9 +120,10 @@ limitations under the License.
         },
       });
       element = fixture('basic');
-      repoStub = sandbox.stub(element.$.restAPI, 'getProjectConfig', () => {
-        return Promise.resolve(repoConf);
-      });
+      repoStub = sandbox.stub(
+          element.$.restAPI,
+          'getProjectConfig',
+          () => Promise.resolve(repoConf));
     });
 
     teardown(() => {
@@ -187,12 +188,11 @@ limitations under the License.
 
     test('form defaults to read only when logged in and not admin', done => {
       element.repo = REPO;
-      sandbox.stub(element, '_getLoggedIn', () => {
-        return Promise.resolve(true);
-      });
-      sandbox.stub(element.$.restAPI, 'getRepoAccess', () => {
-        return Promise.resolve({'test-repo': {}});
-      });
+      sandbox.stub(element, '_getLoggedIn', () => Promise.resolve(true));
+      sandbox.stub(
+          element.$.restAPI,
+          'getRepoAccess',
+          () => Promise.resolve({'test-repo': {}}));
       element._loadRepo().then(() => {
         assert.isTrue(element._readOnly);
         done();
@@ -280,12 +280,11 @@ limitations under the License.
     suite('admin', () => {
       setup(() => {
         element.repo = REPO;
-        sandbox.stub(element, '_getLoggedIn', () => {
-          return Promise.resolve(true);
-        });
-        sandbox.stub(element.$.restAPI, 'getRepoAccess', () => {
-          return Promise.resolve({'test-repo': {is_owner: true}});
-        });
+        sandbox.stub(element, '_getLoggedIn', () => Promise.resolve(true));
+        sandbox.stub(
+            element.$.restAPI,
+            'getRepoAccess',
+            () => Promise.resolve({'test-repo': {is_owner: true}}));
       });
 
       test('all form elements are enabled', done => {
@@ -308,14 +307,13 @@ limitations under the License.
         });
       });
 
-      test('inherited submit type value is calculated correctly', () => {
-        return element._loadRepo().then(() => {
-          const sel = element.$.submitTypeSelect;
-          assert.equal(sel.bindValue, 'INHERIT');
-          assert.equal(
-              sel.nativeSelect.options[0].text, 'Inherit (Merge if necessary)');
-        });
-      });
+      test('inherited submit type value is calculated correctly', () => element
+          ._loadRepo().then(() => {
+            const sel = element.$.submitTypeSelect;
+            assert.equal(sel.bindValue, 'INHERIT');
+            assert.equal(
+                sel.nativeSelect.options[0].text, 'Inherit (Merge if necessary)');
+          }));
 
       test('fields update and save correctly', () => {
         const configInputObj = {
@@ -338,9 +336,7 @@ limitations under the License.
         };
 
         const saveStub = sandbox.stub(element.$.restAPI, 'saveRepoConfig'
-            , () => {
-              return Promise.resolve({});
-            });
+            , () => Promise.resolve({}));
 
         const button = Polymer.dom(element.root).querySelector('gr-button');
 

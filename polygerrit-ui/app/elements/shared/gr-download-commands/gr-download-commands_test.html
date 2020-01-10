@@ -131,7 +131,7 @@ limitations under the License.
       test('saves scheme to preferences', () => {
         element._loggedIn = true;
         const savePrefsStub = sandbox.stub(element.$.restAPI, 'savePreferences',
-            () => { return Promise.resolve(); });
+            () => Promise.resolve());
 
         flushAsynchronousOperations();
 

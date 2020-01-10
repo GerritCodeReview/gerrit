@@ -66,22 +66,20 @@ limitations under the License.
     });
 
     test('parent diff comments are properly grouped', done => {
-      sandbox.stub(element._restApiHelper, 'fetchJSON', () => {
-        return Promise.resolve({
-          '/COMMIT_MSG': [],
-          'sieve.go': [
-            {
-              updated: '2017-02-03 22:32:28.000000000',
-              message: 'this isn’t quite right',
-            },
-            {
-              side: 'PARENT',
-              message: 'how did this work in the first place?',
-              updated: '2017-02-03 22:33:28.000000000',
-            },
-          ],
-        });
-      });
+      sandbox.stub(element._restApiHelper, 'fetchJSON', () => Promise.resolve({
+        '/COMMIT_MSG': [],
+        'sieve.go': [
+          {
+            updated: '2017-02-03 22:32:28.000000000',
+            message: 'this isn’t quite right',
+          },
+          {
+            side: 'PARENT',
+            message: 'how did this work in the first place?',
+            updated: '2017-02-03 22:33:28.000000000',
+          },
+        ],
+      }));
       element._getDiffComments('42', '', 'PARENT', 1, 'sieve.go').then(
           obj => {
             assert.equal(obj.baseComments.length, 1);
@@ -430,15 +428,12 @@ limitations under the License.
     });
 
     const preferenceSetup = function(testJSON, loggedIn, smallScreen) {
-      sandbox.stub(element, 'getLoggedIn', () => {
-        return Promise.resolve(loggedIn);
-      });
-      sandbox.stub(element, '_isNarrowScreen', () => {
-        return smallScreen;
-      });
-      sandbox.stub(element._restApiHelper, 'fetchCacheURL', () => {
-        return Promise.resolve(testJSON);
-      });
+      sandbox.stub(element, 'getLoggedIn', () => Promise.resolve(loggedIn));
+      sandbox.stub(element, '_isNarrowScreen', () => smallScreen);
+      sandbox.stub(
+          element._restApiHelper,
+          'fetchCacheURL',
+          () => Promise.resolve(testJSON));
     };
 
     test('getPreferences returns correctly on small screens logged in',
@@ -537,9 +532,7 @@ limitations under the License.
     });
 
     test('getEditPreferences returns correct defaults', done => {
-      sandbox.stub(element, 'getLoggedIn', () => {
-        return Promise.resolve(false);
-      });
+      sandbox.stub(element, 'getLoggedIn', () => Promise.resolve(false));
 
       element.getEditPreferences().then(obj => {
         assert.equal(obj.auto_close_brackets, false);
@@ -982,12 +975,12 @@ limitations under the License.
           toHexStub = sandbox.stub(element, 'listChangesOptionsToHex',
               options => 'deadbeef');
           sandbox.stub(element, '_getChangeDetail',
-              async (changeNum, options) => ({changeNum, options}));
+              async (changeNum, options) => { return {changeNum, options}; });
         });
 
         test('signed pushes disabled', async () => {
           const {PUSH_CERTIFICATES} = element.ListChangesOption;
-          sandbox.stub(element, 'getConfig', async () => ({}));
+          sandbox.stub(element, 'getConfig', async () => { return {}; });
           const {changeNum, options} = await element.getChangeDetail(123);
           assert.strictEqual(123, changeNum);
           assert.strictEqual('deadbeef', options);

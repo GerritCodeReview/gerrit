@@ -39,9 +39,7 @@
      * file simpler by just using _reloadComments here instead.
      */
     _reloadDraftsWithCallback(e) {
-      return this._reloadComments().then(() => {
-        return e.detail.resolve();
-      });
+      return this._reloadComments().then(() => e.detail.resolve());
     }
 
     _reloadComments() {

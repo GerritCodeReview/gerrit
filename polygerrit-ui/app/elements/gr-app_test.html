@@ -82,9 +82,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    appElement = () => {
-      return element.$['app-element'];
-    };
+    appElement = () => element.$['app-element'];
 
     test('reporting', () => {
       assert.isTrue(appElement().$.reporting.appStarted.calledOnce);

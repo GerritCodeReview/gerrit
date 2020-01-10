@@ -354,7 +354,7 @@
           changeRevision = rev;
         }
       }
-      const commits = relatedChanges.map(c => { return c.commit; });
+      const commits = relatedChanges.map(c => c.commit);
       let pos = commits.length - 1;
 
       while (pos >= 0) {

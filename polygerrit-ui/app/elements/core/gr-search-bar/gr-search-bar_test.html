@@ -59,11 +59,9 @@ limitations under the License.
       assert.equal(element._inputVal, 'foo');
     });
 
-    getActiveElement = () => {
-      return document.activeElement.shadowRoot ?
-        document.activeElement.shadowRoot.activeElement :
-        document.activeElement;
-    };
+    getActiveElement = () => (document.activeElement.shadowRoot ?
+      document.activeElement.shadowRoot.activeElement :
+      document.activeElement);
 
     test('enter in search input fires event', done => {
       element.addEventListener('handle-search', () => {

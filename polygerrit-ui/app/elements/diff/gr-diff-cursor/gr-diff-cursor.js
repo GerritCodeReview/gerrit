@@ -165,9 +165,7 @@
 
     moveToNextChunk(opt_clipToTop) {
       this.$.cursorManager.next(this._isFirstRowOfChunk.bind(this),
-          target => {
-            return target.parentNode.scrollHeight;
-          }, opt_clipToTop);
+          target => target.parentNode.scrollHeight, opt_clipToTop);
       this._fixSide();
     }
 
@@ -273,9 +271,8 @@
     }
 
     createCommentInPlace() {
-      const diffWithRangeSelected = this.diffs.find(diff => {
-        return diff.isRangeSelected();
-      });
+      const diffWithRangeSelected = this.diffs
+          .find(diff => diff.isRangeSelected());
       if (diffWithRangeSelected) {
         diffWithRangeSelected.createRangeComment();
       } else {
@@ -404,9 +401,7 @@
 
     _getStops() {
       return this.diffs.reduce(
-          (stops, diff) => {
-            return stops.concat(diff.getCursorStops());
-          }, []);
+          (stops, diff) => stops.concat(diff.getCursorStops()), []);
     }
 
     _updateStops() {

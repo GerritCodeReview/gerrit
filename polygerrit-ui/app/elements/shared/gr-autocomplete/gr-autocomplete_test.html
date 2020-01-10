@@ -54,15 +54,13 @@ limitations under the License.
 
     test('renders', () => {
       let promise;
-      const queryStub = sandbox.spy(input => {
-        return promise = Promise.resolve([
-          {name: input + ' 0', value: 0},
-          {name: input + ' 1', value: 1},
-          {name: input + ' 2', value: 2},
-          {name: input + ' 3', value: 3},
-          {name: input + ' 4', value: 4},
-        ]);
-      });
+      const queryStub = sandbox.spy(input => promise = Promise.resolve([
+        {name: input + ' 0', value: 0},
+        {name: input + ' 1', value: 1},
+        {name: input + ' 2', value: 2},
+        {name: input + ' 3', value: 3},
+        {name: input + ' 4', value: 4},
+      ]));
       element.query = queryStub;
       assert.isTrue(element.$.suggestions.isHidden);
       assert.equal(element.$.suggestions.$.cursor.index, -1);
@@ -104,11 +102,9 @@ limitations under the License.
 
     test('esc key behavior', done => {
       let promise;
-      const queryStub = sandbox.spy(() => {
-        return promise = Promise.resolve([
-          {name: 'blah', value: 123},
-        ]);
-      });
+      const queryStub = sandbox.spy(() => promise = Promise.resolve([
+        {name: 'blah', value: 123},
+      ]));
       element.query = queryStub;
 
       assert.isTrue(element.$.suggestions.isHidden);
@@ -135,15 +131,13 @@ limitations under the License.
 
     test('emits commit and handles cursor movement', done => {
       let promise;
-      const queryStub = sandbox.spy(input => {
-        return promise = Promise.resolve([
-          {name: input + ' 0', value: 0},
-          {name: input + ' 1', value: 1},
-          {name: input + ' 2', value: 2},
-          {name: input + ' 3', value: 3},
-          {name: input + ' 4', value: 4},
-        ]);
-      });
+      const queryStub = sandbox.spy(input => promise = Promise.resolve([
+        {name: input + ' 0', value: 0},
+        {name: input + ' 1', value: 1},
+        {name: input + ' 2', value: 2},
+        {name: input + ' 3', value: 3},
+        {name: input + ' 4', value: 4},
+      ]));
       element.query = queryStub;
 
       assert.isTrue(element.$.suggestions.isHidden);
@@ -188,7 +182,8 @@ limitations under the License.
     test('clear-on-commit behavior (off)', done => {
       let promise;
       const queryStub = sandbox.spy(() => {
-        return promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+        promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+        return promise;
       });
       element.query = queryStub;
       focusOnInput(element);
@@ -210,7 +205,8 @@ limitations under the License.
     test('clear-on-commit behavior (on)', done => {
       let promise;
       const queryStub = sandbox.spy(() => {
-        return promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+        promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+        return promise;
       });
       element.query = queryStub;
       focusOnInput(element);
@@ -231,9 +227,7 @@ limitations under the License.
     });
 
     test('threshold guards the query', () => {
-      const queryStub = sandbox.spy(() => {
-        return Promise.resolve([]);
-      });
+      const queryStub = sandbox.spy(() => Promise.resolve([]));
       element.query = queryStub;
       element.threshold = 2;
       focusOnInput(element);
@@ -244,9 +238,7 @@ limitations under the License.
     });
 
     test('noDebounce=false debounces the query', () => {
-      const queryStub = sandbox.spy(() => {
-        return Promise.resolve([]);
-      });
+      const queryStub = sandbox.spy(() => Promise.resolve([]));
       let callback;
       const debounceStub = sandbox.stub(element, 'debounce',
           (name, cb) => { callback = cb; });
@@ -276,7 +268,9 @@ limitations under the License.
     test('when focused', done => {
       let promise;
       const queryStub = sandbox.stub()
-          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+          .returns(promise = Promise.resolve([
+            {name: 'suggestion', value: 0},
+          ]));
       element.query = queryStub;
       element.suggestOnlyWhenFocus = true;
       focusOnInput(element);
@@ -293,7 +287,9 @@ limitations under the License.
     test('when not focused', done => {
       let promise;
       const queryStub = sandbox.stub()
-          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+          .returns(promise = Promise.resolve([
+            {name: 'suggestion', value: 0},
+          ]));
       element.query = queryStub;
       element.suggestOnlyWhenFocus = true;
       element.text = 'bla';
@@ -308,7 +304,9 @@ limitations under the License.
     test('suggestions should not carry over', done => {
       let promise;
       const queryStub = sandbox.stub()
-          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+          .returns(promise = Promise.resolve([
+            {name: 'suggestion', value: 0},
+          ]));
       element.query = queryStub;
       focusOnInput(element);
       element.text = 'bla';
@@ -324,7 +322,9 @@ limitations under the License.
     test('multi completes only the last part of the query', done => {
       let promise;
       const queryStub = sandbox.stub()
-          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+          .returns(promise = Promise.resolve([
+            {name: 'suggestion', value: 0},
+          ]));
       element.query = queryStub;
       focusOnInput(element);
       element.text = 'blah blah';
@@ -449,7 +449,12 @@ limitations under the License.
       // Must set the value, because the MockInteraction does not.
       element.$.input.value = 'file:x';
       assert.isTrue(keydownSpy.calledOnce);
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null, 'enter');
+      MockInteractions.pressAndReleaseKeyOn(
+          element.$.input,
+          13,
+          null,
+          'enter'
+      );
       assert.isTrue(keydownSpy.calledTwice);
       assert.equal(element.text, 'file:x');
     });

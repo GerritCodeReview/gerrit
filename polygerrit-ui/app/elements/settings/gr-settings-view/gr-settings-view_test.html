@@ -70,7 +70,7 @@ limitations under the License.
 
     function stubAddAccountEmail(statusCode) {
       return sandbox.stub(element.$.restAPI, 'addAccountEmail',
-          () => { return Promise.resolve({status: statusCode}); });
+          () => Promise.resolve({status: statusCode}));
     }
 
     setup(done => {
@@ -487,9 +487,10 @@ limitations under the License.
 
       setup(() => {
         sandbox.stub(element.$.emailEditor, 'loadData');
-        sandbox.stub(element.$.restAPI, 'confirmEmail', () => {
-          return new Promise(resolve => { resolveConfirm = resolve; });
-        });
+        sandbox.stub(
+            element.$.restAPI,
+            'confirmEmail',
+            () => new Promise(resolve => { resolveConfirm = resolve; }));
         element.params = {emailToken: 'foo'};
         element.attached();
       });

@@ -46,9 +46,7 @@ limitations under the License.
      * @return {!Array}
      */
     getComplementColumns(columns) {
-      return this.columnNames.filter(column => {
-        return !columns.includes(column);
-      });
+      return this.columnNames.filter(column => !columns.includes(column));
     },
 
     /**

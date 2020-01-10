@@ -115,7 +115,7 @@ limitations under the License.
         patchNum: '2',
       };
       saveStub = sandbox.stub(element, '_saveReviewedState',
-          () => { return Promise.resolve(); });
+          () => Promise.resolve());
     });
 
     teardown(() => {
@@ -1477,9 +1477,7 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      sandbox.stub(window, 'fetch', () => {
-        return Promise.resolve();
-      });
+      sandbox.stub(window, 'fetch', () => Promise.resolve());
       flushAsynchronousOperations();
     });
 

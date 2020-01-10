@@ -209,9 +209,8 @@
 
     _computeLabelValues(values) {
       const valuesArr = [];
-      const keys = Object.keys(values).sort((a, b) => {
-        return parseInt(a, 10) - parseInt(b, 10);
-      });
+      const keys = Object.keys(values)
+          .sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
 
       for (const key of keys) {
         let text = values[key];
@@ -255,9 +254,8 @@
               });
             }
             // Does not return groups in which we already have rules for.
-            return groups.filter(group => {
-              return !this._groupsWithRules[group.value.id];
-            });
+            return groups
+                .filter(group => !this._groupsWithRules[group.value.id]);
           });
     }
 
@@ -268,7 +266,8 @@
     _handleAddRuleItem(e) {
       // The group id is encoded, but have to decode in order for the access
       // API to work as expected.
-      const groupId = decodeURIComponent(e.detail.value.id).replace(/\+/g, ' ');
+      const groupId = decodeURIComponent(e.detail.value.id)
+          .replace(/\+/g, ' ');
       this.set(['permission', 'value', 'rules', groupId], {});
 
       // Purposely don't recompute sorted array so that the newly added rule

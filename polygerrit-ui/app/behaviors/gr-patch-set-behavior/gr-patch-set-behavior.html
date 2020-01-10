@@ -150,9 +150,8 @@ limitations under the License.
       if (!change) { return []; }
       let patchNums = [];
       if (change.revisions && Object.keys(change.revisions).length) {
-        const revisions = Object.keys(change.revisions).map(sha => {
-          return Object.assign({sha}, change.revisions[sha]);
-        });
+        const revisions = Object.keys(change.revisions)
+            .map(sha => Object.assign({sha}, change.revisions[sha]));
         patchNums =
           Gerrit.PatchSetBehavior.sortRevisions(revisions)
               .map(e => {

@@ -127,9 +127,7 @@ limitations under the License.
       });
 
       test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getRepos', () => {
-          return Promise.resolve(repos);
-        });
+        sandbox.stub(element.$.restAPI, 'getRepos', () => Promise.resolve(repos));
         const value = {
           filter: 'test',
           offset: 25,

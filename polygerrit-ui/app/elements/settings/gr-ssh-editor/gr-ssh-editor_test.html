@@ -81,7 +81,7 @@ limitations under the License.
       const lastKey = keys[1];
 
       const saveStub = sinon.stub(element.$.restAPI, 'deleteAccountSSHKey',
-          () => { return Promise.resolve(); });
+          () => Promise.resolve());
 
       assert.equal(element._keysToRemove.length, 0);
       assert.isFalse(element.hasUnsavedChanges);
@@ -132,7 +132,7 @@ limitations under the License.
       };
 
       const addStub = sinon.stub(element.$.restAPI, 'addAccountSSHKey',
-          () => { return Promise.resolve(newKeyObject); });
+          () => Promise.resolve(newKeyObject));
 
       element._newKey = newKeyString;
 
@@ -157,7 +157,7 @@ limitations under the License.
       const newKeyString = 'not even close to valid';
 
       const addStub = sinon.stub(element.$.restAPI, 'addAccountSSHKey',
-          () => { return Promise.reject(new Error('error')); });
+          () => Promise.reject(new Error('error')));
 
       element._newKey = newKeyString;
 

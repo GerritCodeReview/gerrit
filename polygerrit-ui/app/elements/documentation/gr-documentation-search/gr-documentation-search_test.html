@@ -90,9 +90,10 @@ limitations under the License.
       });
 
       test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getDocumentationSearches', () => {
-          return Promise.resolve(documentationSearches);
-        });
+        sandbox.stub(
+            element.$.restAPI,
+            'getDocumentationSearches',
+            () => Promise.resolve(documentationSearches));
         const value = {
           filter: 'test',
         };

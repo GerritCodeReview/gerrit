@@ -801,7 +801,7 @@
       let queryString = '';
       if (opt_params) {
         queryString = '?q=' + opt_params
-            .map(param => { return encodeURIComponent(param); })
+            .map(param => encodeURIComponent(param))
             .join('&q=');
       }
       return this._fetchSharedCacheURL({
@@ -823,9 +823,9 @@
               return Promise.resolve();
             }
           })
-          .then(capabilities => {
-            return capabilities && capabilities.administrateServer;
-          });
+          .then(
+              capabilities => capabilities && capabilities.administrateServer
+          );
     }
 
     getDefaultPreferences() {
@@ -1644,14 +1644,12 @@
         this.awaitPendingDiffDrafts(),
         this.getChangeActionURL(changeNum, patchNum, '/review'),
       ];
-      return Promise.all(promises).then(([, url]) => {
-        return this._restApiHelper.send({
-          method: 'POST',
-          url,
-          body: review,
-          errFn: opt_errFn,
-        });
-      });
+      return Promise.all(promises).then(([, url]) => this._restApiHelper.send({
+        method: 'POST',
+        url,
+        body: review,
+        errFn: opt_errFn,
+      }));
     }
 
     getChangeEdit(changeNum, opt_download_commands) {
@@ -2015,9 +2013,9 @@
 
     _setRanges(comments) {
       comments = comments || [];
-      comments.sort((a, b) => {
-        return util.parseDate(a.updated) - util.parseDate(b.updated);
-      });
+      comments.sort(
+          (a, b) => util.parseDate(a.updated) - util.parseDate(b.updated)
+      );
       for (const comment of comments) {
         this._setRange(comments, comment);
       }
@@ -2041,14 +2039,12 @@
        * @param {string|number=} opt_patchNum
        * @return {!Promise<!Object>} Diff comments response.
        */
-      const fetchComments = opt_patchNum => {
-        return this._getChangeURLAndFetch({
-          changeNum,
-          endpoint,
-          patchNum: opt_patchNum,
-          reportEndpointAsIs: true,
-        });
-      };
+      const fetchComments = opt_patchNum => this._getChangeURLAndFetch({
+        changeNum,
+        endpoint,
+        patchNum: opt_patchNum,
+        reportEndpointAsIs: true,
+      });
 
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
         return fetchComments();
@@ -2089,12 +2085,10 @@
         promises.push(fetchPromise);
       }
 
-      return Promise.all(promises).then(() => {
-        return Promise.resolve({
-          baseComments,
-          comments,
-        });
-      });
+      return Promise.all(promises).then(() => Promise.resolve({
+        baseComments,
+        comments,
+      }));
     }
 
     /**
@@ -2467,9 +2461,7 @@
 
     probePath(path) {
       return fetch(new Request(path, {method: 'HEAD'}))
-          .then(response => {
-            return response.ok;
-          });
+          .then(response => response.ok);
     }
 
     /**
@@ -2597,19 +2589,18 @@
       const anonymizedEndpoint = req.reportEndpointAsIs ?
         req.endpoint : req.anonymizedEndpoint;
 
-      return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
-        return this._restApiHelper.send({
-          method: req.method,
-          url: url + req.endpoint,
-          body: req.body,
-          errFn: req.errFn,
-          contentType: req.contentType,
-          headers: req.headers,
-          parseResponse: req.parseResponse,
-          anonymizedUrl: anonymizedEndpoint ?
-            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
-        });
-      });
+      return this._changeBaseURL(req.changeNum, req.patchNum)
+          .then(url => this._restApiHelper.send({
+            method: req.method,
+            url: url + req.endpoint,
+            body: req.body,
+            errFn: req.errFn,
+            contentType: req.contentType,
+            headers: req.headers,
+            parseResponse: req.parseResponse,
+            anonymizedUrl: anonymizedEndpoint ?
+              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
+          }));
     }
 
     /**
@@ -2623,16 +2614,15 @@
         req.endpoint : req.anonymizedEndpoint;
       const anonymizedBaseUrl = req.patchNum ?
         ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
-      return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
-        return this._restApiHelper.fetchJSON({
-          url: url + req.endpoint,
-          errFn: req.errFn,
-          params: req.params,
-          fetchOptions: req.fetchOptions,
-          anonymizedUrl: anonymizedEndpoint ?
-            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
-        });
-      });
+      return this._changeBaseURL(req.changeNum, req.patchNum)
+          .then(url => this._restApiHelper.fetchJSON({
+            url: url + req.endpoint,
+            errFn: req.errFn,
+            params: req.params,
+            fetchOptions: req.fetchOptions,
+            anonymizedUrl: anonymizedEndpoint ?
+              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
+          }));
     }
 
     /**

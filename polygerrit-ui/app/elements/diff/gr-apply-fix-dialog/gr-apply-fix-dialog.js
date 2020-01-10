@@ -85,8 +85,9 @@
           .getRobotCommentFixPreview(this.changeNum, this._patchNum, fixId)
           .then(res => {
             if (res != null) {
-              const previews = Object.keys(res).map(key =>
-                ({filepath: key, preview: res[key]}));
+              const previews = Object.keys(res).map(key => {
+                return {filepath: key, preview: res[key]};
+              });
               this._currentPreviews = previews;
             }
           })

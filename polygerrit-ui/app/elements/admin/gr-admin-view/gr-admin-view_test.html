@@ -101,13 +101,15 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
         name: 'test-user',
       }));
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        });
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccountCapabilities',
+          () => Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          })
+      );
       element.reload().then(() => {
         assert.equal(element._filteredLinks.length, 3);
 
@@ -127,9 +129,11 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
         name: 'test-user',
       }));
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({});
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccountCapabilities',
+          () => Promise.resolve({})
+      );
       element.reload().then(() => {
         assert.equal(element._filteredLinks.length, 2);
 
@@ -185,13 +189,14 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
         name: 'test-user',
       }));
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        });
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccountCapabilities',
+          () => Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          }));
       element.reload().then(() => {
         flushAsynchronousOperations();
         assert.equal(Polymer.dom(element.root)
@@ -214,13 +219,14 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
         name: 'test-user',
       }));
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        });
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccountCapabilities',
+          () => Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          }));
       element.reload().then(() => {
         flushAsynchronousOperations();
         assert.equal(element._filteredLinks.length, 3);
@@ -239,16 +245,18 @@ limitations under the License.
     });
 
     test('Nav is reloaded when repo changes', () => {
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        });
-      });
-      sandbox.stub(element.$.restAPI, 'getAccount', () => {
-        return Promise.resolve({_id: 1});
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccountCapabilities',
+          () => Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          }));
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccount',
+          () => Promise.resolve({_id: 1}));
       sandbox.stub(element, 'reload');
       element.params = {repo: 'Test Repo', adminView: 'gr-repo'};
       assert.equal(element.reload.callCount, 1);
@@ -259,16 +267,18 @@ limitations under the License.
 
     test('Nav is reloaded when group changes', () => {
       sandbox.stub(element, '_computeGroupName');
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        });
-      });
-      sandbox.stub(element.$.restAPI, 'getAccount', () => {
-        return Promise.resolve({_id: 1});
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccountCapabilities',
+          () => Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          }));
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccount',
+          () => Promise.resolve({_id: 1}));
       sandbox.stub(element, 'reload');
       element.params = {groupId: '1', adminView: 'gr-group'};
       assert.equal(element.reload.callCount, 1);
@@ -304,7 +314,9 @@ limitations under the License.
       assert.isOk(element.$$('.mainHeader'));
       element._subsectionLinks = undefined;
       flushAsynchronousOperations();
-      assert.equal(getComputedStyle(element.$$('.mainHeader')).display, 'none');
+      assert.equal(
+          getComputedStyle(element.$$('.mainHeader')).display,
+          'none');
     });
 
     test('Dropdown only triggers navigation on explicit select', done => {
@@ -314,16 +326,18 @@ limitations under the License.
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.ACCESS,
       };
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        });
-      });
-      sandbox.stub(element.$.restAPI, 'getAccount', () => {
-        return Promise.resolve({_id: 1});
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccountCapabilities',
+          () => Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          }));
+      sandbox.stub(
+          element.$.restAPI,
+          'getAccount',
+          () => Promise.resolve({_id: 1}));
       flushAsynchronousOperations();
       const expectedFilteredLinks = [
         {
@@ -475,16 +489,18 @@ limitations under the License.
 
     suite('_computeSelectedClass', () => {
       setup(() => {
-        sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-          return Promise.resolve({
-            createGroup: true,
-            createProject: true,
-            viewPlugins: true,
-          });
-        });
-        sandbox.stub(element.$.restAPI, 'getAccount', () => {
-          return Promise.resolve({_id: 1});
-        });
+        sandbox.stub(
+            element.$.restAPI,
+            'getAccountCapabilities',
+            () => Promise.resolve({
+              createGroup: true,
+              createProject: true,
+              viewPlugins: true,
+            }));
+        sandbox.stub(
+            element.$.restAPI,
+            'getAccount',
+            () => Promise.resolve({_id: 1}));
 
         return element.reload();
       });

@@ -200,9 +200,7 @@
       const trimmedInput = this._inputVal && this._inputVal.trim();
       if (trimmedInput) {
         const predefinedOpOnlyQuery = SEARCH_OPERATORS_WITH_NEGATIONS.some(
-            op => {
-              return op.endsWith(':') && op === trimmedInput;
-            }
+            op => op.endsWith(':') && op === trimmedInput
         );
         if (predefinedOpOnlyQuery) {
           return;
@@ -252,7 +250,7 @@
         default:
           return Promise.resolve(SEARCH_OPERATORS_WITH_NEGATIONS
               .filter(operator => operator.includes(input))
-              .map(operator => ({text: operator})));
+              .map(operator => { return {text: operator}; }));
       }
     }
 

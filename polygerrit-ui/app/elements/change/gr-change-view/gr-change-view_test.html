@@ -91,9 +91,7 @@ limitations under the License.
       });
     });
 
-    getCustomCssValue = cssParam => {
-      return util.getComputedStyleValue(cssParam, element);
-    };
+    getCustomCssValue = cssParam => util.getComputedStyleValue(cssParam, element);
 
     test('_handleMessageAnchorTap', () => {
       element._changeNum = '1';
@@ -725,10 +723,10 @@ limitations under the License.
 
     test('don’t reload entire page when patchRange changes', () => {
       const reloadStub = sandbox.stub(element, '_reload',
-          () => { return Promise.resolve(); });
+          () => Promise.resolve());
       const reloadPatchDependentStub = sandbox.stub(element,
           '_reloadPatchNumDependentResources',
-          () => { return Promise.resolve(); });
+          () => Promise.resolve());
       const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
       const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
 
@@ -753,7 +751,7 @@ limitations under the License.
 
     test('reload entire page when patchRange doesnt change', () => {
       const reloadStub = sandbox.stub(element, '_reload',
-          () => { return Promise.resolve(); });
+          () => Promise.resolve());
       const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
       const value = {
         view: Gerrit.Nav.View.CHANGE,
@@ -769,11 +767,9 @@ limitations under the License.
     test('related changes are updated and new patch selected after rebase',
         done => {
           element._changeNum = '42';
-          sandbox.stub(element, 'computeLatestPatchNum', () => {
-            return 1;
-          });
+          sandbox.stub(element, 'computeLatestPatchNum', () => 1);
           sandbox.stub(element, '_reload',
-              () => { return Promise.resolve(); });
+              () => Promise.resolve());
           const e = {detail: {action: 'rebase'}};
           element._handleReloadChange(e).then(() => {
             assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
@@ -783,7 +779,7 @@ limitations under the License.
         });
 
     test('related changes are not updated after other action', done => {
-      sandbox.stub(element, '_reload', () => { return Promise.resolve(); });
+      sandbox.stub(element, '_reload', () => Promise.resolve());
       sandbox.stub(element.$.relatedChanges, 'reload');
       const e = {detail: {action: 'abandon'}};
       element._handleReloadChange(e).then(() => {
@@ -929,14 +925,12 @@ limitations under the License.
 
     test('topic is coalesced to null', done => {
       sandbox.stub(element, '_changeChanged');
-      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
-        return Promise.resolve({
-          id: '123456789',
-          labels: {},
-          current_revision: 'foo',
-          revisions: {foo: {commit: {}}},
-        });
-      });
+      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => Promise.resolve({
+        id: '123456789',
+        labels: {},
+        current_revision: 'foo',
+        revisions: {foo: {commit: {}}},
+      }));
 
       element._getChangeDetail().then(() => {
         assert.isNull(element._change.topic);
@@ -946,14 +940,12 @@ limitations under the License.
 
     test('commit sha is populated from getChangeDetail', done => {
       sandbox.stub(element, '_changeChanged');
-      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
-        return Promise.resolve({
-          id: '123456789',
-          labels: {},
-          current_revision: 'foo',
-          revisions: {foo: {commit: {}}},
-        });
-      });
+      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => Promise.resolve({
+        id: '123456789',
+        labels: {},
+        current_revision: 'foo',
+        revisions: {foo: {commit: {}}},
+      }));
 
       element._getChangeDetail().then(() => {
         assert.equal('foo', element._commitInfo.commit);
@@ -963,20 +955,16 @@ limitations under the License.
 
     test('edit is added to change', () => {
       sandbox.stub(element, '_changeChanged');
-      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
-        return Promise.resolve({
-          id: '123456789',
-          labels: {},
-          current_revision: 'foo',
-          revisions: {foo: {commit: {}}},
-        });
-      });
-      sandbox.stub(element, '_getEdit', () => {
-        return Promise.resolve({
-          base_patch_set_number: 1,
-          commit: {commit: 'bar'},
-        });
-      });
+      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => Promise.resolve({
+        id: '123456789',
+        labels: {},
+        current_revision: 'foo',
+        revisions: {foo: {commit: {}}},
+      }));
+      sandbox.stub(element, '_getEdit', () => Promise.resolve({
+        base_patch_set_number: 1,
+        commit: {commit: 'bar'},
+      }));
       element._patchRange = {};
 
       return element._getChangeDetail().then(() => {
@@ -1097,12 +1085,8 @@ limitations under the License.
     });
 
     test('revert dialog opened with revert param', done => {
-      sandbox.stub(element.$.restAPI, 'getLoggedIn', () => {
-        return Promise.resolve(true);
-      });
-      sandbox.stub(Gerrit, 'awaitPluginsLoaded', () => {
-        return Promise.resolve();
-      });
+      sandbox.stub(element.$.restAPI, 'getLoggedIn', () => Promise.resolve(true));
+      sandbox.stub(Gerrit, 'awaitPluginsLoaded', () => Promise.resolve());
 
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -1173,7 +1157,7 @@ limitations under the License.
       setup(() => {
         sandbox.stub(element.$.replyDialog, '_draftChanged');
         sandbox.stub(element.$.replyDialog, 'fetchChangeUpdates',
-            () => { return Promise.resolve({isLatest: true}); });
+            () => Promise.resolve({isLatest: true}));
         element._change = {labels: {}};
       });
 
@@ -1222,7 +1206,7 @@ limitations under the License.
     suite('commit message expand/collapse', () => {
       setup(() => {
         sandbox.stub(element, 'fetchChangeUpdates',
-            () => { return Promise.resolve({isLatest: false}); });
+            () => Promise.resolve({isLatest: false}));
       });
 
       test('commitCollapseToggle hidden for short commit message', () => {
@@ -1260,7 +1244,7 @@ limitations under the License.
             sandbox.stub(element, '_getOffsetHeight', () => 50);
             sandbox.stub(element, '_getScrollHeight', () => 60);
             sandbox.stub(element, '_getLineHeight', () => 5);
-            sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+            sandbox.stub(window, 'matchMedia', () => { return {matches: true}; });
             element.$.relatedChanges.dispatchEvent(
                 new CustomEvent('new-section-loaded'));
             assert.isTrue(element.$.relatedChangesToggle.classList
@@ -1275,7 +1259,7 @@ limitations under the License.
             sandbox.stub(element, '_getOffsetHeight', () => 50);
             sandbox.stub(element, '_getScrollHeight', () => 40);
             sandbox.stub(element, '_getLineHeight', () => 5);
-            sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+            sandbox.stub(window, 'matchMedia', () => { return {matches: true}; });
             element.$.relatedChanges.dispatchEvent(
                 new CustomEvent('new-section-loaded'));
             assert.isFalse(element.$.relatedChangesToggle.classList
@@ -1285,7 +1269,7 @@ limitations under the License.
 
       test('relatedChangesToggle functions', () => {
         sandbox.stub(element, '_getOffsetHeight', () => 50);
-        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+        sandbox.stub(window, 'matchMedia', () => { return {matches: false}; });
         element._relatedChangesLoading = false;
         assert.isTrue(element._relatedChangesCollapsed);
         assert.isTrue(
@@ -1299,7 +1283,7 @@ limitations under the License.
       test('_updateRelatedChangeMaxHeight without commit toggle', () => {
         sandbox.stub(element, '_getOffsetHeight', () => 50);
         sandbox.stub(element, '_getLineHeight', () => 12);
-        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+        sandbox.stub(window, 'matchMedia', () => { return {matches: false}; });
 
         // 50 (existing height) - 30 (extra height) = 20 (adjusted height).
         // 20 (max existing height)  % 12 (line height) = 6 (remainder).
@@ -1316,7 +1300,7 @@ limitations under the License.
         element._latestCommitMessage = _.times(31, String).join('\n');
         sandbox.stub(element, '_getOffsetHeight', () => 50);
         sandbox.stub(element, '_getLineHeight', () => 12);
-        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+        sandbox.stub(window, 'matchMedia', () => { return {matches: false}; });
 
         // 50 (existing height) % 12 (line height) = 2 (remainder).
         // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
@@ -1332,7 +1316,7 @@ limitations under the License.
         element._latestCommitMessage = _.times(31, String).join('\n');
         sandbox.stub(element, '_getOffsetHeight', () => 50);
         sandbox.stub(element, '_getLineHeight', () => 12);
-        sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+        sandbox.stub(window, 'matchMedia', () => { return {matches: true}; });
 
         element._updateRelatedChangeMaxHeight();
 
@@ -1383,7 +1367,7 @@ limitations under the License.
 
         test('_startUpdateCheckTimer up-to-date', () => {
           sandbox.stub(element, 'fetchChangeUpdates',
-              () => { return Promise.resolve({isLatest: true}); });
+              () => Promise.resolve({isLatest: true}));
 
           element._serverConfig = {change: {update_delay: 12345}};
 
@@ -1394,7 +1378,7 @@ limitations under the License.
 
         test('_startUpdateCheckTimer out-of-date shows an alert', done => {
           sandbox.stub(element, 'fetchChangeUpdates',
-              () => { return Promise.resolve({isLatest: false}); });
+              () => Promise.resolve({isLatest: false}));
           element.addEventListener('show-alert', e => {
             assert.equal(e.detail.message,
                 'A newer patch set has been uploaded');

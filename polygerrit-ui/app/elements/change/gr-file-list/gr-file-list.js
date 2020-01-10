@@ -298,9 +298,7 @@
         this._filesByPath = filesByPath;
       }));
       promises.push(this._getLoggedIn()
-          .then(loggedIn => {
-            return this._loggedIn = loggedIn;
-          })
+          .then(loggedIn => this._loggedIn = loggedIn)
           .then(loggedIn => {
             if (!loggedIn) { return; }
 
@@ -1065,30 +1063,28 @@
 
       return (new Promise(resolve => {
         this.fire('reload-drafts', {resolve});
-      })).then(() => {
-        return this.asyncForeach(paths, (path, cancel) => {
-          this._cancelForEachDiff = cancel;
+      })).then(() => this.asyncForeach(paths, (path, cancel) => {
+        this._cancelForEachDiff = cancel;
 
-          iter++;
-          console.log('Expanding diff', iter, 'of', initialCount, ':',
-              path);
-          const diffElem = this._findDiffByPath(path, diffElements);
-          diffElem.comments = this.changeComments.getCommentsBySideForPath(
-              path, this.patchRange, this.projectConfig);
-          const promises = [diffElem.reload()];
-          if (this._loggedIn && !this.diffPrefs.manual_review) {
-            promises.push(this._reviewFile(path, true));
-          }
-          return Promise.all(promises);
-        }).then(() => {
-          this._cancelForEachDiff = null;
-          this._nextRenderParams = null;
-          console.log('Finished expanding', initialCount, 'diff(s)');
-          this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
-              EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
-          this.$.diffCursor.handleDiffUpdate();
-        });
-      });
+        iter++;
+        console.log('Expanding diff', iter, 'of', initialCount, ':',
+            path);
+        const diffElem = this._findDiffByPath(path, diffElements);
+        diffElem.comments = this.changeComments.getCommentsBySideForPath(
+            path, this.patchRange, this.projectConfig);
+        const promises = [diffElem.reload()];
+        if (this._loggedIn && !this.diffPrefs.manual_review) {
+          promises.push(this._reviewFile(path, true));
+        }
+        return Promise.all(promises);
+      }).then(() => {
+        this._cancelForEachDiff = null;
+        this._nextRenderParams = null;
+        console.log('Finished expanding', initialCount, 'diff(s)');
+        this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
+            EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
+        this.$.diffCursor.handleDiffUpdate();
+      }));
     }
 
     /** Cancel the rendering work of every diff in the list */
@@ -1143,9 +1139,9 @@
       // comments due to use in the _handleCommentUpdate function.
       // The comment thread already has a side associated with it, so
       // set the comment's side to match.
-      threadEl.comments = newComments.map(c => {
-        return Object.assign(c, {__commentSide: threadEl.commentSide});
-      });
+      threadEl.comments = newComments.map(c => Object.assign(
+          c, {__commentSide: threadEl.commentSide}
+      ));
       Polymer.dom.flush();
       return;
     }

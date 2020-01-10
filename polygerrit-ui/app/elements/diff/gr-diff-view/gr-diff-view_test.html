@@ -281,8 +281,11 @@ limitations under the License.
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert.isTrue(element._loading);
-      assert(diffNavStub.lastCall.calledWithExactly(element._change, 'chell.go',
-          '10', '5'),
+      assert(diffNavStub.lastCall.calledWithExactly(
+          element._change,
+          'chell.go',
+          '10',
+          '5'),
       'Should navigate to /c/42/5..10/chell.go');
       element._path = 'chell.go';
 
@@ -342,8 +345,11 @@ limitations under the License.
       element._path = 'glados.txt';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(diffNavStub.lastCall.calledWithExactly(element._change, 'chell.go',
-          '1', PARENT), 'Should navigate to /c/42/1/chell.go');
+      assert(diffNavStub.lastCall.calledWithExactly(
+          element._change,
+          'chell.go',
+          '1',
+          PARENT), 'Should navigate to /c/42/1/chell.go');
       element._path = 'chell.go';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
@@ -429,12 +435,14 @@ limitations under the License.
 
     suite('url params', () => {
       setup(() => {
-        sandbox.stub(Gerrit.Nav, 'getUrlForDiff', (c, p, pn, bpn) => {
-          return `${c._number}-${p}-${pn}-${bpn}`;
-        });
-        sandbox.stub(Gerrit.Nav, 'getUrlForChange', (c, pn, bpn) => {
-          return `${c._number}-${pn}-${bpn}`;
-        });
+        sandbox.stub(
+            Gerrit.Nav,
+            'getUrlForDiff',
+            (c, p, pn, bpn) => `${c._number}-${p}-${pn}-${bpn}`);
+        sandbox.stub(
+            Gerrit.Nav
+            , 'getUrlForChange',
+            (c, pn, bpn) => `${c._number}-${pn}-${bpn}`);
       });
 
       test('_formattedFiles', () => {

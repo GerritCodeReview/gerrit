@@ -234,11 +234,8 @@
     _processQuery(query) {
       let tokens = query.split(' ');
       const invalidTokens = ['limit:', 'age:', '-age:'];
-      tokens = tokens.filter(token => {
-        return !invalidTokens.some(invalidToken => {
-          return token.startsWith(invalidToken);
-        });
-      });
+      tokens = tokens.filter(token => !invalidTokens
+          .some(invalidToken => token.startsWith(invalidToken)));
       return tokens.join(' ');
     }
 

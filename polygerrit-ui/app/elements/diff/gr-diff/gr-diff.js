@@ -374,10 +374,11 @@
           .map(commentRangeFromThreadEl)
           .filter(({range}) => range);
       for (const removedCommentRange of removedCommentRanges) {
-        const i = this._commentRanges.findIndex(commentRange => {
-          return commentRange.side === removedCommentRange.side &&
-              Gerrit.rangesEqual(commentRange.range, removedCommentRange.range);
-        });
+        const i = this._commentRanges
+            .findIndex(
+                cr => cr.side === removedCommentRange.side &&
+              Gerrit.rangesEqual(cr.range, removedCommentRange.range)
+            );
         this.splice('_commentRanges', i, 1);
       }
 
@@ -584,7 +585,7 @@
      * @param {string=} side
      * @param {!Object=} range
      */
-    _createComment(lineEl, lineNum=undefined, side=undefined, range=undefined) {
+    _createComment(lineEl, lineNum, side, range) {
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
       side = side ||
@@ -870,13 +871,12 @@
     _computeDiffHeaderItems(diffInfoRecord) {
       const diffInfo = diffInfoRecord.base;
       if (!diffInfo || !diffInfo.diff_header) { return []; }
-      return diffInfo.diff_header.filter(item => {
-        return !(item.startsWith('diff --git ') ||
+      return diffInfo.diff_header
+          .filter(item => !(item.startsWith('diff --git ') ||
             item.startsWith('index ') ||
             item.startsWith('+++ ') ||
             item.startsWith('--- ') ||
-            item === 'Binary files differ');
-      });
+            item === 'Binary files differ'));
     }
 
     /** @return {boolean} */

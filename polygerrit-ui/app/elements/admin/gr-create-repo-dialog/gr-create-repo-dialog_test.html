@@ -66,9 +66,7 @@ limitations under the License.
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
-          'createRepo', () => {
-            return Promise.resolve({});
-          });
+          'createRepo', () => Promise.resolve({}));
 
       assert.isFalse(element.hasNewRepoName);
 

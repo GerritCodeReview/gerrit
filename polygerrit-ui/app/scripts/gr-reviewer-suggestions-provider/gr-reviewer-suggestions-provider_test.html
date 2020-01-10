@@ -181,9 +181,7 @@ limitations under the License.
           });
 
           sandbox.stub(GrDisplayNameUtils, '_accountEmail',
-              () => {
-                return '';
-              });
+              () => '');
 
           suggestion = provider.makeSuggestionItem(account3);
           assert.deepEqual(suggestion, {

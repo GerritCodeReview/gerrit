@@ -67,13 +67,11 @@ limitations under the License.
 
     suite('stubbed values for querySuggestions', () => {
       setup(() => {
-        element.querySuggestions = input => {
-          return Promise.resolve([
-            suggestion1,
-            suggestion2,
-            suggestion3,
-          ]);
-        };
+        element.querySuggestions = input => Promise.resolve([
+          suggestion1,
+          suggestion2,
+          suggestion3,
+        ]);
       });
     });
 

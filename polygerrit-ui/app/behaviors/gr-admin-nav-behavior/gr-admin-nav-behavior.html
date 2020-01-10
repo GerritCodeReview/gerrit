@@ -64,12 +64,11 @@ limitations under the License.
             getAdminMenuLinks, opt_options));
       }
       return getAccountCapabilities()
-          .then(capabilities => {
-            return this._filterLinks(link => {
-              return !link.capability ||
-                  capabilities.hasOwnProperty(link.capability);
-            }, getAdminMenuLinks, opt_options);
-          });
+          .then(capabilities => this._filterLinks(
+              link => !link.capability
+              || capabilities.hasOwnProperty(link.capability),
+              getAdminMenuLinks,
+              opt_options));
     },
 
     /**
@@ -92,15 +91,17 @@ limitations under the License.
       const isExernalLink = link => link.url[0] !== '/';
 
       // Append top-level links that are defined by plugins.
-      links.push(...getAdminMenuLinks().map(link => ({
-        url: link.url,
-        name: link.text,
-        capability: link.capability || null,
-        noBaseUrl: !isExernalLink(link),
-        view: null,
-        viewableToAll: !link.capability,
-        target: isExernalLink(link) ? '_blank' : null,
-      })));
+      links.push(...getAdminMenuLinks().map(link => {
+        return {
+          url: link.url,
+          name: link.text,
+          capability: link.capability || null,
+          noBaseUrl: !isExernalLink(link),
+          view: null,
+          viewableToAll: !link.capability,
+          target: isExernalLink(link) ? '_blank' : null,
+        };
+      }));
 
       links = links.filter(filterFn);
 

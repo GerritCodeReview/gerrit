@@ -49,7 +49,8 @@
         return [];
       }
       const {config} = dataRecord.base;
-      return Object.keys(config).map(_key => ({_key, info: config[_key]}));
+      return Object.keys(config)
+          .map(_key => { return {_key, info: config[_key]}; });
     }
 
     _isArray(type) {

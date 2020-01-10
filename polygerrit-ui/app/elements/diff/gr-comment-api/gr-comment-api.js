@@ -362,9 +362,10 @@
   };
 
   ChangeComments.prototype._sortComments = function(comments) {
-    return comments.slice(0).sort((c1, c2) => {
-      return util.parseDate(c1.updated) - util.parseDate(c2.updated);
-    });
+    return comments.slice(0)
+        .sort(
+            (c1, c2) => util.parseDate(c1.updated) - util.parseDate(c2.updated)
+        );
   };
 
   /**

@@ -105,9 +105,10 @@ limitations under the License.
     test('dom for existing account', () => {
       assert.isFalse(element.hasAttribute('hidden'));
 
-      sandbox.stub(element, '_getConfig', () => {
-        return Promise.resolve({plugin: {has_avatars: true}});
-      });
+      sandbox.stub(
+          element,
+          '_getConfig',
+          () => Promise.resolve({plugin: {has_avatars: true}}));
 
       element.imageSize = 64;
       element.account = {
@@ -139,9 +140,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
 
       stub('gr-avatar', {
-        _getConfig: () => {
-          return Promise.resolve({plugin: {has_avatars: true}});
-        },
+        _getConfig: () => Promise.resolve({plugin: {has_avatars: true}}),
       });
 
       element = fixture('basic');
@@ -176,9 +175,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
 
       stub('gr-avatar', {
-        _getConfig: () => {
-          return Promise.resolve({});
-        },
+        _getConfig: () => Promise.resolve({}),
       });
 
       element = fixture('basic');

@@ -91,7 +91,7 @@
           .then(projects => {
             if (!projects) { return []; }
             const keys = Object.keys(projects);
-            return keys.map(key => ({text: predicate + ':' + key}));
+            return keys.map(key => { return {text: predicate + ':' + key}; });
           });
     }
 
@@ -113,7 +113,7 @@
           .then(groups => {
             if (!groups) { return []; }
             const keys = Object.keys(groups);
-            return keys.map(key => ({text: predicate + ':' + key}));
+            return keys.map(key => { return {text: predicate + ':' + key}; });
           });
     }
 
@@ -151,12 +151,14 @@
     }
 
     _mapAccountsHelper(accounts, predicate) {
-      return accounts.map(account => ({
-        label: account.name || '',
-        text: account.email ?
-          `${predicate}:${account.email}` :
-          `${predicate}:"${this._accountOrAnon(account)}"`,
-      }));
+      return accounts.map(account => {
+        return {
+          label: account.name || '',
+          text: account.email ?
+            `${predicate}:${account.email}` :
+            `${predicate}:"${this._accountOrAnon(account)}"`,
+        };
+      });
     }
   }
 

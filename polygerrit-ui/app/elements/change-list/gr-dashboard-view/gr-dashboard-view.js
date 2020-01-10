@@ -218,13 +218,15 @@
               const lastResultSet = changes.pop();
               this._showNewUserHelp = lastResultSet.length == 0;
             }
-            this._results = changes.map((results, i) => ({
-              name: res.sections[i].name,
-              countLabel: this._computeSectionCountLabel(results),
-              query: res.sections[i].query,
-              results,
-              isOutgoing: res.sections[i].isOutgoing,
-            })).filter((section, i) => i < res.sections.length && (
+            this._results = changes.map((results, i) => {
+              return {
+                name: res.sections[i].name,
+                countLabel: this._computeSectionCountLabel(results),
+                query: res.sections[i].query,
+                results,
+                isOutgoing: res.sections[i].isOutgoing,
+              };
+            }).filter((section, i) => i < res.sections.length && (
               !res.sections[i].hideIfEmpty ||
                 section.results.length));
           });

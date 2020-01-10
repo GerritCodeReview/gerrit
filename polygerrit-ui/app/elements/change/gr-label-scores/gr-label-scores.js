@@ -115,9 +115,7 @@
         }
       }
 
-      const orderedValues = Object.keys(values).sort((a, b) => {
-        return a - b;
-      });
+      const orderedValues = Object.keys(values).sort((a, b) => a - b);
 
       for (let i = 0; i < orderedValues.length; i++) {
         values[orderedValues[i]] = i;

@@ -136,23 +136,24 @@ limitations under the License.
     });
 
     function stubSaveReview(jsonResponseProducer) {
-      return sandbox.stub(element, '_saveReview', review => {
-        return new Promise((resolve, reject) => {
-          try {
-            const result = jsonResponseProducer(review) || {};
-            const resultStr =
-                element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
-            resolve({
-              ok: true,
-              text() {
-                return Promise.resolve(resultStr);
-              },
-            });
-          } catch (err) {
-            reject(err);
-          }
-        });
-      });
+      return sandbox.stub(
+          element,
+          '_saveReview',
+          review => new Promise((resolve, reject) => {
+            try {
+              const result = jsonResponseProducer(review) || {};
+              const resultStr =
+              element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
+              resolve({
+                ok: true,
+                text() {
+                  return Promise.resolve(resultStr);
+                },
+              });
+            } catch (err) {
+              reject(err);
+            }
+          }));
     }
 
     test('default to publishing drafts with reply', done => {
@@ -379,7 +380,8 @@ limitations under the License.
             observer = overlayObserver('closed');
             const expected = 'Group name has 10 members';
             assert.notEqual(
-                element.$.reviewerConfirmationOverlay.innerText.indexOf(expected),
+                element.$.reviewerConfirmationOverlay.innerText
+                    .indexOf(expected),
                 -1);
             MockInteractions.tap(noButton); // close the overlay
             return observer;
@@ -982,9 +984,10 @@ limitations under the License.
       let startReviewStub;
 
       setup(() => {
-        startReviewStub = sandbox.stub(element.$.restAPI, 'startReview', () => {
-          return Promise.resolve();
-        });
+        startReviewStub = sandbox.stub(
+            element.$.restAPI,
+            'startReview',
+            () => Promise.resolve());
       });
 
       test('ready property in review input on start review', () => {

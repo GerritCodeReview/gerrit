@@ -271,39 +271,37 @@
       const rangesCache = new Map();
 
       this._processPromise = util.makeCancelable(this._loadHLJS()
-          .then(() => {
-            return new Promise(resolve => {
-              const nextStep = () => {
-                this._processHandle = null;
-                this._processNextLine(state, rangesCache);
+          .then(() => new Promise(resolve => {
+            const nextStep = () => {
+              this._processHandle = null;
+              this._processNextLine(state, rangesCache);
 
-                // Move to the next line in the section.
-                state.lineIndex++;
+              // Move to the next line in the section.
+              state.lineIndex++;
 
-                // If the section has been exhausted, move to the next one.
-                if (this._isSectionDone(state)) {
-                  state.lineIndex = 0;
-                  state.sectionIndex++;
-                }
+              // If the section has been exhausted, move to the next one.
+              if (this._isSectionDone(state)) {
+                state.lineIndex = 0;
+                state.sectionIndex++;
+              }
 
-                // If all sections have been exhausted, finish.
-                if (state.sectionIndex >= this.diff.content.length) {
-                  resolve();
-                  this._notify(state);
-                  return;
-                }
+              // If all sections have been exhausted, finish.
+              if (state.sectionIndex >= this.diff.content.length) {
+                resolve();
+                this._notify(state);
+                return;
+              }
 
-                if (state.lineIndex % 100 === 0) {
-                  this._notify(state);
-                  this._processHandle = this.async(nextStep, ASYNC_DELAY);
-                } else {
-                  nextStep.call(this);
-                }
-              };
+              if (state.lineIndex % 100 === 0) {
+                this._notify(state);
+                this._processHandle = this.async(nextStep, ASYNC_DELAY);
+              } else {
+                nextStep.call(this);
+              }
+            };
 
-              this._processHandle = this.async(nextStep, 1);
-            });
-          }));
+            this._processHandle = this.async(nextStep, 1);
+          })));
       return this._processPromise
           .finally(() => { this._processPromise = null; });
     }

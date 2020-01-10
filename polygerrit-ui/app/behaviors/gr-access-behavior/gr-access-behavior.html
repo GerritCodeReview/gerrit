@@ -146,10 +146,10 @@ limitations under the License.
               value: obj[key],
             };
           })
-          .sort((a, b) => {
+          .sort((a, b) =>
             // Since IDs are strings, use localeCompare.
-            return a.id.localeCompare(b.id);
-          });
+            a.id.localeCompare(b.id)
+          );
     },
   };
 

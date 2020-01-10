@@ -95,9 +95,8 @@ limitations under the License.
 
             if (expected.pluginGeneratedLinks) {
               for (const link of expected.pluginGeneratedLinks) {
-                const linkMatch = res.links.find(l => {
-                  return (l.url === link.url && l.name === link.text);
-                });
+                const linkMatch = res.links
+                    .find(l => (l.url === link.url && l.name === link.text));
                 assert.isTrue(!!linkMatch);
 
                 // External links should open in new tab.
@@ -325,7 +324,9 @@ limitations under the License.
         let options;
         const generatedLinks = [
           {text: 'without capability', url: '/without'},
-          {text: 'with capability', url: '/with', capability: 'pluginCapability'},
+          {text: 'with capability',
+            url: '/with',
+            capability: 'pluginCapability'},
         ];
         menuLinkStub.returns(generatedLinks);
         expected = Object.assign(expected, {

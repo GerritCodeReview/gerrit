@@ -297,9 +297,10 @@ limitations under the License.
 
     suite('filter', () => {
       test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getRepoBranches', () => {
-          return Promise.resolve(branches);
-        });
+        sandbox.stub(
+            element.$.restAPI,
+            'getRepoBranches',
+            () => Promise.resolve(branches));
         const params = {
           detail: 'branches',
           repo: 'test',
@@ -480,9 +481,10 @@ limitations under the License.
 
     suite('filter', () => {
       test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getRepoTags', () => {
-          return Promise.resolve(tags);
-        });
+        sandbox.stub(
+            element.$.restAPI,
+            'getRepoTags',
+            () => Promise.resolve(tags));
         const params = {
           repo: 'test',
           detail: 'tags',

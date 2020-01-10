@@ -102,10 +102,12 @@
      */
     _permittedLabelsToNumericScores(labels) {
       if (!labels) return [];
-      return Object.keys(labels).map(label => ({
-        label,
-        scores: labels[label].map(v => parseInt(v, 10)),
-      }));
+      return Object.keys(labels).map(label => {
+        return {
+          label,
+          scores: labels[label].map(v => parseInt(v, 10)),
+        };
+      });
     }
 
     /**
@@ -116,10 +118,12 @@
      */
     _getMaxPermittedScores(change) {
       return this._permittedLabelsToNumericScores(change.permitted_labels)
-          .map(({label, scores}) => ({
-            [label]: scores
-                .map(v => parseInt(v, 10))
-                .reduce((a, b) => Math.max(a, b))}))
+          .map(({label, scores}) => {
+            return {
+              [label]: scores
+                  .map(v => parseInt(v, 10))
+                  .reduce((a, b) => Math.max(a, b))};
+          })
           .reduce((acc, i) => Object.assign(acc, i), {});
     }
 
@@ -189,9 +193,8 @@
           result = result.concat(reviewers[key]);
         }
       }
-      this._reviewers = result.filter(reviewer => {
-        return reviewer._account_id != owner._account_id;
-      });
+      this._reviewers = result
+          .filter(reviewer => reviewer._account_id != owner._account_id);
 
       // If there is one or two more than the max reviewers, don't show the
       // 'show more' button, because it takes up just as much space.

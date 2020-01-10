@@ -52,6 +52,24 @@
       "revId": "980251a297eb50068df55764a43cb88e2f5e4774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c543a52b_615d0432",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-10T10:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7009f58c_16f7d3ba",
+      "revId": "980251a297eb50068df55764a43cb88e2f5e4774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

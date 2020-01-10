@@ -138,7 +138,7 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
             def slaveBuild = null
             for (int i = 1; i <= retryTimes; i++) {
                 try {
-                    slaveBuild = build job: "${buildName}", parameters: [
+                    slaveBuild = build job: "test-failed-build", parameters: [
                         string(name: 'REFSPEC', value: Change.ref),
                         string(name: 'BRANCH', value: Change.sha1),
                         string(name: 'CHANGE_URL', value: Change.url),
@@ -146,6 +146,7 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
                         string(name: 'TARGET_BRANCH', value: Change.branch)
                     ], propagate: false
                 } finally {
+                    println "Build finished: $slaveBuild - ${slaveBuild.getAbsoluteUrl()} - ${slaveBuild.getResult()}"
                     if (buildName == "Gerrit-codestyle"){
                         Builds.codeStyle = new Build(
                             slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
@@ -245,6 +246,7 @@ node ('master') {
     if (hasChangeNumber()) {
         stage('Preparing'){
             gerritReview labels: ['Verified': 0, 'Code-Style': 0]
+            gerritCheck (checks: ["gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": "FAILED"], url: "http://somewhere.com" )
 
             getChangeMetaData()
             collectBuildModes()

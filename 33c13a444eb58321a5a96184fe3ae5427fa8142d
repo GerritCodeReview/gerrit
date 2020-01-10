@@ -46,6 +46,30 @@
       "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b1f3ac0_4f0c5a10",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-01-10T16:04:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f1dbe69a_7b873c04",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 39
+      },
+      "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

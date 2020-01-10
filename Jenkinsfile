@@ -46,7 +46,6 @@ class Build {
 
 class Builds {
     static Set<String> modes = []
-    static Build codeStyle = null
     static Map verification = [:]
 }
 
@@ -138,7 +137,7 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
             def slaveBuild = null
             for (int i = 1; i <= retryTimes; i++) {
                 try {
-                    slaveBuild = build job: "${buildName}", parameters: [
+                    slaveBuild = build job: "test-failed-build", parameters: [
                         string(name: 'REFSPEC', value: Change.ref),
                         string(name: 'BRANCH', value: Change.sha1),
                         string(name: 'CHANGE_URL', value: Change.url),
@@ -146,13 +145,8 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
                         string(name: 'TARGET_BRANCH', value: Change.branch)
                     ], propagate: false
                 } finally {
-                    if (buildName == "Gerrit-codestyle"){
-                        Builds.codeStyle = new Build(
-                            slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
-                    } else {
-                        Builds.verification[mode] = new Build(
-                            slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
-                    }
+                    println "Build finished: $slaveBuild - ${slaveBuild.getAbsoluteUrl()} - ${slaveBuild.getResult()}"
+                    Builds.verification[mode] = new Build(slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
                     if (slaveBuild.getResult() == "SUCCESS") {
                         break
                     }
@@ -245,6 +239,7 @@ node ('master') {
     if (hasChangeNumber()) {
         stage('Preparing'){
             gerritReview labels: ['Verified': 0, 'Code-Style': 0]
+            gerritCheck (checks: ["gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": "FAILED"], url: "http://somewhere.com" )
 
             getChangeMetaData()
             collectBuildModes()
@@ -265,9 +260,8 @@ node ('master') {
         }
 
         stage('Report to Gerrit'){
-            resCodeStyle = getLabelValue(1, Builds.codeStyle.result)
+            resCodeStyle = getLabelValue(1, Builds.verification['Gerrit-codestyle'].result)
             gerritReview labels: ['Code-Style': resCodeStyle]
-            postCheck(new GerritCheck("codestyle", Builds.codeStyle))
 
             def verificationResults = Builds.verification.collect { k, v -> v }
             def resVerify = verificationResults.inject(1) {

@@ -222,8 +222,8 @@ def gen_classpath(ext):
             # Exceptions: both source and lib
             if p.endswith('libquery_parser.jar') or \
                p.endswith('libgerrit-prolog-common.jar') or \
-         p.endswith('com_google_protobuf/libprotobuf_java.jar') or \
-               p.endswith('lucene-core-and-backward-codecs__merged.jar'):
+               p.endswith('com_google_protobuf/libprotobuf_java.jar') or \
+               p.endswith('lucene-core-and-backward-codecs-merged_deploy.jar'):
                 lib.add(p)
             # JGit dependency from external repository
             if 'gerrit-' not in p and 'jgit' in p:

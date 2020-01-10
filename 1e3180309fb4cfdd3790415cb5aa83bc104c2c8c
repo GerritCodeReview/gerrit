@@ -94,6 +94,30 @@
       "revId": "1e3180309fb4cfdd3790415cb5aa83bc104c2c8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80820981_d4a3c2e7",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-10T01:41:37Z",
+      "side": 1,
+      "message": "The doc should be updated to describe how to use bazelisk, but that should be done in a separate change.",
+      "parentUuid": "6322c8e5_ba107b26",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "1e3180309fb4cfdd3790415cb5aa83bc104c2c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

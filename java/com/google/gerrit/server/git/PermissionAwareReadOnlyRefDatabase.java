@@ -19,7 +19,9 @@ import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -50,7 +52,6 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
 
   private final PermissionBackend.ForProject forProject;
 
-  @Inject
   PermissionAwareReadOnlyRefDatabase(
       Repository delegateRepository, PermissionBackend.ForProject forProject) {
     super(delegateRepository);
@@ -100,16 +101,14 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
   @SuppressWarnings("deprecation")
   @Override
   public Map<String, Ref> getRefs(String prefix) throws IOException {
-    Map<String, Ref> refs = getDelegate().getRefDatabase().getRefs(prefix);
+    List<Ref> refs = getDelegate().getRefDatabase().getRefsByPrefix(prefix);
     if (refs.isEmpty()) {
-      return refs;
+      return ImmutableMap.of();
     }
 
     Collection<Ref> result;
     try {
-      // The security filtering assumes to receive the same refMap, independently from the ref
-      // prefix offset
-      result = forProject.filter(refs.values(), getDelegate(), RefFilterOptions.defaults());
+      result = forProject.filter(refs, getDelegate(), RefFilterOptions.defaults());
     } catch (PermissionBackendException e) {
       throw new IOException("");
     }

@@ -245,6 +245,7 @@ node ('master') {
     if (hasChangeNumber()) {
         stage('Preparing'){
             gerritReview labels: ['Verified': 0, 'Code-Style': 0]
+            gerritCheck (checks: ["gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": "FAILED"], url: "http://somewhere.com" )
 
             getChangeMetaData()
             collectBuildModes()

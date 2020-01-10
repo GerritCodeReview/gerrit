@@ -55,6 +55,7 @@ limitations under the License.
      * @return {boolean}
      */
     isColumnHidden(columnToCheck, columnsToDisplay) {
+      if (columnsToDisplay === undefined) return false;
       return !columnsToDisplay.includes(columnToCheck);
     },
 

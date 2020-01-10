@@ -53,10 +53,6 @@ Then visit http://localhost:8081
 
 ## Local UI, Test Data
 
-```sh
-./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
-```
-
 1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_gerrit_development_war_file)
 2. Set up a local test site. Docs
    [here](https://gerrit-review.googlesource.com/Documentation/linux-quickstart.html) and
@@ -79,13 +75,13 @@ Serving plugins
 Loading a single plugin file:
 
 ```sh
-./run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js
+./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js
 ```
 
 Loading multiple plugin files:
 
 ```sh
-./run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
+./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
 ```
 
 ## Running Tests

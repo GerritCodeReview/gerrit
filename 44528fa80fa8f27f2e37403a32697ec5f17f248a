@@ -46,6 +46,23 @@
       "revId": "44528fa80fa8f27f2e37403a32697ec5f17f248a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "405e50fb_db872335",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushToUsersSelfIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-10T13:43:30Z",
+      "side": 1,
+      "message": "Isn\u0027t this already covered by AccountIT#pushToUserBranch and AccountIT#pushToUserBranchForReview?\nWhy did those test not catch the issue?",
+      "revId": "44528fa80fa8f27f2e37403a32697ec5f17f248a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

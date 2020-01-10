@@ -15,30 +15,17 @@
  * limitations under the License.
  */
 
-// Type definitions used across multiple files in Gerrit
+/**
+ * @fileoverview Closure Compiler externs for Gerrit
+ * @externs
+ */
 
-window.Gerrit = window.Gerrit || {};
+/* eslint-disable no-var */
 
-/** @enum {string} */
-Gerrit.CoverageType = {
-  /**
-   * start_character and end_character of the range will be ignored for this
-   * type.
-   */
-  COVERED: 'COVERED',
-  /**
-   * start_character and end_character of the range will be ignored for this
-   * type.
-   */
-  NOT_COVERED: 'NOT_COVERED',
-  PARTIALLY_COVERED: 'PARTIALLY_COVERED',
-  /**
-   * You don't have to use this. If there is no coverage information for a
-   * range, then it implicitly means NOT_INSTRUMENTED. start_character and
-   * end_character of the range will be ignored for this type.
-   */
-  NOT_INSTRUMENTED: 'NOT_INSTRUMENTED',
-};
+var Gerrit;
+
+/** @type {string} */
+Gerrit.VERSION;
 
 /**
  * @typedef {{
@@ -58,7 +45,7 @@ Gerrit.HoveredRange;
 /**
  * @typedef {{
  *   side: string,
- *   type: Gerrit.CoverageType,
+ *   type: string,
  *   code_range: Gerrit.Range,
  * }}
  */

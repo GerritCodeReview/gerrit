@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48fe0089_06b0aeaf",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T16:00:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "693281af_99177b5e",
+      "revId": "b7c11ed3bd5ae3ed3ee45a5c06e3f3c8f8fb8302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dadd900_d23f9f8b",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "3992733f_38322dc9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T16:00:54Z",
+      "side": 1,
+      "message": "I\u0027ve changed this so that it checks preferences.change_table.",
+      "parentUuid": "4dadd900_d23f9f8b",
+      "range": {
+        "startLine": 186,
+        "startChar": 48,
+        "endLine": 186,
+        "endChar": 60
+      },
+      "revId": "b7c11ed3bd5ae3ed3ee45a5c06e3f3c8f8fb8302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b5e45a5_17014403",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 2
@@ -62,6 +104,30 @@
       "revId": "b7c11ed3bd5ae3ed3ee45a5c06e3f3c8f8fb8302",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e354274_d71dac8e",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T16:00:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1b5e45a5_17014403",
+      "range": {
+        "startLine": 304,
+        "startChar": 33,
+        "endLine": 304,
+        "endChar": 45
+      },
+      "revId": "b7c11ed3bd5ae3ed3ee45a5c06e3f3c8f8fb8302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

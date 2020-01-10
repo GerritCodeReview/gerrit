@@ -63,17 +63,15 @@ class GerritCheck {
     }
 
     def getCheckResultFromBuild() {
-        switch(build.result) {
-            case 'SUCCESS':
-                return "SUCCESSFUL"
-            case 'NOT_BUILT':
-            case 'ABORTED':
-                return "NOT_STARTED"
-            case 'FAILURE':
-            case 'UNSTABLE':
-            default:
-                return "FAILED"
+        def resultString = build.result.toString()
+        if (resultString == 'SUCCESS') {
+            return "SUCCESSFUL"
+        } else if (resultString == 'NOT_BUILT' || resultString == 'ABORTED') {
+            return "NOT_STARTED"
         }
+      
+        // Remaining options: 'FAILURE' or 'UNSTABLE':
+        return "FAILED"
     }
 }
 

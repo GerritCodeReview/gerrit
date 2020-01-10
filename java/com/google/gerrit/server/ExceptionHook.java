@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server;
 
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import java.util.Optional;
 
@@ -39,6 +44,9 @@ public interface ExceptionHook {
    *
    * <p>If {@code false} is returned the operation is still retried once to capture a trace, unless
    * {@link #skipRetryWithTrace(String, String, Throwable)} skips the auto-retry.
+   *
+   * <p>If multiple exception hooks are registered, the operation is retried if any of them returns
+   * {@code true} from this method.
    *
    * @param throwable throwable that was thrown while executing the operation
    * @param actionType the type of the action for which the exception occurred
@@ -69,6 +77,9 @@ public interface ExceptionHook {
    * <p>This method is only invoked if retry with tracing is enabled on the server ({@code
    * retry.retryWithTraceOnFailure} in {@code gerrit.config} is set to {@code true}).
    *
+   * <p>If multiple exception hooks are registered, retrying with tracing is skipped if any of them
+   * returns {@code true} from this method.
+   *
    * @param throwable throwable that was thrown while executing the operation
    * @param actionType the type of the action for which the exception occurred
    * @param actionName the name of the action for which the exception occurred
@@ -85,6 +96,9 @@ public interface ExceptionHook {
    * <p>This method allows implementors to group exceptions that have the same cause into one metric
    * bucket.
    *
+   * <p>If multiple exception hooks return a value from this method, the value from the exception
+   * hook that is registered first is used.
+   *
    * @param throwable the exception cause
    * @return formatted cause or {@link Optional#empty()} if no formatting was done
    */
@@ -93,36 +107,56 @@ public interface ExceptionHook {
   }
 
   /**
-   * Returns a message that should be returned to the user.
+   * Returns messages that should be returned to the user.
    *
-   * <p>This message is included into the HTTP response that is sent to the user.
+   * <p>These messages are included into the HTTP response that is sent to the user.
+   *
+   * <p>If multiple exception hooks return a value from this method, all the values are included
+   * into the HTTP response (in the order in which the exception hooks are registered).
    *
    * @param throwable throwable that was thrown while executing an operation
-   * @return error message that should be returned to the user, {@link Optional#empty()} if no
+   * @param traceId ID of the trace if this request was traced, otherwise {@code null}
+   * @return error messages that should be returned to the user, {@link Optional#empty()} if no
    *     message should be returned to the user
    */
-  default Optional<String> getUserMessage(Throwable throwable) {
-    return Optional.empty();
+  default ImmutableList<String> getUserMessages(Throwable throwable, @Nullable String traceId) {
+    return ImmutableList.of();
   }
 
   /**
-   * Returns the HTTP status code that should be returned to the user.
+   * Returns the HTTP status that should be returned to the user.
    *
-   * <p>If no value is returned ({@link Optional#empty()}) the HTTP status code defaults to {@code
-   * 500 Internal Server Error}.
+   * <p>Implementors may use this method to change the status for certain exceptions (e.g. using
+   * this method it would be possible to return {@code 503 Lock failure} for {@link
+   * com.google.gerrit.git.LockFailureException}s instead of {@code 500 Internal server error}).
    *
-   * <p>{@link #getUserMessage(Throwable)} allows to define which message should be included into
-   * the body of the HTTP response.
+   * <p>If no value is returned ({@link Optional#empty()}) it means that this exception hook doesn't
+   * want to change the default response code for the given exception which is {@code 500 Internal
+   * Server Error}, but is fine if other exception hook implementation do so.
    *
-   * <p>Implementors may use this method to change the status code for certain exceptions (e.g.
-   * using this method it would be possible to return {@code 409 Conflict} for {@link
-   * com.google.gerrit.git.LockFailureException}s instead of {@code 500 Internal Server Error}).
+   * <p>If multiple exception hooks return a value from this method, the value from exception hook
+   * that is registered first is used.
+   *
+   * <p>{@link #getUserMessages(Throwable, String)} allows to define which additional messages
+   * should be included into the body of the HTTP response.
    *
    * @param throwable throwable that was thrown while executing an operation
-   * @return HTTP status code that should be returned to the user, {@link Optional#empty()} if the
+   * @return HTTP status that should be returned to the user, {@link Optional#empty()} if the
    *     exception should result in {@code 500 Internal Server Error}
    */
-  default Optional<Integer> getStatusCode(Throwable throwable) {
+  default Optional<Status> getStatus(Throwable throwable) {
     return Optional.empty();
+  }
+
+  @AutoValue
+  public abstract class Status {
+    public abstract int statusCode();
+
+    public abstract String statusMessage();
+
+    public static Status create(int statusCode, String statusMessage) {
+      return new AutoValue_ExceptionHook_Status(
+          statusCode, requireNonNull(statusMessage, "statusMessage"));
+    }
   }
 }

@@ -93,13 +93,20 @@
     /**
      * Register a listener for layer updates.
      *
-     * @param {function(number, number, string)} fn The update handler function.
+     * @param {updateHandlerFn} fn The update handler function.
      *     Should accept as arguments the line numbers for the start and end of
      *     the update and the side as a string.
      */
     addListener(fn) {
       this._listeners.push(fn);
     }
+
+    /**
+     * @callback updateHandlerFn
+     * @param {number} start
+     * @param {number} end
+     * @param {string} side
+     */
 
     /**
      * Notify Layer listeners of changes to annotations.
@@ -209,7 +216,7 @@
             return range;
           })
           // Sort the ranges so that hovering highlights are on top.
-          .sort((a, b) => a.hovering && !b.hovering ? 1 : 0);
+          .sort((a, b) => (a.hovering && !b.hovering ? 1 : 0));
     }
   }
 

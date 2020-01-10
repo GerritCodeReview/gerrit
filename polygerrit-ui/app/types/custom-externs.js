@@ -28,12 +28,20 @@
 /** @externs */
 // @unused
 
-var Gerrit;
+/**
+ * @type {!Window}
+ * @see https://developer.mozilla.org/en/DOM/window
+ */
+var window;
+
+var security;
 var GrAnnotation;
+var GrAnnotationActionsContext;
 var GrAttributeHelper;
 var GrChangeActionsInterface;
 var GrChangeReplyInterface;
 var GrDiffBuilder;
+var GrDiffBuilderBinary;
 var GrDiffBuilderImage;
 var GrDiffBuilderSideBySide;
 var GrDiffBuilderUnified;
@@ -58,6 +66,28 @@ var FetchPromisesCache;
 var GrRestApiHelper;
 var GrDisplayNameUtils;
 var GrReviewerSuggestionsProvider;
+var GrPluginActionContext;
+var GrEventHelper;
+var GrPluginRestApi;
+var GrStylesApi;
+var GrAdminApi;
+var GrChangeMetadataApi;
+var GrSettingsApi;
+var GrRepoApi;
+var GrChangeViewApi;
+var GrAnnotationActionsInterface;
+var GrDomHooksManager;
+var ShadyCSS;
+var EventEmitter;
+var PluginLoader;
+var linkify;
 var moment;
 var page;
 var util;
+
+/** For polymer 2 */
+
+var Polymer;
+
+/** @type {?} */
+Polymer.IronA11yKeysBehavior;

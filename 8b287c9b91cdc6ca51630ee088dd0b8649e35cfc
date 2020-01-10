@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11002337_32853d96",
+        "filename": "java/com/google/gerrit/server/schema/ParallelSqlTasksUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-10T23:14:37Z",
+      "side": 1,
+      "message": "2020",
+      "revId": "8b287c9b91cdc6ca51630ee088dd0b8649e35cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc0f0ee8_03a3c0c6",
+        "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-10T23:14:37Z",
+      "side": 1,
+      "message": "Why are these now static rather than final?",
+      "revId": "8b287c9b91cdc6ca51630ee088dd0b8649e35cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

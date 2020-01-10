@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertSectionEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertTwoConfigsEquivalent;

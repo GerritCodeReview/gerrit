@@ -93,6 +93,9 @@ limitations under the License.
         flex: 1;
         font-size: var(--font-size-h3);
       }
+      .changeNumberColon {
+        color: transparent;
+      }
       .headerTitle .headerSubject {
         font-weight: var(--font-weight-bold);
       }
@@ -101,6 +104,7 @@ limitations under the License.
       }
       gr-change-star {
         margin-right: var(--spacing-xs);
+        margin-left: var(--spacing-l);
       }
       gr-reply-dialog {
         width: 60em;
@@ -364,11 +368,6 @@ limitations under the License.
         hidden$="{{_loading}}">
       <div class$="[[_computeHeaderClass(_editMode)]]">
         <div class="headerTitle">
-          <gr-change-star
-              id="changeStar"
-              change="{{_change}}"
-              on-toggle-star="_handleToggleStar"
-              hidden$="[[!_loggedIn]]"></gr-change-star>
           <div class="changeStatuses">
             <template is="dom-repeat" items="[[_changeStatuses]]" as="status">
               <gr-change-status
@@ -387,10 +386,14 @@ limitations under the License.
                   server-config="[[_serverConfig]]"></gr-commit-info>
             </template>
           </div>
-          <span class="separator"></span>
+          <gr-change-star
+              id="changeStar"
+              change="{{_change}}"
+              on-toggle-star="_handleToggleStar"
+              hidden$="[[!_loggedIn]]"></gr-change-star>
           <a aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
               href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
-          <pre>: </pre>
+          <span class="changeNumberColon">:&nbsp;</span>
           <span class="headerSubject">[[_change.subject]]</span>
         </div><!-- end headerTitle -->
         <div class="commitActions" hidden$="[[!_loggedIn]]">

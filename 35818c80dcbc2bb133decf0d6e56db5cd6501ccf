@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a50beb78_d8614ed5",
+        "filename": "Jenkinsfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-10T22:47:26Z",
+      "side": 0,
+      "message": "True, will keep the two options as comments.",
+      "parentUuid": "34489dc5_d0ed883a",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "35818c80dcbc2bb133decf0d6e56db5cd6501ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c8dced07_6427a778",
         "filename": "Jenkinsfile",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-10T22:24:52Z",
       "side": 0,
       "message": "Would build.result.toString() work?",
+      "range": {
+        "startLine": 66,
+        "startChar": 15,
+        "endLine": 66,
+        "endChar": 27
+      },
+      "revId": "35818c80dcbc2bb133decf0d6e56db5cd6501ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddb304bd_013e4f68",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-10T22:47:26Z",
+      "side": 0,
+      "message": "Unfortunately not: it looks like the Groovy statement of switch(String) is just not working at all with the latest Groovy/CPS upgrades. That\u0027s why we need to fallback to if/then/else",
+      "parentUuid": "c8dced07_6427a778",
       "range": {
         "startLine": 66,
         "startChar": 15,

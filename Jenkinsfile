@@ -82,7 +82,7 @@ def hasChangeNumber() {
 }
 
 def postCheck(check) {
-    gerritCheck(checks: [ "${check.uuid}" : "${check.getCheckResultFromBuild()}" ], url: "${check.consoleUrl}")
+    gerritCheck(checks: [ "${check.uuid}" : "${check.getCheckResultFromBuild()}".toString() ], url: "${check.consoleUrl}")
 }
 
 def queryChangedFiles(url, changeNum, sha1) {

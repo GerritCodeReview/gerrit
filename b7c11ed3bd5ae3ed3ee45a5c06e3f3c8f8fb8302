@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "693281af_99177b5e",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T15:42:18Z",
+      "side": 1,
+      "message": "better check for both",
+      "revId": "b7c11ed3bd5ae3ed3ee45a5c06e3f3c8f8fb8302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dadd900_d23f9f8b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T15:42:18Z",
+      "side": 1,
+      "message": "this should not be necessary as `preferences` is checked in above. maybe check for `change_table` if its causing any problem",
+      "range": {
+        "startLine": 186,
+        "startChar": 48,
+        "endLine": 186,
+        "endChar": 60
+      },
+      "revId": "b7c11ed3bd5ae3ed3ee45a5c06e3f3c8f8fb8302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b5e45a5_17014403",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T15:42:18Z",
+      "side": 1,
+      "message": "maybe check on `my` as well",
+      "range": {
+        "startLine": 304,
+        "startChar": 33,
+        "endLine": 304,
+        "endChar": 45
+      },
+      "revId": "b7c11ed3bd5ae3ed3ee45a5c06e3f3c8f8fb8302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

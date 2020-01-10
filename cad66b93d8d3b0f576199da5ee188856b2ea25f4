@@ -7,6 +7,13 @@
       "created": "2020-01-10T22:01:03Z",
       "updated": "2020-01-10T22:01:03Z"
     },
+    "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "FAILED",
+      "url": "https://gerrit-ci.gerritforge.com/job/test-failed-build/19/console",
+      "finished": "2020-01-10T22:11:13Z",
+      "created": "2020-01-10T22:01:11Z",
+      "updated": "2020-01-10T22:01:11Z"
+    },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",
       "url": "http://somewhere.com",

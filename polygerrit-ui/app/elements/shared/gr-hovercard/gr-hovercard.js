@@ -25,6 +25,7 @@
    */
   const DIAGONAL_OVERFLOW = 15;
 
+  /** @extends PolymerElement */
   class GrHovercard extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -91,6 +92,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       if (!this._target) { this._target = this.target; }
@@ -101,12 +103,14 @@
       this.listen(this._target, 'click', 'hide');
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('mouseleave',
           e => this.hide(e));
     }
 
+    /** @override */
     ready() {
       super.ready();
       // First, check to see if the container has already been created.

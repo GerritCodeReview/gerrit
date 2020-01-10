@@ -23,6 +23,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrOverlay extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -52,6 +53,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('iron-overlay-closed',

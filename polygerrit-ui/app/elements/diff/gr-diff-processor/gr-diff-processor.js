@@ -63,6 +63,8 @@
    *    "expand context" widget. This may require splitting a chunk/group so
    *    that the part that is within the context or has comments is shown, while
    *    the rest is not.
+   *
+   * @extends PolymerElement
    */
   class GrDiffProcessor extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
@@ -119,11 +121,13 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.listen(window, 'scroll', '_handleWindowScroll');
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.cancel();

@@ -24,6 +24,7 @@
     [Gerrit.CoverageType.NOT_INSTRUMENTED, 'Not instrumented by any tests.'],
   ]);
 
+  /** @extends PolymerElement */
   class GrCoverageLayer extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

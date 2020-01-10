@@ -23,6 +23,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @extends PolymerElement
    */
   class GrAutocomplete extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -192,11 +193,13 @@
       return this.$.input.$.nativeInput || this.$.input.inputElement;
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.listen(document.body, 'click', '_handleBodyClick');
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.unlisten(document.body, 'click', '_handleBodyClick');

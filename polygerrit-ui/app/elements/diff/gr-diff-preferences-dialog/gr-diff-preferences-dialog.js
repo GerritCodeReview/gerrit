@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrDiffPreferencesDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

@@ -30,6 +30,7 @@
    * @appliesMixin Gerrit.PathListMixin
    * @appliesMixin Gerrit.RESTClientMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends PolymerElement
    */
   class GrChangeListItem extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -74,6 +75,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       Gerrit.awaitPluginsLoaded().then(() => {

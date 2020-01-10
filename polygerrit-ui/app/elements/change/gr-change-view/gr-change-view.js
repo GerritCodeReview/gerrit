@@ -68,6 +68,7 @@
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends PolymerElement
    */
   class GrChangeView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -324,6 +325,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
 
@@ -346,6 +348,7 @@
           () => this._handleReloadCommentThreads());
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._getServerConfig().then(config => {
@@ -389,6 +392,7 @@
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.unlisten(window, 'scroll', '_handleScroll');

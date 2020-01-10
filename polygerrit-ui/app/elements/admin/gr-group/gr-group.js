@@ -32,6 +32,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrGroup extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -105,6 +106,7 @@
       ];
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._loadGroup();

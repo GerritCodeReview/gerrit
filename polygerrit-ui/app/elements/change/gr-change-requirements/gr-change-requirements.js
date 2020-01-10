@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends PolymerElement
    */
   class GrChangeRequirements extends Polymer.mixinBehaviors( [
     Gerrit.RESTClientBehavior,

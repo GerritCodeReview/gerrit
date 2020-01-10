@@ -22,6 +22,7 @@
    * name and the branch name.
    *
    * @event confirm
+   * @extends PolymerElement
    */
   class GrCreateDestinationDialog extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(

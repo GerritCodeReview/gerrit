@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.ListViewMixin
+   * @extends PolymerElement
    */
   class GrDocumentationSearch extends Polymer.mixinBehaviors( [
     Gerrit.ListViewBehavior,
@@ -55,6 +56,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.dispatchEvent(

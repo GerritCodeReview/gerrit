@@ -39,6 +39,7 @@
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.PathListMixin
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends PolymerElement
    */
   class GrDiffView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -244,6 +245,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._getLoggedIn().then(loggedIn => {

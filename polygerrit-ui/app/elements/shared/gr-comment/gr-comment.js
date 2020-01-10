@@ -34,6 +34,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @extends PolymerElement
    */
   class GrComment extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -186,6 +187,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       if (this.editing) {
@@ -198,6 +200,7 @@
       });
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.cancelDebouncer('fire-update');

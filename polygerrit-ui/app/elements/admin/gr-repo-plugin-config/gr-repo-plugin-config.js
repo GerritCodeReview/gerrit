@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.RepoPluginConfigMixin
+   * @extends PolymerElement
    */
   class GrRepoPluginConfig extends Polymer.mixinBehaviors( [
     Gerrit.RepoPluginConfig,

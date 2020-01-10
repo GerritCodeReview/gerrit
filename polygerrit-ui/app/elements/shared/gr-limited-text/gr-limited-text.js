@@ -18,13 +18,13 @@
   'use strict';
 
   /**
-   * @appliesMixin Gerrit.TooltipMixin
-   */
-  /*
    * The gr-limited-text element is for displaying text with a maximum length
    * (in number of characters) to display. If the length of the text exceeds the
    * configured limit, then an ellipsis indicates that the text was truncated
    * and a tooltip containing the full text is enabled.
+   *
+   * @appliesMixin Gerrit.TooltipMixin
+   * @extends PolymerElement
    */
   class GrLimitedText extends Polymer.mixinBehaviors( [
     Gerrit.TooltipBehavior,

@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
+   * @extends PolymerElement
    */
   class GrAvatar extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -44,6 +45,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       Promise.all([

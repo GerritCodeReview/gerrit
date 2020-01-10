@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.PatchSetMixin
+   * @extends PolymerElement
    */
   class GrEditControls extends Polymer.mixinBehaviors( [
     Gerrit.PatchSetBehavior,

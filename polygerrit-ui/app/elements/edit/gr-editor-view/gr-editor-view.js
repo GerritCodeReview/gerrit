@@ -29,6 +29,7 @@
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.PathListMixin
+   * @extends PolymerElement
    */
   class GrEditorView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -92,12 +93,14 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('content-change',
           e => this._handleContentChange(e));
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._getEditPrefs().then(prefs => { this._prefs = prefs; });

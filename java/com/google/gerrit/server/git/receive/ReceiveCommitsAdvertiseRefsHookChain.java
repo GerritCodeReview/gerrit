@@ -16,8 +16,13 @@ package com.google.gerrit.server.git.receive;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
+import com.google.gerrit.server.git.UsersSelfAdvertiseRefsHook;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
@@ -34,9 +39,17 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
    */
   public static AdvertiseRefsHook create(
       AllRefsWatcher allRefsWatcher,
+      UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook,
+      AllUsersName allUsersName,
       Provider<InternalChangeQuery> queryProvider,
       Project.NameKey projectName) {
-    return create(allRefsWatcher, queryProvider, projectName, false);
+    return create(
+        allRefsWatcher,
+        usersSelfAdvertiseRefsHook,
+        allUsersName,
+        queryProvider,
+        projectName,
+        false);
   }
 
   /**
@@ -47,12 +60,20 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
    */
   @VisibleForTesting
   public static AdvertiseRefsHook createForTest(
-      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName) {
-    return create(new AllRefsWatcher(), queryProvider, projectName, true);
+      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName, CurrentUser user) {
+    return create(
+        new AllRefsWatcher(),
+        new UsersSelfAdvertiseRefsHook(Providers.of(user)),
+        new AllUsersName(AllUsersNameProvider.DEFAULT),
+        queryProvider,
+        projectName,
+        true);
   }
 
   private static AdvertiseRefsHook create(
       AllRefsWatcher allRefsWatcher,
+      UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook,
+      AllUsersName allUsersName,
       Provider<InternalChangeQuery> queryProvider,
       Project.NameKey projectName,
       boolean skipHackPushNegotiateHook) {
@@ -61,6 +82,9 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     if (!skipHackPushNegotiateHook) {
       advHooks.add(new HackPushNegotiateHook());
+    }
+    if (projectName.equals(allUsersName)) {
+      advHooks.add(usersSelfAdvertiseRefsHook);
     }
     return AdvertiseRefsHookChain.newChain(advHooks);
   }

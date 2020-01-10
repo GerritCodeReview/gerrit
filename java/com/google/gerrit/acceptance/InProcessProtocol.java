@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
+import com.google.gerrit.server.git.UsersSelfAdvertiseRefsHook;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -200,6 +201,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final ThreadLocalRequestContext threadContext;
     private final ProjectCache projectCache;
     private final PermissionBackend permissionBackend;
+    private final UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook;
 
     @Inject
     Upload(
@@ -209,7 +211,8 @@ class InProcessProtocol extends TestProtocol<Context> {
         UploadValidators.Factory uploadValidatorsFactory,
         ThreadLocalRequestContext threadContext,
         ProjectCache projectCache,
-        PermissionBackend permissionBackend) {
+        PermissionBackend permissionBackend,
+        UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook) {
       this.transferConfig = transferConfig;
       this.uploadPackInitializers = uploadPackInitializers;
       this.preUploadHooks = preUploadHooks;
@@ -217,6 +220,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.threadContext = threadContext;
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
+      this.usersSelfAdvertiseRefsHook = usersSelfAdvertiseRefsHook;
     }
 
     @Override
@@ -250,6 +254,9 @@ class InProcessProtocol extends TestProtocol<Context> {
       UploadPack up = new UploadPack(permissionAwareRepository);
       up.setPackConfig(transferConfig.getPackConfig());
       up.setTimeout(transferConfig.getTimeout());
+      if (projectState.isAllUsers()) {
+        up.setAdvertiseRefsHook(usersSelfAdvertiseRefsHook);
+      }
       List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
       hooks.add(
           uploadValidatorsFactory.create(

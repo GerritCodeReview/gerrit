@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TracingHook;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
+import com.google.gerrit.server.git.UsersSelfAdvertiseRefsHook;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupAuditService;
@@ -355,6 +356,7 @@ public class GitOverHttpServlet extends GitServlet {
     private final GroupAuditService groupAuditService;
     private final Metrics metrics;
     private final PluginSetContext<RequestListener> requestListeners;
+    private final UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook;
 
     @Inject
     UploadFilter(
@@ -363,13 +365,15 @@ public class GitOverHttpServlet extends GitServlet {
         Provider<CurrentUser> userProvider,
         GroupAuditService groupAuditService,
         Metrics metrics,
-        PluginSetContext<RequestListener> requestListeners) {
+        PluginSetContext<RequestListener> requestListeners,
+        UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook) {
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
       this.groupAuditService = groupAuditService;
       this.metrics = metrics;
       this.requestListeners = requestListeners;
+      this.usersSelfAdvertiseRefsHook = usersSelfAdvertiseRefsHook;
     }
 
     @Override
@@ -416,6 +420,9 @@ public class GitOverHttpServlet extends GitServlet {
         up.setPreUploadHook(
             PreUploadHookChain.newChain(
                 Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
+        if (state.isAllUsers()) {
+          up.setAdvertiseRefsHook(usersSelfAdvertiseRefsHook);
+        }
 
         try (TracingHook tracingHook = new TracingHook()) {
           up.setProtocolV2Hook(tracingHook);

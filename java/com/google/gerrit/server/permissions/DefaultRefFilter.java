@@ -68,7 +68,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.SymbolicRef;
 
 class DefaultRefFilter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -205,10 +204,6 @@ class DefaultRefFilter {
   Result filterRefs(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
-
-    if (projectState.isAllUsers()) {
-      refs = addUsersSelfSymref(repo, refs);
-    }
 
     // TODO(hiesel): Remove when optimization is done.
     boolean hasReadOnRefsStar =
@@ -391,32 +386,6 @@ class DefaultRefFilter {
       Map<String, Ref> r = new HashMap<>(refs);
       r.remove(REFS_CONFIG);
       return r;
-    }
-    return refs;
-  }
-
-  private Map<String, Ref> addUsersSelfSymref(Repository repo, Map<String, Ref> refs)
-      throws PermissionBackendException {
-    if (user.isIdentifiedUser()) {
-      // User self symref is already there
-      if (refs.containsKey(REFS_USERS_SELF)) {
-        return refs;
-      }
-      String refName = RefNames.refsUsers(user.getAccountId());
-      try {
-        Ref r = repo.exactRef(refName);
-        if (r == null) {
-          logger.atWarning().log("User ref %s not found", refName);
-          return refs;
-        }
-
-        SymbolicRef s = new SymbolicRef(REFS_USERS_SELF, r);
-        refs = new HashMap<>(refs);
-        refs.put(s.getName(), s);
-        logger.atFinest().log("Added %s as alias for user ref %s", REFS_USERS_SELF, refName);
-      } catch (IOException e) {
-        throw new PermissionBackendException(e);
-      }
     }
     return refs;
   }

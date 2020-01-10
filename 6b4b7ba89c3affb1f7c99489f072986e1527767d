@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7ea0e3_756bb1be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-10T14:19:43Z",
+      "side": 1,
+      "message": "The commit message can be ambiguous, wouldn\u0027t it be better to rather include the commit SHA1?",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "6b4b7ba89c3affb1f7c99489f072986e1527767d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f1fdb08_b12d21d1",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-10T14:19:43Z",
+      "side": 1,
+      "message": "That\u0027s the ref log message (the message with which the update is recorded in the reflog), it may differ from the commit message.",
+      "range": {
+        "startLine": 440,
+        "startChar": 48,
+        "endLine": 440,
+        "endChar": 69
+      },
+      "revId": "6b4b7ba89c3affb1f7c99489f072986e1527767d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

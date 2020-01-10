@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9bd2ab59_270671fb",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T20:33:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "44c46314_df16dbd8",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc0b3b8a_bb05e2ca",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
         "patchSetId": 38
@@ -33,6 +51,24 @@
       "revId": "bff973ce0ddd62256150c992210f249990a381af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cfd37d2_567778e2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T20:33:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cc0b3b8a_bb05e2ca",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "96dda48f_febbe6c9",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T20:33:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ad7dbe4e_f589d4e3",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07c63115_f2d4c4c6",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
         "patchSetId": 38
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "f6b8dba4_9bb204b9",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T20:33:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "07c63115_f2d4c4c6",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac88b7b_0814902c",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
         "patchSetId": 38
@@ -84,6 +156,24 @@
       "revId": "bff973ce0ddd62256150c992210f249990a381af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2fc529f_de5f7ff5",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T20:33:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fac88b7b_0814902c",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "cb52f8fb_175cc884",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T20:33:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3211ca20_b4ee67d3",
+      "range": {
+        "startLine": 111,
+        "startChar": 29,
+        "endLine": 111,
+        "endChar": 33
+      },
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4396d78_ba76e74d",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
         "patchSetId": 38
@@ -124,6 +238,24 @@
       "revId": "bff973ce0ddd62256150c992210f249990a381af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6819b063_225205b6",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-10T20:33:52Z",
+      "side": 1,
+      "message": "Yup, it\u0027s due to the margin-left being added to gr-button above.\n\nWhich i\u0027ve now done:\n\n      #fileUploadBrowse {\n        margin-left: 0;\n      }",
+      "parentUuid": "a4396d78_ba76e74d",
+      "revId": "bff973ce0ddd62256150c992210f249990a381af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -69,6 +69,30 @@
       "revId": "6b4b7ba89c3affb1f7c99489f072986e1527767d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99927ede_bafde36f",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2020-01-10T14:44:35Z",
+      "side": 1,
+      "message": "You are right, however in this case I believe it is the same (the difference is the  \"commit:\" appended in the front (see lines 403-409) which I think is good. So I am not sure how to proceed now: \n1. can we leave it as it is\n2. do you want me to update the commit message to this change\nor \n3. am I missing something? 😊",
+      "parentUuid": "9f1fdb08_b12d21d1",
+      "range": {
+        "startLine": 440,
+        "startChar": 48,
+        "endLine": 440,
+        "endChar": 69
+      },
+      "revId": "6b4b7ba89c3affb1f7c99489f072986e1527767d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

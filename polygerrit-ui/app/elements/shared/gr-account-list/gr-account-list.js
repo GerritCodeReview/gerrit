@@ -21,6 +21,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrAccountList extends Polymer.mixinBehaviors( [
     // Used in the tests for gr-account-list and other elements tests.
@@ -113,6 +114,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('remove',

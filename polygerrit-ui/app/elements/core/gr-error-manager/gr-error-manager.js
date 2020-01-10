@@ -28,6 +28,7 @@
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrErrorManager extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -74,6 +75,7 @@
       this._authErrorHandlerDeregistrationHook;
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.listen(document, 'server-error', '_handleServerError');
@@ -89,6 +91,7 @@
           });
     }
 
+    /** @override */
     detached() {
       super.detached();
       this._clearHideAlertHandle();

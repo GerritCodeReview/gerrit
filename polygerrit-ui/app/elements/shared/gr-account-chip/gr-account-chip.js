@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrAccountChip extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -63,6 +64,7 @@
       };
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._getHasAvatars().then(hasAvatars => {

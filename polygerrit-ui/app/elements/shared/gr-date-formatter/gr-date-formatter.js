@@ -33,6 +33,7 @@
 
   /**
    * @appliesMixin Gerrit.TooltipMixin
+   * @extends PolymerElement
    */
   class GrDateFormatter extends Polymer.mixinBehaviors( [
     Gerrit.TooltipBehavior,
@@ -73,6 +74,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._loadPreferences();

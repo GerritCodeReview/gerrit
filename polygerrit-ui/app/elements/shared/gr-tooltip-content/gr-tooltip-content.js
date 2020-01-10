@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.TooltipMixin
+   * @extends PolymerElement
    */
   class GrTooltipContent extends Polymer.mixinBehaviors( [
     Gerrit.TooltipBehavior,

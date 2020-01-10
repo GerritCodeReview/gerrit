@@ -32,6 +32,7 @@
 
   /**
    * @appliesMixin Gerrit.DomUtilMixin
+   * @extends PolymerElement
    */
   class GrDiffSelection extends Polymer.mixinBehaviors( [
     Gerrit.DomUtilBehavior,
@@ -58,6 +59,7 @@
       ];
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('copy',
@@ -66,6 +68,7 @@
           e => this._handleDown(e));
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.classList.add(SelectionClass.RIGHT);

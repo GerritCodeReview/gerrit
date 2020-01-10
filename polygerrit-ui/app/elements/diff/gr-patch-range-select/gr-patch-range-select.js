@@ -30,6 +30,7 @@
    *
    * @property {string} patchNum
    * @property {string} basePatchNum
+   * @extends PolymerElement
    */
   class GrPatchRangeSelect extends Polymer.mixinBehaviors( [
     Gerrit.PatchSetBehavior,

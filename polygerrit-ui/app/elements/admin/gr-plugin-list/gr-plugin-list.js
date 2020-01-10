@@ -20,6 +20,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.ListViewMixin
+   * @extends PolymerElement
    */
   class GrPluginList extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -74,6 +75,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.fire('title-change', {title: 'Plugins'});

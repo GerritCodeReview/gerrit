@@ -27,6 +27,7 @@
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends PolymerElement
    */
   class GrGroupMembers extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -76,6 +77,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._loadGroupDetails();

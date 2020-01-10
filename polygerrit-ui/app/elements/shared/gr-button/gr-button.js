@@ -20,6 +20,7 @@
   /**
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @appliesMixin Gerrit.TooltipMixin
+   * @extends PolymerElement
    */
   class GrButton extends Polymer.mixinBehaviors( [
     Gerrit.KeyboardShortcutBehavior,
@@ -68,6 +69,7 @@
       ];
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('click',
@@ -76,6 +78,7 @@
           e => this._handleKeydown(e));
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._ensureAttribute('role', 'button');

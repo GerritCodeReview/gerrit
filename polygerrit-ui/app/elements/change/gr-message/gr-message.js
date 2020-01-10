@@ -22,6 +22,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends PolymerElement
    */
   class GrMessage extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -113,12 +114,14 @@
       ];
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('click',
           e => this._handleClick(e));
     }
 
+    /** @override */
     ready() {
       super.ready();
       this.$.restAPI.getConfig().then(config => {

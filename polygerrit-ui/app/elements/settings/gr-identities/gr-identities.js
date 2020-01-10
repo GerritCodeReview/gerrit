@@ -24,6 +24,7 @@
 
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
+   * @extends PolymerElement
    */
   class GrIdentities extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,

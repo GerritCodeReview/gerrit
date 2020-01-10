@@ -196,6 +196,7 @@
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends PolymerElement
    */
   class GrChangeActions extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -432,6 +433,7 @@
       ];
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('fullscreen-overlay-opened',
@@ -440,6 +442,7 @@
           () => this._handleShowBackgroundContent());
     }
 
+    /** @override */
     ready() {
       super.ready();
       this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);

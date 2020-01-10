@@ -21,6 +21,7 @@
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends PolymerElement
    */
   class GrDownloadDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -54,6 +55,7 @@
       };
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._ensureAttribute('role', 'dialog');

@@ -72,6 +72,7 @@
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends PolymerElement
    */
   class GrRepoAccess extends Polymer.mixinBehaviors( [
     Gerrit.AccessBehavior,
@@ -128,6 +129,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('access-modified',

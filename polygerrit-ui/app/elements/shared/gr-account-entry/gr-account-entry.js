@@ -20,6 +20,8 @@
   /**
    * gr-account-entry is an element for entering account
    * and/or group with autocomplete support.
+   *
+   * @extends PolymerElement
    */
   class GrAccountEntry extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(

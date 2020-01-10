@@ -22,6 +22,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @extends PolymerElement
    */
   class GrKeyboardShortcutsDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -59,17 +60,20 @@
       };
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._ensureAttribute('role', 'dialog');
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.addKeyboardShortcutDirectoryListener(
           this._onDirectoryUpdated.bind(this));
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.removeKeyboardShortcutDirectoryListener(

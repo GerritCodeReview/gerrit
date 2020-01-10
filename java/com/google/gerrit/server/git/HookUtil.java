@@ -21,6 +21,7 @@ import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
+import org.eclipse.jgit.transport.UploadPack;
 
 /** Static utilities for writing git protocol hooks. */
 public class HookUtil {
@@ -48,6 +49,33 @@ public class HookUtil {
       throw new ServiceMayNotContinueException(e);
     }
     rp.setAdvertisedRefs(refs, rp.getAdvertisedObjects());
+    return refs;
+  }
+
+  /**
+   * Scan and advertise all refs in the repo if refs have not already been advertised; otherwise,
+   * just return the advertised map.
+   *
+   * @param up upload-pack handler.
+   * @return map of refs that were advertised.
+   * @throws ServiceMayNotContinueException if a problem occurred.
+   */
+  public static Map<String, Ref> ensureAllRefsAdvertised(UploadPack up)
+      throws ServiceMayNotContinueException {
+    Map<String, Ref> refs = up.getAdvertisedRefs();
+    if (refs != null) {
+      return refs;
+    }
+    try {
+      refs =
+          up.getRepository().getRefDatabase().getRefs().stream()
+              .collect(toMap(Ref::getName, r -> r));
+    } catch (ServiceMayNotContinueException e) {
+      throw e;
+    } catch (IOException e) {
+      throw new ServiceMayNotContinueException(e);
+    }
+    up.setAdvertisedRefs(refs);
     return refs;
   }
 

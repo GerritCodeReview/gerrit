@@ -34,6 +34,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PublishCommentsOp;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UsersSelfAdvertiseRefsHook;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -269,6 +271,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       ContributorAgreementsChecker contributorAgreements,
       Metrics metrics,
       QuotaBackend quotaBackend,
+      UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook,
+      AllUsersName allUsersName,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
@@ -313,7 +317,12 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     allRefsWatcher = new AllRefsWatcher();
     receivePack.setAdvertiseRefsHook(
         ReceiveCommitsAdvertiseRefsHookChain.create(
-            allRefsWatcher, queryProvider, projectName, user.getAccountId()));
+            allRefsWatcher,
+            usersSelfAdvertiseRefsHook,
+            allUsersName,
+            queryProvider,
+            projectName,
+            user.getAccountId()));
     resultChangeIds = new ResultChangeIds();
     receiveCommits =
         factory.create(

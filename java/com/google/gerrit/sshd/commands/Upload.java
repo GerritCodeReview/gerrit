@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TracingHook;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
+import com.google.gerrit.server.git.UsersSelfAdvertiseRefsHook;
 import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.logging.TraceContext;
@@ -53,6 +54,7 @@ final class Upload extends AbstractGitCommand {
   @Inject private UploadValidators.Factory uploadValidatorsFactory;
   @Inject private SshSession session;
   @Inject private PermissionBackend permissionBackend;
+  @Inject private UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook;
 
   @Override
   protected void runImpl() throws IOException, Failure {
@@ -72,6 +74,9 @@ final class Upload extends AbstractGitCommand {
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+    if (projectState.isAllUsers()) {
+      up.setAdvertiseRefsHook(usersSelfAdvertiseRefsHook);
+    }
     if (extraParameters != null) {
       up.setExtraParameters(ImmutableList.copyOf(extraParameters));
     }

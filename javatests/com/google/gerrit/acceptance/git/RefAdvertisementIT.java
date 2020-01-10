@@ -1342,7 +1342,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     List<String> expectedNonMetaRefs =
         ImmutableList.of(
-            RefNames.REFS_USERS_SELF,
             RefNames.refsUsers(admin.id()),
             RefNames.refsUsers(user.id()),
             RefNames.REFS_EXTERNAL_IDS,
@@ -1446,7 +1445,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private TestRefAdvertiser.Result getReceivePackRefs() throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       AdvertiseRefsHook adv =
-          ReceiveCommitsAdvertiseRefsHookChain.createForTest(queryProvider, project, admin.id());
+          ReceiveCommitsAdvertiseRefsHookChain.createForTest(
+              queryProvider, project, identifiedUserFactory.create(admin.id()));
       ReceivePack rp = new ReceivePack(repo);
       rp.setAdvertiseRefsHook(adv);
       TestRefAdvertiser advertiser = new TestRefAdvertiser(repo);

@@ -63,6 +63,24 @@
       "revId": "44528fa80fa8f27f2e37403a32697ec5f17f248a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b2e4b96_731c5c72",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushToUsersSelfIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-10T14:16:26Z",
+      "side": 1,
+      "message": "Nice catch! The bug only surfaces when receive.enableInMemoryRefCache\u003dfalse (default\u003dtrue). Let these test cases (and the ones in AccountIT) run before and after the fix and the tests fail before and succeed after. Will adjust the test to cover all cases.\n\nIt\u0027s kind of unfortunate that the test has to tweak internal behavior to really hit the issue. It\u0027s a result of a combination of pitfalls:\n1) RefFilter used to add refs instead of doing plain filtering (fixed by this change)\n2) ReceiveCommits uses a hacky ref cache when not using RefTable to get some speedups (legacy that has been around ~forever :-( )\n3) ReceiveCommits uses a wrapped ref database instead of a plain one. (fixed by Id5ea18f but needs more work)\n\n(3) alone would fix the bug linked to this change, but (1) is the cleaner fix - which is what this change is doing.",
+      "parentUuid": "405e50fb_db872335",
+      "revId": "44528fa80fa8f27f2e37403a32697ec5f17f248a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

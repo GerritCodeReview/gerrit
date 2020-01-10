@@ -183,8 +183,10 @@
       if (account) {
         this.showNumber = !!(preferences &&
             preferences.legacycid_in_change_table);
-        this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
-          this.getVisibleColumns(preferences.change_table) : this.columnNames;
+        const pref = preferences.change_table &&
+              preferences.change_table.length > 0 ?
+                this.getVisibleColumns(preferences.change_table) : this.columnNames;
+        this.visibleChangeTableColumns = pref;
       } else {
         // Not logged in.
         this.showNumber = false;

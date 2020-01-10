@@ -361,12 +361,14 @@ limitations under the License.
             Promise.resolve({content: []}));
         element.patchRange = {};
         let reloadComplete = false;
-        element.$.restAPI.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          return element.reload();
-        }).then(() => {
-          reloadComplete = true;
-        });
+        element.$.restAPI.getDiffPreferences()
+            .then(prefs => {
+              element.prefs = prefs;
+              return element.reload();
+            })
+            .then(() => {
+              reloadComplete = true;
+            });
         // Multiple cascading microtasks are scheduled.
         setTimeout(() => {
           assert.isFalse(reloadComplete);

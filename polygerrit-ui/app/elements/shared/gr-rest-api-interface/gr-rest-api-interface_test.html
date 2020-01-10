@@ -650,15 +650,17 @@ limitations under the License.
               ['Innocuous', 'hello'],
             ]},
           };
-          element._failForCreate200(Promise.resolve(result)).then(() => {
-            assert.isTrue(false, 'Promise should not resolve');
-          }).catch(e => {
-            assert.isOk(e);
-            assert.include(e.message, 'Saving draft resulted in HTTP 200');
-            assert.include(e.message, 'hello');
-            assert.notInclude(e.message, 'secret');
-            done();
-          });
+          element._failForCreate200(Promise.resolve(result))
+              .then(() => {
+                assert.isTrue(false, 'Promise should not resolve');
+              })
+              .catch(e => {
+                assert.isOk(e);
+                assert.include(e.message, 'Saving draft resulted in HTTP 200');
+                assert.include(e.message, 'hello');
+                assert.notInclude(e.message, 'secret');
+                done();
+              });
         });
 
         test('_failForCreate200 does not fail on 201', done => {
@@ -667,11 +669,13 @@ limitations under the License.
             status: 201,
             headers: {entries: () => []},
           };
-          element._failForCreate200(Promise.resolve(result)).then(() => {
-            done();
-          }).catch(e => {
-            assert.isTrue(false, 'Promise should not fail');
-          });
+          element._failForCreate200(Promise.resolve(result))
+              .then(() => {
+                done();
+              })
+              .catch(e => {
+                assert.isTrue(false, 'Promise should not fail');
+              });
         });
       });
     });

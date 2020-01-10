@@ -62,7 +62,9 @@ limitations under the License.
         expectedTooltip, done) {
       // Normalize and convert the date to mimic server response.
       dateStr = normalizedDate(dateStr)
-          .toJSON().replace('T', ' ').slice(0, -1);
+          .toJSON()
+          .replace('T', ' ')
+          .slice(0, -1);
       sandbox.useFakeTimers(normalizedDate(nowStr).getTime());
       element.dateStr = dateStr;
       flush(() => {

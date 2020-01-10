@@ -67,16 +67,18 @@
 
     attached() {
       super.attached();
-      this.$.restAPI.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          return this.$.restAPI.getPreferences();
-        }
-      }).then(prefs => {
-        if (prefs) {
-          this._preferredDownloadCommand = prefs.download_command;
-          this._preferredDownloadScheme = prefs.download_scheme;
-        }
-      });
+      this.$.restAPI.getLoggedIn()
+          .then(loggedIn => {
+            if (loggedIn) {
+              return this.$.restAPI.getPreferences();
+            }
+          })
+          .then(prefs => {
+            if (prefs) {
+              this._preferredDownloadCommand = prefs.download_command;
+              this._preferredDownloadScheme = prefs.download_scheme;
+            }
+          });
     }
 
     _handleCloseTap(e) {

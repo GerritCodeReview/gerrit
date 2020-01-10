@@ -474,16 +474,18 @@
       }
 
       this._loading = true;
-      return this._getRevisionActions().then(revisionActions => {
-        if (!revisionActions) { return; }
+      return this._getRevisionActions()
+          .then(revisionActions => {
+            if (!revisionActions) { return; }
 
-        this.revisionActions = this._updateRebaseAction(revisionActions);
-        this._handleLoadingComplete();
-      }).catch(err => {
-        this.fire('show-alert', {message: ERR_REVISION_ACTIONS});
-        this._loading = false;
-        throw err;
-      });
+            this.revisionActions = this._updateRebaseAction(revisionActions);
+            this._handleLoadingComplete();
+          })
+          .catch(err => {
+            this.fire('show-alert', {message: ERR_REVISION_ACTIONS});
+            this._loading = false;
+            throw err;
+          });
     }
 
     _handleLoadingComplete() {
@@ -515,7 +517,8 @@
         label,
         __type: type,
         __key: ADDITIONAL_ACTION_KEY_PREFIX +
-            Math.random().toString(36).substr(2),
+            Math.random().toString(36)
+                .substr(2),
       };
       this.push('_additionalActions', action);
       return action.__key;

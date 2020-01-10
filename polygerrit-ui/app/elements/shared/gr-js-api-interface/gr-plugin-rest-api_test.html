@@ -121,10 +121,11 @@ limitations under the License.
           {status: 400, text() { return Promise.resolve('text'); }}));
       return instance.delete('/url').then(r => {
         throw new Error('Should not resolve');
-      }).catch(err => {
-        assert.isTrue(sendStub.calledWith('DELETE', '/url'));
-        assert.equal('text', err.message);
-      });
+      })
+          .catch(err => {
+            assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+            assert.equal('text', err.message);
+          });
     });
 
     test('getLoggedIn', () => {

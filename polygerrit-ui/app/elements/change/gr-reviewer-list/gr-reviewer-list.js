@@ -249,10 +249,11 @@
             }
           }
         }
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
+      })
+          .catch(err => {
+            this.disabled = false;
+            throw err;
+          });
     }
 
     _handleAddTap(e) {

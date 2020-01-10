@@ -412,7 +412,8 @@
                         range.side);
                   });
                 });
-          }).catch(err => {
+          })
+          .catch(err => {
             console.warn('Loading coverage ranges failed: ', err);
           });
     }

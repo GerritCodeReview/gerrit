@@ -297,15 +297,17 @@
       promises.push(this._getFiles().then(filesByPath => {
         this._filesByPath = filesByPath;
       }));
-      promises.push(this._getLoggedIn().then(loggedIn => {
-        return this._loggedIn = loggedIn;
-      }).then(loggedIn => {
-        if (!loggedIn) { return; }
+      promises.push(this._getLoggedIn()
+          .then(loggedIn => {
+            return this._loggedIn = loggedIn;
+          })
+          .then(loggedIn => {
+            if (!loggedIn) { return; }
 
-        return this._getReviewedFiles().then(reviewed => {
-          this._reviewed = reviewed;
-        });
-      }));
+            return this._getReviewedFiles().then(reviewed => {
+              this._reviewed = reviewed;
+            });
+          }));
 
       promises.push(this._getDiffPreferences().then(prefs => {
         this.diffPrefs = prefs;

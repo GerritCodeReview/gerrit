@@ -271,7 +271,8 @@ limitations under the License.
     test('getlabelValue when no score is selected', done => {
       flush(() => {
         element.$$('gr-label-scores')
-            .$$(`gr-label-score-row[name="Code-Review"]`).setSelectedValue(-1);
+            .$$(`gr-label-score-row[name="Code-Review"]`)
+            .setSelectedValue(-1);
         assert.strictEqual(element.getLabelValue('Verified'), ' 0');
         done();
       });
@@ -372,73 +373,86 @@ limitations under the License.
             element._pendingConfirmationDetails);
       }
 
-      observer.then(() => {
-        assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
-        observer = overlayObserver('closed');
-        const expected = 'Group name has 10 members';
-        assert.notEqual(
-            element.$.reviewerConfirmationOverlay.innerText.indexOf(expected),
-            -1);
-        MockInteractions.tap(noButton); // close the overlay
-        return observer;
-      }).then(() => {
-        assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+      observer
+          .then(() => {
+            assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
+            observer = overlayObserver('closed');
+            const expected = 'Group name has 10 members';
+            assert.notEqual(
+                element.$.reviewerConfirmationOverlay.innerText.indexOf(expected),
+                -1);
+            MockInteractions.tap(noButton); // close the overlay
+            return observer;
+          }).then(() => {
+            assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
-        // We should be focused on account entry input.
-        assert.isTrue(
-            isFocusInsideElement(element.$.reviewers.$.entry.$.input.$.input));
+            // We should be focused on account entry input.
+            assert.isTrue(
+                isFocusInsideElement(
+                    element.$.reviewers.$.entry.$.input.$.input
+                )
+            );
 
-        // No reviewer/CC should have been added.
-        assert.equal(element.$.ccs.additions().length, 0);
-        assert.equal(element.$.reviewers.additions().length, 0);
+            // No reviewer/CC should have been added.
+            assert.equal(element.$.ccs.additions().length, 0);
+            assert.equal(element.$.reviewers.additions().length, 0);
 
-        // Reopen confirmation dialog.
-        observer = overlayObserver('opened');
-        if (cc) {
-          element._ccPendingConfirmation = {
-            group,
-            count: 10,
-          };
-        } else {
-          element._reviewerPendingConfirmation = {
-            group,
-            count: 10,
-          };
-        }
-        return observer;
-      }).then(() => {
-        assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
-        observer = overlayObserver('closed');
-        MockInteractions.tap(yesButton); // Confirm the group.
-        return observer;
-      }).then(() => {
-        assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
-        const additions = cc ?
-          element.$.ccs.additions() :
-          element.$.reviewers.additions();
-        assert.deepEqual(
-            additions,
-            [
-              {
-                group: {
-                  id: 'id',
-                  name: 'name',
-                  confirmed: true,
-                  _group: true,
-                  _pendingAdd: true,
-                },
-              },
-            ]);
+            // Reopen confirmation dialog.
+            observer = overlayObserver('opened');
+            if (cc) {
+              element._ccPendingConfirmation = {
+                group,
+                count: 10,
+              };
+            } else {
+              element._reviewerPendingConfirmation = {
+                group,
+                count: 10,
+              };
+            }
+            return observer;
+          })
+          .then(() => {
+            assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
+            observer = overlayObserver('closed');
+            MockInteractions.tap(yesButton); // Confirm the group.
+            return observer;
+          })
+          .then(() => {
+            assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+            const additions = cc ?
+              element.$.ccs.additions() :
+              element.$.reviewers.additions();
+            assert.deepEqual(
+                additions,
+                [
+                  {
+                    group: {
+                      id: 'id',
+                      name: 'name',
+                      confirmed: true,
+                      _group: true,
+                      _pendingAdd: true,
+                    },
+                  },
+                ]);
 
-        // We should be focused on account entry input.
-        if (cc) {
-          assert.isTrue(
-              isFocusInsideElement(element.$.ccs.$.entry.$.input.$.input));
-        } else {
-          assert.isTrue(
-              isFocusInsideElement(element.$.reviewers.$.entry.$.input.$.input));
-        }
-      }).then(done);
+            // We should be focused on account entry input.
+            if (cc) {
+              assert.isTrue(
+                  isFocusInsideElement(
+                      element.$.ccs.$.entry.$.input.$.input
+                  )
+              );
+            } else {
+              assert.isTrue(
+                  isFocusInsideElement(
+                      element.$.reviewers.$.entry.$.input.$.input
+                  )
+              );
+            }
+          })
+          .then(done);
     }
 
     test('cc confirmation', done => {
@@ -673,7 +687,8 @@ limitations under the License.
         // fail.
 
         element.$$('gr-label-scores').$$(
-            'gr-label-score-row[name="Verified"]').setSelectedValue(-1);
+            'gr-label-score-row[name="Verified"]')
+            .setSelectedValue(-1);
         MockInteractions.tap(element.$$('.send'));
       });
     });

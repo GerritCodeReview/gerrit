@@ -208,7 +208,7 @@
             return range;
           })
           // Sort the ranges so that hovering highlights are on top.
-          .sort((a, b) => a.hovering && !b.hovering ? 1 : 0);
+          .sort((a, b) => (a.hovering && !b.hovering ? 1 : 0));
     }
   }
 

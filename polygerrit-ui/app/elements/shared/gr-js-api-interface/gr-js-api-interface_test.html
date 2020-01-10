@@ -329,10 +329,11 @@ limitations under the License.
       sandbox.stub(window, 'fetch', () => {
         return Promise.resolve({status: 204});
       });
-      plugin.restApi().getLoggedIn().then(loggedIn => {
-        assert.isTrue(loggedIn);
-        done();
-      });
+      plugin.restApi().getLoggedIn()
+          .then(loggedIn => {
+            assert.isTrue(loggedIn);
+            done();
+          });
     });
 
     test('attributeHelper', () => {

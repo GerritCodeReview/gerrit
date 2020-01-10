@@ -474,28 +474,31 @@
       this.disabled = true;
 
       const errFn = this._handle400Error.bind(this);
-      return this._saveReview(obj, errFn).then(response => {
-        if (!response) {
-          // Null or undefined response indicates that an error handler
-          // took responsibility, so just return.
-          return {};
-        }
-        if (!response.ok) {
-          this.fire('server-error', {response});
-          return {};
-        }
+      return this._saveReview(obj, errFn)
+          .then(response => {
+            if (!response) {
+              // Null or undefined response indicates that an error handler
+              // took responsibility, so just return.
+              return {};
+            }
+            if (!response.ok) {
+              this.fire('server-error', {response});
+              return {};
+            }
 
-        this.draft = '';
-        this._includeComments = true;
-        this.fire('send', null, {bubbles: false});
-        return accountAdditions;
-      }).then(result => {
-        this.disabled = false;
-        return result;
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
+            this.draft = '';
+            this._includeComments = true;
+            this.fire('send', null, {bubbles: false});
+            return accountAdditions;
+          })
+          .then(result => {
+            this.disabled = false;
+            return result;
+          })
+          .catch(err => {
+            this.disabled = false;
+            throw err;
+          });
     }
 
     _focusOn(section) {

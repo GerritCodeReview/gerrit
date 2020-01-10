@@ -89,7 +89,8 @@
                 ({filepath: key, preview: res[key]}));
               this._currentPreviews = previews;
             }
-          }).catch(err => {
+          })
+          .catch(err => {
             this._close();
             this.dispatchEvent(new CustomEvent('show-error', {
               bubbles: true,
@@ -175,13 +176,14 @@
           this._currentFix.fix_id).then(res => {
         Gerrit.Nav.navigateToChange(this.change, 'edit', this._patchNum);
         this._close();
-      }).catch(err => {
-        this.dispatchEvent(new CustomEvent('show-error', {
-          bubbles: true,
-          composed: true,
-          detail: {message: `Error applying fix suggestion: ${err}`},
-        }));
-      });
+      })
+          .catch(err => {
+            this.dispatchEvent(new CustomEvent('show-error', {
+              bubbles: true,
+              composed: true,
+              detail: {message: `Error applying fix suggestion: ${err}`},
+            }));
+          });
     },
 
     getFixDescription(currentFix) {

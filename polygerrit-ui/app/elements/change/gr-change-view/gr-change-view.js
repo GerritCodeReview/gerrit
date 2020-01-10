@@ -362,16 +362,18 @@
         this._setDiffViewMode();
       });
 
-      Gerrit.awaitPluginsLoaded().then(() => {
-        this._dynamicTabHeaderEndpoints =
+      Gerrit.awaitPluginsLoaded()
+          .then(() => {
+            this._dynamicTabHeaderEndpoints =
             Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
-        this._dynamicTabContentEndpoints =
+            this._dynamicTabContentEndpoints =
             Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
-        if (this._dynamicTabContentEndpoints.length !==
+            if (this._dynamicTabContentEndpoints.length !==
             this._dynamicTabHeaderEndpoints.length) {
-          console.warn('Different number of tab headers and tab content.');
-        }
-      }).then(() => this._setPrimaryTab());
+              console.warn('Different number of tab headers and tab content.');
+            }
+          })
+          .then(() => this._setPrimaryTab());
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
       this.addEventListener('comment-refresh', this._reloadDrafts.bind(this));
@@ -413,15 +415,17 @@
     _setDiffViewMode(opt_reset) {
       if (!opt_reset && this.viewState.diffViewMode) { return; }
 
-      return this._getPreferences().then( prefs => {
-        if (!this.viewState.diffMode) {
-          this.set('viewState.diffMode', prefs.default_diff_view);
-        }
-      }).then(() => {
-        if (!this.viewState.diffMode) {
-          this.set('viewState.diffMode', 'SIDE_BY_SIDE');
-        }
-      });
+      return this._getPreferences()
+          .then( prefs => {
+            if (!this.viewState.diffMode) {
+              this.set('viewState.diffMode', prefs.default_diff_view);
+            }
+          })
+          .then(() => {
+            if (!this.viewState.diffMode) {
+              this.set('viewState.diffMode', 'SIDE_BY_SIDE');
+            }
+          });
     }
 
     _onOpenFixPreview(e) {
@@ -497,9 +501,10 @@
             message);
         this._editingCommitMessage = false;
         this._reloadWindow();
-      }).catch(err => {
-        this.$.commitMessageEditor.disabled = false;
-      });
+      })
+          .catch(err => {
+            this.$.commitMessageEditor.disabled = false;
+          });
     }
 
     _reloadWindow() {
@@ -689,7 +694,8 @@
     _handleMessageReply(e) {
       const msg = e.detail.message.message;
       const quoteStr = msg.split('\n').map(
-          line => { return '> ' + line; }).join('\n') + '\n\n';
+          line => { return '> ' + line; })
+          .join('\n') + '\n\n';
       this.$.replyDialog.quote = quoteStr;
       this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
     }

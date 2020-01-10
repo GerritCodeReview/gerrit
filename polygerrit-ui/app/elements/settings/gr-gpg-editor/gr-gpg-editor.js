@@ -96,7 +96,8 @@
             this.$.newKey.disabled = false;
             this._newKey = '';
             this.loadData();
-          }).catch(() => {
+          })
+          .catch(() => {
             this.$.addButton.disabled = false;
             this.$.newKey.disabled = false;
           });

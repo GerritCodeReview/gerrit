@@ -815,15 +815,17 @@
     }
 
     getIsAdmin() {
-      return this.getLoggedIn().then(isLoggedIn => {
-        if (isLoggedIn) {
-          return this.getAccountCapabilities();
-        } else {
-          return Promise.resolve();
-        }
-      }).then(capabilities => {
-        return capabilities && capabilities.administrateServer;
-      });
+      return this.getLoggedIn()
+          .then(isLoggedIn => {
+            if (isLoggedIn) {
+              return this.getAccountCapabilities();
+            } else {
+              return Promise.resolve();
+            }
+          })
+          .then(capabilities => {
+            return capabilities && capabilities.administrateServer;
+          });
     }
 
     getDefaultPreferences() {

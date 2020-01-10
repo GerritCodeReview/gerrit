@@ -291,10 +291,11 @@
           this._fireSave();
           return obj;
         });
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
+      })
+          .catch(err => {
+            this.disabled = false;
+            throw err;
+          });
 
       return this._xhrPromise;
     }
@@ -568,10 +569,11 @@
         }
 
         this._fireDiscard();
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
+      })
+          .catch(err => {
+            this.disabled = false;
+            throw err;
+          });
 
       return this._xhrPromise;
     }

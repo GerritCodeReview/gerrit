@@ -634,7 +634,8 @@
      * @return {!string} Everything after the first '#' ("a#b#c" -> "b#c").
      */
     _getHashFromCanonicalPath(canonicalPath) {
-      return canonicalPath.split('#').slice(1).join('#');
+      return canonicalPath.split('#').slice(1)
+          .join('#');
     }
 
     _parseLineAddress(hash) {

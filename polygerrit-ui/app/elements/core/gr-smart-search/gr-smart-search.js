@@ -135,7 +135,8 @@
           .then(accounts => {
             if (!accounts) { return []; }
             return this._mapAccountsHelper(accounts, predicate);
-          }).then(accounts => {
+          })
+          .then(accounts => {
             // When the expression supplied is a beginning substring of 'self',
             // add it as an autocomplete option.
             if (SELF_EXPRESSION.startsWith(expression)) {

@@ -217,7 +217,9 @@
           const timestamp = util.parseDate(update.date).getTime() -
               GrReviewerUpdatesParser.MESSAGE_REVIEWERS_THRESHOLD_MILLIS;
           update.date = new Date(timestamp)
-              .toISOString().replace('T', ' ').replace('Z', '000000');
+              .toISOString()
+              .replace('T', ' ')
+              .replace('Z', '000000');
         }
         if (nextMessageDate && date > nextMessageDate) {
           break;

@@ -322,7 +322,8 @@ limitations under the License.
       const lineNumberEl = document.createElement('td');
 
       function slice(str, start, end) {
-        return Array.from(str).slice(start, end).join('');
+        return Array.from(str).slice(start, end)
+            .join('');
       }
 
       setup(() => {

@@ -180,20 +180,22 @@
         fetchOptions: req.fetchOptions,
         anonymizedUrl: req.reportUrlAsIs ? urlWithParams : req.anonymizedUrl,
       };
-      return this.fetch(fetchReq).then(res => {
-        if (req.cancelCondition && req.cancelCondition()) {
-          res.body.cancel();
-          return;
-        }
-        return res;
-      }).catch(err => {
-        if (req.errFn) {
-          req.errFn.call(undefined, null, err);
-        } else {
-          this.fire('network-error', {error: err});
-        }
-        throw err;
-      });
+      return this.fetch(fetchReq)
+          .then(res => {
+            if (req.cancelCondition && req.cancelCondition()) {
+              res.body.cancel();
+              return;
+            }
+            return res;
+          })
+          .catch(err => {
+            if (req.errFn) {
+              req.errFn.call(undefined, null, err);
+            } else {
+              this.fire('network-error', {error: err});
+            }
+            throw err;
+          });
     }
 
     /**
@@ -309,16 +311,18 @@
         return Promise.resolve(this._cache.get(req.url));
       }
       this._fetchPromisesCache.set(req.url,
-          this.fetchJSON(req).then(response => {
-            if (response !== undefined) {
-              this._cache.set(req.url, response);
-            }
-            this._fetchPromisesCache.set(req.url, undefined);
-            return response;
-          }).catch(err => {
-            this._fetchPromisesCache.set(req.url, undefined);
-            throw err;
-          })
+          this.fetchJSON(req)
+              .then(response => {
+                if (response !== undefined) {
+                  this._cache.set(req.url, response);
+                }
+                this._fetchPromisesCache.set(req.url, undefined);
+                return response;
+              })
+              .catch(err => {
+                this._fetchPromisesCache.set(req.url, undefined);
+                throw err;
+              })
       );
       return this._fetchPromisesCache.get(req.url);
     }
@@ -360,14 +364,15 @@
           this.fire('server-error', {request: fetchReq, response});
         }
         return response;
-      }).catch(err => {
-        this.fire('network-error', {error: err});
-        if (req.errFn) {
-          return req.errFn.call(undefined, null, err);
-        } else {
-          throw err;
-        }
-      });
+      })
+          .catch(err => {
+            this.fire('network-error', {error: err});
+            if (req.errFn) {
+              return req.errFn.call(undefined, null, err);
+            } else {
+              throw err;
+            }
+          });
 
       if (req.parseResponse) {
         return xhr.then(res => this.getResponseObject(res));

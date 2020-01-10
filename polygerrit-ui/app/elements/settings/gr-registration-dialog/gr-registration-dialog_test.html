@@ -146,11 +146,13 @@ limitations under the License.
         assert.equal(account.email, 'email');
 
         // Save and verify new values are committed.
-        save().then(() => {
-          assert.equal(account.name, 'new name');
-          assert.equal(account.username, 'new username');
-          assert.equal(account.email, 'email3');
-        }).then(done);
+        save()
+            .then(() => {
+              assert.equal(account.name, 'new name');
+              assert.equal(account.username, 'new username');
+              assert.equal(account.email, 'email3');
+            })
+            .then(done);
       });
     });
 

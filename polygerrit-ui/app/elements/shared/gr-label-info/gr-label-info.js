@@ -133,7 +133,8 @@
                 target.disabled = false;
                 if (!response.ok) { return; }
                 Gerrit.Nav.navigateToChange(this.change);
-              }).catch(err => {
+              })
+              .catch(err => {
                 target.disabled = false;
                 return;
               });

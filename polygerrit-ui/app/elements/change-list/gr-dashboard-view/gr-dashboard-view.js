@@ -181,12 +181,14 @@
           .then(() => {
             this._maybeShowDraftsBanner();
             this.$.reporting.dashboardDisplayed();
-          }).catch(err => {
+          })
+          .catch(err => {
             this.fire('title-change', {
               title: title || this._computeTitle(user),
             });
             console.warn(err);
-          }).then(() => { this._loading = false; });
+          })
+          .then(() => { this._loading = false; });
     }
 
     /**
@@ -201,9 +203,9 @@
       if (!res) { return Promise.resolve(); }
 
       const queries = res.sections
-          .map(section => section.suffixForDashboard ?
+          .map(section => (section.suffixForDashboard ?
             section.query + ' ' + section.suffixForDashboard :
-            section.query);
+            section.query));
 
       if (checkForNewUser) {
         queries.push('owner:self limit:1');

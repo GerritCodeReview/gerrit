@@ -1738,8 +1738,9 @@ limitations under the License.
         Gerrit.install(
             p => {
               plugin = p;
-              plugin.hook('change-view-integration').getLastAttached().then(
-                  el => hookEl = el);
+              plugin.hook('change-view-integration').getLastAttached()
+                  .then(
+                      el => hookEl = el);
             },
             '0.1',
             'http://some/plugins/url.html');

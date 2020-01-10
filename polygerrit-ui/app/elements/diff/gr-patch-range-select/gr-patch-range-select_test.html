@@ -235,10 +235,11 @@ limitations under the License.
           // Should be recomputed for each available patch
           sandbox.stub(element, '_computeBaseDropdownContent');
           assert.equal(element._computeBaseDropdownContent.callCount, 0);
-          commentApiWrapper.loadComments().then().then(() => {
-            assert.equal(element._computeBaseDropdownContent.callCount, 1);
-            done();
-          });
+          commentApiWrapper.loadComments().then()
+              .then(() => {
+                assert.equal(element._computeBaseDropdownContent.callCount, 1);
+                done();
+              });
         });
 
     test('_computePatchDropdownContent called when basePatchNum updates', () => {
@@ -286,9 +287,10 @@ limitations under the License.
       // Should be recomputed for each available patch
       sandbox.stub(element, '_computePatchDropdownContent');
       assert.equal(element._computePatchDropdownContent.callCount, 0);
-      commentApiWrapper.loadComments().then().then(() => {
-        done();
-      });
+      commentApiWrapper.loadComments().then()
+          .then(() => {
+            done();
+          });
     });
 
     test('_computePatchDropdownContent', () => {

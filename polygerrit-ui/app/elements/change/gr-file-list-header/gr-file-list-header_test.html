@@ -133,35 +133,37 @@ limitations under the License.
 
       // Simulate tapping the remove button, but call function directly so that
       // can determine what happens after the promise is resolved.
-      return element._handleDescriptionRemoved().then(() => {
-        // The API stub should be called with an empty string for the new
-        // description.
-        assert.equal(putDescStub.lastCall.args[2], '');
-        assert.equal(element.change.revisions.rev1.description, '');
+      return element._handleDescriptionRemoved()
+          .then(() => {
+            // The API stub should be called with an empty string for the new
+            // description.
+            assert.equal(putDescStub.lastCall.args[2], '');
+            assert.equal(element.change.revisions.rev1.description, '');
 
-        flushAsynchronousOperations();
-        // The editable label should now be visible and the chip hidden.
-        label = Polymer.dom(element.root).querySelector('#descriptionLabel');
-        assert.isOk(label);
-        assert.equal(getComputedStyle(chip).display, 'none');
-        assert.notEqual(getComputedStyle(label).display, 'none');
-        assert.isFalse(label.readOnly);
-        // Edit the label to have a new value of test2, and save.
-        label.editing = true;
-        label._inputText = 'test2';
-        label._save();
-        flushAsynchronousOperations();
-        // The API stub should be called with an `test2` for the new
-        // description.
-        assert.equal(putDescStub.callCount, 2);
-        assert.equal(putDescStub.lastCall.args[2], 'test2');
-      }).then(() => {
-        flushAsynchronousOperations();
-        // The chip should be visible again, and the label hidden.
-        assert.equal(element.change.revisions.rev1.description, 'test2');
-        assert.equal(getComputedStyle(label).display, 'none');
-        assert.notEqual(getComputedStyle(chip).display, 'none');
-      });
+            flushAsynchronousOperations();
+            // The editable label should now be visible and the chip hidden.
+            label = Polymer.dom(element.root).querySelector('#descriptionLabel');
+            assert.isOk(label);
+            assert.equal(getComputedStyle(chip).display, 'none');
+            assert.notEqual(getComputedStyle(label).display, 'none');
+            assert.isFalse(label.readOnly);
+            // Edit the label to have a new value of test2, and save.
+            label.editing = true;
+            label._inputText = 'test2';
+            label._save();
+            flushAsynchronousOperations();
+            // The API stub should be called with an `test2` for the new
+            // description.
+            assert.equal(putDescStub.callCount, 2);
+            assert.equal(putDescStub.lastCall.args[2], 'test2');
+          })
+          .then(() => {
+            flushAsynchronousOperations();
+            // The chip should be visible again, and the label hidden.
+            assert.equal(element.change.revisions.rev1.description, 'test2');
+            assert.equal(getComputedStyle(label).display, 'none');
+            assert.notEqual(getComputedStyle(chip).display, 'none');
+          });
     });
 
     test('expandAllDiffs called when expand button clicked', () => {

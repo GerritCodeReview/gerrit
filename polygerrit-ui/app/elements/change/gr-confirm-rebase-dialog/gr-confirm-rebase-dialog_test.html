@@ -153,15 +153,17 @@ limitations under the License.
 
       test('_getRecentChanges', () => {
         sandbox.spy(element, '_getRecentChanges');
-        return element._getRecentChanges().then(() => {
-          assert.deepEqual(element._recentChanges, recentChanges);
-          assert.equal(element.$.restAPI.getChanges.callCount, 1);
-          // When called a second time, should not re-request recent changes.
-          element._getRecentChanges();
-        }).then(() => {
-          assert.equal(element._getRecentChanges.callCount, 2);
-          assert.equal(element.$.restAPI.getChanges.callCount, 1);
-        });
+        return element._getRecentChanges()
+            .then(() => {
+              assert.deepEqual(element._recentChanges, recentChanges);
+              assert.equal(element.$.restAPI.getChanges.callCount, 1);
+              // When called a second time, should not re-request recent changes.
+              element._getRecentChanges();
+            })
+            .then(() => {
+              assert.equal(element._getRecentChanges.callCount, 2);
+              assert.equal(element.$.restAPI.getChanges.callCount, 1);
+            });
       });
 
       test('_filterChanges', () => {

@@ -21,6 +21,8 @@
     "flushAsynchronousOperations": false
   },
   "rules": {
+    "no-confusing-arrow": "error",
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
     "arrow-parens": ["error", "as-needed"],
     "block-spacing": ["error", "always"],
     "brace-style": ["error", "1tbs", { "allowSingleLine": true }],

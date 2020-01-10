@@ -7,6 +7,13 @@
       "created": "2020-01-10T07:51:24Z",
       "updated": "2020-01-10T07:51:24Z"
     },
+    "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77433/console",
+      "finished": "2020-01-10T08:01:36Z",
+      "created": "2020-01-10T07:51:35Z",
+      "updated": "2020-01-10T07:51:35Z"
+    },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77434/console",

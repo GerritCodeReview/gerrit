@@ -17,8 +17,8 @@ package com.google.gerrit.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
+import static org.junit.Assert.assertThrows;
 
 import java.util.function.Function;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;

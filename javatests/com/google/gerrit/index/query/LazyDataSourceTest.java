@@ -14,7 +14,7 @@
 
 package com.google.gerrit.index.query;
 
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.query.change.ChangeData;

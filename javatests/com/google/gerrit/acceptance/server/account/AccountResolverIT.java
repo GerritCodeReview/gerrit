@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.server.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;

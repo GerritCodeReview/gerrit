@@ -22,8 +22,8 @@ import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBA
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PARENT;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_PARENT;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toSet;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

@@ -21,8 +21,8 @@ import static com.google.gerrit.entities.Change.Status.NEW;
 import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.index.query.Predicate.or;
 import static com.google.gerrit.server.index.change.IndexedChangeQuery.convertOptions;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;

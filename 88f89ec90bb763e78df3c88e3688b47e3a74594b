@@ -1,0 +1,11 @@
+{
+  "checks": {
+    "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "FAILED",
+      "url": "http://somewhere.com",
+      "finished": "2020-01-10T21:56:58Z",
+      "created": "2020-01-10T21:46:56Z",
+      "updated": "2020-01-10T21:46:56Z"
+    }
+  }
+}

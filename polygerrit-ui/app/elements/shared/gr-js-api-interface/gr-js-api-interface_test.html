@@ -324,11 +324,7 @@ limitations under the License.
       element.handleEvent(element.EventType.HIGHLIGHTJS_LOADED, {hljs: testHljs});
     });
 
-    test('getLoggedIn', done => {
-      // fake fetch for authCheck
-      sandbox.stub(window, 'fetch', () => {
-        return Promise.resolve({status: 204});
-      });
+    test('getAccount', done => {
       plugin.restApi().getLoggedIn().then(loggedIn => {
         assert.isTrue(loggedIn);
         done();

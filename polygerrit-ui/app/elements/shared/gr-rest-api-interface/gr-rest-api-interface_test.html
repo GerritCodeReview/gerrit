@@ -48,6 +48,8 @@ limitations under the License.
       window.CANONICAL_PATH = `test${ctr}`;
 
       sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+      element._projectLookup = {};
       const testJSON = ')]}\'\n{"hello": "bonjour"}';
       sandbox.stub(window, 'fetch').returns(Promise.resolve({
         ok: true,
@@ -55,10 +57,6 @@ limitations under the License.
           return Promise.resolve(testJSON);
         },
       }));
-      // fake auth
-      sandbox.stub(Gerrit.Auth, 'authCheck').returns(Promise.resolve(true));
-      element = fixture('basic');
-      element._projectLookup = {};
     });
 
     teardown(() => {
@@ -365,6 +363,117 @@ limitations under the License.
         assert.isTrue(getResponseObjectStub.notCalled);
         serverErrorEventPromise.then(() => done());
       });
+    });
+
+    test('auth failure', done => {
+      const fakeAuthResponse = {
+        ok: false,
+        status: 403,
+      };
+      window.fetch.onFirstCall().returns(
+          Promise.reject(new Error('Failed to fetch')));
+      window.fetch.onSecondCall().returns(Promise.resolve(fakeAuthResponse));
+      // Emulate logged in.
+      element._restApiHelper._cache.set('/accounts/self/detail', {});
+      const serverErrorStub = sandbox.stub();
+      element.addEventListener('server-error', serverErrorStub);
+      const authErrorStub = sandbox.stub();
+      element.addEventListener('auth-error', authErrorStub);
+      element._restApiHelper.fetchJSON({url: '/bar'}).finally(r => {
+        flush(() => {
+          assert.isTrue(authErrorStub.called);
+          assert.isFalse(serverErrorStub.called);
+          assert.isFalse(element._cache.has('/accounts/self/detail'));
+          done();
+        });
+      });
+    });
+
+    test('auth failure - test all failed to fetch', done => {
+      window.fetch.returns(
+          Promise.reject(new Error('Failed to fetch')));
+      // Emulate logged in.
+      element._cache.set('/accounts/self/detail', {});
+      const serverErrorStub = sandbox.stub();
+      element.addEventListener('server-error', serverErrorStub);
+      const authErrorStub = sandbox.stub();
+      element.addEventListener('auth-error', authErrorStub);
+      element._restApiHelper.fetchJSON({url: '/bar'}).finally(r => {
+        flush(() => {
+          assert.isTrue(authErrorStub.called);
+          assert.isFalse(serverErrorStub.called);
+          assert.isFalse(element._cache.has('/accounts/self/detail'));
+          done();
+        });
+      });
+    });
+
+    test('getLoggedIn returns false when network/auth failure', done => {
+      window.fetch.returns(
+          Promise.reject(new Error('Failed to fetch')));
+      element.getLoggedIn().then(isLoggedIn => {
+        assert.isFalse(isLoggedIn);
+        done();
+      });
+    });
+
+    test('checkCredentials', done => {
+      const responses = [
+        {
+          ok: false,
+          status: 403,
+          text() { return Promise.resolve(); },
+        },
+        {
+          ok: true,
+          status: 200,
+          text() { return Promise.resolve(')]}\'{}'); },
+        },
+      ];
+      window.fetch.restore();
+      sandbox.stub(window, 'fetch', url => {
+        if (url === window.CANONICAL_PATH + '/accounts/self/detail') {
+          return Promise.resolve(responses.shift());
+        }
+      });
+
+      element.getLoggedIn().then(account => {
+        assert.isNotOk(account);
+        element.checkCredentials().then(account => {
+          assert.isOk(account);
+          done();
+        });
+      });
+    });
+
+    test('checkCredentials promise rejection', () => {
+      window.fetch.restore();
+      element._cache.set('/accounts/self/detail', true);
+      const checkCredentialsSpy =
+          sandbox.spy(element._restApiHelper, 'checkCredentials');
+      sandbox.stub(window, 'fetch', url => {
+        return Promise.reject(new Error('Failed to fetch'));
+      });
+      return element.getConfig(true)
+          .catch(err => undefined)
+          .then(() => {
+            // When the top-level fetch call throws an error, it invokes
+            // checkCredentials, which in turn makes another fetch call.
+            // The second fetch call also fails, which leads to a second
+            // invocation of checkCredentials, which should immediately
+            // return instead of making further fetch calls.
+            assert.isTrue(checkCredentialsSpy .calledTwice);
+            assert.isTrue(window.fetch.calledTwice);
+          });
+    });
+
+    test('checkCredentials accepts only json', () => {
+      const authFetchStub = sandbox.stub(element._auth, 'fetch')
+          .returns(Promise.resolve());
+      element.checkCredentials();
+      assert.isTrue(authFetchStub.called);
+      assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
+          'application/json');
     });
 
     test('legacy n,z key in change url is replaced', () => {
@@ -807,18 +916,6 @@ limitations under the License.
       element._cache.set(url, {});
 
       element.invalidateReposCache();
-
-      assert.isUndefined(element._sharedFetchPromises[url]);
-
-      assert.isFalse(element._cache.has(url));
-    });
-
-    test('invalidateAccountsCache', () => {
-      const url = '/accounts/self/detail';
-
-      element._cache.set(url, {});
-
-      element.invalidateAccountsCache();
 
       assert.isUndefined(element._sharedFetchPromises[url]);
 

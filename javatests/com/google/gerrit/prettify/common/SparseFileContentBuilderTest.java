@@ -15,7 +15,7 @@
 package com.google.gerrit.prettify.common;
 
 import static com.google.gerrit.prettify.common.testing.SparseFileContentSubject.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import org.junit.Ignore;

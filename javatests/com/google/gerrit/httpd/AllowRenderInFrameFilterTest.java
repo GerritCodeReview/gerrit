@@ -16,7 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.AllowRenderInFrameFilter.X_FRAME_OPTIONS_HEADER_NAME;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.never;

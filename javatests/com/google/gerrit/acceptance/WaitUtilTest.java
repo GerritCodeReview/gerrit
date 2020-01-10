@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.acceptance.WaitUtil.waitUntil;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import java.time.Duration;
 import org.junit.Test;

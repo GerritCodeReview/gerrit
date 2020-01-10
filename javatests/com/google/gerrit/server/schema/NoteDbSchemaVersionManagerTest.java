@@ -16,7 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.entities.RefNames.REFS_VERSION;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.AllProjectsName;

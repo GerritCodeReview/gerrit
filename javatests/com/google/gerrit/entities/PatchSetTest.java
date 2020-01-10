@@ -17,7 +17,7 @@ package com.google.gerrit.entities;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.entities.PatchSet.joinGroups;
 import static com.google.gerrit.entities.PatchSet.splitGroups;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;

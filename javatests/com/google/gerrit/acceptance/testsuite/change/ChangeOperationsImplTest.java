@@ -20,9 +20,9 @@ import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.asse
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.hasCommit;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.restapi.testing.BinaryResultSubject.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;

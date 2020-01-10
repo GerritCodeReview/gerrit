@@ -29,8 +29,8 @@ import static com.google.gerrit.server.account.externalids.testing.ExternalIdTes
 import static com.google.gerrit.server.account.externalids.testing.ExternalIdTestUtil.insertExternalIdWithKeyThatDoesntMatchNoteId;
 import static com.google.gerrit.server.account.externalids.testing.ExternalIdTestUtil.insertExternalIdWithoutAccountId;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;

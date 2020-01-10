@@ -20,8 +20,8 @@ import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.assertThatList;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.truth.Correspondence;

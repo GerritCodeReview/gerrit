@@ -16,10 +16,10 @@ package com.google.gerrit.testing;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.testing.IndexVersions.ALL;
 import static com.google.gerrit.testing.IndexVersions.CURRENT;
 import static com.google.gerrit.testing.IndexVersions.PREVIOUS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import java.util.ArrayList;

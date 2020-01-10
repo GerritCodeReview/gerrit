@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import java.util.Random;
 import java.util.regex.Pattern;

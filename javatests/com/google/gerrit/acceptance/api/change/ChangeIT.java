@@ -55,13 +55,13 @@ import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.CacheStatsSubject.assertThat;
 import static com.google.gerrit.truth.CacheStatsSubject.cloneStats;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;

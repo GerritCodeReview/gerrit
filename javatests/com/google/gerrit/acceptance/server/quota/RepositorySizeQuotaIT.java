@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.server.quota;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static com.google.gerrit.server.quota.QuotaResponse.ok;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.clearInvocations;

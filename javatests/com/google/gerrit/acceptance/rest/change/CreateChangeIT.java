@@ -23,9 +23,9 @@ import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.extensions.common.testing.GitPersonSubject.assertThat;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;

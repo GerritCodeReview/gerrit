@@ -21,7 +21,7 @@ import static com.google.gerrit.index.query.QueryParser.FIELD_NAME;
 import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 import static com.google.gerrit.index.query.QueryParser.parse;
 import static com.google.gerrit.index.query.testing.TreeSubject.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import org.antlr.runtime.tree.Tree;
 import org.junit.Test;

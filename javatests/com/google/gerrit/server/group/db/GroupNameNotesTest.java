@@ -19,10 +19,10 @@ import static com.google.gerrit.common.data.testing.GroupReferenceSubject.groupR
 import static com.google.gerrit.entities.RefNames.REFS_GROUPNAMES;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.commits;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.testing.GroupReferenceSubject;

@@ -16,7 +16,7 @@ package com.google.gerrit.json;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.json.JavaSqlTimestampHelper.parseTimestamp;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;

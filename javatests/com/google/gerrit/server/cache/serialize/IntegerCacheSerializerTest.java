@@ -15,7 +15,7 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Bytes;

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.fixes;
 
 import static com.google.gerrit.server.edit.tree.TreeModificationSubject.assertThatList;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

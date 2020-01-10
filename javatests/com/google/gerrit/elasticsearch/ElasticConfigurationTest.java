@@ -21,8 +21,8 @@ import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PREFIX;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_SERVER;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_USERNAME;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.SECTION_ELASTICSEARCH;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.ProvisionException;

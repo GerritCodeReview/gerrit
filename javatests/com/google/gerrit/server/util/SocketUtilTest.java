@@ -19,11 +19,11 @@ import static com.google.gerrit.server.util.SocketUtil.hostname;
 import static com.google.gerrit.server.util.SocketUtil.isIPv6;
 import static com.google.gerrit.server.util.SocketUtil.parse;
 import static com.google.gerrit.server.util.SocketUtil.resolve;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.net.InetAddress.getByName;
 import static java.net.InetSocketAddress.createUnresolved;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.net.Inet4Address;

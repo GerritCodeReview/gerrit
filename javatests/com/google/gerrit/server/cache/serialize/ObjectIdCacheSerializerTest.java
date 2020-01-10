@@ -16,7 +16,7 @@ package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteArray;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;

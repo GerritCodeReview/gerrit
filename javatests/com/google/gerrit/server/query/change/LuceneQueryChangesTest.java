@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.BadRequestException;

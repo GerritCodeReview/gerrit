@@ -20,7 +20,7 @@ import static com.google.gerrit.entities.RefNames.parseRefSuffix;
 import static com.google.gerrit.entities.RefNames.parseShardedRefPart;
 import static com.google.gerrit.entities.RefNames.parseShardedUuidFromRefPart;
 import static com.google.gerrit.entities.RefNames.skipShardedRefPart;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 

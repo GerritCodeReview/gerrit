@@ -17,7 +17,7 @@ package com.google.gerrit.server.util;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.util.LabelVote.parse;
 import static com.google.gerrit.server.util.LabelVote.parseWithEquals;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 

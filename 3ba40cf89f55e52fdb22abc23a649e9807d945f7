@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f13d55e_be899f25",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T14:38:32Z",
+      "side": 1,
+      "message": "is it possible that this API may take a while ? so may need some indication ? and also the way to prevent multiple clicks (we don\u0027t want multiple class right :)",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95f7c81f_3d4113ae",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T14:38:32Z",
+      "side": 1,
+      "message": "is this still needed ?",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bae0adb3_63b66a19",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T14:38:32Z",
+      "side": 1,
+      "message": "invalid revert type",
+      "range": {
+        "startLine": 1165,
+        "startChar": 33,
+        "endLine": 1165,
+        "endChar": 37
+      },
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95ab12df_68b12767",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T14:38:32Z",
+      "side": 1,
+      "message": "leading spaces",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b37377e8_7cc9d7f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T14:38:32Z",
+      "side": 1,
+      "message": "add a test on switching between two options and test on message changes / preserve history etc",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "877a2e9c_7df17d68",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T14:38:32Z",
+      "side": 1,
+      "message": "add a comment above mention that `this is to give plugins a chance to update message` (since its not very clear from the function itself)\n\nor maybe just rename this method to something like: `_runRevertMsgModifyHooks`",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdd7ae75_c8f5fced",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T14:38:32Z",
+      "side": 1,
+      "message": "`_` private",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 35
+      },
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12092cc9_2b628278",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-10T14:38:32Z",
+      "side": 1,
+      "message": "is this possible ? maybe stop doing anything at the beginning if `changes` is undefined or \u003c\u003d 1",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

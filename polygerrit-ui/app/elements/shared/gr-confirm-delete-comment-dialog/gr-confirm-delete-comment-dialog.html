@@ -36,6 +36,9 @@ limitations under the License.
         flex-direction: column;
         width: 100%;
       }
+      p {
+        margin-bottom: var(--spacing-l);
+      }
       label {
         cursor: pointer;
         display: block;
@@ -54,6 +57,7 @@ limitations under the License.
         on-cancel="_handleCancelTap">
       <div class="header" slot="header">Delete Comment</div>
       <div class="main" slot="main">
+        <p>This is an admin function. Please only use in exceptional circumstances.</p>
         <label for="messageInput">Enter comment delete reason</label>
         <iron-autogrow-textarea
             id="messageInput"

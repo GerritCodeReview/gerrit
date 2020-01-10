@@ -96,10 +96,11 @@ limitations under the License.
       assert.equal(module['someparam'], 'barbar');
       return decorationHook.getLastAttached().then(element => {
         assert.strictEqual(element, module);
-      }).then(() => {
-        element.remove();
-        assert.equal(decorationHook.getAllAttached().length, 0);
-      });
+      })
+          .then(() => {
+            element.remove();
+            assert.equal(decorationHook.getAllAttached().length, 0);
+          });
     });
 
     test('replacement', () => {
@@ -109,12 +110,14 @@ limitations under the License.
           element => element.nodeName === 'OTHER-MODULE');
       assert.isOk(module);
       assert.equal(module['someparam'], 'foofoo');
-      return replacementHook.getLastAttached().then(element => {
-        assert.strictEqual(element, module);
-      }).then(() => {
-        element.remove();
-        assert.equal(replacementHook.getAllAttached().length, 0);
-      });
+      return replacementHook.getLastAttached()
+          .then(element => {
+            assert.strictEqual(element, module);
+          })
+          .then(() => {
+            element.remove();
+            assert.equal(replacementHook.getAllAttached().length, 0);
+          });
     });
 
     test('late registration', done => {

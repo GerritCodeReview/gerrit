@@ -56,9 +56,11 @@ limitations under the License.
         getLoggedIn() { return Promise.resolve(true); },
       });
       element = fixture('basic');
-      groupStub = sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
-        return Promise.resolve(group);
-      });
+      groupStub = sandbox.stub(
+          element.$.restAPI,
+          'getGroupConfig',
+          () => Promise.resolve(group)
+      );
     });
 
     teardown(() => {
@@ -74,9 +76,10 @@ limitations under the License.
     });
 
     test('default values are populated with internal group', done => {
-      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
-        return Promise.resolve(true);
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getIsGroupOwner',
+          () => Promise.resolve(true));
       element.groupId = 1;
       element._loadGroup().then(() => {
         assert.isTrue(element._groupIsInternal);
@@ -89,12 +92,14 @@ limitations under the License.
       const groupExternal = Object.assign({}, group);
       groupExternal.id = 'external-group-id';
       groupStub.restore();
-      groupStub = sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
-        return Promise.resolve(groupExternal);
-      });
-      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
-        return Promise.resolve(true);
-      });
+      groupStub = sandbox.stub(
+          element.$.restAPI,
+          'getGroupConfig',
+          () => Promise.resolve(groupExternal));
+      sandbox.stub(
+          element.$.restAPI,
+          'getIsGroupOwner',
+          () => Promise.resolve(true));
       element.groupId = 1;
       element._loadGroup().then(() => {
         assert.isFalse(element._groupIsInternal);
@@ -114,13 +119,15 @@ limitations under the License.
       element._groupName = groupName;
       element._groupOwner = true;
 
-      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
-        return Promise.resolve(true);
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getIsGroupOwner',
+          () => Promise.resolve(true));
 
-      sandbox.stub(element.$.restAPI, 'saveGroupName', () => {
-        return Promise.resolve({status: 200});
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'saveGroupName',
+          () => Promise.resolve({status: 200}));
 
       const button = element.$.inputUpdateNameBtn;
 
@@ -154,9 +161,10 @@ limitations under the License.
     test('test for undefined group name', done => {
       groupStub.restore();
 
-      sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
-        return Promise.resolve({});
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'getGroupConfig',
+          () => Promise.resolve({}));
 
       assert.isUndefined(element.groupId);
 

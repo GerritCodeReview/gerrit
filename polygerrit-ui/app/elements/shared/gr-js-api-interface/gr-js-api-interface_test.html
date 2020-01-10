@@ -304,11 +304,11 @@ limitations under the License.
 
     test('submitchange', () => {
       plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
-      plugin.on(element.EventType.SUBMIT_CHANGE, () => { return true; });
+      plugin.on(element.EventType.SUBMIT_CHANGE, () => true);
       assert.isTrue(element.canSubmitChange());
       assert.isTrue(errorStub.calledOnce);
-      plugin.on(element.EventType.SUBMIT_CHANGE, () => { return false; });
-      plugin.on(element.EventType.SUBMIT_CHANGE, () => { return true; });
+      plugin.on(element.EventType.SUBMIT_CHANGE, () => false);
+      plugin.on(element.EventType.SUBMIT_CHANGE, () => true);
       assert.isFalse(element.canSubmitChange());
       assert.isTrue(errorStub.calledTwice);
     });
@@ -326,13 +326,12 @@ limitations under the License.
 
     test('getLoggedIn', done => {
       // fake fetch for authCheck
-      sandbox.stub(window, 'fetch', () => {
-        return Promise.resolve({status: 204});
-      });
-      plugin.restApi().getLoggedIn().then(loggedIn => {
-        assert.isTrue(loggedIn);
-        done();
-      });
+      sandbox.stub(window, 'fetch', () => Promise.resolve({status: 204}));
+      plugin.restApi().getLoggedIn()
+          .then(loggedIn => {
+            assert.isTrue(loggedIn);
+            done();
+          });
     });
 
     test('attributeHelper', () => {

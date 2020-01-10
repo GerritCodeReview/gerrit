@@ -230,7 +230,7 @@
   GrDiffBuilder.prototype.getSectionsByLineRange = function(
       startLine, endLine, opt_side) {
     return this.getGroupsByLineRange(startLine, endLine, opt_side).map(
-        group => { return group.element; });
+        group => group.element);
   };
 
   GrDiffBuilder.prototype._createContextControl = function(section, line) {

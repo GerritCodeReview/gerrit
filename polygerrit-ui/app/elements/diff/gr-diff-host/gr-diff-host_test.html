@@ -123,9 +123,8 @@ limitations under the License.
         element.comments.left.push(comment);
         comment.id = id;
         element.fire('comment-discard', {comment});
-        const drafts = element.comments.left.filter(item => {
-          return item.__draftID === draftID;
-        });
+        const drafts = element.comments.left
+            .filter(item => item.__draftID === draftID);
         assert.equal(drafts.length, 0);
         assert.isTrue(diffCommentsModifiedStub.called);
       });
@@ -145,9 +144,8 @@ limitations under the License.
         element.comments.left.push(comment);
         comment.id = id;
         element.fire('comment-save', {comment});
-        const drafts = element.comments.left.filter(item => {
-          return item.__draftID === draftID;
-        });
+        const drafts = element.comments.left
+            .filter(item => item.__draftID === draftID);
         assert.equal(drafts.length, 1);
         assert.equal(drafts[0].id, id);
         assert.isTrue(diffCommentsModifiedStub.called);
@@ -361,12 +359,14 @@ limitations under the License.
             Promise.resolve({content: []}));
         element.patchRange = {};
         let reloadComplete = false;
-        element.$.restAPI.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          return element.reload();
-        }).then(() => {
-          reloadComplete = true;
-        });
+        element.$.restAPI.getDiffPreferences()
+            .then(prefs => {
+              element.prefs = prefs;
+              return element.reload();
+            })
+            .then(() => {
+              reloadComplete = true;
+            });
         // Multiple cascading microtasks are scheduled.
         setTimeout(() => {
           assert.isFalse(reloadComplete);
@@ -506,10 +506,10 @@ limitations under the License.
           };
           sandbox.stub(element.$.restAPI,
               'getB64FileContents',
-              (changeId, patchNum, path, opt_parentIndex) => {
-                return Promise.resolve(opt_parentIndex === 1 ? mockFile1 :
-                  mockFile2);
-              });
+              (changeId, patchNum, path, opt_parentIndex) => Promise.resolve(
+                  opt_parentIndex === 1 ? mockFile1 :
+                    mockFile2)
+          );
 
           element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
           element.comments = {
@@ -1380,7 +1380,8 @@ limitations under the License.
       });
 
       test('starts syntax layer processing on render event', done => {
-        sandbox.stub(element.$.syntaxLayer, 'process').returns(Promise.resolve());
+        sandbox.stub(element.$.syntaxLayer, 'process')
+            .returns(Promise.resolve());
         sandbox.stub(element.$.restAPI, 'getDiff').returns(
             Promise.resolve({content: []}));
         element.reload();

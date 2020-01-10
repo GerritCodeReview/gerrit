@@ -125,9 +125,10 @@ limitations under the License.
 
     suite('filter', () => {
       test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getPlugins', () => {
-          return Promise.resolve(plugins);
-        });
+        sandbox.stub(
+            element.$.restAPI,
+            'getPlugins',
+            () => Promise.resolve(plugins));
         const value = {
           filter: 'test',
           offset: 25,

@@ -59,7 +59,8 @@
         if (!this._hljsState.loading) {
           this._hljsState.loading = true;
           this._loadScript(this._getHLJSUrl())
-              .then(this._onHLJSLibLoaded.bind(this)).catch(reject);
+              .then(this._onHLJSLibLoaded.bind(this))
+              .catch(reject);
         }
 
         this._hljsState.callbacks.push(resolve);

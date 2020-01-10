@@ -78,7 +78,8 @@ fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
           if (joinedErrors) {
             process.exit(1);
           }
-        }).catch(e => {
+        })
+        .catch(e => {
           console.error(e);
           process.exit(1);
         });

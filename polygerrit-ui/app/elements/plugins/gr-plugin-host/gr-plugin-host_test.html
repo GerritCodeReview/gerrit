@@ -81,7 +81,8 @@ limitations under the License.
 
     test('skip theme if preloaded', () => {
       sandbox.stub(Gerrit, '_isPluginPreloaded')
-          .withArgs('preloaded:gerrit-theme').returns(true);
+          .withArgs('preloaded:gerrit-theme')
+          .returns(true);
       sandbox.stub(Gerrit, '_loadPlugins');
       element.config = {
         default_theme: '/oof',

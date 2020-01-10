@@ -136,7 +136,7 @@
 
       const pluginConfig = configRecord.base;
       return Object.keys(pluginConfig)
-          .map(name => ({name, config: pluginConfig[name]}));
+          .map(name => { return {name, config: pluginConfig[name]}; });
     }
 
     _loadRepo() {

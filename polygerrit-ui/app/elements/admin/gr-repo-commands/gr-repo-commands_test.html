@@ -44,9 +44,10 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
-      repoStub = sandbox.stub(element.$.restAPI, 'getProjectConfig', () => {
-        return Promise.resolve({});
-      });
+      repoStub = sandbox.stub(
+          element.$.restAPI,
+          'getProjectConfig',
+          () => Promise.resolve({}));
     });
 
     teardown(() => {

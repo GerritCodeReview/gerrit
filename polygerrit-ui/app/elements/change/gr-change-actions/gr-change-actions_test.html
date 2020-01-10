@@ -220,9 +220,8 @@ limitations under the License.
 
     test('delete buttons have explicit labels', done => {
       flush(() => {
-        const deleteItems = element.$.moreActions.items.filter(item => {
-          return item.id.startsWith('delete');
-        });
+        const deleteItems = element.$.moreActions.items
+            .filter(item => item.id.startsWith('delete'));
         assert.equal(deleteItems.length, 1);
         assert.notEqual(deleteItems[0].name);
         assert.equal(deleteItems[0].name, 'Delete change');
@@ -261,7 +260,7 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchChangeUpdates',
-          () => { return Promise.resolve({isLatest: true}); });
+          () => Promise.resolve({isLatest: true}));
       sandbox.stub(element.$.overlay, 'open').returns(Promise.resolve());
       element.change = {
         revisions: {
@@ -284,7 +283,7 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchChangeUpdates',
-          () => { return Promise.resolve({isLatest: true}); });
+          () => Promise.resolve({isLatest: true}));
       sandbox.stub(element.$.overlay, 'open').returns(Promise.resolve());
       element.change = {
         revisions: {
@@ -318,7 +317,7 @@ limitations under the License.
 
     test('submit change with plugin hook', done => {
       sandbox.stub(element, '_canSubmitChange',
-          () => { return false; });
+          () => false);
       const fireActionStub = sandbox.stub(element, '_fireAction');
       flush(() => {
         const submitButton = element.$$('gr-button[data-action-key="submit"]');
@@ -819,9 +818,9 @@ limitations under the License.
         };
         const newRevertMsg = 'Modified revert msg';
         sandbox.stub(element, '_modifyRevertMsg',
-            () => { return newRevertMsg; });
+            () => newRevertMsg);
         sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
-            () => { return 'original msg'; });
+            () => 'original msg');
         flush(() => {
           const revertButton =
               element.$$('gr-button[data-action-key="revert"]');
@@ -837,7 +836,7 @@ limitations under the License.
           current_revision: 'abc1234',
         };
         sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
-            () => { return 'original msg'; });
+            () => 'original msg');
         const revertButton = element.$$('gr-button[data-action-key="revert"]');
         MockInteractions.tap(revertButton);
 
@@ -1398,15 +1397,13 @@ limitations under the License.
           sandbox.stub(element, 'async', fn => fn());
         });
 
-        const makeGetChange = numTries => {
-          return () => {
-            if (numTries === 1) {
-              return Promise.resolve({_number: 123});
-            } else {
-              numTries--;
-              return Promise.resolve(undefined);
-            }
-          };
+        const makeGetChange = numTries => () => {
+          if (numTries === 1) {
+            return Promise.resolve({_number: 123});
+          } else {
+            numTries--;
+            return Promise.resolve(undefined);
+          }
         };
 
         test('succeed', () => {
@@ -1457,15 +1454,14 @@ limitations under the License.
               'navigateToChange').returns(Promise.resolve(true));
         });
 
-        test('change action', () => {
-          return element._send('DELETE', payload, '/endpoint', false, cleanup)
-              .then(() => {
-                assert.isFalse(onShowError.called);
-                assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
-                    null, payload));
-              });
-        });
+        test('change action', () => element
+            ._send('DELETE', payload, '/endpoint', false, cleanup)
+            .then(() => {
+              assert.isFalse(onShowError.called);
+              assert.isTrue(cleanup.calledOnce);
+              assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+                  null, payload));
+            }));
 
         suite('show revert submission dialog', () => {
           setup(() => {
@@ -1549,15 +1545,14 @@ limitations under the License.
           });
         });
 
-        test('revision action', () => {
-          return element._send('DELETE', payload, '/endpoint', true, cleanup)
-              .then(() => {
-                assert.isFalse(onShowError.called);
-                assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
-                    12, payload));
-              });
-        });
+        test('revision action', () => element
+            ._send('DELETE', payload, '/endpoint', true, cleanup)
+            .then(() => {
+              assert.isFalse(onShowError.called);
+              assert.isTrue(cleanup.calledOnce);
+              assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+                  12, payload));
+            }));
       });
 
       suite('failure modes', () => {

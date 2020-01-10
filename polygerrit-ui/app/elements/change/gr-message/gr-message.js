@@ -207,7 +207,7 @@
       return scoresRaw.split(' ')
           .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
           .filter(ms => ms && ms.length === 3)
-          .map(ms => ({label: ms[1], value: ms[2]}));
+          .map(ms => { return {label: ms[1], value: ms[2]}; });
     }
 
     _computeScoreClass(score, labelExtremes) {

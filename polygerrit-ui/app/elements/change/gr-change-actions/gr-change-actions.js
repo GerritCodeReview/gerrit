@@ -474,16 +474,18 @@
       }
 
       this._loading = true;
-      return this._getRevisionActions().then(revisionActions => {
-        if (!revisionActions) { return; }
+      return this._getRevisionActions()
+          .then(revisionActions => {
+            if (!revisionActions) { return; }
 
-        this.revisionActions = this._updateRebaseAction(revisionActions);
-        this._handleLoadingComplete();
-      }).catch(err => {
-        this.fire('show-alert', {message: ERR_REVISION_ACTIONS});
-        this._loading = false;
-        throw err;
-      });
+            this.revisionActions = this._updateRebaseAction(revisionActions);
+            this._handleLoadingComplete();
+          })
+          .catch(err => {
+            this.fire('show-alert', {message: ERR_REVISION_ACTIONS});
+            this._loading = false;
+            throw err;
+          });
     }
 
     _handleLoadingComplete() {
@@ -515,7 +517,8 @@
         label,
         __type: type,
         __key: ADDITIONAL_ACTION_KEY_PREFIX +
-            Math.random().toString(36).substr(2),
+            Math.random().toString(36)
+                .substr(2),
       };
       this.push('_additionalActions', action);
       return action.__key;
@@ -558,9 +561,8 @@
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
         throw Error(`Invalid action type given: ${type}`);
       }
-      const index = this._actionPriorityOverrides.findIndex(action => {
-        return action.type === type && action.key === key;
-      });
+      const index = this._actionPriorityOverrides
+          .findIndex(action => action.type === type && action.key === key);
       const action = {
         type,
         key,
@@ -723,9 +725,7 @@
     }
 
     _getValuesFor(obj) {
-      return Object.keys(obj).map(key => {
-        return obj[key];
-      });
+      return Object.keys(obj).map(key => obj[key]);
     }
 
     _getLabelStatus(label) {
@@ -790,9 +790,8 @@
 
     hideQuickApproveAction() {
       this._topLevelSecondaryActions =
-        this._topLevelSecondaryActions.filter(sa => {
-          return sa.key !== QUICK_APPROVE_ACTION.key;
-        });
+        this._topLevelSecondaryActions
+            .filter(sa => sa.key !== QUICK_APPROVE_ACTION.key);
       this._hideQuickApproveAction = true;
     }
 
@@ -850,13 +849,13 @@
 
       let additionalActions = (additionalActionsChangeRecord &&
       additionalActionsChangeRecord.base) || [];
-      additionalActions = additionalActions.filter(a => {
-        return a.__type === type;
-      }).map(a => {
-        a.__primary = primaryActionKeys.includes(a.__key);
-        // Triggers a re-render by ensuring object inequality.
-        return Object.assign({}, a);
-      });
+      additionalActions = additionalActions
+          .filter(a => a.__type === type)
+          .map(a => {
+            a.__primary = primaryActionKeys.includes(a.__key);
+            // Triggers a re-render by ensuring object inequality.
+            return Object.assign({}, a);
+          });
       return result.concat(additionalActions).concat(pluginActions);
     }
 
@@ -993,9 +992,7 @@
           this._showActionDialog(this.$.confirmAbandonDialog);
           break;
         case QUICK_APPROVE_ACTION.key:
-          action = this._allActionValues.find(o => {
-            return o.key === key;
-          });
+          action = this._allActionValues.find(o => o.key === key);
           this._fireAction(
               this._prependSlash(key), action, true, action.payload);
           break;
@@ -1193,9 +1190,8 @@
     }
 
     _getActionOverflowIndex(type, key) {
-      return this._overflowActions.findIndex(action => {
-        return action.type === type && action.key === key;
-      });
+      return this._overflowActions
+          .findIndex(action => action.type === type && action.key === key);
     }
 
     _setLoadingOnButtonWithKey(type, key) {
@@ -1457,9 +1453,8 @@
 
     _getActionPriority(action) {
       if (action.__type && action.__key) {
-        const overrideAction = this._actionPriorityOverrides.find(i => {
-          return i.type === action.__type && i.key === action.__key;
-        });
+        const overrideAction = this._actionPriorityOverrides
+            .find(i => i.type === action.__type && i.key === action.__key);
 
         if (overrideAction !== undefined) {
           return overrideAction.priority;

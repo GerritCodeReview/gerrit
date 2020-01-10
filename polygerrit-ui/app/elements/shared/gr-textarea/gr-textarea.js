@@ -302,9 +302,9 @@
         this._formatSuggestions(ALL_SUGGESTIONS);
         this.disableEnterKeyForSelectingEmoji = true;
       } else {
-        const matches = ALL_SUGGESTIONS.filter(suggestion => {
-          return suggestion.match.includes(emojiText);
-        }).slice(0, MAX_ITEMS_DROPDOWN);
+        const matches = ALL_SUGGESTIONS
+            .filter(suggestion => suggestion.match.includes(emojiText))
+            .slice(0, MAX_ITEMS_DROPDOWN);
         this._formatSuggestions(matches);
         this.disableEnterKeyForSelectingEmoji = false;
       }

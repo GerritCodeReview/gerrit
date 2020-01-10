@@ -62,9 +62,8 @@
 
   GrChangeActionsInterface.prototype.removePrimaryActionKey = function(key) {
     ensureEl(this);
-    this._el.primaryActionKeys = this._el.primaryActionKeys.filter(k => {
-      return k !== key;
-    });
+    this._el.primaryActionKeys = this._el.primaryActionKeys
+        .filter(k => k !== key);
   };
 
   GrChangeActionsInterface.prototype.hideQuickApproveAction = function() {

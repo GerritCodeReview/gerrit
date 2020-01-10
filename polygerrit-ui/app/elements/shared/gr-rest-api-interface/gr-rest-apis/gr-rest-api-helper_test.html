@@ -97,9 +97,7 @@ limitations under the License.
 
     test('cached results', done => {
       let n = 0;
-      sandbox.stub(helper, 'fetchJSON', () => {
-        return Promise.resolve(++n);
-      });
+      sandbox.stub(helper, 'fetchJSON', () => Promise.resolve(++n));
       const promises = [];
       promises.push(helper.fetchCacheURL('/foo'));
       promises.push(helper.fetchCacheURL('/foo'));
@@ -164,7 +162,7 @@ limitations under the License.
           cancel() { cancelCalled = true; },
         },
       }));
-      const cancelCondition = () => { return true; };
+      const cancelCondition = () => true;
       helper.fetchJSON({url: '/dummy/url', cancelCondition}).then(
           obj => {
             assert.isUndefined(obj);

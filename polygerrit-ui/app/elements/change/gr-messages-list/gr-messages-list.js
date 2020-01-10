@@ -324,9 +324,7 @@
     }
 
     _getHumanMessages(messages) {
-      return messages.filter(msg => {
-        return !this._isAutomated(msg);
-      });
+      return messages.filter(msg => !this._isAutomated(msg));
     }
 
     _computeShowHideTextHidden(visibleMessages, messages,

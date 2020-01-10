@@ -81,9 +81,7 @@ limitations under the License.
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
-          'createChange', () => {
-            return Promise.resolve({});
-          });
+          'createChange', () => Promise.resolve({}));
 
       element.branch = 'test-branch';
       element.topic = 'test-topic';
@@ -109,9 +107,7 @@ limitations under the License.
         configured_value: 'TRUE',
         inherited_value: false,
       };
-      sandbox.stub(element, '_formatBooleanString', () => {
-        return Promise.resolve(true);
-      });
+      sandbox.stub(element, '_formatBooleanString', () => Promise.resolve(true));
       flushAsynchronousOperations();
 
       const configInputObj = {
@@ -123,9 +119,7 @@ limitations under the License.
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
-          'createChange', () => {
-            return Promise.resolve({});
-          });
+          'createChange', () => Promise.resolve({}));
 
       element.branch = 'test-branch';
       element.topic = 'test-topic';

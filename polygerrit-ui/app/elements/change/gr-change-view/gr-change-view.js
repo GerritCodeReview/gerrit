@@ -362,16 +362,18 @@
         this._setDiffViewMode();
       });
 
-      Gerrit.awaitPluginsLoaded().then(() => {
-        this._dynamicTabHeaderEndpoints =
+      Gerrit.awaitPluginsLoaded()
+          .then(() => {
+            this._dynamicTabHeaderEndpoints =
             Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
-        this._dynamicTabContentEndpoints =
+            this._dynamicTabContentEndpoints =
             Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
-        if (this._dynamicTabContentEndpoints.length !==
+            if (this._dynamicTabContentEndpoints.length !==
             this._dynamicTabHeaderEndpoints.length) {
-          console.warn('Different number of tab headers and tab content.');
-        }
-      }).then(() => this._setPrimaryTab());
+              console.warn('Different number of tab headers and tab content.');
+            }
+          })
+          .then(() => this._setPrimaryTab());
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
       this.addEventListener('comment-refresh', this._reloadDrafts.bind(this));
@@ -413,15 +415,17 @@
     _setDiffViewMode(opt_reset) {
       if (!opt_reset && this.viewState.diffViewMode) { return; }
 
-      return this._getPreferences().then( prefs => {
-        if (!this.viewState.diffMode) {
-          this.set('viewState.diffMode', prefs.default_diff_view);
-        }
-      }).then(() => {
-        if (!this.viewState.diffMode) {
-          this.set('viewState.diffMode', 'SIDE_BY_SIDE');
-        }
-      });
+      return this._getPreferences()
+          .then( prefs => {
+            if (!this.viewState.diffMode) {
+              this.set('viewState.diffMode', prefs.default_diff_view);
+            }
+          })
+          .then(() => {
+            if (!this.viewState.diffMode) {
+              this.set('viewState.diffMode', 'SIDE_BY_SIDE');
+            }
+          });
     }
 
     _onOpenFixPreview(e) {
@@ -497,9 +501,10 @@
             message);
         this._editingCommitMessage = false;
         this._reloadWindow();
-      }).catch(err => {
-        this.$.commitMessageEditor.disabled = false;
-      });
+      })
+          .catch(err => {
+            this.$.commitMessageEditor.disabled = false;
+          });
     }
 
     _reloadWindow() {
@@ -603,11 +608,11 @@
         }
       }
       diffDrafts[draft.path].push(draft);
-      diffDrafts[draft.path].sort((c1, c2) => {
+      diffDrafts[draft.path].sort((c1, c2) =>
         // No line number means that it’s a file comment. Sort it above the
         // others.
-        return (c1.line || -1) - (c2.line || -1);
-      });
+        (c1.line || -1) - (c2.line || -1)
+      );
       this._diffDrafts = diffDrafts;
     }
 
@@ -689,7 +694,8 @@
     _handleMessageReply(e) {
       const msg = e.detail.message.message;
       const quoteStr = msg.split('\n').map(
-          line => { return '> ' + line; }).join('\n') + '\n\n';
+          line => '> ' + line)
+          .join('\n') + '\n\n';
       this.$.replyDialog.quote = quoteStr;
       this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
     }
@@ -1087,9 +1093,8 @@
       }
 
       const drafts = (changeRecord && changeRecord.base) || {};
-      const draftCount = Object.keys(drafts).reduce((count, file) => {
-        return count + drafts[file].length;
-      }, 0);
+      const draftCount = Object.keys(drafts)
+          .reduce((count, file) => count + drafts[file].length, 0);
 
       let label = 'Reply';
       if (draftCount > 0) {
@@ -1395,9 +1400,7 @@
     }
 
     _reloadDraftsWithCallback(e) {
-      return this._reloadDrafts().then(() => {
-        return e.detail.resolve();
-      });
+      return this._reloadDrafts().then(() => e.detail.resolve());
     }
 
     /**

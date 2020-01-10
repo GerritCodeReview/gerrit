@@ -163,24 +163,26 @@
       // in an async so that attachment to the DOM can take place first.
       this.async(() => this.fire('title-change', {title: this._query}));
 
-      this._getPreferences().then(prefs => {
-        this._changesPerPage = prefs.changes_per_page;
-        return this._getChanges();
-      }).then(changes => {
-        changes = changes || [];
-        if (this._query && changes.length === 1) {
-          for (const query in LookupQueryPatterns) {
-            if (LookupQueryPatterns.hasOwnProperty(query) &&
+      this._getPreferences()
+          .then(prefs => {
+            this._changesPerPage = prefs.changes_per_page;
+            return this._getChanges();
+          })
+          .then(changes => {
+            changes = changes || [];
+            if (this._query && changes.length === 1) {
+              for (const query in LookupQueryPatterns) {
+                if (LookupQueryPatterns.hasOwnProperty(query) &&
                 this._query.match(LookupQueryPatterns[query])) {
-              this._replaceCurrentLocation(
-                  Gerrit.Nav.getUrlForChange(changes[0]));
-              return;
+                  this._replaceCurrentLocation(
+                      Gerrit.Nav.getUrlForChange(changes[0]));
+                  return;
+                }
+              }
             }
-          }
-        }
-        this._changes = changes;
-        this._loading = false;
-      });
+            this._changes = changes;
+            this._loading = false;
+          });
     }
 
     _loadPreferences() {

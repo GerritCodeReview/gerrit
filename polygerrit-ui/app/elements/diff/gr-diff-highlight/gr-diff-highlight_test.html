@@ -377,7 +377,8 @@ limitations under the License.
         const getRangeAtStub = sandbox.stub();
         getRangeAtStub
             .onFirstCall().returns(startRange)
-            .onSecondCall().returns(endRange);
+            .onSecondCall()
+            .returns(endRange);
         const selection = {
           rangeCount: 2,
           getRangeAt: getRangeAtStub,

@@ -56,9 +56,10 @@ limitations under the License.
     });
 
     test('branch created', done => {
-      sandbox.stub(element.$.restAPI, 'createRepoBranch', () => {
-        return Promise.resolve({});
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'createRepoBranch',
+          () => Promise.resolve({}));
 
       assert.isFalse(element.hasNewItemName);
 
@@ -77,9 +78,10 @@ limitations under the License.
     });
 
     test('tag created', done => {
-      sandbox.stub(element.$.restAPI, 'createRepoTag', () => {
-        return Promise.resolve({});
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'createRepoTag',
+          () => Promise.resolve({}));
 
       assert.isFalse(element.hasNewItemName);
 
@@ -98,9 +100,10 @@ limitations under the License.
     });
 
     test('tag created with annotations', done => {
-      sandbox.stub(element.$.restAPI, 'createRepoTag', () => {
-        return Promise.resolve({});
-      });
+      sandbox.stub(
+          element.$.restAPI,
+          'createRepoTag',
+          () => Promise.resolve({}));
 
       assert.isFalse(element.hasNewItemName);
 

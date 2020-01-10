@@ -68,9 +68,7 @@
       }
 
       return deletePromise
-          .then(() => {
-            return this.$.restAPI.saveWatchedProjects(this._projects);
-          })
+          .then(() => this.$.restAPI.saveWatchedProjects(this._projects))
           .then(projects => {
             this._projects = projects;
             this._projectsToRemove = [];

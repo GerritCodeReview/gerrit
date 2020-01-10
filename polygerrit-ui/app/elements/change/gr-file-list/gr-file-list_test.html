@@ -115,7 +115,7 @@ limitations under the License.
         patchNum: '2',
       };
       saveStub = sandbox.stub(element, '_saveReviewedState',
-          () => { return Promise.resolve(); });
+          () => Promise.resolve());
     });
 
     teardown(() => {
@@ -686,7 +686,7 @@ limitations under the License.
       });
 
       test('r key toggles reviewed flag', () => {
-        const reducer = (accum, file) => file.isReviewed ? ++accum : accum;
+        const reducer = (accum, file) => (file.isReviewed ? ++accum : accum);
         const getNumReviewed = () => element._files.reduce(reducer, 0);
         flushAsynchronousOperations();
 
@@ -865,7 +865,8 @@ limitations under the License.
 
       // Click inside the diff. This should result in no additional calls to
       // _togglePathExpanded or _reviewFile.
-      Polymer.dom(element.root).querySelector('gr-diff-host').click();
+      Polymer.dom(element.root).querySelector('gr-diff-host')
+          .click();
       assert.isTrue(clickSpy.calledTwice);
       assert.isTrue(toggleExpandSpy.calledOnce);
       assert.isFalse(reviewStub.called);
@@ -1476,9 +1477,7 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      sandbox.stub(window, 'fetch', () => {
-        return Promise.resolve();
-      });
+      sandbox.stub(window, 'fetch', () => Promise.resolve());
       flushAsynchronousOperations();
     });
 

@@ -231,10 +231,10 @@
       const topMenuLinks = [];
       links.forEach(link => { topMenuLinks[link.title] = link.links; });
       for (const m of topMenus) {
-        const items = m.items.map(this._fixCustomMenuItem).filter(link => {
+        const items = m.items.map(this._fixCustomMenuItem).filter(link =>
           // Ignore GWT project links
-          return !link.url.includes('${projectName}');
-        });
+          !link.url.includes('${projectName}')
+        );
         if (m.name in topMenuLinks) {
           items.forEach(link => { topMenuLinks[m.name].push(link); });
         } else {

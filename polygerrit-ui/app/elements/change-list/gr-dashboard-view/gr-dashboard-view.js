@@ -181,12 +181,14 @@
           .then(() => {
             this._maybeShowDraftsBanner();
             this.$.reporting.dashboardDisplayed();
-          }).catch(err => {
+          })
+          .catch(err => {
             this.fire('title-change', {
               title: title || this._computeTitle(user),
             });
             console.warn(err);
-          }).then(() => { this._loading = false; });
+          })
+          .then(() => { this._loading = false; });
     }
 
     /**
@@ -201,9 +203,9 @@
       if (!res) { return Promise.resolve(); }
 
       const queries = res.sections
-          .map(section => section.suffixForDashboard ?
+          .map(section => (section.suffixForDashboard ?
             section.query + ' ' + section.suffixForDashboard :
-            section.query);
+            section.query));
 
       if (checkForNewUser) {
         queries.push('owner:self limit:1');
@@ -216,13 +218,15 @@
               const lastResultSet = changes.pop();
               this._showNewUserHelp = lastResultSet.length == 0;
             }
-            this._results = changes.map((results, i) => ({
-              name: res.sections[i].name,
-              countLabel: this._computeSectionCountLabel(results),
-              query: res.sections[i].query,
-              results,
-              isOutgoing: res.sections[i].isOutgoing,
-            })).filter((section, i) => i < res.sections.length && (
+            this._results = changes.map((results, i) => {
+              return {
+                name: res.sections[i].name,
+                countLabel: this._computeSectionCountLabel(results),
+                query: res.sections[i].query,
+                results,
+                isOutgoing: res.sections[i].isOutgoing,
+              };
+            }).filter((section, i) => i < res.sections.length && (
               !res.sections[i].hideIfEmpty ||
                 section.results.length));
           });

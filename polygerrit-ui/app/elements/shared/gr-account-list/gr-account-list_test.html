@@ -197,11 +197,13 @@ limitations under the License.
           return suggestion._account_id === accountId;
         };
 
-        element._getSuggestions().then(suggestions => {
-          assert.deepEqual(suggestions,
-              [{name: originalSuggestions[0].email,
-                value: originalSuggestions[0]._account_id}]);
-        }).then(done);
+        element._getSuggestions()
+            .then(suggestions => {
+              assert.deepEqual(suggestions,
+                  [{name: originalSuggestions[0].email,
+                    value: originalSuggestions[0]._account_id}]);
+            })
+            .then(done);
       });
     });
 

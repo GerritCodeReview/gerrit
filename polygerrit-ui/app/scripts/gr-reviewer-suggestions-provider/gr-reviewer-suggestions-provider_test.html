@@ -181,9 +181,7 @@ limitations under the License.
           });
 
           sandbox.stub(GrDisplayNameUtils, '_accountEmail',
-              () => {
-                return '';
-              });
+              () => '');
 
           suggestion = provider.makeSuggestionItem(account3);
           assert.deepEqual(suggestion, {
@@ -193,13 +191,16 @@ limitations under the License.
         });
 
         test('getSuggestions', done => {
-          provider.getSuggestions().then(reviewers => {
-            // Default is no filtering.
-            assert.equal(reviewers.length, 6);
-            assert.deepEqual(reviewers,
-                [redundantSuggestion1, redundantSuggestion2,
-                  redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
-          }).then(done);
+          provider.getSuggestions()
+              .then(reviewers => {
+                // Default is no filtering.
+                assert.equal(reviewers.length, 6);
+                assert.deepEqual(reviewers,
+                    [redundantSuggestion1, redundantSuggestion2,
+                      redundantSuggestion3, suggestion1,
+                      suggestion2, suggestion3]);
+              })
+              .then(done);
         });
 
         test('getSuggestions short circuits when logged out', () => {

@@ -131,19 +131,21 @@ limitations under the License.
 
       test('with loadAll first', done => {
         assert.isNotOk(element._changeComments);
-        element.loadAll().then(() => {
-          assert.isOk(element._changeComments);
-          assert.equal(commentStub.callCount, 1);
-          assert.equal(robotCommentStub.callCount, 1);
-          assert.equal(draftStub.callCount, 1);
-          return element.reloadDrafts();
-        }).then(() => {
-          assert.isOk(element._changeComments);
-          assert.equal(commentStub.callCount, 1);
-          assert.equal(robotCommentStub.callCount, 1);
-          assert.equal(draftStub.callCount, 2);
-          done();
-        });
+        element.loadAll()
+            .then(() => {
+              assert.isOk(element._changeComments);
+              assert.equal(commentStub.callCount, 1);
+              assert.equal(robotCommentStub.callCount, 1);
+              assert.equal(draftStub.callCount, 1);
+              return element.reloadDrafts();
+            })
+            .then(() => {
+              assert.isOk(element._changeComments);
+              assert.equal(commentStub.callCount, 1);
+              assert.equal(robotCommentStub.callCount, 1);
+              assert.equal(draftStub.callCount, 2);
+              done();
+            });
       });
     });
 

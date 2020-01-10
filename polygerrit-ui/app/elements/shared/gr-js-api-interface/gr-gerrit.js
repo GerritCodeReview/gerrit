@@ -109,21 +109,22 @@
 
   Gerrit.delete = function(url, opt_callback) {
     console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
-    return getRestAPI().send('DELETE', url).then(response => {
-      if (response.status !== 204) {
-        return response.text().then(text => {
-          if (text) {
-            return Promise.reject(new Error(text));
-          } else {
-            return Promise.reject(new Error(response.status));
+    return getRestAPI().send('DELETE', url)
+        .then(response => {
+          if (response.status !== 204) {
+            return response.text().then(text => {
+              if (text) {
+                return Promise.reject(new Error(text));
+              } else {
+                return Promise.reject(new Error(response.status));
+              }
+            });
           }
+          if (opt_callback) {
+            opt_callback(response);
+          }
+          return response;
         });
-      }
-      if (opt_callback) {
-        opt_callback(response);
-      }
-      return response;
-    });
   };
 
   Gerrit.awaitPluginsLoaded = function() {

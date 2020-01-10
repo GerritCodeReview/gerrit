@@ -59,9 +59,7 @@
       }));
 
       promises.push(this.$.restAPI.getAccountGroups().then(groups => {
-        this._groups = groups.sort((a, b) => {
-          return a.name.localeCompare(b.name);
-        });
+        this._groups = groups.sort((a, b) => a.name.localeCompare(b.name));
       }));
 
       promises.push(this.$.restAPI.getAccountAgreements().then(agreements => {

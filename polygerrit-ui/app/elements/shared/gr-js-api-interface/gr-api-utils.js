@@ -75,24 +75,26 @@
 
   // TODO(taoalpha): to be deprecated.
   function send(method, url, opt_callback, opt_payload) {
-    return getRestAPI().send(method, url, opt_payload).then(response => {
-      if (response.status < 200 || response.status >= 300) {
-        return response.text().then(text => {
-          if (text) {
-            return Promise.reject(new Error(text));
+    return getRestAPI().send(method, url, opt_payload)
+        .then(response => {
+          if (response.status < 200 || response.status >= 300) {
+            return response.text().then(text => {
+              if (text) {
+                return Promise.reject(new Error(text));
+              } else {
+                return Promise.reject(new Error(response.status));
+              }
+            });
           } else {
-            return Promise.reject(new Error(response.status));
+            return getRestAPI().getResponseObject(response);
           }
+        })
+        .then(response => {
+          if (opt_callback) {
+            opt_callback(response);
+          }
+          return response;
         });
-      } else {
-        return getRestAPI().getResponseObject(response);
-      }
-    }).then(response => {
-      if (opt_callback) {
-        opt_callback(response);
-      }
-      return response;
-    });
   }
 
   // TEST only methods / properties

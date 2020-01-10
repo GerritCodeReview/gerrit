@@ -121,7 +121,8 @@
       } else {
         classes['u-gray-background'] = true;
       }
-      return Object.keys(classes).sort().join(' ');
+      return Object.keys(classes).sort()
+          .join(' ');
     }
 
     _computeLabelValue(change, labelName) {

@@ -153,9 +153,10 @@ limitations under the License.
       element = fixture('basic');
       sandbox.stub(element, 'getBaseUrl').returns('https://test/site');
       element.groupId = 1;
-      groupStub = sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
-        return Promise.resolve(groups);
-      });
+      groupStub = sandbox.stub(
+          element.$.restAPI,
+          'getGroupConfig',
+          () => Promise.resolve(groups));
       return element._loadGroupDetails();
     });
 
@@ -181,9 +182,7 @@ limitations under the License.
       const memberName = 'test-admin';
 
       const saveStub = sandbox.stub(element.$.restAPI, 'saveGroupMembers',
-          () => {
-            return Promise.resolve({});
-          });
+          () => Promise.resolve({}));
 
       const button = element.$.saveGroupMember;
 
@@ -208,9 +207,7 @@ limitations under the License.
       const includedGroupName = 'testName';
 
       const saveIncludedGroupStub = sandbox.stub(
-          element.$.restAPI, 'saveIncludedGroup', () => {
-            return Promise.resolve({});
-          });
+          element.$.restAPI, 'saveIncludedGroup', () => Promise.resolve({}));
 
       const button = element.$.saveIncludedGroups;
 
@@ -248,35 +245,31 @@ limitations under the License.
       });
     });
 
-    test('_getAccountSuggestions empty', () => {
-      return element._getAccountSuggestions('nonexistent').then(accounts => {
-        assert.equal(accounts.length, 0);
-      });
-    });
+    test('_getAccountSuggestions empty', () => element
+        ._getAccountSuggestions('nonexistent').then(accounts => {
+          assert.equal(accounts.length, 0);
+        }));
 
-    test('_getAccountSuggestions non-empty', () => {
-      return element._getAccountSuggestions('test-').then(accounts => {
-        assert.equal(accounts.length, 3);
-        assert.equal(accounts[0].name,
-            'test-account <test.account@example.com>');
-        assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
-        assert.equal(accounts[2].name, 'test-git');
-      });
-    });
+    test('_getAccountSuggestions non-empty', () => element
+        ._getAccountSuggestions('test-').then(accounts => {
+          assert.equal(accounts.length, 3);
+          assert.equal(accounts[0].name,
+              'test-account <test.account@example.com>');
+          assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
+          assert.equal(accounts[2].name, 'test-git');
+        }));
 
-    test('_getGroupSuggestions empty', () => {
-      return element._getGroupSuggestions('nonexistent').then(groups => {
-        assert.equal(groups.length, 0);
-      });
-    });
+    test('_getGroupSuggestions empty', () => element
+        ._getGroupSuggestions('nonexistent').then(groups => {
+          assert.equal(groups.length, 0);
+        }));
 
-    test('_getGroupSuggestions non-empty', () => {
-      return element._getGroupSuggestions('test').then(groups => {
-        assert.equal(groups.length, 2);
-        assert.equal(groups[0].name, 'test-admin');
-        assert.equal(groups[1].name, 'test/Administrator (admin)');
-      });
-    });
+    test('_getGroupSuggestions non-empty', () => element
+        ._getGroupSuggestions('test').then(groups => {
+          assert.equal(groups.length, 2);
+          assert.equal(groups[0].name, 'test-admin');
+          assert.equal(groups[1].name, 'test/Administrator (admin)');
+        }));
 
     test('_computeHideItemClass returns string for admin', () => {
       const admin = true;

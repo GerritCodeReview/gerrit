@@ -54,7 +54,7 @@
 
         // Group by ref and sort by id.
         const dashboards = res.concat.apply([], res).sort((a, b) =>
-          a.id < b.id ? -1 : 1);
+          (a.id < b.id ? -1 : 1));
         const dashboardsByRef = {};
         dashboards.forEach(d => {
           if (!dashboardsByRef[d.ref]) {
@@ -64,12 +64,13 @@
         });
 
         const dashboardBuilder = [];
-        Object.keys(dashboardsByRef).sort().forEach(ref => {
-          dashboardBuilder.push({
-            section: ref,
-            dashboards: dashboardsByRef[ref],
-          });
-        });
+        Object.keys(dashboardsByRef).sort()
+            .forEach(ref => {
+              dashboardBuilder.push({
+                section: ref,
+                dashboards: dashboardsByRef[ref],
+              });
+            });
 
         this._dashboards = dashboardBuilder;
         this._loading = false;

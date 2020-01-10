@@ -40,7 +40,7 @@ limitations under the License.
     let menu;
 
     function assertMenuNamesEqual(element, expected) {
-      const names = element.menuItems.map(i => { return i.name; });
+      const names = element.menuItems.map(i => i.name);
       assert.equal(names.length, expected.length);
       for (let i = 0; i < names.length; i++) {
         assert.equal(names[i], expected[i]);
@@ -53,7 +53,8 @@ limitations under the License.
       const selector = 'tr:nth-child(' + (index + 1) + ') .move' +
           direction + 'Button';
       const button =
-          element.$$('tbody').querySelector(selector).$$('paper-button');
+          element.$$('tbody').querySelector(selector)
+              .$$('paper-button');
       MockInteractions.tap(button);
     }
 
@@ -147,14 +148,16 @@ limitations under the License.
 
       // Tap the delete button for the middle item.
       MockInteractions.tap(element.$$('tbody')
-          .querySelector('tr:nth-child(2) .remove-button').$$('paper-button'));
+          .querySelector('tr:nth-child(2) .remove-button')
+          .$$('paper-button'));
 
       assertMenuNamesEqual(element, ['first name', 'third name']);
 
       // Delete remaining items.
       for (let i = 0; i < 2; i++) {
         MockInteractions.tap(element.$$('tbody')
-            .querySelector('tr:first-child .remove-button').$$('paper-button'));
+            .querySelector('tr:first-child .remove-button')
+            .$$('paper-button'));
       }
       assertMenuNamesEqual(element, []);
 

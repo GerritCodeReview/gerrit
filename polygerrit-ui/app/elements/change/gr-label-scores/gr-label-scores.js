@@ -97,12 +97,13 @@
 
       const labelsObj = labelRecord.base;
       if (!labelsObj) { return []; }
-      return Object.keys(labelsObj).sort().map(key => {
-        return {
-          name: key,
-          value: this._getVoteForAccount(labelsObj, key, this.account),
-        };
-      });
+      return Object.keys(labelsObj).sort()
+          .map(key => {
+            return {
+              name: key,
+              value: this._getVoteForAccount(labelsObj, key, this.account),
+            };
+          });
     }
 
     _computeColumns(permittedLabels) {
@@ -114,9 +115,7 @@
         }
       }
 
-      const orderedValues = Object.keys(values).sort((a, b) => {
-        return a - b;
-      });
+      const orderedValues = Object.keys(values).sort((a, b) => a - b);
 
       for (let i = 0; i < orderedValues.length; i++) {
         values[orderedValues[i]] = i;

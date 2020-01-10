@@ -124,9 +124,9 @@ limitations under the License.
       // Map a normal patchNum to 2 * (patchNum - 1) + 1... I.e. 1 -> 1,
       // 2 -> 3, 3 -> 5, etc.
       // Map an edit to the patchNum of parent*2... I.e. edit on 2 -> 4.
-      const num = r => r._number === Gerrit.PatchSetBehavior.EDIT_NAME ?
+      const num = r => (r._number === Gerrit.PatchSetBehavior.EDIT_NAME ?
         2 * editParent :
-        2 * (r._number - 1) + 1;
+        2 * (r._number - 1) + 1);
       return revisions.sort((a, b) => num(b) - num(a));
     },
 
@@ -150,9 +150,8 @@ limitations under the License.
       if (!change) { return []; }
       let patchNums = [];
       if (change.revisions && Object.keys(change.revisions).length) {
-        const revisions = Object.keys(change.revisions).map(sha => {
-          return Object.assign({sha}, change.revisions[sha]);
-        });
+        const revisions = Object.keys(change.revisions)
+            .map(sha => Object.assign({sha}, change.revisions[sha]));
         patchNums =
           Gerrit.PatchSetBehavior.sortRevisions(revisions)
               .map(e => {

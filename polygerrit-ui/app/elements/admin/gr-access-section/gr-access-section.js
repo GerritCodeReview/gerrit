@@ -146,9 +146,8 @@
         allPermissions = labelOptions.concat(
             this.toSortedArray(this.permissionValues));
       }
-      return allPermissions.filter(permission => {
-        return !this.section.value.permissions[permission.id];
-      });
+      return allPermissions
+          .filter(permission => !this.section.value.permissions[permission.id]);
     }
 
     _computeHideEditClass(section) {
@@ -248,7 +247,8 @@
 
     _computeSectionClass(editing, canUpload, ownerOf, editingRef, deleted) {
       const classList = [];
-      if (editing && this._isEditEnabled(canUpload, ownerOf, this.section.id)) {
+      if (editing
+         && this._isEditEnabled(canUpload, ownerOf, this.section.id)) {
         classList.push('editing');
       }
       if (editingRef) {

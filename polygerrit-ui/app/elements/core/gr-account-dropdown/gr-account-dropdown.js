@@ -102,9 +102,9 @@
     }
 
     _interpolateUrl(url, replacements) {
-      return url.replace(INTERPOLATE_URL_PATTERN, (match, p1) => {
-        return replacements[p1] || '';
-      });
+      return url.replace(
+          INTERPOLATE_URL_PATTERN,
+          (match, p1) => replacements[p1] || '');
     }
 
     _accountName(account) {

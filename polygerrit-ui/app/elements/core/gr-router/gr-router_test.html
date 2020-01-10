@@ -74,7 +74,7 @@ limitations under the License.
     test('_getChangeWeblinks', () => {
       const link = {name: 'test', url: 'test/url'};
       const browserLink = {name: 'browser', url: 'browser/url'};
-      const mapLinksToConfig = weblinks => ({options: {weblinks}});
+      const mapLinksToConfig = weblinks => { return {options: {weblinks}}; };
       sandbox.stub(element, '_getBrowseCommitWeblink').returns(browserLink);
 
       assert.deepEqual(

@@ -169,7 +169,7 @@
         },
         _panelFloatingDisabled: {
           type: Boolean,
-          value: () => { return window.PANEL_FLOATING_DISABLED; },
+          value: () => window.PANEL_FLOATING_DISABLED,
         },
         _editMode: {
           type: Boolean,
@@ -678,23 +678,25 @@
       promises.push(this._getChangeEdit(this._changeNum));
 
       this._loading = true;
-      return Promise.all(promises).then(r => {
-        const edit = r[4];
-        if (edit) {
-          this.set('_change.revisions.' + edit.commit.commit, {
-            _number: this.EDIT_NAME,
-            basePatchNum: edit.base_patch_set_number,
-            commit: edit.commit,
+      return Promise.all(promises)
+          .then(r => {
+            const edit = r[4];
+            if (edit) {
+              this.set('_change.revisions.' + edit.commit.commit, {
+                _number: this.EDIT_NAME,
+                basePatchNum: edit.base_patch_set_number,
+                commit: edit.commit,
+              });
+            }
+            this._loading = false;
+            this.$.diffHost.comments = this._commentsForDiff;
+            return this.$.diffHost.reload(true);
+          })
+          .then(() => {
+            this.$.reporting.diffViewFullyLoaded();
+            // If diff view displayed has not ended yet, it ends here.
+            this.$.reporting.diffViewDisplayed();
           });
-        }
-        this._loading = false;
-        this.$.diffHost.comments = this._commentsForDiff;
-        return this.$.diffHost.reload(true);
-      }).then(() => {
-        this.$.reporting.diffViewFullyLoaded();
-        // If diff view displayed has not ended yet, it ends here.
-        this.$.reporting.diffViewDisplayed();
-      });
     }
 
     _changeViewStateChanged(changeViewState) {

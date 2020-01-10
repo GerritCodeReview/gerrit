@@ -333,15 +333,15 @@
     }
 
     additions() {
-      return this.accounts.filter(account => {
-        return account._pendingAdd;
-      }).map(account => {
-        if (account._group) {
-          return {group: account};
-        } else {
-          return {account};
-        }
-      });
+      return this.accounts
+          .filter(account => account._pendingAdd)
+          .map(account => {
+            if (account._group) {
+              return {group: account};
+            } else {
+              return {account};
+            }
+          });
     }
 
     _computeEntryHidden(maxCount, accountsRecord, readonly) {

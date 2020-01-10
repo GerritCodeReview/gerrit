@@ -84,10 +84,12 @@
     }
 
     _repoResponseToSuggestions(res) {
-      return res.map(repo => ({
-        name: repo.name,
-        value: this.singleDecodeURL(repo.id),
-      }));
+      return res.map(repo => {
+        return {
+          name: repo.name,
+          value: this.singleDecodeURL(repo.id),
+        };
+      });
     }
 
     _branchResponseToSuggestions(res) {

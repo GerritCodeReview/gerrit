@@ -201,7 +201,8 @@
               this.set(['change', 'revisions', sha, 'description'], desc);
               this._patchsetDescription = desc;
             }
-          }).catch(err => {
+          })
+          .catch(err => {
             if (target) { target.disabled = false; }
             return;
           });

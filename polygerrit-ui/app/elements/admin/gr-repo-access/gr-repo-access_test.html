@@ -579,8 +579,9 @@ limitations under the License.
           remove: {},
         };
 
-        element.$$('gr-access-section').$$('gr-permission')._handleAddRuleItem(
-            {detail: {value: {id: 'Maintainers'}}});
+        element.$$('gr-access-section').$$('gr-permission')
+            ._handleAddRuleItem(
+                {detail: {value: {id: 'Maintainers'}}});
 
         flushAsynchronousOperations();
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);

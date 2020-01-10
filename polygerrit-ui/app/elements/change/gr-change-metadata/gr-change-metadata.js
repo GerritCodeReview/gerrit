@@ -376,15 +376,18 @@
     _handleTopicRemoved(e) {
       const target = Polymer.dom(e).rootTarget;
       target.disabled = true;
-      this.$.restAPI.setChangeTopic(this.change._number, null).then(() => {
-        target.disabled = false;
-        this.set(['change', 'topic'], '');
-        this.dispatchEvent(
-            new CustomEvent('topic-changed', {bubbles: true, composed: true}));
-      }).catch(err => {
-        target.disabled = false;
-        return;
-      });
+      this.$.restAPI.setChangeTopic(this.change._number, null)
+          .then(() => {
+            target.disabled = false;
+            this.set(['change', 'topic'], '');
+            this.dispatchEvent(
+                new CustomEvent('topic-changed',
+                    {bubbles: true, composed: true}));
+          })
+          .catch(err => {
+            target.disabled = false;
+            return;
+          });
     }
 
     _handleHashtagRemoved(e) {
@@ -396,7 +399,8 @@
           .then(newHashtag => {
             target.disabled = false;
             this.set(['change', 'hashtags'], newHashtag);
-          }).catch(err => {
+          })
+          .catch(err => {
             target.disabled = false;
             return;
           });

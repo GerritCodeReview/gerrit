@@ -107,7 +107,7 @@ limitations under the License.
 
       test('show normal Error', done => {
         const showErrorStub = sandbox.stub(element, '_showErrorDialog');
-        const textSpy = sandbox.spy(() => { return Promise.resolve('ZOMG'); });
+        const textSpy = sandbox.spy(() => Promise.resolve('ZOMG'));
         element.fire('server-error', {response: {status: 500, text: textSpy}});
 
         assert.isTrue(textSpy.called);
@@ -129,8 +129,9 @@ limitations under the License.
             'Error 409');
         assert.equal(element._constructServerErrorMsg({status, url}),
             'Error 409: \nEndpoint: /my/test/url');
-        assert.equal(element._constructServerErrorMsg({status, statusText, url}),
-            'Error 409 (Conflict): \nEndpoint: /my/test/url');
+        assert.equal(element.
+            _constructServerErrorMsg({status, statusText, url}),
+        'Error 409 (Conflict): \nEndpoint: /my/test/url');
         assert.equal(element._constructServerErrorMsg({
           status,
           statusText,
@@ -142,9 +143,9 @@ limitations under the License.
 
       test('suppress TOO_MANY_FILES error', done => {
         const showAlertStub = sandbox.stub(element, '_showAlert');
-        const textSpy = sandbox.spy(() => {
-          return Promise.resolve('too many files to find conflicts');
-        });
+        const textSpy = sandbox.spy(
+            () => Promise.resolve('too many files to find conflicts')
+        );
         element.fire('server-error', {response: {status: 500, text: textSpy}});
 
         assert.isTrue(textSpy.called);
@@ -172,7 +173,7 @@ limitations under the License.
         // starts with authed state
         element.$.restAPI.getLoggedIn();
         const refreshStub = sandbox.stub(element.$.restAPI, 'getAccount',
-            () => { return Promise.resolve({}); });
+            () => Promise.resolve({}));
         const toastSpy = sandbox.spy(element, '_createToastAlert');
         const windowOpen = sandbox.stub(window, 'open');
         const responseText = Promise.resolve('Authentication required\n');
@@ -297,7 +298,10 @@ limitations under the License.
       test('show-error', () => {
         const openStub = sandbox.stub(element.$.errorOverlay, 'open');
         const closeStub = sandbox.stub(element.$.errorOverlay, 'close');
-        const reportStub = sandbox.stub(element.$.reporting, 'reportErrorDialog');
+        const reportStub = sandbox.stub(
+            element.$.reporting,
+            'reportErrorDialog'
+        );
 
         const message = 'test message';
         element.fire('show-error', {message});
@@ -317,7 +321,9 @@ limitations under the License.
         const accountPromise = Promise.resolve({_account_id: 1234});
         sandbox.stub(element.$.restAPI, 'getAccount')
             .returns(accountPromise);
-        const requestCheckStub = sandbox.stub(element, '_requestCheckLoggedIn');
+        const requestCheckStub = sandbox.stub(
+            element,
+            '_requestCheckLoggedIn');
         const handleRefreshStub = sandbox.stub(element,
             '_handleCredentialRefreshed');
         const reloadStub = sandbox.stub(element, '_reloadPage');
@@ -344,7 +350,9 @@ limitations under the License.
       });
 
       test('refresh loop continues on credential fail', done => {
-        const requestCheckStub = sandbox.stub(element, '_requestCheckLoggedIn');
+        const requestCheckStub = sandbox.stub(
+            element,
+            '_requestCheckLoggedIn');
         const handleRefreshStub = sandbox.stub(element,
             '_handleCredentialRefreshed');
         const reloadStub = sandbox.stub(element, '_reloadPage');

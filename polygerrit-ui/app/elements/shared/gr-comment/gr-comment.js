@@ -164,7 +164,7 @@
          */
         _overlays: {
           type: Object,
-          value: () => ({}),
+          value: () => { return {}; },
         },
       };
     }
@@ -291,10 +291,11 @@
           this._fireSave();
           return obj;
         });
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
+      })
+          .catch(err => {
+            this.disabled = false;
+            throw err;
+          });
 
       return this._xhrPromise;
     }
@@ -324,10 +325,9 @@
     _computeHasHumanReply() {
       if (!this.comment || !this.comments) return;
       // hide please fix button for robot comment that has human reply
-      this._hasHumanReply = this.comments.some(c => {
-        return c.in_reply_to && c.in_reply_to === this.comment.id &&
-            !c.robot_id;
-      });
+      this._hasHumanReply = this.comments
+          .some(c => c.in_reply_to && c.in_reply_to === this.comment.id &&
+            !c.robot_id);
     }
 
     /**
@@ -568,10 +568,11 @@
         }
 
         this._fireDiscard();
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
+      })
+          .catch(err => {
+            this.disabled = false;
+            throw err;
+          });
 
       return this._xhrPromise;
     }

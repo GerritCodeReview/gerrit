@@ -315,17 +315,21 @@ limitations under the License.
         sandbox.stub(auth, '_isTokenValid');
         auth._isTokenValid
             .onFirstCall().returns(true)
-            .onSecondCall().returns(false)
-            .onThirdCall().returns(true);
-        auth.fetch('/url-one').then(() => {
-          getToken.returns(Promise.resolve(makeToken('bzzbb')));
-          return auth.fetch('/url-two');
-        }).then(() => {
-          const [[firstUrl], [secondUrl]] = fetch.args;
-          assert.equal(firstUrl, '/a/url-one?access_token=zbaz');
-          assert.equal(secondUrl, '/a/url-two?access_token=bzzbb');
-          done();
-        });
+            .onSecondCall()
+            .returns(false)
+            .onThirdCall()
+            .returns(true);
+        auth.fetch('/url-one')
+            .then(() => {
+              getToken.returns(Promise.resolve(makeToken('bzzbb')));
+              return auth.fetch('/url-two');
+            })
+            .then(() => {
+              const [[firstUrl], [secondUrl]] = fetch.args;
+              assert.equal(firstUrl, '/a/url-one?access_token=zbaz');
+              assert.equal(secondUrl, '/a/url-two?access_token=bzzbb');
+              done();
+            });
       });
 
       test('signed in token error falls back to anonymous', done => {

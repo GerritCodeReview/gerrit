@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caca79eb_17474282",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-10T13:53:10Z",
+      "side": 0,
+      "message": "Looks like the removal of these imports should be part of the predecessor change?",
+      "revId": "e0fe43b47a10012bc33374dd335ec13055c24630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

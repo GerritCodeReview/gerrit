@@ -879,18 +879,27 @@ public class MergeUtil {
   }
 
   public static String mergeStrategyName(boolean useContentMerge, boolean useRecursiveMerge) {
+    String mergeStrategy;
+
     if (useContentMerge) {
       // Settings for this project allow us to try and automatically resolve
       // conflicts within files if needed. Use either the old resolve merger or
       // new recursive merger, and instruct to operate in core.
       if (useRecursiveMerge) {
-        return MergeStrategy.RECURSIVE.getName();
+        mergeStrategy = MergeStrategy.RECURSIVE.getName();
+      } else {
+        mergeStrategy = MergeStrategy.RESOLVE.getName();
       }
-      return MergeStrategy.RESOLVE.getName();
+    } else {
+      // No auto conflict resolving allowed. If any of the
+      // affected files was modified, merge will fail.
+      mergeStrategy = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.getName();
     }
-    // No auto conflict resolving allowed. If any of the
-    // affected files was modified, merge will fail.
-    return MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.getName();
+
+    logger.atFine().log(
+        "mergeStrategy = %s (useContentMerge = %s, useRecursiveMerge = %s)",
+        mergeStrategy, useContentMerge, useRecursiveMerge);
+    return mergeStrategy;
   }
 
   public static ThreeWayMerger newThreeWayMerger(

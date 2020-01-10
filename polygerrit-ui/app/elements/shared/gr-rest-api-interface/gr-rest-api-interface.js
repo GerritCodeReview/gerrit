@@ -67,6 +67,12 @@
      */
 
     /**
+     * Fired when credentials were rejected by server (e.g. expired).
+     *
+     * @event auth-error
+     */
+
+    /**
      * Fired after an RPC completes.
      *
      * @event rpc-log
@@ -82,6 +88,10 @@
         _cache: {
           type: Object,
           value: new SiteBasedCache(), // Shared across instances.
+        },
+        _credentialCheck: {
+          type: Object,
+          value: {checking: false}, // Shared across instances.
         },
         _sharedFetchPromises: {
           type: Object,
@@ -102,12 +112,40 @@
           type: Object,
           value: {}, // Intentional to share the object across instances.
         },
+        _auth: {
+          type: Object,
+          value: Gerrit.Auth, // Share across instances.
+        },
       };
     }
 
     created() {
       super.created();
-      this._auth = Gerrit.Auth;
+      /* Polymer 1 and Polymer 2 have slightly different lifecycle.
+      * Differences are not very well documented (see
+      * https://github.com/Polymer/old-docs-site/issues/2322).
+      * In Polymer 1, created() is called when properties values is not set
+      * and ready() is always called later, even if element is not added
+      * to a DOM. I.e. in Polymer 1 _cache and other properties are undefined,
+      * while in Polymer 2 they are set to default values.
+      * In Polymer 2, created() is called after properties values set and
+      * ready() is called only after element is attached to a DOM.
+      * There are several places in the code, where element is created with
+      * document.createElement('gr-rest-api-interface') and is not added
+      * to a DOM.
+      * In such cases, Polymer 1 calls both created() and ready() methods,
+      * but Polymer 2 calls only created() method.
+      * To workaround these differences, we should try to create _restApiHelper
+      * in both methods.
+      */
+      //
+
+      this._initRestApiHelper();
+    }
+
+    ready() {
+      super.ready();
+      // See comments in created()
       this._initRestApiHelper();
     }
 
@@ -115,9 +153,10 @@
       if (this._restApiHelper) {
         return;
       }
-      if (this._cache && this._auth && this._sharedFetchPromises) {
+      if (this._cache && this._auth && this._sharedFetchPromises &&
+          this._credentialCheck) {
         this._restApiHelper = new GrRestApiHelper(this._cache, this._auth,
-            this._sharedFetchPromises, this);
+            this._sharedFetchPromises, this._credentialCheck, this);
       }
     }
 
@@ -811,7 +850,11 @@
     }
 
     getLoggedIn() {
-      return this._auth.authCheck();
+      return this.getAccount().then(account => {
+        return account != null;
+      }).catch(() => {
+        return false;
+      });
     }
 
     getIsAdmin() {
@@ -826,6 +869,10 @@
           .then(
               capabilities => capabilities && capabilities.administrateServer
           );
+    }
+
+    checkCredentials() {
+      return this._restApiHelper.checkCredentials();
     }
 
     getDefaultPreferences() {
@@ -1300,10 +1347,6 @@
 
     invalidateReposCache() {
       this._restApiHelper.invalidateFetchPromisesPrefix('/projects/?');
-    }
-
-    invalidateAccountsCache() {
-      this._restApiHelper.invalidateFetchPromisesPrefix('/accounts/');
     }
 
     /**

@@ -20,5 +20,9 @@ closure_js_library(
     name = "polymer_closure",
     srcs = ["@polymer_closure//file"],
     data = ["//lib:LICENSE-Apache2.0"],
+    suppress = [
+        # polymer_closure.js contains an error of following category
+        "JSC_HIDDEN_SUPERCLASS_PROPERTY",
+    ],
     no_closure_library = True,
 )

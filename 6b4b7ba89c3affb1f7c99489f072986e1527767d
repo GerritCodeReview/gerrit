@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2d440ed7_32033d15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-10T14:22:49Z",
+      "side": 1,
+      "message": "Ah, this is about the commit that is being created, right?\nThen using the commit message might be fine.",
+      "parentUuid": "7f7ea0e3_756bb1be",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "6b4b7ba89c3affb1f7c99489f072986e1527767d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f1fdb08_b12d21d1",
         "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
         "patchSetId": 1

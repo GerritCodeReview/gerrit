@@ -1,6 +1,17 @@
 :linkattrs:
 = Gerrit Code Review - Building with Bazel
 
+[[summary]]
+== TL;DR
+
+If you have the prerequisites, running
+
+```
+  $ bazel build gerrit
+```
+
+should generate a .war file under `bazel-bin/gerrit.war`.
+
 [[installation]]
 == Prerequisites
 

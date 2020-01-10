@@ -63,17 +63,13 @@ class GerritCheck {
     }
 
     def getCheckResultFromBuild() {
-        switch(build.result) {
-            case 'SUCCESS':
-                return "SUCCESSFUL"
-            case 'NOT_BUILT':
-            case 'ABORTED':
-                return "NOT_STARTED"
-            case 'FAILURE':
-            case 'UNSTABLE':
-            default:
-                return "FAILED"
+        def resultString = build.result.toString()
+        if (resultString == 'SUCCESS') {
+            return "SUCCESSFUL"
+        } else if (resultString == 'NOT_BUILT' || resultString == 'ABORTED') {
+            return "NOT_STARTED"
         }
+        return "FAILED"
     }
 }
 
@@ -136,6 +132,7 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
     return {
         stage("${buildName}/${mode}") {
             def slaveBuild = null
+            def currentBuildName = "${buildName}"
             for (int i = 1; i <= retryTimes; i++) {
                 try {
                     slaveBuild = build job: "${buildName}", parameters: [
@@ -146,7 +143,8 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
                         string(name: 'TARGET_BRANCH', value: Change.branch)
                     ], propagate: false
                 } finally {
-                    if (buildName == "Gerrit-codestyle"){
+                    println "Build finished: $slaveBuild - ${slaveBuild.getAbsoluteUrl()} - ${slaveBuild.getResult()}"
+                    if (currentBuildName == "test-failed-codestyle"){
                         Builds.codeStyle = new Build(
                             slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
                     } else {
@@ -165,9 +163,9 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
 def collectBuilds() {
     def builds = [:]
     if (hasChangeNumber()) {
-       builds["Gerrit-codestyle"] = prepareBuildsForMode("Gerrit-codestyle")
+       builds["Gerrit-codestyle"] = prepareBuildsForMode("test-failed-codestyle")
        Builds.modes.each {
-          builds["Gerrit-verification(${it})"] = prepareBuildsForMode("Gerrit-verifier-bazel", it)
+          builds["Gerrit-verification(${it})"] = prepareBuildsForMode("test-failed-build", it)
        }
     } else {
        builds["java8"] = { -> build "Gerrit-bazel-${env.BRANCH_NAME}" }
@@ -245,6 +243,7 @@ node ('master') {
     if (hasChangeNumber()) {
         stage('Preparing'){
             gerritReview labels: ['Verified': 0, 'Code-Style': 0]
+            gerritCheck (checks: ["gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": "FAILED"], url: "http://somewhere.com" )
 
             getChangeMetaData()
             collectBuildModes()

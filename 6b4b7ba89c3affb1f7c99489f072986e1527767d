@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "49e25f67_2bb9fac8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2020-01-10T14:56:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2d440ed7_32033d15",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "6b4b7ba89c3affb1f7c99489f072986e1527767d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f1fdb08_b12d21d1",
         "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "6b4b7ba89c3affb1f7c99489f072986e1527767d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "188afcec_818a4433",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2020-01-10T14:56:57Z",
+      "side": 1,
+      "message": "Ok, I\u0027ve updated the commit message to to address this comment",
+      "parentUuid": "99927ede_bafde36f",
+      "range": {
+        "startLine": 440,
+        "startChar": 48,
+        "endLine": 440,
+        "endChar": 69
+      },
+      "revId": "6b4b7ba89c3affb1f7c99489f072986e1527767d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

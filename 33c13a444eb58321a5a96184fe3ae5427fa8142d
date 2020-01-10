@@ -22,6 +22,30 @@
       "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1dbe69a_7b873c04",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-10T15:58:02Z",
+      "side": 1,
+      "message": "Yeah, we would need to have an automatic migration for this.\nI would rather not do it in this change.",
+      "parentUuid": "bab54ac7_b33a079b",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 39
+      },
+      "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

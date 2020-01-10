@@ -35,6 +35,7 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      sandbox.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
       auth = Gerrit.Auth;
     });
 
@@ -42,194 +43,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    suite('Auth class methods', () => {
-      let fakeFetch;
-      setup(() => {
-        auth = new Auth();
-        fakeFetch = sandbox.stub(window, 'fetch');
-      });
-
-      test('auth-check returns 403', done => {
-        fakeFetch.returns(Promise.resolve({status: 403}));
-        auth.authCheck().then(authed => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-          done();
-        });
-      });
-
-      test('auth-check returns 204', done => {
-        fakeFetch.returns(Promise.resolve({status: 204}));
-        auth.authCheck().then(authed => {
-          assert.isTrue(authed);
-          assert.equal(auth.status, Auth.STATUS.AUTHED);
-          done();
-        });
-      });
-
-      test('auth-check returns 502', done => {
-        fakeFetch.returns(Promise.resolve({status: 502}));
-        auth.authCheck().then(authed => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-          done();
-        });
-      });
-
-      test('auth-check failed', done => {
-        fakeFetch.returns(Promise.reject(new Error('random error')));
-        auth.authCheck().then(authed => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.ERROR);
-          done();
-        });
-      });
-    });
-
-    suite('cache and events behaivor', () => {
-      let fakeFetch;
-      let clock;
-      setup(() => {
-        auth = new Auth();
-        clock = sinon.useFakeTimers();
-        fakeFetch = sandbox.stub(window, 'fetch');
-      });
-
-      test('cache auth-check result', done => {
-        fakeFetch.returns(Promise.resolve({status: 403}));
-        auth.authCheck().then(authed => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-          fakeFetch.returns(Promise.resolve({status: 204}));
-          auth.authCheck().then(authed2 => {
-            assert.isFalse(authed);
-            assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-            done();
-          });
-        });
-      });
-
-      test('clearCache should refetch auth-check result', done => {
-        fakeFetch.returns(Promise.resolve({status: 403}));
-        auth.authCheck().then(authed => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-          fakeFetch.returns(Promise.resolve({status: 204}));
-          auth.clearCache();
-          auth.authCheck().then(authed2 => {
-            assert.isTrue(authed2);
-            assert.equal(auth.status, Auth.STATUS.AUTHED);
-            done();
-          });
-        });
-      });
-
-      test('cache expired on auth-check after certain time', done => {
-        fakeFetch.returns(Promise.resolve({status: 403}));
-        auth.authCheck().then(authed => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-          clock.tick(1000 * 10000);
-          fakeFetch.returns(Promise.resolve({status: 204}));
-          auth.authCheck().then(authed2 => {
-            assert.isTrue(authed2);
-            assert.equal(auth.status, Auth.STATUS.AUTHED);
-            done();
-          });
-        });
-      });
-
-      test('no cache if auth-check failed', done => {
-        fakeFetch.returns(Promise.reject(new Error('random error')));
-        auth.authCheck().then(authed => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.ERROR);
-          assert.equal(fakeFetch.callCount, 1);
-          auth.authCheck().then(() => {
-            assert.equal(fakeFetch.callCount, 2);
-            done();
-          });
-        });
-      });
-
-      test('fire event when switch from authed to unauthed', done => {
-        fakeFetch.returns(Promise.resolve({status: 204}));
-        auth.authCheck().then(authed => {
-          assert.isTrue(authed);
-          assert.equal(auth.status, Auth.STATUS.AUTHED);
-          clock.tick(1000 * 10000);
-          fakeFetch.returns(Promise.resolve({status: 403}));
-          const emitStub = sinon.stub();
-          Gerrit.emit = emitStub;
-          auth.authCheck().then(authed2 => {
-            assert.isFalse(authed2);
-            assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-            assert.isTrue(emitStub.called);
-            done();
-          });
-        });
-      });
-
-      test('fire event when switch from authed to error', done => {
-        fakeFetch.returns(Promise.resolve({status: 204}));
-        auth.authCheck().then(authed => {
-          assert.isTrue(authed);
-          assert.equal(auth.status, Auth.STATUS.AUTHED);
-          clock.tick(1000 * 10000);
-          fakeFetch.returns(Promise.reject(new Error('random error')));
-          const emitStub = sinon.stub();
-          Gerrit.emit = emitStub;
-          auth.authCheck().then(authed2 => {
-            assert.isFalse(authed2);
-            assert.isTrue(emitStub.called);
-            assert.equal(auth.status, Auth.STATUS.ERROR);
-            done();
-          });
-        });
-      });
-
-      test('no event from non-authed to other status', done => {
-        fakeFetch.returns(Promise.resolve({status: 403}));
-        auth.authCheck().then(authed => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-          clock.tick(1000 * 10000);
-          fakeFetch.returns(Promise.resolve({status: 204}));
-          const emitStub = sinon.stub();
-          Gerrit.emit = emitStub;
-          auth.authCheck().then(authed2 => {
-            assert.isTrue(authed2);
-            assert.isFalse(emitStub.called);
-            assert.equal(auth.status, Auth.STATUS.AUTHED);
-            done();
-          });
-        });
-      });
-
-      test('no event from non-authed to other status', done => {
-        fakeFetch.returns(Promise.resolve({status: 403}));
-        auth.authCheck().then(authed => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-          clock.tick(1000 * 10000);
-          fakeFetch.returns(Promise.reject(new Error('random error')));
-          const emitStub = sinon.stub();
-          Gerrit.emit = emitStub;
-          auth.authCheck().then(authed2 => {
-            assert.isFalse(authed2);
-            assert.isFalse(emitStub.called);
-            assert.equal(auth.status, Auth.STATUS.ERROR);
-            done();
-          });
-        });
-      });
-    });
-
     suite('default (xsrf token header)', () => {
-      setup(() => {
-        sandbox.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
-      });
-
       test('GET', done => {
         auth.fetch('/url', {bar: 'bar'}).then(() => {
           const [url, options] = fetch.lastCall.args;
@@ -254,10 +68,6 @@ limitations under the License.
     });
 
     suite('cors (access token)', () => {
-      setup(() => {
-        sandbox.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
-      });
-
       let getToken;
 
       const makeToken = opt_accessToken => {
@@ -273,24 +83,22 @@ limitations under the License.
         auth.setup(getToken);
       });
 
-      test('base url support', done => {
+      test('base url support', () => {
         const baseUrl = 'http://foo';
         sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
-        auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
+        return auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
           const [url] = fetch.lastCall.args;
           assert.equal(url, 'http://foo/a/url?access_token=zbaz');
-          done();
         });
       });
 
-      test('fetch not signed in', done => {
+      test('fetch not signed in', () => {
         getToken.returns(Promise.resolve());
-        auth.fetch('/url', {bar: 'bar'}).then(() => {
+        return auth.fetch('/url', {bar: 'bar'}).then(() => {
           const [url, options] = fetch.lastCall.args;
           assert.equal(url, '/url');
           assert.equal(options.bar, 'bar');
           assert.equal(Object.keys(options.headers).length, 0);
-          done();
         });
       });
 
@@ -311,7 +119,7 @@ limitations under the License.
         });
       });
 
-      test('getToken refreshes token', done => {
+      test('getToken refreshes token', () => {
         sandbox.stub(auth, '_isTokenValid');
         auth._isTokenValid
             .onFirstCall().returns(true)
@@ -332,13 +140,12 @@ limitations under the License.
             });
       });
 
-      test('signed in token error falls back to anonymous', done => {
+      test('signed in token error falls back to anonymous', () => {
         getToken.returns(Promise.resolve('rubbish'));
-        auth.fetch('/url', {bar: 'bar'}).then(() => {
+        return auth.fetch('/url', {bar: 'bar'}).then(() => {
           const [url, options] = fetch.lastCall.args;
           assert.equal(url, '/url');
           assert.equal(options.bar, 'bar');
-          done();
         });
       });
 
@@ -356,12 +163,12 @@ limitations under the License.
         }));
       });
 
-      test('HTTP PUT with content type', done => {
+      test('HTTP PUT with content type', () => {
         const originalOptions = {
           method: 'PUT',
           headers: new Headers({'Content-Type': 'mail/pigeon'}),
         };
-        auth.fetch('/url', originalOptions).then(() => {
+        return auth.fetch('/url', originalOptions).then(() => {
           assert.isTrue(getToken.called);
           const [url, options] = fetch.lastCall.args;
           assert.include(url, '$ct=mail%2Fpigeon');
@@ -369,15 +176,14 @@ limitations under the License.
           assert.include(url, 'access_token=zbaz');
           assert.equal(options.method, 'POST');
           assert.equal(options.headers.get('Content-Type'), 'text/plain');
-          done();
         });
       });
 
-      test('HTTP PUT without content type', done => {
+      test('HTTP PUT without content type', () => {
         const originalOptions = {
           method: 'PUT',
         };
-        auth.fetch('/url', originalOptions).then(() => {
+        return auth.fetch('/url', originalOptions).then(() => {
           assert.isTrue(getToken.called);
           const [url, options] = fetch.lastCall.args;
           assert.include(url, '$ct=text%2Fplain');
@@ -385,7 +191,6 @@ limitations under the License.
           assert.include(url, 'access_token=zbaz');
           assert.equal(options.method, 'POST');
           assert.equal(options.headers.get('Content-Type'), 'text/plain');
-          done();
         });
       });
     });

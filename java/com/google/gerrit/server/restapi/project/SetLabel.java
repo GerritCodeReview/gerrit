@@ -205,6 +205,11 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       dirty = true;
     }
 
+    if (input.copyValues != null) {
+      labelType.setCopyValues(input.copyValues);
+      dirty = true;
+    }
+
     if (input.allowPostSubmit != null) {
       labelType.setAllowPostSubmit(input.allowPostSubmit);
       dirty = true;

@@ -101,6 +101,8 @@ public class ApprovalInference {
       return true;
     } else if (type.isCopyAnyScore()) {
       return true;
+    } else if (type.getCopyValues().contains(psa.value())) {
+      return true;
     }
     switch (kind) {
       case MERGE_FIRST_PARENT_UPDATE:

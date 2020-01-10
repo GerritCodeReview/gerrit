@@ -14,14 +14,17 @@
 
 package com.google.gerrit.common.data;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSetApproval;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +40,7 @@ public class LabelType {
   public static final boolean DEF_COPY_ANY_SCORE = false;
   public static final boolean DEF_COPY_MAX_SCORE = false;
   public static final boolean DEF_COPY_MIN_SCORE = false;
+  public static final ImmutableList<Short> DEF_COPY_VALUES = ImmutableList.of();
   public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
 
   public static LabelType withDefaultValues(String name) {
@@ -104,6 +108,7 @@ public class LabelType {
   protected boolean copyAllScoresOnTrivialRebase;
   protected boolean copyAllScoresIfNoCodeChange;
   protected boolean copyAllScoresIfNoChange;
+  protected ImmutableList<Short> copyValues;
   protected boolean allowPostSubmit;
   protected boolean ignoreSelfApproval;
   protected short defaultValue;
@@ -144,6 +149,7 @@ public class LabelType {
     setCopyAnyScore(DEF_COPY_ANY_SCORE);
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
+    setCopyValues(DEF_COPY_VALUES);
     setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
     setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL);
 
@@ -296,6 +302,14 @@ public class LabelType {
 
   public void setCopyAllScoresIfNoChange(boolean copyAllScoresIfNoChange) {
     this.copyAllScoresIfNoChange = copyAllScoresIfNoChange;
+  }
+
+  public ImmutableList<Short> getCopyValues() {
+    return copyValues;
+  }
+
+  public void setCopyValues(Collection<Short> copyValues) {
+    this.copyValues = copyValues.stream().sorted().collect(toImmutableList());
   }
 
   public boolean isMaxNegative(PatchSetApproval ca) {

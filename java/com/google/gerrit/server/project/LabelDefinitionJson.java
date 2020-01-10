@@ -40,6 +40,7 @@ public class LabelDefinitionJson {
     label.copyAllScoresOnTrivialRebase = toBoolean(labelType.isCopyAllScoresOnTrivialRebase());
     label.copyAllScoresOnMergeFirstParentUpdate =
         toBoolean(labelType.isCopyAllScoresOnMergeFirstParentUpdate());
+    label.copyValues = labelType.getCopyValues().isEmpty() ? null : labelType.getCopyValues();
     label.allowPostSubmit = toBoolean(labelType.allowPostSubmit());
     label.ignoreSelfApproval = toBoolean(labelType.ignoreSelfApproval());
     return label;

@@ -344,6 +344,13 @@ Code-Review labels.
 
 Defaults to true.
 
+[[label_copyValue]]
+=== `label.Label-Name.copyValue`
+
+Value that should be copied forward when a new patch set is uploaded.
+This can be used to enable sticky votes. Can be specified multiple
+times. By default not set.
+
 [[label_canOverride]]
 === `label.Label-Name.canOverride`
 

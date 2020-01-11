@@ -14,9 +14,9 @@
     },
     "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/76419/consoleText",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77587/consoleText",
       "created": "2019-12-10T17:47:50Z",
-      "updated": "2019-12-10T17:47:50Z"
+      "updated": "2020-01-11T03:53:20Z"
     }
   }
 }

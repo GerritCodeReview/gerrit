@@ -140,6 +140,30 @@
     },
     {
       "key": {
+        "uuid": "b897f48d_d51a910e",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-01-11T14:50:07Z",
+      "side": 1,
+      "message": "note: this file is to be deleted before this change is submitted (see TODO at the top)",
+      "parentUuid": "7db433f6_f7ceadc0",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0e32575_ca9584f9",
         "filename": "bug-template-for-core-plugin-request.txt",
         "patchSetId": 2

@@ -7,10 +7,9 @@
       "updated": "2020-01-11T04:08:48Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77597/consoleText",
+      "state": "NOT_STARTED",
       "created": "2019-11-13T01:24:03Z",
-      "updated": "2020-01-11T04:08:56Z"
+      "updated": "2020-01-11T10:23:05Z"
     }
   }
 }

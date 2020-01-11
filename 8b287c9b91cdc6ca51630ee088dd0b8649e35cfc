@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "39809b82_36372ea5",
+        "filename": "java/com/google/gerrit/server/schema/ParallelSqlTasksUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-01-11T03:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11002337_32853d96",
+      "revId": "8b287c9b91cdc6ca51630ee088dd0b8649e35cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc0f0ee8_03a3c0c6",
         "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "8b287c9b91cdc6ca51630ee088dd0b8649e35cfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2203873b_ad2f78cd",
+        "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-01-11T03:05:33Z",
+      "side": 1,
+      "message": "Because they are being used in the Migrator class below, which needs to be static. If not, I see a NoSuchMethodException in runtime when getting its constructor in ParallelSqlTasksUtil class(line 40).",
+      "parentUuid": "dc0f0ee8_03a3c0c6",
+      "revId": "8b287c9b91cdc6ca51630ee088dd0b8649e35cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

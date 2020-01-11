@@ -23,10 +23,10 @@
     },
     "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77558/console",
-      "finished": "2020-01-11T05:16:14Z",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77654/console",
+      "finished": "2020-01-11T09:24:54Z",
       "created": "2020-01-11T01:01:16Z",
-      "updated": "2020-01-11T05:06:12Z"
+      "updated": "2020-01-11T09:14:52Z"
     }
   }
 }

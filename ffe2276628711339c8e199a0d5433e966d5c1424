@@ -2,10 +2,10 @@
   "checks": {
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/49149/console",
-      "finished": "2020-01-11T04:07:27Z",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/49198/console",
+      "finished": "2020-01-11T07:29:53Z",
       "created": "2020-01-11T01:01:52Z",
-      "updated": "2020-01-11T03:57:25Z"
+      "updated": "2020-01-11T07:19:51Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

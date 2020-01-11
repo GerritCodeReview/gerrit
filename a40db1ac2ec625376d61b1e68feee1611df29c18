@@ -8,9 +8,9 @@
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77541/consoleText",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77668/consoleText",
       "created": "2020-01-08T15:45:04Z",
-      "updated": "2020-01-11T02:39:18Z"
+      "updated": "2020-01-11T07:25:10Z"
     }
   }
 }

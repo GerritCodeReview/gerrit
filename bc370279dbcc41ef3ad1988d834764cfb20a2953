@@ -5,7 +5,7 @@
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/49308/console",
       "finished": "2020-01-12T09:59:32Z",
       "created": "2020-01-12T09:14:05Z",
-      "updated": "2020-01-12T09:49:28Z"
+      "updated": "2020-01-12T09:49:29Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SCHEDULED",

@@ -22,6 +22,7 @@
 
   /**
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrRepoBranchPicker extends Polymer.mixinBehaviors( [
     Gerrit.URLEncodingBehavior,
@@ -57,6 +58,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       if (this.repo) {
@@ -64,6 +66,7 @@
       }
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._branchDisabled = !this.repo;

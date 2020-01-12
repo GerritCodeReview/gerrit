@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends Polymer.Element
    */
   class GrLinkedChip extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

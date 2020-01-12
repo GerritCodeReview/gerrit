@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.ListViewMixin
+   * @extends Polymer.Element
    */
   class GrRepoList extends Polymer.mixinBehaviors( [
     Gerrit.ListViewBehavior,
@@ -78,6 +79,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._getCreateRepoCapability();

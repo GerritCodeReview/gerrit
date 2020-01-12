@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
+   * @extends Polymer.Element
    */
   class GrAgreementsList extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -33,6 +34,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.loadData();

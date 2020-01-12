@@ -29,6 +29,7 @@
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @appliesMixin Gerrit.RESTClientMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrChangeList extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -135,17 +136,20 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('keydown',
           e => this._scopedKeydownHandler(e));
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._ensureAttribute('tabindex', 0);
     }
 
+    /** @override */
     attached() {
       super.attached();
       Gerrit.awaitPluginsLoaded().then(() => {

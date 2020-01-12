@@ -74,6 +74,7 @@
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.DocsUrlMixin
    * @appliesMixin Gerrit.FireMixin
+   * @extends Polymer.Element
    */
   class GrMainHeader extends Polymer.mixinBehaviors( [
     Gerrit.AdminNavBehavior,
@@ -150,11 +151,13 @@
       ];
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._ensureAttribute('role', 'banner');
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._loadAccount();
@@ -162,6 +165,7 @@
       this.listen(window, 'location-change', '_handleLocationChange');
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.unlisten(window, 'location-change', '_handleLocationChange');

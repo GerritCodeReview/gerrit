@@ -28,6 +28,7 @@
    * @appliesMixin Gerrit.ListViewMixin
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrRepoDetailList extends Polymer.mixinBehaviors( [
     Gerrit.ListViewBehavior,

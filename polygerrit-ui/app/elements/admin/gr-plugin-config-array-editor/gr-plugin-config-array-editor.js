@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends Polymer.Element */
   class GrPluginConfigArrayEditor extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

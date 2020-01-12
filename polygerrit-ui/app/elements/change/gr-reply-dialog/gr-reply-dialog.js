@@ -58,6 +58,7 @@
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends Polymer.Element
    */
   class GrReplyDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -249,6 +250,7 @@
       ];
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._getAccount().then(account => {
@@ -256,6 +258,7 @@
       });
     }
 
+    /** @override */
     ready() {
       super.ready();
       this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);

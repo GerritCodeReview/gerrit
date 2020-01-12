@@ -20,6 +20,7 @@
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @extends Polymer.Element
    */
   class GrAppElement extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -114,6 +115,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this._bindKeyboardShortcuts();
@@ -127,6 +129,7 @@
           e => this._handleRpcLog(e));
     }
 
+    /** @override */
     ready() {
       super.ready();
       this.$.reporting.appStarted();

@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends Polymer.Element
    */
   class GrDownloadCommands extends Polymer.mixinBehaviors( [
     Gerrit.RESTClientBehavior,
@@ -43,6 +44,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._getLoggedIn().then(loggedIn => {

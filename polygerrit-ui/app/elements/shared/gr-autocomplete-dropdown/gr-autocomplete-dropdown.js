@@ -21,6 +21,7 @@
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @appliesMixin Polymer.IronFitMixin
+   * @extends Polymer.Element
    */
   class GrAutocompleteDropdown extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

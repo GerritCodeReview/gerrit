@@ -77,6 +77,8 @@
    *
    * Webcomponent fetching diffs and related data from restAPI and passing them
    * to the presentational gr-diff for rendering.
+   *
+   * @extends Polymer.Element
    */
   class GrDiffHost extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -249,6 +251,7 @@
       ];
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener(
@@ -276,6 +279,7 @@
           event => this._handleDiffContextExpanded(event));
     }
 
+    /** @override */
     ready() {
       super.ready();
       if (this._canReload()) {
@@ -283,6 +287,7 @@
       }
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._getLoggedIn().then(loggedIn => {

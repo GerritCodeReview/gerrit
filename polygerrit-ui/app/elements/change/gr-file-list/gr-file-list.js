@@ -48,6 +48,7 @@
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.PathListMixin
+   * @extends Polymer.Element
    */
   class GrFileList extends Polymer.mixinBehaviors( [
     Gerrit.AsyncForeachBehavior,
@@ -236,12 +237,14 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('keydown',
           e => this._scopedKeydownHandler(e));
     }
 
+    /** @override */
     attached() {
       super.attached();
       Gerrit.awaitPluginsLoaded().then(() => {
@@ -265,6 +268,7 @@
       });
     }
 
+    /** @override */
     detached() {
       super.detached();
       this._cancelDiffs();

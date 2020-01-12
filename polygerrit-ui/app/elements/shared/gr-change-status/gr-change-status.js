@@ -36,6 +36,7 @@
   const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +
       'current reviewers (or anyone with "View Private Changes" permission).';
 
+  /** @extends Polymer.Element */
   class GrChangeStatus extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

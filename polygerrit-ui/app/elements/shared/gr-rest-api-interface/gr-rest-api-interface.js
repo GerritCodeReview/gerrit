@@ -44,6 +44,7 @@
    * @appliesMixin Gerrit.PathListMixin
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends Polymer.Element
    */
   class GrRestApiInterface extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -105,6 +106,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this._auth = Gerrit.Auth;

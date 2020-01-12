@@ -22,6 +22,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends Polymer.Element
    */
   class GrConfirmRevertDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

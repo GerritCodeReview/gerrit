@@ -20,6 +20,7 @@
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.FireMixin
+   * @extends Polymer.Element
    */
   class GrClaView extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -45,6 +46,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.loadData();

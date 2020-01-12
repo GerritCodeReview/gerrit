@@ -49,6 +49,7 @@
       },
     },
 
+    /** @override */
     detached() {
       this._handleHideTooltip();
     },

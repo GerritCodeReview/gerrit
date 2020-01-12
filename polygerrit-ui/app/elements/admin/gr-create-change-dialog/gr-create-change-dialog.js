@@ -24,6 +24,7 @@
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrCreateChangeDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -64,6 +65,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       if (!this.repoName) { return Promise.resolve(); }

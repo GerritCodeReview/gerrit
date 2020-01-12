@@ -28,6 +28,7 @@
     'editablecontent:',
   ];
 
+  /** @extends Polymer.Element */
   class GrStorage extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

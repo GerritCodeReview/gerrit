@@ -25,6 +25,7 @@
   /**
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrCreatePointerDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,

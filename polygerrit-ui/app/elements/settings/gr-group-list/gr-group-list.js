@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends Polymer.Element */
   class GrGroupList extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.ChangeTableMixin
+   * @extends Polymer.Element
    */
   class GrChangeTableEditor extends Polymer.mixinBehaviors( [
     Gerrit.ChangeTableBehavior,

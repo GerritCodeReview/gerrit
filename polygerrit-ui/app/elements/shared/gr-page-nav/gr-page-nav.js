@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends Polymer.Element */
   class GrPageNav extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -28,11 +29,13 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.listen(window, 'scroll', '_handleBodyScroll');
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.unlisten(window, 'scroll', '_handleBodyScroll');

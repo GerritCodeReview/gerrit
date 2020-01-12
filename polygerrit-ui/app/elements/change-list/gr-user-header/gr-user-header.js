@@ -17,6 +17,9 @@
 (function() {
   'use strict';
 
+  /**
+   * @extends Polymer.Element
+   */
   class GrUserHeader extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

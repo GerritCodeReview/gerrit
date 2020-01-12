@@ -17,20 +17,22 @@
 (function() {
   'use strict';
 
-  class CommentApiMock extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'comment-api-mock'; }
+  /**
+   * Getting [could-not-resolve-reference] - Could not resolve reference to class
+   * when use class syntax with @extends
+   * https://github.com/Polymer/tools/issues/250
+   * https://github.com/Polymer/tools/issues/695
+   */
+  Polymer({
+    is: 'comment-api-mock',
 
-    static get properties() {
-      return {
-        _changeComments: Object,
-      };
-    }
+    properties: {
+      _changeComments: Object,
+    },
 
     loadComments() {
       return this._reloadComments();
-    }
+    },
 
     /**
      * For the purposes of the mock, _reloadDrafts is not included because its
@@ -40,15 +42,13 @@
      */
     _reloadDraftsWithCallback(e) {
       return this._reloadComments().then(() => e.detail.resolve());
-    }
+    },
 
     _reloadComments() {
       return this.$.commentAPI.loadAll(this._changeNum)
           .then(comments => {
             this._changeComments = this.$.commentAPI._changeComments;
           });
-    }
-  }
-
-  customElements.define(CommentApiMock.is, CommentApiMock);
+    },
+  });
 })();

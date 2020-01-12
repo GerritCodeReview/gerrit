@@ -35,6 +35,17 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint to get the general preferences of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/preferences} requests.
+ *
+ * <p>Diff preferences can be retrieved by {@link GetDiffPreferences} and edit preferences can be
+ * retrieved by {@link GetEditPreferences}.
+ *
+ * <p>Default general preferences that apply for all accounts can be retrieved by {@link
+ * com.google.gerrit.server.restapi.config.GetPreferences}.
+ */
 @Singleton
 public class GetPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;

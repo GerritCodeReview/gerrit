@@ -21,6 +21,12 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountResource.SshKey;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint to get an SSH key of an account.
+ *
+ * <p>This REST endpoint handles {@code GET
+ * /accounts/<account-identifier>/sshkeys/<ssh-key-identifier>} requests.
+ */
 @Singleton
 public class GetSshKey implements RestReadView<AccountResource.SshKey> {
 

@@ -87,8 +87,7 @@ The best way to search for auto-retries in logs is to do a grep by
 `AutoRetry`. For each auto-retry that happened this should match 1 or 2
 log entries:
 
-* one `ERROR` log entry with the exception that triggered the
-  auto-retry
+* one `FINE` log entry with the exception that triggered the auto-retry
 * one `FINE` log entry with the exception that happened on auto-retry
   (if this log entry is not present the operation succeeded on
   auto-retry)

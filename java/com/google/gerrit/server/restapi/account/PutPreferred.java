@@ -45,6 +45,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to set an email address as preferred email address for an account.
+ *
+ * <p>This REST endpoint handles {@code PUT
+ * /accounts/<account-identifier>/emails/<email-identifier>/preferred} requests.
+ *
+ * <p>Users can only set an email address as preferred that is assigned to their account as external
+ * ID.
+ */
 @Singleton
 public class PutPreferred implements RestModifyView<AccountResource.Email, Input> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

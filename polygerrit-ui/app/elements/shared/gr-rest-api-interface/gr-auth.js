@@ -39,6 +39,10 @@
       this._last_auth_check_time = Date.now();
     }
 
+    get baseUrl() {
+      return Gerrit.BaseUrlBehavior.getBaseUrl();
+    }
+
     /**
      * Returns if user is authed or not.
      *
@@ -49,7 +53,10 @@
         (Date.now() - this._last_auth_check_time > MAX_AUTH_CHECK_WAIT_TIME_MS)
       ) {
         // Refetch after last check expired
-        this._authCheckPromise = fetch('/auth-check');
+        const baseUrl = this.baseUrl;
+        const authCheckUrl = baseUrl
+          ? `/${this.baseUrl}/auth-check` : '/auth-check';
+        this._authCheckPromise = fetch(authCheckUrl);
         this._last_auth_check_time = Date.now();
       }
 
@@ -209,7 +216,7 @@
 
       if (accessToken) {
         params.push(`access_token=${accessToken}`);
-        const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
+        const baseUrl = this.baseUrl;
         const pathname = baseUrl ?
           url.substring(url.indexOf(baseUrl) + baseUrl.length) : url;
         if (!pathname.startsWith('/a/')) {

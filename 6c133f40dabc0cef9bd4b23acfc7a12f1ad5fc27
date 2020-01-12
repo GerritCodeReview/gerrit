@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84791422_fa91a145",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-12T06:31:45Z",
+      "side": 1,
+      "message": "Change this to a proper footer, i.e.\n\n Bug: Issue 12027\n\nand remove the blank line between this and the Change-Id line.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 9
+      },
+      "revId": "6c133f40dabc0cef9bd4b23acfc7a12f1ad5fc27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

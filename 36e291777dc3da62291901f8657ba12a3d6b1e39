@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d29bce76_0fb2d69c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-12T14:46:04Z",
+      "side": 1,
+      "message": "This can simply be:\n\nthis._authCheckPromise \u003d fetch(`${this.baseUrl}/auth-check`);\n\nAs ${this.baseUrl} will return empty if the user has not set the base url.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 53
+      },
+      "revId": "36e291777dc3da62291901f8657ba12a3d6b1e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

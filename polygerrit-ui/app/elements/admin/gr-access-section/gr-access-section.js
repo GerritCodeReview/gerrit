@@ -40,6 +40,7 @@
   /**
    * @appliesMixin Gerrit.AccessMixin
    * @appliesMixin Gerrit.FireMixin
+   * @extends Polymer.Element
    */
   class GrAccessSection extends Polymer.mixinBehaviors( [
     Gerrit.AccessBehavior,
@@ -84,6 +85,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('access-saved',

@@ -45,6 +45,7 @@
    */
   Defs.item;
 
+  /** @extends Polymer.Element */
   class GrDropdownList extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

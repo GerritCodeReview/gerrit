@@ -22,6 +22,7 @@
     KEEP_VISIBLE: 'keep-visible',
   };
 
+  /** @extends Polymer.Element */
   class GrCursorManager extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -91,6 +92,7 @@
       };
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.unsetCursor();

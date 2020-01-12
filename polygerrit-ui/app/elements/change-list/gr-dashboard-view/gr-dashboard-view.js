@@ -22,6 +22,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends Polymer.Element
    */
   class GrDashboardView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -94,6 +95,7 @@
       );
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._loadPreferences();

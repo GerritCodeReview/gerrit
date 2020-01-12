@@ -21,6 +21,7 @@
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.PathListMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrCommentList extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,

@@ -19,6 +19,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends Polymer.Element
    */
   class GrSelect extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -63,6 +64,7 @@
       this.nativeSelect.focus();
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('change',
@@ -71,6 +73,7 @@
           () => this._updateValue());
     }
 
+    /** @override */
     ready() {
       super.ready();
       // If not set via the property, set bind-value to the element value.

@@ -21,6 +21,7 @@
 
   /**
    * @appliesMixin Gerrit.DisplayNameMixin
+   * @extends Polymer.Element
    */
   class GrAccountDropdown extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
@@ -50,6 +51,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._handleLocationChange();
@@ -66,6 +68,7 @@
       });
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.unlisten(window, 'location-change', '_handleLocationChange');

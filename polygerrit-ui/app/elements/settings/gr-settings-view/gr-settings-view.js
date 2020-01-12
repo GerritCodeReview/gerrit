@@ -49,6 +49,7 @@
    * @appliesMixin Gerrit.DocsUrlMixin
    * @appliesMixin Gerrit.ChangeTableMixin
    * @appliesMixin Gerrit.FireMixin
+   * @extends Polymer.Element
    */
   class GrSettingsView extends Polymer.mixinBehaviors( [
     Gerrit.DocsUrlBehavior,
@@ -164,6 +165,7 @@
       ];
     }
 
+    /** @override */
     attached() {
       super.attached();
       // Polymer 2: anchor tag won't work on shadow DOM
@@ -231,6 +233,7 @@
       });
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.unlisten(window, 'location-change', '_handleLocationChange');

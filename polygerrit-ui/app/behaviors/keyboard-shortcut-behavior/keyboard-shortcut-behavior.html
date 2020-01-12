@@ -540,6 +540,7 @@ shortcuts are.
         }
       },
 
+      /** @override */
       attached() {
         const shortcuts = shortcutManager.attachHost(this);
         if (!shortcuts) { return; }
@@ -559,6 +560,7 @@ shortcuts are.
         }
       },
 
+      /** @override */
       detached() {
         if (shortcutManager.detachHost(this)) {
           this.removeOwnKeyBindings();

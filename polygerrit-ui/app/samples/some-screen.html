@@ -42,6 +42,7 @@
       properties: {
         rootUrl: String,
       },
+      /** @override */
       attached() {
         this.rootUrl = `${this.plugin.screenUrl()}`;
       },

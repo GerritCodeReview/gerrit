@@ -131,6 +131,7 @@
   const GO_BACKSLASH_LITERAL = '\'\\\\\'';
   const GLOBAL_LT_PATTERN = /</g;
 
+  /** @extends Polymer.Element */
   class GrSyntaxLayer extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

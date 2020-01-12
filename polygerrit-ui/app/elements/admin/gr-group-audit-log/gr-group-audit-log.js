@@ -22,6 +22,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.ListViewMixin
+   * @extends Polymer.Element
    */
   class GrGroupAuditLog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -42,11 +43,13 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.fire('title-change', {title: 'Audit Log'});
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._getAuditLogs();

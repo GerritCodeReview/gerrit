@@ -50,6 +50,7 @@
 
   /**
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends Polymer.Element
    */
   class GrChangeMetadata extends Polymer.mixinBehaviors( [
     Gerrit.RESTClientBehavior,

@@ -20,6 +20,7 @@
   /**
    * @appliesMixin Gerrit.DisplayNameMixin
    * @appliesMixin Gerrit.TooltipMixin
+   * @extends Polymer.Element
    */
   class GrAccountLabel extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
@@ -61,6 +62,7 @@
       };
     }
 
+    /** @override */
     ready() {
       super.ready();
       if (!this.additionalText) { this.additionalText = ''; }

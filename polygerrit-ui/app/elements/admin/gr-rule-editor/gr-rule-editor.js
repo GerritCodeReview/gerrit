@@ -69,6 +69,7 @@
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrRuleEditor extends Polymer.mixinBehaviors( [
     Gerrit.AccessBehavior,
@@ -118,12 +119,14 @@
       ];
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('access-saved',
           () => this._handleAccessSaved());
     }
 
+    /** @override */
     ready() {
       super.ready();
       // Called on ready rather than the observer because when new rules are
@@ -132,6 +135,7 @@
       this._setupValues(this.rule);
     }
 
+    /** @override */
     attached() {
       super.attached();
       if (!this.rule) { return; } // Check needed for test purposes.

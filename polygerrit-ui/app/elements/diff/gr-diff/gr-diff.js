@@ -94,6 +94,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
+   * @extends Polymer.Element
    */
   class GrDiff extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -284,6 +285,7 @@
       ];
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('create-range-comment',
@@ -292,11 +294,13 @@
           () => this._handleRenderContent());
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._observeNodes();
     }
 
+    /** @override */
     detached() {
       super.detached();
       this._unobserveIncrementalNodes();

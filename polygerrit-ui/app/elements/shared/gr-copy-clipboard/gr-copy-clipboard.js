@@ -19,6 +19,7 @@
 
   const COPY_TIMEOUT_MS = 1000;
 
+  /** @extends Polymer.Element */
   class GrCopyClipboard extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

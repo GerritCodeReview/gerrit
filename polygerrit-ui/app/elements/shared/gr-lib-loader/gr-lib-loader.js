@@ -20,6 +20,7 @@
   const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
   const DARK_THEME_PATH = 'styles/themes/dark-theme.html';
 
+  /** @extends Polymer.Element */
   class GrLibLoader extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

@@ -21,6 +21,7 @@
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
    * @appliesMixin Gerrit.RESTClientMixin
+   * @extends Polymer.Element
    */
   class GrRelatedChangesList extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

@@ -76,7 +76,7 @@
     }
 
     /**
-     * @param {string} status
+     * @param {Auth.STATUS} status
      */
     _setStatus(status) {
       if (this._status === status) return;
@@ -252,6 +252,7 @@
     ACCESS_TOKEN: 'access_token',
   };
 
+  /** @enum {number} */
   Auth.STATUS = {
     UNDETERMINED: 0,
     AUTHED: 1,

@@ -22,6 +22,30 @@
       "revId": "36e291777dc3da62291901f8657ba12a3d6b1e39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dcbf869_957b1893",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-12T14:47:14Z",
+      "side": 1,
+      "message": "ya but if user has set it, then it will be `xxx/auth-check` which will be a relative url (depends on the current url) and we don\u0027t want that :)",
+      "parentUuid": "d29bce76_0fb2d69c",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 53
+      },
+      "revId": "36e291777dc3da62291901f8657ba12a3d6b1e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

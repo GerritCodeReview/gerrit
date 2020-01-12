@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3439f8d9_677ac57b",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-12T14:31:04Z",
+      "side": 1,
+      "message": "This may cause a problem of transparent scroll header for long pages:\n\nhttps://imgur.com/nTIFuiL",
+      "revId": "b6a4acd57d244105a7f9bfcdd6a5fc0c8827faf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -23,7 +23,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,7 +49,6 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
 
   private final PermissionBackend.ForProject forProject;
 
-  @Inject
   PermissionAwareReadOnlyRefDatabase(
       Repository delegateRepository, PermissionBackend.ForProject forProject) {
     super(delegateRepository);
@@ -100,16 +98,14 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
   @SuppressWarnings("deprecation")
   @Override
   public Map<String, Ref> getRefs(String prefix) throws IOException {
-    Map<String, Ref> refs = getDelegate().getRefDatabase().getRefs(prefix);
+    List<Ref> refs = getDelegate().getRefDatabase().getRefsByPrefix(prefix);
     if (refs.isEmpty()) {
-      return refs;
+      return Collections.emptyMap();
     }
 
     Collection<Ref> result;
     try {
-      // The security filtering assumes to receive the same refMap, independently from the ref
-      // prefix offset
-      result = forProject.filter(refs.values(), getDelegate(), RefFilterOptions.defaults());
+      result = forProject.filter(refs, getDelegate(), RefFilterOptions.defaults());
     } catch (PermissionBackendException e) {
       throw new IOException("");
     }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1577449876 +0100\nnonce AC6AUtMk3xX/zO7OWBWGX+IROTMfbGTmdG9KLYh+Jv7/ysdGx3sWMicFJBSD6XE7OSNnrCIUDsbB\n\n0000000000000000000000000000000000000000 ae4a52e1b1416649c20833a1b468bab397fae6c0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJeBfmUAAoJEHFVO370GiZWzrwH/0mqnNDvBO7fW6e/OitHTX35\nx8GtgJANG1bS/oNSPZR9TtyEf2S9BJ62qjHR+23mw99HWsq121alnaC6DhTu6FeN\nXlFzVzYzje7c/cEx/Fycd8bOBb3hjWDaVJTVF5F8sWSWJA+TjG0piGquQIsztnIF\nFJIgbkthFlVT6mI1RgU093StZ6TNwg36MXvTLYdYZqJaEjgWkln8f7ZPFp1M6cH+\nlWHEYVHftEbxtlOvJSEbPKMRU2QC4JsnP0TMw2J1sjkuRuF0RyiO1FkCPx7uXdUg\nftLkqeVx67kz+gSOlrtEInqTaODovifG9rP0D/a/H0vnYt050Y8HoqRqNCReUhg\u003d\n\u003dA/3X\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bd50da3_bd483736",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetAvatarChangeUrl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-12T06:24:37Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 28
+      },
+      "revId": "ae4a52e1b1416649c20833a1b468bab397fae6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

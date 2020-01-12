@@ -53,6 +53,14 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
+/**
+ * REST endpoint to query accounts.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/} requests.
+ *
+ * <p>The account queries are parsed by {@link AccountQueryBuilder} and executed by {@link
+ * AccountQueryProcessor}.
+ */
 public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_SUGGEST_RESULTS = 100;
 

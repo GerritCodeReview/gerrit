@@ -46,6 +46,30 @@
       "revId": "36e291777dc3da62291901f8657ba12a3d6b1e39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15ecd5d2_4ffaa06c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-12T14:49:59Z",
+      "side": 1,
+      "message": "It adds / onto the start of the path.\n\nSee https://github.com/GerritCodeReview/gerrit/blob/0032a409535bf72eff15eef1c3b873b362d56efe/java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java#L139 and https://github.com/GerritCodeReview/gerrit/blob/0032a409535bf72eff15eef1c3b873b362d56efe/javatests/com/google/gerrit/httpd/raw/IndexHtmlUtilTest.java#L45",
+      "parentUuid": "6dcbf869_957b1893",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 53
+      },
+      "revId": "36e291777dc3da62291901f8657ba12a3d6b1e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

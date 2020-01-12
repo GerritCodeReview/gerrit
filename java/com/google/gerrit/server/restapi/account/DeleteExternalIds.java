@@ -44,6 +44,12 @@ import java.util.Optional;
 import java.util.function.Function;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to delete external IDs from an account.
+ *
+ * <p>This REST endpoint handles {@code POST /accounts/<account-identifier>/external.ids:delete}
+ * requests.
+ */
 @Singleton
 public class DeleteExternalIds implements RestModifyView<AccountResource, List<String>> {
   private final PermissionBackend permissionBackend;

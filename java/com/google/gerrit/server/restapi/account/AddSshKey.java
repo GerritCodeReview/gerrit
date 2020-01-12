@@ -44,6 +44,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to add an SSH key for an account.
+ *
+ * <p>This REST endpoint handles {@code POST /accounts/<account-identifier>/sshkeys/} requests.
+ */
 @Singleton
 public class AddSshKey
     implements RestCollectionModifyView<AccountResource, AccountResource.SshKey, SshKeyInput> {

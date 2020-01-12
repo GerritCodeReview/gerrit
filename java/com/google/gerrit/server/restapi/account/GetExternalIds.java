@@ -39,6 +39,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * REST endpoint to get the external IDs of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/external.ids} requests.
+ */
 @Singleton
 public class GetExternalIds implements RestReadView<AccountResource> {
   private final PermissionBackend permissionBackend;

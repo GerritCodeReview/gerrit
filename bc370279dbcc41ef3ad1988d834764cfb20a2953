@@ -10,7 +10,7 @@
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77748/console",
-      "finished": "2020-01-12T09:59:38Z",
+      "finished": "2020-01-12T09:59:39Z",
       "created": "2020-01-12T09:13:15Z",
       "updated": "2020-01-12T09:49:35Z"
     }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56873870_1ec1016a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-13T07:16:31Z",
+      "side": 1,
+      "message": "Why is baseUrl not applied here?",
+      "revId": "24e9a031dee15477ca0be3b97c79aa71b1460f6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "152ed506_bcc0bc5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-13T07:16:31Z",
+      "side": 1,
+      "message": "Or here?",
+      "revId": "24e9a031dee15477ca0be3b97c79aa71b1460f6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "189ffa1f_4f4b479f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-13T07:16:31Z",
+      "side": 1,
+      "message": "Why is baseUrl only applied when an accessToken is provided?",
+      "revId": "24e9a031dee15477ca0be3b97c79aa71b1460f6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

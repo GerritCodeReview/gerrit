@@ -26,6 +26,13 @@ import com.google.inject.Inject;
 import java.util.concurrent.TimeUnit;
 import org.kohsuke.args4j.Option;
 
+/**
+ * REST endpoint to get the avatar image of an account.
+ *
+ * <p>This REST endpoint handles {@code GET /accounts/<account-identifier>/avatar} requests.
+ *
+ * <p>Avatar images are only available if an {@link AvatarProvider} plugin is installed.
+ */
 public class GetAvatar implements RestReadView<AccountResource> {
   private final DynamicItem<AvatarProvider> avatarProvider;
 

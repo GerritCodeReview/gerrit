@@ -22,6 +22,30 @@
       "revId": "0e2059f8347751e091a25b9ad14e7bbf46c57b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3314970e_a43104e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1608,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-13T13:54:01Z",
+      "side": 1,
+      "message": "that will be two steps :) (and personally i found the url is more helpful compared to the id)\n\nmaybe we ship with this and see if we have complains ?",
+      "parentUuid": "73862ebf_8c3b5f5c",
+      "range": {
+        "startLine": 1608,
+        "startChar": 7,
+        "endLine": 1608,
+        "endChar": 70
+      },
+      "revId": "0e2059f8347751e091a25b9ad14e7bbf46c57b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

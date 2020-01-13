@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0591f57e_4e026bc7",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-13T15:51:04Z",
+      "side": 1,
+      "message": "Add a Todo for adding a priority list of alerts so that we can compare priority for overriding.",
+      "revId": "16c78a4d775c6e9118d83a38e23ff4e44094fa86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6894329a_b966feac",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-13T15:51:04Z",
+      "side": 1,
+      "message": "nit: write a comment why two flushes are needed.",
+      "revId": "16c78a4d775c6e9118d83a38e23ff4e44094fa86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

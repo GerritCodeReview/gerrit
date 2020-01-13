@@ -8,8 +8,9 @@
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SCHEDULED",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/77772/consoleText",
       "created": "2020-01-13T13:05:10Z",
-      "updated": "2020-01-13T13:05:10Z"
+      "updated": "2020-01-13T14:23:02Z"
     }
   }
 }

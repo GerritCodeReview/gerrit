@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "684bffd6_ef01f129",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-13T13:52:29Z",
+      "side": 1,
+      "message": "this can be short to `includes(undefined)` or `includes()` :)",
+      "range": {
+        "startLine": 58,
+        "startChar": 44,
+        "endLine": 58,
+        "endChar": 74
+      },
+      "revId": "401c9be1dbf1a89ae1a6ec97b255bc633d41e9d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

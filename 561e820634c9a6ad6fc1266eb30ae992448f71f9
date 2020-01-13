@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3983c981_a89c8a3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-13T20:00:36Z",
+      "side": 1,
+      "message": "Not really, the intent is to allow anyone to get everything without DOSing the server. The alternative is for that user to call \u0027query\u0027 repeatedly with a new starting point each time until they have gotten all the changes. If a user writes a script to do that, and they will if you don\u0027t give them a way to get things, then they will end up putting a much larger load on the server than if they used this feature. Not only will they now have put more load on the server, but their results will be potentially racily incorrect since the query results can change between each call.",
+      "parentUuid": "207c1487_926f3f81",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f88a4e95_15bd2408",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "\u003e If this is an actual problem in the real world, and you prevent the ability to override this limit with a switch, it seems there would be nothing to prevent such a \"smart\" user from simply calling the query many times in a row instead\n\nOur load balancer and DoS protection system are reasonably good at defending against that.\n\nA single expensive request is harder to deal with (and in fact doesn\u0027t end up succeeding at all with our index).",
       "parentUuid": "a0bf93e9_5cec52c4",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdfc620b_697d1c61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-13T20:00:36Z",
+      "side": 1,
+      "message": "There is a proposal for a way to limit large expensive tasks here:\nhttps://gerrit-review.googlesource.com/c/plugins/quota/+/245593\n\nOf course, while that would prevent DOS attacks from bad users, it would also prevent the \"good\" user from getting the results they need.",
+      "parentUuid": "c18b3933_3f26702a",
       "range": {
         "startLine": 12,
         "startChar": 22,

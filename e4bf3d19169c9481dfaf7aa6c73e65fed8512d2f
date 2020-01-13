@@ -39,6 +39,30 @@
       "revId": "e4bf3d19169c9481dfaf7aa6c73e65fed8512d2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f57741a_51b39fdd",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-13T13:17:46Z",
+      "side": 1,
+      "message": "ya initially i have it querying only on those non-shadow children, then i feel like having the `set` will solve that duplicated issue for me, so just went with the easy way :) \n\nwill only add children with shadowRoots to the list then :)",
+      "parentUuid": "d0029bdb_a6017e9d",
+      "range": {
+        "startLine": 161,
+        "startChar": 38,
+        "endLine": 161,
+        "endChar": 51
+      },
+      "revId": "e4bf3d19169c9481dfaf7aa6c73e65fed8512d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

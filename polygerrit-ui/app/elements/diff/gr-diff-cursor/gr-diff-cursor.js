@@ -35,6 +35,7 @@
   const LEFT_SIDE_CLASS = 'target-side-left';
   const RIGHT_SIDE_CLASS = 'target-side-right';
 
+  /** @extends Polymer.Element */
   class GrDiffCursor extends Polymer.mixinBehaviors([Gerrit.FireBehavior],
       Polymer.GestureEventListeners(
           Polymer.LegacyElementMixin(Polymer.Element))) {
@@ -105,6 +106,7 @@
       ];
     }
 
+    /** @override */
     ready() {
       super.ready();
       Polymer.RenderStatus.afterNextRender(this, () => {
@@ -122,12 +124,14 @@
       });
     }
 
+    /** @override */
     attached() {
       super.attached();
       // Catch when users are scrolling as the view loads.
       this.listen(window, 'scroll', '_handleWindowScroll');
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.unlisten(window, 'scroll', '_handleWindowScroll');

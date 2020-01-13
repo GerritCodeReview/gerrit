@@ -23,6 +23,7 @@
    * @appliesMixin Gerrit.AdminNavMixin
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrAdminView extends Polymer.mixinBehaviors( [
     Gerrit.AdminNavBehavior,
@@ -82,6 +83,7 @@
       ];
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.reload();

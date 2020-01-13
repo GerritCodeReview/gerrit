@@ -23,6 +23,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @extends Polymer.Element
    */
   class GrEditableLabel extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -76,6 +77,7 @@
       };
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._ensureAttribute('tabindex', '0');

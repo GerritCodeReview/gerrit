@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends Polymer.Element */
   class GrKeyBindingDisplay extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

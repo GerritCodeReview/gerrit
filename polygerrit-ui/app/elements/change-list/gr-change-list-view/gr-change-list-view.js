@@ -33,6 +33,7 @@
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrChangeListView extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -133,6 +134,7 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('next-page',
@@ -141,6 +143,7 @@
           () => this._handlePreviousPage());
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._loadPreferences();

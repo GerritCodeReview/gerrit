@@ -25,6 +25,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends Polymer.Element
    */
   class GrConfirmDeleteItemDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

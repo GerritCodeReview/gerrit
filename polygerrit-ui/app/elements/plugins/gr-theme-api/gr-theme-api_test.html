@@ -65,6 +65,7 @@ limitations under the License.
       setup(() => {
         fixture('header-title');
         stub('gr-custom-plugin-header', {
+          /** @override */
           ready() { customHeader = this; },
         });
         Gerrit._loadPlugins([]);

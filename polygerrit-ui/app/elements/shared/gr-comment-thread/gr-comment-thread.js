@@ -24,6 +24,7 @@
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @appliesMixin Gerrit.PathListMixin
+   * @extends Polymer.Element
    */
   class GrCommentThread extends Polymer.mixinBehaviors( [
     /**
@@ -157,12 +158,14 @@
       };
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('comment-update',
           e => this._handleCommentUpdate(e));
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._getLoggedIn().then(loggedIn => {

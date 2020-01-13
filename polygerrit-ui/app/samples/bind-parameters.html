@@ -22,6 +22,7 @@
           computed: '_computeExample(revision._number)',
         },
       },
+      /** @override */
       attached() {
         this.plugin.attributeHelper(this).bind(
             'revision', this._onRevisionChanged.bind(this));

@@ -53,6 +53,7 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @extends Polymer.Element
    */
   class GrRepo extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -123,6 +124,7 @@
       ];
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._loadRepo();

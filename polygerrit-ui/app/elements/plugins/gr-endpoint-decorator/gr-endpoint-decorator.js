@@ -19,6 +19,7 @@
 
   const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
+  /** @extends Polymer.Element */
   class GrEndpointDecorator extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -46,6 +47,7 @@
       };
     }
 
+    /** @override */
     detached() {
       super.detached();
       for (const [el, domHook] of this._domHooks) {
@@ -145,6 +147,7 @@
       });
     }
 
+    /** @override */
     ready() {
       super.ready();
       Gerrit._endpoints.onNewEndpoint(this.name, this._initModule.bind(this));

@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends Polymer.Element */
   class GrAlert extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -52,11 +53,13 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this.addEventListener('transitionend', this._boundTransitionEndHandler);
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.removeEventListener('transitionend',

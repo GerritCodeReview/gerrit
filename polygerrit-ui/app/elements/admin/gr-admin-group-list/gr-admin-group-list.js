@@ -20,6 +20,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.ListViewMixin
+   * @extends Polymer.Element
    */
   class GrAdminGroupList extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -77,6 +78,7 @@
       };
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._getCreateGroupCapability();

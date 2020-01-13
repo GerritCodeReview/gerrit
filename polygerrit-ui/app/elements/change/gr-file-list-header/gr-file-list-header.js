@@ -24,6 +24,7 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
+   * @extends Polymer.Element
    */
   class GrFileListHeader extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,

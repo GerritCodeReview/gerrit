@@ -25,6 +25,7 @@
     SHOW_MORE: 'show-more-messages',
   };
 
+  /** @extends Polymer.Element */
   class GrMessagesList extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {

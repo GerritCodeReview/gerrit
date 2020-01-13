@@ -37,6 +37,7 @@
    * Fired when a permission that was previously added was removed.
    *
    * @event added-permission-removed
+   * @extends Polymer.Element
    */
   class GrPermission extends Polymer.mixinBehaviors( [
     Gerrit.AccessBehavior,
@@ -94,12 +95,14 @@
       ];
     }
 
+    /** @override */
     created() {
       super.created();
       this.addEventListener('access-saved',
           () => this._handleAccessSaved());
     }
 
+    /** @override */
     ready() {
       super.ready();
       this._setupValues();

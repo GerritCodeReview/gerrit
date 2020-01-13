@@ -23,6 +23,7 @@
    * @appliesMixin Gerrit.BaseUrlMixin
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrListView extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -48,6 +49,7 @@
       };
     }
 
+    /** @override */
     detached() {
       super.detached();
       this.cancelDebouncer('reload');

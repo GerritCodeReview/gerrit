@@ -17,6 +17,7 @@
 (function() {
   'use strict';
 
+  /** @extends Polymer.Element */
   class GrExternalStyle extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -73,11 +74,13 @@
       });
     }
 
+    /** @override */
     attached() {
       super.attached();
       this._importAndApply();
     }
 
+    /** @override */
     ready() {
       super.ready();
       Gerrit.awaitPluginsLoaded().then(() => this._importAndApply());

@@ -107,6 +107,7 @@
   /**
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @appliesMixin Gerrit.URLEncodingMixin
+   * @extends Polymer.Element
    */
   class GrSearchBar extends Polymer.mixinBehaviors( [
     Gerrit.KeyboardShortcutBehavior,

@@ -20,6 +20,7 @@
   // eslint-disable-next-line no-unused-vars
   const QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
 
+  /** @extends Polymer.Element */
   class GrFormattedText extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -45,6 +46,7 @@
       ];
     }
 
+    /** @override */
     ready() {
       super.ready();
       if (this.noTrailingMargin) {

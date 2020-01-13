@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "6d48133f_c4a304d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-13T20:18:58Z",
+      "side": 1,
+      "message": "I believe Gerrit already has continuation tokens, they just don\u0027t guarantee consistency, isn\u0027t that how pagination works today?\n\nI don\u0027t think that adding a limit actually prevents the DOS that you are trying to prevent. Picture a user \"paginating\" over the results with back to back queries, when the user executes the last query in the set, it may do as much processing wise as if they had just run the query without a limit because the processor may (it does in our version, not sure about the current version) still hav e to process all the changes before the pagination token. The only load difference is likely the reduced set of results that need to be streamed.",
+      "parentUuid": "c3759c92_d1055c1b",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f88a4e95_15bd2408",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -307,13 +307,18 @@ limitations under the License.
         });
       });
 
-      test('inherited submit type value is calculated correctly', () => element
-          ._loadRepo().then(() => {
-            const sel = element.$.submitTypeSelect;
-            assert.equal(sel.bindValue, 'INHERIT');
-            assert.equal(
-                sel.nativeSelect.options[0].text, 'Inherit (Merge if necessary)');
-          }));
+      test('inherited submit type value is calculated correctly', done => {
+        element
+            ._loadRepo().then(() => {
+              const sel = element.$.submitTypeSelect;
+              assert.equal(sel.bindValue, 'INHERIT');
+              assert.equal(
+                  sel.nativeSelect.options[0].text,
+                  'Inherit (Merge if necessary)'
+              );
+              done();
+            });
+      });
 
       test('fields update and save correctly', () => {
         const configInputObj = {

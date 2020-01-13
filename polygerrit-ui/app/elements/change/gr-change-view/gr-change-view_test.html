@@ -803,6 +803,24 @@ limitations under the License.
       assert.deepEqual(commit, {commit: 2});
     });
 
+    test('_computeCopyTextForTitle', () => {
+      const change = {
+        _number: 123,
+        subject: 'test subject',
+        revisions: {
+          rev1: {_number: 1},
+          rev3: {_number: 3},
+        },
+        current_revision: 'rev3',
+      };
+      sandbox.stub(Gerrit.Nav, 'getUrlForChange')
+          .returns('/change/123');
+      assert.equal(
+          element._computeCopyTextForTitle(change),
+          '123: test subject | https://localhost:8081/change/123'
+      );
+    });
+
     test('get latest revision', () => {
       let change = {
         revisions: {

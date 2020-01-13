@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed08bf9a_c5091c26",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentLimitsValidator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-13T13:39:42Z",
+      "side": 1,
+      "message": "Can we default to the old behaviour? (i\u0027m guessing it was indefinate)",
+      "revId": "bd05cd7388c2fc41b4de7d68118cc3d3f282ca24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

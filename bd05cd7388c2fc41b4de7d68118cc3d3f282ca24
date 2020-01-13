@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "79717a78_636df33e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-01-13T13:55:25Z",
+      "side": 1,
+      "message": "Add some verbiage about how why this is a good idea. This is especially important, because we are potentially causing work for admins",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "bd05cd7388c2fc41b4de7d68118cc3d3f282ca24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed08bf9a_c5091c26",
         "filename": "java/com/google/gerrit/server/git/validators/CommentLimitsValidator.java",
         "patchSetId": 8
@@ -31,6 +54,24 @@
       "side": 1,
       "message": "I would rather try to set a sane limit here and start enforcing it. That requires host admins to explicitly think about up\u0027ing this limit in case it becomes necessary and that leads to thinking about if the use case that produces such comments is actually valid.",
       "parentUuid": "ed08bf9a_c5091c26",
+      "revId": "bd05cd7388c2fc41b4de7d68118cc3d3f282ca24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cf70f9d_6a19ac5d",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentLimitsValidator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-01-13T13:55:25Z",
+      "side": 1,
+      "message": "We have to put this into the release notes, btw. Do we have something for this already?",
+      "parentUuid": "65b5d571_210e5b15",
       "revId": "bd05cd7388c2fc41b4de7d68118cc3d3f282ca24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

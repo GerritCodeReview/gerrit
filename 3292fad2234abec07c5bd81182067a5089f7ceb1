@@ -23,6 +23,30 @@
       "revId": "3292fad2234abec07c5bd81182067a5089f7ceb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44074de8_cb7f668e",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-13T08:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b12f842c_26267ac1",
+      "range": {
+        "startLine": 67,
+        "startChar": 9,
+        "endLine": 67,
+        "endChar": 13
+      },
+      "revId": "3292fad2234abec07c5bd81182067a5089f7ceb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

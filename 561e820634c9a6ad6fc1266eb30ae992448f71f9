@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "a0bf93e9_5cec52c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-13T17:01:19Z",
+      "side": 1,
+      "message": "\"this option makes configuring limits by permissions useless and opens the door for DoS attacks\"\n\nDo you find this to be a problem in practice? If so, are they anonymous users? \n\nIf this is an actual problem in the real world, and you prevent the ability to override this limit with a switch, it seems there would be nothing to prevent such a \"smart\" user from simply calling the query many times in a row instead which is actually worse on the system then calling it once with a larger number.",
+      "parentUuid": "f88a4e95_15bd2408",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fbc1632_d0e47936",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

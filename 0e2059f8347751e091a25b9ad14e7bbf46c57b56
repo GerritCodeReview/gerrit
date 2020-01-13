@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73862ebf_8c3b5f5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1608,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-13T13:44:34Z",
+      "side": 1,
+      "message": "Do we want to include this? Since a user could copy the url from the search bar.",
+      "range": {
+        "startLine": 1608,
+        "startChar": 7,
+        "endLine": 1608,
+        "endChar": 70
+      },
+      "revId": "0e2059f8347751e091a25b9ad14e7bbf46c57b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

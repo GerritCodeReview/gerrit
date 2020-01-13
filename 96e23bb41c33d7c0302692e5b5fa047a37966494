@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e545763_a7f2e94b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-01-13T10:49:57Z",
+      "side": 1,
+      "message": "can you rephrase this so it is less Google centric? Maybe provide some examples (eg. linux kernel is 65k files).",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "96e23bb41c33d7c0302692e5b5fa047a37966494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

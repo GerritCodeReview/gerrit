@@ -52,6 +52,7 @@ limitations under the License.
         sandbox.stub(window, 'fetch')
             .returns(Promise.resolve({ok: true, status: 204}));
         element = fixture('basic');
+        element._authService.clearCache();
       });
 
       test('does not show auth error on 403 by default', done => {
@@ -234,6 +235,95 @@ limitations under the License.
               assert.isTrue(noInteractionOverlay.close.called);
               done();
             });
+          });
+        });
+      });
+
+      test('auth toast should dismiss existing toast', done => {
+        // starts with authed state
+        element.$.restAPI.getLoggedIn();
+        const toastSpy = sandbox.spy(element, '_createToastAlert');
+        const responseText = Promise.resolve('Authentication required\n');
+
+        // fake an alert
+        element.fire('show-alert', {message: 'test reload', action: 'reload'});
+        const toast = toastSpy.lastCall.returnValue;
+        assert.isOk(toast);
+        assert.include(
+            Polymer.dom(toast.root).textContent, 'test reload');
+
+        // fake auth
+        window.fetch.returns(Promise.resolve({status: 403}));
+        element.fire('server-error',
+            {response: {status: 403, text() { return responseText; }}}
+        );
+        assert.equal(window.fetch.callCount, 1);
+        flush(() => {
+          // auth check again
+          assert.equal(window.fetch.callCount, 2);
+          flush(() => {
+            // toast
+            const toast = toastSpy.lastCall.returnValue;
+            assert.include(
+                Polymer.dom(toast.root).textContent, 'Credentails expired.');
+            assert.include(
+                Polymer.dom(toast.root).textContent, 'Refresh credentials');
+            done();
+          });
+        });
+      });
+
+      test('regular toast should dismiss regular toast', () => {
+        // starts with authed state
+        element.$.restAPI.getLoggedIn();
+        const toastSpy = sandbox.spy(element, '_createToastAlert');
+
+        // fake an alert
+        element.fire('show-alert', {message: 'test reload', action: 'reload'});
+        let toast = toastSpy.lastCall.returnValue;
+        assert.isOk(toast);
+        assert.include(
+            Polymer.dom(toast.root).textContent, 'test reload');
+
+        // new alert
+        element.fire('show-alert', {message: 'second-test', action: 'reload'});
+
+        toast = toastSpy.lastCall.returnValue;
+        assert.include(Polymer.dom(toast.root).textContent, 'second-test');
+      });
+
+      test('regular toast should not dismiss auth toast', done => {
+        // starts with authed state
+        element.$.restAPI.getLoggedIn();
+        const toastSpy = sandbox.spy(element, '_createToastAlert');
+        const responseText = Promise.resolve('Authentication required\n');
+
+        // fake auth
+        window.fetch.returns(Promise.resolve({status: 403}));
+        element.fire('server-error',
+            {response: {status: 403, text() { return responseText; }}}
+        );
+        assert.equal(window.fetch.callCount, 1);
+        flush(() => {
+          // auth check again
+          assert.equal(window.fetch.callCount, 2);
+          flush(() => {
+            let toast = toastSpy.lastCall.returnValue;
+            assert.include(
+                Polymer.dom(toast.root).textContent, 'Credentails expired.');
+            assert.include(
+                Polymer.dom(toast.root).textContent, 'Refresh credentials');
+
+            // fake an alert
+            element.fire('show-alert', {
+              message: 'test-alert', action: 'reload',
+            });
+            toast = toastSpy.lastCall.returnValue;
+            assert.isOk(toast);
+            assert.include(
+                Polymer.dom(toast.root).textContent, 'Credentails expired.');
+
+            done();
           });
         });
       });

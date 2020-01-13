@@ -178,6 +178,8 @@
     _showAlert(text, opt_actionText, opt_actionCallback,
         opt_dismissOnNavigation) {
       if (this._alertElement) {
+        // do not override auth alerts
+        if (this._alertElement.type === 'AUTH') return;
         this._hideAlert();
       }
 
@@ -212,10 +214,14 @@
     }
 
     _showAuthErrorAlert(errorText, actionText) {
-      // TODO(viktard): close alert if it's not for auth error.
-      if (this._alertElement) { return; }
+      // hide any existing alert like `reload`
+      // as auth error should have the highest priority
+      if (this._alertElement) {
+        this._alertElement.hide();
+      }
 
       this._alertElement = this._createToastAlert();
+      this._alertElement.type = 'AUTH';
       this._alertElement.show(errorText, actionText,
           this._createLoginPopup.bind(this));
 

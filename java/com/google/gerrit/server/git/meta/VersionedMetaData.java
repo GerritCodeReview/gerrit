@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.meta;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.LockFailureException;
@@ -67,6 +68,8 @@ import org.eclipse.jgit.util.RawParseUtils;
  * read from the repository, or format an update that can later be written back to the repository.
  */
 public abstract class VersionedMetaData {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /**
    * Path information that does not hold references to any repository data structures, allowing the
    * application to retain this object for long periods of time.
@@ -406,6 +409,7 @@ public abstract class VersionedMetaData {
           // read the subject line and use it as reflog message
           ru.setRefLogMessage("commit: " + reader.readLine(), true);
         }
+        logger.atFine().log("Saving commit: " + message);
         inserter.flush();
         RefUpdate.Result result = ru.update();
         switch (result) {

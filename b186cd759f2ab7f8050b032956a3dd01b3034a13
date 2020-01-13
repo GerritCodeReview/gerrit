@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "548e7022_65aa8a80",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-13T14:53:16Z",
+      "side": 1,
+      "message": "This bypasses the permitted limit that is granted to the user, which means all users can now do unlimited queries which opens the door for DoS attacks.\n\nAlso this ignores the limit which is supported by the index backend. This means you can now trigger queries which a larger limit than the max limit that is supported by the index backend (not really because if the index backend has a max limit, setting --no-limit triggers an exception in QueryProcessor.query which add +1 to the limit, making this limit fall over to MIN_INTEGER and then resulting in a failure).",
+      "revId": "b186cd759f2ab7f8050b032956a3dd01b3034a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

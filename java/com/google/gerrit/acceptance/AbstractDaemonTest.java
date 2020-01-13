@@ -410,9 +410,12 @@ public abstract class AbstractDaemonTest {
 
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     Module module = createModule();
-    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
+    if (module == null
+        && classDesc.equals(methodDesc)
+        && !classDesc.sandboxed()
+        && !methodDesc.sandboxed()) {
       if (commonServer == null) {
-        commonServer = GerritServer.initAndStart(temporaryFolder, classDesc, baseConfig, module);
+        commonServer = GerritServer.initAndStart(temporaryFolder, classDesc, baseConfig, null);
       }
       server = commonServer;
     } else {

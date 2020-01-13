@@ -194,8 +194,6 @@ limitations under the License.
         max-height: 36em;
         overflow: hidden;
       }
-      #relatedChanges {
-      }
       #relatedChanges.collapsed {
         margin-bottom: var(--spacing-l);
         max-height: var(--relation-chain-max-height, 2em);
@@ -391,10 +389,15 @@ limitations under the License.
               change="{{_change}}"
               on-toggle-star="_handleToggleStar"
               hidden$="[[!_loggedIn]]"></gr-change-star>
+
           <a aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
               href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
           <span class="changeNumberColon">:&nbsp;</span>
           <span class="headerSubject">[[_change.subject]]</span>
+          <gr-copy-clipboard
+            hide-input
+            text="[[_computeCopyTextForTitle(_change)]]">
+          </gr-copy-clipboard>
         </div><!-- end headerTitle -->
         <div class="commitActions" hidden$="[[!_loggedIn]]">
           <gr-change-actions

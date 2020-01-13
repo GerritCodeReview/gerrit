@@ -1597,6 +1597,17 @@
       return collapsed ? '\u25bc Show more' : '\u25b2 Show less';
     }
 
+    /**
+     * Returns the text to be copied when
+     * click the copy icon next to change subject
+     *
+     * @param {!Object} change
+     */
+    _computeCopyTextForTitle(change) {
+      return `${change._number}: ${change.subject}` +
+       ` | https://${location.host}${this._computeChangeUrl(change)}`;
+    }
+
     _toggleCommitCollapsed() {
       this._commitCollapsed = !this._commitCollapsed;
       if (this._commitCollapsed) {

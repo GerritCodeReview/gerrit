@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "941d1778_22726985",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-13T08:52:39Z",
+      "side": 1,
+      "message": "fetch is just a delegation, from existing code, we only have baseUrl for `accessToken`, so it makes sense to have the baseUrl handled in the delegated methods instead of there.",
+      "parentUuid": "56873870_1ec1016a",
+      "revId": "24e9a031dee15477ca0be3b97c79aa71b1460f6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "152ed506_bcc0bc5e",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6ae5eeb6_c4da3197",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-13T08:52:39Z",
+      "side": 1,
+      "message": "existing code, I am not sure why either. I don\u0027t want to change that without more info tho",
+      "parentUuid": "152ed506_bcc0bc5e",
+      "revId": "24e9a031dee15477ca0be3b97c79aa71b1460f6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "189ffa1f_4f4b479f",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2020-01-13T07:16:31Z",
       "side": 1,
       "message": "Why is baseUrl only applied when an accessToken is provided?",
+      "revId": "24e9a031dee15477ca0be3b97c79aa71b1460f6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd55209c_0ca23a71",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-13T08:52:39Z",
+      "side": 1,
+      "message": "same, existing code.",
+      "parentUuid": "189ffa1f_4f4b479f",
       "revId": "24e9a031dee15477ca0be3b97c79aa71b1460f6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -23,6 +23,30 @@
       "revId": "ae4a52e1b1416649c20833a1b468bab397fae6c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e3af9b2_292aacc4",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetAvatarChangeUrl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-13T08:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bd50da3_bd483736",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 28
+      },
+      "revId": "ae4a52e1b1416649c20833a1b468bab397fae6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

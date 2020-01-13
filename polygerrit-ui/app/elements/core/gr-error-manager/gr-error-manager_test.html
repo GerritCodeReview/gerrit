@@ -238,6 +238,40 @@ limitations under the License.
         });
       });
 
+      test('auth toast should dismiss existing toast', done => {
+        // starts with authed state
+        element.$.restAPI.getLoggedIn();
+        const toastSpy = sandbox.spy(element, '_createToastAlert');
+        const responseText = Promise.resolve('Authentication required\n');
+
+        // fake an alert
+        element.fire('show-alert', {message: 'test reload', action: 'reload'});
+        const toast = toastSpy.lastCall.returnValue;
+        assert.isOk(toast);
+        assert.include(
+            Polymer.dom(toast.root).textContent, 'test reload');
+
+        // fake auth
+        window.fetch.returns(Promise.resolve({status: 403}));
+        element.fire('server-error',
+            {response: {status: 403, text() { return responseText; }}}
+        );
+        assert.equal(window.fetch.callCount, 1);
+        flush(() => {
+          // auth check again
+          assert.equal(window.fetch.callCount, 2);
+          flush(() => {
+            // toast
+            const toast = toastSpy.lastCall.returnValue;
+            assert.include(
+                Polymer.dom(toast.root).textContent, 'Credentails expired.');
+            assert.include(
+                Polymer.dom(toast.root).textContent, 'Refresh credentials');
+            done();
+          });
+        });
+      });
+
       test('show alert', () => {
         const alertObj = {message: 'foo'};
         sandbox.stub(element, '_showAlert');

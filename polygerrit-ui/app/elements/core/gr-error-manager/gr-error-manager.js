@@ -212,8 +212,11 @@
     }
 
     _showAuthErrorAlert(errorText, actionText) {
-      // TODO(viktard): close alert if it's not for auth error.
-      if (this._alertElement) { return; }
+      // hide any existing alert like `reload`
+      // as auth error should have the highest priority
+      if (this._alertElement) {
+        this._alertElement.hide();
+      }
 
       this._alertElement = this._createToastAlert();
       this._alertElement.show(errorText, actionText,

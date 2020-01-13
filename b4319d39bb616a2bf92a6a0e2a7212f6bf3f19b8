@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6675929_997a3ae2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-13T17:36:28Z",
+      "side": 1,
+      "message": "This seems unused.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 70
+      },
+      "revId": "b4319d39bb616a2bf92a6a0e2a7212f6bf3f19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8903f0a_92fa337d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsCommentValidationIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-13T17:36:28Z",
+      "side": 1,
+      "message": "This should be used in the assertions below.",
+      "range": {
+        "startLine": 125,
+        "startChar": 66,
+        "endLine": 125,
+        "endChar": 86
+      },
+      "revId": "b4319d39bb616a2bf92a6a0e2a7212f6bf3f19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -355,19 +355,18 @@ public abstract class QueryProcessor<T> {
   }
 
   private int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
-      return Integer.MAX_VALUE;
-    }
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());
-    if (userProvidedLimit > 0) {
-      possibleLimits.add(userProvidedLimit);
-    }
-    if (limitField != null) {
-      Integer limitFromPredicate = LimitPredicate.getLimit(limitField, p);
-      if (limitFromPredicate != null) {
-        possibleLimits.add(limitFromPredicate);
+    if (isNoLimit == false) {
+      if (userProvidedLimit > 0) {
+        possibleLimits.add(userProvidedLimit);
+      }
+      if (limitField != null) {
+        Integer limitFromPredicate = LimitPredicate.getLimit(limitField, p);
+        if (limitFromPredicate != null) {
+          possibleLimits.add(limitFromPredicate);
+        }
       }
     }
     int result = Ordering.natural().min(possibleLimits);

@@ -32,6 +32,8 @@
       return {
         text: String,
         actionText: String,
+        /** @type {?string} */
+        type: String,
         shown: {
           type: Boolean,
           value: true,

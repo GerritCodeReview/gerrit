@@ -2635,14 +2635,14 @@ public class ChangeIT extends AbstractDaemonTest {
         .add(
             allowCapability(GlobalCapability.QUERY_LIMIT)
                 .group(SystemGroupBackend.REGISTERED_USERS)
-                .range(0, 2))
+                .range(0, 3))
         .update();
     for (int i = 0; i < 3; i++) {
       createChange();
     }
-    List<ChangeInfo> resultsWithDefaultLimit = gApi.changes().query().get();
-    List<ChangeInfo> resultsWithNoLimit = gApi.changes().query().withNoLimit().get();
-    assertThat(resultsWithDefaultLimit).hasSize(2);
+    List<ChangeInfo> resultsWithLimit = gApi.changes().query("limit:2").get();
+    List<ChangeInfo> resultsWithNoLimit = gApi.changes().query("limit:2").withNoLimit().get();
+    assertThat(resultsWithLimit).hasSize(2);
     assertThat(resultsWithNoLimit.size()).isAtLeast(3);
   }
 

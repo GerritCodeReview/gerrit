@@ -16,6 +16,41 @@
       "revId": "bd05cd7388c2fc41b4de7d68118cc3d3f282ca24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65b5d571_210e5b15",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentLimitsValidator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-13T13:49:29Z",
+      "side": 1,
+      "message": "I would rather try to set a sane limit here and start enforcing it. That requires host admins to explicitly think about up\u0027ing this limit in case it becomes necessary and that leads to thinking about if the use case that produces such comments is actually valid.",
+      "parentUuid": "ed08bf9a_c5091c26",
+      "revId": "bd05cd7388c2fc41b4de7d68118cc3d3f282ca24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4526fcaf_e11b9f07",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsCommentValidationIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-13T13:49:29Z",
+      "side": 1,
+      "message": "easier: @GerritConfig(name\u003d... value\u003d...)",
+      "revId": "bd05cd7388c2fc41b4de7d68118cc3d3f282ca24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

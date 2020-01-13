@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf694696_1a0daa15",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-13T11:43:18Z",
+      "side": 1,
+      "message": "remove comment, just describes the code",
+      "revId": "e4bf3d19169c9481dfaf7aa6c73e65fed8512d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0029bdb_a6017e9d",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-13T11:43:18Z",
+      "side": 1,
+      "message": "I understand that you want to search all children for shadowRoots, but executing querySelectorAll on all children again seems extremely wasteful, because \"node.querySelectorAll(selector)\" should already have found all the matches in (non-shadow) children.",
+      "range": {
+        "startLine": 161,
+        "startChar": 38,
+        "endLine": 161,
+        "endChar": 51
+      },
+      "revId": "e4bf3d19169c9481dfaf7aa6c73e65fed8512d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

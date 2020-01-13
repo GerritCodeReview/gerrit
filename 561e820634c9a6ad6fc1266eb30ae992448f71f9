@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f237a46_c56033bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-01-13T16:30:34Z",
+      "side": 1,
+      "message": "That was not the intent. The intent was to 1) remove round-trips for automation users that want to get all results of a query, and 2) avoid results changing during round-trip queries (this was a problem pre-index with sort_key, but I\u0027m not sure how applicable it is now).",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f88a4e95_15bd2408",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-01-13T16:30:34Z",
+      "side": 1,
+      "message": "Also agreed. We didn\u0027t want to just set the limit for some users higher though as that changes the default number of results returned. We wanted an explicit \"yes, give me as many results as you can\" flag.",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fbc1632_d0e47936",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-01-13T16:30:34Z",
+      "side": 1,
+      "message": "Agreed. Any ideas on how we can get the above intent with this in mind?",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

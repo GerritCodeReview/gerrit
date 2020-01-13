@@ -128,5 +128,42 @@
     return element;
   };
 
+  /**
+   * Query selector all dom elements matching with certain selector.
+   *
+   * This is shadow DOM compatible, but only works when selector is within
+   * one shadow host, won't work if your selector is crossing
+   * multiple shadow hosts.
+   *
+   * Note: this can be very expensive, only use when have to.
+   *
+   */
+  util.querySelectorAll = (el, selector) => {
+    let nodes = [el];
+    const elements = new Set();
+    while (nodes.length) {
+      const node = nodes.pop();
+
+      // Skip if it's an invalid node.
+      if (!node || !node.querySelector) continue;
+
+      // Try find it with native querySelector directly
+      Array.from(node.querySelectorAll(selector))
+          .forEach(el => elements.add(el));
+
+      if (node.shadowRoot) {
+        nodes.push(node.shadowRoot);
+      }
+
+      // add children (in case children may have shadow roots as well)
+      // as elements is a set, so it will remove
+      // duplicated elements automatically
+      // Since shadow DOM may be in nested doms, here can not
+      // filter children by shadowRoot
+      nodes = nodes.concat(Array.from(node.children));
+    }
+    return Array.from(elements);
+  };
+
   window.util = util;
 })(window);

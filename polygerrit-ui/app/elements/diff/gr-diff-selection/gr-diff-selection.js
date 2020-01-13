@@ -192,15 +192,20 @@
       }
     }
 
-    /**
-     * For Polymer 2, use shadowRoot.getSelection instead.
-     */
     _getSelection() {
-      const diffHost = util.querySelector(document.body, 'gr-diff');
-      const selection = diffHost &&
-        diffHost.shadowRoot &&
-        diffHost.shadowRoot.getSelection();
-      return selection ? selection: window.getSelection();
+      const diffHosts = util.querySelectorAll(document.body, 'gr-diff');
+      if (!diffHosts.length) return window.getSelection();
+
+      const curDiffHost = diffHosts.find(diffHost => {
+        if (!diffHost || !diffHost.shadowRoot) return false;
+        const selection = diffHost.shadowRoot.getSelection();
+        // Pick the one with valid selection:
+        // https://developer.mozilla.org/en-US/docs/Web/API/Selection/type
+        return selection && selection.type !== 'None';
+      });
+
+      return curDiffHost ?
+        curDiffHost.shadowRoot.getSelection(): window.getSelection();
     }
 
     /**

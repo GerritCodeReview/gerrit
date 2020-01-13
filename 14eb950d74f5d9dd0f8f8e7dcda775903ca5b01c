@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80033b8b_569adc87",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentLimitsValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-01-13T10:48:33Z",
+      "side": 1,
+      "message": "could this be configurable? If this causes an urgent problem, It\u0027s easier for us to roll out a config change rather than code change.\n\nThis is even more applicable for upstream for which we have no data, and where this could inadvertently break critical workflows when they upgrade to new stable releases. \n\nAll of the size limits should be softcoded using gerrit.config.",
+      "range": {
+        "startLine": 25,
+        "startChar": 27,
+        "endLine": 25,
+        "endChar": 45
+      },
+      "revId": "14eb950d74f5d9dd0f8f8e7dcda775903ca5b01c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

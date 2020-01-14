@@ -1234,6 +1234,15 @@ yarn_install(
     yarn_lock = "//:tools/node_tools/yarn.lock",
 )
 
+# Install all Bazel dependencies needed for npm packages that supply Bazel rules
+load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
+
+install_bazel_dependencies()
+
+load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
+
+ts_setup_workspace()
+
 # Bower component transitive dependencies.
 load("//lib/js:bower_archives.bzl", "load_bower_archives")
 

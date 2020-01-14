@@ -4,13 +4,15 @@
   "description": "Gerrit Code Review",
   "dependencies": {},
   "devDependencies": {
+    "@bazel/rollup": "^1.1.0",
+    "@bazel/typescript": "^1.0.1",
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.13.0",
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-jsdoc": "^18.4.3",
     "fried-twinkie": "^0.2.2",
     "polymer-cli": "^1.9.11",
-    "typescript": "^2.x.x",
+    "typescript": "^3.7.4",
     "web-component-tester": "^6.5.0"
   },
   "scripts": {

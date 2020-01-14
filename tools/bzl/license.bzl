@@ -1,8 +1,22 @@
 def normalize_target_name(target):
     return target.replace("//", "").replace("/", "__").replace(":", "___")
 
-def license_map(name, targets = [], opts = [], **kwargs):
-    """Generate XML for all targets that depend directly on a LICENSE file"""
+def license_map(name, targets = [], opts = [], json_maps = [], **kwargs):
+    """Generate text represantation for pacakges' and libs' licenses
+    Args:
+        name: of the rule
+        targets: list of targets for which licenses should be added the output file.
+            The list must not include targets, for which json_map is passed in json_maps parameter
+        opts: command line options for license-map.py tool
+        json_maps: list of json files. Such files can be produced by node_modules_licenses rule
+            for node_modules licenses.
+
+    Generate: text file with the name
+        gen_license_txt_{name}
+
+    """
+
+    # Generate XML for all targets that depend directly on a LICENSE file
     xmls = []
     tools = ["//tools/bzl:license-map.py", "//lib:all-licenses"]
     for target in targets:
@@ -22,10 +36,17 @@ def license_map(name, targets = [], opts = [], **kwargs):
             opts = ["--output=xml"],
         )
 
+    # Add all files from the json_maps list to license-map.py command-line arguments
+    json_maps_locations = []
+
+    for json_map in json_maps:
+        json_maps_locations.append("--json-map=$(location %s)" % json_map)
+        tools.append(json_map)
+
     # post process the XML into our favorite format.
     native.genrule(
         name = "gen_license_txt_" + name,
-        cmd = "python $(location //tools/bzl:license-map.py) %s %s > $@" % (" ".join(opts), " ".join(xmls)),
+        cmd = "python $(location //tools/bzl:license-map.py) %s %s %s > $@" % (" ".join(opts), " ".join(json_maps_locations), " ".join(xmls)),
         outs = [name + ".gen.txt"],
         tools = tools,
         **kwargs

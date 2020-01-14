@@ -42,6 +42,9 @@ filegroup(
 
 license_map(
     name = "licenses",
+    json_maps = [
+        "//polygerrit-ui/app/node_modules_licenses:polygerrit-licenses.json",
+    ],
     opts = ["--asciidoctor"],
     targets = [
         "//polygerrit-ui/app:polygerrit_ui",
@@ -51,6 +54,9 @@ license_map(
 
 license_map(
     name = "js_licenses",
+    json_maps = [
+        "//polygerrit-ui/app/node_modules_licenses:polygerrit-licenses.json",
+    ],
     targets = [
         "//polygerrit-ui/app:polygerrit_ui",
     ],

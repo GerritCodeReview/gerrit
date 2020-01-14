@@ -69,22 +69,28 @@ limitations under the License.
         instance = new GrPopupInterface(plugin);
       });
 
-      test('open', () => instance.open().then(api => {
-        assert.strictEqual(api, instance);
-        const manual = document.createElement('div');
-        manual.id = 'foobar';
-        manual.innerHTML = 'manual content';
-        api._getElement().appendChild(manual);
-        flushAsynchronousOperations();
-        assert.equal(
-            container.querySelector('#foobar').textContent, 'manual content');
-      }));
+      test('open', done => {
+        instance.open().then(api => {
+          assert.strictEqual(api, instance);
+          const manual = document.createElement('div');
+          manual.id = 'foobar';
+          manual.innerHTML = 'manual content';
+          api._getElement().appendChild(manual);
+          flushAsynchronousOperations();
+          assert.equal(
+              container.querySelector('#foobar').textContent, 'manual content');
+          done();
+        });
+      });
 
-      test('close', () => instance.open().then(api => {
-        assert.isTrue(api._getElement().node.opened);
-        api.close();
-        assert.isFalse(api._getElement().node.opened);
-      }));
+      test('close', done => {
+        instance.open().then(api => {
+          assert.isTrue(api._getElement().node.opened);
+          api.close();
+          assert.isFalse(api._getElement().node.opened);
+          done();
+        });
+      });
     });
 
     suite('components', () => {
@@ -92,16 +98,22 @@ limitations under the License.
         instance = new GrPopupInterface(plugin, 'gr-user-test-popup');
       });
 
-      test('open', () => instance.open().then(api => {
-        assert.isNotNull(
-            Polymer.dom(container).querySelector('gr-user-test-popup'));
-      }));
+      test('open', done => {
+        instance.open().then(api => {
+          assert.isNotNull(
+              Polymer.dom(container).querySelector('gr-user-test-popup'));
+          done();
+        });
+      });
 
-      test('close', () => instance.open().then(api => {
-        assert.isTrue(api._getElement().node.opened);
-        api.close();
-        assert.isFalse(api._getElement().node.opened);
-      }));
+      test('close', done => {
+        instance.open().then(api => {
+          assert.isTrue(api._getElement().node.opened);
+          api.close();
+          assert.isFalse(api._getElement().node.opened);
+          done();
+        });
+      });
     });
   });
 </script>

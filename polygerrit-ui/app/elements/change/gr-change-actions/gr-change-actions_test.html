@@ -1454,14 +1454,17 @@ limitations under the License.
               'navigateToChange').returns(Promise.resolve(true));
         });
 
-        test('change action', () => element
-            ._send('DELETE', payload, '/endpoint', false, cleanup)
-            .then(() => {
-              assert.isFalse(onShowError.called);
-              assert.isTrue(cleanup.calledOnce);
-              assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
-                  null, payload));
-            }));
+        test('change action', done => {
+          element
+              ._send('DELETE', payload, '/endpoint', false, cleanup)
+              .then(() => {
+                assert.isFalse(onShowError.called);
+                assert.isTrue(cleanup.calledOnce);
+                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+                    null, payload));
+                done();
+              });
+        });
 
         suite('show revert submission dialog', () => {
           setup(() => {
@@ -1545,14 +1548,17 @@ limitations under the License.
           });
         });
 
-        test('revision action', () => element
-            ._send('DELETE', payload, '/endpoint', true, cleanup)
-            .then(() => {
-              assert.isFalse(onShowError.called);
-              assert.isTrue(cleanup.calledOnce);
-              assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
-                  12, payload));
-            }));
+        test('revision action', done => {
+          element
+              ._send('DELETE', payload, '/endpoint', true, cleanup)
+              .then(() => {
+                assert.isFalse(onShowError.called);
+                assert.isTrue(cleanup.calledOnce);
+                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+                    12, payload));
+                done();
+              });
+        });
       });
 
       suite('failure modes', () => {

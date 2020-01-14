@@ -245,31 +245,43 @@ limitations under the License.
       });
     });
 
-    test('_getAccountSuggestions empty', () => element
-        ._getAccountSuggestions('nonexistent').then(accounts => {
-          assert.equal(accounts.length, 0);
-        }));
+    test('_getAccountSuggestions empty', done => {
+      element
+          ._getAccountSuggestions('nonexistent').then(accounts => {
+            assert.equal(accounts.length, 0);
+            done();
+          });
+    });
 
-    test('_getAccountSuggestions non-empty', () => element
-        ._getAccountSuggestions('test-').then(accounts => {
-          assert.equal(accounts.length, 3);
-          assert.equal(accounts[0].name,
-              'test-account <test.account@example.com>');
-          assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
-          assert.equal(accounts[2].name, 'test-git');
-        }));
+    test('_getAccountSuggestions non-empty', done => {
+      element
+          ._getAccountSuggestions('test-').then(accounts => {
+            assert.equal(accounts.length, 3);
+            assert.equal(accounts[0].name,
+                'test-account <test.account@example.com>');
+            assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
+            assert.equal(accounts[2].name, 'test-git');
+            done();
+          });
+    });
 
-    test('_getGroupSuggestions empty', () => element
-        ._getGroupSuggestions('nonexistent').then(groups => {
-          assert.equal(groups.length, 0);
-        }));
+    test('_getGroupSuggestions empty', done => {
+      element
+          ._getGroupSuggestions('nonexistent').then(groups => {
+            assert.equal(groups.length, 0);
+            done();
+          });
+    });
 
-    test('_getGroupSuggestions non-empty', () => element
-        ._getGroupSuggestions('test').then(groups => {
-          assert.equal(groups.length, 2);
-          assert.equal(groups[0].name, 'test-admin');
-          assert.equal(groups[1].name, 'test/Administrator (admin)');
-        }));
+    test('_getGroupSuggestions non-empty', done => {
+      element
+          ._getGroupSuggestions('test').then(groups => {
+            assert.equal(groups.length, 2);
+            assert.equal(groups[0].name, 'test-admin');
+            assert.equal(groups[1].name, 'test/Administrator (admin)');
+            done();
+          });
+    });
 
     test('_computeHideItemClass returns string for admin', () => {
       const admin = true;

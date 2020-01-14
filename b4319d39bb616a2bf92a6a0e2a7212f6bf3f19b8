@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d0ca0e0b_c05ab231",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-14T21:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6675929_997a3ae2",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 70
+      },
+      "revId": "b4319d39bb616a2bf92a6a0e2a7212f6bf3f19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8903f0a_92fa337d",
         "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsCommentValidationIT.java",
         "patchSetId": 16
@@ -45,6 +69,30 @@
       "revId": "b4319d39bb616a2bf92a6a0e2a7212f6bf3f19b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f76db50_6e417ce3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsCommentValidationIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-01-14T21:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8903f0a_92fa337d",
+      "range": {
+        "startLine": 125,
+        "startChar": 66,
+        "endLine": 125,
+        "endChar": 86
+      },
+      "revId": "b4319d39bb616a2bf92a6a0e2a7212f6bf3f19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

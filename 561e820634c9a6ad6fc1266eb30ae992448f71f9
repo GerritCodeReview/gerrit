@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "438ff382_b4f0eca8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-14T12:46:56Z",
+      "side": 1,
+      "message": "\u003e Not really, the intent is to allow anyone to get everything without DOSing the server.\n\nFine, if this is what you want, this is still working with this change if you grant the highest possible query limit for Anonymous Users via the Query Limit global capability [1], right?\nHowever if an admin sets a limit, that should be respected, otherwise why would we have this global capability if it\u0027s ignored?\n\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_queryLimit",
+      "parentUuid": "6aa050ba_4c114047",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f88a4e95_15bd2408",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -240,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "263042f1_79978a2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-14T12:46:56Z",
+      "side": 1,
+      "message": "\u003e Do you find this to be a problem in practice? \n\nNo, fortunately we are not affected by this, since for us the --no-limit option is completely broken and always results in an internal server error. This is also bad because it affects our SLO.\nUsing this option always fails for us because we have a max limit for our index backend. If the index backend has a limit, then the code at [1] is not executed (because the limit is MAX_INTEGER and is not equal the backend supported limit). This means at [2] it\u0027s adding +1 to MAX_INTEGER, which is then MIN_INTEGER and a negative limit is rejected at [3].\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/index/query/QueryProcessor.java#233\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/index/query/QueryProcessor.java#246\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/index/QueryOptions.java#29\n\n\u003e Our load balancer and DoS protection system are reasonably good at defending against that.\n\u003e\n\u003e A single expensive request is harder to deal with (and in fact doesn\u0027t end up succeeding at all with our index).\n\n+1, exactly this.",
+      "parentUuid": "fdfc620b_697d1c61",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fbc1632_d0e47936",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -251,6 +299,30 @@
       "writtenOn": "2020-01-13T16:30:34Z",
       "side": 1,
       "message": "Agreed. Any ideas on how we can get the above intent with this in mind?",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae4f33dc_0ce5b144",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-14T12:46:56Z",
+      "side": 1,
+      "message": "I think this change should be fine for you. All you need to do is grant the highest possible query limit for Anonymous Users via the Query Limit global capability [1], right?\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_queryLimit",
+      "parentUuid": "7fbc1632_d0e47936",
       "range": {
         "startLine": 14,
         "startChar": 26,

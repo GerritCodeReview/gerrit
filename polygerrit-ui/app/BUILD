@@ -12,6 +12,7 @@ polygerrit_bundle(
             "**/*.js",
         ],
         exclude = [
+            "node_modules/**",
             "bower_components/**",
             "test/**",
             "**/*_test.html",
@@ -41,6 +42,7 @@ filegroup(
         ],
         exclude = [
             "bower_components/**",
+            "node_modules/**",
         ],
     ),
 )
@@ -54,6 +56,7 @@ filegroup(
         ],
         exclude = [
             "bower_components/**",
+            "node_modules/**",
             "**/*_test.html",
             "test/**",
             "samples/**",

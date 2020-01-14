@@ -394,7 +394,7 @@ public class CommitValidators {
 
     FileCountValidator(PatchListCache patchListCache, Config config) {
       this.patchListCache = patchListCache;
-      maxFileCount = config.getInt("change", null, "maxFiles", 50_000);
+      maxFileCount = config.getInt("change", null, "maxFiles", 100_000);
     }
 
     @Override

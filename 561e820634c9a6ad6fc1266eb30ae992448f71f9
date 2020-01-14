@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "a6c28d49_b34ee76f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-14T17:02:46Z",
+      "side": 1,
+      "message": "\u003e\u003e the processor may still have to process all the changes before the pagination token\n\u003e A true continuation token prevents that. \n\nThat may be true, but if Gerrit tokens don\u0027t work that way, then Gerrit sites are still succeptible to this DOS attack vector even without the switch.",
+      "parentUuid": "438ff382_b4f0eca8",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f88a4e95_15bd2408",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -323,6 +347,30 @@
       "side": 1,
       "message": "I think this change should be fine for you. All you need to do is grant the highest possible query limit for Anonymous Users via the Query Limit global capability [1], right?\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_queryLimit",
       "parentUuid": "7fbc1632_d0e47936",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4857e67a_66592fbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-14T17:02:46Z",
+      "side": 1,
+      "message": "Unfortnately, that cause another problem. Having a default limit of around 500 is actually useful since it prevents users from doing a query and by accident returning several million changes. TThe default limit is useful for humans interacting with the query system out. Having a switch that overrides the limit provides both a good default for humans and allows both humans and scripts to override it when they know they really want everything.\n\nI think that perhaps if we had both a capability that could never be overridden, and a default that could, it would solve both cases?",
+      "parentUuid": "ae4f33dc_0ce5b144",
       "range": {
         "startLine": 14,
         "startChar": 26,

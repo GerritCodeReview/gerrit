@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.git.receive;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -24,6 +25,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.Side;
@@ -45,6 +47,8 @@ import org.mockito.Captor;
 public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
   @Inject private CommentValidator mockCommentValidator;
   @Inject private TestCommentHelper testCommentHelper;
+
+  private static final int MAX_COMMENT_LENGTH = 666;
 
   private static final String COMMENT_TEXT = "The comment text";
 
@@ -134,5 +138,24 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
                 CommentForValidation.CommentType.INLINE_COMMENT, draftInline.message),
             CommentForValidation.create(
                 CommentForValidation.CommentType.FILE_COMMENT, draftFile.message));
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxCommentLength", value = "" + MAX_COMMENT_LENGTH)
+  public void validateComments_enforceLimits_commentTooLarge() throws Exception {
+    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    int commentLength = MAX_COMMENT_LENGTH + 1;
+    DraftInput comment =
+        testCommentHelper.newDraft(new String(new char[commentLength]).replace("\0", "x"));
+    testCommentHelper.addDraft(changeId, result.getCommit().getName(), comment);
+
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    amendResult.assertOkStatus();
+    amendResult.assertMessage(
+        String.format("Comment too large (%d > %d)", commentLength, MAX_COMMENT_LENGTH));
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
   }
 }

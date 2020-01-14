@@ -1,7 +1,7 @@
 def normalize_target_name(target):
     return target.replace("//", "").replace("/", "__").replace(":", "___")
 
-def license_map(name, targets = [], opts = [], **kwargs):
+def license_map(name, targets = [], opts = [], json_maps = [], **kwargs):
     """Generate XML for all targets that depend directly on a LICENSE file"""
     xmls = []
     tools = ["//tools/bzl:license-map.py", "//lib:all-licenses"]
@@ -22,10 +22,18 @@ def license_map(name, targets = [], opts = [], **kwargs):
             opts = ["--output=xml"],
         )
 
+    json_maps_locations = []
+
+    # The following loop commented temporary.
+    # It will be uncommented in upcoming change (with correctly defined licenses)
+    #    for json_map in json_maps:
+    #        json_maps_locations.append("--json-map=$(location %s)" % json_map)
+    #        tools.append(json_map)
+
     # post process the XML into our favorite format.
     native.genrule(
         name = "gen_license_txt_" + name,
-        cmd = "python $(location //tools/bzl:license-map.py) %s %s > $@" % (" ".join(opts), " ".join(xmls)),
+        cmd = "python $(location //tools/bzl:license-map.py) %s %s %s > $@" % (" ".join(opts), " ".join(json_maps_locations), " ".join(xmls)),
         outs = [name + ".gen.txt"],
         tools = tools,
         **kwargs

@@ -3,6 +3,7 @@
   "description": "Gerrit Code Review - Polygerrit dependencies",
   "browser": true,
   "dependencies": {
+    "@polymer/iron-a11y-keys-behavior": "^3.0.1"
   },
   "license": "Apache-2.0",
   "private": true

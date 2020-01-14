@@ -1,5 +1,3 @@
-load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/bzl:js.bzl", "bower_component_bundle")
 load(":rules.bzl", "polygerrit_bundle")
 load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "update_links")
 
@@ -15,7 +13,6 @@ polygerrit_bundle(
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
-            "bower_components/**",
             "test/**",
             "**/*_test.html",
         ],
@@ -23,17 +20,6 @@ polygerrit_bundle(
     outs = ["polygerrit_ui.zip"],
     entry_point = "elements/gr-app.html",
     redirects = "redirects.json",
-)
-
-bower_component_bundle(
-    name = "test_components",
-    testonly = True,
-    deps = [
-        "//lib/js:iron-test-helpers",
-        "//lib/js:test-fixture",
-        "//lib/js:web-component-tester",
-        "//polygerrit-ui:polygerrit_components.bower_components",
-    ],
 )
 
 filegroup(
@@ -44,7 +30,6 @@ filegroup(
             "**/*.js",
         ],
         exclude = [
-            "bower_components/**",
             "node_modules/**",
             "node_modules_licenses/**",
         ],
@@ -59,7 +44,6 @@ filegroup(
             "**/*.js",
         ],
         exclude = [
-            "bower_components/**",
             "node_modules/**",
             "node_modules_licenses/**",
             "**/*_test.html",
@@ -67,21 +51,6 @@ filegroup(
             "samples/**",
         ],
     ),
-)
-
-genrule2(
-    name = "pg_code_zip",
-    srcs = [":pg_code"],
-    outs = ["pg_code.zip"],
-    cmd = " && ".join([
-        ("tar -hcf- $(locations :pg_code) |" +
-         " tar --strip-components=2 -C $$TMP/ -xf-"),
-        "cd $$TMP",
-        "TZ=UTC",
-        "export TZ",
-        "find . -exec touch -t 198001010000 '{}' ';'",
-        "zip -rq $$ROOT/$@ *",
-    ]),
 )
 
 # update_links - temporary action. Later links/references will be updated in repository,

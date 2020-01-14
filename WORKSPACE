@@ -18,6 +18,7 @@
 workspace(
     name = "gerrit",
     managed_directories = {
+        "@npm": ["node_modules"],
         "@ui_npm": ["polygerrit-ui/app/node_modules"],
         "@ui_dev_npm": ["polygerrit-ui/node_modules"],
         "@tools_npm": ["tools/node_tools/node_modules"],
@@ -1238,7 +1239,6 @@ load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
 
 yarn_install(
     name = "npm",
-    args = ["--prod"],
     package_json = "//:package.json",
     yarn_lock = "//:yarn.lock",
 )
@@ -1258,10 +1258,18 @@ yarn_install(
 
 yarn_install(
     name = "tools_npm",
-    args = ["--prod"],
     package_json = "//:tools/node_tools/package.json",
     yarn_lock = "//:tools/node_tools/yarn.lock",
 )
+
+# Install all Bazel dependencies needed for npm packages that supply Bazel rules
+load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
+
+install_bazel_dependencies()
+
+load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
+
+ts_setup_workspace()
 
 # Bower component transitive dependencies.
 load("//lib/js:bower_archives.bzl", "load_bower_archives")

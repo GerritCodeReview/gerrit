@@ -1037,140 +1037,6 @@ npm_binary(
     repository = GERRIT,
 )
 
-# bower_archive() seed components.
-bower_archive(
-    name = "iron-autogrow-textarea",
-    package = "polymerelements/iron-autogrow-textarea",
-    sha1 = "2f04c7e2a72d462de36093ab2b4889db20f699f6",
-    version = "2.2.0",
-)
-
-bower_archive(
-    name = "es6-promise",
-    package = "stefanpenner/es6-promise",
-    sha1 = "a3a797bb22132f1ef75f9a2556173f81870c2e53",
-    version = "3.3.0",
-)
-
-bower_archive(
-    name = "fetch",
-    package = "fetch",
-    sha1 = "1b05a2bb40c73232c2909dc196de7519fe4db7a9",
-    version = "1.0.0",
-)
-
-bower_archive(
-    name = "iron-dropdown",
-    package = "polymerelements/iron-dropdown",
-    sha1 = "3902ba164552b1bfc59e6fa692efa4a1fd8dd4ea",
-    version = "2.2.1",
-)
-
-bower_archive(
-    name = "iron-input",
-    package = "polymerelements/iron-input",
-    sha1 = "f79952ff4f6f103c0a2cbd3dacf25935257ff392",
-    version = "2.1.3",
-)
-
-bower_archive(
-    name = "iron-overlay-behavior",
-    package = "polymerelements/iron-overlay-behavior",
-    sha1 = "c2d2eac1b162420d9475ade2f16d5db8959b93fc",
-    version = "2.3.4",
-)
-
-bower_archive(
-    name = "iron-selector",
-    package = "polymerelements/iron-selector",
-    sha1 = "3f3fcb55f6bd606ea493f99eab9daae21f7a6139",
-    version = "2.1.0",
-)
-
-bower_archive(
-    name = "paper-button",
-    package = "polymerelements/paper-button",
-    sha1 = "bcb783d74e1177c1d0836340e7c0280699d1438c",
-    version = "2.1.3",
-)
-
-bower_archive(
-    name = "paper-input",
-    package = "polymerelements/paper-input",
-    sha1 = "c1a81a4173d22e72e8ab609eb3715a75273396b3",
-    version = "2.2.3",
-)
-
-bower_archive(
-    name = "paper-tabs",
-    package = "polymerelements/paper-tabs",
-    sha1 = "589b8e6efa0f171c93233137c8ea013dcea0ffc7",
-    version = "2.1.1",
-)
-
-bower_archive(
-    name = "iron-icon",
-    package = "polymerelements/iron-icon",
-    sha1 = "d21e7d4f1bdc6de881390f888e28d53155eeb551",
-    version = "2.1.0",
-)
-
-bower_archive(
-    name = "iron-iconset-svg",
-    package = "polymerelements/iron-iconset-svg",
-    sha1 = "07c0ce02ce6479856758893416a3709009db7f22",
-    version = "2.2.1",
-)
-
-bower_archive(
-    name = "moment",
-    package = "moment/moment",
-    sha1 = "fc8ce2c799bab21f6ced7aff928244f4ca8880aa",
-    version = "2.13.0",
-)
-
-bower_archive(
-    name = "page",
-    package = "visionmedia/page.js",
-    sha1 = "4a31889cd75cc5e7f68a4c7f256eecaf27102eee",
-    version = "1.11.4",
-)
-
-bower_archive(
-    name = "paper-item",
-    package = "polymerelements/paper-item",
-    sha1 = "c3bad022cf182d2bf1c8a44374c7fcb1409afbfa",
-    version = "2.1.1",
-)
-
-bower_archive(
-    name = "paper-listbox",
-    package = "polymerelements/paper-listbox",
-    sha1 = "78247cc32bb776f204efef17cff3095878036a40",
-    version = "2.1.1",
-)
-
-bower_archive(
-    name = "paper-toggle-button",
-    package = "polymerelements/paper-toggle-button",
-    sha1 = "9927960afb0062726ec1b585ef3e32764c3bbac9",
-    version = "2.1.1",
-)
-
-bower_archive(
-    name = "polymer",
-    package = "polymer/polymer",
-    sha1 = "d06e17a1d8dc6187ee5aa8c5b3501da10901c82f",
-    version = "2.7.2",
-)
-
-bower_archive(
-    name = "polymer-resin",
-    package = "polymer/polymer-resin",
-    sha1 = "94c29926c20ea3a9b636f26b3e0d689ead8137e5",
-    version = "2.0.1",
-)
-
 bower_archive(
     name = "resemblejs",
     package = "rsmbl/Resemble.js",
@@ -1183,29 +1049,6 @@ bower_archive(
     package = "Dominator008/codemirror-minified",
     sha1 = "e6bda82afc7cf3493f4282c6f17265d40e1485e5",
     version = "5.43.0",
-)
-
-# bower test stuff
-
-bower_archive(
-    name = "iron-test-helpers",
-    package = "polymerelements/iron-test-helpers",
-    sha1 = "882be2d4c8714b39299b5f7bf25253c4e8a40761",
-    version = "2.0.1",
-)
-
-bower_archive(
-    name = "test-fixture",
-    package = "polymerelements/test-fixture",
-    sha1 = "7d72ddfebf555a2dd1fc60a85427d9026b509723",
-    version = "3.0.0",
-)
-
-bower_archive(
-    name = "web-component-tester",
-    package = "polymer/web-component-tester",
-    sha1 = "62739cb633fccfddc5eeed98e9e3f69cd0388b5b",
-    version = "6.5.0",
 )
 
 load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
@@ -1243,10 +1086,5 @@ install_bazel_dependencies()
 load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
 
 ts_setup_workspace()
-
-# Bower component transitive dependencies.
-load("//lib/js:bower_archives.bzl", "load_bower_archives")
-
-load_bower_archives()
 
 external_plugin_deps()

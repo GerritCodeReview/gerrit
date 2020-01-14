@@ -132,7 +132,9 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
         ],
     )
 
-    genrule2(
+    # Preserve bower_components directory in the final directory layout to
+    # avoid plugins break
+     genrule2(
         name = name,
         srcs = [
             name + "_app_sources",

@@ -33,7 +33,6 @@ bower_component_bundle(
         "//lib/js:iron-test-helpers",
         "//lib/js:test-fixture",
         "//lib/js:web-component-tester",
-        "//polygerrit-ui:polygerrit_components.bower_components",
     ],
 )
 
@@ -142,7 +141,6 @@ sh_test(
     data = [
         "polymer.json",
         ":pg_code_without_test",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
     ],
     # Should not run sandboxed.
     tags = [
@@ -172,7 +170,6 @@ DIRECTORIES = [
     data = [
         ":pg_code",
         ":template_test_srcs",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
     ],
     tags = [
         # Should not run sandboxed.

@@ -22,3 +22,11 @@ workspace_type: java
 
 build_flags:
   --javacopt=-g
+
+additional_languages:
+  javascript
+  typescript
+
+ts_config_rules:
+  //tools/node_tools/node_modules_licenses:tsconfig_editor
+  //polygerrit-ui/app/node_modules_licenses:tsconfig_editor

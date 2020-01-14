@@ -34,7 +34,7 @@ java_library(
 
 java_library(
     name = "ref_cache",
-    srcs = glob(["ReceivePackRefCache.java"]),
+    srcs = ["ReceivePackRefCache.java"],
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/entities",

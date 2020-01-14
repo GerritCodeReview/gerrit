@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "196d233f_395e64c6",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-14T21:56:15Z",
+      "side": 1,
+      "message": "var(--spacing-l)",
+      "range": {
+        "startLine": 72,
+        "startChar": 20,
+        "endLine": 72,
+        "endChar": 23
+      },
+      "revId": "488a8bedc45561f9083fb5a0631b95c5aff31f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

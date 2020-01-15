@@ -4,6 +4,7 @@
   "browser": false,
   "dependencies": {
     "@bazel/rollup": "^0.41.0",
+    "@bazel/typescript": "^1.0.1",
     "@types/node": "^10.17.12",
     "crisper": "^2.1.1",
     "dom5": "^3.0.1",

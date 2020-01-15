@@ -1,0 +1,50 @@
+{
+  "description": "See tools/node_tools/polygerrit_app_preprocessor/redirects.ts",
+  "redirects": [
+    {
+      "from": "/bower_components/ba-linkify",
+      "to": {
+        "npm_module": "ba-linkify"
+      }
+    },
+    {
+      "from": "/bower_components/es6-promise",
+      "to": {
+        "npm_module": "es6-promise"
+      }
+    },
+    {
+      "from": "/bower_components/fetch",
+      "to": {
+        "npm_module": "whatwg-fetch",
+        "files": {
+          "fetch.js": "dist/fetch.umd.js"
+        }
+      }
+    },
+    {
+      "from": "/bower_components/moment",
+      "to": {
+        "npm_module": "moment"
+      }
+    },
+    {
+      "from": "/bower_components/webcomponentsjs",
+      "to": {
+        "npm_module": "@webcomponents/webcomponentsjs"
+      }
+    },
+    {
+      "from": "/bower_components/page",
+      "to": {
+        "npm_module": "page"
+      }
+    },
+    {
+      "from": "/bower_components",
+      "to": {
+        "npm_module": "polymer-bridges"
+      }
+    }
+  ]
+}

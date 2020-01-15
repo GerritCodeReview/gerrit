@@ -46,15 +46,40 @@ var (
 	bundledPluginsPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_assets/[0-9.]*")
 )
 
+type redirectTarget struct {
+	NpmModule string            `json:"npm_module"`
+	Dir       string            `json:"dir"`
+	Files     map[string]string `json:"files"`
+}
+
+type redirects struct {
+	From string         `json:"from"`
+	To   redirectTarget `json:"to"`
+}
+
+type redirectsJson struct {
+	Redirects []redirects `json:"redirects"`
+}
+
+func readRedirects() []redirects {
+	redirectsFile, err := os.Open("app/redirects.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer redirectsFile.Close()
+	redirectsFileContent, err := ioutil.ReadAll(redirectsFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var result redirectsJson
+	json.Unmarshal([]byte(redirectsFileContent), &result)
+	return result.Redirects
+}
+
 func main() {
 	flag.Parse()
 
 	fontsArchive, err := openDataArchive("fonts.zip")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	componentsArchive, err := openDataArchive("app/test_components.zip")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -64,10 +89,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	http.Handle("/", addDevHeadersMiddleware(http.FileServer(http.Dir("app"))))
-	http.Handle("/bower_components/",
-		addDevHeadersMiddleware(
-			http.FileServer(httpfs.New(zipfs.New(componentsArchive, "bower_components")))))
+	redirects := readRedirects()
+	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) { handleSrcRequest(redirects, w, req) })
+
 	http.Handle("/fonts/",
 		addDevHeadersMiddleware(http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts")))))
 
@@ -95,10 +119,112 @@ func main() {
 
 func addDevHeadersMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(writer http.ResponseWriter, req *http.Request) {
-		writer.Header().Set("Access-Control-Allow-Origin", "*")
-		writer.Header().Set("Cache-Control", "public, max-age=10, must-revalidate")
+		addDevHeaders(writer)
 		h.ServeHTTP(writer, req)
 	})
+}
+
+func addDevHeaders(writer http.ResponseWriter) {
+	writer.Header().Set("Access-Control-Allow-Origin", "*")
+	writer.Header().Set("Cache-Control", "public, max-age=10, must-revalidate")
+
+}
+
+func getFinalPath(redirects []redirects, originalPath string) string {
+  testComponentsPrefix := "/components/";
+  if strings.HasPrefix(originalPath, testComponentsPrefix) {
+    return "/../node_modules/" + originalPath[len(testComponentsPrefix):]
+  }
+
+	for _, redirect := range redirects {
+		fromDir := redirect.From
+		if !strings.HasSuffix(fromDir, "/") {
+			fromDir = fromDir + "/"
+		}
+		if strings.HasPrefix(originalPath, fromDir) {
+			targetDir := ""
+			if redirect.To.NpmModule != "" {
+				targetDir = "node_modules/" + redirect.To.NpmModule
+			} else {
+				targetDir = redirect.To.Dir
+			}
+			if !strings.HasSuffix(targetDir, "/") {
+				targetDir = targetDir + "/"
+			}
+			if !strings.HasPrefix(targetDir, "/") {
+				targetDir = "/" + targetDir
+			}
+			filename := originalPath[len(fromDir):]
+			if redirect.To.Files != nil {
+				newfilename, found := redirect.To.Files[filename]
+				if found {
+					filename = newfilename
+				}
+			}
+			return targetDir + filename
+		}
+	}
+	return originalPath
+}
+
+func handleSrcRequest(redirects []redirects, writer http.ResponseWriter, originalRequest *http.Request) {
+	parsedUrl, err := url.Parse(originalRequest.RequestURI)
+	if err != nil {
+		writer.WriteHeader(500)
+		return
+	}
+	if parsedUrl.Path == "/bower_components/web-component-tester/browser.js" {
+    http.Redirect(writer, originalRequest, "/bower_components/wct-browser-legacy/browser.js", 301);
+	  return
+  }
+
+	requestPath := getFinalPath(redirects, parsedUrl.Path)
+
+	if !strings.HasPrefix(requestPath, "/") {
+		requestPath = "/" + requestPath
+	}
+
+	data, err := readFile(parsedUrl.Path, requestPath)
+	if err != nil {
+    writer.WriteHeader(404)
+    return
+	}
+	if strings.HasSuffix(requestPath, ".js") {
+		r := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
+		data = r.ReplaceAll(data, []byte("$1 '/node_modules/$2'"))
+		writer.Header().Set("Content-Type", "application/javascript")
+	} else if strings.HasSuffix(requestPath, ".css") {
+		writer.Header().Set("Content-Type", "text/css")
+	} else if strings.HasSuffix(requestPath, ".html") {
+		writer.Header().Set("Content-Type", "text/html")
+	}
+	writer.WriteHeader(200)
+	addDevHeaders(writer)
+	writer.Write(data)
+}
+
+func readFile(originalPath string, redirectedPath string) ([]byte, error) {
+  pathsToTry := [] string { "app" + redirectedPath }
+  bowerComponentsSuffix := "/bower_components/"
+  nodeModulesPrefix := "/node_modules/"
+
+  if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
+    pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/" + originalPath[len(bowerComponentsSuffix):])
+    pathsToTry = append(pathsToTry, "node_modules/" + originalPath[len(bowerComponentsSuffix):])
+  }
+
+  if strings.HasPrefix(originalPath, nodeModulesPrefix) {
+    pathsToTry = append(pathsToTry, "node_modules/" + originalPath[len(nodeModulesPrefix):])
+  }
+
+  for _, path := range pathsToTry {
+    data, err := ioutil.ReadFile(path)
+    if err == nil {
+      return data, nil
+    }
+  }
+
+  return nil, errors.New("File not found")
 }
 
 func openDataArchive(path string) (*zip.ReadCloser, error) {

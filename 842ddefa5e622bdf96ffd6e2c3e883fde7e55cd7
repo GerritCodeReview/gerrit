@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a23d3d46_7c1ab002",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-15T11:14:41Z",
+      "side": 1,
+      "message": "Now we may get an NPE here, fixed in https://gerrit-review.googlesource.com/c/gerrit/+/250405",
+      "revId": "842ddefa5e622bdf96ffd6e2c3e883fde7e55cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

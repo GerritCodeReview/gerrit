@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b18ef292_0640b21b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1248,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-15T10:56:10Z",
+      "side": 1,
+      "message": "this seems to be inconsistent with previous behavior ? as the `indexMergeable` was off by default",
+      "revId": "e12307d67bb85735882a150e7e772c3ab5f7ea88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

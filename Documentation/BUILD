@@ -62,6 +62,14 @@ license_map(
     ],
 )
 
+# bazel test Documentation:check_licenses doesn't work.
+# There is an angoing discussion about it with bazel team.
+# If you want to run
+# bazel test Documentation:check_licenses
+# you must change the tools/node_tools/BUILD file
+# and set
+# entry_point = @tools_npm//:node_modules/rollup/dist/bin/rollup,
+# for the "rollup-bin" rule
 sh_test(
     name = "check_licenses",
     srcs = ["check_licenses_test.sh"],

@@ -105,7 +105,7 @@
    */
   util.querySelector = (el, selector) => {
     let nodes = [el];
-    let element = null;
+    let result = null;
     while (nodes.length) {
       const node = nodes.pop();
 
@@ -113,19 +113,49 @@
       if (!node || !node.querySelector) continue;
 
       // Try find it with native querySelector directly
-      element = node.querySelector(selector);
+      result = node.querySelector(selector);
 
-      if (element) {
+      if (result) {
         break;
-      } else if (node.shadowRoot) {
-        // If shadowHost detected, add the host and its children
-        nodes = nodes.concat(Array.from(node.children));
-        nodes.push(node.shadowRoot);
-      } else {
-        nodes = nodes.concat(Array.from(node.children));
       }
+
+      // Add all nodes with shadowRoot and loop through
+      const allShadowNodes = [...node.querySelectorAll('*')]
+          .filter(child => !!child.shadowRoot)
+          .map(child => child.shadowRoot);
+      nodes = nodes.concat(allShadowNodes);
     }
-    return element;
+    return result;
+  };
+
+  /**
+   * Query selector all dom elements matching with certain selector.
+   *
+   * This is shadow DOM compatible, but only works when selector is within
+   * one shadow host, won't work if your selector is crossing
+   * multiple shadow hosts.
+   *
+   * Note: this can be very expensive, only use when have to.
+   */
+  util.querySelectorAll = (el, selector) => {
+    let nodes = [el];
+    const results = new Set();
+    while (nodes.length) {
+      const node = nodes.pop();
+
+      if (!node || !node.querySelectorAll) continue;
+
+      // Try find all from regular children
+      [...node.querySelectorAll(selector)]
+          .forEach(el => results.add(el));
+
+      // Add all nodes with shadowRoot and loop through
+      const allShadowNodes = [...node.querySelectorAll('*')]
+          .filter(child => !!child.shadowRoot)
+          .map(child => child.shadowRoot);
+      nodes = nodes.concat(allShadowNodes);
+    }
+    return [...results];
   };
 
   window.util = util;

@@ -1201,6 +1201,7 @@ yarn_install(
 
 yarn_install(
     name = "ui_npm",
+    args = ["--prod"],
     package_json = "//:polygerrit-ui/app/package.json",
     yarn_lock = "//:polygerrit-ui/app/yarn.lock",
 )

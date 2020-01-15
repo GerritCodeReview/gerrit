@@ -24,11 +24,9 @@ def license_map(name, targets = [], opts = [], json_maps = [], **kwargs):
 
     json_maps_locations = []
 
-    # The following loop commented temporary.
-    # It will be uncommented in upcoming change (with correctly defined licenses)
-#    for json_map in json_maps:
-#        json_maps_locations.append("--json-map=$(location %s)" % json_map)
-#        tools.append(json_map)
+    for json_map in json_maps:
+        json_maps_locations.append("--json-map=$(location %s)" % json_map)
+        tools.append(json_map)
 
     # post process the XML into our favorite format.
     native.genrule(

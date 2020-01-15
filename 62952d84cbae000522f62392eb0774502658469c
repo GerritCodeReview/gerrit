@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1d94abb_113ccea0",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-15T14:14:26Z",
+      "side": 1,
+      "message": "Maybe adapt this method to behave similarly to the improved querySelectorAll method?",
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f774c32c_809ac29b",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-15T14:14:26Z",
+      "side": 1,
+      "message": "Remove empty line.",
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d1bd6e_4501305b",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-15T14:14:26Z",
+      "side": 1,
+      "message": "Maybe rename to \"results\" or \"elementsFound\"?",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 143,
+        "endChar": 18
+      },
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bbd66fa_54e031da",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-15T14:14:26Z",
+      "side": 1,
+      "message": "Maybe remove comment. The code speaks for itself here.",
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44fa3903_680000e0",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-15T14:14:26Z",
+      "side": 1,
+      "message": "Instead of the while loop over nodes I guess you could also call util.querySelectorAll recursively? Would that be a little nicer?",
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

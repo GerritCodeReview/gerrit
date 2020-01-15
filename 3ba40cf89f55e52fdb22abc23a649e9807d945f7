@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "315d2c41_a56ebaaf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-15T19:59:53Z",
+      "side": 1,
+      "message": "Tracking this already in b/146338509\nI want to make a separate change for this to keep this change clean if that\u0027s okay.",
+      "parentUuid": "1f13d55e_be899f25",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "95f7c81f_3d4113ae",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 11
@@ -33,6 +51,24 @@
       "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7f9eb98_5409d3e3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-15T19:59:53Z",
+      "side": 1,
+      "message": "Yeah, I guess until backend makes the change of no longer sending the extra button.",
+      "parentUuid": "95f7c81f_3d4113ae",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "f4be2bfe_f38e4102",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-15T19:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bae0adb3_63b66a19",
+      "range": {
+        "startLine": 1165,
+        "startChar": 33,
+        "endLine": 1165,
+        "endChar": 37
+      },
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95ab12df_68b12767",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 11
@@ -73,6 +133,24 @@
       "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea4257c1_807179d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-15T19:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95ab12df_68b12767",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "98eaec8e_957b1fd4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-15T19:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b37377e8_7cc9d7f4",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "877a2e9c_7df17d68",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 11
@@ -107,6 +203,24 @@
       "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51fa0bf9_d92a966f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-15T19:59:53Z",
+      "side": 1,
+      "message": "Added a comment.",
+      "parentUuid": "877a2e9c_7df17d68",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "4b54a6cd_d0439403",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-15T19:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd7ae75_c8f5fced",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 35
+      },
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12092cc9_2b628278",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 11
@@ -147,6 +285,24 @@
       "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4eea7e17_dfb3e5f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-15T19:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12092cc9_2b628278",
+      "revId": "3ba40cf89f55e52fdb22abc23a649e9807d945f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

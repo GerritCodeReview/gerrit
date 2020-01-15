@@ -70,6 +70,30 @@
       "revId": "522ffdfaad8cc5400ec03a5b43d914b7f67b69d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5dac410_3333cb21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-15T15:17:30Z",
+      "side": 1,
+      "message": "I\u0027m fine with submitting this fix in the meantime.",
+      "parentUuid": "3af0db02_5343b337",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "522ffdfaad8cc5400ec03a5b43d914b7f67b69d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -72,6 +72,10 @@
       return this.$ && this.$.labelSelector;
     }
 
+    _computeButtonsDecoratorName(labelName) {
+      return "buttons-for-" + labelName.toLowerCase();
+    }
+
     _computeBlankItems(permittedLabels, label, side) {
       if (!permittedLabels || !permittedLabels[label] ||
           !permittedLabels[label].length || !this.labelValues ||

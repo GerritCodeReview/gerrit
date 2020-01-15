@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3327b0ce_6dedd8e0",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-15T09:20:27Z",
+      "side": 1,
+      "message": "tiniest of all nits: Context is usually the first parameter",
+      "revId": "cb57be3cf68bc80bfcb5a1e63a0b89405a436ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

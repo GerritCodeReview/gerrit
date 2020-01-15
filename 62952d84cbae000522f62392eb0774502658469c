@@ -186,6 +186,24 @@
       "revId": "62952d84cbae000522f62392eb0774502658469c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a212171c_af254b56",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-15T15:42:20Z",
+      "side": 1,
+      "message": "I would think in this case it would become more readable, but let\u0027s not go deeper here. I am fine as is.",
+      "parentUuid": "ce5b18d8_dfa4e67d",
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

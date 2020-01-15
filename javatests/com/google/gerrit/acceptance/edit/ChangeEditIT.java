@@ -24,6 +24,7 @@ import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assert
 import static com.google.gerrit.extensions.restapi.testing.BinaryResultSubject.assertThat;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
@@ -52,6 +53,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -433,6 +435,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().renameFile(FILE_NAME, FILE_NAME3);
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME3), CONTENT_OLD);
     assertThat(getFileContentOfEdit(changeId, FILE_NAME)).isAbsent();
+  }
+
+  @Test
+  public void renameExistingFileToInvalidPath() throws Exception {
+    createEmptyEditFor(changeId);
+    BadRequestException badRequest =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).edit().renameFile(FILE_NAME, "invalid/path/"));
+    assertThat(badRequest.getMessage()).isEqualTo("Invalid path: invalid/path/");
   }
 
   @Test

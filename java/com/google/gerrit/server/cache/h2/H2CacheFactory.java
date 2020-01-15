@@ -47,6 +47,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * Creates persistent caches depending on gerrit.config parameters. If the cache.directory property
+ * is unset, it will fall back to in-memory caches.
+ */
 @Singleton
 class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

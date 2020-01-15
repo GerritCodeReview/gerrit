@@ -46,6 +46,30 @@
       "revId": "522ffdfaad8cc5400ec03a5b43d914b7f67b69d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3af0db02_5343b337",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-01-15T15:12:17Z",
+      "side": 1,
+      "message": "Looks like a bug in JGit. Can you file a bug for JGit ? Will fix it.\n\nFor now we can use this fix for Gerrit 2.16 upgrade as a workaround.",
+      "parentUuid": "4b91a987_63cf194d",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "522ffdfaad8cc5400ec03a5b43d914b7f67b69d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

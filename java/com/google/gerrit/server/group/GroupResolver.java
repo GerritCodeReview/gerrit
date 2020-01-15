@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
@@ -28,6 +29,8 @@ import java.util.Optional;
 
 @Singleton
 public class GroupResolver {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final GroupBackend groupBackend;
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
@@ -81,36 +84,48 @@ public class GroupResolver {
    * @return the group, null if no group is found for the given group ID
    */
   public GroupDescription.Basic parseId(String id) {
+    logger.atFine().log("Parsing group %s", id);
+
     AccountGroup.UUID uuid = AccountGroup.uuid(id);
     if (groupBackend.handles(uuid)) {
+      logger.atFine().log("Group UUID %s is handled by a group backend", uuid.get());
       GroupDescription.Basic d = groupBackend.get(uuid);
       if (d != null) {
+        logger.atFine().log("Found group %s", d.getName());
         return d;
       }
     }
 
     // Might be a numeric AccountGroup.Id. -> Internal group.
     if (id.matches("^[1-9][0-9]*$")) {
+      logger.atFine().log("Group ID %s is a numeric ID", id);
       try {
         AccountGroup.Id groupId = AccountGroup.Id.parse(id);
         Optional<InternalGroup> group = groupCache.get(groupId);
         if (group.isPresent()) {
+          logger.atFine().log(
+              "Found internal group %s (UUID = %s)",
+              group.get().getName(), group.get().getGroupUUID().get());
           return new InternalGroupDescription(group.get());
         }
       } catch (IllegalArgumentException e) {
         // Ignored
+        logger.atFine().withCause(e).log("Parsing numeric group ID %s failed", id);
       }
     }
 
     // Might be a group name, be nice and accept unique names.
+    logger.atFine().log("Try finding a group with name %s", id);
     GroupReference ref = GroupBackends.findExactSuggestion(groupBackend, id);
     if (ref != null) {
       GroupDescription.Basic d = groupBackend.get(ref.getUUID());
       if (d != null) {
+        logger.atFine().log("Found group %s", d.getName());
         return d;
       }
     }
 
+    logger.atFine().log("Group %s not found", id);
     return null;
   }
 }

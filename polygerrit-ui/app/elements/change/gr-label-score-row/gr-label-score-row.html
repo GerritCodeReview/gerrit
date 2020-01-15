@@ -17,6 +17,7 @@ limitations under the License.
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../../styles/gr-voting-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -56,6 +57,9 @@ limitations under the License.
       }
       .buttonWrapper {
         flex: none;
+      }
+      gr-endpoint-decorator {
+        display: contents;
       }
       gr-button {
         min-width: 40px;
@@ -109,24 +113,26 @@ limitations under the License.
             as="value">
           <span class="placeholder" data-label$="[[label.name]]"></span>
         </template>
-        <iron-selector
-            id="labelSelector"
-            attr-for-selected="data-value"
-            selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
-            hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
-            on-selected-item-changed="_setSelectedValueText">
-          <template is="dom-repeat"
-              items="[[_items]]"
-              as="value">
-            <gr-button
-                class$="[[_computeButtonClass(value, index, _items.length)]]"
-                has-tooltip
-                data-name$="[[label.name]]"
-                data-value$="[[value]]"
-                title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
-              [[value]]</gr-button>
-          </template>
-        </iron-selector>
+        <gr-endpoint-decorator name$="[[_computeButtonsDecoratorName(label.name)]]">
+          <iron-selector
+              id="labelSelector"
+              attr-for-selected="data-value"
+              selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
+              hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
+              on-selected-item-changed="_setSelectedValueText">
+            <template is="dom-repeat"
+                items="[[_items]]"
+                as="value">
+              <gr-button
+                  class$="[[_computeButtonClass(value, index, _items.length)]]"
+                  has-tooltip
+                  data-name$="[[label.name]]"
+                  data-value$="[[value]]"
+                  title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
+                [[value]]</gr-button>
+            </template>
+          </iron-selector>
+        </gr-endpoint-decorator>
         <template is="dom-repeat"
             items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
             as="value">

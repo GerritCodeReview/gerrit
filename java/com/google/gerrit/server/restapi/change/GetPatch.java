@@ -136,7 +136,9 @@ public class GetPatch implements RestReadView<RevisionResource> {
       } finally {
         if (close) {
           rw.close();
-          bin.close();
+          if (bin != null) {
+            bin.close();
+          }
         }
       }
     } finally {

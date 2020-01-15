@@ -29,4 +29,4 @@ additional_languages:
 
 ts_config_rules:
   //tools/node_tools:tsconfigs
-  //polygerrit-ui/app/node_module_licenses:tsconfigs
+  //polygerrit-ui/app/node_modules_licenses:tsconfig_editor

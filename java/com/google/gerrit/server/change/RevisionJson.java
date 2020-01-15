@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
@@ -311,9 +312,13 @@ public class RevisionJson {
     }
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
-      out.files = fileInfoJson.toFileInfoMap(c, in);
-      out.files.remove(Patch.COMMIT_MSG);
-      out.files.remove(Patch.MERGE_LIST);
+      try {
+        out.files = fileInfoJson.toFileInfoMap(c, in);
+        out.files.remove(Patch.COMMIT_MSG);
+        out.files.remove(Patch.MERGE_LIST);
+      } catch (ResourceConflictException e) {
+        logger.atWarning().withCause(e).log("creating file list failed");
+      }
     }
 
     if (out.isCurrent && has(CURRENT_ACTIONS) && userProvider.get().isIdentifiedUser()) {

@@ -21,6 +21,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -30,6 +31,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
@@ -42,31 +45,44 @@ public class FileInfoJson {
   }
 
   public Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException {
+      throws ResourceConflictException, PatchListNotAvailableException {
     return toFileInfoMap(change, patchSet.commitId(), null);
   }
 
   public Map<String, FileInfo> toFileInfoMap(
       Change change, ObjectId objectId, @Nullable PatchSet base)
-      throws PatchListNotAvailableException {
+      throws ResourceConflictException, PatchListNotAvailableException {
     ObjectId a = base != null ? base.commitId() : null;
     return toFileInfoMap(change, PatchListKey.againstCommit(a, objectId, Whitespace.IGNORE_NONE));
   }
 
   public Map<String, FileInfo> toFileInfoMap(Change change, ObjectId objectId, int parent)
-      throws PatchListNotAvailableException {
+      throws ResourceConflictException, PatchListNotAvailableException {
     return toFileInfoMap(
         change, PatchListKey.againstParentNum(parent + 1, objectId, Whitespace.IGNORE_NONE));
   }
 
   private Map<String, FileInfo> toFileInfoMap(Change change, PatchListKey key)
-      throws PatchListNotAvailableException {
+      throws ResourceConflictException, PatchListNotAvailableException {
     return toFileInfoMap(change.getProject(), key);
   }
 
   public Map<String, FileInfo> toFileInfoMap(Project.NameKey project, PatchListKey key)
-      throws PatchListNotAvailableException {
-    PatchList list = patchListCache.get(key, project);
+      throws ResourceConflictException, PatchListNotAvailableException {
+    PatchList list;
+    try {
+      list = patchListCache.get(key, project);
+    } catch (PatchListNotAvailableException e) {
+      Throwable cause = e.getCause();
+      if (cause instanceof ExecutionException) {
+        cause = cause.getCause();
+      }
+      if (cause instanceof NoMergeBaseException) {
+        throw new ResourceConflictException(
+            String.format("Cannot create auto merge commit: %s", e.getMessage()), e);
+      }
+      throw e;
+    }
 
     Map<String, FileInfo> files = new TreeMap<>();
     for (PatchListEntry e : list.getPatches()) {

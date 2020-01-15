@@ -184,7 +184,8 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<EditInfo> apply(ChangeResource rsrc)
-        throws AuthException, IOException, ResourceNotFoundException, PermissionBackendException {
+        throws AuthException, IOException, ResourceNotFoundException, ResourceConflictException,
+            PermissionBackendException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       if (!edit.isPresent()) {
         return Response.none();

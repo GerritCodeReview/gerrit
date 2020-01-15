@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -86,7 +87,7 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
 
     @Override
     public Response<Map<String, FileInfo>> apply(CommitResource resource)
-        throws PatchListNotAvailableException {
+        throws ResourceConflictException, PatchListNotAvailableException {
       RevCommit commit = resource.getCommit();
       PatchListKey key;
 

@@ -34,8 +34,6 @@ public class InitModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(SitePaths.class);
-    bind(Libraries.class);
-    bind(LibraryDownloader.class);
     factory(Section.Factory.class);
     factory(VersionedAuthorizedKeysOnInit.Factory.class);
 

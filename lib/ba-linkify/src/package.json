@@ -1,0 +1,8 @@
+{
+  "name": "ba-linkify",
+  "version": "1.0.0",
+  "description": "See README.md",
+  "main": "ba-linkify.js",
+  "license": "MIT",
+  "private": true
+}

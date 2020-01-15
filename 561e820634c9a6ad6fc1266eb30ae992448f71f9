@@ -380,6 +380,30 @@
       "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "028371ad_048ac17f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-15T07:40:30Z",
+      "side": 1,
+      "message": "\u003e I think that perhaps if we had both a capability that could never be overridden,\n\u003e and a default that could, it would solve both cases?\n\nCapabilities are permissions and in my opinion no options should be allowed to bypass them. That is pretty unexpected. I would prefer if you implement the overridable default as something else. However to be honest this whole feature looks very intuitive to me (there is limit on server level, there may be a limit specified on the request, there may be a limit in the query, and then we ignore all those limits by setting an option). Can we submit this change and you follow-up with implementing the overridable default?",
+      "parentUuid": "4857e67a_66592fbd",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

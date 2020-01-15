@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebfe8031_f2a40072",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2023,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-15T09:18:09Z",
+      "side": 1,
+      "message": "With this change we change the semantics of CommentValidator by adding a guarantee that it is called exactly once per publish action. That, plus Brian\u0027s change of adding Change.Id and Project.NameKey to the interface gives us leeway to just use a CommentValidator for checking the size as well and leave this logic as-is. That has the benefit of \"size\" being just anther enforcement instead of a one-off.",
+      "range": {
+        "startLine": 2015,
+        "startChar": 0,
+        "endLine": 2023,
+        "endChar": 16
+      },
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7048d33_6723b26c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2028,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-15T09:18:09Z",
+      "side": 1,
+      "message": "nit: this is hard to read. If you add \"CommentForValidation forValidation\" to the Comment class, this can be a static method reference and the flow would be easier to follow.\n\ndrafts.stream().map(Comment::forValidation).collect(...)",
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bab984a4_a6f9a362",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2035,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-15T09:18:09Z",
+      "side": 1,
+      "message": "nit: the above logic could also just move into PublishCommentsUtil when you call it here with a list of comments. But fine either way.",
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "138f981c_497fa9ff",
+        "filename": "java/com/google/gerrit/server/git/validators/DefaultLimits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-15T09:18:09Z",
+      "side": 1,
+      "message": "If this is just a class holding magic numbers, then I\u0027d say no, because of readability. When you want to know what default value a gerrit.config has, you currently search the code for usages. Adding this class with magic numbers means adding one indirection to that lookup.\n\nI think there would be value in moving the calls to retrieve configs into a central spot. A pattern that we see in the code often is that a config (example: \"change.index.indexMergeable\" is used multiple times within the code base. Each of these calls is \u0027dumb\u0027 in that you always have to pass the default value and specify section, subsection and config name. I got this wrong myself multiple times when misspelling configs in one location in the past (though, there were always tests to back me up).\n\nSo we could think about moving these calls to a location and move the defaults along with them. WDYT?\n\nThis would be a larger cleanup that we\u0027d have to discuss more broadly before running with it.\n\nAs an additional benefit to this migration, we could then more easily look into generating config-gerrit-config.txt (the documentation) from that one class or adding a Linter that detects when docs were forgotten for a config.",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 49
+      },
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9a4b877_ea051391",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-15T09:18:09Z",
+      "side": 1,
+      "message": "Same as above: If the comment counting is done as CommentValidator, this becomes obsolete.",
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1461164e_79222988",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-15T09:18:09Z",
+      "side": 1,
+      "message": "nit: We try to do such code moving in separate commits to keep git blame cleaner in that it is easier to check the blame and see a line was modified by a commit that says \"Extract code into TestCommentHelper\" rather than a commit that says \"Limit number of comments\". The latter forces the caller to inspect the commit to check if it is the culprit of what they are searching for.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c6098c49_f66a758e",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-15T14:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1d94abb_113ccea0",
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f774c32c_809ac29b",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "62952d84cbae000522f62392eb0774502658469c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "032ecfb6_5c3c43d2",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-15T14:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f774c32c_809ac29b",
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "95b0a328_9c448bca",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-15T14:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5d1bd6e_4501305b",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 143,
+        "endChar": 18
+      },
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bbd66fa_54e031da",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 4
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "0ac76811_2714ad59",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-15T14:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bbd66fa_54e031da",
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fa3903_680000e0",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 4
@@ -90,6 +168,24 @@
       "revId": "62952d84cbae000522f62392eb0774502658469c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce5b18d8_dfa4e67d",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-15T14:47:17Z",
+      "side": 1,
+      "message": "personally I always do `iterative` instead of `recursive` as its more efficient and i found its more easy to read actually (debatable tho) while recursion can have tail call optimization but you will need to write it in that way, and sometimes it can be messy to write in that way.\n\n\u003e https://2ality.com/2015/06/tail-call-optimization.html",
+      "parentUuid": "44fa3903_680000e0",
+      "revId": "62952d84cbae000522f62392eb0774502658469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

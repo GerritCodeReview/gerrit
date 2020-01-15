@@ -45,9 +45,10 @@ limitations under the License.
     let element;
     let sandbox;
 
-    setup(() => {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      flush(done);
     });
 
     teardown(() => {
@@ -185,6 +186,69 @@ limitations under the License.
       test('Does not autocomplete with no match', done => {
         element._getSearchSuggestions('asdasdasdasd').then(s => {
           assert.equal(s.length, 0);
+          done();
+        });
+      });
+
+      test('Autocompltes without is:mergable when disabled', done => {
+        element._getSearchSuggestions('is:mergeab').then(s => {
+          assert.equal(s.length, 0);
+          done();
+        });
+      });
+    });
+
+    suite('when mergeabilityComputationBehavior is ALWAYS_COMPUTE', () => {
+      setup(done => {
+        stub('gr-rest-api-interface', {
+          getConfig() {
+            return Promise.resolve({
+              index: {
+                mergeabilityComputationBehavior: 'ALWAYS_COMPUTE',
+              },
+            });
+          },
+        });
+
+        element = fixture('basic');
+        flush(done);
+      });
+
+      test('Autocompltes with is:mergable when enabled', done => {
+        element._getSearchSuggestions('is:mergeab').then(s => {
+          assert.equal(s.length, 2);
+          assert.equal(s[0].name, 'is:mergeable');
+          assert.equal(s[0].value, 'is:mergeable');
+          assert.equal(s[1].name, '-is:mergeable');
+          assert.equal(s[1].value, '-is:mergeable');
+          done();
+        });
+      });
+    });
+
+    suite('when mergeability is COMPUTE_WHEN_INDEXING', () => {
+      setup(done => {
+        stub('gr-rest-api-interface', {
+          getConfig() {
+            return Promise.resolve({
+              index: {
+                mergeabilityComputationBehavior: 'COMPUTE_WHEN_INDEXING',
+              },
+            });
+          },
+        });
+
+        element = fixture('basic');
+        flush(done);
+      });
+
+      test('Autocompltes with is:mergable when enabled', done => {
+        element._getSearchSuggestions('is:mergeab').then(s => {
+          assert.equal(s.length, 2);
+          assert.equal(s[0].name, 'is:mergeable');
+          assert.equal(s[0].value, 'is:mergeable');
+          assert.equal(s[1].name, '-is:mergeable');
+          assert.equal(s[1].value, '-is:mergeable');
           done();
         });
       });

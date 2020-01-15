@@ -57,7 +57,6 @@
     'is:assigned',
     'is:closed',
     'is:ignored',
-    'is:mergeable',
     'is:merged',
     'is:open',
     'is:owner',
@@ -164,6 +163,21 @@
           value: 1,
         },
       };
+    }
+
+    attached() {
+      super.attached();
+      // fetch server config and add 'is:mergeable' if its enabled
+      this.$.restAPI.getConfig().then(serverConfig => {
+        if (serverConfig
+           && serverConfig.index
+           && serverConfig.index.change
+           && serverConfig.index.change.indexMergeable) {
+          // add 'is:mergeable' to SEARCH_OPERATORS_WITH_NEGATIONS
+          SEARCH_OPERATORS_WITH_NEGATIONS.push('is:mergeable');
+          SEARCH_OPERATORS_WITH_NEGATIONS.push('-is:mergeable');
+        }
+      });
     }
 
     keyboardShortcuts() {

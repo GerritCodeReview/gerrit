@@ -51,6 +51,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
+import org.eclipse.jgit.dircache.InvalidPathException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -243,13 +244,14 @@ public class ChangeEditModifier {
    * @param filePath the path of the file whose contents should be modified
    * @param newContent the new file content
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws BadRequestException if the user provided bad input (e.g. invalid file paths)
    * @throws InvalidChangeOperationException if the file already had the specified content
    * @throws PermissionBackendException
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void modifyFile(
       Repository repository, ChangeNotes notes, String filePath, RawInput newContent)
-      throws AuthException, InvalidChangeOperationException, IOException,
+      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     modifyTree(repository, notes, new ChangeFileContentModification(filePath, newContent));
   }
@@ -262,12 +264,13 @@ public class ChangeEditModifier {
    * @param notes the {@link ChangeNotes} of the change whose change edit should be modified
    * @param file path of the file which should be deleted
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws BadRequestException if the user provided bad input (e.g. invalid file paths)
    * @throws InvalidChangeOperationException if the file does not exist
    * @throws PermissionBackendException
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void deleteFile(Repository repository, ChangeNotes notes, String file)
-      throws AuthException, InvalidChangeOperationException, IOException,
+      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     modifyTree(repository, notes, new DeleteFileModification(file));
   }
@@ -281,6 +284,7 @@ public class ChangeEditModifier {
    * @param currentFilePath the current path/name of the file
    * @param newFilePath the desired path/name of the file
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws BadRequestException if the user provided bad input (e.g. invalid file paths)
    * @throws InvalidChangeOperationException if the file was already renamed to the specified new
    *     name
    * @throws PermissionBackendException
@@ -288,7 +292,7 @@ public class ChangeEditModifier {
    */
   public void renameFile(
       Repository repository, ChangeNotes notes, String currentFilePath, String newFilePath)
-      throws AuthException, InvalidChangeOperationException, IOException,
+      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     modifyTree(repository, notes, new RenameFileModification(currentFilePath, newFilePath));
   }
@@ -306,14 +310,14 @@ public class ChangeEditModifier {
    * @throws PermissionBackendException
    */
   public void restoreFile(Repository repository, ChangeNotes notes, String file)
-      throws AuthException, InvalidChangeOperationException, IOException,
+      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     modifyTree(repository, notes, new RestoreFileModification(file));
   }
 
   private void modifyTree(
       Repository repository, ChangeNotes notes, TreeModification treeModification)
-      throws AuthException, IOException, InvalidChangeOperationException,
+      throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
           PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
 
@@ -358,8 +362,8 @@ public class ChangeEditModifier {
       ChangeNotes notes,
       PatchSet patchSet,
       List<TreeModification> treeModifications)
-      throws AuthException, IOException, InvalidChangeOperationException, MergeConflictException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
+          MergeConflictException, PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
 
     Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(notes);
@@ -469,10 +473,15 @@ public class ChangeEditModifier {
 
   private static ObjectId createNewTree(
       Repository repository, RevCommit baseCommit, List<TreeModification> treeModifications)
-      throws IOException, InvalidChangeOperationException {
-    TreeCreator treeCreator = new TreeCreator(baseCommit);
-    treeCreator.addTreeModifications(treeModifications);
-    ObjectId newTreeId = treeCreator.createNewTreeAndGetId(repository);
+      throws BadRequestException, IOException, InvalidChangeOperationException {
+    ObjectId newTreeId;
+    try {
+      TreeCreator treeCreator = new TreeCreator(baseCommit);
+      treeCreator.addTreeModifications(treeModifications);
+      newTreeId = treeCreator.createNewTreeAndGetId(repository);
+    } catch (InvalidPathException e) {
+      throw new BadRequestException(e.getMessage());
+    }
 
     if (ObjectId.isEqual(newTreeId, baseCommit.getTree())) {
       throw new InvalidChangeOperationException("no changes were made");

@@ -16,6 +16,24 @@
       "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3be727ce_0bd03249",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-16T20:52:44Z",
+      "side": 1,
+      "message": "Done. I am also adding our UX designer to the change, so maybe Delphine can elaborate.",
+      "parentUuid": "aadbbde5_91285ff6",
+      "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

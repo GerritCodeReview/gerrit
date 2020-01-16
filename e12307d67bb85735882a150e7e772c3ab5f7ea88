@@ -16,6 +16,24 @@
       "revId": "e12307d67bb85735882a150e7e772c3ab5f7ea88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "052a7038_155882c9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1248,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-16T10:08:37Z",
+      "side": 1,
+      "message": "indexMergeable defaulted to \u0027true\u0027.",
+      "parentUuid": "b18ef292_0640b21b",
+      "revId": "e12307d67bb85735882a150e7e772c3ab5f7ea88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

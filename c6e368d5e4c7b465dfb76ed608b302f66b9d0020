@@ -16,6 +16,24 @@
       "revId": "c6e368d5e4c7b465dfb76ed608b302f66b9d0020",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07030a05_33464f09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-16T14:42:03Z",
+      "side": 1,
+      "message": "How were you able to narrow it down to this line?\n\nI ran the tests for this element and the gr-js-api-interface in an interactive test session and all tests worked fine. I also tried to run them locally with `npm run test` and it timed out. I checked out the current tip of the stable-2.16 branch and tried again, but it also timed out. So my local system may be somehow broken. That of course makes it hard to find out what is happening here.",
+      "parentUuid": "b47eceb6_059c5027",
+      "revId": "c6e368d5e4c7b465dfb76ed608b302f66b9d0020",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

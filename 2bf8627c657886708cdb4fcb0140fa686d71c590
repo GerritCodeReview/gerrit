@@ -16,6 +16,24 @@
       "revId": "2bf8627c657886708cdb4fcb0140fa686d71c590",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ca3057a_1e7b4504",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-16T10:39:46Z",
+      "side": 1,
+      "message": "Good point, the exception should be propagated.",
+      "parentUuid": "8e8becc9_c4a60714",
+      "revId": "2bf8627c657886708cdb4fcb0140fa686d71c590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

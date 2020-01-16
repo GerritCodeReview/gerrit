@@ -428,6 +428,30 @@
       "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6a3b07c_33aeffd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-16T08:01:45Z",
+      "side": 1,
+      "message": "There should be a quota for the number of requests that a user can do in a period of time (e.g. max queries per seconds). At Google we already have a custom solution for this. For upstream this is handled by the quota plugin (I think it\u0027s the RestApiRateLimiter [1] that does this, but maybe the quota plugin also needs to be extended).\n\n[1] https://gerrit.googlesource.com/plugins/quota/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/quota/RestApiRateLimiter.java",
+      "parentUuid": "ae6b77a7_7aa4c836",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

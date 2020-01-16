@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ff68505_e1aeddc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-16T21:41:55Z",
+      "side": 1,
+      "message": "Is it actually clear, that by saying from the change index, we also mean that we would shut down \"reindex of all open changes on ref updated event\"? \n\nOr should this be explicitly mentioned? This is actually the most expensive operation, for monorepo gerrit site with big number of opened changes.",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a93a435_63564aad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-16T21:41:55Z",
+      "side": 1,
+      "message": "There are another two related cleaning changes: [1], [2], that should be abandoned? It is second time, as all these related config options are changing, not to forget replacing of \"index.reindexAfterRefUpdate\" with \"index.change.indexMergeable\" in: [3].\n\nCan you document all this refactoring in release notes for upcoming release? May be use case oriented: 1. Mergeability computation on ref updated event for all open changes and individual change re-indexing, 2. Optimize gerrit performance by shutting down mergeability computation entirely, 3. Some states in between?\n\nIdeally, put the release notes update change in the same topic with this change.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/245794\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/245795\n* [3] https://gerrit-review.googlesource.com/c/gerrit/+/245181",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a46490d7_9191e9c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-16T21:41:55Z",
+      "side": 1,
+      "message": "I like the single enum idea. The config option already contains word \"Computation\", so I would just omit it. Moreover be more explicit what operations the enum values correspond? See below my suggestions.",
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d314fec6_b34d2009",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-16T21:41:55Z",
+      "side": 1,
+      "message": "REF_UPDATED_AND_CHANGE_REINDEX",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a877e58b_3048d7d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-16T21:41:55Z",
+      "side": 1,
+      "message": "CHANGE_REINDEX",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 25
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e8770c4_bdb15259",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-16T21:41:55Z",
+      "side": 1,
+      "message": "NEVER",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ac88f4_1611c351",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-16T21:41:55Z",
+      "side": 1,
+      "message": "Can you restore the statement: \"If true, Gerrit will reindex all open changes when the target ref advances.\" from the removed section \"index.change.indexMergeable\" below?",
+      "range": {
+        "startLine": 1228,
+        "startChar": 31,
+        "endLine": 1229,
+        "endChar": 28
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

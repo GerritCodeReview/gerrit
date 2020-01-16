@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5b9c4a64_7904b28f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4791,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-16T14:41:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6bc3b69_85460768",
+      "range": {
+        "startLine": 4791,
+        "startChar": 32,
+        "endLine": 4791,
+        "endChar": 37
+      },
+      "revId": "a40db1ac2ec625376d61b1e68feee1611df29c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65984fcb_b30413ed",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "a40db1ac2ec625376d61b1e68feee1611df29c18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c36fc1fa_7b3e15f9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4793,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-16T14:41:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65984fcb_b30413ed",
+      "revId": "a40db1ac2ec625376d61b1e68feee1611df29c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "a40db1ac2ec625376d61b1e68feee1611df29c18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6269f1a7_d9374e76",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-16T14:41:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0f12510_0759757f",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 204,
+        "endChar": 14
+      },
+      "revId": "a40db1ac2ec625376d61b1e68feee1611df29c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e8becc9_c4a60714",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-16T10:38:07Z",
+      "side": 1,
+      "message": "Is there any good reason why we catch and ignore exceptions here (I think we don\u0027t do this in any other place where this event is fired)?\n\nFiring this event currently always fails with a NullPointerException, because you pass in null for the approvals which is not expected by the implementation. This wasn\u0027t detected by the tests because the exception is caught and ignored here.",
+      "revId": "2bf8627c657886708cdb4fcb0140fa686d71c590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

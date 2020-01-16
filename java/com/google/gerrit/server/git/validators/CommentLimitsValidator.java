@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.validators;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -33,7 +34,7 @@ public class CommentLimitsValidator implements CommentValidator {
 
   @Override
   public ImmutableList<CommentValidationFailure> validateComments(
-      ImmutableList<CommentForValidation> comments) {
+      CommentValidationContext ctx, ImmutableList<CommentForValidation> comments) {
     return comments.stream()
         .filter(c -> c.getText().length() > maxCommentLength)
         .map(

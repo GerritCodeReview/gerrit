@@ -34,6 +34,24 @@
       "revId": "2bf8627c657886708cdb4fcb0140fa686d71c590",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cf3b666_b75aa0b1",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-16T11:46:20Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. Will fix it and upload a new change.",
+      "parentUuid": "3ca3057a_1e7b4504",
+      "revId": "2bf8627c657886708cdb4fcb0140fa686d71c590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

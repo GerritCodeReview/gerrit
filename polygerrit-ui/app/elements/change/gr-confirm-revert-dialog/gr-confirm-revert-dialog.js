@@ -66,6 +66,14 @@
         },
         change: Object,
         commitMessage: String,
+        _showErrorMessage: {
+          type: Boolean,
+          value: false,
+        },
+        _originalRevertMessages: {
+          type: Array,
+          value() { return []; },
+        },
       };
     }
 
@@ -116,6 +124,8 @@
           this._modifyRevertMsg(change, commitMessage,
               this.revertSingleChangeMessage);
       this.message = this.revertSingleChangeMessage;
+      this._originalRevertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE] =
+        this.message;
     }
 
     _getTrimmedChangeSubject(subject) {
@@ -150,10 +160,12 @@
       this.revertSubmissionMessage = this._modifyRevertSubmissionMsg(change);
       this.message = this.revertSubmissionMessage;
       this._revertType = REVERT_TYPES.REVERT_SUBMISSION;
+      this._originalRevertMessages[this._revertType] = this.message;
       this._showRevertSubmission = true;
     }
 
     _handleRevertSingleChangeClicked() {
+      this._showErrorMessage = false;
       if (this._revertType === REVERT_TYPES.REVERT_SINGLE_CHANGE) return;
       this.revertSubmissionMessage = this.message;
       this.message = this.revertSingleChangeMessage;
@@ -161,6 +173,7 @@
     }
 
     _handleRevertSubmissionClicked() {
+      this._showErrorMessage = false;
       if (this._revertType === REVERT_TYPES.REVERT_SUBMISSION) return;
       this._revertType = REVERT_TYPES.REVERT_SUBMISSION;
       this.revertSingleChangeMessage = this.message;
@@ -170,6 +183,10 @@
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
+      if (this.message === this._originalRevertMessages[this._revertType]) {
+        this._showErrorMessage = true;
+        return;
+      }
       this.fire('confirm', {revertType: this._revertType,
         message: this.message}, {bubbles: false});
     }

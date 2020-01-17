@@ -22,6 +22,7 @@ def gerrit_plugin(
         manifest_entries = [],
         dir_name = None,
         target_suffix = "",
+        deploy_env = [],
         **kwargs):
     java_library(
         name = name + "__plugin",
@@ -47,6 +48,7 @@ def gerrit_plugin(
         runtime_deps = [
             ":%s__plugin" % name,
         ] + static_jars,
+        deploy_env = deploy_env,
         visibility = ["//visibility:public"],
         **kwargs
     )

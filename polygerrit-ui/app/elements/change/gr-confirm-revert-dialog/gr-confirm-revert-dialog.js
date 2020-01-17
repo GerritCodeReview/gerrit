@@ -51,7 +51,9 @@
 
     static get properties() {
       return {
-        message: String,
+        /* The revert message updated by the user
+        The default value is set by the dialog */
+        _message: String,
         _revertType: {
           type: Number,
           value: REVERT_TYPES.REVERT_SINGLE_CHANGE,
@@ -60,12 +62,31 @@
           type: Boolean,
           value: false,
         },
+        /* List of changes with the same topic
+        value is empty if only a single change is being reverted */
         changes: {
           type: Array,
           value() { return []; },
         },
         change: Object,
+        /* commit message is _latestCommitMessage coming from gr-change-view
+        read only and is not meant to be modified */
         commitMessage: String,
+        _showErrorMessage: {
+          type: Boolean,
+          value: false,
+        },
+        /* store the default revert messages per revert type so that we can
+        check if user has edited the revert message or not */
+        _originalRevertMessages: {
+          type: Array,
+          value() { return []; },
+        },
+        // Store the actual messages that the user has edited
+        _revertMessages: {
+          type: Array,
+          value() { return []; },
+        },
       };
     }
 
@@ -90,6 +111,7 @@
 
     onInputUpdate(change, commitMessage, changes) {
       if (!change || !changes) return;
+      // The option to revert a single change is always available
       this._populateRevertSingleChangeMessage(
           change, commitMessage, change.current_revision);
       if (changes.length > 1) {
@@ -108,14 +130,16 @@
       }
       const revertCommitText = `This reverts commit ${commitHash}.`;
 
-      this.revertSingleChangeMessage =
+      this._revertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE] =
           `${revertTitle}\n\n${revertCommitText}\n\n` +
           `Reason for revert: <INSERT REASONING HERE>\n`;
       // This is to give plugins a chance to update message
-      this.revertSingleChangeMessage =
+      this._revertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE] =
           this._modifyRevertMsg(change, commitMessage,
-              this.revertSingleChangeMessage);
-      this.message = this.revertSingleChangeMessage;
+              this._revertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE]);
+      this._message = this._revertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE];
+      this._originalRevertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE] =
+        this._message;
     }
 
     _getTrimmedChangeSubject(subject) {
@@ -126,7 +150,8 @@
 
     _modifyRevertSubmissionMsg(change) {
       return this.$.jsAPI.modifyRevertSubmissionMsg(change,
-          this.revertSubmissionMessage, this.commitMessage);
+          this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION],
+          this.commitMessage);
     }
 
     _populateRevertSubmissionMessage(change, changes) {
@@ -140,38 +165,46 @@
       const submissionId = change.submission_id;
       const revertTitle = 'Revert submission ' + submissionId;
       this.changes = changes;
-      this.revertSubmissionMessage = revertTitle + '\n\n' +
-          'Reason for revert: <INSERT REASONING HERE>\n';
-      this.revertSubmissionMessage += 'Reverted Changes:\n';
+      this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION] = revertTitle +
+        '\n\n' + 'Reason for revert: <INSERT REASONING HERE>\n';
+      this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION] +=
+        'Reverted Changes:\n';
       changes.forEach(change => {
-        this.revertSubmissionMessage += change.change_id.substring(0, 10) + ':'
+        this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION] +=
+          change.change_id.substring(0, 10) + ':'
           + this._getTrimmedChangeSubject(change.subject) + '\n';
       });
-      this.revertSubmissionMessage = this._modifyRevertSubmissionMsg(change);
-      this.message = this.revertSubmissionMessage;
+      this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION] =
+      this._modifyRevertSubmissionMsg(change);
+      this._message = this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION];
       this._revertType = REVERT_TYPES.REVERT_SUBMISSION;
+      this._originalRevertMessages[this._revertType] = this._message;
       this._showRevertSubmission = true;
     }
 
     _handleRevertSingleChangeClicked() {
-      if (this._revertType === REVERT_TYPES.REVERT_SINGLE_CHANGE) return;
-      this.revertSubmissionMessage = this.message;
-      this.message = this.revertSingleChangeMessage;
+      this._showErrorMessage = false;
+      this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION] = this._message;
+      this._message = this._revertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE];
       this._revertType = REVERT_TYPES.REVERT_SINGLE_CHANGE;
     }
 
     _handleRevertSubmissionClicked() {
-      if (this._revertType === REVERT_TYPES.REVERT_SUBMISSION) return;
+      this._showErrorMessage = false;
       this._revertType = REVERT_TYPES.REVERT_SUBMISSION;
-      this.revertSingleChangeMessage = this.message;
-      this.message = this.revertSubmissionMessage;
+      this._revertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE] = this._message;
+      this._message = this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION];
     }
 
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
+      if (this._message === this._originalRevertMessages[this._revertType]) {
+        this._showErrorMessage = true;
+        return;
+      }
       this.fire('confirm', {revertType: this._revertType,
-        message: this.message}, {bubbles: false});
+        message: this._message}, {bubbles: false});
     }
 
     _handleCancelTap(e) {

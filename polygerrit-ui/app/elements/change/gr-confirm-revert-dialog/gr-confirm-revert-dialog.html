@@ -51,13 +51,22 @@ limitations under the License.
         line-height: var(--line-height-mono);
         width: 73ch; /* Add a char to account for the border. */
       }
+      .error {
+        color: var(--error-text-color);
+        margin-bottom: var(--spacing-m);
+      }
     </style>
     <gr-dialog
         confirm-label="Revert"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
-      <div class="header" slot="header">Revert Merged Change</div>
+      <div class="header" slot="header">
+        Revert Merged Change
+      </div>
       <div class="main" slot="main">
+        <div class="error" hidden$="[[!_showErrorMessage]]">
+          <span> A reason is required </span>
+        </div>
         <div class="revertSubmissionLayout">
           <input
             name="revertOptions"
@@ -70,11 +79,12 @@ limitations under the License.
           </label>
         </div>
         <template is="dom-if" if="[[_showRevertSubmission]]">
-          <div on-click="_handleRevertSubmissionClicked" class="revertSubmissionLayout">
+          <div class="revertSubmissionLayout">
             <input
               name="revertOptions"
               type="radio"
               id="revertSubmission"
+              on-change="_handleRevertSubmissionClicked"
               checked="[[_computeIfRevertSubmission(_revertType)]]">
             <label for="revertSubmission" class="label revertSubmission">
               Revert entire submission ([[changes.length]] Changes)
@@ -93,7 +103,7 @@ limitations under the License.
               class="message"
               autocomplete="on"
               max-rows="15"
-              bind-value="{{message}}"></iron-autogrow-textarea>
+              bind-value="{{_message}}"></iron-autogrow-textarea>
           </template>
         </gr-endpoint-decorator>
         <template is="dom-if" if="[[_computeIfRevertSubmission(_revertType)]]">
@@ -105,7 +115,7 @@ limitations under the License.
               class="message"
               autocomplete="on"
               max-rows="15"
-              bind-value="{{message}}"></iron-autogrow-textarea>
+              bind-value="{{_message}}"></iron-autogrow-textarea>
         </template>
       </div>
     </gr-dialog>

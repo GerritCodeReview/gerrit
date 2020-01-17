@@ -347,6 +347,28 @@ suite('gr-edit-controls tests', () => {
         });
   });
 
+  test('openOpenDialog path whitespace', done => {
+    element.openOpenDialog('  test/path.cpp')
+        .then(() => {
+          assert.isFalse(element.$.openDialog.hasAttribute('hidden'));
+          assert.equal(
+              element.$.openDialog.querySelector('gr-autocomplete').text,
+              'test/path.cpp');
+          done();
+        });
+  });
+
+  test('openOpenDialog path 2 word file', done => {
+    element.openOpenDialog('test/path path.cpp')
+        .then(() => {
+          assert.isFalse(element.$.openDialog.hasAttribute('hidden'));
+          assert.equal(
+              element.$.openDialog.querySelector('gr-autocomplete').text,
+              'test/path path.cpp');
+          done();
+        });
+  });
+
   test('_getDialogFromEvent', () => {
     const spy = sandbox.spy(element, '_getDialogFromEvent');
     element.addEventListener('tap', element._getDialogFromEvent);

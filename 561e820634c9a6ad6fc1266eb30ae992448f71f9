@@ -500,6 +500,30 @@
       "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc3fa209_425e2355",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-17T16:32:59Z",
+      "side": 1,
+      "message": "Now that I think we at least understand the issue, I can explain a completely different point of view. The feature does not work as a capability since it does not prevent normal users from doing something special. This \"capability\" is actually nothing more than a \"default\". So the bug is not that it can be overridden, but rather that the capability feature of gerrit is being abused to make a default configurable. In my opinion, it would be better to remove this capability outright than to pretend that it provides admins with a useful mechanism to protect their servers.",
+      "parentUuid": "3a2c8cdb_f131503b",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

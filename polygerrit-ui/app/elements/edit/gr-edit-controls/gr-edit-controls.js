@@ -88,7 +88,7 @@
      * @param {string=} opt_path
      */
     openOpenDialog(opt_path) {
-      if (opt_path) { this._path = opt_path; }
+      if (opt_path) { this._path = opt_path.trim(); }
       return this._showDialog(this.$.openDialog);
     }
 
@@ -96,7 +96,7 @@
      * @param {string=} opt_path
      */
     openDeleteDialog(opt_path) {
-      if (opt_path) { this._path = opt_path; }
+      if (opt_path) { this._path = opt_path.trim(); }
       return this._showDialog(this.$.deleteDialog);
     }
 
@@ -104,7 +104,7 @@
      * @param {string=} opt_path
      */
     openRenameDialog(opt_path) {
-      if (opt_path) { this._path = opt_path; }
+      if (opt_path) { this._path = opt_path.trim(); }
       return this._showDialog(this.$.renameDialog);
     }
 
@@ -112,7 +112,7 @@
      * @param {string=} opt_path
      */
     openRestoreDialog(opt_path) {
-      if (opt_path) { this._path = opt_path; }
+      if (opt_path) { this._path = opt_path.trim(); }
       return this._showDialog(this.$.restoreDialog);
     }
 

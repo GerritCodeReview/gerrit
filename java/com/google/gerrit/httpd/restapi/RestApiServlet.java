@@ -678,17 +678,25 @@ public class RestApiServlet extends HttpServlet {
         cause = Optional.of(e);
         statusCode = SC_INTERNAL_SERVER_ERROR;
 
+        Optional<ExceptionHook.Status> status = getStatus(e);
+        statusCode = status.map(ExceptionHook.Status::statusCode).orElse(SC_INTERNAL_SERVER_ERROR);
+
         if (res.isCommitted()) {
-          logger.atSevere().withCause(e).log(
-              "Error in %s %s, response already committed", req.getMethod(), uriForLogging(req));
           responseBytes = 0;
+          if (statusCode == SC_INTERNAL_SERVER_ERROR) {
+            logger.atSevere().withCause(e).log(
+                "Error in %s %s, response already committed with status %d",
+                req.getMethod(), uriForLogging(req), res.getStatus());
+          } else {
+            logger.atWarning().log(
+                "Response for %s %s already committed with status %d, wanted to set status %d",
+                req.getMethod(), uriForLogging(req), res.getStatus(), statusCode);
+          }
         } else {
           res.reset();
           traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
 
-          Optional<ExceptionHook.Status> status = getStatus(e);
           if (status.isPresent()) {
-            statusCode = status.get().statusCode();
             responseBytes = reply(req, res, e, status.get(), getUserMessages(traceContext, e));
           }
           responseBytes = replyInternalServerError(req, res, e, getUserMessages(traceContext, e));

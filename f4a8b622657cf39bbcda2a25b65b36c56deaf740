@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d98039e_e0944681",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-17T13:59:32Z",
+      "side": 1,
+      "message": "Could you please add short explanation, why this is done only in frontend? (I.e. usually all validations must be repeated in backend to prevent vulnerability)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "f4a8b622657cf39bbcda2a25b65b36c56deaf740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "434b7e68_b48fc897",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-17T13:59:32Z",
+      "side": 1,
+      "message": "Could you please add another test case for revert submission ?",
+      "range": {
+        "startLine": 883,
+        "startChar": 8,
+        "endLine": 883,
+        "endChar": 12
+      },
+      "revId": "f4a8b622657cf39bbcda2a25b65b36c56deaf740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8922db18_eab33d33",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-17T13:59:32Z",
+      "side": 1,
+      "message": "May be rename to _originalRevertMessages (beacause this is an array)",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 30
+      },
+      "revId": "f4a8b622657cf39bbcda2a25b65b36c56deaf740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8cda06d_ff81a311",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-17T13:59:32Z",
+      "side": 1,
+      "message": "_populateRevertSingleChangeMessage does 2 things:\n1) Calculates default text for single change\n2) Set up \u0027message\u0027 property\n\n_populateRevertSubmissionMessage does 3 things:\n1) Calculates default text for submission\n2) Sets up \u0027message\u0027 property\n3) Updates _revertType and _showRevertSubmission\n\nIt would be good to split calculation (first steps) from setting other properties.",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "f4a8b622657cf39bbcda2a25b65b36c56deaf740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ace0a61_bd639b97",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-17T13:59:32Z",
+      "side": 1,
+      "message": "I see 2 different approaches here for similar task:\n1) To keep messages written by user, there are 2 variables: revertSubmissionMessage and revertSingleChangeMessage\n2) To keep original messages the _originalRevertMessage array is used.\n\nWhat do you think about unifying it (for example, introduce second array _userRevertMessages where key is a rever type)?",
+      "range": {
+        "startLine": 170,
+        "startChar": 11,
+        "endLine": 170,
+        "endChar": 34
+      },
+      "revId": "f4a8b622657cf39bbcda2a25b65b36c56deaf740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

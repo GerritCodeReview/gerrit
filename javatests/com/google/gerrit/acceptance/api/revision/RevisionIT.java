@@ -1325,19 +1325,19 @@ public class RevisionIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("foo");
     assertDescription(r, "foo");
     assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
-        .isEqualTo("Description set to \"foo\"");
+        .isEqualTo("Description of patch set 1 set to \"foo\"");
 
     // update description
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("bar");
     assertDescription(r, "bar");
     assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
-        .isEqualTo("Description changed to \"bar\"");
+        .isEqualTo("Description of patch set 1 changed to \"bar\"");
 
     // remove description
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("");
     assertDescription(r, "");
     assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
-        .isEqualTo("Description \"bar\" removed");
+        .isEqualTo("Description \"bar\" removed from patch set 1");
   }
 
   @Test

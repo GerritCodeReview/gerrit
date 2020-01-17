@@ -22,6 +22,30 @@
       "revId": "c30a1c21ebfe7a468c48d248f1a22d82017641af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "851d95fd_59ccc2c9",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-17T18:20:04Z",
+      "side": 1,
+      "message": "Compute it, and then compare against the value provided on Central:\n\n  $ wget https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/guava/2.8.1/guava-2.8.1.jar\n  2020-01-17 19:13:03 (2.19 MB/s) - ‘guava-2.8.1.jar’ saved [21003/21003]\n\n  $ sha256sum guava-2.8.1.jar\n  25da1aee744e477c015b78fe6e015a8795ff91cd9d58be20dfa30b99c0d05ad0  guava-2.8.1.jar\n\nCompare it with the value provided on Central:\n\n  $ wget https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/guava/2.8.1/guava-2.8.1.jar.sha256\n  2020-01-17 19:17:42 (5.38 MB/s) - ‘guava-2.8.1.jar.sha256’ saved [64/64]\n\n  $ cat guava-2.8.1.jar.sha256\n  25da1aee744e477c015b78fe6e015a8795ff91cd9d58be20dfa30b99c0d05ad0",
+      "parentUuid": "3ca94b57_58037399",
+      "range": {
+        "startLine": 310,
+        "startChar": 14,
+        "endLine": 310,
+        "endChar": 78
+      },
+      "revId": "c30a1c21ebfe7a468c48d248f1a22d82017641af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

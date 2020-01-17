@@ -16,6 +16,24 @@
       "revId": "7d800b5ac3b5a3e07e0eed0575a4bf0f22ffafab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "641a636a_6e73a866",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-01-17T12:38:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2916705b_7015c354",
+      "revId": "7d800b5ac3b5a3e07e0eed0575a4bf0f22ffafab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

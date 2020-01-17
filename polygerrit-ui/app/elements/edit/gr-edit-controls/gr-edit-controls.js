@@ -88,7 +88,7 @@
      * @param {string=} opt_path
      */
     openOpenDialog(opt_path) {
-      if (opt_path) { this._path = opt_path; }
+      if (opt_path) { this._path = opt_path.trim(); }
       return this._showDialog(this.$.openDialog);
     }
 
@@ -96,7 +96,7 @@
      * @param {string=} opt_path
      */
     openDeleteDialog(opt_path) {
-      if (opt_path) { this._path = opt_path; }
+      if (opt_path) { this._path = opt_path.trim(); }
       return this._showDialog(this.$.deleteDialog);
     }
 
@@ -104,7 +104,7 @@
      * @param {string=} opt_path
      */
     openRenameDialog(opt_path) {
-      if (opt_path) { this._path = opt_path; }
+      if (opt_path) { this._path = opt_path.trim(); }
       return this._showDialog(this.$.renameDialog);
     }
 
@@ -112,7 +112,7 @@
      * @param {string=} opt_path
      */
     openRestoreDialog(opt_path) {
-      if (opt_path) { this._path = opt_path; }
+      if (opt_path) { this._path = opt_path.trim(); }
       return this._showDialog(this.$.restoreDialog);
     }
 
@@ -190,7 +190,7 @@
     }
 
     _handleOpenConfirm(e) {
-      const url = Gerrit.Nav.getEditUrlForDiff(this.change, this._path,
+      const url = Gerrit.Nav.getEditUrlForDiff(this.change, this._path.trim(),
           this.patchNum);
       Gerrit.Nav.navigateToRelativeUrl(url);
       this._closeDialog(this._getDialogFromEvent(e), true);
@@ -200,28 +200,28 @@
       // Get the dialog before the api call as the event will change during bubbling
       // which will make Polymer.dom(e).path an emtpy array in polymer 2
       const dialog = this._getDialogFromEvent(e);
-      this.$.restAPI.deleteFileInChangeEdit(this.change._number, this._path)
-          .then(res => {
-            if (!res.ok) { return; }
-            this._closeDialog(dialog, true);
-            Gerrit.Nav.navigateToChange(this.change);
-          });
+      this.$.restAPI.deleteFileInChangeEdit(this.change._number,
+          this._path.trim()).then(res => {
+        if (!res.ok) { return; }
+        this._closeDialog(dialog, true);
+        Gerrit.Nav.navigateToChange(this.change);
+      });
     }
 
     _handleRestoreConfirm(e) {
       const dialog = this._getDialogFromEvent(e);
-      this.$.restAPI.restoreFileInChangeEdit(this.change._number, this._path)
-          .then(res => {
-            if (!res.ok) { return; }
-            this._closeDialog(dialog, true);
-            Gerrit.Nav.navigateToChange(this.change);
-          });
+      this.$.restAPI.restoreFileInChangeEdit(this.change._number,
+          this._path.trim()).then(res => {
+        if (!res.ok) { return; }
+        this._closeDialog(dialog, true);
+        Gerrit.Nav.navigateToChange(this.change);
+      });
     }
 
     _handleRenameConfirm(e) {
       const dialog = this._getDialogFromEvent(e);
       return this.$.restAPI.renameFileInChangeEdit(this.change._number,
-          this._path, this._newPath).then(res => {
+          this._path.trim(), this._newPath.trim()).then(res => {
         if (!res.ok) { return; }
         this._closeDialog(dialog, true);
         Gerrit.Nav.navigateToChange(this.change);

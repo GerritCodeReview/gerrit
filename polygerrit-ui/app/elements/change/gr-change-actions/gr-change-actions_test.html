@@ -880,6 +880,25 @@ limitations under the License.
           });
         });
 
+        test('submit fails if message is not edited', done => {
+          const revertButton = element.shadowRoot
+              .querySelector('gr-button[data-action-key="revert"]');
+          const confirmRevertDialog = element.$.confirmRevertDialog;
+          MockInteractions.tap(revertButton);
+          const fireStub = sandbox.stub(confirmRevertDialog, 'fire');
+          flush(() => {
+            const confirmButton = element.$.confirmRevertDialog.shadowRoot
+                .querySelector('gr-dialog')
+                .shadowRoot.querySelector('#confirm');
+            MockInteractions.tap(confirmButton);
+            flush(() => {
+              assert.isTrue(confirmRevertDialog._showErrorMessage);
+              assert.isFalse(fireStub.called);
+              done();
+            });
+          });
+        });
+
         test('message modification is retained on switching', done => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
@@ -945,6 +964,8 @@ limitations under the License.
               + 'This reverts commit 2000.\n\nReason '
               + 'for revert: <INSERT REASONING HERE>\n';
             assert.equal(confirmRevertDialog.message, msg);
+            const editedMsg = msg + 'hello';
+            confirmRevertDialog.message += 'hello';
             const confirmButton = element.$.confirmRevertDialog.shadowRoot
                 .querySelector('gr-dialog')
                 .shadowRoot.querySelector('#confirm');
@@ -952,7 +973,8 @@ limitations under the License.
             flush(() => {
               assert.equal(fireActionStub.getCall(0).args[0], '/revert');
               assert.equal(fireActionStub.getCall(0).args[1].__key, 'revert');
-              assert.equal(fireActionStub.getCall(0).args[3].message, msg);
+              assert.equal(fireActionStub.getCall(0).args[3].message,
+                  editedMsg);
               done();
             });
           });

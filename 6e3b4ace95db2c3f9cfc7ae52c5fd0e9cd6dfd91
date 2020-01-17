@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "18acf8d5_bacfd551",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2023,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-17T16:10:01Z",
+      "side": 1,
+      "message": "Of course, thanks for pointing this out, makes for much clearer code.",
+      "parentUuid": "ebfe8031_f2a40072",
+      "range": {
+        "startLine": 2015,
+        "startChar": 0,
+        "endLine": 2023,
+        "endChar": 16
+      },
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e7048d33_6723b26c",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 11
@@ -36,6 +60,24 @@
       "writtenOn": "2020-01-15T09:18:09Z",
       "side": 1,
       "message": "nit: this is hard to read. If you add \"CommentForValidation forValidation\" to the Comment class, this can be a static method reference and the flow would be easier to follow.\n\ndrafts.stream().map(Comment::forValidation).collect(...)",
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45e2ab1e_bc49e222",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2028,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-17T16:10:01Z",
+      "side": 1,
+      "message": "That would only work for comments with a line number, which doesn\u0027t apply to the change message. Having a creator method for some cases but not for others would IMHO be more confusing than the explicit code below.",
+      "parentUuid": "e7048d33_6723b26c",
       "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -96,6 +138,24 @@
       "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cc49530_9e9443cc",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-17T16:10:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9a4b877_ea051391",
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

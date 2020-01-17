@@ -2,6 +2,286 @@
   "comments": [
     {
       "key": {
+        "uuid": "afbf164d_ef8824b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "nit: you can use the first part of the IHash to have a more readable link here: I6f7b65828b\n\nGerrit links I-Hash automatically",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d95669cb_c997eec6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "nit: remove",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 13,
+        "endChar": 59
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "422aa61a_83faf9b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "Mention that this also kept the history of comments by the virtue of keeping the history of commits on the refs because updates to these refs were made using fast-forward transactions.",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e953b4db_a4948d8b",
+        "filename": "java/com/google/gerrit/pgm/DeleteDeadDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "Unfortunately, this name is configurable. Hence we can\u0027t statically reference All-Users, but have to load this from configs.\n\nYou can look at Reindex.java which is a site program that gets Gerrit\u0027s config injected. It mingles with injectors a bit around l.85. If you apply a similar concept here, you can add @Inject to the constructor of DeleteDeadDraftComments and get all the things injected there directly without the need to explicitly pass in parameters. That will make the class easier to re-use in other places as well.\n\nHere you can then just do:\n\ninjector.getInstance(DeleteDeadDraftCommentsRefs.class)",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98cfb7d2_dafc150a",
+        "filename": "java/com/google/gerrit/pgm/DeleteDeadDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "Just call RepositoryManager#openRepository. That does the same and throws a RepoNotFoundException",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "924f5f30_902df331",
+        "filename": "java/com/google/gerrit/pgm/DeleteDeadDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "Reindex has a very similar method. Can we share code through SiteProgram?",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9339a81d_494afe96",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "No need to modify this class. Please see my comment in tests.",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a45a869_8ea3c3fb",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "nit: DeleteZombieCommentRefs :-)",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a27aff03_8f7de92d",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "nit: Please use JavaDoc linking by applying \u003ca\u003e tags.",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 4
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07d4eb7_75502d1d",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "@Inject\nDeletedDeadDraftCommentsRefs(AllUsersName allUsers, RepoManager ....)",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40a2d428_33525075",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_DRAFT_COMMENTS);\n\nThis is better because RefDatabase has a sorted list of refs and providing a prefix will allow it to skip fast over uninteresting parts. The stream-based filtering further down can be removed then.",
+      "range": {
+        "startLine": 45,
+        "startChar": 29,
+        "endLine": 45,
+        "endChar": 62
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb5c5dbb_c681fdd8",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "nit: use RefUpdateUtil#deleteChecked",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83c05ed3_804fadda",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "Please propagate this exception. It means that you have to rewrite l.52 to be a loop instead of a lamda.\n\nIt would be nice if this would log some sort of progress so that the admin knows how much is still left (Reindex does that for example).",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80a71337_cce0f72f",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "Please use Mockito as EasyMock is deprecated in case you need mocks.\n\nBut in this case it seems that you don\u0027t mock anything? If so, you can just remove this and add @RunWith(JUnit4.class) before the class or have it inherit from GerritBaseTests.",
+      "range": {
+        "startLine": 42,
+        "startChar": 53,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ca094b4_2d9d8e0e",
         "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
         "patchSetId": 4
@@ -18,6 +298,76 @@
         "startChar": 10,
         "endLine": 43,
         "endChar": 36
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e346890_cfe0adbe",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "It\u0027s enough for a unit-test. I would use an InMemoryRepositoryManager because it\u0027s faster and doesn\u0027t rely on tmp-fs (\u003dobsoletes the setUp you have in l.46).",
+      "parentUuid": "8ca094b4_2d9d8e0e",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e61e889d_4781b8ab",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "nit: use a correct ref name. refs/draft-comments/12/10012/1001 (change + account is added).",
+      "range": {
+        "startLine": 76,
+        "startChar": 66,
+        "endLine": 76,
+        "endChar": 70
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "608a578b_865bc561",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-17T16:06:59Z",
+      "side": 1,
+      "message": "nit: this method does not add any value (and makes the code harder to read).",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 3
       },
       "revId": "795876598ebf09d775fb5713c7670635163e6618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -70,6 +70,30 @@
       "revId": "c30a1c21ebfe7a468c48d248f1a22d82017641af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b24bf4f6_a9561526",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-17T20:19:41Z",
+      "side": 1,
+      "message": "Note, that SHA256 must always be updated in http_file(). Unfortunately, the rule is broken. Consider the patch set 1 of this change, where you have updated the file name but missed to bump the hash value.\n\nIf you build that patch set and investigate the final artifact, you could see, that even though the file name look sane:\n\n  $ bazel build :headless\n  bazel-bin/headless.war\n\n  $ unzip -t bazel-bin/headless.war | grep caffeine\n    testing: WEB-INF/lib/caffeine-guava-2.8.1.jar   OK\n    testing: WEB-INF/lib/caffeine-2.8.1.jar   OK\n\nIt\u0027s actually broken! Why? Because the content of the file WEB-INF/lib/caffeine-guava-2.8.1.jar is still outdated file caffeine-guava-2.8.0.jar. Why it is so? Because the algorithm in bazel is broken. It\u0027s cached with SHA256 only. The original file 2.8.0 is retrieved and delivered.\n\nYou can see this, it if you extract the files and compute the SHA256/SHA1 and compare with the ones provided on Central:\n\n  $ mkdir junk\n  $ cd junk\n  $ unzip -q ../bazel-bin/headless.war\n  $ cd WEB-INF/lib\n  $ sha256sum caffeine-guava-2.8.1.jar\n  3a66ee3ec70971dee0bae6e56bda7b8742bc4bedd7489161bfbbaaf7137d89e1  caffeine-guava-2.8.1.jar\n  $ sha1sum caffeine-guava-2.8.1.jar\n  e3cf0d6629b64706041cffe9de5b1dadab2fec4e  caffeine-guava-2.8.1.jar\n\nHowever, if you download the right file:\n\n  $  wget https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/guava/2.8.1/guava-2.8.1.jar\n  --2020-01-17 21:09:17--  https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/guava/2.8.1/guava-2.8.1.jar\n\nAnd compute its hash it can be seen, that it is a different file:\n\n  $ sha256sum guava-2.8.1.jar\n  25da1aee744e477c015b78fe6e015a8795ff91cd9d58be20dfa30b99c0d05ad0  guava-2.8.1.jar\n  $ sha1sum guava-2.8.1.jar\n  8f65aae2c69dc83f616ae64bbeaeb32ddb429782  guava-2.8.1.jar",
+      "parentUuid": "ce498429_413cd112",
+      "range": {
+        "startLine": 310,
+        "startChar": 14,
+        "endLine": 310,
+        "endChar": 78
+      },
+      "revId": "c30a1c21ebfe7a468c48d248f1a22d82017641af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

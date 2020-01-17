@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bfb408a_d84190c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-17T08:59:07Z",
+      "side": 1,
+      "message": "Please use the \u0027reply-label-scores\u0027 ednpoint:\nhttps://gerrit.googlesource.com/gerrit/+/24162a7c6830b07d691f61050d83e3e654fbb739/polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html#241\n\nFWIW I would suggest either not messing with the buttons or filing a feature request.",
+      "revId": "5b43752bf68b9f350be42a4f2690b68bf7622bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ca94b57_58037399",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-17T17:06:32Z",
+      "side": 1,
+      "message": "Not sure if or how this other sha should be updated.",
+      "range": {
+        "startLine": 310,
+        "startChar": 14,
+        "endLine": 310,
+        "endChar": 78
+      },
+      "revId": "c30a1c21ebfe7a468c48d248f1a22d82017641af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

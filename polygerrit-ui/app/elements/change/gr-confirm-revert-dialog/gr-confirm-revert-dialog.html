@@ -51,13 +51,22 @@ limitations under the License.
         line-height: var(--line-height-mono);
         width: 73ch; /* Add a char to account for the border. */
       }
+      .error {
+        color: var(--error-text-color);
+        margin-bottom: var(--spacing-m);
+      }
     </style>
     <gr-dialog
         confirm-label="Revert"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
-      <div class="header" slot="header">Revert Merged Change</div>
+      <div class="header" slot="header">
+        Revert Merged Change
+      </div>
       <div class="main" slot="main">
+        <div class="error" hidden$="[[!_showErrorMessage]]">
+          <span> A reason is required </span>
+        </div>
         <div class="revertSubmissionLayout">
           <input
             name="revertOptions"

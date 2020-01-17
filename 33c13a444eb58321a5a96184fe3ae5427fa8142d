@@ -70,6 +70,23 @@
       "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7023787e_1e410b7b",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-17T17:19:11Z",
+      "side": 1,
+      "message": "Would it make more sense to name this something like:\n\n label.Label-Name.copyValueOnUpload\n\nThe reason I am also suggesting to add the on\u003caction\u003e part is so that we can leave room for eventually adding the likes of:\n\n label.Label-Name.copyValueOnMove  For being able to specify what votes to carry along when moving the change to a different branch.\n\nI also envision that we might eventually want these variants:\n\n label.Label-Name.copyValueOnUploadIfNoChange\n\n label.Label-Name.copyValueOnUploadIfNoCodeChange\n\n label.Label-Name.copyValueOnUploadIfTrivialRebase\n\n    (Note: I changed the OnTrivialRebase to IfTrivialRebase here because I think its better to use \"on\" for the action: \"upload\", and it is more consistent with the other two ifs above)\n\n label.Label-Name.copyValueOnUploadIfMergeFirstParentUpdate \n\n    (Note: I changed the OnMerge to IfMerge here)",
+      "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -87,17 +87,21 @@ public class PutDescription
       if (oldDescription.equals(newDescription)) {
         return false;
       }
-      String summary;
-      if (oldDescription.isEmpty()) {
-        summary = "Description set to \"" + newDescription + "\"";
-      } else if (newDescription.isEmpty()) {
-        summary = "Description \"" + oldDescription + "\" removed";
-      } else {
-        summary = "Description changed to \"" + newDescription + "\"";
-      }
-
       update.setPsDescription(newDescription);
 
+      String summary;
+      if (oldDescription.isEmpty()) {
+        summary =
+            String.format("Description of patch set %d set to \"%s\"", psId.get(), newDescription);
+      } else if (newDescription.isEmpty()) {
+        summary =
+            String.format(
+                "Description \"%s\" removed from patch set %d", oldDescription, psId.get());
+      } else {
+        summary =
+            String.format(
+                "Description of patch set %d changed to \"%s\"", psId.get(), newDescription);
+      }
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(
               psId, ctx.getUser(), ctx.getWhen(), summary, ChangeMessagesUtil.TAG_SET_DESCRIPTION);

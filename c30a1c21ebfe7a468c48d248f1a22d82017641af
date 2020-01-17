@@ -118,6 +118,30 @@
       "revId": "c30a1c21ebfe7a468c48d248f1a22d82017641af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18957c89_1ace9150",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-17T21:56:36Z",
+      "side": 1,
+      "message": "I have filed this issue upstream: [1], sent this CL to Bazel: [2] and fixed that issue in Gerrit build tool chain on top of it: [3]. If you now patch Bazel, build it from source, and then try partial http_file rule upgrade (similar to the patch set 1 of that change), the build would fail, as expected.\n\n* [1] https://github.com/bazelbuild/bazel/issues/10612\n* [2] https://bazel-review.googlesource.com/c/bazel/+/127210\n* [3] https://gerrit-review.googlesource.com/c/gerrit/+/251095",
+      "parentUuid": "7752d396_04c18d2d",
+      "range": {
+        "startLine": 310,
+        "startChar": 14,
+        "endLine": 310,
+        "endChar": 78
+      },
+      "revId": "c30a1c21ebfe7a468c48d248f1a22d82017641af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

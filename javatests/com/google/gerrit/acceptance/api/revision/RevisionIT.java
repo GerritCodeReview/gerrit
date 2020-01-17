@@ -1320,10 +1320,24 @@ public class RevisionIT extends AbstractDaemonTest {
   public void description() throws Exception {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
-    assertDescription(r, "test");
+
+    // set description
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("foo");
+    assertDescription(r, "foo");
+    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
+        .isEqualTo("Description set to \"foo\"");
+
+    // update description
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("bar");
+    assertDescription(r, "bar");
+    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
+        .isEqualTo("Description changed to \"bar\"");
+
+    // remove description
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("");
     assertDescription(r, "");
+    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
+        .isEqualTo("Description \"bar\" removed");
   }
 
   @Test

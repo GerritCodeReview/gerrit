@@ -16,6 +16,24 @@
       "revId": "5b43752bf68b9f350be42a4f2690b68bf7622bd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fcf3b06_8777ff14",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2020-01-17T13:18:29Z",
+      "side": 1,
+      "message": "\u0027reply-label-scores was the first thing I tried, it did not work because AFAICT at the time that hook is called the label containers are not attached yet.\n\nAnd I totally understand if this change is not acceptable, I imagine there is overhead to gr-endpoint-decorators and we do not want them all over the place unless there is good reason. I wanted to start a discussion by sending this out, looks like you already started it in the plugin change.",
+      "parentUuid": "8bfb408a_d84190c7",
+      "revId": "5b43752bf68b9f350be42a4f2690b68bf7622bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -37,6 +37,7 @@ import com.google.gerrit.httpd.RequestCleanupFilter;
 import com.google.gerrit.httpd.RequestContextFilter;
 import com.google.gerrit.httpd.RequestMetricsFilter;
 import com.google.gerrit.httpd.RequireSslFilter;
+import com.google.gerrit.httpd.SetThreadNameFilter;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
@@ -590,6 +591,7 @@ public class Daemon extends SiteProgram {
     }
     modules.add(RequestCleanupFilter.module());
     modules.add(AllRequestFilter.module());
+    modules.add(SetThreadNameFilter.module());
     modules.add(sysInjector.getInstance(WebModule.class));
     modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));
     modules.add(new HttpPluginModule());

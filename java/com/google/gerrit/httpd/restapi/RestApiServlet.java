@@ -685,12 +685,11 @@ public class RestApiServlet extends HttpServlet {
           responseBytes = 0;
           if (statusCode == SC_INTERNAL_SERVER_ERROR) {
             logger.atSevere().withCause(e).log(
-                "Error in %s %s, response already committed with status %d",
-                req.getMethod(), uriForLogging(req), res.getStatus());
+                "Error in %s %s, response already committed", req.getMethod(), uriForLogging(req));
           } else {
             logger.atWarning().log(
-                "Response for %s %s already committed with status %d, wanted to set status %d",
-                req.getMethod(), uriForLogging(req), res.getStatus(), statusCode);
+                "Response for %s %s already committed, wanted to set status %d",
+                req.getMethod(), uriForLogging(req), statusCode);
           }
         } else {
           res.reset();

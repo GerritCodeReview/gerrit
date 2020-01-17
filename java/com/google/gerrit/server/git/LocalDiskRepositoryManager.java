@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import autovalue.shaded.com.google$.common.annotations.$VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -110,6 +111,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private final Path basePath;
 
   @Inject
+  @$VisibleForTesting
   LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {

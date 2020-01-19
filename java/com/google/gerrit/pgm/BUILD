@@ -1,17 +1,7 @@
 load("@rules_java//java:defs.bzl", "java_library")
 
-# TODO(davido): This indirection doesn't avoid unwanted depdencies
-# in acceptance-framework and should be removed. Instead, provided_deps
-# should be used, once https://github.com/bazelbuild/bazel/issues/1402
-# is fixed.
-alias(
-    name = "pgm",
-    actual = ":daemon",
-    visibility = ["//visibility:public"],
-)
-
 java_library(
-    name = "daemon",
+    name = "pgm",
     srcs = glob(["**/*.java"]),
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/pgm"],

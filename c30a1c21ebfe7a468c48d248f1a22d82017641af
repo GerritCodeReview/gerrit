@@ -142,6 +142,30 @@
       "revId": "c30a1c21ebfe7a468c48d248f1a22d82017641af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "785b70e5_44f4fd40",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-19T23:19:46Z",
+      "side": 1,
+      "message": "\u003e If you now patch Bazel, build it from source, and then try partial http_file rule upgrade (similar to the patch set 1 of that change), the build would fail, as expected.\n\nYes it does, for me locally too; thanks again.",
+      "parentUuid": "18957c89_1ace9150",
+      "range": {
+        "startLine": 310,
+        "startChar": 14,
+        "endLine": 310,
+        "endChar": 78
+      },
+      "revId": "c30a1c21ebfe7a468c48d248f1a22d82017641af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

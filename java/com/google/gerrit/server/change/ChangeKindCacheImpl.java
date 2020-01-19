@@ -27,7 +27,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.types.ChangeKind;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;

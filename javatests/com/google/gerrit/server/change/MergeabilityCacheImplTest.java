@@ -20,7 +20,7 @@ import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatS
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
 import org.eclipse.jgit.lib.ObjectId;

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo;
 import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;

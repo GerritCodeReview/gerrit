@@ -16,17 +16,17 @@ package com.google.gerrit.server.account;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
-import com.google.gerrit.extensions.client.MenuItem;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.types.EditPreferencesInfo;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo.DateFormat;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo.DefaultBase;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo.DiffView;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo.EmailFormat;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo.EmailStrategy;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo.TimeFormat;
+import com.google.gerrit.extensions.types.MenuItem;
 import java.util.Optional;
 
 @AutoValue

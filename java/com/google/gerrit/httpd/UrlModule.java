@@ -20,7 +20,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.types.AuthType;
 import com.google.gerrit.httpd.raw.AuthorizationCheckServlet;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;

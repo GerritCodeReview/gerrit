@@ -14,10 +14,10 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static com.google.gerrit.extensions.types.ReviewerState.REVIEWER;
 
-import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.types.ReviewerState;
 import java.util.Map;
 
 public class AddReviewerInput {

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo.Whitespace;
 import java.io.Serializable;
 import org.eclipse.jgit.lib.ObjectId;
 

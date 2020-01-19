@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.mail.send;
 
-import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
-import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
+import static com.google.gerrit.extensions.types.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
+import static com.google.gerrit.extensions.types.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Sets;
@@ -25,8 +25,8 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.UserIdentity;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.mail.EmailHeader.AddressList;

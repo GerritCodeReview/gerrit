@@ -19,7 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
-import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.types.AuthType;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritAuthModule;

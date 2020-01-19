@@ -20,7 +20,7 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo.InheritedBooleanInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.types.InheritableBoolean;
 import java.util.Arrays;
 import java.util.HashSet;
 

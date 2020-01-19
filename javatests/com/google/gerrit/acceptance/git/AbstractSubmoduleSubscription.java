@@ -25,7 +25,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;

@@ -14,17 +14,17 @@
 
 package com.google.gerrit.server.restapi.group;
 
-import static com.google.gerrit.extensions.client.ListGroupsOption.INCLUDES;
-import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
+import static com.google.gerrit.extensions.types.ListGroupsOption.INCLUDES;
+import static com.google.gerrit.extensions.types.ListGroupsOption.MEMBERS;
 
 import com.google.common.base.Strings;
 import com.google.common.base.Suppliers;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.extensions.types.ListGroupsOption;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;

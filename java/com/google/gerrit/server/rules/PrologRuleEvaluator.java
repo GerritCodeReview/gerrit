@@ -28,7 +28,7 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;

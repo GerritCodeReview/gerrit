@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.extensions.types;
 
 /* This class is stored in Git config file. */
 public class EditPreferencesInfo {

@@ -14,12 +14,12 @@
 
 package com.google.gerrit.extensions.api.config;
 
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo;
+import com.google.gerrit.extensions.types.EditPreferencesInfo;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.webui.TopMenu;
 import java.util.List;
 

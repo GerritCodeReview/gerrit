@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Ordering.natural;
-import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
+import static com.google.gerrit.extensions.types.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
@@ -190,7 +190,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       name = "--state",
       aliases = {"-s"},
       usage = "filter by project state")
-  public void setState(com.google.gerrit.extensions.client.ProjectState state) {
+  public void setState(com.google.gerrit.extensions.types.ProjectState state) {
     this.state = state;
   }
 
@@ -248,7 +248,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private FilterType type = FilterType.ALL;
   private boolean showDescription;
   private boolean all;
-  private com.google.gerrit.extensions.client.ProjectState state;
+  private com.google.gerrit.extensions.types.ProjectState state;
   private int limit;
   private int start;
   private String matchPrefix;

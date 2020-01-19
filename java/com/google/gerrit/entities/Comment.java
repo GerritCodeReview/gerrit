@@ -163,7 +163,7 @@ public class Comment {
       this(r.startLine, r.startChar, r.endLine, r.endChar);
     }
 
-    public Range(com.google.gerrit.extensions.client.Comment.Range r) {
+    public Range(com.google.gerrit.extensions.types.Comment.Range r) {
       this(r.startLine, r.startCharacter, r.endLine, r.endCharacter);
     }
 
@@ -265,7 +265,7 @@ public class Comment {
   }
 
   public void setLineNbrAndRange(
-      Integer lineNbr, com.google.gerrit.extensions.client.Comment.Range range) {
+      Integer lineNbr, com.google.gerrit.extensions.types.Comment.Range range) {
     this.lineNbr = lineNbr != null ? lineNbr : range != null ? range.endLine : 0;
     if (range != null) {
       this.range = new Comment.Range(range);

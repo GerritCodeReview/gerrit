@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.types.ReviewerState;
 import java.util.Arrays;
 import org.eclipse.jgit.revwalk.FooterKey;
 

@@ -19,7 +19,7 @@ import static com.google.common.truth.StreamSubject.streams;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
+import static com.google.gerrit.extensions.types.ListGroupsOption.MEMBERS;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.MoreFiles;

@@ -25,7 +25,7 @@ import com.google.common.cache.Weigher;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;

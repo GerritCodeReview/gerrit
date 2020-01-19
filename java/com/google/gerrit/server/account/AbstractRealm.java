@@ -16,7 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.extensions.types.AccountFieldName;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.mail.send.EmailSender;

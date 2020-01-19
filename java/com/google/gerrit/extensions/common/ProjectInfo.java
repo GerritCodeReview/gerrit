@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.types.ProjectState;
 import java.util.List;
 import java.util.Map;
 

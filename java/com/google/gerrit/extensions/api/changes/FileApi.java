@@ -14,12 +14,12 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.BlameInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo.Whitespace;
 import java.util.List;
 import java.util.OptionalInt;
 

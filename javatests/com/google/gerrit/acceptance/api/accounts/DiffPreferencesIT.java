@@ -19,8 +19,8 @@ import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo.Whitespace;
 import org.junit.Test;
 
 @NoHttpd

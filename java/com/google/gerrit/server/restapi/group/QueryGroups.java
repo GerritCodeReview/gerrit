@@ -16,14 +16,14 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.client.ListGroupsOption;
-import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.types.ListGroupsOption;
+import com.google.gerrit.extensions.types.ListOption;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.group.InternalGroup;

@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.extensions.types;
 
-public enum GerritTopMenu {
-  ALL,
-  MY,
-  PROJECTS,
-  PEOPLE,
-  PLUGINS,
-  DOCUMENTATION;
+public enum Side {
+  PARENT,
+  REVISION;
 
-  public final String menuName;
-
-  GerritTopMenu() {
-    menuName = name().substring(0, 1) + name().substring(1).toLowerCase();
+  public static Side fromShort(short s) {
+    if (s <= 0) {
+      return PARENT;
+    } else if (s == 1) {
+      return REVISION;
+    }
+    return null;
   }
 }

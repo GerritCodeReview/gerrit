@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.types.ListChangesOption.DETAILED_LABELS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -29,10 +29,10 @@ import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.types.InheritableBoolean;
+import com.google.gerrit.extensions.types.ReviewerState;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.reflect.TypeToken;

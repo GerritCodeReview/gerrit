@@ -29,7 +29,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.types.InheritableBoolean;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.SitePaths;

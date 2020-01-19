@@ -14,10 +14,10 @@
 
 package com.google.gerrit.extensions.api.groups;
 
-import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.ListGroupsOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

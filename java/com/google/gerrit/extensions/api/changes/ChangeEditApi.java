@@ -14,12 +14,12 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.client.ChangeEditDetailOption;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.ChangeEditDetailOption;
 import java.util.EnumSet;
 import java.util.Optional;
 

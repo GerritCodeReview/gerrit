@@ -14,10 +14,10 @@
 
 package com.google.gerrit.extensions.api.projects;
 
-import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.ProjectState;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

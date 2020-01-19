@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.extensions.types;
 
-public enum Side {
-  PARENT,
-  REVISION;
+/** Output options available for retrieval of account details. */
+public enum ListAccountsOption implements ListOption {
+  /** Return detailed account properties. */
+  DETAILS(0),
 
-  public static Side fromShort(short s) {
-    if (s <= 0) {
-      return PARENT;
-    } else if (s == 1) {
-      return REVISION;
-    }
-    return null;
+  /** Return all secondary emails. */
+  ALL_EMAILS(1);
+
+  private final int value;
+
+  ListAccountsOption(int v) {
+    this.value = v;
+  }
+
+  @Override
+  public int getValue() {
+    return value;
   }
 }

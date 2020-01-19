@@ -19,7 +19,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.write;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo.Whitespace;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.CherryPickChangeInfo;
@@ -32,6 +31,7 @@ import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.SubmitType;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

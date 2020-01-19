@@ -18,7 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.types.ProjectState;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;

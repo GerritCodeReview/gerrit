@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.types.Comment;
 import java.util.Objects;
 
 public class CommentInfo extends Comment {

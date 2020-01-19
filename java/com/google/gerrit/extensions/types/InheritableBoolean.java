@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,24 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.extensions.types;
 
-/** Output options available when using {@code /groups/} RPCs. */
-public enum ListGroupsOption implements ListOption {
-  /** Return information on the direct group members. */
-  MEMBERS(0),
-
-  /** Return information on the directly included groups. */
-  INCLUDES(1);
-
-  private final int value;
-
-  ListGroupsOption(int v) {
-    this.value = v;
-  }
-
-  @Override
-  public int getValue() {
-    return value;
-  }
+public enum InheritableBoolean {
+  TRUE,
+  FALSE,
+  INHERIT
 }

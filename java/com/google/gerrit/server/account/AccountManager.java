@@ -30,7 +30,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.extensions.types.AccountFieldName;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;

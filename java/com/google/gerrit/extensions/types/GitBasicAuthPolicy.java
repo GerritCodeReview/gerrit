@@ -12,14 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.types;
 
-import com.google.gerrit.extensions.types.ReviewerState;
-import java.sql.Timestamp;
+public enum GitBasicAuthPolicy {
+  /** Only the HTTP password is accepted when doing Git over HTTP and REST API requests. */
+  HTTP,
 
-public class ReviewerUpdateInfo {
-  public Timestamp updated;
-  public AccountInfo updatedBy;
-  public AccountInfo reviewer;
-  public ReviewerState state;
+  /** Only the LDAP password is allowed when doing Git over HTTP and REST API requests. */
+  LDAP,
+
+  /**
+   * The password in the request is first checked against the HTTP password and, if it does not
+   * match, it is then validated against the LDAP password.
+   */
+  HTTP_LDAP,
+
+  /** Only the `OAUTH` authentication is allowed when doing Git over HTTP and REST API requests. */
+  OAUTH
 }

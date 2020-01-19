@@ -26,7 +26,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.types.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.logging.Metadata;

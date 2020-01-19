@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.extensions.types;
 
 public enum ProjectState {
   /** Permits reading project state and contents as well as mutating data. */

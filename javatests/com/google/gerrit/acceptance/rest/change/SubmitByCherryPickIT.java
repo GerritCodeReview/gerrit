@@ -15,8 +15,8 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
-import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.extensions.types.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.types.ListChangesOption.MESSAGES;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -26,11 +26,11 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
-import com.google.gerrit.extensions.client.ChangeStatus;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.types.ChangeStatus;
+import com.google.gerrit.extensions.types.InheritableBoolean;
+import com.google.gerrit.extensions.types.ListChangesOption;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import com.google.inject.Inject;
 import java.util.List;

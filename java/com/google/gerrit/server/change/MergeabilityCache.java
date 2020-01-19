@@ -15,7 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;

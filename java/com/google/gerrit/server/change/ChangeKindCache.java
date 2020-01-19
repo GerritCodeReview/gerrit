@@ -18,7 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.types.ChangeKind;
 import com.google.gerrit.server.query.change.ChangeData;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;

@@ -18,11 +18,11 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.types.ProjectWatchInfo;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;

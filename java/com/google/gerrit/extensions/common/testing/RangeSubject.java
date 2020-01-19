@@ -20,7 +20,7 @@ import static com.google.common.truth.Truth.assertAbout;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.types.Comment;
 
 public class RangeSubject extends Subject {
 

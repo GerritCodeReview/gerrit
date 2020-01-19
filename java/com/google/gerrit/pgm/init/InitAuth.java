@@ -14,14 +14,14 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.HTTP;
-import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.HTTP_LDAP;
-import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.LDAP;
-import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.OAUTH;
+import static com.google.gerrit.extensions.types.GitBasicAuthPolicy.HTTP;
+import static com.google.gerrit.extensions.types.GitBasicAuthPolicy.HTTP_LDAP;
+import static com.google.gerrit.extensions.types.GitBasicAuthPolicy.LDAP;
+import static com.google.gerrit.extensions.types.GitBasicAuthPolicy.OAUTH;
 import static com.google.gerrit.pgm.init.api.InitUtil.dnOf;
 
-import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
+import com.google.gerrit.extensions.types.AuthType;
+import com.google.gerrit.extensions.types.GitBasicAuthPolicy;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;

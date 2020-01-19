@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput.Filters;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -25,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;

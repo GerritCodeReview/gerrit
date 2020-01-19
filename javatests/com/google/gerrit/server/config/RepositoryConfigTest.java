@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;

@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.testsuite.project;
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import java.util.Optional;
 
 @AutoValue

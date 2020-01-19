@@ -15,12 +15,12 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.extensions.client.SubmitType.CHERRY_PICK;
-import static com.google.gerrit.extensions.client.SubmitType.FAST_FORWARD_ONLY;
-import static com.google.gerrit.extensions.client.SubmitType.MERGE_ALWAYS;
-import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
-import static com.google.gerrit.extensions.client.SubmitType.REBASE_ALWAYS;
-import static com.google.gerrit.extensions.client.SubmitType.REBASE_IF_NECESSARY;
+import static com.google.gerrit.extensions.types.SubmitType.CHERRY_PICK;
+import static com.google.gerrit.extensions.types.SubmitType.FAST_FORWARD_ONLY;
+import static com.google.gerrit.extensions.types.SubmitType.MERGE_ALWAYS;
+import static com.google.gerrit.extensions.types.SubmitType.MERGE_IF_NECESSARY;
+import static com.google.gerrit.extensions.types.SubmitType.REBASE_ALWAYS;
+import static com.google.gerrit.extensions.types.SubmitType.REBASE_IF_NECESSARY;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -31,11 +31,11 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.testing.ConfigSuite;

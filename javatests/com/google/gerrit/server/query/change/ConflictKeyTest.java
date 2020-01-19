@@ -16,13 +16,13 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.extensions.client.SubmitType.FAST_FORWARD_ONLY;
-import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
+import static com.google.gerrit.extensions.types.SubmitType.FAST_FORWARD_ONLY;
+import static com.google.gerrit.extensions.types.SubmitType.MERGE_IF_NECESSARY;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
 import org.eclipse.jgit.lib.ObjectId;

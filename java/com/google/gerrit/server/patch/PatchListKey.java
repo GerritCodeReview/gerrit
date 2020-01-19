@@ -22,7 +22,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.git.ObjectIds;
 import java.io.IOException;
 import java.io.ObjectInputStream;

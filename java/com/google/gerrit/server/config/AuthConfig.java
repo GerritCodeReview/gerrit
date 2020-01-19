@@ -18,8 +18,8 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAI
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
-import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
+import com.google.gerrit.extensions.types.AuthType;
+import com.google.gerrit.extensions.types.GitBasicAuthPolicy;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.server.mail.SignedToken;

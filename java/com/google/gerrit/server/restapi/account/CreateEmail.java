@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import static com.google.gerrit.extensions.client.AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
+import static com.google.gerrit.extensions.types.AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
-import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -29,6 +28,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
+import com.google.gerrit.extensions.types.AccountFieldName;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;

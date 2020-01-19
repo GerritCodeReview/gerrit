@@ -15,7 +15,7 @@
 package com.google.gerrit.server.auth.ldap;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.types.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.AuthException;

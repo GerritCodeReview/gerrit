@@ -18,10 +18,10 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
-import com.google.gerrit.extensions.client.Comment;
-import com.google.gerrit.extensions.client.Comment.Range;
-import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.types.Comment;
+import com.google.gerrit.extensions.types.Comment.Range;
+import com.google.gerrit.extensions.types.Side;
 import com.google.inject.Inject;
 import java.util.Collection;
 

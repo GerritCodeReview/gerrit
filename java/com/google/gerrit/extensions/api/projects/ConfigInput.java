@@ -14,9 +14,9 @@
 
 package com.google.gerrit.extensions.api.projects;
 
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.ProjectState;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.InheritableBoolean;
+import com.google.gerrit.extensions.types.ProjectState;
+import com.google.gerrit.extensions.types.SubmitType;
 import java.util.Map;
 
 public class ConfigInput {

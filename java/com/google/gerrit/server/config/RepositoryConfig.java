@@ -20,7 +20,7 @@ import static java.util.Comparator.comparing;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;

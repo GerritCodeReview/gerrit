@@ -86,7 +86,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.submitType = this.defaultSubmitType.value;
 
     this.state =
-        p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE
+        p.getState() != com.google.gerrit.extensions.types.ProjectState.ACTIVE
             ? p.getState()
             : null;
 

@@ -16,13 +16,13 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
-import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.types.ListChangesOption;
+import com.google.gerrit.extensions.types.ListOption;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.change.ChangeAttributeFactory;

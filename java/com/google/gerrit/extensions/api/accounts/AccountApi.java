@@ -15,10 +15,6 @@
 package com.google.gerrit.extensions.api.accounts;
 
 import com.google.gerrit.extensions.api.changes.StarsInput;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -30,6 +26,10 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo;
+import com.google.gerrit.extensions.types.EditPreferencesInfo;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.types.ProjectWatchInfo;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;

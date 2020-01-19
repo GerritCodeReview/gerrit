@@ -18,8 +18,8 @@ import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.types.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;

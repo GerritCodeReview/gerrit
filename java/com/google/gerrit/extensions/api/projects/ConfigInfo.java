@@ -15,10 +15,10 @@
 package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.ProjectState;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.types.InheritableBoolean;
+import com.google.gerrit.extensions.types.ProjectState;
+import com.google.gerrit.extensions.types.SubmitType;
 import java.util.List;
 import java.util.Map;
 

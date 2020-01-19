@@ -16,9 +16,9 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.InheritableBoolean;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
@@ -123,7 +123,7 @@ final class SetProjectCommand extends SshCommand {
       name = "--project-state",
       aliases = {"--ps"},
       usage = "project's visibility state")
-  private com.google.gerrit.extensions.client.ProjectState state;
+  private com.google.gerrit.extensions.types.ProjectState state;
 
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;

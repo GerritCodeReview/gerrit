@@ -14,10 +14,10 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
-import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.types.ListAccountsOption;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;

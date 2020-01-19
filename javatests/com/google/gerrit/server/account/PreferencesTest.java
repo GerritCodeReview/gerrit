@@ -16,9 +16,9 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo;
+import com.google.gerrit.extensions.types.EditPreferencesInfo;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gson.Gson;
 import org.junit.Test;

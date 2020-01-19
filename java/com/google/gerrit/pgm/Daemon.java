@@ -23,7 +23,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
-import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.types.AuthType;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritAuthModule;

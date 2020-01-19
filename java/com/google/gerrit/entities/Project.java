@@ -16,9 +16,9 @@ package com.google.gerrit.entities;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.ProjectState;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.InheritableBoolean;
+import com.google.gerrit.extensions.types.ProjectState;
+import com.google.gerrit.extensions.types.SubmitType;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;

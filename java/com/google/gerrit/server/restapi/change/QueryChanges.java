@@ -16,14 +16,14 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.types.ListChangesOption;
+import com.google.gerrit.extensions.types.ListOption;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.index.query.QueryResult;

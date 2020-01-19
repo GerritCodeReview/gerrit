@@ -16,7 +16,7 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.CoreDownloadSchemes;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
+import com.google.gerrit.extensions.types.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

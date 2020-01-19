@@ -20,7 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.entities.BooleanProjectConfig;
-import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.types.InheritableBoolean;
 import com.google.gerrit.git.ObjectIds;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;

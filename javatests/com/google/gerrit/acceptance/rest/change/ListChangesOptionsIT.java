@@ -15,9 +15,9 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
-import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.extensions.types.ListChangesOption.ALL_REVISIONS;
+import static com.google.gerrit.extensions.types.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.types.ListChangesOption.MESSAGES;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;

@@ -27,7 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.types.AuthType;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.account.HashedPassword;
 import java.io.Serializable;

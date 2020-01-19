@@ -19,7 +19,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 import com.google.common.collect.Ordering;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;

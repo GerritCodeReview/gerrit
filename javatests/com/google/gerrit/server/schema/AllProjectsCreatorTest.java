@@ -28,7 +28,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
-import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.types.InheritableBoolean;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.config.AllProjectsName;

@@ -21,7 +21,7 @@ import static com.google.gerrit.entities.RefNames.REFS_USERS;
 import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.types.DiffPreferencesInfo;
 import java.sql.Timestamp;
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.extensions.types;
 
-public enum AccountFieldName {
-  FULL_NAME,
-  USER_NAME,
-  REGISTER_NEW_EMAIL
+/** Operation performed by a change relative to its parent. */
+public enum ChangeKind {
+  /** Nontrivial content changes. */
+  REWORK,
+
+  /** Conflict-free merge between the new parent and the prior patch set. */
+  TRIVIAL_REBASE,
+
+  /** Conflict-free change of first (left) parent of a merge commit. */
+  MERGE_FIRST_PARENT_UPDATE,
+
+  /** Same tree and same parent tree. */
+  NO_CODE_CHANGE,
+
+  /** Same tree, parent tree, same commit message. */
+  NO_CHANGE
 }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.data;
 
-import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.types.ChangeKind;
 import java.util.List;
 
 public class PatchSetAttribute {

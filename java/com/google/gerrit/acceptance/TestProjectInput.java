@@ -17,8 +17,8 @@ package com.google.gerrit.acceptance;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.types.InheritableBoolean;
+import com.google.gerrit.extensions.types.SubmitType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 

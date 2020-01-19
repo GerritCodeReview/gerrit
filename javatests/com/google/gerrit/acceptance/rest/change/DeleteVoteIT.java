@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static com.google.gerrit.extensions.types.ReviewerState.REVIEWER;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;

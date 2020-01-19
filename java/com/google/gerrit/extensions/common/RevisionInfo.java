@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.types.ChangeKind;
 import java.sql.Timestamp;
 import java.util.Map;
 

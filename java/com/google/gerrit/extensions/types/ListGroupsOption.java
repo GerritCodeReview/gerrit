@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.extensions.types;
 
-/** Output options available for retrieval of account details. */
-public enum ListAccountsOption implements ListOption {
-  /** Return detailed account properties. */
-  DETAILS(0),
+/** Output options available when using {@code /groups/} RPCs. */
+public enum ListGroupsOption implements ListOption {
+  /** Return information on the direct group members. */
+  MEMBERS(0),
 
-  /** Return all secondary emails. */
-  ALL_EMAILS(1);
+  /** Return information on the directly included groups. */
+  INCLUDES(1);
 
   private final int value;
 
-  ListAccountsOption(int v) {
+  ListGroupsOption(int v) {
     this.value = v;
   }
 

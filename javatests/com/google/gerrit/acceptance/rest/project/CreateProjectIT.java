@@ -43,14 +43,14 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.extensions.types.InheritableBoolean;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -368,7 +368,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void createProjectWithCreateProjectCapabilityAndParentNotVisible() throws Exception {
     Project parent = projectCache.get(allProjects).getProject();
-    parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
+    parent.setState(com.google.gerrit.extensions.types.ProjectState.HIDDEN);
     projectOperations
         .allProjectsForUpdate()
         .add(
@@ -382,7 +382,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
       ProjectInfo p = gApi.projects().create(in).get();
       assertThat(p.name).isEqualTo(in.name);
     } finally {
-      parent.setState(com.google.gerrit.extensions.client.ProjectState.ACTIVE);
+      parent.setState(com.google.gerrit.extensions.types.ProjectState.ACTIVE);
       projectOperations
           .allProjectsForUpdate()
           .remove(

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.project;
 
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.types.ProjectState;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.index.project.ProjectPredicate;

@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.types.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.base.Throwables;
@@ -27,11 +27,11 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.types.InheritableBoolean;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.query.change.ChangeData;

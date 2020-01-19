@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.extensions.types;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.gerrit.extensions.client.ListOptionTest.MyOption.BAR;
-import static com.google.gerrit.extensions.client.ListOptionTest.MyOption.BAZ;
-import static com.google.gerrit.extensions.client.ListOptionTest.MyOption.FOO;
+import static com.google.gerrit.extensions.types.ListOptionTest.MyOption.BAR;
+import static com.google.gerrit.extensions.types.ListOptionTest.MyOption.BAZ;
+import static com.google.gerrit.extensions.types.ListOptionTest.MyOption.FOO;
 
 import com.google.common.math.IntMath;
 import java.util.EnumSet;

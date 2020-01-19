@@ -16,7 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.LFS_URL_WO_AUTH_REGEX;
 
-import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
+import com.google.gerrit.extensions.types.GitBasicAuthPolicy;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;

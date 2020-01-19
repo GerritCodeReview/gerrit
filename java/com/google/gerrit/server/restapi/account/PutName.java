@@ -15,13 +15,13 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.types.AccountFieldName;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;

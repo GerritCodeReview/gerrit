@@ -15,9 +15,9 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.types.ListChangesOption.CHANGE_ACTIONS;
+import static com.google.gerrit.extensions.types.ListChangesOption.CURRENT_ACTIONS;
+import static com.google.gerrit.extensions.types.ListChangesOption.CURRENT_REVISION;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -32,11 +32,11 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.types.ListChangesOption;
+import com.google.gerrit.extensions.types.SubmitType;
 import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
 import com.google.gerrit.server.query.change.ChangeData;

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "90e053b4_4e157f4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-01-20T13:09:10Z",
+      "side": 1,
+      "message": "i think you actually forgot it ...",
+      "parentUuid": "3be727ce_0bd03249",
+      "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fab7667a_8ce4bfe4",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 2

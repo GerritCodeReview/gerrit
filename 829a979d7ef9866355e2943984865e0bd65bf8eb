@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f67f748_c29e802b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "var(--error-text-color)",
+      "range": {
+        "startLine": 55,
+        "startChar": 15,
+        "endLine": 55,
+        "endChar": 18
+      },
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03de7ccb_b3b3ae21",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "var(--spacing-m) or var(--spacing-l)\n8px or 12px",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea0120ce_95335501",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "Maybe \"A reason\".",
+      "range": {
+        "startLine": 68,
+        "startChar": 17,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd82c5dc_f82d8b4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "Maybe add a comment what this is, where it comes from and when it changes.",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a243575_ac4092ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "Maybe add a comment what the semantics are when both change and changes are set.",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93b4225d_a7153c6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "Maybe add a comment what this is, where it comes from and when it changes.",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2644e803_11c9fba6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "Why does this have to be an array? Can this just be _originalRevertMessage?",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ce99b6_92c96ee1",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "Maybe add a comment what this is, where it comes from and when it changes.",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06b05ad6_9c77a4ae",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "Maybe add a comment why this has to happen even for changes.length \u003e 1.",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dfd311c_dc08c0b4",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T18:01:21Z",
+      "side": 1,
+      "message": "The error message should go away as soon as you modify this.message. So I would recommend to create a _computeErrorMessageHidden method and use it in the html template like so:\n\n  \u003cdiv class\u003d\"error\" hidden$\u003d\"[[_computeErrorMessageHidden(message, originalMessage, tapped)]]\"\u003e\n\nthis.tapped would be false initially and set to true in _handleConfirmTap.",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

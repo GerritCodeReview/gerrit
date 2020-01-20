@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49650d9d_687923ac",
+        "filename": "package.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-20T12:14:43Z",
+      "side": 1,
+      "message": "Honestly, I would rather add an if-clause to the CI script testing for the branch than maintaining an alias here. This is how we do it at other places as well.",
+      "revId": "bc48b8d24144b4a84098de7d6f87ca1fd031d37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -980,6 +980,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/parse5@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-4.0.0.tgz#26dd73df171a69be517395d294c7af2ae0cd2579"
+  integrity sha512-OaBwNFk6dO8gbdfWut41VYiD5Fmj3Yi24cr/oGCXFXCjT2fteSQx2l3kx/phuQvBte/F54ajN2uDQF5MRwupGw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/path-is-inside@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/path-is-inside/-/path-is-inside-1.0.0.tgz#02d6ff38975d684bdec96204494baf9f29f0e17f"

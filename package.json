@@ -9,6 +9,8 @@
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-jsdoc": "^18.4.3",
     "fried-twinkie": "^0.2.2",
+    "crisper": "2.1.1",
+    "glob": "7.1.6",
     "polymer-cli": "^1.9.11",
     "typescript": "^2.x.x",
     "web-component-tester": "^6.5.0"

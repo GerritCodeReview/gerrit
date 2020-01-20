@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "4c5d0d3d_172c2e61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-20T16:27:47Z",
+      "side": 1,
+      "message": "Sorry, done.",
+      "parentUuid": "90e053b4_4e157f4e",
+      "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fab7667a_8ce4bfe4",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 2

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8cfc3fab_a0cd6704",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-20T01:51:59Z",
+      "side": 1,
+      "message": "it seems that this opt_path not used by actual code anywhere ? can you link me to anywhere we used with this param ?",
+      "revId": "7f275489fbfb3145e4aee52f5ff1ce04b7279bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2483380a_df819e2f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-20T01:51:59Z",
+      "side": 1,
+      "message": "instead of doing this all the time, maybe we just need to make sure `_path`  always do a `trim` ?",
+      "range": {
+        "startLine": 193,
+        "startChar": 60,
+        "endLine": 193,
+        "endChar": 78
+      },
+      "revId": "7f275489fbfb3145e4aee52f5ff1ce04b7279bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

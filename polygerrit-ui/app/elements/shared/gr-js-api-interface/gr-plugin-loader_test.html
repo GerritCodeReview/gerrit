@@ -43,7 +43,7 @@ limitations under the License.
     let sendStub;
 
     setup(() => {
-      this.clock = sinon.useFakeTimers();
+      window.clock = sinon.useFakeTimers();
       sandbox = sinon.sandbox.create();
       sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
       stub('gr-rest-api-interface', {
@@ -61,7 +61,7 @@ limitations under the License.
 
     teardown(() => {
       sandbox.restore();
-      this.clock.restore();
+      window.clock.restore();
       Gerrit._testOnly_resetPlugins();
     });
 
@@ -110,7 +110,7 @@ limitations under the License.
       Gerrit._loadPlugins(plugins);
       assert.isFalse(Gerrit._arePluginsLoaded());
       // Timeout on loading plugins
-      this.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
+      window.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
 
       flush(() => {
         assert.isTrue(Gerrit._arePluginsLoaded());

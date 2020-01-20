@@ -273,7 +273,7 @@ limitations under the License.
       flush(() => {
         element.confirmDeleteOverlay.open.lastCall.returnValue.then(() => {
           const dialog =
-              this.confirmDeleteOverlay.querySelector('#confirmDeleteComment');
+              window.confirmDeleteOverlay.querySelector('#confirmDeleteComment');
           dialog.message = 'removal reason';
           element._handleConfirmDeleteComment();
           assert.isTrue(element.$.restAPI.deleteComment.calledWith(

@@ -87,6 +87,24 @@
       "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ab0d0d4_55690a57",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-20T07:30:17Z",
+      "side": 1,
+      "message": "Interesting suggestion. My only issue with this is that the current label configuration for copying is not only used for upload, but also for move (limited to veto votes) and it would be confusing if label.Label-Name.copyValueOnUpload\u003d-2 is then also used on move. I feel like what you are proposing here is a good idea, but goes beyond the scope of this change.",
+      "parentUuid": "7023787e_1e410b7b",
+      "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

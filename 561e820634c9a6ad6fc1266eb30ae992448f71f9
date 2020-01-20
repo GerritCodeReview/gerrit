@@ -524,6 +524,30 @@
       "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1b8056d_61e09bab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-20T07:53:36Z",
+      "side": 1,
+      "message": "\u003e Now that I think we at least understand the issue,\n\u003e I can explain a completely different point of view.\n\nNice, then we are getting closer to a conclusion :) \n\n\u003e The feature does not work as a capability since it does not prevent normal users\n\u003e from doing something special.\n\nIt does limit the max number of results a user can get for a query, so in my understanding it works similar to a permission and does prevent normal users from doing unlimited queries. In my opinion this is important as the more results are returned the more expensive the request execution gets.\n\nComing back to your previous question about preventing DoS:\n\"How do you propose addressing the potential remaining DOS (a user requesting the last pagination token over and over)?\"\nCouldn\u0027t you prevent/mitigate this by using this capability to grant only a very low limit for Anonymous Users (e.g results for one page only) and assign a higher limit only for trusted users? But that wouldn\u0027t work anymore when the limit can be bypassed.\n\n\u003e This \"capability\" is actually nothing more than a \"default\".\n\nI understand that this is what you want (and I agree it would be nice to have), but this is not how the Query Limit capability was documented so far.\n\n\u003e So the bug is not that it can be overridden, but rather that the capability feature of \n\u003e gerrit is being abused to  make a default configurable. In my opinion, it would be better \n\u003e to remove this capability outright than to pretend that it provides admins with a useful\n\u003e mechanism to protect their servers.\n\nI think it is still useful as pointed out above, but for sure we can consider such a change, but then there should be a dedicated change to discuss this, and it shouldn\u0027t be done as side effect of some change, which neither updated the documentation for the capability nor made this intent very clear in the commit message. So I would still be in favor of restoring the old behavior first and fixing the issue with the ignored index backend limit and then follow-up with new changes, which either propose changing the behavior of the capability or add new ways to set another default limit.",
+      "parentUuid": "cc3fa209_425e2355",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

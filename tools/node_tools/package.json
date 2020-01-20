@@ -3,6 +3,7 @@
   "description": "Gerrit Build Tools",
   "browser": false,
   "dependencies": {
+    "@types/parse5": "^4.0.0",
     "@bazel/rollup": "^0.41.0",
     "@bazel/typescript": "^1.0.1",
     "@types/node": "^10.17.12",

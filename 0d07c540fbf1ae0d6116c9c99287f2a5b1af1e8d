@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8913db61_3282ed54",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4793,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-20T08:01:32Z",
+      "side": 1,
+      "message": "nit: the default is usually the last statement before the next heading, so this would be:\n\n+\nWhen suggesting reviewers, we go over recent changes of the user, and\ngive priority to users that are present as reviewers in any of those\nchanges. The number of changes we go over is `sugggest.relevantChanges`.\n+\nThis nubmer is a tradeoff between speed and accuracy. A high number would\nbe accurate but slow, and a low number would be\nfast but inaccurate.\n+\nBy default 50.",
+      "revId": "0d07c540fbf1ae0d6116c9c99287f2a5b1af1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

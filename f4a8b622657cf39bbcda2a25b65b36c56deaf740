@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "72faf9c9_2d047e87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-20T12:00:39Z",
+      "side": 1,
+      "message": "i can suggest (this is my explanation, you can rephrase it):\nThis fix allows avoid unintentional mistake, when user clicks \"Revert\" button too early. The check is not added to backend, because submit with default text doesn\u0027t break repository state\nand it is supposed that final revert text is checked by someone else(by reviewer) before review.",
+      "parentUuid": "acdddf1d_1b5f39fa",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "f4a8b622657cf39bbcda2a25b65b36c56deaf740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "434b7e68_b48fc897",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 1

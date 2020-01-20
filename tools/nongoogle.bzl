@@ -126,50 +126,6 @@ def declare_nongoogle_deps():
         sha1 = "dc13ae4faca6df981fc7aeb5a522d9db446d5d50",
     )
 
-    POWERM_VERS = "1.6.1"
-
-    maven_jar(
-        name = "powermock-module-junit4",
-        artifact = "org.powermock:powermock-module-junit4:" + POWERM_VERS,
-        sha1 = "ea8530b2848542624f110a393513af397b37b9cf",
-    )
-
-    maven_jar(
-        name = "powermock-module-junit4-common",
-        artifact = "org.powermock:powermock-module-junit4-common:" + POWERM_VERS,
-        sha1 = "7222ced54dabc310895d02e45c5428ca05193cda",
-    )
-
-    maven_jar(
-        name = "powermock-reflect",
-        artifact = "org.powermock:powermock-reflect:" + POWERM_VERS,
-        sha1 = "97d25eda8275c11161bcddda6ef8beabd534c878",
-    )
-
-    maven_jar(
-        name = "powermock-api-easymock",
-        artifact = "org.powermock:powermock-api-easymock:" + POWERM_VERS,
-        sha1 = "aa740ecf89a2f64d410b3d93ef8cd6833009ef00",
-    )
-
-    maven_jar(
-        name = "powermock-api-support",
-        artifact = "org.powermock:powermock-api-support:" + POWERM_VERS,
-        sha1 = "592ee6d929c324109d3469501222e0c76ccf0869",
-    )
-
-    maven_jar(
-        name = "powermock-core",
-        artifact = "org.powermock:powermock-core:" + POWERM_VERS,
-        sha1 = "5afc1efce8d44ed76b30af939657bd598e45d962",
-    )
-
-    maven_jar(
-        name = "javassist",
-        artifact = "org.javassist:javassist:3.22.0-GA",
-        sha1 = "3e83394258ae2089be7219b971ec21a8288528ad",
-    )
-
     TESTCONTAINERS_VERSION = "1.12.4"
 
     maven_jar(

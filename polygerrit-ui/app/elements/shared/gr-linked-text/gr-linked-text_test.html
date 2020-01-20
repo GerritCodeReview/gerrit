@@ -50,6 +50,10 @@ limitations under the License.
           match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
           link: 'https://code.google.com/p/gerrit/issues/detail?id=$2',
         },
+        firstcharsameaslink: {
+          match: '([Hh]something)\\s*#?(\\d+)',
+          link: 'https://code.google.com/p/gerrit/issues/detail?id=$2',
+        },
         changeid: {
           match: '(I[0-9a-f]{8,40})',
           link: '#/q/$1',
@@ -114,6 +118,17 @@ limitations under the License.
       assert.equal(linkEl.rel, 'noopener');
       assert.equal(linkEl.href, url);
       assert.equal(linkEl.textContent, 'Bug 3650');
+    });
+
+    test('Pattern with same first char as link was parsed and linked', () => {
+      // Pattern starts with the same character (`h`) as the url.
+      element.content = 'hsomething 3650';
+
+      const linkEl = element.$.output.childNodes[0];
+      const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+      assert.equal(linkEl.target, '_blank');
+      assert.equal(linkEl.href, url);
+      assert.equal(linkEl.textContent, 'hsomething 3650');
     });
 
     test('Change-Id pattern was parsed and linked', () => {

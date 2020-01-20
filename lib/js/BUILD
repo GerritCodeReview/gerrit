@@ -29,8 +29,11 @@ js_component(
     license = "//lib:LICENSE-highlightjs",
 )
 
+# TODO(dmfilippov) - rename to "highlightjs" after removing js_component
+# license-map.py uses rule name to extract package name; everything after
+# double underscore are removed.
 filegroup(
-    name = "highlightjs_files",
+    name = "highlightjs__files",
     srcs = ["//lib/highlightjs:highlight.min.js"],
     data = ["//lib:LICENSE-highlightjs"],
 )

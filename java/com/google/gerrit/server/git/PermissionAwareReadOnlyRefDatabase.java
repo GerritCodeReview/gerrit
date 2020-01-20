@@ -95,7 +95,6 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
     return Iterables.getOnlyElement(result);
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   public Map<String, Ref> getRefs(String prefix) throws IOException {
     List<Ref> refs = getDelegate().getRefDatabase().getRefsByPrefix(prefix);

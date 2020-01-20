@@ -73,6 +73,29 @@
     },
     {
       "key": {
+        "uuid": "24436b04_6c7e7b7d",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-01-20T17:03:52Z",
+      "side": 1,
+      "message": "Card is a \"sandwich\" of \nLayer 1: light grey #E8EAED (8%)\nLayer 2: (bottom): grey #202124 on elevation +2",
+      "range": {
+        "startLine": 59,
+        "startChar": 34,
+        "endLine": 59,
+        "endChar": 41
+      },
+      "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fab7667a_8ce4bfe4",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 2
@@ -120,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "2d7cf692_f4178c19",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-01-20T17:03:52Z",
+      "side": 1,
+      "message": "I suggest we use opacity as defined in the mocks per Material guidelines.\n\nCard elevation is + 2 which means the card has a background of grey #202124 and overlay of light grey (#E8EAED at 8% opacity)\nCard background color of blue #AECBFA at 13% opacity\n\nCard is a \"sandwich\" of \nLayer 1: light grey #E8EAED (8%)\nLayer 2: blue #AECBFA (13%)\nLayer 3: (bottom): grey #202124",
+      "parentUuid": "fab7667a_8ce4bfe4",
+      "range": {
+        "startLine": 60,
+        "startChar": 40,
+        "endLine": 60,
+        "endChar": 47
+      },
+      "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0b37959_9ff56986",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 2
@@ -164,6 +211,30 @@
       "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3ddf0d0_3a7513ed",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-01-20T17:03:52Z",
+      "side": 1,
+      "message": "I suggest we use opacity as defined in the mocks per Material guidelines.\n\nCard elevation is + 2 which means the card has a background of grey #202124 and overlay of light grey (#E8EAED at 8% opacity)\nCard background color of yellow #FDD663 at 13% opacity\n\nCard is a \"sandwich\" of \nLayer 1: light grey #E8EAED (8%)\nLayer 2: yellow #FDD663 (13%)\nLayer 3: (bottom): grey #202124",
+      "parentUuid": "a0b37959_9ff56986",
+      "range": {
+        "startLine": 61,
+        "startChar": 45,
+        "endLine": 61,
+        "endChar": 52
+      },
+      "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1799,13 +1799,15 @@ public class RestApiServlet extends HttpServlet {
     return replyError(req, res, status.statusCode(), msg.toString(), err);
   }
 
-  private static long replyInternalServerError(
+  private long replyInternalServerError(
       HttpServletRequest req,
       HttpServletResponse res,
       Throwable err,
       ImmutableList<String> userMessages)
       throws IOException {
-    logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
+    logger.atSevere().withCause(err).log(
+        "Error in %s %s: %s",
+        req.getMethod(), uriForLogging(req), globals.retryHelper.formatCause(err));
 
     StringBuilder msg = new StringBuilder("Internal server error");
     if (!userMessages.isEmpty()) {

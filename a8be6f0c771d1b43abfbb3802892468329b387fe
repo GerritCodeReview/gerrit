@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "372f52f9_5ac0e8ed",
+        "filename": "java/com/google/gerrit/extensions/types/GeneralPreferencesInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-20T06:53:22Z",
+      "side": 1,
+      "message": "Unrelated to this change, but this and other 2 *Info classes in this package belong probably to c.g.g.extension.common package, where all other *Info classes are located.",
+      "revId": "a8be6f0c771d1b43abfbb3802892468329b387fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

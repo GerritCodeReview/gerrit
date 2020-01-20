@@ -16,6 +16,24 @@
       "revId": "a8be6f0c771d1b43abfbb3802892468329b387fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "621e1b6b_8d76babb",
+        "filename": "java/com/google/gerrit/extensions/types/GeneralPreferencesInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-20T08:53:27Z",
+      "side": 1,
+      "message": "Fix it in a follow up change?",
+      "parentUuid": "372f52f9_5ac0e8ed",
+      "revId": "a8be6f0c771d1b43abfbb3802892468329b387fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

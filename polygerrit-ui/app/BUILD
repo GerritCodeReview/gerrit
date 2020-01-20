@@ -1,3 +1,4 @@
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library", "closure_js_test")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load(":rules.bzl", "polygerrit_bundle")
@@ -118,6 +119,7 @@ sh_test(
         ":pg_code_without_test",
         "//polygerrit-ui:polygerrit_components.bower_components.zip",
     ],
+
     # Should not run sandboxed.
     tags = [
         "local",
@@ -125,40 +127,91 @@ sh_test(
     ],
 )
 
-DIRECTORIES = [
-    "admin",
-    "change",
-    "change-list",
-    "core",
-    "diff",
-    "edit",
-    "plugins",
-    "settings",
-    "shared",
-    "gr-app",
-]
-
-[sh_test(
-    name = "template_test_" + directory,
+sh_test(
+    name = "closure_test",
     size = "enormous",
-    srcs = ["template_test.sh"],
-    args = [directory],
-    data = [
-        ":pg_code",
-        ":template_test_srcs",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
-    ],
+    srcs = ["run_closure_test.sh"],
+    args = ["skip"],
     tags = [
-        # Should not run sandboxed.
         "local",
         "template",
     ],
-) for directory in DIRECTORIES]
+    data = [
+        ":closure_test_bin",
+    ],
+)
+
+closure_js_binary(
+    name = "closure_test_bin",
+    compilation_level = "SIMPLE_OPTIMIZATIONS",
+    defs = [
+        "--polymer_version=2",
+        "--jscomp_off=duplicate",
+    ],
+    language = "ECMASCRIPT_2017",
+    deps = ["closure_test_lib"],
+    dependency_mode = "PRUNE_LEGACY",
+)
+
+closure_js_library(
+    name = "closure_test_lib",
+    srcs = glob(["types/*.js"]) + [":pg_all_js"],
+    convention = "GOOGLE",
+    suppress = [
+        "JSC_UNKNOWN_EXPR_TYPE",
+        "JSC_INEXISTENT_PROPERTY",
+        "JSC_STRICT_INEXISTENT_PROPERTY",
+        "JSC_POSSIBLE_INEXISTENT_PROPERTY",
+        "JSC_IMPLICITLY_NULLABLE_JSDOC",
+        "JSC_TYPE_MISMATCH",
+        "JSC_ILLEGAL_PROPERTY_CREATION",
+        "JSC_WRONG_ARGUMENT_COUNT",
+        "JSC_ILLEGAL_PROPERTY_ACCESS",
+        "JSC_INVALID_OPERAND_TYPE",
+        "JSC_UNRECOGNIZED_TYPE_ERROR",
+        "JSC_HIDDEN_SUPERCLASS_PROPERTY",
+        "JSC_NULLABLE_RETURN_WITH_NAME",
+        "JSC_INEXISTENT_PARAM",
+        "JSC_OPTIONAL_ARG_AT_END",
+        "JSC_UNUSED_PRIVATE_PROPERTY",
+        "JSC_UNUSED_LOCAL_ASSIGNMENT",
+    ],
+    deps = [
+        # TODO: should be replaced by polymer 2 if exists
+        "//lib/polymer_externs:polymer_closure",
+        "@io_bazel_rules_closure//closure/library",
+    ],
+)
 
 filegroup(
-    name = "template_test_srcs",
-    srcs = [
-        "template_test_srcs/convert_for_template_tests.py",
-        "template_test_srcs/template_test.js",
+    name = "pg_code_without_test_and_type",
+    srcs = glob(
+        [
+            "**/*.html",
+            "**/*.js",
+        ],
+        exclude = [
+            "bower_components/**",
+            "node_modules/**",
+            "test/**",
+            "externs/**",
+            "closure_test_srcs/**",
+            "samples/**",
+            "types/**",
+            "**/*_test.html",
+        ],
+    ),
+)
+
+genrule2(
+    name = "pg_all_js",
+    srcs = [":pg_code_without_test_and_type"],
+    outs = ["gr-app_all_code_test.js"],
+    cmd = " && ".join([
+        "$(location closure_test_srcs/closure_test.sh) $$ROOT/$@ $(locations :pg_code_without_test_and_type)"
+    ]),
+    tools = [
+        "closure_test_srcs/closure_test.sh",
+        "closure_test_srcs/closure_test.js",
     ],
 )

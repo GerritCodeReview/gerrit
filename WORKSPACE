@@ -54,7 +54,7 @@ bazelisk_version(name = "bazelisk_version")
 
 load("@bazelisk_version//:check.bzl", "check_bazel_version")
 
-check_bazel_version()
+# check_bazel_version()
 
 load("@io_bazel_rules_closure//closure:repositories.bzl", "rules_closure_dependencies", "rules_closure_toolchains")
 

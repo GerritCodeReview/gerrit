@@ -201,12 +201,12 @@ A few notes to ensure that these tests pass
 - Any Polymer parameters that are nullable or can be multiple types (other than
   the one explicitly delared) will need type annotations.
 
-These tests require the `typescript` and `fried-twinkie` npm packages.
+These tests require the `typescript`.
 
 To run on all files, execute the following command:
 
 ```sh
-./polygerrit-ui/app/run_template_test.sh
+./polygerrit-ui/app/run_closure_test.sh
 ```
 
 or
@@ -217,14 +217,14 @@ npm run test-template
 
 To run on a specific top level directory (ex: change-list)
 ```sh
-TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_change-list
+TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_closure_test.sh //polygerrit-ui/app:closure_test_change-list
 ```
 
 To run on a specific file (ex: gr-change-list-view), execute the following command:
 ```sh
-TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_<TOP_LEVEL_DIRECTORY> --test_arg=<VIEW_NAME>
+TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_closure_test.sh //polygerrit-ui/app:closure_test_<TOP_LEVEL_DIRECTORY> --test_arg=<VIEW_NAME>
 ```
 
 ```sh
-TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_change-list --test_arg=gr-change-list-view
+TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_closure_test.sh //polygerrit-ui/app:closure_test_change-list --test_arg=gr-change-list-view
 ```

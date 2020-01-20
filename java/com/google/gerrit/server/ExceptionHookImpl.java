@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.git.LockFailureException;
 import java.util.Optional;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.RefUpdate;
 
 /**
@@ -42,6 +43,9 @@ public class ExceptionHookImpl implements ExceptionHook {
     if (isLockFailure(throwable)) {
       return Optional.of(RefUpdate.Result.LOCK_FAILURE.name());
     }
+    if (isMissingObjectException(throwable)) {
+      return Optional.of("missing_object");
+    }
     return Optional.empty();
   }
 
@@ -63,6 +67,10 @@ public class ExceptionHookImpl implements ExceptionHook {
 
   private static boolean isLockFailure(Throwable throwable) {
     return isMatching(throwable, t -> t instanceof LockFailureException);
+  }
+
+  private static boolean isMissingObjectException(Throwable throwable) {
+    return isMatching(throwable, t -> t instanceof MissingObjectException);
   }
 
   /**

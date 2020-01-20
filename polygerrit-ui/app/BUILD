@@ -1,6 +1,7 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load(":rules.bzl", "polygerrit_bundle")
+load("@build_bazel_rules_nodejs//:index.bzl", "pkg_web")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -20,7 +21,8 @@ polygerrit_bundle(
         ],
     ),
     outs = ["polygerrit_ui.zip"],
-    app = "elements/gr-app.html",
+    entry_point = "elements/gr-app.html",
+    redirects = "redirects.json"
 )
 
 bower_component_bundle(

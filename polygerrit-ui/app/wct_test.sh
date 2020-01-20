@@ -12,6 +12,12 @@ unzip -qd $t $code
 mkdir -p $t/test
 cp $TEST_SRCDIR/gerrit/polygerrit-ui/app/test/index.html $t/test/
 
+# In this commit, bower_components are used for testing.
+# The import statement in font-roboto-local-loader.js breaks tests.
+# Clear content of the file to fix tests.
+# In the next change this line is removed.
+echo -n "" > $t/elements/font-roboto-local-loader.js
+
 if [ "${WCT_HEADLESS_MODE:-0}" != "0" ]; then
     CHROME_OPTIONS=[\'start-maximized\',\'headless\',\'disable-gpu\',\'no-sandbox\']
     FIREFOX_OPTIONS=[\'-headless\']

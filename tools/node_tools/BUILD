@@ -18,7 +18,7 @@ nodejs_binary(
     #    --flaky_test_attempts 3 --test_verbose_timeout_warnings --build_tests_only \
     #    --subcommands //...
     # This command line appears in Gerrit CI.
-    entry_point = "//tools/node_tools:node_modules/rollup/dist/bin/rollup",
+    entry_point = "@tools_npm//:node_modules/rollup/dist/bin/rollup",
 )
 
 # Create a tsc_wrapped compiler rule to use in the ts_library

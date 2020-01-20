@@ -50,6 +50,10 @@ limitations under the License.
           match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
           link: 'https://bugs.chromium.org/p/gerrit/issues/detail?id=$2',
         },
+        prefixsameinlinkandpattern: {
+          match: '([Hh][Tt][Tt][Pp]example)\\s*#?(\\d+)',
+          link: 'https://bugs.chromium.org/p/gerrit/issues/detail?id=$2',
+        },
         changeid: {
           match: '(I[0-9a-f]{8,40})',
           link: '#/q/$1',
@@ -114,6 +118,18 @@ limitations under the License.
       assert.equal(linkEl.rel, 'noopener');
       assert.equal(linkEl.href, url);
       assert.equal(linkEl.textContent, 'Bug 3650');
+    });
+
+    test('Pattern with same prefix as link was correctly parsed', () => {
+      // Pattern starts with the same prefix (`http`) as the url.
+      element.content = 'httpexample 3650';
+
+      assert.equal(element.$.output.childNodes.length, 1);
+      const linkEl = element.$.output.childNodes[0];
+      const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+      assert.equal(linkEl.target, '_blank');
+      assert.equal(linkEl.href, url);
+      assert.equal(linkEl.textContent, 'httpexample 3650');
     });
 
     test('Change-Id pattern was parsed and linked', () => {

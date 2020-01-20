@@ -1,6 +1,8 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load(":rules.bzl", "polygerrit_bundle")
+load("@build_bazel_rules_nodejs//:index.bzl", "pkg_web")
+load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "pkg_web2", "update_links")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -163,5 +165,39 @@ filegroup(
     srcs = [
         "template_test_srcs/convert_for_template_tests.py",
         "template_test_srcs/template_test.js",
+    ],
+)
+
+POLYGERRIT_RELEASE_SOURCE = glob(
+    include = [
+        "behaviors/**",
+        "elements/**",
+        "embed/**",
+        "externs/**",
+        "gr-diff/**",
+        "scripts/**",
+        "styles/**",
+        "types/**",
+    ],
+    exclude = [
+        "**/*_test.html",
+    ],
+)
+
+update_links(
+    name = "polygerrit-ui-updated-links",
+    srcs = POLYGERRIT_RELEASE_SOURCE,
+    redirects = "redirects.json",
+)
+
+pkg_web(
+    name = "polygerrit_pkg",
+    srcs = [
+        ":polygerrit-ui-updated-links",
+        "@ui_npm//:node_modules",
+    ],
+    additional_root_paths = [
+        "ui_npm",
+        "polygerrit-ui/app/polygerrit-ui-updated-links/polygerrit-ui/app",
     ],
 )

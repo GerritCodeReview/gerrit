@@ -548,6 +548,30 @@
       "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46c0fd84_7da43fff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-20T08:06:45Z",
+      "side": 1,
+      "message": "\u003e Coming back to your previous question about preventing DoS:\n\u003e \"How do you propose addressing the potential remaining DOS (a user requesting the last pagination token over and over)?\"\n\u003e Couldn\u0027t you prevent/mitigate this by using this capability to grant only a very low limit for Anonymous Users (e.g results for one page only) and assign a higher limit only for trusted users? But that wouldn\u0027t work anymore when the limit can be bypassed.\n\nOh, I think I finally get it, you are saying this does not help, because users could skip the first 10000 results and then get whatever number of changes they are allowed by the limit, which might be similarly expensive as getting all results? But that may depend on the index implementation, doesn\u0027t it?\n\nYeah, in this case I agree that changing the meaning of the capability to \"default\" limit makes more sense. But I would still prefer this as a proper follow-up change.",
+      "parentUuid": "a1b8056d_61e09bab",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "561e820634c9a6ad6fc1266eb30ae992448f71f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

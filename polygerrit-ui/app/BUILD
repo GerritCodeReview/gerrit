@@ -20,7 +20,8 @@ polygerrit_bundle(
         ],
     ),
     outs = ["polygerrit_ui.zip"],
-    app = "elements/gr-app.html",
+    entry_point = "elements/gr-app.html",
+    redirects = "redirects.json",
 )
 
 bower_component_bundle(

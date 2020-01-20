@@ -49,7 +49,7 @@ limitations under the License.
     };
 
     setup(() => {
-      this.clock = sinon.useFakeTimers();
+      window.clock = sinon.useFakeTimers();
       sandbox = sinon.sandbox.create();
       getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
       sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
@@ -70,7 +70,7 @@ limitations under the License.
     });
 
     teardown(() => {
-      this.clock.restore();
+      window.clock.restore();
       sandbox.restore();
       element._removeEventCallbacks();
       plugin = null;
@@ -226,7 +226,7 @@ limitations under the License.
       assert.isFalse(spy.called);
 
       // Timeout on loading plugins
-      this.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
+      window.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
 
       flush(() => {
         assert.isTrue(spy.called);

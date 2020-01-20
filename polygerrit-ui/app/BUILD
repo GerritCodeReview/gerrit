@@ -1,6 +1,7 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load(":rules.bzl", "polygerrit_bundle")
+load("@build_bazel_rules_nodejs//:index.bzl", "pkg_web")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -20,7 +21,8 @@ polygerrit_bundle(
         ],
     ),
     outs = ["polygerrit_ui.zip"],
-    app = "elements/gr-app.html",
+    entry_point = "elements/gr-app.html",
+    redirects = "redirects.json"
 )
 
 bower_component_bundle(
@@ -166,5 +168,38 @@ filegroup(
     srcs = [
         "template_test_srcs/convert_for_template_tests.py",
         "template_test_srcs/template_test.js",
+    ],
+)
+
+POLYGERRIT_SOURCE_DIRS = [
+    "behaviors",
+    "elements",
+    "embed",
+    "externs",
+    "gr-diff",
+    "scripts",
+    "styles",
+    "types",
+]
+
+POLYGERRIT_RELEASE_SOURCE = glob(
+    include = [dir + "/**/*" + ext for dir in POLYGERRIT_SOURCE_DIRS for ext in [
+        ".html",
+        ".js",
+    ]],
+    exclude = [
+        "**/*_test.html",
+    ],
+)
+
+pkg_web(
+    name = "polygerrit-src-pkg",
+    srcs = [
+        ":polygerrit-ui-updated-links",
+        "@ui_npm//:node_modules",
+    ],
+    additional_root_paths = [
+        "ui_npm",
+        "polygerrit-ui/app/polygerrit-ui-updated-links/polygerrit-ui/app",
     ],
 )

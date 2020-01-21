@@ -37,11 +37,6 @@ limitations under the License.
       :host(.no-left) .sideBySide .right:not([data-value]) + td {
         display: none;
       }
-      ::slotted(*) .thread-group {
-        display: block;
-        max-width: var(--content-width, 80ch);
-        white-space: normal;
-      }
       :host {
         font-family: var(--monospace-font-family, ''), 'Roboto Mono';
         font-size: var(--font-size, var(--font-size-code, 12px));
@@ -52,6 +47,7 @@ limitations under the License.
         display: block;
         max-width: var(--content-width, 80ch);
         white-space: normal;
+        background-color: var(--diff-blank-background-color);
       }
       .diffContainer {
         display: flex;
@@ -67,7 +63,7 @@ limitations under the License.
         table-layout: fixed;
       }
       .lineNum {
-        background-color: var(--table-header-background-color);
+        background-color: var(--diff-blank-background-color);
       }
       .image-diff .gr-diff {
         text-align: center;
@@ -94,13 +90,16 @@ limitations under the License.
         color: var(--primary-text-color);
       }
       .content {
+        background-color: var(--diff-blank-background-color);
+      }
+      .contentText {
         background-color: var(--view-background-color);
       }
       .blank {
         background-color: var(--diff-blank-background-color);
       }
       .image-diff .content {
-        background-color: var(--table-header-background-color);
+        background-color: var(--diff-blank-background-color);
       }
       .full-width {
         width: 100%;
@@ -135,48 +134,48 @@ limitations under the License.
         min-width: var(--content-width, 80ch);
         width: var(--content-width, 80ch);
       }
-      .content.add .intraline,
+      .content.add .contentText .intraline,
       /* If there are no intraline info, consider everything changed */
-      .content.add.no-intraline-info,
-      .delta.total .content.add {
+      .content.add.no-intraline-info .contentText,
+      .delta.total .content.add .contentText {
         background-color: var(--dark-add-highlight-color);
       }
-      .content.add {
+      .content.add .contentText {
         background-color: var(--light-add-highlight-color);
       }
-      .content.remove .intraline,
+      .content.remove .contentText .intraline,
       /* If there are no intraline info, consider everything changed */
-      .content.remove.no-intraline-info,
-      .delta.total .content.remove {
+      .content.remove.no-intraline-info .contentText,
+      .delta.total .content.remove .contentText  {
         background-color: var(--dark-remove-highlight-color);
       }
-      .content.remove {
+      .content.remove .contentText {
         background-color: var(--light-remove-highlight-color);
       }
 
       /* dueToRebase */
-      .dueToRebase .content.add .intraline,
-      .delta.total.dueToRebase .content.add {
+      .dueToRebase .content.add .contentText .intraline,
+      .delta.total.dueToRebase .content.add .contentText {
         background-color: var(--dark-rebased-add-highlight-color);
       }
-      .dueToRebase .content.add {
+      .dueToRebase .content.add .contentText {
         background-color: var(--light-rebased-add-highlight-color);
       }
-      .dueToRebase .content.remove .intraline,
-      .delta.total.dueToRebase .content.remove {
+      .dueToRebase .content.remove .contentText .intraline,
+      .delta.total.dueToRebase .content.remove .contentText {
         background-color: var(--dark-rebased-remove-highlight-color);
       }
-      .dueToRebase .content.remove {
+      .dueToRebase .content.remove .contentText {
         background-color: var(--light-remove-add-highlight-color);
       }
 
       /* ignoredWhitespaceOnly */
-      .ignoredWhitespaceOnly .content.add .intraline,
-      .delta.total.ignoredWhitespaceOnly .content.add,
-      .ignoredWhitespaceOnly .content.add,
-      .ignoredWhitespaceOnly .content.remove .intraline,
-      .delta.total.ignoredWhitespaceOnly .content.remove,
-      .ignoredWhitespaceOnly .content.remove {
+      .ignoredWhitespaceOnly .content.add .contentText .intraline,
+      .delta.total.ignoredWhitespaceOnly .content.add .contentText,
+      .ignoredWhitespaceOnly .content.add .contentText,
+      .ignoredWhitespaceOnly .content.remove .contentText .intraline,
+      .delta.total.ignoredWhitespaceOnly .content.remove .contentText,
+      .ignoredWhitespaceOnly .content.remove .contentText {
         background: none;
       }
 
@@ -281,8 +280,7 @@ limitations under the License.
         width: 200px;
       }
       /** Support the line length indicator **/
-      .full-width td.content,
-      .full-width td.blank {
+      .full-width td.content .contentText {
         /* Base 64 encoded 1x1px of #ddd */
         background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8+x8AAr8B3gzOjaQAAAAASUVORK5CYII=');
         background-position: var(--line-limit) 0;

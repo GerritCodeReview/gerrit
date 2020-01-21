@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07af225c_52c1f90b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1464,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T14:38:02Z",
+      "side": 1,
+      "message": "Is there a reason to separate the calls into two then() blocks? (both send a log event)",
+      "range": {
+        "startLine": 1464,
+        "startChar": 8,
+        "endLine": 1464,
+        "endChar": 23
+      },
+      "revId": "b3ef7afda63decbcda2fd7b2a2e44a4ebf440867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

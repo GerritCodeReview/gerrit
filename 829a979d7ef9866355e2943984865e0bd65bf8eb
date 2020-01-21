@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "fa07574b_bd0ba8b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-21T10:37:58Z",
+      "side": 1,
+      "message": "This should not only be for revert submission, but also for normal reverts.",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f67f748_c29e802b",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
         "patchSetId": 4

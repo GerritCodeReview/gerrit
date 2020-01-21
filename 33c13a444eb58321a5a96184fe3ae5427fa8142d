@@ -105,6 +105,24 @@
       "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e17edf7_83d7ff13",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2020-01-21T18:25:45Z",
+      "side": 1,
+      "message": "I am only suggesting a better name for this a new config option in this change. All the other suggestions were for possible future enhancements. Since it is a new option, you should be able to code it to only do things for uploads and not moves right? If you want to add a onMove version also, that\u0027s great, but that also would seem appropriate as a follow-on change if desired.",
+      "parentUuid": "8ab0d0d4_55690a57",
+      "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b58c6995_b2c78dfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-21T06:15:52Z",
+      "side": 1,
+      "message": "it seems that it will affect not only same initial char right ? as long as you have common prefix between the pattern and the link, it  will output the wrong result. Maybe update this commit message a bit to clarify the issue more ?",
+      "revId": "046f2dc68ee3ecabe6875384ce03f84b6d597d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e5e727d_e547fcde",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-21T06:15:52Z",
+      "side": 1,
+      "message": "will it only occur if its same for first char ? or it will occur if they have common prefix without limit of length of the prefix ?",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 27
+      },
+      "revId": "046f2dc68ee3ecabe6875384ce03f84b6d597d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36044f38_63d437a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-21T06:15:52Z",
+      "side": 1,
+      "message": "I would assert on the entire output innerHTML to rule out any possible errors (like char shows before / after the link)",
+      "revId": "046f2dc68ee3ecabe6875384ce03f84b6d597d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73f3ba59_d120643e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-21T06:15:52Z",
+      "side": 1,
+      "message": "maybe reword this and explain why only `html` type needs this ?",
+      "revId": "046f2dc68ee3ecabe6875384ce03f84b6d597d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

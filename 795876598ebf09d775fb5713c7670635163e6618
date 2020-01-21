@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "bf8ebe88_be117ac8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d95669cb_c997eec6",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 13,
+        "endChar": 59
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "422aa61a_83faf9b9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -82,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "adb4a580_eb3e8e54",
+        "filename": "java/com/google/gerrit/pgm/DeleteDeadDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e953b4db_a4948d8b",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98cfb7d2_dafc150a",
         "filename": "java/com/google/gerrit/pgm/DeleteDeadDrafts.java",
         "patchSetId": 4
@@ -105,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "61c70d2c_5b09d344",
+        "filename": "java/com/google/gerrit/pgm/DeleteDeadDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98cfb7d2_dafc150a",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "924f5f30_902df331",
         "filename": "java/com/google/gerrit/pgm/DeleteDeadDrafts.java",
         "patchSetId": 4
@@ -119,6 +185,24 @@
       "revId": "795876598ebf09d775fb5713c7670635163e6618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79ddb310_8b7e0a8b",
+        "filename": "java/com/google/gerrit/pgm/DeleteDeadDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "I think every pgm has slightly different needs of classes to be injected, e.g. reindex needs an index module that is not needed here.\nAlso, I copied my injector here from Passwd.java (another pgm) and I simplified the bindings further. I can still add a default lightweight #getSysInjector in the base class \"SiteProgram\", however other pgms will still have to override that. So I prefer to keep it as it is.",
+      "parentUuid": "924f5f30_902df331",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +223,24 @@
     },
     {
       "key": {
+        "uuid": "23d24653_8cfd1265",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9339a81d_494afe96",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a45a869_8ea3c3fb",
         "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
         "patchSetId": 4
@@ -153,6 +255,24 @@
       "revId": "795876598ebf09d775fb5713c7670635163e6618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d48a54bf_382a08c4",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a45a869_8ea3c3fb",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -179,6 +299,30 @@
     },
     {
       "key": {
+        "uuid": "84c00ffc_7f3b68a5",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a27aff03_8f7de92d",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 4
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a07d4eb7_75502d1d",
         "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
         "patchSetId": 4
@@ -193,6 +337,24 @@
       "revId": "795876598ebf09d775fb5713c7670635163e6618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b1f1455_efdbd929",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a07d4eb7_75502d1d",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -219,6 +381,30 @@
     },
     {
       "key": {
+        "uuid": "22c3c47f_202397ee",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done. Thanks for the tip ;)",
+      "parentUuid": "40a2d428_33525075",
+      "range": {
+        "startLine": 45,
+        "startChar": 29,
+        "endLine": 45,
+        "endChar": 62
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c5dbb_c681fdd8",
         "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
         "patchSetId": 4
@@ -242,6 +428,30 @@
     },
     {
       "key": {
+        "uuid": "b5acb545_c5f63ecb",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Thanks for pointing me to this. Done.",
+      "parentUuid": "bb5c5dbb_c681fdd8",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83c05ed3_804fadda",
         "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
         "patchSetId": 4
@@ -256,6 +466,24 @@
       "revId": "795876598ebf09d775fb5713c7670635163e6618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c4a07cc_9dd907c0",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteDeadDraftCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83c05ed3_804fadda",
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -330,6 +558,30 @@
     },
     {
       "key": {
+        "uuid": "6a02ea13_17a98212",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80a71337_cce0f72f",
+      "range": {
+        "startLine": 42,
+        "startChar": 53,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ca094b4_2d9d8e0e",
         "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
         "patchSetId": 4
@@ -377,6 +629,30 @@
     },
     {
       "key": {
+        "uuid": "64561bdb_9ae73fb8",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e346890_cfe0adbe",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e61e889d_4781b8ab",
         "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
         "patchSetId": 4
@@ -400,6 +676,30 @@
     },
     {
       "key": {
+        "uuid": "0d99f40a_e25073c7",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e61e889d_4781b8ab",
+      "range": {
+        "startLine": 76,
+        "startChar": 66,
+        "endLine": 76,
+        "endChar": 70
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "608a578b_865bc561",
         "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
         "patchSetId": 4
@@ -420,6 +720,30 @@
       "revId": "795876598ebf09d775fb5713c7670635163e6618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d8e0a08_28bed623",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteDeadDraftCommentsRefsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-21T10:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "608a578b_865bc561",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 3
+      },
+      "revId": "795876598ebf09d775fb5713c7670635163e6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

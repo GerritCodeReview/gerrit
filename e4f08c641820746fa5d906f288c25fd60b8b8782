@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95141ce6_cd3c08cc",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T15:49:57Z",
+      "side": 0,
+      "message": "This return needs to be kept in case there are no new robot comments to add. It is used to tell NoteDb if the operation was a no-op or not.",
+      "range": {
+        "startLine": 1047,
+        "startChar": 3,
+        "endLine": 1049,
+        "endChar": 7
+      },
+      "revId": "e4f08c641820746fa5d906f288c25fd60b8b8782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

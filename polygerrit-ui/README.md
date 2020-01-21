@@ -104,7 +104,7 @@ to the `npm install` command to avoid file permission errors.
 
 For daily development you typically only want to run and debug individual tests.
 Run the local [Go proxy server](#go-server) and navigate for example to
-<http://localhost:8081/elements/change/gr-account-entry/gr-account-entry_test.html>.
+<http://localhost:8081/elements/shared/gr-account-entry/gr-account-entry_test.html>.
 Check "Disable cache" in the "Network" tab of Chrome's dev tools, so code
 changes are picked up on "reload".
 

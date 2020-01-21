@@ -133,7 +133,7 @@ class PatchScriptBuilder {
     edits = new ArrayList<>(content.getEdits());
     ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
 
-    if (isModify(content) && diffPrefs.intralineDifference) {
+    if (isModify(content) && diffPrefs.intralineDifference && isIntralineModeAllowed(b)) {
       IntraLineDiff d =
           patchListCache.getIntraLineDiff(
               IntraLineDiffKey.create(a.id, b.id, diffPrefs.ignoreWhitespace),
@@ -267,6 +267,16 @@ class PatchScriptBuilder {
     }
   }
 
+  private static boolean isIntralineModeAllowed(Side side) {
+    // The intraline diff cache keys are the same for these cases. It's better to not show
+    // intraline results than showing completely wrong diffs or to run into a server error.
+    return !Patch.isMagic(side.path) && !isSubmoduleCommit(side.mode);
+  }
+
+  private static boolean isSubmoduleCommit(FileMode mode) {
+    return mode.getObjectType() == Constants.OBJ_COMMIT;
+  }
+
   private void correctForDifferencesInNewlineAtEnd() {
     // a.src.size() is the size ignoring a newline at the end whereas a.size() considers it.
     int aSize = a.src.size();
@@ -276,6 +286,12 @@ class PatchScriptBuilder {
       // The diff was requested for a file which was either added or deleted but which JGit doesn't
       // consider a file addition/deletion (e.g. requesting a diff for the old file name of a
       // renamed file looks like a deletion).
+      return;
+    }
+
+    if (edits.isEmpty() && (aSize != bSize)) {
+      // Only edits due to rebase were present. If we now added the edits for the newlines, the
+      // code which later assembles the file contents would fail.
       return;
     }
 

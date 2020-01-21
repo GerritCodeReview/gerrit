@@ -713,10 +713,12 @@
     }
 
     _handleReplySent(e) {
+      this.addEventListener('change-details-loaded',
+          () => {
+            this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+          }, {once: true});
       this.$.replyOverlay.close();
-      this._reload().then(() => {
-        this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
-      });
+      this._reload();
     }
 
     _handleReplyCancel(e) {
@@ -1459,7 +1461,11 @@
       // Resolves when the loading flag is set to false, meaning that some
       // change content may start appearing.
       const loadingFlagSet = detailCompletes
-          .then(() => { this._loading = false; })
+          .then(() => {
+            this._loading = false;
+            this.dispatchEvent(new CustomEvent('change-details-loaded',
+                {bubbles: true, composed: true}));
+          })
           .then(() => {
             this.$.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
             if (opt_isLocationChange) {

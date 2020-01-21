@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "366ae0a5_536c284e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-21T12:38:46Z",
+      "side": 1,
+      "message": "Maybe we should get rid of SEND_REPLY_TIMING_LABEL entirely then?\n\nIn its current form it is capturing too much of ChangeReloaded.\n\nIn its proposed form it is really just capturing the latency of restAPI.saveChangeReview. And if we want to measure certain rest api latency client side, then we should do that in a more generic fashion in gr-rest-api-interface.\n\nWhat you proposed is to measure between line 442 and 494 in gr-reply-dialog.js:\n442 this.$.reporting.time(SEND_REPLY_TIMING_LABEL);\n494 this.fire(\u0027send\u0027, null, {bubbles: false});\n\nIs there reason to believe that anything in that block is taking longer than a few nanoseconds other than the API call in line 480?\n480 return this._saveReview(obj, errFn)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "c639739085cea7cb657d58f1d73bdea28bc62591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f3d35d9_00ce119d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

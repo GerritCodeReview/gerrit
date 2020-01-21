@@ -31,6 +31,7 @@ import com.google.gerrit.httpd.RequestCleanupFilter;
 import com.google.gerrit.httpd.RequestContextFilter;
 import com.google.gerrit.httpd.RequestMetricsFilter;
 import com.google.gerrit.httpd.RequireSslFilter;
+import com.google.gerrit.httpd.SetThreadNameFilter;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
@@ -385,6 +386,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(sysInjector.getInstance(GerritAuthModule.class));
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(RequestCleanupFilter.module());
+    modules.add(SetThreadNameFilter.module());
     modules.add(AllRequestFilter.module());
     modules.add(sysInjector.getInstance(WebModule.class));
     modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));

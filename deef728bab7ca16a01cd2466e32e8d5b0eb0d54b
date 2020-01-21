@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "af74a5df_1c1b22fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T12:40:08Z",
+      "side": 1,
+      "message": "Done. Mentioned it explicitly, it\u0027s definitely one of the larger benefits here.",
+      "parentUuid": "6ff68505_e1aeddc5",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a93a435_63564aad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "df8914ac_a428ff5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T12:40:08Z",
+      "side": 1,
+      "message": "Done. This is the last cleanup in the series and I\u0027ve abandoned the others. The intermediate state was not contained in any release, so users will see the new options from this change right away. I\u0027ve added this to the release notes.\n\nThanks for suggesting the use-case orientation, seems like a good way to document this in the release notes.",
+      "parentUuid": "8a93a435_63564aad",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a46490d7_9191e9c9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -62,6 +110,24 @@
       "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f33dac91_4da72198",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T12:40:08Z",
+      "side": 1,
+      "message": "Done. Nice suggestion, I adapted the names.",
+      "parentUuid": "a46490d7_9191e9c9",
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "f097c1ec_1e788572",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T12:40:08Z",
+      "side": 1,
+      "message": "This is actually the middle option.",
+      "parentUuid": "d314fec6_b34d2009",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a877e58b_3048d7d5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "15b4e6b5_829a9af0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T12:40:08Z",
+      "side": 1,
+      "message": "Renamed \u0027ALWAYS\u0027 to to be API_REF_UPDATED_AND_CHANGE_REINDEX",
+      "parentUuid": "a877e58b_3048d7d5",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 25
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e8770c4_bdb15259",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -131,6 +245,30 @@
       "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ac46b3e_70a58039",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T12:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e8770c4_bdb15259",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "deef728bab7ca16a01cd2466e32e8d5b0eb0d54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

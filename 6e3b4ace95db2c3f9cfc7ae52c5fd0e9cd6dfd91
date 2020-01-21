@@ -124,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "8114b6dd_f3b07841",
+        "filename": "java/com/google/gerrit/server/git/validators/DefaultLimits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-21T15:01:55Z",
+      "side": 1,
+      "message": "I had added this class to avoid duplicate literals for the config parameter. Now that the check is centralized it\u0027s no longer necessary.\n\nI do agree that a general refactoring would make sense.",
+      "parentUuid": "138f981c_497fa9ff",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 49
+      },
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9a4b877_ea051391",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
         "patchSetId": 11
@@ -170,6 +194,30 @@
       "writtenOn": "2020-01-15T09:18:09Z",
       "side": 1,
       "message": "nit: We try to do such code moving in separate commits to keep git blame cleaner in that it is easier to check the blame and see a line was modified by a commit that says \"Extract code into TestCommentHelper\" rather than a commit that says \"Limit number of comments\". The latter forces the caller to inspect the commit to check if it is the culprit of what they are searching for.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "6e3b4ace95db2c3f9cfc7ae52c5fd0e9cd6dfd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd27b190_700cd9a1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-21T15:01:55Z",
+      "side": 1,
+      "message": "Extracted to If24adc10f5f16cd8894bf246078f0e6c992cdafa",
+      "parentUuid": "1461164e_79222988",
       "range": {
         "startLine": 47,
         "startChar": 0,

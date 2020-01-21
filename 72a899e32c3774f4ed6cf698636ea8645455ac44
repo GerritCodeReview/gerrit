@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "343966e0_32f54e26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-21T09:38:20Z",
+      "side": 1,
+      "message": "Nit: lowercase \"when\".",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 5
+      },
+      "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7299686f_56b7a758",
+        "filename": "java/com/google/gerrit/server/git/UsersSelfAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-21T09:38:20Z",
+      "side": 1,
+      "message": "static, see comment below.",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20d2be42_aef57f8b",
+        "filename": "java/com/google/gerrit/server/git/UsersSelfAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-21T09:38:20Z",
+      "side": 1,
+      "message": "Unnecessary check, as it was checked alreaday by the caller.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "638f4272_444904ae",
+        "filename": "java/com/google/gerrit/server/git/UsersSelfAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-21T09:38:20Z",
+      "side": 1,
+      "message": "Nit: The callers could resolve the provider and pass in accountId directly:\n\nThe caller site:\n\n  CurrentUser resolvedUser \u003d user.get();\n  if (!resolvedUser.isIdentifiedUser()) {\n      return;\n  }\n  addSelfSymlinkIfNecessary(..., resolvedUser.getAccountId());\n\nAnother advantage would be that then ts method would be stateless and could be defined as static.",
+      "range": {
+        "startLine": 75,
+        "startChar": 40,
+        "endLine": 75,
+        "endChar": 50
+      },
+      "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

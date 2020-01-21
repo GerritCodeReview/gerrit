@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f3d35d9_00ce119d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T10:40:28Z",
+      "side": 1,
+      "message": "I am not sure about this, actually. What the user sees is the time that it takes from hitting \"Send\" until they see the result. That does include the change screen re-rendering.\n\nWe can change the metrics as proposed by this change, but then we have to adapt our dashboards to incldue \"change reloaded\" in \"SendReply\" which is hard because both have percentiles, so augmenting them is not trivial.\n\nWe could also just clean up_reload() or the callback to report the metric once ChangeDisplayed fires (instead of ChangeFullyDisplayed) like it is now.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "c639739085cea7cb657d58f1d73bdea28bc62591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "b3ef7afda63decbcda2fd7b2a2e44a4ebf440867",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff173d25_e3141130",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1464,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-21T14:51:06Z",
+      "side": 1,
+      "message": "Thanks! (I as asking because from a user\u0027s perspective \u0027ChangeDisplayed\u0027 and \u0027SendReply\u0027 happen at the same point in time, but are handled differently here).",
+      "parentUuid": "f545d20d_a5fe22c6",
+      "range": {
+        "startLine": 1464,
+        "startChar": 8,
+        "endLine": 1464,
+        "endChar": 23
+      },
+      "revId": "b3ef7afda63decbcda2fd7b2a2e44a4ebf440867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

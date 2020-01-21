@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b0e9792_ba1d8799",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-01-21T13:55:31Z",
+      "side": 1,
+      "message": "feels a little large. Maybe you can check our internal implementation, I think it has a smaller batch size.",
+      "range": {
+        "startLine": 39,
+        "startChar": 31,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "aa5f0a186b5a6e1cd614e15cfd3978cb7c1f3b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "b3ef7afda63decbcda2fd7b2a2e44a4ebf440867",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f545d20d_a5fe22c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1464,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-21T14:42:26Z",
+      "side": 1,
+      "message": "In ideal solution we would end metric once we renders content. That would put a lot of complexity in code and I never encounter reason to do that since rendering page it\u0027s not issue. \n\nHowever we still want to do finish metric in same thread/js stack as we prepare data. The solution for this is different then() block or through event handling. Here are both solution used together.",
+      "parentUuid": "07af225c_52c1f90b",
+      "range": {
+        "startLine": 1464,
+        "startChar": 8,
+        "endLine": 1464,
+        "endChar": 23
+      },
+      "revId": "b3ef7afda63decbcda2fd7b2a2e44a4ebf440867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

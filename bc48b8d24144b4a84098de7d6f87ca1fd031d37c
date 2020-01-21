@@ -16,6 +16,24 @@
       "revId": "bc48b8d24144b4a84098de7d6f87ca1fd031d37c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cfcf13e_a4649dac",
+        "filename": "package.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-21T06:36:15Z",
+      "side": 1,
+      "message": "i think its fine for now. We may have to get rid of closure-test once we moved to typescript, so I prefer less changes in other repos, fewer dependencies and we can always define what template test should be",
+      "parentUuid": "49650d9d_687923ac",
+      "revId": "bc48b8d24144b4a84098de7d6f87ca1fd031d37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

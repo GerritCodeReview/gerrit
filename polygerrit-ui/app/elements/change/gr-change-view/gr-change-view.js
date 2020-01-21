@@ -713,10 +713,9 @@
     }
 
     _handleReplySent(e) {
+      this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
       this.$.replyOverlay.close();
-      this._reload().then(() => {
-        this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
-      });
+      this._reload();
     }
 
     _handleReplyCancel(e) {

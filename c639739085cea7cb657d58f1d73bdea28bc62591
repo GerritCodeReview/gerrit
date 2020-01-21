@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "69a29dda_f9e0a61e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-21T13:21:21Z",
+      "side": 1,
+      "message": "You are right without capturing change display, send_reply is same as API call. I changed it in latest patchset as Patrick requested.\n\nI think this metric is good to have. We can change reloading in future for updating dom directly after send, which will improve send reply metric.",
+      "parentUuid": "366ae0a5_536c284e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "c639739085cea7cb657d58f1d73bdea28bc62591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f3d35d9_00ce119d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "c639739085cea7cb657d58f1d73bdea28bc62591",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe25034_0ad21768",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-21T13:21:21Z",
+      "side": 1,
+      "message": "I understand, ok, I rewrite it and we capture as well ChangeDisplay",
+      "parentUuid": "7f3d35d9_00ce119d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "c639739085cea7cb657d58f1d73bdea28bc62591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a60557d7_ab427278",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-01-21T17:09:58Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why we have this rule twice, once for slotted, once for not slotted - is that related to the Polymer migration? Could we\n1) Add a comment explaining that.\n2) Maybe group these rules like this:\n\n::slotted(*) .thread-group,\n.thread-group {\n  ... rules here ...\n}\n\nTo avoid duplication?",
+      "revId": "d0930acbb09c19aed81938b79e41602fa435c234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

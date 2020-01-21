@@ -104,6 +104,12 @@
             fn.call(this);
           } else if (iters++ < AWAIT_MAX_ITERS) {
             step.call(this);
+          } else {
+            // TODO(crbug.com/gerrit/10774): Once this is confirmed as the root
+            // cause of the bug, fix it by either making sure to resolve the fn
+            // function or find a better way to listen on the overlay being
+            // shown.
+            console.warn('gr-overlay _awaitOpen failed to resolve');
           }
         }, AWAIT_STEP);
       };

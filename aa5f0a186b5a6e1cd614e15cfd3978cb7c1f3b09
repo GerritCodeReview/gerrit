@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "bc0410b5_9a1f8d63",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "nit:\n\nFrom: https://stackoverflow.com/questions/1082050/linking-to-an-external-url-in-javadoc\n\n\u003ca href\u003d\"\u003ca href\u003d\"http://google.com\"\u003ehttp://google.com\u003c/a\u003e\"\u003e\u003ca href\u003d\"http://google.com\"\u003ehttp://google.com\u003c/a\u003e\u003c/a\u003e",
+      "range": {
+        "startLine": 30,
+        "startChar": 3,
+        "endLine": 30,
+        "endChar": 59
+      },
+      "revId": "aa5f0a186b5a6e1cd614e15cfd3978cb7c1f3b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d5274c9_24adfce6",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "nit: {@code refs/....}",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 4
+      },
+      "revId": "aa5f0a186b5a6e1cd614e15cfd3978cb7c1f3b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b0e9792_ba1d8799",
         "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
         "patchSetId": 5
@@ -46,6 +92,75 @@
       "revId": "aa5f0a186b5a6e1cd614e15cfd3978cb7c1f3b09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11baf53a_de7d5dc9",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "nit: try to avoid abbreviations in names when not absolutely necessary (numX is a counter example to that, but SZ is not that common)",
+      "range": {
+        "startLine": 39,
+        "startChar": 27,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "aa5f0a186b5a6e1cd614e15cfd3978cb7c1f3b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60a47fe7_bb933a63",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "Can we make this configurable?\n\nIn the program, we can accept a parameter (for reference, see Passwd). That we can pass into here. The background of my ask is that as an administrator, I\u0027d want to run this for just a single batch first. See how it goes and then continue from there. Deleting many refs at once could be a problem for replication, so admins might want to control this tightly.\n\nChunking up the list is a good idea when using BatchRefUpdate as you did in your new patch set. We could have the user provide a percentage instead as a parameter and process only that percentage.\n\nSo as an administrator, I would try out this program with 1%, increase it to 5%. Percentages are hard when the operation that you perform changes the data set (5% on the second run would be taken from all draft comments that exist at this point, neglecting the 1% that already happened).\n\nAn option to work around this limitation is using modulo on an input identifier as approximation.\n\nSo, the user specifies that they want to clean up 10% of draft comments and you process all zombies where\n\n(changeId % 100) \u003c 10\n\nThe next time around, they want to process 50%, so you process:\n\n(changeId % 100) \u003c 50.\n\nSo admins can run the program by increasing the number 1,5,20,50,100 or linearly as 1,10,20,30,...\n\nThe batch size could be 100 and we stop when we reached the percentage that the admin gave us.",
+      "range": {
+        "startLine": 63,
+        "startChar": 24,
+        "endLine": 63,
+        "endChar": 41
+      },
+      "revId": "aa5f0a186b5a6e1cd614e15cfd3978cb7c1f3b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64210255_830eb709",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "\"allDraftRefs\"\n\nInitialize the size of the array list with a fraction of the overall number of drafts that we see as an upper bound on the number of zombies (for example 0.5 * allDraftRefs.size(). That avoids excessive copying.",
+      "range": {
+        "startLine": 72,
+        "startChar": 34,
+        "endLine": 73,
+        "endChar": 45
+      },
+      "revId": "aa5f0a186b5a6e1cd614e15cfd3978cb7c1f3b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

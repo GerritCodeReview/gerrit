@@ -25,6 +25,47 @@
     },
     {
       "key": {
+        "uuid": "e901d7e9_d5a8dfc7",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "Great!",
+      "parentUuid": "f3535eaf_20273a70",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 20
+      },
+      "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "316b5df6_710ee1eb",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "Use try-with-resources:\n\ntry (Repository userRepo \u003d ...) {\n...\n}\n\nIt makes sure your close the repo (works for any AutoCloseable) regardless of if the code throws an exception. It also makes sure the engineer can\u0027t forget the \u0027close\u0027 call.",
+      "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ba21595f_a3df556f",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
         "patchSetId": 6
@@ -42,6 +83,70 @@
         "endLine": 71,
         "endChar": 31
       },
+      "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7216d353_8e0833c4",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "You can use a BatchRefUpdate to create the refs in a single operation, that should speed it up significantly.",
+      "parentUuid": "ba21595f_a3df556f",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 31
+      },
+      "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "028dbf29_a0d13b0a",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "assertThat(allUsersRepo.getRefDatabase().getRefs().stream().map(Ref::getName)).containsExactly(goodRefs)\n\nLooks more complicated at first, but produces a better error message listing all refs that are in the repo vs. what would have been expected.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7c88933_f64af7cb",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T13:27:08Z",
+      "side": 1,
+      "message": "These can be static (here and below)",
       "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

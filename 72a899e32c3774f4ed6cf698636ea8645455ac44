@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eaa817c8_50634eb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T16:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "343966e0_32f54e26",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 5
+      },
+      "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7299686f_56b7a758",
         "filename": "java/com/google/gerrit/server/git/UsersSelfAdvertiseRefsHook.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52951d5c_97a86f05",
+        "filename": "java/com/google/gerrit/server/git/UsersSelfAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T16:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7299686f_56b7a758",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "aecab1f2_442992bc",
+        "filename": "java/com/google/gerrit/server/git/UsersSelfAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T16:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20d2be42_aef57f8b",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "638f4272_444904ae",
         "filename": "java/com/google/gerrit/server/git/UsersSelfAdvertiseRefsHook.java",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9658f962_e15c2ab5",
+        "filename": "java/com/google/gerrit/server/git/UsersSelfAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-22T16:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "638f4272_444904ae",
+      "range": {
+        "startLine": 75,
+        "startChar": 40,
+        "endLine": 75,
+        "endChar": 50
+      },
+      "revId": "72a899e32c3774f4ed6cf698636ea8645455ac44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

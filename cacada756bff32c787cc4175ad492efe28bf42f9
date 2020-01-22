@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e9a7312_aa350beb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-22T19:13:02Z",
+      "side": 1,
+      "message": "Enable",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "cacada756bff32c787cc4175ad492efe28bf42f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f22e6f_28fed2b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-22T19:13:02Z",
+      "side": 1,
+      "message": "log4j",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "cacada756bff32c787cc4175ad492efe28bf42f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad0bcb39_b11add17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-22T19:13:02Z",
+      "side": 1,
+      "message": "These lines should use up to 72 characters per line before being wrapped. Without cutting or splitting word terms that is. See [1] and [2].\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#commit-message\n\n[2] https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#git-commit-settings",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "cacada756bff32c787cc4175ad492efe28bf42f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb026bfd_99faad23",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-22T19:13:02Z",
+      "side": 1,
+      "message": "This makes the default logging level to become DEBUG for the whole Gerrit runtime. That cannot be, as it will generate too many log traces across deployments.",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "cacada756bff32c787cc4175ad492efe28bf42f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

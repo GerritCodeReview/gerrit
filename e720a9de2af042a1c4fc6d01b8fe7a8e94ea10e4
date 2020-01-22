@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11993039_293c2adc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T21:24:55Z",
+      "side": 1,
+      "message": "should we create a variable for this too?\nI feel someone reading this might expect something magical about 0.4 while it looks like it\u0027s just extra value for rounding error.\nWDYT?",
+      "revId": "e720a9de2af042a1c4fc6d01b8fe7a8e94ea10e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

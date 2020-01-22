@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "2ef7363e_0f34eb3c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-22T10:21:02Z",
+      "side": 1,
+      "message": "There is a similar comment that \"the use of path-based notification helpers (set, push) can’t be used\nbecause the paths could contain dots in them\" in gr-change-view.js. This was added by Andrew Bonventre in this CL: [1].\n\n* [1] https://gerrit.googlesource.com/gerrit/+blame/refs/heads/master/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js#597",
+      "revId": "e63e387b8ca38b23191ac99c28a2ec413384d513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3130c9cf_d1e3ff29",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
         "patchSetId": 2

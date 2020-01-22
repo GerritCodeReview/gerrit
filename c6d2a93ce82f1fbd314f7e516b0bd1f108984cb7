@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0d280fba_13407647",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-22T16:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54dd5286_d3785c8b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "c6d2a93ce82f1fbd314f7e516b0bd1f108984cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b31df1d1_87c45d0f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d4b769e1_90d1e9b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-22T16:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b31df1d1_87c45d0f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "c6d2a93ce82f1fbd314f7e516b0bd1f108984cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc951a6c_93bca275",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "c6d2a93ce82f1fbd314f7e516b0bd1f108984cb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f71d408_9e9d6352",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-22T16:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc951a6c_93bca275",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 7
+      },
+      "revId": "c6d2a93ce82f1fbd314f7e516b0bd1f108984cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -160,6 +232,102 @@
       "revId": "c6d2a93ce82f1fbd314f7e516b0bd1f108984cb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28b77174_96c1d266",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-22T16:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dffe347e_06a34bd7",
+      "range": {
+        "startLine": 96,
+        "startChar": 107,
+        "endLine": 96,
+        "endChar": 113
+      },
+      "revId": "c6d2a93ce82f1fbd314f7e516b0bd1f108984cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9618f14a_d2f11984",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-22T16:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b0a526b_772a0a29",
+      "range": {
+        "startLine": 96,
+        "startChar": 73,
+        "endLine": 96,
+        "endChar": 78
+      },
+      "revId": "c6d2a93ce82f1fbd314f7e516b0bd1f108984cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb356b6b_dc668207",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-22T16:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43405fd5_649d95c4",
+      "range": {
+        "startLine": 96,
+        "startChar": 23,
+        "endLine": 96,
+        "endChar": 38
+      },
+      "revId": "c6d2a93ce82f1fbd314f7e516b0bd1f108984cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0f080c6_0eebc33d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-22T16:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ad0eb3a_8e382602",
+      "range": {
+        "startLine": 96,
+        "startChar": 73,
+        "endLine": 96,
+        "endChar": 115
+      },
+      "revId": "c6d2a93ce82f1fbd314f7e516b0bd1f108984cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

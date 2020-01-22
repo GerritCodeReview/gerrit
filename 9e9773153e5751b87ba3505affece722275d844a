@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3acbf8d2_cd22410e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-22T16:19:30Z",
+      "side": 1,
+      "message": "Is it better now?",
+      "parentUuid": "4ed671aa_8f953e87",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "9e9773153e5751b87ba3505affece722275d844a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "371c61ed_d86c1af0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

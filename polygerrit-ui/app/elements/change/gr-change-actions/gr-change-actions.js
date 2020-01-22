@@ -1166,6 +1166,14 @@
       }
     }
 
+    _handleRevertSubmissionDialogConfirm() {
+      const el = this.$.confirmRevertSubmissionDialog;
+      this.$.overlay.close();
+      el.hidden = true;
+      this._fireAction('/revert_submission', this.actions.revert_submission,
+          false, {message: el.message});
+    }
+
     _handleAbandonDialogConfirm() {
       const el = this.$.confirmAbandonDialog;
       this.$.overlay.close();

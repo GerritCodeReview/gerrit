@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8c754fe_7234a2d9",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-22T00:11:15Z",
+      "side": 1,
+      "message": "There should be a constant for this, which can be used here.",
+      "range": {
+        "startLine": 419,
+        "startChar": 58,
+        "endLine": 419,
+        "endChar": 73
+      },
+      "revId": "85c8da19b95e3e1262d65ba125bd0a0a7d3fe6a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f4f8df7_a9900f22",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsLimitsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-22T00:11:15Z",
+      "side": 1,
+      "message": "Missing copyright/license header.",
+      "revId": "85c8da19b95e3e1262d65ba125bd0a0a7d3fe6a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

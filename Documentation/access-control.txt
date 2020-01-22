@@ -780,6 +780,11 @@ Users without this access right who are able to upload new patch sets
 can still do the rebase locally and upload the rebased commit as a new
 patch set.
 
+[[category_revert]]
+=== Revert
+
+This category permits users to revert changes via the web UI by pushing
+the `Revert Change` button.
 
 [[category_remove_reviewer]]
 === Remove Reviewer

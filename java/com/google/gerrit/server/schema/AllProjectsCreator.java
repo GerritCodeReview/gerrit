@@ -180,6 +180,7 @@ public class AllProjectsCreator {
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
     grant(config, magic, Permission.PUSH, registered);
     grant(config, magic, Permission.PUSH_MERGE, registered);
+    grant(config, magic, Permission.REVERT, registered);
   }
 
   private void initDefaultAclsForBatchUsers(
@@ -208,6 +209,7 @@ public class AllProjectsCreator {
     grant(config, heads, codeReviewLabel, -2, 2, adminsGroup, owners);
     grant(config, heads, Permission.CREATE, adminsGroup, owners);
     grant(config, heads, Permission.PUSH, adminsGroup, owners);
+    grant(config, heads, Permission.REVERT, adminsGroup, owners);
     grant(config, heads, Permission.SUBMIT, adminsGroup, owners);
     grant(config, heads, Permission.FORGE_COMMITTER, adminsGroup, owners);
     grant(config, heads, Permission.EDIT_TOPIC_NAME, true, adminsGroup, owners);

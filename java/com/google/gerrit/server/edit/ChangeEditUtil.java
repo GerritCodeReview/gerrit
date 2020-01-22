@@ -182,7 +182,8 @@ public class ChangeEditUtil {
           patchSetInserterFactory
               .create(notes, psId, squashed)
               .setNotify(notify)
-              .setAccountsToNotify(accountsToNotify);
+              .setAccountsToNotify(accountsToNotify)
+              .setSendEmail(!change.isWorkInProgress());
 
       StringBuilder message =
           new StringBuilder("Patch Set ").append(inserter.getPatchSetId().get()).append(": ");

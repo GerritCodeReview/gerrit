@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0905f3c5_708ce4a9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-22T10:55:46Z",
+      "side": 1,
+      "message": "The flush might be one reason. Another reason might be that the dom-repeat is based on _rules, which are modified below with a this.push(). So the permission update does not actually have to be reflected in this component\u0027s rendering and its childrens\u0027.",
+      "parentUuid": "b936ad99_f9c49d15",
+      "range": {
+        "startLine": 276,
+        "startChar": 9,
+        "endLine": 276,
+        "endChar": 55
+      },
+      "revId": "e63e387b8ca38b23191ac99c28a2ec413384d513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ef7363e_0f34eb3c",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "d146cfe8_92f35561",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-22T10:55:46Z",
+      "side": 1,
+      "message": "Interesting. Thanks for pointing that out.\n\nI have checked all 38 files with \"this.set(\" and they looked like they are all not affected by the problem.",
+      "parentUuid": "2ef7363e_0f34eb3c",
+      "revId": "e63e387b8ca38b23191ac99c28a2ec413384d513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3130c9cf_d1e3ff29",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "e63e387b8ca38b23191ac99c28a2ec413384d513",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d05cc5b_d6b91915",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-22T10:55:46Z",
+      "side": 1,
+      "message": "See above, I think this.permission is not really that important for rendering the \u003cgr-permission\u003e element.\n\n_recursivelyUpdateAddRemoveObj in gr-repo-access.js is where changes are picked up for saving, and that does not really need the Polymer property change propagation.\n\nSo I think we are good. I have also tested this manually with various cases.",
+      "parentUuid": "3130c9cf_d1e3ff29",
+      "revId": "e63e387b8ca38b23191ac99c28a2ec413384d513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

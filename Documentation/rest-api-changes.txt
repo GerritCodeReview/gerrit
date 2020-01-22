@@ -1476,8 +1476,9 @@ describes the reverting change.
 ----
 
 If the change cannot be reverted because the change state doesn't
-allow reverting the change, the response is "`409 Conflict`" and
-the error message is contained in the response body.
+allow reverting the change, or the user doesn't have revert permission on the
+change or upload permission on the destination, the response is "`409 Conflict`"
+and the error message is contained in the response body.
 
 .Response
 ----
@@ -1584,9 +1585,10 @@ is returned. That entity describes the revert changes.
     ]
 ----
 
-If any of the changes cannot be reverted because the change state doesn't
-allow reverting the change, the response is "`409 Conflict`" and
-the error message is contained in the response body.
+If the change cannot be reverted because the change state doesn't
+allow reverting the change, or the user doesn't have revert permission on the
+change or upload permission on the destination, the response is "`409 Conflict`"
+and the error message is contained in the response body.
 
 .Response
 ----

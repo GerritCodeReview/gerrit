@@ -46,6 +46,30 @@
       "revId": "75d618b48365543cd6e872661f4f9492d7e1260f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e29e2ef3_5649ffa2",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-22T04:14:37Z",
+      "side": 1,
+      "message": "The PR was merged.",
+      "parentUuid": "6b7b0cd8_c011a175",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 44
+      },
+      "revId": "75d618b48365543cd6e872661f4f9492d7e1260f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

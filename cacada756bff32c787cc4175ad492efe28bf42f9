@@ -115,6 +115,30 @@
       "revId": "cacada756bff32c787cc4175ad492efe28bf42f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04d21752_a0850814",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-22T20:09:11Z",
+      "side": 1,
+      "message": "\u003e So it should only be DEBUG for when the tests are running?\n\nYes, according to the reported Issue, which is also about the Elasticsearch tests.",
+      "parentUuid": "bd230f2a_0a5dcf9a",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "cacada756bff32c787cc4175ad492efe28bf42f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

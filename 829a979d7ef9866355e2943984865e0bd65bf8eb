@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "dc878420_abae6fdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "This works for normal reverts too. I\u0027ll update the commit message.",
+      "parentUuid": "fa07574b_bd0ba8b9",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f570e333_a4b5f796",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "b/147739420",
+      "parentUuid": "783230e7_ccb87694",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f67f748_c29e802b",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
         "patchSetId": 4
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5ccff906_766b5db7",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f67f748_c29e802b",
+      "range": {
+        "startLine": 55,
+        "startChar": 15,
+        "endLine": 55,
+        "endChar": 18
+      },
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03de7ccb_b3b3ae21",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
         "patchSetId": 4
@@ -85,6 +157,24 @@
       "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "607f26de_1f2a2c5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03de7ccb_b3b3ae21",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "9b31b0d3_6f48f9e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0120ce_95335501",
+      "range": {
+        "startLine": 68,
+        "startChar": 17,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd82c5dc_f82d8b4b",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 4
@@ -125,6 +239,24 @@
       "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f882b16_e9520f3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd82c5dc_f82d8b4b",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "576b523b_c12a2a84",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a243575_ac4092ce",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93b4225d_a7153c6a",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 4
@@ -159,6 +309,24 @@
       "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31e35cb3_9247969c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93b4225d_a7153c6a",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -202,6 +370,48 @@
     },
     {
       "key": {
+        "uuid": "e25627bb_8a9b0be2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51ce99b6_92c96ee1",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28574e82_540b1283",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "This is actually storing all the original messages per REVERT_TYPE. The blocking happens for all REVERT_TYPES if message is unchanged.",
+      "parentUuid": "2644e803_11c9fba6",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06b05ad6_9c77a4ae",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 4
@@ -219,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "da9b029f_b789fa49",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06b05ad6_9c77a4ae",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8dfd311c_dc08c0b4",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 4
@@ -230,6 +458,24 @@
       "writtenOn": "2020-01-20T18:01:21Z",
       "side": 1,
       "message": "The error message should go away as soon as you modify this.message. So I would recommend to create a _computeErrorMessageHidden method and use it in the html template like so:\n\n  \u003cdiv class\u003d\"error\" hidden$\u003d\"[[_computeErrorMessageHidden(message, originalMessage, tapped)]]\"\u003e\n\nthis.tapped would be false initially and set to true in _handleConfirmTap.",
+      "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51502524_438eb4d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T13:15:23Z",
+      "side": 1,
+      "message": "I actually would prefer not to remove the error if user edits message.\nThe error shown is \"A reason is required\".\nWhen users see this message, I think we can somehow convince/trick them into actually giving a reason. \nIf the error message goes away on the smallest edit, then users might realise that a reason isn\u0027t actually required but only the smallest edit is required.\nIf the error message stays as it is, I think more people will end up giving a valid reason.\nHappy to hear what you think about this.",
+      "parentUuid": "8dfd311c_dc08c0b4",
       "revId": "829a979d7ef9866355e2943984865e0bd65bf8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

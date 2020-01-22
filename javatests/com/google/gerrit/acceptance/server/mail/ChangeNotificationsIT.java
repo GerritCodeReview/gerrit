@@ -89,6 +89,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .add(allow(Permission.FORGE_COMMITTER).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.ABANDON).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.REVERT).ref("refs/*").group(REGISTERED_USERS))
         .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, +2))
         .update();
   }

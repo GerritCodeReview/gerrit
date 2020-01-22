@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aabd569c_b88fbe88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-22T16:29:35Z",
+      "side": 1,
+      "message": "Inline comments should use the // notation. If they span multiple lines, then sometimes you could go for /*, but /** is reserved for jsdoc method/class comments (I think).",
+      "revId": "9d64e29bd66c732b9d322bc79eb0b17f4618d8ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

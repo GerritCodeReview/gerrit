@@ -16,6 +16,24 @@
       "revId": "9d64e29bd66c732b9d322bc79eb0b17f4618d8ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bea786b_95f53005",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-22T16:46:30Z",
+      "side": 1,
+      "message": "Yes, you are right. It seems I was careless in this change.",
+      "parentUuid": "aabd569c_b88fbe88",
+      "revId": "9d64e29bd66c732b9d322bc79eb0b17f4618d8ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

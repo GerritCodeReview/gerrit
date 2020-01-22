@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "05d4164a_a6b883d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T21:21:01Z",
+      "side": 1,
+      "message": "Yeah, good point.",
+      "parentUuid": "9ec509be_c6e59b87",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 56
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d675d1d8_dc0b0845",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
         "patchSetId": 5
@@ -59,6 +83,30 @@
       "writtenOn": "2020-01-22T16:25:53Z",
       "side": 1,
       "message": "This template is 100% identical to the one above. Why not just drop the dom-if and always show the template?\n\nAh, I think the comment is explaining this. Did not understand on first parse. I would say it is the plugin\u0027s responsibility to deal with that. We don\u0027t care. We could pass _revertType into the endpoint, if we want to be nice to the plugin.",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 19
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0d5683b_0ba17446",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T21:21:01Z",
+      "side": 1,
+      "message": "It would break existing behaviour. Till now I think we expect the plugin to override the entire input textarea.",
+      "parentUuid": "d675d1d8_dc0b0845",
       "range": {
         "startLine": 108,
         "startChar": 8,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "8f6e2454_b9fe4b64",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T21:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc8e9036_e0392ea0",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 15
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bac7c3b_02e80cd8",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 5
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "57273c44_64aab236",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T21:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bac7c3b_02e80cd8",
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf5f1e54_67ca06de",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 5
@@ -122,6 +212,24 @@
       "writtenOn": "2020-01-22T16:25:53Z",
       "side": 1,
       "message": "Maybe just drop this if clause. You could move the line 157 guard to the beginning of the method.",
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40d9b5ba_6e8cedb9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T21:21:01Z",
+      "side": 1,
+      "message": "This if clause checks if length is \u003e 1 ie if it is possible to revert this submission along with other submissions or not.\nIn case length \u003d 1, we want only single submission revert message to be populated.",
+      "parentUuid": "cf5f1e54_67ca06de",
       "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -151,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "4e16d7b5_cf8fecb7",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T21:21:01Z",
+      "side": 1,
+      "message": "Dialog being re-used?\nOn every new change page, new \"change\" attribute will be passed down on to onInputUpdate().\nMaybe I didn\u0027t understand properly what you meant.",
+      "parentUuid": "73a346f5_064bdbb4",
+      "range": {
+        "startLine": 160,
+        "startChar": 6,
+        "endLine": 160,
+        "endChar": 18
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "413583b4_00087b46",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 5
@@ -165,6 +297,24 @@
       "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66c92891_72887a80",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T21:21:01Z",
+      "side": 1,
+      "message": "Since we are listening on on-change events, this case is actually impossible. This function will only be triggered when the value goes from unchecked to checked.",
+      "parentUuid": "413583b4_00087b46",
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -188,6 +338,30 @@
       "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7b522f0_b82fb3df",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T21:21:01Z",
+      "side": 1,
+      "message": "Yeah, I already had a comment for refactoring this.\nI\u0027ll just refactor in this change then.",
+      "parentUuid": "be7bad98_cece97b6",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 188,
+        "endChar": 50
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

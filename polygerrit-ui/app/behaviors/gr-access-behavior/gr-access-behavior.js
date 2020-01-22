@@ -102,6 +102,10 @@ export const AccessBehavior = {
           id: 'rebase',
           name: 'Rebase',
         },
+        revert: {
+          id: 'revert',
+          name: 'Revert',
+        },
         removeReviewer: {
           id: 'removeReviewer',
           name: 'Remove Reviewer',

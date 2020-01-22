@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
+import static com.google.gerrit.server.permissions.RefPermission.REVERT_CHANGE;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -211,6 +212,7 @@ public class RevertSubmission
 
       contributorAgreements.check(change.getProject(), changeResource.getUser());
       permissionBackend.currentUser().ref(change.getDest()).check(CREATE_CHANGE);
+      permissionBackend.currentUser().ref(change.getDest()).check(REVERT_CHANGE);
       permissionBackend.currentUser().change(changeData).check(ChangePermission.READ);
       projectCache.checkedGet(change.getProject()).checkStatePermitsWrite();
 
@@ -545,14 +547,19 @@ public class RevertSubmission
             "Revert this change and all changes that have been submitted together with this change")
         .setVisible(
             and(
-                change.isMerged()
-                    && change.getSubmissionId() != null
-                    && isChangePartOfSubmission(change.getSubmissionId())
-                    && projectStatePermitsWrite,
+                and(
+                    change.isMerged()
+                        && change.getSubmissionId() != null
+                        && isChangePartOfSubmission(change.getSubmissionId())
+                        && projectStatePermitsWrite,
+                    permissionBackend
+                        .user(rsrc.getUser())
+                        .ref(change.getDest())
+                        .testCond(CREATE_CHANGE)),
                 permissionBackend
                     .user(rsrc.getUser())
                     .ref(change.getDest())
-                    .testCond(CREATE_CHANGE)));
+                    .testCond(REVERT_CHANGE)));
   }
 
   /**

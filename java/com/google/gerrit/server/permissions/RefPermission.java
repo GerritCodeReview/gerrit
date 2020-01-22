@@ -47,6 +47,9 @@ public enum RefPermission implements GerritPermission {
   /** Create a change to code review a commit. */
   CREATE_CHANGE,
 
+  /** Revert a change. */
+  REVERT_CHANGE,
+
   /** Create a tag. */
   CREATE_TAG,
 

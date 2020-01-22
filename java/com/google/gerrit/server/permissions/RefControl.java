@@ -162,6 +162,10 @@ class RefControl {
     return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH);
   }
 
+  private boolean canRevert() {
+    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.REVERT_CHANGE);
+  }
+
   /** @return true if this user can submit merge patch sets to this ref */
   private boolean canUploadMerges() {
     return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);
@@ -490,6 +494,9 @@ class RefControl {
                 "You need 'Create Change' rights to upload code review requests.\n"
                     + "Verify that you are pushing to the right branch.");
             break;
+          case REVERT_CHANGE:
+            pde.setAdvice("You need 'Revert Change' rights to revert changes.\n");
+            break;
           case CREATE:
             pde.setAdvice("You need 'Create' rights to create new references.");
             break;
@@ -595,6 +602,8 @@ class RefControl {
 
         case CREATE_CHANGE:
           return canUpload();
+        case REVERT_CHANGE:
+          return canRevert();
 
         case CREATE_TAG:
         case CREATE_SIGNED_TAG:

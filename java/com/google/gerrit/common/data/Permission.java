@@ -48,6 +48,7 @@ public class Permission implements Comparable<Permission> {
   public static final String SUBMIT_AS = "submitAs";
   public static final String TOGGLE_WORK_IN_PROGRESS_STATE = "toggleWipState";
   public static final String VIEW_PRIVATE_CHANGES = "viewPrivateChanges";
+  public static final String REVERT_CHANGE = "revert";
 
   private static final List<String> NAMES_LC;
   private static final int LABEL_INDEX;
@@ -81,7 +82,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(SUBMIT_AS.toLowerCase());
     NAMES_LC.add(TOGGLE_WORK_IN_PROGRESS_STATE.toLowerCase());
     NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase());
-
+    NAMES_LC.add(REVERT_CHANGE.toLowerCase());
     LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);
     LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
   }

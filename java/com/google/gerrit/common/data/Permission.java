@@ -44,6 +44,7 @@ public class Permission implements Comparable<Permission> {
   public static final String READ = "read";
   public static final String REBASE = "rebase";
   public static final String REMOVE_REVIEWER = "removeReviewer";
+  public static final String REVERT = "revert";
   public static final String SUBMIT = "submit";
   public static final String SUBMIT_AS = "submitAs";
   public static final String TOGGLE_WORK_IN_PROGRESS_STATE = "toggleWipState";
@@ -77,11 +78,11 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(READ.toLowerCase());
     NAMES_LC.add(REBASE.toLowerCase());
     NAMES_LC.add(REMOVE_REVIEWER.toLowerCase());
+    NAMES_LC.add(REVERT.toLowerCase());
     NAMES_LC.add(SUBMIT.toLowerCase());
     NAMES_LC.add(SUBMIT_AS.toLowerCase());
     NAMES_LC.add(TOGGLE_WORK_IN_PROGRESS_STATE.toLowerCase());
     NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase());
-
     LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);
     LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
   }

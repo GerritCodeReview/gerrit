@@ -34,6 +34,7 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
@@ -87,6 +88,7 @@ public class Revert
 
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
     permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
+    rsrc.permissions().check(ChangePermission.REVERT);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
     ChangeNotes notes = rsrc.getNotes();
     Change.Id changeIdToRevert = notes.getChangeId();
@@ -118,10 +120,15 @@ public class Revert
         .setTitle("Revert the change")
         .setVisible(
             and(
-                change.isMerged() && projectStatePermitsWrite,
+                and(
+                    change.isMerged() && projectStatePermitsWrite,
+                    permissionBackend
+                        .user(rsrc.getUser())
+                        .ref(change.getDest())
+                        .testCond(CREATE_CHANGE)),
                 permissionBackend
                     .user(rsrc.getUser())
-                    .ref(change.getDest())
-                    .testCond(CREATE_CHANGE)));
+                    .change(rsrc.getNotes())
+                    .testCond(ChangePermission.REVERT)));
   }
 }

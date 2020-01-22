@@ -96,6 +96,7 @@ public class DefaultPermissionMappings {
           .put(ChangePermission.REMOVE_REVIEWER, Permission.REMOVE_REVIEWER)
           .put(ChangePermission.ADD_PATCH_SET, Permission.ADD_PATCH_SET)
           .put(ChangePermission.REBASE, Permission.REBASE)
+          .put(ChangePermission.REVERT, Permission.REVERT)
           .put(ChangePermission.SUBMIT, Permission.SUBMIT)
           .put(ChangePermission.SUBMIT_AS, Permission.SUBMIT_AS)
           .put(

@@ -444,6 +444,22 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertNotAllowedForOwnerWithoutRevertPermission() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.REVERT).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result result = createChange();
+    approve(result.getChangeId());
+    gApi.changes().id(result.getChangeId()).current().submit();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(result.getChangeId()).revert());
+    assertThat(thrown).hasMessageThat().contains("revert not permitted");
+  }
+
+  @Test
   @GerritConfig(name = "change.submitWholeTopic", value = "true")
   public void cantCreateRevertSubmissionWithoutProjectWritePermission() throws Exception {
     String secondProject = "secondProject";
@@ -556,6 +572,25 @@ public class RevertIT extends AbstractDaemonTest {
     AuthException authException =
         assertThrows(AuthException.class, () -> gApi.changes().id(change2).revertSubmission());
     assertThat(authException).hasMessageThat().isEqualTo("read not permitted");
+  }
+
+  @Test
+  public void revertSubmissionNotAllowedForOwnerWithoutRevertPermission() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.REVERT).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result result = createChange();
+    approve(result.getChangeId());
+    gApi.changes().id(result.getChangeId()).current().submit();
+    requestScopeOperations.setApiUser(user.id());
+
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(result.getChangeId()).revertSubmission());
+    assertThat(thrown).hasMessageThat().contains("revert not permitted");
   }
 
   @Test

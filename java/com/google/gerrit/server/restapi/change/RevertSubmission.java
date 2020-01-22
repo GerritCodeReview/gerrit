@@ -208,6 +208,7 @@ public class RevertSubmission implements RestModifyView<ChangeResource, RevertIn
 
       contributorAgreements.check(change.getProject(), changeResource.getUser());
       permissionBackend.currentUser().ref(change.getDest()).check(CREATE_CHANGE);
+      permissionBackend.currentUser().change(changeData.notes()).check(ChangePermission.REVERT);
       permissionBackend.currentUser().change(changeData).check(ChangePermission.READ);
       projectCache.checkedGet(change.getProject()).checkStatePermitsWrite();
 

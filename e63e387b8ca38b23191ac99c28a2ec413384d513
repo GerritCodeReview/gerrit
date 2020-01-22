@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b936ad99_f9c49d15",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-22T09:30:21Z",
+      "side": 1,
+      "message": "will it ? oh maybe because of the manual flush in following code.",
+      "range": {
+        "startLine": 276,
+        "startChar": 9,
+        "endLine": 276,
+        "endChar": 55
+      },
+      "revId": "e63e387b8ca38b23191ac99c28a2ec413384d513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3130c9cf_d1e3ff29",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-01-22T09:30:21Z",
+      "side": 1,
+      "message": "will it pick up the change here as well ? (I am a bit worried if flush done before this, it may not pick up the change)",
+      "revId": "e63e387b8ca38b23191ac99c28a2ec413384d513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

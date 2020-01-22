@@ -16,6 +16,8 @@ limitations under the License.
 -->
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -78,6 +80,9 @@ limitations under the License.
         margin-left: var(--spacing-m);
         font-style: italic;
       }
+      .invalidLineNumber {
+        color: var(--error-text-color)
+      }
     </style>
     <template is="dom-if" if="[[showFilePath]]">
       <div class="pathInfo">
@@ -86,6 +91,11 @@ limitations under the License.
       </div>
     </template>
     <div id="container" class$="[[_computeHostClass(unresolved, isRobotComment)]]">
+      <template is="dom-if" if="[[invalidLineNumber]]">
+        <div class="invalidLineNumber">
+          <span class="descriptionText"><iron-icon icon="gr-icons:error" style="color: red;vertical-align: bottom;"></iron-icon>This comment thread is attached to non-existing line [[lineNum]].</span>
+        </div>
+      </template>
       <template id="commentList" is="dom-repeat" items="[[_orderedComments]]"
           as="comment">
         <gr-comment

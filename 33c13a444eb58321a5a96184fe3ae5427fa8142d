@@ -123,6 +123,24 @@
       "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb0d621e_e30530db",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-22T07:46:45Z",
+      "side": 1,
+      "message": "\u003e I am only suggesting a better name for this a new config option in this change.\n\nMy point is that \u0027copyValueOnUpload\u0027 is not a good name while the copying is not limited to upload.\n\n\u003e Since it is a new option, you should be able to code it to only do things\n\u003e for uploads and not moves right?\n\nNo, that requires more work, which I\u0027m not willing to do in this change.\n\n\u003e If you want to add a onMove version also, that\u0027s great, but that also would\n\u003e seem appropriate as a follow-on change if desired.\n\nI like this proposal, but it\u0027s unlikely I would able to work on this any time soon.",
+      "parentUuid": "1e17edf7_83d7ff13",
+      "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

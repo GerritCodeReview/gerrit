@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82789631_500b6009",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-22T16:12:04Z",
+      "side": 1,
+      "message": "This doesn\u0027t render correctly:\nhttps://screenshot.googleplex.com/Ag229yr0Rno\n\nThere is the same issue with the \u0027change.maxUpdates\u0027 section which I fixed here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/251452",
+      "range": {
+        "startLine": 1225,
+        "startChar": 0,
+        "endLine": 1250,
+        "endChar": 44
+      },
+      "revId": "39e4ec9483ab1f926d5e72798ff185a68bf5f4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,29 @@
       "revId": "77811e3572d41a085efe6f2bd16f15673a6aa58f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f1c5566_3ceff7ae",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-22T16:16:24Z",
+      "side": 0,
+      "message": "Did you check if this is used by the UI?\nIf so, we may need to roll this out in several steps.",
+      "range": {
+        "startLine": 1569,
+        "startChar": 2,
+        "endLine": 1569,
+        "endChar": 34
+      },
+      "revId": "77811e3572d41a085efe6f2bd16f15673a6aa58f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

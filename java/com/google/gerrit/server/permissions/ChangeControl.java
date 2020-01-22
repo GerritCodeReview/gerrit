@@ -116,6 +116,11 @@ class ChangeControl {
     // Anyone who can abandon the change can restore it, as long as they can create changes.
     return canAbandon() && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
   }
+  /** Can this user revert this change? */
+  private boolean canRevert() {
+    return (refControl.canRevert())
+        && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
+  }
 
   /** The range of permitted values associated with a label permission. */
   private PermissionRange getRange(String permission) {
@@ -303,6 +308,8 @@ class ChangeControl {
             return canRebase();
           case RESTORE:
             return canRestore();
+          case REVERT:
+            return canRevert();
           case SUBMIT:
             return refControl.canSubmit(isOwner());
           case TOGGLE_WORK_IN_PROGRESS_STATE:

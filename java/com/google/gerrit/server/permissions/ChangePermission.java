@@ -54,6 +54,7 @@ public enum ChangePermission implements ChangePermissionOrLabel {
    * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
    */
   REBASE,
+  REVERT,
   SUBMIT,
   SUBMIT_AS("submit on behalf of other users"),
   TOGGLE_WORK_IN_PROGRESS_STATE;

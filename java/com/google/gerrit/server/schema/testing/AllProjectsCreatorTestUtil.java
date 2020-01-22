@@ -75,6 +75,7 @@ public class AllProjectsCreatorTestUtil {
           "  push = group Project Owners",
           "  submit = group Administrators",
           "  submit = group Project Owners",
+          "  revert = group Registered Users",
           "[access \"refs/meta/config\"]",
           "  exclusiveGroupPermissions = read",
           "  create = group Administrators",

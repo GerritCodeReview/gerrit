@@ -83,7 +83,6 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(SUBMIT_AS.toLowerCase());
     NAMES_LC.add(TOGGLE_WORK_IN_PROGRESS_STATE.toLowerCase());
     NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase());
-
     LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);
     LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
   }

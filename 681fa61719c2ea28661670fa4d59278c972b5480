@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "becd2581_e0e27f1e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1596,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-22T16:18:19Z",
+      "side": 1,
+      "message": "does it make sense to create a new property computed out of (collapsed and collapsible) since they are mostly only used when both of them are true?",
+      "revId": "681fa61719c2ea28661670fa4d59278c972b5480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

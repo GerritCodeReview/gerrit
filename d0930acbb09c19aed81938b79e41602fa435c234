@@ -16,6 +16,24 @@
       "revId": "d0930acbb09c19aed81938b79e41602fa435c234",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08d98bd5_b1e5b547",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-22T17:03:51Z",
+      "side": 1,
+      "message": "Yeah, I was wondering the same.\n\nThis was introduced in https://gerrit-review.googlesource.com/c/gerrit/+/231194.\n\nI think by now (Polymer 1 being gone), we can just drop the ::slotted rules. I have verified that the non-::slotted rule works just fine, so let\u0027s try that.",
+      "parentUuid": "a60557d7_ab427278",
+      "revId": "d0930acbb09c19aed81938b79e41602fa435c234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

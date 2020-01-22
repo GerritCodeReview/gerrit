@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bd75b02d_8fa0eeb8",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentForValidation.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-22T11:17:01Z",
+      "side": 1,
+      "message": "The \"comments\" list can\u0027t be empty if we generate at least one CommentValidationFailure that refers to robot comments. So if there are no user comments we need to synthesize an element. Or am I misunderstanding your suggestion?",
+      "parentUuid": "e8f5d6e8_63cd57f5",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "61dd21ae6308ad07e26929a08d3b64ab491c582f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52ac30d8_a5598236",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
         "patchSetId": 14
@@ -36,6 +60,24 @@
       "writtenOn": "2020-01-21T15:49:57Z",
       "side": 1,
       "message": "I think we are on the right track overall, the interface is currently complicated a bit by mixing up human comments and robot comments quite a bit. Here is a suggestion for separating these concerns a bit more:\n\nCommentValidationContext {\n  String projectName\n  int changeId\n}\n\nRobotCommentsMetadata {\n  int numNewRobotComments\n  long sizeInBytes\n}\n\nList\u003cValidationFalureException\u003e validateComments(CommentValidationContext ctx, List\u003cCommentForValidation\u003e comments)\n\nList\u003cValidationFalureException\u003e validateRobotComments(CommentValidationContext ctx, RobotCommentsMetadata meta)\n\nThe idea behind this is that human comments are subject to various validations (leaks, size limits, offensive speak, etc.) but that robot comments are only subject to size limits under the premise that a robot that leaks data or is offensive should not have been created in the first place. There are potential other use cases that I could think of, for example, making sure that robots posting have to be configured as checkers by comparing their ID with a checker UUID, but that is far-fetched from now. Adapting to this later if-need-be seems reasonable to me.\n\nThis is just a suggestion, totally up for discussion.\n\nIf you prefer to stick with the current implementation, I would remove the placeholder and have the list be empty in case there are just robot comments.",
+      "revId": "61dd21ae6308ad07e26929a08d3b64ab491c582f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2119fd6f_e0558f68",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-22T11:17:01Z",
+      "side": 1,
+      "message": "I see your point and I agree that having that placeholder enum is awkward. But I also see some disadvantages of the alternative. We\u0027ll want to limit size per robot comment and somehow reference the offending comment. So the interface would look like this:\n\nList\u003cRobotCommentValidationFailure\u003e validateRobotComments(CommentValidationContext ctx, List\u003cRobotCommentMetadataForValidation\u003e robotCommentMetadata);\n\nWith:\nclass RobotCommentMetadataForValidation {\n  long size;\n  String someIdentifier;\n}\n\nThis means two new classes and a certain impedance mismatch in the validation API (validating contents vs. validating metadata). And I don\u0027t actually see a per-comment identifier in RobotComment, so unless I\u0027m missing it we could only report sth like \"N comments exceed the size limit\".\n\nSince the validators are stateless we\u0027d also have two additional configuration options for the number and size of robot comments. Although one of them already exists (robotCommentSizeLimit), so really just one additional.\n\nGiven these drawbacks I\u0027m no longer sure we want to move the size check here. WDYT?",
+      "parentUuid": "52ac30d8_a5598236",
       "revId": "61dd21ae6308ad07e26929a08d3b64ab491c582f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -91,6 +91,30 @@
       "revId": "cacada756bff32c787cc4175ad492efe28bf42f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd230f2a_0a5dcf9a",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-01-22T19:29:48Z",
+      "side": 1,
+      "message": "So it should only be DEBUG for when the tests are running?",
+      "parentUuid": "eb026bfd_99faad23",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "cacada756bff32c787cc4175ad492efe28bf42f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

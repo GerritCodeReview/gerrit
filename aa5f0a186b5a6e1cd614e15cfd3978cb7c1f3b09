@@ -22,6 +22,30 @@
       "revId": "aa5f0a186b5a6e1cd614e15cfd3978cb7c1f3b09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e1a07f_414a9ed7",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-22T12:02:18Z",
+      "side": 1,
+      "message": "I reduced the number to 100 instead of 10K, although I thought it would be too much logging given that 1 user (you) had ~7K zombie refs (as per your comment in b/142791341). Output anyway will look like this:\n\nFound 550 zombie draft refs in All-Users repo.\nDeleted 100/550 zombie draft refs (0 seconds)\nDeleted 200/550 zombie draft refs (0 seconds)\nDeleted 300/550 zombie draft refs (0 seconds)\nDeleted 400/550 zombie draft refs (0 seconds)\nDeleted 500/550 zombie draft refs (0 seconds)\nDeleted 550/550 zombie draft refs (0 seconds)\n\n\nI also added a new test for large refs cleanup.",
+      "parentUuid": "8b0e9792_ba1d8799",
+      "range": {
+        "startLine": 39,
+        "startChar": 31,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "aa5f0a186b5a6e1cd614e15cfd3978cb7c1f3b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

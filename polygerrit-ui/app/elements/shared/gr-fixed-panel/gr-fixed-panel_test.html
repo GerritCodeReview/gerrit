@@ -90,7 +90,7 @@ limitations under the License.
       test('scrolls header along with document', () => {
         emulateScrollY(20);
         // No top property is set when !_headerFloating.
-        assert.equal(getHeaderTop(), '');
+        assert.equal(getHeaderTop(), '-10px');
       });
 
       test('does not stick to the top by default', () => {

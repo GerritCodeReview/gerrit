@@ -16,9 +16,8 @@
     "web-component-tester": "^6.5.0"
   },
   "scripts": {
-    "preinstall": "node -e \"if(!process.env.npm_execpath || process.env.npm_execpath.indexOf('yarn') < 0){console.error('Can\\'t install with npm. Use yarn instead');process.exit(1);}\" ",
     "start": "polygerrit-ui/run-server.sh",
-    "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh",
+    "test": "WCT_HEADLESS_MODE=0 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh",
     "eslint": "./node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app",
     "eslintfix": "npm run eslint -- --fix",
     "test-template": "./polygerrit-ui/app/run_template_test.sh",

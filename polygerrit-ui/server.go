@@ -118,6 +118,11 @@ func main() {
 }
 
 func getFinalPath(redirects []redirects, originalPath string) string {
+  testComponentsPrefix := "/components/";
+  if strings.HasPrefix(originalPath, testComponentsPrefix) {
+    return "/../node_modules/" + originalPath[len(testComponentsPrefix):]
+  }
+
 	for _, redirect := range redirects {
 		fromDir := redirect.From
 		if !strings.HasSuffix(fromDir, "/") {
@@ -155,18 +160,25 @@ func handleSrcRequest(redirects []redirects, writer http.ResponseWriter, origina
 		writer.WriteHeader(500)
 		return
 	}
-	requestPath := "app" + getFinalPath(redirects, parsedUrl.Path)
+	if parsedUrl.Path == "/bower_components/web-component-tester/browser.js" {
+    http.Redirect(writer, originalRequest, "/bower_components/wct-browser-legacy/browser.js", 301);
+	  return
+  }
 
-	if strings.HasPrefix(requestPath, "/") {
-		requestPath = requestPath[1:]
+	requestPath := getFinalPath(redirects, parsedUrl.Path)
+
+	if !strings.HasPrefix(requestPath, "/") {
+		requestPath = "/" + requestPath
 	}
 
-	data, err := ioutil.ReadFile(requestPath)
+	data, err := readFile("app" + requestPath)
 	if err != nil {
-		writer.WriteHeader(404)
-		return
+    writer.WriteHeader(404)
+    return
 	}
+  log.Println("Suffix is something")
 	if strings.HasSuffix(requestPath, ".js") {
+	  log.Println("Suffix is js")
 		r := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
 		data = r.ReplaceAll(data, []byte("$1 '/node_modules/$2'"))
 		writer.Header().Set("Content-Type", "application/javascript")
@@ -177,6 +189,23 @@ func handleSrcRequest(redirects []redirects, writer http.ResponseWriter, origina
 	}
 	writer.WriteHeader(200)
 	writer.Write(data)
+}
+
+func readFile(originalPath string, redirectedPath string) ([]byte, error) {
+  data, err := ioutil.ReadFile("app" + redirectedPath)
+  if err == nil {
+    return data, nil
+  }
+  bowerComponentsSuffix := "/bower_components/"
+  nodeModulesPrefix := "/node_modules/"
+  if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
+    data, err = ioutil.ReadFile("node_modules/wct-browser-legacy/" + originalPath[len(bowerComponentsSuffix):])
+    if err != nil
+  }
+  if err != nil && strings.HasPrefix(originalPath, nodeModulesPrefix) {
+    data, err = ioutil.ReadFile("node_modules/" + parsedUrl.Path[len(nodeModulesPrefix):])
+  }
+
 }
 
 func openDataArchive(path string) (*zip.ReadCloser, error) {

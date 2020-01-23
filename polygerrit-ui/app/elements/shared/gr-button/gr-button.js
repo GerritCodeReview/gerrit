@@ -90,6 +90,7 @@
         e.preventDefault();
         e.stopImmediatePropagation();
       }
+      this.$.reporting.reportInteraction('button-click', )
     }
 
     _disabledChanged(disabled) {

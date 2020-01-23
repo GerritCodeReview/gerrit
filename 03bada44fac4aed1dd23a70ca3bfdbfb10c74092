@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "2694d172_3c553b86",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-23T14:00:13Z",
+      "side": 1,
+      "message": "We are not using SASS or any other CSS preprocessing, so we cannot use mix() of colors.\n\nWe could go for a background color for the comment and then define different layers with opacity on top of it. But my feeling is that this is making things more complicated. For example I don\u0027t see where we would apply the blue color with opacity elsewhere in Gerrit.\n\nI would prefer to move on with the current implementation, because it does not make a visual difference for the user.",
+      "parentUuid": "24436b04_6c7e7b7d",
+      "range": {
+        "startLine": 59,
+        "startChar": 34,
+        "endLine": 59,
+        "endChar": 41
+      },
+      "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fab7667a_8ce4bfe4",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 2
@@ -167,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "0e8ade8e_b8d98447",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-23T14:00:13Z",
+      "side": 1,
+      "message": "We are not using SASS or any other CSS preprocessing, so we cannot use mix() of colors.\n\nWe could go for a background color for the comment and then define different layers with opacity on top of it. But my feeling is that this is making things more complicated. For example I don\u0027t see where we would apply the blue color with opacity elsewhere in Gerrit.\n\nI would prefer to move on with the current implementation, because it does not make a visual difference for the user.",
+      "parentUuid": "2d7cf692_f4178c19",
+      "range": {
+        "startLine": 60,
+        "startChar": 40,
+        "endLine": 60,
+        "endChar": 47
+      },
+      "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0b37959_9ff56986",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 2
@@ -235,6 +283,30 @@
       "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "044a9df2_abb6f626",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-23T14:00:13Z",
+      "side": 1,
+      "message": "We are not using SASS or any other CSS preprocessing, so we cannot use mix() of colors.\n\nWe could go for a background color for the comment and then define different layers with opacity on top of it. But my feeling is that this is making things more complicated. For example I don\u0027t see where we would apply the blue color with opacity elsewhere in Gerrit.\n\nI would prefer to move on with the current implementation, because it does not make a visual difference for the user.",
+      "parentUuid": "c3ddf0d0_3a7513ed",
+      "range": {
+        "startLine": 61,
+        "startChar": 45,
+        "endLine": 61,
+        "endChar": 52
+      },
+      "revId": "03bada44fac4aed1dd23a70ca3bfdbfb10c74092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

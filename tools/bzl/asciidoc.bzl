@@ -1,7 +1,7 @@
 def documentation_attributes():
     return [
         "toc2",
-        'newline="\\n"',
+        "newline=\"\\n\"",
         'asterisk="&#42;"',
         'plus="&#43;"',
         'caret="&#94;"',

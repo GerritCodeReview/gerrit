@@ -21,6 +21,9 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -36,6 +39,7 @@ public class ElasticV5QueryAccountsTest extends AbstractQueryAccountsTest {
 
   @BeforeClass
   public static void startIndexService() {
+	LogManager.getRootLogger().setLevel(Level.DEBUG);
     if (nodeInfo != null) {
       // do not start Elasticsearch twice
       return;
@@ -50,6 +54,7 @@ public class ElasticV5QueryAccountsTest extends AbstractQueryAccountsTest {
     if (container != null) {
       container.stop();
     }
+    LogManager.getRootLogger().setLevel(Level.INFO);
   }
 
   @Override

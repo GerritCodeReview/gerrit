@@ -1036,16 +1036,6 @@ limitations under the License.
         });
       });
 
-      test('_getChangeDetail accepts only json', () => {
-        const authFetchStub = sandbox.stub(element._auth, 'fetch')
-            .returns(Promise.resolve());
-        const errFn = sinon.stub();
-        element._getChangeDetail(123, '516714', errFn);
-        assert.isTrue(authFetchStub.called);
-        assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
-            'application/json');
-      });
-
       test('_getChangeDetail populates _projectLookup', () => {
         sandbox.stub(element, 'getChangeActionURL')
             .returns(Promise.resolve(''));

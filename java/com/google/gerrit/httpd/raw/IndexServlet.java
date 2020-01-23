@@ -73,7 +73,7 @@ public class IndexServlet extends HttpServlet {
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
       ImmutableMap<String, Object> templateData =
           IndexHtmlUtil.templateData(
-              gerritApi, canonicalUrl, cdnPath, faviconPath, parameterMap, urlOrdainer);
+              gerritApi, canonicalUrl, cdnPath, faviconPath, parameterMap, urlOrdainer, req.getRequestURL().toString());
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);

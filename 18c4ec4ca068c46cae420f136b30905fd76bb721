@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a03d041_12b9f9a1",
+        "filename": "WORKSPACE",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-23T12:33:32Z",
+      "side": 1,
+      "message": "Nite: A space after # would be nice in all lines.",
+      "revId": "18c4ec4ca068c46cae420f136b30905fd76bb721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8df4cdbb_d61e0dac",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-23T12:33:32Z",
+      "side": 1,
+      "message": "Is this file supposed to be checked in?",
+      "revId": "18c4ec4ca068c46cae420f136b30905fd76bb721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

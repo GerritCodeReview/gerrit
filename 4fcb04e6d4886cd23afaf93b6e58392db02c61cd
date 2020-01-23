@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56656122_84ce972a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-23T10:31:12Z",
+      "side": 1,
+      "message": "Drop \u0027+\u0027 here and make it an empty line. Otherwise the \"Default is `REF_UPDATED_AND_CHANGE_REINDEX`.\" line will indented and appear as part of the last bulletpoint (and not as a new paragraph after the list).",
+      "range": {
+        "startLine": 1250,
+        "startChar": 0,
+        "endLine": 1250,
+        "endChar": 1
+      },
+      "revId": "4fcb04e6d4886cd23afaf93b6e58392db02c61cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7f097eb_75dd820b",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityComputationBehavior.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-23T10:31:12Z",
+      "side": 1,
+      "message": "Maybe provide some more info here that explains why this class/functionality exists (computing mergeable is too expensive).",
+      "revId": "4fcb04e6d4886cd23afaf93b6e58392db02c61cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "794ba00e_2a20070e",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-23T10:31:12Z",
+      "side": 1,
+      "message": "Would it be better to use\n\n  MergeabilityComputationBehavior.fromConfig(config).name() \n\nhere? Otherwise if an invalid value is configured in gerrit.config that invalid value is returned, instead of the one that is actually used by Gerrit.",
+      "range": {
+        "startLine": 234,
+        "startChar": 8,
+        "endLine": 236,
+        "endChar": 50
+      },
+      "revId": "4fcb04e6d4886cd23afaf93b6e58392db02c61cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

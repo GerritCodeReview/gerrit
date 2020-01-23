@@ -49,4 +49,9 @@ function PolymerMixins() {
         };
       }
     };
+
+  /**
+   * @polymerBehavior
+   * */
+  Polymer.IronA11yKeysBehavior = [];
 }

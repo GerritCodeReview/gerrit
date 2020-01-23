@@ -184,7 +184,8 @@
         _hideEditCommitMessage: {
           type: Boolean,
           computed: '_computeHideEditCommitMessage(_loggedIn, ' +
-            '_editingCommitMessage, _change, _editMode)',
+              '_editingCommitMessage, _change, _editMode, _commitCollapsed, ' +
+              '_commitCollapsible)',
         },
         _diffAgainst: String,
         /** @type {?string} */
@@ -243,9 +244,15 @@
           computed:
           '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
         },
+        /** If false, then the "Show more" button was used to expand. */
         _commitCollapsed: {
           type: Boolean,
           value: true,
+        },
+        /** Is the "Show more/less" button visible? */
+        _commitCollapsible: {
+          type: Boolean,
+          computed: '_computeCommitCollapsible(_latestCommitMessage)',
         },
         _relatedChangesCollapsed: {
           type: Boolean,
@@ -543,10 +550,12 @@
       return this.changeStatuses(change, options);
     }
 
-    _computeHideEditCommitMessage(loggedIn, editing, change, editMode) {
+    _computeHideEditCommitMessage(
+        loggedIn, editing, change, editMode, collapsed, collapsible) {
       if (!loggedIn || editing ||
           (change && change.status === this.ChangeStatus.MERGED) ||
-          editMode) {
+          editMode ||
+          (collapsed && collapsible)) {
         return true;
       }
 
@@ -1589,9 +1598,8 @@
       return 'Change ' + changeNum;
     }
 
-    _computeCommitClass(collapsed, commitMessage) {
-      if (this._computeCommitToggleHidden(commitMessage)) { return ''; }
-      return collapsed ? 'collapsed' : '';
+    _computeCommitMessageCollapsed(collapsed, collapsible) {
+      return collapsible && collapsed;
     }
 
     _computeRelatedChangesClass(collapsed) {
@@ -1628,9 +1636,9 @@
       }
     }
 
-    _computeCommitToggleHidden(commitMessage) {
-      if (!commitMessage) { return true; }
-      return commitMessage.split('\n').length < MIN_LINES_FOR_COMMIT_COLLAPSE;
+    _computeCommitCollapsible(commitMessage) {
+      if (!commitMessage) { return false; }
+      return commitMessage.split('\n').length >= MIN_LINES_FOR_COMMIT_COLLAPSE;
     }
 
     _getOffsetHeight(element) {
@@ -1658,8 +1666,6 @@
       // bottom margin.
       const EXTRA_HEIGHT = 30;
       let newHeight;
-      const hasCommitToggle =
-          !this._computeCommitToggleHidden(this._latestCommitMessage);
 
       if (window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_SMALL})`)
           .matches) {
@@ -1678,7 +1684,7 @@
             MINIMUM_RELATED_MAX_HEIGHT);
         newHeight = medRelatedHeight;
       } else {
-        if (hasCommitToggle) {
+        if (this._commitCollapsible) {
           // Make sure the content is lined up if both areas have buttons. If
           // the commit message is not collapsed, instead use the change info
           // height.
@@ -1701,7 +1707,7 @@
       stylesToUpdate['--relation-chain-max-height'] = newHeight + 'px';
 
       // Update the max-height of the relation chain to this new height.
-      if (hasCommitToggle) {
+      if (this._commitCollapsible) {
         stylesToUpdate['--related-change-btn-top-padding'] = remainder + 'px';
       }
 

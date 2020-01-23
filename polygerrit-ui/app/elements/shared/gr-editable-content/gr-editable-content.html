@@ -38,6 +38,10 @@ limitations under the License.
         box-shadow: var(--elevation-level-1);
         padding: var(--spacing-m);
       }
+      :host([collapsed]) .viewer {
+        max-height: 36em;
+        overflow: hidden;
+      }
       .editor iron-autogrow-textarea {
         background-color: var(--view-background-color);
         width: 100%;

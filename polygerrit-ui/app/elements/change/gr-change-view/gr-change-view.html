@@ -190,10 +190,6 @@ limitations under the License.
         height: 0;
         margin-bottom: var(--spacing-l);
       }
-      #commitMessage.collapsed {
-        max-height: 36em;
-        overflow: hidden;
-      }
       #relatedChanges.collapsed {
         margin-bottom: var(--spacing-l);
         max-height: var(--relation-chain-max-height, 2em);
@@ -449,12 +445,13 @@ limitations under the License.
               </div>
               <div
                   id="commitMessage"
-                  class$="commitMessage [[_computeCommitClass(_commitCollapsed, _latestCommitMessage)]]">
+                  class="commitMessage">
                 <gr-editable-content id="commitMessageEditor"
                     editing="[[_editingCommitMessage]]"
                     content="{{_latestCommitMessage}}"
                     storage-key="[[_computeCommitMessageKey(_change._number, _change.current_revision)]]"
-                    remove-zero-width-space>
+                    remove-zero-width-space
+                    collapsed$="[[_computeCommitMessageCollapsed(_commitCollapsed, _commitCollapsible)]]">
                   <gr-linked-text pre
                       content="[[_latestCommitMessage]]"
                       config="[[_projectConfig.commentlinks]]"
@@ -477,7 +474,7 @@ limitations under the License.
               <div
                   id="commitCollapseToggle"
                   class="collapseToggleContainer"
-                  hidden$="[[_computeCommitToggleHidden(_latestCommitMessage)]]">
+                  hidden$="[[!_commitCollapsible]]">
                 <gr-button
                     link
                     id="commitCollapseToggleButton"

@@ -1238,14 +1238,16 @@ limitations under the License.
       });
 
       test('commitCollapseToggle functions', () => {
-        element._latestCommitMessage = _.times(31, String).join('\n');
+        element._latestCommitMessage = _.times(35, String).join('\n');
         assert.isTrue(element._commitCollapsed);
+        assert.isTrue(element._commitCollapsible);
         assert.isTrue(
-            element.$.commitMessage.classList.contains('collapsed'));
+            element.$.commitMessageEditor.hasAttribute('collapsed'));
         MockInteractions.tap(element.$.commitCollapseToggleButton);
         assert.isFalse(element._commitCollapsed);
+        assert.isTrue(element._commitCollapsible);
         assert.isFalse(
-            element.$.commitMessage.classList.contains('collapsed'));
+            element.$.commitMessageEditor.hasAttribute('collapsed'));
       });
     });
 

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "122064dc_f5e466eb",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-23T15:11:37Z",
+      "side": 1,
+      "message": "Not your fault, but this is a strange way to pass in parameters here that are just used to check if a key is present and doesn\u0027t need the value at all. Seems to come from: https://gerrit-review.googlesource.com/c/gerrit/+/227188\n\nYou can use it for now as well for your case, we can clean it up in a separate change.",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 43
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4fdd8b7_95bd63b5",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-23T15:11:37Z",
+      "side": 1,
+      "message": "\u0026\u0026 requestURL !\u003d null (you can check if this can even happen, but in case it can, checking it here makes the code in the method easier)",
+      "range": {
+        "startLine": 140,
+        "startChar": 40,
+        "endLine": 140,
+        "endChar": 41
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc292256_bbb891fb",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-23T15:11:37Z",
+      "side": 1,
+      "message": "This needs to be unit-tested, so it\u0027s easier if you put it into a separate Util class and then have a xxUtilTest.java for the tests.\n\nI\u0027d remove @Nullable and check that earlier.",
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df881bc9_80cdd8fb",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-23T15:11:37Z",
+      "side": 1,
+      "message": "you have to URL escape this. On the browser URL it looks like\n\nchromium-review.gs.com/c/chromium/src/+/123\n\nOn the API, it looks like:\n\nchromium-review.gs.com/changes/chromium%2Fsrc~123/...",
+      "range": {
+        "startLine": 170,
+        "startChar": 28,
+        "endLine": 170,
+        "endChar": 35
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "709a5f89_c6b397d7",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-23T15:11:37Z",
+      "side": 1,
+      "message": "nit: not actually a \u0027detail\u0027 path because you add /detail here.\n\nis it worth doing the same for \u0027diff\u0027 or \u0027dashboard\u0027 (in a separate change?)",
+      "range": {
+        "startLine": 73,
+        "startChar": 7,
+        "endLine": 73,
+        "endChar": 23
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

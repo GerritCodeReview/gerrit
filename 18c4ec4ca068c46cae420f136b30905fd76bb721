@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "60589e9d_c9c2083f",
+        "filename": "WORKSPACE",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-23T14:15:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a03d041_12b9f9a1",
+      "revId": "18c4ec4ca068c46cae420f136b30905fd76bb721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8df4cdbb_d61e0dac",
         "filename": "polygerrit-ui/app/yarn.lock",
         "patchSetId": 17
@@ -30,6 +48,24 @@
       "writtenOn": "2020-01-23T12:33:32Z",
       "side": 1,
       "message": "Is this file supposed to be checked in?",
+      "revId": "18c4ec4ca068c46cae420f136b30905fd76bb721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4711501d_907a1023",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-23T14:15:54Z",
+      "side": 1,
+      "message": "Yes, it is recommended to check in this file (https://yarnpkg.com/lang/en/docs/yarn-lock/#toc-check-into-source-control)\nIt contains exact version for each package, so everyone has exactly the same source code on their machine (for example, see\nhttps://gerrit-review.googlesource.com/c/gerrit/+/250399/20/polygerrit-ui/app/yarn.lock )",
+      "parentUuid": "8df4cdbb_d61e0dac",
       "revId": "18c4ec4ca068c46cae420f136b30905fd76bb721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

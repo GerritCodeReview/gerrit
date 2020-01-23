@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f6859487_679db204",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-23T11:12:32Z",
+      "side": 1,
+      "message": "The only usage I could find is https://chromium.googlesource.com/infra/gerrit-plugins/chromium-behavior/+/dc0962ee496be8e1b9feaab3ecea6f54bebff93f/src/main/resources/static/chromium-behavior.html#887\n\nAnd I think that would still work. So maybe simplify here?",
+      "parentUuid": "d0d5683b_0ba17446",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 19
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc8e9036_e0392ea0",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 5
@@ -236,6 +260,24 @@
     },
     {
       "key": {
+        "uuid": "f501f3cc_1bbc1135",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-23T11:12:32Z",
+      "side": 1,
+      "message": "But _populateRevertSubmissionMessage() can and does check that itself.",
+      "parentUuid": "40d9b5ba_6e8cedb9",
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73a346f5_064bdbb4",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 5
@@ -271,6 +313,30 @@
       "side": 1,
       "message": "Dialog being re-used?\nOn every new change page, new \"change\" attribute will be passed down on to onInputUpdate().\nMaybe I didn\u0027t understand properly what you meant.",
       "parentUuid": "73a346f5_064bdbb4",
+      "range": {
+        "startLine": 160,
+        "startChar": 6,
+        "endLine": 160,
+        "endChar": 18
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a865f1f3_23a488e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-23T11:12:32Z",
+      "side": 1,
+      "message": "onInputUpdate() will be called, but this.changes will not be reset to [].",
+      "parentUuid": "4e16d7b5_cf8fecb7",
       "range": {
         "startLine": 160,
         "startChar": 6,

@@ -1,6 +1,7 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load(":rules.bzl", "polygerrit_bundle")
+load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "update_links")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -83,15 +84,32 @@ genrule2(
     ]),
 )
 
+update_links(
+    name = "test-srcs-updated-links",
+    srcs = [
+        "test/common-test-setup.html",
+        "test/index.html",
+        ":pg_code",
+    ],
+    redirects = "redirects.json",
+)
+
+# Workaround for https://github.com/bazelbuild/bazel/issues/1305
+filegroup(
+    name = "test-srcs-updated-links-fg",
+    srcs = [
+        ":test-srcs-updated-links",
+        "@ui_dev_npm//:node_modules",
+        "@ui_npm//:node_modules",
+    ],
+)
+
 sh_test(
     name = "wct_test",
     size = "enormous",
     srcs = ["wct_test.sh"],
     data = [
-        "test/common-test-setup.html",
-        "test/index.html",
-        ":pg_code.zip",
-        ":test_components.zip",
+        ":test-srcs-updated-links-fg",
     ],
     # Should not run sandboxed.
     tags = [

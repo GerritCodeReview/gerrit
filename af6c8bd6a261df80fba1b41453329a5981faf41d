@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "522542f2_375f90bb",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-23T08:50:12Z",
+      "side": 1,
+      "message": "I think here it might have been intentional to forward \u0027e\u0027 which is the cause of the merge failure?",
+      "range": {
+        "startLine": 748,
+        "startChar": 67,
+        "endLine": 748,
+        "endChar": 69
+      },
+      "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9bab3a23_63fb83f0",
         "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
         "patchSetId": 3
@@ -34,6 +57,64 @@
       "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60a3c3bb_df28a0a1",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-23T08:50:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure. Isn\u0027t \u0027msg\u0027 the string in which \u0027%s\u0027 was already replaced with \u0027change\u0027?",
+      "parentUuid": "dc82756c_040a07c3",
+      "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25badb27_979e2a44",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-23T08:50:12Z",
+      "side": 1,
+      "message": "Isn\u0027t this just wrong user input? If so, logging this on lower level seems to be more appropriate.",
+      "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b11497b_ef68593e",
+        "filename": "java/com/google/gerrit/sshd/SuExec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-23T08:50:12Z",
+      "side": 1,
+      "message": "drop this now?",
+      "range": {
+        "startLine": 131,
+        "startChar": 39,
+        "endLine": 131,
+        "endChar": 41
+      },
+      "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

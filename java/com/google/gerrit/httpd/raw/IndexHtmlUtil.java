@@ -19,6 +19,7 @@ import static com.google.template.soy.data.ordainers.GsonOrdainer.serializeObjec
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
@@ -27,6 +28,7 @@ import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gson.Gson;
 import com.google.template.soy.data.SanitizedContent;
@@ -50,12 +52,18 @@ public class IndexHtmlUtil {
       String cdnPath,
       String faviconPath,
       Map<String, String[]> urlParameterMap,
-      Function<String, SanitizedContent> urlInScriptTagOrdainer)
+      Function<String, SanitizedContent> urlInScriptTagOrdainer,
+      String requestedURL)
       throws URISyntaxException, RestApiException {
     return ImmutableMap.<String, Object>builder()
         .putAll(
             staticTemplateData(
-                canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
+                canonicalURL,
+                cdnPath,
+                faviconPath,
+                urlParameterMap,
+                urlInScriptTagOrdainer,
+                requestedURL))
         .putAll(dynamicTemplateData(gerritApi))
         .build();
   }
@@ -98,7 +106,8 @@ public class IndexHtmlUtil {
       String cdnPath,
       String faviconPath,
       Map<String, String[]> urlParameterMap,
-      Function<String, SanitizedContent> urlInScriptTagOrdainer)
+      Function<String, SanitizedContent> urlInScriptTagOrdainer,
+      String requestedURL)
       throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
 
@@ -133,6 +142,14 @@ public class IndexHtmlUtil {
     if (urlParameterMap.containsKey("gf")) {
       data.put("useGoogleFonts", "true");
     }
+
+    if (urlParameterMap.containsKey("pl") && requestedURL != null) {
+      String changeRequestsPath = computeChangeRequestsPath(requestedURL);
+      if (changeRequestsPath != null) {
+        data.put("changeRequestsPath", changeRequestsPath);
+      }
+    }
+
     return data.build();
   }
 
@@ -146,6 +163,20 @@ public class IndexHtmlUtil {
     // from the cannonical web URL.
     URI uri = new URI(canonicalURL);
     return uri.getPath().replaceAll("/$", "");
+  }
+
+  static String computeChangeRequestsPath(String requestedURL) {
+    // Try c/project/+/numericChangeId
+    int y = requestedURL.indexOf("c/");
+    int z = requestedURL.lastIndexOf("/+/");
+    if (z > 0 && y >= 0 && y + 2 <= z) {
+      Integer changeId = Ints.tryParse(requestedURL.substring(z + 3));
+      if (changeId != null) {
+        String project = requestedURL.substring(y + 2, z);
+        return "changes/" + Url.encode(project) + "~" + changeId;
+      }
+    }
+    return null;
   }
 
   private IndexHtmlUtil() {}

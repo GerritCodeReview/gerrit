@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.httpd.raw.IndexHtmlUtil.computeChangeRequestsPath;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
 
 import com.google.template.soy.data.SanitizedContent;
@@ -29,7 +30,12 @@ public class IndexHtmlUtilTest {
   public void noPathAndNoCDN() throws Exception {
     assertThat(
             staticTemplateData(
-                "http://example.com/", null, null, new HashMap<>(), IndexHtmlUtilTest::ordain))
+                "http://example.com/",
+                null,
+                null,
+                new HashMap<>(),
+                IndexHtmlUtilTest::ordain,
+                null))
         .containsExactly("canonicalPath", "", "staticResourcePath", ordain(""));
   }
 
@@ -41,7 +47,8 @@ public class IndexHtmlUtilTest {
                 null,
                 null,
                 new HashMap<>(),
-                IndexHtmlUtilTest::ordain))
+                IndexHtmlUtilTest::ordain,
+                null))
         .containsExactly("canonicalPath", "/gerrit", "staticResourcePath", ordain("/gerrit"));
   }
 
@@ -53,7 +60,8 @@ public class IndexHtmlUtilTest {
                 "http://my-cdn.com/foo/bar/",
                 null,
                 new HashMap<>(),
-                IndexHtmlUtilTest::ordain))
+                IndexHtmlUtilTest::ordain,
+                null))
         .containsExactly(
             "canonicalPath", "", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));
   }
@@ -66,7 +74,8 @@ public class IndexHtmlUtilTest {
                 "http://my-cdn.com/foo/bar/",
                 null,
                 new HashMap<>(),
-                IndexHtmlUtilTest::ordain))
+                IndexHtmlUtilTest::ordain,
+                null))
         .containsExactly(
             "canonicalPath", "/gerrit", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));
   }
@@ -77,9 +86,19 @@ public class IndexHtmlUtilTest {
     urlParms.put("gf", new String[0]);
     assertThat(
             staticTemplateData(
-                "http://example.com/", null, null, urlParms, IndexHtmlUtilTest::ordain))
+                "http://example.com/", null, null, urlParms, IndexHtmlUtilTest::ordain, null))
         .containsExactly(
             "canonicalPath", "", "staticResourcePath", ordain(""), "useGoogleFonts", "true");
+  }
+
+  @Test
+  public void computeChangePath() throws Exception {
+    assertThat(computeChangeRequestsPath("/c/project/+/123")).isEqualTo("changes/project~123");
+
+    assertThat(computeChangeRequestsPath("/c/project/src/+/23"))
+        .isEqualTo("changes/project%2Fsrc~23");
+
+    assertThat(computeChangeRequestsPath("/q/project/src/+/23")).isEqualTo(null);
   }
 
   private static SanitizedContent ordain(String s) {

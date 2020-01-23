@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "068d81f5_9babb5b1",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-23T14:46:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "316b5df6_710ee1eb",
+      "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba21595f_a3df556f",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
         "patchSetId": 6
@@ -113,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "b72a7f1b_0d780337",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-23T14:46:04Z",
+      "side": 1,
+      "message": "Done. Now the test runs in 1.5 seconds with 10K refs.",
+      "parentUuid": "7216d353_8e0833c4",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 31
+      },
+      "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "028dbf29_a0d13b0a",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
         "patchSetId": 6
@@ -136,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "caa1a9a3_1bd1007b",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-23T14:46:04Z",
+      "side": 1,
+      "message": "NICE (Y)\nThanks for the tip.",
+      "parentUuid": "028dbf29_a0d13b0a",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7c88933_f64af7cb",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
         "patchSetId": 6
@@ -150,6 +216,24 @@
       "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ef90cf2_344febcb",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-23T14:46:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7c88933_f64af7cb",
+      "revId": "186ee5344db8df87d0aa52cc3bc9c8a63629baed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

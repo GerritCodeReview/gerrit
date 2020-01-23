@@ -28,6 +28,7 @@
   {@param? polyfillSD: ?}
   {@param? polyfillSC: ?}
   {@param? useGoogleFonts: ?}
+  {@param? changeRequestsPath: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}
@@ -67,6 +68,12 @@
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/{$faviconPath}">{\n}
   {else}
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
+  {/if}
+
+  {if $changeRequestsPath}
+    <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O=d16314" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/robotcomments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
   {/if}
 
   // RobotoMono fonts are used in styles/fonts.css

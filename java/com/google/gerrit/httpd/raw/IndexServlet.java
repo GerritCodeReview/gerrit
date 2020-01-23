@@ -71,9 +71,10 @@ public class IndexServlet extends HttpServlet {
     try {
       Map<String, String[]> parameterMap = req.getParameterMap();
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
+      String requestUrl = req.getRequestURL() == null ? null : req.getRequestURL().toString();
       ImmutableMap<String, Object> templateData =
           IndexHtmlUtil.templateData(
-              gerritApi, canonicalUrl, cdnPath, faviconPath, parameterMap, urlOrdainer);
+              gerritApi, canonicalUrl, cdnPath, faviconPath, parameterMap, urlOrdainer, requestUrl);
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);

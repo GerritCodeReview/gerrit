@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d459d076_2a50e2f0",
+        "filename": "java/com/google/gerrit/pgm/DeleteZombieDrafts.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-23T14:50:31Z",
+      "side": 1,
+      "message": "new cleanup percentage.",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f644a15_78b0ee04",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-23T14:50:31Z",
+      "side": 1,
+      "message": "Filtering on change ID from the ref name (it already contains the change ID modulo 100). Hope this is fine \u003d)",
+      "range": {
+        "startLine": 136,
+        "startChar": 14,
+        "endLine": 136,
+        "endChar": 30
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38f842da_3756f2bc",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-23T14:50:31Z",
+      "side": 1,
+      "message": "A test case for refs cleanup with percentage.",
+      "range": {
+        "startLine": 69,
+        "startChar": 14,
+        "endLine": 69,
+        "endChar": 45
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

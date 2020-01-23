@@ -990,6 +990,20 @@
      * @param {function()=} opt_cancelCondition
      */
     getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
+      return this.getConfig(false).then(config => {
+        const optionsHex = this._getChangeOptionsHex(config);
+        return this._getChangeDetail(
+            changeNum, optionsHex, opt_errFn, opt_cancelCondition)
+            .then(GrReviewerUpdatesParser.parse);
+      });
+    }
+
+    _getChangeOptionsHex(config) {
+      if (window.changeDetailHex &&
+          !(config.receive && config.receive.enable_signed_push)) {
+        return window.changeDetailHex;
+      }
+
       // This list MUST be kept in sync with
       // ChangeIT#changeDetailsDoesNotRequireIndex
       const options = [
@@ -1004,15 +1018,10 @@
         this.ListChangesOption.SKIP_MERGEABLE,
         this.ListChangesOption.SKIP_DIFFSTAT,
       ];
-      return this.getConfig(false).then(config => {
-        if (config.receive && config.receive.enable_signed_push) {
-          options.push(this.ListChangesOption.PUSH_CERTIFICATES);
-        }
-        const optionsHex = this.listChangesOptionsToHex(...options);
-        return this._getChangeDetail(
-            changeNum, optionsHex, opt_errFn, opt_cancelCondition)
-            .then(GrReviewerUpdatesParser.parse);
-      });
+      if (config.receive && config.receive.enable_signed_push) {
+        options.push(this.ListChangesOption.PUSH_CERTIFICATES);
+      }
+      return this.listChangesOptionsToHex(...options);
     }
 
     /**
@@ -1042,7 +1051,7 @@
         const urlWithParams = this._restApiHelper
             .urlWithParams(url, optionsHex);
         const params = {O: optionsHex};
-        let req = {
+        const req = {
           url,
           errFn: opt_errFn,
           cancelCondition: opt_cancelCondition,
@@ -1050,7 +1059,6 @@
           fetchOptions: this._etags.getOptions(urlWithParams),
           anonymizedUrl: '/changes/*~*/detail?O=' + optionsHex,
         };
-        req = this._restApiHelper.addAcceptJsonHeader(req);
         return this._restApiHelper.fetchRawJSON(req).then(response => {
           if (response && response.status === 304) {
             return Promise.resolve(this._restApiHelper.parsePrefixedJSON(
@@ -2041,12 +2049,15 @@
        * @param {string|number=} opt_patchNum
        * @return {!Promise<!Object>} Diff comments response.
        */
+      // We don't want to add accept header, since preloading of comments is
+      // working only without accept header.
+      const noAcceptHeader = true;
       const fetchComments = opt_patchNum => this._getChangeURLAndFetch({
         changeNum,
         endpoint,
         patchNum: opt_patchNum,
         reportEndpointAsIs: true,
-      });
+      }, noAcceptHeader);
 
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
         return fetchComments();
@@ -2611,7 +2622,7 @@
      * @param {Gerrit.ChangeFetchRequest} req
      * @return {!Promise<!Object>}
      */
-    _getChangeURLAndFetch(req) {
+    _getChangeURLAndFetch(req, noAcceptHeader) {
       const anonymizedEndpoint = req.reportEndpointAsIs ?
         req.endpoint : req.anonymizedEndpoint;
       const anonymizedBaseUrl = req.patchNum ?
@@ -2624,7 +2635,7 @@
             fetchOptions: req.fetchOptions,
             anonymizedUrl: anonymizedEndpoint ?
               (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
-          }));
+          }, noAcceptHeader));
     }
 
     /**

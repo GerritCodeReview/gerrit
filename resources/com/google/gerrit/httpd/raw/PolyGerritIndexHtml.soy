@@ -28,6 +28,8 @@
   {@param? polyfillSD: ?}
   {@param? polyfillSC: ?}
   {@param? useGoogleFonts: ?}
+  {@param? changeRequestsPath: ?}
+  {@param? changeDetailHex: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}
@@ -43,6 +45,7 @@
     // Disable extra font load from paper-styles
     window.polymerSkipLoadingFontRoboto = true;
     window.CLOSURE_NO_DEPS = true;
+    {if $changeDetailHex} window.changeDetailHex = '{$changeDetailHex}';{/if}
     {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
@@ -67,6 +70,13 @@
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/{$faviconPath}">{\n}
   {else}
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
+  {/if}
+  {if $changeRequestsPath}
+    {if $changeDetailHex}
+      <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$changeDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    {/if}
+    <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/robotcomments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
   {/if}
 
   // RobotoMono fonts are used in styles/fonts.css

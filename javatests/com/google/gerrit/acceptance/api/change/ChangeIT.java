@@ -4419,7 +4419,6 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.ALL_COMMITS,
             ListChangesOption.ALL_REVISIONS,
             ListChangesOption.CHANGE_ACTIONS,
-            ListChangesOption.CURRENT_ACTIONS,
             ListChangesOption.DETAILED_LABELS,
             ListChangesOption.DOWNLOAD_COMMANDS,
             ListChangesOption.MESSAGES,

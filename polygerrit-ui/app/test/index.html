@@ -21,6 +21,13 @@ limitations under the License.
 <meta charset="utf-8">
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<style>
+  /* Prevent horizontal scrolling on page.
+   New version of web-component-tester creates very narrow iframe */
+  #subsuites {
+    width: 1500px !important;
+  }
+</style>
 <script>
   const testFiles = [];
   const scriptsPath = '../scripts/';

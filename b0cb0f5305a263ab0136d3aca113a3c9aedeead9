@@ -463,6 +463,30 @@
     },
     {
       "key": {
+        "uuid": "b47b0806_c14980c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-23T14:05:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "225ce29f_b0f2179c",
+      "range": {
+        "startLine": 160,
+        "startChar": 6,
+        "endLine": 160,
+        "endChar": 18
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413583b4_00087b46",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 5

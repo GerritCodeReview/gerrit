@@ -16,6 +16,24 @@
       "revId": "e720a9de2af042a1c4fc6d01b8fe7a8e94ea10e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f554bedd_89068ff8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-23T08:51:34Z",
+      "side": 1,
+      "message": "I find the comment directly above sufficient. Let\u0027s create a variable, if this starts coming up in other places as well. Also, I am not sure whether 0.4px is the best choice. It is somewhat random ...",
+      "parentUuid": "11993039_293c2adc",
+      "revId": "e720a9de2af042a1c4fc6d01b8fe7a8e94ea10e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

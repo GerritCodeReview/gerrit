@@ -16,6 +16,24 @@
       "revId": "914648a1a4bd4c3f5d857f3551fabcfcb4d0f5c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34054315_e010ae85",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-23T11:58:01Z",
+      "side": 1,
+      "message": "I removed versions from all nested package.json files and add private: true - we are not going to publish these packages separately.",
+      "parentUuid": "2a611a6e_770b3e51",
+      "revId": "914648a1a4bd4c3f5d857f3551fabcfcb4d0f5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

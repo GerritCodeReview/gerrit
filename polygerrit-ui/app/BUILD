@@ -1,6 +1,7 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load(":rules.bzl", "polygerrit_bundle")
+load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "update_links")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -14,7 +15,6 @@ polygerrit_bundle(
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
-            "bower_components/**",
             "test/**",
             "**/*_test.html",
         ],
@@ -22,17 +22,6 @@ polygerrit_bundle(
     outs = ["polygerrit_ui.zip"],
     entry_point = "elements/gr-app.html",
     redirects = "redirects.json",
-)
-
-bower_component_bundle(
-    name = "test_components",
-    testonly = True,
-    deps = [
-        "//lib/js:iron-test-helpers",
-        "//lib/js:test-fixture",
-        "//lib/js:web-component-tester",
-        "//polygerrit-ui:polygerrit_components.bower_components",
-    ],
 )
 
 filegroup(
@@ -43,7 +32,6 @@ filegroup(
             "**/*.js",
         ],
         exclude = [
-            "bower_components/**",
             "node_modules/**",
             "node_modules_licenses/**",
         ],
@@ -58,7 +46,6 @@ filegroup(
             "**/*.js",
         ],
         exclude = [
-            "bower_components/**",
             "node_modules/**",
             "node_modules_licenses/**",
             "**/*_test.html",
@@ -68,30 +55,36 @@ filegroup(
     ),
 )
 
-genrule2(
-    name = "pg_code_zip",
-    srcs = [":pg_code"],
-    outs = ["pg_code.zip"],
-    cmd = " && ".join([
-        ("tar -hcf- $(locations :pg_code) |" +
-         " tar --strip-components=2 -C $$TMP/ -xf-"),
-        "cd $$TMP",
-        "TZ=UTC",
-        "export TZ",
-        "find . -exec touch -t 198001010000 '{}' ';'",
-        "zip -rq $$ROOT/$@ *",
-    ]),
+update_links(
+    name = "test-srcs-updated-links",
+    srcs = [
+        "test/common-test-setup.html",
+        "test/index.html",
+        ":pg_code",
+    ],
+    redirects = "redirects.json",
+)
+
+# Workaround for https://github.com/bazelbuild/bazel/issues/1305
+filegroup(
+    name = "test-srcs-updated-links-fg",
+    srcs = [
+        ":test-srcs-updated-links",
+        "@ui_dev_npm//:node_modules",
+        "@ui_npm//:node_modules",
+    ],
 )
 
 sh_test(
     name = "wct_test",
     size = "enormous",
     srcs = ["wct_test.sh"],
+    args = [
+        "$(location @ui_dev_npm//web-component-tester/bin:wct)",
+    ],
     data = [
-        "test/common-test-setup.html",
-        "test/index.html",
-        ":pg_code.zip",
-        ":test_components.zip",
+        ":test-srcs-updated-links-fg",
+        "@ui_dev_npm//web-component-tester/bin:wct",
     ],
     # Should not run sandboxed.
     tags = [
@@ -116,14 +109,35 @@ sh_test(
     ],
 )
 
+update_links(
+    name = "polylint-updated-links",
+    srcs = [
+        ":pg_code_without_test",
+    ],
+    redirects = "redirects.json",
+)
+
+# Workaround for https://github.com/bazelbuild/bazel/issues/1305
+filegroup(
+    name = "polylint-updated-links-fg",
+    srcs = [
+        ":polylint-updated-links",
+        "@ui_npm//:node_modules",
+    ],
+)
+
 sh_test(
     name = "polylint_test",
     size = "large",
     srcs = ["polylint_test.sh"],
+    args = [
+        "$(location @tools_npm//polymer-cli/bin:polymer)",
+        "$(location polymer.json)",
+    ],
     data = [
         "polymer.json",
-        ":pg_code_without_test",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
+        ":polylint-updated-links-fg",
+        "@tools_npm//polymer-cli/bin:polymer",
     ],
     # Should not run sandboxed.
     tags = [
@@ -153,7 +167,6 @@ DIRECTORIES = [
     data = [
         ":pg_code",
         ":template_test_srcs",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
     ],
     tags = [
         # Should not run sandboxed.

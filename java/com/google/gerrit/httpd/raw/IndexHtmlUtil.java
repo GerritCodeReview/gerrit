@@ -19,6 +19,7 @@ import static com.google.template.soy.data.ordainers.GsonOrdainer.serializeObjec
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
@@ -50,12 +51,13 @@ public class IndexHtmlUtil {
       String cdnPath,
       String faviconPath,
       Map<String, String[]> urlParameterMap,
-      Function<String, SanitizedContent> urlInScriptTagOrdainer)
+      Function<String, SanitizedContent> urlInScriptTagOrdainer,
+      String requestedURL)
       throws URISyntaxException, RestApiException {
     return ImmutableMap.<String, Object>builder()
         .putAll(
             staticTemplateData(
-                canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
+                canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer, requestedURL))
         .putAll(dynamicTemplateData(gerritApi))
         .build();
   }
@@ -98,7 +100,8 @@ public class IndexHtmlUtil {
       String cdnPath,
       String faviconPath,
       Map<String, String[]> urlParameterMap,
-      Function<String, SanitizedContent> urlInScriptTagOrdainer)
+      Function<String, SanitizedContent> urlInScriptTagOrdainer,
+      String requestedURL)
       throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
 
@@ -133,6 +136,14 @@ public class IndexHtmlUtil {
     if (urlParameterMap.containsKey("gf")) {
       data.put("useGoogleFonts", "true");
     }
+
+    if (urlParameterMap.containsKey("pl")) {
+      String changeDetailPath = computeChangeDetailPath(requestedURL);
+      if (changeDetailPath != null) {
+        data.put("changeDetailPath", changeDetailPath);
+      }
+    }
+
     return data.build();
   }
 
@@ -146,6 +157,20 @@ public class IndexHtmlUtil {
     // from the cannonical web URL.
     URI uri = new URI(canonicalURL);
     return uri.getPath().replaceAll("/$", "");
+  }
+
+  private static String computeChangeDetailPath(@Nullable String requestedURL) {
+    // Try c/project/+/numericChangeId
+    int y = requestedURL.indexOf("c/");
+    int z = requestedURL.lastIndexOf("/+/");
+    if (z > 0 && y >= 0 && y < z) {
+      Integer changeId = Ints.tryParse(requestedURL.substring(z + 3));
+      if (changeId != null) {
+        String project = requestedURL.substring(y + 2, z);
+        return "changes/" + project + "~" + changeId;
+      }
+    }
+    return null;
   }
 
   private IndexHtmlUtil() {}

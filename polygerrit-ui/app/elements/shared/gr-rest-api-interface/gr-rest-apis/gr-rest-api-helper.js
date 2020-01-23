@@ -205,8 +205,10 @@
      *
      * @param {Gerrit.FetchJSONRequest} req
      */
-    fetchJSON(req) {
-      req = this.addAcceptJsonHeader(req);
+    fetchJSON(req, noAcceptHeader) {
+      if (!noAcceptHeader) {
+        req = this.addAcceptJsonHeader(req);
+      }
       return this.fetchRawJSON(req).then(response => {
         if (!response) {
           return;
@@ -286,7 +288,7 @@
       if (!req.fetchOptions) req.fetchOptions = {};
       if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
       if (!req.fetchOptions.headers.has('Accept')) {
-        req.fetchOptions.headers.append('Accept', 'application/json');
+        req.fetchOptions.headers.append('Accept', '*/*');
       }
       return req;
     }

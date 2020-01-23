@@ -203,7 +203,9 @@ limitations under the License.
       let mockSanitize;
 
       setup(() => {
-        mockSanitize = sandbox.spy(window.Polymer, 'sanitizeDOMValue');
+        assert.isDefined(window.Polymer.sanitizeDOMValue);
+        mockSanitize = sandbox.spy(window.Polymer.sanitizeDOMValue);
+        window.Polymer.sanitizeDOMValue = mockSanitize();
       });
 
       test('annotates when fully contained', () => {

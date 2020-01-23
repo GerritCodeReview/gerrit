@@ -87,10 +87,14 @@ limitations under the License.
             .returns(element._headerTopInitial);
       });
 
-      test('scrolls header along with document', () => {
+      test.only('scrolls header along with document', () => {
+        console.log("Floating 1:" + element.$.header._headerFloating);
         emulateScrollY(20);
         // No top property is set when !_headerFloating.
-        assert.equal(getHeaderTop(), '');
+        console.log("Floating 2:" + element.$.header._headerFloating);
+        assert.equal(getHeaderTop(), '-10px');
+        console.log("Floating 3:" + element.$.header._headerFloating);
+        console.log(element.$.header._headerFloating);
       });
 
       test('does not stick to the top by default', () => {

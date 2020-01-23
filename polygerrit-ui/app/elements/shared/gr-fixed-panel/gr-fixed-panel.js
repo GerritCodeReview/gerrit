@@ -95,6 +95,8 @@
     }
 
     _computeHeaderClass(headerFloating, topLast) {
+      console.log("_computeHeaderClass");
+      console.log([headerFloating, topLast]);
       const fixedAtTop = this.keepOnScroll && topLast === 0;
       return [
         headerFloating ? 'floating' : '',
@@ -124,10 +126,14 @@
     }
 
     _updateDebounced() {
+      console.log("_updateDebounced");
+      console.log(this.floatingDisabled);
       if (this.floatingDisabled) {
+        console.log("_updateDebounced -> floatingDisabled");
         return;
       }
       this._isMeasured = false;
+      console.log("_updateDebounced -> _maybeFloatHeader");
       this._maybeFloatHeader();
       this._reposition();
     }
@@ -171,6 +177,8 @@
         return; // Already measured.
       }
       const rect = this.$.header.getBoundingClientRect();
+      console.log("rect=");
+      console.log(rect);
       if (rect.height === 0 && rect.width === 0) {
         return; // Not ready for measurement yet.
       }
@@ -188,16 +196,20 @@
     }
 
     _maybeFloatHeader() {
+      console.log("_maybeFloatHeader");
       if (!this._isFloatingNeeded()) {
+        console.log("!this._isFloatingNeeded()");
         return;
       }
       this._measure();
       if (this._isMeasured) {
+        console.log("this._isMeasured()");
         this._floatHeader();
       }
     }
 
     _floatHeader() {
+      console.log("_floatHeader");
       this.updateStyles({'--header-height': this._headerHeight + 'px'});
       this._headerFloating = true;
     }

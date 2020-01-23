@@ -16,6 +16,7 @@ package com.google.gerrit.server.args4j;
 
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountException;
@@ -37,6 +38,8 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class AccountIdHandler extends OptionHandler<Account.Id> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
   private final AuthType authType;
@@ -82,7 +85,9 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
         }
       }
     } catch (OrmException e) {
-      throw new CmdLineException(owner, localizable("database is down"));
+      String msg = "database is down";
+      logger.atSevere().withCause(e).log(msg);
+      throw new CmdLineException(owner, localizable(msg));
     } catch (IOException e) {
       throw new CmdLineException(owner, "Failed to load account", e);
     } catch (ConfigInvalidException e) {
@@ -102,7 +107,9 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
       req.setSkipAuthentication(true);
       return accountManager.authenticate(req).getAccountId();
     } catch (AccountException e) {
-      throw new CmdLineException(owner, localizable("user \"%s\" not found"), user);
+      String msg = "user \"%s\" not found";
+      logger.atSevere().withCause(e).log(msg, user);
+      throw new CmdLineException(owner, localizable(msg), user);
     }
   }
 

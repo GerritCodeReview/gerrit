@@ -94,7 +94,7 @@ public class PureRevert {
       try {
         claimedOriginalCommit = rw.parseCommit(ObjectId.fromString(claimedOriginal));
       } catch (InvalidObjectIdException | MissingObjectException e) {
-        throw new BadRequestException("invalid object ID");
+        throw new BadRequestException("invalid object ID", e);
       }
       if (claimedOriginalCommit.getParentCount() == 0) {
         throw new BadRequestException("can't check against initial commit");

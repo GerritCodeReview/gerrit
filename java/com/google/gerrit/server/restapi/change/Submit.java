@@ -218,7 +218,7 @@ public class Submit
         change =
             changeNotesFactory.createChecked(db, change.getProject(), change.getId()).getChange();
       } catch (NoSuchChangeException e) {
-        throw new ResourceConflictException("change is deleted");
+        throw new ResourceConflictException("change is deleted", e);
       }
     }
 
@@ -473,7 +473,7 @@ public class Submit
           .check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
-          String.format("on_behalf_of account %s cannot see change", submitter.getAccountId()));
+          String.format("on_behalf_of account %s cannot see change", submitter.getAccountId()), e);
     }
     return submitter;
   }

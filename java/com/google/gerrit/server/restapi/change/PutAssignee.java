@@ -100,7 +100,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
           .change(rsrc.getNotes())
           .check(ChangePermission.READ);
     } catch (AuthException e) {
-      throw new AuthException("read not permitted for " + input.assignee);
+      throw new AuthException("read not permitted for " + input.assignee, e);
     }
 
     try (BatchUpdate bu =

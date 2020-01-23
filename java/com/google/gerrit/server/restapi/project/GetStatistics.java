@@ -50,7 +50,7 @@ public class GetStatistics implements RestReadView<ProjectResource> {
     } catch (GitAPIException | JGitInternalException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch (IOException e) {
-      throw new ResourceNotFoundException(rsrc.getName());
+      throw new ResourceNotFoundException(rsrc.getName(), e);
     }
   }
 }

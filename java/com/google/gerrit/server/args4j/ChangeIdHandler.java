@@ -66,7 +66,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
         return 1;
       }
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, localizable("Change-Id is not valid"));
+      throw new CmdLineException(owner, localizable("Change-Id is not valid: %s"), e.getMessage());
     } catch (OrmException e) {
       throw new CmdLineException(owner, localizable("Database error: %s"), e.getMessage());
     }

@@ -105,9 +105,9 @@ public class LsUserRefs extends SshCommand {
         throw new Failure(1, "fatal: Error reading refs: '" + projectName, e);
       }
     } catch (RepositoryNotFoundException e) {
-      throw die("'" + projectName + "': not a git archive");
+      throw die("'" + projectName + "': not a git archive", e);
     } catch (IOException | OrmException e) {
-      throw die("Error opening: '" + projectName);
+      throw die("Error opening: '" + projectName, e);
     }
   }
 }

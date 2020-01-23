@@ -78,7 +78,7 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
       }
       throw new UnprocessableEntityException("invalid token");
     } catch (EmailTokenVerifier.InvalidTokenException e) {
-      throw new UnprocessableEntityException("invalid token");
+      throw new UnprocessableEntityException("invalid token", e);
     } catch (AccountException e) {
       throw new UnprocessableEntityException(e.getMessage());
     }

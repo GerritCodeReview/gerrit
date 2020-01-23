@@ -117,7 +117,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     try {
       addSubgroups(groupUuid, subgroupUuids);
     } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid), e);
     }
     return result;
   }
@@ -155,7 +155,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
         }
         throw new IllegalStateException();
       } catch (UnprocessableEntityException e) {
-        throw new ResourceNotFoundException(id);
+        throw new ResourceNotFoundException(id, e);
       }
     }
   }

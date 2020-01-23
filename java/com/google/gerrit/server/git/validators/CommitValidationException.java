@@ -27,6 +27,11 @@ public class CommitValidationException extends ValidationException {
     this.messages = ImmutableList.of(message);
   }
 
+  public CommitValidationException(String reason, CommitValidationMessage message, Throwable why) {
+    super(reason, why);
+    this.messages = ImmutableList.of(message);
+  }
+
   public CommitValidationException(String reason, List<CommitValidationMessage> messages) {
     super(reason);
     this.messages = ImmutableList.copyOf(messages);

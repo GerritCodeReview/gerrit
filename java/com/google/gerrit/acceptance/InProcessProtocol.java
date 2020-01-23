@@ -246,7 +246,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       try {
         perm.check(ProjectPermission.RUN_UPLOAD_PACK);
       } catch (AuthException e) {
-        throw new ServiceNotAuthorizedException();
+        throw new ServiceNotAuthorizedException(e.getMessage(), e);
       } catch (PermissionBackendException e) {
         throw new RuntimeException(e);
       }
@@ -318,7 +318,7 @@ class InProcessProtocol extends TestProtocol<Context> {
             .project(req.project)
             .check(ProjectPermission.RUN_RECEIVE_PACK);
       } catch (AuthException e) {
-        throw new ServiceNotAuthorizedException();
+        throw new ServiceNotAuthorizedException(e.getMessage(), e);
       } catch (PermissionBackendException e) {
         throw new RuntimeException(e);
       }

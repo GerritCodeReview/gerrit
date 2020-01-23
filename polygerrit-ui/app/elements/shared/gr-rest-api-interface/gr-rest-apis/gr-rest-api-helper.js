@@ -286,7 +286,7 @@
       if (!req.fetchOptions) req.fetchOptions = {};
       if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
       if (!req.fetchOptions.headers.has('Accept')) {
-        req.fetchOptions.headers.append('Accept', 'application/json');
+        // req.fetchOptions.headers.append('Accept', '*/*');
       }
       return req;
     }

@@ -22,6 +22,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
@@ -29,12 +30,14 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gson.Gson;
+import com.google.common.primitives.Ints;
 import com.google.template.soy.data.SanitizedContent;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.Optional;
 
 /** Helper for generating parts of {@code index.html}. */
 public class IndexHtmlUtil {
@@ -50,12 +53,13 @@ public class IndexHtmlUtil {
       String cdnPath,
       String faviconPath,
       Map<String, String[]> urlParameterMap,
-      Function<String, SanitizedContent> urlInScriptTagOrdainer)
+      Function<String, SanitizedContent> urlInScriptTagOrdainer,
+      String requestedURL)
       throws URISyntaxException, RestApiException {
     return ImmutableMap.<String, Object>builder()
         .putAll(
             staticTemplateData(
-                canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
+                canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer, requestedURL))
         .putAll(dynamicTemplateData(gerritApi))
         .build();
   }
@@ -98,7 +102,8 @@ public class IndexHtmlUtil {
       String cdnPath,
       String faviconPath,
       Map<String, String[]> urlParameterMap,
-      Function<String, SanitizedContent> urlInScriptTagOrdainer)
+      Function<String, SanitizedContent> urlInScriptTagOrdainer,
+      String requestedURL)
       throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
 
@@ -133,6 +138,14 @@ public class IndexHtmlUtil {
     if (urlParameterMap.containsKey("gf")) {
       data.put("useGoogleFonts", "true");
     }
+    
+    if (urlParameterMap.containsKey("pl")) {
+      String changeDetailPath = computeChangeDetailPath(requestedURL);
+      if (changeDetailPath != null) {
+        data.put("changeDetailPath", changeDetailPath);
+      }
+    }
+
     return data.build();
   }
 
@@ -146,6 +159,20 @@ public class IndexHtmlUtil {
     // from the cannonical web URL.
     URI uri = new URI(canonicalURL);
     return uri.getPath().replaceAll("/$", "");
+  }
+
+  private static String computeChangeDetailPath(@Nullable String requestedURL) {
+    // Try c/project/+/numericChangeId
+    int y = requestedURL.indexOf("c/");
+    int z = requestedURL.lastIndexOf("/+/");
+    if (z > 0 && y >= 0 && y < z) {
+      Integer changeId = Ints.tryParse(requestedURL.substring(z + 3));
+      if (changeId != null) {
+        String project = requestedURL.substring(y + 2, z);
+        return "changes/" + project + "~" + changeId;
+      }
+    }
+    return null;
   }
 
   private IndexHtmlUtil() {}

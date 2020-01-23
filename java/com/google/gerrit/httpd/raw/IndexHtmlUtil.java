@@ -18,15 +18,20 @@ import static com.google.template.soy.data.ordainers.GsonOrdainer.serializeObjec
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gson.Gson;
 import com.google.template.soy.data.SanitizedContent;
@@ -34,11 +39,46 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** Helper for generating parts of {@code index.html}. */
 public class IndexHtmlUtil {
+  static final String changeCanonicalUrl = ".*/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
+  static final String basePatchNumUrlPart = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
+  static final Pattern changeUrlPattern =
+      Pattern.compile(changeCanonicalUrl + basePatchNumUrlPart + "?" + "/?$");
+  static final Pattern diffUrlPattern =
+      Pattern.compile(changeCanonicalUrl + basePatchNumUrlPart + "(/(.+))" + "/?$");
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public static String getDefaultChangeDetailHex() {
+    Set<ListChangesOption> options =
+        ImmutableSet.of(
+            ListChangesOption.ALL_COMMITS,
+            ListChangesOption.ALL_REVISIONS,
+            ListChangesOption.CHANGE_ACTIONS,
+            ListChangesOption.DETAILED_LABELS,
+            ListChangesOption.DOWNLOAD_COMMANDS,
+            ListChangesOption.MESSAGES,
+            ListChangesOption.SUBMITTABLE,
+            ListChangesOption.WEB_LINKS,
+            ListChangesOption.SKIP_DIFFSTAT);
+
+    return ListOption.toHex(options);
+  }
+
+  public static String getDefaultDiffDetailHex() {
+    Set<ListChangesOption> options =
+        ImmutableSet.of(
+            ListChangesOption.ALL_COMMITS,
+            ListChangesOption.ALL_REVISIONS,
+            ListChangesOption.SKIP_DIFFSTAT);
+
+    return ListOption.toHex(options);
+  }
 
   /**
    * Returns both static and dynamic parameters of {@code index.html}. The result is to be used when
@@ -50,12 +90,18 @@ public class IndexHtmlUtil {
       String cdnPath,
       String faviconPath,
       Map<String, String[]> urlParameterMap,
-      Function<String, SanitizedContent> urlInScriptTagOrdainer)
+      Function<String, SanitizedContent> urlInScriptTagOrdainer,
+      String requestedURL)
       throws URISyntaxException, RestApiException {
     return ImmutableMap.<String, Object>builder()
         .putAll(
             staticTemplateData(
-                canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
+                canonicalURL,
+                cdnPath,
+                faviconPath,
+                urlParameterMap,
+                urlInScriptTagOrdainer,
+                requestedURL))
         .putAll(dynamicTemplateData(gerritApi))
         .build();
   }
@@ -98,7 +144,8 @@ public class IndexHtmlUtil {
       String cdnPath,
       String faviconPath,
       Map<String, String[]> urlParameterMap,
-      Function<String, SanitizedContent> urlInScriptTagOrdainer)
+      Function<String, SanitizedContent> urlInScriptTagOrdainer,
+      String requestedURL)
       throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
 
@@ -133,7 +180,37 @@ public class IndexHtmlUtil {
     if (urlParameterMap.containsKey("gf")) {
       data.put("useGoogleFonts", "true");
     }
+
+    if (urlParameterMap.containsKey("pl") && requestedURL != null) {
+      data.put("defaultChangeDetailHex", getDefaultChangeDetailHex());
+      data.put("defaultDiffDetailHex", getDefaultDiffDetailHex());
+
+      String changeRequestsPath = computeChangeRequestsPath(requestedURL, changeUrlPattern);
+      if (changeRequestsPath != null) {
+        data.put("preloadChangePage", "true");
+      } else {
+        changeRequestsPath = computeChangeRequestsPath(requestedURL, diffUrlPattern);
+        data.put("preloadDiffPage", "true");
+      }
+
+      if (changeRequestsPath != null) {
+        data.put("changeRequestsPath", changeRequestsPath);
+      }
+    }
+
     return data.build();
+  }
+
+  static String computeChangeRequestsPath(String requestedURL, Pattern pattern) {
+    Matcher matcher = pattern.matcher(requestedURL);
+    if (matcher.matches()) {
+      Integer changeId = Ints.tryParse(matcher.group("changeNum"));
+      if (changeId != null) {
+        return "changes/" + Url.encode(matcher.group("project")) + "~" + changeId;
+      }
+    }
+
+    return null;
   }
 
   private static String computeCanonicalPath(@Nullable String canonicalURL)

@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.client;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumSet;
+import java.util.Set;
 
 /** Enum that can be expressed as a bitset in query parameters. */
 public interface ListOption {
@@ -45,5 +46,14 @@ public interface ListOption {
           "unknown " + clazz.getName() + ": " + Integer.toHexString(v));
     }
     return r;
+  }
+
+  static String toHex(Set<ListChangesOption> options) {
+    int v = 0;
+    for (ListChangesOption option : options) {
+      v |= 1 << option.getValue();
+    }
+
+    return Integer.toHexString(v);
   }
 }

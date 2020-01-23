@@ -201,9 +201,17 @@ limitations under the License.
     suite('annotateWithElement', () => {
       const fullText = '01234567890123456789';
       let mockSanitize;
+      let originalSanitizeDOMValue;
 
       setup(() => {
-        mockSanitize = sandbox.spy(window.Polymer, 'sanitizeDOMValue');
+        originalSanitizeDOMValue = window.Polymer.sanitizeDOMValue;
+        assert.isDefined(originalSanitizeDOMValue);
+        mockSanitize = sandbox.spy(originalSanitizeDOMValue);
+        window.Polymer.sanitizeDOMValue = mockSanitize;
+      });
+
+      teardown(() => {
+        window.Polymer.sanitizeDOMValue = originalSanitizeDOMValue;
       });
 
       test('annotates when fully contained', () => {

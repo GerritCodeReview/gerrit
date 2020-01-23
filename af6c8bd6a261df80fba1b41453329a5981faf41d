@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "73861ccf_fc007426",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-23T11:12:58Z",
+      "side": 1,
+      "message": "I thought so too, but actually it\u0027s already passing the \u0027e\u0027 in at L746, and this one is throwing after it catches the exception on failure to set the failed status at L746.  Hence I thought it was a typo and the intention would have been to throw the secondary failure.\n\nIt\u0027s not really clear though, so maybe it\u0027s better to leave it as it is (setting \u0027e\u0027) and separately log \u0027e2\u0027.",
+      "parentUuid": "522542f2_375f90bb",
+      "range": {
+        "startLine": 748,
+        "startChar": 67,
+        "endLine": 748,
+        "endChar": 69
+      },
+      "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bab3a23_63fb83f0",
         "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
         "patchSetId": 3
@@ -78,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "efab04c2_841c0c66",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-23T11:12:58Z",
+      "side": 1,
+      "message": "Doh, yes, you\u0027re right.  I\u0027ll fix this.",
+      "parentUuid": "60a3c3bb_df28a0a1",
+      "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25badb27_979e2a44",
         "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
         "patchSetId": 3
@@ -92,6 +134,24 @@
       "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcb14402_ae177271",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-23T11:12:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25badb27_979e2a44",
+      "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -115,6 +175,30 @@
       "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e06a0c19_500f963c",
+        "filename": "java/com/google/gerrit/sshd/SuExec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-23T11:12:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b11497b_ef68593e",
+      "range": {
+        "startLine": 131,
+        "startChar": 39,
+        "endLine": 131,
+        "endChar": 41
+      },
+      "revId": "af6c8bd6a261df80fba1b41453329a5981faf41d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -159,6 +159,24 @@
       "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67cb32a5_d76b1c19",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-23T08:03:30Z",
+      "side": 1,
+      "message": "Yeah, I think we can easily migrate to the other names later. As it\u0027s now we already have a need to write a migration at some point, to remove the copyMinScore/copyMaxScore rules as suggested by Nasser. Once we have that migration code, we can easily use it for this rename too.",
+      "parentUuid": "d890f6af_c06c38af",
+      "revId": "33c13a444eb58321a5a96184fe3ae5427fa8142d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

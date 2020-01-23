@@ -204,9 +204,12 @@
      * Same as {@link fetchRawJSON}, plus error handling.
      *
      * @param {Gerrit.FetchJSONRequest} req
+     * @param {boolean} noAcceptHeader - don't add default accept json header
      */
-    fetchJSON(req) {
-      req = this.addAcceptJsonHeader(req);
+    fetchJSON(req, noAcceptHeader) {
+      if (!noAcceptHeader) {
+        req = this.addAcceptJsonHeader(req);
+      }
       return this.fetchRawJSON(req).then(response => {
         if (!response) {
           return;

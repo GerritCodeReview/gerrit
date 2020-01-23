@@ -4,6 +4,11 @@
   "browser": true,
   "dependencies": {},
   "devDependencies": {
+    "@polymer/iron-test-helpers": "^3.0.1",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "wct-browser-legacy": "^1.0.2",
+    "web-component-tester": "^6.9.2"
   },
   "license": "Apache-2.0",
   "private": true

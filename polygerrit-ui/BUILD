@@ -56,6 +56,7 @@ go_binary(
     srcs = ["server.go"],
     data = [
         ":fonts.zip",
+        "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
     ],
     deps = [

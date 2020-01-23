@@ -142,8 +142,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void publishEdit() throws Exception {
     createArbitraryEditFor(changeId);
 
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email();
+    gApi.changes().id(changeId).addReviewer(in);
+
     PublishChangeEditInput publishInput = new PublishChangeEditInput();
-    publishInput.notify = NotifyHandling.NONE;
     gApi.changes().id(changeId).edit().publish(publishInput);
 
     assertThat(getEdit(changeId)).isAbsent();
@@ -160,8 +163,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(info.messages).isNotEmpty();
     assertThat(Iterables.getLast(info.messages).tag)
         .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+    assertThat(sender.getMessages()).isNotEmpty();
 
     // Move the change to WIP, repeat, and verify.
+    sender.clear();
     gApi.changes().id(changeId).setWorkInProgress();
     createEmptyEditFor(changeId);
     gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW2));
@@ -170,6 +175,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(info.messages).isNotEmpty();
     assertThat(Iterables.getLast(info.messages).tag)
         .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test

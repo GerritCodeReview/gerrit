@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a185496_58fab42b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-23T13:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f17c7851_728a81b1",
+      "revId": "19af2225a26c1514e3e5040a8be13d2f09b273a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abb354ab_c7449422",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "6bab0b0b_bf15be73",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-23T13:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abb354ab_c7449422",
+      "range": {
+        "startLine": 168,
+        "startChar": 11,
+        "endLine": 168,
+        "endChar": 58
+      },
+      "revId": "19af2225a26c1514e3e5040a8be13d2f09b273a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "faa85994_95ff1c07",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "19af2225a26c1514e3e5040a8be13d2f09b273a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fcedbb0_319e5523",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-23T13:26:45Z",
+      "side": 1,
+      "message": "I hoped linter would fix this.",
+      "parentUuid": "faa85994_95ff1c07",
+      "revId": "19af2225a26c1514e3e5040a8be13d2f09b273a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

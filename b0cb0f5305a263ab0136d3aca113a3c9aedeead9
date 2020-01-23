@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "eb058fb3_ddaf0688",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-23T13:26:45Z",
+      "side": 1,
+      "message": "I will prefer to do this change separately. \nHaving only one input textarea will result in other refactors too.",
+      "parentUuid": "f6859487_679db204",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 19
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc8e9036_e0392ea0",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 5
@@ -278,6 +302,24 @@
     },
     {
       "key": {
+        "uuid": "13a2f5a8_a7280ac7",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-23T13:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f501f3cc_1bbc1135",
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73a346f5_064bdbb4",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 5
@@ -337,6 +379,30 @@
       "side": 1,
       "message": "onInputUpdate() will be called, but this.changes will not be reset to [].",
       "parentUuid": "4e16d7b5_cf8fecb7",
+      "range": {
+        "startLine": 160,
+        "startChar": 6,
+        "endLine": 160,
+        "endChar": 18
+      },
+      "revId": "b0cb0f5305a263ab0136d3aca113a3c9aedeead9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d316932_c41902ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-23T13:26:45Z",
+      "side": 1,
+      "message": "this.changes is not supposed to be reset to []\nthis.changes is being passed from the parent.",
+      "parentUuid": "a865f1f3_23a488e4",
       "range": {
         "startLine": 160,
         "startChar": 6,

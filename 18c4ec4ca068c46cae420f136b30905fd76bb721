@@ -69,6 +69,24 @@
       "revId": "18c4ec4ca068c46cae420f136b30905fd76bb721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2294ac75_f6f7334e",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-24T08:26:27Z",
+      "side": 1,
+      "message": "If we have 4 directories with node modules, should we then have 4 yarn.lock files checked in?\n\nIs it documented somewhere when to use npm and when to use yarn? Should we always use \"yarn install\" and never \"npm install\"?\n\nWhat was the decision process for using yarn instead of npm? Looking at this article [1] it seems like npm 5 also has lock files. So what is the advantage of yarn?\n\n[1] https://medium.com/@vincentnewkirk/npm-vs-yarn-2019-e88757b17038",
+      "parentUuid": "4711501d_907a1023",
+      "revId": "18c4ec4ca068c46cae420f136b30905fd76bb721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

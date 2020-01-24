@@ -88,7 +88,68 @@ public class FixCalculator {
     return String.format(
         "(%s:%s - %s:%s)", range.startLine, range.startChar, range.endLine, range.endChar);
   }
+  /*
+  Algorithm:
+  Input:
+    Original text (aka srcText)
+    Sorted list of replacements in ascending order, where each replacement has:
+        srcRange - part of the original text to be
+                   replaced, inserted or deleted (see {@link Comment.Range} for details)
+        replacement - text to be set instead of srcRange
+    Replacement ranges must not intersect.
 
+  Output:
+    Final text (aka finalText)
+    List of Edit, where each Edit is an instance of {@link ReplaceEdit}
+      Each ReplaceEdit cover one or more lines in the original text
+      Each ReplaceEdit contains one or more Edit for intraline edits
+    See {@link ReplaceEdit} and {@link Edit} for details.
+  *
+  Note: The algorithm is implemented in this way to avoid string.replace operations. 
+  It has complexity O(len(replacements) + max(len(originalText), len(finalText)) )
+
+  Main steps:
+  - set srcPos to start of the original text. It is like a cursor position in the original text.
+  - set dstPos to start of the final text.  It is like a cursor position in the final text.
+  - the finalText initially empty
+
+  - for each replacement:
+       - append text between a previous and a current replacement to the finalText
+           (because replacements were sorted, this part of text can't be changed by
+             following replacements). I.e. append substring of srcText between srcPos
+             and replacement.srcRange.start to the finalText
+           Update srcPos and dstPos - set them at the end of appended text
+           (i.e. srcPos points to the position before replacement.srcRange.start,
+            dstPos points to the position where replacement.text should be inserted)
+       - set dstReplacementStart = dstPos
+       - append replacement.text to the finalText.
+           Update srcPos and dstPos accordingly (i.e. srcPos points to the position after
+           replacement.srcRange, dstPos points to the position in the finalText after
+           the appended replacement.text).
+       - set dstReplacementEnd = dstPos
+       - dstRange = (dstReplacementStart, dstReplacementEnd) - is the range in the finalText.
+       - srcRange = (replacement.Start, replacement.End) -  is the range in the original text *
+
+       - If previously created ReplaceEdit ends on the same or previous line as srcRange.startLine,
+           then intraline edit is added to it (and ReplaceEdit endLine must be updated if needed);
+           srcRange and dstRange together is used to calculate intraline Edit
+         otherwise
+          create new ReplaceEdit and add intraline Edit to it
+          srcRange and dstRange together is used to calculate intraline Edit
+
+  - append text after the last replacements,
+      i.e. add part of srcText after srcPos to the finalText
+
+  - Return the finalText and all created ReplaceEdits
+
+  Implementation notes:
+  1) The intraline Edits inside ReplaceEdit stores positions relative to ReplaceEdit start.
+  2) srcPos and dstPos tracks current position as 3 numbers:
+  - line number
+  - column number
+  - textPos - absolute position from the start of the text. The textPos is used to calculate
+  relative positions of Edit inside ReplaceEdit
+     */
   private static class ContentBuilder {
     private static class FixRegion {
       int startSrcLine;

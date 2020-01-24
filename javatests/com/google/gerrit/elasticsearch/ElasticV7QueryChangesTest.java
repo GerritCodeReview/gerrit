@@ -25,6 +25,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -42,6 +44,7 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
 
   @BeforeClass
   public static void startIndexService() {
+    LogManager.getRootLogger().setLevel(Level.DEBUG);
     if (nodeInfo != null) {
       // do not start Elasticsearch twice
       return;
@@ -58,6 +61,7 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
     if (container != null) {
       container.stop();
     }
+    LogManager.getRootLogger().setLevel(Level.INFO);
   }
 
   @After

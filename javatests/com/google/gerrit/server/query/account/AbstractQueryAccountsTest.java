@@ -91,10 +91,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -145,6 +149,63 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   protected CurrentUser admin;
 
   protected abstract Injector createInjector();
+
+  @BeforeClass
+  public static void setLoggerStartLevel() {
+    // Reads commandline arguments; level is for setting log level and silence is boolean for
+    // silencing external dependencies logging
+    // level Usage: -Dlevel=*log level* e.g -Dlevel=debug or -Dlevel= info;
+    // java -Dlevel=debug example; bazel test example --jvmopt='-Dlevel=debug'
+    // silence Usage: -Dsilence=true; java -Dsilence=true example;
+    // bazel test example --jvmopt='-Dsilence=true'
+    String level, silence;
+    level = System.getProperty("level");
+    silence = System.getProperty("silence");
+    Level loglevel = Level.DEBUG;
+    if (level != null) {
+      switch (level) {
+        case "debug":
+          loglevel = Level.DEBUG;
+          break;
+        case "off":
+          loglevel = Level.OFF;
+          break;
+        case "all":
+          loglevel = Level.ALL;
+          break;
+        case "warn":
+          loglevel = Level.WARN;
+          break;
+        case "fatal":
+          loglevel = Level.FATAL;
+          break;
+        case "trace":
+          loglevel = Level.TRACE;
+          break;
+        case "info":
+          loglevel = Level.INFO;
+          break;
+        default:
+          loglevel = Level.DEBUG;
+          break;
+      }
+    }
+    LogManager.getRootLogger().setLevel(loglevel);
+    if (silence != null && silence.equals("true")) {
+      LogManager.getLogger("org.testcontainers").setLevel(Level.INFO);
+      LogManager.getLogger("com.github").setLevel(Level.INFO);
+    } else {
+      LogManager.getLogger("org.testcontainers").setLevel(loglevel);
+      LogManager.getLogger("com.github").setLevel(loglevel);
+    }
+  }
+
+  @AfterClass
+  public static void setLoggerEndLevel() {
+    LogManager.getRootLogger().setLevel(Level.INFO);
+    LogManager.getLogger("org.testcontainers").setLevel(Level.INFO);
+    LogManager.getLogger("com.github").setLevel(Level.INFO);
+  }
 
   @Before
   public void setUpInjector() throws Exception {

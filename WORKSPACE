@@ -24,13 +24,6 @@ load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 rbe_autoconfig(name = "rbe_default")
 
 http_archive(
-    name = "bazel_skylib",
-    sha256 = "2ea8a5ed2b448baf4a6855d3ce049c4c452a6470b1efd1504fdb7c1c134d220a",
-    strip_prefix = "bazel-skylib-0.8.0",
-    urls = ["https://github.com/bazelbuild/bazel-skylib/archive/0.8.0.tar.gz"],
-)
-
-http_archive(
     name = "io_bazel_rules_closure",
     sha256 = "03c3b16f205085817fd89cfdcb2220a0138647ee7992be9cef291b069dd90301",
     strip_prefix = "rules_closure-196a45f0ede2faec11dcc6c60fbc5e7471f4bd58",
@@ -47,15 +40,6 @@ http_file(
     urls = ["https://raw.githubusercontent.com/google/closure-compiler/35d2b3340ff23a69441f10fa3bc820691c2942f2/contrib/externs/polymer-1.0.js"],
 )
 
-# Check Bazel version when invoked by Bazel directly
-load("//tools/bzl:bazelisk_version.bzl", "bazelisk_version")
-
-bazelisk_version(name = "bazelisk_version")
-
-load("@bazelisk_version//:check.bzl", "check_bazel_version")
-
-check_bazel_version()
-
 load("@io_bazel_rules_closure//closure:repositories.bzl", "rules_closure_dependencies", "rules_closure_toolchains")
 
 # Prevent redundant loading of dependencies.
@@ -64,7 +48,6 @@ load("@io_bazel_rules_closure//closure:repositories.bzl", "rules_closure_depende
 # https://github.com/google/closure-templates/pull/155
 rules_closure_dependencies(
     omit_aopalliance = True,
-    omit_bazel_skylib = True,
     omit_javax_inject = True,
     omit_rules_cc = True,
 )

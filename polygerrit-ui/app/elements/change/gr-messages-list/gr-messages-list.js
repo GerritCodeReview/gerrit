@@ -359,6 +359,17 @@
     _processedMessagesChanged(messages) {
       if (messages) {
         this._visibleMessages = messages.slice(-MAX_INITIAL_SHOWN_MESSAGES);
+
+        if (messages.length === 0) return;
+        const countTags = {'all': messages.length};
+        messages.forEach(message => {
+          const tag = message.tag || message.type ||
+              (message.comments ? 'comments' : 'none');
+          if (countTags[tag] === undefined) countTags[tag] = 0;
+          countTags[tag]++;
+        });
+        this.$.reporting.reportInteraction('messages-count',
+            JSON.stringify(countTags));
       }
     }
 

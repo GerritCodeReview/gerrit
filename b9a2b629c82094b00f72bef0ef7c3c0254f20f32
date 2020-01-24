@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce196784_4c9d223b",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-24T09:21:42Z",
+      "side": 1,
+      "message": "FWIW I don\u0027t find that strange. Would you rather pass a set of keys and then later when you happen to use a value change everything? I think it is fine for the staticTemplateData method to know all about the URL.",
+      "parentUuid": "122064dc_f5e466eb",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 43
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4fdd8b7_95bd63b5",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 3
@@ -104,6 +128,29 @@
         "startChar": 7,
         "endLine": 73,
         "endChar": 23
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "809f1e36_252cb777",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-24T09:21:42Z",
+      "side": 1,
+      "message": "Is this always d16314?",
+      "range": {
+        "startLine": 74,
+        "startChar": 76,
+        "endLine": 74,
+        "endChar": 82
       },
       "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

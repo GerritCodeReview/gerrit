@@ -121,7 +121,7 @@ public class SetParent
       requireNonNull(parent);
       return parent.get();
     } catch (RepositoryNotFoundException notFound) {
-      throw new ResourceNotFoundException(rsrc.getName());
+      throw new ResourceNotFoundException(rsrc.getName(), notFound);
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(
           String.format("invalid project.config: %s", e.getMessage()));

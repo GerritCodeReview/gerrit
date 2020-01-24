@@ -55,7 +55,7 @@ public class RefUtil {
           "Cannot resolve \"%s\" in project \"%s\"", baseRevision, projectName.get());
       throw new InvalidRevisionException(baseRevision);
     } catch (RevisionSyntaxException err) {
-      throw new InvalidRevisionException(baseRevision);
+      throw new InvalidRevisionException(baseRevision, err);
     }
   }
 
@@ -66,7 +66,7 @@ public class RefUtil {
       try {
         rw.markStart(rw.parseCommit(revid));
       } catch (IncorrectObjectTypeException err) {
-        throw new InvalidRevisionException(revid.name());
+        throw new InvalidRevisionException(revid.name(), err);
       }
       RefDatabase refDb = repo.getRefDatabase();
       Iterable<Ref> refs =
@@ -86,7 +86,7 @@ public class RefUtil {
       rw.checkConnectivity();
       return rw;
     } catch (IncorrectObjectTypeException | MissingObjectException err) {
-      throw new InvalidRevisionException(revid.name());
+      throw new InvalidRevisionException(revid.name(), err);
     } catch (IOException err) {
       logger.atSevere().withCause(err).log(
           "Repository \"%s\" may be corrupt; suggest running git fsck", repo.getDirectory());
@@ -127,6 +127,10 @@ public class RefUtil {
 
     InvalidRevisionException(@Nullable String invalidRevision) {
       super(MESSAGE + ": " + invalidRevision);
+    }
+
+    InvalidRevisionException(@Nullable String invalidRevision, Throwable why) {
+      super(MESSAGE + ": " + invalidRevision, why);
     }
   }
 }

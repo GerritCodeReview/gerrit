@@ -24,6 +24,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -43,6 +44,8 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class ExternalId implements Serializable {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   // If these regular expressions are modified the same modifications should be done to the
   // corresponding regular expressions in the
   // com.google.gerrit.client.account.UsernameField class.
@@ -391,11 +394,12 @@ public abstract class ExternalId implements Serializable {
       }
       return accountId;
     } catch (IllegalArgumentException e) {
-      throw invalidConfig(
-          noteId,
+      String msg =
           String.format(
               "Value %s for '%s.%s.%s' is invalid, expected account ID",
-              accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
+              accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY);
+      logger.atSevere().withCause(e).log(msg);
+      throw invalidConfig(noteId, msg);
     }
   }
 

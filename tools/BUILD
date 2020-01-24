@@ -86,6 +86,7 @@ java_package_configuration(
         "-Xep:TypeParameterShadowing:ERROR",
         "-Xep:TypeParameterUnusedInFormals:ERROR",
         "-Xep:URLEqualsHashCode:ERROR",
+        "-Xep:UnusedException:ERROR",
         "-Xep:UnsynchronizedOverridesSynchronized:ERROR",
         "-Xep:WaitNotInLoop:ERROR",
         "-Xep:WildcardImport:ERROR",

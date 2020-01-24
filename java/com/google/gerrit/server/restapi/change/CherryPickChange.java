@@ -422,7 +422,8 @@ public class CherryPickChange {
     try {
       baseObjectId = ObjectId.fromString(base);
     } catch (InvalidObjectIdException e) {
-      throw new BadRequestException(String.format("Base %s doesn't represent a valid SHA-1", base));
+      throw new BadRequestException(
+          String.format("Base %s doesn't represent a valid SHA-1", base), e);
     }
 
     RevCommit baseCommit;

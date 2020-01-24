@@ -193,7 +193,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     try {
       permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
     } catch (AuthException e) {
-      throw new NoSuchChangeException(changeId);
+      throw new NoSuchChangeException(changeId, e);
     }
 
     if (!projectCache.checkedGet(notes.getProjectName()).statePermitsRead()) {

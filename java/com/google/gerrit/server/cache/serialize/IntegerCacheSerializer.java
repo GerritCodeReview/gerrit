@@ -37,7 +37,7 @@ public enum IntegerCacheSerializer implements CacheSerializer<Integer> {
       cout.writeInt32NoTag(requireNonNull(object));
       cout.flush();
     } catch (IOException e) {
-      throw new IllegalStateException("Failed to serialize int");
+      throw new IllegalStateException("Failed to serialize int", e);
     }
     int n = cout.getTotalBytesWritten();
     return n == buf.length ? buf : Arrays.copyOfRange(buf, 0, n);
@@ -50,7 +50,7 @@ public enum IntegerCacheSerializer implements CacheSerializer<Integer> {
     try {
       ret = cin.readRawVarint32();
     } catch (IOException e) {
-      throw new IllegalArgumentException("Failed to deserialize int");
+      throw new IllegalArgumentException("Failed to deserialize int", e);
     }
     int n = cin.getTotalBytesRead();
     if (n != in.length) {

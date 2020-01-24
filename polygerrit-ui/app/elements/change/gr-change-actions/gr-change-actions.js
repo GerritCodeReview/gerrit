@@ -427,6 +427,10 @@
           value: true,
         },
         _revertChanges: Array,
+        _renderSubmissionDialog: {
+          type: Boolean,
+          value: false,
+        },
       };
     }
 
@@ -922,11 +926,17 @@
     }
 
     showRevertDialog() {
+      this._renderSubmissionDialog = true;
       const query = 'submissionid:' + this.change.submission_id;
       this.$.restAPI.getChanges('', query)
           .then(changes => {
             this._revertChanges = changes;
-            this._showActionDialog(this.$.confirmRevertDialog);
+            /* If the dialog has not been rendered yet, then flush the dom
+            This is expected to happen in very rare cases */
+            if (!this.shadowRoot.querySelector(
+                '#confirmRevertDialog')) Polymer.dom.flush();
+            this._showActionDialog(this.shadowRoot.querySelector(
+                '#confirmRevertDialog'));
           });
     }
 

@@ -815,19 +815,21 @@ limitations under the License.
 
       test('revert change with plugin hook', done => {
         const newRevertMsg = 'Modified revert msg';
-        sandbox.stub(element.$.confirmRevertDialog, '_modifyRevertMsg',
-            () => newRevertMsg);
+        sandbox.stub(element.shadowRoot.querySelector(
+            '#confirmRevertDialog'), '_modifyRevertMsg',
+        () => newRevertMsg);
         element.change = {
           current_revision: 'abc1234',
         };
-        sandbox.stub(element.$.confirmRevertDialog,
+        sandbox.stub(element.shadowRoot.querySelector('#confirmRevertDialog'),
             '_populateRevertSubmissionMessage', () => 'original msg');
         flush(() => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
           MockInteractions.tap(revertButton);
           flush(() => {
-            assert.equal(element.$.confirmRevertDialog._message, newRevertMsg);
+            assert.equal(element.shadowRoot.querySelector(
+                '#confirmRevertDialog')._message, newRevertMsg);
             done();
           });
         });
@@ -851,7 +853,8 @@ limitations under the License.
               .querySelector('gr-button[data-action-key="revert"]');
           MockInteractions.tap(revertButton);
           flush(() => {
-            const confirmRevertDialog = element.$.confirmRevertDialog;
+            const confirmRevertDialog = element.shadowRoot.querySelector(
+                '#confirmRevertDialog');
             const revertSingleChangeLabel = confirmRevertDialog
                 .shadowRoot.querySelector('.revertSingleChange');
             const revertSubmissionLabel = confirmRevertDialog.
@@ -883,11 +886,13 @@ limitations under the License.
         test('submit fails if message is not edited', done => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
-          const confirmRevertDialog = element.$.confirmRevertDialog;
+          const confirmRevertDialog = element.shadowRoot.querySelector(
+              '#confirmRevertDialog');
           MockInteractions.tap(revertButton);
           const fireStub = sandbox.stub(confirmRevertDialog, 'fire');
           flush(() => {
-            const confirmButton = element.$.confirmRevertDialog.shadowRoot
+            const confirmButton = element.shadowRoot.querySelector(
+                '#confirmRevertDialog').shadowRoot
                 .querySelector('gr-dialog')
                 .shadowRoot.querySelector('#confirm');
             MockInteractions.tap(confirmButton);
@@ -902,7 +907,8 @@ limitations under the License.
         test('message modification is retained on switching', done => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
-          const confirmRevertDialog = element.$.confirmRevertDialog;
+          const confirmRevertDialog = element.shadowRoot.querySelector(
+              '#confirmRevertDialog');
           MockInteractions.tap(revertButton);
           flush(() => {
             const radioInputs = confirmRevertDialog.shadowRoot
@@ -930,7 +936,8 @@ limitations under the License.
                 assert.equal(confirmRevertDialog._message, newRevertMsg);
                 MockInteractions.tap(radioInputs[0]);
                 flush(() => {
-                  assert.equal(confirmRevertDialog._message, newSingleChangeMsg);
+                  assert.equal(confirmRevertDialog._message,
+                      newSingleChangeMsg);
                   done();
                 });
               });
@@ -954,11 +961,13 @@ limitations under the License.
         test('submit fails if message is not edited', done => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
-          const confirmRevertDialog = element.$.confirmRevertDialog;
+          const confirmRevertDialog = element.shadowRoot.querySelector(
+              '#confirmRevertDialog');
           MockInteractions.tap(revertButton);
           const fireStub = sandbox.stub(confirmRevertDialog, 'fire');
           flush(() => {
-            const confirmButton = element.$.confirmRevertDialog.shadowRoot
+            const confirmButton = element.shadowRoot.querySelector(
+                '#confirmRevertDialog').shadowRoot
                 .querySelector('gr-dialog')
                 .shadowRoot.querySelector('#confirm');
             MockInteractions.tap(confirmButton);
@@ -975,7 +984,8 @@ limitations under the License.
               .querySelector('gr-button[data-action-key="revert"]');
           MockInteractions.tap(revertButton);
           flush(() => {
-            const confirmRevertDialog = element.$.confirmRevertDialog;
+            const confirmRevertDialog = element.shadowRoot.querySelector(
+                '#confirmRevertDialog');
             const radioInputs = confirmRevertDialog.shadowRoot
                 .querySelectorAll('input[name="revertOptions"]');
             assert.equal(radioInputs.length, 1);
@@ -985,7 +995,8 @@ limitations under the License.
             assert.equal(confirmRevertDialog._message, msg);
             const editedMsg = msg + 'hello';
             confirmRevertDialog._message += 'hello';
-            const confirmButton = element.$.confirmRevertDialog.shadowRoot
+            const confirmButton = element.shadowRoot.querySelector(
+                '#confirmRevertDialog').shadowRoot
                 .querySelector('gr-dialog')
                 .shadowRoot.querySelector('#confirm');
             MockInteractions.tap(confirmButton);

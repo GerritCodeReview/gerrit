@@ -202,14 +202,16 @@ limitations under the License.
           on-cancel="_handleConfirmDialogCancel"
           project="[[change.project]]"
           hidden></gr-confirm-move-dialog>
-      <gr-confirm-revert-dialog id="confirmRevertDialog"
+      <template is="dom-if" if="[[_renderSubmissionDialog]]">
+          <gr-confirm-revert-dialog id="confirmRevertDialog"
           class="confirmDialog"
           on-confirm="_handleRevertDialogConfirm"
           commit-message="[[commitMessage]]"
           change="[[change]]"
           changes="[[_revertChanges]]"
           on-cancel="_handleConfirmDialogCancel"
-          hidden></gr-confirm-revert-dialog>
+          ></gr-confirm-revert-dialog>
+      </template>
       <gr-confirm-revert-submission-dialog id="confirmRevertSubmissionDialog"
           class="confirmDialog"
           commit-message="[[commitMessage]]"

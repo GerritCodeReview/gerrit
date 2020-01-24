@@ -351,6 +351,10 @@
       return [msg + ':'].concat(key.problems).join('\n');
     }
 
+    _computeShowRepoBranchTogether(repo, branch) {
+      return !!repo && !!branch && repo.length + branch.length < 40;
+    }
+
     _computeProjectURL(project) {
       return Gerrit.Nav.getUrlForProjectChanges(project);
     }

@@ -207,22 +207,35 @@ limitations under the License.
               max-reviewers-displayed="3"></gr-reviewer-list>
         </span>
       </section>
-      <section>
-        <span class="title">Repo</span>
-        <span class="value">
-          <a href$="[[_computeProjectURL(change.project)]]">
-            <gr-limited-text limit="40" text="[[change.project]]"></gr-limited-text>
-          </a>
-        </span>
-      </section>
-      <section>
-        <span class="title">Branch</span>
-        <span class="value">
-          <a href$="[[_computeBranchURL(change.project, change.branch)]]">
-            <gr-limited-text limit="40" text="[[change.branch]]"></gr-limited-text>
-          </a>
-        </span>
-      </section>
+      <template is="dom-if"
+                if="[[_computeShowRepoBranchTogether(change.project, change.branch)]]">
+        <section>
+          <span class="title">Repo Branch</span>
+          <span class="value">
+            <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
+            <a href$="[[_computeBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
+          </span>
+        </section>
+      </template>
+      <template is="dom-if"
+                if="[[!_computeShowRepoBranchTogether(change.project, change.branch)]]">
+        <section>
+          <span class="title">Repo</span>
+          <span class="value">
+            <a href$="[[_computeProjectURL(change.project)]]">
+              <gr-limited-text limit="40" text="[[change.project]]"></gr-limited-text>
+            </a>
+          </span>
+        </section>
+        <section>
+          <span class="title">Branch</span>
+          <span class="value">
+            <a href$="[[_computeBranchURL(change.project, change.branch)]]">
+              <gr-limited-text limit="40" text="[[change.branch]]"></gr-limited-text>
+            </a>
+          </span>
+        </section>
+      </template>
       <section>
         <span class="title">[[_computeParentsLabel(_currentParents)]]</span>
         <span class="value">

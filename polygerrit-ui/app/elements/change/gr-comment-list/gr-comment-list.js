@@ -52,10 +52,18 @@
       return comment.side === 'PARENT';
     }
 
+    _computeDiffURL(file, changeNum, patchNum) {
+      if ([file, changeNum, patchNum].some(arg => arg === undefined)) {
+        return;
+      }
+      return Gerrit.Nav.getUrlForDiffById(changeNum, this.projectName,
+          file, patchNum);
+    }
+
     _computeDiffLineURL(file, changeNum, patchNum, comment) {
       const basePatchNum = comment.hasOwnProperty('parent') ?
         -comment.parent : null;
-      return Gerrit.Nav.getUrlForDiffById(this.changeNum, this.projectName,
+      return Gerrit.Nav.getUrlForDiffById(changeNum, this.projectName,
           file, patchNum, basePatchNum, comment.line,
           this._isOnParent(comment));
     }

@@ -101,6 +101,14 @@
           type: Object,
           computed: '_computeExpanded(message.expanded)',
         },
+        _messageContent: {
+          type: String,
+          computed: '_computeMessageContent(message.message)',
+        },
+        _numberOfComments: {
+          type: Number,
+          computed: '_computeNumberOfComments(comments)',
+        },
         _loggedIn: {
           type: Boolean,
           value: false,
@@ -138,6 +146,39 @@
       } else {
         this.classList.remove('expanded');
       }
+    }
+
+    _computeNumberOfComments(comments) {
+      if (!comments) return undefined;
+      let count = 0;
+      for (let file in comments) {
+        const commentArray = comments[file] || [];
+        count += commentArray.length;
+      }
+      if (count === 0) {
+        return undefined;
+      } else if (count === 1) {
+        return '1 comment';
+      } else {
+        return count + ' comments';
+      }
+    }
+
+    _computeMessageContent(content) {
+      if (!content) return '';
+      const lines = content.split('\n');
+      const newLines = [];
+      lines.forEach(line => {
+        if (line.startsWith('Patch Set ')) return;
+        if (line.startsWith('(') && line.endsWith(' comment)')) return;
+        if (line.startsWith('(') && line.endsWith(' comments)')) return;
+        newLines.push(line);
+      });
+      return newLines.join('\n').trim();
+    }
+
+    _isMessageContentEmpty(content) {
+      return this._computeMessageContent(content).trim().length === 0;
     }
 
     _computeAuthor(message) {

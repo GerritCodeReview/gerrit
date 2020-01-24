@@ -53,7 +53,7 @@ limitations under the License.
         left: var(--spacing-l);
       }
       .collapsed .contentContainer {
-        align-items: baseline;
+        align-items: center;
         color: var(--deemphasized-text-color);
         display: flex;
         white-space: nowrap;
@@ -129,6 +129,10 @@ limitations under the License.
         color: var(--primary-text-color);
         margin-right: var(--spacing-s);
       }
+      .authorLabel {
+        min-width: 135px;
+        display: inline-block;
+      }
       .expanded .author {
         cursor: pointer;
         margin-bottom: var(--spacing-s);
@@ -137,6 +141,10 @@ limitations under the License.
         position: absolute;
         right: var(--spacing-l);
         top: 10px;
+      }
+      .dateContainer .patchset {
+        margin-right: var(--spacing-m);
+        color: var(--deemphasized-text-color);
       }
       span.date {
         color: var(--deemphasized-text-color);
@@ -152,12 +160,22 @@ limitations under the License.
         padding: var(--spacing-m) 0 0 0;
       }
       .score {
-        border: 1px solid rgba(0,0,0,.12);
         border-radius: var(--border-radius);
         color: var(--primary-text-color);
         display: inline-block;
-        margin: -1px 0;
-        padding: 0 var(--spacing-xxs);
+        padding: 0 var(--spacing-s);
+        text-align: center;
+      }
+      .score,
+      .commentsSummary {
+        margin-right: var(--spacing-s);
+        min-width: 115px;
+      }
+      .expanded .commentsSummary {
+        display: none;
+      }
+      .commentsIcon {
+        margin-right: var(--spacing-s);
       }
       .score.negative {
         background-color: var(--vote-color-disliked);
@@ -187,6 +205,7 @@ limitations under the License.
           </span>
           <gr-account-label
               account="[[author]]"
+              class="authorLabel"
               hide-avatar></gr-account-label>
           <template is="dom-repeat" items="[[_getScores(message)]]" as="score">
             <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
@@ -194,17 +213,25 @@ limitations under the License.
             </span>
           </template>
         </div>
+        <template is="dom-if" if="[[_numberOfComments]]">
+          <div class="commentsSummary">
+            <iron-icon icon="gr-icons:comment" class="commentsIcon"></iron-icon>
+            <span class="numberOfComments">[[_numberOfComments]]</span>
+          </div>
+        </template>
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
-            <div class="message hideOnOpen">[[message.message]]</div>
+            <div class="message hideOnOpen">[[_messageContent]]</div>
             <gr-formatted-text
                 no-trailing-margin
                 class="message hideOnCollapsed"
-                content="[[message.message]]"
+                content="[[_messageContent]]"
                 config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
-            <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
-              <gr-button link small on-click="_handleReplyTap">Reply</gr-button>
-            </div>
+            <template is="dom-if" if="[[!_isMessageContentEmpty(message.message)]]">
+              <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
+                <gr-button link small on-click="_handleReplyTap">Reply</gr-button>
+              </div>
+            </template>
             <gr-comment-list
                 comments="[[comments]]"
                 change-num="[[changeNum]]"
@@ -228,6 +255,9 @@ limitations under the License.
           </div>
         </template>
         <span class="dateContainer">
+          <template is="dom-if" if="[[message._revision_number]]">
+            <span class="patchset">Patchset [[message._revision_number]]</span>
+          </template>
           <template is="dom-if" if="[[!message.id]]">
             <span class="date">
               <gr-date-formatter

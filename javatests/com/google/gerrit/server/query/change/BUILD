@@ -27,6 +27,7 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",
+        "//lib/log:log4j",
     ],
 )
 

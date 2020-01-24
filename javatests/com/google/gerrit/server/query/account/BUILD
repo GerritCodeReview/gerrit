@@ -22,6 +22,7 @@ java_library(
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
         "//prolog:gerrit-prolog-common",
+        "//lib/log:log4j",
     ],
 )
 

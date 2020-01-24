@@ -68,8 +68,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -114,6 +118,16 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   protected CurrentUser user;
 
   protected abstract Injector createInjector();
+
+  @BeforeClass
+  public static void setLoggerStartLevel() {
+    LogManager.getRootLogger().setLevel(Level.DEBUG);
+  }
+
+  @AfterClass
+  public static void setLoggerEndLevel() {
+    LogManager.getRootLogger().setLevel(Level.INFO);
+  }
 
   @Before
   public void setUpInjector() throws Exception {

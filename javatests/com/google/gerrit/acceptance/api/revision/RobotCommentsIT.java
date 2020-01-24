@@ -28,6 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -60,6 +61,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Inject private TestCommentHelper testCommentHelper;
 
   private static final String PLAIN_TEXT_CONTENT_TYPE = "text/plain";
+  private static final String GERRIT_COMMIT_MESSAGE_TYPE = "text/x-gerrit-commit-message";
 
   private static final String FILE_NAME = "file_to_fix.txt";
   private static final String FILE_NAME2 = "another_file_to_fix.txt";
@@ -992,6 +994,44 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThrows(
         ResourceNotFoundException.class,
         () -> gApi.changes().id(changeId).current().getFixPreview("Non existing fixId"));
+  }
+
+  @Test
+  public void getFixPreviewForCommitMsg() throws Exception {
+    FixReplacementInfo commitMsgReplacement = new FixReplacementInfo();
+    commitMsgReplacement.path = Patch.COMMIT_MSG;
+    commitMsgReplacement.range = createRange(2, 1, 2, 4);
+    commitMsgReplacement.replacement = "Some new content\n";
+
+    FixSuggestionInfo commitMsgSuggestionInfo = createFixSuggestionInfo(commitMsgReplacement);
+    RobotCommentInput commitMsgRobotCommentInput = TestCommentHelper.createRobotCommentInput(
+        Patch.COMMIT_MSG, commitMsgSuggestionInfo);
+    testCommentHelper.addRobotComment(changeId, commitMsgRobotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    assertThat(fixPreview).hasSize(1);
+    assertThat(fixPreview).containsKey(Patch.COMMIT_MSG);
+
+    DiffInfo diff = fixPreview.get(Patch.COMMIT_MSG);
+    assertThat(diff).metaA().name().isEqualTo(Patch.COMMIT_MSG);
+    assertThat(diff).metaA().contentType().isEqualTo(GERRIT_COMMIT_MESSAGE_TYPE);
+    assertThat(diff).metaB().name().isEqualTo(Patch.COMMIT_MSG);
+    assertThat(diff).metaB().contentType().isEqualTo(GERRIT_COMMIT_MESSAGE_TYPE);
+
+    assertThat(diff).content().element(0).commonLines().isNotEmpty();
+    assertThat(diff).content().element(0).linesOfA().isNull();
+    assertThat(diff).content().element(0).linesOfB().isNull();
+    assertThat(diff).content().element(1).commonLines().isNull();
+    assertThat(diff).content().element(1).linesOfA().isNotEmpty();
+    assertThat(diff).content().element(1).linesOfB().isNotEmpty();
+    assertThat(diff).content().element(2).commonLines().isNotEmpty();
+    assertThat(diff).content().element(2).linesOfA().isNull();
+    assertThat(diff).content().element(2).linesOfB().isNull();
   }
 
   @Test

@@ -109,7 +109,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
       String fileName,
       ImmutableList<FixReplacement> fixReplacements)
       throws PermissionBackendException, AuthException, LargeObjectException,
-          InvalidChangeOperationException, IOException {
+          InvalidChangeOperationException, IOException, ResourceNotFoundException {
     PatchScriptFactoryForAutoFix psf =
         patchScriptFactoryFactory.create(
             git, notes, fileName, patchSet, fixReplacements, DiffPreferencesInfo.defaults());

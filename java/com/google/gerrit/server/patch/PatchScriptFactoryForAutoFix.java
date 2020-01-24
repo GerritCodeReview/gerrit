@@ -25,6 +25,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -93,7 +94,7 @@ public class PatchScriptFactoryForAutoFix implements Callable<PatchScript> {
   @Override
   public PatchScript call()
       throws LargeObjectException, AuthException, InvalidChangeOperationException, IOException,
-          PermissionBackendException {
+          PermissionBackendException, ResourceNotFoundException {
 
     try {
       permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
@@ -108,7 +109,7 @@ public class PatchScriptFactoryForAutoFix implements Callable<PatchScript> {
     return createPatchScript();
   }
 
-  private PatchScript createPatchScript() throws LargeObjectException {
+  private PatchScript createPatchScript() throws LargeObjectException, ResourceNotFoundException {
     checkState(patchSet.id().get() != 0, "edit not supported for left side");
     PatchScriptBuilder b = newBuilder();
     try {

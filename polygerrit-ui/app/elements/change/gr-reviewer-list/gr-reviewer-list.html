@@ -32,7 +32,15 @@ limitations under the License.
         opacity: .8;
         pointer-events: none;
       }
-      .container > :not(:first-child) {
+      .container {
+        display: block;
+        /* This is a bit of a hack. We tried to use margin-top with
+           :not(:first-child) before, but :first-child does not understand
+           whether a child is visible or not. So adding a margin for every
+           child and then a negative one at the top does the trick. */
+        margin-top: calc(0px - var(--spacing-s));
+      }
+      .container > * {
         margin-top: var(--spacing-s);
       }
       gr-button {

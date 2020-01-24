@@ -25,23 +25,19 @@ limitations under the License.
 <dom-module id="gr-messages-list">
   <template>
     <style include="shared-styles">
-      :host,
-      .messageListControls {
+      :host {
         display: flex;
         justify-content: space-between;
       }
       .header {
         align-items: center;
+        display: flex;
         background-color: var(--table-header-background-color);
         border-bottom: 1px solid var(--border-color);
         border-top: 1px solid var(--border-color);
-        display: flex;
         justify-content: space-between;
         min-height: 3.2em;
         padding: var(--spacing-s) var(--spacing-l);
-      }
-      #messageControlsContainer {
-        padding: 0 var(--spacing-l);
       }
       .highlighted {
         animation: 3s fadeOut;
@@ -49,16 +45,6 @@ limitations under the License.
       @keyframes fadeOut {
         0% { background-color: var(--emphasis-color); }
         100% { background-color: var(--view-background-color); }
-      }
-      #messageControlsContainer {
-        align-items: center;
-        border-bottom: 1px solid var(--border-color);
-        display: flex;
-        height: 2.25em;
-        justify-content: center;
-      }
-      #messageControlsContainer gr-button {
-        padding: var(--spacing-s) 0;
       }
       .container {
         align-items: center;
@@ -68,11 +54,10 @@ limitations under the License.
     <div class="header">
         <span
             id="automatedMessageToggleContainer"
-            class="container"
-            hidden$="[[!_hasAutomatedMessages(messages)]]">
+            class="container">
           <paper-toggle-button
               id="automatedMessageToggle"
-              checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
+              checked="{{!_hideAutomated}}"></paper-toggle-button>Show all activity
           <span class="transparent separator"></span>
         </span>
         <gr-button
@@ -82,22 +67,6 @@ limitations under the License.
           [[_computeExpandCollapseMessage(_expanded)]]
         </gr-button>
       </div>
-    <span
-        id="messageControlsContainer"
-        hidden$="[[_computeShowHideTextHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
-      <gr-button id="oldMessagesBtn" link on-click="_handleShowAllTap">
-          [[_computeNumMessagesText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
-      </gr-button>
-      <span
-          class="container"
-          hidden$="[[_computeIncrementHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
-        <span class="transparent separator"></span>
-        <gr-button id="incrementMessagesBtn" link
-            on-click="_handleIncrementShownMessages">
-          [[_computeIncrementText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
-        </gr-button>
-      </span>
-    </span>
     <template
         is="dom-repeat"
         items="[[_visibleMessages]]"

@@ -114,7 +114,7 @@ public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
       }
       return Response.ok(ref);
     } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(rsrc.getName());
+      throw new ResourceNotFoundException(rsrc.getName(), e);
     }
   }
 

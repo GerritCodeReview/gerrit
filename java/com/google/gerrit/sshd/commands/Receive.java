@@ -78,7 +78,7 @@ final class Receive extends AbstractGitCommand {
           .project(project.getNameKey())
           .check(ProjectPermission.RUN_RECEIVE_PACK);
     } catch (AuthException e) {
-      throw new Failure(1, "fatal: receive-pack not permitted on this server");
+      throw new Failure(1, "fatal: receive-pack not permitted on this server", e);
     } catch (PermissionBackendException e) {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }

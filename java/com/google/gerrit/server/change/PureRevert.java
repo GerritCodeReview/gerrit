@@ -50,7 +50,7 @@ public class PureRevert {
     try {
       claimedOriginalObjectId = ObjectId.fromString(claimedOriginal.get());
     } catch (InvalidObjectIdException e) {
-      throw new BadRequestException("invalid object ID");
+      throw new BadRequestException("invalid object ID", e);
     }
 
     return pureRevertCache.isPureRevert(

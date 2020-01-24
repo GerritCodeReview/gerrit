@@ -25,4 +25,8 @@ public class NotImplementedException extends UnsupportedOperationException {
   public NotImplementedException(String message) {
     super(message);
   }
+
+  public NotImplementedException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

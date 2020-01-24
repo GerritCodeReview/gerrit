@@ -195,7 +195,7 @@ class ProjectOAuthFilter implements Filter {
       defaultAuthPlugin = loginProvider.getPluginName();
       defaultAuthProvider = loginProvider.getExportName();
     } catch (NoSuchElementException e) {
-      throw new ServletException("No OAuth login provider installed");
+      throw new ServletException("No OAuth login provider installed", e);
     } catch (IllegalArgumentException e) {
       // multiple providers found => do not pick any
     }

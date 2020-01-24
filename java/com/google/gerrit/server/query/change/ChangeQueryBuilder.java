@@ -1288,7 +1288,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         throw new QueryParseException(
             "'"
                 + value
-                + "' is not a valid input. It must be in the 'ChangeNumber[,PatchsetNumber]' format.");
+                + "' is not a valid input. It must be in the 'ChangeNumber[,PatchsetNumber]' format.",
+            e);
       }
     }
     throw new QueryParseException(

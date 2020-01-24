@@ -220,8 +220,11 @@ public abstract class StandaloneSiteTest {
     try {
       status = p.waitFor();
     } catch (InterruptedException e) {
-      throw new InterruptedIOException(
-          "interrupted waiting for: " + Joiner.on(' ').join(pb.command()));
+      InterruptedIOException iioe =
+          new InterruptedIOException(
+              "interrupted waiting for: " + Joiner.on(' ').join(pb.command()));
+      iioe.initCause(e);
+      throw iioe;
     }
 
     String result = new String(out, UTF_8);

@@ -387,6 +387,10 @@ public abstract class BaseCommand implements Command {
     return new UnloggedFailure(1, "fatal: " + msg);
   }
 
+  protected UnloggedFailure die(String msg, Throwable why) {
+    return new UnloggedFailure(1, "fatal: " + msg, why);
+  }
+
   protected UnloggedFailure die(Throwable why) {
     return new UnloggedFailure(1, "fatal: " + why.getMessage(), why);
   }

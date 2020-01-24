@@ -293,6 +293,7 @@ public class GetDiff implements RestReadView<FileResource> {
             throw new NumberFormatException();
           }
         } catch (NumberFormatException e) {
+          logger.atFine().withCause(e).log("invalid numeric value");
           throw new CmdLineException(
               owner,
               localizable("\"%s\" is not a valid value for \"%s\""),

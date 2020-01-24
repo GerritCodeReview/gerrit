@@ -514,7 +514,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           throw new AuthException(
               String.format(
                   "not permitted to modify label \"%s\" on behalf of \"%s\"",
-                  type.getName(), in.onBehalfOf));
+                  type.getName(), in.onBehalfOf),
+              e);
         }
       }
     }
@@ -530,7 +531,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       permissionBackend.user(reviewer).change(rev.getNotes()).check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
-          String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()));
+          String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()), e);
     }
 
     return new RevisionResource(
@@ -580,7 +581,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         perm.check(new LabelPermission.WithValue(lt, val));
       } catch (AuthException e) {
         throw new AuthException(
-            String.format("Applying label \"%s\": %d is restricted", lt.getName(), val));
+            String.format("Applying label \"%s\": %d is restricted", lt.getName(), val), e);
       }
     }
   }

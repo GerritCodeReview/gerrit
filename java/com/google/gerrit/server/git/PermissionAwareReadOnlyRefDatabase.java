@@ -109,7 +109,7 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
           forProject.filter(
               prefixIndependentRefMap(prefix, refs), getDelegate(), RefFilterOptions.defaults());
     } catch (PermissionBackendException e) {
-      throw new IOException("");
+      throw new IOException("", e);
     }
     return applyPrefixRefMap(prefix, result);
   }

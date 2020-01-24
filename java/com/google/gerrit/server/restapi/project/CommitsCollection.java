@@ -88,7 +88,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     try {
       objectId = ObjectId.fromString(id.get());
     } catch (IllegalArgumentException e) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(id, e);
     }
 
     try (Repository repo = repoManager.openRepository(parent.getNameKey());
@@ -103,7 +103,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       }
       return new CommitResource(parent, commit);
     } catch (MissingObjectException | IncorrectObjectTypeException e) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(id, e);
     }
   }
 

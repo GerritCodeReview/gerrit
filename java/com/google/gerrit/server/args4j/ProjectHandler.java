@@ -89,7 +89,7 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
       permissionBackend.currentUser().project(nameKey).check(permissionToCheck);
     } catch (AuthException e) {
       throw new CmdLineException(
-          owner, localizable(new NoSuchProjectException(nameKey).getMessage()));
+          owner, localizable(new NoSuchProjectException(nameKey, e).getMessage()));
     } catch (PermissionBackendException | IOException e) {
       logger.atWarning().withCause(e).log("Cannot load project %s", nameWithoutSuffix);
       throw new CmdLineException(

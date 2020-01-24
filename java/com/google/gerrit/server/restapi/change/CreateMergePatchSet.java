@@ -207,7 +207,7 @@ public class CreateMergePatchSet
     try {
       permissionBackend.currentUser().change(change).check(ChangePermission.READ);
     } catch (AuthException e) {
-      throw new UnprocessableEntityException("Read not permitted for " + baseChange);
+      throw new UnprocessableEntityException("Read not permitted for " + baseChange, e);
     }
     return psUtil.current(change);
   }

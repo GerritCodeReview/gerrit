@@ -103,14 +103,14 @@ public class DashboardsCollection implements ChildCollection<ProjectResource, Da
     try {
       info = newDashboardInfo(id.get());
     } catch (InvalidDashboardId e) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(id, e);
     }
 
     for (ProjectState ps : parent.getProjectState().tree()) {
       try {
         return parse(ps, parent.getProjectState(), parent.getUser(), info);
       } catch (AmbiguousObjectException | ConfigInvalidException | IncorrectObjectTypeException e) {
-        throw new ResourceNotFoundException(id);
+        throw new ResourceNotFoundException(id, e);
       } catch (ResourceNotFoundException e) {
         continue;
       }
@@ -135,7 +135,7 @@ public class DashboardsCollection implements ChildCollection<ProjectResource, Da
       permissionBackend.user(user).project(parent.getNameKey()).ref(ref).check(RefPermission.READ);
     } catch (AuthException e) {
       // Don't leak the project's existence
-      throw new ResourceNotFoundException(info.id);
+      throw new ResourceNotFoundException(info.id, e);
     }
     if (!Repository.isValidRefName(ref)) {
       throw new ResourceNotFoundException(info.id);
@@ -151,7 +151,7 @@ public class DashboardsCollection implements ChildCollection<ProjectResource, Da
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
       return new DashboardResource(current, user, ref, info.path, cfg, false);
     } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(info.id);
+      throw new ResourceNotFoundException(info.id, e);
     }
   }
 

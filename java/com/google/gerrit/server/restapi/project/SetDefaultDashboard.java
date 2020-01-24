@@ -86,7 +86,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
                 new ProjectResource(rsrc.getProjectState(), rsrc.getUser()),
                 IdString.fromUrl(input.id));
       } catch (ResourceNotFoundException e) {
-        throw new BadRequestException("dashboard " + input.id + " not found");
+        throw new BadRequestException("dashboard " + input.id + " not found", e);
       } catch (ConfigInvalidException e) {
         throw new ResourceConflictException(e.getMessage());
       }
@@ -122,7 +122,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       }
       return Response.none();
     } catch (RepositoryNotFoundException notFound) {
-      throw new ResourceNotFoundException(rsrc.getProjectState().getProject().getName());
+      throw new ResourceNotFoundException(rsrc.getProjectState().getProject().getName(), notFound);
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(
           String.format("invalid project.config: %s", e.getMessage()));

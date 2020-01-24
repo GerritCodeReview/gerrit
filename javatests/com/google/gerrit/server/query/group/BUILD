@@ -19,6 +19,7 @@ java_library(
         "//lib:guava",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/log:log4j",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
     ],

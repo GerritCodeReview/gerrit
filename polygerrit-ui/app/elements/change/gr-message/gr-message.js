@@ -69,10 +69,6 @@
           type: Boolean,
           computed: '_computeIsAutomated(message)',
         },
-        showAvatar: {
-          type: Boolean,
-          computed: '_computeShowAvatar(author, config)',
-        },
         showOnBehalfOf: {
           type: Boolean,
           computed: '_computeShowOnBehalfOf(message)',
@@ -100,6 +96,18 @@
         _expanded: {
           type: Object,
           computed: '_computeExpanded(message.expanded)',
+        },
+        _messageContentExpanded: {
+          type: String,
+          computed: '_computeMessageContentExpanded(message.message)',
+        },
+        _messageContentCollapsed: {
+          type: String,
+          computed: '_computeMessageContentCollapsed(message.message)',
+        },
+        _commentCountText: {
+          type: Number,
+          computed: '_computeCommentCountText(comments)',
         },
         _loggedIn: {
           type: Boolean,
@@ -140,12 +148,51 @@
       }
     }
 
-    _computeAuthor(message) {
-      return message.author || message.updated_by;
+    _computeCommentCountText(comments) {
+      if (!comments) return undefined;
+      let count = 0;
+      for (const file in comments) {
+        if (comments.hasOwnProperty(file)) {
+          const commentArray = comments[file] || [];
+          count += commentArray.length;
+        }
+      }
+      if (count === 0) {
+        return undefined;
+      } else if (count === 1) {
+        return '1 comment';
+      } else {
+        return `${count} comments`;
+      }
     }
 
-    _computeShowAvatar(author, config) {
-      return !!(author && config && config.plugin && config.plugin.has_avatars);
+    _computeMessageContentExpanded(content) {
+      return this._computeMessageContent(content, true);
+    }
+
+    _computeMessageContentCollapsed(content) {
+      return this._computeMessageContent(content, false);
+    }
+
+    _computeMessageContent(content, isExpanded) {
+      if (!content) return '';
+      const lines = content.split('\n');
+      const filteredLines = lines.filter(line => {
+        if (!isExpanded && line.startsWith('>')) return false;
+        if (line.startsWith('Patch Set ')) return false;
+        if (line.startsWith('(') && line.endsWith(' comment)')) return false;
+        if (line.startsWith('(') && line.endsWith(' comments)')) return false;
+        return true;
+      });
+      return filteredLines.join('\n').trim();
+    }
+
+    _isMessageContentEmpty(content) {
+      return this._computeMessageContent(content).trim().length === 0;
+    }
+
+    _computeAuthor(message) {
+      return message.author || message.updated_by;
     }
 
     _computeShowOnBehalfOf(message) {
@@ -236,10 +283,9 @@
       return classes.join(' ');
     }
 
-    _computeClass(expanded, showAvatar, message) {
+    _computeClass(expanded) {
       const classes = [];
       classes.push(expanded ? 'expanded' : 'collapsed');
-      classes.push(showAvatar ? 'showAvatar' : 'hideAvatar');
       return classes.join(' ');
     }
 

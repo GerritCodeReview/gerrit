@@ -52,18 +52,29 @@
       return comment.side === 'PARENT';
     }
 
-    _computeDiffLineURL(file, changeNum, patchNum, comment) {
+    _computeDiffURL(filePath, changeNum, allComments) {
+      if ([filePath, changeNum, allComments].some(arg => arg === undefined)) {
+        return;
+      }
+      const fileComments = this._computeCommentsForFile(allComments, filePath);
+      // This can happen for files that don't exist anymore in the current ps.
+      if (fileComments.length === 0) return;
+      return Gerrit.Nav.getUrlForDiffById(changeNum, this.projectName,
+          filePath, fileComments[0].patch_set);
+    }
+
+    _computeDiffLineURL(filePath, changeNum, patchNum, comment) {
       const basePatchNum = comment.hasOwnProperty('parent') ?
         -comment.parent : null;
-      return Gerrit.Nav.getUrlForDiffById(this.changeNum, this.projectName,
-          file, patchNum, basePatchNum, comment.line,
+      return Gerrit.Nav.getUrlForDiffById(changeNum, this.projectName,
+          filePath, patchNum, basePatchNum, comment.line,
           this._isOnParent(comment));
     }
 
-    _computeCommentsForFile(comments, file) {
+    _computeCommentsForFile(comments, filePath) {
       // Changes are not picked up by the dom-repeat due to the array instance
       // identity not changing even when it has elements added/removed from it.
-      return (comments[file] || []).slice();
+      return (comments[filePath] || []).slice();
     }
 
     _computePatchDisplayName(comment) {

@@ -239,15 +239,15 @@ limitations under the License.
       assert.equal(change.reviewer_updates[1].updates.length, 3);
 
       let items = change.reviewer_updates[0].updates;
-      assert.equal(items[0].message, 'added to CC: ');
+      assert.equal(items[0].message, 'Added to cc: ');
       assert.deepEqual(items[0].reviewers, [reviewer1, reviewer2]);
 
       items = change.reviewer_updates[1].updates;
-      assert.equal(items[0].message, 'moved from CC to REVIEWER: ');
+      assert.equal(items[0].message, 'Moved from cc to reviewer: ');
       assert.deepEqual(items[0].reviewers, [reviewer1]);
-      assert.equal(items[1].message, 'removed from REVIEWER: ');
+      assert.equal(items[1].message, 'Removed from reviewer: ');
       assert.deepEqual(items[1].reviewers, [reviewer1]);
-      assert.equal(items[2].message, 'added to REVIEWER: ');
+      assert.equal(items[2].message, 'Added to reviewer: ');
       assert.deepEqual(items[2].reviewers, [reviewer1, reviewer2]);
     });
 

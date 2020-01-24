@@ -54,11 +54,6 @@ public final class AccountGroup {
       return uuid();
     }
 
-    /** @return true if the UUID is for a group managed within Gerrit. */
-    public boolean isInternalGroup() {
-      return get().matches("^[0-9a-f]{40}$");
-    }
-
     /** Parse an {@link AccountGroup.UUID} out of a string representation. */
     public static UUID parse(String str) {
       return AccountGroup.uuid(KeyUtil.decode(str));
@@ -95,6 +90,11 @@ public final class AccountGroup {
     public final String toString() {
       return KeyUtil.encode(get());
     }
+  }
+
+  /** @return true if the UUID is for a group managed within Gerrit. */
+  public static boolean isInternalGroup(AccountGroup.UUID uuid) {
+    return uuid.get().matches("^[0-9a-f]{40}$");
   }
 
   public static Id id(int id) {

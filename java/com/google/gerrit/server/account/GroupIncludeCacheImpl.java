@@ -125,7 +125,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       logger.atFine().log("Evict parent groups of %s", groupId.get());
       parentGroups.invalidate(groupId);
 
-      if (!groupId.isInternalGroup()) {
+      if (!AccountGroup.isInternalGroup(groupId)) {
         logger.atFine().log("Evict external group %s", groupId.get());
         external.invalidate(EXTERNAL_NAME);
       }

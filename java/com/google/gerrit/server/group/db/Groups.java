@@ -124,7 +124,8 @@ public class Groups {
           getGroupFromNoteDb(allUsersName, allUsersRepo, internalGroup.getUUID());
       group.map(InternalGroup::getSubgroups).ifPresent(allSubgroups::addAll);
     }
-    return allSubgroups.build().stream().filter(groupUuid -> !groupUuid.isInternalGroup());
+    return allSubgroups.build().stream()
+        .filter(groupUuid -> !AccountGroup.isInternalGroup(groupUuid));
   }
 
   /**

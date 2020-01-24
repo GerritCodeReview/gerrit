@@ -147,15 +147,16 @@
    */
   GrReviewerUpdatesParser.prototype._getUpdateMessage = function(prev, state) {
     if (prev === 'REMOVED' || !prev) {
-      return 'added to ' + state + ': ';
+      return 'Added to ' + state.toLowerCase() + ': ';
     } else if (state === 'REMOVED') {
       if (prev) {
-        return 'removed from ' + prev + ': ';
+        return 'Removed from ' + prev.toLowerCase() + ': ';
       } else {
-        return 'removed : ';
+        return 'Removed : ';
       }
     } else {
-      return 'moved from ' + prev + ' to ' + state + ': ';
+      return 'Moved from ' + prev.toLowerCase() + ' to ' + state.toLowerCase() +
+          ': ';
     }
   };
 

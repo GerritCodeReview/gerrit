@@ -81,7 +81,7 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
     try {
       taskId = (int) Long.parseLong(id.get(), 16);
     } catch (NumberFormatException e) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(id, e);
     }
 
     Task<?> task = workQueue.getTask(taskId);

@@ -166,7 +166,7 @@ public class PureRevertCache {
           try {
             claimedOriginalCommit = rw.parseCommit(original);
           } catch (InvalidObjectIdException | MissingObjectException e) {
-            throw new BadRequestException("invalid object ID");
+            throw new BadRequestException("invalid object ID", e);
           }
           if (claimedOriginalCommit.getParentCount() == 0) {
             throw new BadRequestException("can't check against initial commit");

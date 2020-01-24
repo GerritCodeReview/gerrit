@@ -178,7 +178,7 @@ public class MergeValidators {
                 try {
                   permissionBackend.user(caller).check(GlobalPermission.ADMINISTRATE_SERVER);
                 } catch (AuthException e) {
-                  throw new MergeValidationException(SET_BY_ADMIN);
+                  throw new MergeValidationException(SET_BY_ADMIN, e);
                 } catch (PermissionBackendException e) {
                   logger.atWarning().withCause(e).log("Cannot check ADMINISTRATE_SERVER");
                   throw new MergeValidationException("validation unavailable");
@@ -190,7 +190,7 @@ public class MergeValidators {
                       .project(destProject.getNameKey())
                       .check(ProjectPermission.WRITE_CONFIG);
                 } catch (AuthException e) {
-                  throw new MergeValidationException(SET_BY_OWNER);
+                  throw new MergeValidationException(SET_BY_OWNER, e);
                 } catch (PermissionBackendException e) {
                   logger.atWarning().withCause(e).log("Cannot check WRITE_CONFIG");
                   throw new MergeValidationException("validation unavailable");
@@ -231,7 +231,7 @@ public class MergeValidators {
             }
           }
         } catch (ConfigInvalidException | IOException e) {
-          throw new MergeValidationException(INVALID_CONFIG);
+          throw new MergeValidationException(INVALID_CONFIG, e);
         }
       }
     }

@@ -99,7 +99,7 @@ public class PatchSetParser {
       try {
         patchSetId = PatchSet.Id.parse(token);
       } catch (IllegalArgumentException e) {
-        throw error("\"" + token + "\" is not a valid patch set");
+        throw error("\"" + token + "\" is not a valid patch set", e);
       }
       ChangeNotes notes = getNotes(projectState, patchSetId.changeId());
       PatchSet patchSet = psUtil.get(notes, patchSetId);
@@ -130,7 +130,7 @@ public class PatchSetParser {
       ChangeNotes notes = changeFinder.findOne(changeId);
       return notesFactory.create(notes.getProjectName(), changeId);
     } catch (NoSuchChangeException e) {
-      throw error("\"" + changeId + "\" no such change");
+      throw error("\"" + changeId + "\" no such change", e);
     }
   }
 
@@ -152,5 +152,9 @@ public class PatchSetParser {
 
   public static UnloggedFailure error(String msg) {
     return new UnloggedFailure(1, msg);
+  }
+
+  public static UnloggedFailure error(String msg, Throwable why) {
+    return new UnloggedFailure(1, msg, why);
   }
 }

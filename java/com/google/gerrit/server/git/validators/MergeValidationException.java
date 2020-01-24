@@ -28,4 +28,8 @@ public class MergeValidationException extends ValidationException {
   public MergeValidationException(String msg) {
     super(msg);
   }
+
+  public MergeValidationException(String msg, Throwable why) {
+    super(msg, why);
+  }
 }

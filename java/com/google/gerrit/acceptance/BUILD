@@ -15,9 +15,6 @@ DEPLOY_ENV = [
     "//java/com/google/gerrit/index:query_exception",
     "//java/com/google/gerrit/launcher",
     "//java/com/google/gerrit/lifecycle",
-    "//java/com/google/gerrit/pgm",
-    "//java/com/google/gerrit/pgm/http/jetty",
-    "//java/com/google/gerrit/pgm/util",
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/entities",
@@ -51,7 +48,6 @@ DEPLOY_ENV = [
     "//lib/guice",
     "//lib/guice:guice-assistedinject",
     "//lib/guice:guice-servlet",
-    "//lib/jetty:servlet",
     "//lib/mail",
     "//lib/mina:sshd",
     "//lib/log:impl-log4j",
@@ -63,6 +59,9 @@ DEPLOY_ENV = [
 ]
 
 TEST_DEPS = [
+    "//java/com/google/gerrit/pgm",
+    "//java/com/google/gerrit/pgm/http/jetty",
+    "//java/com/google/gerrit/pgm/util",
     "//java/com/google/gerrit/truth",
     "//java/com/google/gerrit/acceptance/testsuite/project",
     "//java/com/google/gerrit/server/group/testing",
@@ -72,6 +71,7 @@ TEST_DEPS = [
     "//java/com/google/gerrit/extensions/restapi/testing:restapi-test-util",
     "//java/com/google/gerrit/gpg/testing:gpg-test-util",
     "//java/com/google/gerrit/git/testing",
+    "//lib/jetty:servlet",
 ]
 
 java_library(

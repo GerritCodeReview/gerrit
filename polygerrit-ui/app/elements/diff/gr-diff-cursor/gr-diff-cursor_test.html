@@ -108,6 +108,18 @@ limitations under the License.
       assert.equal(cursorElement.diffRow, firstDeltaRow);
     });
 
+    test('moveToLastChunk', () => {
+      const chunks = Array.from(Polymer.dom(diffElement.root).querySelectorAll(
+          '.section.delta'));
+      assert.isAbove(chunks.length, 1);
+      assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 0);
+
+      cursorElement.moveToLastChunk();
+
+      assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement),
+          chunks.length - 1);
+    });
+
     test('cursor scroll behavior', () => {
       cursorElement._handleDiffRenderStart();
       assert.equal(cursorElement._scrollBehavior, 'keep-visible');

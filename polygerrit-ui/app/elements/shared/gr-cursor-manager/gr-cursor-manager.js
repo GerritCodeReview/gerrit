@@ -163,6 +163,12 @@
       }
     }
 
+    moveToEnd() {
+      if (this.stops.length) {
+        this.setCursor(this.stops[this.stops.length - 1]);
+      }
+    }
+
     setCursorAtIndex(index, opt_noScroll) {
       this.setCursor(this.stops[index], opt_noScroll);
     }

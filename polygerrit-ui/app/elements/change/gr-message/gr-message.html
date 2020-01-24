@@ -48,10 +48,6 @@ limitations under the License.
       :host > div {
         padding: 0 var(--spacing-l);
       }
-      gr-avatar {
-        position: absolute;
-        left: var(--spacing-l);
-      }
       .collapsed .contentContainer {
         align-items: baseline;
         color: var(--deemphasized-text-color);
@@ -59,20 +55,18 @@ limitations under the License.
         white-space: nowrap;
       }
       .contentContainer {
-        margin-left: calc(var(--spacing-l) + 2.5em);
+        margin-left: 0;
         padding: var(--spacing-m) 0;
       }
       .showAvatar.collapsed .contentContainer {
-        margin-left: calc(var(--spacing-l) + 1.75em);
+        margin-left: calc(var(--spacing-s) + var(--line-height-normal));
       }
-      .hideAvatar.collapsed .contentContainer,
-      .hideAvatar.expanded .contentContainer {
-        margin-left: 0;
+      .showAvatar.expanded .contentContainer {
+        margin-left: calc(var(--spacing-m) + var(--line-height-h1));
       }
-      .showAvatar.collapsed .contentContainer,
-      .hideAvatar.collapsed .contentContainer,
-      .hideAvatar.expanded .contentContainer {
-        padding: var(--spacing-m) 0;
+      gr-avatar {
+        position: absolute;
+        left: var(--spacing-l);
       }
       .collapsed gr-avatar {
         top: var(--spacing-m);

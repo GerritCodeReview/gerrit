@@ -45,44 +45,19 @@ limitations under the License.
       :host(.expanded) {
         cursor: auto;
       }
-      :host > div {
-        padding: 0 var(--spacing-l);
-      }
-      gr-avatar {
-        position: absolute;
-        left: var(--spacing-l);
-      }
       .collapsed .contentContainer {
-        align-items: baseline;
+        align-items: center;
         color: var(--deemphasized-text-color);
         display: flex;
         white-space: nowrap;
       }
       .contentContainer {
-        margin-left: calc(var(--spacing-l) + 2.5em);
-        padding: var(--spacing-m) 0;
+        padding: var(--spacing-m) var(--spacing-l);
       }
-      .showAvatar.collapsed .contentContainer {
-        margin-left: calc(var(--spacing-l) + 1.75em);
-      }
-      .hideAvatar.collapsed .contentContainer,
-      .hideAvatar.expanded .contentContainer {
-        margin-left: 0;
-      }
-      .showAvatar.collapsed .contentContainer,
-      .hideAvatar.collapsed .contentContainer,
-      .hideAvatar.expanded .contentContainer {
-        padding: var(--spacing-m) 0;
-      }
-      .collapsed gr-avatar {
-        top: var(--spacing-m);
-        height: var(--line-height-normal);
-        width: var(--line-height-normal);
-      }
-      .expanded gr-avatar {
-        top: var(--spacing-l);
-        height: var(--line-height-h1);
-        width: var(--line-height-h1);
+      .collapsed .contentContainer {
+        /* For expanded state we inherit the alternating background color
+           that is set in gr-messages-list. */
+        background-color: var(--background-color-primary);
       }
       .name {
         font-weight: var(--font-weight-bold);
@@ -129,14 +104,25 @@ limitations under the License.
         color: var(--primary-text-color);
         margin-right: var(--spacing-s);
       }
+      .authorLabel {
+        min-width: 160px;
+        display: inline-block;
+      }
       .expanded .author {
         cursor: pointer;
         margin-bottom: var(--spacing-s);
+      }
+      .expanded .content {
+        padding-left: 40px;
       }
       .dateContainer {
         position: absolute;
         right: var(--spacing-l);
         top: 10px;
+      }
+      .dateContainer .patchset {
+        margin-right: var(--spacing-m);
+        color: var(--deemphasized-text-color);
       }
       span.date {
         color: var(--deemphasized-text-color);
@@ -148,16 +134,23 @@ limitations under the License.
         cursor: pointer;
         vertical-align: top;
       }
-      .replyContainer {
-        padding: var(--spacing-m) 0 0 0;
-      }
       .score {
-        border: 1px solid rgba(0,0,0,.12);
         border-radius: var(--border-radius);
         color: var(--primary-text-color);
         display: inline-block;
-        margin: -1px 0;
-        padding: 0 var(--spacing-xxs);
+        padding: 0 var(--spacing-s);
+        text-align: center;
+      }
+      .score,
+      .commentsSummary {
+        margin-right: var(--spacing-s);
+        min-width: 115px;
+      }
+      .expanded .commentsSummary {
+        display: none;
+      }
+      .commentsIcon {
+        vertical-align: top;
       }
       .score.negative {
         background-color: var(--vote-color-disliked);
@@ -177,34 +170,39 @@ limitations under the License.
         };
       }
     </style>
-    <div class$="[[_computeClass(_expanded, showAvatar, message)]]">
-      <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
+    <div class$="[[_computeClass(_expanded)]]">
       <div class="contentContainer">
         <div class="author" on-click="_handleAuthorClick">
           <span hidden$="[[!showOnBehalfOf]]">
             <span class="name">[[message.real_author.name]]</span>
             on behalf of
           </span>
-          <gr-account-label
-              account="[[author]]"
-              hide-avatar></gr-account-label>
+          <gr-account-label account="[[author]]" class="authorLabel"></gr-account-label>
           <template is="dom-repeat" items="[[_getScores(message)]]" as="score">
             <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
               [[score.label]] [[score.value]]
             </span>
           </template>
         </div>
+        <template is="dom-if" if="[[_commentCountText]]">
+          <div class="commentsSummary">
+            <iron-icon icon="gr-icons:comment" class="commentsIcon"></iron-icon>
+            <span class="numberOfComments">[[_commentCountText]]</span>
+          </div>
+        </template>
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
-            <div class="message hideOnOpen">[[message.message]]</div>
+            <div class="message hideOnOpen">[[_messageContentCollapsed]]</div>
             <gr-formatted-text
                 no-trailing-margin
                 class="message hideOnCollapsed"
-                content="[[message.message]]"
+                content="[[_messageContentExpanded]]"
                 config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
-            <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
-              <gr-button link small on-click="_handleReplyTap">Reply</gr-button>
-            </div>
+            <template is="dom-if" if="[[!_isMessageContentEmpty(message.message)]]">
+              <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
+                <gr-button link small on-click="_handleReplyTap">Reply</gr-button>
+              </div>
+            </template>
             <gr-comment-list
                 comments="[[comments]]"
                 change-num="[[changeNum]]"
@@ -228,6 +226,9 @@ limitations under the License.
           </div>
         </template>
         <span class="dateContainer">
+          <template is="dom-if" if="[[message._revision_number]]">
+            <span class="patchset">Patchset [[message._revision_number]]</span>
+          </template>
           <template is="dom-if" if="[[!message.id]]">
             <span class="date">
               <gr-date-formatter

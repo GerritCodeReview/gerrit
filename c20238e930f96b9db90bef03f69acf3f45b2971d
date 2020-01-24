@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9723db42_01e86163",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-01-24T14:49:57Z",
+      "side": 1,
+      "message": "Wonder if we should use a / to separate them? That would be a bit like origin/master. Not sure if there is such a convention for remote repos as well...",
+      "range": {
+        "startLine": 213,
+        "startChar": 34,
+        "endLine": 213,
+        "endChar": 35
+      },
+      "revId": "c20238e930f96b9db90bef03f69acf3f45b2971d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "879083e8_a35447e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-01-24T14:49:57Z",
+      "side": 1,
+      "message": "According to the style guide, it should be Url: https://google.github.io/styleguide/jsguide.html#naming-camel-case-defined",
+      "range": {
+        "startLine": 215,
+        "startChar": 39,
+        "endLine": 215,
+        "endChar": 42
+      },
+      "revId": "c20238e930f96b9db90bef03f69acf3f45b2971d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

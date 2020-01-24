@@ -21,6 +21,7 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
+        "//lib/log:log4j"
     ],
 )
 

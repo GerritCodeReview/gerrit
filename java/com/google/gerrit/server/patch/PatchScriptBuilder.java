@@ -28,6 +28,7 @@ import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.fixes.FixCalculator;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.patch.DiffContentCalculator.DiffCalculatorResult;
@@ -116,9 +117,12 @@ class PatchScriptBuilder {
 
   PatchScript toPatchScript(
       Repository git, ObjectId baseId, String fileName, List<FixReplacement> fixReplacements)
-      throws IOException, ResourceConflictException {
+      throws IOException, ResourceConflictException, ResourceNotFoundException {
     SidesResolver sidesResolver = new SidesResolver(git, ComparisonType.againstOtherPatchSet());
     PatchSide a = resolveSideA(git, sidesResolver, fileName, baseId);
+    if (a.mode == FileMode.MISSING) {
+      throw new ResourceNotFoundException(String.format("File %s not found", fileName));
+    }
     FixCalculator.FixResult fixResult = FixCalculator.calculateFix(a.src, fixReplacements);
     PatchSide b =
         new PatchSide(

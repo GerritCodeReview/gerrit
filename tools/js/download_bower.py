@@ -46,7 +46,8 @@ def bower_info(bower, name, package, version):
         raise
     out, err = p.communicate()
     if p.returncode:
-        sys.stderr.write(err)
+        # For python3 support we wrap str around err.
+        sys.stderr.write(str(err))
         raise OSError('Command failed: %s' % ' '.join(cmd))
 
     try:

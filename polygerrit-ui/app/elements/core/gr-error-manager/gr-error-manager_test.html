@@ -321,12 +321,13 @@ limitations under the License.
             element.fire('show-alert', {
               message: 'test-alert', action: 'reload',
             });
-            toast = toastSpy.lastCall.returnValue;
-            assert.isOk(toast);
-            assert.include(
-                Polymer.dom(toast.root).textContent, 'Credentails expired.');
-
-            done();
+            flush(() => {
+              toast = toastSpy.lastCall.returnValue;
+              assert.isOk(toast);
+              assert.include(
+                  Polymer.dom(toast.root).textContent, 'Credentails expired.');
+              done();
+            });
           });
         });
       });

@@ -389,6 +389,21 @@ If Docker is not available, the Elasticsearch tests will be skipped.
 Note that Bazel currently does not show
 link:https://github.com/bazelbuild/bazel/issues/3476[the skipped tests].
 
+[[debug]]
+=== Index Query Tests
+
+The `DEBUG` log level can optionally be enabled for the index query tests. That log level applies to
+both Elasticsearch and Lucene tests.
+
+In Eclipse, set `-Ddebug=true` as a VM argument under the Run Configuration's `Arguments` tab.
+
+With `bazel`, here is an example for the Lucene `account` test:
+
+----
+bazel test --jvmopt='-Ddebug=true' \
+javatests/com/google/gerrit/server/query/account:lucene_query_test
+----
+
 == Dependencies
 
 Dependency JARs are normally downloaded as needed, but you can

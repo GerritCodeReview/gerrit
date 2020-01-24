@@ -28,6 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -53,20 +54,22 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class RobotCommentsIT extends AbstractDaemonTest {
   @Inject private TestCommentHelper testCommentHelper;
 
   private static final String PLAIN_TEXT_CONTENT_TYPE = "text/plain";
+  private static final String GERRIT_COMMIT_MESSAGE_TYPE = "text/x-gerrit-commit-message";
 
   private static final String FILE_NAME = "file_to_fix.txt";
   private static final String FILE_NAME2 = "another_file_to_fix.txt";
+  private static final String FILE_NAME3 = "file_without_newline_at_end.txt";
   private static final String FILE_CONTENT =
       "First line\nSecond line\nThird line\nFourth line\nFifth line\nSixth line"
           + "\nSeventh line\nEighth line\nNinth line\nTenth line\n";
   private static final String FILE_CONTENT2 = "1st line\n2nd line\n3rd line\n";
+  private static final String FILE_CONTENT3 = "1st line\n2nd line";
 
   private String changeId;
   private String commitId;
@@ -81,7 +84,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
             admin.newIdent(),
             testRepo,
             "Provide files which can be used for fixes",
-            ImmutableMap.of(FILE_NAME, FILE_CONTENT, FILE_NAME2, FILE_CONTENT2));
+            ImmutableMap.of(
+                FILE_NAME, FILE_CONTENT, FILE_NAME2, FILE_CONTENT2, FILE_NAME3, FILE_CONTENT3));
     PushOneCommit.Result changeResult = push.to("refs/for/master");
     changeId = changeResult.getChangeId();
     commitId = changeResult.getCommit().getName();
@@ -995,20 +999,61 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Ignore
-  public void getFixPreviewForNonExistingFile() throws Exception {
-    // Not implemented yet.
-    fixReplacementInfo.path = "a_non_existent_file.txt";
-    fixReplacementInfo.range = createRange(1, 0, 2, 0);
-    fixReplacementInfo.replacement = "Modified content\n";
+  public void getFixPreviewForCommitMsg() throws Exception {
+    FixReplacementInfo commitMsgReplacement = new FixReplacementInfo();
+    commitMsgReplacement.path = Patch.COMMIT_MSG;
+    commitMsgReplacement.range = createRange(2, 1, 2, 4);
+    commitMsgReplacement.replacement = "Some new content\n";
 
-    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
+    FixSuggestionInfo commitMsgSuggestionInfo = createFixSuggestionInfo(commitMsgReplacement);
+    RobotCommentInput commitMsgRobotCommentInput =
+        TestCommentHelper.createRobotCommentInput(Patch.COMMIT_MSG, commitMsgSuggestionInfo);
+    testCommentHelper.addRobotComment(changeId, commitMsgRobotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    assertThat(fixPreview).hasSize(1);
+    assertThat(fixPreview).containsKey(Patch.COMMIT_MSG);
+
+    DiffInfo diff = fixPreview.get(Patch.COMMIT_MSG);
+    assertThat(diff).metaA().name().isEqualTo(Patch.COMMIT_MSG);
+    assertThat(diff).metaA().contentType().isEqualTo(GERRIT_COMMIT_MESSAGE_TYPE);
+    assertThat(diff).metaB().name().isEqualTo(Patch.COMMIT_MSG);
+    assertThat(diff).metaB().contentType().isEqualTo(GERRIT_COMMIT_MESSAGE_TYPE);
+
+    assertThat(diff).content().element(0).commonLines().isNotEmpty();
+    assertThat(diff).content().element(0).linesOfA().isNull();
+    assertThat(diff).content().element(0).linesOfB().isNull();
+    assertThat(diff).content().element(1).commonLines().isNull();
+    assertThat(diff).content().element(1).linesOfA().isNotEmpty();
+    assertThat(diff).content().element(1).linesOfB().isNotEmpty();
+    assertThat(diff).content().element(2).commonLines().isNotEmpty();
+    assertThat(diff).content().element(2).linesOfA().isNull();
+    assertThat(diff).content().element(2).linesOfB().isNull();
+  }
+
+  @Test
+  public void getFixPreviewForNonExistingFile() throws Exception {
+    FixReplacementInfo replacement = new FixReplacementInfo();
+    replacement.path = "a_non_existent_file.txt";
+    replacement.range = createRange(1, 0, 2, 0);
+    replacement.replacement = "Modified content\n";
+
+    FixSuggestionInfo fixSuggestion = createFixSuggestionInfo(replacement);
+    RobotCommentInput commentInput =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME2, fixSuggestion);
+    testCommentHelper.addRobotComment(changeId, commentInput);
+
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
     assertThrows(
-        BadRequestException.class,
+        ResourceNotFoundException.class,
         () -> gApi.changes().id(changeId).current().getFixPreview(fixId));
   }
 
@@ -1120,6 +1165,44 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         .containsExactly("2nd line", "3rd line", "");
     assertThat(diff2).content().element(2).linesOfA().isNull();
     assertThat(diff2).content().element(2).linesOfB().isNull();
+  }
+
+  @Test
+  public void getFixPreviewAddNewLineAtEnd() throws Exception {
+    FixReplacementInfo replacement = new FixReplacementInfo();
+    replacement.path = FILE_NAME3;
+    replacement.range = createRange(2, 8, 2, 8);
+    replacement.replacement = "\n";
+
+    FixSuggestionInfo fixSuggestion = createFixSuggestionInfo(replacement);
+    RobotCommentInput commentInput =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME2, fixSuggestion);
+    testCommentHelper.addRobotComment(changeId, commentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+
+    assertThat(fixPreview).hasSize(1);
+    assertThat(fixPreview).containsKey(FILE_NAME3);
+
+    DiffInfo diff = fixPreview.get(FILE_NAME3);
+    assertThat(diff).metaA().totalLineCount().isEqualTo(2);
+    // Although number of lines in the file was not changed, diff has one additional line
+    // This behavior is in line with ordinary get diff API.
+    assertThat(diff).metaB().totalLineCount().isEqualTo(3);
+
+    assertThat(diff).content().hasSize(2);
+    assertThat(diff).content().element(0).commonLines().containsExactly("1st line");
+    assertThat(diff).content().element(0).linesOfA().isNull();
+    assertThat(diff).content().element(0).linesOfB().isNull();
+
+    assertThat(diff).content().element(1).commonLines().isNull();
+    assertThat(diff).content().element(1).linesOfA().containsExactly("2nd line");
+    assertThat(diff).content().element(1).linesOfB().containsExactly("2nd line", "");
   }
 
   private static FixSuggestionInfo createFixSuggestionInfo(

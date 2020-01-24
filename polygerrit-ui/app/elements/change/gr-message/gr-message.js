@@ -69,10 +69,6 @@
           type: Boolean,
           computed: '_computeIsAutomated(message)',
         },
-        showAvatar: {
-          type: Boolean,
-          computed: '_computeShowAvatar(author, config)',
-        },
         showOnBehalfOf: {
           type: Boolean,
           computed: '_computeShowOnBehalfOf(message)',
@@ -100,6 +96,14 @@
         _expanded: {
           type: Object,
           computed: '_computeExpanded(message.expanded)',
+        },
+        _messageContent: {
+          type: String,
+          computed: '_computeMessageContent(message.message)',
+        },
+        _numberOfComments: {
+          type: Number,
+          computed: '_computeNumberOfComments(comments)',
         },
         _loggedIn: {
           type: Boolean,
@@ -140,12 +144,43 @@
       }
     }
 
-    _computeAuthor(message) {
-      return message.author || message.updated_by;
+    _computeNumberOfComments(comments) {
+      if (!comments) return undefined;
+      let count = 0;
+      for (const file in comments) {
+        if (comments.hasOwnProperty(file)) {
+          const commentArray = comments[file] || [];
+          count += commentArray.length;
+        }
+      }
+      if (count === 0) {
+        return undefined;
+      } else if (count === 1) {
+        return '1 comment';
+      } else {
+        return count + ' comments';
+      }
     }
 
-    _computeShowAvatar(author, config) {
-      return !!(author && config && config.plugin && config.plugin.has_avatars);
+    _computeMessageContent(content) {
+      if (!content) return '';
+      const lines = content.split('\n');
+      const newLines = [];
+      lines.forEach(line => {
+        if (line.startsWith('Patch Set ')) return;
+        if (line.startsWith('(') && line.endsWith(' comment)')) return;
+        if (line.startsWith('(') && line.endsWith(' comments)')) return;
+        newLines.push(line);
+      });
+      return newLines.join('\n').trim();
+    }
+
+    _isMessageContentEmpty(content) {
+      return this._computeMessageContent(content).trim().length === 0;
+    }
+
+    _computeAuthor(message) {
+      return message.author || message.updated_by;
     }
 
     _computeShowOnBehalfOf(message) {
@@ -236,10 +271,9 @@
       return classes.join(' ');
     }
 
-    _computeClass(expanded, showAvatar, message) {
+    _computeClass(expanded) {
       const classes = [];
       classes.push(expanded ? 'expanded' : 'collapsed');
-      classes.push(showAvatar ? 'showAvatar' : 'hideAvatar');
       return classes.join(' ');
     }
 

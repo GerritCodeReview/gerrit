@@ -26,6 +26,7 @@ java_library(
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/log:log4j",
         "//lib/truth",
     ],
 )

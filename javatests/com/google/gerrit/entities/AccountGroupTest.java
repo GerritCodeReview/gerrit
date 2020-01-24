@@ -19,11 +19,22 @@ import static com.google.gerrit.entities.AccountGroup.UUID.fromRef;
 import static com.google.gerrit.entities.AccountGroup.UUID.fromRefPart;
 import static com.google.gerrit.entities.AccountGroup.uuid;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 import org.junit.Test;
 
 public class AccountGroupTest {
   private static final String TEST_UUID = "ccab3195282a8ce4f5014efa391e82d10f884c64";
   private static final String TEST_SHARDED_UUID = TEST_UUID.substring(0, 2) + "/" + TEST_UUID;
+
+  @Test
+  public void auditCreationInstant() {
+    Instant instant = LocalDateTime.of(2009, Month.JUNE, 8, 19, 31).toInstant(ZoneOffset.UTC);
+    assertThat(AccountGroup.auditCreationInstantTs()).isEqualTo(Timestamp.from(instant));
+  }
 
   @Test
   public void parseRefName() {

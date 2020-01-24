@@ -36,18 +36,15 @@ limitations under the License.
         word-wrap: break-word;
       }
       .file {
-        border-top: 1px solid var(--border-color);
-        font-weight: var(--font-weight-bold);
-        margin: 10px 0 3px;
-        padding: 10px 0 5px;
+        padding: var(--spacing-s) 0;
       }
       .container {
         display: flex;
-        margin: var(--spacing-m) 0;
+        padding: var(--spacing-s) 0;
       }
       .lineNum {
-        margin-right: var(--spacing-m);
-        min-width: 10em;
+        margin-right: var(--spacing-s);
+        min-width: 135px;
         text-align: right;
       }
       .message {
@@ -66,7 +63,7 @@ limitations under the License.
       }
     </style>
     <template is="dom-repeat" items="[[_computeFilesFromComments(comments)]]" as="file">
-      <div class="file">[[computeDisplayPath(file)]]:</div>
+      <div class="file"><a class="fileLink" href="[[_computeDiffURL(file, changeNum, comments)]]">[[computeDisplayPath(file)]]</a></div>
       <template is="dom-repeat"
                 items="[[_computeCommentsForFile(comments, file)]]" as="comment">
         <div class="container">
@@ -74,7 +71,7 @@ limitations under the License.
              href$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]">
              <span hidden$="[[!comment.line]]">
                <span>[[_computePatchDisplayName(comment)]]</span>
-               Line <span>[[comment.line]]</span>:
+               Line <span>[[comment.line]]</span>
              </span>
              <span hidden$="[[comment.line]]">
                File comment:

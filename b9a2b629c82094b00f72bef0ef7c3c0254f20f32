@@ -89,6 +89,29 @@
     },
     {
       "key": {
+        "uuid": "1bb00c42_b41e90e6",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-24T09:44:07Z",
+      "side": 1,
+      "message": "May be use regex to avoid magic with index?",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 58
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df881bc9_80cdd8fb",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 3
@@ -105,6 +128,29 @@
         "startChar": 28,
         "endLine": 170,
         "endChar": 35
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8891243_9811a63a",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-24T09:44:07Z",
+      "side": 1,
+      "message": "As I know, it is recommended to avoid return null. Instead you can return Optional\u003cString\u003e ...",
+      "range": {
+        "startLine": 173,
+        "startChar": 11,
+        "endLine": 173,
+        "endChar": 15
       },
       "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

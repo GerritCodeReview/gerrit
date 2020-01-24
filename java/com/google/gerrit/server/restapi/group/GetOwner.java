@@ -46,7 +46,7 @@ public class GetOwner implements RestReadView<GroupResource> {
       GroupControl c = controlFactory.validateFor(group.getOwnerGroupUUID());
       return json.format(c.getGroup());
     } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException();
+      throw new ResourceNotFoundException(group.getOwnerGroupUUID().get(), e);
     }
   }
 }

@@ -326,7 +326,7 @@ public class ReviewCommand extends SshCommand {
     try {
       allProjectsState = projectCache.checkedGet(allProjects);
     } catch (IOException e) {
-      throw die("missing " + allProjects.get());
+      throw die("missing " + allProjects.get(), e);
     }
 
     for (LabelType type : allProjectsState.getLabelTypes().getLabelTypes()) {

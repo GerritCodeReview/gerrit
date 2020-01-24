@@ -92,7 +92,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
           ? Response.none()
           : Response.ok(project.getDescription());
     } catch (RepositoryNotFoundException notFound) {
-      throw new ResourceNotFoundException(resource.getName());
+      throw new ResourceNotFoundException(resource.getName(), notFound);
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(
           String.format("invalid project.config: %s", e.getMessage()));

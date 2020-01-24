@@ -119,7 +119,7 @@ public class ListDashboards implements RestReadView<ProjectResource> {
       }
       return all;
     } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException();
+      throw new ResourceNotFoundException(project, e);
     }
   }
 

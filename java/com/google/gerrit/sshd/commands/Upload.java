@@ -55,9 +55,9 @@ final class Upload extends AbstractGitCommand {
 
       perm.check(ProjectPermission.RUN_UPLOAD_PACK);
     } catch (AuthException e) {
-      throw new Failure(1, "fatal: upload-pack not permitted on this server");
+      throw new Failure(1, "fatal: upload-pack not permitted on this server", e);
     } catch (PermissionBackendException e) {
-      throw new Failure(1, "fatal: unable to check permissions " + e);
+      throw new Failure(1, "fatal: unable to check permissions ", e);
     }
 
     final UploadPack up = new UploadPack(repo);

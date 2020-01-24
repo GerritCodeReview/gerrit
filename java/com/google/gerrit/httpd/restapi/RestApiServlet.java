@@ -889,7 +889,7 @@ public class RestApiServlet extends HttpServlet {
           try {
             first = json.peek();
           } catch (EOFException e) {
-            throw new BadRequestException("Expected JSON object");
+            throw new BadRequestException("Expected JSON object", e);
           }
           if (first == JsonToken.STRING) {
             return parseString(json.nextString(), type);

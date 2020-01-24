@@ -81,13 +81,13 @@ public class GetHead implements RestReadView<ProjectResource> {
                 .project(rsrc.getNameKey())
                 .check(ProjectPermission.WRITE_CONFIG);
           } catch (AuthException ae) {
-            throw new AuthException("not allowed to see HEAD");
+            throw new AuthException("not allowed to see HEAD", ae);
           }
         }
       }
       throw new ResourceNotFoundException(Constants.HEAD);
     } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(rsrc.getName());
+      throw new ResourceNotFoundException(rsrc.getName(), e);
     }
   }
 }

@@ -43,7 +43,8 @@ public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
     try {
       id = PatchSet.Id.parse(token);
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, localizable("\"%s\" is not a valid patch set"), token);
+      throw new CmdLineException(
+          owner, localizable("\"%s\" is not a valid patch set: %s"), token, e.getMessage());
     }
 
     setter.addValue(id);

@@ -65,7 +65,7 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
       try {
         groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
       } catch (NoSuchGroupException e) {
-        throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+        throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid), e);
       }
     }
 

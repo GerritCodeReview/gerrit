@@ -254,7 +254,7 @@ public class CreateChange
     try {
       permissionBackend.currentUser().project(project).ref(refName).check(RefPermission.READ);
     } catch (AuthException e) {
-      throw new ResourceNotFoundException(String.format("ref %s not found", refName));
+      throw new ResourceNotFoundException(String.format("ref %s not found", refName), e);
     }
 
     permissionBackend
@@ -332,7 +332,7 @@ public class CreateChange
     try {
       permissionBackend.currentUser().change(change).check(ChangePermission.READ);
     } catch (AuthException e) {
-      throw new UnprocessableEntityException("Read not permitted for " + baseChange);
+      throw new UnprocessableEntityException("Read not permitted for " + baseChange, e);
     }
 
     return change;
@@ -360,14 +360,15 @@ public class CreateChange
         parentCommit = ObjectId.fromString(baseCommit);
       } catch (InvalidObjectIdException e) {
         throw new UnprocessableEntityException(
-            String.format("Base %s doesn't represent a valid SHA-1", baseCommit));
+            String.format("Base %s doesn't represent a valid SHA-1", baseCommit), e);
       }
 
       RevCommit parentRevCommit;
       try {
         parentRevCommit = revWalk.parseCommit(parentCommit);
       } catch (MissingObjectException e) {
-        throw new UnprocessableEntityException(String.format("Base %s doesn't exist", baseCommit));
+        throw new UnprocessableEntityException(
+            String.format("Base %s doesn't exist", baseCommit), e);
       }
 
       if (destRef == null) {

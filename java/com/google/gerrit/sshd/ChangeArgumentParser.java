@@ -111,7 +111,7 @@ public class ChangeArgumentParser {
     try {
       changeResource = changesCollection.parse(cId);
     } catch (RestApiException e) {
-      throw new UnloggedFailure(1, "\"" + id + "\" no such change");
+      throw new UnloggedFailure(1, "\"" + id + "\" no such change", e);
     }
     changes.put(cId, changeResource);
   }

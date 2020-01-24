@@ -104,7 +104,7 @@ public class NoteDbSchemaUpdater {
     try {
       schemaCreator.ensureCreated();
     } catch (IOException | ConfigInvalidException e) {
-      throw new StorageException("Cannot initialize Gerrit site");
+      throw new StorageException("Cannot initialize Gerrit site", e);
     }
   }
 

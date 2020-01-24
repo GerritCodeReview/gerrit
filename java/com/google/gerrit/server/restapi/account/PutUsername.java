@@ -115,7 +115,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
       }
 
       // Otherwise, someone else has this identity.
-      throw new ResourceConflictException("username already used");
+      throw new ResourceConflictException("username already used", dupeErr);
     }
 
     sshKeyCache.evict(input.username);

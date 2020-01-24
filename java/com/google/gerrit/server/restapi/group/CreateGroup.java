@@ -219,7 +219,7 @@ public class CreateGroup
       return groupsUpdateProvider.get().createGroup(groupCreation, groupUpdateBuilder.build());
     } catch (DuplicateKeyException e) {
       throw new ResourceConflictException(
-          "group '" + createGroupArgs.getGroupName() + "' already exists");
+          "group '" + createGroupArgs.getGroupName() + "' already exists", e);
     }
   }
 }

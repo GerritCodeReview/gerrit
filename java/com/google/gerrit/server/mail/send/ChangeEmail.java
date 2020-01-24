@@ -296,7 +296,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       try {
         ps = args.patchSetUtil.get(changeData.notes(), new PatchSet.Id(change.getId(), patchSetId));
       } catch (StorageException e) {
-        throw new PatchListNotAvailableException("Failed to get patchSet");
+        throw new PatchListNotAvailableException("Failed to get patchSet", e);
       }
     }
     return args.patchListCache.get(change, ps);

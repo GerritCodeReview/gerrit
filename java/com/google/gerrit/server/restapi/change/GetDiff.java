@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -73,6 +74,8 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class GetDiff implements RestReadView<FileResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final ImmutableMap<Patch.ChangeType, ChangeType> CHANGE_TYPE =
       Maps.immutableEnumMap(
           new ImmutableMap.Builder<Patch.ChangeType, ChangeType>()
@@ -433,6 +436,7 @@ public class GetDiff implements RestReadView<FileResource> {
             throw new NumberFormatException();
           }
         } catch (NumberFormatException e) {
+          logger.atFine().withCause(e).log("invalid numeric value");
           throw new CmdLineException(
               owner,
               localizable("\"%s\" is not a valid value for \"%s\""),

@@ -217,7 +217,7 @@ public class ListTags implements RestReadView<ProjectResource> {
     try {
       return repoManager.openRepository(project);
     } catch (RepositoryNotFoundException noGitRepository) {
-      throw new ResourceNotFoundException();
+      throw new ResourceNotFoundException(project.get(), noGitRepository);
     }
   }
 

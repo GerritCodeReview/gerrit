@@ -61,9 +61,11 @@ class PluginServletContext {
       try {
         handler = API.class.getDeclaredMethod(method.getName(), method.getParameterTypes());
       } catch (NoSuchMethodException e) {
-        throw new NoSuchMethodError(
+        String msg =
             String.format(
-                "%s does not implement %s", PluginServletContext.class, method.toGenericString()));
+                "%s does not implement %s", PluginServletContext.class, method.toGenericString());
+        logger.atSevere().withCause(e).log(msg);
+        throw new NoSuchMethodError(msg);
       }
       return handler.invoke(this, args);
     }

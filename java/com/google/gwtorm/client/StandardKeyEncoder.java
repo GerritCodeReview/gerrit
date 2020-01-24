@@ -100,7 +100,7 @@ public class StandardKeyEncoder extends Encoder {
         }
       }
     } catch (ArrayIndexOutOfBoundsException err) {
-      throw new IllegalArgumentException("Bad encoding: " + e);
+      throw new IllegalArgumentException("Bad encoding" + e, err);
     }
     try {
       return new String(b, 0, bPtr, "UTF-8");

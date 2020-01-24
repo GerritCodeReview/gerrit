@@ -70,7 +70,7 @@ public class SshKeys implements ChildCollection<AccountResource, AccountResource
         permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
       } catch (AuthException e) {
         // If lacking MODIFY_ACCOUNT claim the resource does not exist.
-        throw new ResourceNotFoundException();
+        throw new ResourceNotFoundException(id, e);
       }
     }
     return parse(rsrc.getUser(), id);
@@ -86,7 +86,7 @@ public class SshKeys implements ChildCollection<AccountResource, AccountResource
       }
       return new AccountResource.SshKey(user, sshKey);
     } catch (NumberFormatException e) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(id, e);
     }
   }
 

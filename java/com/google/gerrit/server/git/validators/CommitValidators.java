@@ -467,7 +467,7 @@ public class CommitValidators {
         perm.check(RefPermission.MERGE);
         return Collections.emptyList();
       } catch (AuthException e) {
-        throw new CommitValidationException("you are not allowed to upload merges");
+        throw new CommitValidationException("you are not allowed to upload merges", e);
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check MERGE");
         throw new CommitValidationException("internal auth error");
@@ -564,7 +564,7 @@ public class CommitValidators {
           perm.check(RefPermission.FORGE_COMMITTER);
         } catch (AuthException denied) {
           throw new CommitValidationException(
-              "not Signed-off-by author/committer/uploader in message footer");
+              "not Signed-off-by author/committer/uploader in message footer", denied);
         } catch (PermissionBackendException e) {
           logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");
           throw new CommitValidationException("internal auth error");
@@ -599,7 +599,7 @@ public class CommitValidators {
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException(
-            "invalid author", invalidEmail("author", author, user, urlFormatter));
+            "invalid author", invalidEmail("author", author, user, urlFormatter), e);
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check FORGE_AUTHOR");
         throw new CommitValidationException("internal auth error");
@@ -632,7 +632,7 @@ public class CommitValidators {
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException(
-            "invalid committer", invalidEmail("committer", committer, user, urlFormatter));
+            "invalid committer", invalidEmail("committer", committer, user, urlFormatter), e);
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");
         throw new CommitValidationException("internal auth error");
@@ -671,7 +671,8 @@ public class CommitValidators {
                   "pushing merge commit %s by %s requires '%s' permission",
                   receiveEvent.commit.getId(),
                   gerritIdent.getEmailAddress(),
-                  RefPermission.FORGE_SERVER.name()));
+                  RefPermission.FORGE_SERVER.name()),
+              denied);
         } catch (PermissionBackendException e) {
           logger.atSevere().withCause(e).log("cannot check FORGE_SERVER");
           throw new CommitValidationException("internal auth error");

@@ -90,6 +90,19 @@
         e.preventDefault();
         e.stopImmediatePropagation();
       }
+      let el = this.root;
+      let path = '';
+      while (el = el.parentNode || el.host) {
+        if (el.tagName && el.tagName.startsWith('GR-APP')) {
+          break;
+        }
+        if (el.tagName) {
+          const idString = el.id ? '#' + el.id : '';
+          path = el.tagName + idString + ' ' + path;
+        }
+      }
+      this.$.reporting.reportInteraction('button-click',
+          path.trim().toLowerCase());
     }
 
     _disabledChanged(disabled) {

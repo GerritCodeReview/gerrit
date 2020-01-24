@@ -88,13 +88,17 @@ limitations under the License.
       assert.equal(div.textContent, 'foobar');
     });
 
-    test('button', () => {
+    test('button', done => {
       const clickStub = sandbox.stub();
       const button = instance.button('foo', {onclick: clickStub});
+      // If you don't attach a Polymer element to the DOM, then the ready()
+      // callback will not be called and then e.g. this.$ is undefined.
+      Polymer.dom(document.body).appendChild(button);
       MockInteractions.tap(button);
       flush(() => {
         assert.isTrue(clickStub.called);
         assert.equal(button.textContent, 'foo');
+        done();
       });
     });
 

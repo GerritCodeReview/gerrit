@@ -27,6 +27,32 @@ import org.eclipse.jgit.lib.ObjectId;
 public abstract class InternalGroup implements Serializable {
   private static final long serialVersionUID = 1L;
 
+  public static InternalGroup create(
+      AccountGroup accountGroup,
+      ImmutableSet<Account.Id> members,
+      ImmutableSet<AccountGroup.UUID> subgroups) {
+    return create(accountGroup, members, subgroups, null);
+  }
+
+  public static InternalGroup create(
+      AccountGroup accountGroup,
+      ImmutableSet<Account.Id> members,
+      ImmutableSet<AccountGroup.UUID> subgroups,
+      ObjectId refState) {
+    return builder()
+        .setId(accountGroup.getId())
+        .setNameKey(accountGroup.getNameKey())
+        .setDescription(accountGroup.getDescription())
+        .setOwnerGroupUUID(accountGroup.getOwnerGroupUUID())
+        .setVisibleToAll(accountGroup.isVisibleToAll())
+        .setGroupUUID(accountGroup.getGroupUUID())
+        .setCreatedOn(accountGroup.getCreatedOn())
+        .setMembers(members)
+        .setSubgroups(subgroups)
+        .setRefState(refState)
+        .build();
+  }
+
   public abstract AccountGroup.Id getId();
 
   public String getName() {

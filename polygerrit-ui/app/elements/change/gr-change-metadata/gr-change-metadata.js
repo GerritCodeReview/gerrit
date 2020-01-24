@@ -351,26 +351,30 @@
       return [msg + ':'].concat(key.problems).join('\n');
     }
 
-    _computeProjectURL(project) {
+    _computeShowRepoBranchTogether(repo, branch) {
+      return !!repo && !!branch && repo.length + branch.length < 40;
+    }
+
+    _computeProjectUrl(project) {
       return Gerrit.Nav.getUrlForProjectChanges(project);
     }
 
-    _computeBranchURL(project, branch) {
+    _computeBranchUrl(project, branch) {
       if (!this.change || !this.change.status) return '';
       return Gerrit.Nav.getUrlForBranch(branch, project,
           this.change.status == this.ChangeStatus.NEW ? 'open' :
             this.change.status.toLowerCase());
     }
 
-    _computeCherryPickOfURL(change, patchset, project) {
+    _computeCherryPickOfUrl(change, patchset, project) {
       return Gerrit.Nav.getUrlForChangeById(change, project, patchset);
     }
 
-    _computeTopicURL(topic) {
+    _computeTopicUrl(topic) {
       return Gerrit.Nav.getUrlForTopic(topic);
     }
 
-    _computeHashtagURL(hashtag) {
+    _computeHashtagUrl(hashtag) {
       return Gerrit.Nav.getUrlForHashtag(hashtag);
     }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fda7a027_a7413e99",
+        "filename": "java/com/google/gerrit/server/git/HookUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-24T00:48:13Z",
+      "side": 1,
+      "message": "Is this catch block needed if it only rethrows the caught exception?",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 14
+      },
+      "revId": "62f5e461b2173ccc100673369d40b9716ff4943c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "92b1643a_fa2bc369",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-24T12:05:09Z",
+      "side": 1,
+      "message": "@Patrick are you suggesting to use urlParameterMap for requestUrl? so I will do urlParameterMap.get(requestUrl)[0]?",
+      "parentUuid": "ce196784_4c9d223b",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 43
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4fdd8b7_95bd63b5",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 3
@@ -112,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "b69e761f_deaf0537",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-24T12:05:09Z",
+      "side": 1,
+      "message": "Ok, I will consider it. I just used this pattern from some gerrit code (ChangeFinder I think). I see regexp is used 50 times in gerrit back-end.",
+      "parentUuid": "1bb00c42_b41e90e6",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 58
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df881bc9_80cdd8fb",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 3
@@ -158,6 +206,30 @@
     },
     {
       "key": {
+        "uuid": "9b90eca2_201bc647",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-24T12:05:09Z",
+      "side": 1,
+      "message": "There is 934 results of using return null in Gerrit, so I would like to use this pattern, I feel it is much simpler",
+      "parentUuid": "b8891243_9811a63a",
+      "range": {
+        "startLine": 173,
+        "startChar": 11,
+        "endLine": 173,
+        "endChar": 15
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "709a5f89_c6b397d7",
         "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
         "patchSetId": 3
@@ -181,6 +253,30 @@
     },
     {
       "key": {
+        "uuid": "13eb558b_7f3a6b51",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-24T12:05:09Z",
+      "side": 1,
+      "message": "For now, I just want to do it for StartupChangeDisplayed and see how well it will work and then we will see if we need this for diff or dashboard later.  They have more complicated queries and are less used than StartupChangeDisplayed",
+      "parentUuid": "709a5f89_c6b397d7",
+      "range": {
+        "startLine": 73,
+        "startChar": 7,
+        "endLine": 73,
+        "endChar": 23
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "809f1e36_252cb777",
         "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
         "patchSetId": 3
@@ -192,6 +288,30 @@
       "writtenOn": "2020-01-24T09:21:42Z",
       "side": 1,
       "message": "Is this always d16314?",
+      "range": {
+        "startLine": 74,
+        "startChar": 76,
+        "endLine": 74,
+        "endChar": 82
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb22198b_322935c5",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-24T12:05:09Z",
+      "side": 1,
+      "message": "Yes, it\u0027s always d16134, until front-end changes set of requested data. Last time I changed it be removing mergability from detail and then this hash was changed. I plan to do regression testing, so this needs to be captured.\n\nDmitrii suggested to calculate this hash or make it constant, so I will consider how to do this better.",
+      "parentUuid": "809f1e36_252cb777",
       "range": {
         "startLine": 74,
         "startChar": 76,

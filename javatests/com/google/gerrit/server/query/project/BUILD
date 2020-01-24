@@ -20,7 +20,9 @@ java_library(
         "//lib:guava",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/log:log4j",
         "//lib/truth",
+        "//resources:log4j-config",
     ],
 )
 

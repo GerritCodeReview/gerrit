@@ -93,7 +93,18 @@ EXPORTS = [
 ]
 
 java_binary(
+    name = "bouncycastle-deploy-env",
+    main_class = "Dummy",
+    runtime_deps = [
+        "//lib/bouncycastle:bcpg",
+        "//lib/bouncycastle:bcpkix",
+        "//lib/bouncycastle:bcprov",
+    ],
+)
+
+java_binary(
     name = "plugin-api",
+    deploy_env = ["bouncycastle-deploy-env"],
     main_class = "Dummy",
     visibility = ["//visibility:public"],
     runtime_deps = [":plugin-lib"],

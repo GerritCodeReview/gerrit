@@ -114,6 +114,7 @@ java_library(
     name = "caffeine",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = [
+        "//java/com/google/gerrit/acceptance:__pkg__",
         "//java/com/google/gerrit/server/cache/mem:__pkg__",
     ],
     exports = ["@caffeine//jar"],
@@ -128,6 +129,7 @@ java_library(
     name = "caffeine-guava",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = [
+        "//java/com/google/gerrit/acceptance:__pkg__",
         "//java/com/google/gerrit/server/cache/mem:__pkg__",
     ],
     exports = [":caffeine-guava-renamed"],

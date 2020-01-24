@@ -237,6 +237,11 @@
       this.moveToNextChunk(true);
     }
 
+    moveToLastChunk() {
+      this.$.cursorManager.moveToEnd();
+      this.moveToPreviousChunk();
+    }
+
     reInitCursor() {
       this._updateStops();
       if (this.initialLineNumber) {

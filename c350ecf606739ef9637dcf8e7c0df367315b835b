@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4f90fb8_c9dbeefc",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T15:55:49Z",
+      "side": 1,
+      "message": "Nit: The new code in this file is not formatted correctly, run:\n\n  $ go fmt polygerrit-ui/server.go",
+      "revId": "c350ecf606739ef9637dcf8e7c0df367315b835b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4b02391_a6d40179",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T15:37:04Z",
+      "side": 1,
+      "message": "Should we extend Documentation/dev-bazel.txt documentation? In https://github.com/bazelbuild/rules_nodejs there is a link:\n\n  Comprehensive documentation for installing and using the rules, including generated API docs: [1]\n\n* [1] https://bazelbuild.github.io/rules_nodejs/install.html",
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7982c59e_1fada04c",
+        "filename": "WORKSPACE",
+        "patchSetId": 18
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T15:37:04Z",
+      "side": 1,
+      "message": "Use the latest rules_nodejs release: 1.2.0: [1]?\n\n[1] https://github.com/bazelbuild/rules_nodejs/releases/tag/1.2.0",
+      "range": {
+        "startLine": 67,
+        "startChar": 74,
+        "endLine": 67,
+        "endChar": 105
+      },
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82560692_b4f599f7",
+        "filename": "WORKSPACE",
+        "patchSetId": 18
+      },
+      "lineNbr": 1219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T15:37:04Z",
+      "side": 1,
+      "message": "Is this rule really needed? package.json and yarn.lock are not added in the root workspace directory. (The root workspace directory also wasn\u0027t added to the list of managed directories in workspace() rule above; only three other managed directories were added).",
+      "range": {
+        "startLine": 1214,
+        "startChar": 0,
+        "endLine": 1219,
+        "endChar": 1
+      },
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

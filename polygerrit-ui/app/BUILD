@@ -206,6 +206,13 @@ POLYGERRIT_RELEASE_SOURCE = glob(
         "**/*_test.html",
     ],
 )
+update_links(
+    name = "polygerrit-ui-updated-links",
+    srcs = [
+        ":pg_code",
+    ],
+    redirects = "redirects.json",
+)
 
 pkg_web(
     name = "polygerrit-src-pkg",

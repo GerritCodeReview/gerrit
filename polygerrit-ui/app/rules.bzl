@@ -98,11 +98,6 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
             name + "_top_sources",
             "//lib/fonts:robotofonts",
             "//lib/js:highlightjs_files",
-            # we extract from the zip, but depend on the component for license checking.
-            "@webcomponentsjs//:zipfile",
-            "//lib/js:webcomponentsjs",
-            "@font-roboto-local//:zipfile",
-            "//lib/js:font-roboto-local",
         ],
         outs = outs,
         cmd = " && ".join([
@@ -113,8 +108,6 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
             "for f in $(locations " + name + "_css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
             "for f in $(locations " + name + "_theme_sources); do cp $$f $$TMP/polygerrit_ui/styles/themes; done",
             "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
-            "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
-            "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @font-roboto-local//:zipfile) font-roboto-local/fonts/\\*/\\*.ttf",
             "cd $$TMP",
             "find . -exec touch -t 198001010000 '{}' ';'",
             "zip -qr $$ROOT/$@ *",

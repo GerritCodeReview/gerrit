@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "352f2c11_26301a30",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T12:42:39Z",
+      "side": 1,
+      "message": "Is this actually here required? Can\u0027t it just be dropped?",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 26
+      },
+      "revId": "aef0f0c1fb3885c0450935e24d916cc7da345747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

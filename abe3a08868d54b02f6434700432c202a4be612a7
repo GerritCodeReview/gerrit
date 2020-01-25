@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fe5e6bf_9f7b8acf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:39:32Z",
+      "side": 1,
+      "message": "Build PolyGerrit UI using rule_nodejs rules?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b3b65a2_d8bcc7b7",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:39:32Z",
+      "side": 1,
+      "message": "This rule is missing:\n\n  ERROR: missing input file \u0027polygerrit-ui/app/polygerrit-ui-updated-links\u0027, owner: \u0027//polygerrit-ui/app:polygerrit-ui-updated-links\u0027\n  ERROR: /home/davido/projects/gerrit2/polygerrit-ui/app/BUILD:210:1: //polygerrit-ui/app:polygerrit-src-pkg: missing input file \u0027//polygerrit-ui/app:polygerrit-ui-updated-links\u0027",
+      "range": {
+        "startLine": 195,
+        "startChar": 10,
+        "endLine": 195,
+        "endChar": 37
+      },
+      "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

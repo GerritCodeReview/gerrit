@@ -923,9 +923,13 @@
 
     showRevertDialog() {
       const query = 'submissionid:' + this.change.submission_id;
+      /* A chromium plugin expects that the modifyRevertMsg hook will only
+      be called after the revert button is pressed, hence we populate the
+      revert dialog after revert button is pressed */
       this.$.restAPI.getChanges('', query)
           .then(changes => {
-            this._revertChanges = changes;
+            this.$.confirmRevertDialog.populate(this.change,
+                this.commitMessage, changes);
             this._showActionDialog(this.$.confirmRevertDialog);
           });
     }

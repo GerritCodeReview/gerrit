@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "328aa7b2_0e6d7789",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T17:44:57Z",
+      "side": 0,
+      "message": "These deps are not found and it is not clear how access them now, as npm modules?",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 105,
+        "endChar": 41
+      },
+      "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

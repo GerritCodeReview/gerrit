@@ -62,22 +62,14 @@
           type: Boolean,
           value: false,
         },
-        /* List of changes with the same topic
-        value is empty if only a single change is being reverted */
-        changes: {
-          type: Array,
-          value() { return []; },
-        },
-        change: Object,
-        /* commit message is _latestCommitMessage coming from gr-change-view
-        read only and is not meant to be modified */
-        commitMessage: String,
+        _changesCount: Number,
         _showErrorMessage: {
           type: Boolean,
           value: false,
         },
         /* store the default revert messages per revert type so that we can
-        check if user has edited the revert message or not */
+        check if user has edited the revert message or not
+        Set when populate() is called */
         _originalRevertMessages: {
           type: Array,
           value() { return []; },
@@ -88,12 +80,6 @@
           value() { return []; },
         },
       };
-    }
-
-    static get observers() {
-      return [
-        'onInputUpdate(change, commitMessage, changes)',
-      ];
     }
 
     _computeIfSingleRevert(revertType) {
@@ -109,12 +95,12 @@
           message, commitMessage);
     }
 
-    onInputUpdate(change, commitMessage, changes) {
-      if (!change || !changes) return;
+    populate(change, commitMessage, changes) {
+      this._changesCount = changes.length;
       // The option to revert a single change is always available
       this._populateRevertSingleChangeMessage(
           change, commitMessage, change.current_revision);
-      this._populateRevertSubmissionMessage(change, changes);
+      this._populateRevertSubmissionMessage(change, changes, commitMessage);
     }
 
     _populateRevertSingleChangeMessage(change, commitMessage, commitHash) {
@@ -144,12 +130,12 @@
       return subject.substring(0, CHANGE_SUBJECT_LIMIT) + '...';
     }
 
-    _modifyRevertSubmissionMsg(change, msg) {
+    _modifyRevertSubmissionMsg(change, msg, commitMessage) {
       return this.$.jsAPI.modifyRevertSubmissionMsg(change, msg,
-          this.commitMessage);
+          commitMessage);
     }
 
-    _populateRevertSubmissionMessage(change, changes) {
+    _populateRevertSubmissionMessage(change, changes, commitMessage) {
       // Follow the same convention of the revert
       const commitHash = change.current_revision;
       if (!commitHash) {
@@ -166,7 +152,8 @@
         this._message += change.change_id.substring(0, 10) + ':'
           + this._getTrimmedChangeSubject(change.subject) + '\n';
       });
-      this._message = this._modifyRevertSubmissionMsg(change, this._message);
+      this._message = this._modifyRevertSubmissionMsg(change, this._message,
+          commitMessage);
       this._revertType = REVERT_TYPES.REVERT_SUBMISSION;
       this._revertMessages[this._revertType] = this._message;
       this._originalRevertMessages[this._revertType] = this._message;

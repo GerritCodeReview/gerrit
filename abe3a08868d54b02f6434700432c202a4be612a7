@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "65a8461f_50299858",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T17:24:03Z",
+      "side": 1,
+      "message": "This rule doesn\u0027t seem to work in this whole series. Even in the last change of this series, only:\n\n  $ bazel build polygerrit-ui/app:polygerrit-ui-updated-links\n\nseems to work and produces this result: [1], but the polygerrit_ui.zip doesn\u0027t work:\n\n  $ bazel build polygerrit-ui/app:polygerrit_ui.zip\n\nthe failure is: [2]. I have tested on the latest change of this series.\n\n* [1] http://paste.openstack.org/show/788794\n* [2] http://paste.openstack.org/show/788795",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f04e611_013a1200",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T17:24:03Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 25
+      },
+      "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b3b65a2_d8bcc7b7",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 14
@@ -36,6 +82,30 @@
       "writtenOn": "2020-01-25T16:39:32Z",
       "side": 1,
       "message": "This rule is missing:\n\n  ERROR: missing input file \u0027polygerrit-ui/app/polygerrit-ui-updated-links\u0027, owner: \u0027//polygerrit-ui/app:polygerrit-ui-updated-links\u0027\n  ERROR: /home/davido/projects/gerrit2/polygerrit-ui/app/BUILD:210:1: //polygerrit-ui/app:polygerrit-src-pkg: missing input file \u0027//polygerrit-ui/app:polygerrit-ui-updated-links\u0027",
+      "range": {
+        "startLine": 195,
+        "startChar": 10,
+        "endLine": 195,
+        "endChar": 37
+      },
+      "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb0099c2_592a453f",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T17:24:03Z",
+      "side": 1,
+      "message": "I think I figured out what is missing (like for tests above):\n\n  update_links(\n      name \u003d \"polygerrit-ui-updated-links\",\n      srcs \u003d [\n          \":pg_code\",\n      ],\n      redirects \u003d \"redirects.json\",\n  )\n\nBut it is actually needed?",
+      "parentUuid": "7b3b65a2_d8bcc7b7",
       "range": {
         "startLine": 195,
         "startChar": 10,

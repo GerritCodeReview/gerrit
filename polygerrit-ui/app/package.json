@@ -25,7 +25,6 @@
     "es6-promise": "^4.2.8",
     "moment": "^2.24.0",
     "page": "^1.11.5",
-    "polymer-bridges": "file:../../polymer-bridges/",
     "ba-linkify": "file:../../lib/ba-linkify/src/",
     "polymer-resin": "^2.0.1",
     "whatwg-fetch": "^3.0.0"

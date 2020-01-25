@@ -69,12 +69,22 @@ def _copy_file(ctx, src, target_name):
     )
     return output_file
 
-def _get_generated_files(ctx, files, files_root_path, target_dir):
+def _get_generated_files(ctx, files, files_root_path, target_dir, main_root_path):
     gen_files_for_html = dict()
     gen_files_for_js = dict()
     copied_files = []
+    node_modules_prefix = None
+    # TODO(davido): Remove special handling of polymer-bridges intermediate directory,
+    # if Polymer 2 to 3 transition is done and polymer-bridges is removed.
+    if (files_root_path != main_root_path):
+        node_modules_prefix = "/node_modules/" + files_root_path[files_root_path.index("/")+1:-1] + "/"
     for f in files:
         target_name = target_dir + _get_relative_path(f, files_root_path)
+        if node_modules_prefix:
+            pos = target_name.index("/node_modules/")
+            target_name = target_name[:pos] + \
+                node_modules_prefix + \
+                target_name[pos + 14:] # len("/node_modules/")
         if f.extension == "html":
             html_output_file = ctx.actions.declare_file(target_name)
             js_output_file = ctx.actions.declare_file(target_name + "_gen.js")
@@ -91,6 +101,7 @@ def _prepare_for_bundling_impl(ctx):
     all_output_files = []
 
     node_modules_root = _get_node_modules_root(ctx.attr.node_modules)
+    additional_modules_root = _get_node_modules_root(ctx.attr.additional_node_modules_to_preprocess)
 
     html_files_dict = dict()
     js_files_dict = dict()
@@ -99,12 +110,12 @@ def _prepare_for_bundling_impl(ctx):
     if not root_path.endswith("/"):
         root_path = root_path + "/"
 
-    gen_files_for_html, gen_files_for_js, copied_files = _get_generated_files(ctx, ctx.files.srcs, root_path, dir_name)
+    gen_files_for_html, gen_files_for_js, copied_files = _get_generated_files(ctx, ctx.files.srcs, root_path, dir_name, root_path)
     html_files_dict.update(gen_files_for_html)
     js_files_dict.update(gen_files_for_js)
     all_output_files.extend(copied_files)
 
-    gen_files_for_html, gen_files_for_js, copied_files = _get_generated_files(ctx, ctx.files.additional_node_modules_to_preprocess, node_modules_root, dir_name)
+    gen_files_for_html, gen_files_for_js, copied_files = _get_generated_files(ctx, ctx.files.additional_node_modules_to_preprocess, additional_modules_root, dir_name, root_path)
     html_files_dict.update(gen_files_for_html)
     js_files_dict.update(gen_files_for_js)
     all_output_files.extend(copied_files)

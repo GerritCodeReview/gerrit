@@ -827,6 +827,7 @@ limitations under the License.
               .querySelector('gr-button[data-action-key="revert"]');
           MockInteractions.tap(revertButton);
           flush(() => {
+            Polymer.dom.flush();
             assert.equal(element.$.confirmRevertDialog._message, newRevertMsg);
             done();
           });

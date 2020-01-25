@@ -925,7 +925,8 @@
       const query = 'submissionid:' + this.change.submission_id;
       this.$.restAPI.getChanges('', query)
           .then(changes => {
-            this._revertChanges = changes;
+            this.$.confirmRevertDialog.onInputUpdate(this.change,
+                this.commitMessage, changes);
             this._showActionDialog(this.$.confirmRevertDialog);
           });
     }

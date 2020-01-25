@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a3dc64f_dadafe1b",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T09:28:59Z",
+      "side": 1,
+      "message": "This seems to be the right direction. That move re-added quite some dependencies to the acceptance-framework (and increased the size of the final artifact from ca. 5 MB to 17 MB. Some of them are justified (they are not included in the plugin-api):\n\n* org/openid4java\n* org/cyberneko\n* org/apache/xerces\n* org/elasticsearch/client\n* org/apache/http/nio\n* org/eclipse/jetty/continuation\n* org/eclipse/jetty/util\n* org/eclipse/jetty/io\n* org/eclipse/jetty/jmx\n* org/eclipse/jetty/server\n* org/eclipse/jetty/servlet\n* org/eclipse/jetty/security\n* org/h2\n\nSome of them are already included in plugin-api and therefore should be excluded:\n\n* com/fasterxml/jackson\n* com/github/benmanes/caffeine\n* com/googlecode/prolog_cafe\n\nMay be add: PGM_DEPLOY_ENV set with those deps, and then add this set to the deploy-env java_binary, something like:\n\n  PGM_DEPLOY_ENV \u003d [\n      \u003cjackson\u003e,\n      \u003ccaffeine\u003e,\n      \u003cprolog_cafe\u003e\n  ]\n  [...]\n  java_binary(\n      name \u003d \"framework-deploy-env\",\n      testonly \u003d True,\n      main_class \u003d \"Dummy\",\n      runtime_deps \u003d DEPLOY_ENV + PGM_DEPLOY_ENV,\n  )",
+      "revId": "acc8d92b6fd52f487eefa12c896864c0036e4a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

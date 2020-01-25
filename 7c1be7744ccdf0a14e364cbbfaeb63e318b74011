@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0e6fce89_8fdf9c99",
+        "filename": "lib/js/BUILD",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T17:06:30Z",
+      "side": 1,
+      "message": "This file is missing, have you forgotten to add it? As the consequence, trying to build the polygerrit_ui is failing with:\n\n  ERROR: Analysis of target \u0027//polygerrit-ui/app:polygerrit_ui\u0027 failed; build aborted: error loading package \u0027lib/js\u0027: Unable to load file \u0027//tools/bzl:bower_support.bzl\u0027: file doesn\u0027t exist",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6f2b4ff_3d0a866a",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 17

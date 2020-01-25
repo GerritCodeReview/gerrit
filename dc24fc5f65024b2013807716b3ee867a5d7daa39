@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "799900dd_7cc49147",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:02:24Z",
+      "side": 1,
+      "message": "Mention \"NodeJs based\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "dc24fc5f65024b2013807716b3ee867a5d7daa39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80113e56_0b547843",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 21
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:02:24Z",
+      "side": 1,
+      "message": "This comment formatting is the reason why Code-Style check is failing on the CI. You can fix it running buildifier on this and other changes. You can install buildifier from here: [1].\n\n* [1] https://github.com/bazelbuild/buildtools/tree/master/buildifier",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 0
+      },
+      "revId": "dc24fc5f65024b2013807716b3ee867a5d7daa39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

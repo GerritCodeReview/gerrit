@@ -70,9 +70,6 @@ build:remote --remote_cache=remotebuildexecution.googleapis.com
 # Enable remote execution so actions are performed on the remote systems.
 build:remote --remote_executor=remotebuildexecution.googleapis.com
 
-# Enable encryption.
-build:remote --tls_enabled=true
-
 # Set a higher timeout value, just in case.
 build:remote --remote_timeout=3600
 

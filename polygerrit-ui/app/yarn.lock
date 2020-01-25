@@ -328,9 +328,6 @@ path-to-regexp@~1.2.1:
   dependencies:
     isarray "0.0.1"
 
-"polymer-bridges@file:../../polymer-bridges":
-  version "1.0.0"
-
 polymer-resin@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/polymer-resin/-/polymer-resin-2.0.1.tgz#08abcf0ea47bac746450cefa96caab1ebea199a8"

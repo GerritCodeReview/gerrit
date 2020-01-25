@@ -820,6 +820,11 @@ limitations under the License.
         element.change = {
           current_revision: 'abc1234',
         };
+        sandbox.stub(element.$.restAPI, 'getChanges')
+            .returns(Promise.resolve([
+              {change_id: '12345678901234', topic: 'T', subject: 'random'},
+              {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
+            ]));
         sandbox.stub(element.$.confirmRevertDialog,
             '_populateRevertSubmissionMessage', () => 'original msg');
         flush(() => {

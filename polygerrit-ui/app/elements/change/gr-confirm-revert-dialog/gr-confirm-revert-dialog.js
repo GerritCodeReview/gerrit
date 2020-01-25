@@ -90,12 +90,6 @@
       };
     }
 
-    static get observers() {
-      return [
-        'onInputUpdate(change, commitMessage, changes)',
-      ];
-    }
-
     _computeIfSingleRevert(revertType) {
       return revertType === REVERT_TYPES.REVERT_SINGLE_CHANGE;
     }
@@ -110,7 +104,9 @@
     }
 
     onInputUpdate(change, commitMessage, changes) {
-      if (!change || !changes) return;
+      this.change = change;
+      this.changes = changes;
+      this.commitMessage = commitMessage;
       // The option to revert a single change is always available
       this._populateRevertSingleChangeMessage(
           change, commitMessage, change.current_revision);

@@ -87,7 +87,7 @@ limitations under the License.
               on-change="_handleRevertSubmissionClicked"
               checked="[[_computeIfRevertSubmission(_revertType)]]">
             <label for="revertSubmission" class="label revertSubmission">
-              Revert entire submission ([[changes.length]] Changes)
+              Revert entire submission ([[_changesCount]] Changes)
             </label>
         </template>
         <gr-endpoint-decorator name="confirm-revert-change">

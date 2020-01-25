@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1c7079b_fc20510f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:11:33Z",
+      "side": 1,
+      "message": "The license generation process is the same as before? Run the test and if it fails the command will be printed?",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad7e230b_d2b7780c",
+        "filename": "WORKSPACE",
+        "patchSetId": 22
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:11:33Z",
+      "side": 1,
+      "message": "Fix this in the second change in this series (1.2.0) and rebase.",
+      "range": {
+        "startLine": 68,
+        "startChar": 74,
+        "endLine": 68,
+        "endChar": 106
+      },
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f8e544e_cd5fc53c",
+        "filename": "tools/node_tools/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:11:33Z",
+      "side": 1,
+      "message": "That is strange.",
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7510dc6_55c1d1a3",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:11:33Z",
+      "side": 1,
+      "message": "Fix it in previous change.",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3011b1b7_63749528",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:11:33Z",
+      "side": 1,
+      "message": "Could be fixed in the previous change?",
+      "range": {
+        "startLine": 218,
+        "startChar": 145,
+        "endLine": 218,
+        "endChar": 164
+      },
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

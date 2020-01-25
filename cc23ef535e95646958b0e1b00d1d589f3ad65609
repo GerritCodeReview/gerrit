@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1120d4c_e3c74a42",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:11:33Z",
+      "side": 0,
+      "message": "Remove it in the previous change.",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 58
+      },
+      "revId": "cc23ef535e95646958b0e1b00d1d589f3ad65609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

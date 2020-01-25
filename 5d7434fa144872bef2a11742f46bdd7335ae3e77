@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9e0cb01_7de64a5c",
+        "filename": "WORKSPACE",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T15:58:08Z",
+      "side": 1,
+      "message": "Add this line to the previous commit, where yarn_install() rule for the root workspace is added?",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "198034ab_7df708a1",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 16
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T15:58:08Z",
+      "side": 1,
+      "message": "Why is this line needed, and why in this change, where license map for npm packages is added? Polymer 3.x components can only be consumed by npm/yarn, while Polymer 2.x component can only be consume by bower, correct?",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 48
+      },
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "399404ae_c272f49e",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 16
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T15:58:08Z",
+      "side": 1,
+      "message": "https",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a28cc13a_909d6fcd",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T15:58:08Z",
+      "side": 1,
+      "message": "Remove this comment?",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 58
+      },
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "175bb8e5_97710208",
+        "filename": "tools/node_tools/node_modules_licenses/package-license-info.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T15:58:08Z",
+      "side": 1,
+      "message": "Nit: Unneeded blank lines. Is there any way to autio-format Typescript files?",
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

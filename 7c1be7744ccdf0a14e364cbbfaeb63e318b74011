@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f2b4ff_3d0a866a",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:45:23Z",
+      "side": 1,
+      "message": "This file is still used in WORKSPACE file:\n\n  load(\"//lib/js:bower_archives.bzl\", \"load_bower_archives\")",
+      "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0b2a344_d3024de4",
+        "filename": "lib/js/npm.bzl",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-25T16:45:23Z",
+      "side": 1,
+      "message": "This file is still needed, as it is used in: tools/bzl/js.bzl:\n\n  load(\"//lib/js:npm.bzl\", \"NPM_SHA1S\", \"NPM_VERSIONS\")\n\nSo the after removing it, the build is failing with:\n\n  $ bazel build gerrit\n  ERROR: error loading package \u0027\u0027: in /home/davido/projects/gerrit2/tools/bzl/js.bzl: Unable to load file \u0027//lib/js:npm.bzl\u0027: file doesn\u0027t exist",
+      "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

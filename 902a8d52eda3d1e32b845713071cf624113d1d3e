@@ -79,6 +79,24 @@
       "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46d96904_f5cc367e",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-26T06:00:57Z",
+      "side": 1,
+      "message": "It\u0027s committed upstream, see: [1].\n\n* [1] https://github.com/bazelbuild/rules_nodejs/commit/baea8ce2dbd6c58219f527d5ebd897a134857439",
+      "parentUuid": "2eb45990_267756c1",
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

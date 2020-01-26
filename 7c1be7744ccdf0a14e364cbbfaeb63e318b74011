@@ -22,6 +22,30 @@
       "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "396e0098_ba4bc204",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-26T08:44:31Z",
+      "side": 0,
+      "message": "OK, according to the documentation they can be defined as individual npm_binary rule:\n\n  nodejs_binary(\n      name \u003d \"font-roboto-local\",\n      data \u003d [\n        \"@ui_npm//@polymer/font-roboto-local\",\n      ],\n      entry_point \u003d \"@ui_npm//:node_modules/@polymer/font-roboto-local/roboto.js\",\n  )\n\nbut even then the final artifacts are:\n\n  $ bazel build polygerrit-ui:font-roboto-local\n  [...]\n  Target //polygerrit-ui:font-roboto-local up-to-date:\n    bazel-bin/polygerrit-ui/font-roboto-local_loader.js\n    bazel-bin/polygerrit-ui/font-roboto-local.sh\n\nwhich is not what we actually need here. Given that rules_nodejs exporting each file separately, we could just access them individually, e.g.:\n\n  genrule2(\n      name \u003d name,\n      srcs \u003d [\n          [...]\n          \"@ui_npm//:node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js\",\n      ],\n      cmd \u003d \" \u0026\u0026 \".join([\n      [...]\n          \"cd $$TMP/polygerrit_ui/bower_components\",\n          \"mkdir webcomponentsjs\",\n          \"cp $(location @ui_npm//:node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js) webcomponentsjs/webcomponents-lite.js\",\n      [...]",
+      "parentUuid": "328aa7b2_0e6d7789",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 105,
+        "endChar": 41
+      },
+      "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

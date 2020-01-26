@@ -22,6 +22,29 @@
       "revId": "2df7ae7db20acbbd347a8abc5237c06640fb796e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7bdc1a3_34539fb3",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-26T08:44:31Z",
+      "side": 1,
+      "message": "I think the reason for the missing pre-proccessing of polymer-bridges (and the build error reported in the commit message) is that this notion doesn\u0027t seem to work. If I add diagnostic output to the tools/node_tools/polygerrit_app_preprocessor/index.bzl file, see: [1], then it can be seen, that this code path:\n\n  def _prepare_for_bundling_impl(ctx):\n  [...]\n  gen_files_for_html, gen_files_for_js, copied_files \u003d _get_generated_files(ctx, ctx.files.additional_node_modules_to_preprocess, node_modules_root, dir_name)\n\nwhere the polymer-bridges content supposed to be pre-processed, doesn\u0027t seem to work:\n\n  DEBUG: /home/davido/projects/gerrit2/tools/node_tools/polygerrit_app_preprocessor/index.bzl:76:5: external/ui_npm/\n  DEBUG: /home/davido/projects/gerrit2/tools/node_tools/polygerrit_app_preprocessor/index.bzl:88:5: {}\n\nI think this is because of the art, how polymer-bridges is declared in the package.json file:\n\n  \"polymer-bridges\": \"file:../../polymer-bridges/\",\n\nIt can be seen, in the external/ui_npm/BUILD.bazel file, that not content are exported for polymer-bridges by rules_nodejs, however, for other deps, that declared in usual way, e.g.:\n\n  \"page\": \"^1.11.5\",\n\nthese artifacts are exported:\n\n  \"node_modules/page/History.md\",\n  \"node_modules/page/Readme.md\",\n  \"node_modules/page/index.js\",\n  \"node_modules/page/package.json\",\n  \"node_modules/page/page.js\",\n  \"node_modules/page/page.mjs\",\n\nSo that Bazel doesn\u0027t know anything about polymer-bridges content:\n\n  $ ls -all \n  /home/davido/.cache/bazel/_bazel_davido/5c01f4f713b675540b8b424c5c647f63/external/ui_npm/node_modules/polymer-bridges/\n  drwxr-xr-x  2 davido users 4096 Jan 26 08:47 .\n  drwxr-xr-x 13 davido users 4096 Jan 25 17:35 ..\n\nWhile all is there for pages:\n\n  $ ls -all \n  /home/davido/.cache/bazel/_bazel_davido/5c01f4f713b675540b8b424c5c647f63/external/ui_npm/node_modules/page/\n  -rw-r--r--  1 davido users  8708 Jan 25 17:35 History.md\n  -rwxr-xr-x  1 davido users 21339 Jan 25 17:35 index.js\n  [...]\n\n\n[1] http://paste.openstack.org/show/788799",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 10
+      },
+      "revId": "2df7ae7db20acbbd347a8abc5237c06640fb796e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

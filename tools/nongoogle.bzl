@@ -126,18 +126,18 @@ def declare_nongoogle_deps():
         sha1 = "dc13ae4faca6df981fc7aeb5a522d9db446d5d50",
     )
 
-    TESTCONTAINERS_VERSION = "1.12.4"
+    TESTCONTAINERS_VERSION = "1.12.5"
 
     maven_jar(
         name = "testcontainers",
         artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-        sha1 = "456b6facac12c4b67130d9056a43c011679e9f0c",
+        sha1 = "ca8a8dfbd3b194fb6c541e3bad858898865ce069",
     )
 
     maven_jar(
         name = "testcontainers-elasticsearch",
         artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-        sha1 = "9e210c277a35a95a76d03a79e2812575bd07391c",
+        sha1 = "d88f79c83e7057edd23d33621c36d6267b9c4e96",
     )
 
     maven_jar(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b715a9a_6154d207",
+        "filename": ".gitmodules",
+        "patchSetId": 14
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-26T03:00:04Z",
+      "side": 1,
+      "message": "Should we have branch \u003d master here?",
+      "revId": "78b7cc61853ab0a60e4ae2d60bcb5de150d913d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

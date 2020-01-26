@@ -62,6 +62,23 @@
       "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eb45990_267756c1",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-26T03:01:07Z",
+      "side": 1,
+      "message": "I doin\u0027t think this should be committed? Should it be added to .gitignore?",
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

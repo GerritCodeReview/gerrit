@@ -23,7 +23,7 @@ java_library(
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics/dropwizard",
-        "//java/com/google/gerrit/pgm/http",
+        "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/pgm/init/api",
         "//java/com/google/gerrit/pgm/util",

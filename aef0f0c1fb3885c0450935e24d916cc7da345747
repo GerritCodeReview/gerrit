@@ -46,6 +46,30 @@
       "revId": "aef0f0c1fb3885c0450935e24d916cc7da345747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "988c939a_c1ba45f3",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-26T15:14:24Z",
+      "side": 1,
+      "message": "\u003e Done\n\nI added it because a class from that package was not found by the standalone testing runtime. However the latter is now passing locally (without it).",
+      "parentUuid": "976141ef_c03b483e",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 26
+      },
+      "revId": "aef0f0c1fb3885c0450935e24d916cc7da345747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

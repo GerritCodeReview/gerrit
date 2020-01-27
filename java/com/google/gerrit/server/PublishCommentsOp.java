@@ -119,18 +119,14 @@ public class PublishCommentsOp implements BatchUpdateOp {
     if (notify.shouldNotify()) {
       email.create(notify, changeNotes, ps, user, message, comments, null, labelDelta).sendAsync();
     }
-    try {
-      commentAdded.fire(
-          changeNotes.getChange(),
-          ps,
-          ctx.getAccount(),
-          message.getMessage(),
-          ImmutableMap.of(),
-          ImmutableMap.of(),
-          ctx.getWhen());
-    } catch (Exception e) {
-      logger.atWarning().withCause(e).log("comment-added event invocation failed");
-    }
+    commentAdded.fire(
+        changeNotes.getChange(),
+        ps,
+        ctx.getAccount(),
+        message.getMessage(),
+        ImmutableMap.of(),
+        ImmutableMap.of(),
+        ctx.getWhen());
   }
 
   private boolean insertMessage(ChangeContext ctx, ChangeUpdate changeUpdate) {

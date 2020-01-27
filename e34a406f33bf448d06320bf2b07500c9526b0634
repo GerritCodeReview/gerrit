@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1411121_e464bc55",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-27T10:03:19Z",
+      "side": 1,
+      "message": "Can this just be \"ImmutableMap.of(), ImmutableMap.of()\"?",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 18
+      },
+      "revId": "e34a406f33bf448d06320bf2b07500c9526b0634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -60,18 +60,20 @@ limitations under the License.
         display: block
       }
     </style>
-    <div class="header">
-      <div class="toggleItem">
-        <paper-toggle-button
-            id="unresolvedToggle"
-            checked="{{_unresolvedOnly}}"></paper-toggle-button>
-          Only unresolved threads</div>
-      <div class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]">
-        <paper-toggle-button
-            id="draftToggle"
-            checked="{{_draftsOnly}}"></paper-toggle-button>
-          Only threads with drafts</div>
-    </div>
+    <template is="dom-if" if="[[!hideToggleButtons]]">
+      <div class="header">
+        <div class="toggleItem">
+          <paper-toggle-button
+              id="unresolvedToggle"
+              checked="{{_unresolvedOnly}}"></paper-toggle-button>
+            Only unresolved threads</div>
+        <div class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]">
+          <paper-toggle-button
+              id="draftToggle"
+              checked="{{_draftsOnly}}"></paper-toggle-button>
+            Only threads with drafts</div>
+      </div>
+    </template>
     <div id="threads">
       <template is="dom-if" if="[[!threads.length]]">
         There are no inline comment threads on any diff for this change.

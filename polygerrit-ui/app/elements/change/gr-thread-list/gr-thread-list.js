@@ -41,13 +41,24 @@
         _filteredThreads: {
           type: Array,
           computed: '_computeFilteredThreads(_sortedThreads, ' +
-            '_unresolvedOnly, _draftsOnly)',
+            '_unresolvedOnly, _draftsOnly,' +
+            'onlyShowRobotCommentsWithHumanReply)',
         },
         _unresolvedOnly: {
           type: Boolean,
           value: false,
         },
         _draftsOnly: {
+          type: Boolean,
+          value: false,
+        },
+        /* Boolean properties used must default to false if passed as attribute
+        by the parent */
+        onlyShowRobotCommentsWithHumanReply: {
+          type: Boolean,
+          value: false,
+        },
+        hideToggleButtons: {
           type: Boolean,
           value: false,
         },
@@ -97,12 +108,14 @@
           });
     }
 
-    _computeFilteredThreads(sortedThreads, unresolvedOnly, draftsOnly) {
+    _computeFilteredThreads(sortedThreads, unresolvedOnly, draftsOnly,
+        onlyShowRobotCommentsWithHumanReply) {
       // Polymer 2: check for undefined
       if ([
         sortedThreads,
         unresolvedOnly,
         draftsOnly,
+        onlyShowRobotCommentsWithHumanReply,
       ].some(arg => arg === undefined)) {
         return undefined;
       }
@@ -124,8 +137,8 @@
               humanReplyToRobotComment = true;
             }
           });
-          if (robotComment) {
-            return humanReplyToRobotComment ? c : false;
+          if (robotComment && onlyShowRobotCommentsWithHumanReply) {
+            return humanReplyToRobotComment;
           }
           return c;
         }

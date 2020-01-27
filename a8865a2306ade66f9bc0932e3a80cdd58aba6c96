@@ -16,6 +16,24 @@
       "revId": "a8865a2306ade66f9bc0932e3a80cdd58aba6c96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb70159_fe229a5d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-27T12:50:02Z",
+      "side": 1,
+      "message": "I have tried it at first without the word \"comment(s)\" and it looked odd. I think using an icon and just a number would require even more \"structure\" in the Change Log and potentially also showing 0 comments. Having the word \"comment(s)\" in there visually balances that information better with the author and the label information.\n\nLeaving the comment unresolved for the second. Will rename.",
+      "parentUuid": "57f301e7_1d0bc5de",
+      "revId": "a8865a2306ade66f9bc0932e3a80cdd58aba6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

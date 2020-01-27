@@ -3788,6 +3788,38 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setAuthorPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.FORGE_AUTHOR).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    assertThrows(
+        AuthException.class,
+        () -> gApi.changes().id(r.getChangeId()).setAuthor("Jane Random", "jane@invalid"));
+  }
+
+  @Test
+  public void setAuthor() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThrows(
+        BadRequestException.class,
+        () -> gApi.changes().id(r.getChangeId()).setAuthor("Jane Random", ""));
+    assertThrows(
+        BadRequestException.class,
+        () -> gApi.changes().id(r.getChangeId()).setAuthor("", "jane@invalid"));
+
+    gApi.changes().id(r.getChangeId()).setAuthor("Jane Random", "jane@invalid");
+    RevisionApi rApi = gApi.changes().id(r.getChangeId()).current();
+
+    GitPerson person = rApi.commit(false).author;
+    assertThat(person.email).isEqualTo("jane@invalid");
+    assertThat(person.name).isEqualTo("Jane Random");
+  }
+
+  @Test
   public void changeCommitMessageWithNoChangeIdSucceedsIfChangeIdNotRequired() throws Exception {
     ConfigInput configInput = new ConfigInput();
     configInput.requireChangeId = InheritableBoolean.FALSE;

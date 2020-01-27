@@ -22,6 +22,30 @@
       "revId": "62f5e461b2173ccc100673369d40b9716ff4943c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07ebcaca_5006392c",
+        "filename": "java/com/google/gerrit/server/git/HookUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T13:01:42Z",
+      "side": 1,
+      "message": "yes, because ServiceMayNotContinueException is a subclass of IOException, but we don\u0027t want to wrap it again in the next block",
+      "parentUuid": "fda7a027_a7413e99",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 14
+      },
+      "revId": "62f5e461b2173ccc100673369d40b9716ff4943c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

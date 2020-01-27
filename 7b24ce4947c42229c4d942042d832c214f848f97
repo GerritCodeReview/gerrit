@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d206768_9759e65e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutAuthor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2020-01-27T18:17:48Z",
+      "side": 1,
+      "message": "For our use case, we\u0027d like NotifyHandling.NONE if possible",
+      "range": {
+        "startLine": 142,
+        "startChar": 38,
+        "endLine": 142,
+        "endChar": 53
+      },
+      "revId": "7b24ce4947c42229c4d942042d832c214f848f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

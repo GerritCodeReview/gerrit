@@ -975,7 +975,7 @@ limitations under the License.
           });
         });
 
-        test('confirm revert dialog shows one radio button', done => {
+        test('confirm revert dialog shows no radio button', done => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
           MockInteractions.tap(revertButton);
@@ -983,7 +983,7 @@ limitations under the License.
             const confirmRevertDialog = element.$.confirmRevertDialog;
             const radioInputs = confirmRevertDialog.shadowRoot
                 .querySelectorAll('input[name="revertOptions"]');
-            assert.equal(radioInputs.length, 1);
+            assert.equal(radioInputs.length, 0);
             const msg = 'Revert "random commit message"\n\n'
               + 'This reverts commit 2000.\n\nReason '
               + 'for revert: <INSERT REASONING HERE>\n';

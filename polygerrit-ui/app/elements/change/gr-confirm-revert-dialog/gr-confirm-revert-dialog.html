@@ -67,18 +67,18 @@ limitations under the License.
         <div class="error" hidden$="[[!_showErrorMessage]]">
           <span> A reason is required </span>
         </div>
-        <div class="revertSubmissionLayout">
-          <input
-            name="revertOptions"
-            type="radio"
-            id="revertSingleChange"
-            on-change="_handleRevertSingleChangeClicked"
-            checked="[[_computeIfSingleRevert(_revertType)]]">
-          <label for="revertSingleChange" class="label revertSingleChange">
-            Revert single change
-          </label>
-        </div>
         <template is="dom-if" if="[[_showRevertSubmission]]">
+          <div class="revertSubmissionLayout">
+            <input
+              name="revertOptions"
+              type="radio"
+              id="revertSingleChange"
+              on-change="_handleRevertSingleChangeClicked"
+              checked="[[_computeIfSingleRevert(_revertType)]]">
+            <label for="revertSingleChange" class="label revertSingleChange">
+              Revert single change
+            </label>
+          </div>
           <div class="revertSubmissionLayout">
             <input
               name="revertOptions"
@@ -91,32 +91,16 @@ limitations under the License.
             </label>
         </template>
         <gr-endpoint-decorator name="confirm-revert-change">
-          <!-- Duplicating the text-area as a plugin in the case of a single
-          revert will override the entire textarea which should not happen
-          for multiple revert -->
-          <template is="dom-if" if="[[_computeIfSingleRevert(_revertType)]]">
-            <label for="messageInput">
-                Revert Commit Message
-              </label>
-            <iron-autogrow-textarea
-              id="messageInput"
-              class="message"
-              autocomplete="on"
-              max-rows="15"
-              bind-value="{{_message}}"></iron-autogrow-textarea>
-          </template>
-        </gr-endpoint-decorator>
-        <template is="dom-if" if="[[_computeIfRevertSubmission(_revertType)]]">
           <label for="messageInput">
             Revert Commit Message
           </label>
           <iron-autogrow-textarea
-              id="messageInput"
-              class="message"
-              autocomplete="on"
-              max-rows="15"
-              bind-value="{{_message}}"></iron-autogrow-textarea>
-        </template>
+            id="messageInput"
+            class="message"
+            autocomplete="on"
+            max-rows="15"
+            bind-value="{{_message}}"></iron-autogrow-textarea>
+        </gr-endpoint-decorator>
       </div>
     </gr-dialog>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>

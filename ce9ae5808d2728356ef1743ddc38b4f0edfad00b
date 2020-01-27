@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76cbb512_4d8a7d2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-27T09:11:54Z",
+      "side": 1,
+      "message": "Nit: I would write it following:\n\nmessages.map(message \u003d\u003e message.tag || message.type ||\n              (message.comments ? \u0027comments\u0027 : \u0027none\u0027))\n.reduce((acc, val) \u003d\u003e {\n  acc[val] \u003d (acc[val] || 0) + 1;\n  return acc;\n},{});",
+      "range": {
+        "startLine": 364,
+        "startChar": 5,
+        "endLine": 370,
+        "endChar": 11
+      },
+      "revId": "ce9ae5808d2728356ef1743ddc38b4f0edfad00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

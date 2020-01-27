@@ -81,6 +81,24 @@
       "revId": "61dd21ae6308ad07e26929a08d3b64ab491c582f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abf0861b_baa5ae02",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationContext.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T12:06:22Z",
+      "side": 1,
+      "message": "For posterity: We discussed this offline for a bit more and went for validating size and number of comments in the plugin interface because it made the code overall cleaner. The handy-but-hacky single line call to JSON to get the size was replaced with direct calls to give an estimation.\n\nThe new interface was designed with a proposed change to change messages / comments and robot comments in mind [1] and should fit in this world as well.\n\n[1] https://gerrit-review.googlesource.com/c/homepage/+/245316",
+      "parentUuid": "2119fd6f_e0558f68",
+      "revId": "61dd21ae6308ad07e26929a08d3b64ab491c582f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

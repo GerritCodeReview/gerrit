@@ -613,7 +613,7 @@ limitations under the License.
             <span>Comment Threads</span></gr-tooltip-content>
         </paper-tab>
       </paper-tabs>
-      <template is="dom-if" if="[[_showMessagesView]]">
+      <template is="dom-if" if="[[_computeShowMessagesView(_currentView)]]">
         <gr-messages-list
             class="hideOnMobileOverlay"
             change-num="[[_changeNum]]"
@@ -626,7 +626,7 @@ limitations under the License.
             on-message-anchor-tap="_handleMessageAnchorTap"
             on-reply="_handleMessageReply"></gr-messages-list>
       </template>
-      <template is="dom-if" if="[[!_showMessagesView]]">
+      <template is="dom-if" if="[[!_computeShowMessagesView(_currentView)]]">
         <gr-thread-list
             threads="[[_commentThreads]]"
             change="[[_change]]"

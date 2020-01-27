@@ -120,13 +120,15 @@ public class PublishCommentsOp implements BatchUpdateOp {
     if (notify.shouldNotify()) {
       email.create(notify, changeNotes, ps, user, message, comments, null, labelDelta).sendAsync();
     }
+    Map<String, Short> oldApprovals = new HashMap<>();
+    Map<String, Short> approvals = new HashMap<>();
     commentAdded.fire(
         changeNotes.getChange(),
         ps,
         ctx.getAccount(),
         message.getMessage(),
-        null,
-        null,
+        oldApprovals,
+        approvals,
         ctx.getWhen());
   }
 

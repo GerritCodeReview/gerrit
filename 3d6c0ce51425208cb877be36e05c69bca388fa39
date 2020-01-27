@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcea7a39_e532d9f6",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T16:10:59Z",
+      "side": 1,
+      "message": "This changeUpdate now has a higher timestamp. Incrementation is done inside ctx.getDistinctUpdate.\nAn alternative solution was to let the caller specify the timestamp, e.g.\nctx.getDistinctUpdate(psId, tmiestamp), but that would require a change to the interface.",
+      "range": {
+        "startLine": 108,
+        "startChar": 17,
+        "endLine": 108,
+        "endChar": 29
+      },
+      "revId": "3d6c0ce51425208cb877be36e05c69bca388fa39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed5d6655_a8dd8990",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T16:10:59Z",
+      "side": 1,
+      "message": "Stores the latest timestamp per patchset. when the method getDistinctUpdate is called, we increment the timestamp and return a new ChangeUpdate with the incremented value.",
+      "range": {
+        "startLine": 268,
+        "startChar": 46,
+        "endLine": 268,
+        "endChar": 63
+      },
+      "revId": "3d6c0ce51425208cb877be36e05c69bca388fa39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -201,7 +201,8 @@
       this.text = this._getText(text);
       this.$.textarea.selectionStart = colonIndex + 1;
       this.$.textarea.selectionEnd = colonIndex + 1;
-      this.$.reporting.reportInteraction('select-emoji');
+      this.$.reporting.reportInteraction('select-emoji',
+          JSON.stringify({type: text}));
       this._resetEmojiDropdown();
     }
 

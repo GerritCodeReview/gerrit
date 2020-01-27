@@ -102,7 +102,7 @@
         }
       }
       this.$.reporting.reportInteraction('button-click',
-          path.trim().toLowerCase());
+          JSON.stringify({path: path.trim().toLowerCase()}));
     }
 
     _disabledChanged(disabled) {

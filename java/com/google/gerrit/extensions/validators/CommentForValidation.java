@@ -17,12 +17,20 @@ package com.google.gerrit.extensions.validators;
 import com.google.auto.value.AutoValue;
 
 /**
- * Holds a comment's text and {@link CommentType} in order to pass it to a validation plugin.
+ * Holds a comment's text and some metadata in order to pass it to a validation plugin.
  *
  * @see CommentValidator
  */
 @AutoValue
 public abstract class CommentForValidation {
+
+  /** The creator of the comment. */
+  public enum CommentSource {
+    /** A regular user comment. */
+    HUMAN,
+    /** A robot comment. */
+    ROBOT
+  }
 
   /** The type of comment. */
   public enum CommentType {
@@ -34,13 +42,26 @@ public abstract class CommentForValidation {
     CHANGE_MESSAGE
   }
 
-  public static CommentForValidation create(CommentType type, String text) {
-    return new AutoValue_CommentForValidation(type, text);
+  public static CommentForValidation create(
+      CommentSource source, CommentType type, String text, long size) {
+    return new AutoValue_CommentForValidation(source, type, text, size);
   }
+
+  public abstract CommentSource getSource();
 
   public abstract CommentType getType();
 
+  /**
+   * Returns the comment text. Note that especially for robot comments the total size may be
+   * significantly larger and should be determined by using {@link #getApproximateSize()}.
+   */
   public abstract String getText();
+
+  /**
+   * Returns this instance's approximate size in bytes for the purpose of applying size limits. For
+   * robot comments this may be significantly larger than the size of the comment text.
+   */
+  public abstract long getApproximateSize();
 
   public CommentValidationFailure failValidation(String message) {
     return CommentValidationFailure.create(this, message);

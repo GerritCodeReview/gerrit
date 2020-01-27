@@ -173,9 +173,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void hugeRobotCommentIsRejected() {
-    int defaultSizeLimit = 1024 * 1024;
-    int sizeOfRest = 451;
-    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit - sizeOfRest + 1);
+    int defaultSizeLimit = 1 << 20;
+    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit + 1);
 
     BadRequestException thrown =
         assertThrows(
@@ -186,9 +185,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void reasonablyLargeRobotCommentIsAccepted() throws Exception {
-    int defaultSizeLimit = 1024 * 1024;
-    int sizeOfRest = 451;
-    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit - sizeOfRest);
+    int defaultSizeLimit = 1 << 20;
+    // Allow for a few hundred bytes in other fields.
+    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit - 666);
 
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
@@ -199,7 +198,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.robotCommentSizeLimit", value = "10k")
   public void maximumAllowedSizeOfRobotCommentCanBeAdjusted() {
-    int sizeLimit = 10 * 1024;
+    int sizeLimit = 10 << 20;
     fixReplacementInfo.replacement = getStringFor(sizeLimit);
 
     BadRequestException thrown =
@@ -212,8 +211,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.robotCommentSizeLimit", value = "0")
   public void zeroForMaximumAllowedSizeOfRobotCommentRemovesRestriction() throws Exception {
-    int defaultSizeLimit = 1024 * 1024;
-    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit);
+    int defaultSizeLimit = 1 << 20;
+    fixReplacementInfo.replacement = getStringFor(2 * defaultSizeLimit);
 
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
@@ -225,8 +224,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.robotCommentSizeLimit", value = "-1")
   public void negativeValueForMaximumAllowedSizeOfRobotCommentRemovesRestriction()
       throws Exception {
-    int defaultSizeLimit = 1024 * 1024;
-    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit);
+    int defaultSizeLimit = 1 << 20;
+    fixReplacementInfo.replacement = getStringFor(2 * defaultSizeLimit);
 
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 

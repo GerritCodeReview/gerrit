@@ -21,9 +21,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -341,17 +346,53 @@ public class MailProcessorIT extends AbstractMailIT {
     assertThat(message.body()).contains("rejected one or more comments");
   }
 
+  @Test
+  @GerritConfig(name = "change.maxComments", value = "4")
+  public void limitNumberOfComments() throws Exception {
+    String changeId = createChangeWithReview();
+    CommentInput commentInput = new CommentInput();
+    commentInput.line = 1;
+    commentInput.message = "foo";
+    commentInput.path = FILE_NAME;
+    RobotCommentInput robotCommentInput =
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME);
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(commentInput));
+    reviewInput.robotComments = ImmutableMap.of(FILE_NAME, ImmutableList.of(robotCommentInput));
+    gApi.changes().id(changeId).current().review(reviewInput);
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+
+    MailMessage.Builder b = messageBuilderWithDefaultFields();
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT, null);
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    mailProcessor.process(b.build());
+    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body()).contains("rejected one or more comments");
+  }
+
   private String getChangeUrl(ChangeInfo changeInfo) {
     return canonicalWebUrl.get() + "c/" + changeInfo.project + "/+/" + changeInfo._number;
   }
 
   private void setupFailValidation(
       CommentForValidation.CommentType type, String failProject, int failChange) {
-    CommentForValidation commentForValidation = CommentForValidation.create(type, COMMENT_TEXT);
+    CommentForValidation commentForValidation =
+        CommentForValidation.create(
+            CommentForValidation.CommentSource.HUMAN, type, COMMENT_TEXT, COMMENT_TEXT.length());
 
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.builder().changeId(failChange).project(failProject).build(),
-            ImmutableList.of(CommentForValidation.create(type, COMMENT_TEXT))))
+            CommentValidationContext.create(failChange, failProject),
+            ImmutableList.of(commentForValidation)))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
   }
 }

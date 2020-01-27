@@ -80,7 +80,6 @@ import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
-import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -125,11 +124,9 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -141,7 +138,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -159,9 +155,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   public static final String START_REVIEW_MESSAGE = "This change is ready for review.";
 
-  private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
-  private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
-
   private final BatchUpdate.Factory updateFactory;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeData.Factory changeDataFactory;
@@ -177,7 +170,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ReviewerAdder reviewerAdder;
   private final AddReviewersEmail addReviewersEmail;
   private final NotifyResolver notifyResolver;
-  private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
@@ -221,7 +213,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.reviewerAdder = reviewerAdder;
     this.addReviewersEmail = addReviewersEmail;
     this.notifyResolver = notifyResolver;
-    this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
@@ -672,39 +663,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String commentPath = e.getKey();
       for (RobotCommentInput c : e.getValue()) {
-        ensureSizeOfJsonInputIsWithinBounds(c);
         ensureRobotIdIsSet(c.robotId, commentPath);
         ensureRobotRunIdIsSet(c.robotRunId, commentPath);
         ensureFixSuggestionsAreAddable(c.fixSuggestions, commentPath);
+        // Size is validated later, in CommentLimitsValidator.
       }
     }
     checkComments(revision, in);
-  }
-
-  private void ensureSizeOfJsonInputIsWithinBounds(RobotCommentInput robotCommentInput)
-      throws BadRequestException {
-    OptionalInt robotCommentSizeLimit = getRobotCommentSizeLimit();
-    if (robotCommentSizeLimit.isPresent()) {
-      int sizeLimit = robotCommentSizeLimit.getAsInt();
-      byte[] robotCommentBytes = GSON.toJson(robotCommentInput).getBytes(StandardCharsets.UTF_8);
-      int robotCommentSize = robotCommentBytes.length;
-      if (robotCommentSize > sizeLimit) {
-        throw new BadRequestException(
-            String.format(
-                "Size %d (bytes) of robot comment is greater than limit %d (bytes)",
-                robotCommentSize, sizeLimit));
-      }
-    }
-  }
-
-  private OptionalInt getRobotCommentSizeLimit() {
-    int robotCommentSizeLimit =
-        gerritConfig.getInt(
-            "change", "robotCommentSizeLimit", DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES);
-    if (robotCommentSizeLimit <= 0) {
-      return OptionalInt.empty();
-    }
-    return OptionalInt.of(robotCommentSizeLimit);
   }
 
   private static void ensureRobotIdIsSet(String robotId, String commentPath)
@@ -910,8 +875,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
-      boolean dirty = insertComments(ctx);
-      dirty |= insertRobotComments(ctx);
+      List<RobotComment> newRobotComments =
+          in.robotComments == null ? ImmutableList.of() : getNewRobotComments(ctx);
+      boolean dirty = insertComments(ctx, newRobotComments);
+      dirty |= insertRobotComments(ctx, newRobotComments);
       dirty |= updateLabels(projectState, ctx);
       dirty |= insertMessage(ctx);
       return dirty;
@@ -938,7 +905,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ctx.getWhen());
     }
 
-    private boolean insertComments(ChangeContext ctx)
+    private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)
         throws UnprocessableEntityException, PatchListNotAvailableException,
             CommentsRejectedException {
       Map<String, List<CommentInput>> inputComments = in.comments;
@@ -1002,21 +969,21 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       CommentValidationContext commentValidationCtx =
-          CommentValidationContext.builder()
-              .changeId(ctx.getChange().getChangeId())
-              .project(ctx.getChange().getProject().get())
-              .build();
+          CommentValidationContext.create(
+              ctx.getChange().getChangeId(), ctx.getChange().getProject().get());
       switch (in.drafts) {
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:
           validateComments(
-              commentValidationCtx, Streams.concat(drafts.values().stream(), toPublish.stream()));
+              commentValidationCtx,
+              Streams.concat(
+                  drafts.values().stream(), toPublish.stream(), newRobotComments.stream()));
           publishCommentUtil.publish(ctx, ctx.getUpdate(psId), drafts.values(), in.tag);
           comments.addAll(drafts.values());
           break;
         case KEEP:
-        default:
-          validateComments(commentValidationCtx, toPublish.stream());
+          validateComments(
+              commentValidationCtx, Stream.concat(toPublish.stream(), newRobotComments.stream()));
           break;
       }
       ChangeUpdate changeUpdate = ctx.getUpdate(psId);
@@ -1032,10 +999,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               .map(
                   comment ->
                       CommentForValidation.create(
+                          comment instanceof RobotComment
+                              ? CommentForValidation.CommentSource.ROBOT
+                              : CommentForValidation.CommentSource.HUMAN,
                           comment.lineNbr > 0
                               ? CommentForValidation.CommentType.INLINE_COMMENT
                               : CommentForValidation.CommentType.FILE_COMMENT,
-                          comment.message))
+                          comment.message,
+                          comment.getApproximateSize()))
               .collect(toImmutableList());
       ImmutableList<CommentValidationFailure> draftValidationFailures =
           PublishCommentUtil.findInvalidComments(ctx, commentValidators, draftsForValidation);
@@ -1044,12 +1015,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     }
 
-    private boolean insertRobotComments(ChangeContext ctx) throws PatchListNotAvailableException {
+    private boolean insertRobotComments(ChangeContext ctx, List<RobotComment> newRobotComments) {
       if (in.robotComments == null) {
         return false;
       }
-
-      List<RobotComment> newRobotComments = getNewRobotComments(ctx);
       commentsUtil.putRobotComments(ctx.getUpdate(psId), newRobotComments);
       comments.addAll(newRobotComments);
       return !newRobotComments.isEmpty();
@@ -1425,17 +1394,18 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
       if (!msg.isEmpty()) {
         CommentValidationContext commentValidationCtx =
-            CommentValidationContext.builder()
-                .changeId(ctx.getChange().getChangeId())
-                .project(ctx.getChange().getProject().get())
-                .build();
+            CommentValidationContext.create(
+                ctx.getChange().getChangeId(), ctx.getChange().getProject().get());
         ImmutableList<CommentValidationFailure> messageValidationFailure =
             PublishCommentUtil.findInvalidComments(
                 commentValidationCtx,
                 commentValidators,
                 ImmutableList.of(
                     CommentForValidation.create(
-                        CommentForValidation.CommentType.CHANGE_MESSAGE, msg)));
+                        CommentForValidation.CommentSource.HUMAN,
+                        CommentForValidation.CommentType.CHANGE_MESSAGE,
+                        msg,
+                        msg.length())));
         if (!messageValidationFailure.isEmpty()) {
           throw new CommentsRejectedException(messageValidationFailure);
         }

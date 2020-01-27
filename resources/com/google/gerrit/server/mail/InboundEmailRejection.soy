@@ -64,6 +64,7 @@
 {/template}
 
 {template .InboundEmailRejection_COMMENT_REJECTED kind="text"}
-  Gerrit Code Review rejected one or more comments because they did not pass validation.
+  Gerrit Code Review rejected one or more comments because they did not pass validation, or
+  because the maximum number of comments per change would be exceeded.
   {call .InboundEmailRejectionFooter /}
 {/template}

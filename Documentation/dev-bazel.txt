@@ -514,10 +514,11 @@ Start by checking that the license and file types of the bundle are acceptable:
   package=some-npm-package
   version=1.2.3
 
-  npm install -g license-checker && \
+  # Note - yarn must be installed before running the following commands
+  yarn global add license-checker && \
   rm -rf /tmp/$package-$version && mkdir -p /tmp/$package-$version && \
   cd /tmp/$package-$version && \
-  npm install $package@$version && \
+  yarn add $package@$version && \
   license-checker | grep licenses: | sort -u
 ----
 
@@ -540,41 +541,44 @@ Next, check the file types:
 If you see anything that looks like a native library or binary, then we can't
 use the bundle.
 
-If everything looks good, create the bundle, and note the SHA-1:
-[source,bash]
+If everything looks good, install the package with the following command:
+[source, bash]
 ----
-  $gerrit_repo/tools/js/npm_pack.py $package $version && \
-  sha1sum $package-$version.tgz
-----
-
-This creates a file named `$package-$version.tgz` in your working directory.
-
-Any project maintainer can upload this file to the
-link:https://console.cloud.google.com/storage/browser/gerrit-maven/npm-packages[storage
-bucket,role=external,window=_blank].
-
-Finally, add the new binary to the build process:
-----
-  # WORKSPACE
-  npm_binary(
-      name = "some-npm-package",
-      repository = GERRIT,
-  )
-
-  # lib/js/npm.bzl
-  NPM_VERSIONS = {
-    ...
-    "some-npm-package": "1.2.3",
-  }
-
-  NPM_SHA1S = {
-    ...
-    "some-npm-package": "<sha1>",
-  }
+# Add to ui_npm. Other packages.json can be updated in the same way
+cd $gerrit_repo/polygerrit-ui/app
+bazel run @nodejs//:yarn add $package
 ----
 
-To use the binary from the Bazel build, you need to use the `run_npm_binary.py`
-wrapper script. For an example, see the use of `crisper` in `tools/bzl/js.bzl`.
+Update the `polygerrit-ui/app/node_modules_licenses/licenses.ts` file. You should add licenses
+for the package itself and for all transitive depndencies. If you forgot to add a license, the
+`Documentation:check_licenses` test will fail.
+
+After the update, commit all changes to the repository (including `yarn.lock`).
+
+[NOTE]
+====
+If a npm package has transitive dependencies (or just several files) with a not allowed
+license and you can't avoid use it in release, then you can add this package.
+For example some packages contain demo-code with a different license. Another example - optional
+dependencies, which are not needed to build polygerrit, but they are installed together with
+the package anyway.
+
+In this case you should exclude all files and/or transitive dependencies with a not allowed license.
+Adding such package requires additional updates:
+
+- Add dependencies (or files) to the license.ts with an appropriate license marked with
+`allowed: false`.
+
+- update package.json postinstall script to remove all non-allowed files (if you don't
+update postinstall script, `Documentation:check_licenses` test will fail.)
+====
+
+=== Update NPM Binaries
+To update a NPM binary the same actions as for a new one must be done (check licenses,
+update `licenses.ts` file, etc...). The only difference is a command to install a package: instead
+of `bazel run @nodejs//:yarn add $package` you should run the `bazel run @nodejs//:yarn upgrade ...`
+command with correct arguments. You can find the list of arguments in the
+link:https://classic.yarnpkg.com/en/docs/cli/upgrade/[yarn upgrade doc,role=external,window=_blank].
 
 
 

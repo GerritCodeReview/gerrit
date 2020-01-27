@@ -1011,7 +1011,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         case PUBLISH_ALL_REVISIONS:
           validateComments(
               commentValidationCtx, Streams.concat(drafts.values().stream(), toPublish.stream()));
-          publishCommentUtil.publish(ctx, ctx.getUpdate(psId), drafts.values(), in.tag);
+          publishCommentUtil.publish(ctx, ctx.getUpdate(psId), ctx.getWhen(), drafts.values(), in.tag);
           comments.addAll(drafts.values());
           break;
         case KEEP:

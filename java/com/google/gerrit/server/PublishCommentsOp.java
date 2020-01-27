@@ -36,6 +36,7 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +63,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private List<Comment> comments = new ArrayList<>();
   private ChangeMessage message;
   private IdentifiedUser user;
+  private Timestamp publishTs;
 
   public interface Factory {
     PublishCommentsOp create(PatchSet.Id psId, Project.NameKey projectNameKey);
@@ -104,7 +106,8 @@ public class PublishCommentsOp implements BatchUpdateOp {
     //   2. Each ChangeUpdate results in 1 commit in NoteDb
     // We do it this way so that the execution results in 2 different commits in NoteDb
     ChangeUpdate changeUpdate = ctx.getDistinctUpdate(psId);
-    publishCommentUtil.publish(ctx, changeUpdate, comments, null);
+
+    publishCommentUtil.publish(ctx, changeUpdate, (Timestamp) changeUpdate.getWhen(), comments, null);
     return insertMessage(ctx, changeUpdate);
   }
 
@@ -145,7 +148,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
     }
     message =
         ChangeMessagesUtil.newMessage(
-            psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, null);
+            psId, user, (Timestamp) changeUpdate.getWhen(), "Patch Set " + psId.get() + ":" + buf, null);
     cmUtil.addChangeMessage(changeUpdate, message);
     return true;
   }

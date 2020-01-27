@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -264,6 +265,7 @@ public class BatchUpdate implements AutoCloseable {
      * PatchSet.Id only for convenience.
      */
     private final Map<PatchSet.Id, ChangeUpdate> defaultUpdates;
+    private final Map<PatchSet.Id, Timestamp> updatesTimestamps;
 
     /**
      * Updates where the caller allowed us to combine potentially multiple adjustments into a single
@@ -277,6 +279,7 @@ public class BatchUpdate implements AutoCloseable {
     ChangeContextImpl(ChangeNotes notes) {
       this.notes = requireNonNull(notes);
       defaultUpdates = new TreeMap<>(comparing(PatchSet.Id::get));
+      updatesTimestamps = new TreeMap<>(comparing(PatchSet.Id::get));
       distinctUpdates = ArrayListMultimap.create();
     }
 
@@ -284,7 +287,8 @@ public class BatchUpdate implements AutoCloseable {
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
       ChangeUpdate u = defaultUpdates.get(psId);
       if (u == null) {
-        u = getNewChangeUpdate(psId);
+        u = getNewChangeUpdate(psId, when);
+        updatesTimestamps.put(psId, when);
         defaultUpdates.put(psId, u);
       }
       return u;
@@ -292,13 +296,20 @@ public class BatchUpdate implements AutoCloseable {
 
     @Override
     public ChangeUpdate getDistinctUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = getNewChangeUpdate(psId);
+      /** new change updates will occur in distinct timestamps
+         this is a temporary hack used by {@link PublishCommentsOp} to publish comments
+         on a timestamp different than the patch set upload
+       **/
+      Timestamp ts = updatesTimestamps.containsKey(psId)? updatesTimestamps.get(psId) : when;
+      ts = new Timestamp(ts.getTime() + 1000);
+      updatesTimestamps.put(psId, ts);
+      ChangeUpdate u = getNewChangeUpdate(psId, ts);
       distinctUpdates.put(psId, u);
       return u;
     }
 
-    private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = changeUpdateFactory.create(notes, user, when);
+    private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId, Timestamp ts) {
+      ChangeUpdate u = changeUpdateFactory.create(notes, user, ts);
       if (newChanges.containsKey(notes.getChangeId())) {
         u.setAllowWriteToNewRef(true);
       }

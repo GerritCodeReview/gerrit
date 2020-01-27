@@ -36,6 +36,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -60,6 +61,7 @@ public class PublishCommentUtil {
   public void publish(
       ChangeContext ctx,
       ChangeUpdate changeUpdate,
+      Timestamp ts,
       Collection<Comment> draftComments,
       @Nullable String tag) {
     ChangeNotes notes = ctx.getNotes();
@@ -97,7 +99,7 @@ public class PublishCommentUtil {
             draftComment, psIdOfDraftComment, notes.getProjectName());
         continue;
       }
-      draftComment.writtenOn = ctx.getWhen();
+      draftComment.writtenOn = ts;
       draftComment.tag = tag;
       // Draft may have been created by a different real user; copy the current real user. (Only
       // applies to X-Gerrit-RunAs, since modifying drafts via on_behalf_of is not allowed.)

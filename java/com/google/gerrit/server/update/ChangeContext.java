@@ -20,6 +20,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import java.sql.Timestamp;
 
 /**
  * Context for performing the {@link BatchUpdateOp#updateChange} phase.

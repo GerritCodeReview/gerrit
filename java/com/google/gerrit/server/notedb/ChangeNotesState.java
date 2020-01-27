@@ -38,7 +38,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
@@ -118,7 +118,7 @@ public abstract class ChangeNotesState {
       List<AssigneeStatusUpdate> assigneeUpdates,
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> changeMessages,
-      ListMultimap<ObjectId, Comment> publishedComments,
+      ListMultimap<ObjectId, HumanComment> publishedComments,
       boolean isPrivate,
       boolean workInProgress,
       boolean reviewStarted,
@@ -303,7 +303,7 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableList<ChangeMessage> changeMessages();
 
-  abstract ImmutableListMultimap<ObjectId, Comment> publishedComments();
+  abstract ImmutableListMultimap<ObjectId, HumanComment> publishedComments();
 
   abstract int updateCount();
 
@@ -412,7 +412,7 @@ public abstract class ChangeNotesState {
 
     abstract Builder changeMessages(List<ChangeMessage> changeMessages);
 
-    abstract Builder publishedComments(ListMultimap<ObjectId, Comment> publishedComments);
+    abstract Builder publishedComments(ListMultimap<ObjectId, HumanComment> publishedComments);
 
     abstract Builder updateCount(int updateCount);
 
@@ -607,8 +607,8 @@ public abstract class ChangeNotesState {
                       .collect(toImmutableList()))
               .publishedComments(
                   proto.getPublishedCommentList().stream()
-                      .map(r -> GSON.fromJson(r, Comment.class))
-                      .collect(toImmutableListMultimap(Comment::getCommitId, c -> c)))
+                      .map(r -> GSON.fromJson(r, HumanComment.class))
+                      .collect(toImmutableListMultimap(HumanComment::getCommitId, c -> c)))
               .updateCount(proto.getUpdateCount());
       return b.build();
     }

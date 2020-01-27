@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -35,7 +35,7 @@ public class ListRevisionComments extends ListRevisionDrafts {
   }
 
   @Override
-  protected Iterable<Comment> listComments(RevisionResource rsrc) {
+  protected Iterable<HumanComment> listComments(RevisionResource rsrc) {
     ChangeNotes notes = rsrc.getNotes();
     return commentsUtil.publishedByPatchSet(notes, rsrc.getPatchSet().id());
   }

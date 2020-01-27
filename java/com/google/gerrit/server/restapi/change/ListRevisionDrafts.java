@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -39,7 +39,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
     this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<Comment> listComments(RevisionResource rsrc) {
+  protected Iterable<HumanComment> listComments(RevisionResource rsrc) {
     return commentsUtil.draftByPatchSetAuthor(
         rsrc.getPatchSet().id(), rsrc.getAccountId(), rsrc.getNotes());
   }

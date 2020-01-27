@@ -218,7 +218,6 @@ public class Comment {
   public Timestamp writtenOn;
   public short side;
   public String message;
-  public String parentUuid;
   public Range range;
   public String tag;
 
@@ -302,7 +301,7 @@ public class Comment {
    * therefore include all unbounded fields (e.g. String-s).
    */
   public int getApproximateSize() {
-    return nullableLength(message, parentUuid, tag, revId, serverId)
+    return nullableLength(message, tag, revId, serverId)
         + (key != null ? nullableLength(key.filename, key.uuid) : 0);
   }
 
@@ -327,7 +326,6 @@ public class Comment {
         && Objects.equals(writtenOn, c.writtenOn)
         && side == c.side
         && Objects.equals(message, c.message)
-        && Objects.equals(parentUuid, c.parentUuid)
         && Objects.equals(range, c.range)
         && Objects.equals(tag, c.tag)
         && Objects.equals(revId, c.revId)
@@ -345,7 +343,6 @@ public class Comment {
         writtenOn,
         side,
         message,
-        parentUuid,
         range,
         tag,
         revId,
@@ -367,7 +364,6 @@ public class Comment {
         .add("writtenOn", writtenOn)
         .add("side", side)
         .add("message", Objects.toString(message, ""))
-        .add("parentUuid", Objects.toString(parentUuid, ""))
         .add("range", Objects.toString(range, ""))
         .add("revId", Objects.toString(revId, ""))
         .add("tag", Objects.toString(tag, ""))

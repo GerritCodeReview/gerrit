@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -93,7 +93,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
     private final PatchSet.Id psId;
     private final DraftInput in;
 
-    private Comment comment;
+    private HumanComment comment;
 
     private Op(PatchSet.Id psId, DraftInput in) {
       this.psId = psId;
@@ -111,15 +111,15 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       String parentUuid = Url.decode(in.inReplyTo);
 
       comment =
-          commentsUtil.newComment(
+          commentsUtil.newHumanComment(
               ctx, in.path, ps.id(), in.side(), in.message.trim(), in.unresolved, parentUuid);
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;
 
       setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
 
-      commentsUtil.putComments(
-          ctx.getUpdate(psId), Comment.Status.DRAFT, Collections.singleton(comment));
+      commentsUtil.putHumanComments(
+          ctx.getUpdate(psId), HumanComment.Status.DRAFT, Collections.singleton(comment));
       return true;
     }
   }

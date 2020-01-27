@@ -30,7 +30,7 @@ import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -670,9 +670,9 @@ public class ChangeNotesStateTest {
 
   @Test
   public void serializePublishedComments() throws Exception {
-    Comment c1 =
-        new Comment(
-            new Comment.Key("uuid1", "file1", 1),
+    HumanComment c1 =
+        new HumanComment(
+            new HumanComment.Key("uuid1", "file1", 1),
             Account.id(1001),
             new Timestamp(1212L),
             (short) 1,
@@ -682,9 +682,9 @@ public class ChangeNotesStateTest {
     c1.setCommitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     String c1Json = Serializer.GSON.toJson(c1);
 
-    Comment c2 =
-        new Comment(
-            new Comment.Key("uuid2", "file2", 2),
+    HumanComment c2 =
+        new HumanComment(
+            new HumanComment.Key("uuid2", "file2", 2),
             Account.id(1002),
             new Timestamp(3434L),
             (short) 2,
@@ -751,7 +751,7 @@ public class ChangeNotesStateTest {
                 .put("changeMessages", new TypeLiteral<ImmutableList<ChangeMessage>>() {}.getType())
                 .put(
                     "publishedComments",
-                    new TypeLiteral<ImmutableListMultimap<ObjectId, Comment>>() {}.getType())
+                    new TypeLiteral<ImmutableListMultimap<ObjectId, HumanComment>>() {}.getType())
                 .put("updateCount", int.class)
                 .build());
   }
@@ -911,30 +911,31 @@ public class ChangeNotesStateTest {
 
   @Test
   public void commentFields() throws Exception {
-    assertThatSerializedClass(Comment.Key.class)
+    assertThatSerializedClass(HumanComment.Key.class)
         .hasFields(
             ImmutableMap.of(
                 "uuid", String.class, "filename", String.class, "patchSetId", int.class));
-    assertThatSerializedClass(Comment.Identity.class).hasFields(ImmutableMap.of("id", int.class));
-    assertThatSerializedClass(Comment.Range.class)
+    assertThatSerializedClass(HumanComment.Identity.class)
+        .hasFields(ImmutableMap.of("id", int.class));
+    assertThatSerializedClass(HumanComment.Range.class)
         .hasFields(
             ImmutableMap.of(
                 "startLine", int.class,
                 "startChar", int.class,
                 "endLine", int.class,
                 "endChar", int.class));
-    assertThatSerializedClass(Comment.class)
+    assertThatSerializedClass(HumanComment.class)
         .hasFields(
             ImmutableMap.<String, Type>builder()
-                .put("key", Comment.Key.class)
+                .put("key", HumanComment.Key.class)
                 .put("lineNbr", int.class)
-                .put("author", Comment.Identity.class)
-                .put("realAuthor", Comment.Identity.class)
+                .put("author", HumanComment.Identity.class)
+                .put("realAuthor", HumanComment.Identity.class)
                 .put("writtenOn", Timestamp.class)
                 .put("side", short.class)
                 .put("message", String.class)
                 .put("parentUuid", String.class)
-                .put("range", Comment.Range.class)
+                .put("range", HumanComment.Range.class)
                 .put("tag", String.class)
                 .put("revId", String.class)
                 .put("serverId", String.class)

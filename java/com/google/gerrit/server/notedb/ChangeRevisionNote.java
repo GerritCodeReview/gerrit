@@ -16,7 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,13 +29,13 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
 
 /** Implements the parsing of comment data, handling JSON decoding and push certificates. */
-class ChangeRevisionNote extends RevisionNote<Comment> {
+class ChangeRevisionNote extends RevisionNote<HumanComment> {
   private final ChangeNoteJson noteJson;
-  private final Comment.Status status;
+  private final HumanComment.Status status;
   private String pushCert;
 
   ChangeRevisionNote(
-      ChangeNoteJson noteJson, ObjectReader reader, ObjectId noteId, Comment.Status status) {
+      ChangeNoteJson noteJson, ObjectReader reader, ObjectId noteId, HumanComment.Status status) {
     super(reader, noteId);
     this.noteJson = noteJson;
     this.status = status;
@@ -47,12 +47,13 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
   }
 
   @Override
-  protected List<Comment> parse(byte[] raw, int offset) throws IOException, ConfigInvalidException {
+  protected List<HumanComment> parse(byte[] raw, int offset)
+      throws IOException, ConfigInvalidException {
     MutableInteger p = new MutableInteger();
     p.value = offset;
 
-    RevisionNoteData data = parseJson(noteJson, raw, p.value);
-    if (status == Comment.Status.PUBLISHED) {
+    HumanCommentsRevisionNoteData data = parseJson(noteJson, raw, p.value);
+    if (status == HumanComment.Status.PUBLISHED) {
       pushCert = data.pushCert;
     } else {
       pushCert = null;
@@ -60,11 +61,11 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     return data.comments;
   }
 
-  private RevisionNoteData parseJson(ChangeNoteJson noteUtil, byte[] raw, int offset)
+  private HumanCommentsRevisionNoteData parseJson(ChangeNoteJson noteUtil, byte[] raw, int offset)
       throws IOException {
     try (InputStream is = new ByteArrayInputStream(raw, offset, raw.length - offset);
         Reader r = new InputStreamReader(is, UTF_8)) {
-      return noteUtil.getGson().fromJson(r, RevisionNoteData.class);
+      return noteUtil.getGson().fromJson(r, HumanCommentsRevisionNoteData.class);
     }
   }
 }

@@ -15,14 +15,14 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.entities.Comment.Status;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Comment.Status;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.RefNames;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -94,14 +94,14 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
 
     ObjectReader reader = revWalk.getObjectReader();
     RevCommit newTipCommit = revWalk.next(); // The first commit will not be rewritten.
-    Map<String, Comment> parentComments =
+    Map<String, HumanComment> parentComments =
         getPublishedComments(noteUtil, reader, NoteMap.read(reader, newTipCommit));
 
     boolean rewrite = false;
     RevCommit originalCommit;
     while ((originalCommit = revWalk.next()) != null) {
       NoteMap noteMap = NoteMap.read(reader, originalCommit);
-      Map<String, Comment> currComments = getPublishedComments(noteUtil, reader, noteMap);
+      Map<String, HumanComment> currComments = getPublishedComments(noteUtil, reader, noteMap);
 
       if (!rewrite && currComments.containsKey(uuid)) {
         rewrite = true;
@@ -113,8 +113,8 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
         continue;
       }
 
-      List<Comment> putInComments = getPutInComments(parentComments, currComments);
-      List<Comment> deletedComments = getDeletedComments(parentComments, currComments);
+      List<HumanComment> putInComments = getPutInComments(parentComments, currComments);
+      List<HumanComment> deletedComments = getDeletedComments(parentComments, currComments);
       newTipCommit =
           revWalk.parseCommit(
               rewriteCommit(
@@ -130,7 +130,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
    * the previous commits.
    */
   @VisibleForTesting
-  public static Map<String, Comment> getPublishedComments(
+  public static Map<String, HumanComment> getPublishedComments(
       ChangeNoteJson changeNoteJson, ObjectReader reader, NoteMap noteMap)
       throws IOException, ConfigInvalidException {
     return RevisionNoteMap.parse(changeNoteJson, reader, noteMap, Status.PUBLISHED).revisionNotes
@@ -139,7 +139,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
         .collect(toMap(c -> c.key.uuid, Function.identity()));
   }
 
-  public static Map<String, Comment> getPublishedComments(
+  public static Map<String, HumanComment> getPublishedComments(
       ChangeNoteUtil noteUtil, ObjectReader reader, NoteMap noteMap)
       throws IOException, ConfigInvalidException {
     return getPublishedComments(noteUtil.getChangeNoteJson(), reader, noteMap);
@@ -152,11 +152,12 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
    * @param curMap the comment map of the current commit.
    * @return The comments put in by the current commit.
    */
-  private List<Comment> getPutInComments(Map<String, Comment> parMap, Map<String, Comment> curMap) {
-    List<Comment> comments = new ArrayList<>();
+  private List<HumanComment> getPutInComments(
+      Map<String, HumanComment> parMap, Map<String, HumanComment> curMap) {
+    List<HumanComment> comments = new ArrayList<>();
     for (String key : curMap.keySet()) {
       if (!parMap.containsKey(key)) {
-        Comment comment = curMap.get(key);
+        HumanComment comment = curMap.get(key);
         if (key.equals(uuid)) {
           comment.message = newMessage;
         }
@@ -173,8 +174,8 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
    * @param curMap the comment map of the current commit.
    * @return The comments deleted by the current commit.
    */
-  private List<Comment> getDeletedComments(
-      Map<String, Comment> parMap, Map<String, Comment> curMap) {
+  private List<HumanComment> getDeletedComments(
+      Map<String, HumanComment> parMap, Map<String, HumanComment> curMap) {
     return parMap.entrySet().stream()
         .filter(c -> !curMap.containsKey(c.getKey()))
         .map(Map.Entry::getValue)
@@ -199,8 +200,8 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
       RevCommit parentCommit,
       ObjectInserter inserter,
       ObjectReader reader,
-      List<Comment> putInComments,
-      List<Comment> deletedComments)
+      List<HumanComment> putInComments,
+      List<HumanComment> deletedComments)
       throws IOException, ConfigInvalidException {
     RevisionNoteMap<ChangeRevisionNote> revNotesMap =
         RevisionNoteMap.parse(
@@ -210,11 +211,11 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
             Status.PUBLISHED);
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(revNotesMap);
 
-    for (Comment c : putInComments) {
+    for (HumanComment c : putInComments) {
       cache.get(c.getCommitId()).putComment(c);
     }
 
-    for (Comment c : deletedComments) {
+    for (HumanComment c : deletedComments) {
       cache.get(c.getCommitId()).deleteComment(c.key);
     }
 

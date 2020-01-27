@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.KeyUtil;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
@@ -232,26 +233,27 @@ public class CommentSender extends ReplyToChangeSender {
   /** Get the set of accounts whose comments have been replied to in this email. */
   private HashSet<Account.Id> getReplyAccounts() {
     HashSet<Account.Id> replyAccounts = new HashSet<>();
-
     // Track visited parent UUIDs to avoid cycles.
     HashSet<String> visitedUuids = new HashSet<>();
 
     for (Comment comment : inlineComments) {
-      visitedUuids.add(comment.key.uuid);
+      if (comment instanceof HumanComment) {
+        visitedUuids.add(comment.key.uuid);
 
-      // Traverse the parent relation to the top of the comment thread.
-      Comment current = comment;
-      while (current.parentUuid != null && !visitedUuids.contains(current.parentUuid)) {
-        Optional<Comment> optParent = getParent(current);
-        if (!optParent.isPresent()) {
-          // There is a parent UUID, but it cannot be loaded, break from the comment thread.
-          break;
+        // Traverse the parent relation to the top of the comment thread.
+        HumanComment current = (HumanComment) comment;
+        while (current.parentUuid != null && !visitedUuids.contains(current.parentUuid)) {
+          Optional<HumanComment> optParent = getParent(current);
+          if (!optParent.isPresent()) {
+            // There is a parent UUID, but it cannot be loaded, break from the comment thread.
+            break;
+          }
+
+          HumanComment parent = optParent.get();
+          replyAccounts.add(parent.author.getId());
+          visitedUuids.add(current.parentUuid);
+          current = parent;
         }
-
-        Comment parent = optParent.get();
-        replyAccounts.add(parent.author.getId());
-        visitedUuids.add(current.parentUuid);
-        current = parent;
       }
     }
     return replyAccounts;
@@ -295,7 +297,7 @@ public class CommentSender extends ReplyToChangeSender {
    * @return an optional comment that will be present if the given comment has a parent, and is
    *     empty if it does not.
    */
-  private Optional<Comment> getParent(Comment child) {
+  private Optional<HumanComment> getParent(HumanComment child) {
     if (child.parentUuid == null) {
       return Optional.empty();
     }
@@ -366,7 +368,7 @@ public class CommentSender extends ReplyToChangeSender {
     return msg;
   }
 
-  protected static String getShortenedCommentMessage(Comment comment) {
+  protected static String getShortenedCommentMessage(HumanComment comment) {
     return getShortenedCommentMessage(comment.message);
   }
 
@@ -425,9 +427,9 @@ public class CommentSender extends ReplyToChangeSender {
         }
 
         // If the comment has a quote, don't bother loading the parent message.
-        if (!hasQuote(blocks)) {
+        if (!hasQuote(blocks) && comment instanceof HumanComment) {
           // Set parent comment info.
-          Optional<Comment> parent = getParent(comment);
+          Optional<HumanComment> parent = getParent((HumanComment) comment);
           if (parent.isPresent()) {
             commentData.put("parentMessage", getShortenedCommentMessage(parent.get()));
           }

@@ -17,6 +17,8 @@ package com.google.gerrit.extensions.common;
 import com.google.gerrit.extensions.client.Comment;
 import java.util.Objects;
 
+// TODO(paiking): extract "inReplyTo" from "Comment" to "HumanCommentInfo" that extends
+// "CommentInfo".
 public class CommentInfo extends Comment {
   public AccountInfo author;
   public String tag;

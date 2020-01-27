@@ -34,6 +34,52 @@
       "revId": "a8865a2306ade66f9bc0932e3a80cdd58aba6c96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5df569f5_a4f5e8b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-27T13:04:32Z",
+      "side": 1,
+      "message": "nit: `{count} comments`",
+      "range": {
+        "startLine": 161,
+        "startChar": 15,
+        "endLine": 161,
+        "endChar": 20
+      },
+      "revId": "a8865a2306ade66f9bc0932e3a80cdd58aba6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07422012_a96e4382",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-27T13:04:32Z",
+      "side": 1,
+      "message": "Why not \n```lines.filter( line \u003d\u003e\nif (line.startsWith(\u0027Patch Set \u0027)) return true;\n        if (line.startsWith(\u0027(\u0027) \u0026\u0026 line.endsWith(\u0027 comment)\u0027)) return true;\n        if (line.startsWith(\u0027(\u0027) \u0026\u0026 line.endsWith(\u0027 comments)\u0027)) return true;\nreturn false)```\n?",
+      "range": {
+        "startLine": 169,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 9
+      },
+      "revId": "a8865a2306ade66f9bc0932e3a80cdd58aba6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

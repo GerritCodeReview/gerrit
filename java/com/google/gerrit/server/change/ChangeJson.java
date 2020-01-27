@@ -29,7 +29,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_DIFFSTAT;
-import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_MERGEABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
@@ -219,7 +218,7 @@ public class ChangeJson {
   private final Metrics metrics;
   private final RevisionJson revisionJson;
   private final Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory;
-  private final boolean excludeMergeableInChangeInfo;
+  private final boolean includeMergeable;
   private final boolean lazyLoad;
 
   private AccountLoader accountLoader;
@@ -257,8 +256,7 @@ public class ChangeJson {
     this.metrics = metrics;
     this.revisionJson = revisionJsonFactory.create(options);
     this.options = Sets.immutableEnumSet(options);
-    this.excludeMergeableInChangeInfo =
-        cfg.getBoolean("change", "api", "excludeMergeableInChangeInfo", false);
+    this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     this.pluginDefinedAttributesFactory = pluginDefinedAttributesFactory;
 
@@ -525,7 +523,7 @@ public class ChangeJson {
       if (str.isOk()) {
         out.submitType = str.type;
       }
-      if (!excludeMergeableInChangeInfo && !has(SKIP_MERGEABLE)) {
+      if (includeMergeable) {
         out.mergeable = cd.isMergeable();
       }
       if (has(SUBMITTABLE)) {

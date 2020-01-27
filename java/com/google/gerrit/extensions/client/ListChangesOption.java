@@ -74,7 +74,11 @@ public enum ListChangesOption implements ListOption {
   /** If tracking Ids are included, include detailed tracking Ids info. */
   TRACKING_IDS(21),
 
-  /** Skip mergeability data */
+  /**
+   * Use {@code gerrit.config} instead to turn this off for your instance. See {@code
+   * change.mergeabilityComputationBehavior}.
+   */
+  @Deprecated
   SKIP_MERGEABLE(22),
 
   /**

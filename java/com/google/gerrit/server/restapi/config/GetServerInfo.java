@@ -23,11 +23,9 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.extensions.common.AccountsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
-import com.google.gerrit.extensions.common.ChangeIndexConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
 import com.google.gerrit.extensions.common.DownloadSchemeInfo;
 import com.google.gerrit.extensions.common.GerritInfo;
-import com.google.gerrit.extensions.common.IndexConfigInfo;
 import com.google.gerrit.extensions.common.PluginConfigInfo;
 import com.google.gerrit.extensions.common.ReceiveInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
@@ -45,6 +43,7 @@ import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -143,7 +142,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.change = getChangeInfo();
     info.download = getDownloadInfo();
     info.gerrit = getGerritInfo();
-    info.index = getIndexInfo();
     info.noteDbEnabled = true;
     info.plugin = getPluginInfo();
     info.defaultTheme = getDefaultTheme();
@@ -230,10 +228,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.updateDelay =
         (int) ConfigUtil.getTimeUnit(config, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
     info.submitWholeTopic = toBoolean(MergeSuperSet.wholeTopicEnabled(config));
-    info.excludeMergeableInChangeInfo =
-        toBoolean(this.config.getBoolean("change", "api", "excludeMergeableInChangeInfo", false));
     info.disablePrivateChanges =
         toBoolean(this.config.getBoolean("change", null, "disablePrivateChanges", false));
+    info.mergeabilityComputationBehavior =
+        MergeabilityComputationBehavior.fromConfig(config).name();
     return info;
   }
 
@@ -297,14 +295,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         toBoolean(enableSignedPush && config.getBoolean("gerrit", null, "editGpgKeys", true));
     info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
     return info;
-  }
-
-  private IndexConfigInfo getIndexInfo() {
-    ChangeIndexConfigInfo change = new ChangeIndexConfigInfo();
-    change.indexMergeable = toBoolean(config.getBoolean("index", "change", "indexMergeable", true));
-    IndexConfigInfo index = new IndexConfigInfo();
-    index.change = change;
-    return index;
   }
 
   private String getDocUrl() {

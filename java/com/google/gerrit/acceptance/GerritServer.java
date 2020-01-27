@@ -571,8 +571,8 @@ public class GerritServer implements AutoCloseable {
     cfg.setInt("sshd", null, "commandStartThreads", 1);
     cfg.setInt("receive", null, "threadPoolSize", 1);
     cfg.setInt("index", null, "threads", 1);
-    if (cfg.getString("index", "change", "indexMergeable") == null) {
-      cfg.setBoolean("index", "change", "indexMergeable", false);
+    if (cfg.getString("index", null, "mergeabilityComputationBehavior") == null) {
+      cfg.setString("index", null, "mergeabilityComputationBehavior", "NEVER");
     }
   }
 

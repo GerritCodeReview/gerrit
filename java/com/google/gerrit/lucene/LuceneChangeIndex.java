@@ -55,6 +55,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexExecutor;
@@ -182,7 +183,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.skipFields =
-        cfg.getBoolean("index", "change", "indexMergeable", true)
+        MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex()
             ? ImmutableSet.of()
             : ImmutableSet.of(ChangeField.MERGEABLE.getName());
 

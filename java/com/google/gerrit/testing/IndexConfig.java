@@ -14,6 +14,7 @@
 
 package com.google.gerrit.testing;
 
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import org.eclipse.jgit.lib.Config;
 
 public class IndexConfig {
@@ -23,9 +24,10 @@ public class IndexConfig {
 
   public static Config createFromExistingConfig(Config cfg) {
     cfg.setInt("index", null, "maxPages", 10);
-    // To avoid this flakiness indexMergeable is switched off for the tests as it incurs background
+    // To avoid this flakiness indexing mergeable is disabled for the tests as it incurs background
     // reindex calls.
-    cfg.setBoolean("index", "change", "indexMergeable", false);
+    cfg.setEnum(
+        "change", null, "mergeabilityComputationBehavior", MergeabilityComputationBehavior.NEVER);
     cfg.setString("trackingid", "query-bug", "footer", "Bug:");
     cfg.setString("trackingid", "query-bug", "match", "QUERY\\d{2,8}");
     cfg.setString("trackingid", "query-bug", "system", "querytests");

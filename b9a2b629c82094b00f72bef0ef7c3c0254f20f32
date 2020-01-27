@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ead13c38_9c4d42a1",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T13:55:27Z",
+      "side": 1,
+      "message": "There are two things that got me confused in the first place:\n\n1) This method isn\u0027t used inside Google, so anything contained in here needs to be implemented twice. For the paths (cdn, favicon, etc) that\u0027s understandable (though still sub-optimal) because we serve from other paths using a CDN, etc.\n2) Using a map when only keys are needed\n\nWhat I mostly care about is having our version of the servlet and the open-source version not drift apart further, but rather work on reducing the drift. So we could either:\n1) Implement #experimentalTemplateData and reuse that internally\n2) If all these parameters are experimental or just mark an intermediary state that will be gone in the next release, we could just remove them from here and experiment with them on googlesource.com only (living on master)\n\nI did some internal house keeping to reduce the drift. Maybe we can share the rest through experimentalTemplateData or a similar method (could also factor in defaults from GerritConfig or elsewhere.",
+      "parentUuid": "92b1643a_fa2bc369",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 43
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4fdd8b7_95bd63b5",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 3

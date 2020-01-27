@@ -152,7 +152,7 @@
           if (task.duration > 200) {
             GrReporting.prototype.reporter(TIMING.TYPE,
                 TIMING.CATEGORY_UI_LATENCY, `Task ${task.name}`,
-                Math.round(task.duration), false);
+                Math.round(task.duration), undefined, false);
           }
         }
       });
@@ -197,9 +197,28 @@
         !this._baselines.hasOwnProperty(TIMER.METRICS_PLUGIN_LOADED);
     },
 
-    reporter(...args) {
+    /**
+     * Reporter reports events. Events will be queue if metrics plugin not
+     * yet installed.
+     *
+     * @param {string} type
+     * @param {string} category
+     * @param {string} eventName
+     * @param {string|number} eventValue
+     * @param {string} eventDetails
+     * @param {boolean|undefined} opt_noLog If true, the event will not be
+     *     logged to the JS console.
+     */
+    reporter(type, category, eventName, eventValue, eventDetails, opt_noLog) {
       const report = (this._isMetricsPluginLoaded() && !pending.length) ?
-        this.defaultReporter : this.cachingReporter;
+        this._defaultReporter : this._cachingReporter;
+      const detail = {
+        type,
+        category,
+        name: eventName,
+        value: eventValue,
+        eventDetails,
+      };
       const contextInfo = {
         loadedPlugins,
         detectedExtensions,
@@ -207,30 +226,19 @@
         isInBackgroundTab: document.visibilityState === 'hidden',
         startTimeMs: this.now(),
       };
-      args.splice(4, 0, contextInfo);
-      report.apply(this, args);
+      report.apply(this, [detail, contextInfo, opt_noLog]);
     },
 
     /**
      * The default reporter reports events immediately.
      *
-     * @param {string} type
-     * @param {string} category
-     * @param {string} eventName
-     * @param {string|number} eventValue
+     * @param {Object} detail
      * @param {Object} contextInfo
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
-    defaultReporter(type, category, eventName, eventValue, contextInfo,
-        opt_noLog) {
-      const detail = {
-        type,
-        category,
-        name: eventName,
-        value: eventValue,
-      };
-      if (category === TIMING.CATEGORY_UI_LATENCY && contextInfo) {
+    _defaultReporter(detail, contextInfo, opt_noLog) {
+      if (detail.category === TIMING.CATEGORY_UI_LATENCY && contextInfo) {
         detail.loadedPlugins = contextInfo.loadedPlugins;
         detail.detectedExtensions = contextInfo.detectedExtensions;
       }
@@ -243,15 +251,16 @@
       if (contextInfo && contextInfo.startTimeMs) {
         detail.eventStart = contextInfo.startTimeMs;
       }
-      document.dispatchEvent(new CustomEvent(type, {detail}));
+      document.dispatchEvent(new CustomEvent(detail.type, {detail}));
       if (opt_noLog) { return; }
-      if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
-        console.error(eventValue && eventValue.error || eventName);
+      if (detail.type === ERROR.TYPE && detail.category === ERROR.CATEGORY) {
+        console.error(detail.value && detail.value.error
+            || detail.name);
       } else {
-        if (eventValue !== undefined) {
-          console.log(`Reporting: ${eventName}: ${eventValue}`);
+        if (detail.eventValue !== undefined) {
+          console.log(`Reporting: ${detail.name}: ${detail.value}`);
         } else {
-          console.log(`Reporting: ${eventName}`);
+          console.log(`Reporting: ${detail.name}`);
         }
       }
     },
@@ -260,30 +269,25 @@
      * The caching reporter will queue reports until plugins have loaded, and
      * log events immediately if they're reported after plugins have loaded.
      *
-     * @param {string} type
-     * @param {string} category
-     * @param {string} eventName
-     * @param {string|number} eventValue
+     * @param {Object} detail
      * @param {Object} contextInfo
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
-    cachingReporter(type, category, eventName, eventValue, contextInfo,
-        opt_noLog) {
-      if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
-        console.error(eventValue && eventValue.error || eventName);
+    _cachingReporter(detail, contextInfo, opt_noLog) {
+      if (detail.type === ERROR.TYPE && detail.category === ERROR.CATEGORY) {
+        console.error(detail.value && detail.value.error
+            || detail.name);
       }
       if (this._isMetricsPluginLoaded()) {
         if (pending.length) {
           for (const args of pending.splice(0)) {
-            this.defaultReporter(...args);
+            this._defaultReporter(...args);
           }
         }
-        this.defaultReporter(type, category, eventName, eventValue, contextInfo,
-            opt_noLog);
+        this._defaultReporter(detail, contextInfo, opt_noLog);
       } else {
-        pending.push([type, category, eventName, eventValue, contextInfo,
-          opt_noLog]);
+        pending.push([detail, contextInfo, opt_noLog]);
       }
     },
 
@@ -310,14 +314,14 @@
       }
     },
 
-    _reportPerformanceTiming(eventName) {
+    _reportPerformanceTiming(eventName, eventDetails) {
       const eventTiming = this.performanceTiming[eventName];
       if (eventTiming > 0) {
         const elapsedTime = eventTiming -
             this.performanceTiming.navigationStart;
         // NavResTime - Navigation and resource timings.
         this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            `NavResTime - ${eventName}`, elapsedTime, true);
+            `NavResTime - ${eventName}`, elapsedTime, eventDetails, true);
       }
     },
 
@@ -470,9 +474,11 @@
      *
      * @param {string} name Timing name.
      * @param {number} time The time to report as an integer of milliseconds.
+     * @param {string} details non sensitive details
      */
-    _reportTiming(name, time) {
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name, time);
+    _reportTiming(name, time, details) {
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name, time,
+          details);
     },
 
     /**
@@ -532,11 +538,12 @@
      */
     reportRpcTiming(anonymizedUrl, elapsed) {
       this.reporter(TIMING.TYPE, TIMING.CATEGORY_RPC, 'RPC-' + anonymizedUrl,
-          elapsed, true);
+          elapsed, undefined, true);
     },
 
-    reportInteraction(eventName, opt_msg) {
-      this.reporter(INTERACTION_TYPE, this.category, eventName, opt_msg);
+    reportInteraction(eventName, details) {
+      this.reporter(INTERACTION_TYPE, this.category, eventName, undefined,
+          details, false);
     },
 
     /**

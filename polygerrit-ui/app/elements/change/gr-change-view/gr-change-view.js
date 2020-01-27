@@ -476,7 +476,7 @@
         const tabName = this._selectedFilesTabPluginEndpoint || 'files';
         const source = e && e.type ? e.type : '';
         this.$.reporting.reportInteraction('tab-changed',
-            `tabname: ${tabName}, source: ${source}`);
+            JSON.stringify({tabName, source}));
       }
     }
 
@@ -488,7 +488,8 @@
       }
       this.shadowRoot.querySelector('#primaryTabs').selected = idx + 1;
       this.shadowRoot.querySelector('#primaryTabs').scrollIntoView();
-      this.$.reporting.reportInteraction('show-tab', e.detail.tab);
+      this.$.reporting.reportInteraction('show-tab',
+          JSON.stringify({tabName: e.detail.tab}));
     }
 
     _handleEditCommitMessage(e) {

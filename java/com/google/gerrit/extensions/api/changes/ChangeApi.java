@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -304,6 +305,15 @@ public interface ChangeApi {
   /** Set hashtags on a change */
   void setHashtags(HashtagsInput input) throws RestApiException;
 
+  default void setAuthor(String name, String email) throws RestApiException {
+    AccountInput in = new AccountInput();
+    in.name = name;
+    in.email = email;
+    setAuthor(in);
+  }
+
+  void setAuthor(AccountInput in) throws RestApiException;
+
   /**
    * Get hashtags on a change.
    *
@@ -562,6 +572,11 @@ public interface ChangeApi {
 
     @Override
     public void setMessage(CommitMessageInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setAuthor(AccountInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

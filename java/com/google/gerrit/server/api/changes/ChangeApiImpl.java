@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -92,6 +93,7 @@ import com.google.gerrit.server.restapi.change.PostHashtags;
 import com.google.gerrit.server.restapi.change.PostPrivate;
 import com.google.gerrit.server.restapi.change.PostReviewers;
 import com.google.gerrit.server.restapi.change.PutAssignee;
+import com.google.gerrit.server.restapi.change.PutAuthor;
 import com.google.gerrit.server.restapi.change.PutMessage;
 import com.google.gerrit.server.restapi.change.PutTopic;
 import com.google.gerrit.server.restapi.change.Rebase;
@@ -167,6 +169,7 @@ class ChangeApiImpl implements ChangeApi {
   private final SetWorkInProgress setWip;
   private final SetReadyForReview setReady;
   private final PutMessage putMessage;
+  private final PutAuthor putAuthor;
   private final Provider<GetPureRevert> getPureRevertProvider;
   private final StarredChangesUtil stars;
   private final DynamicOptionParser dynamicOptionParser;
@@ -217,6 +220,7 @@ class ChangeApiImpl implements ChangeApi {
       SetWorkInProgress setWip,
       SetReadyForReview setReady,
       PutMessage putMessage,
+      PutAuthor putAuthor,
       Provider<GetPureRevert> getPureRevertProvider,
       StarredChangesUtil stars,
       DynamicOptionParser dynamicOptionParser,
@@ -265,6 +269,7 @@ class ChangeApiImpl implements ChangeApi {
     this.setWip = setWip;
     this.setReady = setReady;
     this.putMessage = putMessage;
+    this.putAuthor = putAuthor;
     this.getPureRevertProvider = getPureRevertProvider;
     this.stars = stars;
     this.dynamicOptionParser = dynamicOptionParser;
@@ -508,6 +513,15 @@ class ChangeApiImpl implements ChangeApi {
       putMessage.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot edit commit message", e);
+    }
+  }
+
+  @Override
+  public void setAuthor(AccountInput in) throws RestApiException {
+    try {
+      putAuthor.apply(change, in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set author", e);
     }
   }
 

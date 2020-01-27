@@ -68,6 +68,197 @@ limitations under the License.
       COMMENT_THREADS: 1,
     };
 
+    const THREADS = [
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
+            },
+            patch_set: 4,
+            id: 'ecf0b9fa_fe1a5f62',
+            line: 5,
+            updated: '2018-02-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+          },
+          {
+            id: '503008e2_0ab203ee',
+            path: '/COMMIT_MSG',
+            line: 5,
+            in_reply_to: 'ecf0b9fa_fe1a5f62',
+            updated: '2018-02-13 22:48:48.018000000',
+            message: 'draft',
+            unresolved: false,
+            __draft: true,
+            __draftID: '0.m683trwff68',
+            __editing: false,
+            patch_set: '2',
+          },
+        ],
+        patchNum: 4,
+        path: '/COMMIT_MSG',
+        line: 5,
+        rootId: 'ecf0b9fa_fe1a5f62',
+        start_datetime: '2018-02-08 18:49:18.000000000',
+      },
+      {
+        comments: [
+          {
+            __path: 'test.txt',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
+            },
+            patch_set: 3,
+            id: '09a9fb0a_1484e6cf',
+            side: 'PARENT',
+            updated: '2018-02-13 22:47:19.000000000',
+            message: 'Some comment on another patchset.',
+            unresolved: false,
+          },
+        ],
+        patchNum: 3,
+        path: 'test.txt',
+        rootId: '09a9fb0a_1484e6cf',
+        start_datetime: '2018-02-13 22:47:19.000000000',
+        commentSide: 'PARENT',
+      },
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
+            },
+            patch_set: 2,
+            id: '8caddf38_44770ec1',
+            line: 4,
+            updated: '2018-02-13 22:48:40.000000000',
+            message: 'Another unresolved comment',
+            unresolved: true,
+          },
+        ],
+        patchNum: 2,
+        path: '/COMMIT_MSG',
+        line: 4,
+        rootId: '8caddf38_44770ec1',
+        start_datetime: '2018-02-13 22:48:40.000000000',
+      },
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
+            },
+            patch_set: 2,
+            id: 'scaddf38_44770ec1',
+            line: 4,
+            updated: '2018-02-14 22:48:40.000000000',
+            message: 'Yet another unresolved comment',
+            unresolved: true,
+          },
+        ],
+        patchNum: 2,
+        path: '/COMMIT_MSG',
+        line: 4,
+        rootId: 'scaddf38_44770ec1',
+        start_datetime: '2018-02-14 22:48:40.000000000',
+      },
+      {
+        comments: [
+          {
+            id: 'zcf0b9fa_fe1a5f62',
+            path: '/COMMIT_MSG',
+            line: 6,
+            updated: '2018-02-15 22:48:48.018000000',
+            message: 'resolved draft',
+            unresolved: false,
+            __draft: true,
+            __draftID: '0.m683trwff68',
+            __editing: false,
+            patch_set: '2',
+          },
+        ],
+        patchNum: 4,
+        path: '/COMMIT_MSG',
+        line: 6,
+        rootId: 'zcf0b9fa_fe1a5f62',
+        start_datetime: '2018-02-09 18:49:18.000000000',
+      },
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
+            },
+            patch_set: 4,
+            id: 'rc1',
+            line: 5,
+            updated: '2019-02-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+            robot_id: 'rc1',
+          },
+        ],
+        patchNum: 4,
+        path: '/COMMIT_MSG',
+        line: 5,
+        rootId: 'rc1',
+        start_datetime: '2019-02-08 18:49:18.000000000',
+      },
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
+            },
+            patch_set: 4,
+            id: 'rc2',
+            line: 5,
+            updated: '2019-03-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+            robot_id: 'rc2',
+          },
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
+            },
+            patch_set: 4,
+            id: 'c2_1',
+            line: 5,
+            updated: '2019-03-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+          },
+        ],
+        patchNum: 4,
+        path: '/COMMIT_MSG',
+        line: 5,
+        rootId: 'rc2',
+        start_datetime: '2019-03-08 18:49:18.000000000',
+      },
+    ];
+
     setup(() => {
       sandbox = sinon.sandbox.create();
       stub('gr-endpoint-decorator', {
@@ -460,6 +651,30 @@ limitations under the License.
         assert.equal(element.$.commentTabs.selected, 1);
         assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
         done();
+      });
+    });
+
+    suite('Findings comment tab', () => {
+      setup(done => {
+        element._commentThreads = THREADS;
+        element._currentRevision = {_number: 4};
+        flush(() => {
+          done();
+        });
+      });
+      test('only robot comments are rendered', () => {
+        assert.equal(element._robotCommentThreads.length, 2);
+        assert.equal(element._robotCommentThreads[0].comments[0].robot_id,
+            'rc1');
+        assert.equal(element._robotCommentThreads[1].comments[0].robot_id,
+            'rc2');
+      });
+      test('changing patchsets resets robot comments', done => {
+        element._currentRevision = {_number: 3};
+        flush(() => {
+          assert.equal(element._robotCommentThreads.length, 0);
+          done();
+        });
       });
     });
 

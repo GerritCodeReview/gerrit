@@ -86,6 +86,24 @@
       "revId": "77811e3572d41a085efe6f2bd16f15673a6aa58f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d5c333a_8511ae3b",
+        "filename": "java/com/google/gerrit/extensions/common/ServerInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T13:23:50Z",
+      "side": 0,
+      "message": "It\u0027s not currently used. The follow-up change to this one in the series will use the new config directly.",
+      "parentUuid": "6fd9b8c2_505672b5",
+      "revId": "77811e3572d41a085efe6f2bd16f15673a6aa58f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

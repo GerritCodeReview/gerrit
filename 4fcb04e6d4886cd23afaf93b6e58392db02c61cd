@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d6358f25_47958958",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T13:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56656122_84ce972a",
+      "range": {
+        "startLine": 1250,
+        "startChar": 0,
+        "endLine": 1250,
+        "endChar": 1
+      },
+      "revId": "4fcb04e6d4886cd23afaf93b6e58392db02c61cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7f097eb_75dd820b",
         "filename": "java/com/google/gerrit/server/change/MergeabilityComputationBehavior.java",
         "patchSetId": 7
@@ -39,6 +63,24 @@
       "revId": "4fcb04e6d4886cd23afaf93b6e58392db02c61cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaa2e5ca_cf4add50",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityComputationBehavior.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T13:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7f097eb_75dd820b",
+      "revId": "4fcb04e6d4886cd23afaf93b6e58392db02c61cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "4fcb04e6d4886cd23afaf93b6e58392db02c61cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de7e201_d6356b2b",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T13:23:50Z",
+      "side": 1,
+      "message": "Done. Nice!",
+      "parentUuid": "794ba00e_2a20070e",
+      "range": {
+        "startLine": 234,
+        "startChar": 8,
+        "endLine": 236,
+        "endChar": 50
+      },
+      "revId": "4fcb04e6d4886cd23afaf93b6e58392db02c61cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

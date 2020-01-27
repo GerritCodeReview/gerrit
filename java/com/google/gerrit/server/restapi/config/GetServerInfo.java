@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
 import com.google.gerrit.extensions.common.DownloadSchemeInfo;
 import com.google.gerrit.extensions.common.GerritInfo;
+import com.google.gerrit.extensions.common.MessageOfTheDayInfo;
 import com.google.gerrit.extensions.common.PluginConfigInfo;
 import com.google.gerrit.extensions.common.ReceiveInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
@@ -36,7 +37,9 @@ import com.google.gerrit.extensions.common.UserConfigInfo;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
@@ -69,6 +72,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -100,6 +104,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final GerritOptions gerritOptions;
   private final ChangeIndexCollection indexes;
   private final SitePaths sitePaths;
+  private final DynamicSet<MessageOfTheDay> messages;
 
   @Inject
   public GetServerInfo(
@@ -123,7 +128,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AgreementJson agreementJson,
       GerritOptions gerritOptions,
       ChangeIndexCollection indexes,
-      SitePaths sitePaths) {
+      SitePaths sitePaths,
+      DynamicSet<MessageOfTheDay> motd) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
     this.authConfig = authConfig;
@@ -145,6 +151,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.gerritOptions = gerritOptions;
     this.indexes = indexes;
     this.sitePaths = sitePaths;
+    this.messages = motd;
   }
 
   @Override
@@ -155,6 +162,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.change = getChangeInfo();
     info.download = getDownloadInfo();
     info.gerrit = getGerritInfo();
+    info.messages = getMessages();
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
     info.plugin = getPluginInfo();
     info.defaultTheme = getDefaultTheme();
@@ -323,6 +331,20 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       return null;
     }
     return CharMatcher.is('/').trimTrailingFrom(docUrl) + '/';
+  }
+
+  private List<MessageOfTheDayInfo> getMessages() {
+    return this.messages.stream()
+        .filter(motd -> !Strings.isNullOrEmpty(motd.getHtmlMessage()))
+        .map(
+            motd -> {
+              MessageOfTheDayInfo m = new MessageOfTheDayInfo();
+              m.id = motd.getMessageId();
+              m.redisplay = motd.getRedisplay();
+              m.html = motd.getHtmlMessage();
+              return m;
+            })
+        .collect(toList());
   }
 
   private boolean isNoteDbEnabled() {

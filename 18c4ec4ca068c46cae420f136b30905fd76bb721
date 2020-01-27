@@ -105,6 +105,24 @@
       "revId": "18c4ec4ca068c46cae420f136b30905fd76bb721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc295da6_2cb25ea5",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T12:03:49Z",
+      "side": 1,
+      "message": "\u003e\u003eIf we have 4 directories with node modules, should we then have 4 yarn.lock files checked in?\n\nYes. Initially, they were added in other changes in the chain, but to avoid confusion I moved them to this change.\n\n\u003e\u003eWhat was the decision process for using yarn instead of npm? \nbazel team recommends to use yarn (David posted links above).\n\nIn overall, we are using npm/yarn only to install scripts in node_modules folder. Yarn and npm can produce slightly different directory layout in case of version conflicts, but for polygerrit this is not visible.\n\nI can say, that decision here is not very important. At present, both tools works similar and the difference between them is quite small. yarn has some nice features and can be faster in some cases, so I decided to use it instead of npm.",
+      "parentUuid": "3279089a_e972615f",
+      "revId": "18c4ec4ca068c46cae420f136b30905fd76bb721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

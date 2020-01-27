@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "10e89382_41bbec1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T12:03:49Z",
+      "side": 1,
+      "message": "Yes, sure.\nWhat do you think about having separate change for docs update? I want to focus on code change and then write a docs (when all details are clear enough).\n\nI created an empty change - https://gerrit-review.googlesource.com/c/gerrit/+/251978 to do it.",
+      "parentUuid": "c4b02391_a6d40179",
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7982c59e_1fada04c",
         "filename": "WORKSPACE",
         "patchSetId": 18
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "484e83b8_d60dd116",
+        "filename": "WORKSPACE",
+        "patchSetId": 18
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T12:03:49Z",
+      "side": 1,
+      "message": "Yes. I update versions periodically. The 1.2.0 was released only 3 day ago.",
+      "parentUuid": "7982c59e_1fada04c",
+      "range": {
+        "startLine": 67,
+        "startChar": 74,
+        "endLine": 67,
+        "endChar": 105
+      },
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82560692_b4f599f7",
         "filename": "WORKSPACE",
         "patchSetId": 18
@@ -62,6 +104,30 @@
       "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cbe1679_9f9a2d14",
+        "filename": "WORKSPACE",
+        "patchSetId": 18
+      },
+      "lineNbr": 1219,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T12:03:49Z",
+      "side": 1,
+      "message": "Added @npm to managed directories (move it here from another change in the chain)",
+      "parentUuid": "82560692_b4f599f7",
+      "range": {
+        "startLine": 1214,
+        "startChar": 0,
+        "endLine": 1219,
+        "endChar": 1
+      },
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +160,24 @@
       "side": 1,
       "message": "It\u0027s committed upstream, see: [1].\n\n* [1] https://github.com/bazelbuild/rules_nodejs/commit/baea8ce2dbd6c58219f527d5ebd897a134857439",
       "parentUuid": "2eb45990_267756c1",
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5225df12_c8f711b8",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T12:03:49Z",
+      "side": 1,
+      "message": "Also, please see comments from Ben here: https://gerrit-review.googlesource.com/c/gerrit/+/250019/17/polygerrit-ui/app/yarn.lock",
+      "parentUuid": "46d96904_f5cc367e",
       "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

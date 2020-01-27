@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a9d6917_94d79135",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-27T09:34:24Z",
+      "side": 1,
+      "message": "This change is unrelated to the topic of this change (\"rethrow exception after firing commentAdded event\"). It\u0027s a bug fix, and hence it should rather be done in a separate change.",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 132,
+        "endChar": 23
+      },
+      "revId": "d3bc3fbf4a7a1588f40cd1f94548638c501b86d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9070c35_1431d942",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-27T09:34:24Z",
+      "side": 1,
+      "message": "We should never throw Exception directly, but always a subclass that is more specific.\nIn this case, can we just remove the try-catch? The stacktrace of the original exception should be good enough to understand that it occurred during firing the comment-added event, so that a specific message is not needed.",
+      "revId": "d3bc3fbf4a7a1588f40cd1f94548638c501b86d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

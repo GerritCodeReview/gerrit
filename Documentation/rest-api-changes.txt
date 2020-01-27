@@ -1962,8 +1962,8 @@ map are sorted by file path.
           "name": "Code Analyzer",
           "email": "code.analyzer@example.com"
         },
-        "robotId": "importChecker",
-        "robotRunId": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
+        "robot_id": "importChecker",
+        "robot_run_id": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
       },
       {
         "id": "TveXwFiA",
@@ -1975,8 +1975,8 @@ map are sorted by file path.
           "name": "Code Analyzer",
           "email": "code.analyzer@example.com"
         },
-        "robotId": "styleChecker",
-        "robotRunId": "5c606c425dd45184484f9d0a2ffd725a7607839b"
+        "robot_id": "styleChecker",
+        "robot_run_id": "5c606c425dd45184484f9d0a2ffd725a7607839b"
       }
     ]
   }
@@ -4719,8 +4719,8 @@ map are sorted by file path.
           "name": "Code Analyzer",
           "email": "code.analyzer@example.com"
         },
-        "robotId": "importChecker",
-        "robotRunId": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
+        "robot_id": "importChecker",
+        "robot_run_id": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
       },
       {
         "id": "TveXwFiA",
@@ -4732,8 +4732,8 @@ map are sorted by file path.
           "name": "Code Analyzer",
           "email": "code.analyzer@example.com"
         },
-        "robotId": "styleChecker",
-        "robotRunId": "5c606c425dd45184484f9d0a2ffd725a7607839b"
+        "robot_id": "styleChecker",
+        "robot_run_id": "5c606c425dd45184484f9d0a2ffd725a7607839b"
       }
     ]
   }
@@ -4773,8 +4773,8 @@ returned that describes the robot comment.
       "name": "Code Analyzer",
       "email": "code.analyzer@example.com"
     },
-    "robotId": "importChecker",
-    "robotRunId": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
+    "robot_id": "importChecker",
+    "robot_run_id": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
   }
 ----
 

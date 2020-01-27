@@ -43,6 +43,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      element.onlyShowRobotCommentsWithHumanReply = true;
       element.threads = [
         {
           comments: [
@@ -314,14 +315,15 @@ limitations under the License.
     });
 
     test('toggle unresolved only shows unresolved comments', () => {
-      MockInteractions.tap(element.$.unresolvedToggle);
+      MockInteractions.tap(element.shadowRoot.querySelector(
+          '#unresolvedToggle'));
       flushAsynchronousOperations();
       assert.equal(Polymer.dom(element.root)
           .querySelectorAll('gr-comment-thread').length, 5);
     });
 
     test('toggle drafts only shows threads with draft comments', () => {
-      MockInteractions.tap(element.$.draftToggle);
+      MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
       flushAsynchronousOperations();
       assert.equal(Polymer.dom(element.root)
           .querySelectorAll('gr-comment-thread').length, 2);
@@ -329,8 +331,9 @@ limitations under the License.
 
     test('toggle drafts and unresolved only shows threads with drafts and ' +
         'publicly unresolved ', () => {
-      MockInteractions.tap(element.$.draftToggle);
-      MockInteractions.tap(element.$.unresolvedToggle);
+      MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
+      MockInteractions.tap(element.shadowRoot.querySelector(
+          '#unresolvedToggle'));
       flushAsynchronousOperations();
       assert.equal(Polymer.dom(element.root)
           .querySelectorAll('gr-comment-thread').length, 2);
@@ -347,6 +350,19 @@ limitations under the License.
       assert.equal(dispatchSpy.lastCall.args[0].detail.rootId,
           'ecf0b9fa_fe1a5f62');
       assert.equal(dispatchSpy.lastCall.args[0].detail.path, '/COMMIT_MSG');
+    });
+
+    suite('findings tab', () => {
+      setup(done => {
+        element.hideToggleButtons = true;
+        flush(() => {
+          done();
+        });
+      });
+      test('toggle buttons are hidden', () => {
+        assert.equal(element.shadowRoot.querySelector('.header').style.display,
+            'none');
+      });
     });
   });
 </script>

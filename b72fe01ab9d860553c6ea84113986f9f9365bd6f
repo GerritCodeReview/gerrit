@@ -25,6 +25,75 @@
     },
     {
       "key": {
+        "uuid": "f0127637_cc0154bc",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T12:29:56Z",
+      "side": 1,
+      "message": "nit: SIZE",
+      "range": {
+        "startLine": 46,
+        "startChar": 81,
+        "endLine": 46,
+        "endChar": 83
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "862194da_d1cc3db4",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T12:29:56Z",
+      "side": 1,
+      "message": "nits:\n1) Make this \u0027final\u0027\n2) Use primitive \u0027int\u0027 (when the parameter is not provided by the user, set it to 100)\n3) Use the primitive type in the factory and constructor\n\n(primitive types are preferred to complex types when \u0027null\u0027 is not explicitly required as state.",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96051432_b756c2ec",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T12:29:56Z",
+      "side": 1,
+      "message": "nit: toImmutableList()\n\n(import this statically and use the immutable data structure)\n\nHere and below when #collect is called",
+      "range": {
+        "startLine": 86,
+        "startChar": 23,
+        "endLine": 86,
+        "endChar": 42
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f644a15_78b0ee04",
         "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
         "patchSetId": 7
@@ -48,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "cebb7a79_e4927cc0",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T12:29:56Z",
+      "side": 1,
+      "message": "That\u0027s OK, but please use Change.fromAllUsersRef(String ref) that already does the magic and hast test coverage",
+      "parentUuid": "6f644a15_78b0ee04",
+      "range": {
+        "startLine": 136,
+        "startChar": 14,
+        "endLine": 136,
+        "endChar": 30
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38f842da_3756f2bc",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
         "patchSetId": 7
@@ -68,6 +161,86 @@
       "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2580d07_2e298d7c",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T12:29:56Z",
+      "side": 1,
+      "message": "Please add a test to see that the cleanup percentage is stable: After running with 50, run again with 50 and assert that nothing was changed.",
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39f525a4_b761780b",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T12:29:56Z",
+      "side": 1,
+      "message": "nit: we never annotate variables in methods as \u0027final\u0027",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 11
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c645f27_ea5718aa",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T12:29:56Z",
+      "side": 1,
+      "message": "nit: toImmutableList()",
+      "range": {
+        "startLine": 130,
+        "startChar": 28,
+        "endLine": 130,
+        "endChar": 46
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39ba7476_d624b9fa",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T12:29:56Z",
+      "side": 1,
+      "message": "nit: Use RefNames",
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

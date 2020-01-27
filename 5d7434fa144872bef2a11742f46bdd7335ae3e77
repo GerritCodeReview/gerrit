@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "69cd3be4_ca4b4fbb",
+        "filename": "WORKSPACE",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T13:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9e0cb01_7de64a5c",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "198034ab_7df708a1",
         "filename": "polygerrit-ui/app/package.json",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-25T15:58:08Z",
       "side": 1,
       "message": "Why is this line needed, and why in this change, where license map for npm packages is added? Polymer 3.x components can only be consumed by npm/yarn, while Polymer 2.x component can only be consume by bower, correct?",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 48
+      },
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77d94390_99dd9a41",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 16
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T13:55:57Z",
+      "side": 1,
+      "message": "This is needed to test license-map tool and is not used anywhere else.\nI can remove this line, if it is confusing.",
+      "parentUuid": "198034ab_7df708a1",
       "range": {
         "startLine": 6,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1a821284_4eb0b0aa",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 16
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T13:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "399404ae_c272f49e",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a28cc13a_909d6fcd",
         "filename": "tools/node_tools/node_modules_licenses/BUILD",
         "patchSetId": 16
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "27cfdf2f_9b8e0621",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T13:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a28cc13a_909d6fcd",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 58
+      },
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "175bb8e5_97710208",
         "filename": "tools/node_tools/node_modules_licenses/package-license-info.ts",
         "patchSetId": 16
@@ -105,6 +201,24 @@
       "writtenOn": "2020-01-25T15:58:08Z",
       "side": 1,
       "message": "Nit: Unneeded blank lines. Is there any way to autio-format Typescript files?",
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c1f58d0_2d442ea6",
+        "filename": "tools/node_tools/node_modules_licenses/package-license-info.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T13:55:57Z",
+      "side": 1,
+      "message": "Fixed, thank you.\n\n\u003e\u003e Is there any way to autio-format Typescript files?\nYes, we can add rules for Typescript files (and definitely, we must do it before using typescript for the polygerrit-ui code). But before doing it, we must agree on code rules for typescript.\n\nAt present, I think typescript makes enough checks for us. We can have some not very well formatted code, but setup automation for it right now can delay us for a week or so.",
+      "parentUuid": "175bb8e5_97710208",
       "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

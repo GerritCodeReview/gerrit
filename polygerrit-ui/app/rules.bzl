@@ -3,10 +3,12 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "prepare_for_bundling", "update_links")
 load("//tools/node_tools/legacy:index.bzl", "polymer_bundler_tool")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
-load(
-    "//tools/bzl:js.bzl",
-    "bundle_assets",
-)
+
+FONTS_ROBOTO = [
+]
+
+FONTS_ROBOTO_MONO = [
+]
 
 def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
     app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app
@@ -89,6 +91,40 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
         ],
     )
 
+    native.filegroup(
+        name = "fonts_roboto",
+        srcs = [
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-Black.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-BlackItalic.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-Bold.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-BoldItalic.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-Italic.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-Light.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-LightItalic.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-Medium.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-MediumItalic.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-Regular.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-Thin.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/roboto/Roboto-ThinItalic.ttf",
+        ],
+    )
+
+    native.filegroup(
+        name = "fonts_roboto_mono",
+        srcs = [
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-Bold.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-BoldItalic.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-Italic.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-Light.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-LightItalic.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-Medium.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-MediumItalic.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-Regular.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-Thin.ttf",
+            "@ui_npm//:node_modules/@polymer/font-roboto-local/fonts/robotomono/RobotoMono-ThinItalic.ttf",
+        ],
+    )
+
     genrule2(
         name = name,
         srcs = [
@@ -98,23 +134,22 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
             name + "_top_sources",
             "//lib/fonts:robotofonts",
             "//lib/js:highlightjs_files",
-            # we extract from the zip, but depend on the component for license checking.
-            "@webcomponentsjs//:zipfile",
-            "//lib/js:webcomponentsjs",
-            "@font-roboto-local//:zipfile",
-            "//lib/js:font-roboto-local",
+            "@ui_npm//:node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js",
+            "fonts_roboto",
+            "fonts_roboto_mono",
         ],
         outs = outs,
         cmd = " && ".join([
-            "mkdir -p $$TMP/polygerrit_ui/{styles/themes,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
+            "mkdir -p $$TMP/polygerrit_ui/{styles/themes,fonts,bower_components/{highlightjs,webcomponentsjs,font-roboto-local/fonts/roboto,font-roboto-local/fonts/robotomono},elements}",
             "for f in $(locations " + name + "_app_sources); do ext=$${f##*.}; cp -p $$f $$TMP/polygerrit_ui/elements/" + app_name + ".$$ext; done",
             "cp $(locations //lib/fonts:robotofonts) $$TMP/polygerrit_ui/fonts/",
             "for f in $(locations " + name + "_top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
             "for f in $(locations " + name + "_css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
             "for f in $(locations " + name + "_theme_sources); do cp $$f $$TMP/polygerrit_ui/styles/themes; done",
             "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
-            "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
-            "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @font-roboto-local//:zipfile) font-roboto-local/fonts/\\*/\\*.ttf",
+            "cp $(location @ui_npm//:node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js) $$TMP/polygerrit_ui/bower_components/webcomponentsjs/webcomponents-lite.js",
+            "cp $(locations fonts_roboto) $$TMP/polygerrit_ui/bower_components/font-roboto-local/fonts/roboto/",
+            "cp $(locations fonts_roboto_mono) $$TMP/polygerrit_ui/bower_components/font-roboto-local/fonts/robotomono/",
             "cd $$TMP",
             "find . -exec touch -t 198001010000 '{}' ';'",
             "zip -qr $$ROOT/$@ *",

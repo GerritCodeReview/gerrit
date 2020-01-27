@@ -67,7 +67,7 @@ limitations under the License.
       sandbox.stub(element, 'now').returns(42);
       element.appStarted();
       assert.isTrue(
-          element.reporter.calledWithExactly(
+          element.reporter.calledWithMatch(
               'timing-report', 'UI Latency', 'App Started', 42
           ));
     });
@@ -75,7 +75,7 @@ limitations under the License.
     test('WebComponentsReady', () => {
       sandbox.stub(element, 'now').returns(42);
       element.timeEnd('WebComponentsReady');
-      assert.isTrue(element.reporter.calledWithExactly(
+      assert.isTrue(element.reporter.calledWithMatch(
           'timing-report', 'UI Latency', 'WebComponentsReady', 42
       ));
     });
@@ -86,7 +86,7 @@ limitations under the License.
           element.reporter.calledWithExactly(
               'timing-report', 'UI Latency', 'NavResTime - loadEventEnd',
               fakePerformance.loadEventEnd - fakePerformance.navigationStart,
-              true)
+              undefined, true)
       );
     });
 
@@ -166,10 +166,10 @@ limitations under the License.
       element.timeEnd('bar');
       nowStub.returns(3);
       element.timeEnd('foo');
-      assert.isTrue(element.reporter.calledWithExactly(
+      assert.isTrue(element.reporter.calledWithMatch(
           'timing-report', 'UI Latency', 'foo', 3
       ));
-      assert.isTrue(element.reporter.calledWithExactly(
+      assert.isTrue(element.reporter.calledWithMatch(
           'timing-report', 'UI Latency', 'bar', 1
       ));
     });
@@ -179,7 +179,7 @@ limitations under the License.
       const timer = element.getTimer('foo-bar');
       nowStub.returns(150);
       timer.end();
-      assert.isTrue(element.reporter.calledWithExactly(
+      assert.isTrue(element.reporter.calledWithMatch(
           'timing-report', 'UI Latency', 'foo-bar', 50));
     });
 
@@ -236,9 +236,9 @@ limitations under the License.
       nowStub.returns(1100);
       element.timeEndWithAverage('foo', 'bar', 10);
       assert.isTrue(element.reporter.calledTwice);
-      assert.isTrue(element.reporter.calledWithExactly(
+      assert.isTrue(element.reporter.calledWithMatch(
           'timing-report', 'UI Latency', 'foo', 100));
-      assert.isTrue(element.reporter.calledWithExactly(
+      assert.isTrue(element.reporter.calledWithMatch(
           'timing-report', 'UI Latency', 'bar', 10));
     });
 
@@ -249,17 +249,36 @@ limitations under the License.
       ));
     });
 
+    test('reportInteraction', () => {
+      element.reporter.restore();
+      sandbox.spy(element, '_reportEvent');
+      element.pluginsLoaded(); // so we don't cache
+      element.reportInteraction('button-click', {name: 'sendReply'});
+      assert.isTrue(element._reportEvent.getCall(2).calledWithMatch(
+          {
+            type: 'interaction',
+            name: 'button-click',
+            eventDetails: JSON.stringify({name: 'sendReply'}),
+          }
+      ));
+    });
+
     test('report start time', () => {
       element.reporter.restore();
       sandbox.stub(element, 'now').returns(42);
-      sandbox.spy(element, 'defaultReporter');
+      sandbox.spy(element, '_reportEvent');
       const dispatchStub = sandbox.spy(document, 'dispatchEvent');
       element.pluginsLoaded();
       element.time('timeAction');
       element.timeEnd('timeAction');
-      assert.isTrue(element.defaultReporter.getCall(2).calledWithMatch(
-          'timing-report', 'UI Latency', 'timeAction', 0,
-          {startTimeMs: 42}
+      assert.isTrue(element._reportEvent.getCall(2).calledWithMatch(
+          {
+            type: 'timing-report',
+            category: 'UI Latency',
+            name: 'timeAction',
+            value: 0,
+            eventStart: 42,
+          }
       ));
       assert.equal(dispatchStub.getCall(2).args[0].detail.eventStart, 42);
     });
@@ -267,50 +286,46 @@ limitations under the License.
     suite('plugins', () => {
       setup(() => {
         element.reporter.restore();
-        sandbox.stub(element, 'defaultReporter');
+        sandbox.stub(element, '_reportEvent');
       });
 
       test('pluginsLoaded reports time', () => {
         sandbox.stub(element, 'now').returns(42);
         element.pluginsLoaded();
-        assert.isTrue(element.defaultReporter.calledWith(
-            'timing-report', 'UI Latency', 'PluginsLoaded', 42
+        assert.isTrue(element._reportEvent.calledWithMatch(
+            {
+              type: 'timing-report',
+              category: 'UI Latency',
+              name: 'PluginsLoaded',
+              value: 42,
+            }
         ));
       });
 
       test('pluginsLoaded reports plugins', () => {
         element.pluginsLoaded(['foo', 'bar']);
-        assert.isTrue(element.defaultReporter.calledWith(
-            'lifecycle', 'Plugins installed', 'foo,bar'
+        assert.isTrue(element._reportEvent.calledWithMatch(
+            {
+              type: 'lifecycle',
+              category: 'Plugins installed',
+              name: 'foo,bar',
+            }
         ));
       });
 
       test('caches reports if plugins are not loaded', () => {
         element.timeEnd('foo');
-        assert.isFalse(element.defaultReporter.called);
+        assert.isFalse(element._reportEvent.called);
       });
 
       test('reports if plugins are loaded', () => {
         element.pluginsLoaded();
-        assert.isTrue(element.defaultReporter.called);
-      });
-
-      test('reports plugins in timing events', () => {
-        element.pluginsLoaded = [];
-        sandbox.stub(element, 'now').returns(42);
-        element.pluginLoaded('metrics-xyz1');
-        // element.pluginLoaded('foo');
-        element.time('timeAction');
-        element.timeEnd('timeAction');
-        assert.isTrue(element.defaultReporter.getCall(1).calledWithMatch(
-            'timing-report', 'UI Latency', 'timeAction', 0,
-            {loadedPlugins: ['metrics-xyz1']}
-        ));
+        assert.isTrue(element._reportEvent.called);
       });
 
       test('reports if metrics plugin xyz is loaded', () => {
         element.pluginLoaded('metrics-xyz');
-        assert.isTrue(element.defaultReporter.called);
+        assert.isTrue(element._reportEvent.called);
       });
 
       test('reports cached events preserving order', () => {
@@ -319,17 +334,18 @@ limitations under the License.
         element.timeEnd('foo');
         element.pluginsLoaded();
         element.timeEnd('bar');
-        assert.isTrue(element.defaultReporter.getCall(0).calledWith(
-            'timing-report', 'UI Latency', 'foo'
+        assert.isTrue(element._reportEvent.getCall(0).calledWithMatch(
+            {type: 'timing-report', category: 'UI Latency', name: 'foo'}
         ));
-        assert.isTrue(element.defaultReporter.getCall(1).calledWith(
-            'timing-report', 'UI Latency', 'PluginsLoaded'
+        assert.isTrue(element._reportEvent.getCall(1).calledWithMatch(
+            {type: 'timing-report', category: 'UI Latency',
+              name: 'PluginsLoaded'}
         ));
-        assert.isTrue(element.defaultReporter.getCall(2).calledWith(
-            'lifecycle', 'Plugins installed'
+        assert.isTrue(element._reportEvent.getCall(2).calledWithMatch(
+            {type: 'lifecycle', category: 'Plugins installed'}
         ));
-        assert.isTrue(element.defaultReporter.getCall(3).calledWith(
-            'timing-report', 'UI Latency', 'bar'
+        assert.isTrue(element._reportEvent.getCall(3).calledWithMatch(
+            {type: 'timing-report', category: 'UI Latency', name: 'bar'}
         ));
       });
     });

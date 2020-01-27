@@ -102,7 +102,7 @@
         }
       }
       this.$.reporting.reportInteraction('button-click',
-          path.trim().toLowerCase());
+          {path: path.trim().toLowerCase()});
     }
 
     _disabledChanged(disabled) {

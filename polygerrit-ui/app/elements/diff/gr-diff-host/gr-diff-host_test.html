@@ -1069,8 +1069,10 @@ limitations under the License.
         };
         element._reportDiff(diff);
         assert.isTrue(reportStub.calledOnce);
-        assert.equal(reportStub.lastCall.args[0], 'rebase-percent-nonzero');
-        assert.strictEqual(reportStub.lastCall.args[1], 50);
+        assert.isTrue(reportStub.calledWith(
+            'rebase-percent-nonzero',
+            {percentRebaseDelta: 50}
+        ));
       });
 
       test('diff w/ all rebase delta', () => {
@@ -1081,8 +1083,10 @@ limitations under the License.
         }]};
         element._reportDiff(diff);
         assert.isTrue(reportStub.calledOnce);
-        assert.equal(reportStub.lastCall.args[0], 'rebase-percent-nonzero');
-        assert.strictEqual(reportStub.lastCall.args[1], 100);
+        assert.isTrue(reportStub.calledWith(
+            'rebase-percent-nonzero',
+            {percentRebaseDelta: 100}
+        ));
       });
 
       test('diff against parent event', () => {

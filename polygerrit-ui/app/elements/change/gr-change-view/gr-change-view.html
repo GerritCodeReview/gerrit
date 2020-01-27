@@ -612,6 +612,7 @@ limitations under the License.
               title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]">
             <span>Comment Threads</span></gr-tooltip-content>
         </paper-tab>
+        <paper-tab class="robotComments">Findings</paper-tab>
       </paper-tabs>
       <template is="dom-if" if="[[_isSelectedView(_currentView,
         _commentTabs.CHANGE_LOG)]]">
@@ -634,6 +635,17 @@ limitations under the License.
             change="[[_change]]"
             change-num="[[_changeNum]]"
             logged-in="[[_loggedIn]]"
+            only-show-robot-comments-with-human-reply
+            on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
+      </template>
+      <template is="dom-if" if="[[_isSelectedView(_currentView,
+        _commentTabs.ROBOT_COMMENTS)]]">
+        <gr-thread-list
+            threads="[[_robotCommentThreads]]"
+            change="[[_change]]"
+            change-num="[[_changeNum]]"
+            logged-in="[[_loggedIn]]"
+            hide-toggle-buttons
             on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
       </template>
     </div>

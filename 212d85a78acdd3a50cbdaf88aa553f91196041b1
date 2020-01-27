@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "36a09703_d24c8e22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T10:11:04Z",
+      "side": 1,
+      "message": "I did some tricks for testing (copy some modules to node_folder), but this was done only because polymer tools doesn\u0027t work properly with nested node_modules.",
+      "parentUuid": "7de3f1ad_0b64a5fb",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23499713_b10c1e6e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

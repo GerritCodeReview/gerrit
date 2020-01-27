@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce1c56a_26d82675",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-27T13:57:49Z",
+      "side": 1,
+      "message": "This is applying the modulo operator twice. I\u0027d just remove the method and use  Change.Id.fromAllUsersRef(refName) directly where you call this.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 3
+      },
+      "revId": "3de37e8109e2237c27ad8c84fd2e4eedb7222849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8fe0f97e_73d7b87a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T19:24:04Z",
+      "side": 1,
+      "message": "\u003e Some of your changes will be done there.\n\n+1. This change is not supposed to be merged and shouldn\u0027t be needed at all. I\u0027m trying to figure out what is the right change where these \"fixes\" here should be moved (or reverted).",
+      "parentUuid": "6079071e_b5bc09b3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5593ee42_3f6c8be4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f4fda00_b6282f1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T19:24:04Z",
+      "side": 1,
+      "message": "It was done in your original change. Reverted.",
+      "parentUuid": "5593ee42_3f6c8be4",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "ec3e6cad_e7062a81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T19:24:04Z",
+      "side": 1,
+      "message": "Apparently something was wrong on my side. You approach worked as expected. Reverted. Done.",
+      "parentUuid": "36a09703_d24c8e22",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23499713_b10c1e6e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -115,6 +187,30 @@
       "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b35a4782_f6d2e5b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T19:24:04Z",
+      "side": 1,
+      "message": "Restore it in your original change and reverted here.",
+      "parentUuid": "23499713_b10c1e6e",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 63
+      },
+      "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

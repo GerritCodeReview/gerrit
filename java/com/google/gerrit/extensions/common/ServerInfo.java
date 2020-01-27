@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.List;
 import java.util.Map;
 
 public class ServerInfo {
@@ -22,6 +23,7 @@ public class ServerInfo {
   public ChangeConfigInfo change;
   public DownloadInfo download;
   public GerritInfo gerrit;
+  public List<MessageOfTheDayInfo> messages;
   public Boolean noteDbEnabled;
   public PluginConfigInfo plugin;
   public SshdInfo sshd;

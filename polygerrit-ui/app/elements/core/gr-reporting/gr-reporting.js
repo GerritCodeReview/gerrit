@@ -99,8 +99,6 @@
   const pending = [];
 
   // Variables that hold context info in global scope
-  const loadedPlugins = [];
-  const detectedExtensions = [];
   let reportRepoName = undefined;
 
   const onError = function(oldOnError, msg, url, line, column, error) {
@@ -152,7 +150,7 @@
           if (task.duration > 200) {
             GrReporting.prototype.reporter(TIMING.TYPE,
                 TIMING.CATEGORY_UI_LATENCY, `Task ${task.name}`,
-                Math.round(task.duration), false);
+                Math.round(task.duration), {}, false);
           }
         }
       });
@@ -197,61 +195,45 @@
         !this._baselines.hasOwnProperty(TIMER.METRICS_PLUGIN_LOADED);
     },
 
-    reporter(...args) {
-      const report = (this._isMetricsPluginLoaded() && !pending.length) ?
-        this.defaultReporter : this.cachingReporter;
-      const contextInfo = {
-        loadedPlugins,
-        detectedExtensions,
-        repoName: reportRepoName,
-        isInBackgroundTab: document.visibilityState === 'hidden',
-        startTimeMs: this.now(),
-      };
-      args.splice(4, 0, contextInfo);
-      report.apply(this, args);
-    },
-
     /**
-     * The default reporter reports events immediately.
+     * Reporter reports events. Events will be queued if metrics plugin is not
+     * yet installed.
      *
      * @param {string} type
      * @param {string} category
      * @param {string} eventName
      * @param {string|number} eventValue
-     * @param {Object} contextInfo
+     * @param {Object} eventDetails
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
-    defaultReporter(type, category, eventName, eventValue, contextInfo,
-        opt_noLog) {
-      const detail = {
-        type,
-        category,
-        name: eventName,
-        value: eventValue,
-      };
-      if (category === TIMING.CATEGORY_UI_LATENCY && contextInfo) {
-        detail.loadedPlugins = contextInfo.loadedPlugins;
-        detail.detectedExtensions = contextInfo.detectedExtensions;
-      }
-      if (contextInfo && contextInfo.repoName) {
-        detail.repoName = contextInfo.repoName;
-      }
-      if (contextInfo && contextInfo.isInBackgroundTab !== undefined) {
-        detail.inBackgroundTab = contextInfo.isInBackgroundTab;
-      }
-      if (contextInfo && contextInfo.startTimeMs) {
-        detail.eventStart = contextInfo.startTimeMs;
-      }
-      document.dispatchEvent(new CustomEvent(type, {detail}));
-      if (opt_noLog) { return; }
+    reporter(type, category, eventName, eventValue, eventDetails, opt_noLog) {
+      const report = (this._isMetricsPluginLoaded() && !pending.length) ?
+        this._defaultReporter : this._cachingReporter;
+      const eventInfo = this._createEventInfo(type, category,
+          eventName, eventValue, eventDetails);
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
         console.error(eventValue && eventValue.error || eventName);
-      } else {
-        if (eventValue !== undefined) {
-          console.log(`Reporting: ${eventName}: ${eventValue}`);
+      }
+      report.apply(this, [eventInfo, opt_noLog]);
+    },
+
+    /**
+     * The default reporter reports events immediately.
+     *
+     * @param {Object} eventInfo
+     * @param {boolean|undefined} opt_noLog If true, the event will not be
+     *     logged to the JS console.
+     */
+    _defaultReporter(eventInfo, opt_noLog) {
+      const {type, value, name} = eventInfo;
+      document.dispatchEvent(new CustomEvent(type, {detail: eventInfo}));
+      if (opt_noLog) { return; }
+      if (type !== ERROR.TYPE) {
+        if (value !== undefined) {
+          console.log(`Reporting: ${name}: ${value}`);
         } else {
-          console.log(`Reporting: ${eventName}`);
+          console.log(`Reporting: ${name}`);
         }
       }
     },
@@ -260,31 +242,44 @@
      * The caching reporter will queue reports until plugins have loaded, and
      * log events immediately if they're reported after plugins have loaded.
      *
-     * @param {string} type
-     * @param {string} category
-     * @param {string} eventName
-     * @param {string|number} eventValue
-     * @param {Object} contextInfo
+     * @param {Object} eventInfo
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
-    cachingReporter(type, category, eventName, eventValue, contextInfo,
-        opt_noLog) {
-      if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
-        console.error(eventValue && eventValue.error || eventName);
-      }
+    _cachingReporter(eventInfo, opt_noLog) {
       if (this._isMetricsPluginLoaded()) {
         if (pending.length) {
           for (const args of pending.splice(0)) {
-            this.defaultReporter(...args);
+            this._defaultReporter(...args);
           }
         }
-        this.defaultReporter(type, category, eventName, eventValue, contextInfo,
-            opt_noLog);
+        this._defaultReporter(eventInfo, opt_noLog);
       } else {
-        pending.push([type, category, eventName, eventValue, contextInfo,
-          opt_noLog]);
+        pending.push([eventInfo, opt_noLog]);
       }
+    },
+
+    _createEventInfo(type, category, name, value, eventDetails) {
+      const eventInfo = {
+        type,
+        category,
+        name,
+        value,
+        eventStart: this.now(),
+      };
+
+      if (eventDetails && Object.entries(eventDetails).length !== 0) {
+        eventInfo.eventDetails = JSON.stringify(eventDetails);
+      }
+      if (reportRepoName) {
+        eventInfo.repoName = reportRepoName;
+      }
+      const isInBackgroundTab = document.visibilityState === 'hidden';
+      if (isInBackgroundTab !== undefined) {
+        eventInfo.inBackgroundTab = isInBackgroundTab;
+      }
+
+      return eventInfo;
     },
 
     /**
@@ -310,14 +305,14 @@
       }
     },
 
-    _reportPerformanceTiming(eventName) {
+    _reportPerformanceTiming(eventName, eventDetails) {
       const eventTiming = this.performanceTiming[eventName];
       if (eventTiming > 0) {
         const elapsedTime = eventTiming -
             this.performanceTiming.navigationStart;
         // NavResTime - Navigation and resource timings.
         this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            `NavResTime - ${eventName}`, elapsedTime, true);
+            `NavResTime - ${eventName}`, elapsedTime, eventDetails, true);
       }
     },
 
@@ -399,16 +394,12 @@
 
     reportExtension(name) {
       this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
-      if (!detectedExtensions.includes(name)) {
-        detectedExtensions.push(name);
-      }
     },
 
     pluginLoaded(name) {
       if (name.startsWith('metrics-')) {
         this.timeEnd(TIMER.METRICS_PLUGIN_LOADED);
       }
-      loadedPlugins.push(name);
     },
 
     pluginsLoaded(pluginsList) {
@@ -470,9 +461,11 @@
      *
      * @param {string} name Timing name.
      * @param {number} time The time to report as an integer of milliseconds.
+     * @param {Object} eventDetails non sensitive details
      */
-    _reportTiming(name, time) {
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name, time);
+    _reportTiming(name, time, eventDetails) {
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name, time,
+          eventDetails);
     },
 
     /**
@@ -532,11 +525,12 @@
      */
     reportRpcTiming(anonymizedUrl, elapsed) {
       this.reporter(TIMING.TYPE, TIMING.CATEGORY_RPC, 'RPC-' + anonymizedUrl,
-          elapsed, true);
+          elapsed, {}, true);
     },
 
-    reportInteraction(eventName, opt_msg) {
-      this.reporter(INTERACTION_TYPE, this.category, eventName, opt_msg);
+    reportInteraction(eventName, details) {
+      this.reporter(INTERACTION_TYPE, this.category, eventName, undefined,
+          details, true);
     },
 
     /**

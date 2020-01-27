@@ -33,6 +33,24 @@
       "revId": "8b5595e163e8ff8e7251dd88902547ee8025b4a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9252101_42a20b89",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentLimitsValidator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-01-27T12:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89433f21_9eb1affc",
+      "revId": "8b5595e163e8ff8e7251dd88902547ee8025b4a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

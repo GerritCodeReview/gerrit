@@ -1905,6 +1905,19 @@ The maximal memory size. The value is returned with a unit abbreviation
 The number of open files.
 |============================
 
+[[message-of-the-day-info]]
+=== MessageOfTheDayInfo
+The `MessageOfTheDayInfo` entity contains information about a message
+that was registered with the `MessageOfTheDay`-extension by plugins.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`id` ||ID of the message.
+|`redisplay` ||Date and Time, when the message should be displayed.
+|`html` ||Message in HTML-format.
+|===========================
+
 [[plugin-config-info]]
 === PluginConfigInfo
 The `PluginConfigInfo` entity contains information about Gerrit
@@ -1958,6 +1971,10 @@ information about Gerrit
 Information about the configuration from the
 link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
+|`messages`                ||
+List of messages registered with the `MessageOfTheDay`-
+extension containing link:#message-of-the-day-info[
+MessageOfTheDayInfo] entity.
 |`note_db_enabled`         |not set if `false`|
 Whether the NoteDb storage backend is fully enabled.
 |`plugin`                  ||

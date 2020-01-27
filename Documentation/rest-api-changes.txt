@@ -1975,8 +1975,8 @@ map are sorted by file path.
           "name": "Code Analyzer",
           "email": "code.analyzer@example.com"
         },
-        "robotId": "importChecker",
-        "robotRunId": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
+        "robot_id": "importChecker",
+        "robot_run_id": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
       },
       {
         "id": "TveXwFiA",
@@ -1988,8 +1988,8 @@ map are sorted by file path.
           "name": "Code Analyzer",
           "email": "code.analyzer@example.com"
         },
-        "robotId": "styleChecker",
-        "robotRunId": "5c606c425dd45184484f9d0a2ffd725a7607839b"
+        "robot_id": "styleChecker",
+        "robot_run_id": "5c606c425dd45184484f9d0a2ffd725a7607839b"
       }
     ]
   }
@@ -4732,8 +4732,8 @@ map are sorted by file path.
           "name": "Code Analyzer",
           "email": "code.analyzer@example.com"
         },
-        "robotId": "importChecker",
-        "robotRunId": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
+        "robot_id": "importChecker",
+        "robot_run_id": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
       },
       {
         "id": "TveXwFiA",
@@ -4745,8 +4745,8 @@ map are sorted by file path.
           "name": "Code Analyzer",
           "email": "code.analyzer@example.com"
         },
-        "robotId": "styleChecker",
-        "robotRunId": "5c606c425dd45184484f9d0a2ffd725a7607839b"
+        "robot_id": "styleChecker",
+        "robot_run_id": "5c606c425dd45184484f9d0a2ffd725a7607839b"
       }
     ]
   }
@@ -4786,8 +4786,8 @@ returned that describes the robot comment.
       "name": "Code Analyzer",
       "email": "code.analyzer@example.com"
     },
-    "robotId": "importChecker",
-    "robotRunId": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
+    "robot_id": "importChecker",
+    "robot_run_id": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
   }
 ----
 
@@ -6652,10 +6652,10 @@ change by creating a new merge commit.
 |`subject`            |optional|
 The new subject for the change, if not specified, will reuse the current patch
 set's subject
-|`inheritParent`      |optional, default to `false`|
+|`inherit_parent`     |optional, default to `false`|
 Use the current patch set's first parent as the merge tip when set to `true`.
 |`base_change`        |optional|
-A link:#change-id[\{change-id\}] that identifies a change. When `inheritParent`
+A link:#change-id[\{change-id\}] that identifies a change. When `inherit_parent`
 is `false`, the merge tip will be the current patch set of the `base_change` if
 it's set. Otherwise, the current branch tip of the destination branch will be used.
 |`merge`              ||

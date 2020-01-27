@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c8385d6_05a883da",
+        "filename": "WORKSPACE",
+        "patchSetId": 21
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 1,
+      "message": "There is another pending change, where managed directories are added with comment. Should this change be rebased on top of it?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6109e849_88fa1ca5",
+        "filename": "WORKSPACE",
+        "patchSetId": 21
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 1,
+      "message": "Can the whole rules_closure tool chain be removed now? I could help with that.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 1
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63e2d465_54b278f9",
+        "filename": "WORKSPACE",
+        "patchSetId": 21
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 1,
+      "message": "Use dash instead of underscrore here and below?",
+      "range": {
+        "startLine": 1044,
+        "startChar": 12,
+        "endLine": 1044,
+        "endChar": 18
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31e1f3b3_3be7d2f2",
+        "filename": "WORKSPACE",
+        "patchSetId": 21
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 1101,
+        "startChar": 63,
+        "endLine": 1101,
+        "endChar": 97
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3daf05a8_20c17085",
+        "filename": "WORKSPACE",
+        "patchSetId": 21
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 1,
+      "message": "Why would thos Starlak rule will be defined in //polygerrit-ui/app/node_modules_licenses:licenses.bzl?",
+      "range": {
+        "startLine": 1101,
+        "startChar": 100,
+        "endLine": 1101,
+        "endChar": 128
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19985c9b_b92d519c",
+        "filename": "WORKSPACE",
+        "patchSetId": 21
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 1,
+      "message": "qwer?",
+      "range": {
+        "startLine": 1104,
+        "startChar": 12,
+        "endLine": 1104,
+        "endChar": 16
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4418b65_13f6befb",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 1,
+      "message": "Unused now? Can rules_closure be now entirely removed?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 92
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3393261e_319c51a4",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 21
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 1,
+      "message": "Remove thos comment as well.",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 88
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "204ece49_0cca7245",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 21
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 1,
+      "message": "Is this correct? Should this directory be rather created as: \"mkdir -p $$TMP/polygerrit_ui/bower_components/webcomponentsjs\" ?",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 34
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

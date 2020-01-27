@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71963a_faa90864",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 21
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-27T10:27:51Z",
+      "side": 0,
+      "message": "font-roboto-local are really not needed any more?",
+      "range": {
+        "startLine": 105,
+        "startChar": 12,
+        "endLine": 105,
+        "endChar": 135
+      },
+      "revId": "2008422137ba532a90f977f7bb027ca01a599acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -104,11 +104,22 @@ filegroup(
     ],
 )
 
+filegroup(
+    name = "some_modules",
+    srcs = [
+        "@ui_dev_npm//:node_modules",
+        "@ui_npm//:node_modules",
+    ],
+)
+
 sh_test(
     name = "wct_test",
     size = "enormous",
     srcs = ["wct_test.sh"],
     data = [
+        "redirects.json",
+        ":pg_code",
+        ":some_modules",
         ":test-srcs-updated-links-fg",
     ],
     # Should not run sandboxed.
@@ -134,17 +145,15 @@ sh_test(
     ],
 )
 
+# polymer linter doesn't work with Polymer 3 - see https://github.com/Polymer/tools/issues/3475
+# This rule doesn't do anything, keep this rule to avoid problems with CI.
+# Rule should be either removed (need changes in CI) or implemented correctly.
 sh_test(
     name = "polylint_test",
-    size = "large",
+    size = "small",
     srcs = ["polylint_test.sh"],
-    data = [
-        "polymer.json",
-        ":pg_code_without_test",
-    ],
-    # Should not run sandboxed.
+    data = [],
     tags = [
-        "local",
         "manual",
     ],
 )

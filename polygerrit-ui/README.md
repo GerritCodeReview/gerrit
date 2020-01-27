@@ -12,6 +12,23 @@ to get and install Bazel.
 
 ## Installing [Node.js](https://nodejs.org/en/download/) and npm packages
 
+**Note**: Switch between an old branch with bower_components and a new branch with ui-npm
+packages (or vice versa) can lead to some build errors. To avoid such errors clean up the build
+repository:
+```sh
+rm -rf node_modules/ \
+    polygerrit-ui/node_modules/ \
+    polygerrit-ui/app/node_modules \
+    tools/node_tools/node_modules
+
+bazel clean
+```
+
+If it doesn't help also try to run
+```sh
+bazel clean --expunge
+```
+
 The minimum nodejs version supported is 8.x+
 
 ```sh
@@ -29,15 +46,26 @@ All other platforms:
 
 or use [nvm - Node Version Manager](https://github.com/nvm-sh/nvm).
 
-Various steps below require installing additional npm packages. The full list of
-dependencies can be installed with:
+Various steps below require installing additional npm packages. To start developing, it is enough
+to install only top-level packages with the following command: 
 
 ```sh
-npm install
+# Install packages from root-level packages.json
+bazel fetch @npm//:node_modules
 ```
 
-It may complain about a missing `typescript@2.3.4` peer dependency, which is
-harmless.
+All other packages are installed by bazel when needed. If you want to install them manually, run the
+following commands:
+```sh
+# Install packages from polygerrit-ui/app/packages.json
+bazel fetch @ui_npm//:node_modules
+
+# Install packages from polygerrit-ui/packages.json
+bazel fetch @ui_dev_npm//:node_modules
+
+# Install packages from tools/node_tools/packages.json
+bazel fetch @ui_dev_npm//:node_modules
+```
 
 ## Running locally against production data
 
@@ -103,11 +131,6 @@ $(bazel info output_base)/external/local_jdk/bin/java \
 ```
 
 ## Running Tests
-
-This step requires the `web-component-tester` npm module.
-
-Note: it may be necessary to add the options `--unsafe-perm=true --allow-root`
-to the `npm install` command to avoid file permission errors.
 
 For daily development you typically only want to run and debug individual tests.
 Run the local [Go proxy server](#go-server) and navigate for example to

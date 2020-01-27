@@ -339,6 +339,10 @@
           config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
     },
 
+    _getMessages(config) {
+      return config.messages ? config.messages : [];
+    },
+
     _handlePageError(e) {
       const props = [
         '_showChangeListView',

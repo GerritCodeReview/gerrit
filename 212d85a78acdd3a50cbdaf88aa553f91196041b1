@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6079071e_b5bc09b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T10:07:29Z",
+      "side": 1,
+      "message": "Just as a note - changes in the chain are still in progress. Some of your changes will be done there. Probably, you can wait until changes are finished and then comment on them and make your changes on top of them.\nAlso, there is a prate change with a draft - https://gerrit-review.googlesource.com/c/gerrit/+/247056 . The draft will not be merged, I am using it to create a clean changes. But you can see there I am going to do some cleanups, similar to your suggestion",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5593ee42_3f6c8be4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T10:07:29Z",
+      "side": 1,
+      "message": "I periodically update version in this change https://gerrit-review.googlesource.com/c/gerrit/+/250019/18 , so I think before the change is submitted it is better to update versions there.",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de3f1ad_0b64a5fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T10:07:29Z",
+      "side": 1,
+      "message": "I am not sure, that this is align with the idea of node modules resolution.\n\nAs I can see, right now polymer-bridges are copied to node_modules during the build. This is not good, because we can get version conflicts if we add dependencies to polymer-bridges. Having polymer-bridges as a package in package.json we can be sure, that yarn will resolve version conflicts correctly and the node_modules directory layout is valid.\n\nAlso, I suppose, that IntelliJ (and other IDEs) can\u0027t find this polymer-bridges, so they will not work properly.",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23499713_b10c1e6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-27T10:07:29Z",
+      "side": 1,
+      "message": "I haven\u0027t finished with my changes yet. I think, it shouldn\u0027t be deleted at all, so no need to restore.",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 63
+      },
+      "revId": "212d85a78acdd3a50cbdaf88aa553f91196041b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

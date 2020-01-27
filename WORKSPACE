@@ -1245,8 +1245,8 @@ load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
 ts_setup_workspace()
 
 # Bower component transitive dependencies.
-load("//lib/js:bower_archives.bzl", "load_bower_archives")
+#load("//lib/js:bower_archives.bzl", "load_bower_archives")
 
-load_bower_archives()
+#load_bower_archives()
 
 external_plugin_deps()

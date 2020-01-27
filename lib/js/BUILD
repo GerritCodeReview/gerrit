@@ -21,15 +21,15 @@ js_component(
 )
 
 ##TODO: remove after plugins migration to npm
-load("//tools/bzl:bower_support.bzl", "bower_component")
-
-bower_component(
-    name = "codemirror-minified",
-    license = "//lib:LICENSE-codemirror-minified",
-)
-
-bower_component(
-    name = "resemblejs",
-    license = "//lib:LICENSE-resemblejs",
-)
+#load("//tools/bzl:bower_support.bzl", "bower_component")
+#
+#bower_component(
+#    name = "codemirror-minified",
+#    license = "//lib:LICENSE-codemirror-minified",
+#)
+#
+#bower_component(
+#    name = "resemblejs",
+#    license = "//lib:LICENSE-resemblejs",
+#)
 #End of removal

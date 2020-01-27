@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba0ae04a_fa30e9f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-27T10:14:59Z",
+      "side": 1,
+      "message": "These properties would need to become private (prepend with _) and documented that they will be updated when populate...() is called.",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 10
+      },
+      "revId": "f428eabe7de91e71bf26d09439ddf5df08035dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d39d59a6_2dca864e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-27T10:14:59Z",
+      "side": 1,
+      "message": "Rename to populate...().",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 17
+      },
+      "revId": "f428eabe7de91e71bf26d09439ddf5df08035dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

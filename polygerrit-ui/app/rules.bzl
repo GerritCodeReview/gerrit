@@ -3,10 +3,6 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "prepare_for_bundling", "update_links")
 load("//tools/node_tools/legacy:index.bzl", "polymer_bundler_tool")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
-load(
-    "//tools/bzl:js.bzl",
-    "bundle_assets",
-)
 
 def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
     app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app
@@ -98,11 +94,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
             name + "_top_sources",
             "//lib/fonts:robotofonts",
             "//lib/js:highlightjs_files",
-            # we extract from the zip, but depend on the component for license checking.
-            "@webcomponentsjs//:zipfile",
-            "//lib/js:webcomponentsjs",
-            "@font-roboto-local//:zipfile",
-            "//lib/js:font-roboto-local",
+            "@ui_npm//:node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js",
         ],
         outs = outs,
         cmd = " && ".join([
@@ -113,8 +105,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
             "for f in $(locations " + name + "_css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
             "for f in $(locations " + name + "_theme_sources); do cp $$f $$TMP/polygerrit_ui/styles/themes; done",
             "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
-            "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
-            "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @font-roboto-local//:zipfile) font-roboto-local/fonts/\\*/\\*.ttf",
+            "cp $(location @ui_npm//:node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js) $$TMP/polygerrit_ui/bower_components/webcomponentsjs/webcomponents-lite.js",
             "cd $$TMP",
             "find . -exec touch -t 198001010000 '{}' ';'",
             "zip -qr $$ROOT/$@ *",

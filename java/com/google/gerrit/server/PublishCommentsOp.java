@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -124,8 +125,8 @@ public class PublishCommentsOp implements BatchUpdateOp {
           ps,
           ctx.getAccount(),
           message.getMessage(),
-          null,
-          null,
+          ImmutableMap.of(),
+          ImmutableMap.of(),
           ctx.getWhen());
     } catch (Exception e) {
       logger.atWarning().withCause(e).log("comment-added event invocation failed");

@@ -33,7 +33,7 @@ mkdir -p ${destdir}/java
 cp -r {java,javatests}/* ${destdir}/java
 
 mkdir -p ${destdir}/plugins
-for plugin in `find plugins/ -type d` -maxdepth 1
+for plugin in `find plugins/ -type d -maxdepth 1`
 do
   mkdir -p ${destdir}/${plugin}/java
   cp -r plugins/*/{java,javatests}/* ${destdir}/${plugin}/java

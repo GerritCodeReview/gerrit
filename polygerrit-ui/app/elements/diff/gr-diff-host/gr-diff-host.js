@@ -590,7 +590,7 @@
         this.$.reporting.reportInteraction(EVENT_ZERO_REBASE);
       } else {
         this.$.reporting.reportInteraction(EVENT_NONZERO_REBASE,
-            percentRebaseDelta);
+            {percentRebaseDelta});
       }
     }
 
@@ -1023,13 +1023,16 @@
 
     _handleNormalizeRange(event) {
       this.$.reporting.reportInteraction('normalize-range',
-          `Modified invalid comment range on l. ${event.detail.lineNum}` +
-          ` of the ${event.detail.side} side`);
+          {
+            side: event.detail.side,
+            lineNum: event.detail.lineNum,
+          });
     }
 
     _handleDiffContextExpanded(event) {
       this.$.reporting.reportInteraction(
-          'diff-context-expanded', event.detail.numLines);
+          'diff-context-expanded', {numLines: event.detail.numLines}
+      );
     }
   }
 

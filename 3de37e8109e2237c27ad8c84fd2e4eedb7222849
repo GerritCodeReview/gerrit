@@ -22,6 +22,30 @@
       "revId": "3de37e8109e2237c27ad8c84fd2e4eedb7222849",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0a89158_61968bf5",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T14:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fce1c56a_26d82675",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 3
+      },
+      "revId": "3de37e8109e2237c27ad8c84fd2e4eedb7222849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

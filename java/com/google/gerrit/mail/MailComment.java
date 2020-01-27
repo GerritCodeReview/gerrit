@@ -14,7 +14,7 @@
 
 package com.google.gerrit.mail;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import java.util.Objects;
 
 /** A comment parsed from inbound email */
@@ -26,7 +26,7 @@ public class MailComment {
   }
 
   CommentType type;
-  Comment inReplyTo;
+  HumanComment inReplyTo;
   String fileName;
   String message;
   boolean isLink;
@@ -34,7 +34,7 @@ public class MailComment {
   public MailComment() {}
 
   public MailComment(
-      String message, String fileName, Comment inReplyTo, CommentType type, boolean isLink) {
+      String message, String fileName, HumanComment inReplyTo, CommentType type, boolean isLink) {
     this.message = message;
     this.fileName = fileName;
     this.inReplyTo = inReplyTo;
@@ -46,7 +46,7 @@ public class MailComment {
     return type;
   }
 
-  public Comment getInReplyTo() {
+  public HumanComment getInReplyTo() {
     return inReplyTo;
   }
 

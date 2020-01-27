@@ -19,6 +19,7 @@ import static java.util.Comparator.comparing;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.jgit.diff.ReplaceEdit;

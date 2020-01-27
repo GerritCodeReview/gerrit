@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.jgit.diff.ReplaceEdit;

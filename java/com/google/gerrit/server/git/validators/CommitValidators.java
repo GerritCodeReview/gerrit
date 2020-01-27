@@ -151,6 +151,7 @@ public class CommitValidators {
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, urlFormatter.get()),
+              new FileCountValidator(patchListCache, config),
               new CommitterUploaderValidator(user, perm, urlFormatter.get()),
               new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
@@ -414,7 +415,11 @@ public class CommitValidators {
                   diffSummary.getPaths().size(), maxFileCount));
         }
       } catch (PatchListNotAvailableException e) {
-        logger.atWarning().withCause(e).log("Failed to validate file count");
+        // This happens e.g. for cherrypicks.
+        if (!receiveEvent.command.getRefName().startsWith(REFS_CHANGES)) {
+          logger.atWarning().withCause(e).log(
+              "Failed to validate file count for commit: %s", receiveEvent.commit.toString());
+        }
       }
       return Collections.emptyList();
     }

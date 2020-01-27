@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "0ce9c6f0_dcd58e4a",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T13:54:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0127637_cc0154bc",
+      "range": {
+        "startLine": 46,
+        "startChar": 81,
+        "endLine": 46,
+        "endChar": 83
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "862194da_d1cc3db4",
         "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
         "patchSetId": 7
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "7b77f5c3_878861a1",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T13:54:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "862194da_d1cc3db4",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96051432_b756c2ec",
         "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
         "patchSetId": 7
@@ -91,6 +139,30 @@
       "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f973aa03_9ae952a0",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T13:54:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96051432_b756c2ec",
+      "range": {
+        "startLine": 86,
+        "startChar": 23,
+        "endLine": 86,
+        "endChar": 42
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "4b3bcf23_efbe854e",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T13:54:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebb7a79_e4927cc0",
+      "range": {
+        "startLine": 136,
+        "startChar": 14,
+        "endLine": 136,
+        "endChar": 30
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38f842da_3756f2bc",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
         "patchSetId": 7
@@ -181,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "3fdd8518_c0c8c056",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T13:54:43Z",
+      "side": 1,
+      "message": "added the check to the same test to avoid duplicating code in a separate test.",
+      "parentUuid": "e2580d07_2e298d7c",
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39f525a4_b761780b",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
         "patchSetId": 7
@@ -201,6 +315,30 @@
       "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fc5f8dd_5b42e5c2",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T13:54:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39f525a4_b761780b",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 11
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -227,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "afd25595_daff5adc",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T13:54:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c645f27_ea5718aa",
+      "range": {
+        "startLine": 130,
+        "startChar": 28,
+        "endLine": 130,
+        "endChar": 46
+      },
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ba7476_d624b9fa",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
         "patchSetId": 7
@@ -241,6 +403,24 @@
       "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "074587c9_dbc37404",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-01-27T13:54:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ba7476_d624b9fa",
+      "revId": "b72fe01ab9d860553c6ea84113986f9f9365bd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

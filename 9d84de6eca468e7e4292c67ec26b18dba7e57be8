@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76772ad1_f18b5988",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-27T16:24:12Z",
+      "side": 1,
+      "message": "It would be great to document a @type for this new EventInfo object.",
+      "range": {
+        "startLine": 204,
+        "startChar": 3,
+        "endLine": 208,
+        "endChar": 35
+      },
+      "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcb93aea_5b3c1e62",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-27T16:24:12Z",
+      "side": 1,
+      "message": "Maybe the conversion from parameters to an EventInfo type can be a separate step/method, such that it is not part of the \"reporter()\" call?",
+      "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc18113_145b43b7",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-27T16:24:12Z",
+      "side": 1,
+      "message": "I would call this \"eventInfo\" maybe, otherwise you have details nested in detail.",
+      "range": {
+        "startLine": 215,
+        "startChar": 12,
+        "endLine": 215,
+        "endChar": 18
+      },
+      "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2571f98b_e3952abf",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-27T16:24:12Z",
+      "side": 1,
+      "message": "Should be documented as a string (or Object and then apply stringify here).\n\nAnd if you stick with string, then the caller should be told to use stringify, so that all callers use the same string structure.",
+      "range": {
+        "startLine": 544,
+        "startChar": 33,
+        "endLine": 544,
+        "endChar": 40
+      },
+      "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

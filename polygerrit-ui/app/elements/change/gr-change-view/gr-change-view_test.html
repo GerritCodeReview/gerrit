@@ -375,7 +375,7 @@ limitations under the License.
 
     test('thread list modified', () => {
       sandbox.spy(element, '_handleReloadDiffComments');
-      element._showMessagesView = false;
+      element._currentView = CommentTabs.COMMENT_THREADS;
       flushAsynchronousOperations();
 
       return element._reloadComments().then(() => {
@@ -442,18 +442,18 @@ limitations under the License.
       // Wait for tab to get selected
       flush(() => {
         assert.equal(element.$.commentTabs.selected, 0);
-        assert.isTrue(element._showMessagesView);
+        assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
         // Switch to comment thread tab
         MockInteractions.tap(element.$$('paper-tab.commentThreads'));
         assert.equal(element.$.commentTabs.selected, 1);
-        assert.isFalse(element._showMessagesView);
+        assert.equal(element._currentView, CommentTabs.COMMENT_THREADS);
 
         // When the change is partially reloaded (ex: Shift+R), the content
         // is swapped out before the tab, so messages list will display even
         // though the tab for comment threads is still temporarily selected.
         element._paramsChanged(element.params);
         assert.equal(element.$.commentTabs.selected, 1);
-        assert.isTrue(element._showMessagesView);
+        assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
         done();
       });
     });

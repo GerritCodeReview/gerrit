@@ -36,7 +36,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A {@link BatchUpdateOp} that can be used to publish draft comments
@@ -108,7 +110,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(Context ctx) throws Exception {
     if (message == null || comments.isEmpty()) {
       return;
     }
@@ -119,16 +121,18 @@ public class PublishCommentsOp implements BatchUpdateOp {
       email.create(notify, changeNotes, ps, user, message, comments, null, labelDelta).sendAsync();
     }
     try {
+      Map<String, Short> approvals = new HashMap<>();
+      Map<String, Short> oldApprovals = new HashMap<>();
       commentAdded.fire(
           changeNotes.getChange(),
           ps,
           ctx.getAccount(),
           message.getMessage(),
-          null,
-          null,
+          approvals,
+          oldApprovals,
           ctx.getWhen());
     } catch (Exception e) {
-      logger.atWarning().withCause(e).log("comment-added event invocation failed");
+      throw new Exception("comment-added event invocation failed", e);
     }
   }
 

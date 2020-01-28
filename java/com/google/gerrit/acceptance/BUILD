@@ -10,13 +10,9 @@ DEPLOY_ENV = [
     "//java/com/google/gerrit/exceptions",
     "//java/com/google/gerrit/gpg",
     "//java/com/google/gerrit/git",
-    "//java/com/google/gerrit/httpd/auth/openid",
     "//java/com/google/gerrit/index:query_exception",
     "//java/com/google/gerrit/launcher",
     "//java/com/google/gerrit/lifecycle",
-    "//java/com/google/gerrit/pgm",
-    "//java/com/google/gerrit/pgm/http/jetty",
-    "//java/com/google/gerrit/pgm/util",
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/entities",
@@ -50,7 +46,6 @@ DEPLOY_ENV = [
     "//lib/guice",
     "//lib/guice:guice-assistedinject",
     "//lib/guice:guice-servlet",
-    "//lib/jetty:servlet",
     "//lib/mail",
     "//lib/mina:sshd",
     "//lib/log:impl-log4j",
@@ -62,6 +57,10 @@ DEPLOY_ENV = [
 ]
 
 TEST_DEPS = [
+    "//java/com/google/gerrit/httpd/auth/openid",
+    "//java/com/google/gerrit/pgm",
+    "//java/com/google/gerrit/pgm/http/jetty",
+    "//java/com/google/gerrit/pgm/util",
     "//java/com/google/gerrit/truth",
     "//java/com/google/gerrit/acceptance/config",
     "//java/com/google/gerrit/acceptance/testsuite/project",
@@ -73,6 +72,13 @@ TEST_DEPS = [
     "//java/com/google/gerrit/extensions/restapi/testing:restapi-test-util",
     "//java/com/google/gerrit/gpg/testing:gpg-test-util",
     "//java/com/google/gerrit/git/testing",
+]
+
+PGM_DEPLOY_ENV = [
+    "//lib:caffeine",
+    "//lib:caffeine-guava",
+    "//lib/jackson:jackson-core",
+    "//lib/prolog:cafeteria",
 ]
 
 java_library(
@@ -99,7 +105,7 @@ java_binary(
     name = "framework-deploy-env",
     testonly = True,
     main_class = "Dummy",
-    runtime_deps = DEPLOY_ENV,
+    runtime_deps = DEPLOY_ENV + PGM_DEPLOY_ENV,
 )
 
 exported_deps = [

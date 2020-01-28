@@ -46,6 +46,30 @@
       "revId": "1ed3f13820bf11d91c2556188290bba41f32524b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e34e1f6_26e89faa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-28T11:58:35Z",
+      "side": 1,
+      "message": "Yeah, I am going to be adding one more tab soon so makes sense to use it this way.",
+      "parentUuid": "f9d7416d_e5fc1b6e",
+      "range": {
+        "startLine": 471,
+        "startChar": 0,
+        "endLine": 478,
+        "endChar": 0
+      },
+      "revId": "1ed3f13820bf11d91c2556188290bba41f32524b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

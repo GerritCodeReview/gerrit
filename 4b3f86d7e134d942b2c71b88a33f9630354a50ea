@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6962bbd_92010e1d",
+        "filename": "Documentation/js_licenses.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-28T21:16:04Z",
+      "side": 1,
+      "message": "Is this change expected? The same applies to license.txt.",
+      "revId": "4b3f86d7e134d942b2c71b88a33f9630354a50ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

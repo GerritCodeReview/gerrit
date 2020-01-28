@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9fbd7bd_6590ac49",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:30:28Z",
+      "side": 1,
+      "message": "This line took some time to me to understand how it works, but I don\u0027t know how to improve it.",
+      "range": {
+        "startLine": 211,
+        "startChar": 21,
+        "endLine": 211,
+        "endChar": 73
+      },
+      "revId": "890d8680bfb54c4990d24aec33b22ef06ad04f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4ba89b8_1b64f4f1",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:30:28Z",
+      "side": 1,
+      "message": "May be add typeof eventDetails \u003d\u003d\u003d \"object\" (to catch mistakes when string/nubmer is passed instead of object)?",
+      "range": {
+        "startLine": 271,
+        "startChar": 10,
+        "endLine": 271,
+        "endChar": 22
+      },
+      "revId": "890d8680bfb54c4990d24aec33b22ef06ad04f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

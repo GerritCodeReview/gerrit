@@ -1,5 +1,4 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
-load("//tools/bzl:java.bzl", "java_library2")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 FUNCTION_SRCS = [
@@ -103,6 +102,20 @@ java_binary(
     runtime_deps = DEPLOY_ENV,
 )
 
+exported_deps = [
+    ":function",
+    "//lib:jgit-junit",
+    "//lib:jimfs",
+    "//lib:servlet-api",
+    "//lib/httpcomponents:fluent-hc",
+    "//lib/httpcomponents:httpclient",
+    "//lib/httpcomponents:httpcore",
+    "//lib/mockito",
+    "//lib/truth",
+    "//lib/truth:truth-java8-extension",
+    "//lib/greenmail",
+] + TEST_DEPS
+
 java_library2(
     name = "framework-lib",
     testonly = True,
@@ -110,21 +123,9 @@ java_library2(
         ["**/*.java"],
         exclude = FUNCTION_SRCS,
     ),
-    exported_deps = [
-        ":function",
-        "//lib:jgit-junit",
-        "//lib:jimfs",
-        "//lib:servlet-api",
-        "//lib/httpcomponents:fluent-hc",
-        "//lib/httpcomponents:httpclient",
-        "//lib/httpcomponents:httpcore",
-        "//lib/mockito",
-        "//lib/truth",
-        "//lib/truth:truth-java8-extension",
-        "//lib/greenmail",
-    ] + TEST_DEPS,
     visibility = ["//visibility:public"],
-    deps = DEPLOY_ENV,
+    exports = exported_deps,
+    deps = DEPLOY_ENV + exported_deps,
 )
 
 java_library(

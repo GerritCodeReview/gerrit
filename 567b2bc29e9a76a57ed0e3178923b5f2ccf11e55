@@ -56,6 +56,23 @@
       "revId": "567b2bc29e9a76a57ed0e3178923b5f2ccf11e55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d93ab6e7_7de1a7a1",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-28T07:32:18Z",
+      "side": 1,
+      "message": "Even though, with this series (and with this last fixes change) the structures of the final artifact (bazel-bin/polygerrit-ui/app/polygerrit_ui.zip) produced by the old and new tool chain are exactly the same, the content is slightly different.\n\nTo reproduce build with and without this series:\n\n  $ bazel build polygerrit-ui/app:polygerrit_ui.zip\n\nand then unzip the result and compare them.\n\nParticularly, it seems that the font-roboto-local fonts are not used any more in the app produced by this series. Consider these commands to investigate the content:\n\n  $ bazel build polygerrit-ui/app/polygerrit_ui.zip\n  $ mkdir junk\n  $ cd junk\n  $ unzip ../bazel-bin/polygerrit-ui/app/polygerrit_ui.zip\n  $ grep -R roboto *\n\nWith this change there are no matches, while without this series (old build tool chain), we have these matches: [1]. It was done because @Paladox reported fonts fetches issues with Wikimedia Foundation\u0027s users. See: [2],[3] and [4].\n\nSo the question is, why the usage of font-roboto-local is lost by this series, e.g.: this line in the old app:\n\n  polygerrit_ui/elements/gr-app.html:src: url(\"../bower_components/font-roboto-local/fonts/roboto/Roboto-Thin.ttf\") format(\"truetype\");\n\nis entirely missing in the appplication created by this series:\n\n  $ grep -i roboto polygerrit_ui/elements/gr-app.html\n  --font-family: \u0027Roboto\u0027, -apple-system, BlinkMacSystemFont, \u0027Segoe UI\u0027, Helvetica, Arial, sans-serif, \u0027Apple Color Emoji\u0027, \u0027Segoe UI Emoji\u0027, \u0027Segoe UI Symbol\u0027;\n  --monospace-font-family: \u0027Roboto Mono\u0027, \u0027SF Mono\u0027, \u0027Lucida Console\u0027, Monaco, monospace;\n        font-family: var(--monospace-font-family, \u0027\u0027), \u0027Roboto Mono\u0027;\n\nBut there is no loading from ../bower_components/font-roboto-local/fonts/{roboto,robotomono}.\n\n* [1] http://paste.openstack.org/show/788859\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/247133\n* [3] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11993\n* [4] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12017",
+      "revId": "567b2bc29e9a76a57ed0e3178923b5f2ccf11e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

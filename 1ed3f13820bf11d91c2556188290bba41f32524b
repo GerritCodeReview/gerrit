@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd848564_7791c474",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-28T10:27:04Z",
+      "side": 1,
+      "message": "Nit: I would write it following\n```\nisSelectedTab(tabType) {\n  return this._currentView \u003d\u003d tabType;\n}\n```\n\nand then\n```\n \u003ctemplate is\u003d\"dom-if\" if\u003d\"[[isSelectedTab(CommentTabs.COMMENT_THREADS)]]\"\u003e\n```",
+      "range": {
+        "startLine": 471,
+        "startChar": 0,
+        "endLine": 478,
+        "endChar": 0
+      },
+      "revId": "1ed3f13820bf11d91c2556188290bba41f32524b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

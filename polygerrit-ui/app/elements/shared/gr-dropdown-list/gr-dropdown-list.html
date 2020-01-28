@@ -59,16 +59,19 @@ limitations under the License.
         cursor: pointer;
         flex-direction: column;
         font-size: inherit;
+        // This variable was introduced in Dec 2019. We keep both min-height
+        // rules around, because --paper-item-min-height is not yet upstreamed.
+        --paper-item-min-height: 0;
         --paper-item: {
           min-height: 0;
           padding: 10px 16px;
-        }
+        };
         --paper-item-focused-before: {
           background-color: var(--selection-background-color);
-        }
+        };
         --paper-item-focused: {
           background-color: var(--selection-background-color);
-        }
+        };
       }
       paper-item:hover {
         background-color: var(--hover-background-color);

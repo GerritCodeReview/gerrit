@@ -196,7 +196,7 @@ limitations under the License.
             let toast = toastSpy.lastCall.returnValue;
             assert.isOk(toast);
             assert.include(
-                Polymer.dom(toast.root).textContent, 'Credentails expired.');
+                Polymer.dom(toast.root).textContent, 'Credentials expired.');
             assert.include(
                 Polymer.dom(toast.root).textContent, 'Refresh credentials');
 
@@ -267,7 +267,7 @@ limitations under the License.
             // toast
             const toast = toastSpy.lastCall.returnValue;
             assert.include(
-                Polymer.dom(toast.root).textContent, 'Credentails expired.');
+                Polymer.dom(toast.root).textContent, 'Credentials expired.');
             assert.include(
                 Polymer.dom(toast.root).textContent, 'Refresh credentials');
             done();
@@ -313,7 +313,7 @@ limitations under the License.
           flush(() => {
             let toast = toastSpy.lastCall.returnValue;
             assert.include(
-                Polymer.dom(toast.root).textContent, 'Credentails expired.');
+                Polymer.dom(toast.root).textContent, 'Credentials expired.');
             assert.include(
                 Polymer.dom(toast.root).textContent, 'Refresh credentials');
 
@@ -325,7 +325,7 @@ limitations under the License.
               toast = toastSpy.lastCall.returnValue;
               assert.isOk(toast);
               assert.include(
-                  Polymer.dom(toast.root).textContent, 'Credentails expired.');
+                  Polymer.dom(toast.root).textContent, 'Credentials expired.');
               done();
             });
           });

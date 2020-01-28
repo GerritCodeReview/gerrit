@@ -264,7 +264,7 @@
     ERROR: 3,
   };
 
-  Auth.CREDS_EXPIRED_MSG = 'Credentails expired.';
+  Auth.CREDS_EXPIRED_MSG = 'Credentials expired.';
 
   // TODO(taoalpha): this whole thing should be moved to a service
   window.Auth = Auth;

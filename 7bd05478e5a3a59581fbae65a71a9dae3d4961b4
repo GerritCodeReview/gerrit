@@ -1,0 +1,226 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "556f69d6_a797dddd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "remove \u0027a\u0027",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5135bd9_a65c6b0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "adds",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51b2d94a_dc2d4e93",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "Maybe rename to \"licenses-config\"?",
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e771ae48_97133df3",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "node-modules-licenses and this rule are mostly the same thing, maybe name them similarly, e.g. node-modules-licenses-filegroup",
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "906cb750_b2b17284",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "Add a comment either explaining this directly or refer to some docs.",
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4937227a_4154a52a",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "Why do we need this data twice? It is already a data dep in node-modules-licenses.",
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "385209ab_47710320",
+        "filename": "polygerrit-ui/app/node_modules_licenses/licenses.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "Maybe add a comment explaining what this is.",
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba4343e2_58dce2ab",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 22
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "Why is this the only dep?",
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a22d577c_ff2fac7d",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "I am missing an overall README.md file in this directory explaining how all this works. That would also make the review easier.",
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84e3534a_dfac6e56",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "Can you sum up in a comment what the issue is, why we need this rule and what would be the desired state?",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 69
+      },
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fec65b66_e741c421",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "space after #",
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa7ee0a7_ad20e4f0",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T09:22:06Z",
+      "side": 1,
+      "message": "Which bug? Also add this comment to polygerrit-ui/app/node_modules_licenses/BUILD.",
+      "revId": "7bd05478e5a3a59581fbae65a71a9dae3d4961b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

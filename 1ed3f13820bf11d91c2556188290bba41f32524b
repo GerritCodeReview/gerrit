@@ -22,6 +22,30 @@
       "revId": "1ed3f13820bf11d91c2556188290bba41f32524b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9d7416d_e5fc1b6e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-28T10:33:05Z",
+      "side": 1,
+      "message": "I think that if we will have many CommentTabs, we will have many specific methods for each tab. It will be easier to have one method. \n\nMaybe we don\u0027t need _handleCommentTabChange - we could trigger isSelectedTab when commentTabs.selected is changed. \n\nI would just think how to do it with less functions.",
+      "parentUuid": "cd848564_7791c474",
+      "range": {
+        "startLine": 471,
+        "startChar": 0,
+        "endLine": 478,
+        "endChar": 0
+      },
+      "revId": "1ed3f13820bf11d91c2556188290bba41f32524b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

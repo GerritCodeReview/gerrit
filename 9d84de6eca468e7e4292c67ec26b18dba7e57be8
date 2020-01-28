@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "be9f5550_65d5be86",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-28T11:02:35Z",
+      "side": 1,
+      "message": "I extracted and make simpler eventInfo (removed contextInfo, ...) Should I still change it to two step API?\n\nso if someone wants to report something, needs two steps:\nconst eventInfo \u003d this._createEventInfo(type, ....)\nthis.reporter(eventInfo, opt_noLog)\n\n? I actually don\u0027t know what is better. I like one step API, but also reporter is called mostly from this class, so it\u0027s ok I guess.",
+      "parentUuid": "bcb93aea_5b3c1e62",
+      "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "acc18113_145b43b7",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 1
@@ -62,6 +80,30 @@
       "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b235aba2_a1d585fb",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-28T11:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acc18113_145b43b7",
+      "range": {
+        "startLine": 215,
+        "startChar": 12,
+        "endLine": 215,
+        "endChar": 18
+      },
+      "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b109890_e4ccebcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-28T21:16:36Z",
+      "side": 1,
+      "message": "Mention, that this is the reason, why Bazel build issue warnings during asciidoctor rendering in the form:\n\n  INFO: From Rendering asciidoctor files for html_htmlonly:\n  WARNING: js_licenses.txt.html_htmlonly_expn: line 543: id assigned to block already in use: es6-promise\n  [...]",
+      "range": {
+        "startLine": 12,
+        "startChar": 36,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "a7645927b8254b1ae7b057b3d7f6dccf87f0e183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41e97779_27d509fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-28T21:16:36Z",
+      "side": 1,
+      "message": "It\u0027s removed in the change, where the bower_components are removed: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/250396",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "a7645927b8254b1ae7b057b3d7f6dccf87f0e183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -697,8 +697,9 @@ public class RestApiServlet extends HttpServlet {
 
           if (status.isPresent()) {
             responseBytes = reply(req, res, e, status.get(), getUserMessages(traceContext, e));
+          } else {
+            responseBytes = replyInternalServerError(req, res, e, getUserMessages(traceContext, e));
           }
-          responseBytes = replyInternalServerError(req, res, e, getUserMessages(traceContext, e));
         }
       } finally {
         String metric = getViewName(viewData);

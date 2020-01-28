@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7792f584_92151458",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:59:02Z",
+      "side": 1,
+      "message": "I would probably put this description directly above ContentBuilder as that private class contains most of the algorithm and thus somebody looking at the code would see this description more easily. To avoid confusion, I would then remove the \"sort replacements in ascending order\" step and instead list \"Sorted list of replacements in ascending order, where each replacement ...\" as input.",
+      "revId": "4cbe9c799b4de4137855a33cd8e632238116f5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fa560c5_bc1b1b0e",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:59:02Z",
+      "side": 1,
+      "message": "part of the",
+      "range": {
+        "startLine": 39,
+        "startChar": 19,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "4cbe9c799b4de4137855a33cd8e632238116f5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7221d1d8_748944aa",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:59:02Z",
+      "side": 1,
+      "message": "Replacement",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 16
+      },
+      "revId": "4cbe9c799b4de4137855a33cd8e632238116f5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7c60704_95a65076",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:59:02Z",
+      "side": 1,
+      "message": "{@link ReplaceEdit}",
+      "range": {
+        "startLine": 46,
+        "startChar": 52,
+        "endLine": 46,
+        "endChar": 65
+      },
+      "revId": "4cbe9c799b4de4137855a33cd8e632238116f5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3b7b1a4_27d6ed68",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:59:02Z",
+      "side": 1,
+      "message": "Note: The algorithm is implemented",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 29
+      },
+      "revId": "4cbe9c799b4de4137855a33cd8e632238116f5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c3933bd_04edfbb4",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:59:02Z",
+      "side": 1,
+      "message": "created",
+      "range": {
+        "startLine": 77,
+        "startChar": 23,
+        "endLine": 77,
+        "endChar": 29
+      },
+      "revId": "4cbe9c799b4de4137855a33cd8e632238116f5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48975b59_f28e3cbb",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:59:02Z",
+      "side": 1,
+      "message": "numbers",
+      "range": {
+        "startLine": 91,
+        "startChar": 52,
+        "endLine": 91,
+        "endChar": 58
+      },
+      "revId": "4cbe9c799b4de4137855a33cd8e632238116f5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

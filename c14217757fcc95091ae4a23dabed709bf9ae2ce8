@@ -22,6 +22,30 @@
       "revId": "c14217757fcc95091ae4a23dabed709bf9ae2ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9d04a3d_98f37ac2",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-28T12:13:29Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/252092",
+      "parentUuid": "dee0701e_aff3801e",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 40
+      },
+      "revId": "c14217757fcc95091ae4a23dabed709bf9ae2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

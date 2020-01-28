@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "923559a4_f0aae63f",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:59:29Z",
+      "side": 1,
+      "message": "It seems, you can always use _cachingReporter here.",
+      "parentUuid": "b9fbd7bd_6590ac49",
+      "range": {
+        "startLine": 211,
+        "startChar": 21,
+        "endLine": 211,
+        "endChar": 73
+      },
+      "revId": "890d8680bfb54c4990d24aec33b22ef06ad04f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4ba89b8_1b64f4f1",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 5

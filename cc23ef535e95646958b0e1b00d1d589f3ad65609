@@ -22,6 +22,30 @@
       "revId": "cc23ef535e95646958b0e1b00d1d589f3ad65609",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2da8d9bd_95506ecb",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T18:30:21Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c1120d4c_e3c74a42",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 58
+      },
+      "revId": "cc23ef535e95646958b0e1b00d1d589f3ad65609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

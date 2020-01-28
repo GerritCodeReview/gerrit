@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04ba1ca4_005c7aac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T18:30:21Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "b1c7079b_fc20510f",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad7e230b_d2b7780c",
         "filename": "WORKSPACE",
         "patchSetId": 22
@@ -45,6 +69,30 @@
       "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b0cb946_0070e353",
+        "filename": "WORKSPACE",
+        "patchSetId": 22
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T18:30:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad7e230b_d2b7780c",
+      "range": {
+        "startLine": 68,
+        "startChar": 74,
+        "endLine": 68,
+        "endChar": 106
+      },
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "766819e7_84b390d9",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 22
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T18:30:21Z",
+      "side": 1,
+      "message": "Yes. Added to commit message.",
+      "parentUuid": "8170c285_8de4b6e9",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f8e544e_cd5fc53c",
         "filename": "tools/node_tools/BUILD",
         "patchSetId": 22
@@ -85,6 +157,24 @@
       "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3d28774_d283ca01",
+        "filename": "tools/node_tools/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T18:30:21Z",
+      "side": 1,
+      "message": "Added another workaround, with more comments.",
+      "parentUuid": "6f8e544e_cd5fc53c",
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "90f3fe5a_7c3dece0",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 22
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T18:30:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7510dc6_55c1d1a3",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3011b1b7_63749528",
         "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
         "patchSetId": 22
@@ -131,6 +245,30 @@
       "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26b40658_04153dac",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T18:30:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3011b1b7_63749528",
+      "range": {
+        "startLine": 218,
+        "startChar": 145,
+        "endLine": 218,
+        "endChar": 164
+      },
+      "revId": "2f56b44b7bee63768ae58c1ad9ccf4d958940f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

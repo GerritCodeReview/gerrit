@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edd8736e_0fdca18e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:12:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "191727d6_f92c1fa0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5eb701ac_512a0e67",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f781014_1c20bbfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:12:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eb701ac_512a0e67",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "730db4ba_0564e20d",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:12:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b39b4250_aa2adbc6",
+      "range": {
+        "startLine": 124,
+        "startChar": 41,
+        "endLine": 124,
+        "endChar": 43
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4089c56e_bb531b86",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "28bc35ec_4c772ccf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1033,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:12:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4089c56e_bb531b86",
+      "range": {
+        "startLine": 1033,
+        "startChar": 4,
+        "endLine": 1033,
+        "endChar": 66
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2af1ed91_ef86b8ee",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2020-01-28T13:19:17Z",
       "side": 1,
       "message": "I know that the structure of the DiffInfo object is not optimal. When commonLines() is filled, linesOfA() and linesOfB() are automatically empty, and the other way around. We don\u0027t have to test that in every test again. So here, it\u0027s sufficient (and shorter) to just test the parts which are filled.",
+      "range": {
+        "startLine": 1028,
+        "startChar": 4,
+        "endLine": 1036,
+        "endChar": 62
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43379836_4cc3e61c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:12:46Z",
+      "side": 1,
+      "message": "Looking only on the DiffInfo code i can\u0027t get this information.\nAlso, I can\u0027t find any tests which ensures that this condition is always true.\nI would to say, that at the current state of code these checks makes sense. It allows to understand the output without going to much in the implementation details.\n\nOtherwise, I can say that this is enough in this tests to check diff has a valid meta, because it is not possible to have a diff without content.",
+      "parentUuid": "2af1ed91_ef86b8ee",
       "range": {
         "startLine": 1028,
         "startChar": 4,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "d29c7a03_e4e5fc47",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:12:46Z",
+      "side": 1,
+      "message": "Yes, but it is confusing. Changed to the FILE_NAME3",
+      "parentUuid": "40601090_58d476c6",
+      "range": {
+        "startLine": 1179,
+        "startChar": 50,
+        "endLine": 1179,
+        "endChar": 60
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08549f77_55d8b03b",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "72bae089_84d428ca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:12:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08549f77_55d8b03b",
+      "range": {
+        "startLine": 1194,
+        "startChar": 7,
+        "endLine": 1194,
+        "endChar": 89
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7feda12f_6559e2cd",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2
@@ -174,6 +342,30 @@
       "writtenOn": "2020-01-28T13:19:17Z",
       "side": 1,
       "message": "See comment from above about isNull() checks.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 4,
+        "endLine": 1205,
+        "endChar": 85
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92cc1fae_b7ae4eb9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:12:46Z",
+      "side": 1,
+      "message": "See my answer above :)",
+      "parentUuid": "7feda12f_6559e2cd",
       "range": {
         "startLine": 1199,
         "startChar": 4,

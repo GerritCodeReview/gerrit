@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dee0701e_aff3801e",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-28T12:09:25Z",
+      "side": 1,
+      "message": "RevWalk should be opened in try-with-resource to prevent resource leak.",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 40
+      },
+      "revId": "c14217757fcc95091ae4a23dabed709bf9ae2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

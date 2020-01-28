@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "4362d8de_430a71e5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:41:28Z",
+      "side": 1,
+      "message": "Eventually a @typedef for this might be nice, but we can defer this to our larger TypeScript effort.",
+      "revId": "890d8680bfb54c4990d24aec33b22ef06ad04f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4ba89b8_1b64f4f1",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 5

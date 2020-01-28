@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "191727d6_f92c1fa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:19:17Z",
+      "side": 1,
+      "message": "\"Add edge case tests\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eb701ac_512a0e67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:19:17Z",
+      "side": 1,
+      "message": "Either \"references non-existing\" or \"refers to non-existing\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b39b4250_aa2adbc6",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:19:17Z",
+      "side": 1,
+      "message": "We should have a message here indicating what (a file) with which identifier (file name) wasn\u0027t found.",
+      "range": {
+        "startLine": 124,
+        "startChar": 41,
+        "endLine": 124,
+        "endChar": 43
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4089c56e_bb531b86",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1033,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:19:17Z",
+      "side": 1,
+      "message": "To ensure that previewFix is properly working for commit messages, the test should verify at some point that the fix replacement is part of the preview. This could be done within this line (e.g. linesOfB().contains(\"Show new content\")) if the fix range above would be chosen such that it spans a whole line.",
+      "range": {
+        "startLine": 1033,
+        "startChar": 4,
+        "endLine": 1033,
+        "endChar": 66
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2af1ed91_ef86b8ee",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:19:17Z",
+      "side": 1,
+      "message": "I know that the structure of the DiffInfo object is not optimal. When commonLines() is filled, linesOfA() and linesOfB() are automatically empty, and the other way around. We don\u0027t have to test that in every test again. So here, it\u0027s sufficient (and shorter) to just test the parts which are filled.",
+      "range": {
+        "startLine": 1028,
+        "startChar": 4,
+        "endLine": 1036,
+        "endChar": 62
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40601090_58d476c6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:19:17Z",
+      "side": 1,
+      "message": "Is this intentionally FILE_NAME2 instead of FILE_NAME3?",
+      "range": {
+        "startLine": 1179,
+        "startChar": 50,
+        "endLine": 1179,
+        "endChar": 60
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08549f77_55d8b03b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:19:17Z",
+      "side": 1,
+      "message": "That\u0027s an interesting comment. I guess it depends on how someone interprets \u0027lines\u0027. In the rest of the code base, I started introducing comments which rather indicate that a line was indeed added due to the new line separator. We should try to not contradict ourselves. I think the comment in general could be helpful for people but I would like to change it a bit. Could you probably rather write something like \"Due to the additional line separator, the diff has one additional line.\"? Then, it\u0027s a neutral statement without an interpretation of how the person sitting in front of the screen interprets \u0027lines\u0027.",
+      "range": {
+        "startLine": 1194,
+        "startChar": 7,
+        "endLine": 1194,
+        "endChar": 89
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7feda12f_6559e2cd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-28T13:19:17Z",
+      "side": 1,
+      "message": "See comment from above about isNull() checks.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 4,
+        "endLine": 1205,
+        "endChar": 85
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76a3bde8_4c8569ad",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98195fe3_f326ec54",
+      "range": {
+        "startLine": 95,
+        "startChar": 52,
+        "endLine": 95,
+        "endChar": 76
+      },
+      "revId": "01486265b2ca4bfbb70939bb04233bac0da9b4d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54201c1a_b6957a1d",
         "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "01486265b2ca4bfbb70939bb04233bac0da9b4d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cea09aa_489601d8",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-28T14:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54201c1a_b6957a1d",
+      "range": {
+        "startLine": 109,
+        "startChar": 21,
+        "endLine": 109,
+        "endChar": 22
+      },
+      "revId": "01486265b2ca4bfbb70939bb04233bac0da9b4d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

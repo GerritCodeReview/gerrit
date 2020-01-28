@@ -15,7 +15,6 @@
 package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.PatchSet;
@@ -46,8 +45,6 @@ import java.util.List;
  * necessary event for this.
  */
 public class PublishCommentsOp implements BatchUpdateOp {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeMessagesUtil cmUtil;

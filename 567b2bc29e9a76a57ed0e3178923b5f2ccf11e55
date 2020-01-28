@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9367a741_ea3d7e80",
+        "filename": ".eslintignore",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-28T07:03:25Z",
+      "side": 1,
+      "message": "This is needed for code style check (eslint.js) to pass, otherwise all node_modules are checked.",
+      "revId": "567b2bc29e9a76a57ed0e3178923b5f2ccf11e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28ecf3fe_695c8292",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-28T07:03:25Z",
+      "side": 1,
+      "message": "There are warning during license rendering during `bazel build :release`, see: [1].\n\n* [1] http://paste.openstack.org/show/788857",
+      "revId": "567b2bc29e9a76a57ed0e3178923b5f2ccf11e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "665d4f3f_49ff304d",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-28T07:03:25Z",
+      "side": 1,
+      "message": "Tests are still failing during: `polygerrit-ui/app/run_test.sh`, see [1].\n\n* [1] http://paste.openstack.org/show/788858",
+      "range": {
+        "startLine": 116,
+        "startChar": 11,
+        "endLine": 116,
+        "endChar": 21
+      },
+      "revId": "567b2bc29e9a76a57ed0e3178923b5f2ccf11e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "902c0426_54ce7404",
+        "filename": "tools/node_tools/node_modules_licenses/utils.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-28T21:13:31Z",
+      "side": 1,
+      "message": "If I run license check from the top change in this series: [1]:\n\n  $ bazel test Documentation:check_licenses\n\nI\u0027m getting this error:\n\n  ERROR: /home/davido/projects/gerrit2/tools/node_tools/node_modules_licenses/BUILD:7:1: Compiling TypeScript (prodmode) //tools/node_tools/node_modules_licenses:licenses-map failed (Exit 1)\ntools/node_tools/node_modules_licenses/utils.ts:17:22 - error TS7006: Parameter \u0027message\u0027 implicitly has an \u0027any\u0027 type.\n\n17 export function fail(message): never {\n                        ~~~~~~~\ntools/node_tools/node_modules_licenses/utils.ts:22:40 - error TS7006: Parameter \u0027path\u0027 implicitly has an \u0027any\u0027 type.\n\n22 export function readMultilineParamFile(path): string[] {\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/251805",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "a392c0358a1c073411d9fc6af6e384d5901f6ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

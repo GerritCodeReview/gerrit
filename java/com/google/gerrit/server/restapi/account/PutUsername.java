@@ -79,10 +79,6 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
-    if (!realm.allowsEdit(AccountFieldName.USER_NAME)) {
-      throw new MethodNotAllowedException("realm does not allow editing username");
-    }
-
     if (input == null) {
       input = new UsernameInput();
     }
@@ -90,6 +86,11 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
     Account.Id accountId = rsrc.getUser().getAccountId();
     if (!externalIds.byAccount(accountId, SCHEME_USERNAME).isEmpty()) {
       throw new MethodNotAllowedException("Username cannot be changed.");
+    }
+
+    if (realm.accountBelongsToRealm(externalIds.byAccount(accountId)) &&
+        !realm.allowsEdit(AccountFieldName.USER_NAME)) {
+      throw new MethodNotAllowedException("realm does not allow editing username");
     }
 
     if (Strings.isNullOrEmpty(input.username)) {

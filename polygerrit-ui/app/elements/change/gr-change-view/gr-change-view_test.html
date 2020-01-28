@@ -409,57 +409,66 @@ limitations under the License.
       });
     });
 
-    test('thread list and change log tabs', done => {
-      element._changeNum = '1';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
-      };
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev2: {_number: 2, commit: {parents: []}},
-          rev1: {_number: 1, commit: {parents: []}},
-          rev13: {_number: 13, commit: {parents: []}},
-          rev3: {_number: 3, commit: {parents: []}},
-        },
-        current_revision: 'rev3',
-        status: 'NEW',
-        labels: {
-          test: {
-            all: [],
-            default_value: 0,
-            values: [],
-            approved: {},
+    suite('thread list and change log tabs', () => {
+      setup(() => {
+        element._changeNum = '1';
+        element._patchRange = {
+          basePatchNum: 'PARENT',
+          patchNum: 1,
+        };
+        element._change = {
+          change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+          revisions: {
+            rev2: {_number: 2, commit: {parents: []}},
+            rev1: {_number: 1, commit: {parents: []}},
+            rev13: {_number: 13, commit: {parents: []}},
+            rev3: {_number: 3, commit: {parents: []}},
           },
-        },
-      };
-      sandbox.stub(element.$.relatedChanges, 'reload');
-      sandbox.stub(element, '_reload').returns(Promise.resolve());
-      sandbox.spy(element, '_paramsChanged');
-      element.params = {view: 'change', changeNum: '1'};
+          current_revision: 'rev3',
+          status: 'NEW',
+          labels: {
+            test: {
+              all: [],
+              default_value: 0,
+              values: [],
+              approved: {},
+            },
+          },
+        };
+        sandbox.stub(element.$.relatedChanges, 'reload');
+        sandbox.stub(element, '_reload').returns(Promise.resolve());
+        sandbox.spy(element, '_paramsChanged');
+        element.params = {view: 'change', changeNum: '1'};
+      });
 
-      // When the change is hard reloaded, paramsChanged will not set the tab.
-      // It will be set in postLoadTasks, which requires the flush() to detect.
-      assert.isTrue(element._paramsChanged.called);
-      assert.isUndefined(element.$.commentTabs.selected);
+      test('tab switch works correctly', done => {
+        assert.isTrue(element._paramsChanged.called);
+        assert.equal(element.$.commentTabs.selected, CommentTabs.CHANGE_LOG);
 
-      // Wait for tab to get selected
-      flush(() => {
-        assert.equal(element.$.commentTabs.selected, 0);
-        assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
-        // Switch to comment thread tab
-        MockInteractions.tap(element.$$('paper-tab.commentThreads'));
-        assert.equal(element.$.commentTabs.selected, 1);
-        assert.equal(element._currentView, CommentTabs.COMMENT_THREADS);
+        // Wait for tab to get selected
+        flush(() => {
+          assert.equal(element.$.commentTabs.selected, CommentTabs.CHANGE_LOG);
+          assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
+          // Switch to comment thread tab
+          MockInteractions.tap(element.$$('paper-tab.commentThreads'));
+          assert.equal(element.$.commentTabs.selected, 1);
+          assert.equal(element._currentView, CommentTabs.COMMENT_THREADS);
 
-        // When the change is partially reloaded (ex: Shift+R), the content
-        // is swapped out before the tab, so messages list will display even
-        // though the tab for comment threads is still temporarily selected.
-        element._paramsChanged(element.params);
-        assert.equal(element.$.commentTabs.selected, 1);
-        assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
-        done();
+          // When the change is partially reloaded (ex: Shift+R), the content
+          // is swapped out before the tab, so messages list will display even
+          // though the tab for comment threads is still temporarily selected.
+          element._paramsChanged(element.params);
+          assert.equal(element.$.commentTabs.selected,
+              CommentTabs.COMMENT_THREADS);
+          assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
+          flush(() => {
+            // Correct tab is selected after the patchset is changed
+            assert.equal(element.$.commentTabs.selected,
+                CommentTabs.CHANGE_LOG);
+            assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
+            done();
+          });
+        });
       });
     });
 

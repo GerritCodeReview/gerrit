@@ -68,6 +68,7 @@ public class ExternalIdReader {
   private final AllUsersName allUsersName;
   private boolean failOnLoad = false;
   private final Timer0 readAllLatency;
+  private final Timer0 readSingleLatency;
 
   @Inject
   ExternalIdReader(
@@ -78,6 +79,12 @@ public class ExternalIdReader {
         metricMaker.newTimer(
             "notedb/read_all_external_ids_latency",
             new Description("Latency for reading all external IDs from NoteDb.")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS));
+    this.readSingleLatency =
+        metricMaker.newTimer(
+            "notedb/read_single_external_id_latency",
+            new Description("Latency for reading a single external ID from NoteDb.")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS));
   }
@@ -126,7 +133,8 @@ public class ExternalIdReader {
   Optional<ExternalId> get(ExternalId.Key key) throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
+    try (Timer0.Context ctx = readSingleLatency.start();
+        Repository repo = repoManager.openRepository(allUsersName)) {
       return ExternalIdNotes.loadReadOnly(allUsersName, repo).get(key);
     }
   }
@@ -136,7 +144,8 @@ public class ExternalIdReader {
       throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
+    try (Timer0.Context ctx = readSingleLatency.start();
+        Repository repo = repoManager.openRepository(allUsersName)) {
       return ExternalIdNotes.loadReadOnly(allUsersName, repo, rev).get(key);
     }
   }

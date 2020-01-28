@@ -152,6 +152,8 @@ excluding reindexing
 * `notedb/external_id_update_count`: Total number of external ID updates.
 * `notedb/read_all_external_ids_latency`: Latency for reading all
 external ID's from NoteDb.
+* `notedb/read_singke_external_id_latency`: Latency for reading a single
+external ID from NoteDb.
 
 === Permissions
 

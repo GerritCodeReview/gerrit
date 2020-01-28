@@ -1,0 +1,599 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "623554e8_b49cedb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "licenses.",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d964a49_b9529130",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "Add a comment that this for the IntelliJ plugin only.",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80e2dcf4_463c2d8d",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "licenses-config",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b27c1f24_ed4eb696",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "licenses-config-js",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06f51543_251f4be6",
+        "filename": "polygerrit-ui/app/node_modules_licenses/licenses.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "Is this just an example? Will there have to be other PackageInfo entries added?",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae75a04a_8255a1e7",
+        "filename": "polygerrit-ui/app/node_modules_licenses/licenses/polymer-2017.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "Should this not be a proper LICENSE file?",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "877ce708_7374e890",
+        "filename": "tools/node_tools/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "treats",
+      "range": {
+        "startLine": 1,
+        "startChar": 21,
+        "endLine": 1,
+        "endChar": 26
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9b30cd_8c3807e0",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "transpiles",
+      "range": {
+        "startLine": 19,
+        "startChar": 38,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f952f724_1bfbc6ea",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "Maybe rename to README.md to stay consistent with other readmes in the repo.\n\nMaybe clean up the trailing whitespaces and format with 80 or 100 chars line wrapping.",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe43f5ca_6c91df67",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "gets as input",
+      "range": {
+        "startLine": 5,
+        "startChar": 65,
+        "endLine": 5,
+        "endChar": 68
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "266bbdf6_81db9382",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "in a",
+      "range": {
+        "startLine": 5,
+        "startChar": 85,
+        "endLine": 5,
+        "endChar": 87
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96dc2ce5_f7c70603",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "the tool",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 9
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14c3791d_528cd552",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": ", then",
+      "range": {
+        "startLine": 8,
+        "startChar": 52,
+        "endLine": 8,
+        "endChar": 55
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ad254de_f1b7cb72",
+        "filename": "tools/node_tools/node_modules_licenses/installed-node-modules-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "Would be nice to add some lint/formatter config such that a style similar to Google style is applied, e.g. space after \"if\". Feel free to postpone that though.",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 8
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "becd312c_f826642b",
+        "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "must be",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cda331c1_6ec179b7",
+        "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "Usage",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 17
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a6e6f17_8b41eb96",
+        "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "space after //",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 4
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "128abeec_72b6b0ba",
+        "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "Repeated comment? See note above.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7babd832_6d791497",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "FilePath",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "062b30b2_f676e709",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "/** Path relative to installedPackage */",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78363be9_ed59f619",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "FilePath",
+      "range": {
+        "startLine": 52,
+        "startChar": 9,
+        "endLine": 52,
+        "endChar": 15
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceb9b3f1_22d95bc8",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "/** Path relative to installedPackage */",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "816fee64_5723f591",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "PackageVersion",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 17
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef471613_f97e5a83",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "LicenseName",
+      "range": {
+        "startLine": 69,
+        "startChar": 42,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82e28d75_15c0f80f",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "add a comment",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac148954_c03ec26f",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "packageLicenseFiles",
+      "range": {
+        "startLine": 80,
+        "startChar": 43,
+        "endLine": 80,
+        "endChar": 64
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d754bb05_c151d234",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "I am not I understand that if clause. Maybe add comments to the FilteredFiles type?",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d3204a5_1d118c64",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "formatting",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fecfb7ce_214fa24d",
+        "filename": "tools/node_tools/node_modules_licenses/shared-licenses-provider.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-28T15:52:47Z",
+      "side": 1,
+      "message": "Add a short class comment.",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

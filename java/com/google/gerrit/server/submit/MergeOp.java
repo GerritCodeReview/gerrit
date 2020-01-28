@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
@@ -91,12 +92,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -645,10 +649,35 @@ public class MergeOp implements AutoCloseable {
       //
       // If you happen across one of these, the correct fix is to convert the
       // inner IntegrationException to a ResourceConflictException.
-      String msg;
-      if (e.getCause() instanceof IntegrationException) {
+      String msg = "";
+      if (e.getCause() instanceof GitUpdateFailureException) {
+        // Transaction didn't go through.
+        GitUpdateFailureException updateFailure = (GitUpdateFailureException) e.getCause();
+        if (updateFailure.getFailures().size() > 1) {
+          msg =
+              updateFailure.getFailures().stream()
+                  .filter(
+                      // filter out the failures that were a consequence rather than a cause.
+                      f ->
+                          !(ReceiveCommand.Result.REJECTED_OTHER_REASON.name().equals(f.result())
+                              && f.message().isPresent()
+                              && f.message().get().equals(JGitText.get().transactionAborted)))
+                  .map(
+                      f ->
+                          String.format(
+                              "%s: %s (%s)",
+                              f.ref(),
+                              f.result(),
+                              f.message().isPresent() ? f.message().get() : ""))
+                  .collect(Collectors.joining(", "));
+        }
+      }
+
+      if (msg.isEmpty() && e.getCause() instanceof IntegrationException) {
         msg = e.getCause().getMessage();
-      } else {
+      }
+
+      if (msg.isEmpty()) {
         msg = genericMergeError(cs);
       }
       throw new IntegrationException(msg, e);

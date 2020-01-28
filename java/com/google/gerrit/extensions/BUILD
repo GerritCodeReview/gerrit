@@ -26,7 +26,6 @@ java_library(
     ],
 )
 
-#TODO(davido): There is no provided_deps argument to java_library rule
 java_library(
     name = "api",
     srcs = glob(["**/*.java"]),

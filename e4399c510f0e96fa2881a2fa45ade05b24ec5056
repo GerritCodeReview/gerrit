@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "690043df_ffdc7c4e",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-28T16:03:38Z",
+      "side": 1,
+      "message": "This should have been an else block 😞\n\nFixed in https://gerrit-review.googlesource.com/c/gerrit/+/252065",
+      "range": {
+        "startLine": 693,
+        "startChar": 10,
+        "endLine": 694,
+        "endChar": 98
+      },
+      "revId": "e4399c510f0e96fa2881a2fa45ade05b24ec5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

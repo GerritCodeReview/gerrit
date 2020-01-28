@@ -222,6 +222,24 @@
       "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "860bb903_367110cd",
+        "filename": "tools/node_tools/node_modules_licenses/package-license-info.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-28T14:52:20Z",
+      "side": 1,
+      "message": "\u003e We can have some not very well formatted code, but setup automation for it right now can delay us for a week or so.\n\nWhat about https://github.com/google/gts: No rules and zero configuration?",
+      "parentUuid": "4c1f58d0_2d442ea6",
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

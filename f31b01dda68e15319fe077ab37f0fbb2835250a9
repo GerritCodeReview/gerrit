@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa5226e_2a9e0a12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-28T12:04:34Z",
+      "side": 1,
+      "message": "a) Please document the new permission in access-control.txt.\nb) Please document for the Revert and Revert Submission REST endpoints that callers need this permission now.",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da92356b_f811897a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-28T12:04:34Z",
+      "side": 1,
+      "message": "Should this change also contain UI changes, e.g. modification of gr-access-behavior.html?",
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2377e9a_3e7fa81b",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-28T12:04:34Z",
+      "side": 1,
+      "message": "a) please keep these variables sorted alphabetically\nb) just call this REVERT instead of REVERT_CHANGE",
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4d6d01b_dd91f50c",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-28T12:04:34Z",
+      "side": 1,
+      "message": "move this up to keep the alphabetic ordering",
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eab33268_6a821c36",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-28T12:04:34Z",
+      "side": 1,
+      "message": "Should this permission rather be checked on the ref of the target branch to be consistent with other permissions? E.g. the rebase permission needs to be granted on refs/heads/..., not refs/for/...",
+      "range": {
+        "startLine": 166,
+        "startChar": 40,
+        "endLine": 166,
+        "endChar": 61
+      },
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4756530c_a3837d23",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-28T12:04:34Z",
+      "side": 1,
+      "message": "Did you consider making the Revert permission a ChangePermission rather than a RefPermission?\nIf yes, can you add the reasons that speak for RefPermission to the commit message?",
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

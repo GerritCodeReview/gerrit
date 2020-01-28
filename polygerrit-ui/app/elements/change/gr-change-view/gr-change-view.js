@@ -59,6 +59,11 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
+  const CommentTabs = {
+    CHANGE_LOG: 0,
+    COMMENT_THREADS: 1,
+  };
+
   const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
   const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
@@ -193,6 +198,10 @@
           type: String,
           value: '',
         },
+        _commentTabs: {
+          type: Object,
+          value: CommentTabs,
+        },
         _lineHeight: Number,
         _changeIdCommitMessageError: {
           type: String,
@@ -280,9 +289,9 @@
           type: Boolean,
           value: undefined,
         },
-        _showMessagesView: {
-          type: Boolean,
-          value: true,
+        _currentView: {
+          type: Number,
+          value: CommentTabs.CHANGE_LOG,
         },
         _showFileTabContent: {
           type: Boolean,
@@ -460,7 +469,11 @@
     }
 
     _handleCommentTabChange() {
-      this._showMessagesView = this.$.commentTabs.selected === 0;
+      this._currentView = this.$.commentTabs.selected;
+    }
+
+    _isSelectedView(currentView, view) {
+      return currentView === view;
     }
 
     _handleFileTabChange(e) {
@@ -773,8 +786,7 @@
       // get messed up if changed here, because it requires the tabs to be on
       // the streen, and they are hidden shortly after this. The tab switching
       // animation will happen in post render tasks.
-      this._showMessagesView = true;
-
+      this._currentView = CommentTabs.CHANGE_LOG;
       if (value.view !== Gerrit.Nav.View.CHANGE) {
         this._initialLoadComplete = false;
         return;

@@ -16,6 +16,24 @@
       "revId": "d1c3c1ac2a83700f389e0e1e739e6ae8b0a9df11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1d3e59e_2e375411",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2020-01-28T16:58:01Z",
+      "side": 1,
+      "message": "Nop, I am using LDAP.\n\nThere may indeed be another issue here, but I think this check is already an improvement.",
+      "parentUuid": "09a90e51_e38212cd",
+      "revId": "d1c3c1ac2a83700f389e0e1e739e6ae8b0a9df11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

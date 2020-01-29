@@ -2,7 +2,7 @@
 = Gerrit Code Review: Developer Setup
 
 To build a developer instance, you'll need link:https://bazel.build/[Bazel,role=external,window=_blank] to
-compile the code.
+compile the code, preferably launched with link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank].
 
 == Git Setup
 

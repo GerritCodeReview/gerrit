@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e8e237f7_3a04d060",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-01-29T22:22:20Z",
+      "side": 1,
+      "message": "Added in https://gerrit-review.googlesource.com/c/gerrit/+/252492",
+      "parentUuid": "a81bc162_15445eef",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 0
+      },
+      "revId": "4a711eda84555d4fd0d178cdda34a78cbd09e24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b701a1db_b716be24",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 27

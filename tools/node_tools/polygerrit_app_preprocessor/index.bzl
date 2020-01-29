@@ -7,9 +7,9 @@ def _update_links_impl(ctx):
     output_files = []
     input_js_files = []
     output_js_files = []
-    js_files_args = ctx.actions.args()
-    js_files_args.set_param_file_format("multiline")
-    js_files_args.use_param_file("%s", use_always = True)
+    html_files_args = ctx.actions.args()
+    html_files_args.set_param_file_format("multiline")
+    html_files_args.use_param_file("%s", use_always = True)
 
     for f in ctx.files.srcs:
         output_file = ctx.actions.declare_file(dir_name + "/" + f.path)
@@ -17,8 +17,8 @@ def _update_links_impl(ctx):
         if f.extension == "html":
             input_js_files.append(f)
             output_js_files.append(output_file)
-            js_files_args.add(f)
-            js_files_args.add(output_file)
+            html_files_args.add(f)
+            html_files_args.add(output_file)
         else:
             ctx.actions.expand_template(
                 output = output_file,
@@ -30,7 +30,7 @@ def _update_links_impl(ctx):
         executable = ctx.executable._updater,
         outputs = output_js_files,
         inputs = input_js_files + [ctx.file.redirects],
-        arguments = [js_files_args, ctx.file.redirects.path],
+        arguments = [html_files_args, ctx.file.redirects.path],
     )
     return [DefaultInfo(files = depset(output_files))]
 
@@ -99,7 +99,7 @@ def _prepare_for_bundling_impl(ctx):
     html_files_dict = dict()
     js_files_dict = dict()
 
-    root_path = ctx.bin_dir.path + "/" + ctx.attr.root_path
+    root_path = ctx.attr.root_path
     if not root_path.endswith("/"):
         root_path = root_path + "/"
 

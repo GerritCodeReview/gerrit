@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "7a332b6b_9ce8bf03",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-29T14:36:42Z",
+      "side": 1,
+      "message": "What I expect of this test: It should ensure that the \"Preview fix\" dialog shows the right content for a fix on a commit message. Of course, we can\u0027t simulate the dialog here but we can pay attention to the relevant aspects it needs as input.\nWhat\u0027s the \u0027right content\u0027: File name is COMMIT_MSG and diff shows original content on the left and the adjusted content on the right.\nWhat\u0027s special about COMMIT_MSG files: They are magic files and don\u0027t exist for real. In fact, the COMMIT_MSG file even contains more than just the commit message of a commit. It additionally includes some header lines which are generated from commit details. If the implementation of the previewFix endpoint required files to exist for real or it didn\u0027t factor the generated header lines properly into the preview, the result might be wrong.\n\nTaking all of this into account, what I want to see in this test is:\n- File path for diff output is COMMIT_MSG.\n- Left side contains old commit message, right side contains commit message with applied fix. (This will be a combination of lines of \u0027a\u0027/\u0027b\u0027 and \u0027ab\u0027 in the DiffInfo.)\n\nWhat I definitely don\u0027t want to see in the test because it would make the test brittle (\u003d it can fail for changes unrelated to the code under test):\n- The exact contents and format of the header part. (We can\u0027t control it in the test. We can only set a specific commit message and that\u0027s all the content we can and should verify.)\n- Testing inherent properties of a DiffInfo. (A DiffInfo is supposed to be filled in a specific way so that the frontend can also interpret it properly. As a consequence, some fields are mutually exclusive. We don\u0027t have to verify this in every test which does assertions on a DiffInfo.)\n- Assertions for not relevant fields of a DiffInfo regarding this test case. (There are some fields we don\u0027t care about for this use case at all (e.g. weblinks))\n\nPlease adjust the test accordingly.\n\nHere are some direct answers to your questions:\n\n\u003e But the next question - should we test exact strings in diff? (i.e. \"Some new content\") . I don\u0027t see how it is possible to get something else and I can remove the condition about exact content.\n\nI\u0027m happy to show you how we could adjust the implementation such that a test without content check would succeed (as well as all of our other tests) and how the user would see a wrong result.\n\n\u003e If you want to test an exact content of different lines (i.e. \"Some new content\"), I don\u0027t understand why this is the only thing to test. I.e. why shouldn\u0027t I check content of common lines, linesOfA, etc...\n\nAs said previously, we should ideally verify the whole content of the commit message (excluding header).\n\n\u003e If I remove checks for non-filled items of diff, but keep content check (\"Some new content\"), then it looks slightly random for me.\n\nIt\u0027s not random. If a part of the DiffInfo indicated that it had both different content for left and right side and at the same time the exact same content, how should any receiver interpret that? The DiffInfo would contradict itself. As stated above, this specific test case doesn\u0027t need to cover inherent properties of a DiffInfo.",
+      "parentUuid": "a58a364c_5173234e",
+      "range": {
+        "startLine": 1028,
+        "startChar": 4,
+        "endLine": 1036,
+        "endChar": 62
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40601090_58d476c6",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2

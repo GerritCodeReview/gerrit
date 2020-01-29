@@ -3184,20 +3184,19 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createMergePatchSet() throws Exception {
-    PushOneCommit.Result start = pushTo("refs/heads/master");
-    start.assertOkStatus();
-    // create a change for master
-    PushOneCommit.Result r = createChange();
-    r.assertOkStatus();
-    String changeId = r.getChangeId();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch("dev");
 
-    testRepo.reset(start.getCommit());
+    // create a change for master
+    String changeId = createChange().getChangeId();
+
+    testRepo.reset(initialHead);
     PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
     currentMaster.assertOkStatus();
     String parent = currentMaster.getCommit().getName();
 
     // push a commit into dev branch
-    createBranch("dev");
+    testRepo.reset(initialHead);
     PushOneCommit.Result changeA =
         pushFactory
             .create(user.newIdent(), testRepo, "change A", "A.txt", "A content")
@@ -3219,21 +3218,21 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createMergePatchSetInheritParent() throws Exception {
-    PushOneCommit.Result start = pushTo("refs/heads/master");
-    start.assertOkStatus();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch("dev");
+
     // create a change for master
     PushOneCommit.Result r = createChange();
-    r.assertOkStatus();
     String changeId = r.getChangeId();
     String parent = r.getCommit().getParent(0).getName();
 
     // advance master branch
-    testRepo.reset(start.getCommit());
+    testRepo.reset(initialHead);
     PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
     currentMaster.assertOkStatus();
 
     // push a commit into dev branch
-    createBranch("dev");
+    testRepo.reset(initialHead);
     PushOneCommit.Result changeA =
         pushFactory
             .create(user.newIdent(), testRepo, "change A", "A.txt", "A content")

@@ -33,14 +33,15 @@ sbt compile
 
 ==== Setup
 
-If you are running SSH commands the private keys of the users used for testing need to go in `/tmp/ssh-keys`.
-The keys need to be generated this way (JSch won't validate them [otherwise](https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch):
+If you are running SSH commands, the private keys of the users used for testing need to go in
+`/tmp/ssh-keys`. The keys need to be generated this way (JSch won't validate them
+link:https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch[otherwise]):
 
 ----
 ssh-keygen -m PEM -t rsa -C "test@mail.com" -f /tmp/ssh-keys/id_rsa
 ----
 
-*NOTE*: Don't forget to add the public keys for the testing user(s) to your git server
+*NOTE*: Don't forget to add the public keys for the testing user(s) to your git server.
 
 ==== Input file
 

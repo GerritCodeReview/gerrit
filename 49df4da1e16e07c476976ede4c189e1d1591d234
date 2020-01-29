@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e463285d_402283e5",
+        "filename": "WORKSPACE",
+        "patchSetId": 21
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-29T22:15:36Z",
+      "side": 1,
+      "message": "This change is a draft. It will never be merged.",
+      "parentUuid": "6c8385d6_05a883da",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "49df4da1e16e07c476976ede4c189e1d1591d234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6109e849_88fa1ca5",
         "filename": "WORKSPACE",
         "patchSetId": 21

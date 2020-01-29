@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ff66f13_df41d666",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-01-29T08:59:47Z",
+      "side": 1,
+      "message": "This and many other lines are too long for the new UI. Looks like we have to stick to 72 characters line length in the commit message.",
+      "revId": "48f8f4b02dc703171268bb9e0b31f9309b501f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a48f9fd_fa66fe1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-01-29T08:59:47Z",
+      "side": 1,
+      "message": "Please split the paragraphs by an empty line.",
+      "revId": "48f8f4b02dc703171268bb9e0b31f9309b501f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

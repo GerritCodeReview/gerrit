@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad6668b4_581746e0",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 27
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-29T18:32:40Z",
+      "side": 1,
+      "message": "This is not equivalent to previous version one directory is missing. This is now producing this layout:\n\n  polygerrit_ui/bower_components/font-roboto-local/Roboto-Thin.ttf  \n  polygerrit_ui/bower_components/font-roboto-local/Roboto-Light.ttf  \n  polygerrit_ui/bower_components/font-roboto-local/RobotoMono-MediumItalic.ttf  \n  polygerrit_ui/bower_components/font-roboto-local/Roboto-Bold.ttf\n\nIn the base version it was with intermediate directories:\n\n  polygerrit_ui/bower_components/font-roboto-local/fonts/robotomono/\n\nTo verify compare these commands with and without this series:\n\n  $ bazel build polygerrit-ui/app:polygerrit_ui.zip\n  bazel-bin/polygerrit-ui/app/polygerrit_ui.zip\n  $ unzip -t bazel-bin/polygerrit-ui/app/polygerrit_ui.zip | grep RobotoMono-MediumItalic\n  testing: polygerrit_ui/bower_components/font-roboto-local/fonts/robotomono/RobotoMono-MediumItalic.ttf\n\nWith this series it produces:\n\n  $ unzip -t bazel-bin/polygerrit-ui/app/polygerrit_ui.zip | grep RobotoMono-MediumItalic\n  testing: polygerrit_ui/bower_components/font-roboto-local/RobotoMono-MediumItalic.ttf   OK",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 119,
+        "endChar": 127
+      },
+      "revId": "a42edecb8f9479e75f08a3ed8533b89f0ef09c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cbeebe1_38b21b94",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 27
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-29T18:32:40Z",
+      "side": 1,
+      "message": "Another difference, is that font-roboto-local doesn\u0027t actually used in the final app:\n\nWithout this series there are these matches:\n\n  $ grep -i roboto polygerrit_ui/./elements/gr-app.html\n  src: url(\"../bower_components/font-roboto-local/fonts/roboto/Roboto-Thin.ttf\") format(\"truetype\");\n\nWith this series, all this is missing.",
+      "revId": "a42edecb8f9479e75f08a3ed8533b89f0ef09c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

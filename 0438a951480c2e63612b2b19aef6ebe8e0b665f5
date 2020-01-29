@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b2c8d85_d1029617",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6045,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-29T23:24:54Z",
+      "side": 1,
+      "message": "nit: the columns should be aligned.",
+      "revId": "0438a951480c2e63612b2b19aef6ebe8e0b665f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

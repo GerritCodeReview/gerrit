@@ -34,6 +34,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
+import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
@@ -74,6 +75,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
+  private final WorkInProgressStateChanged wipStateChanged;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -86,6 +88,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   // Fields exposed as setters.
   private String message;
   private String description;
+  private Boolean workInProgress;
   private boolean validate = true;
   private boolean checkAddPatchSetPermission = true;
   private List<String> groups = Collections.emptyList();
@@ -99,6 +102,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private PatchSetInfo patchSetInfo;
   private ChangeMessage changeMessage;
   private ReviewerSet oldReviewers;
+  private boolean oldWorkInProgressState;
 
   @Inject
   public PatchSetInserter(
@@ -111,6 +115,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       PatchSetUtil psUtil,
       RevisionCreated revisionCreated,
       ProjectCache projectCache,
+      WorkInProgressStateChanged wipStateChanged,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -123,6 +128,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.revisionCreated = revisionCreated;
     this.projectCache = projectCache;
+    this.wipStateChanged = wipStateChanged;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -140,6 +146,11 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   public PatchSetInserter setDescription(String description) {
     this.description = description;
+    return this;
+  }
+
+  public PatchSetInserter setWorkInProgress(boolean workInProgress) {
+    this.workInProgress = workInProgress;
     return this;
   }
 
@@ -230,6 +241,13 @@ public class PatchSetInserter implements BatchUpdateOp {
       changeMessage.setMessage(message);
     }
 
+    oldWorkInProgressState = change.isWorkInProgress();
+    if (workInProgress != null) {
+      change.setWorkInProgress(workInProgress);
+      change.setReviewStarted(!workInProgress);
+      update.setWorkInProgress(workInProgress);
+    }
+
     patchSetInfo =
         patchSetInfoFactory.get(ctx.getRevWalk(), ctx.getRevWalk().parseCommit(commitId), psId);
     if (!allowClosed) {
@@ -264,6 +282,10 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
+    }
+
+    if (workInProgress != null && oldWorkInProgressState != workInProgress) {
+      wipStateChanged.fire(change, patchSet, ctx.getAccount(), ctx.getWhen());
     }
   }
 

@@ -29,6 +29,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
+import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -56,6 +57,8 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -186,9 +189,8 @@ public class CreateChange
 
     checkRequiredPermissions(project, input.branch);
 
-    Change newChange = createNewChange(input, me, projectState, updateFactory);
-    ChangeJson json = jsonFactory.noOptions();
-    return Response.created(json.format(newChange));
+    ChangeInfo newChange = createNewChange(input, me, projectState, updateFactory);
+    return Response.created(newChange);
   }
 
   /**
@@ -289,7 +291,7 @@ public class CreateChange
         .check(RefPermission.CREATE_CHANGE);
   }
 
-  private Change createNewChange(
+  private ChangeInfo createNewChange(
       ChangeInput input,
       IdentifiedUser me,
       ProjectState projectState,
@@ -304,7 +306,7 @@ public class CreateChange
     try (Repository git = gitManager.openRepository(projectState.getNameKey());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
-        RevWalk rw = new RevWalk(reader)) {
+        CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(reader)) {
       PatchSet basePatchSet = null;
       List<String> groups = Collections.emptyList();
 
@@ -327,10 +329,15 @@ public class CreateChange
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
       String commitMessage = getCommitMessage(input.subject, me);
 
-      RevCommit c;
+      CodeReviewCommit c;
       if (input.merge != null) {
         // create a merge commit
         c = newMergeCommit(git, oi, rw, projectState, mergeTip, input.merge, author, commitMessage);
+        if (!c.getFilesWithGitConflicts().isEmpty()) {
+          logger.atFine().log(
+              "merge commit has conflicts in the following files: %s",
+              c.getFilesWithGitConflicts());
+        }
       } else {
         // create an empty commit
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
@@ -338,10 +345,10 @@ public class CreateChange
 
       Change.Id changeId = Change.id(seq.nextChangeId());
       ChangeInserter ins = changeInserterFactory.create(changeId, c, input.branch);
-      ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
+      ins.setMessage(messageForNewChange(ins.getPatchSetId(), c));
       ins.setTopic(input.topic);
       ins.setPrivate(input.isPrivate);
-      ins.setWorkInProgress(input.workInProgress);
+      ins.setWorkInProgress(input.workInProgress || !c.getFilesWithGitConflicts().isEmpty());
       ins.setGroups(groups);
       try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
         bu.setRepository(git, rw, oi);
@@ -351,8 +358,10 @@ public class CreateChange
         bu.insertChange(ins);
         bu.execute();
       }
-      return ins.getChange();
-    } catch (InvalidMergeStrategyException e) {
+      ChangeInfo changeInfo = jsonFactory.noOptions().format(ins.getChange());
+      changeInfo.containsGitConflicts = !c.getFilesWithGitConflicts().isEmpty() ? true : null;
+      return changeInfo;
+    } catch (InvalidMergeStrategyException | MergeWithConflictsNotSupportedException e) {
       throw new BadRequestException(e.getMessage());
     }
   }
@@ -469,9 +478,9 @@ public class CreateChange
     return commitMessage;
   }
 
-  private static RevCommit newCommit(
+  private static CodeReviewCommit newCommit(
       ObjectInserter oi,
-      RevWalk rw,
+      CodeReviewRevWalk rw,
       PersonIdent authorIdent,
       RevCommit mergeTip,
       String commitMessage)
@@ -490,10 +499,10 @@ public class CreateChange
     return rw.parseCommit(insert(oi, commit));
   }
 
-  private RevCommit newMergeCommit(
+  private CodeReviewCommit newMergeCommit(
       Repository repo,
       ObjectInserter oi,
-      RevWalk rw,
+      CodeReviewRevWalk rw,
       ProjectState projectState,
       RevCommit mergeTip,
       MergeInput merge,
@@ -501,7 +510,8 @@ public class CreateChange
       String commitMessage)
       throws RestApiException, IOException {
     logger.atFine().log(
-        "Creating merge commit: source = %s, strategy = %s", merge.source, merge.strategy);
+        "Creating merge commit: source = %s, strategy = %s, allowConflicts",
+        merge.source, merge.strategy, merge.allowConflicts);
 
     if (Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
@@ -531,6 +541,7 @@ public class CreateChange
           mergeTip,
           sourceCommit,
           mergeStrategy,
+          merge.allowConflicts,
           authorIdent,
           commitMessage,
           rw);
@@ -538,6 +549,20 @@ public class CreateChange
       throw new ResourceConflictException(
           String.format("Cannot create merge commit: %s", e.getMessage()), e);
     }
+  }
+
+  private static String messageForNewChange(PatchSet.Id patchSetId, CodeReviewCommit commit) {
+    StringBuilder stringBuilder =
+        new StringBuilder(String.format("Uploaded patch set %s.", patchSetId.get()));
+
+    if (!commit.getFilesWithGitConflicts().isEmpty()) {
+      stringBuilder.append("\n\nThe following files contain Git conflicts:\n");
+      commit.getFilesWithGitConflicts().stream()
+          .sorted()
+          .forEach(filePath -> stringBuilder.append("* ").append(filePath).append("\n"));
+    }
+
+    return stringBuilder.toString();
   }
 
   private static ObjectId insert(ObjectInserter inserter, CommitBuilder commit) throws IOException {

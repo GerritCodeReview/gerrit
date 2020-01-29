@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "41083114_323e8b50",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-29T16:52:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2377e9a_3e7fa81b",
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4d6d01b_dd91f50c",
         "filename": "java/com/google/gerrit/common/data/Permission.java",
         "patchSetId": 1
@@ -73,6 +91,24 @@
       "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bacebedc_5109bb9e",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-29T16:52:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4d6d01b_dd91f50c",
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +135,30 @@
     },
     {
       "key": {
+        "uuid": "fe8ee235_ed4c4396",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-29T16:52:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eab33268_6a821c36",
+      "range": {
+        "startLine": 166,
+        "startChar": 40,
+        "endLine": 166,
+        "endChar": 61
+      },
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4756530c_a3837d23",
         "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
         "patchSetId": 1
@@ -113,6 +173,24 @@
       "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db429cb2_947f633d",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-29T16:52:49Z",
+      "side": 1,
+      "message": "Moved to ChangePermission",
+      "parentUuid": "4756530c_a3837d23",
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

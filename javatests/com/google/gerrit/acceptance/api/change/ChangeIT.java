@@ -47,6 +47,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
@@ -144,8 +145,10 @@ import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -180,6 +183,7 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -3207,13 +3211,29 @@ public class ChangeIT extends AbstractDaemonTest {
     MergePatchSetInput in = new MergePatchSetInput();
     in.merge = mergeInput;
     in.subject = "update change by merge ps2";
-    gApi.changes().id(changeId).createMergePatchSet(in);
+
+    TestWorkInProgressStateChangedListener wipStateChangedListener =
+        new TestWorkInProgressStateChangedListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(wipStateChangedListener)) {
+      ChangeInfo changeInfo = gApi.changes().id(changeId).createMergePatchSet(in);
+      assertThat(changeInfo.subject).isEqualTo(in.subject);
+      assertThat(changeInfo.containsGitConflicts).isNull();
+      assertThat(changeInfo.workInProgress).isNull();
+    }
+    assertThat(wipStateChangedListener.invoked).isFalse();
+
+    // To get the revisions, we must retrieve the change with more change options.
     ChangeInfo changeInfo =
         gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
     assertThat(changeInfo.revisions).hasSize(2);
-    assertThat(changeInfo.subject).isEqualTo(in.subject);
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isEqualTo(parent);
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages = gApi.changes().id(changeId).messages();
+    assertThat(messages).hasSize(2);
+    assertThat(Iterables.getLast(messages).message).isEqualTo("Uploaded patch set 2.");
   }
 
   @Test
@@ -3249,6 +3269,142 @@ public class ChangeIT extends AbstractDaemonTest {
             ResourceConflictException.class,
             () -> gApi.changes().id(changeId).createMergePatchSet(in));
     assertThat(thrown).hasMessageThat().isEqualTo("merge conflict(s):\n" + fileName);
+  }
+
+  @Test
+  public void createMergePatchSet_ConflictAllowed() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch("dev");
+
+    // create a change for master
+    String changeId = createChange().getChangeId();
+
+    String fileName = "shared.txt";
+    String sourceSubject = "source change";
+    String sourceContent = "source content";
+    String targetSubject = "target change";
+    String targetContent = "target content";
+    testRepo.reset(initialHead);
+    PushOneCommit.Result currentMaster =
+        pushFactory
+            .create(admin.newIdent(), testRepo, targetSubject, fileName, targetContent)
+            .to("refs/heads/master");
+    currentMaster.assertOkStatus();
+    String parent = currentMaster.getCommit().getName();
+
+    // push a commit into dev branch
+    testRepo.reset(initialHead);
+    PushOneCommit.Result changeA =
+        pushFactory
+            .create(user.newIdent(), testRepo, sourceSubject, fileName, sourceContent)
+            .to("refs/heads/dev");
+    changeA.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    mergeInput.allowConflicts = true;
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    in.subject = "update change by merge ps2";
+
+    TestWorkInProgressStateChangedListener wipStateChangedListener =
+        new TestWorkInProgressStateChangedListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(wipStateChangedListener)) {
+      ChangeInfo changeInfo = gApi.changes().id(changeId).createMergePatchSet(in);
+      assertThat(changeInfo.subject).isEqualTo(in.subject);
+      assertThat(changeInfo.containsGitConflicts).isTrue();
+      assertThat(changeInfo.workInProgress).isTrue();
+    }
+    assertThat(wipStateChangedListener.invoked).isTrue();
+    assertThat(wipStateChangedListener.wip).isTrue();
+
+    // To get the revisions, we must retrieve the change with more change options.
+    ChangeInfo changeInfo =
+        gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
+    assertThat(changeInfo.revisions).hasSize(2);
+    assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
+        .isEqualTo(parent);
+
+    // Verify that the file content in the created patch set is correct.
+    // We expect that it has conflict markers to indicate the conflict.
+    BinaryResult bin = gApi.changes().id(changeId).current().file(fileName).content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String fileContent = new String(os.toByteArray(), UTF_8);
+    String sourceSha1 = abbreviateName(changeA.getCommit(), 6);
+    String targetSha1 = abbreviateName(currentMaster.getCommit(), 6);
+    assertThat(fileContent)
+        .isEqualTo(
+            "<<<<<<< TARGET BRANCH ("
+                + targetSha1
+                + " "
+                + targetSubject
+                + ")\n"
+                + targetContent
+                + "\n"
+                + "=======\n"
+                + sourceContent
+                + "\n"
+                + ">>>>>>> SOURCE BRANCH ("
+                + sourceSha1
+                + " "
+                + sourceSubject
+                + ")\n");
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages = gApi.changes().id(changeId).messages();
+    assertThat(messages).hasSize(2);
+    assertThat(Iterables.getLast(messages).message)
+        .isEqualTo(
+            "Uploaded patch set 2.\n\n"
+                + "The following files contain Git conflicts:\n"
+                + "* "
+                + fileName
+                + "\n");
+  }
+
+  @Test
+  public void createMergePatchSet_ConflictAllowedNotSupportedByMergeStrategy() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch("dev");
+
+    // create a change for master
+    String changeId = createChange().getChangeId();
+
+    String fileName = "shared.txt";
+    String sourceSubject = "source change";
+    String sourceContent = "source content";
+    String targetSubject = "target change";
+    String targetContent = "target content";
+    testRepo.reset(initialHead);
+    PushOneCommit.Result currentMaster =
+        pushFactory
+            .create(admin.newIdent(), testRepo, targetSubject, fileName, targetContent)
+            .to("refs/heads/master");
+    currentMaster.assertOkStatus();
+
+    // push a commit into dev branch
+    testRepo.reset(initialHead);
+    PushOneCommit.Result changeA =
+        pushFactory
+            .create(user.newIdent(), testRepo, sourceSubject, fileName, sourceContent)
+            .to("refs/heads/dev");
+    changeA.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    mergeInput.allowConflicts = true;
+    mergeInput.strategy = "simple-two-way-in-core";
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    in.subject = "update change by merge ps2";
+
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> gApi.changes().id(changeId).createMergePatchSet(in));
+    assertThat(ex)
+        .hasMessageThat()
+        .isEqualTo(
+            "merge with conflicts is not supported with merge strategy: " + mergeInput.strategy);
   }
 
   @Test
@@ -4494,5 +4650,18 @@ public class ChangeIT extends AbstractDaemonTest {
   @FunctionalInterface
   private interface AddReviewerCaller {
     void call(String changeId, String reviewer) throws RestApiException;
+  }
+
+  private static class TestWorkInProgressStateChangedListener
+      implements WorkInProgressStateChangedListener {
+    boolean invoked;
+    Boolean wip;
+
+    @Override
+    public void onWorkInProgressStateChanged(Event event) {
+      this.invoked = true;
+      this.wip =
+          event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
+    }
   }
 }

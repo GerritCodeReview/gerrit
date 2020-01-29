@@ -99,6 +99,15 @@ class ChangesImpl implements Changes {
   }
 
   @Override
+  public ChangeInfo createAsInfo(ChangeInput in) throws RestApiException {
+    try {
+      return createChange.apply(TopLevelResource.INSTANCE, in).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create change", e);
+    }
+  }
+
+  @Override
   public QueryRequest query() {
     return new QueryRequest() {
       @Override

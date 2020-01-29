@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
+import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
@@ -69,6 +70,7 @@ public class ExtensionRegistry {
   private final DynamicSet<AccountActivationValidationListener>
       accountActivationValidationListeners;
   private final DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
+  private final DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners;
 
   @Inject
   ExtensionRegistry(
@@ -93,7 +95,8 @@ public class ExtensionRegistry {
       DynamicSet<RevisionCreatedListener> revisionCreatedListeners,
       DynamicSet<GroupBackend> groupBackends,
       DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners,
-      DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners) {
+      DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners,
+      DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -116,6 +119,7 @@ public class ExtensionRegistry {
     this.groupBackends = groupBackends;
     this.accountActivationValidationListeners = accountActivationValidationListeners;
     this.onSubmitValidationListeners = onSubmitValidationListeners;
+    this.workInProgressStateChangedListeners = workInProgressStateChangedListeners;
   }
 
   public Registration newRegistration() {
@@ -217,6 +221,10 @@ public class ExtensionRegistry {
 
     public Registration add(OnSubmitValidationListener onSubmitValidationListener) {
       return add(onSubmitValidationListeners, onSubmitValidationListener);
+    }
+
+    public Registration add(WorkInProgressStateChangedListener workInProgressStateChangedListener) {
+      return add(workInProgressStateChangedListeners, workInProgressStateChangedListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

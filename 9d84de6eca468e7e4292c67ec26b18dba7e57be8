@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df40bf67_68234e0c",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-29T10:21:33Z",
+      "side": 1,
+      "message": "Ack. I plan to modify @type soon, once it will get final, I will add @type.",
+      "parentUuid": "76772ad1_f18b5988",
+      "range": {
+        "startLine": 204,
+        "startChar": 3,
+        "endLine": 208,
+        "endChar": 35
+      },
+      "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcb93aea_5b3c1e62",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 1
@@ -57,6 +81,24 @@
       "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e0ffc07_b80712ef",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-29T10:21:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be9f5550_65d5be86",
+      "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +169,30 @@
       "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18b93fe3_1cd1891d",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-29T10:21:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2571f98b_e3952abf",
+      "range": {
+        "startLine": 544,
+        "startChar": 33,
+        "endLine": 544,
+        "endChar": 40
+      },
+      "revId": "9d84de6eca468e7e4292c67ec26b18dba7e57be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

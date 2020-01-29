@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0cb41164_0e881225",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-29T10:21:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18580440_19a9756e",
+      "range": {
+        "startLine": 220,
+        "startChar": 8,
+        "endLine": 220,
+        "endChar": 48
+      },
+      "revId": "68b8a1836213aceb114d2945a761e71d32417c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9e90eff_55bafdad",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "68b8a1836213aceb114d2945a761e71d32417c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e9e3f35_5c5c1b57",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-29T10:21:33Z",
+      "side": 1,
+      "message": "That\u0027s potential problem for any field. If we will encounter such problems, we can start limiting fields.",
+      "parentUuid": "b9e90eff_55bafdad",
+      "range": {
+        "startLine": 256,
+        "startChar": 33,
+        "endLine": 256,
+        "endChar": 61
+      },
+      "revId": "68b8a1836213aceb114d2945a761e71d32417c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

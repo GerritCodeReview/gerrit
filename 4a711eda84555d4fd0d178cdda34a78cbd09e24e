@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a81bc162_15445eef",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-29T10:02:36Z",
+      "side": 1,
+      "message": "Can you please document these new fields in the REST API documentation that describes the ChangeInfo entity?",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 0
+      },
+      "revId": "4a711eda84555d4fd0d178cdda34a78cbd09e24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b701a1db_b716be24",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 27

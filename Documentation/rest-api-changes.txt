@@ -6780,16 +6780,16 @@ change.
 Submit type used for this change, can be `MERGE_IF_NECESSARY`,
 `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `REBASE_ALWAYS`, `MERGE_ALWAYS` or
 `CHERRY_PICK`.
-|`strategy`     |optional|
+|`strategy`      |optional|
 The strategy of the merge, can be `recursive`, `resolve`,
 `simple-two-way-in-core`, `ours` or `theirs`.
 |`mergeable`     ||
 `true` if this change is cleanly mergeable, `false` otherwise
-|`commit_merged`     |optional|
+|`commit_merged` |optional|
 `true` if this change is already merged, `false` otherwise
-|`content_merged`     |optional|
+|`content_merged`|optional|
 `true` if the content of this change is already merged, `false` otherwise
-|`conflicts`|optional|
+|`conflicts`     |optional|
 A list of paths with conflicts
 |`mergeable_into`|optional|
 A list of other branch names where this change could merge cleanly
@@ -6802,16 +6802,16 @@ The `MergeInput` entity contains information about the merge
 [options="header",cols="1,^1,5"]
 |============================
 |Field Name      ||Description
-|`source`   ||
+|`source`        ||
 The source to merge from, e.g. a complete or abbreviated commit SHA-1,
 a complete reference name, a short reference name under `refs/heads`, `refs/tags`,
 or `refs/remotes` namespace, etc.
-|`source_branch`  |optional|
+|`source_branch` |optional|
 A branch from which `source` is reachable. If specified,
 `source` is checked for visibility and reachability against only this
 branch. This speeds up the operation, especially for large repos with
 many branches.
-|`strategy`     |optional|
+|`strategy`      |optional|
 The strategy of the merge, can be `recursive`, `resolve`,
 `simple-two-way-in-core`, `ours` or `theirs`, default will use project settings.
 |============================

@@ -6042,6 +6042,10 @@ This ID is equal to the numeric ID of the change that triggered the submission.
 If the change that triggered the submission also has a topic, it will be
 "<id>-<topic>" of the change that triggered the submission.
 The callers must not rely on the format of the submission ID.
+|`cherry_pick_of_change`          |optional|
+The numeric Change-Id of the change that this change was cherry-picked from.
+|`cherry_pick_of_patch_set`          |optional|
+The patchset number of the change that this change was cherry-picked from.
 |==================================
 
 [[change-input]]

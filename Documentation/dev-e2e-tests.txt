@@ -19,11 +19,13 @@ Examples of scenarios can be found in the `e2e-tests` directory.
 
 === How to run the load tests
 
-==== Prerequisites
-
-* link:https://www.scala-lang.org/download/[`Scala 2.12`]
-
 ==== How to build
+
+An link:https://www.scala-sbt.org/download.html[sbt-based installation] of
+link:https://www.scala-lang.org/download/[Scala] is required.
+
+The `scalaVersion` used by `sbt` once installed is defined in the `build.sbt` file.
+That specific version of Scala is automatically used by `sbt` while building:
 
 ----
 sbt compile

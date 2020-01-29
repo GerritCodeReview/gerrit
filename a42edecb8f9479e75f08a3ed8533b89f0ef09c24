@@ -39,6 +39,24 @@
       "revId": "a42edecb8f9479e75f08a3ed8533b89f0ef09c24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4075545_9be03fa4",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 27
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-29T21:52:35Z",
+      "side": 1,
+      "message": "OK, I know now why. I have tried to fix it here: [1], to replicate the bower component patch, that was done in: [2] to npm module.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/252472\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/246692",
+      "parentUuid": "1cbeebe1_38b21b94",
+      "revId": "a42edecb8f9479e75f08a3ed8533b89f0ef09c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

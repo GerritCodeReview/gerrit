@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05e9e39b_8bb3ee9c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateMergePatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-29T16:23:10Z",
+      "side": 1,
+      "message": "Here we also need to catch InvalidMergeStrategyException so that providing an invalid strategy doesn\u0027t cause an ISE. This is unrelated to this change, hence I will do a separate change for this (likely as a predecessor change).",
+      "revId": "2df7ddbd755f640061c86f74656aa76cea32ceb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "a58a364c_5173234e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-29T10:30:30Z",
+      "side": 1,
+      "message": "If I understand correctly, you want to check in this tests only things which are specific to commit message.\nSo, what is special in commit message?\n\nThe main difference - it is not an ordinary file/special type of file.\n\nWhat can go wrong related with commit message:\n1) Exception/error while loading commit message. Check meta is enough to ensure that there was no exception.\n2) Commit message wasn\u0027t loaded correctly\n2.a) Empty text is loaded instead of commit message. If the only difference between comments and files is a way how they loaded, then check high-level diff structure (commonLines, then different lines, then common line) is enough. (if we suppose, that other parts work as expected)\n\n2.b) Commit message contains invalid text. This can happen only if it is loaded from different commit. Should we check for it in this test? I think no, it must be checked by other tests (or we can ignore this case as unrealistic)\n\n\nAccording to your comment, we suppose that everything else (not related to comment) works correct.\nIn this case I agree, testing only parts of diff which are filled is enough\n\nBut the next question - should we test exact strings in diff? (i.e. \"Some new content\") . I don\u0027t see how it is possible to get something else and I can remove the condition about exact content.\n\nIf you want to test an exact content of different lines (i.e. \"Some new content\"), I don\u0027t understand why this is the only thing to test. I.e. why shouldn\u0027t I check content of common lines, linesOfA, etc...\n\nIf I remove checks for non-filled items of diff, but keep content check (\"Some new content\"), then it looks slightly random for me.",
+      "parentUuid": "6f66460f_150dcf3e",
+      "range": {
+        "startLine": 1028,
+        "startChar": 4,
+        "endLine": 1036,
+        "endChar": 62
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40601090_58d476c6",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2

@@ -1,7 +1,6 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load(":rules.bzl", "polygerrit_bundle")
-load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "update_links")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -83,21 +82,13 @@ genrule2(
     ]),
 )
 
-update_links(
-    name = "test-srcs-updated-links",
+# Workaround for https://github.com/bazelbuild/bazel/issues/1305
+filegroup(
+    name = "test-srcs-fg",
     srcs = [
         "test/common-test-setup.html",
         "test/index.html",
         ":pg_code",
-    ],
-    redirects = "redirects.json",
-)
-
-# Workaround for https://github.com/bazelbuild/bazel/issues/1305
-filegroup(
-    name = "test-srcs-updated-links-fg",
-    srcs = [
-        ":test-srcs-updated-links",
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
     ],
@@ -108,7 +99,7 @@ sh_test(
     size = "enormous",
     srcs = ["wct_test.sh"],
     data = [
-        ":test-srcs-updated-links-fg",
+        ":test-srcs-fg",
     ],
     # Should not run sandboxed.
     tags = [
@@ -133,23 +124,6 @@ sh_test(
     ],
 )
 
-update_links(
-    name = "polylint-updated-links",
-    srcs = [
-        ":pg_code_without_test",
-    ],
-    redirects = "redirects.json",
-)
-
-# Workaround for https://github.com/bazelbuild/bazel/issues/1305
-filegroup(
-    name = "polylint-updated-links-fg",
-    srcs = [
-        ":polylint-updated-links",
-        "@ui_npm//:node_modules",
-    ],
-)
-
 sh_test(
     name = "polylint_test",
     size = "large",
@@ -160,8 +134,9 @@ sh_test(
     ],
     data = [
         "polymer.json",
-        ":polylint-updated-links-fg",
+        ":pg_code_without_test",
         "@tools_npm//polymer-cli/bin:polymer",
+        "@ui_npm//:node_modules",
     ],
     # Should not run sandboxed.
     tags = [

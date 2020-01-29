@@ -1,21 +1,10 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "prepare_for_bundling", "update_links")
+load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "prepare_for_bundling")
 load("//tools/node_tools/legacy:index.bzl", "polymer_bundler_tool")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 
 def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
     app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app
-
-    # Update links in all .html files according to rules in redirects.json file
-    # All other files remains unchanged.
-    # After update, all references to bower_components are replaced by a correct references
-    # to a node_modules
-    # The output of this rule is a directory, which mirrors directories layout of srcs files
-    update_links(
-        name = app_name + "-updated-links",
-        srcs = srcs,
-        redirects = redirects,
-    )
 
     # Polymer 3 uses ES modules; gerrit still use HTML imports and polymer-bridges.
     # In such conditions, polymer-bundler/crisper and polymer-cli tools crash without an error
@@ -55,9 +44,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
 
     prepare_for_bundling(
         name = app_name + "-prebundling-srcs",
-        srcs = [
-            app_name + "-updated-links",
-        ],
+        srcs = srcs,
         additional_node_modules_to_preprocess = [
             "@ui_npm//polymer-bridges",
         ],
@@ -65,7 +52,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
         node_modules = [
             "@ui_npm//:node_modules",
         ],
-        root_path = "polygerrit-ui/app/" + app_name + "-updated-links/polygerrit-ui/app",
+        root_path = "polygerrit-ui/app/",
     )
 
     native.filegroup(

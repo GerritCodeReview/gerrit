@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "565ed85e_1f587549",
+        "filename": "java/com/google/gerrit/server/change/ChangeId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-29T22:47:00Z",
+      "side": 1,
+      "message": "This has been created in a separate class (whilst it was on the Change class on master) because of dependency issues with JGit. It can be then fully discarded when merging it up to master.",
+      "revId": "8803cd372f89a8b6b98c579277f1916fc1f0b4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

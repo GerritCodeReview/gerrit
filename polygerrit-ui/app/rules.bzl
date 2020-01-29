@@ -1,6 +1,6 @@
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "prepare_for_bundling", "update_links")
+load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "prepare_for_bundling")
 load("//tools/node_tools/legacy:index.bzl", "polymer_bundler_tool")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 load(
@@ -11,17 +11,9 @@ load(
 def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
     app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app
 
-    update_links(
-        name = app_name + "-updated-links",
-        srcs = srcs,
-        redirects = redirects,
-    )
-
     prepare_for_bundling(
         name = app_name + "-prebundling-srcs",
-        srcs = [
-            app_name + "-updated-links",
-        ],
+        srcs = srcs,
         additional_node_modules_to_preprocess = [
             "@ui_npm//polymer-bridges",
         ],
@@ -29,7 +21,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
         node_modules = [
             "@ui_npm//:node_modules",
         ],
-        root_path = "polygerrit-ui/app/" + app_name + "-updated-links/polygerrit-ui/app",
+        root_path = "polygerrit-ui/app/",
     )
 
     native.filegroup(

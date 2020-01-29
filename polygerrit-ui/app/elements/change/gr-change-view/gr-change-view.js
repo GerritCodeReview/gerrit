@@ -820,6 +820,7 @@
         }
         this._reloadPatchNumDependentResources().then(() => {
           this._sendShowChangeEvent();
+          this._setPrimaryTab();
         });
         return;
       }

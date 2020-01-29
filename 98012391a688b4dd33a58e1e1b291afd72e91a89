@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b5f49ec8_65b7a43e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-29T16:27:19Z",
+      "side": 1,
+      "message": "We decided to rather go with the term \"Findings\" on the UI as having a \"Robot Comments\" tab next to \"Comment Threads\" might be confusing. We also discussed renaming \"Comment Threads\" to \"Human Comments\" but decided against it. \"Findings\" seemed to be like the best option. We thought that this term might potentially also be easier to grasp/understand for users. We\u0027ll keep the term \u0027robot comment\u0027 for our implementation as it\u0027s already present in a lot of places (and APIs).\n\nHappy to discuss this further. The term is also not set in stone. If we find out that users don\u0027t like it or find it confusing, we can switch back to \"Robot Comments\" or try something completely different.",
+      "parentUuid": "2a8eef13_30b3d226",
+      "range": {
+        "startLine": 615,
+        "startChar": 41,
+        "endLine": 615,
+        "endChar": 49
+      },
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d859d272_f65bda26",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 8

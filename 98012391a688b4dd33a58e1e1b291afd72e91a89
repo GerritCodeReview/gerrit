@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2a8eef13_30b3d226",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-29T16:13:24Z",
+      "side": 1,
+      "message": "Yes, this was discussed in a meeting with Alice and Delphine. \nWill get their approval on this change too.",
+      "parentUuid": "648e7a61_1a9425e4",
+      "range": {
+        "startLine": 615,
+        "startChar": 41,
+        "endLine": 615,
+        "endChar": 49
+      },
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d859d272_f65bda26",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9f3be11_be2c6e71",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-29T16:13:24Z",
+      "side": 1,
+      "message": "No, nice catch.",
+      "parentUuid": "d859d272_f65bda26",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 29
+      },
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d7d85dc7_0e1eb381",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-29T16:13:24Z",
+      "side": 1,
+      "message": "Should return [];",
+      "parentUuid": "f7f60d1f_b2d97065",
+      "range": {
+        "startLine": 589,
+        "startChar": 47,
+        "endLine": 589,
+        "endChar": 7
+      },
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e34906b_c31bcde2",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
         "patchSetId": 8
@@ -85,6 +157,24 @@
       "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7ab9cc8_2f7a5910",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-29T16:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e34906b_c31bcde2",
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +198,30 @@
       "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "052e9b47_0dbefefd",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-29T16:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf386036_26a21fd2",
+      "range": {
+        "startLine": 141,
+        "startChar": 19,
+        "endLine": 141,
+        "endChar": 55
+      },
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

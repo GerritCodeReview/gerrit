@@ -7217,6 +7217,11 @@ should be added as reviewer or the link:rest-api-groups.html#group-id[
 ID] of one group for which all members should be added as reviewers. +
 If an ID identifies both an account and a group, only the account is
 added as reviewer to the change.
+
+Expansion of groups to their members only works for Gerrit groups.
+External groups, such as LDAP groups, will be silently omitted from a
+link:#set-review[set-review] or
+link:rest-api-changes.html#add-reviewer[add-reviewer] call.
 |`state`         |optional|
 Add reviewer in this state. Possible reviewer states are `REVIEWER`
 and `CC`. If not given, defaults to `REVIEWER`.

@@ -2276,11 +2276,12 @@ NoteDb, Gerrit will not be able to use that instance of NoteDb. The serverId
 used to create the NoteDb will show in the resulting exception message in case
 the value differs.
 
-[[gerrit.ui]]gerrit.ui::
+[[gerrit.enableGwtUi]]gerrit.enableGwtUi::
 +
-Configure which UI is the default. Valid values are `polygerrit` and `gwt`.
+Allow to switch to the GWT UI. When this option is enabled, the user can switch
+the UI from PolyGerrit (the default) to GWT.
 +
-Defaults to `polygerrit`.
+Defaults to true.
 
 [[gitweb]]
 === Section gitweb

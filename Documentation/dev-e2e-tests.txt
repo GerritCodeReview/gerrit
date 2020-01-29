@@ -45,9 +45,9 @@ ssh-keygen -m PEM -t rsa -C "test@mail.com" -f /tmp/ssh-keys/id_rsa
 
 ==== Input file
 
-The ReplayRecordsScenario is fed by the data coming from the [src/test/resources/data/requests.json](/src/test/resources/data/requests.json) file.
-Such file contains the commands and repo used during the load test.
-Below an example:
+The `ReplayRecordsFromFeederScenario` is fed with the data coming from the
+`src/test/resources/data/requests.json` file. Such a file contains the commands and repo used
+during the load test. Example below:
 
 ----
 [
@@ -63,10 +63,11 @@ Below an example:
 ----
 
 Valid commands are:
-* fetch
-* pull
-* push
-* clone
+
+* `fetch`
+* `pull`
+* `push`
+* `clone`
 
 ==== How to use the framework
 

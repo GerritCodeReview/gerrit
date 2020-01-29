@@ -3248,7 +3248,7 @@ public class ChangeIT extends AbstractDaemonTest {
         assertThrows(
             ResourceConflictException.class,
             () -> gApi.changes().id(changeId).createMergePatchSet(in));
-    assertThat(thrown).hasMessageThat().isEqualTo("merge conflict(s)\n" + fileName);
+    assertThat(thrown).hasMessageThat().isEqualTo("merge conflict(s):\n" + fileName);
   }
 
   @Test

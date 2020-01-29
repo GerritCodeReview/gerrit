@@ -22,6 +22,29 @@
       "revId": "68b8a1836213aceb114d2945a761e71d32417c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9e90eff_55bafdad",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-29T09:48:05Z",
+      "side": 1,
+      "message": "Is there any limit on the size of data on server? What if string is too big?",
+      "range": {
+        "startLine": 256,
+        "startChar": 33,
+        "endLine": 256,
+        "endChar": 61
+      },
+      "revId": "68b8a1836213aceb114d2945a761e71d32417c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

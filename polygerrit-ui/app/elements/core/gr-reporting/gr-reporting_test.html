@@ -308,7 +308,7 @@ limitations under the License.
             {
               type: 'lifecycle',
               category: 'Plugins installed',
-              name: 'foo,bar',
+              eventDetails: JSON.stringify({pluginsList: ['foo', 'bar']}),
             }
         ));
       });

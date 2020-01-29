@@ -158,6 +158,12 @@
     }
   }
 
+  document.addEventListener('visibilitychange', () => {
+    const eventName = `Visibility changed to ${document.visibilityState}`;
+    GrReporting.prototype.reporter(INTERACTION_TYPE, undefined, eventName,
+        undefined, {}, true);
+  });
+
   // The Polymer pass of JSCompiler requires this to be reassignable
   // eslint-disable-next-line prefer-const
   let GrReporting = Polymer({
@@ -389,7 +395,8 @@
     pluginsLoaded(pluginsList) {
       this.timeEnd(TIMER.PLUGINS_LOADED);
       this.reporter(
-          PLUGINS.TYPE, PLUGINS.INSTALLED, (pluginsList || []).join(','));
+          PLUGINS.TYPE, PLUGINS.INSTALLED, PLUGINS.INSTALLED, undefined,
+          {pluginsList: pluginsList || []}, true);
     },
 
     /**

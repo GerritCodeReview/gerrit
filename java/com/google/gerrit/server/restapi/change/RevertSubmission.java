@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static java.util.Objects.requireNonNull;
 
@@ -39,7 +38,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -97,8 +95,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class RevertSubmission
-    implements RestModifyView<ChangeResource, RevertInput>, UiAction<ChangeResource> {
+public class RevertSubmission implements RestModifyView<ChangeResource, RevertInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<InternalChangeQuery> queryProvider;
@@ -527,32 +524,6 @@ public class RevertSubmission
             "Couldn't find a non-merge commit after encountering commit %s when trying to revert"
                 + " the submission of change %d",
             potentialCommitToReturn.getName(), changeNotes.getChange().getChangeId()));
-  }
-
-  @Override
-  public Description getDescription(ChangeResource rsrc) {
-    Change change = rsrc.getChange();
-    boolean projectStatePermitsWrite = false;
-    try {
-      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
-    } catch (IOException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to check if project state permits write: %s", rsrc.getProject());
-    }
-    return new UiAction.Description()
-        .setLabel("Revert submission")
-        .setTitle(
-            "Revert this change and all changes that have been submitted together with this change")
-        .setVisible(
-            and(
-                change.isMerged()
-                    && change.getSubmissionId() != null
-                    && isChangePartOfSubmission(change.getSubmissionId())
-                    && projectStatePermitsWrite,
-                permissionBackend
-                    .user(rsrc.getUser())
-                    .ref(change.getDest())
-                    .testCond(CREATE_CHANGE)));
   }
 
   /**

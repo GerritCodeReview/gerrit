@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "740c001e_57d63e8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-29T16:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa5226e_2a9e0a12",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da92356b_f811897a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2020-01-28T12:04:34Z",
       "side": 1,
       "message": "Should this change also contain UI changes, e.g. modification of gr-access-behavior.html?",
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd2a5768_fb64527f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-29T16:53:39Z",
+      "side": 1,
+      "message": "didn\u0027t resolve yet.",
+      "parentUuid": "da92356b_f811897a",
       "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

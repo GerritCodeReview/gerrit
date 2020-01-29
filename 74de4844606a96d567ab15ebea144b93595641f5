@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4405573a_fb3a3e43",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-01-29T14:06:25Z",
+      "side": 1,
+      "message": "Should we document a single place where we add listeners? Instead of each component adding a listener on document.\nFor example, if some other piece of code is also adding a listener on visibilitychange(like the Checks plugin is doing), then we don\u0027t add multiple listeners.\nProbably should also help with performance.\nWDYT?",
+      "revId": "74de4844606a96d567ab15ebea144b93595641f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

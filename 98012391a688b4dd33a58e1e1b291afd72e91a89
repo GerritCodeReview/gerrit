@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "648e7a61_1a9425e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-29T15:50:10Z",
+      "side": 1,
+      "message": "Is that the new established term for robot comments?",
+      "range": {
+        "startLine": 615,
+        "startChar": 41,
+        "endLine": 615,
+        "endChar": 49
+      },
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e34906b_c31bcde2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-29T15:50:10Z",
+      "side": 1,
+      "message": "fix indentation",
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

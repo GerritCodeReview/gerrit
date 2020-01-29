@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "917899ac_ed584e6d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-29T12:05:11Z",
+      "side": 1,
+      "message": "change this to \"internal group\" instead of adding the paragraph below?",
+      "range": {
+        "startLine": 7217,
+        "startChar": 11,
+        "endLine": 7217,
+        "endChar": 16
+      },
+      "revId": "3dc39c903dc6dfe04a8aa6fa8e7bd9ec8bed402a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c1dc313_f644a292",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7222,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-29T12:05:11Z",
+      "side": 1,
+      "message": "Is this the desired behavior?  In other calls that only work for internal groups an exception will be thrown if an external group is given. For example the list members implementation will throw MethodNotAllowed.",
+      "range": {
+        "startLine": 7222,
+        "startChar": 38,
+        "endLine": 7222,
+        "endChar": 62
+      },
+      "revId": "3dc39c903dc6dfe04a8aa6fa8e7bd9ec8bed402a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

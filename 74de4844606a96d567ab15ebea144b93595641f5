@@ -16,6 +16,24 @@
       "revId": "74de4844606a96d567ab15ebea144b93595641f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1aa21c8_16132b14",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-29T14:15:30Z",
+      "side": 1,
+      "message": "I searched for this listener and I haven\u0027t found one. So hopefully someone who will add next one will search for listener as well.\n\nGood point, that it will be cleaner on one place. However it\u0027s not performance issue - it\u0027s just list of listener that are triggers. It\u0027s problem if there is slow code in listener that blocks others.",
+      "parentUuid": "4405573a_fb3a3e43",
+      "revId": "74de4844606a96d567ab15ebea144b93595641f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

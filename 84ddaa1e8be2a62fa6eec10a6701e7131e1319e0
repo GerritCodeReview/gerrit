@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "6f66460f_150dcf3e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-29T09:09:39Z",
+      "side": 1,
+      "message": "You\u0027re right that we might not have any tests which ensure that commonLines() and linesOfA()/linesOfB() are mutually exclusive but this is not the right test to ensure that behavior. If you\u0027re worried about that aspect, please write a separate, dedicated test for it.\n\nChecking only the meta data would not be sufficient in my opinion. With such a test, we would only ensure that a preview for a fix of a commit message can be retrieved without errors. In theory, such a preview could simply contain the original commit message on both sides. Hence, we should definitely verify that the adjusted content is present. Ideally, we would even set the commit message to a specific value at the beginning of the test and would verify at the end that the diff content is as we expect it to be.",
+      "parentUuid": "43379836_4cc3e61c",
+      "range": {
+        "startLine": 1028,
+        "startChar": 4,
+        "endLine": 1036,
+        "endChar": 62
+      },
+      "revId": "84ddaa1e8be2a62fa6eec10a6701e7131e1319e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40601090_58d476c6",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2

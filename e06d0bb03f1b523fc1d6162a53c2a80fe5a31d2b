@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8e21ab8_586e6595",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-29T09:09:39Z",
+      "side": 1,
+      "message": "Optional: That\u0027s a complicated way of testing that the content is as expected. If the range in line 1005 covered a whole line, we wouldn\u0027t need to care in which exact position \"Some new content\" is within linesOfB(). If we do care about the exact diff, I rather think that we should set a specific commit message at the beginning of the test and verify that the diff content (content of common lines + the one of changed lines) is as we expect.",
+      "range": {
+        "startLine": 1033,
+        "startChar": 4,
+        "endLine": 1034,
+        "endChar": 93
+      },
+      "revId": "e06d0bb03f1b523fc1d6162a53c2a80fe5a31d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -110,19 +110,23 @@ limitations under the License.
       }
       .expanded .author {
         cursor: pointer;
-        margin-bottom: var(--spacing-s);
+        margin-bottom: var(--spacing-m);
       }
       .expanded .content {
         padding-left: 40px;
       }
       .dateContainer {
         position: absolute;
+        /* right and top values should match .contentContainer padding */
         right: var(--spacing-l);
-        top: 10px;
+        top: var(--spacing-m);
       }
       .dateContainer .patchset {
         margin-right: var(--spacing-m);
         color: var(--deemphasized-text-color);
+      }
+      .dateContainer .patchset:before {
+        content: 'Patchset ';
       }
       span.date {
         color: var(--deemphasized-text-color);
@@ -168,6 +172,19 @@ limitations under the License.
         --gr-account-label-text-style: {
           font-weight: var(--font-weight-bold);
         };
+      }
+      @media screen and (max-width: 50em) {
+        .expanded .content {
+          padding-left: 0;
+        }
+        .score,
+        .commentsSummary,
+        .authorLabel {
+          min-width: 0px;
+        }
+        .dateContainer .patchset:before {
+          content: 'PS ';
+        }
       }
     </style>
     <div class$="[[_computeClass(_expanded)]]">
@@ -227,7 +244,7 @@ limitations under the License.
         </template>
         <span class="dateContainer">
           <template is="dom-if" if="[[message._revision_number]]">
-            <span class="patchset">Patchset [[message._revision_number]]</span>
+            <span class="patchset">[[message._revision_number]]</span>
           </template>
           <template is="dom-if" if="[[!message.id]]">
             <span class="date">
@@ -249,7 +266,7 @@ limitations under the License.
               id="expandToggle"
               on-click="_toggleExpanded"
               title="Toggle expanded state"
-              icon="[[_computeExpandToggleIcon(_expanded)]]">
+              icon="[[_computeExpandToggleIcon(_expanded)]]"></iron-icon>
         </span>
       </div>
     </div>

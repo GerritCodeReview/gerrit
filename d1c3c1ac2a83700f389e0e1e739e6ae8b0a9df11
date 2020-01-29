@@ -34,6 +34,24 @@
       "revId": "d1c3c1ac2a83700f389e0e1e739e6ae8b0a9df11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d346f1_e1721871",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2020-01-29T12:43:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1d3e59e_2e375411",
+      "revId": "d1c3c1ac2a83700f389e0e1e739e6ae8b0a9df11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

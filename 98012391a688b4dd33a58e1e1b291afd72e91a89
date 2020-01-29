@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "d859d272_f65bda26",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-29T16:01:18Z",
+      "side": 1,
+      "message": "Can\u0027t find where this method is used.\nDo you need it?",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 29
+      },
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7f60d1f_b2d97065",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-29T16:01:18Z",
+      "side": 1,
+      "message": "Should it be return [] or is it some special case?",
+      "range": {
+        "startLine": 589,
+        "startChar": 47,
+        "endLine": 589,
+        "endChar": 7
+      },
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e34906b_c31bcde2",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
         "patchSetId": 8
@@ -36,6 +82,29 @@
       "writtenOn": "2020-01-29T15:50:10Z",
       "side": 1,
       "message": "fix indentation",
+      "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf386036_26a21fd2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-29T16:01:18Z",
+      "side": 1,
+      "message": "filter expects that the return value is true or false.\nIt seems, that you can return the value of humanReplyToRobotComment here",
+      "range": {
+        "startLine": 141,
+        "startChar": 19,
+        "endLine": 141,
+        "endChar": 55
+      },
       "revId": "98012391a688b4dd33a58e1e1b291afd72e91a89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

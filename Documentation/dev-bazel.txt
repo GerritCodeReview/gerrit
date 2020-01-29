@@ -10,11 +10,21 @@ To build Gerrit from source, you need:
 * Python 2 or 3
 * link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm)]
 * Bower (`sudo npm install -g bower`)
-* link:https://docs.bazel.build/versions/master/install.html[Bazel] directly
-or through link:https://github.com/bazelbuild/bazelisk[Bazelisk]
+* link:https://docs.bazel.build/versions/master/install.html[Bazel] -launched with
+link:https://github.com/bazelbuild/bazelisk[Bazelisk]
 * Maven
 * zip, unzip
 * gcc
+
+[[bazel]]
+=== Bazel
+
+link:https://github.com/bazelbuild/bazelisk[Bazelisk] includes a
+link:https://bazel.build/[Bazel] version check and downloads the correct
+`bazel` version for the git project/repository. Bazelisk is the recommended
+`bazel` launcher for Gerrit. Once Bazelisk is installed locally, a `bazel`
+symlink can be created towards it. This is so that every `bazel` command
+seamlessly uses Bazelisk, which then runs the proper `bazel` binary version.
 
 [[java]]
 === Java

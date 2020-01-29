@@ -5502,8 +5502,8 @@ does not specify a Change-Id, a new one is picked for the destination change.
   }
 ----
 
-As response a link:#cherry-pick-change-info[CherryPickChangeInfo]
-entity is returned that describes the resulting cherry-pick change.
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the resulting cherry-pick change.
 
 .Response
 ----
@@ -6042,6 +6042,17 @@ This ID is equal to the numeric ID of the change that triggered the submission.
 If the change that triggered the submission also has a topic, it will be
 "<id>-<topic>" of the change that triggered the submission.
 The callers must not rely on the format of the submission ID.
+|`contains_git_conflicts`|optional, not set if `false`|
+Whether the change contains conflicts. +
+If `true`, some of the file contents of the change contain git conflict
+markers to indicate the conflicts. +
+Only set if this change info is returned in response to a request that
+creates a new change or patch set and conflicts are allowed. In
+particular this field is only populated if the change info is returned
+by one of the following REST endpoints: link:#create-change[Create
+Change], link:#create-merge-patch-set-for-change[Create Merge Patch Set
+For Change], link:#cherry-pick[Cherry Pick Revision],
+link:rest-api-project.html#cherry-pick-commit[Cherry Pick Commit]
 |==================================
 
 [[change-input]]
@@ -6120,23 +6131,6 @@ invocations of the REST call are required.
 Which patchset (if any) generated this message.
 |==================================
 
-[[cherry-pick-change-info]]
-=== CherryPickChangeInfo
-The `CherryPickChangeInfo` entity contains information about a
-cherry-pick change.
-
-`CherryPickChangeInfo` has the same fields as link:#change-info[
-ChangeInfo]. In addition `CherryPickChangeInfo` has the following
-fields:
-
-[options="header",cols="1,^1,5"]
-|======================================
-|Field Name               ||Description
-|`contains_git_conflicts` |optional, not set if `false`|
-Whether any file in the change contains Git conflict markers.
-|======================================
-
-
 [[cherrypick-input]]
 === CherryPickInput
 The `CherryPickInput` entity contains information for cherry-picking a change to a new branch.
@@ -6168,9 +6162,8 @@ If `true`, the cherry-pick uses content merge and succeeds also if
 there are conflicts. If there are conflicts the file contents of the
 created change contain git conflict markers to indicate the conflicts.
 Callers can find out if there were conflicts by checking the
-`contains_git_conflicts` field in the link:#cherry-pick-change-info[
-CherryPickChangeInfo] that is returned by the cherry-pick REST
-endpoints. If there are conflicts the cherry-pick change is marked as
+`contains_git_conflicts` field in the link:#change-info[ChangeInfo]. If
+there are conflicts the cherry-pick change is marked as
 work-in-progress.
 |===========================
 
@@ -6800,21 +6793,27 @@ A list of other branch names where this change could merge cleanly
 The `MergeInput` entity contains information about the merge
 
 [options="header",cols="1,^1,5"]
-|============================
-|Field Name      ||Description
-|`source`        ||
+|==============================
+|Field Name       ||Description
+|`source`         ||
 The source to merge from, e.g. a complete or abbreviated commit SHA-1,
 a complete reference name, a short reference name under `refs/heads`, `refs/tags`,
 or `refs/remotes` namespace, etc.
-|`source_branch` |optional|
+|`source_branch`  |optional|
 A branch from which `source` is reachable. If specified,
 `source` is checked for visibility and reachability against only this
 branch. This speeds up the operation, especially for large repos with
 many branches.
-|`strategy`      |optional|
+|`strategy`       |optional|
 The strategy of the merge, can be `recursive`, `resolve`,
 `simple-two-way-in-core`, `ours` or `theirs`, default will use project settings.
-|============================
+|`allow_conflicts`|optional, defaults to false|
+If `true`, creating the merge succeeds also if there are conflicts. If there
+are conflicts the file contents of the created change contain git conflict
+markers to indicate the conflicts. Callers can find out if there were conflicts
+by checking the `contains_git_conflicts` field in the link:#change-info[
+ChangeInfo]. If there are conflicts the change is marked as work-in-progress.
+|==============================
 
 [[merge-patch-set-input]]
 === MergePatchSetInput

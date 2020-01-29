@@ -35,4 +35,12 @@ public class MergeInput {
    * @see org.eclipse.jgit.merge.MergeStrategy
    */
   public String strategy;
+
+  /**
+   * Whether the creation of the merge should succeed if there are conflicts.
+   *
+   * <p>If there are conflicts the file contents of the created change contain git conflict markers
+   * to indicate the conflicts.
+   */
+  public boolean allowConflicts;
 }

@@ -38,6 +38,12 @@ import java.sql.Timestamp;
 public class WorkInProgressStateChanged {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public static final WorkInProgressStateChanged DISABLED =
+      new WorkInProgressStateChanged() {
+        @Override
+        public void fire(Change change, PatchSet patchSet, AccountState account, Timestamp when) {}
+      };
+
   private final PluginSetContext<WorkInProgressStateChangedListener> listeners;
   private final EventUtil util;
 
@@ -46,6 +52,11 @@ public class WorkInProgressStateChanged {
       PluginSetContext<WorkInProgressStateChangedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
+  }
+
+  private WorkInProgressStateChanged() {
+    this.listeners = null;
+    this.util = null;
   }
 
   public void fire(Change change, PatchSet patchSet, AccountState account, Timestamp when) {

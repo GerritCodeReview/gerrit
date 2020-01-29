@@ -21,6 +21,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.MergeInput;
@@ -43,6 +44,8 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -70,7 +73,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
@@ -140,7 +142,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
     try (Repository git = gitManager.openRepository(project);
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
-        RevWalk rw = new RevWalk(reader)) {
+        CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(reader)) {
 
       RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, merge.source);
       if (!commits.canRead(projectState, git, sourceCommit)) {
@@ -161,7 +163,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
-      RevCommit newCommit =
+      CodeReviewCommit newCommit =
           createMergeCommit(
               in,
               projectState,
@@ -181,7 +183,8 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
         bu.setRepository(git, rw, oi);
         bu.setNotify(NotifyResolver.Result.none());
         psInserter
-            .setMessage("Uploaded patch set " + nextPsId.get() + ".")
+            .setMessage(messageForChange(nextPsId, newCommit))
+            .setWorkInProgress(!newCommit.getFilesWithGitConflicts().isEmpty())
             .setCheckAddPatchSetPermission(false);
         if (groups != null) {
           psInserter.setGroups(groups);
@@ -191,7 +194,12 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       }
 
       ChangeJson json = jsonFactory.create(ListChangesOption.CURRENT_REVISION);
-      return Response.ok(json.format(psInserter.getChange()));
+      ChangeInfo changeInfo = json.format(psInserter.getChange());
+      changeInfo.containsGitConflicts =
+          !newCommit.getFilesWithGitConflicts().isEmpty() ? true : null;
+      return Response.ok(changeInfo);
+    } catch (MergeWithConflictsNotSupportedException e) {
+      throw new BadRequestException(e.getMessage());
     }
   }
 
@@ -210,13 +218,13 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
     return psUtil.current(change);
   }
 
-  private RevCommit createMergeCommit(
+  private CodeReviewCommit createMergeCommit(
       MergePatchSetInput in,
       ProjectState projectState,
       BranchNameKey dest,
       Repository git,
       ObjectInserter oi,
-      RevWalk rw,
+      CodeReviewRevWalk rw,
       RevCommit currentPsCommit,
       RevCommit sourceCommit,
       PersonIdent author,
@@ -255,6 +263,28 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
             mergeUtilFactory.create(projectState).mergeStrategyName());
 
     return MergeUtil.createMergeCommit(
-        oi, git.getConfig(), mergeTip, sourceCommit, mergeStrategy, author, commitMsg, rw);
+        oi,
+        git.getConfig(),
+        mergeTip,
+        sourceCommit,
+        mergeStrategy,
+        in.merge.allowConflicts,
+        author,
+        commitMsg,
+        rw);
+  }
+
+  private static String messageForChange(PatchSet.Id patchSetId, CodeReviewCommit commit) {
+    StringBuilder stringBuilder =
+        new StringBuilder(String.format("Uploaded patch set %s.", patchSetId.get()));
+
+    if (!commit.getFilesWithGitConflicts().isEmpty()) {
+      stringBuilder.append("\n\nThe following files contain Git conflicts:\n");
+      commit.getFilesWithGitConflicts().stream()
+          .sorted()
+          .forEach(filePath -> stringBuilder.append("* ").append(filePath).append("\n"));
+    }
+
+    return stringBuilder.toString();
   }
 }

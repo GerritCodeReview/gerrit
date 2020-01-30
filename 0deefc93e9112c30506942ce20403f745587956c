@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6dde058_4a120bec",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-01-30T15:34:48Z",
+      "side": 1,
+      "message": "That seems hard coded?",
+      "range": {
+        "startLine": 74,
+        "startChar": 78,
+        "endLine": 74,
+        "endChar": 84
+      },
+      "revId": "0deefc93e9112c30506942ce20403f745587956c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

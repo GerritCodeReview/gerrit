@@ -128,6 +128,30 @@
       "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7f87e31_f475e802",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 34
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-30T21:30:49Z",
+      "side": 1,
+      "message": "\u003e I hope, you agree that we can postpone it and fix it later, after this chain of changes will be submitted.\n\nSGTM.",
+      "parentUuid": "366592dc_8f57139f",
+      "range": {
+        "startLine": 111,
+        "startChar": 83,
+        "endLine": 111,
+        "endChar": 99
+      },
+      "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

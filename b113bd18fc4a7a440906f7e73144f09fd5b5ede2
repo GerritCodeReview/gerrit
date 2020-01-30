@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f37425d6_df5b6d06",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-30T21:30:57Z",
+      "side": 0,
+      "message": "It\u0027s is used in Java code to run dev server:\n\n  java/com/google/gerrit/httpd/raw/BazelBuild.java:\n  return new Label(\"polygerrit-ui\", \"polygerrit_components.bower_components.zip\");\n\nThis should be fixed as well.",
+      "range": {
+        "startLine": 8,
+        "startChar": 12,
+        "endLine": 8,
+        "endChar": 50
+      },
+      "revId": "b113bd18fc4a7a440906f7e73144f09fd5b5ede2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

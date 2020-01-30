@@ -35,19 +35,23 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseSystemTime;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -263,6 +267,54 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.isPrivate = true;
     assertCreateSucceeds(input);
+  }
+
+  @Test
+  public void createDefaultAuthor() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    ChangeInfo info = assertCreateSucceeds(input);
+    GitPerson person = gApi.changes().id(info.id).current().commit(false).author;
+    assertThat(person.email).isEqualTo(admin.email());
+  }
+
+  @Test
+  public void createAuthorOverrideBadRequst() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.author = new AccountInput();
+    input.author.name = "name";
+    assertCreateFails(input, BadRequestException.class, "email");
+    input.author.name = null;
+    input.author.email = "gerritlessjane@invalid";
+    assertCreateFails(input, BadRequestException.class, "email");
+  }
+
+  @Test
+  public void createAuthorOverride() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.author = new AccountInput();
+    input.author.email = "gerritlessjane@invalid";
+    // This is an email address that doesn't exist as account on the Gerrit server.
+    input.author.name = "Gerritless Jane";
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    RevisionApi rApi = gApi.changes().id(info.id).current();
+    GitPerson person = rApi.commit(false).author;
+    assertThat(person.email).isEqualTo(input.author.email);
+    assertThat(person.name).isEqualTo(input.author.name);
+  }
+
+  @Test
+  public void createAuthorPermission() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.author = new AccountInput();
+    input.author.name = "Jane";
+    input.author.email = "jane@invalid";
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.FORGE_AUTHOR).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    assertCreateFails(input, AuthException.class, "forge author");
   }
 
   @Test

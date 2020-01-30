@@ -18,12 +18,15 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
@@ -44,9 +47,11 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -54,6 +59,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -141,6 +147,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     assertThat(info.revisions.get(info.currentRevision).commit.message)
         .contains("Change-Id: " + info.changeId);
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages = gApi.changes().id(info._number).messages();
+    assertThat(messages).hasSize(1);
+    assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
   }
 
   @Test
@@ -364,7 +375,12 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public void createMergeChange() throws Exception {
     changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
     ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
-    assertCreateSucceeds(in);
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
+    assertThat(messages).hasSize(1);
+    assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
   }
 
   @Test
@@ -379,6 +395,87 @@ public class CreateChangeIT extends AbstractDaemonTest {
     changeInTwoBranches("branchA", "shared.txt", "branchB", "shared.txt");
     ChangeInput in = newMergeChangeInput("branchA", "branchB", "ours");
     assertCreateSucceeds(in);
+  }
+
+  @Test
+  public void createMergeChange_ConflictsAllowed() throws Exception {
+    String fileName = "shared.txt";
+    String sourceBranch = "sourceBranch";
+    String sourceSubject = "source change";
+    String sourceContent = "source content";
+    String targetBranch = "targetBranch";
+    String targetSubject = "target change";
+    String targetContent = "target content";
+    changeInTwoBranches(
+        sourceBranch,
+        sourceSubject,
+        fileName,
+        sourceContent,
+        targetBranch,
+        targetSubject,
+        fileName,
+        targetContent);
+    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, "", true);
+    ChangeInfo change = assertCreateSucceedsWithConflicts(in);
+
+    // Verify that the file content in the created change is correct.
+    // We expect that it has conflict markers to indicate the conflict.
+    BinaryResult bin = gApi.changes().id(change._number).current().file(fileName).content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String fileContent = new String(os.toByteArray(), UTF_8);
+    String sourceSha1 = abbreviateName(projectOperations.project(project).getHead(sourceBranch), 6);
+    String targetSha1 = abbreviateName(projectOperations.project(project).getHead(targetBranch), 6);
+    assertThat(fileContent)
+        .isEqualTo(
+            "<<<<<<< TARGET BRANCH ("
+                + targetSha1
+                + " "
+                + targetSubject
+                + ")\n"
+                + targetContent
+                + "\n"
+                + "=======\n"
+                + sourceContent
+                + "\n"
+                + ">>>>>>> SOURCE BRANCH ("
+                + sourceSha1
+                + " "
+                + sourceSubject
+                + ")\n");
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
+    assertThat(messages).hasSize(1);
+    assertThat(Iterables.getOnlyElement(messages).message)
+        .isEqualTo(
+            "Uploaded patch set 1.\n\n"
+                + "The following files contain Git conflicts:\n"
+                + "* "
+                + fileName
+                + "\n");
+  }
+
+  @Test
+  public void createMergeChange_ConflictAllowedNotSupportedByMergeStrategy() throws Exception {
+    String fileName = "shared.txt";
+    String sourceBranch = "sourceBranch";
+    String targetBranch = "targetBranch";
+    changeInTwoBranches(
+        sourceBranch,
+        "source change",
+        fileName,
+        "source content",
+        targetBranch,
+        "target change",
+        fileName,
+        "target content");
+    String mergeStrategy = "simple-two-way-in-core";
+    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, mergeStrategy, true);
+    assertCreateFails(
+        in,
+        BadRequestException.class,
+        "merge with conflicts is not supported with merge strategy: " + mergeStrategy);
   }
 
   @Test
@@ -732,6 +829,26 @@ public class CreateChangeIT extends AbstractDaemonTest {
     }
     assertThat(out.revisions).hasSize(1);
     assertThat(out.submitted).isNull();
+    assertThat(out.containsGitConflicts).isNull();
+    assertThat(in.status).isEqualTo(ChangeStatus.NEW);
+    return out;
+  }
+
+  private ChangeInfo assertCreateSucceedsWithConflicts(ChangeInput in) throws Exception {
+    ChangeInfo out = gApi.changes().createAsInfo(in);
+    assertThat(out.project).isEqualTo(in.project);
+    assertThat(RefNames.fullName(out.branch)).isEqualTo(RefNames.fullName(in.branch));
+    assertThat(out.subject).isEqualTo(in.subject.split("\n")[0]);
+    assertThat(out.topic).isEqualTo(in.topic);
+    assertThat(out.status).isEqualTo(in.status);
+    if (in.isPrivate) {
+      assertThat(out.isPrivate).isTrue();
+    } else {
+      assertThat(out.isPrivate).isNull();
+    }
+    assertThat(out.submitted).isNull();
+    assertThat(out.containsGitConflicts).isTrue();
+    assertThat(out.workInProgress).isTrue();
     assertThat(in.status).isEqualTo(ChangeStatus.NEW);
     return out;
   }
@@ -764,6 +881,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   private ChangeInput newMergeChangeInput(String targetBranch, String sourceRef, String strategy) {
+    return newMergeChangeInput(targetBranch, sourceRef, strategy, false);
+  }
+
+  private ChangeInput newMergeChangeInput(
+      String targetBranch, String sourceRef, String strategy, boolean allowConflicts) {
     // create a merge change from branchA to master in gerrit
     ChangeInput in = new ChangeInput();
     in.project = project.get();
@@ -776,6 +898,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     if (!Strings.isNullOrEmpty(strategy)) {
       in.merge.strategy = strategy;
     }
+    in.merge.allowConflicts = allowConflicts;
     return in;
   }
 
@@ -791,6 +914,34 @@ public class CreateChangeIT extends AbstractDaemonTest {
    */
   private Map<String, Result> changeInTwoBranches(
       String branchA, String fileA, String branchB, String fileB) throws Exception {
+    return changeInTwoBranches(
+        branchA, "change A", fileA, "A content", branchB, "change B", fileB, "B content");
+  }
+
+  /**
+   * Create an empty commit in master, two new branches with one commit each.
+   *
+   * @param branchA name of first branch to create
+   * @param subjectA commit message subject for the change on branchA
+   * @param fileA name of file to commit to branchA
+   * @param contentA file content to commit to branchA
+   * @param branchB name of second branch to create
+   * @param subjectB commit message subject for the change on branchB
+   * @param fileB name of file to commit to branchB
+   * @param contentB file content to commit to branchB
+   * @return A {@code Map} of branchName => commit result.
+   * @throws Exception
+   */
+  private Map<String, Result> changeInTwoBranches(
+      String branchA,
+      String subjectA,
+      String fileA,
+      String contentA,
+      String branchB,
+      String subjectB,
+      String fileB,
+      String contentB)
+      throws Exception {
     // create a initial commit in master
     Result initialCommit =
         pushFactory
@@ -805,13 +956,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // create a commit in branchA
     Result changeA =
         pushFactory
-            .create(user.newIdent(), testRepo, "change A", fileA, "A content")
+            .create(user.newIdent(), testRepo, subjectA, fileA, contentA)
             .to("refs/heads/" + branchA);
     changeA.assertOkStatus();
 
     // create a commit in branchB
     PushOneCommit commitB =
-        pushFactory.create(user.newIdent(), testRepo, "change B", fileB, "B content");
+        pushFactory.create(user.newIdent(), testRepo, subjectB, fileB, contentB);
     commitB.setParent(initialCommit.getCommit());
     Result changeB = commitB.to("refs/heads/" + branchB);
     changeB.assertOkStatus();

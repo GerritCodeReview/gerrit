@@ -1,4 +1,4 @@
-// Copyright (C) 2018 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.exceptions;
 
-/**
- * {@link ChangeInfo} that is returned when a change was cherry-picked.
- *
- * <p>This class used to define additional fields to {@link ChangeInfo}, but those were pulled up
- * into {@link ChangeInfo}. Now this class is no longer needed, but we need to keep it for backwards
- * compatibility of the Java API.
- */
-public class CherryPickChangeInfo extends ChangeInfo {}
+import org.eclipse.jgit.merge.MergeStrategy;
+
+public class MergeWithConflictsNotSupportedException extends RuntimeException {
+  private static final long serialVersionUID = 1L;
+
+  public MergeWithConflictsNotSupportedException(MergeStrategy strategy) {
+    super("merge with conflicts is not supported with merge strategy: " + strategy.getName());
+  }
+}

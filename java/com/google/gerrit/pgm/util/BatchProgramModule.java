@@ -57,6 +57,7 @@ import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
+import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
@@ -177,6 +178,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(EventUtil.class).toProvider(Providers.of(null));
     bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
     bind(RevisionCreated.class).toInstance(RevisionCreated.DISABLED);
+    bind(WorkInProgressStateChanged.class).toInstance(WorkInProgressStateChanged.DISABLED);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
   }
 }

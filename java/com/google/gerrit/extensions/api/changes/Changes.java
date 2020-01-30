@@ -69,6 +69,8 @@ public interface Changes {
 
   ChangeApi create(ChangeInput in) throws RestApiException;
 
+  ChangeInfo createAsInfo(ChangeInput in) throws RestApiException;
+
   QueryRequest query();
 
   QueryRequest query(String query);
@@ -204,6 +206,11 @@ public interface Changes {
 
     @Override
     public ChangeApi create(ChangeInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo createAsInfo(ChangeInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -2576,9 +2576,8 @@ commit will be used.
   }
 ----
 
-As response a link:rest-api-changes.html#cherry-pick-change-info[
-CherryPickChangeInfo] entity is returned that describes the resulting
-cherry-picked change.
+As response a link:rest-api-changes.html#change-info[ChangeInfo] entity
+is returned that describes the resulting cherry-picked change.
 
 .Response
 ----

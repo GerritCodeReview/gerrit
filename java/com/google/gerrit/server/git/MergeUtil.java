@@ -41,6 +41,7 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
+import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -424,15 +425,16 @@ public class MergeUtil {
     return dc.writeTree(ins);
   }
 
-  public static RevCommit createMergeCommit(
+  public static CodeReviewCommit createMergeCommit(
       ObjectInserter inserter,
       Config repoConfig,
       RevCommit mergeTip,
       RevCommit originalCommit,
       String mergeStrategy,
+      boolean allowConflicts,
       PersonIdent committerIndent,
       String commitMsg,
-      RevWalk rw)
+      CodeReviewRevWalk rw)
       throws IOException, MergeIdenticalTreeException, MergeConflictException,
           InvalidMergeStrategyException {
 
@@ -443,22 +445,63 @@ public class MergeUtil {
     }
 
     Merger m = newMerger(inserter, repoConfig, mergeStrategy);
-    if (m.merge(false, mergeTip, originalCommit)) {
-      ObjectId tree = m.getResultTreeId();
 
-      CommitBuilder mergeCommit = new CommitBuilder();
-      mergeCommit.setTreeId(tree);
-      mergeCommit.setParentIds(mergeTip, originalCommit);
-      mergeCommit.setAuthor(committerIndent);
-      mergeCommit.setCommitter(committerIndent);
-      mergeCommit.setMessage(commitMsg);
-      return rw.parseCommit(inserter.insert(mergeCommit));
+    DirCache dc = DirCache.newInCore();
+    if (allowConflicts && m instanceof ResolveMerger) {
+      // The DirCache must be set on ResolveMerger before calling
+      // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get populated.
+      ((ResolveMerger) m).setDirCache(dc);
     }
-    List<String> conflicts = ImmutableList.of();
-    if (m instanceof ResolveMerger) {
-      conflicts = ((ResolveMerger) m).getUnmergedPaths();
+
+    ObjectId tree;
+    ImmutableSet<String> filesWithGitConflicts;
+    if (m.merge(false, mergeTip, originalCommit)) {
+      filesWithGitConflicts = null;
+      tree = m.getResultTreeId();
+    } else {
+      List<String> conflicts = ImmutableList.of();
+      if (m instanceof ResolveMerger) {
+        conflicts = ((ResolveMerger) m).getUnmergedPaths();
+      }
+
+      if (!allowConflicts) {
+        throw new MergeConflictException(createConflictMessage(conflicts));
+      }
+
+      // For merging with conflict markers we need a ResolveMerger, double-check that we have one.
+      if (!(m instanceof ResolveMerger)) {
+        throw new MergeWithConflictsNotSupportedException(MergeStrategy.get(mergeStrategy));
+      }
+      Map<String, MergeResult<? extends Sequence>> mergeResults =
+          ((ResolveMerger) m).getMergeResults();
+
+      filesWithGitConflicts =
+          mergeResults.entrySet().stream()
+              .filter(e -> e.getValue().containsConflicts())
+              .map(Map.Entry::getKey)
+              .collect(toImmutableSet());
+
+      tree =
+          mergeWithConflicts(
+              rw,
+              inserter,
+              dc,
+              "TARGET BRANCH",
+              mergeTip,
+              "SOURCE BRANCH",
+              originalCommit,
+              mergeResults);
     }
-    throw new MergeConflictException(createConflictMessage(conflicts));
+
+    CommitBuilder mergeCommit = new CommitBuilder();
+    mergeCommit.setTreeId(tree);
+    mergeCommit.setParentIds(mergeTip, originalCommit);
+    mergeCommit.setAuthor(committerIndent);
+    mergeCommit.setCommitter(committerIndent);
+    mergeCommit.setMessage(commitMsg);
+    CodeReviewCommit commit = rw.parseCommit(inserter.insert(mergeCommit));
+    commit.setFilesWithGitConflicts(filesWithGitConflicts);
+    return commit;
   }
 
   public static String createConflictMessage(List<String> conflicts) {

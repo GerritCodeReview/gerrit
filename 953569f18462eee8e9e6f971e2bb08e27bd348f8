@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fcdc3e7_27e9843e",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 36
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-30T21:33:31Z",
+      "side": 1,
+      "message": "Not used any more and can be removed?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 92
+      },
+      "revId": "953569f18462eee8e9e6f971e2bb08e27bd348f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b229f1ea_d1244a31",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 36
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-30T21:33:31Z",
+      "side": 1,
+      "message": "Not used any more and can be rmeoved?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "953569f18462eee8e9e6f971e2bb08e27bd348f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

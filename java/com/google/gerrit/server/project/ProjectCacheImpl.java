@@ -154,7 +154,7 @@ public class ProjectCacheImpl implements ProjectCache {
         }
         throw new IOException(e);
       }
-      logger.atFine().withCause(e).log("Cannot find project %s", projectName.get());
+      logger.atFine().log("Cannot find project %s", projectName.get());
       return null;
     }
   }

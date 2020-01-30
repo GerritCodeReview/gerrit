@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eb5ebfd_8a9e75ba",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-30T23:09:10Z",
+      "side": 1,
+      "message": "Should this inconsistency be reported upstream (or a fix proposed)?",
+      "range": {
+        "startLine": 41,
+        "startChar": 64,
+        "endLine": 42,
+        "endChar": 26
+      },
+      "revId": "0499d24357e17ce2b81cd111d2d16966f2127f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

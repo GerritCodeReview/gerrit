@@ -3349,6 +3349,46 @@ public class ChangeIT extends AbstractDaemonTest {
         .isEqualTo(expectedParent);
   }
 
+  @Test
+  public void createMergePatchSetWithUnupportedMergeStrategy() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch("dev");
+
+    // create a change for master
+    String changeId = createChange().getChangeId();
+
+    String fileName = "shared.txt";
+    String sourceSubject = "source change";
+    String sourceContent = "source content";
+    String targetSubject = "target change";
+    String targetContent = "target content";
+    testRepo.reset(initialHead);
+    PushOneCommit.Result currentMaster =
+        pushFactory
+            .create(admin.newIdent(), testRepo, targetSubject, fileName, targetContent)
+            .to("refs/heads/master");
+    currentMaster.assertOkStatus();
+
+    // push a commit into dev branch
+    testRepo.reset(initialHead);
+    PushOneCommit.Result changeA =
+        pushFactory
+            .create(user.newIdent(), testRepo, sourceSubject, fileName, sourceContent)
+            .to("refs/heads/dev");
+    changeA.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    mergeInput.strategy = "unsupported-strategy";
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    in.subject = "update change by merge ps2";
+
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> gApi.changes().id(changeId).createMergePatchSet(in));
+    assertThat(ex).hasMessageThat().isEqualTo("invalid merge strategy: " + mergeInput.strategy);
+  }
+
   private MergePatchSetInput createMergePatchSetInput(String baseChange) {
     MergeInput mergeInput = new MergeInput();
     mergeInput.source = "foo";

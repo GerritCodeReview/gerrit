@@ -3184,20 +3184,19 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createMergePatchSet() throws Exception {
-    PushOneCommit.Result start = pushTo("refs/heads/master");
-    start.assertOkStatus();
-    // create a change for master
-    PushOneCommit.Result r = createChange();
-    r.assertOkStatus();
-    String changeId = r.getChangeId();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch("dev");
 
-    testRepo.reset(start.getCommit());
+    // create a change for master
+    String changeId = createChange().getChangeId();
+
+    testRepo.reset(initialHead);
     PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
     currentMaster.assertOkStatus();
     String parent = currentMaster.getCommit().getName();
 
     // push a commit into dev branch
-    createBranch("dev");
+    testRepo.reset(initialHead);
     PushOneCommit.Result changeA =
         pushFactory
             .create(user.newIdent(), testRepo, "change A", "A.txt", "A content")
@@ -3218,22 +3217,57 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createMergePatchSet_Conflict() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch("dev");
+
+    // create a change for master
+    String changeId = createChange().getChangeId();
+
+    String fileName = "shared.txt";
+    testRepo.reset(initialHead);
+    PushOneCommit.Result currentMaster =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "change 1", fileName, "content 1")
+            .to("refs/heads/master");
+    currentMaster.assertOkStatus();
+
+    // push a commit into dev branch
+    testRepo.reset(initialHead);
+    PushOneCommit.Result changeA =
+        pushFactory
+            .create(user.newIdent(), testRepo, "change 2", fileName, "content 2")
+            .to("refs/heads/dev");
+    changeA.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    in.subject = "update change by merge ps2";
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).createMergePatchSet(in));
+    assertThat(thrown).hasMessageThat().isEqualTo("merge conflict(s):\n" + fileName);
+  }
+
+  @Test
   public void createMergePatchSetInheritParent() throws Exception {
-    PushOneCommit.Result start = pushTo("refs/heads/master");
-    start.assertOkStatus();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch("dev");
+
     // create a change for master
     PushOneCommit.Result r = createChange();
-    r.assertOkStatus();
     String changeId = r.getChangeId();
     String parent = r.getCommit().getParent(0).getName();
 
     // advance master branch
-    testRepo.reset(start.getCommit());
+    testRepo.reset(initialHead);
     PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
     currentMaster.assertOkStatus();
 
     // push a commit into dev branch
-    createBranch("dev");
+    testRepo.reset(initialHead);
     PushOneCommit.Result changeA =
         pushFactory
             .create(user.newIdent(), testRepo, "change A", "A.txt", "A content")

@@ -510,7 +510,7 @@ public class CreateChange
       String commitMessage)
       throws RestApiException, IOException {
     logger.atFine().log(
-        "Creating merge commit: source = %s, strategy = %s, allowConflicts",
+        "Creating merge commit: source = %s, strategy = %s, allowConflicts = %s",
         merge.source, merge.strategy, merge.allowConflicts);
 
     if (Strings.isNullOrEmpty(merge.source)) {

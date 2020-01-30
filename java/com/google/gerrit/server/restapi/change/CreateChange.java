@@ -30,6 +30,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -65,6 +66,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
@@ -187,7 +189,7 @@ public class CreateChange
     Project.NameKey project = projectResource.getNameKey();
     contributorAgreements.check(project, user.get());
 
-    checkRequiredPermissions(project, input.branch);
+    checkRequiredPermissions(project, input.branch, input.author);
 
     ChangeInfo newChange = createNewChange(input, me, projectState, updateFactory);
     return Response.created(newChange);
@@ -274,21 +276,27 @@ public class CreateChange
         throw new BadRequestException("Submit type: " + submitType + " is not supported");
       }
     }
+
+    if (input.author != null
+        && (Strings.isNullOrEmpty(input.author.email)
+            || Strings.isNullOrEmpty(input.author.name))) {
+      throw new BadRequestException("Author must specify name and email");
+    }
   }
 
-  private void checkRequiredPermissions(Project.NameKey project, String refName)
+  private void checkRequiredPermissions(
+      Project.NameKey project, String refName, @Nullable AccountInput author)
       throws ResourceNotFoundException, AuthException, PermissionBackendException {
+    ForRef forRef = permissionBackend.currentUser().project(project).ref(refName);
     try {
-      permissionBackend.currentUser().project(project).ref(refName).check(RefPermission.READ);
+      forRef.check(RefPermission.READ);
     } catch (AuthException e) {
       throw new ResourceNotFoundException(String.format("ref %s not found", refName), e);
     }
-
-    permissionBackend
-        .currentUser()
-        .project(project)
-        .ref(refName)
-        .check(RefPermission.CREATE_CHANGE);
+    forRef.check(RefPermission.CREATE_CHANGE);
+    if (author != null) {
+      forRef.check(RefPermission.FORGE_AUTHOR);
+    }
   }
 
   private ChangeInfo createNewChange(
@@ -326,7 +334,12 @@ public class CreateChange
       RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 
       Timestamp now = TimeUtil.nowTs();
-      PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+
+      PersonIdent author =
+          input.author == null
+              ? me.newCommitterIdent(now, serverTimeZone)
+              : new PersonIdent(input.author.name, input.author.email, now, serverTimeZone);
+
       String commitMessage = getCommitMessage(input.subject, me);
 
       CodeReviewCommit c;

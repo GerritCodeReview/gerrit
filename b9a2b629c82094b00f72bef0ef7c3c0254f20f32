@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "8655dd0a_80fb28af",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-30T10:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4fdd8b7_95bd63b5",
+      "range": {
+        "startLine": 140,
+        "startChar": 40,
+        "endLine": 140,
+        "endChar": 41
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc292256_bbb891fb",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 3
@@ -134,6 +158,24 @@
       "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29bc5c2f_69c2e58a",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-30T10:59:15Z",
+      "side": 1,
+      "message": "There is already IndexHtmlUtilTest - so I will do test there. This is already Util class, so I think it is good place here.",
+      "parentUuid": "cc292256_bbb891fb",
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -207,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "511c8b3c_7f4f1c7e",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-30T10:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df881bc9_80cdd8fb",
+      "range": {
+        "startLine": 170,
+        "startChar": 28,
+        "endLine": 170,
+        "endChar": 35
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8891243_9811a63a",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 3
@@ -254,6 +320,30 @@
     },
     {
       "key": {
+        "uuid": "1c531f37_2a778290",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-30T10:59:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9b90eca2_201bc647",
+      "range": {
+        "startLine": 173,
+        "startChar": 11,
+        "endLine": 173,
+        "endChar": 15
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "709a5f89_c6b397d7",
         "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
         "patchSetId": 3
@@ -298,6 +388,30 @@
       "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd0c29b4_5f60dd65",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-30T10:59:15Z",
+      "side": 1,
+      "message": "I renamed it to changeRequestsPath. Is it better?",
+      "parentUuid": "13eb558b_7f3a6b51",
+      "range": {
+        "startLine": 73,
+        "startChar": 7,
+        "endLine": 73,
+        "endChar": 23
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

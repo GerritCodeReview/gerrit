@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d54f1ae_08918914",
+        "filename": "WORKSPACE",
+        "patchSetId": 23
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-30T07:20:56Z",
+      "side": 1,
+      "message": "split into",
+      "range": {
+        "startLine": 1,
+        "startChar": 19,
+        "endLine": 1,
+        "endChar": 31
+      },
+      "revId": "6852e9ffb71b6024b1fd043d3986239b4c4309af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27351600_83604280",
+        "filename": "WORKSPACE",
+        "patchSetId": 23
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-30T07:20:56Z",
+      "side": 1,
+      "message": "referenced",
+      "range": {
+        "startLine": 2,
+        "startChar": 20,
+        "endLine": 2,
+        "endChar": 30
+      },
+      "revId": "6852e9ffb71b6024b1fd043d3986239b4c4309af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3397bc86_366a4f12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-30T01:02:20Z",
+      "side": 1,
+      "message": "Removed the opening parenthesis instead.",
+      "parentUuid": "a20c00d5_c8b641bb",
+      "range": {
+        "startLine": 11,
+        "startChar": 69,
+        "endLine": 11,
+        "endChar": 76
+      },
+      "revId": "d319b243b532ab5d99e093e2bf6de24b09d8504a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd3635aa_38c7365d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "d319b243b532ab5d99e093e2bf6de24b09d8504a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46b39dfb_ae1bb0a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-30T01:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd3635aa_38c7365d",
+      "revId": "d319b243b532ab5d99e093e2bf6de24b09d8504a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "d319b243b532ab5d99e093e2bf6de24b09d8504a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a51d72_7c8f2a6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-30T01:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22fe73d1_8bfd9509",
+      "range": {
+        "startLine": 410,
+        "startChar": 33,
+        "endLine": 410,
+        "endChar": 37
+      },
+      "revId": "d319b243b532ab5d99e093e2bf6de24b09d8504a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

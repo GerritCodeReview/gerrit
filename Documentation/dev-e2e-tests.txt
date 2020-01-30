@@ -44,6 +44,14 @@ example which is singular.
 [warn] Credentials file ~/.sbt/sonatype_credentials does not exist
 ----
 
+Every `sbt` command can include an optional log level
+link:https://www.scala-sbt.org/1.x/docs/Howto-Logging.html#Change+the+logging+level+globally[argument,role=external,window=_blank].
+Below, `[info]` logs are no longer shown:
+
+----
+sbt --warn compile
+----
+
 === How to build using Docker
 
 ----
@@ -106,6 +114,10 @@ Generate the last report:
 ----
 sbt "gatling:lastReport"
 ----
+
+The `src/test/resources/logback.xml` file
+link:http://logback.qos.ch/manual/configuration.html[configures,role=external,window=_blank]
+Gatling's logging level.
 
 === How to run using Docker
 

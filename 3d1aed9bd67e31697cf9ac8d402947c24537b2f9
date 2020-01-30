@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eeb9fe35_495d8854",
+        "filename": "polygerrit-ui/app/elements/font-roboto-local-loader.js",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-30T16:46:46Z",
+      "side": 1,
+      "message": "This is not a bridge. I move import to a separate file instead of import directly in .html file,\nbecause internally in google the font-roboto-local package is not used.\nPlacing it in a separate file makes easier to maintain it for us.",
+      "parentUuid": "132bf372_85a85c48",
+      "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a92c16b_82a7d6b7",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 34
@@ -58,6 +76,54 @@
         "startChar": 63,
         "endLine": 111,
         "endChar": 82
+      },
+      "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21072fe7_1014f649",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 34
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-30T16:46:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "de133cc9_3e13a1cf",
+      "range": {
+        "startLine": 111,
+        "startChar": 63,
+        "endLine": 111,
+        "endChar": 82
+      },
+      "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366592dc_8f57139f",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 34
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-30T16:46:46Z",
+      "side": 1,
+      "message": "Yes, sure.\nBut I would prefer to kept this directory layout for now. The reasons:\n1) My changes are already quite big. If the layout of the polygerrit_ui.zip file changes, then some java code and soy template must be updated as well. This will make changes bigger. I am trying to avoid any change in a source code.\n\n2) Some plugins can import files from bower_components folder, but I am not sure. This requires additional effort if bower_components is renamed.\n\nI hope, you agree that we can postpone it and fix it later, after this chain of changes will be submitted.",
+      "parentUuid": "7a92c16b_82a7d6b7",
+      "range": {
+        "startLine": 111,
+        "startChar": 83,
+        "endLine": 111,
+        "endChar": 99
       },
       "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

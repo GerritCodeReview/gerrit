@@ -1,7 +1,8 @@
 :linkattrs:
 = Gerrit Code Review - End to end load tests
 
-This document provides a description of a Gerrit load test scenario implemented using the link:http://gatling.io[`Gatling`] framework.
+This document provides a description of a Gerrit load test scenario implemented using the
+link:http://gatling.io[`Gatling`,role=external,window=_blank] framework.
 
 Similar scenarios have been successfully used to compare performance of different Gerrit versions or study the Gerrit response
 under different load profiles.
@@ -11,7 +12,8 @@ under different load profiles.
 Gatling is a load testing tool which provides out of the box support for the HTTP protocol. Documentation on how to write an
 HTTP load test can be found link:https://gatling.io/docs/current/http/http_protocol/[`here`,role=external,window=_blank].
 
-However, in the scenario we are proposing, we are leveraging the link:https://github.com/GerritForge/gatling-git[`Gatling Git extension`,role=external,window=_blank]
+However, in the scenario we are proposing, we are leveraging the
+link:https://github.com/GerritForge/gatling-git[`Gatling Git extension`,role=external,window=_blank]
 to run tests at Git protocol level.
 
 Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios implementation easy even without any Scala knowledge.
@@ -22,8 +24,8 @@ Examples of scenarios can be found in the `e2e-tests` directory.
 
 ==== How to build
 
-An link:https://www.scala-sbt.org/download.html[sbt-based installation] of
-link:https://www.scala-lang.org/download/[Scala] is required.
+An link:https://www.scala-sbt.org/download.html[sbt-based installation,role=external,window=_blank] of
+link:https://www.scala-lang.org/download/[Scala,role=external,window=_blank] is required.
 
 The `scalaVersion` used by `sbt` once installed is defined in the `build.sbt` file.
 That specific version of Scala is automatically used by `sbt` while building:

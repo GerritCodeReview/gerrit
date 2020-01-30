@@ -244,21 +244,20 @@
 
     const td = this._createElement('td');
     const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
+    const wrapperDiv = this._createElement('div', 'wrapper');
+    td.appendChild(wrapperDiv);
 
     if (showPartialLinks) {
-      td.appendChild(this._createContextButton(
+      const div = this._createElement('div', 'pair');
+      div.appendChild(this._createContextButton(
           GrDiffBuilder.ContextButtonType.ABOVE, section, line, numLines));
-      td.appendChild(document.createTextNode(' - '));
-    }
-
-    td.appendChild(this._createContextButton(
-        GrDiffBuilder.ContextButtonType.ALL, section, line, numLines));
-
-    if (showPartialLinks) {
-      td.appendChild(document.createTextNode(' - '));
-      td.appendChild(this._createContextButton(
+      div.appendChild(this._createContextButton(
           GrDiffBuilder.ContextButtonType.BELOW, section, line, numLines));
+      wrapperDiv.appendChild(div);
     }
+
+    wrapperDiv.appendChild(this._createContextButton(
+        GrDiffBuilder.ContextButtonType.ALL, section, line, numLines));
 
     return td;
   };
@@ -267,7 +266,7 @@
       numLines) {
     const context = PARTIAL_CONTEXT_AMOUNT;
 
-    const button = this._createElement('gr-button', 'showContext');
+    const button = this._createElement('gr-button', 'showContext ' + type);
     button.setAttribute('link', true);
     button.setAttribute('no-uppercase', true);
 
@@ -275,20 +274,28 @@
     let groups = []; // The groups that replace this one if tapped.
 
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
-      text = 'Show ' + numLines + ' common line';
-      if (numLines > 1) { text += 's'; }
+      text = '+' + numLines;
       groups.push(...line.contextGroups);
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-      text = '+' + context + '↑';
+      text = '+' + context;
       groups = GrDiffGroup.hideInContextControl(line.contextGroups,
           context, numLines);
     } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-      text = '+' + context + '↓';
+      text = '+' + context;
       groups = GrDiffGroup.hideInContextControl(line.contextGroups,
           0, numLines - context);
     }
 
+    const icon = this._createElement('iron-icon', 'showContext ' + type);
+    if (type === GrDiffBuilder.ContextButtonType.ALL) {
+      icon.setAttribute('icon', 'gr-icons:unfold-more');
+    } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
+      icon.setAttribute('icon', 'gr-icons:expand-less');
+    } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
+      icon.setAttribute('icon', 'gr-icons:expand-more');
+    }
     Polymer.dom(button).textContent = text;
+    Polymer.dom(button).appendChild(icon);
 
     button.addEventListener('tap', e => {
       e.detail = {

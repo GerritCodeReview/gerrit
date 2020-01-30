@@ -188,16 +188,53 @@ limitations under the License.
         border: 1px solid var(--diff-context-control-border-color);
         color: var(--diff-context-control-color);
       }
+      .contextControl .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+      .contextControl .wrapper .pair {
+        display: inline-flex;
+        flex-direction: column;
+      }
+      /*
+      .contextControl gr-button:hover iron-icon {
+        position: relative;
+        top: -10px;
+        clip-path: polygon(0 0, 20px 0px, 20px 10px, 0px 10px)
+      }
+      */
       .contextControl gr-button {
         display: inline-block;
         text-decoration: none;
         --gr-button: {
           color: var(--diff-context-control-color);
-          padding: var(--spacing-xs);
+          padding: var(--spacing-s) var(--spacing-l);
         }
       }
+      .contextControl gr-button.above,
+      .contextControl gr-button.below {
+        line-height: 14px;
+        --gr-button: {
+          color: var(--diff-context-control-color);
+          padding: 0 var(--spacing-l);
+        }
+      }
+      .contextControl gr-button iron-icon.above,
+      .contextControl gr-button iron-icon.below {
+        display: none;
+        width: 14px;
+        height: 14px;
+        position: relative;
+      }
+      .contextControl gr-button iron-icon.above {
+        top: -1px;
+      }
+      .contextControl gr-button iron-icon.below {
+        top: 1px;
+      }
       .contextControl td:not(.lineNum) {
-        text-align: center;
+        text-align: right;
       }
       .displayLine .diff-row.target-row td {
         box-shadow: inset 0 -1px var(--border-color);

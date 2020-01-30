@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec23cf34_7ee8f926",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-30T14:14:22Z",
+      "side": 1,
+      "message": "Nice",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2287154b_c1f4466e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-30T14:14:22Z",
+      "side": 1,
+      "message": "I wasn\u0027t a fan of CherryPickChangeInfo as a subclass of ChangeInfo when it was added, because it made the code in ChangeJson harder to read.\n\nThis change takes a different approach to inline a field into ChangeInfo that is usually null and populated only in corner cases. I do like this more than the other approach, but besides that I think we should be consistent.\n\nCan we remove CherryPickChangeInfo in a follow up and apply the same approach?",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ed5b31b_3b3163a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-30T14:14:22Z",
+      "side": 1,
+      "message": "It\u0027s a very simple change (essentially a rename for callers), so I am voting for doing it.",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "765d9e60_071e1c62",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6049,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-30T14:14:22Z",
+      "side": 1,
+      "message": "It would be much nicer if this was a field that we always serve and store in NoteDb. That would mean that when receiving a git push, we\u0027d have to populate the field which is expensive as it forces us to compute the diff. We already compute some diff aspects for indexing a change which is a synchronous action on the push path.\n\nWhat do you think about this? Would it be worth inspecting the latency aspect more closely and storing the field?",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c17dd89_3ecf9be8",
+        "filename": "java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-30T14:14:22Z",
+      "side": 1,
+      "message": "The need for this separate API is essentially an artifact of not populating the \u0027contains_git_conflicts\u0027 field everywhere.",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

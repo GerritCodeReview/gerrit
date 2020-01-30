@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "2eccfca3_a6624e5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-01-30T10:03:42Z",
+      "side": 1,
+      "message": "Added a new field in gr-access-behavior. As far as I can see in the frontend this is the only hard-coded location.\nI asked Milutin from the frontend team to take an additional look, but this change be submitted anyway (since the default is that everyone has this permission).",
+      "parentUuid": "dd2a5768_fb64527f",
+      "revId": "f31b01dda68e15319fe077ab37f0fbb2835250a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2377e9a_3e7fa81b",
         "filename": "java/com/google/gerrit/common/data/Permission.java",
         "patchSetId": 1

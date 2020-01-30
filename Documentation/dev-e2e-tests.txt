@@ -45,6 +45,12 @@ example which is singular.
 [warn] Credentials file ~/.sbt/sonatype_credentials does not exist
 ----
 
+==== How to build using Docker
+
+----
+docker build . -t e2e-tests
+----
+
 ==== Setup
 
 If you are running SSH commands, the private keys of the users used for testing need to go in
@@ -98,6 +104,12 @@ sbt "gatling:testOnly com.google.gerrit.scenarios.ReplayRecordsFromFeederScenari
 Generate the last report:
 ----
 sbt "gatling:lastReport"
+----
+
+==== How to run using Docker
+
+----
+docker run -it e2e-tests -s com.google.gerrit.scenarios.ReplayRecordsFromFeederScenario
 ----
 
 GERRIT

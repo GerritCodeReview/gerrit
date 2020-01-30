@@ -193,8 +193,12 @@ limitations under the License.
         text-decoration: none;
         --gr-button: {
           color: var(--diff-context-control-color);
-          padding: var(--spacing-xs);
+          padding: 0 var(--spacing-l);
         }
+      }
+      .contextControl gr-button iron-icon {
+        width: 20px;
+        height: 20px;
       }
       .contextControl td:not(.lineNum) {
         text-align: center;

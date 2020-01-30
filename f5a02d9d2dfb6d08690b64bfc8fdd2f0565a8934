@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0afbad7c_1b7ecedf",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-30T08:56:00Z",
+      "side": 1,
+      "message": "What about size \u003d\u003d 1, shouldn\u0027t the msg be set in this case?",
+      "range": {
+        "startLine": 656,
+        "startChar": 47,
+        "endLine": 656,
+        "endChar": 48
+      },
+      "revId": "f5a02d9d2dfb6d08690b64bfc8fdd2f0565a8934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaee7d04_c181e06e",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-30T08:56:00Z",
+      "side": 1,
+      "message": "Should that be a method in GitUpdateFailureException so that it\u0027s reusable in other places?",
+      "range": {
+        "startLine": 658,
+        "startChar": 14,
+        "endLine": 672,
+        "endChar": 53
+      },
+      "revId": "f5a02d9d2dfb6d08690b64bfc8fdd2f0565a8934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

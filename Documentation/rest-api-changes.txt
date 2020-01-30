@@ -6095,6 +6095,11 @@ The detail of a merge commit as a link:#merge-input[MergeInput] entity.
 If set, the target branch (see  `branch` field) must exist (it is not
 possible to create it automatically by setting the `new_branch` field
 to `true`.
+|`author`             |optional|
+An link:#merge-input[AccountInput] entity
+that will set the author on the created change. The author must be
+specified as name/email combination. Using this field
+requires the caller to have "Forge Author" permission.
 |`notify`             |optional|
 Notify handling that defines to whom email notifications should be sent
 after the change is created. +

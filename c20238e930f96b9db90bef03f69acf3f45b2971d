@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e88b7f36_c0e8fffc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-30T11:24:49Z",
+      "side": 1,
+      "message": "I thought about that, but then realized that repos often contain slashed, so you would not know which slash is within the repo. I like the space as a separator, because it is clean and not a character that we can part of either strings.",
+      "parentUuid": "9723db42_01e86163",
+      "range": {
+        "startLine": 213,
+        "startChar": 34,
+        "endLine": 213,
+        "endChar": 35
+      },
+      "revId": "c20238e930f96b9db90bef03f69acf3f45b2971d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "879083e8_a35447e8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c20238e930f96b9db90bef03f69acf3f45b2971d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4966162_663a7dc3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-30T11:24:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "879083e8_a35447e8",
+      "range": {
+        "startLine": 215,
+        "startChar": 39,
+        "endLine": 215,
+        "endChar": 42
+      },
+      "revId": "c20238e930f96b9db90bef03f69acf3f45b2971d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

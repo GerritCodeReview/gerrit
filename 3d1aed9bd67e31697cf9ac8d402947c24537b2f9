@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "132bf372_85a85c48",
+        "filename": "polygerrit-ui/app/elements/font-roboto-local-loader.js",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-30T14:45:42Z",
+      "side": 1,
+      "message": "Would it make sense to move it to polymer-bridges?",
+      "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a92c16b_82a7d6b7",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 34
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-30T14:45:42Z",
+      "side": 1,
+      "message": "Is it really needed? Can we force loading of the rest from other directories without bower_component in the path?",
+      "range": {
+        "startLine": 111,
+        "startChar": 83,
+        "endLine": 111,
+        "endChar": 99
+      },
+      "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de133cc9_3e13a1cf",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 34
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-30T14:45:42Z",
+      "side": 1,
+      "message": "Nice, to take the fonts out of the bower_components directory.",
+      "range": {
+        "startLine": 111,
+        "startChar": 63,
+        "endLine": 111,
+        "endChar": 82
+      },
+      "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

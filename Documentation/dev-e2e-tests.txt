@@ -1,7 +1,7 @@
 = Gerrit Code Review - End to end load tests
 
 This document provides a description of a Gerrit load test scenario implemented using the
-link:http://gatling.io[`Gatling`] framework.
+link:https://gatling.io/[Gatling] framework.
 
 Similar scenarios have been successfully used to compare performance of different Gerrit versions
 or study the Gerrit response under different load profiles.
@@ -10,10 +10,10 @@ or study the Gerrit response under different load profiles.
 
 Gatling is a load testing tool which provides out of the box support for the HTTP protocol.
 Documentation on how to write an HTTP load test can be found
-link:https://gatling.io/docs/current/http/http_protocol/[`here`].
+link:https://gatling.io/docs/current/http/http_protocol/[here].
 
 However, in the scenario we are proposing, we are leveraging the
-link:https://github.com/GerritForge/gatling-git[`Gatling Git extension`] to run tests at Git
+link:https://github.com/GerritForge/gatling-git[Gatling Git extension] to run tests at Git
 protocol level.
 
 Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios

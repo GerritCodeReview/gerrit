@@ -248,14 +248,12 @@
     if (showPartialLinks) {
       td.appendChild(this._createContextButton(
           GrDiffBuilder.ContextButtonType.ABOVE, section, line, numLines));
-      td.appendChild(document.createTextNode(' - '));
     }
 
     td.appendChild(this._createContextButton(
         GrDiffBuilder.ContextButtonType.ALL, section, line, numLines));
 
     if (showPartialLinks) {
-      td.appendChild(document.createTextNode(' - '));
       td.appendChild(this._createContextButton(
           GrDiffBuilder.ContextButtonType.BELOW, section, line, numLines));
     }
@@ -271,24 +269,30 @@
     button.setAttribute('link', true);
     button.setAttribute('no-uppercase', true);
 
+    if (type === GrDiffBuilder.ContextButtonType.ALL) {
+      const icon = this._createElement('iron-icon', 'showContext');
+      icon.setAttribute('icon', 'gr-icons:unfold-more');
+      Polymer.dom(button).appendChild(icon);
+    }
+
     let text;
     let groups = []; // The groups that replace this one if tapped.
-
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
       text = 'Show ' + numLines + ' common line';
       if (numLines > 1) { text += 's'; }
       groups.push(...line.contextGroups);
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-      text = '+' + context + '↑';
+      text = '+' + context + ' above';
       groups = GrDiffGroup.hideInContextControl(line.contextGroups,
           context, numLines);
     } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-      text = '+' + context + '↓';
+      text = '+' + context + ' below';
       groups = GrDiffGroup.hideInContextControl(line.contextGroups,
           0, numLines - context);
     }
-
-    Polymer.dom(button).textContent = text;
+    const textSpan = this._createElement('span', 'showContext');
+    Polymer.dom(textSpan).textContent = text;
+    Polymer.dom(button).appendChild(textSpan);
 
     button.addEventListener('tap', e => {
       e.detail = {

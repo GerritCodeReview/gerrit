@@ -62,6 +62,7 @@
   const CommentTabs = {
     CHANGE_LOG: 0,
     COMMENT_THREADS: 1,
+    ROBOT_COMMENTS: 2,
   };
 
   const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
@@ -137,6 +138,11 @@
           computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
         },
         _commentThreads: Array,
+        _robotCommentThreads: {
+          type: Array,
+          computed: '_computeRobotCommentThreads(_commentThreads,'
+            + ' _selectedRevision)',
+        },
         /** @type {?} */
         _serverConfig: {
           type: Object,
@@ -572,6 +578,15 @@
       }
 
       return false;
+    }
+
+    _computeRobotCommentThreads(commentThreads, selectedRevision) {
+      if (!commentThreads || !selectedRevision) return [];
+      return commentThreads.filter(thread => {
+        const comments = thread.comments || [];
+        return comments.length && comments[0].robot_id && (comments[0].patch_set
+          === selectedRevision._number);
+      });
     }
 
     _handleReloadCommentThreads() {

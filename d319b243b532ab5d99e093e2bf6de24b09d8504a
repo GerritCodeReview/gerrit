@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a20c00d5_c8b641bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-30T00:48:10Z",
+      "side": 1,
+      "message": "message)",
+      "range": {
+        "startLine": 11,
+        "startChar": 69,
+        "endLine": 11,
+        "endChar": 76
+      },
+      "revId": "d319b243b532ab5d99e093e2bf6de24b09d8504a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd3635aa_38c7365d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-30T00:48:10Z",
+      "side": 1,
+      "message": "Blank line above if willing to split these as paragraphs.",
+      "revId": "d319b243b532ab5d99e093e2bf6de24b09d8504a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22fe73d1_8bfd9509",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-30T00:48:10Z",
+      "side": 1,
+      "message": "%s:",
+      "range": {
+        "startLine": 410,
+        "startChar": 33,
+        "endLine": 410,
+        "endChar": 37
+      },
+      "revId": "d319b243b532ab5d99e093e2bf6de24b09d8504a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

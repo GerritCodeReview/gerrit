@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "1fac21c8_0e8a4e4d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6049,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-30T15:00:22Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "51d81030_edd75477",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c17dd89_3ecf9be8",
         "filename": "java/com/google/gerrit/extensions/api/changes/Changes.java",
         "patchSetId": 3

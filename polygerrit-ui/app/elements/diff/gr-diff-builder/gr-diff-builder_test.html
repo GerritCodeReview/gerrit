@@ -125,9 +125,9 @@ limitations under the License.
       buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 3);
-      assert.equal(Polymer.dom(buttons[0]).textContent, '+10↑');
+      assert.equal(Polymer.dom(buttons[0]).textContent, '+10 above');
       assert.equal(Polymer.dom(buttons[1]).textContent, 'Show 11 common lines');
-      assert.equal(Polymer.dom(buttons[2]).textContent, '+10↓');
+      assert.equal(Polymer.dom(buttons[2]).textContent, '+10 below');
     });
 
     test('newlines 1', () => {

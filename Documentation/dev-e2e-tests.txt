@@ -35,6 +35,16 @@ version of Scala is automatically used by `sbt` while building:
 sbt compile
 ----
 
+The following warning, if present when executing `sbt` commands, can be removed by creating the
+link:https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html#step+3%3A+Credentials[related credentials file]
+locally. Dummy values for `user` and `password` in that file can be used initially. Notice the
+plural form for the file name, expected by the warning (below), compared to the one from that linked
+example which is singular.
+
+----
+[warn] Credentials file ~/.sbt/sonatype_credentials does not exist
+----
+
 ==== Setup
 
 If you are running SSH commands, the private keys of the users used for testing need to go in

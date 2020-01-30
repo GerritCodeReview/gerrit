@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "cc90ed64_8bc696f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-30T14:31:10Z",
+      "side": 1,
+      "message": "I\u0027m fine with making a follow-up change for this. I wouldn\u0027t do it in this change, because there is a risk that it needs to be reverted. I already had a few cases where I though the API change was simple enough but then it wasn\u0027t for everyone...\n\nYou are right that this would remove some complexity from ChangeJson.",
+      "parentUuid": "2287154b_c1f4466e",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ed5b31b_3b3163a8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2020-01-30T14:14:22Z",
       "side": 1,
       "message": "It\u0027s a very simple change (essentially a rename for callers), so I am voting for doing it.",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9444f683_5f0f5c33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-30T14:31:10Z",
+      "side": 1,
+      "message": "Agreed to do it as follow-up.",
+      "parentUuid": "9ed5b31b_3b3163a8",
       "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "51d81030_edd75477",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6049,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-30T14:31:10Z",
+      "side": 1,
+      "message": "Yes, I thought about this (actually already when this feature was added for cherry-pick and I also discussed this with Hanwen just the other day). I think this would be nice, but would take quite some work to implement (how to detect conflicts on push reliably? migration for old changes? index update?). Since nobody requested this, we don\u0027t want to spend time on this now. If it is needed/wanted we should plan this as OKR for another quarter.",
+      "parentUuid": "765d9e60_071e1c62",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c17dd89_3ecf9be8",
         "filename": "java/com/google/gerrit/extensions/api/changes/Changes.java",
         "patchSetId": 3
@@ -84,6 +138,24 @@
       "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e615a4f_8ee608cb",
+        "filename": "java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-30T14:31:10Z",
+      "side": 1,
+      "message": "Yes, but this is not a problem we want to solve now.",
+      "parentUuid": "6c17dd89_3ecf9be8",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

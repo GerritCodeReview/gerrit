@@ -2,39 +2,57 @@
 = Gerrit Code Review - End to end load tests
 
 This document provides a description of a Gerrit load test scenario implemented using the
-link:http://gatling.io[`Gatling`,role=external,window=_blank] framework.
+link:https://gatling.io/[Gatling,role=external,window=_blank] framework.
 
-Similar scenarios have been successfully used to compare performance of different Gerrit versions or study the Gerrit response
-under different load profiles.
+Similar scenarios have been successfully used to compare performance of different Gerrit versions
+or study the Gerrit response under different load profiles.
 
 == What is Gatling?
 
-Gatling is a load testing tool which provides out of the box support for the HTTP protocol. Documentation on how to write an
-HTTP load test can be found link:https://gatling.io/docs/current/http/http_protocol/[`here`,role=external,window=_blank].
+Gatling is a load testing tool which provides out of the box support for the HTTP protocol.
+Documentation on how to write an HTTP load test can be found
+link:https://gatling.io/docs/current/http/http_protocol/[here,role=external,window=_blank].
 
 However, in the scenario we are proposing, we are leveraging the
-link:https://github.com/GerritForge/gatling-git[`Gatling Git extension`,role=external,window=_blank]
+link:https://github.com/GerritForge/gatling-git[Gatling Git extension,role=external,window=_blank]
 to run tests at Git protocol level.
 
-Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios implementation easy even without any Scala knowledge.
+Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios
+implementation easy even without any Scala knowledge.
 
 Examples of scenarios can be found in the `e2e-tests` directory.
 
-=== How to run the load tests
+== How to build the tests
 
-==== How to build
+An link:https://www.scala-sbt.org/download.html[sbt-based installation,role=external,window=_blank]
+of link:https://www.scala-lang.org/download/[Scala,role=external,window=_blank] is required.
 
-An link:https://www.scala-sbt.org/download.html[sbt-based installation,role=external,window=_blank] of
-link:https://www.scala-lang.org/download/[Scala,role=external,window=_blank] is required.
-
-The `scalaVersion` used by `sbt` once installed is defined in the `build.sbt` file.
-That specific version of Scala is automatically used by `sbt` while building:
+The `scalaVersion` used by `sbt` once installed is defined in the `build.sbt` file. That specific
+version of Scala is automatically used by `sbt` while building:
 
 ----
 sbt compile
 ----
 
-==== Setup
+The following warning, if present when executing `sbt` commands, can be removed by creating the
+link:https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html#step+3%3A+Credentials[related credentials file,role=external,window=_blank]
+locally. Dummy values for `user` and `password` in that file can be used initially. Notice the
+plural form for the file name, expected by the warning (below), compared to the one from that linked
+example which is singular.
+
+----
+[warn] Credentials file ~/.sbt/sonatype_credentials does not exist
+----
+
+=== How to build using Docker
+
+----
+docker build . -t e2e-tests
+----
+
+== How to set-up
+
+=== SSH keys
 
 If you are running SSH commands, the private keys of the users used for testing need to go in
 `/tmp/ssh-keys`. The keys need to be generated this way (JSch won't validate them
@@ -46,7 +64,7 @@ ssh-keygen -m PEM -t rsa -C "test@mail.com" -f /tmp/ssh-keys/id_rsa
 
 *NOTE*: Don't forget to add the public keys for the testing user(s) to your git server.
 
-==== Input file
+=== Input file
 
 The `ReplayRecordsFromFeederScenario` is fed with the data coming from the
 `src/test/resources/data/requests.json` file. Such a file contains the commands and repo used
@@ -72,7 +90,7 @@ Valid commands are:
 * `push`
 * `clone`
 
-==== How to use the framework
+== How to run tests
 
 Run all tests:
 ----
@@ -87,6 +105,12 @@ sbt "gatling:testOnly com.google.gerrit.scenarios.ReplayRecordsFromFeederScenari
 Generate the last report:
 ----
 sbt "gatling:lastReport"
+----
+
+=== How to run using Docker
+
+----
+docker run -it e2e-tests -s com.google.gerrit.scenarios.ReplayRecordsFromFeederScenario
 ----
 
 GERRIT

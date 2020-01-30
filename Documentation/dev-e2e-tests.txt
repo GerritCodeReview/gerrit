@@ -21,9 +21,7 @@ implementation easy even without any Scala knowledge.
 
 Examples of scenarios can be found in the `e2e-tests` directory.
 
-=== How to run the load tests
-
-==== How to build
+== How to build the tests
 
 An link:https://www.scala-sbt.org/download.html[sbt-based installation] of
 link:https://www.scala-lang.org/download/[Scala] is required.
@@ -45,13 +43,15 @@ example which is singular.
 [warn] Credentials file ~/.sbt/sonatype_credentials does not exist
 ----
 
-==== How to build using Docker
+=== How to build using Docker
 
 ----
 docker build . -t e2e-tests
 ----
 
-==== Setup
+== How to set-up
+
+=== SSH keys
 
 If you are running SSH commands, the private keys of the users used for testing need to go in
 `/tmp/ssh-keys`. The keys need to be generated this way (JSch won't validate them
@@ -63,7 +63,7 @@ ssh-keygen -m PEM -t rsa -C "test@mail.com" -f /tmp/ssh-keys/id_rsa
 
 *NOTE*: Don't forget to add the public keys for the testing user(s) to your git server.
 
-==== Input file
+=== Input file
 
 The `ReplayRecordsFromFeederScenario` is fed with the data coming from the
 `src/test/resources/data/requests.json` file. Such a file contains the commands and repo used
@@ -89,7 +89,7 @@ Valid commands are:
 * `push`
 * `clone`
 
-==== How to use the framework
+== How to run tests
 
 Run all tests:
 ----
@@ -106,7 +106,7 @@ Generate the last report:
 sbt "gatling:lastReport"
 ----
 
-==== How to run using Docker
+=== How to run using Docker
 
 ----
 docker run -it e2e-tests -s com.google.gerrit.scenarios.ReplayRecordsFromFeederScenario

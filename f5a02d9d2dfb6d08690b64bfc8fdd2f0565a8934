@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5e4421af_add9c0a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-01-30T09:07:51Z",
+      "side": 1,
+      "message": "If we want to expose the Git errors to caller, I think it would be better to implement this once generically for all REST endpoints, not only for MergeOp. Such a generic implementation could be done in ExceptionHookImpl.getUserMessages",
+      "revId": "f5a02d9d2dfb6d08690b64bfc8fdd2f0565a8934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0afbad7c_1b7ecedf",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 2

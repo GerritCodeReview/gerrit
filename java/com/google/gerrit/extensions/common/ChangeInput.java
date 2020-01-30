@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -33,6 +34,8 @@ public class ChangeInput {
   public String baseCommit;
   public Boolean newBranch;
   public MergeInput merge;
+
+  public AccountInput author;
 
   public ChangeInput() {}
 

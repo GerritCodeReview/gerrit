@@ -21,6 +21,9 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -45,12 +48,23 @@ public class Accounts {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final ExternalIds externalIds;
+  private final Timer0 readSingleLatency;
 
   @Inject
-  Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName, ExternalIds externalIds) {
+  Accounts(
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
+      ExternalIds externalIds,
+      MetricMaker metricMaker) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.externalIds = externalIds;
+    this.readSingleLatency =
+        metricMaker.newTimer(
+            "notedb/read_single_account_config_latency",
+            new Description("Latency for reading a single account config.")
+                .setCumulative()
+                .setUnit(Description.Units.MILLISECONDS));
   }
 
   public Optional<AccountState> get(Account.Id accountId)
@@ -133,8 +147,11 @@ public class Accounts {
 
   private Optional<AccountState> read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    return AccountState.fromAccountConfig(
-        externalIds, new AccountConfig(accountId, allUsersName, allUsersRepository).load());
+    AccountConfig cfg;
+    try (Timer0.Context ignored = readSingleLatency.start()) {
+      cfg = new AccountConfig(accountId, allUsersName, allUsersRepository).load();
+    }
+    return AccountState.fromAccountConfig(externalIds, cfg);
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

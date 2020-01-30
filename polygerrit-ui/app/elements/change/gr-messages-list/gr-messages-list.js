@@ -359,6 +359,16 @@
     _processedMessagesChanged(messages) {
       if (messages) {
         this._visibleMessages = messages.slice(-MAX_INITIAL_SHOWN_MESSAGES);
+
+        if (messages.length === 0) return;
+        const tags = messages.map(message => message.tag || message.type ||
+            (message.comments ? 'comments' : 'none'));
+        const tagsCounted = tags.reduce((acc, val) => {
+          acc[val] = (acc[val] || 0) + 1;
+          return acc;
+        }, {all: messages.length});
+        this.$.reporting.reportInteraction('messages-count',
+            JSON.stringify(tagsCounted));
       }
     }
 

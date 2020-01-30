@@ -21,6 +21,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.MergeInput;
@@ -194,6 +195,8 @@ public class CreateMergePatchSet
 
       ChangeJson json = jsonFactory.create(ListChangesOption.CURRENT_REVISION);
       return Response.ok(json.format(psInserter.getChange()));
+    } catch (InvalidMergeStrategyException e) {
+      throw new BadRequestException(e.getMessage());
     }
   }
 

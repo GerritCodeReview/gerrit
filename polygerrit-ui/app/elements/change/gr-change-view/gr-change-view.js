@@ -795,12 +795,9 @@
     }
 
     _paramsChanged(value) {
-      // Change the content of the comment tabs back to messages list, but
-      // do not yet change the tab itself. The animation of tab switching will
-      // get messed up if changed here, because it requires the tabs to be on
-      // the streen, and they are hidden shortly after this. The tab switching
-      // animation will happen in post render tasks.
+      // TODO(dhruvsri): Fix underlining of comment tab when page loads
       this._currentView = CommentTabs.CHANGE_LOG;
+      this._setPrimaryTab();
       if (value.view !== Gerrit.Nav.View.CHANGE) {
         this._initialLoadComplete = false;
         return;
@@ -835,7 +832,6 @@
         }
         this._reloadPatchNumDependentResources().then(() => {
           this._sendShowChangeEvent();
-          this._setPrimaryTab();
         });
         return;
       }
@@ -869,8 +865,6 @@
       this._maybeShowRevertDialog();
 
       this._sendShowChangeEvent();
-
-      this._setPrimaryTab();
 
       this.async(() => {
         if (this.viewState.scrollTop) {

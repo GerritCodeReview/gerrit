@@ -645,12 +645,9 @@ limitations under the License.
           assert.equal(element.$.commentTabs.selected, 1);
           assert.equal(element._currentView, CommentTabs.COMMENT_THREADS);
 
-          // When the change is partially reloaded (ex: Shift+R), the content
-          // is swapped out before the tab, so messages list will display even
-          // though the tab for comment threads is still temporarily selected.
           element._paramsChanged(element.params);
           assert.equal(element.$.commentTabs.selected,
-              CommentTabs.COMMENT_THREADS);
+              CommentTabs.CHANGE_LOG);
           assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
           flush(() => {
             // Correct tab is selected after the patchset is changed

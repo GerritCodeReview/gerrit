@@ -22,6 +22,30 @@
       "revId": "d202d0e5ca9279eb7d85cf122adb44d64a87d6c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1786fc74_c8a36d9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-30T14:31:32Z",
+      "side": 1,
+      "message": "Yes, bazel build runs yarn install.",
+      "parentUuid": "6cb3b938_b331b1f9",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "d202d0e5ca9279eb7d85cf122adb44d64a87d6c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

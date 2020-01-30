@@ -1,0 +1,41 @@
+{
+  "comments": [
+    {
+      "robotId": "Lint",
+      "robotRunId": "5838406743490560",
+      "fixSuggestions": [
+        {
+          "fixId": "909f7862_fbff4ce1",
+          "description": "Correct typo.",
+          "replacements": [
+            {
+              "path": "LoremIpsum.txt",
+              "range": {
+                "startLine": 2,
+                "startChar": 54,
+                "endLine": 2,
+                "endChar": 61
+              },
+              "replacement": "notrud"
+            }
+          ]
+        }
+      ],
+      "key": {
+        "uuid": "8f6b310d_75a77207",
+        "filename": "LoremIpsum.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-01-30T10:38:18Z",
+      "side": 1,
+      "message": "Common typo found: \"nostrud\" -- should it be \"notrud\"?",
+      "revId": "5c8e3762149695327bd7244f5ca8b213241674a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

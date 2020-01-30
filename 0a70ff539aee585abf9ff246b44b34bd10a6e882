@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dd19dd2_86780495",
+        "filename": ".gitmodules",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-30T07:16:57Z",
+      "side": 1,
+      "message": "add empty line before this one",
+      "revId": "0a70ff539aee585abf9ff246b44b34bd10a6e882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2581dd0_73b6c2d7",
+        "filename": ".gitmodules",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-30T07:16:57Z",
+      "side": 1,
+      "message": "Why is this different than all the other url specs? Maybe ../polymer-bridges instead? If behavior would be identical, then just for consistency.",
+      "revId": "0a70ff539aee585abf9ff246b44b34bd10a6e882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b37df3a_1d7d84f1",
+        "filename": ".gitmodules",
+        "patchSetId": 15
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-30T07:16:57Z",
+      "side": 1,
+      "message": "Why do other submodules have \"branch \u003d .\", but this one does not?",
+      "revId": "0a70ff539aee585abf9ff246b44b34bd10a6e882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

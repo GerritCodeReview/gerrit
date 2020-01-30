@@ -436,7 +436,7 @@ public abstract class VersionedMetaData {
 
   private String errorMsg(RefUpdate ru, File location) {
     return String.format(
-        "Cannot update %s in %s : %s (%s)",
+        "Cannot update %s in %s: %s (%s)",
         ru.getName(), location, ru.getResult(), ru.getRefLogMessage());
   }
 

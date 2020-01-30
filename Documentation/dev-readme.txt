@@ -62,6 +62,12 @@ shut down.
 For instructions on running the acceptance tests with Bazel,
 see <<dev-bazel#tests,Running Unit Tests with Bazel>>.
 
+[[e2e]]
+=== End-to-end tests
+
+<<dev-e2e-tests#,This document>> describes how load test scenarios are
+implemented using link:https://gatling.io/[`Gatling`].
+
 
 == Local server
 

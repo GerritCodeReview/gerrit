@@ -20,11 +20,13 @@ Examples of scenarios can be found in the `e2e-tests` directory.
 
 === How to run the load tests
 
-==== Prerequisites
-
-* link:https://www.scala-lang.org/download/[`Scala 2.12`]
-
 ==== How to build
+
+An link:https://www.scala-sbt.org/download.html[sbt-based installation] of
+link:https://www.scala-lang.org/download/[Scala] is required.
+
+The `scalaVersion` used by `sbt` once installed is defined in the `build.sbt` file.
+That specific version of Scala is automatically used by `sbt` while building:
 
 ----
 sbt compile
@@ -32,20 +34,21 @@ sbt compile
 
 ==== Setup
 
-If you are running SSH commands the private keys of the users used for testing need to go in `/tmp/ssh-keys`.
-The keys need to be generated this way (JSch won't validate them [otherwise,role=external,window=_blank](https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch):
+If you are running SSH commands, the private keys of the users used for testing need to go in
+`/tmp/ssh-keys`. The keys need to be generated this way (JSch won't validate them
+link:https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch[otherwise,role=external,window=_blank]):
 
 ----
 ssh-keygen -m PEM -t rsa -C "test@mail.com" -f /tmp/ssh-keys/id_rsa
 ----
 
-*NOTE*: Don't forget to add the public keys for the testing user(s) to your git server
+*NOTE*: Don't forget to add the public keys for the testing user(s) to your git server.
 
 ==== Input file
 
-The ReplayRecordsScenario is fed by the data coming from the [src/test/resources/data/requests.json](/src/test/resources/data/requests.json) file.
-Such file contains the commands and repo used during the load test.
-Below an example:
+The `ReplayRecordsFromFeederScenario` is fed with the data coming from the
+`src/test/resources/data/requests.json` file. Such a file contains the commands and repo used
+during the load test. Example below:
 
 ----
 [
@@ -61,10 +64,11 @@ Below an example:
 ----
 
 Valid commands are:
-* fetch
-* pull
-* push
-* clone
+
+* `fetch`
+* `pull`
+* `push`
+* `clone`
 
 ==== How to use the framework
 

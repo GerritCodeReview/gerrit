@@ -337,7 +337,7 @@ class LdapRealm extends AbstractRealm {
   @Override
   public boolean accountBelongsToRealm(Collection<ExternalId> externalIds) {
     for (ExternalId id : externalIds) {
-      if (id.toString().contains(SCHEME_GERRIT)) {
+      if (id.isScheme(SCHEME_GERRIT)) {
         return true;
       }
     }

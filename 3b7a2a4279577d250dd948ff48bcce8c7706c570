@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7647578_0e63701d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-31T08:31:17Z",
+      "side": 1,
+      "message": "Can you add some statistics? Say 0.5 millions of changes, database dialect used, some statistics, with and without that change?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "3b7a2a4279577d250dd948ff48bcce8c7706c570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b72a3a6_650b75ba",
+        "filename": "java/com/google/gerrit/server/schema/JdbcUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-31T08:31:17Z",
+      "side": 1,
+      "message": "Is this statement compatible with all supported database dialects in Gerrit? Note, that not all of them supports sequences.",
+      "range": {
+        "startLine": 45,
+        "startChar": 36,
+        "endLine": 45,
+        "endChar": 71
+      },
+      "revId": "3b7a2a4279577d250dd948ff48bcce8c7706c570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

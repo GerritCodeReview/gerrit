@@ -152,6 +152,30 @@
       "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01b61236_4c52c92c",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 34
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7f87e31_f475e802",
+      "range": {
+        "startLine": 111,
+        "startChar": 83,
+        "endLine": 111,
+        "endChar": 99
+      },
+      "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

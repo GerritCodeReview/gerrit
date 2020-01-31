@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "adf9244c_b33fd76c",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 36
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fcdc3e7_27e9843e",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 92
+      },
+      "revId": "953569f18462eee8e9e6f971e2bb08e27bd348f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b229f1ea_d1244a31",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 36
@@ -45,6 +69,30 @@
       "revId": "953569f18462eee8e9e6f971e2bb08e27bd348f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a5950cf_14597784",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 36
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b229f1ea_d1244a31",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "953569f18462eee8e9e6f971e2bb08e27bd348f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

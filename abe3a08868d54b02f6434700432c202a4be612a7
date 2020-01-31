@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "76e1f8a6_d0e940d3",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:13:33Z",
+      "side": 1,
+      "message": "Patchset 37 - works for me; fixed somewhere before Patchset 37",
+      "parentUuid": "65a8461f_50299858",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f04e611_013a1200",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 14
@@ -68,6 +92,30 @@
       "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5552179e_44bb18ab",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f04e611_013a1200",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 25
+      },
+      "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -115,6 +163,30 @@
       "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3131958_b098e681",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:13:33Z",
+      "side": 1,
+      "message": "pkg_web was removed",
+      "parentUuid": "eb0099c2_592a453f",
+      "range": {
+        "startLine": 195,
+        "startChar": 10,
+        "endLine": 195,
+        "endChar": 37
+      },
+      "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

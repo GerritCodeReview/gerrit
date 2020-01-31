@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3cbb1c4d_9827816a",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 27
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:13:33Z",
+      "side": 1,
+      "message": "Fixed in Patchset 36 https://gerrit-review.googlesource.com/c/gerrit/+/251111/36/polygerrit-ui/app/rules.bzl",
+      "parentUuid": "ad6668b4_581746e0",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 119,
+        "endChar": 127
+      },
+      "revId": "a42edecb8f9479e75f08a3ed8533b89f0ef09c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cbeebe1_38b21b94",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 27
@@ -57,6 +81,24 @@
       "revId": "a42edecb8f9479e75f08a3ed8533b89f0ef09c24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b7a882f_82fac1d0",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 27
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:13:33Z",
+      "side": 1,
+      "message": "Fixed in Patchset 36 https://gerrit-review.googlesource.com/c/gerrit/+/251111/36/polygerrit-ui/app/rules.bzl",
+      "parentUuid": "e4075545_9be03fa4",
+      "revId": "a42edecb8f9479e75f08a3ed8533b89f0ef09c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

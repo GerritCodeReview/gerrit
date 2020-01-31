@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "722a8c2d_3e6f35af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "623554e8_b49cedb2",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d964a49_b9529130",
         "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
         "patchSetId": 24
@@ -39,6 +63,24 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26c712fa_6d8b760f",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d964a49_b9529130",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "6556f118_37c765c1",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80e2dcf4_463c2d8d",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b27c1f24_ed4eb696",
         "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
         "patchSetId": 24
@@ -73,6 +133,24 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83f42c64_795e57c0",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b27c1f24_ed4eb696",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "c44d89ec_6d9d597b",
+        "filename": "polygerrit-ui/app/node_modules_licenses/licenses.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Yes, this is an example. Other entries are added in another change",
+      "parentUuid": "06f51543_251f4be6",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae75a04a_8255a1e7",
         "filename": "polygerrit-ui/app/node_modules_licenses/licenses/polymer-2017.txt",
         "patchSetId": 24
@@ -107,6 +203,24 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26a80d7b_e8c30570",
+        "filename": "polygerrit-ui/app/node_modules_licenses/licenses/polymer-2017.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "This is an example. I updated text of the file to make it more clear.",
+      "parentUuid": "ae75a04a_8255a1e7",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "4d381579_524cbf9e",
+        "filename": "tools/node_tools/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "File was updated a lot, text doesn\u0027t exists anymore",
+      "parentUuid": "877ce708_7374e890",
+      "range": {
+        "startLine": 1,
+        "startChar": 21,
+        "endLine": 1,
+        "endChar": 26
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d9b30cd_8c3807e0",
         "filename": "tools/node_tools/node_modules_licenses/BUILD",
         "patchSetId": 24
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "cda6d1ba_2b5d14f6",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 24
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d9b30cd_8c3807e0",
+      "range": {
+        "startLine": 19,
+        "startChar": 38,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f952f724_1bfbc6ea",
         "filename": "tools/node_tools/node_modules_licenses/Readme.md",
         "patchSetId": 24
@@ -170,6 +332,24 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84b4c2d3_8c557495",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f952f724_1bfbc6ea",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -219,6 +399,54 @@
     },
     {
       "key": {
+        "uuid": "2b259c25_43cc226a",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "266bbdf6_81db9382",
+      "range": {
+        "startLine": 5,
+        "startChar": 85,
+        "endLine": 5,
+        "endChar": 87
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b5da85f_18e15759",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe43f5ca_6c91df67",
+      "range": {
+        "startLine": 5,
+        "startChar": 65,
+        "endLine": 5,
+        "endChar": 68
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96dc2ce5_f7c70603",
         "filename": "tools/node_tools/node_modules_licenses/Readme.md",
         "patchSetId": 24
@@ -265,6 +493,54 @@
     },
     {
       "key": {
+        "uuid": "f63f913e_267f35ea",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14c3791d_528cd552",
+      "range": {
+        "startLine": 8,
+        "startChar": 52,
+        "endLine": 8,
+        "endChar": 55
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be58a74a_e4405caa",
+        "filename": "tools/node_tools/node_modules_licenses/Readme.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96dc2ce5_f7c70603",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 9
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad254de_f1b7cb72",
         "filename": "tools/node_tools/node_modules_licenses/installed-node-modules-map.ts",
         "patchSetId": 24
@@ -285,6 +561,30 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9f282b7_c26a44a7",
+        "filename": "tools/node_tools/node_modules_licenses/installed-node-modules-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Totally agree, but going to do it later.\nRequires additional setup for tslint, etc...",
+      "parentUuid": "4ad254de_f1b7cb72",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 8
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -311,6 +611,30 @@
     },
     {
       "key": {
+        "uuid": "f0785d6d_188d1183",
+        "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "becd312c_f826642b",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cda331c1_6ec179b7",
         "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
         "patchSetId": 24
@@ -331,6 +655,30 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6166053e_b09ecd5c",
+        "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cda331c1_6ec179b7",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 17
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -357,6 +705,30 @@
     },
     {
       "key": {
+        "uuid": "16693764_81aac257",
+        "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a6e6f17_8b41eb96",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 4
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "128abeec_72b6b0ba",
         "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
         "patchSetId": 24
@@ -377,6 +749,30 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12e752bf_30009d3b",
+        "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "128abeec_72b6b0ba",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -420,6 +816,48 @@
     },
     {
       "key": {
+        "uuid": "0fc183eb_89385521",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7babd832_6d791497",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b11c2ef7_7082d0d6",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "062b30b2_f676e709",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78363be9_ed59f619",
         "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
         "patchSetId": 24
@@ -460,6 +898,48 @@
     },
     {
       "key": {
+        "uuid": "3f1a5296_6019bfcb",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceb9b3f1_22d95bc8",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d6715df_1ec73be6",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78363be9_ed59f619",
+      "range": {
+        "startLine": 52,
+        "startChar": 9,
+        "endLine": 52,
+        "endChar": 15
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "816fee64_5723f591",
         "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
         "patchSetId": 24
@@ -480,6 +960,30 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1396ccc_f973ef97",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "816fee64_5723f591",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 17
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -506,6 +1010,30 @@
     },
     {
       "key": {
+        "uuid": "43ac6422_ba2b788c",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Typescript doesn\u0027t allow it: the error is \"An index signature parameter type must be number, string\"",
+      "parentUuid": "ef471613_f97e5a83",
+      "range": {
+        "startLine": 69,
+        "startChar": 42,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82e28d75_15c0f80f",
         "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
         "patchSetId": 24
@@ -520,6 +1048,24 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77ac0e68_62ef1235",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82e28d75_15c0f80f",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -546,6 +1092,30 @@
     },
     {
       "key": {
+        "uuid": "7144fd78_9debfe8c",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac148954_c03ec26f",
+      "range": {
+        "startLine": 80,
+        "startChar": 43,
+        "endLine": 80,
+        "endChar": 64
+      },
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d754bb05_c151d234",
         "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
         "patchSetId": 24
@@ -557,6 +1127,24 @@
       "writtenOn": "2020-01-28T15:52:47Z",
       "side": 1,
       "message": "I am not I understand that if clause. Maybe add comments to the FilteredFiles type?",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d82500b_06768ad1",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "I added more comments. Is it more clear now?",
+      "parentUuid": "d754bb05_c151d234",
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -580,6 +1168,24 @@
     },
     {
       "key": {
+        "uuid": "3497635a_70b2d1c7",
+        "filename": "tools/node_tools/node_modules_licenses/licenses-map.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d3204a5_1d118c64",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fecfb7ce_214fa24d",
         "filename": "tools/node_tools/node_modules_licenses/shared-licenses-provider.ts",
         "patchSetId": 24
@@ -594,6 +1200,24 @@
       "revId": "58cdcd30bce71a124ec395108751873ce8210335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10fe98ad_815f5542",
+        "filename": "tools/node_tools/node_modules_licenses/shared-licenses-provider.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fecfb7ce_214fa24d",
+      "revId": "58cdcd30bce71a124ec395108751873ce8210335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

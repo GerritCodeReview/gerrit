@@ -22,6 +22,30 @@
       "revId": "a392c0358a1c073411d9fc6af6e384d5901f6ea7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fb8d821_e1450b47",
+        "filename": "tools/node_tools/node_modules_licenses/utils.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "I don\u0027t have this problem, but I fixed it - please try again.",
+      "parentUuid": "902c0426_54ce7404",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "a392c0358a1c073411d9fc6af6e384d5901f6ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

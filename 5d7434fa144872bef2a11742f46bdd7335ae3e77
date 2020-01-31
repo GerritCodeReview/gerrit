@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "ea161128_a09b9b07",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 16
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Removed to avoid confusion.",
+      "parentUuid": "77d94390_99dd9a41",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 48
+      },
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "399404ae_c272f49e",
         "filename": "tools/node_tools/node_modules_licenses/BUILD",
         "patchSetId": 16
@@ -258,6 +282,24 @@
       "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c98d6cc_e6c13619",
+        "filename": "tools/node_tools/node_modules_licenses/package-license-info.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05320e5e_e0e71f91",
+      "revId": "5d7434fa144872bef2a11742f46bdd7335ae3e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

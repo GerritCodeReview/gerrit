@@ -353,6 +353,9 @@ limitations under the License.
           z-index: var(--reply-overlay-z-index);
         }
       }
+      .patch-set-dropdown {
+        margin: var(--spacing-m) 0 0 var(--spacing-m);
+      }
     </style>
     <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
     <div
@@ -640,6 +643,12 @@ limitations under the License.
       </template>
       <template is="dom-if" if="[[_isSelectedView(_currentView,
         _commentTabs.ROBOT_COMMENTS)]]">
+        <gr-dropdown-list
+          class="patch-set-dropdown"
+          items="[[_robotCommentsPatchSetDropdownItems]]"
+          on-value-change="_handleRobotCommentPatchSetChanged"
+          value="[[_currentRobotCommentsPatchSet]]">
+        </gr-dropdown-list>
         <gr-thread-list
             threads="[[_robotCommentThreads]]"
             change="[[_change]]"

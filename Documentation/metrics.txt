@@ -56,6 +56,13 @@ objects needing finalization.
 
 === HTTP
 
+* `http/server/jetty/threadpool/min_pool_size`: Minimum thread pool size
+* `http/server/jetty/threadpool/max_pool_size`: Maximum thread pool size
+* `http/server/jetty/threadpool/pool_size`: Current thread pool size
+* `http/server/jetty/threadpool/idle_threads`: Idle threads
+* `http/server/jetty/threadpool/active_threads`: Active threads
+* `http/server/jetty/threadpool/reserved_threads`: Reserved threads
+* `http/server/jetty/threadpool/queue_size`: Queued requests waiting for a thread
 * `http/server/error_count`: Rate of REST API error responses.
 * `http/server/success_count`: Rate of REST API success responses.
 * `http/server/rest_api/count`: Rate of REST API calls by view.
@@ -71,6 +78,7 @@ toChangeInfos invocations in ChangeJson.
 * `http/server/rest_api/change_json/format_query_results_latency`: Latency for
 formatQueryResults invocations in ChangeJson.
 * `http/server/rest_api/ui_actions/latency`: Latency for RestView#getDescription calls.
+
 
 === Query
 

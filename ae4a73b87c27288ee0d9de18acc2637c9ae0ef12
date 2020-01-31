@@ -34,6 +34,24 @@
       "revId": "ae4a73b87c27288ee0d9de18acc2637c9ae0ef12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0d6a85a_63bcce3f",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T12:58:45Z",
+      "side": 1,
+      "message": "OK, let\u0027s just leave it as it is.  We can clean it up in a separate commit if necessary.",
+      "parentUuid": "cdf2eba9_7934ed57",
+      "revId": "ae4a73b87c27288ee0d9de18acc2637c9ae0ef12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

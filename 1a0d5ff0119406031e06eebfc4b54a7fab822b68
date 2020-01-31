@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d1dc58d_4cabadb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-31T09:43:35Z",
+      "side": 1,
+      "message": "and.\n\nIt\u0027s very hard to understand this message. Maybe just:\n\nWe set primaryTab before user can interact with app. Otherwise\nuser could select different tab while page is loading and we would reset it.\n\nOr rephrase it better, I am not very good in explaining 😊",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "1a0d5ff0119406031e06eebfc4b54a7fab822b68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -41,7 +41,7 @@ limitations under the License.
     let sendStub;
 
     setup(() => {
-      this.clock = sinon.useFakeTimers();
+      window.clock = sinon.useFakeTimers();
       sandbox = sinon.sandbox.create();
       sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
       stub('gr-rest-api-interface', {
@@ -56,7 +56,7 @@ limitations under the License.
     });
 
     teardown(() => {
-      this.clock.restore();
+      window.clock.restore();
       sandbox.restore();
       element._removeEventCallbacks();
       Gerrit._testOnly_resetPlugins();

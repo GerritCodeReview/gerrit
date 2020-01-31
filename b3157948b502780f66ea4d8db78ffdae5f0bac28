@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcbc07c3_89a021d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 44
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-31T10:44:40Z",
+      "side": 1,
+      "message": "Was this change already uploaded to this series, where the duplicated licenses are removed?",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "b3157948b502780f66ea4d8db78ffdae5f0bac28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

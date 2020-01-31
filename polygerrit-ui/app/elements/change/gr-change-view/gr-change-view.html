@@ -640,6 +640,12 @@ limitations under the License.
       </template>
       <template is="dom-if" if="[[_isSelectedView(_currentView,
         _commentTabs.ROBOT_COMMENTS)]]">
+        <gr-dropdown-list
+          class="patch-set-dropdown"
+          items="[[_robotCommentsPatchSetDropdownItems]]"
+          on-value-change="_handleRobotCommentPatchSetChanged"
+          value="[[_currentRobotCommentsPatchSet]]">
+        </gr-dropdown-list>
         <gr-thread-list
             threads="[[_robotCommentThreads]]"
             change="[[_change]]"

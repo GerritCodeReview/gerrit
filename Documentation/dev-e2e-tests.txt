@@ -95,6 +95,8 @@ Valid commands are:
 * `push`
 * `clone`
 
+The example above assumes that the `loadtest-repo` project exists in the Gerrit under test.
+
 == How to run tests
 
 Run all tests:

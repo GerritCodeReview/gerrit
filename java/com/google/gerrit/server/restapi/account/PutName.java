@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -50,6 +52,7 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
   private final Provider<CurrentUser> self;
   private final Realm realm;
   private final PermissionBackend permissionBackend;
+  private final ExternalIds externalIds;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
@@ -57,10 +60,12 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
       Provider<CurrentUser> self,
       Realm realm,
       PermissionBackend permissionBackend,
+      ExternalIds externalIds,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
+    this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
@@ -81,7 +86,9 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
       input = new NameInput();
     }
 
-    if (!realm.allowsEdit(AccountFieldName.FULL_NAME)) {
+    Account.Id accountId = user.getAccountId();
+    if (realm.accountBelongsToRealm(externalIds.byAccount(accountId))
+        && !realm.allowsEdit(AccountFieldName.FULL_NAME)) {
       throw new MethodNotAllowedException("realm does not allow editing name");
     }
 
@@ -89,7 +96,7 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
     AccountState accountState =
         accountsUpdateProvider
             .get()
-            .update("Set Full Name via API", user.getAccountId(), u -> u.setFullName(newName))
+            .update("Set Full Name via API", accountId, u -> u.setFullName(newName))
             .orElseThrow(() -> new ResourceNotFoundException("account not found"));
     return Strings.isNullOrEmpty(accountState.account().fullName())
         ? Response.none()

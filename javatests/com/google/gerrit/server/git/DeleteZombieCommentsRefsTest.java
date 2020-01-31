@@ -176,13 +176,14 @@ public class DeleteZombieCommentsRefsTest {
 
   private static Ref createRefWithNonEmptyTreeCommit(Repository usersRepo, int changeId, int userId)
       throws IOException {
-    RevWalk rw = new RevWalk(usersRepo);
-    ObjectId fileObj = createBlob(usersRepo, String.format("file %d content", changeId));
-    ObjectId treeObj =
-        createTree(usersRepo, rw.lookupBlob(fileObj), String.format("file%d.txt", changeId));
-    ObjectId commitObj = createCommit(usersRepo, treeObj, null);
-    Ref refObj = createRef(usersRepo, commitObj, getRefName(changeId, userId));
-    return refObj;
+    try (RevWalk rw = new RevWalk(usersRepo)) {
+      ObjectId fileObj = createBlob(usersRepo, String.format("file %d content", changeId));
+      ObjectId treeObj =
+          createTree(usersRepo, rw.lookupBlob(fileObj), String.format("file%d.txt", changeId));
+      ObjectId commitObj = createCommit(usersRepo, treeObj, null);
+      Ref refObj = createRef(usersRepo, commitObj, getRefName(changeId, userId));
+      return refObj;
+    }
   }
 
   private static Ref createRefWithEmptyTreeCommit(Repository usersRepo, int changeId, int userId)

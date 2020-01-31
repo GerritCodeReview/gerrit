@@ -50,7 +50,11 @@ limitations under the License.
       element.config = {
         ph: {
           match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
-          link: 'https://code.google.com/p/gerrit/issues/detail?id=$2',
+          link: 'https://bugs.chromium.org/p/gerrit/issues/detail?id=$2',
+        },
+        prefixsameinlinkandpattern: {
+          match: '([Hh][Tt][Tt][Pp]example)\\s*#?(\\d+)',
+          link: 'https://bugs.chromium.org/p/gerrit/issues/detail?id=$2',
         },
         changeid: {
           match: '(I[0-9a-f]{8,40})',
@@ -91,7 +95,7 @@ limitations under the License.
 
     test('URL pattern was parsed and linked.', () => {
       // Regular inline link.
-      const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+      const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
       element.content = url;
       const linkEl = element.$.output.childNodes[0];
       assert.equal(linkEl.target, '_blank');
@@ -105,7 +109,7 @@ limitations under the License.
       element.content = 'Issue 3650';
 
       let linkEl = element.$.output.childNodes[0];
-      const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+      const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
       assert.equal(linkEl.target, '_blank');
       assert.equal(linkEl.href, url);
       assert.equal(linkEl.textContent, 'Issue 3650');
@@ -116,6 +120,18 @@ limitations under the License.
       assert.equal(linkEl.rel, 'noopener');
       assert.equal(linkEl.href, url);
       assert.equal(linkEl.textContent, 'Bug 3650');
+    });
+
+    test('Pattern with same prefix as link was correctly parsed', () => {
+      // Pattern starts with the same prefix (`http`) as the url.
+      element.content = 'httpexample 3650';
+
+      assert.equal(element.$.output.childNodes.length, 1);
+      const linkEl = element.$.output.childNodes[0];
+      const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
+      assert.equal(linkEl.target, '_blank');
+      assert.equal(linkEl.href, url);
+      assert.equal(linkEl.textContent, 'httpexample 3650');
     });
 
     test('Change-Id pattern was parsed and linked', () => {
@@ -159,12 +175,12 @@ limitations under the License.
 
       assert.equal(linkEl1.target, '_blank');
       assert.equal(linkEl1.href,
-          'https://code.google.com/p/gerrit/issues/detail?id=3650');
+          'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650');
       assert.equal(linkEl1.textContent, 'Issue 3650');
 
       assert.equal(linkEl2.target, '_blank');
       assert.equal(linkEl2.href,
-          'https://code.google.com/p/gerrit/issues/detail?id=3450');
+          'https://bugs.chromium.org/p/gerrit/issues/detail?id=3450');
       assert.equal(linkEl2.textContent, 'Issue 3450');
     });
 
@@ -177,7 +193,7 @@ limitations under the License.
       const bug = 'Issue 3650';
 
       const changeUrl = '/q/' + changeID;
-      const bugUrl = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+      const bugUrl = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
 
       element.content = prefix + changeID + bug;
 

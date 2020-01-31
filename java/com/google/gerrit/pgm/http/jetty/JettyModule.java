@@ -31,5 +31,6 @@ public class JettyModule extends LifecycleModule {
     bind(JettyServer.class);
     listener().to(JettyServer.Lifecycle.class);
     install(new FactoryModuleBuilder().build(HttpLogFactory.class));
+    bind(JettyMetrics.class);
   }
 }

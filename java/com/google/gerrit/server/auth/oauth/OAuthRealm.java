@@ -122,7 +122,7 @@ public class OAuthRealm extends AbstractRealm {
   @Override
   public boolean accountBelongsToRealm(Collection<ExternalId> externalIds) {
     for (ExternalId id : externalIds) {
-      if (id.toString().contains(SCHEME_EXTERNAL)) {
+      if (id.isScheme(SCHEME_EXTERNAL)) {
         return true;
       }
     }

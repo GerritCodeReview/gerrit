@@ -731,6 +731,9 @@ class ChangeNotesParser {
       if (rn != null && rn.getPushCert() != null) {
         b.pushCertificate(Optional.of(rn.getPushCert()));
       }
+      if (rn != null && rn.getAd() != null) {
+
+      }
     }
   }
 

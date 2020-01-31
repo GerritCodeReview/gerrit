@@ -42,6 +42,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSet;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -881,6 +882,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       dirty |= insertRobotComments(ctx, newRobotComments);
       dirty |= updateLabels(projectState, ctx);
       dirty |= insertMessage(ctx);
+      dirty |= updateAttentionSet(ctx);
       return dirty;
     }
 
@@ -1165,6 +1167,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeData cd = changeDataFactory.create(ctx.getNotes());
       ReviewerSet reviewers = cd.reviewers();
       return reviewers.byState(REVIEWER).contains(ctx.getAccountId());
+    }
+
+    private boolean updateAttentionSet(ChangeContext ctx) {
+      if (Strings.isNullOrEmpty(in.ad)) {
+        return false;
+      }
+      ChangeUpdate changeUpdate = ctx.getUpdate(psId);
+      changeUpdate.setAttentionSet(new AttentionSet(in.ad, ps.commitId()));
+      return true;
     }
 
     private boolean updateLabels(ProjectState projectState, ChangeContext ctx)

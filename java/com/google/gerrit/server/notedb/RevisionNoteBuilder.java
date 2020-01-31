@@ -39,6 +39,7 @@ class RevisionNoteBuilder {
   /** Construct a new RevisionNoteMap, seeding it with an existing (immutable) RevisionNoteMap */
   static class Cache {
     private final RevisionNoteMap<? extends RevisionNote<? extends Comment>> revisionNoteMap;
+    /** Commit ID -> ö */
     private final Map<ObjectId, RevisionNoteBuilder> builders;
 
     Cache(RevisionNoteMap<? extends RevisionNote<? extends Comment>> revisionNoteMap) {
@@ -61,13 +62,15 @@ class RevisionNoteBuilder {
   }
 
   final byte[] baseRaw;
-  final List<? extends Comment> baseComments;
+  private final List<? extends Comment> baseComments;
   final Map<Comment.Key, Comment> put;
-  final Set<Comment.Key> delete;
+  private final Set<Comment.Key> delete;
 
   private String pushCert;
 
-  RevisionNoteBuilder(RevisionNote<? extends Comment> base) {
+  private String ad = "Hier könnte Ihre Werbung stehen!";
+
+  private RevisionNoteBuilder(RevisionNote<? extends Comment> base) {
     if (base != null) {
       baseRaw = base.getRaw();
       baseComments = base.getEntities();
@@ -91,7 +94,7 @@ class RevisionNoteBuilder {
   public byte[] build(ChangeNoteJson changeNoteJson) throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     buildNoteJson(changeNoteJson, out);
-    return out.toByteArray();
+    return out.toByteArray();  // ö json string
   }
 
   void putComment(Comment comment) {
@@ -106,6 +109,10 @@ class RevisionNoteBuilder {
 
   void setPushCertificate(String pushCert) {
     this.pushCert = pushCert;
+  }
+
+  void setAd(String ad) {
+    this.ad = ad;
   }
 
   private ListMultimap<Integer, Comment> buildCommentMap() {
@@ -133,6 +140,7 @@ class RevisionNoteBuilder {
     RevisionNoteData data = new RevisionNoteData();
     data.comments = COMMENT_ORDER.sortedCopy(comments.values());
     data.pushCert = pushCert;
+    data.ad = ad;
 
     try (OutputStreamWriter osw = new OutputStreamWriter(out, UTF_8)) {
       noteUtil.getGson().toJson(data, osw);

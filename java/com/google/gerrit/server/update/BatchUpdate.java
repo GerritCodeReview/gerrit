@@ -280,7 +280,7 @@ public class BatchUpdate implements AutoCloseable {
       distinctUpdates = ArrayListMultimap.create();
     }
 
-    @Override
+    @Override  // ö the only impl
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
       ChangeUpdate u = defaultUpdates.get(psId);
       if (u == null) {
@@ -591,7 +591,7 @@ public class BatchUpdate implements AutoCloseable {
           id,
           lazy(() -> e.getValue().stream().map(op -> op.getClass().getName()).collect(toSet())));
       for (BatchUpdateOp op : e.getValue()) {
-        dirty |= op.updateChange(ctx);
+        dirty |= op.updateChange(ctx);  // ö updating change
       }
       if (!dirty) {
         logDebug("No ops reported dirty, short-circuiting");

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "39dcf98e_c5792df1",
+        "filename": "java/com/google/gerrit/server/change/ChangeId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-31T07:23:04Z",
+      "side": 1,
+      "message": "\u003e \u003e This has been created in a separate class (whilst it was on the Change class on master) because of dependency issues with JGit. It can be then fully discarded when merging it up to master.\n\u003e \n\u003e The reason why com.google.gerrit.reviewdb.client.Change cannot depend on SecureRandom is GWT UI. That why thre should be a new place for it. It must not be a new file, right? May be find another utility class to park that code, e.g.: CommitMessageUtil.java? \n\nFair enough, let me move it there in master.\n\n\u003e Moreover, given that 2.16 is still supported, we should avoid adding GWT UI incomptible code there to make cherry-pick to stable-2.16 easier. That why we should consider to move SecureRandom code out of the Change, to CommitMessageUtil or another util class.\n\nSure, this is all about where to put fixes to problems we find in Gerrit. We typically put them in the earliest stable branch of the supported release where the problem appears, but typically Google put them in master, making the cherry pick sometimes a bit difficult, like in this case.\n\n\u003e We could do that change on master first (move SecureRandom out from Change to CommitMessageUtil), merge it, and then re-do this chery-pick. That way we wouldn\u0027t mess around with merge conflicts across different code paths and yet another conflict resolution during merging it up to master.\n\nSounds like a plan :-)",
+      "parentUuid": "d9b9401f_51e6affe",
+      "revId": "8803cd372f89a8b6b98c579277f1916fc1f0b4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5abac779_d3b8d0e3",
         "filename": "java/com/google/gerrit/server/change/ChangeId.java",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2020-01-31T07:04:04Z",
       "side": 1,
       "message": "Add a comment, something like: This was added during cherry-pick \"Generate Change-Ids randomly instead of computing them from commit content and timestamp\" from master. It can be then fully discarded when merging it up to master because the GWT UI is gone.",
+      "revId": "8803cd372f89a8b6b98c579277f1916fc1f0b4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aea35fd_543f96fa",
+        "filename": "java/com/google/gerrit/server/change/ChangeId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-31T07:23:04Z",
+      "side": 1,
+      "message": "I\u0027ll follow your earlier suggestion and move the SecureRandom out of Change altogether.",
+      "parentUuid": "5abac779_d3b8d0e3",
       "revId": "8803cd372f89a8b6b98c579277f1916fc1f0b4ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

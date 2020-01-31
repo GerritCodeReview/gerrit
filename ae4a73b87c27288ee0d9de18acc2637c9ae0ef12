@@ -52,6 +52,24 @@
       "revId": "ae4a73b87c27288ee0d9de18acc2637c9ae0ef12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ac7059c_d520fb22",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-01-31T13:19:59Z",
+      "side": 1,
+      "message": "is this better ?\nhttps://gerrit-review.googlesource.com/c/gerrit/+/252761/1/Documentation/metrics.txt",
+      "parentUuid": "a0d6a85a_63bcce3f",
+      "revId": "ae4a73b87c27288ee0d9de18acc2637c9ae0ef12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

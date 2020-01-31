@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a97f6a7d_4faeb229",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T10:39:45Z",
+      "side": 1,
+      "message": "Should these be in a separate section specifically for Jetty?\n\nIf not, they should at least be in alphabetical order with the existing entries here.",
+      "revId": "ae4a73b87c27288ee0d9de18acc2637c9ae0ef12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

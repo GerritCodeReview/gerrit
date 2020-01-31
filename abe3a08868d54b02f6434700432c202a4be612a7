@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a1800ac7_8e03fd5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fe5e6bf_9f7b8acf",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "abe3a08868d54b02f6434700432c202a4be612a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65a8461f_50299858",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 14

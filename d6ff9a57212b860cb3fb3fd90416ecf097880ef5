@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "321cfb3f_bc4a7733",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T07:37:00Z",
+      "side": 1,
+      "message": "This is now done on the abstract classes, so also applies to the Lucene tests.\n\nI would change this to say \"query tests\" and then below mention that it applies to query tests for both index types Lucene and Elasticsearch.",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "d6ff9a57212b860cb3fb3fd90416ecf097880ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

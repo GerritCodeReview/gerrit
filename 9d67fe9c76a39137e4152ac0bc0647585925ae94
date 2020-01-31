@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b5e7332_144b1b51",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1911,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T01:01:32Z",
+      "side": 1,
+      "message": "Link this to the relevant section of the documentation, if it exists. If it doesn\u0027t exist it should be added, possibly in a separate change.",
+      "range": {
+        "startLine": 1911,
+        "startChar": 29,
+        "endLine": 1911,
+        "endChar": 56
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd342794_93fcc7fa",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1916,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T01:01:32Z",
+      "side": 1,
+      "message": "nit: columns should be aligned",
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e04f2743_bdc2bddf",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1917,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T01:01:32Z",
+      "side": 1,
+      "message": "I think this could have a better name. The \u0027re\u0027 prefix makes me think it\u0027s supposed to be \"displayed again\" after some time, but that doesn\u0027t match the description in the next column.",
+      "range": {
+        "startLine": 1917,
+        "startChar": 2,
+        "endLine": 1917,
+        "endChar": 11
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "416431a3_ada8e6d9",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1977,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T01:01:32Z",
+      "side": 1,
+      "message": "entities",
+      "range": {
+        "startLine": 1977,
+        "startChar": 21,
+        "endLine": 1977,
+        "endChar": 27
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea1486a9_e57c6b41",
+        "filename": "java/com/google/gerrit/extensions/common/MessageOfTheDayInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T01:01:32Z",
+      "side": 1,
+      "message": "Please add javadoc to this class and its members",
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "274da42e_9ee0fa22",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T01:01:32Z",
+      "side": 1,
+      "message": "Can we initialize this with the size of this.messages?",
+      "range": {
+        "startLine": 337,
+        "startChar": 52,
+        "endLine": 337,
+        "endChar": 55
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bd603b0_b569ea1a",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T01:01:32Z",
+      "side": 1,
+      "message": "It might be possible to reduce this using the stream API, in which case the previous comment becomes irrelevant as we can just return the result of collect(toList()).",
+      "range": {
+        "startLine": 338,
+        "startChar": 5,
+        "endLine": 347,
+        "endChar": 5
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "62f5e461b2173ccc100673369d40b9716ff4943c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "369d8229_c4d2b18f",
+        "filename": "java/com/google/gerrit/server/git/HookUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-31T10:08:18Z",
+      "side": 1,
+      "message": "This would require a cast:\n\n      if (e instanceof ServiceMayNotContinueException) {\n        throw (ServiceMayNotContinueException) e;\n      }\n      throw new ServiceMayNotContinueException(e);\n\nSo I would rather leave it as-is. It is consistent with l.47",
+      "parentUuid": "73bdf962_6cd52f99",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 14
+      },
+      "revId": "62f5e461b2173ccc100673369d40b9716ff4943c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1908,7 +1908,8 @@ The number of open files.
 [[message-of-the-day-info]]
 === MessageOfTheDayInfo
 The `MessageOfTheDayInfo` entity contains information about a message
-that was registered with the `MessageOfTheDay`-extension by plugins.
+that was registered with the
+link:dev-plugins.html#message-of-the-day[MessageOfTheDay]-extension by plugins.
 
 [options="header",cols="1,^1,5"]
 |===========================
@@ -1974,8 +1975,9 @@ Information about the configuration from the
 link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
 |`messages`                ||
-List of messages registered with the `MessageOfTheDay`-
-extension containing link:#message-of-the-day-info[
+List of messages registered with the
+link:dev-plugins.html#message-of-the-day[MessageOfTheDay]-extension
+containing link:#message-of-the-day-info[
 MessageOfTheDayInfo] entities.
 |`note_db_enabled`         |not set if `false`|
 Whether the NoteDb storage backend is fully enabled.

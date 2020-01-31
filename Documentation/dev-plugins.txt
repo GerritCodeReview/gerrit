@@ -2954,6 +2954,40 @@ to change in order to be compliant. These requirements should be kept once they
 are met, but marked as `OK`. If the requirements were not displayed, reviewers
 would need to use their precious time to manually check that they were met.
 
+[[message-of-the-day]]
+== Posting Messages (Of The Day) to the UI
+Gerrit provides an extension point that enables plugins to implement a method to
+collect messages that will then be shown below the main header in the Gerrit UI.
+
+[source, java]
+----
+import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
+
+@Singleton
+class MessageOfTheDayImpl extends MessageOfTheDay {
+
+  private final String id;
+  private final String msg;
+
+  public MessageOfTheDayImpl() {
+    id = "hello";
+    msg = "I just wanted to say <b>hello</b>.";
+  }
+
+  @Override
+  public String getHtmlMessage() {
+    return msg;
+  }
+
+  @Override
+  public String getMessageId() {
+    return id;
+  }
+}
+----
+
+Note, that the message will be added as HTML and parsed into the DOM. Thus,
+plugins using this extension should ensure that the message content is safe.
 
 == SEE ALSO
 

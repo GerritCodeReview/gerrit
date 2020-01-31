@@ -67,7 +67,6 @@ import org.eclipse.jetty.util.BlockingArrayQueue;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -116,9 +115,49 @@ public class JettyServer {
     }
   }
 
+  static class Metrics {
+    private final QueuedThreadPool threadPool;
+
+    Metrics(QueuedThreadPool threadPool) {
+      this.threadPool = threadPool;
+    }
+
+    public int getIdleThreads() {
+      return threadPool.getIdleThreads();
+    }
+
+    public int getBusyThreads() {
+      return threadPool.getBusyThreads();
+    }
+
+    public int getReservedThreads() {
+      return threadPool.getReservedThreads();
+    }
+
+    public int getMinThreads() {
+      return threadPool.getMinThreads();
+    }
+
+    public int getMaxThreads() {
+      return threadPool.getMaxThreads();
+    }
+
+    public int getThreads() {
+      return threadPool.getThreads();
+    }
+
+    public int getQueueSize() {
+      return threadPool.getQueueSize();
+    }
+
+    public boolean isLowOnThreads() {
+      return threadPool.isLowOnThreads();
+    }
+  }
+
   private final SitePaths site;
   private final Server httpd;
-
+  private final Metrics metrics;
   private boolean reverseProxy;
 
   @Inject
@@ -130,8 +169,10 @@ public class JettyServer {
       HttpLogFactory httpLogFactory) {
     this.site = site;
 
-    httpd = new Server(threadPool(cfg, threadSettingsConfig));
+    QueuedThreadPool pool = threadPool(cfg, threadSettingsConfig);
+    httpd = new Server(pool);
     httpd.setConnectors(listen(httpd, cfg));
+    metrics = new Metrics(pool);
 
     Handler app = makeContext(env, cfg);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
@@ -158,6 +199,10 @@ public class JettyServer {
 
     httpd.setHandler(app);
     httpd.setStopAtShutdown(false);
+  }
+
+  Metrics getMetrics() {
+    return metrics;
   }
 
   private Connector[] listen(Server server, Config cfg) {
@@ -339,7 +384,7 @@ public class JettyServer {
     return site.resolve(path);
   }
 
-  private ThreadPool threadPool(Config cfg, ThreadSettingsConfig threadSettingsConfig) {
+  private QueuedThreadPool threadPool(Config cfg, ThreadSettingsConfig threadSettingsConfig) {
     int maxThreads = threadSettingsConfig.getHttpdMaxThreads();
     int minThreads = cfg.getInt("httpd", null, "minthreads", 5);
     int maxQueued = cfg.getInt("httpd", null, "maxqueued", 200);

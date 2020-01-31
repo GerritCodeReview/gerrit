@@ -476,6 +476,10 @@
 
     _handleCommentTabChange() {
       this._currentView = this.$.commentTabs.selected;
+      const type = Object.keys(CommentTabs).find(key => CommentTabs[key] ===
+          this._currentView);
+      this.$.reporting.reportInteraction('comment-tab-changed', {tabName:
+          type});
     }
 
     _isSelectedView(currentView, view) {

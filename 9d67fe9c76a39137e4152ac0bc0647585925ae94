@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "35e3057f_489925ba",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1911,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-31T09:45:50Z",
+      "side": 1,
+      "message": "Done in a separate change.",
+      "parentUuid": "8b5e7332_144b1b51",
+      "range": {
+        "startLine": 1911,
+        "startChar": 29,
+        "endLine": 1911,
+        "endChar": 56
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd342794_93fcc7fa",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2605a4c_abe6641f",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1916,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-31T09:45:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd342794_93fcc7fa",
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "5b094406_624bc42f",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1917,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-31T09:45:50Z",
+      "side": 1,
+      "message": "Done.\nThis was actually a mistake in the description.",
+      "parentUuid": "e04f2743_bdc2bddf",
+      "range": {
+        "startLine": 1917,
+        "startChar": 2,
+        "endLine": 1917,
+        "endChar": 11
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "416431a3_ada8e6d9",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 4
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "73d8179c_542757a4",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1977,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-31T09:45:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "416431a3_ada8e6d9",
+      "range": {
+        "startLine": 1977,
+        "startChar": 21,
+        "endLine": 1977,
+        "endChar": 27
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea1486a9_e57c6b41",
         "filename": "java/com/google/gerrit/extensions/common/MessageOfTheDayInfo.java",
         "patchSetId": 4
@@ -102,6 +192,24 @@
       "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeabd817_415fe36d",
+        "filename": "java/com/google/gerrit/extensions/common/MessageOfTheDayInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-31T09:45:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea1486a9_e57c6b41",
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "9169c655_1f055e70",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-31T09:45:50Z",
+      "side": 1,
+      "message": "Not required anymore",
+      "parentUuid": "274da42e_9ee0fa22",
+      "range": {
+        "startLine": 337,
+        "startChar": 52,
+        "endLine": 337,
+        "endChar": 55
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd603b0_b569ea1a",
         "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
         "patchSetId": 4
@@ -148,6 +280,30 @@
       "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffc83548_3ff480d7",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-31T09:45:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd603b0_b569ea1a",
+      "range": {
+        "startLine": 338,
+        "startChar": 5,
+        "endLine": 347,
+        "endChar": 5
+      },
+      "revId": "9d67fe9c76a39137e4152ac0bc0647585925ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

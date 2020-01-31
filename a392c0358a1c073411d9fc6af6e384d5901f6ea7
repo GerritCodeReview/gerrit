@@ -46,6 +46,30 @@
       "revId": "a392c0358a1c073411d9fc6af6e384d5901f6ea7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ddf3688_ea66ed59",
+        "filename": "tools/node_tools/node_modules_licenses/utils.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-01-31T10:42:38Z",
+      "side": 1,
+      "message": "I re-tested the latest patch set and it works as expected (from the top change of this series). Thanks!",
+      "parentUuid": "4fb8d821_e1450b47",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "a392c0358a1c073411d9fc6af6e384d5901f6ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

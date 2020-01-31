@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea488050_5ec6a843",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2967,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T10:18:24Z",
+      "side": 1,
+      "message": "How does the redisplay value get passed to core?",
+      "revId": "cfff720610374fe538649f272a762569bb785998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e72c898f_e4cee825",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2990,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T10:18:24Z",
+      "side": 1,
+      "message": "Eh, should we make it so that core sanitizes the html before rendering it?  Unrelated to this change; if we do this it should be as a separate change.",
+      "range": {
+        "startLine": 2989,
+        "startChar": 0,
+        "endLine": 2990,
+        "endChar": 76
+      },
+      "revId": "cfff720610374fe538649f272a762569bb785998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

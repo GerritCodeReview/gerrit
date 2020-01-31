@@ -108,6 +108,23 @@
       "revId": "c6acf63b356396abcb102d145880d6f9c549ce8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00831663_0610fc4b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T16:07:35Z",
+      "side": 1,
+      "message": "Add noAcceptHeader param to this commit",
+      "revId": "c6acf63b356396abcb102d145880d6f9c549ce8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

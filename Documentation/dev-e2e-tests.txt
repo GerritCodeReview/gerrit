@@ -95,6 +95,12 @@ Valid commands are:
 * `push`
 * `clone`
 
+The example above assumes these things by default in the Gerrit under test:
+
+* the `loadtest-repo` project exists;
+* the `admin` user has its `HTTP Credentials` password set in
+`src/test/resources/application.conf`.
+
 == How to run tests
 
 Run all tests:

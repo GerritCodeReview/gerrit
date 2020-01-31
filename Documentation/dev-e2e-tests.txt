@@ -35,9 +35,7 @@ sbt compile
 
 The following warning, if present when executing `sbt` commands, can be removed by creating the
 link:https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html#step+3%3A+Credentials[related credentials file]
-locally. Dummy values for `user` and `password` in that file can be used initially. Notice the
-plural form for the file name, expected by the warning (below), compared to the one from that linked
-example which is singular.
+locally. Dummy values for `user` and `password` in that file can be used initially.
 
 ----
 [warn] Credentials file ~/.sbt/sonatype_credentials does not exist

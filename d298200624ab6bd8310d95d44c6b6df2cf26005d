@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37391cee_c79e7697",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-31T17:01:05Z",
+      "side": 1,
+      "message": "Maybe remove this comment, is just describes \"what\", not \"why\".",
+      "revId": "d298200624ab6bd8310d95d44c6b6df2cf26005d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29dc755c_38adb108",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-31T17:01:05Z",
+      "side": 1,
+      "message": "The method is so short, maybe inline? Then you can also drop the comment in line 177.",
+      "range": {
+        "startLine": 183,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 16
+      },
+      "revId": "d298200624ab6bd8310d95d44c6b6df2cf26005d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d78ccec9_7b471b86",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-31T17:01:05Z",
+      "side": 1,
+      "message": "This is never used.",
+      "range": {
+        "startLine": 183,
+        "startChar": 23,
+        "endLine": 183,
+        "endChar": 34
+      },
+      "revId": "d298200624ab6bd8310d95d44c6b6df2cf26005d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0bcba48_283d901f",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-31T17:01:05Z",
+      "side": 1,
+      "message": "Curious: Is that a recommended pattern for arrays to spread them into a new array?\n\nAh, or is this, because you have changed to Set and you want to convert to array here? Maybe rename to SET_OF_... or something?",
+      "range": {
+        "startLine": 224,
+        "startChar": 39,
+        "endLine": 224,
+        "endChar": 42
+      },
+      "revId": "d298200624ab6bd8310d95d44c6b6df2cf26005d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

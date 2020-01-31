@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "420801cc_1877f0c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-01-31T10:44:13Z",
+      "side": 1,
+      "message": "Please explain *why* you make these changes, not just which changes you make. \n\nI think we do this to reduce confusion about the direction the arrows will expand?",
+      "revId": "8000f6325340e6da5b2cb062f88def056f948166",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d9882fa_876027ef",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 5

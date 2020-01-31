@@ -49,6 +49,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -151,7 +152,7 @@ public class CommitUtil {
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk revWalk = new RevWalk(reader)) {
-      ObjectId generatedChangeId = Change.generateChangeId();
+      ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
       ObjectId revCommit =
           createRevertCommit(message, notes, user, timestamp, oi, revWalk, generatedChangeId);
       return createRevertChangeFromCommit(

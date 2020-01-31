@@ -68,6 +68,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.InsertChangeOp;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -207,7 +208,7 @@ public class ChangeInserter implements InsertChangeOp {
     }
     // A Change-Id is generated for the review, but not appended to the commit message.
     // This can happen if requireChangeId is false.
-    return Change.generateKey();
+    return CommitMessageUtil.generateKey();
   }
 
   public PatchSet.Id getPatchSetId() {

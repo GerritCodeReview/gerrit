@@ -207,22 +207,35 @@ limitations under the License.
               max-reviewers-displayed="3"></gr-reviewer-list>
         </span>
       </section>
-      <section>
-        <span class="title">Repo</span>
-        <span class="value">
-          <a href$="[[_computeProjectURL(change.project)]]">
-            <gr-limited-text limit="40" text="[[change.project]]"></gr-limited-text>
-          </a>
-        </span>
-      </section>
-      <section>
-        <span class="title">Branch</span>
-        <span class="value">
-          <a href$="[[_computeBranchURL(change.project, change.branch)]]">
-            <gr-limited-text limit="40" text="[[change.branch]]"></gr-limited-text>
-          </a>
-        </span>
-      </section>
+      <template is="dom-if"
+                if="[[_computeShowRepoBranchTogether(change.project, change.branch)]]">
+        <section>
+          <span class="title">Repo Branch</span>
+          <span class="value">
+            <a href$="[[_computeProjectUrl(change.project)]]">[[change.project]]</a>
+            <a href$="[[_computeBranchUrl(change.project, change.branch)]]">[[change.branch]]</a>
+          </span>
+        </section>
+      </template>
+      <template is="dom-if"
+                if="[[!_computeShowRepoBranchTogether(change.project, change.branch)]]">
+        <section>
+          <span class="title">Repo</span>
+          <span class="value">
+            <a href$="[[_computeProjectUrl(change.project)]]">
+              <gr-limited-text limit="40" text="[[change.project]]"></gr-limited-text>
+            </a>
+          </span>
+        </section>
+        <section>
+          <span class="title">Branch</span>
+          <span class="value">
+            <a href$="[[_computeBranchUrl(change.project, change.branch)]]">
+              <gr-limited-text limit="40" text="[[change.branch]]"></gr-limited-text>
+            </a>
+          </span>
+        </section>
+      </template>
       <section>
         <span class="title">[[_computeParentsLabel(_currentParents)]]</span>
         <span class="value">
@@ -252,7 +265,7 @@ limitations under the License.
             <gr-linked-chip
                 text="[[change.topic]]"
                 limit="40"
-                href="[[_computeTopicURL(change.topic)]]"
+                href="[[_computeTopicUrl(change.topic)]]"
                 removable="[[!_topicReadOnly]]"
                 on-remove="_handleTopicRemoved"></gr-linked-chip>
           </template>
@@ -274,7 +287,7 @@ limitations under the License.
         <section>
           <span class="title">Cherry pick of</span>
           <span class="value">
-            <a href$="[[_computeCherryPickOfURL(change.cherry_pick_of_change, change.cherry_pick_of_patch_set, change.project)]]">
+            <a href$="[[_computeCherryPickOfUrl(change.cherry_pick_of_change, change.cherry_pick_of_patch_set, change.project)]]">
               <gr-limited-text
                   text="[[change.cherry_pick_of_change]],[[change.cherry_pick_of_patch_set]]"
                   limit="40">
@@ -294,7 +307,7 @@ limitations under the License.
             <gr-linked-chip
                 class="hashtagChip"
                 text="[[item]]"
-                href="[[_computeHashtagURL(item)]]"
+                href="[[_computeHashtagUrl(item)]]"
                 removable="[[!_hashtagReadOnly]]"
                 on-remove="_handleHashtagRemoved">
             </gr-linked-chip>

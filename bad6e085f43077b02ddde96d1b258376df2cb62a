@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c53f8540_9dab2e3c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T07:35:01Z",
+      "side": 1,
+      "message": "Use bugs.chromium.org as done in [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/252792",
+      "revId": "bad6e085f43077b02ddde96d1b258376df2cb62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

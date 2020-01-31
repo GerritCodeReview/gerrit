@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f69ac1fc_17100763",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2967,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-31T10:31:48Z",
+      "side": 1,
+      "message": "This is a method already implemented in the extension class itself. It is set to one day in the future by default.",
+      "parentUuid": "ea488050_5ec6a843",
+      "revId": "cfff720610374fe538649f272a762569bb785998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e72c898f_e4cee825",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2020-01-31T10:18:24Z",
       "side": 1,
       "message": "Eh, should we make it so that core sanitizes the html before rendering it?  Unrelated to this change; if we do this it should be as a separate change.",
+      "range": {
+        "startLine": 2989,
+        "startChar": 0,
+        "endLine": 2990,
+        "endChar": 76
+      },
+      "revId": "cfff720610374fe538649f272a762569bb785998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5432689a_dcd0b0e2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2990,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-01-31T10:31:48Z",
+      "side": 1,
+      "message": "Yes, definitely! I was even planning to remove the possibility to use HTML and to use the gr-formatted-text elements of the PolyGerrit-UI. But only with Gerrit 3.0+ to not break compatibility with the GWT-UI. The current messageoftheday-plugin should be relatively secure however, since messages can only be supplied on the server in the Gerrit-site and thus by admins. But other plugins could do insecure things.",
+      "parentUuid": "e72c898f_e4cee825",
       "range": {
         "startLine": 2989,
         "startChar": 0,

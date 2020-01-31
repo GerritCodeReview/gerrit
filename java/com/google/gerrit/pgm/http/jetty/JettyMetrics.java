@@ -28,42 +28,42 @@ public class JettyMetrics {
   JettyMetrics(JettyServer jetty, MetricMaker metrics) {
     CallbackMetric0<Integer> minPoolSize =
         metrics.newCallbackMetric(
-            "httpd/jetty/threadpool/min_pool_size",
+            "http/server/jetty/threadpool/min_pool_size",
             Integer.class,
             new Description("Minimum thread pool size").setGauge());
     CallbackMetric0<Integer> maxPoolSize =
         metrics.newCallbackMetric(
-            "httpd/jetty/threadpool/max_pool_size",
+            "http/server/jetty/threadpool/max_pool_size",
             Integer.class,
             new Description("Maximum thread pool size").setGauge());
     CallbackMetric0<Integer> poolSize =
         metrics.newCallbackMetric(
-            "httpd/jetty/threadpool/pool_size",
+            "http/server/jetty/threadpool/pool_size",
             Integer.class,
             new Description("Current thread pool size").setGauge());
     CallbackMetric0<Integer> idleThreads =
         metrics.newCallbackMetric(
-            "httpd/jetty/threadpool/idle_threads",
+            "http/server/jetty/threadpool/idle_threads",
             Integer.class,
-            new Description("Idle httpd threads").setGauge().setUnit("threads"));
+            new Description("Idle threads").setGauge().setUnit("threads"));
     CallbackMetric0<Integer> busyThreads =
         metrics.newCallbackMetric(
-            "httpd/jetty/threadpool/active_threads",
+            "http/server/jetty/threadpool/active_threads",
             Integer.class,
-            new Description("Active httpd threads").setGauge().setUnit("threads"));
+            new Description("Active threads").setGauge().setUnit("threads"));
     CallbackMetric0<Integer> reservedThreads =
         metrics.newCallbackMetric(
-            "httpd/jetty/threadpool/reserved_threads",
+            "http/server/jetty/threadpool/reserved_threads",
             Integer.class,
-            new Description("Reserved httpd threads").setGauge().setUnit("threads"));
+            new Description("Reserved threads").setGauge().setUnit("threads"));
     CallbackMetric0<Integer> queueSize =
         metrics.newCallbackMetric(
-            "httpd/jetty/threadpool/queue_size",
+            "http/server/jetty/threadpool/queue_size",
             Integer.class,
-            new Description("Thread pool queue size").setGauge().setUnit("requests"));
+            new Description("Queued requests waiting for a thread").setGauge().setUnit("requests"));
     CallbackMetric0<Boolean> lowOnThreads =
         metrics.newCallbackMetric(
-            "httpd/jetty/threadpool/is_low_on_threads",
+            "http/server/jetty/threadpool/is_low_on_threads",
             Boolean.class,
             new Description("Whether thread pool is low on threads").setGauge());
     JettyServer.Metrics jettyMetrics = jetty.getMetrics();

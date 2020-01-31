@@ -303,14 +303,15 @@
         let result = match[0].replace(pattern,
             patterns[p].html || patterns[p].link);
 
-        let i;
-        // Skip portion of replacement string that is equal to original.
-        for (i = 0; i < result.length; i++) {
-          if (result[i] !== match[0][i]) { break; }
-        }
-        result = result.slice(i);
-
         if (patterns[p].html) {
+          let i;
+          // Skip portion of replacement string that is equal to original to
+          // allow overlapping patterns.
+          for (i = 0; i < result.length; i++) {
+            if (result[i] !== match[0][i]) { break; }
+          }
+          result = result.slice(i);
+
           this.addHTML(
               result,
               susbtrIndex + match.index + i,
@@ -320,8 +321,8 @@
           this.addLink(
               match[0],
               result,
-              susbtrIndex + match.index + i,
-              match[0].length - i,
+              susbtrIndex + match.index,
+              match[0].length,
               outputArray);
         } else {
           throw Error('linkconfig entry ' + p +

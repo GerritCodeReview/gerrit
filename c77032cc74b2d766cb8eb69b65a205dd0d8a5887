@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28eed319_4593be18",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-01-31T10:54:20Z",
+      "side": 1,
+      "message": "Optional: Factor this out to a private method, and then use a method reference instead of lambda.",
+      "range": {
+        "startLine": 340,
+        "startChar": 12,
+        "endLine": 346,
+        "endChar": 14
+      },
+      "revId": "c77032cc74b2d766cb8eb69b65a205dd0d8a5887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

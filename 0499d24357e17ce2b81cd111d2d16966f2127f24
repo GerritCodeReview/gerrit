@@ -22,6 +22,30 @@
       "revId": "0499d24357e17ce2b81cd111d2d16966f2127f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86654149_eec61177",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-01-31T13:20:08Z",
+      "side": 1,
+      "message": "\u003e Should this inconsistency be reported upstream (or a fix proposed)?\n\nGood idea. Done through [1] https://github.com/sbt/website/pull/871.\n\nI\u0027ll then amend this text here once/if [1] gets merged upstream.",
+      "parentUuid": "0eb5ebfd_8a9e75ba",
+      "range": {
+        "startLine": 41,
+        "startChar": 64,
+        "endLine": 42,
+        "endChar": 26
+      },
+      "revId": "0499d24357e17ce2b81cd111d2d16966f2127f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

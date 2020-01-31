@@ -226,6 +226,30 @@
     },
     {
       "key": {
+        "uuid": "53485001_e4654cb6",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-31T15:00:07Z",
+      "side": 1,
+      "message": "I rewrote it to regexp",
+      "parentUuid": "b69e761f_deaf0537",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 58
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df881bc9_80cdd8fb",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 3
@@ -459,6 +483,30 @@
       "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09afbf58_b190bb7f",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-01-31T15:00:07Z",
+      "side": 1,
+      "message": "Yes, mostly. I calculated it same as front-end",
+      "parentUuid": "bb22198b_322935c5",
+      "range": {
+        "startLine": 74,
+        "startChar": 76,
+        "endLine": 74,
+        "endChar": 82
+      },
+      "revId": "b9a2b629c82094b00f72bef0ef7c3c0254f20f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

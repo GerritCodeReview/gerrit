@@ -87,6 +87,24 @@
       "revId": "8803cd372f89a8b6b98c579277f1916fc1f0b4ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b77425a8_c747ebbc",
+        "filename": "java/com/google/gerrit/server/change/ChangeId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-31T22:47:50Z",
+      "side": 1,
+      "message": "See I9de36332e with the move.",
+      "parentUuid": "2aea35fd_543f96fa",
+      "revId": "8803cd372f89a8b6b98c579277f1916fc1f0b4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

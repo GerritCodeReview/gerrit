@@ -64,10 +64,18 @@ If you are running SSH commands, the private keys of the users used for testing 
 link:https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch[otherwise]):
 
 ----
+mkdir /tmp/ssh-keys
 ssh-keygen -m PEM -t rsa -C "test@mail.com" -f /tmp/ssh-keys/id_rsa
 ----
 
-*NOTE*: Don't forget to add the public keys for the testing user(s) to your git server.
+The public key in `/tmp/ssh-keys/id_rsa.pub` has to be added to the test user(s) `SSH Keys` in
+Gerrit. Now, the host from which the latter runs may need public key scanning to become known.
+This applies to the local user that runs the forthcoming `sbt` testing commands. An example
+assuming `localhost` follows:
+
+----
+ssh-keyscan -t rsa -p 29418 localhost > ~/.ssh/known_hosts
+----
 
 === Input file
 

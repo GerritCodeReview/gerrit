@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "81899382_ede7fa4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb4aba76_a18ba5bf",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "dc24fc5f65024b2013807716b3ee867a5d7daa39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80113e56_0b547843",
         "filename": "tools/bzl/license.bzl",
         "patchSetId": 21

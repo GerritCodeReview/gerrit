@@ -16,6 +16,24 @@
       "revId": "4b3f86d7e134d942b2c71b88a33f9630354a50ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78b53ea2_9e62dc00",
+        "filename": "Documentation/js_licenses.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-01-31T10:41:30Z",
+      "side": 1,
+      "message": "Yes.\nPython script normalizes end of lines marks at the end of license text.",
+      "parentUuid": "f6962bbd_92010e1d",
+      "revId": "4b3f86d7e134d942b2c71b88a33f9630354a50ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

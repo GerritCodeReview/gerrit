@@ -771,6 +771,44 @@ public class SetLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setCopyValues() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyValues).isNull();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyValues = ImmutableList.of((short) -1, (short) 1);
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyValues).containsExactly((short) -1, (short) 1).inOrder();
+
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyValues)
+        .containsExactly((short) -1, (short) 1)
+        .inOrder();
+  }
+
+  @Test
+  public void unsetCopyValues() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType labelType = u.getConfig().getLabelSections().get("foo");
+      labelType.setCopyValues(ImmutableList.of((short) -1, (short) 1));
+      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.save();
+    }
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyValues).isNotEmpty();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyValues = ImmutableList.of();
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyValues).isNull();
+
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyValues).isNull();
+  }
+
+  @Test
   public void setAllowPostSubmit() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {

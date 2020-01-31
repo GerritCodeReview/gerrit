@@ -109,6 +109,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
   public static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
   public static final String KEY_COPY_ALL_SCORES_IF_NO_CHANGE = "copyAllScoresIfNoChange";
+  public static final String KEY_COPY_VALUE = "copyValue";
   public static final String KEY_VALUE = "value";
   public static final String KEY_CAN_OVERRIDE = "canOverride";
   public static final String KEY_BRANCH = "branch";
@@ -1014,6 +1015,27 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               name,
               KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
               LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE));
+      Set<Short> copyValues = new HashSet<>();
+      for (String value : rc.getStringList(LABEL, name, KEY_COPY_VALUE)) {
+        try {
+          short copyValue = Shorts.checkedCast(PermissionRule.parseInt(value));
+          if (!copyValues.add(copyValue)) {
+            error(
+                new ValidationError(
+                    PROJECT_CONFIG,
+                    String.format(
+                        "Duplicate %s \"%s\" for label \"%s\"", KEY_COPY_VALUE, value, name)));
+          }
+        } catch (IllegalArgumentException notValue) {
+          error(
+              new ValidationError(
+                  PROJECT_CONFIG,
+                  String.format(
+                      "Invalid %s \"%s\" for label \"%s\": %s",
+                      KEY_COPY_VALUE, value, name, notValue.getMessage())));
+        }
+      }
+      label.setCopyValues(copyValues);
       label.setCanOverride(
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, LabelType.DEF_CAN_OVERRIDE));
       label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_BRANCH));
@@ -1492,6 +1514,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
           label.isCopyAllScoresOnMergeFirstParentUpdate(),
           LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
+      rc.setStringList(
+          LABEL,
+          name,
+          KEY_COPY_VALUE,
+          label.getCopyValues().stream().map(LabelValue::formatValue).collect(toList()));
       setBooleanConfigKey(
           rc, LABEL, name, KEY_CAN_OVERRIDE, label.canOverride(), LabelType.DEF_CAN_OVERRIDE);
       List<String> values = new ArrayList<>(label.getValues().size());

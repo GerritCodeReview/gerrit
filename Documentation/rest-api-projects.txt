@@ -3916,6 +3916,8 @@ copyAllScoresOnTrivialRebase] is set on the label.
 |`copy_all_scores_on_merge_first_parent_update`|`false` if not set|
 Whether link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[
 copyAllScoresOnMergeFirstParentUpdate] is set on the label.
+|`copy_values`   |optional|
+List of values that should be copied forward when a new patch set is uploaded.
 |`allow_post_submit`|`false` if not set|
 Whether link:config-labels.html#label_allowPostSubmit[allowPostSubmit] is set
 on the label.
@@ -3981,6 +3983,8 @@ copyAllScoresOnTrivialRebase] is set on the label.
 |`copy_all_scores_on_merge_first_parent_update`|optional|
 Whether link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[
 copyAllScoresOnMergeFirstParentUpdate] is set on the label.
+|`copy_values`   |optional|
+List of values that should be copied forward when a new patch set is uploaded.
 |`allow_post_submit`|optional|
 Whether link:config-labels.html#label_allowPostSubmit[allowPostSubmit] is set
 on the label.

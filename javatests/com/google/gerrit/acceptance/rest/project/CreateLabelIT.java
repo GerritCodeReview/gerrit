@@ -244,6 +244,7 @@ public class CreateLabelIT extends AbstractDaemonTest {
     assertThat(createdLabel.copyAllScoresIfNoCodeChange).isNull();
     assertThat(createdLabel.copyAllScoresOnTrivialRebase).isNull();
     assertThat(createdLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
+    assertThat(createdLabel.copyValues).isNull();
     assertThat(createdLabel.allowPostSubmit).isTrue();
     assertThat(createdLabel.ignoreSelfApproval).isNull();
   }
@@ -534,6 +535,17 @@ public class CreateLabelIT extends AbstractDaemonTest {
     LabelDefinitionInfo createdLabel =
         gApi.projects().name(project.get()).label("foo").create(input).get();
     assertThat(createdLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
+  }
+
+  @Test
+  public void createWithCopyValues() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyValues = ImmutableList.of((short) -1, (short) 1);
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.copyValues).containsExactly((short) -1, (short) 1).inOrder();
   }
 
   @Test

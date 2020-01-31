@@ -191,6 +191,10 @@ public class CreateLabel
           input.copyAllScoresOnMergeFirstParentUpdate);
     }
 
+    if (input.copyValues != null) {
+      labelType.setCopyValues(input.copyValues);
+    }
+
     if (input.allowPostSubmit != null) {
       labelType.setAllowPostSubmit(input.allowPostSubmit);
     }

@@ -47,6 +47,7 @@ public class LabelAssert {
     assertThat(codeReviewLabel.copyAllScoresIfNoCodeChange).isNull();
     assertThat(codeReviewLabel.copyAllScoresOnTrivialRebase).isTrue();
     assertThat(codeReviewLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
+    assertThat(codeReviewLabel.copyValues).isNull();
     assertThat(codeReviewLabel.allowPostSubmit).isTrue();
     assertThat(codeReviewLabel.ignoreSelfApproval).isNull();
   }

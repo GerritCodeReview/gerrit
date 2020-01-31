@@ -31,6 +31,7 @@ public class LabelDefinitionInput extends InputWithCommitMessage {
   public Boolean copyAllScoresIfNoCodeChange;
   public Boolean copyAllScoresOnTrivialRebase;
   public Boolean copyAllScoresOnMergeFirstParentUpdate;
+  public List<Short> copyValues;
   public Boolean allowPostSubmit;
   public Boolean ignoreSelfApproval;
 }

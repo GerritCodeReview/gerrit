@@ -52,6 +52,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSet;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Project;
@@ -126,6 +127,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String topic;
   private String commit;
   private Optional<Account.Id> assignee;
+  private AttentionSet attentionSet;  //ö
   private Set<String> hashtags;
   private String changeMessage;
   private String tag;
@@ -236,7 +238,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, reviewer, Optional.of(value));
   }
 
-  public void removeApproval(String label) {
+  void removeApproval(String label) {
     removeApprovalFor(getAccountId(), label);
   }
 
@@ -323,8 +325,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return draftUpdate;
   }
 
-  @VisibleForTesting
-  RobotCommentUpdate createRobotCommentUpdateIfNull() {
+  private void createRobotCommentUpdateIfNull() {
     if (robotCommentUpdate == null) {
       ChangeNotes notes = getNotes();
       if (notes != null) {
@@ -336,7 +337,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 getChange(), accountId, realAccountId, authorIdent, when);
       }
     }
-    return robotCommentUpdate;
   }
 
   public void setTopic(String topic) {
@@ -352,15 +352,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     rw.parseBody(commit);
     this.commit = commit.name();
     subject = commit.getShortMessage();
-    this.pushCert = pushCert;
-  }
-
-  /**
-   * Set the revision without depending on the commit being present in the repository; should only
-   * be used for converting old corrupt commits.
-   */
-  public void setRevisionForMissingCommit(String id, String pushCert) {
-    commit = id;
     this.pushCert = pushCert;
   }
 
@@ -426,7 +417,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
-    if (comments.isEmpty() && pushCert == null) {
+    if (comments.isEmpty() && pushCert == null && attentionSet == null) {
       return null;
     }
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
@@ -440,11 +431,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       checkState(commit != null);
       cache.get(ObjectId.fromString(commit)).setPushCertificate(pushCert);
     }
+    if (attentionSet != null) {
+      cache.get(attentionSet.commitId).setAd(attentionSet.ad);
+    }
     Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();
     checkComments(rnm.revisionNotes, builders);
 
     for (Map.Entry<ObjectId, RevisionNoteBuilder> e : builders.entrySet()) {
       ObjectId data = inserter.insert(OBJ_BLOB, e.getValue().build(noteUtil.getChangeNoteJson()));
+      System.out.println(
+          "##### map " + ObjectId.toString(e.getKey()) + " -> " + ObjectId.toString(data));
       rnm.noteMap.set(e.getKey(), data);
     }
 
@@ -521,14 +517,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return status != null && status.isClosed();
   }
 
-  @Override
+  @Override // ö Writing the commit message.
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws IOException {
     checkState(
         deleteCommentRewriter == null && deleteChangeMessageRewriter == null,
         "cannot update and rewrite ref in one BatchUpdate");
-
-    CommitBuilder cb = new CommitBuilder();
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
@@ -675,6 +669,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf);
     }
 
+    CommitBuilder cb = new CommitBuilder();
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -684,6 +679,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     } catch (ConfigInvalidException e) {
       throw new StorageException(e);
     }
+
+    // // ö playground
+    // ObjectId kilroy = ins.insert(OBJ_BLOB, "Kilroy was here".getBytes(Charset.defaultCharset()));
+    // System.out.println("##### k " + ObjectId.toString(kilroy));
+    // cb.setTreeId(kilroy);
+
     return cb;
   }
 
@@ -736,11 +737,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return robotCommentUpdate;
   }
 
-  public DeleteCommentRewriter getDeleteCommentRewriter() {
+  DeleteCommentRewriter getDeleteCommentRewriter() {
     return deleteCommentRewriter;
   }
 
-  public DeleteChangeMessageRewriter getDeleteChangeMessageRewriter() {
+  DeleteChangeMessageRewriter getDeleteChangeMessageRewriter() {
     return deleteChangeMessageRewriter;
   }
 
@@ -781,5 +782,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     PersonIdent.appendSanitized(sb, ident.getEmailAddress());
     sb.append('>');
     return sb;
+  }
+
+  public void setAttentionSet(AttentionSet attentionSet) {
+    this.attentionSet = attentionSet;
   }
 }

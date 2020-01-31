@@ -209,6 +209,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     for (Map.Entry<ObjectId, RevisionNoteBuilder> e : builders.entrySet()) {
       updatedCommits.add(e.getKey());
       ObjectId id = e.getKey();
+      // ö Create the textual JSON representation and write it (if required).
       byte[] data = e.getValue().build(noteUtil.getChangeNoteJson());
       if (!Arrays.equals(data, e.getValue().baseRaw)) {
         touchedAnyRevs = true;

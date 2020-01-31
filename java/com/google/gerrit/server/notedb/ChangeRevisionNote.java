@@ -33,6 +33,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
   private final ChangeNoteJson noteJson;
   private final Comment.Status status;
   private String pushCert;
+  private String ad;
 
   ChangeRevisionNote(
       ChangeNoteJson noteJson, ObjectReader reader, ObjectId noteId, Comment.Status status) {
@@ -46,6 +47,11 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     return pushCert;
   }
 
+  public String getAd() {
+    checkParsed();
+    return ad;
+  }
+
   @Override
   protected List<Comment> parse(byte[] raw, int offset) throws IOException, ConfigInvalidException {
     MutableInteger p = new MutableInteger();
@@ -57,6 +63,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     } else {
       pushCert = null;
     }
+    ad = data.ad;
     return data.comments;
   }
 

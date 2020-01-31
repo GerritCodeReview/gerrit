@@ -25,4 +25,5 @@ import java.util.List;
 class RevisionNoteData {
   String pushCert;
   List<Comment> comments;
+  String ad;
 }

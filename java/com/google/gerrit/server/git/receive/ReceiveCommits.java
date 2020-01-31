@@ -630,9 +630,7 @@ class ReceiveCommits {
       }
     }
 
-    int commandTypes = (magicCommands.isEmpty() ? 0 : 1) + (regularCommands.isEmpty() ? 0 : 1);
-
-    if (commandTypes > 1) {
+    if (!magicCommands.isEmpty() && !regularCommands.isEmpty()) {
       rejectRemaining(commands, "cannot combine normal pushes and magic pushes");
       return;
     }
@@ -916,7 +914,7 @@ class ReceiveCommits {
           replace.addOps(bu, replaceProgress);
           if (magicBranch != null) {
             bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
-            if (magicBranch.shouldPublishComments()) {
+            if (magicBranch.shouldPublishComments()) {  // ö sth like this?
               bu.addOp(
                   replace.notes.getChangeId(),
                   publishCommentsOp.create(replace.psId, project.getNameKey()));

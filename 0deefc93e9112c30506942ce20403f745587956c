@@ -22,6 +22,30 @@
       "revId": "0deefc93e9112c30506942ce20403f745587956c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2818298c_f0a35444",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-01-31T09:43:35Z",
+      "side": 1,
+      "message": "This would not work if push certificates are used (see gr-rest-api.js l.1006).\n\nSo now things get a little more complicated.\n\nThe backend knows if push options are used, so this could be a parameter that we populate from there using an enum list if ListChangeOptions that we convert to hex in the backend.\n\nThere would still be a potential drift between this list in the backend and gr-rest-api.js. We could have the backend inline the hex into a global JS variable that is used here and re-used in gr-rest-api.js. That would make it so that there can never be a drift and we spare any regression test for that.\n\nWDYT?",
+      "parentUuid": "d6dde058_4a120bec",
+      "range": {
+        "startLine": 74,
+        "startChar": 78,
+        "endLine": 74,
+        "endChar": 84
+      },
+      "revId": "0deefc93e9112c30506942ce20403f745587956c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

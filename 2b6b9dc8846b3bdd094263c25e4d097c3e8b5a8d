@@ -16,6 +16,24 @@
       "revId": "2b6b9dc8846b3bdd094263c25e4d097c3e8b5a8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d516c344_7a6dcf61",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-01-31T10:44:07Z",
+      "side": 1,
+      "message": "!!repo and !!branch are implicit undefined checks.",
+      "parentUuid": "325f979d_2919d9da",
+      "revId": "2b6b9dc8846b3bdd094263c25e4d097c3e8b5a8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

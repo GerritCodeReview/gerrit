@@ -4,6 +4,11 @@
       "state": "SCHEDULED",
       "created": "2020-02-01T11:54:49Z",
       "updated": "2020-02-01T11:54:49Z"
+    },
+    "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "SCHEDULED",
+      "created": "2020-02-01T11:54:50Z",
+      "updated": "2020-02-01T11:54:50Z"
     }
   }
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b8ceda0_c57822ac",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-01T17:24:24Z",
+      "side": 1,
+      "message": "Not sure about this being necessary yet.",
+      "range": {
+        "startLine": 98,
+        "startChar": 33,
+        "endLine": 98,
+        "endChar": 35
+      },
+      "revId": "90113a113ba1ba81125ba60d09e78b7ba619eccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6be00616_320ba265",
+        "filename": "e2e-tests/load-tests/src/test/resources/data/CloneUsingBothProtocols.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-01T17:24:24Z",
+      "side": 1,
+      "message": "Related comment.",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "90113a113ba1ba81125ba60d09e78b7ba619eccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

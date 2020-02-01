@@ -82,19 +82,21 @@ ssh-keyscan -t rsa -p 29418 localhost > ~/.ssh/known_hosts
 
 === Input file
 
-The `ReplayRecordsFromFeederScenario` is fed with the data coming from the
-`src/test/resources/data/requests.json` file. Such a file contains the commands and repo used
-during the load test. Example below:
+The `CloneUsingBothProtocols` scenario is fed with the data coming from the
+`src/test/resources/data/CloneUsingBothProtocols.json` file. Such a file contains the commands and
+repository used during the load test. That file currently looks like below. This scenario serves
+as a simple example with no actual load in it. It can be used to test or validate the local setup.
+More complex scenarios can be further developed, under the `com.google.gerrit.scenarios` package.
 
 ----
 [
   {
-    "url": "ssh://admin@localhost:29418/loadtest-repo.git",
+    "url": "ssh://admin@localhost:29418/loadtest-repo",
     "cmd": "clone"
   },
   {
-    "url": "http://localhost:8080/loadtest-repo.git",
-    "cmd": "fetch"
+    "url": "http://localhost:8080/a/loadtest-repo",
+    "cmd": "clone"
   }
 ]
 ----
@@ -121,7 +123,7 @@ sbt "gatling:test"
 
 Run a single test:
 ----
-sbt "gatling:testOnly com.google.gerrit.scenarios.ReplayRecordsFromFeederScenario"
+sbt "gatling:testOnly com.google.gerrit.scenarios.CloneUsingBothProtocols"
 ----
 
 Generate the last report:
@@ -135,7 +137,7 @@ link:http://logback.qos.ch/manual/configuration.html[configures] Gatling's loggi
 === How to run using Docker
 
 ----
-docker run -it e2e-tests -s com.google.gerrit.scenarios.ReplayRecordsFromFeederScenario
+docker run -it e2e-tests -s com.google.gerrit.scenarios.CloneUsingBothProtocols
 ----
 
 GERRIT

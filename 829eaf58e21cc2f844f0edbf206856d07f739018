@@ -22,6 +22,30 @@
       "revId": "829eaf58e21cc2f844f0edbf206856d07f739018",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fbb6ba4_a08af2c8",
+        "filename": "e2e-tests/load-tests/.gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-01T18:01:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e0d60db_48578810",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "829eaf58e21cc2f844f0edbf206856d07f739018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

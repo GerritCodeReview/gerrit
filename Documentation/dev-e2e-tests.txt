@@ -19,7 +19,10 @@ protocol level.
 Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios
 implementation easy even without any Scala knowledge.
 
-Examples of scenarios can be found in the `e2e-tests` directory.
+Examples of scenarios can be found in the `e2e-tests` directory. The files in that directory
+should be formatted using the mainstream
+link:https://plugins.jetbrains.com/plugin/1347-scala[Scala plugin for IntelliJ]. The latter is not
+mandatory but preferred for `sbt` and Scala IDE purposes in this project.
 
 == How to build the tests
 

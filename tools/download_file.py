@@ -67,24 +67,24 @@ def download_properties(root_dir):
 
 
 def cache_entry(args):
-    if args.v:
-        h = args.v
+    if args['v']:
+        h = args['v']
     else:
-        h = sha1(args.u.encode('utf-8')).hexdigest()
-    name = '%s-%s' % (path.basename(args.o), h)
+        h = sha1(args['u'].encode('utf-8')).hexdigest()
+    name = '%s-%s' % (path.basename(args['o']), h)
     return path.join(CACHE_DIR, name)
 
 
-opts = OptionParser()
-opts.add_option('-o', help='local output file')
-opts.add_option('-u', help='URL to download')
-opts.add_option('-v', help='expected content SHA-1')
-opts.add_option('-x', action='append', help='file to delete from ZIP')
-opts.add_option('--exclude_java_sources', action='store_true')
-opts.add_option('--unsign', action='store_true')
-args, _ = opts.parse_args()
+opts = argparse.ArgumentParser()
+opts.add_argument('-o', help='local output file')
+opts.add_argument('-u', help='URL to download')
+opts.add_argument('-v', help='expected content SHA-1')
+opts.add_argument('-x', action='append', help='file to delete from ZIP')
+opts.add_argument('--exclude_java_sources', action='store_true')
+opts.add_argument('--unsign', action='store_true')
+args = vars(opts.parse_args())
 
-root_dir = args.o
+root_dir = args['o']
 while root_dir and path.dirname(root_dir) != root_dir:
     root_dir, n = path.split(root_dir)
     if n == 'WORKSPACE':
@@ -92,7 +92,7 @@ while root_dir and path.dirname(root_dir) != root_dir:
 
 redirects = download_properties(root_dir)
 cache_ent = cache_entry(args)
-src_url = resolve_url(args.u, redirects)
+src_url = resolve_url(args['u'], redirects)
 
 if not path.exists(cache_ent):
     try:
@@ -113,13 +113,13 @@ if not path.exists(cache_ent):
         print('error using curl: %s' % err, file=stderr)
         exit(1)
 
-if args.v:
+if args['v']:
     have = hash_file(sha1(), cache_ent).hexdigest()
-    if args.v != have:
+    if args['v'] != have:
         print((
             '%s:\n' +
             'expected %s\n' +
-            'received %s\n') % (src_url, args.v, have), file=stderr)
+            'received %s\n') % (src_url, args['v'], have), file=stderr)
         try:
             remove(cache_ent)
         except OSError as err:
@@ -128,9 +128,9 @@ if args.v:
         exit(1)
 
 exclude = []
-if args.x:
-    exclude += args.x
-if args.exclude_java_sources:
+if args['x']:
+    exclude += args['x']
+if args['exclude_java_sources']:
     try:
         with ZipFile(cache_ent, 'r') as zf:
             for n in zf.namelist():
@@ -140,7 +140,7 @@ if args.exclude_java_sources:
         print('error opening %s: %s' % (cache_ent, err), file=stderr)
         exit(1)
 
-if args.unsign:
+if args['unsign']:
     try:
         with ZipFile(cache_ent, 'r') as zf:
             for n in zf.namelist():
@@ -152,24 +152,24 @@ if args.unsign:
         print('error opening %s: %s' % (cache_ent, err), file=stderr)
         exit(1)
 
-safe_mkdirs(path.dirname(args.o))
+safe_mkdirs(path.dirname(args['o']))
 if exclude:
     try:
-        shutil.copyfile(cache_ent, args.o)
+        shutil.copyfile(cache_ent, args['o'])
     except (shutil.Error, IOError) as err:
-        print('error copying to %s: %s' % (args.o, err), file=stderr)
+        print('error copying to %s: %s' % (args['o'], err), file=stderr)
         exit(1)
     try:
-        check_call(['zip', '-d', args.o] + exclude)
+        check_call(['zip', '-d', args['o'] + exclude)
     except CalledProcessError as err:
         print('error removing files from zip: %s' % err, file=stderr)
         exit(1)
 else:
     try:
-        link(cache_ent, args.o)
+        link(cache_ent, args['o'])
     except OSError as err:
         try:
-            shutil.copyfile(cache_ent, args.o)
+            shutil.copyfile(cache_ent, args['o'])
         except (shutil.Error, IOError) as err:
-            print('error copying to %s: %s' % (args.o, err), file=stderr)
+            print('error copying to %s: %s' % (args['o'], err), file=stderr)
             exit(1)

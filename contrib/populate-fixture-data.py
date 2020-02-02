@@ -22,9 +22,9 @@ TODO(hiesel): Add comments
 """
 
 from __future__ import print_function
+import argparse
 import atexit
 import json
-import optparse
 import os
 import random
 import shutil
@@ -275,22 +275,22 @@ def clean_up():
 
 
 def main():
-    p = optparse.OptionParser()
-    p.add_option("-u", "--user_count", action="store",
+    p = argparse.ArgumentParser()
+    p.add_argument("-u", "--user_count", action="store",
                  default=100,
                  type='int',
                  help="number of users to generate")
-    p.add_option("-p", "--port", action="store",
+    p.add_argument("-p", "--port", action="store",
                  default=8080,
                  type='int',
                  help="port of server")
-    (options, _) = p.parse_args()
+    options = vars(p.parse_args())
     global BASE_URL
-    BASE_URL = BASE_URL % options.port
+    BASE_URL = BASE_URL % options['port']
     print(BASE_URL)
 
     set_up()
-    gerrit_users = get_random_users(options.user_count)
+    gerrit_users = get_random_users(options['user_count'])
 
     group_names = create_gerrit_groups()
     for idx, u in enumerate(gerrit_users):

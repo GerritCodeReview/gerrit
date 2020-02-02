@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c82938c_eb1039a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:20:42Z",
+      "side": 1,
+      "message": "Remove left over diagnose statements, here and below.",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 41
+      },
+      "revId": "4a296ad85da1e2b19a0785d00bca51097a7caad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e127f44d_cd2ac2c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:20:42Z",
+      "side": 1,
+      "message": "Revert?",
+      "range": {
+        "startLine": 90,
+        "startChar": 11,
+        "endLine": 90,
+        "endChar": 15
+      },
+      "revId": "4a296ad85da1e2b19a0785d00bca51097a7caad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2de54a5b_45263de9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:20:42Z",
+      "side": 1,
+      "message": "Remove left over diagnose statements, here and below.",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 70
+      },
+      "revId": "4a296ad85da1e2b19a0785d00bca51097a7caad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ac0a68d_670d5172",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 21
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:20:42Z",
+      "side": 1,
+      "message": "hierarchical",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "4a296ad85da1e2b19a0785d00bca51097a7caad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "759bef27_7cda2ecb",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 21
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:20:42Z",
+      "side": 1,
+      "message": "Because",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 9
+      },
+      "revId": "4a296ad85da1e2b19a0785d00bca51097a7caad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

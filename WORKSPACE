@@ -46,47 +46,28 @@ load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 # otherwise refer to RBE docs.
 rbe_autoconfig(name = "rbe_default")
 
-# TODO(davido): Switch to upstream again, when this PR is merged:
-# https://github.com/bazelbuild/rules_closure/pull/478
 http_archive(
-    name = "io_bazel_rules_closure",
-    sha256 = "b9c2bc6ba377aa497eb7c31681d34404febf9d4e3c9c7d98ce0d78238a0af20f",
-    strip_prefix = "rules_closure-0.31",
+    name = "com_google_protobuf",
+    patch_args = ["-p1"],
+    patches = [
+        "//lib:protobuf_drop_java_7_compatibility.patch",
+    ],
+    sha256 = "a79d19dcdf9139fa4b81206e318e33d245c4c9da1ffed21c87288ed4380426f9",
+    strip_prefix = "protobuf-3.11.4",
     urls = [
-        "https://github.com/davido/rules_closure/archive/V0.31.tar.gz",
-        "https://gerrit-ci.gerritforge.com/lib/V0.31.tar.gz",
+        "https://github.com/protocolbuffers/protobuf/archive/v3.11.4.tar.gz",
     ],
 )
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
     sha256 = "d0c4bb8b902c1658f42eb5563809c70a06e46015d64057d25560b0eb4bdc9007",
     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/1.5.0/rules_nodejs-1.5.0.tar.gz"],
 )
-
-# File is specific to Polymer and copied from the Closure Github -- should be
-# synced any time there are major changes to Polymer.
-# https://github.com/google/closure-compiler/blob/master/contrib/externs/polymer-1.0.js
-http_file(
-    name = "polymer_closure",
-    downloaded_file_path = "polymer_closure.js",
-    sha256 = "4d63a36dcca040475bd6deb815b9a600bd686e1413ac1ebd4b04516edd675020",
-    urls = ["https://raw.githubusercontent.com/google/closure-compiler/35d2b3340ff23a69441f10fa3bc820691c2942f2/contrib/externs/polymer-1.0.js"],
-)
-
-load("@io_bazel_rules_closure//closure:repositories.bzl", "rules_closure_dependencies", "rules_closure_toolchains")
-
-# Prevent redundant loading of dependencies.
-# TODO(davido): Omit re-fetching ancient args4j version when these PRs are merged:
-# https://github.com/bazelbuild/rules_closure/pull/262
-# https://github.com/google/closure-templates/pull/155
-rules_closure_dependencies(
-    omit_aopalliance = True,
-    omit_javax_inject = True,
-    omit_rules_cc = True,
-)
-
-rules_closure_toolchains()
 
 # Golang support for PolyGerrit local dev server.
 http_archive(
@@ -341,7 +322,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "args4j-intern",
+    name = "args4j",
     artifact = "args4j:args4j:2.33",
     sha1 = "bd87a75374a6d6523de82fef51fc3cfe9baf9fc9",
 )

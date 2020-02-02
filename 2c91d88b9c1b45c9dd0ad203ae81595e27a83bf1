@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7c2137f_242b1d90",
+        "filename": "package.json",
+        "patchSetId": 24
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-02T16:10:35Z",
+      "side": 1,
+      "message": "Why do we have to use yarn? NPM and Yarn are basically the same thing.",
+      "range": {
+        "startLine": 17,
+        "startChar": 3,
+        "endLine": 17,
+        "endChar": 189
+      },
+      "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "675d9ed9_2850587d",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 24
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-02T16:10:35Z",
+      "side": 1,
+      "message": "\"dependencies\": {},",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 4
+      },
+      "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec1bc81f_b2309bf5",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 24
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-02T16:10:35Z",
+      "side": 1,
+      "message": "\"devDependencies\": {},",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f502ca99_3976543e",
+        "filename": "tools/node_tools/package.json",
+        "patchSetId": 24
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-02T16:10:35Z",
+      "side": 1,
+      "message": "Should we pin rather then using ^?",
+      "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

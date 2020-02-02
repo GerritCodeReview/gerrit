@@ -19,15 +19,11 @@ import os.path
 import re
 import sys
 
-parser = OptionParser()
-opts, args = parser.parse_args()
+parser = argparse.ArgumentParser()
+parser.add_argument('-v', '--version', type=int, required=True)
+args = parser.parse_args()
 
-if not len(args):
-    parser.error('not enough arguments')
-elif len(args) > 1:
-    parser.error('too many arguments')
-
-DEST_PATTERN = r'\g<1>%s\g<3>' % args[0]
+DEST_PATTERN = r'\g<1>%s\g<3>' % args.v
 
 
 def replace_in_file(filename, src_pattern):

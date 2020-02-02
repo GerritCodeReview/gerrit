@@ -20,7 +20,10 @@ to run tests at Git protocol level.
 Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios
 implementation easy even without any Scala knowledge.
 
-Examples of scenarios can be found in the `e2e-tests` directory.
+Examples of scenarios can be found in the `e2e-tests` directory. The files in that directory
+should be formatted using the mainstream
+link:https://plugins.jetbrains.com/plugin/1347-scala[Scala plugin for IntelliJ,role=external,window=_blank].
+The latter is not mandatory but preferred for `sbt` and Scala IDE purposes in this project.
 
 == How to build the tests
 
@@ -36,9 +39,7 @@ sbt compile
 
 The following warning, if present when executing `sbt` commands, can be removed by creating the
 link:https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html#step+3%3A+Credentials[related credentials file,role=external,window=_blank]
-locally. Dummy values for `user` and `password` in that file can be used initially. Notice the
-plural form for the file name, expected by the warning (below), compared to the one from that linked
-example which is singular.
+locally. Dummy values for `user` and `password` in that file can be used initially.
 
 ----
 [warn] Credentials file ~/.sbt/sonatype_credentials does not exist
@@ -67,26 +68,36 @@ If you are running SSH commands, the private keys of the users used for testing 
 link:https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch[otherwise,role=external,window=_blank]):
 
 ----
+mkdir /tmp/ssh-keys
 ssh-keygen -m PEM -t rsa -C "test@mail.com" -f /tmp/ssh-keys/id_rsa
 ----
 
-*NOTE*: Don't forget to add the public keys for the testing user(s) to your git server.
+The public key in `/tmp/ssh-keys/id_rsa.pub` has to be added to the test user(s) `SSH Keys` in
+Gerrit. Now, the host from which the latter runs may need public key scanning to become known.
+This applies to the local user that runs the forthcoming `sbt` testing commands. An example
+assuming `localhost` follows:
+
+----
+ssh-keyscan -t rsa -p 29418 localhost > ~/.ssh/known_hosts
+----
 
 === Input file
 
-The `ReplayRecordsFromFeederScenario` is fed with the data coming from the
-`src/test/resources/data/requests.json` file. Such a file contains the commands and repo used
-during the load test. Example below:
+The `CloneUsingBothProtocols` scenario is fed with the data coming from the
+`src/test/resources/data/CloneUsingBothProtocols.json` file. Such a file contains the commands and
+repository used during the load test. That file currently looks like below. This scenario serves
+as a simple example with no actual load in it. It can be used to test or validate the local setup.
+More complex scenarios can be further developed, under the `com.google.gerrit.scenarios` package.
 
 ----
 [
   {
-    "url": "ssh://admin@localhost:29418/loadtest-repo.git",
+    "url": "ssh://admin@localhost:29418/loadtest-repo",
     "cmd": "clone"
   },
   {
-    "url": "http://localhost:8080/loadtest-repo.git",
-    "cmd": "fetch"
+    "url": "http://localhost:8080/loadtest-repo",
+    "cmd": "clone"
   }
 ]
 ----
@@ -98,6 +109,8 @@ Valid commands are:
 * `push`
 * `clone`
 
+The example above assumes that the `loadtest-repo` project exists in the Gerrit under test.
+
 == How to run tests
 
 Run all tests:
@@ -107,7 +120,7 @@ sbt "gatling:test"
 
 Run a single test:
 ----
-sbt "gatling:testOnly com.google.gerrit.scenarios.ReplayRecordsFromFeederScenario"
+sbt "gatling:testOnly com.google.gerrit.scenarios.CloneUsingBothProtocols"
 ----
 
 Generate the last report:
@@ -122,7 +135,7 @@ Gatling's logging level.
 === How to run using Docker
 
 ----
-docker run -it e2e-tests -s com.google.gerrit.scenarios.ReplayRecordsFromFeederScenario
+docker run -it e2e-tests -s com.google.gerrit.scenarios.CloneUsingBothProtocols
 ----
 
 GERRIT

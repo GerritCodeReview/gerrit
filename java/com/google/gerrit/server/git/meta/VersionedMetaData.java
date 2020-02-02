@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
@@ -26,6 +25,7 @@ import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -330,7 +330,8 @@ public abstract class VersionedMetaData {
         }
 
         if (update.insertChangeId()) {
-          commit.setMessage(ChangeIdUtil.insertId(commit.getMessage(), Change.generateChangeId()));
+          commit.setMessage(
+              ChangeIdUtil.insertId(commit.getMessage(), CommitMessageUtil.generateChangeId()));
         }
 
         src = rw.parseCommit(inserter.insert(commit));

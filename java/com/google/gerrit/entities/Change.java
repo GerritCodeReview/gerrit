@@ -16,20 +16,14 @@ package com.google.gerrit.entities;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Optional;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 
 /**
  * A change proposed to be merged into a branch.
@@ -101,15 +95,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
  * notice of a replacement patch set is sent, or when notice of the change submission occurs.
  */
 public final class Change {
-  private static final SecureRandom rng;
-
-  static {
-    try {
-      rng = SecureRandom.getInstance("SHA1PRNG");
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Cannot create RNG for Change-Id generator", e);
-    }
-  }
 
   public static Id id(int id) {
     return new AutoValue_Change_Id(id);
@@ -280,20 +265,6 @@ public final class Change {
     public final String toString() {
       return Integer.toString(get());
     }
-  }
-
-  public static ObjectId generateChangeId() {
-    byte[] rand = new byte[Constants.OBJECT_ID_STRING_LENGTH];
-    rng.nextBytes(rand);
-    String randomString = new String(rand, UTF_8);
-
-    try (ObjectInserter f = new ObjectInserter.Formatter()) {
-      return f.idFor(Constants.OBJ_COMMIT, Constants.encode(randomString));
-    }
-  }
-
-  public static Key generateKey() {
-    return key("I" + generateChangeId().name());
   }
 
   public static Key key(String key) {

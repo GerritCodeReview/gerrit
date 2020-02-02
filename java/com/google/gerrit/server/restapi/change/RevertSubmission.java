@@ -68,6 +68,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -302,7 +303,7 @@ public class RevertSubmission implements RestModifyView<ChangeResource, RevertIn
     // TODO (paiking): As a future change, the revert should just be done directly on the
     // target rather than just creating a commit and then cherry-picking it.
     cherryPickInput.message = revertInput.message;
-    ObjectId generatedChangeId = Change.generateChangeId();
+    ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
     Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
     // TODO (paiking): In the the future, the timestamp should be the same for all the revert
     // changes.

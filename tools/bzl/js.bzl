@@ -1,4 +1,3 @@
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
 load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
 
 NPMJS = "NPMJS"
@@ -473,31 +472,6 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
     else:
         js_srcs = srcs
 
-    closure_js_library(
-        name = name + "_closure_lib",
-        srcs = js_srcs + externs,
-        convention = "GOOGLE",
-        no_closure_library = True,
-        deps = [
-            "//lib/polymer_externs:polymer_closure",
-            "//polygerrit-ui/app/externs:plugin",
-        ],
-    )
-
-    closure_js_binary(
-        name = name + "_bin",
-        compilation_level = "WHITESPACE_ONLY",
-        defs = [
-            "--polymer_version=2",
-            "--language_out=ECMASCRIPT_2017",
-            "--rewrite_polyfills=false",
-        ],
-        deps = [
-            name + "_closure_lib",
-        ],
-        dependency_mode = "PRUNE_LEGACY",
-    )
-
     if html_plugin:
         native.genrule(
             name = name + "_rename_html",
@@ -519,7 +493,7 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
 
     native.genrule(
         name = name + "_rename_js",
-        srcs = [name + "_bin.js"],
+        srcs = js_srcs,
         outs = [plugin_name + ".js"],
         cmd = "cp $< $@",
         output_to_bindir = True,

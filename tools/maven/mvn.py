@@ -14,20 +14,20 @@
 # limitations under the License.
 
 from __future__ import print_function
-from optparse import OptionParser
+import argparse
 from os import path, environ
 from subprocess import check_output, CalledProcessError
 from sys import stderr
 
-opts = OptionParser()
-opts.add_option('--repository', help='maven repository id')
-opts.add_option('--url', help='maven repository url')
-opts.add_option('-o')
-opts.add_option('-a', help='action (valid actions are: install,deploy)')
-opts.add_option('-v', help='gerrit version')
-opts.add_option('-s', action='append', help='triplet of artifactId:type:path')
+parser = argparse.ArgumentParser()
+parser.add_argument('--repository', help='maven repository id')
+parser.add_argument('--url', help='maven repository url')
+parser.add_argument('-o')
+parser.add_argument('-a', help='action (valid actions are: install,deploy)')
+parser.add_argument('-v', help='gerrit version')
+parser.add_argument('-s', action='append', help='triplet of artifactId:type:path')
+args = parser.parse_args()
 
-args, ctx = opts.parse_args()
 if not args.v:
     print('version is empty', file=stderr)
     exit(1)

@@ -87,6 +87,8 @@ public interface AccountApi {
 
   void setStatus(String status) throws RestApiException;
 
+  void setDisplayName(String displayName) throws RestApiException;
+
   List<SshKeyInfo> listSshKeys() throws RestApiException;
 
   SshKeyInfo addSshKey(String key) throws RestApiException;
@@ -265,6 +267,11 @@ public interface AccountApi {
 
     @Override
     public void setStatus(String status) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setDisplayName(String displayName) throws RestApiException {
       throw new NotImplementedException();
     }
 

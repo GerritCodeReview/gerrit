@@ -1,0 +1,647 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f78880b6_426651b0",
+        "filename": "polygerrit-ui/app/rollup.config.js",
+        "patchSetId": 41
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Nit: too many blanks.",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5ab6e08_4ee1b338",
+        "filename": "polygerrit-ui/app/rollup.config.js",
+        "patchSetId": 41
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "in.",
+      "range": {
+        "startLine": 30,
+        "startChar": 54,
+        "endLine": 30,
+        "endChar": 56
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87dab799_6bedd4c9",
+        "filename": "polygerrit-ui/app/rollup.config.js",
+        "patchSetId": 41
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Thanks terser, the resulted JS code is minified, and the gr-app.js is even slightly smaller than the old one created with old pipeline that used rules_closure. Nevertheless, there are still a lot of comments. Can those comments be cleaned up, may be with rollup cleanup plugin: [1]?\n\n* [1] https://www.npmjs.com/package/rollup-plugin-cleanup",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 55
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d7e4ace_bff78eeb",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 41
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "with.",
+      "range": {
+        "startLine": 11,
+        "startChar": 68,
+        "endLine": 11,
+        "endChar": 70
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d166eb4_c37a241c",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 41
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Nit: Point at the of the statement.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88f9bf9b_5eed8055",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 41
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "May be emphasize here, what parts of this new toolchain is only temporary, until the switch from HTML imports to ES6 modules is completed, and what is going to be removed in the end of this series anyway.",
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08f222a7_2b71a2a4",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 41
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "file.html_gen.js",
+      "range": {
+        "startLine": 31,
+        "startChar": 39,
+        "endLine": 31,
+        "endChar": 51
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b86409f6_ff723d96",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 41
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Clarify: path/to/file.html_gen.js?",
+      "range": {
+        "startLine": 40,
+        "startChar": 11,
+        "endLine": 40,
+        "endChar": 36
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad3237ff_785dd799",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 41
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Parts of this was copied from tools/node_tools/polygerrit_app_preprocessor/README.md. Not sure, if it makes sense to maintain the same comments in two different places. Can you just reference from one place to another place?",
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f50cf2d_7f768b87",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 41
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Add a TODO marker to remove that.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 52
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0308432a_7202b2cc",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 41
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 1,
+        "startChar": 42,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ddf908b_b5dc547c",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 41
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 2,
+        "startChar": 63,
+        "endLine": 2,
+        "endChar": 80
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d520e5e8_ac288b78",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 41
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 41
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32d2fbc3_d8f46f0e",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 41
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "+1 to write a issue and link it here.",
+      "range": {
+        "startLine": 56,
+        "startChar": 70,
+        "endLine": 56,
+        "endChar": 85
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc7782e2_69b0d2f8",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 41
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Nit: We usually use this format: \"TODO(dmfilippov): Find ...\".",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 18
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e6de90c_2267759d",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 41
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Bazel IJ plugin?",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 10
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c75fc4a6_8b077e36",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 41
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Clarify, that you are talking about Bazel IJ plugin?",
+      "range": {
+        "startLine": 65,
+        "startChar": 66,
+        "endLine": 65,
+        "endChar": 73
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94c994b7_b969121a",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 41
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Thanks for documenting it here. I think a better place to add this information would be IDE setup section for Typescript code in the documentation.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 14
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e9b5f34_cecda710",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/README.md",
+        "patchSetId": 41
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "There are",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 7
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bed91969_4f03e517",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/README.md",
+        "patchSetId": 41
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Nit: Trailing blank. Here and below.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5865ac8f_d3bf1aca",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/README.md",
+        "patchSetId": 41
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Or, point to polygerrit-ui/app/rules.bzl for detailed description.",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 75
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40abb115_85ea1ca2",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/index.bzl",
+        "patchSetId": 41
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "This check is always false and could be removed?",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 19
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f79eb0d_8e6daa50",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/links-updater.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 54,
+        "startChar": 54,
+        "endLine": 54,
+        "endChar": 62
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06e7c784_90273737",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/preprocessor.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "sources?",
+      "range": {
+        "startLine": 38,
+        "startChar": 10,
+        "endLine": 38,
+        "endChar": 14
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff87657_67035095",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/preprocessor.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Capitalize.",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 38,
+        "endChar": 9
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfc5390a_1e0452b5",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/preprocessor.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "isHtmlImport",
+      "range": {
+        "startLine": 137,
+        "startChar": 10,
+        "endLine": 137,
+        "endChar": 23
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "708f735a_a66968a9",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/utils.js",
+        "patchSetId": 41
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Nit: Blank line between the license header and the code.",
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6debdb86_4523eaca",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/utils.ts",
+        "patchSetId": 41
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "Nit: Unneeded blank line.",
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f524c480_aec796db",
+        "filename": "tools/node_tools/utils/BUILD",
+        "patchSetId": 41
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-02T14:07:24Z",
+      "side": 1,
+      "message": "From all these import statement only one is used:\n\n  load(\"@npm_bazel_typescript//:index.bzl\", \"ts_library\")",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 0
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

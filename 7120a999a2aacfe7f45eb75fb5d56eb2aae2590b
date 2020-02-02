@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "406c0323_d84f5890",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-02T21:08:07Z",
+      "side": 1,
+      "message": "I need to reconfirm this, for clone then other supported git commands.",
+      "range": {
+        "startLine": 101,
+        "startChar": 19,
+        "endLine": 102,
+        "endChar": 37
+      },
+      "revId": "7120a999a2aacfe7f45eb75fb5d56eb2aae2590b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c3d15c3_ccb97509",
         "filename": "e2e-tests/load-tests/src/test/resources/application.conf",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2020-02-02T03:34:51Z",
       "side": 1,
       "message": "is this intentionally plural?",
+      "range": {
+        "startLine": 5,
+        "startChar": 13,
+        "endLine": 5,
+        "endChar": 19
+      },
+      "revId": "7120a999a2aacfe7f45eb75fb5d56eb2aae2590b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6f7f9cd_16ec1c89",
+        "filename": "e2e-tests/load-tests/src/test/resources/application.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-02T21:08:07Z",
+      "side": 1,
+      "message": "\u003e is this intentionally plural?\n\nThe \u0027s\u0027 here is rather to mark possession (admin\u0027s password).",
+      "parentUuid": "3c3d15c3_ccb97509",
       "range": {
         "startLine": 5,
         "startChar": 13,

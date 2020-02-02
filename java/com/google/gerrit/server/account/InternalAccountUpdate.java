@@ -61,6 +61,15 @@ public abstract class InternalAccountUpdate {
   public abstract Optional<String> getFullName();
 
   /**
+   * Returns the new value for the display name.
+   *
+   * @return the new value for the display name, {@code Optional#empty()} if the display name is not
+   *     being updated, {@code Optional#of("")} if the display name is unset, the wrapped value is
+   *     never {@code null}
+   */
+  public abstract Optional<String> getDisplayName();
+
+  /**
    * Returns the new value for the preferred email.
    *
    * @return the new value for the preferred email, {@code Optional#empty()} if the preferred email
@@ -169,6 +178,15 @@ public abstract class InternalAccountUpdate {
      * @return the builder
      */
     public abstract Builder setFullName(String fullName);
+
+    /**
+     * Sets a new display name for the account.
+     *
+     * @param displayName the new display name, if {@code null} or empty string the display name is
+     *     unset
+     * @return the builder
+     */
+    public abstract Builder setDisplayName(String displayName);
 
     /**
      * Sets a new preferred email for the account.
@@ -483,6 +501,12 @@ public abstract class InternalAccountUpdate {
       @Override
       public Builder setFullName(String fullName) {
         delegate.setFullName(Strings.nullToEmpty(fullName));
+        return this;
+      }
+
+      @Override
+      public Builder setDisplayName(String displayName) {
+        delegate.setDisplayName(Strings.nullToEmpty(displayName));
         return this;
       }
 

@@ -129,6 +129,10 @@ public abstract class Account {
   @Nullable
   public abstract String fullName();
 
+  /** Optional display name of the user to be shown in the UI. */
+  @Nullable
+  public abstract String displayName();
+
   /** Email address the user prefers to be contacted through. */
   @Nullable
   public abstract String preferredEmail();
@@ -234,6 +238,11 @@ public abstract class Account {
     public abstract String fullName();
 
     public abstract Builder setFullName(String fullName);
+
+    @Nullable
+    public abstract String displayName();
+
+    public abstract Builder setDisplayName(String displayName);
 
     @Nullable
     public abstract String preferredEmail();

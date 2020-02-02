@@ -76,6 +76,7 @@ import com.google.gerrit.server.restapi.account.Index;
 import com.google.gerrit.server.restapi.account.PostWatchedProjects;
 import com.google.gerrit.server.restapi.account.PutActive;
 import com.google.gerrit.server.restapi.account.PutAgreement;
+import com.google.gerrit.server.restapi.account.PutDisplayName;
 import com.google.gerrit.server.restapi.account.PutHttpPassword;
 import com.google.gerrit.server.restapi.account.PutName;
 import com.google.gerrit.server.restapi.account.PutStatus;
@@ -88,6 +89,7 @@ import com.google.gerrit.server.restapi.account.Stars;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.com.google.gerrit.server.restapi.account.PutDisplayName;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -134,6 +136,7 @@ public class AccountApiImpl implements AccountApi {
   private final DeleteExternalIds deleteExternalIds;
   private final DeleteDraftComments deleteDraftComments;
   private final PutStatus putStatus;
+  private final PutDisplayName putDisplayName;
   private final GetGroups getGroups;
   private final EmailApiImpl.Factory emailApi;
   private final PutName putName;
@@ -177,6 +180,7 @@ public class AccountApiImpl implements AccountApi {
       DeleteExternalIds deleteExternalIds,
       DeleteDraftComments deleteDraftComments,
       PutStatus putStatus,
+      PutDisplayName putDisplayName,
       GetGroups getGroups,
       EmailApiImpl.Factory emailApi,
       PutName putName,
@@ -219,6 +223,7 @@ public class AccountApiImpl implements AccountApi {
     this.deleteExternalIds = deleteExternalIds;
     this.deleteDraftComments = deleteDraftComments;
     this.putStatus = putStatus;
+    this.putDisplayName = putDisplayName;
     this.getGroups = getGroups;
     this.emailApi = emailApi;
     this.putName = putName;
@@ -473,6 +478,16 @@ public class AccountApiImpl implements AccountApi {
       putStatus.apply(account, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot set status", e);
+    }
+  }
+
+  @Override
+  public void setDisplayName(String displayName) throws RestApiException {
+    DisplayNameInput in = new DisplayNameInput(displayName);
+    try {
+      putDisplayName.apply(account, in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set display name", e);
     }
   }
 

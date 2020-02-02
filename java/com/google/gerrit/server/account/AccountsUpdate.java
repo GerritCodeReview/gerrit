@@ -83,14 +83,14 @@ import org.eclipse.jgit.lib.Repository;
  *
  * <p>The account updates are written to NoteDb. In NoteDb accounts are represented as user branches
  * in the {@code All-Users} repository. Optionally a user branch can contain a 'account.config' file
- * that stores account properties, such as full name, preferred email, status and the active flag.
- * The timestamp of the first commit on a user branch denotes the registration date. The initial
- * commit on the user branch may be empty (since having an 'account.config' is optional). See {@link
- * AccountConfig} for details of the 'account.config' file format. In addition the user branch can
- * contain a 'preferences.config' config file to store preferences (see {@link StoredPreferences})
- * and a 'watch.config' config file to store project watches (see {@link ProjectWatches}). External
- * IDs are stored separately in the {@code refs/meta/external-ids} notes branch (see {@link
- * ExternalIdNotes}).
+ * that stores account properties, such as full name, display name, preferred email, status and the
+ * active flag. The timestamp of the first commit on a user branch denotes the registration date.
+ * The initial commit on the user branch may be empty (since having an 'account.config' is
+ * optional). See {@link AccountConfig} for details of the 'account.config' file format. In addition
+ * the user branch can contain a 'preferences.config' config file to store preferences (see {@link
+ * StoredPreferences}) and a 'watch.config' config file to store project watches (see {@link
+ * ProjectWatches}). External IDs are stored separately in the {@code refs/meta/external-ids} notes
+ * branch (see {@link ExternalIdNotes}).
  *
  * <p>On updating an account the account is evicted from the account cache and reindexed. The
  * eviction from the account cache and the reindexing is done by the {@link ReindexAfterRefUpdate}

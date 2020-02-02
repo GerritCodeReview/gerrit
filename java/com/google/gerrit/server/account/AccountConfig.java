@@ -190,6 +190,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
             InternalAccountUpdate.builder()
                 .setActive(account.isActive())
                 .setFullName(account.fullName())
+                .setDisplayName(account.displayName())
                 .setPreferredEmail(account.preferredEmail())
                 .setStatus(account.status())
                 .build());

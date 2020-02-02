@@ -86,7 +86,7 @@ version as parameter, e.g.:
 
 ----
   version=2.15
-  ./tools/version.py $version
+  ./tools/version.py -v $version
 ----
 
 Commit the changes and create a signed release tag on the new commit:

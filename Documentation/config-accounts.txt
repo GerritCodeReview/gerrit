@@ -7,10 +7,10 @@ Starting from 2.15 Gerrit accounts are fully stored in
 link:note-db.html[NoteDb].
 
 The account data consists of a sequence number (account ID), account
-properties (full name, preferred email, registration date, status,
-inactive flag), preferences (general, diff and edit preferences),
-project watches, SSH keys, external IDs, starred changes and reviewed
-flags.
+properties (full name, display name, preferred email, registration
+date, status, inactive flag), preferences (general, diff and edit
+preferences), project watches, SSH keys, external IDs, starred changes
+and reviewed flags.
 
 Most account data is stored in a special link:#all-users[All-Users]
 repository, which has one branch per user. Within the user branch there
@@ -155,6 +155,7 @@ The account properties are stored in the user branch in the
 ----
 [account]
   fullName = John Doe
+  displayName = John
   preferredEmail = john.doe@example.com
   status = OOO
   active = false

@@ -33,6 +33,7 @@ import org.eclipse.jgit.lib.ObjectId;
  *   [account]
  *     active = false
  *     fullName = John Doe
+ *     displayName = John
  *     preferredEmail = john.doe@foo.com
  *     status = Overloaded with reviews
  * </pre>
@@ -51,6 +52,7 @@ public class AccountProperties {
   public static final String ACCOUNT = "account";
   public static final String KEY_ACTIVE = "active";
   public static final String KEY_FULL_NAME = "fullName";
+  public static final String KEY_DISPLAY_NAME = "displayName";
   public static final String KEY_PREFERRED_EMAIL = "preferredEmail";
   public static final String KEY_STATUS = "status";
 
@@ -91,6 +93,7 @@ public class AccountProperties {
     Account.Builder accountBuilder = Account.builder(accountId, registeredOn);
     accountBuilder.setActive(accountConfig.getBoolean(ACCOUNT, null, KEY_ACTIVE, true));
     accountBuilder.setFullName(get(accountConfig, KEY_FULL_NAME));
+    accountBuilder.setDisplayName(get(accountConfig, KEY_DISPLAY_NAME));
 
     String preferredEmail = get(accountConfig, KEY_PREFERRED_EMAIL);
     accountBuilder.setPreferredEmail(preferredEmail);
@@ -108,6 +111,9 @@ public class AccountProperties {
   public static void writeToAccountConfig(InternalAccountUpdate accountUpdate, Config cfg) {
     accountUpdate.getActive().ifPresent(active -> setActive(cfg, active));
     accountUpdate.getFullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
+    accountUpdate
+        .getDisplayName()
+        .ifPresent(displayName -> set(cfg, KEY_DISPLAY_NAME, displayName));
     accountUpdate
         .getPreferredEmail()
         .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));

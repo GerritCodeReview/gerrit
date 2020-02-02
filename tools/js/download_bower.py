@@ -81,43 +81,43 @@ def cache_entry(name, package, version, sha1):
 
 
 def main(args):
-    opts = optparse.OptionParser()
-    opts.add_option('-n', help='short name of component')
-    opts.add_option('-b', help='bower command')
-    opts.add_option('-p', help='full package name of component')
-    opts.add_option('-v', help='version number')
-    opts.add_option('-s', help='expected content sha1')
-    opts.add_option('-o', help='output file location')
-    opts, args_ = opts.parse_args(args)
+    opts = argparse.ArgumentParser()
+    opts.add_argument('-n', help='short name of component')
+    opts.add_argument('-b', help='bower command')
+    opts.add_argument('-p', help='full package name of component')
+    opts.add_argument('-v', help='version number')
+    opts.add_argument('-s', help='expected content sha1')
+    opts.add_argument('-o', help='output file location')
+    opts = vars(opts.parse_args(args))
 
-    assert opts.p
-    assert opts.v
-    assert opts.n
+    assert opts['p']
+    assert opts['v']
+    assert opts['n']
 
     cwd = os.getcwd()
-    outzip = os.path.join(cwd, opts.o)
-    cached = cache_entry(opts.n, opts.p, opts.v, opts.s)
+    outzip = os.path.join(cwd, opts['o'])
+    cached = cache_entry(opts.n, opts['p'], opts['v'], opts['s'])
 
     if not os.path.exists(cached):
-        info = bower_info(opts.b, opts.n, opts.p, opts.v)
+        info = bower_info(opts['b'], opts['n'], opts['p'], opts['v'])
         ignore_deps(info)
         subprocess.check_call(
             bower_cmd(
-                opts.b, '--quiet', 'install', '%s#%s' % (opts.p, opts.v)))
+                opts.b, '--quiet', 'install', '%s#%s' % (opts['p'], opts['v'])))
         bc = os.path.join(cwd, 'bower_components')
         subprocess.check_call(
-            ['zip', '-q', '--exclude', '.bower.json', '-r', cached, opts.n],
+            ['zip', '-q', '--exclude', '.bower.json', '-r', cached, opts['n']],
             cwd=bc)
 
         if opts.s:
-            path = os.path.join(bc, opts.n)
+            path = os.path.join(bc, opts['n'])
             sha1 = bowerutil.hash_bower_component(
                 hashlib.sha1(), path).hexdigest()
-            if opts.s != sha1:
+            if opts['s'] != sha1:
                 print((
                     '%s#%s:\n'
                     'expected %s\n'
-                    'received %s\n') % (opts.p, opts.v, opts.s, sha1),
+                    'received %s\n') % (opts['p'], opts['v'], opts['s'], sha1),
                     file=sys.stderr)
                 try:
                     os.remove(cached)

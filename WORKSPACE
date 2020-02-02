@@ -47,11 +47,21 @@ load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 rbe_autoconfig(name = "rbe_default")
 
 http_archive(
-    name = "io_bazel_rules_closure",
-    sha256 = "03c3b16f205085817fd89cfdcb2220a0138647ee7992be9cef291b069dd90301",
-    strip_prefix = "rules_closure-196a45f0ede2faec11dcc6c60fbc5e7471f4bd58",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/196a45f0ede2faec11dcc6c60fbc5e7471f4bd58.tar.gz"],
+    name = "com_google_protobuf",
+    patch_args = ["-p1"],
+    patches = [
+        "//lib:protobuf_drop_java_7_compatibility.patch",
+    ],
+    sha256 = "e8c7601439dbd4489fe5069c33d374804990a56c2f710e00227ee5d8fd650e67",
+    strip_prefix = "protobuf-3.11.2",
+    urls = [
+        "https://github.com/protocolbuffers/protobuf/archive/v3.11.2.tar.gz",
+    ],
 )
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
@@ -59,37 +69,13 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/1.2.0/rules_nodejs-1.2.0.tar.gz"],
 )
 
-# File is specific to Polymer and copied from the Closure Github -- should be
-# synced any time there are major changes to Polymer.
-# https://github.com/google/closure-compiler/blob/master/contrib/externs/polymer-1.0.js
-http_file(
-    name = "polymer_closure",
-    downloaded_file_path = "polymer_closure.js",
-    sha256 = "4d63a36dcca040475bd6deb815b9a600bd686e1413ac1ebd4b04516edd675020",
-    urls = ["https://raw.githubusercontent.com/google/closure-compiler/35d2b3340ff23a69441f10fa3bc820691c2942f2/contrib/externs/polymer-1.0.js"],
-)
-
-load("@io_bazel_rules_closure//closure:repositories.bzl", "rules_closure_dependencies", "rules_closure_toolchains")
-
-# Prevent redundant loading of dependencies.
-# TODO(davido): Omit re-fetching ancient args4j version when these PRs are merged:
-# https://github.com/bazelbuild/rules_closure/pull/262
-# https://github.com/google/closure-templates/pull/155
-rules_closure_dependencies(
-    omit_aopalliance = True,
-    omit_javax_inject = True,
-    omit_rules_cc = True,
-)
-
-rules_closure_toolchains()
-
 # Golang support for PolyGerrit local dev server.
 http_archive(
     name = "io_bazel_rules_go",
-    sha256 = "f04d2373bcaf8aa09bccb08a98a57e721306c8f6043a2a0ee610fd6853dcde3d",
+    sha256 = "b34cbe1a7514f5f5487c3bfee7340a4496713ddf4f119f7a225583d6cafd793a",
     urls = [
-        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/rules_go/releases/download/0.18.6/rules_go-0.18.6.tar.gz",
-        "https://github.com/bazelbuild/rules_go/releases/download/0.18.6/rules_go-0.18.6.tar.gz",
+        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/rules_go/releases/download/v0.21.1/rules_go-v0.21.1.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.21.1/rules_go-v0.21.1.tar.gz",
     ],
 )
 

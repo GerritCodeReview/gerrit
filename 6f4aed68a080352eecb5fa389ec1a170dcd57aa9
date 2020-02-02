@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22137ad4_9399ee5a",
+        "filename": "polygerrit-ui/app/node_modules_licenses/licenses.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-02T16:14:23Z",
+      "side": 1,
+      "message": "Remove extra new line?",
+      "revId": "6f4aed68a080352eecb5fa389ec1a170dcd57aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5272a8_37dafa69",
+        "filename": "tools/node_tools/node_modules_licenses/README.md",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-02T16:14:23Z",
+      "side": 1,
+      "message": "Lots of whitespace.",
+      "revId": "6f4aed68a080352eecb5fa389ec1a170dcd57aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94aa5239_f368beba",
+        "filename": "tools/node_tools/node_modules_licenses/package-license-info.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-02T16:14:23Z",
+      "side": 1,
+      "message": "Too many new lines.",
+      "revId": "6f4aed68a080352eecb5fa389ec1a170dcd57aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

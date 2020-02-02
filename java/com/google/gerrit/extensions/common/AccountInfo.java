@@ -33,6 +33,14 @@ public class AccountInfo {
   /** The full name of the user. */
   public String name;
 
+  /**
+   * The display name of the user. This allows users to control how their name is displayed in the
+   * UI. It will likely be unset for most users. Host admins will just choose a default (full name,
+   * user name, first name, ...) for all users, and this account property is just a way to opt out
+   * of the host wide default strategy of choosing the display name.
+   */
+  public String displayName;
+
   /** The preferred email address of the user. */
   public String email;
 
@@ -73,6 +81,7 @@ public class AccountInfo {
       AccountInfo accountInfo = (AccountInfo) o;
       return Objects.equals(_accountId, accountInfo._accountId)
           && Objects.equals(name, accountInfo.name)
+          && Objects.equals(displayName, accountInfo.displayName)
           && Objects.equals(email, accountInfo.email)
           && Objects.equals(secondaryEmails, accountInfo.secondaryEmails)
           && Objects.equals(username, accountInfo.username)
@@ -88,6 +97,7 @@ public class AccountInfo {
     return MoreObjects.toStringHelper(this)
         .add("id", _accountId)
         .add("name", name)
+        .add("displayname", displayName)
         .add("email", email)
         .add("username", username)
         .toString();
@@ -96,7 +106,15 @@ public class AccountInfo {
   @Override
   public int hashCode() {
     return Objects.hash(
-        _accountId, name, email, secondaryEmails, username, avatars, _moreAccounts, status);
+        _accountId,
+        name,
+        displayName,
+        email,
+        secondaryEmails,
+        username,
+        avatars,
+        _moreAccounts,
+        status);
   }
 
   protected AccountInfo() {}

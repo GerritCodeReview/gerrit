@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e247766_334b27ba",
+        "filename": "tools/version.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-02T09:13:56Z",
+      "side": 1,
+      "message": "Please do this in a way that doesn\u0027t change the usage, i.e. the version should still be passed as an unnamed argument rather than as a named parameter.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 48
+      },
+      "revId": "66bea8cbf8e78d2e1d9fabc4d860cb8678788e18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

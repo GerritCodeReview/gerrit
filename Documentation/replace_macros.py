@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from optparse import OptionParser
+import argparse
 import re
 import sys
 
@@ -219,15 +219,15 @@ LINK_SCRIPT = """
 
 """
 
-opts = OptionParser()
-opts.add_option('-o', '--out', help='output file')
-opts.add_option('-s', '--src', help='source file')
-opts.add_option('-x', '--suffix', help='suffix for included filenames')
-opts.add_option('-b', '--searchbox', action="store_true", default=True,
+opts = argparse.ArgumentParser()
+opts.add_argument('-o', '--out', help='output file')
+opts.add_argument('-s', '--src', help='source file')
+opts.add_argument('-x', '--suffix', help='suffix for included filenames')
+opts.add_argument('-b', '--searchbox', action="store_true", default=True,
                 help="generate the search boxes")
-opts.add_option('--no-searchbox', action="store_false", dest='searchbox',
+opts.add_argument('--no-searchbox', action="store_false", dest='searchbox',
                 help="don't generate the search boxes")
-options, _ = opts.parse_args()
+options = opts.parse_args()
 
 try:
     try:

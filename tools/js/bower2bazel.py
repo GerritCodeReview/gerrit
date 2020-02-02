@@ -22,10 +22,10 @@ python tools/js/bower2bazel.py -w lib/js/bower_archives.bzl \
 
 from __future__ import print_function
 
+import argparse
 import collections
 import json
 import hashlib
-import optparse
 import os
 import subprocess
 import sys
@@ -141,11 +141,11 @@ def bower_command(args):
             os.getcwd() + "/tools/js/run_npm_binary.py", sorted(fs)[0]] + args
 
 
-def main(args):
-    opts = optparse.OptionParser()
-    opts.add_option('-w', help='.bzl output for WORKSPACE')
-    opts.add_option('-b', help='.bzl output for //lib:BUILD')
-    opts, args = opts.parse_args()
+def main():
+    opts = argparse.ArgumentParser()
+    opts.add_argument('-w', help='.bzl output for WORKSPACE')
+    opts.add_argument('-b', help='.bzl output for //lib:BUILD')
+    opts = opts.parse_args()
 
     target_str = subprocess.check_output([
         "bazel", "query", "kind(bower_component_bundle, //polygerrit-ui/...)"])
@@ -258,4 +258,4 @@ def interpret_bower_json(seeds, ws_out, build_out):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()

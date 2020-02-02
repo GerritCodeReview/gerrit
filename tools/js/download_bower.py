@@ -15,9 +15,9 @@
 
 from __future__ import print_function
 
+import argparse
 import hashlib
 import json
-import optparse
 import os
 import shutil
 import subprocess
@@ -80,15 +80,15 @@ def cache_entry(name, package, version, sha1):
     return os.path.join(CACHE_DIR, '%s-%s.zip-%s' % (name, version, sha1))
 
 
-def main(args):
-    opts = optparse.OptionParser()
-    opts.add_option('-n', help='short name of component')
-    opts.add_option('-b', help='bower command')
-    opts.add_option('-p', help='full package name of component')
-    opts.add_option('-v', help='version number')
-    opts.add_option('-s', help='expected content sha1')
-    opts.add_option('-o', help='output file location')
-    opts, args_ = opts.parse_args(args)
+def main():
+    opts = argparse.ArgumentParser()
+    opts.add_argument('-n', help='short name of component')
+    opts.add_argument('-b', help='bower command')
+    opts.add_argument('-p', help='full package name of component')
+    opts.add_argument('-v', help='version number')
+    opts.add_argument('-s', help='expected content sha1')
+    opts.add_argument('-o', help='output file location')
+    opts = opts.parse_args()
 
     assert opts.p
     assert opts.v
@@ -132,4 +132,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main())

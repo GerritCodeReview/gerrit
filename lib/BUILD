@@ -153,7 +153,7 @@ java_library(
     name = "args4j",
     data = ["//lib:LICENSE-args4j"],
     visibility = ["//visibility:public"],
-    exports = ["@args4j-intern//jar"],
+    exports = ["@args4j//jar"],
 )
 
 java_library(

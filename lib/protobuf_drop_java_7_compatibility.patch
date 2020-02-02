@@ -1,0 +1,39 @@
+diff --git a/BUILD b/BUILD.bazel
+index efc3d8e..2f27833 100644
+--- a/BUILD
++++ b/BUILD.bazel
+@@ -653,10 +653,7 @@ java_library(
+     ],
+     javacopts = select({
+         "//:jdk9": ["--add-modules=jdk.unsupported"],
+-        "//conditions:default": [
+-            "-source 7",
+-            "-target 7",
+-        ],
++        "//conditions:default": [],
+     }),
+     visibility = ["//visibility:public"],
+ )
+@@ -754,10 +751,7 @@ java_library(
+     ],
+     javacopts = select({
+         "//:jdk9": ["--add-modules=jdk.unsupported"],
+-        "//conditions:default": [
+-            "-source 7",
+-            "-target 7",
+-        ],
++        "//conditions:default": [],
+     }),
+     visibility = ["//visibility:public"],
+ )
+@@ -767,10 +761,6 @@ java_library(
+     srcs = glob([
+         "java/util/src/main/java/com/google/protobuf/util/*.java",
+     ]),
+-    javacopts = [
+-        "-source 7",
+-        "-target 7",
+-    ],
+     visibility = ["//visibility:public"],
+     deps = [
+         "protobuf_java",

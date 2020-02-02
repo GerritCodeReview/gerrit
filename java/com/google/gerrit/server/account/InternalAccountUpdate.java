@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
@@ -59,6 +60,15 @@ public abstract class InternalAccountUpdate {
    *     {@code null}
    */
   public abstract Optional<String> getFullName();
+
+  /**
+   * Returns the new value for the display name.
+   *
+   * @return the new value for the display name, {@code Optional#empty()} if the display name is not
+   *     being updated, {@code Optional#of("")} if the display name is unset, the wrapped value is
+   *     never {@code null}
+   */
+  public abstract Optional<String> getDisplayName();
 
   /**
    * Returns the new value for the preferred email.
@@ -166,25 +176,30 @@ public abstract class InternalAccountUpdate {
      * Sets a new full name for the account.
      *
      * @param fullName the new full name, if {@code null} or empty string the full name is unset
-     * @return the builder
      */
-    public abstract Builder setFullName(String fullName);
+    public abstract Builder setFullName(@Nullable String fullName);
+
+    /**
+     * Sets a new display name for the account.
+     *
+     * @param displayName the new display name, if {@code null} or empty string the display name is
+     *     unset
+     */
+    public abstract Builder setDisplayName(@Nullable String displayName);
 
     /**
      * Sets a new preferred email for the account.
      *
      * @param preferredEmail the new preferred email, if {@code null} or empty string the preferred
      *     email is unset
-     * @return the builder
      */
-    public abstract Builder setPreferredEmail(String preferredEmail);
+    public abstract Builder setPreferredEmail(@Nullable String preferredEmail);
 
     /**
      * Sets the active flag for the account.
      *
      * @param active {@code true} if the account should be set to active, {@code false} if the
      *     account should be set to inactive
-     * @return the builder
      */
     public abstract Builder setActive(boolean active);
 
@@ -192,9 +207,8 @@ public abstract class InternalAccountUpdate {
      * Sets a new status for the account.
      *
      * @param status the new status, if {@code null} or empty string the status is unset
-     * @return the builder
      */
-    public abstract Builder setStatus(String status);
+    public abstract Builder setStatus(@Nullable String status);
 
     /**
      * Returns a builder for the set of created external IDs.
@@ -483,6 +497,12 @@ public abstract class InternalAccountUpdate {
       @Override
       public Builder setFullName(String fullName) {
         delegate.setFullName(Strings.nullToEmpty(fullName));
+        return this;
+      }
+
+      @Override
+      public Builder setDisplayName(String displayName) {
+        delegate.setDisplayName(Strings.nullToEmpty(displayName));
         return this;
       }
 

@@ -45,6 +45,30 @@
       "revId": "3dc39c903dc6dfe04a8aa6fa8e7bd9ec8bed402a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e66b85d7_f8ac83c5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7222,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-03T15:29:56Z",
+      "side": 1,
+      "message": "I don\u0027t know, but note that internal groups may contain LDAP groups, so it\u0027s less straightforward than it may seem.",
+      "parentUuid": "3c1dc313_f644a292",
+      "range": {
+        "startLine": 7222,
+        "startChar": 38,
+        "endLine": 7222,
+        "endChar": 62
+      },
+      "revId": "3dc39c903dc6dfe04a8aa6fa8e7bd9ec8bed402a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -527,14 +527,6 @@ public class RevertSubmission implements RestModifyView<ChangeResource, RevertIn
             potentialCommitToReturn.getName(), changeNotes.getChange().getChangeId()));
   }
 
-  /**
-   * @param submissionId the submission id of the change.
-   * @return True if the submission has more than one change, false otherwise.
-   */
-  private Boolean isChangePartOfSubmission(String submissionId) {
-    return (queryProvider.get().setLimit(2).bySubmissionId(submissionId).size() > 1);
-  }
-
   private class CreateCherryPickOp implements BatchUpdateOp {
     private final ObjectId revCommitId;
     private final String topic;

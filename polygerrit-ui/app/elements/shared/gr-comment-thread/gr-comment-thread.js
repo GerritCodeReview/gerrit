@@ -124,11 +124,6 @@
           type: Boolean,
           value: false,
         },
-        /** It is possible to add comment to non-existing line via API */
-        invalidLineNumber: {
-          type: Number,
-          reflectToAttribute: true,
-        },
         /** Necessary only if showFilePath is true or when used with gr-diff */
         lineNum: {
           type: Number,

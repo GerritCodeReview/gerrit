@@ -574,14 +574,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     //  |
     // C0 -- Master
     //
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .getProject()
-          .setBooleanConfig(
-              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
-              InheritableBoolean.TRUE);
-      u.save();
-    }
+    enableCreateNewChangeForAllNotInTarget();
 
     PushOneCommit push1 =
         pushFactory.create(

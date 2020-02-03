@@ -14,12 +14,17 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -28,11 +33,15 @@ import com.google.gerrit.server.restapi.change.CommentJson.CommentFormatter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Singleton
 public class ListChangeComments implements RestReadView<ChangeResource> {
+  private final ChangeMessagesUtil changeMessagesUtil;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
@@ -41,10 +50,12 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   ListChangeComments(
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil) {
+      CommentsUtil commentsUtil,
+      ChangeMessagesUtil changeMessagesUtil) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
+    this.changeMessagesUtil = changeMessagesUtil;
   }
 
   @Override
@@ -53,7 +64,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return Response.ok(getAsMap(listComments(rsrc)));
+    return Response.ok(getAsMap(listComments(rsrc), rsrc));
   }
 
   public List<CommentInfo> getComments(ChangeResource rsrc)
@@ -61,7 +72,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return getAsList(listComments(rsrc));
+    return getAsList(listComments(rsrc), rsrc);
   }
 
   private Iterable<Comment> listComments(ChangeResource rsrc) {
@@ -69,14 +80,59 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentsUtil.publishedByChange(cd.notes());
   }
 
-  private ImmutableList<CommentInfo> getAsList(Iterable<Comment> comments)
+  private ImmutableList<CommentInfo> getAsList(Iterable<Comment> comments, ChangeResource rsrc)
       throws PermissionBackendException {
-    return getCommentFormatter().formatAsList(comments);
+    ImmutableList<CommentInfo> commentInfos = getCommentFormatter().formatAsList(comments);
+    List<ChangeMessage> changeMessages =
+        Lists.newArrayList(changeMessagesUtil.byChange(rsrc.getNotes()));
+    linkCommentsToChangeMessages(commentInfos.stream().collect(toList()), changeMessages);
+    return commentInfos;
   }
 
-  private Map<String, List<CommentInfo>> getAsMap(Iterable<Comment> comments)
+  private Map<String, List<CommentInfo>> getAsMap(Iterable<Comment> comments, ChangeResource rsrc)
       throws PermissionBackendException {
-    return getCommentFormatter().format(comments);
+    Map<String, List<CommentInfo>> commentInfosMap = getCommentFormatter().format(comments);
+    List<CommentInfo> commentInfos =
+        commentInfosMap.values().stream().flatMap(List::stream).collect(toList());
+    List<ChangeMessage> changeMessages =
+        Lists.newArrayList(changeMessagesUtil.byChange(rsrc.getNotes()));
+    linkCommentsToChangeMessages(commentInfos, changeMessages);
+    return commentInfosMap;
+  }
+
+  /**
+   * This method populates the "changeMessageId" field of the comments parameter based on timestamp
+   * matching. The comments parameter will be modified.
+   *
+   * <p>Each comment will be matched to the nearest next change message in timestamp
+   *
+   * @param comments the list of comments
+   * @param changeMessages list of change messages
+   */
+  static void linkCommentsToChangeMessages(
+      List<CommentInfo> comments, List<ChangeMessage> changeMessages) {
+    ArrayList<ChangeMessage> mutableChangeMessages =
+        changeMessages.stream()
+            .sorted(Comparator.comparing(ChangeMessage::getWrittenOn))
+            .collect(Collectors.toCollection(ArrayList::new));
+
+    ArrayList<CommentInfo> mutableCommentInfos =
+        comments.stream()
+            .sorted(Comparator.comparing(c -> c.updated))
+            .collect(Collectors.toCollection(ArrayList::new));
+
+    int cmItr = 0;
+    for (CommentInfo comment : mutableCommentInfos) {
+      // keep advancing the change message pointer until we associate the comment to the next change
+      // message in timestamp
+      while (cmItr < mutableChangeMessages.size()
+          && comment.updated.after(mutableChangeMessages.get(cmItr).getWrittenOn())) {
+        cmItr += 1;
+      }
+      if (cmItr < changeMessages.size()) {
+        comment.changeMessageId = mutableChangeMessages.get(cmItr).getKey().uuid();
+      }
+    }
   }
 
   private CommentFormatter getCommentFormatter() {

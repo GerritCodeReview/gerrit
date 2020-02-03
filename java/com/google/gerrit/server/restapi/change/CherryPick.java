@@ -20,7 +20,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
-import com.google.gerrit.extensions.common.CherryPickChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -71,7 +71,7 @@ public class CherryPick
   }
 
   @Override
-  public Response<CherryPickChangeInfo> apply(RevisionResource rsrc, CherryPickInput input)
+  public Response<ChangeInfo> apply(RevisionResource rsrc, CherryPickInput input)
       throws IOException, UpdateException, RestApiException, PermissionBackendException,
           ConfigInvalidException, NoSuchProjectException {
     input.parent = input.parent == null ? 1 : input.parent;
@@ -96,9 +96,8 @@ public class CherryPick
               rsrc.getPatchSet(),
               input,
               BranchNameKey.create(rsrc.getProject(), refName));
-      CherryPickChangeInfo changeInfo =
-          json.noOptions()
-              .format(rsrc.getProject(), cherryPickResult.changeId(), CherryPickChangeInfo::new);
+      ChangeInfo changeInfo =
+          json.noOptions().format(rsrc.getProject(), cherryPickResult.changeId());
       changeInfo.containsGitConflicts =
           !cherryPickResult.filesWithGitConflicts().isEmpty() ? true : null;
       return Response.ok(changeInfo);

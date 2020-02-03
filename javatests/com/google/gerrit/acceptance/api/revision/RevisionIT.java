@@ -73,7 +73,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CherryPickChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -324,7 +323,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
     assertThat(orig.get().messages).hasSize(1);
-    CherryPickChangeInfo changeInfo = orig.revision(r.getCommit().name()).cherryPickAsInfo(in);
+    ChangeInfo changeInfo = orig.revision(r.getCommit().name()).cherryPickAsInfo(in);
     assertThat(changeInfo.containsGitConflicts).isNull();
     assertThat(changeInfo.workInProgress).isNull();
     ChangeApi cherry = gApi.changes().id(changeInfo._number);
@@ -576,8 +575,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // Cherry-pick with auto merge should succeed.
     in.allowConflicts = true;
-    CherryPickChangeInfo cherryPickChange =
-        changeApi.revision(r.getCommit().name()).cherryPickAsInfo(in);
+    ChangeInfo cherryPickChange = changeApi.revision(r.getCommit().name()).cherryPickAsInfo(in);
     assertThat(cherryPickChange.containsGitConflicts).isTrue();
     assertThat(cherryPickChange.workInProgress).isTrue();
 

@@ -19,7 +19,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
-import com.google.gerrit.extensions.common.CherryPickChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
@@ -68,7 +68,7 @@ public interface RevisionApi {
 
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
 
-  CherryPickChangeInfo cherryPickAsInfo(CherryPickInput in) throws RestApiException;
+  ChangeInfo cherryPickAsInfo(CherryPickInput in) throws RestApiException;
 
   default ChangeApi rebase() throws RestApiException {
     RebaseInput in = new RebaseInput();
@@ -204,7 +204,7 @@ public interface RevisionApi {
     }
 
     @Override
-    public CherryPickChangeInfo cherryPickAsInfo(CherryPickInput in) throws RestApiException {
+    public ChangeInfo cherryPickAsInfo(CherryPickInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

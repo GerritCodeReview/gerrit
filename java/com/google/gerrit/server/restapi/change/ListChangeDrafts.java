@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -46,9 +49,24 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     this.commentsUtil = commentsUtil;
   }
 
+  /** Returns the draft comments from the NoteDb storage */
   protected Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
+  }
+
+  private ImmutableList<CommentInfo> getAsList(Iterable<Comment> comments, ChangeResource rsrc)
+      throws PermissionBackendException {
+    ImmutableList<CommentInfo> commentInfos = getCommentFormatter().formatAsList(comments);
+    postOp(commentInfos, rsrc);
+    return commentInfos;
+  }
+
+  private Map<String, List<CommentInfo>> getAsMap(Iterable<Comment> comments, ChangeResource rsrc)
+      throws PermissionBackendException {
+    Map<String, List<CommentInfo>> commentInfos = getCommentFormatter().format(comments);
+    postOp(commentInfos.values().stream().flatMap(List::stream).collect(toImmutableList()), rsrc);
+    return commentInfos;
   }
 
   protected boolean includeAuthorInfo() {
@@ -59,13 +77,19 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     return true;
   }
 
+  /**
+   * Override this method if you want to apply an operation to commentInfos before returning it to
+   * client
+   */
+  protected void postOp(ImmutableList<CommentInfo> commentInfos, ChangeResource rsrc) {}
+
   @Override
   public Response<Map<String, List<CommentInfo>>> apply(ChangeResource rsrc)
       throws AuthException, PermissionBackendException {
     if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return Response.ok(getCommentFormatter().format(listComments(rsrc)));
+    return Response.ok(getAsMap(listComments(rsrc), rsrc));
   }
 
   public List<CommentInfo> getComments(ChangeResource rsrc)
@@ -73,10 +97,10 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return getCommentFormatter().formatAsList(listComments(rsrc));
+    return getAsList(listComments(rsrc), rsrc);
   }
 
-  private CommentFormatter getCommentFormatter() {
+  protected CommentFormatter getCommentFormatter() {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())

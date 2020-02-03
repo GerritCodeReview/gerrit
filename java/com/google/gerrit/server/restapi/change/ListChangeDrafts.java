@@ -46,12 +46,12 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<Comment> listComments(ChangeResource rsrc) {
+  private Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
   }
 
-  protected boolean includeAuthorInfo() {
+  private boolean includeAuthorInfo() {
     return false;
   }
 

@@ -110,7 +110,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Supplier;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -276,17 +275,13 @@ public class ChangeJson {
     return format(changeDataFactory.create(change));
   }
 
-  public ChangeInfo format(Project.NameKey project, Change.Id id) {
-    return format(project, id, ChangeInfo::new);
-  }
-
   public ChangeInfo format(ChangeData cd) {
-    return format(cd, Optional.empty(), true, ChangeInfo::new);
+    return format(cd, Optional.empty(), true);
   }
 
   public ChangeInfo format(RevisionResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return format(cd, Optional.of(rsrc.getPatchSet().id()), true, ChangeInfo::new);
+    return format(cd, Optional.of(rsrc.getPatchSet().id()), true);
   }
 
   public List<List<ChangeInfo>> format(List<QueryResult<ChangeData>> in)
@@ -312,14 +307,13 @@ public class ChangeJson {
     ensureLoaded(in);
     List<ChangeInfo> out = new ArrayList<>(in.size());
     for (ChangeData cd : in) {
-      out.add(format(cd, Optional.empty(), false, ChangeInfo::new));
+      out.add(format(cd, Optional.empty(), false));
     }
     accountLoader.fill();
     return out;
   }
 
-  public <I extends ChangeInfo> I format(
-      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier) {
+  public ChangeInfo format(Project.NameKey project, Change.Id id) {
     ChangeNotes notes;
     try {
       notes = notesFactory.createChecked(project, id);
@@ -327,9 +321,9 @@ public class ChangeJson {
       if (!has(CHECK)) {
         throw e;
       }
-      return checkOnly(changeDataFactory.create(project, id), changeInfoSupplier);
+      return checkOnly(changeDataFactory.create(project, id));
     }
-    return format(changeDataFactory.create(notes), Optional.empty(), true, changeInfoSupplier);
+    return format(changeDataFactory.create(notes), Optional.empty(), true);
   }
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
@@ -360,19 +354,16 @@ public class ChangeJson {
     return !Sets.intersection(toFind, set).isEmpty();
   }
 
-  private <I extends ChangeInfo> I format(
-      ChangeData cd,
-      Optional<PatchSet.Id> limitToPsId,
-      boolean fillAccountLoader,
-      Supplier<I> changeInfoSupplier) {
+  private ChangeInfo format(
+      ChangeData cd, Optional<PatchSet.Id> limitToPsId, boolean fillAccountLoader) {
     try {
       if (fillAccountLoader) {
         accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-        I res = toChangeInfo(cd, limitToPsId, changeInfoSupplier);
+        ChangeInfo res = toChangeInfo(cd, limitToPsId);
         accountLoader.fill();
         return res;
       }
-      return toChangeInfo(cd, limitToPsId, changeInfoSupplier);
+      return toChangeInfo(cd, limitToPsId);
     } catch (PatchListNotAvailableException
         | GpgException
         | IOException
@@ -382,7 +373,7 @@ public class ChangeJson {
         Throwables.throwIfInstanceOf(e, StorageException.class);
         throw new StorageException(e);
       }
-      return checkOnly(cd, changeInfoSupplier);
+      return checkOnly(cd);
     }
   }
 
@@ -431,7 +422,7 @@ public class ChangeJson {
         // Compute and cache if possible
         try {
           ensureLoaded(Collections.singleton(cd));
-          info = format(cd, Optional.empty(), false, ChangeInfo::new);
+          info = format(cd, Optional.empty(), false);
           changeInfos.add(info);
           if (isCacheable) {
             cache.put(Change.id(info._number), info);
@@ -445,14 +436,14 @@ public class ChangeJson {
     }
   }
 
-  private <I extends ChangeInfo> I checkOnly(ChangeData cd, Supplier<I> changeInfoSupplier) {
+  private ChangeInfo checkOnly(ChangeData cd) {
     ChangeNotes notes;
     try {
       notes = cd.notes();
     } catch (StorageException e) {
       String msg = "Error loading change";
       logger.atWarning().withCause(e).log(msg + " %s", cd.getId());
-      I info = changeInfoSupplier.get();
+      ChangeInfo info = new ChangeInfo();
       info._number = cd.getId().get();
       ProblemInfo p = new ProblemInfo();
       p.message = msg;
@@ -461,7 +452,7 @@ public class ChangeJson {
     }
 
     ConsistencyChecker.Result result = checkerProvider.get().check(notes, fix);
-    I info = changeInfoSupplier.get();
+    ChangeInfo info = new ChangeInfo();
     Change c = result.change();
     if (c != null) {
       info.project = c.getProject().get();
@@ -486,18 +477,16 @@ public class ChangeJson {
     return info;
   }
 
-  private <I extends ChangeInfo> I toChangeInfo(
-      ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
+  private ChangeInfo toChangeInfo(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
       throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
-      return toChangeInfoImpl(cd, limitToPsId, changeInfoSupplier);
+      return toChangeInfoImpl(cd, limitToPsId);
     }
   }
 
-  private <I extends ChangeInfo> I toChangeInfoImpl(
-      ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
+  private ChangeInfo toChangeInfoImpl(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
       throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
-    I out = changeInfoSupplier.get();
+    ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
 
     if (has(CHECK)) {

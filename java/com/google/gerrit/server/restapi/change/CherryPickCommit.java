@@ -19,7 +19,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
-import com.google.gerrit.extensions.common.CherryPickChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -65,7 +65,7 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
   }
 
   @Override
-  public Response<CherryPickChangeInfo> apply(CommitResource rsrc, CherryPickInput input)
+  public Response<ChangeInfo> apply(CommitResource rsrc, CherryPickInput input)
       throws IOException, UpdateException, RestApiException, PermissionBackendException,
           ConfigInvalidException, NoSuchProjectException {
     String destination = Strings.nullToEmpty(input.destination).trim();
@@ -93,9 +93,7 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
               rsrc.getCommit(),
               input,
               BranchNameKey.create(rsrc.getProjectState().getNameKey(), refName));
-      CherryPickChangeInfo changeInfo =
-          json.noOptions()
-              .format(projectName, cherryPickResult.changeId(), CherryPickChangeInfo::new);
+      ChangeInfo changeInfo = json.noOptions().format(projectName, cherryPickResult.changeId());
       changeInfo.containsGitConflicts =
           !cherryPickResult.filesWithGitConflicts().isEmpty() ? true : null;
       return Response.ok(changeInfo);

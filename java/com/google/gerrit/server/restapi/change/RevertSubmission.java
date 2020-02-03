@@ -583,9 +583,7 @@ public class RevertSubmission implements RestModifyView<ChangeResource, RevertIn
               .getCurrentPatchSet()
               .commitId()
               .getName();
-      results.add(
-          json.noOptions()
-              .format(change.getProject(), cherryPickResult.changeId(), ChangeInfo::new));
+      results.add(json.noOptions().format(change.getProject(), cherryPickResult.changeId()));
       return true;
     }
   }

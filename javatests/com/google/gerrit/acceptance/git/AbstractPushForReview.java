@@ -48,6 +48,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.MoreCollectors;
 import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -103,6 +104,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -114,6 +116,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -2022,13 +2025,74 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void publishedCommentsAssignedToChangeMessages() throws Exception {
+    TestTimeUtil.resetWithClockStep(0, TimeUnit.SECONDS);
+    PushOneCommit.Result r = createChange(); // creating the change with patch set 1
+    TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
+
+    /** Create and publish a comment on PS2. Increment the clock step */
+    String rev1 = r.getCommit().name();
+    addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment_PS2."));
+    r = amendChange(r.getChangeId(), "refs/for/master%publish-comments");
+    assertThat(getPublishedComments(r.getChangeId())).isNotEmpty();
+    TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
+
+    /** Create and publish a comment on PS3 */
+    String rev2 = r.getCommit().name();
+    addDraft(r.getChangeId(), rev2, newDraft(FILE_NAME, 1, "comment_PS3."));
+    amendChange(r.getChangeId(), "refs/for/master%publish-comments");
+
+    Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
+    List<ChangeMessageInfo> allMessages = getMessages(r.getChangeId());
+
+    assertThat(allMessages.stream().map(m -> m.message).collect(toList()))
+        .containsExactly(
+            "Uploaded patch set 1.",
+            "Uploaded patch set 2.",
+            "Patch Set 2:\n\n(1 comment)",
+            "Uploaded patch set 3.",
+            "Patch Set 3:\n\n(1 comment)")
+        .inOrder();
+
+    /**
+     * Note that the following 3 items have the same timestamp: comment "comment_PS2", message
+     * "Uploaded patch set 2.", and message "Patch Set 2:\n\n(1 comment)". For same change message
+     * timestamps, the matching to a specific message is not guaranteed. TODO(ghareeb) enhance the
+     * matching to ignore change messages with "auto-generated" tag
+     */
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("comment_PS2."))
+                .collect(MoreCollectors.onlyElement())
+                .changeMessageId)
+        .isEqualTo(
+            allMessages.stream()
+                .filter(m -> m.message.equals("Uploaded patch set 2."))
+                .collect(MoreCollectors.onlyElement())
+                .id);
+
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("comment_PS3."))
+                .collect(MoreCollectors.onlyElement())
+                .changeMessageId)
+        .isEqualTo(
+            allMessages.stream()
+                .filter(m -> m.message.equals("Uploaded patch set 3."))
+                .collect(MoreCollectors.onlyElement())
+                .id);
+  }
+
+  @Test
   public void publishCommentsOnPushPublishesDraftsOnAllRevisions() throws Exception {
     PushOneCommit.Result r = createChange();
+    Thread.sleep(3000);
     String rev1 = r.getCommit().name();
     CommentInfo c1 = addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment1"));
     CommentInfo c2 = addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment2"));
 
     r = amendChange(r.getChangeId());
+    Thread.sleep(3000);
     String rev2 = r.getCommit().name();
     CommentInfo c3 = addDraft(r.getChangeId(), rev2, newDraft(FILE_NAME, 1, "comment3"));
 
@@ -2037,6 +2101,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
     sender.clear();
     amendChange(r.getChangeId(), "refs/for/master%publish-comments");
+    Thread.sleep(3000);
 
     Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
     assertThat(comments.stream().map(c -> c.id)).containsExactly(c1.id, c2.id, c3.id);

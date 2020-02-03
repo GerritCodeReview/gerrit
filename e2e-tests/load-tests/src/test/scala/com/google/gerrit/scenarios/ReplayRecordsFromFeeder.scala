@@ -26,7 +26,7 @@ import org.eclipse.jgit.hooks._
 
 import scala.concurrent.duration._
 
-class ReplayRecordsFromFeederScenario extends Simulation {
+class ReplayRecordsFromFeeder extends Simulation {
 
   val gitProtocol = GitProtocol()
   implicit val conf = GatlingGitConfiguration()

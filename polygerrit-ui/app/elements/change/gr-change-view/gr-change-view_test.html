@@ -1043,7 +1043,8 @@ limitations under the License.
           .returns('/change/123');
       assert.equal(
           element._computeCopyTextForTitle(change),
-          '123: test subject | https://localhost:8081/change/123'
+          '<a target=\'_blank\' href=\'https://localhost:8081/change/123\'>' +
+            '123</a>: test subject'
       );
     });
 

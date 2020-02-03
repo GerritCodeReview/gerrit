@@ -59,7 +59,16 @@
       }
       this.$.input.focus();
       this.$.input.select();
+      const copyListener = e => {
+        if (!e || !e.clipboardData) return;
+        // this is to support rich text copy
+        e.clipboardData.setData('text/html', this.text);
+        e.clipboardData.setData('text/plain', this.text);
+        e.preventDefault();
+      };
+      document.addEventListener('copy', copyListener);
       document.execCommand('copy');
+      document.removeEventListener('copy', copyListener);
       if (this.hideInput) {
         this.$.input.style.display = 'none';
       }

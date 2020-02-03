@@ -1644,8 +1644,9 @@
      * @param {!Object} change
      */
     _computeCopyTextForTitle(change) {
-      return `${change._number}: ${change.subject}` +
-       ` | https://${location.host}${this._computeChangeUrl(change)}`;
+      const cPath= this._computeChangeUrl(change);
+      return `<a target='_blank' href='https://${location.host}${cPath}'>` +
+        `${change._number}</a>: ${change.subject}`;
     }
 
     _toggleCommitCollapsed() {

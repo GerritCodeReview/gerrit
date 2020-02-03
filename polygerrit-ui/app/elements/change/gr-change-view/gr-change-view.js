@@ -1260,7 +1260,8 @@
      * @param {string=} opt_section
      */
     _openReplyDialog(opt_section) {
-      this.$.replyOverlay.open().then(() => {
+      this.$.replyOverlay.open().finally(() => {
+        // the following code should be executed no matter open succeed or not
         this._resetReplyOverlayFocusStops();
         this.$.replyDialog.open(opt_section);
         Polymer.dom.flush();

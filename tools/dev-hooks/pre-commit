@@ -31,7 +31,7 @@ gitroot=${gitroot:-.};
 eslint=${gitroot}/node_modules/eslint/bin/eslint.js
 
 # Run eslint over changed frontend code
-CHANGED_UI_FILES=$(git diff --cached --name-only -- '*.js' '*.html' | grep 'polygerrit-ui') && true
+CHANGED_UI_FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.js' '*.html' | grep 'polygerrit-ui') && true
 if [ "${CHANGED_UI_FILES}" ]; then
   if $eslint --fix ${CHANGED_UI_FILES}; then
     # Add again in case lint fix modified some files

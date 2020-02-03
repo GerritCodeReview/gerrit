@@ -234,7 +234,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
       byte[] bytes = hash.digest(data.getBytes(UTF_8));
       return BaseEncoding.base64Url().encode(bytes);
     } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("No MD5 available", e);
+      throw new IllegalStateException("No MD5 available", e);
     }
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f79c7504_8f8236dc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-03T13:13:13Z",
+      "side": 1,
+      "message": "i think comments in css should be `/* */` ?",
+      "revId": "dd6b512a98ae9d39ed73b7520d3e1430b430aed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

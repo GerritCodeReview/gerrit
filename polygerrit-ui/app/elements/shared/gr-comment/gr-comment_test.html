@@ -440,6 +440,9 @@ limitations under the License.
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 
+      // Delete button is not hidden by default
+      assert.isFalse(element.shadowRoot.querySelector('#deleteBtn').hidden);
+
       element.isRobotComment = true;
       element.draft = true;
       assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
@@ -463,6 +466,9 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.notEqual(getComputedStyle(element.$$('.robotRun.link')).display,
           'none');
+
+      // Delete button is hidden for robot comments
+      assert.isTrue(element.shadowRoot.querySelector('#deleteBtn').hidden);
     });
 
     test('collapsible drafts', () => {

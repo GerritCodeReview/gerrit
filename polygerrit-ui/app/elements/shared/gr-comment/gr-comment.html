@@ -264,6 +264,7 @@ limitations under the License.
             id="deleteBtn"
             link
             class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
+            hidden$="[[isRobotComment]]"
             on-click="_handleCommentDelete">
           <iron-icon id="icon" icon="gr-icons:delete"></iron-icon>
         </gr-button>

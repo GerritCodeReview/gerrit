@@ -58,6 +58,7 @@ import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -191,14 +192,8 @@ public class CherryPickChange {
       Timestamp now = TimeUtil.nowTs();
       PersonIdent committerIdent = identifiedUser.newCommitterIdent(now, serverTimeZone);
 
-      final ObjectId computedChangeId =
-          ChangeIdUtil.computeChangeId(
-              commitToCherryPick.getTree(),
-              baseCommit,
-              commitToCherryPick.getAuthorIdent(),
-              committerIdent,
-              input.message);
-      String commitMessage = ChangeIdUtil.insertId(input.message, computedChangeId).trim() + '\n';
+      final ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
+      String commitMessage = ChangeIdUtil.insertId(input.message, generatedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState = projectCache.checkedGet(dest.getParentKey());
@@ -233,7 +228,7 @@ public class CherryPickChange {
           final String idStr = idList.get(idList.size() - 1).trim();
           changeKey = new Change.Key(idStr);
         } else {
-          changeKey = new Change.Key("I" + computedChangeId.name());
+          changeKey = new Change.Key("I" + generatedChangeId.name());
         }
 
         Branch.NameKey newDest = new Branch.NameKey(project, destRef.getName());

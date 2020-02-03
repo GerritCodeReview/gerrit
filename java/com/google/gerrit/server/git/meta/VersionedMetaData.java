@@ -22,6 +22,7 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -326,14 +327,8 @@ public abstract class VersionedMetaData {
         }
 
         if (update.insertChangeId()) {
-          ObjectId id =
-              ChangeIdUtil.computeChangeId(
-                  res,
-                  getRevision(),
-                  commit.getAuthor(),
-                  commit.getCommitter(),
-                  commit.getMessage());
-          commit.setMessage(ChangeIdUtil.insertId(commit.getMessage(), id));
+          commit.setMessage(
+              ChangeIdUtil.insertId(commit.getMessage(), CommitMessageUtil.generateChangeId()));
         }
 
         src = rw.parseCommit(inserter.insert(commit));

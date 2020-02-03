@@ -7221,9 +7221,12 @@ to a change.
 |`reviewer`      ||
 The link:rest-api-accounts.html#account-id[ID] of one account that
 should be added as reviewer or the link:rest-api-groups.html#group-id[
-ID] of one group for which all members should be added as reviewers. +
+ID] of one internal group for which all members should be added as reviewers. +
 If an ID identifies both an account and a group, only the account is
 added as reviewer to the change.
+External groups, such as LDAP groups, will be silently omitted from a
+link:#set-review[set-review] or
+link:rest-api-changes.html#add-reviewer[add-reviewer] call.
 |`state`         |optional|
 Add reviewer in this state. Possible reviewer states are `REVIEWER`
 and `CC`. If not given, defaults to `REVIEWER`.

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1163d3f_2ed39edb",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-03T08:51:09Z",
+      "side": 0,
+      "message": "Why is this dropped?",
+      "range": {
+        "startLine": 286,
+        "startChar": 10,
+        "endLine": 286,
+        "endChar": 64
+      },
+      "revId": "001aa53610392f2f37f2752748489b0b3202c889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a379f067_b9bc1a0b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-03T08:51:09Z",
+      "side": 0,
+      "message": "Why are these tests removed?",
+      "revId": "001aa53610392f2f37f2752748489b0b3202c889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

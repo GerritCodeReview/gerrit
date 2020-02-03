@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9000eda_83cf9430",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-03T01:44:02Z",
+      "side": 1,
+      "message": "IntelliJ,role\u003dexternal,window\u003d_blank]",
+      "range": {
+        "startLine": 25,
+        "startChar": 70,
+        "endLine": 25,
+        "endChar": 79
+      },
+      "revId": "2b7ebe830fdec1aa67616b6dce0b8cfccee1daf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

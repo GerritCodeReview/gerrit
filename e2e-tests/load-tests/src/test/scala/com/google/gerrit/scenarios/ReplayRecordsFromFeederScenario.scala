@@ -20,6 +20,7 @@ import com.github.barbasa.gatling.git.protocol.GitProtocol
 import com.github.barbasa.gatling.git.request.builder.GitRequestBuilder
 import com.github.barbasa.gatling.git.{GatlingGitConfiguration, GitRequestSession}
 import io.gatling.core.Predef._
+import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 import org.apache.commons.io.FileUtils
 import org.eclipse.jgit.hooks._
@@ -28,12 +29,12 @@ import scala.concurrent.duration._
 
 class ReplayRecordsFromFeederScenario extends Simulation {
 
-  val gitProtocol = GitProtocol()
-  implicit val conf = GatlingGitConfiguration()
+  val gitProtocol: GitProtocol = GitProtocol()
+  implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
   implicit val postMessageHook: Option[String] = Some(
     s"hooks/${CommitMsgHook.NAME}")
 
-  val feeder = jsonFile("data/requests.json").circular
+  val feeder: FileBasedFeederBuilder[Any]#F = jsonFile("data/requests.json").circular
 
   val replayCallsScenario: ScenarioBuilder =
     scenario("Git commands")

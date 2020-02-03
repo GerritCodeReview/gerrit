@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9e0cfa7f_6afbc39e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-03T10:20:56Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/252941",
+      "parentUuid": "cc90ed64_8bc696f1",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ed5b31b_3b3163a8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -86,6 +104,24 @@
       "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80ca7671_d3cf2508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-03T10:20:56Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/252941",
+      "parentUuid": "9444f683_5f0f5c33",
+      "revId": "aab27d38a0c3acad32c1945d094c6270d840877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

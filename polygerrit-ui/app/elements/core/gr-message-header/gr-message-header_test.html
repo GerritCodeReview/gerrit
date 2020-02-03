@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2020 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-message-header</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-message-header.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-message-header></gr-message-header>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-message-header tests', () => {
+    let element;
+
+    setup(() => {
+      element = fixture('basic');
+    });
+
+    test('show message', () => {
+      element.message = {html: 'This is a test message.'};
+      element.attached();
+      assert.equal(element.$.message.innerHTML, element.message.html);
+    });
+
+    test('hide message on dismiss', () => {
+      element.message = {html: 'This is a test message.', id: 'test'};
+      element.attached();
+      MockInteractions.tap(element.$.dismissMessageBtn);
+      assert.isTrue(element.$.container.hidden);
+      assert.isTrue(document.cookie.includes('msg-test=1'));
+
+      element.attached();
+      assert.isTrue(element.$.container.hidden);
+    });
+  });
+</script>

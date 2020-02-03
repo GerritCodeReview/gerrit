@@ -16,6 +16,24 @@
       "revId": "10ac89240994b87997b1d008f82f689c3f257352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d60f3f6_b3750970",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-03T15:44:39Z",
+      "side": 0,
+      "message": "It\u0027s still just to see the fix.\nI guess if user is logged out, then it might be important to disable it.\nIn an older patchset, I don\u0027t understand what you mean exactly.\nIf fix is already applied, still someone might be interested in what the fix recommendation was.",
+      "parentUuid": "9d10904e_5b8b9bdf",
+      "revId": "10ac89240994b87997b1d008f82f689c3f257352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

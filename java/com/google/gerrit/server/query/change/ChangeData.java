@@ -38,7 +38,7 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
@@ -89,7 +89,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -275,7 +274,7 @@ public class ChangeData {
   private List<PatchSetApproval> currentApprovals;
   private List<String> currentFiles;
   private Optional<DiffSummary> diffSummary;
-  private Collection<Comment> publishedComments;
+  private Collection<HumanComment> publishedComments;
   private Collection<RobotComment> robotComments;
   private CurrentUser visibleTo;
   private List<ChangeMessage> messages;
@@ -736,7 +735,7 @@ public class ChangeData {
     return reviewerUpdates;
   }
 
-  public Collection<Comment> publishedComments() {
+  public Collection<HumanComment> publishedComments() {
     if (publishedComments == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -761,49 +760,59 @@ public class ChangeData {
       if (!lazyLoad) {
         return null;
       }
-
-      List<Comment> comments =
-          Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
-
-      // Build a map of uuid to list of direct descendants.
-      Map<String, List<Comment>> forest = new HashMap<>();
-      for (Comment comment : comments) {
-        List<Comment> siblings = forest.get(comment.parentUuid);
-        if (siblings == null) {
-          siblings = new ArrayList<>();
-          forest.put(comment.parentUuid, siblings);
-        }
-        siblings.add(comment);
-      }
-
-      // Find latest comment in each thread and apply to unresolved counter.
-      int unresolved = 0;
-      if (forest.containsKey(null)) {
-        for (Comment root : forest.get(null)) {
-          if (getLatestComment(forest, root).unresolved) {
-            unresolved++;
-          }
-        }
-      }
-      unresolvedCommentCount = unresolved;
+      unresolvedCommentCount = getUnresolvedHumanComments() + getUnresolvedRobotComments();
     }
 
     return unresolvedCommentCount;
   }
 
-  protected Comment getLatestComment(Map<String, List<Comment>> forest, Comment root) {
-    List<Comment> children = forest.get(root.key.uuid);
+  private int getUnresolvedHumanComments() {
+    List<HumanComment> humanComments = publishedComments().stream().collect(toList());
+
+    // Build a map of uuid to list of direct descendants.
+    Map<String, List<HumanComment>> forest = new HashMap<>();
+    for (HumanComment comment : humanComments) {
+      List<HumanComment> siblings = forest.get(comment.parentUuid);
+      if (siblings == null) {
+        siblings = new ArrayList<>();
+        forest.put(comment.parentUuid, siblings);
+      }
+      siblings.add(comment);
+    }
+
+    // Find latest comment in each thread and apply to unresolved counter.
+    int unresolved = 0;
+    if (forest.containsKey(null)) {
+      for (HumanComment root : forest.get(null)) {
+        if (getLatestComment(forest, root).unresolved) {
+          unresolved++;
+        }
+      }
+    }
+    return unresolved;
+  }
+
+  protected HumanComment getLatestComment(
+      Map<String, List<HumanComment>> forest, HumanComment root) {
+    List<HumanComment> children = forest.get(root.key.uuid);
     if (children == null) {
       return root;
     }
-    Comment latest = null;
-    for (Comment comment : children) {
-      Comment branchLatest = getLatestComment(forest, comment);
+    HumanComment latest = null;
+    for (HumanComment comment : children) {
+      HumanComment branchLatest = getLatestComment(forest, comment);
       if (latest == null || branchLatest.writtenOn.after(latest.writtenOn)) {
         latest = branchLatest;
       }
     }
     return latest;
+  }
+
+  // Robot comments, unlike human comments, don't have a parent. Therefore, a robot comment is
+  // unresolve if the comment itself has unresolved = true. Whereas in human comments, it depends on
+  // the latest comment in the chain.
+  private int getUnresolvedRobotComments() {
+    return (int) robotComments().stream().filter(c -> c.unresolved == true).count();
   }
 
   public void setUnresolvedCommentCount(Integer count) {

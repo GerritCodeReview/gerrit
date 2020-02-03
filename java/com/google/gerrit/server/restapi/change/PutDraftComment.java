@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -94,12 +94,12 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   }
 
   private class Op implements BatchUpdateOp {
-    private final Comment.Key key;
+    private final HumanComment.Key key;
     private final DraftInput in;
 
-    private Comment comment;
+    private HumanComment comment;
 
-    private Op(Comment.Key key, DraftInput in) {
+    private Op(HumanComment.Key key, DraftInput in) {
       this.key = key;
       this.in = in;
     }
@@ -107,15 +107,15 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, PatchListNotAvailableException {
-      Optional<Comment> maybeComment =
+      Optional<HumanComment> maybeComment =
           commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.
         throw new ResourceNotFoundException("comment not found: " + key);
       }
-      Comment origComment = maybeComment.get();
-      comment = new Comment(origComment);
+      HumanComment origComment = maybeComment.get();
+      comment = new HumanComment(origComment);
       // Copy constructor preserved old real author; replace with current real
       // user.
       ctx.getUser().updateRealAccountId(comment::setRealAuthor);
@@ -131,17 +131,19 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         // Updating the path alters the primary key, which isn't possible.
         // Delete then recreate the comment instead of an update.
 
-        commentsUtil.deleteComments(update, Collections.singleton(origComment));
+        commentsUtil.deleteHumanComments(update, Collections.singleton(origComment));
         comment.key.filename = in.path;
       }
       setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
-      commentsUtil.putComments(
-          update, Comment.Status.DRAFT, Collections.singleton(update(comment, in, ctx.getWhen())));
+      commentsUtil.putHumanComments(
+          update,
+          HumanComment.Status.DRAFT,
+          Collections.singleton(update(comment, in, ctx.getWhen())));
       return true;
     }
   }
 
-  private static Comment update(Comment e, DraftInput in, Timestamp when) {
+  private static HumanComment update(HumanComment e, DraftInput in, Timestamp when) {
     if (in.side != null) {
       e.side = in.side();
     }

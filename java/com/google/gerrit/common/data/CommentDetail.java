@@ -16,6 +16,7 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class CommentDetail {
 
   protected CommentDetail() {}
 
-  public void include(Change.Id changeId, Comment p) {
+  public void include(Change.Id changeId, HumanComment p) {
     PatchSet.Id psId = PatchSet.id(changeId, p.key.patchSetId);
     if (p.side == 0) {
       if (idA == null && idB.equals(psId)) {

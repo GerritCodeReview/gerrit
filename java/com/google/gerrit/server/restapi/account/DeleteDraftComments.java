@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
@@ -179,11 +179,11 @@ public class DeleteDraftComments
         throws PatchListNotAvailableException, PermissionBackendException {
       ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
       boolean dirty = false;
-      for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
+      for (HumanComment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
         dirty = true;
         PatchSet.Id psId = PatchSet.id(ctx.getChange().getId(), c.key.patchSetId);
         setCommentCommitId(c, patchListCache, ctx.getChange(), psUtil.get(ctx.getNotes(), psId));
-        commentsUtil.deleteComments(ctx.getUpdate(psId), Collections.singleton(c));
+        commentsUtil.deleteHumanComments(ctx.getUpdate(psId), Collections.singleton(c));
         comments.add(commentFormatter.format(c));
       }
       if (dirty) {

@@ -107,6 +107,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
 
     for (RobotComment c : put) {
       cache.get(c.getCommitId()).putComment(c);
+      cache.get(c.getCommitId()).putComment(c);
     }
 
     Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();

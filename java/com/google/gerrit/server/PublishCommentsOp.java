@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -59,7 +60,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private final PatchSet.Id psId;
   private final PublishCommentUtil publishCommentUtil;
 
-  private List<Comment> comments = new ArrayList<>();
+  private List<HumanComment> comments = new ArrayList<>();
   private ChangeMessage message;
   private IdentifiedUser user;
 
@@ -95,7 +96,6 @@ public class PublishCommentsOp implements BatchUpdateOp {
           PatchListNotAvailableException, CommentsRejectedException {
     user = ctx.getIdentifiedUser();
     comments = commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
-
     // PublishCommentsOp should update a separate ChangeUpdate Object than the one used by other ops
     // For example, with the "publish comments on PS upload" workflow,
     // There are 2 ops: ReplaceOp & PublishCommentsOp, where each updates its own ChangeUpdate
@@ -117,7 +117,10 @@ public class PublishCommentsOp implements BatchUpdateOp {
     PatchSet ps = psUtil.get(changeNotes, psId);
     NotifyResolver.Result notify = ctx.getNotify(changeNotes.getChangeId());
     if (notify.shouldNotify()) {
-      email.create(notify, changeNotes, ps, user, message, comments, null, labelDelta).sendAsync();
+      List<Comment> genericComments = new ArrayList<>(comments);
+      email
+          .create(notify, changeNotes, ps, user, message, genericComments, null, labelDelta)
+          .sendAsync();
     }
     commentAdded.fire(
         changeNotes.getChange(),

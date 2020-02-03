@@ -646,7 +646,7 @@
      */
     _createThreads(comments) {
       const sortedComments = comments.slice(0).sort((a, b) => {
-        if (b.__draft && !a.__draft ) { return 0; }
+        if (b.__draft && !a.__draft ) { return -1; }
         if (a.__draft && !b.__draft ) { return 1; }
         return util.parseDate(a.updated) - util.parseDate(b.updated);
       });

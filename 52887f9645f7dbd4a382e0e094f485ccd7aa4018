@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "376bd5aa_6794c27d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-03T11:10:47Z",
+      "side": 1,
+      "message": "Check on this assumption, if not make sure to sort the lists. Also probably write a unit test to verify this change.",
+      "range": {
+        "startLine": 63,
+        "startChar": 56,
+        "endLine": 63,
+        "endChar": 92
+      },
+      "revId": "52887f9645f7dbd4a382e0e094f485ccd7aa4018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

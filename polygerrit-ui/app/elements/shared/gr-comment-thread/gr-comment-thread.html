@@ -47,7 +47,7 @@ limitations under the License.
         background-color: var(--comment-background-color);
         color: var(--comment-text-color);
         display: block;
-        margin: 0 4px 4px 4px;
+        margin: 0 var(--spacing-s) var(--spacing-s);
         white-space: normal;
         box-shadow: var(--elevation-level-2);
         border-radius: var(--border-radius);
@@ -75,6 +75,8 @@ limitations under the License.
       .pathInfo {
         display: flex;
         align-items: baseline;
+        justify-content: space-between;
+        padding: 0 var(--spacing-s) var(--spacing-s);
       }
       .descriptionText {
         margin-left: var(--spacing-m);

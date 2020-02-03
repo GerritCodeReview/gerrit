@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3c670b2_78425c0f",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-03T09:22:12Z",
+      "side": 1,
+      "message": "I think that should be \u0027message\u0027, shouldn\u0027t it?",
+      "range": {
+        "startLine": 288,
+        "startChar": 51,
+        "endLine": 288,
+        "endChar": 64
+      },
+      "revId": "af821438138af6fe88a3661159c2e1438a185428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

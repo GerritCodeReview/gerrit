@@ -640,17 +640,20 @@
       }
     }
 
+    _sortComments(comments) {
+      return comments.slice(0).sort((a, b) => {
+        if (b.__draft && !a.__draft ) { return -1; }
+        if (a.__draft && !b.__draft ) { return 1; }
+        return util.parseDate(a.updated) - util.parseDate(b.updated);
+      });
+    }
+
     /**
      * @param {!Array<!Object>} comments
      * @return {!Array<!Object>} Threads for the given comments.
      */
     _createThreads(comments) {
-      const sortedComments = comments.slice(0).sort((a, b) => {
-        if (b.__draft && !a.__draft ) { return 0; }
-        if (a.__draft && !b.__draft ) { return 1; }
-        return util.parseDate(a.updated) - util.parseDate(b.updated);
-      });
-
+      const sortedComments = this._sortComments(comments);
       const threads = [];
       for (const comment of sortedComments) {
         // If the comment is in reply to another comment, find that comment's

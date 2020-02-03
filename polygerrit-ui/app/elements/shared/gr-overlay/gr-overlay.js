@@ -63,13 +63,13 @@
     }
 
     open(...args) {
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         Polymer.IronOverlayBehaviorImpl.open.apply(this, args);
         if (this._isMobile()) {
           this.fire('fullscreen-overlay-opened');
           this._fullScreenOpen = true;
         }
-        this._awaitOpen(resolve);
+        this._awaitOpen(resolve, reject);
       });
     }
 
@@ -96,7 +96,7 @@
      * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
      * opening. Eventually replace with a direct way to listen to the overlay.
      */
-    _awaitOpen(fn) {
+    _awaitOpen(fn, reject) {
       let iters = 0;
       const step = () => {
         this.async(() => {
@@ -105,11 +105,7 @@
           } else if (iters++ < AWAIT_MAX_ITERS) {
             step.call(this);
           } else {
-            // TODO(crbug.com/gerrit/10774): Once this is confirmed as the root
-            // cause of the bug, fix it by either making sure to resolve the fn
-            // function or find a better way to listen on the overlay being
-            // shown.
-            console.warn('gr-overlay _awaitOpen failed to resolve');
+            reject(new Error('gr-overlay _awaitOpen failed to resolve'));
           }
         }, AWAIT_STEP);
       };

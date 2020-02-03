@@ -16,6 +16,24 @@
       "revId": "dd6b512a98ae9d39ed73b7520d3e1430b430aed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aee93a12_15ae8b95",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-03T13:17:45Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/252947",
+      "parentUuid": "f79c7504_8f8236dc",
+      "revId": "dd6b512a98ae9d39ed73b7520d3e1430b430aed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

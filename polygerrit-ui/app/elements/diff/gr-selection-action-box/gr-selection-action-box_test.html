@@ -46,7 +46,7 @@ limitations under the License.
     setup(() => {
       container = fixture('basic');
       element = container.querySelector('gr-selection-action-box');
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(element, 'fire');
     });
 

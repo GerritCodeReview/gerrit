@@ -53,7 +53,7 @@ limitations under the License.
     }
 
     setup(done => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       account = {
         _account_id: 123,
         name: 'user name',

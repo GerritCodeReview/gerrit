@@ -64,7 +64,7 @@ limitations under the License.
     setup(() => {
       element = fixture('basic');
       overlay = fixture('within-overlay');
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     teardown(() => {

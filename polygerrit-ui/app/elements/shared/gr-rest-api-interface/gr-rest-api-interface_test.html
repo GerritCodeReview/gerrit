@@ -47,7 +47,7 @@ limitations under the License.
       ctr += 1;
       window.CANONICAL_PATH = `test${ctr}`;
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       const testJSON = ')]}\'\n{"hello": "bonjour"}';
       sandbox.stub(window, 'fetch').returns(Promise.resolve({
         ok: true,

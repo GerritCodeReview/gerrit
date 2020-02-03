@@ -40,7 +40,7 @@ limitations under the License.
     let element;
 
     setup(done => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       stub('gr-reporting', {
         appStarted: sandbox.stub(),
       });

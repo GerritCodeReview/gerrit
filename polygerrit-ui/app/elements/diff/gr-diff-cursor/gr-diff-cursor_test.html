@@ -56,7 +56,7 @@ limitations under the License.
     let mockDiffResponse;
 
     setup(done => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       const fixtureElems = fixture('basic');
       mockDiffResponse = fixtureElems[0];
@@ -394,7 +394,7 @@ limitations under the License.
     let someEmptyDiv;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       someEmptyDiv = fixture('empty');
     });
 

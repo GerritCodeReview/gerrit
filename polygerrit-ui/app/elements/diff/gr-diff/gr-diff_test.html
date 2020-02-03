@@ -46,7 +46,7 @@ limitations under the License.
     const MINIMAL_PREFS = {tab_size: 2, line_length: 80};
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     teardown(() => {

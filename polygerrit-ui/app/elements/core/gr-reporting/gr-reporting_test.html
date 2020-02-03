@@ -44,7 +44,7 @@ limitations under the License.
     const NOW_TIME = 100;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       clock = sinon.useFakeTimers(NOW_TIME);
       element = fixture('basic');
       element._baselines = Object.assign({}, GrReporting.STARTUP_TIMERS);

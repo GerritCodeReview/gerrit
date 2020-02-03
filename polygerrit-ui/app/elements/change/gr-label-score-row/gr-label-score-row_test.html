@@ -41,7 +41,7 @@ limitations under the License.
     let sandbox;
 
     setup(done => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       element = fixture('basic');
       element.labels = {
         'Code-Review': {

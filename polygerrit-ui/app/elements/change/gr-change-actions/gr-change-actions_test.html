@@ -88,7 +88,7 @@ limitations under the License.
         getProjectConfig() { return Promise.resolve({}); },
       });
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
 
       element = fixture('basic');
@@ -1770,7 +1770,7 @@ limitations under the License.
         getProjectConfig() { return Promise.resolve({}); },
       });
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
 
       element = fixture('basic');

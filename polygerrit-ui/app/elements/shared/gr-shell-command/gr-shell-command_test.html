@@ -40,7 +40,7 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       element = fixture('basic');
       element.text = `git fetch http://gerrit@localhost:8080/a/test-project
           refs/changes/05/5/1 && git checkout FETCH_HEAD`;

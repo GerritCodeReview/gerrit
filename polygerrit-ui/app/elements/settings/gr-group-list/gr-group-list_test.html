@@ -41,7 +41,7 @@ limitations under the License.
     let groups;
 
     setup(done => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       groups = [{
         url: 'some url',
         options: {},

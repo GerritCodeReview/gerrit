@@ -113,7 +113,7 @@ limitations under the License.
       },
     };
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       element = fixture('basic');
       stub('gr-rest-api-interface', {
         getAccount() { return Promise.resolve(null); },

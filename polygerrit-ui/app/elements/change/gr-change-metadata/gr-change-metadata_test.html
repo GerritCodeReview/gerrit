@@ -41,7 +41,7 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       stub('gr-endpoint-decorator', {
         _import: sandbox.stub().returns(Promise.resolve()),
       });

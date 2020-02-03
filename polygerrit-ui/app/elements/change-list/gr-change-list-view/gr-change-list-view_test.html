@@ -53,7 +53,7 @@ limitations under the License.
         getAccountStatus() { return Promise.resolve({}); },
       });
       element = fixture('basic');
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     teardown(done => {

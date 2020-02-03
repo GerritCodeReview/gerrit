@@ -47,7 +47,7 @@ limitations under the License.
         getAccountStatus() { return Promise.resolve(false); },
       });
       element = fixture('basic');
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
           (_, qs) => Promise.resolve(qs.map(() => [])));
 

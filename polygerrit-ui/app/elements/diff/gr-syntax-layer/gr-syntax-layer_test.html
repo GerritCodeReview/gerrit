@@ -62,7 +62,7 @@ limitations under the License.
     }
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       element = fixture('basic');
       const mock = document.createElement('mock-diff-response');
       diff = mock.diffResponse;

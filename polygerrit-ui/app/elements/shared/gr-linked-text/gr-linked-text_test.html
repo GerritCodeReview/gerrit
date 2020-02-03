@@ -45,7 +45,7 @@ limitations under the License.
 
     setup(() => {
       element = fixture('basic');
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(Gerrit.Nav, 'mapCommentlinks', x => x);
       element.config = {
         ph: {

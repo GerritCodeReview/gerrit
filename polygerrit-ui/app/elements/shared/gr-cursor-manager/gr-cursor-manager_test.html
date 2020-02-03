@@ -47,7 +47,7 @@ limitations under the License.
     let list;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       const fixtureElements = fixture('basic');
       element = fixtureElements[0];
       list = fixtureElements[1];

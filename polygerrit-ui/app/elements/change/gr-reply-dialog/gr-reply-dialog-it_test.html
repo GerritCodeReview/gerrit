@@ -93,7 +93,7 @@ limitations under the License.
     };
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       changeNum = 42;
       patchNum = 1;

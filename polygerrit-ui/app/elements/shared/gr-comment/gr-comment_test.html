@@ -67,7 +67,7 @@ limitations under the License.
         message: 'is this a crossover episode!?',
         updated: '2015-12-08 19:48:33.843000000',
       };
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     teardown(() => {
@@ -386,7 +386,7 @@ limitations under the License.
         line: 5,
       };
       element.commentSide = 'right';
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     teardown(() => {

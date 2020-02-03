@@ -40,7 +40,7 @@ limitations under the License.
     let sandbox;
 
     setup(done => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
       });

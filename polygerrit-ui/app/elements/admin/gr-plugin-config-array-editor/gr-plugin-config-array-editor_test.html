@@ -43,7 +43,7 @@ limitations under the License.
     const getAll = str => Polymer.dom(element.root).querySelectorAll(str);
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       element = fixture('basic');
       element.pluginOption = {
         _key: 'test-key',

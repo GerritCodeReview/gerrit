@@ -42,7 +42,7 @@ limitations under the License.
 
     setup(() => {
       window.clock = sinon.useFakeTimers();
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
       stub('gr-rest-api-interface', {
         getAccount() {

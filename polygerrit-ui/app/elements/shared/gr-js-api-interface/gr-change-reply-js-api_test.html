@@ -46,7 +46,7 @@ breaking changes to gr-reply-dialog won’t be noticed.
     let plugin;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
         getAccount() { return Promise.resolve(null); },

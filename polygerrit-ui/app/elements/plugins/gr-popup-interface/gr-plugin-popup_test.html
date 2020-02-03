@@ -40,7 +40,7 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       element = fixture('basic');
       stub('gr-overlay', {
         open: sandbox.stub().returns(Promise.resolve()),

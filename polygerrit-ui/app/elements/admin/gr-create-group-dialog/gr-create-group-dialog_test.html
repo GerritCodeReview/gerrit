@@ -42,7 +42,7 @@ limitations under the License.
     const GROUP_NAME = 'test-group';
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
       });

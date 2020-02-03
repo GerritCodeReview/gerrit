@@ -81,7 +81,7 @@ limitations under the License.
         },
       ];
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       element = fixture('basic');
       element.commentRanges = initialCommentRanges;
     });
@@ -98,7 +98,7 @@ limitations under the License.
       const lineNumberEl = document.createElement('td');
 
       setup(() => {
-        sandbox = sinon.sandbox.create();
+        sandbox = sinon.createSandbox();
         annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
         el = document.createElement('div');
         el.setAttribute('data-side', 'left');

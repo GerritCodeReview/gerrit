@@ -45,7 +45,7 @@ limitations under the License.
     const TRANSITION_TIME = 500;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       element = fixture('basic');
     });
 

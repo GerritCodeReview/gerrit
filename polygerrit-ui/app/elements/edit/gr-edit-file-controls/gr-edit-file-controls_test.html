@@ -42,7 +42,7 @@ suite('gr-edit-file-controls tests', () => {
   let fileActionHandler;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     element = fixture('basic');
     fileActionHandler = sandbox.stub();
     element.addEventListener('file-action-tap', fileActionHandler);

@@ -43,7 +43,7 @@ suite('gr-edit-controls tests', () => {
   let queryStub;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     element = fixture('basic');
     element.change = {_number: '42'};
     showDialogSpy = sandbox.spy(element, '_showDialog');

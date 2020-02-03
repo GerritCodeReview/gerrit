@@ -57,7 +57,7 @@ limitations under the License.
 
     setup(done => {
       element = fixture('basic');
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       return flush(done);
     });
 

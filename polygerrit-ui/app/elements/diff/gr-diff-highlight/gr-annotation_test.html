@@ -43,7 +43,7 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       parent = fixture('basic');
       textNode = parent.childNodes[0];
       str = textNode.textContent;

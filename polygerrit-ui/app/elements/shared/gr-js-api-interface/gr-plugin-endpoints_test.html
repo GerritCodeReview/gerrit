@@ -37,7 +37,7 @@ limitations under the License.
     let domHook;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       domHook = {};
       instance = new GrPluginEndpoints();
       Gerrit.install(p => { pluginFoo = p; }, '0.1',

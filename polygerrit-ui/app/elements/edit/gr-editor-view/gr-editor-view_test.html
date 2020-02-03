@@ -53,7 +53,7 @@ suite('gr-editor-view tests', () => {
       getLoggedIn() { return Promise.resolve(true); },
       getEditPreferences() { return Promise.resolve({}); },
     });
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     element = fixture('basic');
     savePathStub = sandbox.stub(element.$.restAPI, 'renameFileInChangeEdit');
     saveFileStub = sandbox.stub(element.$.restAPI, 'saveChangeEdit');

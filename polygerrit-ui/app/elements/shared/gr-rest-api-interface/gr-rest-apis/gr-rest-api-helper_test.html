@@ -38,7 +38,7 @@ limitations under the License.
     let fetchPromisesCache;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       cache = new SiteBasedCache();
       fetchPromisesCache = new FetchPromisesCache();
 

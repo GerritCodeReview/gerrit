@@ -44,7 +44,7 @@ limitations under the License.
     };
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       element = fixture('basic');
       element.changeNum = '1';
       element._patchNum = 2;

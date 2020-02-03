@@ -48,7 +48,7 @@ limitations under the License.
     let _listeners;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       _listeners = {};
 
       account = {

@@ -35,7 +35,7 @@ limitations under the License.
     let restApiStub;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
       sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
       restApiStub = {

@@ -77,7 +77,7 @@ limitations under the License.
     const PARENT = 'PARENT';
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({change: {}}); },

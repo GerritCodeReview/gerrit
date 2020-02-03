@@ -51,7 +51,7 @@ limitations under the License.
     let value;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(page, 'show');
       element = fixture('basic');
       counter = 0;

@@ -140,7 +140,7 @@ limitations under the License.
         getDiffRobotComments() { return Promise.resolve({}); },
         getDiffDrafts() { return Promise.resolve({}); },
       });
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       messages = _.times(3, randomMessage);
       // Element must be wrapped in an element with direct access to the
       // comment API.
@@ -465,7 +465,7 @@ limitations under the License.
         getDiffDrafts() { return Promise.resolve({}); },
       });
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       messages = _.times(2, randomAutomated);
       messages.push(randomMessageReviewer);
 

@@ -126,7 +126,7 @@ limitations under the License.
 
     setup(() => {
       element = fixture('basic');
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(element, '_getCopyEventTarget');
       element._cachedDiffBuilder = {
         getLineElByChild: sandbox.stub().returns({}),

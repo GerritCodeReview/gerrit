@@ -32,8 +32,11 @@ class ReplayRecordsFromFeeder extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
   implicit val postMessageHook: Option[String] = Some(s"hooks/${CommitMsgHook.NAME}")
 
-  val gitProtocol: GitProtocol = GitProtocol()
-  val feeder: FileBasedFeederBuilder[Any]#F = jsonFile("data/requests.json").circular
+  private val gitProtocol: GitProtocol = GitProtocol()
+
+  private val name: String = this.getClass.getSimpleName
+  private val file = s"data/$name.json"
+  private val feeder: FileBasedFeederBuilder[Any]#F = jsonFile(file).circular
 
   val replayCallsScenario: ScenarioBuilder =
     scenario("Git commands")

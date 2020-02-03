@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -46,7 +46,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<Comment> listComments(ChangeResource rsrc) {
+  protected Iterable<HumanComment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
   }

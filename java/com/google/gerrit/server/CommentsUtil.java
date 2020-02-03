@@ -25,6 +25,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
@@ -113,7 +114,7 @@ public class CommentsUtil {
     this.serverId = serverId;
   }
 
-  public Comment newComment(
+  public HumanComment newHumanComment(
       ChangeContext ctx,
       String path,
       PatchSet.Id psId,
@@ -128,17 +129,17 @@ public class CommentsUtil {
         unresolved = false;
       } else {
         // Inherit unresolved value from inReplyTo comment if not specified.
-        Comment.Key key = new Comment.Key(parentUuid, path, psId.get());
-        Optional<Comment> parent = getPublished(ctx.getNotes(), key);
+        HumanComment.Key key = new HumanComment.Key(parentUuid, path, psId.get());
+        Optional<HumanComment> parent = getPublished(ctx.getNotes(), key);
         if (!parent.isPresent()) {
           throw new UnprocessableEntityException("Invalid parentUuid supplied for comment");
         }
         unresolved = parent.get().unresolved;
       }
     }
-    Comment c =
-        new Comment(
-            new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
+    HumanComment c =
+        new HumanComment(
+            new HumanComment.Key(ChangeUtil.messageUuid(), path, psId.get()),
             ctx.getUser().getAccountId(),
             ctx.getWhen(),
             side,
@@ -160,7 +161,7 @@ public class CommentsUtil {
       String robotRunId) {
     RobotComment c =
         new RobotComment(
-            new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
+            new HumanComment.Key(ChangeUtil.messageUuid(), path, psId.get()),
             ctx.getUser().getAccountId(),
             ctx.getWhen(),
             side,
@@ -172,19 +173,20 @@ public class CommentsUtil {
     return c;
   }
 
-  public Optional<Comment> getPublished(ChangeNotes notes, Comment.Key key) {
+  public Optional<HumanComment> getPublished(ChangeNotes notes, HumanComment.Key key) {
     return publishedByChange(notes).stream().filter(c -> key.equals(c.key)).findFirst();
   }
 
-  public Optional<Comment> getDraft(ChangeNotes notes, IdentifiedUser user, Comment.Key key) {
+  public Optional<HumanComment> getDraft(
+      ChangeNotes notes, IdentifiedUser user, HumanComment.Key key) {
     return draftByChangeAuthor(notes, user.getAccountId()).stream()
         .filter(c -> key.equals(c.key))
         .findFirst();
   }
 
-  public List<Comment> publishedByChange(ChangeNotes notes) {
+  public List<HumanComment> publishedByChange(ChangeNotes notes) {
     notes.load();
-    return sort(Lists.newArrayList(notes.getComments().values()));
+    return sort(Lists.newArrayList(notes.getHumanComments().values()));
   }
 
   public List<RobotComment> robotCommentsByChange(ChangeNotes notes) {
@@ -192,8 +194,8 @@ public class CommentsUtil {
     return sort(Lists.newArrayList(notes.getRobotComments().values()));
   }
 
-  public List<Comment> draftByChange(ChangeNotes notes) {
-    List<Comment> comments = new ArrayList<>();
+  public List<HumanComment> draftByChange(ChangeNotes notes) {
+    List<HumanComment> comments = new ArrayList<>();
     for (Ref ref : getDraftRefs(notes.getChangeId())) {
       Account.Id account = Account.Id.fromRefSuffix(ref.getName());
       if (account != null) {
@@ -203,8 +205,8 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  public List<Comment> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
-    List<Comment> comments = new ArrayList<>();
+  public List<HumanComment> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
+    List<HumanComment> comments = new ArrayList<>();
     comments.addAll(publishedByPatchSet(notes, psId));
 
     for (Ref ref : getDraftRefs(notes.getChangeId())) {
@@ -216,13 +218,13 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  public List<Comment> publishedByChangeFile(ChangeNotes notes, String file) {
-    return commentsOnFile(notes.load().getComments().values(), file);
+  public List<HumanComment> publishedByChangeFile(ChangeNotes notes, String file) {
+    return commentsOnFile(notes.load().getHumanComments().values(), file);
   }
 
-  public List<Comment> publishedByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
+  public List<HumanComment> publishedByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     return removeCommentsOnAncestorOfCommitMessage(
-        commentsOnPatchSet(notes.load().getComments().values(), psId));
+        commentsOnPatchSet(notes.load().getHumanComments().values(), psId));
   }
 
   public List<RobotComment> robotCommentsByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
@@ -236,29 +238,31 @@ public class CommentsUtil {
    * auto-merge was done. From that time there may still be comments on the auto-merge commit
    * message and those we want to filter out.
    */
-  private List<Comment> removeCommentsOnAncestorOfCommitMessage(List<Comment> list) {
+  private List<HumanComment> removeCommentsOnAncestorOfCommitMessage(List<HumanComment> list) {
     return list.stream()
         .filter(c -> c.side != 0 || !Patch.COMMIT_MSG.equals(c.key.filename))
         .collect(toList());
   }
 
-  public List<Comment> draftByPatchSetAuthor(
+  public List<HumanComment> draftByPatchSetAuthor(
       PatchSet.Id psId, Account.Id author, ChangeNotes notes) {
     return commentsOnPatchSet(notes.load().getDraftComments(author).values(), psId);
   }
 
-  public List<Comment> draftByChangeFileAuthor(ChangeNotes notes, String file, Account.Id author) {
+  public List<HumanComment> draftByChangeFileAuthor(
+      ChangeNotes notes, String file, Account.Id author) {
     return commentsOnFile(notes.load().getDraftComments(author).values(), file);
   }
 
-  public List<Comment> draftByChangeAuthor(ChangeNotes notes, Account.Id author) {
-    List<Comment> comments = new ArrayList<>();
+  public List<HumanComment> draftByChangeAuthor(ChangeNotes notes, Account.Id author) {
+    List<HumanComment> comments = new ArrayList<>();
     comments.addAll(notes.getDraftComments(author).values());
     return sort(comments);
   }
 
-  public void putComments(ChangeUpdate update, Comment.Status status, Iterable<Comment> comments) {
-    for (Comment c : comments) {
+  public void putHumanComments(
+      ChangeUpdate update, HumanComment.Status status, Iterable<HumanComment> comments) {
+    for (HumanComment c : comments) {
       update.putComment(status, c);
     }
   }
@@ -269,20 +273,21 @@ public class CommentsUtil {
     }
   }
 
-  public void deleteComments(ChangeUpdate update, Iterable<Comment> comments) {
-    for (Comment c : comments) {
+  public void deleteHumanComments(ChangeUpdate update, Iterable<HumanComment> comments) {
+    for (HumanComment c : comments) {
       update.deleteComment(c);
     }
   }
 
   public void deleteCommentByRewritingHistory(
-      ChangeUpdate update, Comment.Key commentKey, String newMessage) {
+      ChangeUpdate update, HumanComment.Key commentKey, String newMessage) {
     update.deleteCommentByRewritingHistory(commentKey.uuid, newMessage);
   }
 
-  private static List<Comment> commentsOnFile(Collection<Comment> allComments, String file) {
-    List<Comment> result = new ArrayList<>(allComments.size());
-    for (Comment c : allComments) {
+  private static List<HumanComment> commentsOnFile(
+      Collection<HumanComment> allComments, String file) {
+    List<HumanComment> result = new ArrayList<>(allComments.size());
+    for (HumanComment c : allComments) {
       String currentFilename = c.key.filename;
       if (currentFilename.equals(file)) {
         result.add(c);

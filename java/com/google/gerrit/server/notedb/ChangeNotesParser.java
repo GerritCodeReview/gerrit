@@ -60,6 +60,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -116,7 +117,7 @@ class ChangeNotesParser {
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
-  private final ListMultimap<ObjectId, Comment> comments;
+  private final ListMultimap<ObjectId, HumanComment> humanComments;
   private final Map<PatchSet.Id, PatchSet.Builder> patchSets;
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
@@ -172,7 +173,7 @@ class ChangeNotesParser {
     assigneeUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
-    comments = MultimapBuilder.hashKeys().arrayListValues().build();
+    humanComments = MultimapBuilder.hashKeys().arrayListValues().build();
     patchSets = new HashMap<>();
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
@@ -242,7 +243,7 @@ class ChangeNotesParser {
         assigneeUpdates,
         submitRecords,
         buildAllMessages(),
-        comments,
+        humanComments,
         firstNonNull(isPrivate, false),
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
@@ -716,8 +717,8 @@ class ChangeNotesParser {
     Map<ObjectId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {
-      for (Comment c : e.getValue().getEntities()) {
-        comments.put(e.getKey(), c);
+      for (HumanComment c : e.getValue().getEntities()) {
+        humanComments.put(e.getKey(), c);
       }
     }
 
@@ -1032,7 +1033,7 @@ class ChangeNotesParser {
         pruneEntitiesForMissingPatchSets(allChangeMessages, ChangeMessage::getPatchSetId, missing);
     pruned +=
         pruneEntitiesForMissingPatchSets(
-            comments.values(), c -> PatchSet.id(id, c.key.patchSetId), missing);
+            humanComments.values(), c -> PatchSet.id(id, c.key.patchSetId), missing);
     pruned +=
         pruneEntitiesForMissingPatchSets(
             approvals.values(), psa -> psa.key().patchSetId(), missing);

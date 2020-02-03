@@ -14,28 +14,28 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CommentsUtil;
-import com.google.gerrit.server.change.CommentResource;
+import com.google.gerrit.server.change.HumanCommentResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class Comments implements ChildCollection<RevisionResource, CommentResource> {
-  private final DynamicMap<RestView<CommentResource>> views;
+public class Comments implements ChildCollection<RevisionResource, HumanCommentResource> {
+  private final DynamicMap<RestView<HumanCommentResource>> views;
   private final ListRevisionComments list;
   private final CommentsUtil commentsUtil;
 
   @Inject
   Comments(
-      DynamicMap<RestView<CommentResource>> views,
+      DynamicMap<RestView<HumanCommentResource>> views,
       ListRevisionComments list,
       CommentsUtil commentsUtil) {
     this.views = views;
@@ -44,7 +44,7 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
   }
 
   @Override
-  public DynamicMap<RestView<CommentResource>> views() {
+  public DynamicMap<RestView<HumanCommentResource>> views() {
     return views;
   }
 
@@ -54,13 +54,14 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
   }
 
   @Override
-  public CommentResource parse(RevisionResource rev, IdString id) throws ResourceNotFoundException {
+  public HumanCommentResource parse(RevisionResource rev, IdString id)
+      throws ResourceNotFoundException {
     String uuid = id.get();
     ChangeNotes notes = rev.getNotes();
 
-    for (Comment c : commentsUtil.publishedByPatchSet(notes, rev.getPatchSet().id())) {
+    for (HumanComment c : commentsUtil.publishedByPatchSet(notes, rev.getPatchSet().id())) {
       if (uuid.equals(c.key.uuid)) {
-        return new CommentResource(rev, c);
+        return new HumanCommentResource(rev, c);
       }
     }
     throw new ResourceNotFoundException(id);

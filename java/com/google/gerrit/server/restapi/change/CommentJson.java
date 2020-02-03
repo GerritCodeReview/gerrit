@@ -25,6 +25,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
@@ -137,7 +138,6 @@ public class CommentJson {
       if (c.lineNbr > 0) {
         r.line = c.lineNbr;
       }
-      r.inReplyTo = Url.encode(c.parentUuid);
       r.message = Strings.emptyToNull(c.message);
       r.updated = c.writtenOn;
       r.range = toRange(c.range);
@@ -161,11 +161,12 @@ public class CommentJson {
     }
   }
 
-  public class CommentFormatter extends BaseCommentFormatter<Comment, CommentInfo> {
+  public class CommentFormatter extends BaseCommentFormatter<HumanComment, CommentInfo> {
     @Override
-    protected CommentInfo toInfo(Comment c, AccountLoader loader) {
+    protected CommentInfo toInfo(HumanComment c, AccountLoader loader) {
       CommentInfo ci = new CommentInfo();
       fillCommentInfo(c, ci, loader);
+      ci.inReplyTo = c.parentUuid;
       return ci;
     }
 

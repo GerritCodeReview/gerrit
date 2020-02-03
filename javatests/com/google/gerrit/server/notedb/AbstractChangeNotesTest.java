@@ -21,8 +21,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.CommentRange;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -244,7 +244,7 @@ public abstract class AbstractChangeNotesTest {
     return label;
   }
 
-  protected Comment newComment(
+  protected HumanComment newComment(
       PatchSet.Id psId,
       String filename,
       String UUID,
@@ -257,9 +257,9 @@ public abstract class AbstractChangeNotesTest {
       short side,
       ObjectId commitId,
       boolean unresolved) {
-    Comment c =
-        new Comment(
-            new Comment.Key(UUID, filename, psId.get()),
+    HumanComment c =
+        new HumanComment(
+            new HumanComment.Key(UUID, filename, psId.get()),
             commenter.getAccountId(),
             t,
             side,

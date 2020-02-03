@@ -47,6 +47,7 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -807,8 +808,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   /**
-   * Used to compare existing {@link Comment}-s with {@link CommentInput} comments by copying only
-   * the fields to compare.
+   * Used to compare existing {@link HumanComment}-s with {@link CommentInput} comments by copying
+   * only the fields to compare.
    */
   @AutoValue
   abstract static class CommentSetEntry {
@@ -845,7 +846,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     abstract HashCode message();
 
     @Nullable
-    abstract Comment.Range range();
+    abstract HumanComment.Range range();
   }
 
   private class Op implements BatchUpdateOp {
@@ -915,7 +916,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       // HashMap instead of Collections.emptyMap() avoids warning about remove() on immutable
       // object.
-      Map<String, Comment> drafts = new HashMap<>();
+      Map<String, HumanComment> drafts = new HashMap<>();
       // If there are inputComments we need the deduplication loop below, so we have to read (and
       // publish) drafts here.
       if (!inputComments.isEmpty() || in.drafts != DraftHandling.KEEP) {
@@ -927,7 +928,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       // This will be populated with Comment-s created from inputComments.
-      List<Comment> toPublish = new ArrayList<>();
+      List<HumanComment> toPublish = new ArrayList<>();
 
       Set<CommentSetEntry> existingComments =
           in.omitDuplicateComments ? readExistingComments(ctx) : Collections.emptySet();
@@ -938,11 +939,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (Map.Entry<String, List<CommentInput>> entry : inputComments.entrySet()) {
         String path = entry.getKey();
         for (CommentInput inputComment : entry.getValue()) {
-          Comment comment = drafts.remove(Url.decode(inputComment.id));
+          HumanComment comment = drafts.remove(Url.decode(inputComment.id));
           if (comment == null) {
             String parent = Url.decode(inputComment.inReplyTo);
             comment =
-                commentsUtil.newComment(
+                commentsUtil.newHumanComment(
                     ctx,
                     path,
                     psId,
@@ -987,7 +988,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           break;
       }
       ChangeUpdate changeUpdate = ctx.getUpdate(psId);
-      commentsUtil.putComments(changeUpdate, Comment.Status.PUBLISHED, toPublish);
+      commentsUtil.putHumanComments(changeUpdate, HumanComment.Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toPublish.isEmpty();
     }
@@ -1056,7 +1057,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               robotCommentInput.message,
               robotCommentInput.robotId,
               robotCommentInput.robotRunId);
-      robotComment.parentUuid = Url.decode(robotCommentInput.inReplyTo);
       robotComment.url = robotCommentInput.url;
       robotComment.properties = robotCommentInput.properties;
       robotComment.setLineNbrAndRange(robotCommentInput.line, robotCommentInput.range);
@@ -1090,7 +1090,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private FixReplacement toFixReplacement(FixReplacementInfo fixReplacementInfo) {
-      Comment.Range range = new Comment.Range(fixReplacementInfo.range);
+      HumanComment.Range range = new HumanComment.Range(fixReplacementInfo.range);
       return new FixReplacement(fixReplacementInfo.path, range, fixReplacementInfo.replacement);
     }
 
@@ -1106,7 +1106,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           .collect(toSet());
     }
 
-    private Map<String, Comment> changeDrafts(ChangeContext ctx) {
+    private Map<String, HumanComment> changeDrafts(ChangeContext ctx) {
       return commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId()).stream()
           .collect(
               Collectors.toMap(
@@ -1117,7 +1117,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                   }));
     }
 
-    private Map<String, Comment> patchSetDrafts(ChangeContext ctx) {
+    private Map<String, HumanComment> patchSetDrafts(ChangeContext ctx) {
       return commentsUtil.draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes()).stream()
           .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
     }

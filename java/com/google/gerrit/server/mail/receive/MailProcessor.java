@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -252,7 +253,7 @@ public class MailProcessor {
       // Get all comments; filter and sort them to get the original list of
       // comments from the outbound email.
       // TODO(hiesel) Also filter by original comment author.
-      Collection<Comment> comments =
+      Collection<HumanComment> comments =
           cd.publishedComments().stream()
               .filter(c -> (c.writtenOn.getTime() / 1000) == (metadata.timestamp.getTime() / 1000))
               .sorted(CommentsUtil.COMMENT_ORDER)
@@ -314,7 +315,7 @@ public class MailProcessor {
     private final List<MailComment> parsedComments;
     private final String tag;
     private ChangeMessage changeMessage;
-    private List<Comment> comments;
+    private List<HumanComment> comments;
     private PatchSet patchSet;
     private ChangeNotes notes;
 
@@ -344,7 +345,7 @@ public class MailProcessor {
         comments.add(
             persistentCommentFromMailComment(ctx, c, targetPatchSetForComment(ctx, c, patchSet)));
       }
-      commentsUtil.putComments(
+      commentsUtil.putHumanComments(
           ctx.getUpdate(ctx.getChange().currentPatchSetId()), Comment.Status.PUBLISHED, comments);
 
       return true;
@@ -356,6 +357,7 @@ public class MailProcessor {
       if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
         patchSetComment = parsedComments.get(0).getMessage();
       }
+      List<Comment> genericComments = new ArrayList<>(comments);
       // Send email notifications
       outgoingMailFactory
           .create(
@@ -364,7 +366,7 @@ public class MailProcessor {
               patchSet,
               ctx.getUser().asIdentifiedUser(),
               changeMessage,
-              comments,
+              genericComments,
               patchSetComment,
               ImmutableList.of())
           .sendAsync();
@@ -410,7 +412,7 @@ public class MailProcessor {
       return current;
     }
 
-    private Comment persistentCommentFromMailComment(
+    private HumanComment persistentCommentFromMailComment(
         ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment)
         throws UnprocessableEntityException, PatchListNotAvailableException {
       String fileName;
@@ -425,8 +427,8 @@ public class MailProcessor {
         side = Side.REVISION;
       }
 
-      Comment comment =
-          commentsUtil.newComment(
+      HumanComment comment =
+          commentsUtil.newHumanComment(
               ctx,
               fileName,
               patchSetForComment.id(),

@@ -815,9 +815,10 @@
         // for each line from the start.
         let lastEl;
         for (const threadEl of addedThreadEls) {
+          const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
           const commentSide = threadEl.getAttribute('comment-side');
-          const lineEl = this._getLineElement(threadEl,
-              commentSide);
+          const lineEl = this.$.diffBuilder.getLineElByNumber(
+              lineNumString, commentSide);
           const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
           const contentEl = contentText.parentElement;
           const threadGroupEl = this._getOrCreateThreadGroup(
@@ -841,18 +842,6 @@
           lastEl.replaceWith(lastEl);
         }
       });
-    }
-
-    _getLineElement(threadEl, commentSide) {
-      const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
-      const lineEl = this.$.diffBuilder.getLineElByNumber(
-          lineNumString, commentSide);
-      if (lineEl) {
-        return lineEl;
-      }
-      // It is possible to add comment to non-existing line via API
-      threadEl.invalidLineNumber = true;
-      return this.$.diffBuilder.getLineElByNumber('FILE', commentSide);
     }
 
     _unobserveIncrementalNodes() {

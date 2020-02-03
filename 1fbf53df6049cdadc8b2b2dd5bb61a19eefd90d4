@@ -22,6 +22,30 @@
       "revId": "1fbf53df6049cdadc8b2b2dd5bb61a19eefd90d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26dc80d2_13b66a1f",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-03T14:20:25Z",
+      "side": 1,
+      "message": "Yes, that will probably the way I will do it from 3.0 onwards (or use the existing banner hook, although I also like it more to be below the header), where I will remove the current message-of-the-day functionality (see comments to this change). The behaviour so far uses the MessageOfTheDay-extension point, which also allows any plugin to use it to send messages of any kind. To my knowledge there is only the messageoftheday-plugin so far doing so.",
+      "parentUuid": "8f8be1b9_9e711d55",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 15
+      },
+      "revId": "1fbf53df6049cdadc8b2b2dd5bb61a19eefd90d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -343,7 +343,7 @@
     }
 
     _showErrorDialog(message) {
-      this.$.reporting.reportErrorDialog(message);
+      window.GrReporting.reportErrorDialog(message);
       this.$.errorDialog.text = message;
       this.$.errorOverlay.open();
     }

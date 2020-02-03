@@ -201,7 +201,7 @@
       this.text = this._getText(text);
       this.$.textarea.selectionStart = colonIndex + 1;
       this.$.textarea.selectionEnd = colonIndex + 1;
-      this.$.reporting.reportInteraction('select-emoji', {type: text});
+      window.GrReporting.reportInteraction('select-emoji', {type: text});
       this._resetEmojiDropdown();
     }
 
@@ -286,7 +286,7 @@
 
     _openEmojiDropdown() {
       this.$.emojiSuggestions.open();
-      this.$.reporting.reportInteraction('open-emoji-dropdown');
+      window.GrReporting.reportInteraction('open-emoji-dropdown');
     }
 
     _formatSuggestions(matchedSuggestions) {

@@ -343,7 +343,7 @@
 
     _handleShowAllTap() {
       this._visibleMessages = this._processedMessages;
-      this.$.reporting.reportInteraction(ReportingEvent.SHOW_ALL);
+      window.GrReporting.reportInteraction(ReportingEvent.SHOW_ALL);
     }
 
     _handleIncrementShownMessages() {
@@ -353,7 +353,7 @@
       const newMessages = this._processedMessages.slice(-(len + delta), -len);
       // Add newMessages to the beginning of _visibleMessages
       this.splice(...['_visibleMessages', 0, 0].concat(newMessages));
-      this.$.reporting.reportInteraction(ReportingEvent.SHOW_MORE);
+      window.GrReporting.reportInteraction(ReportingEvent.SHOW_MORE);
     }
 
     _processedMessagesChanged(messages) {
@@ -367,8 +367,7 @@
           acc[val] = (acc[val] || 0) + 1;
           return acc;
         }, {all: messages.length});
-        this.$.reporting.reportInteraction('messages-count',
-            JSON.stringify(tagsCounted));
+        window.GrReporting.reportInteraction('messages-count', {tagsCounted});
       }
     }
 

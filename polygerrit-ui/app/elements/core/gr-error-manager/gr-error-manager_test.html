@@ -393,7 +393,7 @@ limitations under the License.
         const openStub = sandbox.stub(element.$.errorOverlay, 'open');
         const closeStub = sandbox.stub(element.$.errorOverlay, 'close');
         const reportStub = sandbox.stub(
-            element.$.reporting,
+            window.GrReporting,
             'reportErrorDialog'
         );
 

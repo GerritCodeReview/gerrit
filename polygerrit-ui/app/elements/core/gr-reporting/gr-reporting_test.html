@@ -24,15 +24,9 @@ limitations under the License.
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-reporting.html">
+<script src="gr-reporting.js"></script>
 
 <script>void(0);</script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-reporting></gr-reporting>
-  </template>
-</test-fixture>
 
 <script>
   suite('gr-reporting tests', () => {
@@ -46,7 +40,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       clock = sinon.useFakeTimers(NOW_TIME);
-      element = fixture('basic');
+      element = window.GrReporting;
       element._baselines = Object.assign({}, GrReporting.STARTUP_TIMERS);
       fakePerformance = {
         navigationStart: 1,

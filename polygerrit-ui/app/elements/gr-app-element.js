@@ -132,7 +132,7 @@
     /** @override */
     ready() {
       super.ready();
-      this.$.reporting.appStarted();
+      window.GrReporting.appStarted();
       this.$.router.start();
 
       this.$.restAPI.getAccount().then(account => {
@@ -463,7 +463,7 @@
      * that would create a cyclic dependency.
      */
     _handleRpcLog(e) {
-      this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
+      window.GrReporting.reportRpcTiming(e.detail.anonymizedUrl,
           e.detail.elapsed);
     }
 

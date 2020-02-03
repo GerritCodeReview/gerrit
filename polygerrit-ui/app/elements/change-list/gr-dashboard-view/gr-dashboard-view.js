@@ -182,7 +182,7 @@
           })
           .then(() => {
             this._maybeShowDraftsBanner();
-            this.$.reporting.dashboardDisplayed();
+            window.GrReporting.dashboardDisplayed();
           })
           .catch(err => {
             this.fire('title-change', {

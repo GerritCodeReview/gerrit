@@ -471,7 +471,7 @@
       e.preventDefault();
       this._messageText = this.comment.message;
       this.editing = true;
-      this.$.reporting.recordDraftInteraction();
+      window.GrReporting.recordDraftInteraction();
     }
 
     _handleSave(e) {
@@ -483,7 +483,7 @@
       }
       const timingLabel = this.comment.id ?
         REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
-      const timer = this.$.reporting.getTimer(timingLabel);
+      const timer = window.GrReporting.getTimer(timingLabel);
       this.set('comment.__editing', false);
       return this.save().then(() => { timer.end(); });
     }
@@ -528,7 +528,7 @@
 
     _handleDiscard(e) {
       e.preventDefault();
-      this.$.reporting.recordDraftInteraction();
+      window.GrReporting.recordDraftInteraction();
 
       if (!this._messageText) {
         this._discardDraft();
@@ -543,7 +543,7 @@
 
     _handleConfirmDiscard(e) {
       e.preventDefault();
-      const timer = this.$.reporting.getTimer(REPORT_DISCARD_DRAFT);
+      const timer = window.GrReporting.getTimer(REPORT_DISCARD_DRAFT);
       this._closeConfirmDiscardOverlay();
       return this._discardDraft().then(() => { timer.end(); });
     }
@@ -684,7 +684,7 @@
     }
 
     _handleToggleResolved() {
-      this.$.reporting.recordDraftInteraction();
+      window.GrReporting.recordDraftInteraction();
       this.resolved = !this.resolved;
       // Modify payload instead of this.comment, as this.comment is passed from
       // the parent by ref.

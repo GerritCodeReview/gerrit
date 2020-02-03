@@ -101,7 +101,7 @@
           path = el.tagName + idString + ' ' + path;
         }
       }
-      this.$.reporting.reportInteraction('button-click',
+      window.GrReporting.reportInteraction('button-click',
           {path: path.trim().toLowerCase()});
     }
 

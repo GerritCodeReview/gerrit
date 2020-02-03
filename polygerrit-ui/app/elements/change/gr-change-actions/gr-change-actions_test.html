@@ -1747,10 +1747,11 @@ limitations under the License.
 
     test('_handleAction reports', () => {
       sandbox.stub(element, '_fireAction');
-      const reportStub = sandbox.stub(element.$.reporting, 'reportInteraction');
+      window.GrReporting.reportInteraction.reset();
       element._handleAction('type', 'key');
-      assert.isTrue(reportStub.called);
-      assert.equal(reportStub.lastCall.args[0], 'type-key');
+      assert.isTrue(window.GrReporting.reportInteraction.called);
+      assert.equal(window.GrReporting.reportInteraction.lastCall.args[0],
+          'type-key');
     });
   });
 

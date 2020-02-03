@@ -272,8 +272,8 @@ limitations under the License.
 
     test('reply', () => {
       const commentEl = element.$$('gr-comment');
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = window.GrReporting.recordDraftInteraction;
+      reportStub.reset();
       assert.ok(commentEl);
 
       const replyBtn = element.$.replyBtn;
@@ -289,8 +289,8 @@ limitations under the License.
 
     test('quote reply', () => {
       const commentEl = element.$$('gr-comment');
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = window.GrReporting.recordDraftInteraction;
+      reportStub.reset();
       assert.ok(commentEl);
 
       const quoteBtn = element.$.quoteBtn;
@@ -305,8 +305,8 @@ limitations under the License.
     });
 
     test('quote reply multiline', () => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = window.GrReporting.recordDraftInteraction;
+      reportStub.reset();
       element.comments = [{
         author: {
           name: 'Mr. Peanutbutter',
@@ -335,8 +335,8 @@ limitations under the License.
     });
 
     test('ack', done => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = window.GrReporting.recordDraftInteraction;
+      reportStub.reset();
       element.changeNum = '42';
       element.patchNum = '1';
 
@@ -357,8 +357,8 @@ limitations under the License.
     });
 
     test('done', done => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = window.GrReporting.recordDraftInteraction;
+      reportStub.reset();
       element.changeNum = '42';
       element.patchNum = '1';
       const commentEl = element.$$('gr-comment');

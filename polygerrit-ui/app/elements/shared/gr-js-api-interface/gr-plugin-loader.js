@@ -77,8 +77,6 @@
       /** @type {Map<string,PluginLoader.PluginObject>} */
       this._plugins = new Map();
 
-      this._reporting = null;
-
       // Promise that resolves when all plugins loaded
       this._loadingPromise = null;
 
@@ -87,10 +85,7 @@
     }
 
     _getReporting() {
-      if (!this._reporting) {
-        this._reporting = document.createElement('gr-reporting');
-      }
-      return this._reporting;
+      return window.GrReporting;
     }
 
     /**

@@ -439,7 +439,7 @@
     }
 
     send(includeComments, startReview) {
-      this.$.reporting.time(SEND_REPLY_TIMING_LABEL);
+      window.GrReporting.time(SEND_REPLY_TIMING_LABEL);
       const labels = this.$.labelScores.getLabelValues();
 
       const obj = {

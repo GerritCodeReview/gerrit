@@ -695,9 +695,9 @@
             return this.$.diffHost.reload(true);
           })
           .then(() => {
-            this.$.reporting.diffViewFullyLoaded();
+            window.GrReporting.diffViewFullyLoaded();
             // If diff view displayed has not ended yet, it ends here.
-            this.$.reporting.diffViewDisplayed();
+            window.GrReporting.diffViewDisplayed();
           });
     }
 

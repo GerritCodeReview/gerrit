@@ -47,9 +47,7 @@ limitations under the License.
 
     setup(done => {
       sandbox = sinon.sandbox.create();
-      stub('gr-reporting', {
-        appStarted: sandbox.stub(),
-      });
+      // stub(window.GrReporting, 'appStarted');
       stub('gr-account-dropdown', {
         _getTopContent: sinon.stub(),
       });
@@ -85,12 +83,12 @@ limitations under the License.
     appElement = () => element.$['app-element'];
 
     test('reporting', () => {
-      assert.isTrue(appElement().$.reporting.appStarted.calledOnce);
+      assert.isTrue(window.GrReporting.appStarted.calledOnce);
     });
 
     test('reporting called before router start', () => {
       const element = appElement();
-      const appStartedStub = element.$.reporting.appStarted;
+      const appStartedStub = window.GrReporting.appStarted;
       const routerStartStub = element.$.router.start;
       sinon.assert.callOrder(appStartedStub, routerStartStub);
     });

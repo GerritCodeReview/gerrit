@@ -478,7 +478,7 @@
       this._currentView = this.$.commentTabs.selected;
       const type = Object.keys(CommentTabs).find(key => CommentTabs[key] ===
           this._currentView);
-      this.$.reporting.reportInteraction('comment-tab-changed', {tabName:
+      window.GrReporting.reportInteraction('comment-tab-changed', {tabName:
           type});
     }
 
@@ -498,7 +498,7 @@
 
         const tabName = this._selectedFilesTabPluginEndpoint || 'files';
         const source = e && e.type ? e.type : '';
-        this.$.reporting.reportInteraction('tab-changed', {tabName, source});
+        window.GrReporting.reportInteraction('tab-changed', {tabName, source});
       }
     }
 
@@ -510,7 +510,7 @@
       }
       this.shadowRoot.querySelector('#primaryTabs').selected = idx + 1;
       this.shadowRoot.querySelector('#primaryTabs').scrollIntoView();
-      this.$.reporting.reportInteraction('show-tab', {tabName: e.detail.tab});
+      window.GrReporting.reportInteraction('show-tab', {tabName: e.detail.tab});
     }
 
     _handleEditCommitMessage(e) {
@@ -755,7 +755,7 @@
     _handleReplySent(e) {
       this.addEventListener('change-details-loaded',
           () => {
-            this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+            window.GrReporting.timeEnd(SEND_REPLY_TIMING_LABEL);
           }, {once: true});
       this.$.replyOverlay.close();
       this._reload();
@@ -1481,8 +1481,8 @@
     _reload(opt_isLocationChange) {
       this._loading = true;
       this._relatedChangesCollapsed = true;
-      this.$.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
-      this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
+      window.GrReporting.time(CHANGE_RELOAD_TIMING_LABEL);
+      window.GrReporting.time(CHANGE_DATA_TIMING_LABEL);
 
       // Array to house all promises related to data requests.
       const allDataPromises = [];
@@ -1501,9 +1501,9 @@
                 {bubbles: true, composed: true}));
           })
           .then(() => {
-            this.$.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+            window.GrReporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
             if (opt_isLocationChange) {
-              this.$.reporting.changeDisplayed();
+              window.GrReporting.changeDisplayed();
             }
           });
 
@@ -1572,9 +1572,9 @@
       }
 
       Promise.all(allDataPromises).then(() => {
-        this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
+        window.GrReporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
         if (opt_isLocationChange) {
-          this.$.reporting.changeFullyLoaded();
+          window.GrReporting.changeFullyLoaded();
         }
       });
 

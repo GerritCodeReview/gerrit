@@ -295,7 +295,10 @@ limitations under the License.
         sandbox.stub(element, '_discardDraft')
             .returns(Promise.resolve({}));
         endStub = sinon.stub();
-        getTimerStub = sandbox.stub(element.$.reporting, 'getTimer')
+        if (window.GrReporting.getTimer.restore) {
+          window.GrReporting.getTimer.restore();
+        }
+        getTimerStub = sandbox.stub(window.GrReporting, 'getTimer')
             .returns({end: endStub});
       });
 
@@ -329,15 +332,15 @@ limitations under the License.
     });
 
     test('edit reports interaction', () => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = window.GrReporting.recordDraftInteraction;
+      reportStub.reset();
       MockInteractions.tap(element.$$('.edit'));
       assert.isTrue(reportStub.calledOnce);
     });
 
     test('discard reports interaction', () => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = window.GrReporting.recordDraftInteraction;
+      reportStub.reset();
       element.draft = true;
       MockInteractions.tap(element.$$('.discard'));
       assert.isTrue(reportStub.calledOnce);

@@ -14,15 +14,12 @@
 
 package com.google.gerrit.extensions.common;
 
-import java.util.List;
-
 public class ServerInfo {
   public AccountsInfo accounts;
   public AuthInfo auth;
   public ChangeConfigInfo change;
   public DownloadInfo download;
   public GerritInfo gerrit;
-  public List<MessageOfTheDayInfo> messages;
   public Boolean noteDbEnabled;
   public PluginConfigInfo plugin;
   public SshdInfo sshd;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f8be1b9_9e711d55",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-03T14:15:25Z",
+      "side": 1,
+      "message": "This looks like a good place for users that want to put a site notice under the header.  I wonder if we should change this so that users can hook in and the fetching of messages can be done in the plugin?\n\n(non blocking comment, just wondering)",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 15
+      },
+      "revId": "1fbf53df6049cdadc8b2b2dd5bb61a19eefd90d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -60,11 +60,10 @@ class ReplayRecordsFromFeeder extends Simulation {
       Thread.sleep(5000)
       FileUtils.deleteDirectory(new File(conf.tmpBasePath))
     } catch {
-      case e: IOException => {
+      case e: IOException =>
         System.err.println(
           "Unable to delete temporary directory: " + conf.tmpBasePath)
-        e.printStackTrace
-      }
+        e.printStackTrace()
     }
   }
 }

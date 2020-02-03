@@ -14,28 +14,38 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class ListChangeComments extends ListChangeDrafts {
+  private final ChangeMessagesUtil changeMessagesUtil;
+
   @Inject
   ListChangeComments(
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil) {
+      CommentsUtil commentsUtil,
+      ChangeMessagesUtil changeMessagesUtil) {
     super(changeDataFactory, commentJson, commentsUtil);
+    this.changeMessagesUtil = changeMessagesUtil;
   }
 
   @Override
   protected Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return commentsUtil.publishedByChange(cd.notes());
+    List<Comment> comments = commentsUtil.publishedByChange(cd.notes());
+    List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
+    linkCommentsToChangeMessages(comments, changeMessages);
+    return comments;
   }
 
   @Override
@@ -46,5 +56,28 @@ public class ListChangeComments extends ListChangeDrafts {
   @Override
   public boolean requireAuthentication() {
     return false;
+  }
+
+  /**
+   * This method populates the "changeMessageID" field of the comments parameter based on timestamp
+   * matching. The comments parameter will be modified. We assume that both lists are sorted
+   *
+   * <p>Each comment will be matched to the nearest next change message
+   *
+   * @param comments the list of comments
+   * @param changeMessages the list of change messages
+   */
+  private void linkCommentsToChangeMessages(
+      List<Comment> comments, List<ChangeMessage> changeMessages) {
+    int cmItr = 0;
+    for (Comment comment : comments) {
+      while (cmItr < changeMessages.size()
+          && comment.writtenOn.after(changeMessages.get(cmItr).getWrittenOn())) {
+        cmItr += 1;
+      }
+      if (cmItr < changeMessages.size()) {
+        comment.changesMessageId = changeMessages.get(cmItr).getKey().uuid();
+      }
+    }
   }
 }

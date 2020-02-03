@@ -39,6 +39,9 @@ public abstract class Comment {
   public String message;
   public Boolean unresolved;
 
+  /** The change message ID that this comment is linked to * */
+  public String changeMessageId;
+
   public static class Range implements Comparable<Range> {
     private static final Comparator<Range> RANGE_COMPARATOR =
         Comparator.<Range>comparingInt(range -> range.startLine)

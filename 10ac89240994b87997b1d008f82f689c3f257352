@@ -34,6 +34,24 @@
       "revId": "10ac89240994b87997b1d008f82f689c3f257352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e17b969_d26e318e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-03T15:49:35Z",
+      "side": 0,
+      "message": "user without signed in should not see any buttons\n\nfor older patchset, i mean if the patchset is not the latest anymore, the content may not up to date, i am not sure what\u0027s the point of showing the apply fix.\n\nIf the fix is already applied, it doesn\u0027t make any sense to still have this work flow enabled... if a button is enabled, people will click it, especially if we have carry over comments in the future, I am not sure how that work with this.",
+      "parentUuid": "3d60f3f6_b3750970",
+      "revId": "10ac89240994b87997b1d008f82f689c3f257352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

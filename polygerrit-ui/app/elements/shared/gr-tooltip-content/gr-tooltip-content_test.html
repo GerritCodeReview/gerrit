@@ -43,7 +43,7 @@ limitations under the License.
 
     test('icon is not visible by default', () => {
       assert.equal(Polymer.dom(element.root)
-          .querySelector('.arrow').hidden, true);
+          .querySelector('iron-icon').hidden, true);
     });
 
     test('position-below attribute is reflected', () => {
@@ -55,7 +55,7 @@ limitations under the License.
     test('icon is visible with showIcon property', () => {
       element.showIcon = true;
       assert.equal(Polymer.dom(element.root)
-          .querySelector('.arrow').hidden, false);
+          .querySelector('iron-icon').hidden, false);
     });
   });
 </script>

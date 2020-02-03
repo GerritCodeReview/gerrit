@@ -175,16 +175,36 @@
     }
 
     _computeMessageContent(content, isExpanded) {
-      if (!content) return '';
+      if (!content || !this.message) {
+        return '';
+      }
+      const isNewPatchSet = this.message.tag && this.message.tag.endsWith(
+          ':newPatchSet');
       const lines = content.split('\n');
       const filteredLines = lines.filter(line => {
-        if (!isExpanded && line.startsWith('>')) return false;
-        if (line.startsWith('Patch Set ')) return false;
-        if (line.startsWith('(') && line.endsWith(' comment)')) return false;
-        if (line.startsWith('(') && line.endsWith(' comments)')) return false;
+        if (!isExpanded && line.startsWith('>')) {
+          return false;
+        }
+        if (line.startsWith('(') && line.endsWith(' comment)')) {
+          return false;
+        }
+        if (line.startsWith('(') && line.endsWith(' comments)')) {
+          return false;
+        }
         return true;
       });
-      return filteredLines.join('\n').trim();
+      const mappedLines = filteredLines.map(line => {
+        // The change message formatting is not very consistent, so
+        // unfortunately we have to do a bit of tweaking here:
+        //   Labels should be stripped from lines like this:
+        //     Patch Set 29: Verified+1
+        //   Rebase messages (which have a ':newPatchSet' tag) should be kept on
+        //   lines like this:
+        //     Patch Set 27: Patch Set 26 was rebased
+        const replaceValue = isNewPatchSet ? '$1' : '';
+        return line.replace(/Patch Set [0-9]+:\s*(.*)/g, replaceValue);
+      });
+      return mappedLines.join('\n').trim();
     }
 
     _isMessageContentEmpty(content) {

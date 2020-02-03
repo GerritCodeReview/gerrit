@@ -16,6 +16,8 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ComparisonChain;
@@ -24,6 +26,7 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -227,6 +230,39 @@ public class CommentsUtil {
 
   public List<RobotComment> robotCommentsByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     return commentsOnPatchSet(notes.load().getRobotComments().values(), psId);
+  }
+
+  /**
+   * This method populates the "changeMessageId" field of the comments parameter based on timestamp
+   * matching. The comments objects will be modified.
+   *
+   * <p>Each comment will be matched to the nearest next change message in timestamp
+   *
+   * @param comments the list of comments
+   * @param changeMessages list of change messages
+   */
+  public static void linkCommentsToChangeMessages(
+      List<? extends CommentInfo> comments, List<ChangeMessage> changeMessages) {
+    ArrayList<ChangeMessage> sortedChangeMessages =
+        changeMessages.stream()
+            .sorted(comparing(ChangeMessage::getWrittenOn))
+            .collect(toCollection(ArrayList::new));
+
+    ArrayList<CommentInfo> sortedCommentInfos =
+        comments.stream().sorted(comparing(c -> c.updated)).collect(toCollection(ArrayList::new));
+
+    int cmItr = 0;
+    for (CommentInfo comment : sortedCommentInfos) {
+      // Keep advancing the change message pointer until we associate the comment to the next change
+      // message in timestamp
+      while (cmItr < sortedChangeMessages.size()
+          && comment.updated.after(sortedChangeMessages.get(cmItr).getWrittenOn())) {
+        cmItr += 1;
+      }
+      if (cmItr < changeMessages.size()) {
+        comment.changeMessageId = sortedChangeMessages.get(cmItr).getKey().uuid();
+      }
+    }
   }
 
   /**

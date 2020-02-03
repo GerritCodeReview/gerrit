@@ -14,12 +14,16 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -33,6 +37,7 @@ import java.util.Map;
 
 @Singleton
 public class ListChangeComments implements RestReadView<ChangeResource> {
+  private final ChangeMessagesUtil changeMessagesUtil;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
@@ -41,10 +46,12 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   ListChangeComments(
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil) {
+      CommentsUtil commentsUtil,
+      ChangeMessagesUtil changeMessagesUtil) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
+    this.changeMessagesUtil = changeMessagesUtil;
   }
 
   @Override
@@ -53,7 +60,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return Response.ok(getAsMap(listComments(rsrc)));
+    return Response.ok(getAsMap(listComments(rsrc), rsrc));
   }
 
   public List<CommentInfo> getComments(ChangeResource rsrc)
@@ -61,7 +68,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return getAsList(listComments(rsrc));
+    return getAsList(listComments(rsrc), rsrc);
   }
 
   private Iterable<Comment> listComments(ChangeResource rsrc) {
@@ -69,14 +76,22 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentsUtil.publishedByChange(cd.notes());
   }
 
-  private ImmutableList<CommentInfo> getAsList(Iterable<Comment> comments)
+  private ImmutableList<CommentInfo> getAsList(Iterable<Comment> comments, ChangeResource rsrc)
       throws PermissionBackendException {
-    return getCommentFormatter().formatAsList(comments);
+    ImmutableList<CommentInfo> commentInfos = getCommentFormatter().formatAsList(comments);
+    List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
+    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages);
+    return commentInfos;
   }
 
-  private Map<String, List<CommentInfo>> getAsMap(Iterable<Comment> comments)
+  private Map<String, List<CommentInfo>> getAsMap(Iterable<Comment> comments, ChangeResource rsrc)
       throws PermissionBackendException {
-    return getCommentFormatter().format(comments);
+    Map<String, List<CommentInfo>> commentInfosMap = getCommentFormatter().format(comments);
+    List<CommentInfo> commentInfos =
+        commentInfosMap.values().stream().flatMap(List::stream).collect(toList());
+    List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
+    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages);
+    return commentInfosMap;
   }
 
   private CommentFormatter getCommentFormatter() {

@@ -20,6 +20,7 @@ import java.util.Objects;
 public class CommentInfo extends Comment {
   public AccountInfo author;
   public String tag;
+  public String changeMessageId;
 
   @Override
   public boolean equals(Object o) {

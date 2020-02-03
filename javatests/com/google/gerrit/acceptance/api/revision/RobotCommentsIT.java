@@ -14,8 +14,10 @@
 
 package com.google.gerrit.acceptance.api.revision;
 
+import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThatList;
@@ -27,12 +29,14 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
@@ -47,6 +51,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.testing.BinaryResultSubject;
 import com.google.gerrit.testing.TestCommentHelper;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,6 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -137,6 +143,91 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertRobotComment(comment1, in, false);
     RobotCommentInfo comment2 = out.get(in.path).get(1);
     assertRobotComment(comment2, in2, false);
+  }
+
+  @UseClockStep
+  @Test
+  public void addedRobotCommentsAreLinkedToChangeMessages() throws Exception {
+    TestTimeUtil.resetWithClockStep(0, TimeUnit.SECONDS);
+    PushOneCommit.Result r = createChange();
+    /* Advancing the time after creating the change so that the first robot comment is not in the same timestamp as with the change creation */
+    TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
+
+    RobotCommentInput c1 = TestCommentHelper.createRobotCommentInput(FILE_NAME);
+    RobotCommentInput c2 = TestCommentHelper.createRobotCommentInput(FILE_NAME);
+    RobotCommentInput c3 = TestCommentHelper.createRobotCommentInput(FILE_NAME);
+    /* Give the robot comments identifiable names for testing */
+    c1.message = "robot comment 1";
+    c2.message = "robot comment 2";
+    c3.message = "robot comment 3";
+
+    testCommentHelper.addRobotComment(changeId, c1, "robot message 1");
+    TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
+
+    testCommentHelper.addRobotComment(changeId, c2, "robot message 2");
+    TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
+
+    testCommentHelper.addRobotComment(changeId, c3, "robot message 3");
+    TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
+
+    Map<String, List<RobotCommentInfo>> robotComments = gApi.changes().id(changeId).robotComments();
+    List<RobotCommentInfo> robotCommentsList =
+        robotComments.values().stream().flatMap(List::stream).collect(toList());
+
+    List<ChangeMessageInfo> allMessages =
+        gApi.changes().id(changeId).get(MESSAGES).messages.stream().collect(toList());
+
+    assertThat(allMessages.stream().map(cm -> cm.message).collect(toList()))
+        .containsExactly(
+            "Uploaded patch set 1.",
+            "Patch Set 1:\n\n(1 comment)\n\nrobot message 1",
+            "Patch Set 1:\n\n(1 comment)\n\nrobot message 2",
+            "Patch Set 1:\n\n(1 comment)\n\nrobot message 3");
+
+    assertThat(robotCommentsList.stream().map(c -> c.message).collect(toList()))
+        .containsExactly("robot comment 1", "robot comment 2", "robot comment 3");
+
+    String uploadPsMessageId =
+        allMessages.stream()
+            .filter(c -> c.message.equals("Uploaded patch set 1."))
+            .collect(onlyElement())
+            .id;
+    String message2ChangeId =
+        allMessages.stream()
+            .filter(c -> c.message.contains("robot message 2"))
+            .collect(onlyElement())
+            .id;
+    String message3ChangeId =
+        allMessages.stream()
+            .filter(c -> c.message.contains("robot message 3"))
+            .collect(onlyElement())
+            .id;
+
+    String comment1MessageId =
+        robotCommentsList.stream()
+            .filter(c -> c.message.equals("robot comment 1"))
+            .collect(onlyElement())
+            .changeMessageId;
+    String comment2MessageId =
+        robotCommentsList.stream()
+            .filter(c -> c.message.equals("robot comment 2"))
+            .collect(onlyElement())
+            .changeMessageId;
+    String comment3MessageId =
+        robotCommentsList.stream()
+            .filter(c -> c.message.equals("robot comment 3"))
+            .collect(onlyElement())
+            .changeMessageId;
+
+    /**
+     * Upload PS message, robot message 1 & robot comment 1 all have the same timestamp. The robot
+     * comment is matched to the PS upload message because it occurs first in the list. A comment is
+     * matched with the first change message having a timestamp not less than the comment.
+     * TODO(ghareeb): enhance the matching to ignore auto-generated messages.
+     */
+    assertThat(uploadPsMessageId).isEqualTo(comment1MessageId);
+    assertThat(message2ChangeId).isEqualTo(comment2MessageId);
+    assertThat(message3ChangeId).isEqualTo(comment3MessageId);
   }
 
   @Test

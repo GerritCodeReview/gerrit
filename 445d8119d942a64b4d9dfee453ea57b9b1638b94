@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9354a46e_d8fc830a",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-03T10:01:50Z",
+      "side": 1,
+      "message": "All other properties that we set on window are ALL_CAPS. Maybe make this consistent?",
+      "range": {
+        "startLine": 51,
+        "startChar": 11,
+        "endLine": 51,
+        "endChar": 27
+      },
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8ce92bb_4527a2c1",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-03T10:01:50Z",
+      "side": 1,
+      "message": "Do you also need if-wrappers for $canonicalPath and $defaultChangeDetailHex?",
+      "range": {
+        "startLine": 86,
+        "startChar": 32,
+        "endLine": 86,
+        "endChar": 105
+      },
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -683,8 +683,8 @@ limitations under the License.
             Promise.resolve());
         const chip = element.$$('gr-linked-chip');
         const remove = chip.$.remove;
-        const topicChangedSpy = sandbox.spy();
-        element.addEventListener('topic-changed', topicChangedSpy);
+        const reloadChangeSpy = sandbox.spy();
+        element.addEventListener('reload-change', reloadChangeSpy);
         MockInteractions.tap(remove);
         assert.isTrue(chip.disabled);
         assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
@@ -693,7 +693,7 @@ limitations under the License.
             .then(() => {
               assert.isFalse(chip.disabled);
               assert.equal(element.change.topic, '');
-              assert.isTrue(topicChangedSpy.called);
+              assert.isTrue(reloadChangeSpy.called);
             });
       });
 

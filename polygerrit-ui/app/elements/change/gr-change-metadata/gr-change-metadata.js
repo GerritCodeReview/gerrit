@@ -63,6 +63,11 @@
      *
      * @event topic-changed
      */
+    /**
+     * Fired when the change should be reloaded.
+     *
+     * @event reload-change
+     */
 
     static get properties() {
       return {
@@ -385,8 +390,9 @@
           .then(() => {
             target.disabled = false;
             this.set(['change', 'topic'], '');
+            // Reload page to recompute if change is submittable
             this.dispatchEvent(
-                new CustomEvent('topic-changed',
+                new CustomEvent('reload-change',
                     {bubbles: true, composed: true}));
           })
           .catch(err => {

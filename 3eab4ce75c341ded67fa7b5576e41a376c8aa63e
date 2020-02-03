@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d62e950_5153b461",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-03T09:33:42Z",
+      "side": 1,
+      "message": "Can you clarify, why we are merging all these intermediate steps at all?\n\nWhy don\u0027t we do all these first, and skip update_links and redirects machinery (and also polymer-bridges) altogether?\n\nIs the only reason: to not do this huge build and code refactoring in one step?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 22
+      },
+      "revId": "3eab4ce75c341ded67fa7b5576e41a376c8aa63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

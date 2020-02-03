@@ -62,6 +62,7 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -167,7 +168,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         RevWalk revWalk = new RevWalk(reader)) {
 
       Timestamp now = TimeUtil.nowTs();
-      ObjectId generatedChangeId = Change.generateChangeId();
+      ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
       Change changeToRevert = notes.getChange();
       ObjectId revertCommitId =
           commitUtil.createRevertCommit(

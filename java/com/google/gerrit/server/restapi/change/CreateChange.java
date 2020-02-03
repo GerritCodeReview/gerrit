@@ -72,6 +72,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -441,7 +442,7 @@ public class CreateChange
     // Add a Change-Id line if there isn't already one
     String commitMessage = subject;
     if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
-      ObjectId id = Change.generateChangeId();
+      ObjectId id = CommitMessageUtil.generateChangeId();
       commitMessage = ChangeIdUtil.insertId(commitMessage, id);
     }
 

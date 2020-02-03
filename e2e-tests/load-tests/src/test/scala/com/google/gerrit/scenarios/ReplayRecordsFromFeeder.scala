@@ -34,26 +34,24 @@ class ReplayRecordsFromFeeder extends Simulation {
 
   private val name: String = this.getClass.getSimpleName
   private val file = s"data/$name.json"
-  private val feeder: FileBasedFeederBuilder[Any]#F = jsonFile(file).circular
-
-  private val gitProtocol: GitProtocol = GitProtocol()
+  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(file).circular
   private val request = new GitRequestBuilder(GitRequestSession("${cmd}", "${url}"))
+  private val protocol: GitProtocol = GitProtocol()
 
-  private val replayCallsScenario: ScenarioBuilder = scenario("Git commands")
+  private val test: ScenarioBuilder = scenario(name)
       .repeat(10000) {
-        feed(feeder)
+        feed(data)
             .exec(request)
       }
 
   setUp(
-    replayCallsScenario.inject(
+    test.inject(
       nothingFor(4 seconds),
       atOnceUsers(10),
       rampUsers(10) during (5 seconds),
       constantUsersPerSec(20) during (15 seconds),
       constantUsersPerSec(20) during (15 seconds) randomized
-    ))
-      .protocols(gitProtocol)
+    )).protocols(protocol)
       .maxDuration(60 seconds)
 
   after {

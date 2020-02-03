@@ -14,12 +14,29 @@
 
 package com.google.gerrit.server.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 
 /** Utility functions to manipulate commit messages. */
 public class CommitMessageUtil {
+  private static final SecureRandom rng;
+
+  static {
+    try {
+      rng = SecureRandom.getInstance("SHA1PRNG");
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException("Cannot create RNG for Change-Id generator", e);
+    }
+  }
 
   private CommitMessageUtil() {}
 
@@ -41,5 +58,19 @@ public class CommitMessageUtil {
     }
     trimmed = trimmed + "\n";
     return trimmed;
+  }
+
+  public static ObjectId generateChangeId() {
+    byte[] rand = new byte[Constants.OBJECT_ID_STRING_LENGTH];
+    rng.nextBytes(rand);
+    String randomString = new String(rand, UTF_8);
+
+    try (ObjectInserter f = new ObjectInserter.Formatter()) {
+      return f.idFor(Constants.OBJ_COMMIT, Constants.encode(randomString));
+    }
+  }
+
+  public static Change.Key generateKey() {
+    return Change.key("I" + generateChangeId().name());
   }
 }

@@ -58,6 +58,7 @@ import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -281,8 +282,10 @@ public class CherryPickChange {
       PersonIdent committerIdent = identifiedUser.newCommitterIdent(now, serverTimeZone);
 
       final ObjectId generatedChangeId =
-          changeIdForNewChange != null ? changeIdForNewChange : Change.generateChangeId();
-      String commitMessage = ChangeIdUtil.insertId(message, generatedChangeId).trim() + '\n';
+          changeIdForNewChange != null
+              ? changeIdForNewChange
+              : CommitMessageUtil.generateChangeId();
+      String commitMessage = ChangeIdUtil.insertId(input.message, generatedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState = projectCache.checkedGet(dest.project());

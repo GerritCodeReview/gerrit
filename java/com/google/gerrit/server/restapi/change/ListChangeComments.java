@@ -14,28 +14,47 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class ListChangeComments extends ListChangeDrafts {
+  private final ChangeMessagesUtil changeMessagesUtil;
+
   @Inject
   ListChangeComments(
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil) {
+      CommentsUtil commentsUtil,
+      ChangeMessagesUtil changeMessagesUtil) {
     super(changeDataFactory, commentJson, commentsUtil);
+    this.changeMessagesUtil = changeMessagesUtil;
   }
 
   @Override
   protected Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentsUtil.publishedByChange(cd.notes());
+  }
+
+  @Override
+  protected List<CommentInfo> listCommentsInfos(ChangeResource rsrc)
+      throws PermissionBackendException {
+    List<Comment> comments = ImmutableList.copyOf(listComments(rsrc));
+    ImmutableList<CommentInfo> commentInfos = getCommentFormatter().formatAsList(comments);
+    linkCommentsToChangeMessages(commentInfos, rsrc);
+    return commentInfos;
   }
 
   @Override
@@ -46,5 +65,28 @@ public class ListChangeComments extends ListChangeDrafts {
   @Override
   public boolean requireAuthentication() {
     return false;
+  }
+
+  /**
+   * This method populates the "changeMessageID" field of the comments parameter based on timestamp
+   * matching. The comments parameter will be modified. We assume that both lists are sorted
+   *
+   * <p>Each comment will be matched to the nearest next change message
+   *
+   * @param comments the list of comments
+   * @param rsrc the change resource
+   */
+  protected void linkCommentsToChangeMessages(List<CommentInfo> comments, ChangeResource rsrc) {
+    List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
+    int cmItr = 0;
+    for (CommentInfo comment : comments) {
+      while (cmItr < changeMessages.size()
+          && comment.updated.after(changeMessages.get(cmItr).getWrittenOn())) {
+        cmItr += 1;
+      }
+      if (cmItr < changeMessages.size()) {
+        comment.changeMessageId = changeMessages.get(cmItr).getKey().uuid();
+      }
+    }
   }
 }

@@ -48,7 +48,15 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
 
   protected Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
+    List<Comment> comments =
+        commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
+    return comments;
+  }
+
+  protected List<CommentInfo> listCommentsInfos(ChangeResource rsrc)
+      throws PermissionBackendException {
+    Iterable<Comment> comments = listComments(rsrc);
+    return getCommentFormatter().formatAsList(comments);
   }
 
   protected boolean includeAuthorInfo() {
@@ -65,7 +73,8 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return Response.ok(getCommentFormatter().format(listComments(rsrc)));
+    List<CommentInfo> commentsInfos = listCommentsInfos(rsrc);
+    return Response.ok(getCommentFormatter().formatAsMap(commentsInfos));
   }
 
   public List<CommentInfo> getComments(ChangeResource rsrc)
@@ -73,10 +82,10 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return getCommentFormatter().formatAsList(listComments(rsrc));
+    return listCommentsInfos(rsrc);
   }
 
-  private CommentFormatter getCommentFormatter() {
+  protected CommentFormatter getCommentFormatter() {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())

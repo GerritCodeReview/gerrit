@@ -81,13 +81,10 @@ public class CommentJson {
       return info;
     }
 
-    public Map<String, List<T>> format(Iterable<F> comments) throws PermissionBackendException {
-      AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
-
+    public Map<String, List<T>> formatAsMap(Iterable<T> commentInfos)
+        throws PermissionBackendException {
       Map<String, List<T>> out = new TreeMap<>();
-
-      for (F c : comments) {
-        T o = toInfo(c, loader);
+      for (T o : commentInfos) {
         List<T> list = out.get(o.path);
         if (list == null) {
           list = new ArrayList<>();
@@ -96,13 +93,22 @@ public class CommentJson {
         o.path = null;
         list.add(o);
       }
-
+      AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
       out.values().forEach(l -> l.sort(COMMENT_INFO_ORDER));
-
       if (loader != null) {
         loader.fill();
       }
       return out;
+    }
+
+    public Map<String, List<T>> format(Iterable<F> comments) throws PermissionBackendException {
+      AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
+      List<T> commentInfos = new ArrayList<>();
+      for (F c : comments) {
+        T o = toInfo(c, loader);
+        commentInfos.add(o);
+      }
+      return formatAsMap(commentInfos);
     }
 
     public ImmutableList<T> formatAsList(Iterable<F> comments) throws PermissionBackendException {

@@ -29,11 +29,10 @@ import scala.concurrent.duration._
 
 class ReplayRecordsFromFeeder extends Simulation {
 
-  val gitProtocol: GitProtocol = GitProtocol()
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
-  implicit val postMessageHook: Option[String] = Some(
-    s"hooks/${CommitMsgHook.NAME}")
+  implicit val postMessageHook: Option[String] = Some(s"hooks/${CommitMsgHook.NAME}")
 
+  val gitProtocol: GitProtocol = GitProtocol()
   val feeder: FileBasedFeederBuilder[Any]#F = jsonFile("data/requests.json").circular
 
   val replayCallsScenario: ScenarioBuilder =

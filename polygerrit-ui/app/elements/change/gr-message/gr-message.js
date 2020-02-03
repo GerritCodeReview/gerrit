@@ -17,7 +17,7 @@
 (function() {
   'use strict';
 
-  const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
+  const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+:\s*(.*)/;
   const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
 
   /**
@@ -99,11 +99,13 @@
         },
         _messageContentExpanded: {
           type: String,
-          computed: '_computeMessageContentExpanded(message.message)',
+          computed:
+              '_computeMessageContentExpanded(message.message, message.tag)',
         },
         _messageContentCollapsed: {
           type: String,
-          computed: '_computeMessageContentCollapsed(message.message)',
+          computed:
+              '_computeMessageContentCollapsed(message.message, message.tag)',
         },
         _commentCountText: {
           type: Number,
@@ -166,29 +168,54 @@
       }
     }
 
-    _computeMessageContentExpanded(content) {
-      return this._computeMessageContent(content, true);
+    _computeMessageContentExpanded(content, tag) {
+      return this._computeMessageContent(content, tag, true);
     }
 
-    _computeMessageContentCollapsed(content) {
-      return this._computeMessageContent(content, false);
+    _computeMessageContentCollapsed(content, tag) {
+      return this._computeMessageContent(content, tag, false);
     }
 
-    _computeMessageContent(content, isExpanded) {
-      if (!content) return '';
+    _computeMessageContent(content, tag, isExpanded) {
+      content = content || '';
+      tag = tag || '';
+      const isNewPatchSet = tag.endsWith(':newPatchSet') ||
+          tag.endsWith(':newWipPatchSet');
       const lines = content.split('\n');
       const filteredLines = lines.filter(line => {
-        if (!isExpanded && line.startsWith('>')) return false;
-        if (line.startsWith('Patch Set ')) return false;
-        if (line.startsWith('(') && line.endsWith(' comment)')) return false;
-        if (line.startsWith('(') && line.endsWith(' comments)')) return false;
+        if (!isExpanded && line.startsWith('>')) {
+          return false;
+        }
+        if (line.startsWith('(') && line.endsWith(' comment)')) {
+          return false;
+        }
+        if (line.startsWith('(') && line.endsWith(' comments)')) {
+          return false;
+        }
+        if (!isNewPatchSet && line.match(PATCH_SET_PREFIX_PATTERN)) {
+          return false
+        }
         return true;
       });
-      return filteredLines.join('\n').trim();
+      const mappedLines = filteredLines.map(line => {
+        // The change message formatting is not very consistent, so
+        // unfortunately we have to do a bit of tweaking here:
+        //   Labels should be stripped from lines like this:
+        //     Patch Set 29: Verified+1
+        //   Rebase messages (which have a ':newPatchSet' tag) should be kept on
+        //   lines like this:
+        //     Patch Set 27: Patch Set 26 was rebased
+        if (isNewPatchSet) {
+          return line = line.replace(PATCH_SET_PREFIX_PATTERN, '$1');
+        }
+        return line;
+      });
+      return mappedLines.join('\n').trim();
     }
 
-    _isMessageContentEmpty(content) {
-      return this._computeMessageContent(content).trim().length === 0;
+    _isMessageContentEmpty() {
+      return !this._messageContentExpanded
+          || this._messageContentExpanded.length === 0;
     }
 
     _computeAuthor(message) {

@@ -63,6 +63,11 @@
      *
      * @event topic-changed
      */
+    /**
+     * Fired when the change should be reloaded.
+     *
+     * @event reload-change
+     */
 
     static get properties() {
       return {

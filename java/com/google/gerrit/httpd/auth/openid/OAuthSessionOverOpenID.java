@@ -222,7 +222,7 @@ class OAuthSessionOverOpenID {
     try {
       return SecureRandom.getInstance("SHA1PRNG");
     } catch (NoSuchAlgorithmException e) {
-      throw new IllegalArgumentException("No SecureRandom available for GitHub authentication", e);
+      throw new IllegalStateException("No SecureRandom available for GitHub authentication", e);
     }
   }
 

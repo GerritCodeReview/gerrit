@@ -34,7 +34,7 @@ public class CommitMessageUtil {
     try {
       rng = SecureRandom.getInstance("SHA1PRNG");
     } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Cannot create RNG for Change-Id generator", e);
+      throw new IllegalStateException("Cannot create RNG for Change-Id generator", e);
     }
   }
 

@@ -14,20 +14,17 @@
 
 package com.google.gerrit.scenarios
 
-import com.github.barbasa.gatling.git.protocol.GitProtocol
-import com.github.barbasa.gatling.git.request.builder.GitRequestBuilder
-import io.gatling.core.Predef._
-import io.gatling.core.structure.ScenarioBuilder
 import java.io._
 
-import com.github.barbasa.gatling.git.{
-  GatlingGitConfiguration,
-  GitRequestSession
-}
+import com.github.barbasa.gatling.git.protocol.GitProtocol
+import com.github.barbasa.gatling.git.request.builder.GitRequestBuilder
+import com.github.barbasa.gatling.git.{GatlingGitConfiguration, GitRequestSession}
+import io.gatling.core.Predef._
+import io.gatling.core.structure.ScenarioBuilder
 import org.apache.commons.io.FileUtils
+import org.eclipse.jgit.hooks._
 
 import scala.concurrent.duration._
-import org.eclipse.jgit.hooks._
 
 class ReplayRecordsFromFeederScenario extends Simulation {
 
@@ -40,10 +37,10 @@ class ReplayRecordsFromFeederScenario extends Simulation {
 
   val replayCallsScenario: ScenarioBuilder =
     scenario("Git commands")
-      .repeat(10000) {
-        feed(feeder)
-          .exec(new GitRequestBuilder(GitRequestSession("${cmd}", "${url}")))
-      }
+        .repeat(10000) {
+          feed(feeder)
+              .exec(new GitRequestBuilder(GitRequestSession("${cmd}", "${url}")))
+        }
 
   setUp(
     replayCallsScenario.inject(
@@ -53,8 +50,8 @@ class ReplayRecordsFromFeederScenario extends Simulation {
       constantUsersPerSec(20) during (15 seconds),
       constantUsersPerSec(20) during (15 seconds) randomized
     ))
-    .protocols(gitProtocol)
-    .maxDuration(60 seconds)
+      .protocols(gitProtocol)
+      .maxDuration(60 seconds)
 
   after {
     try {

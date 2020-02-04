@@ -18,7 +18,7 @@
   'use strict';
 
   const LookupQueryPatterns = {
-    CHANGE_ID: /^\s*i?[0-9a-f]{8,40}\s*$/i,
+    CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
     CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
   };
 

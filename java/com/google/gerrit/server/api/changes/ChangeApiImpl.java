@@ -45,8 +45,8 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
@@ -568,7 +568,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> comments() throws RestApiException {
+  public Map<String, List<HumanCommentInfo>> comments() throws RestApiException {
     try {
       return listComments.apply(change).value();
     } catch (Exception e) {
@@ -577,7 +577,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public List<CommentInfo> commentsAsList() throws RestApiException {
+  public List<HumanCommentInfo> commentsAsList() throws RestApiException {
     try {
       return listComments.getComments(change);
     } catch (Exception e) {
@@ -595,7 +595,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+  public Map<String, List<HumanCommentInfo>> drafts() throws RestApiException {
     try {
       return listDrafts.apply(change).value();
     } catch (Exception e) {
@@ -604,7 +604,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public List<CommentInfo> draftsAsList() throws RestApiException {
+  public List<HumanCommentInfo> draftsAsList() throws RestApiException {
     try {
       return listDrafts.getComments(change);
     } catch (Exception e) {

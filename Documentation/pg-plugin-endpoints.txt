@@ -89,7 +89,7 @@ In addition to default parameters, the following are available:
 * `comment`
 +
 current comment displayed, an instance of
-link:rest-api-changes.html#comment-info[CommentInfo]
+link:rest-api-changes.html#human-comment-info[HumanCommentInfo]
 
 === repo-command
 This endpoint is situated among the repository commands.

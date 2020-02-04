@@ -1986,15 +1986,15 @@ Adds or updates the change in the secondary index.
   HTTP/1.1 204 No Content
 ----
 
-[[list-change-comments]]
-=== List Change Comments
+[[list-change-human-comments]]
+=== List Change Human Comments
 --
 'GET /changes/link:#change-id[\{change-id\}]/comments'
 --
 
-Lists the published comments of all revisions of the change.
+Lists the published human comments of all revisions of the change.
 
-Returns a map of file paths to lists of link:#comment-info[CommentInfo]
+Returns a map of file paths to lists of link:#human-comment-info[HumanCommentInfo]
 entries. The entries in the map are sorted by file path, and the
 comments for each path are sorted by patch set number. Each comment has
 the `patch_set` and `author` fields set.
@@ -2107,7 +2107,7 @@ map are sorted by file path.
 Lists the draft comments of all revisions of the change that belong to
 the calling user.
 
-Returns a map of file paths to lists of link:#comment-info[CommentInfo]
+Returns a map of file paths to lists of link:#human-comment-info[HumanCommentInfo]
 entries. The entries in the map are sorted by file path, and the
 comments for each path are sorted by patch set number. Each comment has
 the `patch_set` field set, and no `author`.
@@ -4526,7 +4526,7 @@ all LFs are included in the Prolog code:
 Lists the draft comments of a revision that belong to the calling
 user.
 
-Returns a map of file paths to lists of link:#comment-info[CommentInfo]
+Returns a map of file paths to lists of link:#human-comment-info[HumanCommentInfo]
 entries. The entries in the map are sorted by file path.
 
 .Request
@@ -4569,7 +4569,7 @@ entries. The entries in the map are sorted by file path.
 Creates a draft comment on a revision.
 
 The new draft comment must be provided in the request body inside a
-link:#comment-input[CommentInput] entity.
+link:#human-comment-input[HumanCommentInput] entity.
 
 .Request
 ----
@@ -4583,7 +4583,7 @@ link:#comment-input[CommentInput] entity.
   }
 ----
 
-As response a link:#comment-info[CommentInfo] entity is returned that
+As response a link:#human-comment-info[HumanCommentInfo] entity is returned that
 describes the draft comment.
 
 .Response
@@ -4616,7 +4616,7 @@ user.
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/drafts/TvcXrmjM HTTP/1.0
 ----
 
-As response a link:#comment-info[CommentInfo] entity is returned that
+As response a link:#human-comment-info[HumanCommentInfo] entity is returned that
 describes the draft comment.
 
 .Response
@@ -4644,7 +4644,7 @@ describes the draft comment.
 Updates a draft comment on a revision.
 
 The new draft comment must be provided in the request body inside a
-link:#comment-input[CommentInput] entity.
+link:#human-comment-input[HumanCommentInput] entity.
 
 .Request
 ----
@@ -4658,7 +4658,7 @@ link:#comment-input[CommentInput] entity.
   }
 ----
 
-As response a link:#comment-info[CommentInfo] entity is returned that
+As response a link:#human-comment-info[HumanCommentInfo] entity is returned that
 describes the draft comment.
 
 .Response
@@ -4695,16 +4695,16 @@ Deletes a draft comment from a revision.
   HTTP/1.1 204 No Content
 ----
 
-[[list-comments]]
-=== List Revision Comments
+[[list-human-comments]]
+=== List Revision Human Comments
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/'
 --
 
-Lists the published comments of a revision.
+Lists the published human comments of a revision.
 
 As result a map is returned that maps the file path to a list of
-link:#comment-info[CommentInfo] entries. The entries in the map are
+link:#human-comment-info[HumanCommentInfo] entries. The entries in the map are
 sorted by file path and only include file (or inline) comments. Use
 the link:#get-change-detail[Get Change Detail] endpoint to retrieve
 the general change message (or comment).
@@ -4750,20 +4750,20 @@ the general change message (or comment).
   }
 ----
 
-[[get-comment]]
-=== Get Comment
+[[get-human-comment]]
+=== Get Human Comment
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]'
 --
 
-Retrieves a published comment of a revision.
+Retrieves a published human comment of a revision.
 
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/comments/TvcXrmjM HTTP/1.0
 ----
 
-As response a link:#comment-info[CommentInfo] entity is returned that
+As response a link:#human-comment-info[HumanCommentInfo] entity is returned that
 describes the published comment.
 
 .Response
@@ -4787,14 +4787,14 @@ describes the published comment.
   }
 ----
 
-[[delete-comment]]
-=== Delete Comment
+[[delete-human-comment]]
+=== Delete Human Comment
 --
 'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]' +
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]/delete'
 --
 
-Deletes a published comment of a revision. Instead of deleting the
+Deletes a published human comment of a revision. Instead of deleting the
 whole comment, this endpoint just replaces the comment's message
 with a new message, which contains the name of the user who deletes
 the comment and the reason why it's deleted.
@@ -4804,7 +4804,7 @@ link:access-control.html#capability_administrateServer[Administrate Server]
 global capability are permitted to delete a comment.
 
 Deletion reason can be provided in the request body as a
-link:#delete-comment-input[DeleteCommentInput] entity.
+link:#delete-human-comment-input[DeleteHumanCommentInput] entity.
 Historically, this method allowed a body in the DELETE, but that behavior is
 link:https://www.gerritcodereview.com/releases/2.16.md[deprecated,role=external,window=_blank].
 In this case, use a POST request instead:
@@ -4819,7 +4819,7 @@ In this case, use a POST request instead:
   }
 ----
 
-As response a link:#comment-info[CommentInfo] entity is returned that
+As response a link:#human-comment-info[HumanCommentInfo] entity is returned that
 describes the updated comment.
 
 .Response
@@ -6171,9 +6171,9 @@ there are conflicts the cherry-pick change is marked as
 work-in-progress.
 |===========================
 
-[[comment-info]]
-=== CommentInfo
-The `CommentInfo` entity contains information about an inline comment.
+[[human-comment-info]]
+=== HumanCommentInfo
+The `HumanCommentInfo` entity contains information about an inline comment.
 
 [options="header",cols="1,^1,5"]
 |===========================
@@ -6220,9 +6220,9 @@ resolution of a comment thread is stored in the last comment in that thread
 chronologically.
 |===========================
 
-[[comment-input]]
-=== CommentInput
-The `CommentInput` entity contains information for creating an inline
+[[human-comment-input]]
+=== HumanCommentInput
+The `HumanCommentInput` entity contains information for creating an inline
 comment.
 
 [options="header",cols="1,^1,5"]
@@ -6349,8 +6349,8 @@ If set, the change message will be replaced with
 or just "Change message removed by: `name`." if not set.
 |=============================
 
-[[delete-comment-input]]
-=== DeleteCommentInput
+[[delete-human-comment-input]]
+=== DeleteHumanCommentInput
 The `DeleteCommentInput` entity contains the option for deleting a comment.
 
 [options="header",cols="1,^1,5"]
@@ -7129,7 +7129,7 @@ The votes that should be added to the revision as a map that maps the
 label names to the voting values.
 |`comments`               |optional|
 The comments that should be added as a map that maps a file path to a
-list of link:#comment-input[CommentInput] entities.
+list of link:#human-comment-input[HumanCommentInput] entities.
 |`robot_comments`         |optional|
 The robot comments that should be added as a map that maps a file path
 to a list of link:#robot-comment-input[RobotCommentInput] entities.
@@ -7308,12 +7308,47 @@ selector menu. May be null if no description is set.
 The `RobotCommentInfo` entity contains information about a robot inline
 comment.
 
-`RobotCommentInfo` has the same fields as <<comment-info,CommentInfo>>.
-In addition `RobotCommentInfo` has the following fields:
-
 [options="header",cols="1,^1,5"]
 |===========================
-|Field Name       ||Description
+|Field Name    ||Description
+|`patch_set`   |optional|
+The patch set number for the comment; only set in contexts where +
+comments may be returned for multiple patch sets.
+|`id`          ||The URL encoded UUID of the comment.
+|`path`        |optional|
+The path of the file for which the inline comment was done. +
+Not set if returned in a map where the key is the file path.
+|`side`        |optional|
+The side on which the comment was added. +
+Allowed values are `REVISION` and `PARENT`. +
+If not set, the default is `REVISION`.
+|`parent`      |optional|
+The 1-based parent number. Used only for merge commits when `side == PARENT`.
+When not set the comment is for the auto-merge tree.
+|`line`        |optional|
+The number of the line for which the comment was done. +
+If range is set, this equals the end line of the range. +
+If neither line nor range is set, it's a file comment.
+|`range`       |optional|
+The range of the comment as a link:#comment-range[CommentRange]
+entity.
+|`message`     |optional|The comment message.
+|`updated`     ||
+The link:rest-api.html#timestamp[timestamp] of when this comment was
+written.
+|`author`      |optional|
+The author of the message as an
+link:rest-api-accounts.html#account-info[AccountInfo] entity. +
+Unset for draft comments, assumed to be the calling user.
+|`tag`                 |optional|
+Value of the `tag` field from link:#review-input[ReviewInput] set
+while posting the review.
+NOTE: To apply different tags on different votes/comments multiple
+invocations of the REST call are required.
+|`unresolved`        |optional|
+Whether or not the comment must be addressed by the user. The state of
+resolution of a comment thread is stored in the last comment in that thread
+chronologically.
 |`robot_id`       ||The ID of the robot that generated this comment.
 |`robot_run_id`   ||An ID of the run of the robot.
 |`url`            |optional|URL to more information.
@@ -7328,8 +7363,46 @@ keys to values.
 The `RobotCommentInput` entity contains information for creating an inline
 robot comment.
 
-`RobotCommentInput` has the same fields as
-<<robot-comment-info,RobotCommentInfo>>.
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`patch_set`   |optional|
+The patch set number for the comment; only set in contexts where +
+comments may be returned for multiple patch sets.
+|`id`          ||The URL encoded UUID of the comment.
+|`path`        |optional|
+The path of the file for which the inline comment was done. +
+Not set if returned in a map where the key is the file path.
+|`side`        |optional|
+The side on which the comment was added. +
+Allowed values are `REVISION` and `PARENT`. +
+If not set, the default is `REVISION`.
+|`parent`      |optional|
+The 1-based parent number. Used only for merge commits when `side == PARENT`.
+When not set the comment is for the auto-merge tree.
+|`line`        |optional|
+The number of the line for which the comment was done. +
+If range is set, this equals the end line of the range. +
+If neither line nor range is set, it's a file comment.
+|`range`       |optional|
+The range of the comment as a link:#comment-range[CommentRange]
+entity.
+|`message`     |optional|The comment message.
+|`updated`     ||
+The link:rest-api.html#timestamp[timestamp] of when this comment was
+written.
+|`unresolved`        |optional|
+Whether or not the comment must be addressed by the user. The state of
+resolution of a comment thread is stored in the last comment in that thread
+chronologically.
+|`robot_id`       ||The ID of the robot that generated this comment.
+|`robot_run_id`   ||An ID of the run of the robot.
+|`url`            |optional|URL to more information.
+|`properties`     |optional|Robot specific properties as map that maps arbitrary
+keys to values.
+|`fix_suggestions`|optional|Suggested fixes for this robot comment as a list of
+<<fix-suggestion-info,FixSuggestionInfo>> entities.
+|===========================
 
 [[rule-input]]
 === RuleInput

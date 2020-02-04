@@ -41,12 +41,12 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
@@ -403,7 +403,7 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> comments() throws RestApiException {
+  public Map<String, List<HumanCommentInfo>> comments() throws RestApiException {
     try {
       return listComments.apply(revision).value();
     } catch (Exception e) {
@@ -421,7 +421,7 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public List<CommentInfo> commentsAsList() throws RestApiException {
+  public List<HumanCommentInfo> commentsAsList() throws RestApiException {
     try {
       return listComments.getComments(revision);
     } catch (Exception e) {
@@ -430,7 +430,7 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+  public Map<String, List<HumanCommentInfo>> drafts() throws RestApiException {
     try {
       return listDrafts.apply(revision).value();
     } catch (Exception e) {
@@ -466,7 +466,7 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public List<CommentInfo> draftsAsList() throws RestApiException {
+  public List<HumanCommentInfo> draftsAsList() throws RestApiException {
     try {
       return listDrafts.getComments(revision);
     } catch (Exception e) {

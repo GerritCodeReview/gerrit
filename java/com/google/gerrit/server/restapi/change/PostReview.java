@@ -59,6 +59,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
@@ -808,8 +809,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   /**
-   * Used to compare existing {@link HumanComment}-s with {@link CommentInput} comments by copying
-   * only the fields to compare.
+   * Used to compare existing {@link HumanComment}-s with {@link HumanCommentInput} comments by
+   * copying only the fields to compare.
    */
   @AutoValue
   abstract static class CommentSetEntry {
@@ -909,7 +910,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)
         throws UnprocessableEntityException, PatchListNotAvailableException,
             CommentsRejectedException {
-      Map<String, List<CommentInput>> inputComments = in.comments;
+      Map<String, List<HumanCommentInput>> inputComments = in.comments;
       if (inputComments == null) {
         inputComments = Collections.emptyMap();
       }
@@ -936,9 +937,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // Deduplication:
       // - Ignore drafts with the same ID as an inputComment here. These are deleted later.
       // - Swallow comments that already exist.
-      for (Map.Entry<String, List<CommentInput>> entry : inputComments.entrySet()) {
+      for (Map.Entry<String, List<HumanCommentInput>> entry : inputComments.entrySet()) {
         String path = entry.getKey();
-        for (CommentInput inputComment : entry.getValue()) {
+        for (HumanCommentInput inputComment : entry.getValue()) {
           HumanComment comment = drafts.remove(Url.decode(inputComment.id));
           if (comment == null) {
             String parent = Url.decode(inputComment.inReplyTo);

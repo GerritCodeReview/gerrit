@@ -20,7 +20,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.mail.receive.MailProcessor;
@@ -98,7 +98,7 @@ public class ListMailFilterIT extends AbstractMailIT {
   private ChangeInfo createChangeAndReplyByEmail() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));

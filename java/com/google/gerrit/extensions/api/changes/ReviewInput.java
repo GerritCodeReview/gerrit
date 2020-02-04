@@ -32,7 +32,7 @@ public class ReviewInput {
   public String tag;
 
   public Map<String, Short> labels;
-  public Map<String, List<CommentInput>> comments;
+  public Map<String, List<HumanCommentInput>> comments;
   public Map<String, List<RobotCommentInput>> robotComments;
 
   /**
@@ -87,6 +87,10 @@ public class ReviewInput {
   }
 
   public static class CommentInput extends Comment {}
+
+  public static class HumanCommentInput extends CommentInput {
+    public String inReplyTo;
+  }
 
   public static class RobotCommentInput extends CommentInput {
     public String robotId;

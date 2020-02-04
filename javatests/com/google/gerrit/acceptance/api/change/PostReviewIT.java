@@ -35,8 +35,8 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -133,7 +133,7 @@ public class PostReviewIT extends AbstractDaemonTest {
         .thenReturn(ImmutableList.of());
 
     ReviewInput input = new ReviewInput();
-    CommentInput comment = newComment(r.getChange().currentFilePaths().get(0));
+    HumanCommentInput comment = newComment(r.getChange().currentFilePaths().get(0));
     comment.updated = new Timestamp(0);
     input.comments = ImmutableMap.of(comment.path, ImmutableList.of(comment));
 
@@ -151,7 +151,7 @@ public class PostReviewIT extends AbstractDaemonTest {
         .thenReturn(ImmutableList.of(FILE_COMMENT_FOR_VALIDATION.failValidation("Oh no!")));
 
     ReviewInput input = new ReviewInput();
-    CommentInput comment = newComment(r.getChange().currentFilePaths().get(0));
+    HumanCommentInput comment = newComment(r.getChange().currentFilePaths().get(0));
     comment.updated = new Timestamp(0);
     input.comments = ImmutableMap.of(comment.path, ImmutableList.of(comment));
 
@@ -180,9 +180,9 @@ public class PostReviewIT extends AbstractDaemonTest {
     // posting a comment which is empty after trim is a no-op, as the empty comment is dropped
     // during comment cleanup
     ReviewInput input = new ReviewInput();
-    CommentInput comment =
+    HumanCommentInput comment =
         TestCommentHelper.populate(
-            new CommentInput(), r.getChange().currentFilePaths().get(0), " ");
+            new HumanCommentInput(), r.getChange().currentFilePaths().get(0), " ");
     comment.updated = new Timestamp(0);
     input.comments = ImmutableMap.of(comment.path, ImmutableList.of(comment));
     gApi.changes().id(r.getChangeId()).current().review(input);
@@ -335,14 +335,14 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
     String filePath = r.getChange().currentFilePaths().get(0);
-    CommentInput commentInput = new CommentInput();
-    commentInput.line = 1;
-    commentInput.message = "foo";
-    commentInput.path = filePath;
+    HumanCommentInput humanCommentInput = new HumanCommentInput();
+    humanCommentInput.line = 1;
+    humanCommentInput.message = "foo";
+    humanCommentInput.path = filePath;
     RobotCommentInput robotCommentInput =
         TestCommentHelper.createRobotCommentInputWithMandatoryFields(filePath);
     ReviewInput reviewInput = new ReviewInput();
-    reviewInput.comments = ImmutableMap.of(filePath, ImmutableList.of(commentInput));
+    reviewInput.comments = ImmutableMap.of(filePath, ImmutableList.of(humanCommentInput));
     reviewInput.robotComments = ImmutableMap.of(filePath, ImmutableList.of(robotCommentInput));
     gApi.changes().id(r.getChangeId()).current().review(reviewInput);
 
@@ -372,8 +372,8 @@ public class PostReviewIT extends AbstractDaemonTest {
         .collect(toList());
   }
 
-  private static CommentInput newComment(String path) {
-    return TestCommentHelper.populate(new CommentInput(), path, PostReviewIT.COMMENT_TEXT);
+  private static HumanCommentInput newComment(String path) {
+    return TestCommentHelper.populate(new HumanCommentInput(), path, PostReviewIT.COMMENT_TEXT);
   }
 
   private static CommentValidationContext contextFor(PushOneCommit.Result result) {

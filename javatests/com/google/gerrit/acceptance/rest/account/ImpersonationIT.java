@@ -47,8 +47,8 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -57,8 +57,8 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -209,7 +209,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id().toString();
     in.label("Code-Review", 1);
-    CommentInput ci = new CommentInput();
+    HumanCommentInput ci = new HumanCommentInput();
     ci.path = Patch.COMMIT_MSG;
     ci.side = Side.REVISION;
     ci.line = 1;
@@ -504,7 +504,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(m.message).endsWith(in.message);
     assertThat(m.author._accountId).isEqualTo(user.id().get());
 
-    CommentInfo c =
+    HumanCommentInfo c =
         Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).comments().get(di.path));
     assertThat(c.author._accountId).isEqualTo(user.id().get());
     assertThat(c.message).isEqualTo(di.message);

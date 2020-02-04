@@ -36,7 +36,7 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeType;
@@ -636,7 +636,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     // (= modify) the file in the change.
     addModifiedPatchSet(
         changeId, FILE_NAME, fileContent -> fileContent.replace("Line 2\n", "Line two\n"));
-    CommentInput comment = createCommentInput(3, 0, 4, 0, "Comment to not skip file content.");
+    HumanCommentInput comment = createCommentInput(3, 0, 4, 0, "Comment to not skip file content.");
     addCommentTo(changeId, CURRENT, FILE_NAME, comment);
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     String newBaseFileContent = baseFileContent.concat("\n");
@@ -2498,7 +2498,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
       throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    HumanCommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
     addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
     addModifiedPatchSet(
         changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
@@ -2526,7 +2526,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     String newBaseFileContent = FILE_CONTENT.replace("Line 70\n", "Line seventy\n");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
     rebaseChangeOn(changeId, commit2);
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    HumanCommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
     addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
 
     DiffInfo diffInfo =
@@ -2551,7 +2551,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     String newBaseFileContent = FILE_CONTENT.replace("Line 70\n", "Line seventy\n");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
     rebaseChangeOn(changeId, commit2);
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    HumanCommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
     addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
 
     DiffInfo diffInfo =
@@ -2580,7 +2580,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     String newBaseFileContent = baseFileContent.concat("\nLine 102\nLine 103\n");
     ObjectId commit3 = addCommit(commit2, FILE_NAME, newBaseFileContent);
     rebaseChangeOn(changeId, commit3);
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    HumanCommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
     addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
 
     DiffInfo diffInfo =
@@ -2606,7 +2606,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     String newBaseFileContent = FILE_CONTENT.concat("Line 101\nLine 103\nLine 104");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
     rebaseChangeOn(changeId, commit2);
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    HumanCommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
     addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
 
     DiffInfo diffInfo =
@@ -2660,7 +2660,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(
         changeId, FILE_NAME, content -> content.replace("Line 20\n", "Line twenty\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    CommentInput comment = createCommentInput(20, 0, 21, 0, "Should be 'Line 20'.");
+    HumanCommentInput comment = createCommentInput(20, 0, 21, 0, "Should be 'Line 20'.");
     addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
     addModifiedPatchSet(
         changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
@@ -2702,7 +2702,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
       throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    HumanCommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
     addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
     String newFilePath = "a_new_file.txt";
     gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath);
@@ -2737,9 +2737,9 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(e).hasMessageThat().isEqualTo("edit not allowed as base");
   }
 
-  private static CommentInput createCommentInput(
+  private static HumanCommentInput createCommentInput(
       int startLine, int startCharacter, int endLine, int endCharacter, String message) {
-    CommentInput comment = new CommentInput();
+    HumanCommentInput comment = new HumanCommentInput();
     comment.range = new Comment.Range();
     comment.range.startLine = startLine;
     comment.range.startCharacter = startCharacter;
@@ -2750,7 +2750,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   private void addCommentTo(
-      String changeId, String previousPatchSetId, String fileName, CommentInput comment)
+      String changeId, String previousPatchSetId, String fileName, HumanCommentInput comment)
       throws RestApiException {
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(fileName, ImmutableList.of(comment));

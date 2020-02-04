@@ -115,6 +115,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -137,9 +138,9 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
@@ -2152,7 +2153,7 @@ public class ChangeIT extends AbstractDaemonTest {
     sender.clear();
 
     ReviewInput review = new ReviewInput();
-    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    HumanCommentInput comment = new HumanCommentInput();
     comment.path = PushOneCommit.FILE_NAME;
     comment.side = Side.REVISION;
     comment.message = "comment 1";
@@ -2170,7 +2171,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
 
     ReviewInput review = new ReviewInput();
-    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    HumanCommentInput comment = new HumanCommentInput();
 
     comment.range = new Range();
     comment.range.startLine = 1;
@@ -4129,7 +4130,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ReviewInput ri = ReviewInput.approve();
     ri.message = "I like it " + smile;
-    ReviewInput.CommentInput ci = new ReviewInput.CommentInput();
+    HumanCommentInput ci = new HumanCommentInput();
     ci.path = FILE_NAME;
     ci.side = Side.REVISION;
     ci.message = "Good " + smile;
@@ -4142,7 +4143,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(Iterables.getOnlyElement(info.revisions.values()).commit.message)
         .startsWith(subject);
 
-    List<CommentInfo> comments =
+    List<HumanCommentInfo> comments =
         Iterables.getOnlyElement(gApi.changes().id(id).comments().values());
     assertThat(Iterables.getOnlyElement(comments).message).isEqualTo(ci.message);
   }
@@ -4273,7 +4274,7 @@ public class ChangeIT extends AbstractDaemonTest {
       Boolean unresolved,
       String inReplyTo)
       throws Exception {
-    ReviewInput.CommentInput c = new ReviewInput.CommentInput();
+    HumanCommentInput c = new HumanCommentInput();
     c.line = 1;
     c.message = message;
     c.path = FILE_NAME;

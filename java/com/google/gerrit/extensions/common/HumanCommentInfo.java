@@ -17,23 +17,24 @@ package com.google.gerrit.extensions.common;
 import com.google.gerrit.extensions.client.Comment;
 import java.util.Objects;
 
-// TODO(paiking): extract "inReplyTo" from "Comment" to "HumanCommentInfo" that extends
-// "CommentInfo".
-public class CommentInfo extends Comment {
+public class HumanCommentInfo extends Comment {
   public AccountInfo author;
   public String tag;
+  public String inReplyTo;
 
   @Override
   public boolean equals(Object o) {
     if (super.equals(o)) {
-      CommentInfo ci = (CommentInfo) o;
-      return Objects.equals(author, ci.author) && Objects.equals(tag, ci.tag);
+      HumanCommentInfo ci = (HumanCommentInfo) o;
+      return Objects.equals(author, ci.author)
+          && Objects.equals(tag, ci.tag)
+          && Objects.equals(inReplyTo, ci.inReplyTo);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), author, tag);
+    return Objects.hash(super.hashCode(), author, tag, inReplyTo);
   }
 }

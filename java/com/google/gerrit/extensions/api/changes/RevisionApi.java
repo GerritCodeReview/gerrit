@@ -20,11 +20,11 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
@@ -103,15 +103,15 @@ public interface RevisionApi {
 
   MergeableInfo mergeableOtherBranches() throws RestApiException;
 
-  Map<String, List<CommentInfo>> comments() throws RestApiException;
+  Map<String, List<HumanCommentInfo>> comments() throws RestApiException;
 
   Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException;
 
-  Map<String, List<CommentInfo>> drafts() throws RestApiException;
+  Map<String, List<HumanCommentInfo>> drafts() throws RestApiException;
 
-  List<CommentInfo> commentsAsList() throws RestApiException;
+  List<HumanCommentInfo> commentsAsList() throws RestApiException;
 
-  List<CommentInfo> draftsAsList() throws RestApiException;
+  List<HumanCommentInfo> draftsAsList() throws RestApiException;
 
   List<RobotCommentInfo> robotCommentsAsList() throws RestApiException;
 
@@ -269,7 +269,7 @@ public interface RevisionApi {
     }
 
     @Override
-    public Map<String, List<CommentInfo>> comments() throws RestApiException {
+    public Map<String, List<HumanCommentInfo>> comments() throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -279,12 +279,12 @@ public interface RevisionApi {
     }
 
     @Override
-    public List<CommentInfo> commentsAsList() throws RestApiException {
+    public List<HumanCommentInfo> commentsAsList() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<CommentInfo> draftsAsList() throws RestApiException {
+    public List<HumanCommentInfo> draftsAsList() throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -304,7 +304,7 @@ public interface RevisionApi {
     }
 
     @Override
-    public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+    public Map<String, List<HumanCommentInfo>> drafts() throws RestApiException {
       throw new NotImplementedException();
     }
 

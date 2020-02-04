@@ -14,12 +14,12 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface DraftApi extends CommentApi {
-  CommentInfo update(DraftInput in) throws RestApiException;
+  HumanCommentInfo update(DraftInput in) throws RestApiException;
 
   void delete() throws RestApiException;
 
@@ -29,7 +29,7 @@ public interface DraftApi extends CommentApi {
    */
   class NotImplemented extends CommentApi.NotImplemented implements DraftApi {
     @Override
-    public CommentInfo update(DraftInput in) throws RestApiException {
+    public HumanCommentInfo update(DraftInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

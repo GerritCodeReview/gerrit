@@ -14,12 +14,12 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface CommentApi {
-  CommentInfo get() throws RestApiException;
+  HumanCommentInfo get() throws RestApiException;
 
   /**
    * Deletes a published comment of a revision. For NoteDb, it deletes the comment by rewriting the
@@ -30,7 +30,7 @@ public interface CommentApi {
    *
    * @return the comment with its message updated.
    */
-  CommentInfo delete(DeleteCommentInput input) throws RestApiException;
+  HumanCommentInfo delete(DeleteCommentInput input) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility when adding new methods to the
@@ -38,12 +38,12 @@ public interface CommentApi {
    */
   class NotImplemented implements CommentApi {
     @Override
-    public CommentInfo get() throws RestApiException {
+    public HumanCommentInfo get() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public CommentInfo delete(DeleteCommentInput input) throws RestApiException {
+    public HumanCommentInfo delete(DeleteCommentInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

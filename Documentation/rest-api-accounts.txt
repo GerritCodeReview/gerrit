@@ -2431,7 +2431,7 @@ link:rest-api-changes.html#change-info[ChangeInfo] entity describing the change
 on which one or more comments was deleted. Populated with no change list
 options.
 |`deleted`                  |
-List of link:rest-api-changes.html#comment-info[CommentInfo] entities for each
+List of link:rest-api-changes.html#human-comment-info[HumanCommentInfo] entities for each
 comment that was deleted.
 |=================================
 

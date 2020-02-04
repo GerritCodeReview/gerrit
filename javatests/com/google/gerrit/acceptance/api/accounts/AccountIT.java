@@ -97,10 +97,10 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccoun
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -2660,7 +2660,7 @@ public class AccountIT extends AbstractDaemonTest {
     for (TestAccount testAccount : accountCreator.getAll()) {
       requestScopeOperations.setApiUser(testAccount.id());
       for (ChangeInfo changeInfo : gApi.changes().query("has:draft").get()) {
-        for (CommentInfo c :
+        for (HumanCommentInfo c :
             gApi.changes().id(changeInfo.id).drafts().values().stream()
                 .flatMap(List::stream)
                 .collect(toImmutableList())) {

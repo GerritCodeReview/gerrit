@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -195,7 +196,7 @@ public class QueryIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
 
     ReviewInput review = new ReviewInput();
-    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    HumanCommentInput comment = new HumanCommentInput();
     comment.path = PushOneCommit.FILE_NAME;
     comment.side = Side.REVISION;
     comment.message = "comment 1";
@@ -218,7 +219,7 @@ public class QueryIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
 
     ReviewInput review = new ReviewInput();
-    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    HumanCommentInput comment = new HumanCommentInput();
     comment.path = PushOneCommit.FILE_NAME;
     comment.side = Side.REVISION;
     comment.message = "comment 1";

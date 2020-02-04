@@ -38,12 +38,12 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -113,12 +113,12 @@ public class CommentsIT extends AbstractDaemonTest {
       String path = "file1";
       DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
-      Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+      Map<String, List<HumanCommentInfo>> result = getDraftComments(changeId, revId);
       assertThat(result).hasSize(1);
-      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      HumanCommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
 
-      List<CommentInfo> list = getDraftCommentsAsList(changeId);
+      List<HumanCommentInfo> list = getDraftCommentsAsList(changeId);
       assertThat(list).hasSize(1);
       actual = list.get(0);
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
@@ -140,11 +140,11 @@ public class CommentsIT extends AbstractDaemonTest {
       addDraft(changeId, revId, c2);
       addDraft(changeId, revId, c3);
       addDraft(changeId, revId, c4);
-      Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+      Map<String, List<HumanCommentInfo>> result = getDraftComments(changeId, revId);
       assertThat(result).hasSize(1);
       assertThat(result.get(path).stream().map(infoToDraft(path))).containsExactly(c1, c2, c3, c4);
 
-      List<CommentInfo> list = getDraftCommentsAsList(changeId);
+      List<HumanCommentInfo> list = getDraftCommentsAsList(changeId);
       assertThat(list).hasSize(4);
       assertThat(list.stream().map(infoToDraft(path))).containsExactly(c1, c2, c3, c4);
     }
@@ -161,13 +161,13 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1", false);
+      HumanCommentInput comment = newComment(file, Side.REVISION, line, "comment 1", false);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<HumanCommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
-      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      HumanCommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToInput(file).apply(actual));
       assertThat(comment)
           .isEqualTo(infoToInput(file).apply(getPublishedComment(changeId, revId, actual.id)));
@@ -185,12 +185,12 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1", false);
+      HumanCommentInput comment = newComment(file, Side.REVISION, line, "comment 1", false);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
-      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      Map<String, List<HumanCommentInfo>> result = getPublishedComments(changeId, revId);
+      HumanCommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
 
       input = new ReviewInput();
       comment = newComment(file, Side.REVISION, line, "comment 1 reply", false);
@@ -217,13 +217,13 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1", true);
+      HumanCommentInput comment = newComment(file, Side.REVISION, line, "comment 1", true);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<HumanCommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
-      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      HumanCommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToInput(file).apply(actual));
       assertThat(comment)
           .isEqualTo(infoToInput(file).apply(getPublishedComment(changeId, revId, actual.id)));
@@ -238,18 +238,18 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1", false);
-      CommentInput c2 = newComment(file, Side.PARENT, line, "auto-merge of ps-1", false);
-      CommentInput c3 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
-      CommentInput c4 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
+      HumanCommentInput c1 = newComment(file, Side.REVISION, line, "ps-1", false);
+      HumanCommentInput c2 = newComment(file, Side.PARENT, line, "auto-merge of ps-1", false);
+      HumanCommentInput c3 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
+      HumanCommentInput c4 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
       input.comments = new HashMap<>();
       input.comments.put(file, ImmutableList.of(c1, c2, c3, c4));
       revision(r).review(input);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<HumanCommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       assertThat(result.get(file).stream().map(infoToInput(file))).containsExactly(c1, c2, c3, c4);
 
-      List<CommentInfo> list = getPublishedCommentsAsList(changeId);
+      List<HumanCommentInfo> list = getPublishedCommentsAsList(changeId);
       assertThat(list.stream().map(infoToInput(file))).containsExactly(c1, c2, c3, c4);
     }
 
@@ -260,17 +260,17 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1", false);
-      CommentInput c2 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
-      CommentInput c3 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
+      HumanCommentInput c1 = newComment(file, Side.REVISION, line, "ps-1", false);
+      HumanCommentInput c2 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
+      HumanCommentInput c3 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
       input.comments = new HashMap<>();
       input.comments.put(file, ImmutableList.of(c1, c2, c3));
       revision(r).review(input);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<HumanCommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       assertThat(result.get(file).stream().map(infoToInput(file))).containsExactly(c1, c2, c3);
 
-      List<CommentInfo> list = getPublishedCommentsAsList(changeId);
+      List<HumanCommentInfo> list = getPublishedCommentsAsList(changeId);
       assertThat(list.stream().map(infoToInput(file))).containsExactly(c1, c2, c3);
     }
   }
@@ -279,7 +279,8 @@ public class CommentsIT extends AbstractDaemonTest {
   public void postCommentOnCommitMessageOnAutoMerge() throws Exception {
     PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
     ReviewInput input = new ReviewInput();
-    CommentInput c = newComment(Patch.COMMIT_MSG, Side.PARENT, 0, "comment on auto-merge", false);
+    HumanCommentInput c =
+        newComment(Patch.COMMIT_MSG, Side.PARENT, 0, "comment on auto-merge", false);
     input.comments = new HashMap<>();
     input.comments.put(Patch.COMMIT_MSG, ImmutableList.of(c));
     BadRequestException thrown =
@@ -300,13 +301,13 @@ public class CommentsIT extends AbstractDaemonTest {
 
     DraftInput draft = newDraft(file, Side.REVISION, 0, "comment");
     addDraft(changeId, revId, draft);
-    Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
-    CommentInfo draftInfo = Iterables.getOnlyElement(drafts.get(draft.path));
+    Map<String, List<HumanCommentInfo>> drafts = getDraftComments(changeId, revId);
+    HumanCommentInfo draftInfo = Iterables.getOnlyElement(drafts.get(draft.path));
 
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.drafts = DraftHandling.KEEP;
     reviewInput.message = "foo";
-    CommentInput comment = newComment(file, Side.REVISION, 0, "comment", false);
+    HumanCommentInput comment = newComment(file, Side.REVISION, 0, "comment", false);
     // Replace the existing draft.
     comment.id = draftInfo.id;
     reviewInput.comments = new HashMap<>();
@@ -348,7 +349,7 @@ public class CommentsIT extends AbstractDaemonTest {
     reviewInput.message = "bar";
     gApi.changes().id(r1.getChangeId()).revision(2).review(reviewInput);
 
-    Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
+    Map<String, List<HumanCommentInfo>> drafts = getDraftComments(changeId, revId);
     assertThat(drafts.isEmpty()).isTrue();
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
@@ -368,23 +369,23 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(getPublishedComments(changeId, revId)).isEmpty();
     assertThat(getPublishedCommentsAsList(changeId)).isEmpty();
 
-    List<CommentInput> expectedComments = new ArrayList<>();
+    List<HumanCommentInput> expectedComments = new ArrayList<>();
     for (Integer line : lines) {
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment " + line, false);
+      HumanCommentInput comment = newComment(file, Side.REVISION, line, "comment " + line, false);
       expectedComments.add(comment);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
     }
 
-    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+    Map<String, List<HumanCommentInfo>> result = getPublishedComments(changeId, revId);
     assertThat(result).isNotEmpty();
-    List<CommentInfo> actualComments = result.get(file);
+    List<HumanCommentInfo> actualComments = result.get(file);
     assertThat(actualComments.stream().map(infoToInput(file)))
         .containsExactlyElementsIn(expectedComments);
 
-    List<CommentInfo> list = getPublishedCommentsAsList(changeId);
+    List<HumanCommentInfo> list = getPublishedCommentsAsList(changeId);
     assertThat(list.stream().map(infoToInput(file))).containsExactlyElementsIn(expectedComments);
   }
 
@@ -398,8 +399,8 @@ public class CommentsIT extends AbstractDaemonTest {
       String path = "file1";
       DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
-      Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
-      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      Map<String, List<HumanCommentInfo>> result = getDraftComments(changeId, revId);
+      HumanCommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
       String uuid = actual.id;
       comment.message = "updated comment 1";
@@ -428,9 +429,9 @@ public class CommentsIT extends AbstractDaemonTest {
       addDraft(changeId, revId, comment);
     }
 
-    Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+    Map<String, List<HumanCommentInfo>> result = getDraftComments(changeId, revId);
     assertThat(result).isNotEmpty();
-    List<CommentInfo> actualComments = result.get(file);
+    List<HumanCommentInfo> actualComments = result.get(file);
     assertThat(actualComments.stream().map(infoToDraft(file)))
         .containsExactlyElementsIn(expectedDrafts);
   }
@@ -443,8 +444,8 @@ public class CommentsIT extends AbstractDaemonTest {
       String revId = r.getCommit().getName();
       String path = "file1";
       DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
-      CommentInfo returned = addDraft(changeId, revId, comment);
-      CommentInfo actual = getDraftComment(changeId, revId, returned.id);
+      HumanCommentInfo returned = addDraft(changeId, revId, comment);
+      HumanCommentInfo actual = getDraftComment(changeId, revId, returned.id);
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
     }
   }
@@ -457,9 +458,9 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       DraftInput draft = newDraft("file1", Side.REVISION, line, "comment 1");
-      CommentInfo returned = addDraft(changeId, revId, draft);
+      HumanCommentInfo returned = addDraft(changeId, revId, draft);
       deleteDraft(changeId, revId, returned.id);
-      Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
+      Map<String, List<HumanCommentInfo>> drafts = getDraftComments(changeId, revId);
       assertThat(drafts).isEmpty();
 
       // Deleting a draft comment doesn't cause lastUpdatedOn to change.
@@ -481,7 +482,7 @@ public class CommentsIT extends AbstractDaemonTest {
       Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
 
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1", false);
+      HumanCommentInput comment = newComment(file, Side.REVISION, line, "comment 1", false);
       comment.updated = timestamp;
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
@@ -489,10 +490,10 @@ public class CommentsIT extends AbstractDaemonTest {
           changes.get().parse(TopLevelResource.INSTANCE, IdString.fromDecoded(changeId));
       RevisionResource revRsrc = revisions.parse(changeRsrc, IdString.fromDecoded(revId));
       postReview.get().apply(revRsrc, input, timestamp);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<HumanCommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
-      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
-      CommentInput ci = infoToInput(file).apply(actual);
+      HumanCommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      HumanCommentInput ci = infoToInput(file).apply(actual);
       ci.updated = comment.updated;
       assertThat(comment).isEqualTo(ci);
       assertThat(actual.updated).isEqualTo(gApi.changes().id(r.getChangeId()).info().created);
@@ -509,7 +510,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String revId = r1.getCommit().getName();
     addComment(r1, "nit: trailing whitespace");
     addComment(r1, "nit: trailing whitespace");
-    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+    Map<String, List<HumanCommentInfo>> result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(2);
     addComment(r1, "nit: trailing whitespace", true, false, null);
     result = getPublishedComments(changeId, revId);
@@ -552,19 +553,19 @@ public class CommentsIT extends AbstractDaemonTest {
         newDraft(FILE_NAME, Side.REVISION, 1, "+1, please fix"));
 
     requestScopeOperations.setApiUser(admin.id());
-    Map<String, List<CommentInfo>> actual = gApi.changes().id(r1.getChangeId()).drafts();
+    Map<String, List<HumanCommentInfo>> actual = gApi.changes().id(r1.getChangeId()).drafts();
     assertThat(actual.keySet()).containsExactly(FILE_NAME);
-    List<CommentInfo> comments = actual.get(FILE_NAME);
+    List<HumanCommentInfo> comments = actual.get(FILE_NAME);
     assertThat(comments).hasSize(2);
 
-    CommentInfo c1 = comments.get(0);
+    HumanCommentInfo c1 = comments.get(0);
     assertThat(c1.author).isNull();
     assertThat(c1.patchSet).isEqualTo(1);
     assertThat(c1.message).isEqualTo("nit: trailing whitespace");
     assertThat(c1.side).isNull();
     assertThat(c1.line).isEqualTo(1);
 
-    CommentInfo c2 = comments.get(1);
+    HumanCommentInfo c2 = comments.get(1);
     assertThat(c2.author).isNull();
     assertThat(c2.patchSet).isEqualTo(2);
     assertThat(c2.message).isEqualTo("typo: content");
@@ -584,20 +585,20 @@ public class CommentsIT extends AbstractDaemonTest {
     addComment(r1, "nit: trailing whitespace");
     addComment(r2, "typo: content");
 
-    Map<String, List<CommentInfo>> actual = gApi.changes().id(r2.getChangeId()).comments();
+    Map<String, List<HumanCommentInfo>> actual = gApi.changes().id(r2.getChangeId()).comments();
     assertThat(actual.keySet()).containsExactly(FILE_NAME);
 
-    List<CommentInfo> comments = actual.get(FILE_NAME);
+    List<HumanCommentInfo> comments = actual.get(FILE_NAME);
     assertThat(comments).hasSize(2);
 
-    CommentInfo c1 = comments.get(0);
+    HumanCommentInfo c1 = comments.get(0);
     assertThat(c1.author._accountId).isEqualTo(user.id().get());
     assertThat(c1.patchSet).isEqualTo(1);
     assertThat(c1.message).isEqualTo("nit: trailing whitespace");
     assertThat(c1.side).isNull();
     assertThat(c1.line).isEqualTo(1);
 
-    CommentInfo c2 = comments.get(1);
+    HumanCommentInfo c2 = comments.get(1);
     assertThat(c2.author._accountId).isEqualTo(user.id().get());
     assertThat(c2.patchSet).isEqualTo(2);
     assertThat(c2.message).isEqualTo("typo: content");
@@ -687,10 +688,10 @@ public class CommentsIT extends AbstractDaemonTest {
 
     assertThat(gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).drafts())
         .isEmpty();
-    Map<String, List<CommentInfo>> ps1Map =
+    Map<String, List<HumanCommentInfo>> ps1Map =
         gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).comments();
     assertThat(ps1Map.keySet()).containsExactly(FILE_NAME);
-    List<CommentInfo> ps1List = ps1Map.get(FILE_NAME);
+    List<HumanCommentInfo> ps1List = ps1Map.get(FILE_NAME);
     assertThat(ps1List).hasSize(2);
     assertThat(ps1List.get(0).message).isEqualTo("what happened to this?");
     assertThat(ps1List.get(0).side).isEqualTo(Side.PARENT);
@@ -699,10 +700,10 @@ public class CommentsIT extends AbstractDaemonTest {
 
     assertThat(gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).drafts())
         .isEmpty();
-    Map<String, List<CommentInfo>> ps2Map =
+    Map<String, List<HumanCommentInfo>> ps2Map =
         gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).comments();
     assertThat(ps2Map.keySet()).containsExactly(FILE_NAME);
-    List<CommentInfo> ps2List = ps2Map.get(FILE_NAME);
+    List<HumanCommentInfo> ps2List = ps2Map.get(FILE_NAME);
     assertThat(ps2List).hasSize(4);
     assertThat(ps2List.get(0).message).isEqualTo("comment 1 on base");
     assertThat(ps2List.get(1).message).isEqualTo("comment 2 on base");
@@ -803,7 +804,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void commentTags() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    CommentInput pub = new CommentInput();
+    HumanCommentInput pub = new HumanCommentInput();
     pub.line = 1;
     pub.message = "published comment";
     pub.path = FILE_NAME;
@@ -811,7 +812,7 @@ public class CommentsIT extends AbstractDaemonTest {
     rin.tag = "tag1";
     gApi.changes().id(r.getChangeId()).current().review(rin);
 
-    List<CommentInfo> comments = gApi.changes().id(r.getChangeId()).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(r.getChangeId()).current().commentsAsList();
     assertThat(comments).hasSize(1);
     assertThat(comments.get(0).tag).isEqualTo("tag1");
 
@@ -822,7 +823,7 @@ public class CommentsIT extends AbstractDaemonTest {
     draft.tag = "tag2";
     addDraft(r.getChangeId(), r.getCommit().name(), draft);
 
-    List<CommentInfo> drafts = gApi.changes().id(r.getChangeId()).current().draftsAsList();
+    List<HumanCommentInfo> drafts = gApi.changes().id(r.getChangeId()).current().draftsAsList();
     assertThat(drafts).hasSize(1);
     assertThat(drafts.get(0).tag).isEqualTo("tag2");
   }
@@ -842,7 +843,7 @@ public class CommentsIT extends AbstractDaemonTest {
     result = createChange("change 2", FILE_NAME, "content 2");
     String changeId2 = result.getChangeId();
     addComment(result, "comment 1", false, true, null);
-    Map<String, List<CommentInfo>> comments =
+    Map<String, List<HumanCommentInfo>> comments =
         getPublishedComments(changeId2, result.getCommit().name());
     assertThat(comments).hasSize(1);
     assertThat(comments.get(FILE_NAME)).hasSize(1);
@@ -873,9 +874,9 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void deleteCommentCannotBeAppliedByUser() throws Exception {
     PushOneCommit.Result result = createChange();
-    CommentInput targetComment = addComment(result.getChangeId(), "My password: abc123");
+    HumanCommentInput targetComment = addComment(result.getChangeId(), "My password: abc123");
 
-    Map<String, List<CommentInfo>> commentsMap =
+    Map<String, List<HumanCommentInfo>> commentsMap =
         getPublishedComments(result.getChangeId(), result.getCommit().name());
 
     assertThat(commentsMap).hasSize(1);
@@ -904,16 +905,16 @@ public class CommentsIT extends AbstractDaemonTest {
     String ps1 = result1.getCommit().name();
 
     // 2nd commit: Add (c1) to PS1.
-    CommentInput c1 = newComment("a.txt", "comment 1");
+    HumanCommentInput c1 = newComment("a.txt", "comment 1");
     addComments(changeId, ps1, c1);
 
     // 3rd commit: Add (c2, c3) to PS1.
-    CommentInput c2 = newComment("a.txt", "comment 2");
-    CommentInput c3 = newComment("a.txt", "comment 3");
+    HumanCommentInput c2 = newComment("a.txt", "comment 2");
+    HumanCommentInput c3 = newComment("a.txt", "comment 3");
     addComments(changeId, ps1, c2, c3);
 
     // 4th commit: Add (c4) to PS1.
-    CommentInput c4 = newComment("a.txt", "comment 4");
+    HumanCommentInput c4 = newComment("a.txt", "comment 4");
     addComments(changeId, ps1, c4);
 
     // 5th commit: Create PS2.
@@ -921,11 +922,11 @@ public class CommentsIT extends AbstractDaemonTest {
     String ps2 = result2.getCommit().name();
 
     // 6th commit: Add (c5) to PS1.
-    CommentInput c5 = newComment("a.txt", "comment 5");
+    HumanCommentInput c5 = newComment("a.txt", "comment 5");
     addComments(changeId, ps1, c5);
 
     // 7th commit: Add (c6) to PS2.
-    CommentInput c6 = newComment("b.txt", "comment 6");
+    HumanCommentInput c6 = newComment("b.txt", "comment 6");
     addComments(changeId, ps2, c6);
 
     // 8th commit: Create PS3.
@@ -937,15 +938,15 @@ public class CommentsIT extends AbstractDaemonTest {
     String ps4 = result4.getCommit().name();
 
     // 10th commit: Add (c7, c8) to PS4.
-    CommentInput c7 = newComment("c.txt", "comment 7");
-    CommentInput c8 = newComment("b.txt", "comment 8");
+    HumanCommentInput c7 = newComment("c.txt", "comment 7");
+    HumanCommentInput c8 = newComment("b.txt", "comment 8");
     addComments(changeId, ps4, c7, c8);
 
     // 11th commit: Add (c9) to PS2.
-    CommentInput c9 = newComment("b.txt", "comment 9");
+    HumanCommentInput c9 = newComment("b.txt", "comment 9");
     addComments(changeId, ps2, c9);
 
-    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
+    List<HumanCommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
     assertThat(commentsBeforeDelete).hasSize(9);
     // PS1 has comments [c1, c2, c3, c4, c5].
     assertThat(getRevisionComments(changeId, ps1)).hasSize(5);
@@ -960,14 +961,15 @@ public class CommentsIT extends AbstractDaemonTest {
     for (int i = 0; i < commentsBeforeDelete.size(); i++) {
       List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
-      CommentInfo comment = commentsBeforeDelete.get(i);
+      HumanCommentInfo comment = commentsBeforeDelete.get(i);
       String uuid = comment.id;
       int patchSet = comment.patchSet;
       // 'oldComment' has some fields unset compared with 'comment'.
-      CommentInfo oldComment = gApi.changes().id(changeId).revision(patchSet).comment(uuid).get();
+      HumanCommentInfo oldComment =
+          gApi.changes().id(changeId).revision(patchSet).comment(uuid).get();
 
       DeleteCommentInput input = new DeleteCommentInput("delete comment " + uuid);
-      CommentInfo updatedComment =
+      HumanCommentInfo updatedComment =
           gApi.changes().id(changeId).revision(patchSet).comment(uuid).delete(input);
 
       String expectedMsg =
@@ -981,15 +983,15 @@ public class CommentsIT extends AbstractDaemonTest {
 
       comment.message = expectedMsg;
       commentsBeforeDelete.set(i, comment);
-      List<CommentInfo> commentsAfterDelete = getChangeSortedComments(id.get());
+      List<HumanCommentInfo> commentsAfterDelete = getChangeSortedComments(id.get());
       assertThat(commentsAfterDelete).isEqualTo(commentsBeforeDelete);
     }
 
     // Make sure that comments can still be added correctly.
-    CommentInput c10 = newComment("a.txt", "comment 10");
-    CommentInput c11 = newComment("b.txt", "comment 11");
-    CommentInput c12 = newComment("a.txt", "comment 12");
-    CommentInput c13 = newComment("c.txt", "comment 13");
+    HumanCommentInput c10 = newComment("a.txt", "comment 10");
+    HumanCommentInput c11 = newComment("b.txt", "comment 11");
+    HumanCommentInput c12 = newComment("a.txt", "comment 12");
+    HumanCommentInput c13 = newComment("c.txt", "comment 13");
     addComments(changeId, ps1, c10);
     addComments(changeId, ps2, c11);
     addComments(changeId, ps3, c12);
@@ -1009,20 +1011,20 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     String ps1 = result.getCommit().name();
 
-    CommentInput c1 = newComment(FILE_NAME, "comment 1");
-    CommentInput c2 = newComment(FILE_NAME, "comment 2");
-    CommentInput c3 = newComment(FILE_NAME, "comment 3");
+    HumanCommentInput c1 = newComment(FILE_NAME, "comment 1");
+    HumanCommentInput c2 = newComment(FILE_NAME, "comment 2");
+    HumanCommentInput c3 = newComment(FILE_NAME, "comment 3");
     addComments(changeId, ps1, c1);
     addComments(changeId, ps1, c2);
     addComments(changeId, ps1, c3);
 
-    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
+    List<HumanCommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
     assertThat(commentsBeforeDelete).hasSize(3);
-    Optional<CommentInfo> targetComment =
+    Optional<HumanCommentInfo> targetComment =
         commentsBeforeDelete.stream().filter(c -> c.message.equals("comment 2")).findFirst();
     assertThat(targetComment).isPresent();
     String uuid = targetComment.get().id;
-    CommentInfo oldComment = gApi.changes().id(changeId).revision(ps1).comment(uuid).get();
+    HumanCommentInfo oldComment = gApi.changes().id(changeId).revision(ps1).comment(uuid).get();
 
     List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
@@ -1032,7 +1034,7 @@ public class CommentsIT extends AbstractDaemonTest {
       gApi.changes().id(changeId).revision(ps1).comment(uuid).delete(input);
     }
 
-    CommentInfo updatedComment = gApi.changes().id(changeId).revision(ps1).comment(uuid).get();
+    HumanCommentInfo updatedComment = gApi.changes().id(changeId).revision(ps1).comment(uuid).get();
     String expectedMsg =
         String.format(
             "Comment removed by: %s; Reason: %s",
@@ -1045,24 +1047,25 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(getChangeSortedComments(id.get())).hasSize(3);
   }
 
-  private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {
+  private List<HumanCommentInfo> getRevisionComments(String changeId, String revId)
+      throws Exception {
     return getPublishedComments(changeId, revId).values().stream()
         .flatMap(List::stream)
         .collect(toList());
   }
 
-  private CommentInput addComment(String changeId, String message) throws Exception {
+  private HumanCommentInput addComment(String changeId, String message) throws Exception {
     ReviewInput input = new ReviewInput();
-    CommentInput comment = newComment(FILE_NAME, Side.REVISION, 0, message, false);
+    HumanCommentInput comment = newComment(FILE_NAME, Side.REVISION, 0, message, false);
     input.comments = ImmutableMap.of(comment.path, Lists.newArrayList(comment));
     gApi.changes().id(changeId).current().review(input);
     return comment;
   }
 
-  private void addComments(String changeId, String revision, CommentInput... commentInputs)
-      throws Exception {
+  private void addComments(
+      String changeId, String revision, HumanCommentInput... humanCommentInputs) throws Exception {
     ReviewInput input = new ReviewInput();
-    input.comments = Arrays.stream(commentInputs).collect(groupingBy(c -> c.path));
+    input.comments = Arrays.stream(humanCommentInputs).collect(groupingBy(c -> c.path));
     gApi.changes().id(changeId).revision(revision).review(input);
   }
 
@@ -1120,7 +1123,7 @@ public class CommentsIT extends AbstractDaemonTest {
     return m.matches() ? m.group(1) : msg;
   }
 
-  private ReviewInput newInput(CommentInput c) {
+  private ReviewInput newInput(HumanCommentInput c) {
     ReviewInput in = new ReviewInput();
     in.comments = new HashMap<>();
     in.comments.put(c.path, Lists.newArrayList(c));
@@ -1138,7 +1141,7 @@ public class CommentsIT extends AbstractDaemonTest {
       Boolean unresolved,
       String inReplyTo)
       throws Exception {
-    CommentInput c = new CommentInput();
+    HumanCommentInput c = new HumanCommentInput();
     c.line = 1;
     c.message = message;
     c.path = FILE_NAME;
@@ -1149,7 +1152,7 @@ public class CommentsIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
   }
 
-  private CommentInfo addDraft(String changeId, String revId, DraftInput in) throws Exception {
+  private HumanCommentInfo addDraft(String changeId, String revId, DraftInput in) throws Exception {
     return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
   }
 
@@ -1162,46 +1165,47 @@ public class CommentsIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision(revId).draft(uuid).delete();
   }
 
-  private CommentInfo getPublishedComment(String changeId, String revId, String uuid)
+  private HumanCommentInfo getPublishedComment(String changeId, String revId, String uuid)
       throws Exception {
     return gApi.changes().id(changeId).revision(revId).comment(uuid).get();
   }
 
-  private Map<String, List<CommentInfo>> getPublishedComments(String changeId, String revId)
+  private Map<String, List<HumanCommentInfo>> getPublishedComments(String changeId, String revId)
       throws Exception {
     return gApi.changes().id(changeId).revision(revId).comments();
   }
 
-  private List<CommentInfo> getPublishedCommentsAsList(String changeId) throws Exception {
+  private List<HumanCommentInfo> getPublishedCommentsAsList(String changeId) throws Exception {
     return gApi.changes().id(changeId).commentsAsList();
   }
 
-  private Map<String, List<CommentInfo>> getDraftComments(String changeId, String revId)
+  private Map<String, List<HumanCommentInfo>> getDraftComments(String changeId, String revId)
       throws Exception {
     return gApi.changes().id(changeId).revision(revId).drafts();
   }
 
-  private List<CommentInfo> getDraftCommentsAsList(String changeId) throws Exception {
+  private List<HumanCommentInfo> getDraftCommentsAsList(String changeId) throws Exception {
     return gApi.changes().id(changeId).draftsAsList();
   }
 
-  private CommentInfo getDraftComment(String changeId, String revId, String uuid) throws Exception {
+  private HumanCommentInfo getDraftComment(String changeId, String revId, String uuid)
+      throws Exception {
     return gApi.changes().id(changeId).revision(revId).draft(uuid).get();
   }
 
-  private static CommentInput newComment(String file, String message) {
+  private static HumanCommentInput newComment(String file, String message) {
     return newComment(file, Side.REVISION, 0, message, false);
   }
 
-  private static CommentInput newComment(
+  private static HumanCommentInput newComment(
       String path, Side side, int line, String message, Boolean unresolved) {
-    CommentInput c = new CommentInput();
+    HumanCommentInput c = new HumanCommentInput();
     return populate(c, path, side, null, line, message, unresolved);
   }
 
-  private static CommentInput newCommentOnParent(
+  private static HumanCommentInput newCommentOnParent(
       String path, int parent, int line, String message) {
-    CommentInput c = new CommentInput();
+    HumanCommentInput c = new HumanCommentInput();
     return populate(c, path, Side.PARENT, Integer.valueOf(parent), line, message, false);
   }
 
@@ -1255,15 +1259,15 @@ public class CommentsIT extends AbstractDaemonTest {
     return range;
   }
 
-  private static Function<CommentInfo, CommentInput> infoToInput(String path) {
-    return infoToInput(path, CommentInput::new);
+  private static Function<HumanCommentInfo, HumanCommentInput> infoToInput(String path) {
+    return infoToInput(path, HumanCommentInput::new);
   }
 
-  private static Function<CommentInfo, DraftInput> infoToDraft(String path) {
+  private static Function<HumanCommentInfo, DraftInput> infoToDraft(String path) {
     return infoToInput(path, DraftInput::new);
   }
 
-  private static <I extends Comment> Function<CommentInfo, I> infoToInput(
+  private static <I extends Comment> Function<HumanCommentInfo, I> infoToInput(
       String path, Supplier<I> supplier) {
     return info -> {
       I i = supplier.get();
@@ -1280,6 +1284,5 @@ public class CommentsIT extends AbstractDaemonTest {
     to.message = from.message;
     to.range = from.range;
     to.unresolved = from.unresolved;
-    to.inReplyTo = from.inReplyTo;
   }
 }

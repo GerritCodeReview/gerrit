@@ -20,7 +20,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DraftInput;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -67,7 +67,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   }
 
   @Override
-  public Response<CommentInfo> apply(RevisionResource rsrc, DraftInput in)
+  public Response<HumanCommentInfo> apply(RevisionResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, PermissionBackendException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");

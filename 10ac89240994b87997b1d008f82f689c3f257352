@@ -52,6 +52,24 @@
       "revId": "10ac89240994b87997b1d008f82f689c3f257352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47a4779a_a1cd5687",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-04T12:55:34Z",
+      "side": 0,
+      "message": "The sign in part is already taken care of by the _showRobotActions variable which is for all actions.\nI think showing the button even if the fix is applied is valuable. Expecting users to click something just because the button is there is unlikely and also fine since we are only Showing the fix.",
+      "parentUuid": "2e17b969_d26e318e",
+      "revId": "10ac89240994b87997b1d008f82f689c3f257352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -32,7 +32,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
@@ -69,22 +68,23 @@ public class CommentsUtil {
         }
       };
 
-  public static final Ordering<CommentInfo> COMMENT_INFO_ORDER =
-      new Ordering<CommentInfo>() {
+  public static final Ordering<com.google.gerrit.extensions.client.Comment> COMMENT_INFO_ORDER =
+      new Ordering<com.google.gerrit.extensions.client.Comment>() {
         @Override
-        public int compare(CommentInfo a, CommentInfo b) {
+        public int compare(
+            com.google.gerrit.extensions.client.Comment a,
+            com.google.gerrit.extensions.client.Comment b) {
           return ComparisonChain.start()
               .compare(a.path, b.path, NULLS_FIRST)
               .compare(a.patchSet, b.patchSet, NULLS_FIRST)
               .compare(side(a), side(b))
               .compare(a.line, b.line, NULLS_FIRST)
-              .compare(a.inReplyTo, b.inReplyTo, NULLS_FIRST)
               .compare(a.message, b.message)
               .compare(a.id, b.id)
               .result();
         }
 
-        private int side(CommentInfo c) {
+        private int side(com.google.gerrit.extensions.client.Comment c) {
           return firstNonNull(c.side, Side.REVISION).ordinal();
         }
       };

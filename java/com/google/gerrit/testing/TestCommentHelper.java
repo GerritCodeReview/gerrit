@@ -24,8 +24,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.Collection;
@@ -54,7 +54,7 @@ public class TestCommentHelper {
     gApi.changes().id(changeId).revision(revId).createDraft(in);
   }
 
-  public Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
+  public Collection<HumanCommentInfo> getPublishedComments(String changeId) throws Exception {
     return gApi.changes().id(changeId).comments().values().stream()
         .flatMap(Collection::stream)
         .collect(toList());

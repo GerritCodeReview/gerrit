@@ -14,10 +14,13 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.client.Comment;
 import java.util.List;
 import java.util.Map;
 
-public class RobotCommentInfo extends CommentInfo {
+public class RobotCommentInfo extends Comment {
+  public AccountInfo author;
+  public String tag;
   public String robotId;
   public String robotRunId;
   public String url;

@@ -61,6 +61,7 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -72,7 +73,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -1542,17 +1543,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
-    ReviewInput.CommentInput commentInput = new ReviewInput.CommentInput();
-    commentInput.line = 1;
-    commentInput.message = "inline";
-    input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(commentInput));
+    HumanCommentInput humanCommentInput = new HumanCommentInput();
+    humanCommentInput.line = 1;
+    humanCommentInput.message = "inline";
+    input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(humanCommentInput));
     gApi.changes().id(change.getId().get()).current().review(input);
 
-    Map<String, List<CommentInfo>> comments =
+    Map<String, List<HumanCommentInfo>> comments =
         gApi.changes().id(change.getId().get()).current().comments();
     assertThat(comments).hasSize(1);
-    CommentInfo comment = Iterables.getOnlyElement(comments.get(Patch.COMMIT_MSG));
-    assertThat(comment.message).isEqualTo(commentInput.message);
+    HumanCommentInfo comment = Iterables.getOnlyElement(comments.get(Patch.COMMIT_MSG));
+    assertThat(comment.message).isEqualTo(humanCommentInput.message);
     ChangeMessageInfo lastMsg =
         Iterables.getLast(gApi.changes().id(change.getId().get()).get().messages, null);
     assertThat(lastMsg.message).isEqualTo("Patch Set 1:\n\n(1 comment)\n\n" + input.message);
@@ -1823,7 +1824,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
-    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    HumanCommentInput comment = new HumanCommentInput();
     comment.line = 1;
     comment.message = "inline";
     input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
@@ -1989,7 +1990,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
-    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    HumanCommentInput comment = new HumanCommentInput();
     comment.line = 1;
     comment.message = "inline";
     input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
@@ -3345,7 +3346,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   private void addComment(int changeId, String message, Boolean unresolved) throws Exception {
     ReviewInput input = new ReviewInput();
-    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    HumanCommentInput comment = new HumanCommentInput();
     comment.line = 1;
     comment.message = message;
     comment.unresolved = unresolved;

@@ -27,11 +27,11 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
@@ -88,7 +88,7 @@ public class MailProcessorIT extends AbstractMailIT {
   public void parseAndPersistChangeMessage() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
@@ -111,7 +111,7 @@ public class MailProcessorIT extends AbstractMailIT {
   public void parseAndPersistInlineComment() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
@@ -133,16 +133,16 @@ public class MailProcessorIT extends AbstractMailIT {
     // Assert comment
     comments = gApi.changes().id(changeId).current().commentsAsList();
     assertThat(comments).hasSize(3);
-    assertThat(comments.get(2).message).isEqualTo("Some Inline Comment");
-    assertThat(comments.get(2).tag).isEqualTo("mailMessageId=some id");
-    assertThat(comments.get(2).inReplyTo).isEqualTo(comments.get(1).id);
+    assertThat(comments.get(1).message).isEqualTo("Some Inline Comment");
+    assertThat(comments.get(1).tag).isEqualTo("mailMessageId=some id");
+    assertThat(comments.get(1).inReplyTo).isEqualTo(comments.get(2).id);
   }
 
   @Test
   public void parseAndPersistFileComment() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
@@ -175,7 +175,7 @@ public class MailProcessorIT extends AbstractMailIT {
   public void parseAndPersistMessageTwice() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
@@ -200,7 +200,7 @@ public class MailProcessorIT extends AbstractMailIT {
   public void parseAndPersistMessageFromInactiveAccount() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
@@ -226,7 +226,7 @@ public class MailProcessorIT extends AbstractMailIT {
   public void sendNotificationAfterPersistingComments() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     assertThat(comments).hasSize(2);
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
@@ -250,7 +250,7 @@ public class MailProcessorIT extends AbstractMailIT {
   public void sendNotificationOnMissingMetadatas() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     assertThat(comments).hasSize(2);
     String ts = "null"; // Erroneous timestamp to be used in erroneous metadatas
 
@@ -275,7 +275,7 @@ public class MailProcessorIT extends AbstractMailIT {
   public void validateChangeMessage_rejected() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
@@ -287,7 +287,7 @@ public class MailProcessorIT extends AbstractMailIT {
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", COMMENT_TEXT, null, null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    Collection<HumanCommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
     assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
 
@@ -300,7 +300,7 @@ public class MailProcessorIT extends AbstractMailIT {
   public void validateInlineComment_rejected() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
@@ -312,7 +312,7 @@ public class MailProcessorIT extends AbstractMailIT {
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, COMMENT_TEXT, null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    Collection<HumanCommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
     assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
 
@@ -325,7 +325,7 @@ public class MailProcessorIT extends AbstractMailIT {
   public void validateFileComment_rejected() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
@@ -337,7 +337,7 @@ public class MailProcessorIT extends AbstractMailIT {
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    Collection<HumanCommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
     assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
 
@@ -350,19 +350,19 @@ public class MailProcessorIT extends AbstractMailIT {
   @GerritConfig(name = "change.maxComments", value = "4")
   public void limitNumberOfComments() throws Exception {
     String changeId = createChangeWithReview();
-    CommentInput commentInput = new CommentInput();
-    commentInput.line = 1;
-    commentInput.message = "foo";
-    commentInput.path = FILE_NAME;
+    HumanCommentInput humanCommentInput = new HumanCommentInput();
+    humanCommentInput.line = 1;
+    humanCommentInput.message = "foo";
+    humanCommentInput.path = FILE_NAME;
     RobotCommentInput robotCommentInput =
         TestCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME);
     ReviewInput reviewInput = new ReviewInput();
-    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(commentInput));
+    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(humanCommentInput));
     reviewInput.robotComments = ImmutableMap.of(FILE_NAME, ImmutableList.of(robotCommentInput));
     gApi.changes().id(changeId).current().review(reviewInput);
 
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    List<HumanCommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
@@ -371,7 +371,7 @@ public class MailProcessorIT extends AbstractMailIT {
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    Collection<HumanCommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
     assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
 

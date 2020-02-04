@@ -22,9 +22,9 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
@@ -335,7 +335,7 @@ public interface ChangeApi {
    *     indicate their patch set.
    * @throws RestApiException
    */
-  Map<String, List<CommentInfo>> comments() throws RestApiException;
+  Map<String, List<HumanCommentInfo>> comments() throws RestApiException;
 
   /**
    * Get all published comments on a change as a list.
@@ -344,7 +344,7 @@ public interface ChangeApi {
    *     patch set.
    * @throws RestApiException
    */
-  List<CommentInfo> commentsAsList() throws RestApiException;
+  List<HumanCommentInfo> commentsAsList() throws RestApiException;
 
   /**
    * Get all robot comments on a change.
@@ -362,7 +362,7 @@ public interface ChangeApi {
    *     their patch set.
    * @throws RestApiException
    */
-  Map<String, List<CommentInfo>> drafts() throws RestApiException;
+  Map<String, List<HumanCommentInfo>> drafts() throws RestApiException;
 
   /**
    * Get all draft comments for the current user on a change as a list.
@@ -371,7 +371,7 @@ public interface ChangeApi {
    *     set.
    * @throws RestApiException
    */
-  List<CommentInfo> draftsAsList() throws RestApiException;
+  List<HumanCommentInfo> draftsAsList() throws RestApiException;
 
   ChangeInfo check() throws RestApiException;
 
@@ -601,12 +601,12 @@ public interface ChangeApi {
     }
 
     @Override
-    public Map<String, List<CommentInfo>> comments() throws RestApiException {
+    public Map<String, List<HumanCommentInfo>> comments() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<CommentInfo> commentsAsList() throws RestApiException {
+    public List<HumanCommentInfo> commentsAsList() throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -616,12 +616,12 @@ public interface ChangeApi {
     }
 
     @Override
-    public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+    public Map<String, List<HumanCommentInfo>> drafts() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<CommentInfo> draftsAsList() throws RestApiException {
+    public List<HumanCommentInfo> draftsAsList() throws RestApiException {
       throw new NotImplementedException();
     }
 

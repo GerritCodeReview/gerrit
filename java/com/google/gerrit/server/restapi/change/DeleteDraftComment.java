@@ -18,7 +18,7 @@ import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -59,7 +59,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
+  public Response<HumanCommentInfo> apply(DraftCommentResource rsrc, Input input)
       throws RestApiException, UpdateException {
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {

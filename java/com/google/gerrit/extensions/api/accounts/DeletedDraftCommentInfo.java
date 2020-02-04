@@ -15,10 +15,10 @@
 package com.google.gerrit.extensions.api.accounts;
 
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import java.util.List;
 
 public class DeletedDraftCommentInfo {
   public ChangeInfo change;
-  public List<CommentInfo> deleted;
+  public List<HumanCommentInfo> deleted;
 }

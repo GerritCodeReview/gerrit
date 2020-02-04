@@ -14,10 +14,10 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import java.util.Objects;
 
-public class DraftInput extends Comment {
+public class DraftInput extends HumanCommentInput {
   public String tag;
 
   @Override

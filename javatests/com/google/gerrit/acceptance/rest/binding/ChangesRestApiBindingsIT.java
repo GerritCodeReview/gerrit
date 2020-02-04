@@ -32,9 +32,9 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import java.util.Collections;
 import java.util.List;
@@ -350,7 +350,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
       draftInput.side = Side.REVISION;
       draftInput.line = 1;
       draftInput.message = "draft comment";
-      CommentInfo draftInfo = gApi.changes().id(changeId).current().createDraft(draftInput).get();
+      HumanCommentInfo draftInfo =
+          gApi.changes().id(changeId).current().createDraft(draftInput).get();
 
       RestApiCallHelper.execute(adminRestSession, restCall, changeId, "current", draftInfo.id);
     }
@@ -366,13 +367,15 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
       draftInput.side = Side.REVISION;
       draftInput.line = 1;
       draftInput.message = "draft comment";
-      CommentInfo commentInfo = gApi.changes().id(changeId).current().createDraft(draftInput).get();
+      HumanCommentInfo humanCommentInfo =
+          gApi.changes().id(changeId).current().createDraft(draftInput).get();
 
       ReviewInput reviewInput = new ReviewInput();
       reviewInput.drafts = DraftHandling.PUBLISH;
       gApi.changes().id(changeId).current().review(reviewInput);
 
-      RestApiCallHelper.execute(adminRestSession, restCall, changeId, "current", commentInfo.id);
+      RestApiCallHelper.execute(
+          adminRestSession, restCall, changeId, "current", humanCommentInfo.id);
     }
   }
 

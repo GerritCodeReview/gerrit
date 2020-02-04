@@ -63,7 +63,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -74,10 +74,10 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CherryPickChangeInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -1520,30 +1520,30 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void comments() throws Exception {
     PushOneCommit.Result r = createChange();
-    CommentInput in = new CommentInput();
+    HumanCommentInput in = new HumanCommentInput();
     in.line = 1;
     in.message = "nit: trailing whitespace";
     in.path = FILE_NAME;
     ReviewInput reviewInput = new ReviewInput();
-    Map<String, List<CommentInput>> comments = new HashMap<>();
+    Map<String, List<HumanCommentInput>> comments = new HashMap<>();
     comments.put(FILE_NAME, Collections.singletonList(in));
     reviewInput.comments = comments;
     reviewInput.message = "comment test";
     gApi.changes().id(r.getChangeId()).current().review(reviewInput);
 
-    Map<String, List<CommentInfo>> out =
+    Map<String, List<HumanCommentInfo>> out =
         gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).comments();
     assertThat(out).hasSize(1);
-    CommentInfo comment = Iterables.getOnlyElement(out.get(FILE_NAME));
+    HumanCommentInfo comment = Iterables.getOnlyElement(out.get(FILE_NAME));
     assertThat(comment.message).isEqualTo(in.message);
     assertThat(comment.author.email).isEqualTo(admin.email());
     assertThat(comment.path).isNull();
 
-    List<CommentInfo> list =
+    List<HumanCommentInfo> list =
         gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).commentsAsList();
     assertThat(list).hasSize(1);
 
-    CommentInfo comment2 = list.get(0);
+    HumanCommentInfo comment2 = list.get(0);
     assertThat(comment2.path).isEqualTo(FILE_NAME);
     assertThat(comment2.line).isEqualTo(comment.line);
     assertThat(comment2.message).isEqualTo(comment.message);
@@ -1563,12 +1563,12 @@ public class RevisionIT extends AbstractDaemonTest {
   public void commentOnNonExistingFile() throws Exception {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = updateChange(r1, "new content");
-    CommentInput in = new CommentInput();
+    HumanCommentInput in = new HumanCommentInput();
     in.line = 1;
     in.message = "nit: trailing whitespace";
     in.path = "non-existing.txt";
     ReviewInput reviewInput = new ReviewInput();
-    Map<String, List<CommentInput>> comments = new HashMap<>();
+    Map<String, List<HumanCommentInput>> comments = new HashMap<>();
     comments.put("non-existing.txt", Collections.singletonList(in));
     reviewInput.comments = comments;
     reviewInput.message = "comment test";

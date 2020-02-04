@@ -72,9 +72,9 @@ import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -1480,11 +1480,11 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected List<CommentInfo> getChangeSortedComments(int changeNum) throws Exception {
-    List<CommentInfo> comments = new ArrayList<>();
-    Map<String, List<CommentInfo>> commentsMap = gApi.changes().id(changeNum).comments();
-    for (Map.Entry<String, List<CommentInfo>> e : commentsMap.entrySet()) {
-      for (CommentInfo c : e.getValue()) {
+  protected List<HumanCommentInfo> getChangeSortedComments(int changeNum) throws Exception {
+    List<HumanCommentInfo> comments = new ArrayList<>();
+    Map<String, List<HumanCommentInfo>> commentsMap = gApi.changes().id(changeNum).comments();
+    for (Map.Entry<String, List<HumanCommentInfo>> e : commentsMap.entrySet()) {
+      for (HumanCommentInfo c : e.getValue()) {
         c.path = e.getKey(); // Set the comment's path field.
         comments.add(c);
       }

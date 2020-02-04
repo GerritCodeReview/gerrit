@@ -27,7 +27,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -177,7 +177,7 @@ public class DeleteDraftComments
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws PatchListNotAvailableException, PermissionBackendException {
-      ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
+      ImmutableList.Builder<HumanCommentInfo> comments = ImmutableList.builder();
       boolean dirty = false;
       for (HumanComment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
         dirty = true;

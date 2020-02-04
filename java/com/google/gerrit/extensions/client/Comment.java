@@ -34,7 +34,6 @@ public abstract class Comment {
   public Integer line;
 
   public Range range;
-  public String inReplyTo;
   public Timestamp updated;
   public String message;
   public Boolean unresolved;
@@ -119,7 +118,6 @@ public abstract class Comment {
           && Objects.equals(parent, c.parent)
           && Objects.equals(line, c.line)
           && Objects.equals(range, c.range)
-          && Objects.equals(inReplyTo, c.inReplyTo)
           && Objects.equals(updated, c.updated)
           && Objects.equals(message, c.message)
           && Objects.equals(unresolved, c.unresolved);
@@ -129,6 +127,6 @@ public abstract class Comment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(patchSet, id, path, side, parent, line, range, inReplyTo, updated, message);
+    return Objects.hash(patchSet, id, path, side, parent, line, range, updated, message);
   }
 }

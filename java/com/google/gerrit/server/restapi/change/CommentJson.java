@@ -29,9 +29,9 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.account.AccountLoader;
@@ -72,7 +72,8 @@ public class CommentJson {
     return new RobotCommentFormatter();
   }
 
-  private abstract class BaseCommentFormatter<F extends Comment, T extends CommentInfo> {
+  private abstract class BaseCommentFormatter<
+      F extends Comment, T extends com.google.gerrit.extensions.client.Comment> {
     public T format(F comment) throws PermissionBackendException {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
       T info = toInfo(comment, loader);
@@ -123,7 +124,7 @@ public class CommentJson {
 
     protected abstract T toInfo(F comment, AccountLoader loader);
 
-    protected void fillCommentInfo(Comment c, CommentInfo r, AccountLoader loader) {
+    protected void fillCommentInfo(Comment c, com.google.gerrit.extensions.client.Comment r) {
       if (fillPatchSet) {
         r.patchSet = c.key.patchSetId;
       }
@@ -141,11 +142,7 @@ public class CommentJson {
       r.message = Strings.emptyToNull(c.message);
       r.updated = c.writtenOn;
       r.range = toRange(c.range);
-      r.tag = c.tag;
       r.unresolved = c.unresolved;
-      if (loader != null) {
-        r.author = loader.get(c.author.getId());
-      }
     }
 
     protected Range toRange(Comment.Range commentRange) {
@@ -161,11 +158,15 @@ public class CommentJson {
     }
   }
 
-  public class CommentFormatter extends BaseCommentFormatter<HumanComment, CommentInfo> {
+  public class CommentFormatter extends BaseCommentFormatter<HumanComment, HumanCommentInfo> {
     @Override
-    protected CommentInfo toInfo(HumanComment c, AccountLoader loader) {
-      CommentInfo ci = new CommentInfo();
-      fillCommentInfo(c, ci, loader);
+    protected HumanCommentInfo toInfo(HumanComment c, AccountLoader loader) {
+      HumanCommentInfo ci = new HumanCommentInfo();
+      fillCommentInfo(c, ci);
+      if (loader != null) {
+        ci.author = loader.get(c.author.getId());
+      }
+      ci.tag = c.tag;
       ci.inReplyTo = c.parentUuid;
       return ci;
     }
@@ -177,12 +178,16 @@ public class CommentJson {
     @Override
     protected RobotCommentInfo toInfo(RobotComment c, AccountLoader loader) {
       RobotCommentInfo rci = new RobotCommentInfo();
+      if (loader != null) {
+        rci.author = loader.get(c.author.getId());
+      }
+      rci.tag = c.tag;
       rci.robotId = c.robotId;
       rci.robotRunId = c.robotRunId;
       rci.url = c.url;
       rci.properties = c.properties;
       rci.fixSuggestions = toFixSuggestionInfos(c.fixSuggestions);
-      fillCommentInfo(c, rci, loader);
+      fillCommentInfo(c, rci);
       return rci;
     }
 

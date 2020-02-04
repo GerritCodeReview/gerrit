@@ -18,7 +18,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.changes.CommentApi;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.HumanCommentResource;
 import com.google.gerrit.server.restapi.change.DeleteComment;
@@ -44,7 +44,7 @@ class CommentApiImpl implements CommentApi {
   }
 
   @Override
-  public CommentInfo get() throws RestApiException {
+  public HumanCommentInfo get() throws RestApiException {
     try {
       return getComment.apply(comment).value();
     } catch (Exception e) {
@@ -53,7 +53,7 @@ class CommentApiImpl implements CommentApi {
   }
 
   @Override
-  public CommentInfo delete(DeleteCommentInput input) throws RestApiException {
+  public HumanCommentInfo delete(DeleteCommentInput input) throws RestApiException {
     try {
       return deleteComment.apply(comment, input).value();
     } catch (Exception e) {

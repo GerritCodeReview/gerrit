@@ -19,7 +19,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.DraftCommentResource;
@@ -52,7 +52,7 @@ class DraftApiImpl implements DraftApi {
   }
 
   @Override
-  public CommentInfo get() throws RestApiException {
+  public HumanCommentInfo get() throws RestApiException {
     try {
       return getDraft.apply(draft).value();
     } catch (Exception e) {
@@ -61,7 +61,7 @@ class DraftApiImpl implements DraftApi {
   }
 
   @Override
-  public CommentInfo update(DraftInput in) throws RestApiException {
+  public HumanCommentInfo update(DraftInput in) throws RestApiException {
     try {
       return putDraft.apply(draft, in).value();
     } catch (Exception e) {
@@ -79,7 +79,7 @@ class DraftApiImpl implements DraftApi {
   }
 
   @Override
-  public CommentInfo delete(DeleteCommentInput input) {
+  public HumanCommentInfo delete(DeleteCommentInput input) {
     throw new NotImplementedException();
   }
 }

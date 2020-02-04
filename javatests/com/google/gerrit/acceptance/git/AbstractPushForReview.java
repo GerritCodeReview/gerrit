@@ -87,8 +87,8 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.git.ObjectIds;
@@ -2025,12 +2025,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void publishCommentsOnPushPublishesDraftsOnAllRevisions() throws Exception {
     PushOneCommit.Result r = createChange();
     String rev1 = r.getCommit().name();
-    CommentInfo c1 = addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment1"));
-    CommentInfo c2 = addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment2"));
+    HumanCommentInfo c1 = addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment1"));
+    HumanCommentInfo c2 = addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment2"));
 
     r = amendChange(r.getChangeId());
     String rev2 = r.getCommit().name();
-    CommentInfo c3 = addDraft(r.getChangeId(), rev2, newDraft(FILE_NAME, 1, "comment3"));
+    HumanCommentInfo c3 = addDraft(r.getChangeId(), rev2, newDraft(FILE_NAME, 1, "comment3"));
 
     assertThat(getPublishedComments(r.getChangeId())).isEmpty();
 
@@ -2038,7 +2038,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     sender.clear();
     amendChange(r.getChangeId(), "refs/for/master%publish-comments");
 
-    Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
+    Collection<HumanCommentInfo> comments = getPublishedComments(r.getChangeId());
     assertThat(comments.stream().map(c -> c.id)).containsExactly(c1.id, c2.id, c3.id);
     assertThat(comments.stream().map(c -> c.message))
         .containsExactly("comment1", "comment2", "comment3");
@@ -2103,7 +2103,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     r = amendChange(r.getChangeId(), "refs/for/master%publish-comments,m=The_message");
 
-    Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
+    Collection<HumanCommentInfo> comments = getPublishedComments(r.getChangeId());
     assertThat(comments.stream().map(c -> c.message)).containsExactly("comment1");
     assertThat(getLastMessage(r.getChangeId())).isEqualTo("Patch Set 2:\n" + "\n" + "(1 comment)");
   }
@@ -2114,15 +2114,15 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     List<RevCommit> commits = createChanges(2, "refs/for/master");
     String id1 = byCommit(commits.get(0)).change().getKey().get();
     String id2 = byCommit(commits.get(1)).change().getKey().get();
-    CommentInfo c1 = addDraft(id1, commits.get(0).name(), newDraft(FILE_NAME, 1, "comment1"));
-    CommentInfo c2 = addDraft(id2, commits.get(1).name(), newDraft(FILE_NAME, 1, "comment2"));
+    HumanCommentInfo c1 = addDraft(id1, commits.get(0).name(), newDraft(FILE_NAME, 1, "comment1"));
+    HumanCommentInfo c2 = addDraft(id2, commits.get(1).name(), newDraft(FILE_NAME, 1, "comment2"));
 
     assertThat(getPublishedComments(id1)).isEmpty();
     assertThat(getPublishedComments(id2)).isEmpty();
 
     amendChanges(initialHead, commits, "refs/for/master%publish-comments");
 
-    Collection<CommentInfo> cs1 = getPublishedComments(id1);
+    Collection<HumanCommentInfo> cs1 = getPublishedComments(id1);
     List<ChangeMessageInfo> messages1 = getMessages(id1);
     assertThat(cs1.stream().map(c -> c.message)).containsExactly("comment1");
     assertThat(cs1.stream().map(c -> c.id)).containsExactly(c1.id);
@@ -2131,7 +2131,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .isEqualTo("Uploaded patch set 2: Commit message was updated.");
     assertThat(messages1.get(2).message).isEqualTo("Patch Set 2:\n\n(1 comment)");
 
-    Collection<CommentInfo> cs2 = getPublishedComments(id2);
+    Collection<HumanCommentInfo> cs2 = getPublishedComments(id2);
     List<ChangeMessageInfo> messages2 = getMessages(id2);
     assertThat(cs2.stream().map(c -> c.message)).containsExactly("comment2");
     assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
@@ -2148,7 +2148,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String id1 = r1.getChangeId();
     String id2 = r2.getChangeId();
     addDraft(id1, r1.getCommit().name(), newDraft(FILE_NAME, 1, "comment1"));
-    CommentInfo c2 = addDraft(id2, r2.getCommit().name(), newDraft(FILE_NAME, 1, "comment2"));
+    HumanCommentInfo c2 = addDraft(id2, r2.getCommit().name(), newDraft(FILE_NAME, 1, "comment2"));
 
     assertThat(getPublishedComments(id1)).isEmpty();
     assertThat(getPublishedComments(id2)).isEmpty();
@@ -2158,7 +2158,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(getPublishedComments(id1)).isEmpty();
     assertThat(gApi.changes().id(id1).drafts()).hasSize(1);
 
-    Collection<CommentInfo> cs2 = getPublishedComments(id2);
+    Collection<HumanCommentInfo> cs2 = getPublishedComments(id2);
     assertThat(cs2.stream().map(c -> c.message)).containsExactly("comment2");
     assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
 
@@ -2634,11 +2634,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     return d;
   }
 
-  private CommentInfo addDraft(String changeId, String revId, DraftInput in) throws Exception {
+  private HumanCommentInfo addDraft(String changeId, String revId, DraftInput in) throws Exception {
     return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
   }
 
-  private Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
+  private Collection<HumanCommentInfo> getPublishedComments(String changeId) throws Exception {
     return gApi.changes().id(changeId).comments().values().stream()
         .flatMap(Collection::stream)
         .collect(toList());

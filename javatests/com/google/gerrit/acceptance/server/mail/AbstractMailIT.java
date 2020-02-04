@@ -20,7 +20,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.mail.MailMessage;
@@ -62,15 +62,15 @@ public class AbstractMailIT extends AbstractDaemonTest {
     ReviewInput input = new ReviewInput();
     input.message = "I have two comments";
     input.comments = new HashMap<>();
-    CommentInput c1 = newComment(FILE_NAME, Side.REVISION, 0, "comment on file");
-    CommentInput c2 = newComment(FILE_NAME, Side.REVISION, 2, "inline comment");
+    HumanCommentInput c1 = newComment(FILE_NAME, Side.REVISION, 0, "comment on file");
+    HumanCommentInput c2 = newComment(FILE_NAME, Side.REVISION, 2, "inline comment");
     input.comments.put(c1.path, ImmutableList.of(c1, c2));
     revision(r).review(input);
     return changeId;
   }
 
-  protected static CommentInput newComment(String path, Side side, int line, String message) {
-    CommentInput c = new CommentInput();
+  protected static HumanCommentInput newComment(String path, Side side, int line, String message) {
+    HumanCommentInput c = new HumanCommentInput();
     c.path = path;
     c.side = side;
     c.line = line != 0 ? line : null;

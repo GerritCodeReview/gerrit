@@ -39,9 +39,10 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.HumanCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -251,7 +252,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   }
 
   private void addOneReview(String changeId, String changeMessage) throws Exception {
-    ReviewInput.CommentInput c = new ReviewInput.CommentInput();
+    HumanCommentInput c = new HumanCommentInput();
     c.line = 1;
     c.message = "comment 1";
     c.path = FILE_NAME;
@@ -272,7 +273,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
       throws Exception {
     List<ChangeMessageInfo> messagesBeforeDeletion = gApi.changes().id(changeNum).messages();
 
-    List<CommentInfo> commentsBefore = getChangeSortedComments(changeNum);
+    List<HumanCommentInfo> commentsBefore = getChangeSortedComments(changeNum);
     List<RevCommit> commitsBefore = getChangeMetaCommitsInReverseOrder(Change.id(changeNum));
 
     String id = messagesBeforeDeletion.get(deletedMessageIndex).id;
@@ -398,9 +399,9 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   }
 
   /** Verifies comments are not changed after deleting change message(s). */
-  private void assertCommentsAfterDeletion(int changeNum, List<CommentInfo> commentsBeforeDeletion)
-      throws Exception {
-    List<CommentInfo> commentsAfterDeletion = getChangeSortedComments(changeNum);
+  private void assertCommentsAfterDeletion(
+      int changeNum, List<HumanCommentInfo> commentsBeforeDeletion) throws Exception {
+    List<HumanCommentInfo> commentsAfterDeletion = getChangeSortedComments(changeNum);
     assertThat(commentsAfterDeletion).containsExactlyElementsIn(commentsBeforeDeletion).inOrder();
   }
 

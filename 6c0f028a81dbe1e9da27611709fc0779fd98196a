@@ -211,6 +211,24 @@
       "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3436c7c_d6dddcc5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T17:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69b431e7_eeae9831",
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

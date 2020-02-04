@@ -36,7 +36,10 @@ limitations under the License.
       input {
         width: 20em;
       }
-      .hideItem {
+      /* Add css selector with #id to increase priority
+      (otherwise ".gr-form-styles section" rule wins) */
+      .hideItem,
+      #itemAnnotationSection.hideItem {
         display: none;
       }
     </style>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40c4e570_73c577aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-04T05:26:32Z",
+      "side": 1,
+      "message": "Does it also reload when the topic is added or changed?",
+      "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

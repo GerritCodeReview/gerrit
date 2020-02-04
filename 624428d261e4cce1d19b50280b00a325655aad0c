@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e61deda_9a189486",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-04T13:45:37Z",
+      "side": 1,
+      "message": "This 20 has some significance? If yes, can you replace with a constant variable such as MESSAGES_LIMIT say.\nAnything to show more information.",
+      "revId": "624428d261e4cce1d19b50280b00a325655aad0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -273,6 +273,12 @@
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
         this._fileList = files;
+
+        // in case current file is not in changed files
+        // (file has no change but has comments)
+        if (this._path && !this._fileList.includes(this._path)) {
+          this._fileList.push(this._path);
+        }
       });
     },
 

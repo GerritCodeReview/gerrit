@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d68ee404_78f971cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-04T12:00:04Z",
+      "side": 1,
+      "message": "Some language nits:\nThe fixed panel keeps its own position on the page and covers some lines in the diff view. The height of the panel must be taken into account when calculating the cursor visibility.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c470d141_8cc5ac6e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-04T12:00:04Z",
+      "side": 1,
+      "message": "add comment",
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54178c39_4fa9232d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-04T12:00:04Z",
+      "side": 1,
+      "message": "add comment",
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f619c32c_ba834beb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-04T12:00:04Z",
+      "side": 1,
+      "message": "This is the only \"notify: true\" that you need. You can remove the other three.\n\n\"notify: true\" enables listening to \"on-floating-height-changed\", but observers work without it.",
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

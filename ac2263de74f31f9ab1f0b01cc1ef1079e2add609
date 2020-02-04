@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2849e577_067efc03",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:52:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "657989a9_d54ea258",
+      "range": {
+        "startLine": 61,
+        "startChar": 15,
+        "endLine": 61,
+        "endChar": 171
+      },
+      "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "debc398c_4dfc0047",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "abe78a1e_f2ccaa65",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:52:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "debc398c_4dfc0047",
+      "range": {
+        "startLine": 65,
+        "startChar": 87,
+        "endLine": 66,
+        "endChar": 147
+      },
+      "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a401427_36845450",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98431af1_74a6af52",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:52:42Z",
+      "side": 1,
+      "message": "I think in some cases you want both messages. And I feel combination would create unnecessary complexity.",
+      "parentUuid": "2a401427_36845450",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 21
+      },
+      "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

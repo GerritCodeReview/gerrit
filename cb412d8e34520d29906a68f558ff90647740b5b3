@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce2a2785_810a32ea",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-04T22:06:00Z",
+      "side": 1,
+      "message": "Not needed? If it is long, why don\u0027t we just change the metric to Long.class?",
+      "range": {
+        "startLine": 37,
+        "startChar": 14,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "cb412d8e34520d29906a68f558ff90647740b5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "284d8ba1_058af904",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-04T22:06:00Z",
+      "side": 1,
+      "message": "getOpenFiles()",
+      "range": {
+        "startLine": 37,
+        "startChar": 64,
+        "endLine": 37,
+        "endChar": 80
+      },
+      "revId": "cb412d8e34520d29906a68f558ff90647740b5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

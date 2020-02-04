@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9060ab_d0fdab17",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T16:31:24Z",
+      "side": 1,
+      "message": "nit: not needed, code says it all",
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c0efa6_d0358d00",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T16:31:24Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f9d15a6_1a4d17c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T16:31:24Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e21a134_acd40e71",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T16:31:24Z",
+      "side": 1,
+      "message": "maybe have this inside of a `gr-formatted-text` so we can have the change_id and issue id linkified properly",
+      "range": {
+        "startLine": 599,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 20
+      },
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb655247_3ff2f96f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T16:31:24Z",
+      "side": 1,
+      "message": "both two comments not needed :) appreciated the effort on documenting code, but the logic is pretty clear already :)",
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1edabaf5_1cfc98e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T10:56:05Z",
+      "side": 1,
+      "message": "maybe `!message || !message.message` instead (polymer 2 undefined check, when you have more than one dependencies, the function will run when \u003e\u003d1 is defined without waiting for all)",
+      "range": {
+        "startLine": 271,
+        "startChar": 11,
+        "endLine": 271,
+        "endChar": 18
+      },
+      "revId": "cfd6183b4ca1ab54c166d60714fb710e89fed051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd7e6112_9def88a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T10:56:05Z",
+      "side": 1,
+      "message": "maybe use `hasOwnProperty` instead of `in` ?",
+      "range": {
+        "startLine": 285,
+        "startChar": 49,
+        "endLine": 285,
+        "endChar": 71
+      },
+      "revId": "cfd6183b4ca1ab54c166d60714fb710e89fed051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

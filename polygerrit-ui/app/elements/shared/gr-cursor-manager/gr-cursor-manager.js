@@ -131,6 +131,71 @@
     }
 
     /**
+     * Move the cursor to the row which is the closest to the viewport center
+     * in vertical direction.
+     * The method uses IntersectionObservers API. If browser
+     * doesn't support this API the method does nothing
+     *
+     * @param {!Function=} opt_condition Optional condition. If a condition
+     *    is passed only stops which meets conditions are taken into account.
+     */
+    moveToVisibleArea(opt_condition) {
+      if (!this.stops || !this.__isIntersectionObserverSupported()) {
+        return;
+      }
+      const filteredStops = opt_condition ? this.stops.filter(opt_condition)
+        : this.stops;
+      const dims = this._getWindowDims();
+      const windowCenter =
+          Math.round((dims.innerHeight + this.scrollTopMargin) / 2);
+
+      let closestToTheCenter = null;
+      let minDistanceToCenter = null;
+      let unobservedCount = filteredStops.length;
+
+      const observer = new IntersectionObserver(entries => {
+        // This callback is called for the first time immediately.
+        // Typically it gets all observed stops at once, but
+        // sometimes can get them in several chunks.
+        entries.forEach(entry => {
+          observer.unobserve(entry.target);
+
+          // In Edge it is recommended to use intersectionRatio instead of
+          // isIntersecting.
+          const isInsideViewport =
+              entry.isIntersecting || entry.intersectionRatio > 0;
+          if (!isInsideViewport) {
+            return;
+          }
+          const center = entry.boundingClientRect.top + Math.round(
+              entry.boundingClientRect.height / 2);
+          const distanceToWindowCenter = Math.abs(center - windowCenter);
+          if (minDistanceToCenter === null ||
+              distanceToWindowCenter < minDistanceToCenter) {
+            closestToTheCenter = entry.target;
+            minDistanceToCenter = distanceToWindowCenter;
+          }
+        });
+        unobservedCount -= entries.length;
+        if (unobservedCount == 0 && closestToTheCenter) {
+          // set cursor when all stops were observed.
+          // In most cases the target is visible, so scroll is not
+          // needed. But in rare cases the target can become invisible
+          // at this point (due to some scrolling in window).
+          // To avoid jumps set noScroll options.
+          this.setCursor(closestToTheCenter, true);
+        }
+      });
+      filteredStops.forEach(stop => {
+        observer.observe(stop);
+      });
+    }
+
+    __isIntersectionObserverSupported() {
+      return 'IntersectionObserver' in window;
+    }
+
+    /**
      * Set the cursor to an arbitrary element.
      *
      * @param {!HTMLElement} element

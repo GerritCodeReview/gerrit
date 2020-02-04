@@ -22,6 +22,30 @@
       "revId": "4c946b727639dd958146761718844b98f5ff661c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff8dfeb7_16eccc4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-02-04T09:00:49Z",
+      "side": 1,
+      "message": "I\u0027ve run a query to check for changes that have robot comments with parents, and found that this doesn\u0027t exist (except one change few years ago..)\nAnyway, We think it doesn\u0027t make much sense for RobotComments to have parents, as robots can\u0027t reply to humans/other robots.",
+      "parentUuid": "bf1d5b68_7ead3329",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 70
+      },
+      "revId": "4c946b727639dd958146761718844b98f5ff661c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

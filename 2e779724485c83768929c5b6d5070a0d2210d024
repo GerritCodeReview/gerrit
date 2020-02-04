@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0e48f9d_a7f18f06",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T10:49:23Z",
+      "side": 1,
+      "message": "Could we change this to hh?",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "2e779724485c83768929c5b6d5070a0d2210d024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

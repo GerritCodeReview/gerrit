@@ -164,6 +164,30 @@
       "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12569d3e_a55a769f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T16:23:26Z",
+      "side": 1,
+      "message": "Let\u0027s do it once I will add third template 😊",
+      "parentUuid": "e8d78a16_31d32d17",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 21
+      },
+      "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

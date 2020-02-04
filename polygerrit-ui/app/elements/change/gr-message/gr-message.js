@@ -18,7 +18,7 @@
   'use strict';
 
   const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
-  const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
+  const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+[A-Za-z])([+-]\d+)?$/;
 
   /**
    * @appliesMixin Gerrit.FireMixin
@@ -267,23 +267,36 @@
       return event.type === 'REVIEWER_UPDATE';
     }
 
-    _getScores(message) {
-      if (!message.message) { return []; }
+    _getScores(message, labelExtremes) {
+      if (!message.message || !labelExtremes) {
+        return [];
+      }
       const line = message.message.split('\n', 1)[0];
       const patchSetPrefix = PATCH_SET_PREFIX_PATTERN;
-      if (!line.match(patchSetPrefix)) { return []; }
+      if (!line.match(patchSetPrefix)) {
+        return [];
+      }
       const scoresRaw = line.split(patchSetPrefix)[1];
-      if (!scoresRaw) { return []; }
+      if (!scoresRaw) {
+        return [];
+      }
       return scoresRaw.split(' ')
           .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
-          .filter(ms => ms && ms.length === 3)
-          .map(ms => { return {label: ms[1], value: ms[2]}; });
+          .filter(ms => ms && ms.length === 4 && ms[2] in labelExtremes)
+          .map(ms => {
+            const label = ms[2];
+            const value = ms[1] === '-' ? 'removed' : ms[3];
+            return {label, value};
+          });
     }
 
     _computeScoreClass(score, labelExtremes) {
       // Polymer 2: check for undefined
       if ([score, labelExtremes].some(arg => arg === undefined)) {
         return '';
+      }
+      if (score.value === 'removed') {
+        return 'removed';
       }
       const classes = [];
       if (score.value > 0) {

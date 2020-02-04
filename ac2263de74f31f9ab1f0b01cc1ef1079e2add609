@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "657989a9_d54ea258",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T14:04:51Z",
+      "side": 1,
+      "message": "can you split them into multiple lines ?",
+      "range": {
+        "startLine": 61,
+        "startChar": 15,
+        "endLine": 61,
+        "endChar": 171
+      },
+      "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "debc398c_4dfc0047",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T14:04:51Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 65,
+        "startChar": 87,
+        "endLine": 66,
+        "endChar": 147
+      },
+      "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a401427_36845450",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T14:04:51Z",
+      "side": 1,
+      "message": "it feels like this two can be combined into one and just have the message computed. Then if you have other messages like warning on submitting change with only commit message can be added easily without messing up the template",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 21
+      },
+      "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

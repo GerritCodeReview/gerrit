@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "3fc04aa0_a73cf52c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T10:56:14Z",
+      "side": 1,
+      "message": "Could you please write more details about it or add link to a bug?\nI couldn\u0027t understand from the comment message what exactly was wrong.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "cfd6183b4ca1ab54c166d60714fb710e89fed051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82d71c82_fafb528f",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T10:56:14Z",
+      "side": 1,
+      "message": "Label1-3 - this text matches the old pattern, but doesn\u0027t match the new one.\nIs it expected?",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 78
+      },
+      "revId": "cfd6183b4ca1ab54c166d60714fb710e89fed051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1edabaf5_1cfc98e8",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 1
@@ -41,6 +87,29 @@
         "startChar": 49,
         "endLine": 285,
         "endChar": 71
+      },
+      "revId": "cfd6183b4ca1ab54c166d60714fb710e89fed051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84110c41_0d64d040",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T10:56:14Z",
+      "side": 1,
+      "message": "Could you please use group names instead of index here? \nI don\u0027t remember how to calculate group index in regex.",
+      "range": {
+        "startLine": 285,
+        "startChar": 11,
+        "endLine": 289,
+        "endChar": 34
       },
       "revId": "cfd6183b4ca1ab54c166d60714fb710e89fed051",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

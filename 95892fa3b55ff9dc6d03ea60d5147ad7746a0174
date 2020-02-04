@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aca9b07_a53c377a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T16:07:06Z",
+      "side": 1,
+      "message": "nit: extra return here ? it works still tho",
+      "range": {
+        "startLine": 209,
+        "startChar": 10,
+        "endLine": 209,
+        "endChar": 16
+      },
+      "revId": "95892fa3b55ff9dc6d03ea60d5147ad7746a0174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

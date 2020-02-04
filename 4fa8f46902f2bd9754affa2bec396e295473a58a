@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "5b3afbaf_0f0044a5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T11:13:18Z",
+      "side": 1,
+      "message": "Do you need this space here? Is it possible to replace this space with padding/margin in css?",
+      "range": {
+        "startLine": 589,
+        "startChar": 28,
+        "endLine": 589,
+        "endChar": 29
+      },
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "677d2fa9_d1993bfd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1

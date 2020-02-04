@@ -96,8 +96,8 @@ public interface AccountPatchReviewStore {
    *
    * @param psId patch set ID
    * @param accountId account ID of the user
-   * @return optionally, all files the have been reviewed by the given user that belong to the patch
-   *     set that is smaller or equals to the given patch set
+   * @return optionally, all files that have been reviewed by the given user that belong to the
+   *     patch set that is smaller or equals to the given patch set
    */
   Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId);
 }

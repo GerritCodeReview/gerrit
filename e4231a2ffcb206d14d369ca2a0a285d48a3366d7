@@ -16,6 +16,24 @@
       "revId": "e4231a2ffcb206d14d369ca2a0a285d48a3366d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0e93e50_c66cbcc6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T20:22:26Z",
+      "side": 1,
+      "message": "The whole component expects that change is defined - there is no check in html, js. I think it\u0027s fine, it\u0027s properly used only on one place in gr-change-action and that is checking it.",
+      "parentUuid": "c227336c_68a6ff9d",
+      "revId": "e4231a2ffcb206d14d369ca2a0a285d48a3366d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

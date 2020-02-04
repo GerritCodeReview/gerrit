@@ -57,6 +57,24 @@
       "revId": "2d9b76babb17e046f2a72cab98ffe0f7b0056bf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5336eeb8_12201e14",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-04T13:42:56Z",
+      "side": 1,
+      "message": "Yes, but I don\u0027t understand the connection of this test with this change. \n:(",
+      "parentUuid": "4c688d19_13a4ba8a",
+      "revId": "2d9b76babb17e046f2a72cab98ffe0f7b0056bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

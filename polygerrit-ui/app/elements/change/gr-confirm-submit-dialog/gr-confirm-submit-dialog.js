@@ -57,6 +57,10 @@
       this.$.dialog.resetFocus();
     }
 
+    _computePluralString(count, word) {
+      return `${word}${count > 1 ? 's' : ''}`;
+    }
+
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();

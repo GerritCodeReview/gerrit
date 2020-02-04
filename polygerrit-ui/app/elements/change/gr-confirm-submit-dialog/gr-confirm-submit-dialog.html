@@ -33,6 +33,11 @@ limitations under the License.
       p {
         margin-bottom: var(--spacing-l);
       }
+      .warningBeforeSubmit {
+        color: var(--error-text-color);
+        vertical-align: top;
+        margin-right: var(--spacing-s);
+      }
       @media screen and (max-width: 50em) {
         #dialog {
           min-width: inherit;
@@ -53,7 +58,13 @@ limitations under the License.
         <gr-endpoint-decorator name="confirm-submit-change">
           <p>Ready to submit &ldquo;<strong>[[change.subject]]</strong>&rdquo;?</p>
           <template is="dom-if" if="[[change.is_private]]">
-            <p><strong>Heads Up!</strong> Submitting this private change will also make it public.</p>
+            <p><iron-icon icon="gr-icons:error" class="warningBeforeSubmit"></iron-icon><strong>Heads Up!</strong> Submitting this private change will also make it public.</p>
+          </template>
+          <template is="dom-if" if="[[change.unresolved_comment_count]]">
+            <p>
+              <iron-icon icon="gr-icons:error" class="warningBeforeSubmit"></iron-icon>Heads Up!
+              <strong>[[change.unresolved_comment_count]]</strong> unresolved [[_computePluralString(change.unresolved_comment_count, 'comment')]].
+            </p>
           </template>
           <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
           <gr-endpoint-param name="action" value="[[action]]"></gr-endpoint-param>

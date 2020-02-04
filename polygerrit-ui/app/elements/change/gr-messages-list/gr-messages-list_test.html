@@ -553,6 +553,23 @@ limitations under the License.
       assert.isFalse(element._hasAutomatedMessages(messages));
     });
 
+    test('initially show only 20 messages', () => {
+      sandbox.stub(element.$.reporting, 'reportInteraction',
+          (eventName, details) => {
+            assert.equal(typeof(eventName), 'string');
+            if (details) {
+              assert.equal(typeof(details), 'object');
+            }
+          });
+      const messages = Array.from(Array(23).keys())
+          .map(() => {
+            return {};
+          });
+      element._processedMessagesChanged(messages);
+
+      assert.equal(element._visibleMessages.length, 20);
+    });
+
     test('_computeLabelExtremes', () => {
       const computeSpy = sandbox.spy(element, '_computeLabelExtremes');
 

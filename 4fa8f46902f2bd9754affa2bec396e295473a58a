@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8c20feb5_6e6081be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:44:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d85cbaeb_58bf2972",
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44137860_7d1de12d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d525018_e5470363",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:44:17Z",
+      "side": 1,
+      "message": "I don\u0027t have change id. So it\u0027s not easy. Maybe we can open feature for this.",
+      "parentUuid": "44137860_7d1de12d",
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "e0d44cd4_e674fbad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:44:17Z",
+      "side": 1,
+      "message": "The space is needed. Otherwise date and shortName will collapse. I actually think it is better with space the date and author name would normally be together but since we want link only on date, there are separated.",
+      "parentUuid": "5b3afbaf_0f0044a5",
+      "range": {
+        "startLine": 589,
+        "startChar": 28,
+        "endLine": 589,
+        "endChar": 29
+      },
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "677d2fa9_d1993bfd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "81408b7d_c94853e1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:44:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "677d2fa9_d1993bfd",
+      "range": {
+        "startLine": 593,
+        "startChar": 10,
+        "endLine": 593,
+        "endChar": 25
+      },
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1165054_560a97c7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "a507787d_31e4ea9b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:44:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1165054_560a97c7",
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31b81da5_23874972",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1
@@ -113,6 +215,24 @@
       "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47783b9f_3fc18c4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:44:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31b81da5_23874972",
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

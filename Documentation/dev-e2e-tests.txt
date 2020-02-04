@@ -17,7 +17,9 @@ link:https://github.com/GerritForge/gatling-git[Gatling Git extension] to run te
 protocol level.
 
 Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios
-implementation easy even without any Scala knowledge.
+implementation easy even without any Scala knowledge. The
+link:https://gitenterprise.me/2019/12/20/stress-your-gerrit-with-gatling/[Stress your Gerrit with Gatling]
+blog post has more introductory information.
 
 Examples of scenarios can be found in the `e2e-tests` directory. The files in that directory
 should be formatted using the mainstream

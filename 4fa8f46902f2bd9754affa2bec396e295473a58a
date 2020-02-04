@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d85cbaeb_58bf2972",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T11:03:00Z",
+      "side": 1,
+      "message": "i think this one has a bug associated with right ?",
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44137860_7d1de12d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T11:03:00Z",
+      "side": 1,
+      "message": "if you have the commit id, maybe just construct the url to that link directly instead of going to the search page first ?",
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "677d2fa9_d1993bfd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T11:03:00Z",
+      "side": 1,
+      "message": "maybe also update the name here :)",
+      "range": {
+        "startLine": 593,
+        "startChar": 10,
+        "endLine": 593,
+        "endChar": 25
+      },
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1165054_560a97c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T11:03:00Z",
+      "side": 1,
+      "message": "this is bad... i think we should avoid having `eslint-disable-` if possible. And you can just split the following into multiple lines.",
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31b81da5_23874972",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T11:03:00Z",
+      "side": 1,
+      "message": "nit: `` actually preserves whitespaces, so you can just have the `\\n` replaced as an actual new line.",
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

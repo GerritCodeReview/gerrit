@@ -1309,7 +1309,6 @@
           default:
             this.dispatchEvent(new CustomEvent('reload-change',
                 {detail: {action: action.__key}, bubbles: false}));
-            break;
         }
       });
     }

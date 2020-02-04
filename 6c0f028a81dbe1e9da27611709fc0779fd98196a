@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "bfa9d461_a0cade90",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T16:18:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c470d141_8cc5ac6e",
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54178c39_4fa9232d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 1
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "f14ca8f3_d9cfe5bd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T16:18:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54178c39_4fa9232d",
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f619c32c_ba834beb",
         "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.js",
         "patchSetId": 1
@@ -70,6 +106,24 @@
       "writtenOn": "2020-02-04T12:00:04Z",
       "side": 1,
       "message": "This is the only \"notify: true\" that you need. You can remove the other three.\n\n\"notify: true\" enables listening to \"on-floating-height-changed\", but observers work without it.",
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0145c82_703d65bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T16:18:18Z",
+      "side": 1,
+      "message": "Tried it again - doesn\u0027t work without it.",
+      "parentUuid": "f619c32c_ba834beb",
       "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

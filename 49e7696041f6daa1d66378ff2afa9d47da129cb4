@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bef7cdb_a53100c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T15:02:24Z",
+      "side": 1,
+      "message": "not 100% sure, but i thought out convention for class is `sneak-case` ?",
+      "range": {
+        "startLine": 36,
+        "startChar": 7,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "49e7696041f6daa1d66378ff2afa9d47da129cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3988a60_098e9614",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T15:02:24Z",
+      "side": 1,
+      "message": "tests if possible :)",
+      "revId": "49e7696041f6daa1d66378ff2afa9d47da129cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2520744f_65b2a9d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T15:02:24Z",
+      "side": 1,
+      "message": "like i mentioned before, since you need to compute something, why not just compute the whole message instead ?",
+      "revId": "49e7696041f6daa1d66378ff2afa9d47da129cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

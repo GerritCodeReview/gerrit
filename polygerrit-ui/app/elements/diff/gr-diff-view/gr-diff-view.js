@@ -229,6 +229,7 @@
         [this.Shortcut.RIGHT_PANE]: '_handleRightPane',
         [this.Shortcut.NEXT_LINE]: '_handleNextLineOrFileWithComments',
         [this.Shortcut.PREV_LINE]: '_handlePrevLineOrFileWithComments',
+        [this.Shortcut.VISIBLE_LINE]: '_handleVisibleLine',
         [this.Shortcut.NEXT_FILE_WITH_COMMENTS]:
             '_handleNextLineOrFileWithComments',
         [this.Shortcut.PREV_FILE_WITH_COMMENTS]:
@@ -380,6 +381,13 @@
       e.preventDefault();
       this.$.diffHost.displayLine = true;
       this.$.cursor.moveUp();
+    }
+
+    _handleVisibleLine(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this.$.cursor.moveToVisibleArea();
     }
 
     _onOpenFixPreview(e) {

@@ -180,6 +180,15 @@
       }
     }
 
+    moveToVisibleArea() {
+      if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
+        this.$.cursorManager.moveToVisibleArea(
+            this._rowHasSide.bind(this));
+      } else {
+        this.$.cursorManager.moveToVisibleArea();
+      }
+    }
+
     moveToNextChunk(opt_clipToTop) {
       this.$.cursorManager.next(this._isFirstRowOfChunk.bind(this),
           target => target.parentNode.scrollHeight, opt_clipToTop);

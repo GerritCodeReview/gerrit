@@ -574,14 +574,30 @@
     const date = (new Date(commit.time * 1000)).toLocaleDateString();
     const blameNode = this._createElement('span',
         isStartOfRange ? 'startOfRange' : '');
-    const shaNode = this._createElement('span', 'sha');
-    shaNode.innerText = commit.id.substr(0, 7);
-    shaNode.onclick = function() {
-      location.href = '/q/' + shaNode.innerText;
-    };
 
+    const shaNode = this._createElement('span', 'blameDate');
+    shaNode.innerText = `${date}`;
+    shaNode.onclick = function() {
+      location.href = '/q/' + commit.id;
+    };
     blameNode.appendChild(shaNode);
-    blameNode.append(` on ${date} by ${commit.author}`);
+
+    const shortName = commit.author.split(' ')[0];
+    const authorNode = this._createElement('span', 'blameAuthor');
+    authorNode.innerText = ` ${shortName}`;
+    blameNode.appendChild(authorNode);
+
+    const hoverCardFragment = this._createElement('span', 'blameHoverCard');
+    hoverCardFragment.innerText =
+      `Commit ${commit.id}
+Author: ${commit.author}
+Date: ${date}
+
+${commit.commit_msg}`;
+    const hovercard = this._createElement('gr-hovercard');
+    hovercard.appendChild(hoverCardFragment);
+    blameNode.appendChild(hovercard);
+
     return blameNode;
   };
 

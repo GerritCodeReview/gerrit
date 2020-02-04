@@ -175,7 +175,7 @@
 
     _handleApplyFix(e) {
       if (e) {
-        e.stopPropagation();
+        // e.stopPropagation();
       }
       if (this._currentFix == null || this._currentFix.fix_id == null) {
         return;

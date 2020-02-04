@@ -23,18 +23,22 @@ limitations under the License.
 <dom-module id="gr-label-scores">
   <template>
     <style include="shared-styles">
+      :host {
+        display: table;
+      }
       .mergedMessage {
         font-style: italic;
         text-align: center;
         width: 100%;
       }
-      gr-label-score-row.no-access {
-        display: var(--label-no-access-display, initial);
+      gr-label-score-row:hover {
+        background-color: var(--hover-background-color);
       }
-      @media only screen and (max-width: 25em) {
-        :host {
-          text-align: center;
-        }
+      gr-label-score-row {
+        display: table-row;
+      }
+      gr-label-score-row.no-access {
+        display: var(--label-no-access-display, table-row);
       }
     </style>
     <template is="dom-repeat" items="[[_labels]]" as="label">

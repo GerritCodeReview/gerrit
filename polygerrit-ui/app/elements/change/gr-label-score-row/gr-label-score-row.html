@@ -27,38 +27,18 @@ limitations under the License.
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
     <style include="shared-styles">
-      .labelContainer {
-        align-items: center;
-        display: flex;
-        margin-bottom: var(--spacing-m);
-      }
-      .labelName {
-        display: inline-block;
-        flex: 0 0 auto;
-        margin-right: var(--spacing-m);
-        min-width: 7em;
-        text-align: left;
-        width: 20%;
+      .labelNameCell,
+      .buttonsCell,
+      .selectedValueCell {
+        padding: var(--spacing-s) var(--spacing-m) var(--spacing-s) 0;
+        display: table-cell;
       }
       .labelMessage {
         color: var(--deemphasized-text-color);
       }
-      .placeholder::before {
-        content: ' ';
-      }
-      .selectedValueText {
-        color: var(--deemphasized-text-color);
-        font-style: italic;
-        margin: 0 var(--spacing-m);
-      }
-      .selectedValueText.hidden {
-        display: none;
-      }
-      .buttonWrapper {
-        flex: none;
-      }
       gr-button {
-        min-width: 40px;
+        min-width: 42px;
+        box-sizing: border-box;
         --gr-button: {
           background-color: var(--button-background-color, var(--table-header-background-color));
           color: var(--primary-text-color);
@@ -83,63 +63,62 @@ limitations under the License.
       }
       .placeholder {
         display: inline-block;
-        width: 40px;
+        width: 42px;
+        height: var(--line-height-normal);
+      }
+      .placeholder::before {
+        content: ' ';
+      }
+      .selectedValueCell {
+        color: var(--deemphasized-text-color);
+        font-style: italic;
+      }
+      .selectedValueCell.hidden {
+        display: none;
       }
       @media only screen and (max-width: 50em) {
-        .selectedValueText {
+        .selectedValueCell {
           display: none;
         }
       }
-      @media only screen and (max-width: 25em) {
-        .labelName {
-          margin: 0;
-          text-align: center;
-          width: 100%;
-        }
-        .labelContainer {
-          display: block;
-        }
-      }
     </style>
-    <div class="labelContainer">
-      <span class="labelName">[[label.name]]</span>
-      <div class="buttonWrapper">
+    <span class="labelNameCell">[[label.name]]</span>
+    <div class="buttonsCell">
+      <template is="dom-repeat"
+          items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
+          as="value">
+        <span class="placeholder" data-label$="[[label.name]]"></span>
+      </template>
+      <iron-selector
+          id="labelSelector"
+          attr-for-selected="data-value"
+          selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
+          hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
+          on-selected-item-changed="_setSelectedValueText">
         <template is="dom-repeat"
-            items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
+            items="[[_items]]"
             as="value">
-          <span class="placeholder" data-label$="[[label.name]]"></span>
+          <gr-button
+              class$="[[_computeButtonClass(value, index, _items.length)]]"
+              has-tooltip
+              data-name$="[[label.name]]"
+              data-value$="[[value]]"
+              title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
+            [[value]]</gr-button>
         </template>
-        <iron-selector
-            id="labelSelector"
-            attr-for-selected="data-value"
-            selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
-            hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
-            on-selected-item-changed="_setSelectedValueText">
-          <template is="dom-repeat"
-              items="[[_items]]"
-              as="value">
-            <gr-button
-                class$="[[_computeButtonClass(value, index, _items.length)]]"
-                has-tooltip
-                data-name$="[[label.name]]"
-                data-value$="[[value]]"
-                title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
-              [[value]]</gr-button>
-          </template>
-        </iron-selector>
-        <template is="dom-repeat"
-            items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
-            as="value">
-          <span class="placeholder" data-label$="[[label.name]]"></span>
-        </template>
-        <span class="labelMessage"
-            hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
-          You don't have permission to edit this label.
-        </span>
-      </div>
-      <div class$="selectedValueText [[_computeHiddenClass(permittedLabels, label.name)]]">
-        <span id="selectedValueLabel">[[_selectedValueText]]</span>
-      </div>
+      </iron-selector>
+      <template is="dom-repeat"
+          items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
+          as="value">
+        <span class="placeholder" data-label$="[[label.name]]"></span>
+      </template>
+      <span class="labelMessage"
+          hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+        You don't have permission to edit this label.
+      </span>
+    </div>
+    <div class$="selectedValueCell [[_computeHiddenClass(permittedLabels, label.name)]]">
+      <span id="selectedValueLabel">[[_selectedValueText]]</span>
     </div>
   </template>
   <script src="gr-label-score-row.js"></script>

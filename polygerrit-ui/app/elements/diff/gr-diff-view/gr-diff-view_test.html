@@ -433,6 +433,23 @@ limitations under the License.
       });
     });
 
+    suite('unchanged file', () => {
+      test('unchanged file should be included in _fileList', done => {
+        element._path = 'aaa.txt';
+        // trigger reload on files
+        element._changeNum = '123';
+        element._patchRange = {
+          basePatchNum: PARENT,
+          patchNum: '1',
+        };
+        assert.isFalse(element._fileList.includes('aaa.txt'));
+        flush(() => {
+          assert.isTrue(element._fileList.includes('aaa.txt'));
+          done();
+        });
+      });
+    });
+
     suite('url params', () => {
       setup(() => {
         sandbox.stub(

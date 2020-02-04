@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cfb9f5a7_46fb37e3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T20:39:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a9060ab_d0fdab17",
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1c0efa6_d0358d00",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a17e2653_167f9e02",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T20:39:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1c0efa6_d0358d00",
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f9d15a6_1a4d17c3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "9b27a5093814ae10810034b24076abe8f667310d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "600e9448_605589e2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T20:39:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f9d15a6_1a4d17c3",
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "5ca2aaca_e2d6c98e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T20:39:26Z",
+      "side": 1,
+      "message": "You cannot click in card - it will disappear when you leave blame annotation. It would be nice, but let\u0027s improve it once after this basic implementation.",
+      "parentUuid": "1e21a134_acd40e71",
+      "range": {
+        "startLine": 599,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 20
+      },
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb655247_3ff2f96f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 3
@@ -90,6 +168,24 @@
       "revId": "9b27a5093814ae10810034b24076abe8f667310d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c115038b_0e92564b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T20:39:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb655247_3ff2f96f",
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2c460a0_5c3bfa9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T16:23:26Z",
+      "side": 1,
+      "message": "Actually I mostly see camelcase",
+      "parentUuid": "1bef7cdb_a53100c3",
+      "range": {
+        "startLine": 36,
+        "startChar": 7,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "49e7696041f6daa1d66378ff2afa9d47da129cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3988a60_098e9614",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "f6ae59e5_e4ff3f50",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T16:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3988a60_098e9614",
+      "revId": "49e7696041f6daa1d66378ff2afa9d47da129cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2520744f_65b2a9d1",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2020-02-04T15:02:24Z",
       "side": 1,
       "message": "like i mentioned before, since you need to compute something, why not just compute the whole message instead ?",
+      "revId": "49e7696041f6daa1d66378ff2afa9d47da129cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd770c6c_d850b5b4",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T16:23:26Z",
+      "side": 1,
+      "message": "Ok. I computed whole message.",
+      "parentUuid": "2520744f_65b2a9d1",
       "revId": "49e7696041f6daa1d66378ff2afa9d47da129cb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d9cda96_e74d6457",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T12:04:39Z",
+      "side": 1,
+      "message": "do you expect to recompute if `tag` changed ? maybe have `_computeMessageContentX` depends on both `message.message` and `message.tag` and pass it all the way down ? so if any of them changed, it will recompute. Otherwise, if the `tag` changed, this won\u0027t be recomputed.",
+      "range": {
+        "startLine": 178,
+        "startChar": 28,
+        "endLine": 178,
+        "endChar": 35
+      },
+      "revId": "b6ab97de603a71a1d10808df289500633277946f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a687eab_0f18085b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T12:04:39Z",
+      "side": 1,
+      "message": "inline this ?",
+      "revId": "b6ab97de603a71a1d10808df289500633277946f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b03408ed_97ff979d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T12:04:39Z",
+      "side": 1,
+      "message": "i think you will need to filter out all empty `lines` before join by `\\n`, otherwise you may have multiple new lines if you have multiple lines start with `Patch Set` as they will be removed in existing implementation.\n\nand this is really ugly :(",
+      "revId": "b6ab97de603a71a1d10808df289500633277946f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

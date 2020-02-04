@@ -1146,6 +1146,23 @@ limitations under the License.
         assert.equal(result.getAttribute('data-line-number'), '3');
         assert.equal(result.firstChild, mocbBlameCell);
       });
+
+      test('_getBlameForBaseLine', () => {
+        const mockCommit = {
+          time: 1000,
+          id: 1234567890,
+          author: 'Clark Kent',
+          commit_msg: 'Testing Commit',
+          ranges: [1],
+        };
+        const blameNode = builder._getBlameForBaseLine(1, mockCommit);
+        // Blame annotation
+        assert.isTrue(blameNode.innerText.startsWith('01/01/1970 Clark'));
+        // Blame hover card
+        assert.isTrue(blameNode.getElementsByClassName('blameHoverCard')[0]
+            .innerText.includes(mockCommit.commit_msg)
+        );
+      });
     });
   });
 </script>

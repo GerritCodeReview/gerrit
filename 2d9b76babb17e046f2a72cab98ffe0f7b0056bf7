@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "56c9a5b3_b213207a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:42:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a47aa0c9_8a1d6ad4",
+      "range": {
+        "startLine": 364,
+        "startChar": 13,
+        "endLine": 366,
+        "endChar": 16
+      },
+      "revId": "2d9b76babb17e046f2a72cab98ffe0f7b0056bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b146b57_77bf8323",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 1

@@ -16,6 +16,24 @@
       "revId": "624428d261e4cce1d19b50280b00a325655aad0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0e8355f_655c1b64",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T14:42:48Z",
+      "side": 1,
+      "message": "I would like to but I cannot access messages limit from test. We need to rewrite how we use constants. But I think once we change hard coded constant, we should evaluate test. Until then at least is testing it.",
+      "parentUuid": "0e61deda_9a189486",
+      "revId": "624428d261e4cce1d19b50280b00a325655aad0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

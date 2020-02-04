@@ -68,7 +68,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
     try {
       rng = SecureRandom.getInstance("SHA1PRNG");
     } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Cannot create RNG for password generator", e);
+      throw new IllegalStateException("Cannot create RNG for password generator", e);
     }
   }
 

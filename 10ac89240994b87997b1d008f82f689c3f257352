@@ -70,6 +70,24 @@
       "revId": "10ac89240994b87997b1d008f82f689c3f257352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20135457_ed425047",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-04T13:22:17Z",
+      "side": 0,
+      "message": "For now, it will be sufficient to always show the \"Show fix\" button (provided that the user is signed in), which is the simplest, non-confusing, and deterministic behavior we can offer. We can always revisit this decision and make some improvements if we find out that showing the button for all cases is not helpful for users.\n\nI think we could make a different case for the \"Apply fix\" button within the \"Show fix\" dialog. For that, it would be helpful to only enable it for robot comments of the latest patch set. That\u0027s an adjustment unrelated to this change, though.",
+      "parentUuid": "47a4779a_a1cd5687",
+      "revId": "10ac89240994b87997b1d008f82f689c3f257352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

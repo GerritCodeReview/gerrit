@@ -28,12 +28,12 @@ public class JGitMetricModule extends MetricModule {
         new Description("Bytes of memory retained in JGit block cache.")
             .setGauge()
             .setUnit(Units.BYTES),
-        WindowCacheStats::getOpenBytes);
+        () -> WindowCacheStats.getStats().getOpenByteCount());
 
     metrics.newCallbackMetric(
         "jgit/block_cache/open_files",
         Integer.class,
         new Description("File handles held open by JGit block cache.").setGauge().setUnit("fds"),
-        WindowCacheStats::getOpenFiles);
+        () -> Integer.valueOf((int) WindowCacheStats.getStats().getOpenByteCount()));
   }
 }

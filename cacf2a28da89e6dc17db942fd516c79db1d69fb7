@@ -16,6 +16,46 @@
       "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34aca8da_363e0254",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T10:38:01Z",
+      "side": 1,
+      "message": "gr-change-metadata is a separate element to edit metadata.\nIt shouldn\u0027t have any specific knowledge about other things in the gerrit.\nThe name \u0027reload-change\u0027 supposes that the gr-change-metadata element can trigger some exact action.",
+      "range": {
+        "startLine": 395,
+        "startChar": 33,
+        "endLine": 395,
+        "endChar": 46
+      },
+      "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7bf5d90_fa7bb3f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T10:38:01Z",
+      "side": 1,
+      "message": "I noticed, that there is a topic-changed event in the gr-change-metadata event.\nWhy behavior is different for removing a topic and for changing a topic? For me it sounds similar.\nCan you fire topic-changed event here?",
+      "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

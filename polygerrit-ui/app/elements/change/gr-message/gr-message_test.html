@@ -188,12 +188,12 @@ limitations under the License.
       element.message = {
         author: {},
         expanded: false,
-        message: 'Patch Set 1: Verified+1 Code-Review-2 Trybot-Ready+1',
+        message: 'Patch Set 1: Verified+1 Code-Review-2 Trybot-Label3+1 Blub+1',
       };
       element.labelExtremes = {
         'Verified': {max: 1, min: -1},
         'Code-Review': {max: 2, min: -2},
-        'Trybot-Ready': {max: 3, min: 0},
+        'Trybot-Label3': {max: 3, min: 0},
       };
       flushAsynchronousOperations();
       const scoreChips = Polymer.dom(element.root).querySelectorAll('.score');
@@ -207,6 +207,25 @@ limitations under the License.
 
       assert.isTrue(scoreChips[2].classList.contains('positive'));
       assert.isFalse(scoreChips[2].classList.contains('min'));
+    });
+
+    test('removed votes', () => {
+      element.message = {
+        author: {},
+        expanded: false,
+        message: 'Patch Set 1: Verified+1 -Code-Review -Commit-Queue',
+      };
+      element.labelExtremes = {
+        'Verified': {max: 1, min: -1},
+        'Code-Review': {max: 2, min: -2},
+        'Commit-Queue': {max: 3, min: 0},
+      };
+      flushAsynchronousOperations();
+      const scoreChips = Polymer.dom(element.root).querySelectorAll('.score');
+      assert.equal(scoreChips.length, 3);
+
+      assert.isTrue(scoreChips[1].classList.contains('removed'));
+      assert.isTrue(scoreChips[2].classList.contains('removed'));
     });
 
     test('false negative vote', () => {

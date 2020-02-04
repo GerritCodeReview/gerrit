@@ -126,8 +126,8 @@ public class GetSummary implements RestReadView<ConfigResource> {
     long mTotal = r.totalMemory();
     long mInuse = mTotal - mFree;
 
-    int jgitOpen = WindowCacheStats.getOpenFiles();
-    long jgitBytes = WindowCacheStats.getOpenBytes();
+    long jgitOpen = WindowCacheStats.getStats().getOpenFileCount();
+    long jgitBytes = WindowCacheStats.getStats().getOpenByteCount();
 
     MemSummaryInfo memSummaryInfo = new MemSummaryInfo();
     memSummaryInfo.total = bytes(mTotal);
@@ -135,7 +135,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
     memSummaryInfo.free = bytes(mFree);
     memSummaryInfo.buffers = bytes(jgitBytes);
     memSummaryInfo.max = bytes(mMax);
-    memSummaryInfo.openFiles = toInteger(jgitOpen);
+    memSummaryInfo.openFiles = Integer.valueOf((int) jgitOpen);
     return memSummaryInfo;
   }
 

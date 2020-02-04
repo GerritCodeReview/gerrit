@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7bbc216d_120f28ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-04T16:28:42Z",
+      "side": 1,
+      "message": "This is still unresolved.",
+      "parentUuid": "d68ee404_78f971cb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c470d141_8cc5ac6e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 1
@@ -124,6 +148,24 @@
       "side": 1,
       "message": "Tried it again - doesn\u0027t work without it.",
       "parentUuid": "f619c32c_ba834beb",
+      "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "642c6671_6be9fcf3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-04T16:28:42Z",
+      "side": 1,
+      "message": "That is really weird. Do you understand why? Anyway, please leave a comment: Either \"we don\u0027t know why this is necessary, but it is\" or explain it.",
+      "parentUuid": "a0145c82_703d65bd",
       "revId": "6c0f028a81dbe1e9da27611709fc0779fd98196a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

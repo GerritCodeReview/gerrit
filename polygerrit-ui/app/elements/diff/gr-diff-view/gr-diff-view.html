@@ -210,7 +210,9 @@ limitations under the License.
         class$="[[_computeContainerClass(_editMode)]]"
         floating-disabled="[[_panelFloatingDisabled]]"
         keep-on-scroll
-        ready-for-measure="[[!_loading]]">
+        ready-for-measure="[[!_loading]]"
+        on-floating-height-changed="_onChangeHeaderPanelHeightChanged"
+    >
       <header>
         <h3>
           <a href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
@@ -357,7 +359,7 @@ limitations under the License.
     </gr-diff-preferences-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
-    <gr-diff-cursor id="cursor"></gr-diff-cursor>
+    <gr-diff-cursor id="cursor" scroll-top-margin="[[_scrollTopMargin]]"></gr-diff-cursor>
     <gr-comment-api id="commentAPI"></gr-comment-api>
     <gr-reporting id="reporting"></gr-reporting>
   </template>

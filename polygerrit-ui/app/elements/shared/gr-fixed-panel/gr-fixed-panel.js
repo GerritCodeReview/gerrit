@@ -25,7 +25,11 @@
 
     static get properties() {
       return {
-        floatingDisabled: Boolean,
+        floatingDisabled: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
         readyForMeasure: {
           type: Boolean,
           observer: '_readyForMeasureObserver',
@@ -37,6 +41,7 @@
         _isMeasured: {
           type: Boolean,
           value: false,
+          notify: true,
         },
 
         /**
@@ -49,7 +54,10 @@
          */
         _topLast: Number,
 
-        _headerHeight: Number,
+        _headerHeight: {
+          type: Number,
+          notify: true,
+        },
         _headerFloating: {
           type: Boolean,
           value: false,
@@ -58,8 +66,36 @@
           type: Object,
           value: null,
         },
+        /**
+         * If place before any other content defines how much
+         * of the content below it is covered by this panel
+         */
+        floatingHeight: {
+          type: Number,
+          value: 0,
+          notify: true,
+        },
+
         _webComponentsReady: Boolean,
       };
+    }
+
+    static get observers() {
+      return [
+        '_updateFloatingHeight(floatingDisabled, _isMeasured, _headerHeight)',
+      ];
+    }
+
+    _updateFloatingHeight(floatingDisabled, isMeasured, headerHeight) {
+      if ([
+        floatingDisabled,
+        isMeasured,
+        headerHeight,
+      ].some(arg => arg === undefined)) {
+        return;
+      }
+      this.floatingHeight =
+          (!floatingDisabled && isMeasured) ? headerHeight : 0;
     }
 
     /** @override */

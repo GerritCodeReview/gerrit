@@ -25,7 +25,9 @@ limitations under the License.
         scroll-behavior="[[_scrollBehavior]]"
         cursor-target-class="target-row"
         focus-on-move="[[_focusOnMove]]"
-        target="{{diffRow}}"></gr-cursor-manager>
+        target="{{diffRow}}"
+        scroll-top-margin="[[scrollTopMargin]]"
+    ></gr-cursor-manager>
   </template>
   <script src="gr-diff-cursor.js"></script>
 </dom-module>

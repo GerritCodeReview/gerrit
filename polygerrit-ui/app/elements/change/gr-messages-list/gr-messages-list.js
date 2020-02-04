@@ -367,8 +367,7 @@
           acc[val] = (acc[val] || 0) + 1;
           return acc;
         }, {all: messages.length});
-        this.$.reporting.reportInteraction('messages-count',
-            JSON.stringify(tagsCounted));
+        this.$.reporting.reportInteraction('messages-count', tagsCounted);
       }
     }
 

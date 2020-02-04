@@ -72,6 +72,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private boolean copyApprovals = true;
   private boolean detailedCommitMessage;
   private boolean postMessage = true;
+  private boolean sendEmail = true;
   private boolean matchAuthorToCommitterDate = false;
 
   private RevCommit rebasedCommit;
@@ -141,6 +142,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return this;
   }
 
+  public RebaseChangeOp setSendEmail(boolean sendEmail) {
+    this.sendEmail = sendEmail;
+    return this;
+  }
+
   public RebaseChangeOp setMatchAuthorToCommitterDate(boolean matchAuthorToCommitterDate) {
     this.matchAuthorToCommitterDate = matchAuthorToCommitterDate;
     return this;
@@ -189,7 +195,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
             .setFireRevisionCreated(fireRevisionCreated)
             .setCopyApprovals(copyApprovals)
             .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
-            .setValidate(validate);
+            .setValidate(validate)
+            .setSendEmail(sendEmail);
     if (postMessage) {
       patchSetInserter.setMessage(
           "Patch Set "

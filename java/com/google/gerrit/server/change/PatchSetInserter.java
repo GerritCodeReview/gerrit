@@ -102,6 +102,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
   private boolean allowClosed;
   private boolean copyApprovals = true;
+  private boolean sendEmail = true;
 
   // Fields set during some phase of BatchUpdate.Op.
   private Change change;
@@ -197,6 +198,11 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
+  public PatchSetInserter setSendEmail(boolean sendEmail) {
+    this.sendEmail = sendEmail;
+    return this;
+  }
+
   public Change getChange() {
     checkState(change != null, "getChange() only valid after executing update");
     return change;
@@ -282,7 +288,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
-    if (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty()) {
+    if (sendEmail && (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty())) {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());

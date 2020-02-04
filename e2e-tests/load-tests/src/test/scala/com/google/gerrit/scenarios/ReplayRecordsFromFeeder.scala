@@ -55,14 +55,13 @@ class ReplayRecordsFromFeeder extends Simulation {
       .maxDuration(60 seconds)
 
   after {
+    Thread.sleep(5000)
+    val path = conf.tmpBasePath
     try {
-      //After is often called too early. Some retries should be implemented.
-      Thread.sleep(5000)
-      FileUtils.deleteDirectory(new File(conf.tmpBasePath))
+      FileUtils.deleteDirectory(new File(path))
     } catch {
       case e: IOException =>
-        System.err.println(
-          "Unable to delete temporary directory: " + conf.tmpBasePath)
+        System.err.println("Unable to delete temporary directory: " + path)
         e.printStackTrace()
     }
   }

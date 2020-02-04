@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70d8d5bf_937ebb89",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-04T19:54:02Z",
+      "side": 1,
+      "message": "It would be nice, if you could filter the items to only those patchsets that have robot comments associated, or at least show the number of robot comments in each item. Feel free to follow-up on that in a later change.",
+      "range": {
+        "startLine": 592,
+        "startChar": 4,
+        "endLine": 592,
+        "endChar": 46
+      },
+      "revId": "4a91b7e965c9740cd558b23b2696a0fc5de75701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

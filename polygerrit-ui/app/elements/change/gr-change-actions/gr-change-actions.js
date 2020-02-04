@@ -23,7 +23,7 @@
   /**
    * @enum {string}
    */
-  const LabelStatus = {
+  const LabelStatus = {   
     /**
      * This label provides what is necessary for submission.
      */
@@ -1323,7 +1323,6 @@
           default:
             this.dispatchEvent(new CustomEvent('reload-change',
                 {detail: {action: action.__key}, bubbles: false}));
-            break;
         }
       });
     }

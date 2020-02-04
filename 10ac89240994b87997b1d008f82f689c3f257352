@@ -88,6 +88,24 @@
       "revId": "10ac89240994b87997b1d008f82f689c3f257352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3261e4a5_7e0184da",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T13:30:56Z",
+      "side": 0,
+      "message": "ya `Apply` should be disabled for sure. I am fine to keep it always enabled if its readonly info.",
+      "parentUuid": "20135457_ed425047",
+      "revId": "10ac89240994b87997b1d008f82f689c3f257352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

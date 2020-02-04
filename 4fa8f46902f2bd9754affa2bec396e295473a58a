@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "eac244da_c1573562",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-04T16:11:56Z",
+      "side": 1,
+      "message": "you could parse the Change-Id out the commit message footer, but it\u0027s not going to give a better result than just looking for the commit hash.",
+      "parentUuid": "4d525018_e5470363",
+      "revId": "4fa8f46902f2bd9754affa2bec396e295473a58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b3afbaf_0f0044a5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1

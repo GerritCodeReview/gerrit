@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "1479a8e4_8b2d33cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T12:25:46Z",
+      "side": 1,
+      "message": "how could the test case not catch this before ? do we need some new tests to cover this ?",
+      "parentUuid": "1e0055ec_eb012a10",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 78
+      },
+      "revId": "cfd6183b4ca1ab54c166d60714fb710e89fed051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1edabaf5_1cfc98e8",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 1

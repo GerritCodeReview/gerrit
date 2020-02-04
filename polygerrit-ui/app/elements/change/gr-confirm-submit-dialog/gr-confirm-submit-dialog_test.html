@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="/bower_components/page/page.js"></script>
 
@@ -60,6 +61,16 @@ limitations under the License.
       const message = element.$$('.main p');
       assert.notEqual(message.textContent.length, 0);
       assert.notEqual(message.textContent.indexOf('my-subject'), -1);
+    });
+
+    test('_computeUnresolvedCommentsWarning', () => {
+      const change = {unresolved_comment_count: 1};
+      assert.equal(element._computeUnresolvedCommentsWarning(change),
+          'Heads Up! 1 unresolved comment.');
+
+      const change2 = {unresolved_comment_count: 2};
+      assert.equal(element._computeUnresolvedCommentsWarning(change2),
+          'Heads Up! 2 unresolved comments.');
     });
   });
 </script>

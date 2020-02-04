@@ -56,6 +56,29 @@
       "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71463659_9617c6f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-04T10:39:27Z",
+      "side": 1,
+      "message": "Why _handleReloadChange and not _handleTopicChanged ?\n_handleTopicChanged also reloads change",
+      "range": {
+        "startLine": 431,
+        "startChar": 32,
+        "endLine": 431,
+        "endChar": 51
+      },
+      "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

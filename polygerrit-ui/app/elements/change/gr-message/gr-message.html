@@ -156,6 +156,9 @@ limitations under the License.
       .commentsIcon {
         vertical-align: top;
       }
+      .score.removed {
+        background-color: var(--vote-color-neutral);
+      }
       .score.negative {
         background-color: var(--vote-color-disliked);
       }
@@ -195,7 +198,7 @@ limitations under the License.
             on behalf of
           </span>
           <gr-account-label account="[[author]]" class="authorLabel"></gr-account-label>
-          <template is="dom-repeat" items="[[_getScores(message)]]" as="score">
+          <template is="dom-repeat" items="[[_getScores(message, labelExtremes)]]" as="score">
             <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
               [[score.label]] [[score.value]]
             </span>

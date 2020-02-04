@@ -241,6 +241,8 @@
       this.bindShortcut(
           this.Shortcut.PREV_LINE, 'k', 'up');
       this.bindShortcut(
+          this.Shortcut.VISIBLE_LINE, '.');
+      this.bindShortcut(
           this.Shortcut.NEXT_CHUNK, 'n');
       this.bindShortcut(
           this.Shortcut.PREV_CHUNK, 'p');

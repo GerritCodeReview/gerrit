@@ -193,6 +193,19 @@
           type: Object,
           value: () => new Set(),
         },
+
+        /**
+         * gr-diff-view has gr-fixed-panel on top. The panel can
+         * intersect a main element and partially hides a content of
+         * the main element. To correctly calculates visibility of an
+         * element, the cursor must know how much height occuped by a fixed
+         * panel.
+         * The scrollTopMargin defines margin occuped by fixed panel.
+         */
+        _scrollTopMargin: {
+          type: Number,
+          value: 0,
+        },
       };
     }
 
@@ -1162,6 +1175,10 @@
 
     _handleReloadingDiffPreference() {
       this._getDiffPreferences();
+    }
+
+    _onChangeHeaderPanelHeightChanged(e) {
+      this._scrollTopMargin = e.detail.value;
     }
   }
 

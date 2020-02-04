@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Objects;
 
-public abstract class Comment {
+public abstract class AbstractComment {
   /**
    * Patch set number containing this commit.
    *
@@ -110,7 +110,7 @@ public abstract class Comment {
       return true;
     }
     if (o != null && getClass() == o.getClass()) {
-      Comment c = (Comment) o;
+      AbstractComment c = (AbstractComment) o;
       return Objects.equals(patchSet, c.patchSet)
           && Objects.equals(id, c.id)
           && Objects.equals(path, c.path)

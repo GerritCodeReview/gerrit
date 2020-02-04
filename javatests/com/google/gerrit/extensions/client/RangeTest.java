@@ -22,85 +22,85 @@ public class RangeTest {
 
   @Test
   public void rangeOverMultipleLinesWithSmallerEndCharacterIsValid() {
-    Comment.Range range = createRange(13, 31, 19, 10);
+    AbstractComment.Range range = createRange(13, 31, 19, 10);
     assertThat(range).isValid();
   }
 
   @Test
   public void rangeInOneLineIsValid() {
-    Comment.Range range = createRange(13, 2, 13, 10);
+    AbstractComment.Range range = createRange(13, 2, 13, 10);
     assertThat(range).isValid();
   }
 
   @Test
   public void startPositionEqualToEndPositionIsValidRange() {
-    Comment.Range range = createRange(13, 11, 13, 11);
+    AbstractComment.Range range = createRange(13, 11, 13, 11);
     assertThat(range).isValid();
   }
 
   @Test
   public void negativeStartLineResultsInInvalidRange() {
-    Comment.Range range = createRange(-1, 2, 19, 10);
+    AbstractComment.Range range = createRange(-1, 2, 19, 10);
     assertThat(range).isInvalid();
   }
 
   @Test
   public void negativeEndLineResultsInInvalidRange() {
-    Comment.Range range = createRange(13, 2, -1, 10);
+    AbstractComment.Range range = createRange(13, 2, -1, 10);
     assertThat(range).isInvalid();
   }
 
   @Test
   public void negativeStartCharacterResultsInInvalidRange() {
-    Comment.Range range = createRange(13, -1, 19, 10);
+    AbstractComment.Range range = createRange(13, -1, 19, 10);
     assertThat(range).isInvalid();
   }
 
   @Test
   public void negativeEndCharacterResultsInInvalidRange() {
-    Comment.Range range = createRange(13, 2, 19, -1);
+    AbstractComment.Range range = createRange(13, 2, 19, -1);
     assertThat(range).isInvalid();
   }
 
   @Test
   public void zeroStartLineResultsInInvalidRange() {
-    Comment.Range range = createRange(0, 2, 19, 10);
+    AbstractComment.Range range = createRange(0, 2, 19, 10);
     assertThat(range).isInvalid();
   }
 
   @Test
   public void zeroEndLineResultsInInvalidRange() {
-    Comment.Range range = createRange(13, 2, 0, 10);
+    AbstractComment.Range range = createRange(13, 2, 0, 10);
     assertThat(range).isInvalid();
   }
 
   @Test
   public void zeroStartCharacterResultsInValidRange() {
-    Comment.Range range = createRange(13, 0, 19, 10);
+    AbstractComment.Range range = createRange(13, 0, 19, 10);
     assertThat(range).isValid();
   }
 
   @Test
   public void zeroEndCharacterResultsInValidRange() {
-    Comment.Range range = createRange(13, 31, 19, 0);
+    AbstractComment.Range range = createRange(13, 31, 19, 0);
     assertThat(range).isValid();
   }
 
   @Test
   public void startLineGreaterThanEndLineResultsInInvalidRange() {
-    Comment.Range range = createRange(20, 2, 19, 10);
+    AbstractComment.Range range = createRange(20, 2, 19, 10);
     assertThat(range).isInvalid();
   }
 
   @Test
   public void startCharGreaterThanEndCharForSameLineResultsInInvalidRange() {
-    Comment.Range range = createRange(13, 11, 13, 10);
+    AbstractComment.Range range = createRange(13, 11, 13, 10);
     assertThat(range).isInvalid();
   }
 
-  private Comment.Range createRange(
+  private AbstractComment.Range createRange(
       int startLine, int startCharacter, int endLine, int endCharacter) {
-    Comment.Range range = new Comment.Range();
+    AbstractComment.Range range = new AbstractComment.Range();
     range.startLine = startLine;
     range.startCharacter = startCharacter;
     range.endLine = endLine;

@@ -21,7 +21,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.AbstractComment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.mail.MailMessage;
 import com.google.inject.Inject;
@@ -76,7 +76,7 @@ public class AbstractMailIT extends AbstractDaemonTest {
     c.line = line != 0 ? line : null;
     c.message = message;
     if (line != 0) {
-      Comment.Range range = new Comment.Range();
+      AbstractComment.Range range = new AbstractComment.Range();
       range.startLine = line;
       range.startCharacter = 1;
       range.endLine = line;

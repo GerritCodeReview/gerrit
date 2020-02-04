@@ -14,10 +14,10 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.AbstractComment;
 
 public class FixReplacementInfo {
   public String path;
-  public Comment.Range range;
+  public AbstractComment.Range range;
   public String replacement;
 }

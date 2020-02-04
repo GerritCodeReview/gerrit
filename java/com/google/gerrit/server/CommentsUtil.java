@@ -31,6 +31,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.client.AbstractComment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.AllUsersName;
@@ -68,12 +69,10 @@ public class CommentsUtil {
         }
       };
 
-  public static final Ordering<com.google.gerrit.extensions.client.Comment> COMMENT_INFO_ORDER =
-      new Ordering<com.google.gerrit.extensions.client.Comment>() {
+  public static final Ordering<AbstractComment> COMMENT_INFO_ORDER =
+      new Ordering<AbstractComment>() {
         @Override
-        public int compare(
-            com.google.gerrit.extensions.client.Comment a,
-            com.google.gerrit.extensions.client.Comment b) {
+        public int compare(AbstractComment a, AbstractComment b) {
           return ComparisonChain.start()
               .compare(a.path, b.path, NULLS_FIRST)
               .compare(a.patchSet, b.patchSet, NULLS_FIRST)
@@ -84,7 +83,7 @@ public class CommentsUtil {
               .result();
         }
 
-        private int side(com.google.gerrit.extensions.client.Comment c) {
+        private int side(AbstractComment c) {
           return firstNonNull(c.side, Side.REVISION).ordinal();
         }
       };

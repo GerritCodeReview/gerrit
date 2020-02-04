@@ -14,10 +14,10 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.AbstractComment;
 import java.util.Objects;
 
-public class HumanCommentInfo extends Comment {
+public class HumanCommentInfo extends AbstractComment {
   public AccountInfo author;
   public String tag;
   public String inReplyTo;

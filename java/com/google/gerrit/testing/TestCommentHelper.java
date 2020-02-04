@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
-import com.google.gerrit.extensions.client.Comment;
-import com.google.gerrit.extensions.client.Comment.Range;
+import com.google.gerrit.extensions.client.AbstractComment;
+import com.google.gerrit.extensions.client.AbstractComment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.HumanCommentInfo;
@@ -60,11 +60,12 @@ public class TestCommentHelper {
         .collect(toList());
   }
 
-  public static <C extends Comment> C populate(C c, String path, String message) {
+  public static <C extends AbstractComment> C populate(C c, String path, String message) {
     return populate(c, path, createLineRange(), message);
   }
 
-  private static <C extends Comment> C populate(C c, String path, Range range, String message) {
+  private static <C extends AbstractComment> C populate(
+      C c, String path, Range range, String message) {
     int line = range.startLine;
     c.path = path;
     c.side = Side.REVISION;
@@ -76,7 +77,7 @@ public class TestCommentHelper {
     return c;
   }
 
-  private static <C extends Comment> C populate(
+  private static <C extends AbstractComment> C populate(
       C c, String path, Side side, Range range, String message) {
     int line = range.startLine;
     c.path = path;
@@ -89,7 +90,7 @@ public class TestCommentHelper {
     return c;
   }
 
-  private static <C extends Comment> C populate(
+  private static <C extends AbstractComment> C populate(
       C c, String path, Side side, int line, String message) {
     return populate(c, path, side, createLineRange(line), message);
   }

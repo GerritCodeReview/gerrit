@@ -16,7 +16,7 @@ package com.google.gerrit.extensions.api.changes;
 
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.AbstractComment;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -86,7 +86,7 @@ public class ReviewInput {
     PUBLISH_ALL_REVISIONS
   }
 
-  public static class CommentInput extends Comment {}
+  public abstract static class CommentInput extends AbstractComment {}
 
   public static class HumanCommentInput extends CommentInput {
     public String inReplyTo;

@@ -20,21 +20,21 @@ import static com.google.common.truth.Truth.assertAbout;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.AbstractComment;
 
 public class RangeSubject extends Subject {
 
-  public static RangeSubject assertThat(Comment.Range range) {
+  public static RangeSubject assertThat(AbstractComment.Range range) {
     return assertAbout(ranges()).that(range);
   }
 
-  public static Subject.Factory<RangeSubject, Comment.Range> ranges() {
+  public static Subject.Factory<RangeSubject, AbstractComment.Range> ranges() {
     return RangeSubject::new;
   }
 
-  private final Comment.Range range;
+  private final AbstractComment.Range range;
 
-  private RangeSubject(FailureMetadata failureMetadata, Comment.Range range) {
+  private RangeSubject(FailureMetadata failureMetadata, AbstractComment.Range range) {
     super(failureMetadata, range);
     this.range = range;
   }

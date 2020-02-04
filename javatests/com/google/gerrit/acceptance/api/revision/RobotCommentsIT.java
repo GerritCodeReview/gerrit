@@ -31,7 +31,7 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.AbstractComment;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
@@ -1234,9 +1234,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     return newFixReplacementInfo;
   }
 
-  private static Comment.Range createRange(
+  private static AbstractComment.Range createRange(
       int startLine, int startCharacter, int endLine, int endCharacter) {
-    Comment.Range range = new Comment.Range();
+    AbstractComment.Range range = new AbstractComment.Range();
     range.startLine = startLine;
     range.startCharacter = startCharacter;
     range.endLine = endLine;

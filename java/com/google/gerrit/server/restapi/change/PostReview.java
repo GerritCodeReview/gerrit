@@ -63,7 +63,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
-import com.google.gerrit.extensions.client.Comment.Range;
+import com.google.gerrit.extensions.client.AbstractComment.Range;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;

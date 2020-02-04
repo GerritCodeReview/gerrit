@@ -27,7 +27,8 @@ import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.RobotComment;
-import com.google.gerrit.extensions.client.Comment.Range;
+import com.google.gerrit.extensions.client.AbstractComment;
+import com.google.gerrit.extensions.client.AbstractComment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -72,8 +73,7 @@ public class CommentJson {
     return new RobotCommentFormatter();
   }
 
-  private abstract class BaseCommentFormatter<
-      F extends Comment, T extends com.google.gerrit.extensions.client.Comment> {
+  private abstract class BaseCommentFormatter<F extends Comment, T extends AbstractComment> {
     public T format(F comment) throws PermissionBackendException {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
       T info = toInfo(comment, loader);
@@ -124,7 +124,7 @@ public class CommentJson {
 
     protected abstract T toInfo(F comment, AccountLoader loader);
 
-    protected void fillCommentInfo(Comment c, com.google.gerrit.extensions.client.Comment r) {
+    protected void fillCommentInfo(Comment c, AbstractComment r) {
       if (fillPatchSet) {
         r.patchSet = c.key.patchSetId;
       }

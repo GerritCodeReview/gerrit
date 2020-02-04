@@ -40,7 +40,7 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.AbstractComment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.HumanCommentInfo;
@@ -1214,7 +1214,7 @@ public class CommentsIT extends AbstractDaemonTest {
     return populate(d, path, side, null, line, message, false);
   }
 
-  private DraftInput newDraft(String path, Side side, Comment.Range range, String message) {
+  private DraftInput newDraft(String path, Side side, AbstractComment.Range range, String message) {
     DraftInput d = new DraftInput();
     return populate(d, path, side, null, range.startLine, range, message, false);
   }
@@ -1224,13 +1224,13 @@ public class CommentsIT extends AbstractDaemonTest {
     return populate(d, path, Side.PARENT, Integer.valueOf(parent), line, message, false);
   }
 
-  private static <C extends Comment> C populate(
+  private static <C extends AbstractComment> C populate(
       C c,
       String path,
       Side side,
       Integer parent,
       int line,
-      Comment.Range range,
+      AbstractComment.Range range,
       String message,
       Boolean unresolved) {
     c.path = path;
@@ -1245,13 +1245,13 @@ public class CommentsIT extends AbstractDaemonTest {
     return c;
   }
 
-  private static <C extends Comment> C populate(
+  private static <C extends AbstractComment> C populate(
       C c, String path, Side side, Integer parent, int line, String message, Boolean unresolved) {
     return populate(c, path, side, parent, line, null, message, unresolved);
   }
 
-  private static Comment.Range createLineRange(int line, int startChar, int endChar) {
-    Comment.Range range = new Comment.Range();
+  private static AbstractComment.Range createLineRange(int line, int startChar, int endChar) {
+    AbstractComment.Range range = new AbstractComment.Range();
     range.startLine = line;
     range.startCharacter = startChar;
     range.endLine = line;
@@ -1267,7 +1267,7 @@ public class CommentsIT extends AbstractDaemonTest {
     return infoToInput(path, DraftInput::new);
   }
 
-  private static <I extends Comment> Function<HumanCommentInfo, I> infoToInput(
+  private static <I extends AbstractComment> Function<HumanCommentInfo, I> infoToInput(
       String path, Supplier<I> supplier) {
     return info -> {
       I i = supplier.get();
@@ -1277,7 +1277,7 @@ public class CommentsIT extends AbstractDaemonTest {
     };
   }
 
-  private static void copy(Comment from, Comment to) {
+  private static void copy(AbstractComment from, AbstractComment to) {
     to.side = from.side == null ? Side.REVISION : from.side;
     to.parent = from.parent;
     to.line = from.line;

@@ -17,6 +17,7 @@ package com.google.gerrit.entities;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.AbstractComment;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Objects;
@@ -165,7 +166,7 @@ public class Comment {
       this(r.startLine, r.startChar, r.endLine, r.endChar);
     }
 
-    public Range(com.google.gerrit.extensions.client.Comment.Range r) {
+    public Range(AbstractComment.Range r) {
       this(r.startLine, r.startCharacter, r.endLine, r.endCharacter);
     }
 
@@ -267,8 +268,7 @@ public class Comment {
     this.unresolved = unresolved;
   }
 
-  public void setLineNbrAndRange(
-      Integer lineNbr, com.google.gerrit.extensions.client.Comment.Range range) {
+  public void setLineNbrAndRange(Integer lineNbr, AbstractComment.Range range) {
     this.lineNbr = lineNbr != null ? lineNbr : range != null ? range.endLine : 0;
     if (range != null) {
       this.range = new Comment.Range(range);

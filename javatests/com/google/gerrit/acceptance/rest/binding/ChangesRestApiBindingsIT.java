@@ -30,7 +30,7 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.AbstractComment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -480,9 +480,9 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
     RestApiCallHelper.execute(adminRestSession, CHANGE_EDIT_ENDPOINTS, changeId, FILENAME);
   }
 
-  private static Comment.Range createRange(
+  private static AbstractComment.Range createRange(
       int startLine, int startCharacter, int endLine, int endCharacter) {
-    Comment.Range range = new Comment.Range();
+    AbstractComment.Range range = new AbstractComment.Range();
     range.startLine = startLine;
     range.startCharacter = startCharacter;
     range.endLine = endLine;

@@ -37,7 +37,7 @@ import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.HumanCommentInput;
-import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.AbstractComment;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
@@ -2740,7 +2740,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   private static HumanCommentInput createCommentInput(
       int startLine, int startCharacter, int endLine, int endCharacter, String message) {
     HumanCommentInput comment = new HumanCommentInput();
-    comment.range = new Comment.Range();
+    comment.range = new AbstractComment.Range();
     comment.range.startLine = startLine;
     comment.range.startCharacter = startCharacter;
     comment.range.endLine = endLine;

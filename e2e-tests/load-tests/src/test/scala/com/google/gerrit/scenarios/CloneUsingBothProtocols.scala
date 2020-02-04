@@ -44,8 +44,8 @@ class CloneUsingBothProtocols extends Simulation {
 
   setUp(
     test.inject(
-      constantUsersPerSec(1) during (2 seconds))
-  ).protocols(protocol)
+      constantUsersPerSec(1) during (2 seconds)
+    )).protocols(protocol)
 
   after {
     Thread.sleep(5000)

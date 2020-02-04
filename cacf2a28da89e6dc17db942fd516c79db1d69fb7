@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4c6e7d31_9c2ddfdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-04T12:28:40Z",
+      "side": 1,
+      "message": "If topic is added then we already have a flow for prompting the user to reload the change.\nI don\u0027t know what you mean by topic changed. I don\u0027t think we can edit the topic currently.",
+      "parentUuid": "40c4e570_73c577aa",
+      "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34aca8da_363e0254",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1
@@ -56,6 +74,48 @@
       "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2e373bf_39d8724d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-04T12:28:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34aca8da_363e0254",
+      "range": {
+        "startLine": 395,
+        "startChar": 33,
+        "endLine": 395,
+        "endChar": 46
+      },
+      "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f05b2eb_b744f0eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-04T12:28:40Z",
+      "side": 1,
+      "message": "Comment removed by: Dhruv Srivastava; Reason: invalid comment",
+      "parentUuid": "b7bf5d90_fa7bb3f9",
+      "revId": "cacf2a28da89e6dc17db942fd516c79db1d69fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -22,6 +22,23 @@
       "revId": "2d9b76babb17e046f2a72cab98ffe0f7b0056bf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b146b57_77bf8323",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-04T13:27:15Z",
+      "side": 1,
+      "message": "Does this test have anything do with this change?\nI am not sure what this change is about.\nCan you update the commit message and link any relevant bugs?\nThanks",
+      "revId": "2d9b76babb17e046f2a72cab98ffe0f7b0056bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

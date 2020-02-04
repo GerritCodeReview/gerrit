@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a47aa0c9_8a1d6ad4",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T11:39:50Z",
+      "side": 1,
+      "message": "Testing",
+      "range": {
+        "startLine": 364,
+        "startChar": 13,
+        "endLine": 366,
+        "endChar": 16
+      },
+      "revId": "2d9b76babb17e046f2a72cab98ffe0f7b0056bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

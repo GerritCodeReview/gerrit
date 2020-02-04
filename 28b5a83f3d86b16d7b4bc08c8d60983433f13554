@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17a794cd_26ee8de1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-04T17:43:08Z",
+      "side": 1,
+      "message": "Preferably (for style) this should go like:\n\non-floating-height-changed\u003d\"_onChangeHeaderPanelHeightChanged\"\u003e",
+      "revId": "28b5a83f3d86b16d7b4bc08c8d60983433f13554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

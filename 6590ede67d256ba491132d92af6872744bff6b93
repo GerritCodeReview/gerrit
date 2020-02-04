@@ -22,6 +22,30 @@
       "revId": "6590ede67d256ba491132d92af6872744bff6b93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f76143_cd19f738",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-04T15:59:26Z",
+      "side": 1,
+      "message": "I could not find the canonical spec for label names, but I think they are not allowed to start with a dash.",
+      "parentUuid": "51addf67_2df567a0",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "6590ede67d256ba491132d92af6872744bff6b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

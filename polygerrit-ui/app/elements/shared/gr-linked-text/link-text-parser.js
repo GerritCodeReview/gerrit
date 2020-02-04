@@ -22,7 +22,7 @@
    *
    * @type {RegExp}
    */
-  const URL_PROTOCOL_PATTERN = /^(https?:\/\/|mailto:)/;
+  const URL_PROTOCOL_PATTERN = /^(.*)(https?:\/\/|mailto:)/;
 
   /**
    * Construct a parser for linkifying text. Will linkify plain URLs that appear
@@ -257,13 +257,22 @@
     // the source text does not include a protocol, the protocol will be added
     // by ba-linkify. Create the link if the href is provided and its protocol
     // matches the expected pattern.
-    if (href && URL_PROTOCOL_PATTERN.test(href)) {
-      this.addText(text, href);
-    } else {
-      // For the sections of text that lie between the links found by
-      // ba-linkify, we search for the project-config-specified link patterns.
-      this.parseLinks(text, this.linkConfig);
+    if (href) {
+      const result = URL_PROTOCOL_PATTERN.exec(href);
+      if (result) {
+        const prefixText = result[1];
+        if (prefixText.length > 0) {
+          this.parseLinks(prefixText, []);
+          text = text.substring(prefixText.length);
+          href = href.substring(prefixText.length);
+        }
+        this.addText(text, href);
+        return;
+      }
     }
+    // For the sections of text that lie between the links found by
+    // ba-linkify, we search for the project-config-specified link patterns.
+    this.parseLinks(text, this.linkConfig);
   };
 
   /**

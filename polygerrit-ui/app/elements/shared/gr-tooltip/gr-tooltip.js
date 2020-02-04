@@ -25,7 +25,9 @@
 
     static get properties() {
       return {
-        text: String,
+        text: {
+          type: String,
+        },
         maxWidth: {
           type: String,
           observer: '_updateWidth',
@@ -35,6 +37,11 @@
           reflectToAttribute: true,
         },
       };
+    }
+
+    renderMultilineTooltip(fragment) {
+      const output = Polymer.dom(this.$.multilinetooltip);
+      output.appendChild(fragment);
     }
 
     _updateWidth(maxWidth) {

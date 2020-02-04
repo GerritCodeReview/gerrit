@@ -43,6 +43,7 @@
       },
       _tooltip: Object,
       _titleText: String,
+      multilineFragment: Object,
       _hasSetupTooltipListeners: {
         type: Boolean,
         value: false,
@@ -64,19 +65,27 @@
     _handleShowTooltip(e) {
       if (this._isTouchDevice) { return; }
 
-      if (!this.hasAttribute('title') ||
-          this.getAttribute('title') === '' ||
+      const isOneLineTooltip = this.hasAttribute('title')
+        && this.getAttribute('title') !== '';
+      const isMultiLineTooltip = !!this.multilineFragment;
+
+      if ((!isOneLineTooltip && !isMultiLineTooltip) ||
           this._tooltip) {
         return;
       }
 
       // Store the title attribute text then set it to an empty string to
       // prevent it from showing natively.
-      this._titleText = this.getAttribute('title');
-      this.setAttribute('title', '');
+      if (isOneLineTooltip && !multilineFragment) {
+        this._titleText = this.getAttribute('title');
+        this.setAttribute('title', '');
+      }
 
       const tooltip = document.createElement('gr-tooltip');
-      tooltip.text = this._titleText;
+      if (isOneLineTooltip && !isMultiLineTooltip) {
+        tooltip.text = this._titleText;
+      }
+
       tooltip.maxWidth = this.getAttribute('max-width');
       tooltip.positionBelow = this.getAttribute('position-below');
 
@@ -87,6 +96,10 @@
       this._positionTooltip(tooltip);
       tooltip.style.visibility = null;
 
+      if (isMultiLineTooltip) {
+        tooltip.renderMultilineTooltip(this.multilineFragment);
+      }
+
       this._tooltip = tooltip;
       this.listen(window, 'scroll', '_handleWindowScroll');
       this.listen(this, 'mouseleave', '_handleHideTooltip');
@@ -95,8 +108,8 @@
 
     _handleHideTooltip(e) {
       if (this._isTouchDevice) { return; }
-      if (!this.hasAttribute('title') ||
-          this._titleText == null) {
+      if (!this.multilineFragment && (!this.hasAttribute('title') ||
+          this._titleText == null)) {
         return;
       }
 

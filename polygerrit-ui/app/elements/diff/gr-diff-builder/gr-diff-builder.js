@@ -572,16 +572,30 @@
     const isStartOfRange = commit.ranges.some(r => r.start === lineNum);
 
     const date = (new Date(commit.time * 1000)).toLocaleDateString();
-    const blameNode = this._createElement('span',
+    const blameNode = this._createElement('gr-label',
         isStartOfRange ? 'startOfRange' : '');
     const shaNode = this._createElement('span', 'sha');
-    shaNode.innerText = commit.id.substr(0, 7);
+    shaNode.innerText = `${date}`;
     shaNode.onclick = function() {
-      location.href = '/q/' + shaNode.innerText;
+      location.href = '/q/' + commit.id;
     };
 
     blameNode.appendChild(shaNode);
-    blameNode.append(` on ${date} by ${commit.author}`);
+
+    const shortName = commit.author.split(' ')[0];
+    const authorNode = this._createElement('span', 'author');
+    authorNode.innerText = ` ${shortName}`;
+    blameNode.appendChild(authorNode);
+
+    // set tooltip
+    const tooltipFragment = this._createElement('span');
+    tooltipFragment.innerText =
+    // eslint-disable-next-line max-len
+      `Commit ${commit.id}\nAuthor: ${commit.author}\nDate: ${date}\n\n${commit.commit_msg}`;
+    blameNode.multilineFragment = tooltipFragment;
+    blameNode.hasTooltip = true;
+    blameNode.positionBelow = true;
+
     return blameNode;
   };
 

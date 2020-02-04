@@ -89,6 +89,16 @@
           type: Boolean,
           value: false,
         },
+
+        /**
+         * The scrollTopMargin defines height of invisible area at the top
+         * of the page. If cursor locates inside this margin - it is
+         * not visible, because it is covered by some other element.
+         */
+        scrollTopMargin: {
+          type: Number,
+          value: 0,
+        },
       };
     }
 
@@ -304,13 +314,14 @@
     _targetIsVisible(top) {
       const dims = this._getWindowDims();
       return this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
-          top > dims.pageYOffset &&
+          top > (dims.pageYOffset + this.scrollTopMargin) &&
           top < dims.pageYOffset + dims.innerHeight;
     }
 
     _calculateScrollToValue(top, target) {
       const dims = this._getWindowDims();
-      return top - (dims.innerHeight / 3) + (target.offsetHeight / 2);
+      return top + this.scrollTopMargin - (dims.innerHeight / 3) +
+          (target.offsetHeight / 2);
     }
 
     _scrollToTarget() {

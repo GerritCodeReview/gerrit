@@ -140,6 +140,30 @@
       "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8d78a16_31d32d17",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-04T14:59:44Z",
+      "side": 1,
+      "message": "why ? and it still works if you need both messages as the message can be generated in the computed method so it can be what ever you want. And not sure what complexity it adds here ? and multiple template definite not good for scalability (i do know we need the message for submitting with commit msg only right ? so you will need three templates...)",
+      "parentUuid": "98431af1_74a6af52",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 21
+      },
+      "revId": "ac2263de74f31f9ab1f0b01cc1ef1079e2add609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

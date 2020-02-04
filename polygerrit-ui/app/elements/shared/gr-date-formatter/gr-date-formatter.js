@@ -27,8 +27,29 @@
     TIME_12_WITH_SEC: 'h:mm:ss A', // 2:14:00 PM
     TIME_24: 'HH:mm', // 14:14
     TIME_24_WITH_SEC: 'HH:mm:ss', // 14:14:00
-    MONTH_DAY: 'MMM DD', // Aug 29
-    MONTH_DAY_YEAR: 'MMM DD, YYYY', // Aug 29, 1997
+  };
+
+  const DateFormats = {
+    STD: {
+      short: 'MMM DD', // Aug 29
+      full: 'MMM DD, YYYY', // Aug 29, 1997
+    },
+    US: {
+      short: 'MM/DD', // 08/29
+      full: 'MM/DD/YY', // 08/29/97
+    },
+    ISO: {
+      short: 'MM-DD', // 08-29
+      full: 'YYYY-MM-DD', // 1997-08-29
+    },
+    EURO: {
+      short: 'DD. MMM', // 29. Aug
+      full: 'DD.MM.YYYY', // 29.08.1997
+    },
+    UK: {
+      short: 'DD/MM', // 29/08
+      full: 'DD/MM/YYYY', // 29/08/1997
+    },
   };
 
   Polymer({
@@ -57,9 +78,11 @@
       title: {
         type: String,
         reflectToAttribute: true,
-        computed: '_computeFullDateStr(dateStr, _timeFormat)',
+        computed: '_computeFullDateStr(dateStr, _timeFormat, _dateFormat)',
       },
 
+      /** @type {?{short: string, full: string}} */
+      _dateFormat: Object,
       _timeFormat: String, // No default value to prevent flickering.
       _relative: Boolean, // No default value to prevent flickering.
     },
@@ -80,6 +103,7 @@
       return this._getLoggedIn().then(loggedIn => {
         if (!loggedIn) {
           this._timeFormat = TimeFormats.TIME_24;
+          this._dateFormat = DateFormats.STD;
           this._relative = false;
           return;
         }
@@ -93,17 +117,45 @@
     _loadTimeFormat() {
       return this._getPreferences().then(preferences => {
         const timeFormat = preferences && preferences.time_format;
-        switch (timeFormat) {
-          case 'HHMM_12':
-            this._timeFormat = TimeFormats.TIME_12;
-            break;
-          case 'HHMM_24':
-            this._timeFormat = TimeFormats.TIME_24;
-            break;
-          default:
-            throw Error('Invalid time format: ' + timeFormat);
-        }
+        const dateFormat = preferences && preferences.date_format;
+        this._decideTimeFormat(timeFormat);
+        this._decideDateFormat(dateFormat);
       });
+    },
+
+    _decideTimeFormat(timeFormat) {
+      switch (timeFormat) {
+        case 'HHMM_12':
+          this._timeFormat = TimeFormats.TIME_12;
+          break;
+        case 'HHMM_24':
+          this._timeFormat = TimeFormats.TIME_24;
+          break;
+        default:
+          throw Error('Invalid time format: ' + timeFormat);
+      }
+    },
+
+    _decideDateFormat(dateFormat) {
+      switch (dateFormat) {
+        case 'STD':
+          this._dateFormat = DateFormats.STD;
+          break;
+        case 'US':
+          this._dateFormat = DateFormats.US;
+          break;
+        case 'ISO':
+          this._dateFormat = DateFormats.ISO;
+          break;
+        case 'EURO':
+          this._dateFormat = DateFormats.EURO;
+          break;
+        case 'UK':
+          this._dateFormat = DateFormats.UK;
+          break;
+        default:
+          throw Error('Invalid date format: ' + dateFormat);
+      }
     },
 
     _loadRelative() {
@@ -138,8 +190,10 @@
           diff < 180 * Duration.DAY;
     },
 
-    _computeDateStr(dateStr, timeFormat, relative, showDateAndTime) {
-      if (!dateStr) { return ''; }
+    _computeDateStr(
+        dateStr, timeFormat, dateFormat, relative, showDateAndTime
+    ) {
+      if (!dateStr || !timeFormat || !dateFormat) { return ''; }
       const date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
       if (relative) {
@@ -151,12 +205,12 @@
         }
       }
       const now = new Date();
-      let format = TimeFormats.MONTH_DAY_YEAR;
+      let format = dateFormat.full;
       if (this._isWithinDay(now, date)) {
         format = timeFormat;
       } else {
         if (this._isWithinHalfYear(now, date)) {
-          format = TimeFormats.MONTH_DAY;
+          format = dateFormat.short;
         }
         if (this.showDateAndTime) {
           format = `${format} ${timeFormat}`;
@@ -171,11 +225,12 @@
         TimeFormats.TIME_24_WITH_SEC;
     },
 
-    _computeFullDateStr(dateStr, timeFormat) {
+    _computeFullDateStr(dateStr, timeFormat, dateFormat) {
       // Polymer 2: check for undefined
       if ([
         dateStr,
         timeFormat,
+        dateFormat,
       ].some(arg => arg === undefined)) {
         return undefined;
       }
@@ -183,7 +238,7 @@
       if (!dateStr) { return ''; }
       const date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
-      let format = TimeFormats.MONTH_DAY_YEAR + ', ';
+      let format = dateFormat.full + ', ';
       format += this._timeToSecondsFormat(timeFormat);
       return date.format(format) + this._getUtcOffsetString();
     },

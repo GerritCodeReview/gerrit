@@ -193,6 +193,11 @@
           type: Object,
           value: () => new Set(),
         },
+
+        _scrollTopMargin: {
+          type: Number,
+          value: 0,
+        },
       };
     }
 
@@ -1162,6 +1167,10 @@
 
     _handleReloadingDiffPreference() {
       this._getDiffPreferences();
+    }
+
+    _onChangeHeaderPanelHeightChanged(e) {
+      this._scrollTopMargin = e.detail.value;
     }
   }
 

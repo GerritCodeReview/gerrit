@@ -96,6 +96,11 @@
         },
 
         _listeningForScroll: Boolean,
+
+        scrollTopMargin: {
+          type: Number,
+          value: 0,
+        },
       };
     }
 

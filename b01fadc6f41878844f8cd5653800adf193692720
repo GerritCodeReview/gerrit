@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "273f961d_112d8233",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-04T18:02:44Z",
+      "side": 1,
+      "message": "Please add some more details for what this is useful.",
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "311e5149_93e2f7fa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6099,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-04T18:02:44Z",
+      "side": 1,
+      "message": "Wrong anchor for AccountInput?",
+      "range": {
+        "startLine": 6099,
+        "startChar": 9,
+        "endLine": 6099,
+        "endChar": 20
+      },
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2982827_e38e2c84",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6100,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-04T18:02:44Z",
+      "side": 1,
+      "message": "At the moment, we don\u0027t have the concept of an \"author\" of a change. If the author of the commit of the change is meant, than we should write this here. It might also be helpful to point out how this relates to the owner of a change as I can imagine that people will try to use this field to set a different owner on creation.",
+      "range": {
+        "startLine": 6100,
+        "startChar": 14,
+        "endLine": 6100,
+        "endChar": 46
+      },
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c2b0ff4_b10bf954",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-04T18:02:44Z",
+      "side": 1,
+      "message": "This is a case in which not importing the class but instead referring to it via PermissionBackend.ForRef would be more readable as ForRef without any context doesn\u0027t mean anything.",
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1946d1b2_faa19dee",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-04T18:02:44Z",
+      "side": 1,
+      "message": "I\u0027m missing some test cases:\n1) Not setting input.author results in the current user being the author.\n2) Setting the input.author doesn\u0027t influence who\u0027s the owner of the change.\n3) Not specifying name or email is rejected as bad request.\n\nIs (1) already covered by existing tests? If not, can you please add it?\nPlease also add tests for (2) and (3).",
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76a2c629_03ef7368",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-04T18:02:44Z",
+      "side": 1,
+      "message": "We have a GitPersonSubject in our code base and hence could write Truth statements which generate nicer error messages here.",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 46
+      },
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

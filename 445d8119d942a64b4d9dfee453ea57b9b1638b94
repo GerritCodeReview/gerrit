@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "6cb85cee_6b54bf6b",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-04T08:47:55Z",
+      "side": 1,
+      "message": "nit: move these up before \u0027private static\u0027. The order is\n\npublic\npackage-private (no qualifier)\nprivate\n\nstatic before non-static",
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c658ebe5_2dc308d7",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-04T08:47:55Z",
+      "side": 1,
+      "message": "nit: ordering (package-private static before \u0027private static\u0027)",
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a266f9c_e5d3322f",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-04T08:47:55Z",
+      "side": 1,
+      "message": "Can this list be a public static member of the class so that we can reference it in ChangeIT when testing for index usage?\n\npublic static ImmutableSet\u003cListChangeOption\u003e...\n\nSame with the diff list below",
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8635f703_14231d93",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-04T08:47:55Z",
+      "side": 1,
+      "message": "This should go into ListOption which also holds the inverse method \"fromBits\". That class also has a test class that we can use to add a test for this method.",
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9354a46e_d8fc830a",
         "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
         "patchSetId": 8

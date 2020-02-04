@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4045921a_85a8cc67",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T21:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cb85cee_6b54bf6b",
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c658ebe5_2dc308d7",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "450becea_f0c8d8a9",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T21:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c658ebe5_2dc308d7",
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +129,30 @@
     },
     {
       "key": {
+        "uuid": "61cd9719_fd72b9d9",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T21:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9354a46e_d8fc830a",
+      "range": {
+        "startLine": 51,
+        "startChar": 11,
+        "endLine": 51,
+        "endChar": 27
+      },
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8ce92bb_4527a2c1",
         "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
         "patchSetId": 8
@@ -113,6 +173,30 @@
       "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ceec555_4c194a0e",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-04T21:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8ce92bb_4527a2c1",
+      "range": {
+        "startLine": 86,
+        "startChar": 32,
+        "endLine": 86,
+        "endChar": 105
+      },
+      "revId": "445d8119d942a64b4d9dfee453ea57b9b1638b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

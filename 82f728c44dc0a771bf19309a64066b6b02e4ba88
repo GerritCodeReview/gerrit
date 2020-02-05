@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "8d4bac92_8e43d103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T07:59:25Z",
+      "side": 1,
+      "message": "https://imgur.com/gQi4rrw\n\ndon\u0027t you think this is pretty annoying with the whitespace on the right when you hover on it...",
+      "parentUuid": "ce4e0380_ee0986bb",
+      "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cc68306_9bbd858b",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "210f72fa_e764f210",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:38:45Z",
+      "side": 1,
+      "message": "gr-change-view should not have to deal with the detailed messages of gr-thread-list. So this constant should be moved into gr-thread-list.js. If there is no way with the current properties to decide in gr-thread-list whether the component is about comments or findings, then maybe you can pass a boolean or enum property from gr-change-view to gr-thread-list.",
+      "revId": "15a366e54ff6f1c0f32c0b9900d2811d28303671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

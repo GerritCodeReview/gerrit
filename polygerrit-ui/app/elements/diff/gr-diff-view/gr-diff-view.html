@@ -138,12 +138,19 @@ limitations under the License.
         align-items: center;
         display: flex;
       }
-      .diffModeSelector {
+      .diffModeSelector,
+      .editButton {
         align-items: center;
         display: flex;
       }
+<<<<<<< HEAD   (edd57a Error Prone: Enable and fix OperatorPrecedence)
       .diffModeSelector span {
         margin-right: .2rem;
+=======
+      .diffModeSelector span,
+      .editButton span {
+        margin-right: var(--spacing-xs);
+>>>>>>> CHANGE (90dea3 Add "edit" button to diff view)
       }
       .diffModeSelector.hide,
       .separator.hide {
@@ -153,6 +160,9 @@ limitations under the License.
         --trigger-style: {
           text-transform: none;
         }
+      }
+      .editButtona a {
+        text-decoration: none;
       }
       @media screen and (max-width: 50em) {
         header {
@@ -282,9 +292,21 @@ limitations under the License.
             <gr-button
                 link
                 disabled="[[_isBlameLoading]]"
+<<<<<<< HEAD   (edd57a Error Prone: Enable and fix OperatorPrecedence)
                 on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
             <span class="separator"></span>
+=======
+                on-click="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
+>>>>>>> CHANGE (90dea3 Add "edit" button to diff view)
           </span>
+          <template is="dom-if" if="[[_computeIsLoggedIn(_loggedIn)]]">
+            <span class="editButton">
+              <a href$="[[_computeEditURL(_change, _patchRange, _path)]]">
+                <iron-icon icon="gr-icons:edit"></iron-icon>
+              </a>
+              <span class="separator"></span>
+            </span>
+          </template>
           <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
             <span>Diff view:</span>
             <gr-diff-mode-selector

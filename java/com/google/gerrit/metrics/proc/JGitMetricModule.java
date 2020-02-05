@@ -14,9 +14,14 @@
 
 package com.google.gerrit.metrics.proc;
 
+import com.google.common.base.Supplier;
+import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.eclipse.jgit.storage.file.WindowCacheStats;
 
 public class JGitMetricModule extends MetricModule {
@@ -28,12 +33,149 @@ public class JGitMetricModule extends MetricModule {
         new Description("Bytes of memory retained in JGit block cache.")
             .setGauge()
             .setUnit(Units.BYTES),
-        WindowCacheStats::getOpenBytes);
+        new Supplier<Long>() {
+          @Override
+          public Long get() {
+            return WindowCacheStats.getStats().getOpenByteCount();
+          }
+        });
 
     metrics.newCallbackMetric(
         "jgit/block_cache/open_files",
-        Integer.class,
+        Long.class,
         new Description("File handles held open by JGit block cache.").setGauge().setUnit("fds"),
-        WindowCacheStats::getOpenFiles);
+        new Supplier<Long>() {
+          @Override
+          public Long get() {
+            return WindowCacheStats.getStats().getOpenFileCount();
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "jgit/block_cache/avg_load_time",
+        Double.class,
+        new Description("Average time to load a cache entry for JGit block cache.")
+            .setGauge()
+            .setUnit(Units.NANOSECONDS),
+        new Supplier<Double>() {
+          @Override
+          public Double get() {
+            return WindowCacheStats.getStats().getAverageLoadTime();
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "jgit/block_cache/eviction_count",
+        Long.class,
+        new Description("Cache evictions for JGit block cache.").setGauge().setUnit(""),
+        new Supplier<Long>() {
+          @Override
+          public Long get() {
+            return WindowCacheStats.getStats().getEvictionCount();
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "jgit/block_cache/eviction_ratio",
+        Double.class,
+        new Description("Cache eviction ratio for JGit block cache.").setGauge().setUnit(""),
+        new Supplier<Double>() {
+          @Override
+          public Double get() {
+            return WindowCacheStats.getStats().getEvictionRatio();
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "jgit/block_cache/hit_count",
+        Long.class,
+        new Description("Cache hits for JGit block cache.").setGauge().setUnit(""),
+        new Supplier<Long>() {
+          @Override
+          public Long get() {
+            return WindowCacheStats.getStats().getHitCount();
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "jgit/block_cache/hit_ratio",
+        Double.class,
+        new Description("Cache hit ratio for JGit block cache.").setGauge().setUnit(""),
+        new Supplier<Double>() {
+          @Override
+          public Double get() {
+            return WindowCacheStats.getStats().getHitRatio();
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "jgit/block_cache/load_failure_count",
+        Long.class,
+        new Description("Failed cache loads for JGit block cache.").setGauge().setUnit(""),
+        new Supplier<Long>() {
+          @Override
+          public Long get() {
+            return WindowCacheStats.getStats().getLoadFailureCount();
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "jgit/block_cache/load_failure_ratio",
+        Double.class,
+        new Description("Failed cache load ratio for JGit block cache.").setGauge().setUnit(""),
+        new Supplier<Double>() {
+          @Override
+          public Double get() {
+            return WindowCacheStats.getStats().getLoadFailureRatio();
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "jgit/block_cache/load_success_count",
+        Long.class,
+        new Description("Successfull cache loads for JGit block cache.").setGauge().setUnit(""),
+        new Supplier<Long>() {
+          @Override
+          public Long get() {
+            return WindowCacheStats.getStats().getLoadSuccessCount();
+          }
+        });
+    metrics.newCallbackMetric(
+        "jgit/block_cache/miss_count",
+        Long.class,
+        new Description("Cache misses for JGit block cache.").setGauge().setUnit(""),
+        new Supplier<Long>() {
+          @Override
+          public Long get() {
+            return WindowCacheStats.getStats().getMissCount();
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "jgit/block_cache/miss_ratio",
+        Double.class,
+        new Description("Cache miss ratio for JGit block cache.").setGauge().setUnit(""),
+        WindowCacheStats.getStats()::getMissRatio);
+
+    CallbackMetric1<String, Long> repoEnt =
+        metrics.newCallbackMetric(
+            "XXX/jgit/block_cache/cache_used_per_repository",
+            Long.class,
+            new Description("Memory retained per repository in JGit block cache.")
+                .setGauge()
+                .setUnit("byte"),
+            Field.ofString("repository_name"));
+    metrics.newTrigger(
+        repoEnt,
+        () -> {
+          Map<String, Long> cacheMap = WindowCacheStats.getStats().getOpenByteCountPerRepository();
+          cacheMap.entrySet().stream()
+              .sorted(Entry.comparingByValue())
+              .forEach(
+                  e -> {
+                    repoEnt.set(e.getKey(), e.getValue());
+                  });
+          repoEnt.prune();
+        });
   }
 }

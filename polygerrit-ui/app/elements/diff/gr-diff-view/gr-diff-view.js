@@ -526,6 +526,14 @@
       return this._getDiffUrl(this._change, this._patchRange, newPath.path);
     },
 
+    _computeEditURL(change, patchRange, path) {
+      if ([change, patchRange, path].some(arg => arg === undefined)) {
+        return '';
+      }
+      return Gerrit.Nav.getEditUrlForDiff(
+          change, path, patchRange.patchNum);
+    },
+
     /**
      * Gives an object representing the target of navigating either left or
      * right through the change. The resulting object will have one of the
@@ -1086,6 +1094,10 @@
 
     _handleReloadingDiffPreference() {
       this._getDiffPreferences();
+    },
+
+    _computeIsLoggedIn(loggedIn) {
+      return loggedIn ? true : false;
     },
   });
 })();

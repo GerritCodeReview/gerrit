@@ -16,6 +16,24 @@
       "revId": "2dbe1453c8c19f1ed582a808abb07856a27a19a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81f68142_a25a666a",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-05T10:57:25Z",
+      "side": 1,
+      "message": "It get\u0027s called once when the server comes up, but at that point in time no repositories are yet in the WindowCache so the cacheMap is empty. Other than for the CacheMetrics this doesn\u0027t get called again later when scraping metrics via JMX or Prometheus.\n\nThe other option would be to use a CallbackMetric returning a Map. I have an implementation of that as well. This can be exposed via JMX reporter, but Prometheus reporter does not support this since Prometheus doesn\u0027t support complex types or collections as metrics. We could translate that into multiple metrics (one per repository) in the prometheus reporter and label each of them with the respective repository.\n\nNot sure what is the better approach.",
+      "parentUuid": "5d0ab324_bc39ba94",
+      "revId": "2dbe1453c8c19f1ed582a808abb07856a27a19a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

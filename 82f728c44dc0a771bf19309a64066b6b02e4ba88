@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0b47ad49_2ca29133",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T08:37:04Z",
+      "side": 1,
+      "message": "I made the gap a little bit bigger: https://imgur.com/a/Gu701Ol",
+      "parentUuid": "38071b07_45eb745b",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f8dca9f_d1ff67ab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -117,6 +141,24 @@
       "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87c11ff5_044f346e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T08:37:04Z",
+      "side": 1,
+      "message": "Fixed: https://imgur.com/a/Gu701Ol",
+      "parentUuid": "e02ba2ae_5a47ad1e",
+      "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

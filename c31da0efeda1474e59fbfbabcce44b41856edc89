@@ -16,6 +16,24 @@
       "revId": "c31da0efeda1474e59fbfbabcce44b41856edc89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba8fb925_d4ed3fe2",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-05T17:32:11Z",
+      "side": 1,
+      "message": "I was thinking the same thing (as we only want users who can execute this, being able to see this button).",
+      "parentUuid": "909ad6be_acfc1777",
+      "revId": "c31da0efeda1474e59fbfbabcce44b41856edc89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "774ed38e_1747f284",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T09:57:46Z",
+      "side": 1,
+      "message": "might out of this change\u0027s scope, but do we want to add this to change page (FILE_LIST) as well ?",
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83856b26_8466302e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T09:57:46Z",
+      "side": 1,
+      "message": "Do you need to clean up observers (disconnect) afterwards ?",
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

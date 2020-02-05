@@ -22,6 +22,30 @@
       "revId": "f9d665ad6b5588f0540d01c93ed75fc33f2ea8da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f0e19ba_ca175156",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-05T17:03:18Z",
+      "side": 1,
+      "message": "Ok, I will return it back. But now there is private static before static 😞",
+      "parentUuid": "5cdf424d_19126446",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 78
+      },
+      "revId": "f9d665ad6b5588f0540d01c93ed75fc33f2ea8da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -23,6 +23,9 @@
    * @event thread-list-modified
    * @extends Polymer.Element
    */
+  const NO_THREADS_MESSAGE = 'There are no inline comment threads on any diff '
+    + 'for this change.';
+
   class GrThreadList extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -61,6 +64,10 @@
         hideToggleButtons: {
           type: Boolean,
           value: false,
+        },
+        noThreadsMessage: {
+          type: String,
+          value: NO_THREADS_MESSAGE,
         },
       };
     }

@@ -68,6 +68,8 @@
   const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
   const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
+  const NO_ROBOT_COMMENTS_THREADS_MESSAGE = 'There are no findings for this ' +
+    'patchset.';
 
   /**
    * @appliesMixin Gerrit.FireMixin
@@ -326,6 +328,10 @@
         },
         _currentRobotCommentsPatchSet: {
           type: Number,
+        },
+        _noRobotCommentsThreadsMessage: {
+          type: String,
+          value: NO_ROBOT_COMMENTS_THREADS_MESSAGE,
         },
       };
     }

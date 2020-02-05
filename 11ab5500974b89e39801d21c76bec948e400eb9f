@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46e471b5_c1ff22aa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-05T17:05:37Z",
+      "side": 1,
+      "message": "Nit: I think if you are using .* you don\u0027t need ^. Maybe it could be just /(https?:\\/\\/|mailto:)/",
+      "range": {
+        "startLine": 25,
+        "startChar": 32,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "11ab5500974b89e39801d21c76bec948e400eb9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

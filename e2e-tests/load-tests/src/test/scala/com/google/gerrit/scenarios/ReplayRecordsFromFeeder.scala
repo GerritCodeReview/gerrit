@@ -14,29 +14,12 @@
 
 package com.google.gerrit.scenarios
 
-import java.io._
-
-import com.github.barbasa.gatling.git.protocol.GitProtocol
-import com.github.barbasa.gatling.git.request.builder.GitRequestBuilder
-import com.github.barbasa.gatling.git.{GatlingGitConfiguration, GitRequestSession}
 import io.gatling.core.Predef._
-import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
-import org.apache.commons.io.FileUtils
-import org.eclipse.jgit.hooks._
 
 import scala.concurrent.duration._
 
-class ReplayRecordsFromFeeder extends Simulation {
-
-  implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
-  implicit val postMessageHook: Option[String] = Some(s"hooks/${CommitMsgHook.NAME}")
-
-  private val name: String = this.getClass.getSimpleName
-  private val file = s"data/$name.json"
-  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(file).circular
-  private val request = new GitRequestBuilder(GitRequestSession("${cmd}", "${url}"))
-  private val protocol: GitProtocol = GitProtocol()
+class ReplayRecordsFromFeeder extends GitSimulation {
 
   private val test: ScenarioBuilder = scenario(name)
       .repeat(10000) {
@@ -53,16 +36,4 @@ class ReplayRecordsFromFeeder extends Simulation {
       constantUsersPerSec(20) during (15 seconds) randomized
     )).protocols(protocol)
       .maxDuration(60 seconds)
-
-  after {
-    Thread.sleep(5000)
-    val path = conf.tmpBasePath
-    try {
-      FileUtils.deleteDirectory(new File(path))
-    } catch {
-      case e: IOException =>
-        System.err.println("Unable to delete temporary directory " + path)
-        e.printStackTrace()
-    }
-  }
 }

@@ -577,6 +577,14 @@
       return this._getDiffUrl(this._change, this._patchRange, newPath.path);
     }
 
+    _computeEditURL(change, path) {
+      if ([change, path].some(arg => arg === undefined)) {
+        return '';
+      }
+      return Gerrit.Nav.getEditUrlForDiff(
+        change, path, this._patchRange.patchNum);
+    }
+
     /**
      * Gives an object representing the target of navigating either left or
      * right through the change. The resulting object will have one of the

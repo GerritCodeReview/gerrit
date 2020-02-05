@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "e02ba2ae_5a47ad1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-05T08:31:05Z",
+      "side": 1,
+      "message": "Ok, I haven\u0027t seen it with this long description in first row.",
+      "parentUuid": "8d4bac92_8e43d103",
+      "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cc68306_9bbd858b",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
         "patchSetId": 2

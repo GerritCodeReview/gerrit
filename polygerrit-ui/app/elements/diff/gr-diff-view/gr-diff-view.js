@@ -117,14 +117,24 @@
         // element for selected a file to view.
         _formattedFiles: {
           type: Array,
-          computed: '_formatFilesForDropdown(_fileList, ' +
+          computed: '_formatFilesForDropdown(_files, ' +
             '_patchRange.patchNum, _changeComments)',
         },
         // An sorted array of files, as returned by the rest API.
         _fileList: {
           type: Array,
-          value() { return []; },
+          computed: '_getSortedFileList(_files)',
         },
+        /**
+         * Contains information about files as returned by the rest API.
+         *
+         * @type {{ sortedFileList: Array<string>, changeFilesByPath: Object }}
+         */
+        _files: {
+          type: Object,
+          value() { return {sortedFileList: [], changeFilesByPath: {}}; },
+        },
+
         _path: {
           type: String,
           observer: '_pathChanged',
@@ -212,7 +222,7 @@
     static get observers() {
       return [
         '_getProjectConfig(_change.project)',
-        '_getFiles(_changeNum, _patchRange.*)',
+        '_getFiles(_changeNum, _patchRange.*, _changeComments)',
         '_setReviewedObserver(_loggedIn, params.*, _prefs)',
       ];
     }
@@ -292,23 +302,31 @@
       return this.$.restAPI.getChangeEdit(this._changeNum);
     }
 
-    _getFiles(changeNum, patchRangeRecord) {
+    _getSortedFileList(files) {
+      return files.sortedFileList;
+    }
+
+    _getFiles(changeNum, patchRangeRecord, changeComments) {
       // Polymer 2: check for undefined
-      if ([changeNum, patchRangeRecord, patchRangeRecord.base]
+      if ([changeNum, patchRangeRecord, patchRangeRecord.base, changeComments]
           .some(arg => arg === undefined)) {
         return;
       }
 
       const patchRange = patchRangeRecord.base;
-      return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
-          changeNum, patchRange).then(files => {
-        this._fileList = files;
-
-        // in case current file is not in changed files
-        // (file has no change but has comments)
-        if (this._path && !this._fileList.includes(this._path)) {
-          this._fileList.push(this._path);
-        }
+      return this.$.restAPI.getChangeFiles(
+          changeNum, patchRange).then(changeFiles => {
+        if (!changeFiles) return;
+        const commentedPaths = changeComments.getPaths(patchRange);
+        const files = Object.assign({}, changeFiles);
+        Object.keys(commentedPaths).forEach(commentedPath => {
+          if (files.hasOwnProperty(commentedPath)) { return; }
+          files[commentedPath] = {status: 'U'};
+        });
+        this._files = {
+          sortedFileList: Object.keys(files).sort(this.specialFilePathCompare),
+          changeFilesByPath: files,
+        };
       });
     }
 
@@ -844,31 +862,31 @@
       return this._getChangePath(change, patchRangeRecord.base, revisions);
     }
 
-    _formatFilesForDropdown(fileList, patchNum, changeComments) {
+    _formatFilesForDropdown(files, patchNum, changeComments) {
       // Polymer 2: check for undefined
       if ([
-        fileList,
+        files,
         patchNum,
         changeComments,
       ].some(arg => arg === undefined)) {
         return;
       }
 
-      if (!fileList) { return; }
+      if (!files) { return; }
       const dropdownContent = [];
-      for (const path of fileList) {
+      for (const path of files.sortedFileList) {
         dropdownContent.push({
           text: this.computeDisplayPath(path),
           mobileText: this.computeTruncatedPath(path),
           value: path,
           bottomText: this._computeCommentString(changeComments, patchNum,
-              path),
+              path, files.changeFilesByPath[path]),
         });
       }
       return dropdownContent;
     }
 
-    _computeCommentString(changeComments, patchNum, path) {
+    _computeCommentString(changeComments, patchNum, path, changeFileInfo) {
       const unresolvedCount = changeComments.computeUnresolvedNum(patchNum,
           path);
       const commentCount = changeComments.computeCommentCount(patchNum, path);
@@ -877,11 +895,13 @@
       const unresolvedString = GrCountStringFormatter.computeString(
           unresolvedCount, 'unresolved');
 
-      return commentString +
-          // Add a space if both comments and unresolved
-          (commentString && unresolvedString ? ', ' : '') +
-          // Add parentheses around unresolved if it exists.
-          (unresolvedString ? `${unresolvedString}` : '');
+      const unmodifiedString = changeFileInfo.status === 'U' ? 'no changes': '';
+
+      return [
+        unmodifiedString,
+        commentString,
+        unresolvedString]
+          .filter(v => v && v.length > 0).join(', ');
     }
 
     _computePrefsButtonHidden(prefs, prefsDisabled) {

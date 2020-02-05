@@ -46,6 +46,30 @@
       "revId": "c7f4abfddf1bf9a4cd94e1ac2777101b67f98c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40492126_8602178f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T13:04:32Z",
+      "side": 1,
+      "message": "i agree we won\u0027t be able to solve all or at least not worth the effort for now, but maybe please at least mention the known limitation in the code as a reference for the (future) readers.\n\nand its still not clear why its `[]` here, maybe worth noting it as well.",
+      "parentUuid": "4b27585d_6df93c61",
+      "range": {
+        "startLine": 265,
+        "startChar": 38,
+        "endLine": 265,
+        "endChar": 40
+      },
+      "revId": "c7f4abfddf1bf9a4cd94e1ac2777101b67f98c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

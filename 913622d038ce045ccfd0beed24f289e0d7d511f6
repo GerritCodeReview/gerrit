@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a66e5a2c_da0d5a15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-05T18:14:02Z",
+      "side": 1,
+      "message": "If this sentence is meant as a new paragraph, a blank line is missing above to separate it from the first sentence (above). Same applies for lines 12-13 below.",
+      "revId": "913622d038ce045ccfd0beed24f289e0d7d511f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3d573dc_144f56c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-05T18:14:02Z",
+      "side": 1,
+      "message": "Premature line wrap. For this and the comment above, please refer to [1] from our DoD.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#git-commit-settings",
+      "range": {
+        "startLine": 13,
+        "startChar": 35,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "913622d038ce045ccfd0beed24f289e0d7d511f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

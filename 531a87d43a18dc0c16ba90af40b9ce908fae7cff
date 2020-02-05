@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3df5d2e4_44a8577e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T10:10:17Z",
+      "side": 1,
+      "message": "don\u0027t we have `--line-height-mono` for this ?",
+      "range": {
+        "startLine": 195,
+        "startChar": 21,
+        "endLine": 195,
+        "endChar": 25
+      },
+      "revId": "531a87d43a18dc0c16ba90af40b9ce908fae7cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

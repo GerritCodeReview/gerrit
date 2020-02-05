@@ -24,6 +24,7 @@ import dk.brics.automaton.RegExp;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.Repository;
 
 public class RefPattern {
@@ -72,6 +73,9 @@ public class RefPattern {
   public static RegExp toRegExp(String refPattern) {
     if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);
+      String[] keys = {"$", "{", "}"};
+      String[] values = {"\\$", "\\{", "\\}"};
+      refPattern = StringUtils.replaceEach(refPattern, keys, values);
     }
     return new RegExp(refPattern, RegExp.NONE);
   }

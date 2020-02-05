@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deef5d14_7d3c8647",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T09:49:38Z",
+      "side": 1,
+      "message": "why empty here ? is it possible that prefixText contains something recognizable ?\n\nand what about multiple links ? will it process something like following correctly ?\n\n`x http://a.com,mailto:test@google.com y` ?",
+      "range": {
+        "startLine": 265,
+        "startChar": 38,
+        "endLine": 265,
+        "endChar": 40
+      },
+      "revId": "c7f4abfddf1bf9a4cd94e1ac2777101b67f98c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

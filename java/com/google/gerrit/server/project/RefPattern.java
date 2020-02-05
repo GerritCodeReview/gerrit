@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import org.apache.commons.lang.StringUtils;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -72,6 +73,9 @@ public class RefPattern {
   public static RegExp toRegExp(String refPattern) {
     if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);
+      String[] keys = { "$", "{", "}" };
+      String[] values = { "\\$", "\\{", "\\}" };
+      refPattern = StringUtils.replaceEach( refPattern, keys, values );
     }
     return new RegExp(refPattern, RegExp.NONE);
   }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "efaa4c4a_cd868a9a",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T12:16:20Z",
+      "side": 1,
+      "message": "Change view itself is not very friendly for keyboard navigation. For example, if checks tab is active the keyboard navigation still change file list.\nDon\u0027t want to add more possible problems to this view.",
+      "parentUuid": "774ed38e_1747f284",
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83856b26_8466302e",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c986f371_65b859fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T12:16:20Z",
+      "side": 1,
+      "message": "No. In line 161 there is a call to unobserve entry.\nAt the end, all entries are removed from observer, so it is not needed to call disconnect",
+      "parentUuid": "83856b26_8466302e",
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

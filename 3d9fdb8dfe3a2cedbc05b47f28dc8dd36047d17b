@@ -16,6 +16,24 @@
       "revId": "3d9fdb8dfe3a2cedbc05b47f28dc8dd36047d17b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9244b420_5ec2c4c4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3240,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-05T10:31:57Z",
+      "side": 0,
+      "message": "Actually there shouldn\u0027t have been any diff in this file at all.\n\nIt hasn\u0027t been removed, it just got accidentally moved down lower in the file during the merge conflict resolution. You\u0027ll see that it\u0027s there in another place if you diff against parent 1 instead of auto-merge.",
+      "parentUuid": "220b94ac_71f41610",
+      "revId": "3d9fdb8dfe3a2cedbc05b47f28dc8dd36047d17b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

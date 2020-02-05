@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "02944dfd_dd8df9c0",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T15:08:26Z",
+      "side": 1,
+      "message": "\u003e Don\u0027t know. Just copied from username API. :-)\n\u003e \n\u003e What do you suggest?\n\nReturn \"\" when it\u0027s not set, and 404 when the user doesn\u0027t exist.\n \n\u003e Patrick mentioned that maybe we should actually just drop the GET API and just have a PUT API. Returning the display name in the change details should be good enough. WDYT?\n\nI also wondered whether this warrants dedicated API endpoints, but I don\u0027t know how it\u0027s used in the FE. Is there another endpoint that is always called when the display name is needed and where it would fit naturally in the response?\n\nI was also thinking if we can avoid the PUT endpoint and set it in the same endpoint that we use to set the other user fields, but then I realized that there is no single such endpoint. Why is that? Wouldn\u0027t this lend itself to a more compact API given that such updates are rare and a certain complexity overhead of the endpoint itself would be outweighed by the reduction in overall API complexity?",
+      "parentUuid": "83429e92_9a310277",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dcf9edf_42fcfd20",
         "filename": "java/com/google/gerrit/extensions/api/accounts/DisplayNameInput.java",
         "patchSetId": 3

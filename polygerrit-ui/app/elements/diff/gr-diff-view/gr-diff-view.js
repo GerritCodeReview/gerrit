@@ -570,11 +570,11 @@
 
       if (newPath.up) {
         return this._getChangePath(
-            this._change,
+            change,
             this._patchRange,
-            this._change && this._change.revisions);
+            change && change.revisions);
       }
-      return this._getDiffUrl(this._change, this._patchRange, newPath.path);
+      return this._getDiffUrl(change, this._patchRange, newPath.path);
     }
 
     /**

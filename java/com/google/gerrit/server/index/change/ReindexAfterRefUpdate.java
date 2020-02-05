@@ -87,11 +87,14 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
 
   @Override
   public void onGitReferenceUpdated(Event event) {
-    if (allUsersName.get().equals(event.getProjectName())) {
+    if (allUsersName.get().equals(event.getProjectName())
+        && !RefNames.REFS_CONFIG.equals(event.getRefName())) {
       Account.Id accountId = Account.Id.fromRef(event.getRefName());
       if (accountId != null && !event.getRefName().startsWith(RefNames.REFS_STARRED_CHANGES)) {
         indexer.get().index(accountId);
       }
+      // The update is in All-Users and not on refs/meta/config. So it's not a change. Return early.
+      return;
     }
 
     if (!enabled

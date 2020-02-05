@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "220b94ac_71f41610",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3240,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-05T10:28:25Z",
+      "side": 0,
+      "message": "Why has this test been removed?",
+      "revId": "3d9fdb8dfe3a2cedbc05b47f28dc8dd36047d17b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

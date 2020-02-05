@@ -16,6 +16,24 @@
       "revId": "9dae035d100480114a01b6e086b530580d381872",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34091cd8_08af1594",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-05T07:07:55Z",
+      "side": 1,
+      "message": "I added it to bug for next warning.",
+      "parentUuid": "43eecb14_c0cb31c2",
+      "revId": "9dae035d100480114a01b6e086b530580d381872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

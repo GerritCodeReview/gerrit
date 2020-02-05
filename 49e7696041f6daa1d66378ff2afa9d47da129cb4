@@ -116,6 +116,24 @@
       "revId": "49e7696041f6daa1d66378ff2afa9d47da129cb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42b6a14c_3a910a9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-05T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd770c6c_d850b5b4",
+      "revId": "49e7696041f6daa1d66378ff2afa9d47da129cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

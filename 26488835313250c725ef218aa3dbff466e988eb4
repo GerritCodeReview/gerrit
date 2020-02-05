@@ -33,6 +33,24 @@
       "revId": "26488835313250c725ef218aa3dbff466e988eb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59ccd941_103c5b0f",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T09:06:31Z",
+      "side": 1,
+      "message": "Oh, it is just nicer for debugging, if placeholders have 1px height instead of 0px. Then you can see something on the screen.",
+      "parentUuid": "97921445_e6dd7001",
+      "revId": "26488835313250c725ef218aa3dbff466e988eb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

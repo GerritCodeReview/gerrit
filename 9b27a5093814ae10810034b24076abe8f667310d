@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "4a1fb583_96584105",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T07:24:17Z",
+      "side": 1,
+      "message": "so i tried locally, and it won\u0027t disappear if you hover on the card so it will allow some basic interactions with it. and gr-formatted-text can work but to allow it recognize the change id as a link, it will need project config. so may not worth to do so. And also as gr-diff-builder is a shared component, maybe less complexity actually works better for that.",
+      "parentUuid": "8bbcd277_e29488cb",
+      "range": {
+        "startLine": 599,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 20
+      },
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb655247_3ff2f96f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 3

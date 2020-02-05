@@ -126,7 +126,9 @@ limitations under the License.
       <gr-main-header
           id="mainHeader"
           search-query="{{params.query}}"
-          on-mobile-search="_mobileSearchToggle">
+          on-mobile-search="_mobileSearchToggle"
+          login-url="[[_loginUrl]]"
+      >
       </gr-main-header>
     </gr-fixed-panel>
     <main>
@@ -222,7 +224,7 @@ limitations under the License.
       </gr-registration-dialog>
     </gr-overlay>
     <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
-    <gr-error-manager id="errorManager"></gr-error-manager>
+    <gr-error-manager id="errorManager" login-url="[[_loginUrl]]"></gr-error-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>
     <gr-router id="router"></gr-router>

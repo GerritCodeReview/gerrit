@@ -62,6 +62,11 @@
           type: Number,
           value() { return Date.now(); },
         },
+
+        loginUrl: {
+          type: String,
+          value: '/login',
+        },
       };
     }
 
@@ -139,20 +144,55 @@
           this._authService.clearCache();
           this.$.restAPI.getLoggedIn();
         } else if (!this._shouldSuppressError(errorText)) {
-          this._showErrorDialog(this._constructServerErrorMsg({
-            status,
-            statusText,
-            errorText,
-            url,
-            trace: response.headers && response.headers.get('X-Gerrit-Trace'),
-          }));
+          const trace =
+              response.headers && response.headers.get('X-Gerrit-Trace');
+          if (response.status === 404) {
+            this._showNotFoundMessageWithTip({
+              status,
+              statusText,
+              errorText,
+              url,
+              trace,
+            });
+          } else {
+            this._showErrorDialog(this._constructServerErrorMsg({
+              status,
+              statusText,
+              errorText,
+              url,
+              trace,
+            }));
+          }
         }
         console.log(`server error: ${errorText}`);
       });
     }
 
-    _constructServerErrorMsg({errorText, status, statusText, url, trace}) {
-      let err = `Error ${status}`;
+    _showNotFoundMessageWithTip({status, statusText, errorText, url, trace}) {
+      this.$.restAPI.getLoggedIn().then(isLoggedIn => {
+        const tip = isLoggedIn ?
+          'You might have not enough privileges.' :
+          'You might have not enough privileges. Sign in and try again.';
+        this._showErrorDialog(this._constructServerErrorMsg({
+          status,
+          statusText,
+          errorText,
+          url,
+          trace,
+          tip,
+        }), {
+          showSignInButton: !isLoggedIn,
+        });
+      });
+      return;
+    }
+
+    _constructServerErrorMsg({errorText, status, statusText, url, trace, tip}) {
+      let err = '';
+      if (tip) {
+        err += `${tip}\n\n`;
+      }
+      err += `Error ${status}`;
       if (statusText) { err += ` (${statusText})`; }
       if (errorText || url) { err += ': '; }
       if (errorText) { err += errorText; }
@@ -344,9 +384,11 @@
       this.$.errorOverlay.close();
     }
 
-    _showErrorDialog(message) {
+    _showErrorDialog(message, opt_options) {
       this.$.reporting.reportErrorDialog(message);
       this.$.errorDialog.text = message;
+      this.$.errorDialog.showSignInButton =
+          opt_options && opt_options.showSignInButton;
       this.$.errorOverlay.open();
     }
   }

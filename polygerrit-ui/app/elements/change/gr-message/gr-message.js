@@ -17,8 +17,8 @@
 (function() {
   'use strict';
 
-  const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
-  const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
+  const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+:\s*(.*)/;
+  const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?$/;
 
   /**
    * @appliesMixin Gerrit.FireMixin
@@ -99,11 +99,13 @@
         },
         _messageContentExpanded: {
           type: String,
-          computed: '_computeMessageContentExpanded(message.message)',
+          computed:
+              '_computeMessageContentExpanded(message.message, message.tag)',
         },
         _messageContentCollapsed: {
           type: String,
-          computed: '_computeMessageContentCollapsed(message.message)',
+          computed:
+              '_computeMessageContentCollapsed(message.message, message.tag)',
         },
         _commentCountText: {
           type: Number,
@@ -166,29 +168,54 @@
       }
     }
 
-    _computeMessageContentExpanded(content) {
-      return this._computeMessageContent(content, true);
+    _computeMessageContentExpanded(content, tag) {
+      return this._computeMessageContent(content, tag, true);
     }
 
-    _computeMessageContentCollapsed(content) {
-      return this._computeMessageContent(content, false);
+    _computeMessageContentCollapsed(content, tag) {
+      return this._computeMessageContent(content, tag, false);
     }
 
-    _computeMessageContent(content, isExpanded) {
-      if (!content) return '';
+    _computeMessageContent(content, tag, isExpanded) {
+      content = content || '';
+      tag = tag || '';
+      const isNewPatchSet = tag.endsWith(':newPatchSet') ||
+          tag.endsWith(':newWipPatchSet');
       const lines = content.split('\n');
       const filteredLines = lines.filter(line => {
-        if (!isExpanded && line.startsWith('>')) return false;
-        if (line.startsWith('Patch Set ')) return false;
-        if (line.startsWith('(') && line.endsWith(' comment)')) return false;
-        if (line.startsWith('(') && line.endsWith(' comments)')) return false;
+        if (!isExpanded && line.startsWith('>')) {
+          return false;
+        }
+        if (line.startsWith('(') && line.endsWith(' comment)')) {
+          return false;
+        }
+        if (line.startsWith('(') && line.endsWith(' comments)')) {
+          return false;
+        }
+        if (!isNewPatchSet && line.match(PATCH_SET_PREFIX_PATTERN)) {
+          return false;
+        }
         return true;
       });
-      return filteredLines.join('\n').trim();
+      const mappedLines = filteredLines.map(line => {
+        // The change message formatting is not very consistent, so
+        // unfortunately we have to do a bit of tweaking here:
+        //   Labels should be stripped from lines like this:
+        //     Patch Set 29: Verified+1
+        //   Rebase messages (which have a ':newPatchSet' tag) should be kept on
+        //   lines like this:
+        //     Patch Set 27: Patch Set 26 was rebased
+        if (isNewPatchSet) {
+          line = line.replace(PATCH_SET_PREFIX_PATTERN, '$1');
+        }
+        return line;
+      });
+      return mappedLines.join('\n').trim();
     }
 
-    _isMessageContentEmpty(content) {
-      return this._computeMessageContent(content).trim().length === 0;
+    _isMessageContentEmpty() {
+      return !this._messageContentExpanded
+          || this._messageContentExpanded.length === 0;
     }
 
     _computeAuthor(message) {
@@ -247,23 +274,37 @@
       return event.type === 'REVIEWER_UPDATE';
     }
 
-    _getScores(message) {
-      if (!message.message) { return []; }
+    _getScores(message, labelExtremes) {
+      if (!message || !message.message || !labelExtremes) {
+        return [];
+      }
       const line = message.message.split('\n', 1)[0];
       const patchSetPrefix = PATCH_SET_PREFIX_PATTERN;
-      if (!line.match(patchSetPrefix)) { return []; }
+      if (!line.match(patchSetPrefix)) {
+        return [];
+      }
       const scoresRaw = line.split(patchSetPrefix)[1];
-      if (!scoresRaw) { return []; }
+      if (!scoresRaw) {
+        return [];
+      }
       return scoresRaw.split(' ')
           .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
-          .filter(ms => ms && ms.length === 3)
-          .map(ms => { return {label: ms[1], value: ms[2]}; });
+          .filter(ms =>
+            ms && ms.length === 4 && labelExtremes.hasOwnProperty(ms[2]))
+          .map(ms => {
+            const label = ms[2];
+            const value = ms[1] === '-' ? 'removed' : ms[3];
+            return {label, value};
+          });
     }
 
     _computeScoreClass(score, labelExtremes) {
       // Polymer 2: check for undefined
       if ([score, labelExtremes].some(arg => arg === undefined)) {
         return '';
+      }
+      if (score.value === 'removed') {
+        return 'removed';
       }
       const classes = [];
       if (score.value > 0) {

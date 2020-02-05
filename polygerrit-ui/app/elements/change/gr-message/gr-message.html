@@ -156,6 +156,9 @@ limitations under the License.
       .commentsIcon {
         vertical-align: top;
       }
+      .score.removed {
+        background-color: var(--vote-color-neutral);
+      }
       .score.negative {
         background-color: var(--vote-color-disliked);
       }
@@ -195,7 +198,7 @@ limitations under the License.
             on behalf of
           </span>
           <gr-account-label account="[[author]]" class="authorLabel"></gr-account-label>
-          <template is="dom-repeat" items="[[_getScores(message)]]" as="score">
+          <template is="dom-repeat" items="[[_getScores(message, labelExtremes)]]" as="score">
             <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
               [[score.label]] [[score.value]]
             </span>
@@ -215,7 +218,7 @@ limitations under the License.
                 class="message hideOnCollapsed"
                 content="[[_messageContentExpanded]]"
                 config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
-            <template is="dom-if" if="[[!_isMessageContentEmpty(message.message)]]">
+            <template is="dom-if" if="[[!_isMessageContentEmpty()]]">
               <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
                 <gr-button link small on-click="_handleReplyTap">Reply</gr-button>
               </div>

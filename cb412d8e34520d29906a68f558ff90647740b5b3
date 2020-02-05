@@ -45,6 +45,54 @@
       "revId": "cb412d8e34520d29906a68f558ff90647740b5b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c2785ab_3c9348ab",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-05T00:37:29Z",
+      "side": 1,
+      "message": "getOpenFileCount()\n\nDone",
+      "parentUuid": "284d8ba1_058af904",
+      "range": {
+        "startLine": 37,
+        "startChar": 64,
+        "endLine": 37,
+        "endChar": 80
+      },
+      "revId": "cb412d8e34520d29906a68f558ff90647740b5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd280a83_d6c013dd",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-05T00:37:29Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure if I should change the type, but OK, done.",
+      "parentUuid": "ce2a2785_810a32ea",
+      "range": {
+        "startLine": 37,
+        "startChar": 14,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "cb412d8e34520d29906a68f558ff90647740b5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

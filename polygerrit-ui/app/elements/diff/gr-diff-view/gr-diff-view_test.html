@@ -375,6 +375,12 @@ limitations under the License.
             PARENT), 'Should navigate to /c/42/1');
       });
 
+      test('_computeEditURL uses Gerrit.Nav', () => {
+        const getUrlStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
+        element._computeEditURL(123, {patchNum: undefined}, 'abc/def');
+        assert.isTrue(getUrlStub.called);
+      });
+
       suite('diff prefs hidden', () => {
         test('when no prefs or logged out', () => {
           element.disableDiffPrefs = false;

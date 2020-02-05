@@ -14,59 +14,55 @@
 
 package com.google.gerrit.scenarios
 
-import com.github.barbasa.gatling.git.protocol.GitProtocol
-import com.github.barbasa.gatling.git.request.builder.GitRequestBuilder
-import io.gatling.core.Predef._
-import io.gatling.core.structure.ScenarioBuilder
 import java.io._
 
-import com.github.barbasa.gatling.git.{
-  GatlingGitConfiguration,
-  GitRequestSession
-}
+import com.github.barbasa.gatling.git.protocol.GitProtocol
+import com.github.barbasa.gatling.git.request.builder.GitRequestBuilder
+import com.github.barbasa.gatling.git.{GatlingGitConfiguration, GitRequestSession}
+import io.gatling.core.Predef._
+import io.gatling.core.feeder.FileBasedFeederBuilder
+import io.gatling.core.structure.ScenarioBuilder
 import org.apache.commons.io.FileUtils
-
-import scala.concurrent.duration._
 import org.eclipse.jgit.hooks._
 
-class ReplayRecordsFromFeederScenario extends Simulation {
+import scala.concurrent.duration._
 
-  val gitProtocol = GitProtocol()
-  implicit val conf = GatlingGitConfiguration()
-  implicit val postMessageHook: Option[String] = Some(
-    s"hooks/${CommitMsgHook.NAME}")
+class ReplayRecordsFromFeeder extends Simulation {
 
-  val feeder = jsonFile("data/requests.json").circular
+  implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
+  implicit val postMessageHook: Option[String] = Some(s"hooks/${CommitMsgHook.NAME}")
 
-  val replayCallsScenario: ScenarioBuilder =
-    scenario("Git commands")
+  private val name: String = this.getClass.getSimpleName
+  private val file = s"data/$name.json"
+  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(file).circular
+  private val request = new GitRequestBuilder(GitRequestSession("${cmd}", "${url}"))
+  private val protocol: GitProtocol = GitProtocol()
+
+  private val test: ScenarioBuilder = scenario(name)
       .repeat(10000) {
-        feed(feeder)
-          .exec(new GitRequestBuilder(GitRequestSession("${cmd}", "${url}")))
+        feed(data)
+            .exec(request)
       }
 
   setUp(
-    replayCallsScenario.inject(
+    test.inject(
       nothingFor(4 seconds),
       atOnceUsers(10),
       rampUsers(10) during (5 seconds),
       constantUsersPerSec(20) during (15 seconds),
       constantUsersPerSec(20) during (15 seconds) randomized
-    ))
-    .protocols(gitProtocol)
-    .maxDuration(60 seconds)
+    )).protocols(protocol)
+      .maxDuration(60 seconds)
 
   after {
+    Thread.sleep(5000)
+    val path = conf.tmpBasePath
     try {
-      //After is often called too early. Some retries should be implemented.
-      Thread.sleep(5000)
-      FileUtils.deleteDirectory(new File(conf.tmpBasePath))
+      FileUtils.deleteDirectory(new File(path))
     } catch {
-      case e: IOException => {
-        System.err.println(
-          "Unable to delete temporary directory: " + conf.tmpBasePath)
-        e.printStackTrace
-      }
+      case e: IOException =>
+        System.err.println("Unable to delete temporary directory " + path)
+        e.printStackTrace()
     }
   }
 }

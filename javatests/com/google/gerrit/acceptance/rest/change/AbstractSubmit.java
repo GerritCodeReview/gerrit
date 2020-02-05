@@ -57,7 +57,6 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -645,14 +644,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     //  |
     // C0 -- Master
     //
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .getProject()
-          .setBooleanConfig(
-              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
-              InheritableBoolean.TRUE);
-      u.save();
-    }
+    enableCreateNewChangeForAllNotInTarget();
 
     PushOneCommit push1 =
         pushFactory.create(admin.newIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");

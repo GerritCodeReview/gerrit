@@ -16,12 +16,15 @@ limitations under the License.
 -->
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
+
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-confirm-submit-dialog">
@@ -32,6 +35,11 @@ limitations under the License.
       }
       p {
         margin-bottom: var(--spacing-l);
+      }
+      .warningBeforeSubmit {
+        color: var(--error-text-color);
+        vertical-align: top;
+        margin-right: var(--spacing-s);
       }
       @media screen and (max-width: 50em) {
         #dialog {
@@ -53,7 +61,17 @@ limitations under the License.
         <gr-endpoint-decorator name="confirm-submit-change">
           <p>Ready to submit &ldquo;<strong>[[change.subject]]</strong>&rdquo;?</p>
           <template is="dom-if" if="[[change.is_private]]">
-            <p><strong>Heads Up!</strong> Submitting this private change will also make it public.</p>
+            <p>
+              <iron-icon icon="gr-icons:error" class="warningBeforeSubmit"></iron-icon>
+              <strong>Heads Up!</strong>
+              Submitting this private change will also make it public.
+            </p>
+          </template>
+          <template is="dom-if" if="[[change.unresolved_comment_count]]">
+            <p>
+              <iron-icon icon="gr-icons:error" class="warningBeforeSubmit"></iron-icon>
+              [[_computeUnresolvedCommentsWarning(change)]]
+            </p>
           </template>
           <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
           <gr-endpoint-param name="action" value="[[action]]"></gr-endpoint-param>

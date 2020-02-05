@@ -57,6 +57,12 @@
       this.$.dialog.resetFocus();
     }
 
+    _computeUnresolvedCommentsWarning(change) {
+      const unresolvedCount = change.unresolved_comment_count;
+      const plural = unresolvedCount > 1 ? 's' : '';
+      return `Heads Up! ${unresolvedCount} unresolved comment${plural}.`;
+    }
+
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();

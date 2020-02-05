@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9e6df34_2dfdbc5d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-05T17:07:13Z",
+      "side": 1,
+      "message": "nit: string could be on second line and then they don\u0027t to be concatenated",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 16
+      },
+      "revId": "1c2e745f19ead68bc24354db219fd8b689836962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

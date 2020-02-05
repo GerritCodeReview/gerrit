@@ -141,7 +141,7 @@
         _robotCommentThreads: {
           type: Array,
           computed: '_computeRobotCommentThreads(_commentThreads,'
-            + ' _selectedRevision)',
+            + ' _currentRobotCommentsPatchSet)',
         },
         /** @type {?} */
         _serverConfig: {
@@ -181,6 +181,7 @@
           type: Object,
           computed: '_computeCurrentRevision(_change.current_revision, ' +
             '_change.revisions)',
+          observer: '_handleCurrentRevisionUpdate',
         },
         _files: Object,
         _changeNum: String,
@@ -317,6 +318,14 @@
         },
         _selectedFilesTabPluginEndpoint: {
           type: String,
+        },
+        _robotCommentsPatchSetDropdownItems: {
+          type: Array,
+          value() { return []; },
+          computed: '_computeRobotCommentsPatchSetDropdownItems(_change)',
+        },
+        _currentRobotCommentsPatchSet: {
+          type: Number,
         },
       };
     }
@@ -584,12 +593,35 @@
       return false;
     }
 
-    _computeRobotCommentThreads(commentThreads, selectedRevision) {
-      if (!commentThreads || !selectedRevision) return [];
+    _computeRobotCommentsPatchSetDropdownItems(change) {
+      if (!change.revisions) return [];
+      return Object.values(change.revisions)
+          .filter(patch => patch._number !== 'edit')
+          .map(patch => {
+            return {
+              text: 'Patchset ' + patch._number,
+              value: patch._number,
+            };
+          })
+          .sort((a, b) => b.value - a.value);
+    }
+
+    _handleCurrentRevisionUpdate(currentRevision) {
+      this._currentRobotCommentsPatchSet = currentRevision._number;
+    }
+
+    _handleRobotCommentPatchSetChanged(e) {
+      const patchSet = parseInt(e.detail.value);
+      if (patchSet === this._currentRobotCommentsPatchSet) return;
+      this._currentRobotCommentsPatchSet = patchSet;
+    }
+
+    _computeRobotCommentThreads(commentThreads, currentRobotCommentsPatchSet) {
+      if (!commentThreads || !currentRobotCommentsPatchSet) return [];
       return commentThreads.filter(thread => {
         const comments = thread.comments || [];
         return comments.length && comments[0].robot_id && (comments[0].patch_set
-          === selectedRevision._number);
+          === currentRobotCommentsPatchSet);
       });
     }
 

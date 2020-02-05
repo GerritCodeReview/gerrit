@@ -168,7 +168,10 @@ public class ChangeEditUtil {
 
       RevCommit squashed = squashEdit(rw, oi, edit.getEditCommit(), basePatchSet);
       PatchSet.Id psId = ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
-      PatchSetInserter inserter = patchSetInserterFactory.create(notes, psId, squashed);
+      PatchSetInserter inserter =
+          patchSetInserterFactory
+              .create(notes, psId, squashed)
+              .setSendEmail(!change.isWorkInProgress());
 
       StringBuilder message =
           new StringBuilder("Patch Set ").append(inserter.getPatchSetId().get()).append(": ");

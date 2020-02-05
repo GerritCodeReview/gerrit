@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1041b1f_f53f63f0",
+        "filename": "java/com/google/gerrit/server/project/RefPattern.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-05T11:21:10Z",
+      "side": 1,
+      "message": "This is going to fail on the code style check.\n\nPlease format it with google-java-format",
+      "range": {
+        "startLine": 78,
+        "startChar": 43,
+        "endLine": 78,
+        "endChar": 44
+      },
+      "revId": "f048e81a52ab5f959043aaf233b98668707a15c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

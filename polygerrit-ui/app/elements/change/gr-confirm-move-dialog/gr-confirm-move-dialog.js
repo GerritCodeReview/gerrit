@@ -21,10 +21,12 @@
 
   /**
    * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcut
    * @extends Polymer.Element
    */
   class GrConfirmMoveDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -52,6 +54,12 @@
             return this._getProjectBranchesSuggestions.bind(this);
           },
         },
+      };
+    }
+
+    get keyBindings() {
+      return {
+        'ctrl+enter meta+enter': '_handleConfirmTap',
       };
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43eecb14_c0cb31c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T07:04:34Z",
+      "side": 1,
+      "message": "maybe add a TODO mention about potential improvement on merging them into a single template. otherwise i feel like it will be ignored sooner or later.",
+      "revId": "9dae035d100480114a01b6e086b530580d381872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

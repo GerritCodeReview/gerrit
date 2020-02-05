@@ -22,6 +22,30 @@
       "revId": "c7f4abfddf1bf9a4cd94e1ac2777101b67f98c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b27585d_6df93c61",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T12:34:10Z",
+      "side": 1,
+      "message": "in some rare cases prefixText can contains something recognizable. But at the same time, I don\u0027t think we should fix all such invalid cases. We definitely can\u0027t fix them all and it is possible to get some controversial cases.\nI think, we shouldn\u0027t do too much for invalid cases. We can improve something, but not everything\n\nIn your example, the new code produces only one link - mailto:test@google.com and keep http://a.com, as a text.\nLinkify returns the whole string as a text, so we have to do something on our side.",
+      "parentUuid": "deef5d14_7d3c8647",
+      "range": {
+        "startLine": 265,
+        "startChar": 38,
+        "endLine": 265,
+        "endChar": 40
+      },
+      "revId": "c7f4abfddf1bf9a4cd94e1ac2777101b67f98c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

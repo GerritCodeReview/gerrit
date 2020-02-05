@@ -76,6 +76,17 @@ limitations under the License.
 
     const PARENT = 'PARENT';
 
+    function getFilesFromFileList(fileList) {
+      const changeFilesByPath = fileList.reduce((obj, path) => {
+        obj[path] = {};
+        return obj;
+      }, {});
+      return {
+        sortedFileList: fileList,
+        changeFilesByPath,
+      };
+    }
+
     setup(() => {
       sandbox = sinon.sandbox.create();
 
@@ -135,7 +146,8 @@ limitations under the License.
           a: {_number: 10, commit: {parents: []}},
         },
       };
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._files = getFilesFromFileList(
+          ['chell.go', 'glados.txt', 'wheatley.md']);
       element._path = 'glados.txt';
       element.changeViewState.selectedFileIndex = 1;
       element._loggedIn = true;
@@ -242,7 +254,8 @@ limitations under the License.
           b: {_number: 5, commit: {parents: []}},
         },
       };
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._files = getFilesFromFileList(
+          ['chell.go', 'glados.txt', 'wheatley.md']);
       element._path = 'glados.txt';
 
       const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
@@ -309,7 +322,8 @@ limitations under the License.
           b: {_number: 2, commit: {parents: []}},
         },
       };
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._files = getFilesFromFileList(
+          ['chell.go', 'glados.txt', 'wheatley.md']);
       element._path = 'glados.txt';
 
       const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
@@ -422,13 +436,22 @@ limitations under the License.
         unresolvedCountStub.withArgs(3, path).returns(2);
         unresolvedCountStub.withArgs(4, path).returns(0);
 
-        assert.equal(element._computeCommentString(comments, 1, path),
+        assert.equal(element._computeCommentString(comments, 1, path, {}),
             '1 unresolved');
-        assert.equal(element._computeCommentString(comments, 2, path),
+        assert.equal(
+            element._computeCommentString(comments, 2, path, {status: 'M'}),
             '1 comment');
-        assert.equal(element._computeCommentString(comments, 3, path),
+        assert.equal(
+            element._computeCommentString(comments, 2, path, {status: 'U'}),
+            'no changes, 1 comment');
+        assert.equal(
+            element._computeCommentString(comments, 3, path, {status: 'A'}),
             '2 comments, 2 unresolved');
-        assert.equal(element._computeCommentString(comments, 4, path), '');
+        assert.equal(
+            element._computeCommentString(comments, 4, path, {status: 'M'}), '');
+        assert.equal(
+            element._computeCommentString(comments, 4, path, {status: 'U'}),
+            'no changes');
         done();
       });
     });
@@ -452,8 +475,9 @@ limitations under the License.
           patchNum: '10',
         };
         element._change = {_number: 42};
-        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md',
-          '/COMMIT_MSG', '/MERGE_LIST'];
+        element._files = getFilesFromFileList(
+            ['chell.go', 'glados.txt', 'wheatley.md',
+              '/COMMIT_MSG', '/MERGE_LIST']);
         element._path = 'glados.txt';
         const expectedFormattedFiles = [
           {
@@ -502,7 +526,8 @@ limitations under the License.
             a: {_number: 10, commit: {parents: []}},
           },
         };
-        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+        element._files = getFilesFromFileList(
+            ['chell.go', 'glados.txt', 'wheatley.md']);
         element._path = 'glados.txt';
         flushAsynchronousOperations();
         const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
@@ -544,7 +569,8 @@ limitations under the License.
             b: {_number: 10, commit: {parents: []}},
           },
         };
-        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+        element._files = getFilesFromFileList(
+            ['chell.go', 'glados.txt', 'wheatley.md']);
         element._path = 'glados.txt';
         flushAsynchronousOperations();
         const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
@@ -971,9 +997,9 @@ limitations under the License.
         setup(() => {
           navToChangeStub = sandbox.stub(element, '_navToChangeView');
           navToDiffStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-          element._fileList = [
+          element._files = getFilesFromFileList([
             'path/one.jpg', 'path/two.m4v', 'path/three.wav',
-          ];
+          ]);
           element._patchRange = {patchNum: '2', basePatchNum: '1'};
         });
 
@@ -1124,7 +1150,7 @@ limitations under the License.
     });
 
     test('shift+m navigates to next unreviewed file', () => {
-      element._fileList = ['file1', 'file2', 'file3'];
+      element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
       element._reviewedFiles = new Set(['file1', 'file2']);
       element._path = 'file1';
       const reviewedStub = sandbox.stub(element, '_setReviewed');
@@ -1141,7 +1167,7 @@ limitations under the License.
     });
 
     test('File change should trigger navigateToDiff once', () => {
-      element._fileList = ['file1', 'file2', 'file3'];
+      element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
       sandbox.stub(element, '_getLineOfInterest');
       sandbox.stub(element, '_initCursor');
       sandbox.stub(Gerrit.Nav, 'navigateToDiff');
@@ -1266,6 +1292,56 @@ limitations under the License.
           element._computeDownloadPatchLink(
               'test', 12, {patchNum: 1}, 'index.php'),
           '/changes/test~12/revisions/1/patch?zip&path=index.php');
+    });
+  });
+
+  suite('gr-diff-view tests umodified files with comments', () => {
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      const changedFiles = {
+        'file1.txt': {},
+        'a/b/test.c': {},
+      };
+      stub('gr-rest-api-interface', {
+        getConfig() { return Promise.resolve({change: {}}); },
+        getLoggedIn() { return Promise.resolve(false); },
+        getProjectConfig() { return Promise.resolve({}); },
+        getDiffChangeDetail() { return Promise.resolve({}); },
+        getChangeFiles() { return Promise.resolve(changedFiles); },
+        saveFileReviewed() { return Promise.resolve(); },
+        getDiffComments() { return Promise.resolve({}); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
+        getReviewedFiles() { return Promise.resolve([]); },
+      });
+      element = fixture('basic');
+      return element._loadComments();
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('_getFiles add files with comments without changes', () => {
+      const patchChangeRecord = {
+        base: {
+          basePatchNum: '5',
+          patchNum: '10',
+        },
+      };
+      const changeComments = {
+        getPaths: sandbox.stub().returns({'file2.txt': {}, 'file1.txt': {}}),
+      };
+      return element._getFiles(23, patchChangeRecord, changeComments).then(() => {
+        assert.deepEqual(element._files, {
+          sortedFileList: ['a/b/test.c', 'file1.txt', 'file2.txt'],
+          changeFilesByPath: {
+            'file1.txt': {},
+            'file2.txt': {status: 'U'},
+            'a/b/test.c': {},
+          },
+        });
+      });
     });
   });
 </script>

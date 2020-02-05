@@ -22,6 +22,30 @@
       "revId": "b4b126c36b55306a82fe608a1adbc4306e653e52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67bab7f3_6f3ba1f1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T12:36:34Z",
+      "side": 1,
+      "message": "https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity uses \"priority\" word for this case:\n\u003eBy indicating one or more elements before the element you\u0027re selecting, the rule becomes more specific and gets higher *priority*",
+      "parentUuid": "2360fcda_787192a0",
+      "range": {
+        "startLine": 41,
+        "startChar": 47,
+        "endLine": 41,
+        "endChar": 55
+      },
+      "revId": "b4b126c36b55306a82fe608a1adbc4306e653e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

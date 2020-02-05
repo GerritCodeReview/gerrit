@@ -148,6 +148,7 @@ shortcuts are.
 
     NEXT_LINE: 'NEXT_LINE',
     PREV_LINE: 'PREV_LINE',
+    VISIBLE_LINE: 'VISIBLE_LINE',
     NEXT_CHUNK: 'NEXT_CHUNK',
     PREV_CHUNK: 'PREV_CHUNK',
     EXPAND_ALL_DIFF_CONTEXT: 'EXPAND_ALL_DIFF_CONTEXT',
@@ -237,6 +238,8 @@ shortcuts are.
 
   _describe(Shortcut.NEXT_LINE, ShortcutSection.DIFFS, 'Go to next line');
   _describe(Shortcut.PREV_LINE, ShortcutSection.DIFFS, 'Go to previous line');
+  _describe(Shortcut.VISIBLE_LINE, ShortcutSection.DIFFS,
+      'Move cursor to currently visible code');
   _describe(Shortcut.NEXT_CHUNK, ShortcutSection.DIFFS,
       'Go to next diff chunk');
   _describe(Shortcut.PREV_CHUNK, ShortcutSection.DIFFS,

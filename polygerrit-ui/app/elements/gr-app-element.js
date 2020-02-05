@@ -240,6 +240,10 @@
           this.Shortcut.NEXT_LINE, 'j', 'down');
       this.bindShortcut(
           this.Shortcut.PREV_LINE, 'k', 'up');
+      if (this._isCursorManagerSupportMoveToVisibleLine()) {
+        this.bindShortcut(
+            this.Shortcut.VISIBLE_LINE, '.');
+      }
       this.bindShortcut(
           this.Shortcut.NEXT_CHUNK, 'n');
       this.bindShortcut(
@@ -301,6 +305,14 @@
 
       this.bindShortcut(
           this.Shortcut.SEARCH, '/');
+    }
+
+    _isCursorManagerSupportMoveToVisibleLine() {
+      // This method is a copy-paste from the
+      // method _isIntersectionObserverSupported of gr-cursor-manager.js
+      // It is better share this method with gr-cursor-manager,
+      // but doing it require a lot if changes instead of 1-line copied code
+      return 'IntersectionObserver' in window;
     }
 
     _accountChanged(account) {

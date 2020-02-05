@@ -34,6 +34,12 @@ limitations under the License.
           max-width: 50em;
         }
       }
+      .signInLink {
+        text-decoration: none;
+      }
+      .hiddenSignIn {
+        display: none;
+      }
     </style>
     <gr-dialog
         id="dialog"
@@ -43,6 +49,13 @@ limitations under the License.
         confirm-on-enter>
       <div class="header" slot="header">An error occurred</div>
       <div class="main" slot="main">[[text]]</div>
+      <gr-button
+          id="signIn"
+          class$="signInLink [[_computeSignInClass(showSignInButton)]]"
+          link
+          slot="footer">
+        <a href$="[[loginUrl]]" class="signInLink">Sign in</a>
+      </gr-button>
     </gr-dialog>
   </template>
   <script src="gr-error-dialog.js"></script>

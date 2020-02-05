@@ -23,6 +23,17 @@
    * @event thread-list-modified
    * @extends Polymer.Element
    */
+  const NO_THREADS_MESSAGE = 'There are no inline comment threads on any diff '
+    + 'for this change.';
+  const NO_ROBOT_COMMENTS_THREADS_MESSAGE = 'There are no findings for this ' +
+    'patchset.';
+
+  const CommentTabs = {
+    CHANGE_LOG: 0,
+    COMMENT_THREADS: 1,
+    ROBOT_COMMENTS: 2,
+  };
+
   class GrThreadList extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element)) {
@@ -62,6 +73,11 @@
           type: Boolean,
           value: false,
         },
+        noThreadsMessage: {
+          type: String,
+          value: NO_THREADS_MESSAGE,
+        },
+        commentTab: Number,
       };
     }
 
@@ -69,6 +85,13 @@
 
     _computeShowDraftToggle(loggedIn) {
       return loggedIn ? 'show' : '';
+    }
+
+    _computeNoThreadsMessage(commentTab) {
+      if (commentTab === CommentTabs.ROBOT_COMMENTS) {
+        return NO_ROBOT_COMMENTS_THREADS_MESSAGE;
+      }
+      return NO_THREADS_MESSAGE;
     }
 
     /**

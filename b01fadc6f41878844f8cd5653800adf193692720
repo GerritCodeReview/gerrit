@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d4fe40ab_28c06e09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-05T17:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "273f961d_112d8233",
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "311e5149_93e2f7fa",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "b01fadc6f41878844f8cd5653800adf193692720",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a0fe5d1_581e38a3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6099,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-05T17:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "311e5149_93e2f7fa",
+      "range": {
+        "startLine": 6099,
+        "startChar": 9,
+        "endLine": 6099,
+        "endChar": 20
+      },
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "2973c224_b7241869",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6100,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-05T17:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2982827_e38e2c84",
+      "range": {
+        "startLine": 6100,
+        "startChar": 14,
+        "endLine": 6100,
+        "endChar": 46
+      },
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2b0ff4_b10bf954",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 3
@@ -79,6 +145,24 @@
       "revId": "b01fadc6f41878844f8cd5653800adf193692720",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71a4355f_eb8b567e",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-05T17:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2b0ff4_b10bf954",
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "09db7225_2f052276",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-05T17:34:20Z",
+      "side": 1,
+      "message": "I added (1). (2) is implicitly covered, as the email address doesn\u0027t exist as Gerrit account. I added (3)",
+      "parentUuid": "1946d1b2_faa19dee",
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76a2c629_03ef7368",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 3
@@ -110,6 +212,30 @@
       "writtenOn": "2020-02-04T18:02:44Z",
       "side": 1,
       "message": "We have a GitPersonSubject in our code base and hence could write Truth statements which generate nicer error messages here.",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 46
+      },
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f409c274_899ac0fa",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-05T17:34:20Z",
+      "side": 1,
+      "message": "I tried \n\n  assertThat(person).\n\nbut it doesn\u0027t autocomplete \"email\". Do I need to import something?\n\n(This is why I\u0027m not fond of wrappers like Truth)",
+      "parentUuid": "76a2c629_03ef7368",
       "range": {
         "startLine": 282,
         "startChar": 4,

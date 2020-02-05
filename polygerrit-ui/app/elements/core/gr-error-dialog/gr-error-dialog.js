@@ -31,11 +31,29 @@
     static get properties() {
       return {
         text: String,
+        /**
+         * loginUrl to open on "sign in" button click
+         */
+        loginUrl: {
+          type: String,
+          value: '/login',
+        },
+        /**
+         * Show/hide "Sign In" button in dialog
+         */
+        showSignInButton: {
+          type: Boolean,
+          value: false,
+        },
       };
     }
 
     _handleConfirm() {
       this.dispatchEvent(new CustomEvent('dismiss'));
+    }
+
+    _computeSignInClass(showSignInButton) {
+      return showSignInButton ? '' : 'hiddenSignIn';
     }
   }
 

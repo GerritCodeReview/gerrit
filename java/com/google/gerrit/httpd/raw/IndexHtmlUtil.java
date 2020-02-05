@@ -47,11 +47,11 @@ import java.util.regex.Pattern;
 /** Helper for generating parts of {@code index.html}. */
 public class IndexHtmlUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  static final String changeCanonicalUrl = ".*/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
-  static final String basePatchNumUrlPart = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
-  static final Pattern changeUrlPattern =
+  public static final String changeCanonicalUrl = ".*/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
+  public static final String basePatchNumUrlPart = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
+  public static final Pattern changeUrlPattern =
       Pattern.compile(changeCanonicalUrl + basePatchNumUrlPart + "?" + "/?$");
-  static final Pattern diffUrlPattern =
+  public static final Pattern diffUrlPattern =
       Pattern.compile(changeCanonicalUrl + basePatchNumUrlPart + "(/(.+))" + "/?$");
 
   public static String getDefaultChangeDetailHex() {
@@ -78,6 +78,19 @@ public class IndexHtmlUtil {
             ListChangesOption.SKIP_DIFFSTAT);
 
     return ListOption.toHex(options);
+  }
+
+  @UsedAt(Project.GOOGLE)
+  public static String computeChangeRequestsPath(String requestedURL, Pattern pattern) {
+    Matcher matcher = pattern.matcher(requestedURL);
+    if (matcher.matches()) {
+      Integer changeId = Ints.tryParse(matcher.group("changeNum"));
+      if (changeId != null) {
+        return "changes/" + Url.encode(matcher.group("project")) + "~" + changeId;
+      }
+    }
+
+    return null;
   }
 
   /**
@@ -199,18 +212,6 @@ public class IndexHtmlUtil {
     }
 
     return data.build();
-  }
-
-  static String computeChangeRequestsPath(String requestedURL, Pattern pattern) {
-    Matcher matcher = pattern.matcher(requestedURL);
-    if (matcher.matches()) {
-      Integer changeId = Ints.tryParse(matcher.group("changeNum"));
-      if (changeId != null) {
-        return "changes/" + Url.encode(matcher.group("project")) + "~" + changeId;
-      }
-    }
-
-    return null;
   }
 
   private static String computeCanonicalPath(@Nullable String canonicalURL)

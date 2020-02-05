@@ -16,6 +16,24 @@
       "revId": "15a366e54ff6f1c0f32c0b9900d2811d28303671",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efb3fa8c_ea736624",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-05T15:56:03Z",
+      "side": 1,
+      "message": "I decided to pass the comment-tab enum I have already created.\nThe only disadvantage is that this enum is duplicated again.",
+      "parentUuid": "210f72fa_e764f210",
+      "revId": "15a366e54ff6f1c0f32c0b9900d2811d28303671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "38071b07_45eb745b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-05T07:53:21Z",
+      "side": 1,
+      "message": "+1 I feel now it is too close to label name. Maybe little bit bigger gap?",
+      "parentUuid": "aa0368d6_68a7db24",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f8dca9f_d1ff67ab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2020-02-05T07:46:39Z",
       "side": 1,
       "message": "can we extend this hover highlight to entire horizontal space? it looks really ugly to have it ~ half of the space...",
+      "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce4e0380_ee0986bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-05T07:53:21Z",
+      "side": 1,
+      "message": "-1 highlighting LGTM",
+      "parentUuid": "0f8dca9f_d1ff67ab",
       "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -42,6 +42,12 @@
      * @event message-anchor-tap
      */
 
+    /**
+     * Fired when a change message is deleted.
+     *
+     * @event change-message-deleted
+     */
+
     static get properties() {
       return {
         changeNum: Number,
@@ -233,6 +239,12 @@
           !this._computeIsAutomated(message);
     }
 
+    _computeShowDeleteButton(message, loggedIn) {
+      // for now this is identical to _computeShowReplyButton
+      return message && !!message.message && loggedIn &&
+          !this._computeIsAutomated(message);
+    }
+
     _computeExpanded(expanded) {
       return expanded;
     }
@@ -342,6 +354,15 @@
     _handleReplyTap(e) {
       e.preventDefault();
       this.fire('reply', {message: this.message});
+    }
+
+    _handleDeleteMessage(e) {
+      e.preventDefault();
+      if (!this.message || !this.message.id) return;
+      this.$.restAPI.deleteChangeCommitMessage(this.changeNum, this.message.id)
+          .then(() => {
+            this.fire('change-message-deleted', {message: this.message});
+          });
     }
 
     _projectNameChanged(name) {

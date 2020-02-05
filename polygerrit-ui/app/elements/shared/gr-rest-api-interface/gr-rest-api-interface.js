@@ -1866,6 +1866,15 @@
       });
     }
 
+    deleteChangeCommitMessage(changeNum, messageId) {
+      return this._getChangeURLAndSend({
+        changeNum,
+        method: 'DELETE',
+        endpoint: '/messages/' + messageId,
+        reportEndpointAsIs: true,
+      });
+    }
+
     saveChangeStarred(changeNum, starred) {
       // Some servers may require the project name to be provided
       // alongside the change number, so resolve the project name

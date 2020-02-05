@@ -1284,5 +1284,11 @@ limitations under the License.
               'test', 12, {patchNum: 1}, 'index.php'),
           '/changes/test~12/revisions/1/patch?zip&path=index.php');
     });
+
+    test('_computeEditURL uses Gerrit.Nav', () => {
+      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForChangeById');
+      element._computeEditURL(123, undefined, 'abc/def');
+      assert.isTrue(getUrlStub.called);
+    });
   });
 </script>

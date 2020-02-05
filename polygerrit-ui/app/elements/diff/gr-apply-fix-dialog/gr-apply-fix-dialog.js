@@ -75,6 +75,18 @@
           });
     },
 
+    attached() {
+      this.refitOverlay = () => {
+        // re-center the dialog as content changed
+        this.$.applyFixOverlay.fire('iron-resize');
+      };
+      this.addEventListener('diff-context-expanded', this.refitOverlay);
+    },
+
+    detached() {
+      this.removeEventListener('diff-context-expanded', this.refitOverlay);
+    },
+
     _showSelectedFixSuggestion(fixSuggestion) {
       this._currentFix = fixSuggestion;
       return this._fetchFixPreview(fixSuggestion.fix_id);

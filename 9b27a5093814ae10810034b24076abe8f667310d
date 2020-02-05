@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "8bbcd277_e29488cb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T07:08:54Z",
+      "side": 1,
+      "message": "oh will it disappear if you hover on the hover card? i don\u0027t think it will, you should be able to interact with the hover card otherwise how we achieve the card required for attention set...\n\nI feel like just adding a `gr-formatted-text` is not that complicated right ? maybe just give it a try instead of waiting for a better time in future :)",
+      "parentUuid": "5ca2aaca_e2d6c98e",
+      "range": {
+        "startLine": 599,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 20
+      },
+      "revId": "9b27a5093814ae10810034b24076abe8f667310d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb655247_3ff2f96f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 3

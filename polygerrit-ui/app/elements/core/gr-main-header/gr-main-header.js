@@ -122,7 +122,7 @@
           computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
             '_topMenus, _docBaseUrl)',
         },
-        _loginURL: {
+        loginUrl: {
           type: String,
           value: '/login',
         },
@@ -162,34 +162,15 @@
       super.attached();
       this._loadAccount();
       this._loadConfig();
-      this.listen(window, 'location-change', '_handleLocationChange');
     }
 
     /** @override */
     detached() {
       super.detached();
-      this.unlisten(window, 'location-change', '_handleLocationChange');
     }
 
     reload() {
       this._loadAccount();
-    }
-
-    _handleLocationChange(e) {
-      const baseUrl = this.getBaseUrl();
-      if (baseUrl) {
-        // Strip the canonical path from the path since needing canonical in
-        // the path is uneeded and breaks the url.
-        this._loginURL = baseUrl + '/login/' + encodeURIComponent(
-            '/' + window.location.pathname.substring(baseUrl.length) +
-            window.location.search +
-            window.location.hash);
-      } else {
-        this._loginURL = '/login/' + encodeURIComponent(
-            window.location.pathname +
-            window.location.search +
-            window.location.hash);
-      }
     }
 
     _computeRelativeURL(path) {

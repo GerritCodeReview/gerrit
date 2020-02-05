@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "071cddbe_ac43a8ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-05T17:35:03Z",
+      "side": 1,
+      "message": "By the looks of things, most of the modern mobile browsers support this (so a very low percentage would have this issue).",
+      "revId": "c296da6b46131a5870a7363d31adef81a8d36276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

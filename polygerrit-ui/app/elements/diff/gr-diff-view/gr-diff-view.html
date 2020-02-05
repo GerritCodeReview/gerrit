@@ -138,21 +138,27 @@ limitations under the License.
         align-items: center;
         display: flex;
       }
-      .diffModeSelector {
+      .diffModeSelector,
+      .editButton {
         align-items: center;
         display: flex;
       }
-      .diffModeSelector span {
+      .diffModeSelector span,
+      .editButton span {
         margin-right: var(--spacing-xs);
       }
       .diffModeSelector.hide,
-      .separator.hide {
+      .separator.hide,
+      .editButton.hide {
         display: none;
       }
       gr-dropdown-list {
         --trigger-style: {
           text-transform: none;
         }
+      }
+      .editButtona a {
+        text-decoration: none;
       }
       @media screen and (max-width: 50em) {
         header {
@@ -285,6 +291,12 @@ limitations under the License.
                 link
                 disabled="[[_isBlameLoading]]"
                 on-click="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
+            <span class="separator"></span>
+          </span>
+          <span class$="editButton [[_computeIsLoggedIn(_loggedIn)]]">
+            <a href$="[[_computeEditURL(_change, _path)]]">
+              <iron-icon icon="gr-icons:edit"></iron-icon>
+            </a>
             <span class="separator"></span>
           </span>
           <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">

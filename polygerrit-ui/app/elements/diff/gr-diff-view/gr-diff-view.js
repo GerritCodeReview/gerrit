@@ -577,6 +577,12 @@
       return this._getDiffUrl(this._change, this._patchRange, newPath.path);
     }
 
+    _computeEditURL(change, path) {
+      if (!this._change || !this._patchRange || !path) { return; }
+      return Gerrit.Nav.getEditUrlForDiff(
+          this._change, path, this._patchRange.patchNum);
+    }
+
     /**
      * Gives an object representing the target of navigating either left or
      * right through the change. The resulting object will have one of the
@@ -1185,6 +1191,10 @@
 
     _onChangeHeaderPanelHeightChanged(e) {
       this._scrollTopMargin = e.detail.value;
+    }
+
+    _computeIsLoggedIn(loggedIn) {
+      return loggedIn ? '' : 'hide';
     }
   }
 

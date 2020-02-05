@@ -37,6 +37,69 @@
     },
     {
       "key": {
+        "uuid": "e2812892_d414f920",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T13:15:11Z",
+      "side": 1,
+      "message": "nit: should we guard this with the IntersectionObserver as well ? as this will show the shortcut in the legend when press `?`, and if its not working, its better not show up there.",
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4898a3b8_313d0f4f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T13:15:11Z",
+      "side": 1,
+      "message": "do you need a `!` here if its optional ?",
+      "range": {
+        "startLine": 139,
+        "startChar": 15,
+        "endLine": 139,
+        "endChar": 25
+      },
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36330e36_fb4ca443",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T13:15:11Z",
+      "side": 1,
+      "message": "nit: no `s`",
+      "range": {
+        "startLine": 140,
+        "startChar": 37,
+        "endLine": 140,
+        "endChar": 42
+      },
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83856b26_8466302e",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 2
@@ -66,6 +129,24 @@
       "side": 1,
       "message": "No. In line 161 there is a call to unobserve entry.\nAt the end, all entries are removed from observer, so it is not needed to call disconnect",
       "parentUuid": "83856b26_8466302e",
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b800196_26fc165b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T13:15:11Z",
+      "side": 1,
+      "message": "oh not so familiar with the `IntersectionObserver` API, so what\u0027s the difference between `unobserve all entries` and `disconnect` ? Won\u0027t this create a new observer every time `moveToVisibleArea` is called and no clean up without `disconnect` ?",
+      "parentUuid": "c986f371_65b859fc",
       "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

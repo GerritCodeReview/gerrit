@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "83429e92_9a310277",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Don\u0027t know. Just copied from username API. :-)\n\nWhat do you suggest?\n\nPatrick mentioned that maybe we should actually just drop the GET API and just have a PUT API. Returning the display name in the change details should be good enough. WDYT?",
+      "parentUuid": "b22ee745_c061d9dd",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dcf9edf_42fcfd20",
         "filename": "java/com/google/gerrit/extensions/api/accounts/DisplayNameInput.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d746e01_1928a378",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/DisplayNameInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dcf9edf_42fcfd20",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "102ef2b3_f7a279c8",
+        "filename": "java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc5bbaea_cf3f5b02",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7268e19f_2e1839b3",
         "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63e8f128_7879bbc2",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7268e19f_2e1839b3",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "999299f8_8777e613",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9468d8b_70aac8cb",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b80a3027_f9b1282a",
         "filename": "java/com/google/gerrit/server/restapi/account/GetDisplayName.java",
         "patchSetId": 3
@@ -101,6 +191,24 @@
       "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afd6f4a7_160d95b7",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b80a3027_f9b1282a",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "62e4a250_070f50c0",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04d986ff_f97b95ce",
+      "range": {
+        "startLine": 24,
+        "startChar": 28,
+        "endLine": 24,
+        "endChar": 34
+      },
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af80b0bd_5ba0822a",
         "filename": "java/com/google/gerrit/server/restapi/account/GetDisplayName.java",
         "patchSetId": 3
@@ -150,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "4d3358be_1b6522f1",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af80b0bd_5ba0822a",
+      "range": {
+        "startLine": 28,
+        "startChar": 67,
+        "endLine": 28,
+        "endChar": 70
+      },
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c80d0cc_2041a1da",
         "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
         "patchSetId": 3
@@ -164,6 +320,24 @@
       "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "203838ac_aa3b31bd",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c80d0cc_2041a1da",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -184,6 +358,24 @@
     },
     {
       "key": {
+        "uuid": "981eb6c1_0d39eca3",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cef04a0_39b5347e",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0670c975_a6171425",
         "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
         "patchSetId": 3
@@ -201,6 +393,24 @@
     },
     {
       "key": {
+        "uuid": "cb6e51be_3caf25d8",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0670c975_a6171425",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f0e1131_f0719808",
         "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
         "patchSetId": 3
@@ -215,6 +425,24 @@
       "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "843dd2da_0d349d69",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-05T14:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f0e1131_f0719808",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,220 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b22ee745_c061d9dd",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "How can this be distinguished from a non-existent account?",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dcf9edf_42fcfd20",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/DisplayNameInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "nit: 2020 :-)",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc5bbaea_cf3f5b02",
+        "filename": "java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "This comment should explain what is special about the display name. (~summary of the commit msg)",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7268e19f_2e1839b3",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "I find it confusing to have two ways of unsetting the value, but I guess for consistency that needs to be maintained. It should be annotated as @Nullable though.",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9468d8b_70aac8cb",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "I realize it\u0027s consistent with the other places, but I think this comment doesn\u0027t add value.",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b80a3027_f9b1282a",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "nit: 2020",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04d986ff_f97b95ce",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "display name",
+      "range": {
+        "startLine": 24,
+        "startChar": 28,
+        "endLine": 24,
+        "endChar": 34
+      },
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af80b0bd_5ba0822a",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "their",
+      "range": {
+        "startLine": 28,
+        "startChar": 67,
+        "endLine": 28,
+        "endChar": 70
+      },
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c80d0cc_2041a1da",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "nit: 2020",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cef04a0_39b5347e",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "Would it make sense to deduplicate the (helpful) description and link to the other endpoint?",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0670c975_a6171425",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "Why is this public?\nopt: Maybe inline above?",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f0e1131_f0719808",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutDisplayName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-05T12:02:12Z",
+      "side": 1,
+      "message": "Should \"input\" be annotated as Nullable?",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

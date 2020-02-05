@@ -22,6 +22,30 @@
       "revId": "11ab5500974b89e39801d21c76bec948e400eb9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0010cb1f_cebf7952",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T18:08:17Z",
+      "side": 1,
+      "message": "The first group captures text before protocol name.",
+      "parentUuid": "46e471b5_c1ff22aa",
+      "range": {
+        "startLine": 25,
+        "startChar": 32,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "11ab5500974b89e39801d21c76bec948e400eb9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

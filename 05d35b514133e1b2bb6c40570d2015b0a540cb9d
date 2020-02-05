@@ -22,6 +22,30 @@
       "revId": "05d35b514133e1b2bb6c40570d2015b0a540cb9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98b347e9_feb4052e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-05T11:55:59Z",
+      "side": 1,
+      "message": "Indeed. \"Save but do not send...\" sounds better than \"Send but fo not send...\" : [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/05d35b514133e1b2bb6c40570d2015b0a540cb9d/polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js#46",
+      "parentUuid": "2c6c2900_5cbededa",
+      "range": {
+        "startLine": 301,
+        "startChar": 25,
+        "endLine": 301,
+        "endChar": 37
+      },
+      "revId": "05d35b514133e1b2bb6c40570d2015b0a540cb9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

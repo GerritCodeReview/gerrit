@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "972047ba_7a5b0491",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T15:55:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efaa4c4a_cd868a9a",
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2812892_d414f920",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 2
@@ -51,6 +69,24 @@
       "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12d7bfab_14e6cba6",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T15:55:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2812892_d414f920",
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -77,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "ce957e69_b8f7573a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T15:55:47Z",
+      "side": 1,
+      "message": "Copied from another method in the same class.",
+      "parentUuid": "4898a3b8_313d0f4f",
+      "range": {
+        "startLine": 139,
+        "startChar": 15,
+        "endLine": 139,
+        "endChar": 25
+      },
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36330e36_fb4ca443",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 2
@@ -97,6 +157,30 @@
       "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f713ef57_d8e728fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T15:55:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36330e36_fb4ca443",
+      "range": {
+        "startLine": 140,
+        "startChar": 37,
+        "endLine": 140,
+        "endChar": 42
+      },
+      "revId": "e3a20491462471dd13ea6b6ef3d06b35d45fc9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

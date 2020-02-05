@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d502e6bf_a2358d53",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-05T14:57:13Z",
+      "side": 0,
+      "message": "This case is covered by other tests. The \u0027unchanged file\u0027 suite was added today",
+      "range": {
+        "startLine": 436,
+        "startChar": 3,
+        "endLine": 452,
+        "endChar": 0
+      },
+      "revId": "7e84962b57ff70b5a31a1179f14e07713d834a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

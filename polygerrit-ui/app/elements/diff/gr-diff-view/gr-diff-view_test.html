@@ -1354,5 +1354,11 @@ limitations under the License.
             });
       });
     });
+
+    test('_computeEditURL uses Gerrit.Nav', () => {
+      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForChangeById');
+      element._computeEditURL(123, undefined, 'abc/def');
+      assert.isTrue(getUrlStub.called);
+    });
   });
 </script>

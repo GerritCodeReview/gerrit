@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9478ec81_ec46931a",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetSummary.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-05T06:20:01Z",
+      "side": 1,
+      "message": "We could it change it to long ad welö to avoid the cast?  Or would this mean APO change?",
+      "revId": "84cd7d033e26521ad84e1c5090eaf4cdc62b63e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

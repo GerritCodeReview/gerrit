@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa0368d6_68a7db24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T07:46:39Z",
+      "side": 1,
+      "message": "actually i really like the center layout of the score buttons, its closer to the actions buttons (start review, cancel etc).\n\nbut maybe I was just get used to that...",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f8dca9f_d1ff67ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T07:46:39Z",
+      "side": 1,
+      "message": "can we extend this hover highlight to entire horizontal space? it looks really ugly to have it ~ half of the space...",
+      "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cc68306_9bbd858b",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-05T07:46:39Z",
+      "side": 1,
+      "message": "i am not really in favor of table layout, i think you can do the same thing with flex layout... but not a blocker",
+      "revId": "82f728c44dc0a771bf19309a64066b6b02e4ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

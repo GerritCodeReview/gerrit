@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea0f83fc_eb4dd0cb",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "return open(filename).read() is shorter.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1d6eede_1e3f4820",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "this needs a comment explaining what it is.",
+      "range": {
+        "startLine": 36,
+        "startChar": 56,
+        "endLine": 36,
+        "endChar": 65
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e29fb28_73903fef",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "this should probably be a set() ?",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 20
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0d6f7b4_1a02a18e",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "you are changing the identation. Could you reformat it to 4 spaces? All other .py files use 4 spaces for indent.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 10
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d7d3f95_eb6422a7",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "it would be nice if you added this below the existing code for ease of reviewing.",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 22
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69003078_36f61ca5",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "json_licensed_files\n\nbecause python is dynamically typed, I recommend to add the type of to the name, eg. \n\n  json_licensed_file_list\n\nor in this case, \n\n  json_licensed_file_dict.",
+      "range": {
+        "startLine": 97,
+        "startChar": 23,
+        "endLine": 97,
+        "endChar": 40
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06e3b395_8c8108a1",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "use a doc string\n\ndef can_merge_packages( .. ):\n  \"whether licensed_files are the same for packages\"\n\nin the doc string, mention the type of the parameters.",
+      "range": {
+        "startLine": 112,
+        "startChar": 3,
+        "endLine": 112,
+        "endChar": 4
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80eec52d_6327e06f",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "add at least a single line docstring to each function.",
+      "range": {
+        "startLine": 119,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 30
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c09d2d9_9a1a96bd",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "json_filenames",
+      "range": {
+        "startLine": 133,
+        "startChar": 15,
+        "endLine": 133,
+        "endChar": 20
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de8efc82_736e6cc8",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "license_id\n\nhttps://www.python.org/dev/peps/pep-0008/#function-and-variable-names",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 17
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cac9abe3_01e2b950",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 38
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "what does this do? Can you update the doc string below?",
+      "range": {
+        "startLine": 4,
+        "startChar": 47,
+        "endLine": 4,
+        "endChar": 56
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b241347_b102b6c6",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 38
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-06T16:42:17Z",
+      "side": 1,
+      "message": "why not now?",
+      "range": {
+        "startLine": 28,
+        "startChar": 28,
+        "endLine": 28,
+        "endChar": 48
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

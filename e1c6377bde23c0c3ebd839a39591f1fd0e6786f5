@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3650b8b9_6da643db",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-06T09:20:13Z",
+      "side": 1,
+      "message": "Let\u0027s move @UsedAt to l.48 and annotate the class with it. That makes more sense in this case compared to repeating the annotation over and over again.",
+      "revId": "e1c6377bde23c0c3ebd839a39591f1fd0e6786f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -42,6 +42,12 @@
      * @event message-anchor-tap
      */
 
+    /**
+     * Fired when a change message is deleted.
+     *
+     * @event change-message-deleted
+     */
+
     static get properties() {
       return {
         changeNum: Number,
@@ -115,6 +121,10 @@
           type: Boolean,
           value: false,
         },
+        _isAdmin: {
+          type: Boolean,
+          value: false,
+        },
       };
     }
 
@@ -139,6 +149,9 @@
       });
       this.$.restAPI.getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
+      });
+      this.$.restAPI.getIsAdmin().then(isAdmin => {
+        this._isAdmin = isAdmin;
       });
     }
 
@@ -231,6 +244,10 @@
     _computeShowReplyButton(message, loggedIn) {
       return message && !!message.message && loggedIn &&
           !this._computeIsAutomated(message);
+    }
+
+    _computeShowDeleteButton(showReplyButton, isAdmin) {
+      return isAdmin && showReplyButton;
     }
 
     _computeExpanded(expanded) {
@@ -342,6 +359,15 @@
     _handleReplyTap(e) {
       e.preventDefault();
       this.fire('reply', {message: this.message});
+    }
+
+    _handleDeleteMessage(e) {
+      e.preventDefault();
+      if (!this.message || !this.message.id) return;
+      this.$.restAPI.deleteChangeCommitMessage(this.changeNum, this.message.id)
+          .then(() => {
+            this.fire('change-message-deleted', {message: this.message});
+          });
     }
 
     _projectNameChanged(name) {

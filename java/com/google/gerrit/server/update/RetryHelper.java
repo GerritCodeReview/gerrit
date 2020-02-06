@@ -482,7 +482,8 @@ public class RetryHelper {
                     String traceId = "retry-on-failure-" + new RequestId();
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
                     logger.atFine().withCause(t).log(
-                        "AutoRetry: %s failed, retry with tracing enabled", actionName);
+                        "AutoRetry: %s failed, retry with tracing enabled (cause = %s)",
+                        actionName, cause);
                     opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
                     metrics.autoRetryCount.increment(actionType, actionName, cause);
                     return true;
@@ -492,7 +493,7 @@ public class RetryHelper {
                   // enabled and it failed again. Log the failure so that admin can see if it
                   // differs from the failure that triggered the retry.
                   logger.atFine().withCause(t).log(
-                      "AutoRetry: auto-retry of %s has failed", actionName);
+                      "AutoRetry: auto-retry of %s has failed (cause = %s)", actionName, cause);
                   metrics.failuresOnAutoRetryCount.increment(actionType, actionName, cause);
                   return false;
                 }

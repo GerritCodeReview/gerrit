@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69ebd743_82238c94",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T15:12:32Z",
+      "side": 1,
+      "message": "nit: `Go to` maybe a tiny bit better than `Show` if its for navigation, what do you think ?",
+      "range": {
+        "startLine": 272,
+        "startChar": 61,
+        "endLine": 272,
+        "endChar": 65
+      },
+      "revId": "491956e0198edc5346c155a65693c617c05db9af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9652cb4a_f50fb51c",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T15:12:32Z",
+      "side": 1,
+      "message": "if you change one, maybe change all of them :)",
+      "range": {
+        "startLine": 276,
+        "startChar": 7,
+        "endLine": 276,
+        "endChar": 13
+      },
+      "revId": "491956e0198edc5346c155a65693c617c05db9af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1076f2f_da6710a7",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T15:12:32Z",
+      "side": 1,
+      "message": "maybe just use `shortcut` or `shortcutName` ? `actionName` is a bit weird ;)",
+      "range": {
+        "startLine": 353,
+        "startChar": 28,
+        "endLine": 353,
+        "endChar": 38
+      },
+      "revId": "491956e0198edc5346c155a65693c617c05db9af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a852031_a3443168",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T15:12:32Z",
+      "side": 1,
+      "message": "i think this maybe an outdated message, but out of the scope.",
+      "range": {
+        "startLine": 484,
+        "startChar": 40,
+        "endLine": 484,
+        "endChar": 64
+      },
+      "revId": "491956e0198edc5346c155a65693c617c05db9af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0da5f313_ee18f065",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T15:12:32Z",
+      "side": 1,
+      "message": "nit: we may want to avoid `computeX` if its not a computed property :) and this method name maybe a little bit too specific for button, i think it can be used in a few other places. Maybe `getShortcutTitle` or `getShortcutDesc` ?",
+      "range": {
+        "startLine": 544,
+        "startChar": 6,
+        "endLine": 544,
+        "endChar": 27
+      },
+      "revId": "491956e0198edc5346c155a65693c617c05db9af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -76,7 +76,7 @@ limitations under the License.
     </template>
     <div id="threads">
       <template is="dom-if" if="[[!threads.length]]">
-        There are no inline comment threads on any diff for this change.
+        [[_computeNoThreadsMessage(commentTab)]]
       </template>
       <template
           is="dom-repeat"

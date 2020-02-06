@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9432d82c_135218b2",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-06T15:53:18Z",
+      "side": 1,
+      "message": "What do you want to clean up and why?",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 49
+      },
+      "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18efeed7_12bcea2f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-06T15:53:18Z",
+      "side": 1,
+      "message": "Optional: You could try aligning with the \"path\" property in gr-button._handleAction(), potentially by moving the path iterating code to a DOM utility file or by replacing the the gr-button path by just event.path, if you think that is enough (but I doubt that).",
+      "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "344ab6c7_2298cc33",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-06T15:53:18Z",
+      "side": 1,
+      "message": "Similar to other handlers let\u0027s put this into a dedicated _handleShortcutTriggered method.",
+      "range": {
+        "startLine": 132,
+        "startChar": 3,
+        "endLine": 146,
+        "endChar": 9
+      },
+      "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

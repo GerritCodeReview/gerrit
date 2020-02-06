@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "029ca056_d9659dbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6629a0ae_9bd92f7f",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e5a98c8_c32f7f71",
         "filename": "/COMMIT_MSG",
         "patchSetId": 20
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-06T20:57:52Z",
       "side": 1,
       "message": "I don\u0027t see why this is needed in this change or otherwise.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 57
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dc2c1bd_3e08f6ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "It had to do with adding statements in the log4j.properties file to specify the log level for external dependencies to work with a command which I now removed. It was not applicable anymore in this patch so I thought I had to specify it.",
+      "parentUuid": "6e5a98c8_c32f7f71",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "75bdb6d7_26be0986",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1e6c69f7_e3073280",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9438a38_acac39d7",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 20
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "782ccf3a_c2c299ec",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a9438a38_acac39d7",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73014dc_8911ef1a",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 20
@@ -102,6 +192,24 @@
       "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "972679c0_e2e2328b",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c73014dc_8911ef1a",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "4d5232da_f402f14d",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack. I just thought it would be a good idea in case future Eclipse versions change the naming/functionality of the relevant features.",
+      "parentUuid": "4ee2c3d2_10efed89",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 396,
+        "endChar": 18
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2fb893d_1b68f989",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 20
@@ -142,6 +274,24 @@
       "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4e38a58_352d2a1f",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f2fb893d_1b68f989",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "d5aa50ef_2159c2bd",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e4979177_c3f12fb9",
+      "range": {
+        "startLine": 398,
+        "startChar": 0,
+        "endLine": 399,
+        "endChar": 4
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d738cf28_af1b3b31",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 20
@@ -185,6 +359,24 @@
     },
     {
       "key": {
+        "uuid": "e325cc44_75facf5d",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d738cf28_af1b3b31",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b907637_f204ce9b",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 20
@@ -199,6 +391,24 @@
       "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19189ee9_d809d8b5",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8b907637_f204ce9b",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -225,6 +435,30 @@
     },
     {
       "key": {
+        "uuid": "85d560a0_1defefe3",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3c3aa846_f8675719",
+      "range": {
+        "startLine": 403,
+        "startChar": 0,
+        "endLine": 403,
+        "endChar": 47
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3d96cc5_c24addd8",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 20
@@ -248,6 +482,30 @@
     },
     {
       "key": {
+        "uuid": "8c482cb1_059e49e1",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f3d96cc5_c24addd8",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 48
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a609ac_73b7732c",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 20
@@ -262,6 +520,24 @@
       "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "634406de_20a05669",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T21:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b0a609ac_73b7732c",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

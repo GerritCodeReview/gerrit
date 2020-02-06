@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f8875b39_84c5b496",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T16:11:37Z",
+      "side": 1,
+      "message": "ya for gr-app-element, probably, unless we want to port it over to some other platform or places. its just a good habit to have i believe.",
+      "parentUuid": "c43d6f5a_c6677a64",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 49
+      },
+      "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18efeed7_12bcea2f",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 3

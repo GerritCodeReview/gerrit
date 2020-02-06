@@ -350,6 +350,17 @@ shortcuts are.
       return this.listeners.delete(listener);
     }
 
+    getDescription(section, actionName) {
+      const binding =
+          _help.get(section).find(binding => binding.shortcut == actionName);
+      return binding ? binding.text : '';
+    }
+
+    getShortcut(actionName) {
+      const binding = this.bindings.get(actionName);
+      return binding ? this.describeBinding(binding) : '';
+    }
+
     activeShortcutsBySection() {
       const activeShortcuts = new Set();
       this.activeHosts.forEach(shortcuts => {
@@ -478,6 +489,7 @@ shortcuts are.
       GO_KEY: GO_KEY,
       // eslint-disable-next-line object-shorthand
       Shortcut: Shortcut,
+      ShortcutSection: ShortcutSection,
 
       properties: {
         _shortcut_go_key_last_pressed: {
@@ -527,6 +539,13 @@ shortcuts are.
       bindShortcut(shortcut, ...bindings) {
         shortcutManager.bindShortcut(shortcut, ...bindings);
       },
+
+      computeTitleForButton(section, actionName) {
+        const desc = shortcutManager.getDescription(section, actionName);
+        const shortcut = shortcutManager.getShortcut(actionName);
+        return (desc && shortcut) ? `${desc} (shortcut: ${shortcut})` : '';
+      },
+
 
       _addOwnKeyBindings(shortcut, handler) {
         const bindings = shortcutManager.getBindingsForShortcut(shortcut);

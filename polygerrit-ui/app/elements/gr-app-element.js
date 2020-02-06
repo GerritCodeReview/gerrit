@@ -94,6 +94,15 @@
           type: Boolean,
           value: false,
         },
+
+        /**
+         * Other elements in app must open this URL when
+         * user login is required.
+         */
+        _loginUrl: {
+          type: String,
+          value: '/login',
+        },
       };
     }
 
@@ -132,6 +141,7 @@
     /** @override */
     ready() {
       super.ready();
+      this._updateLoginUrl();
       this.$.reporting.appStarted();
       this.$.router.start();
 
@@ -385,12 +395,31 @@
     }
 
     _handleLocationChange(e) {
+      this._updateLoginUrl();
+
       const hash = e.detail.hash.substring(1);
       let pathname = e.detail.pathname;
       if (pathname.startsWith('/c/') && parseInt(hash, 10) > 0) {
         pathname += '@' + hash;
       }
       this.set('_path', pathname);
+    }
+
+    _updateLoginUrl() {
+      const baseUrl = this.getBaseUrl();
+      if (baseUrl) {
+        // Strip the canonical path from the path since needing canonical in
+        // the path is uneeded and breaks the url.
+        this._loginUrl = baseUrl + '/login/' + encodeURIComponent(
+            '/' + window.location.pathname.substring(baseUrl.length) +
+            window.location.search +
+            window.location.hash);
+      } else {
+        this._loginUrl = '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash);
+      }
     }
 
     _paramsChanged(paramsRecord) {

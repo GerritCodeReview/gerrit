@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a468f00_c8825d61",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-06T14:58:02Z",
+      "side": 1,
+      "message": "I don\u0027t think version specification is needed because every time bazel version changes this file would need to be updated.",
+      "range": {
+        "startLine": 400,
+        "startChar": 9,
+        "endLine": 400,
+        "endChar": 15
+      },
+      "revId": "f7b32495a7c7a86607f01314045f278f46b1d9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

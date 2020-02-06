@@ -23,7 +23,7 @@ limitations under the License.
 <dom-module id="gr-label-scores">
   <template>
     <style include="shared-styles">
-      :host {
+      .scoresTable {
         display: table;
         width: 100%;
       }
@@ -42,15 +42,17 @@ limitations under the License.
         display: var(--label-no-access-display, table-row);
       }
     </style>
-    <template is="dom-repeat" items="[[_labels]]" as="label">
-      <gr-label-score-row
-          class$="[[_computeLabelAccessClass(label.name, permittedLabels)]]"
-          label="[[label]]"
-          name="[[label.name]]"
-          labels="[[change.labels]]"
-          permitted-labels="[[permittedLabels]]"
-          label-values="[[_labelValues]]"></gr-label-score-row>
-    </template>
+    <div class="scoresTable">
+      <template is="dom-repeat" items="[[_labels]]" as="label">
+        <gr-label-score-row
+            class$="[[_computeLabelAccessClass(label.name, permittedLabels)]]"
+            label="[[label]]"
+            name="[[label.name]]"
+            labels="[[change.labels]]"
+            permitted-labels="[[permittedLabels]]"
+            label-values="[[_labelValues]]"></gr-label-score-row>
+      </template>
+    </div>
     <div class="mergedMessage"
         hidden$="[[!_changeIsMerged(change.status)]]">
       Because this change has been merged, votes may not be decreased.

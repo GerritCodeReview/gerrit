@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "bc5872fb_aa4a9b0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T21:48:15Z",
+      "side": 1,
+      "message": "\u003e It had to do with adding statements in the log4j.properties file to specify the log level for external dependencies to work with a command which I now removed. It was not applicable anymore in this patch so I thought I had to specify it.\n\nThe commit message is about the (this) whole change, so about the current end result of all patch sets so far for it (all). So, the commit message should not mention intermediary patch sets that ended up not making it to the current change\u0027s patch -as a whole.",
+      "parentUuid": "7dc2c1bd_3e08f6ed",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 57
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e6c69f7_e3073280",
         "filename": "/COMMIT_MSG",
         "patchSetId": 20
@@ -248,6 +272,30 @@
       "side": 1,
       "message": "Ack. I just thought it would be a good idea in case future Eclipse versions change the naming/functionality of the relevant features.",
       "parentUuid": "4ee2c3d2_10efed89",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 396,
+        "endChar": 18
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a30fa0_f1716560",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T21:48:15Z",
+      "side": 1,
+      "message": "\u003e Ack. I just thought it would be a good idea in case future Eclipse versions change the naming/functionality of the relevant features.\n\nYou can then not be too specific, or Eclipse version-specific, in the documentation here. There must be a way to be specific enough, while mentioning details that do pertain to most of the recent Eclipse versions -overall.",
+      "parentUuid": "4d5232da_f402f14d",
       "range": {
         "startLine": 396,
         "startChar": 0,
@@ -538,6 +586,23 @@
       "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cddc191c_7a0f0899",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 20
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T21:48:15Z",
+      "side": 1,
+      "message": "As per our related comment thread, this file diff should then be undone.",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "69381bcb_261e67fd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T07:58:08Z",
+      "side": 0,
+      "message": "is this method used anywhere else ? if not, maybe just remove it as well.",
+      "range": {
+        "startLine": 303,
+        "startChar": 28,
+        "endLine": 303,
+        "endChar": 68
+      },
+      "revId": "7e84962b57ff70b5a31a1179f14e07713d834a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d502e6bf_a2358d53",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
         "patchSetId": 5

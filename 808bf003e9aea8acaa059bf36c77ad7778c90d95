@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "364b521b_64c956a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T07:58:08Z",
+      "side": 1,
+      "message": "existing code, just realize this may need to return a promise instead to avoid any potential errors",
+      "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9dcb2fd_f183af4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T07:58:08Z",
+      "side": 1,
+      "message": "nit: unnecessary `{}`",
+      "range": {
+        "startLine": 323,
+        "startChar": 51,
+        "endLine": 323,
+        "endChar": 62
+      },
+      "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f085e5c2_5fcea5a3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T07:58:08Z",
+      "side": 1,
+      "message": "nit: maybe rename to `files`, same as the one used in the js file",
+      "range": {
+        "startLine": 80,
+        "startChar": 49,
+        "endLine": 80,
+        "endChar": 52
+      },
+      "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddfc8de2_8c667c90",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T07:58:08Z",
+      "side": 1,
+      "message": "nit: un*",
+      "range": {
+        "startLine": 1298,
+        "startChar": 28,
+        "endLine": 1298,
+        "endChar": 37
+      },
+      "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

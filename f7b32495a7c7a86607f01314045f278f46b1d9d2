@@ -46,6 +46,30 @@
       "revId": "f7b32495a7c7a86607f01314045f278f46b1d9d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f00f4d_b9b71c5d",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-06T15:41:12Z",
+      "side": 1,
+      "message": "Change applied in patchset 20.",
+      "parentUuid": "97f40825_735f4d69",
+      "range": {
+        "startLine": 400,
+        "startChar": 9,
+        "endLine": 400,
+        "endChar": 15
+      },
+      "revId": "f7b32495a7c7a86607f01314045f278f46b1d9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

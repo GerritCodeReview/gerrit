@@ -144,18 +144,20 @@
             statusText,
             errorText,
             url,
+            trace: response.headers && response.headers.get('X-Gerrit-Trace'),
           }));
         }
         console.log(`server error: ${errorText}`);
       });
     }
 
-    _constructServerErrorMsg({errorText, status, statusText, url}) {
+    _constructServerErrorMsg({errorText, status, statusText, url, trace}) {
       let err = `Error ${status}`;
       if (statusText) { err += ` (${statusText})`; }
       if (errorText || url) { err += ': '; }
       if (errorText) { err += errorText; }
       if (url) { err += `\nEndpoint: ${url}`; }
+      if (trace) { err += `\nTrace Id: ${trace}`; }
       return err;
     }
 

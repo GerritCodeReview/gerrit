@@ -140,6 +140,36 @@ limitations under the License.
           url,
         }), 'Error 409 (Conflict): change conflicts' +
         '\nEndpoint: /my/test/url');
+        assert.equal(element._constructServerErrorMsg({
+          status,
+          statusText,
+          errorText,
+          url,
+          trace: 'xxxxx',
+        }), 'Error 409 (Conflict): change conflicts' +
+        '\nEndpoint: /my/test/url\nTrace Id: xxxxx');
+      });
+
+      test('extract trace id from headers if exists', done => {
+        const textSpy = sandbox.spy(
+            () => Promise.resolve('500')
+        );
+        const headers = new Headers();
+        headers.set('X-Gerrit-Trace', 'xxxx');
+        element.fire('server-error', {
+          response: {
+            headers,
+            status: 500,
+            text: textSpy,
+          },
+        });
+        flush(() => {
+          assert.equal(
+              element.$.errorDialog.text,
+              'Error 500: 500\nTrace Id: xxxx'
+          );
+          done();
+        });
       });
 
       test('suppress TOO_MANY_FILES error', done => {

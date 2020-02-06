@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c43d6f5a_c6677a64",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-06T16:08:17Z",
+      "side": 1,
+      "message": "I think this element is created only once, so it should have memory leak",
+      "parentUuid": "40168460_22fc301a",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 49
+      },
+      "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18efeed7_12bcea2f",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 3

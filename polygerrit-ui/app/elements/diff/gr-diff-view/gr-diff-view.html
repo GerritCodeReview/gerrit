@@ -240,14 +240,20 @@ limitations under the License.
             <span class="separator"></span>
           </span>
           <a class="navLink"
+              title="[[createTitle(Shortcut.PREV_FILE,
+                    ShortcutSection.NAVIGATION)]]"
               href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
             Prev</a>
           <span class="separator"></span>
           <a class="navLink"
+              title="[[createTitle(Shortcut.UP_TO_CHANGE,
+                ShortcutSection.NAVIGATION)]]"
               href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
             Up</a>
           <span class="separator"></span>
           <a class="navLink"
+              title="[[createTitle(Shortcut.NEXT_FILE,
+                ShortcutSection.NAVIGATION)]]"
               href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
             Next</a>
         </div>

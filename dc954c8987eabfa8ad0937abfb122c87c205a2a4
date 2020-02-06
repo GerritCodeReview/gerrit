@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92279b4c_d364c703",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T16:45:56Z",
+      "side": 1,
+      "message": "do you need tests for your new method :) ?",
+      "revId": "dc954c8987eabfa8ad0937abfb122c87c205a2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

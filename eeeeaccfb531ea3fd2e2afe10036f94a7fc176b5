@@ -16,6 +16,24 @@
       "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78d55452_a8e35b3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-06T07:38:55Z",
+      "side": 1,
+      "message": "You mean if I point a cursor on specific line, then you would like to open editor on this specific line? That would be cool, but this could be also fixed in a follow-up change.",
+      "parentUuid": "023bcf9b_d9d1e16e",
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

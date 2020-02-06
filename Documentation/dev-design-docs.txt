@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Design Docs
 
 For the link:dev-contributing.html#design-driven-contribution-process[

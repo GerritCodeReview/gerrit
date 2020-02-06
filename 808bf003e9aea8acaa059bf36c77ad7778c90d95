@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7e4419c0_5bdf3109",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T15:01:19Z",
+      "side": 1,
+      "message": "Updated",
+      "parentUuid": "33a1d732_c1071872",
+      "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9dcb2fd_f183af4c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -149,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "eb7d6120_a488ed93",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T15:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f085e5c2_5fcea5a3",
+      "range": {
+        "startLine": 80,
+        "startChar": 49,
+        "endLine": 80,
+        "endChar": 52
+      },
+      "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddfc8de2_8c667c90",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
         "patchSetId": 5
@@ -169,6 +211,30 @@
       "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "077b77dd_546bc851",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T15:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddfc8de2_8c667c90",
+      "range": {
+        "startLine": 1298,
+        "startChar": 28,
+        "endLine": 1298,
+        "endChar": 37
+      },
+      "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -99,22 +99,17 @@ limitations under the License.
       .robotActions {
         display: flex;
         justify-content: flex-end;
-        padding-top: var(--spacing-m);
+        padding-top: 0;
       }
       .robotActions .action {
-        /* Keep button text lined up with output text */
-        margin-left: -4px;
-        margin-right: var(--spacing-l);
-      }
-      .rightActions {
-        display: flex;
-        justify-content: flex-end;
-      }
-      .rightActions gr-button {
         --gr-button: {
           height: 20px;
           padding: 0 var(--spacing-s);
         }
+      }
+      .rightActions {
+        display: flex;
+        justify-content: flex-end;
       }
       .editMessage {
         display: none;

@@ -22,6 +22,30 @@
       "revId": "f3d3802648b84928efe522773a7dc914ca089f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35a1d78c_838f7a90",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T13:02:51Z",
+      "side": 1,
+      "message": "so `ctrl + shift + meta + alt + g + x` ? i mean as long as it can go ? i am ok with that tho, less properties",
+      "parentUuid": "011b0926_06f0f41d",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 11
+      },
+      "revId": "f3d3802648b84928efe522773a7dc914ca089f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

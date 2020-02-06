@@ -135,13 +135,16 @@
       //
       // This clone and getter can be removed after plugins migrate to use
       // info.mergeable.
-      const change = Object.assign({
+      //
+      // assign on getter with existing property will report error
+      // see Issue: 12286
+      const change = Object.assign({}, detail.change, {
         get mergeable() {
           console.warn('Accessing change.mergeable from SHOW_CHANGE is ' +
               'deprecated! Use info.mergeable instead.');
-          return detail.info.mergeable;
+          return detail.info && detail.info.mergeable;
         },
-      }, detail.change);
+      });
       const patchNum = detail.patchNum;
       const info = detail.info;
 

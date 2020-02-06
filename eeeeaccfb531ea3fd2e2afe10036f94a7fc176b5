@@ -34,6 +34,24 @@
       "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6820a71f_536ea5a1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-02-06T10:33:21Z",
+      "side": 1,
+      "message": "I mean that the comment refers to a line, so Edit should open on this line.",
+      "parentUuid": "78d55452_a8e35b3b",
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

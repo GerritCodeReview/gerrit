@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "33a1d732_c1071872",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T13:59:39Z",
+      "side": 1,
+      "message": "... i don\u0027t see why, but i won\u0027t block just because of that.",
+      "parentUuid": "0a9c2f22_f490aa79",
+      "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9dcb2fd_f183af4c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -81,6 +99,30 @@
       "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a097223_93fcee17",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T13:59:39Z",
+      "side": 1,
+      "message": "i agree its more like a personal preference, maybe we should have a rule for avoiding this type of conversation.",
+      "parentUuid": "6e329d82_c632d84f",
+      "range": {
+        "startLine": 323,
+        "startChar": 51,
+        "endLine": 323,
+        "endChar": 62
+      },
+      "revId": "808bf003e9aea8acaa059bf36c77ad7778c90d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

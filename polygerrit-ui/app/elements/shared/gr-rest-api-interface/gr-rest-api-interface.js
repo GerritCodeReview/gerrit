@@ -1172,19 +1172,6 @@
       return this.getChangeFiles(changeNum, patchRange);
     }
 
-    /**
-     * The closure compiler doesn't realize this.specialFilePathCompare is
-     * valid.
-     *
-     * @suppress {checkTypes}
-     */
-    getChangeFilePathsAsSpeciallySortedArray(changeNum, patchRange) {
-      return this.getChangeFiles(changeNum, patchRange).then(files => {
-        if (!files) return;
-        return Object.keys(files).sort(this.specialFilePathCompare);
-      });
-    }
-
     getChangeRevisionActions(changeNum, patchNum) {
       const req = {
         changeNum,

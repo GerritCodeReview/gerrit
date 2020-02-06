@@ -269,9 +269,9 @@ shortcuts are.
   _describe(Shortcut.NEXT_UNREVIEWED_FILE, ShortcutSection.DIFFS,
       'Mark file as reviewed and go to next unreviewed file');
 
-  _describe(Shortcut.NEXT_FILE, ShortcutSection.NAVIGATION, 'Select next file');
+  _describe(Shortcut.NEXT_FILE, ShortcutSection.NAVIGATION, 'Show next file');
   _describe(Shortcut.PREV_FILE, ShortcutSection.NAVIGATION,
-      'Select previous file');
+      'Show previous file');
   _describe(Shortcut.NEXT_FILE_WITH_COMMENTS, ShortcutSection.NAVIGATION,
       'Select next file that has comments');
   _describe(Shortcut.PREV_FILE_WITH_COMMENTS, ShortcutSection.NAVIGATION,
@@ -348,6 +348,17 @@ shortcuts are.
 
     removeListener(listener) {
       return this.listeners.delete(listener);
+    }
+
+    getDescription(section, actionName) {
+      const binding =
+          _help.get(section).find(binding => binding.shortcut == actionName);
+      return binding ? binding.text : '';
+    }
+
+    getShortcut(actionName) {
+      const binding = this.bindings.get(actionName);
+      return binding ? this.describeBinding(binding) : '';
     }
 
     activeShortcutsBySection() {
@@ -478,6 +489,8 @@ shortcuts are.
       GO_KEY: GO_KEY,
       // eslint-disable-next-line object-shorthand
       Shortcut: Shortcut,
+      // eslint-disable-next-line object-shorthand
+      ShortcutSection: ShortcutSection,
 
       properties: {
         _shortcut_go_key_last_pressed: {
@@ -526,6 +539,12 @@ shortcuts are.
 
       bindShortcut(shortcut, ...bindings) {
         shortcutManager.bindShortcut(shortcut, ...bindings);
+      },
+
+      computeTitleForButton(actionName, section) {
+        const desc = shortcutManager.getDescription(section, actionName);
+        const shortcut = shortcutManager.getShortcut(actionName);
+        return (desc && shortcut) ? `${desc} (shortcut: ${shortcut})` : '';
       },
 
       _addOwnKeyBindings(shortcut, handler) {
@@ -632,6 +651,11 @@ shortcuts are.
      */
     Gerrit.KeyboardShortcutMixin = base =>
       class extends base {
+        get Shortcut() { return undefined; }
+
+        get ShortcutSection() { return undefined; }
+
+        computeTitleForButton(actionName, section) {}
       };
   }
 })(window);

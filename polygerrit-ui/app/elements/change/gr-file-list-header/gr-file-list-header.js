@@ -29,6 +29,7 @@
   class GrFileListHeader extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
+    Gerrit.KeyboardShortcutBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {

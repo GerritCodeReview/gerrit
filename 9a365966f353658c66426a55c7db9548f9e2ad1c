@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "993d6c64_6cfab0b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T16:04:59Z",
+      "side": 1,
+      "message": "actually, can you also update documentation on this new endpoint ?",
+      "revId": "9a365966f353658c66426a55c7db9548f9e2ad1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

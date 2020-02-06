@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63f4d446_1b354495",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T15:34:26Z",
+      "side": 0,
+      "message": "is this also not needed ? can you add a screenshot to the commit message or change message ?",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 7
+      },
+      "revId": "91eef0cbb244f5f1b03b6c6c733f96cff238317d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

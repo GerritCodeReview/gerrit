@@ -1,0 +1,267 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6629a0ae_9bd92f7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "This now duplicates the changed documentation, which I think is enough for this patch purpose. I\u0027d then remove this part from the commit message.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e5a98c8_c32f7f71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "I don\u0027t see why this is needed in this change or otherwise.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 57
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e6c69f7_e3073280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "documentation to explain how to optionally enable DEBUG for these specific tests.\n\n(Or similar.)",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9438a38_acac39d7",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "I propose to insert a new sub-section start before this line:\n\n[[debug]]\n\u003d\u003d\u003d Index Query Tests\n\n-With a blank line separating it from this section\u0027s text. See the above lines 374-377 example.",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c73014dc_8911ef1a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "This line is redundant with the above line 392. I would replace these two lines with this one instead:\n\nThe `DEBUG` log level can optionally be enabled for the index query tests. That log level applies to both Elasticsearch and Lucene tests.",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ee2c3d2_10efed89",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "In Eclipse:\n\n(I would not hardcode or freeze onto a specific version here.)",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 396,
+        "endChar": 18
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2fb893d_1b68f989",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "Blank line missing above.",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4979177_c3f12fb9",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "In fact, I would replace this formatted block with just a regular text line. However I\u0027d put every coded term between back-ticks, e.g. for `-Ddebug\u003dtrue` above.",
+      "range": {
+        "startLine": 398,
+        "startChar": 0,
+        "endLine": 399,
+        "endChar": 4
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d738cf28_af1b3b31",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "Missing a blank line above.",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b907637_f204ce9b",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "This line is redundant with the below command one; would remove.",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c3aa846_f8675719",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "bazel test --jvmopt\u003d\u0027Ddebug\u003dtrue\u0027 [...]\n\nAbove, a 2-spaces indentation is also expected. Moreover, can you replace the [...] here with the working target used (by you) to Verify this command?",
+      "range": {
+        "startLine": 403,
+        "startChar": 0,
+        "endLine": 403,
+        "endChar": 47
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3d96cc5_c24addd8",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "if (Boolean.getBoolean(\"debug\")) {",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 48
+      },
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0a609ac_73b7732c",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-06T20:57:52Z",
+      "side": 1,
+      "message": "Would do this only conditionally, based on this again:\n\nif (Boolean.getBoolean(\"debug\")) {",
+      "revId": "e066eaca2777d9b8a66fabac45e7f8bcdf81a3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

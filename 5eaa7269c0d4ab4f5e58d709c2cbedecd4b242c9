@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "104a3fd6_1efc3e96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T13:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f48fdec_1db42782",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "5eaa7269c0d4ab4f5e58d709c2cbedecd4b242c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fd1149a_772dd8ff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "89f80fae_b55d57ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T13:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fd1149a_772dd8ff",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "5eaa7269c0d4ab4f5e58d709c2cbedecd4b242c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13e2ff95_6edf8f56",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "5eaa7269c0d4ab4f5e58d709c2cbedecd4b242c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5583c55b_8d564fad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T13:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13e2ff95_6edf8f56",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "5eaa7269c0d4ab4f5e58d709c2cbedecd4b242c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "f1cc170c_a0810fae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T13:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ec12c72_8ca731a9",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "5eaa7269c0d4ab4f5e58d709c2cbedecd4b242c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e6f2b20_44dda38e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T13:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e72caf8_103efba5",
+      "range": {
+        "startLine": 12,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "5eaa7269c0d4ab4f5e58d709c2cbedecd4b242c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "987a9f18_eeeb73e7",
         "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog.html",
         "patchSetId": 2
@@ -131,6 +251,24 @@
       "revId": "5eaa7269c0d4ab4f5e58d709c2cbedecd4b242c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa5ddca0_7cc81d7b",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T13:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "987a9f18_eeeb73e7",
+      "revId": "5eaa7269c0d4ab4f5e58d709c2cbedecd4b242c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

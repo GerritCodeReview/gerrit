@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0b8e3a9_90579de6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-06T11:08:30Z",
+      "side": 1,
+      "message": "Remove this separator.",
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f52746ca_141af3a3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-06T11:08:30Z",
+      "side": 1,
+      "message": "Maybe use the hidden attribute for this or use a dom-if template.",
+      "range": {
+        "startLine": 296,
+        "startChar": 37,
+        "endLine": 296,
+        "endChar": 55
+      },
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe108e4a_c6005532",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-06T11:08:30Z",
+      "side": 1,
+      "message": "You should not mix the parameters and the properties access by \"this.\". I would recommend passing all three vars as parameters and not using \"this.\" at all in this method.",
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "023bcf9b_d9d1e16e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5

@@ -70,6 +70,30 @@
       "revId": "f3d3802648b84928efe522773a7dc914ca089f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "009a783f_1bbc82f6",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-06T15:22:32Z",
+      "side": 1,
+      "message": "+1 to having just one property \"key\"",
+      "parentUuid": "7ed6a710_11c76964",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 11
+      },
+      "revId": "f3d3802648b84928efe522773a7dc914ca089f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

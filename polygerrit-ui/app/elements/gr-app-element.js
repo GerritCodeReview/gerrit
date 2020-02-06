@@ -127,6 +127,23 @@
           e => this._handleLocationChange(e));
       this.addEventListener('rpc-log',
           e => this._handleRpcLog(e));
+
+      // TODO: clean up all these event listeners
+      this.addEventListener('shortcut-triggered', event => {
+        const {event: e, goKey} = event.detail;
+        // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
+        let key = `${e.key}:${e.type}`;
+        if (goKey) key = 'g+' + key;
+        if (e.shiftKey) key = 'shift+' + key;
+        if (e.ctrlKey) key = 'ctrl+' + key;
+        if (e.metaKey) key = 'meta+' + key;
+        if (e.altKey) key = 'alt+' + key;
+        this.$.reporting.reportInteraction('shortcut-triggered', {
+          key,
+          from: event.path && event.path[0]
+            && event.path[0].nodeName || 'unknown',
+        });
+      });
     }
 
     /** @override */

@@ -511,6 +511,11 @@ shortcuts are.
         for (let i = 0; e.path && i < e.path.length; i++) {
           if (e.path[i].tagName === 'GR-OVERLAY') { return true; }
         }
+
+        this.fire('shortcut-triggered', {
+          event: e,
+          goKey: this._inGoKeyMode(),
+        });
         return false;
       },
 
@@ -591,10 +596,14 @@ shortcuts are.
         this._shortcut_go_key_last_pressed = null;
       },
 
+      _inGoKeyMode() {
+        return this._shortcut_go_key_last_pressed &&
+            (Date.now() - this._shortcut_go_key_last_pressed <
+                GO_KEY_TIMEOUT_MS);
+      },
+
       _handleGoAction(e) {
-        if (!this._shortcut_go_key_last_pressed ||
-            (Date.now() - this._shortcut_go_key_last_pressed >
-                GO_KEY_TIMEOUT_MS) ||
+        if (!this._inGoKeyMode() ||
             !this._shortcut_go_table.has(e.detail.key) ||
             this.shouldSuppressKeyboardShortcut(e)) {
           return;

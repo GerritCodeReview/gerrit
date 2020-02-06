@@ -22,6 +22,30 @@
       "revId": "0034210183f1007567c5dafa88add759ebc71262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c283c4e4_1cdd4727",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T14:40:50Z",
+      "side": 1,
+      "message": "as in the warning message, we don\u0027t want people use `change.mergeable` at all.",
+      "parentUuid": "3cc05fd7_f33f9f0c",
+      "range": {
+        "startLine": 154,
+        "startChar": 8,
+        "endLine": 158,
+        "endChar": 10
+      },
+      "revId": "0034210183f1007567c5dafa88add759ebc71262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

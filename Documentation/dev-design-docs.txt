@@ -98,6 +98,13 @@ the change in Gerrit.
 Everyone in the link:dev-roles.html[Gerrit community] is welcome to
 take part in the design review and comment on the design.
 
+Positive `Code-Review` votes on changes that add/modify design docs are
+sticky. This means any `Code-Review+1` and `Code-Review+2` vote is
+preserved when a new patch set is uploaded. If a new patch set makes
+significant changes, the uploader of the new patch set must start a new
+review round by removing all positive `Code-Review` votes from the
+change manually.
+
 Ideas for alternative solutions should be uploaded as a change that
 describes the solution (see link:#collaboration[above]).
 

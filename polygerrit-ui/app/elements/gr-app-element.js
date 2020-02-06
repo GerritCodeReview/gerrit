@@ -136,6 +136,8 @@
           e => this._handleLocationChange(e));
       this.addEventListener('rpc-log',
           e => this._handleRpcLog(e));
+      this.addEventListener('shortcut-triggered',
+          e => this._handleShortcutTriggered(e));
     }
 
     /** @override */
@@ -364,6 +366,22 @@
         });
       }
       this.$.header.unfloat();
+    }
+
+    _handleShortcutTriggered(event) {
+      const {event: e, goKey} = event.detail;
+      // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
+      let key = `${e.key}:${e.type}`;
+      if (goKey) key = 'g+' + key;
+      if (e.shiftKey) key = 'shift+' + key;
+      if (e.ctrlKey) key = 'ctrl+' + key;
+      if (e.metaKey) key = 'meta+' + key;
+      if (e.altKey) key = 'alt+' + key;
+      this.$.reporting.reportInteraction('shortcut-triggered', {
+        key,
+        from: event.path && event.path[0]
+          && event.path[0].nodeName || 'unknown',
+      });
     }
 
     _handlePageError(e) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "40168460_22fc301a",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T16:01:43Z",
+      "side": 1,
+      "message": "every `addEventListener` should have a `removeEventListener` to avoid memory leak. I will update the message here",
+      "parentUuid": "9432d82c_135218b2",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 49
+      },
+      "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18efeed7_12bcea2f",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e8779d4_9a0dde5f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T16:01:43Z",
+      "side": 1,
+      "message": "i don\u0027t think we need the full path as its shortcut, not click. The event path can give us a good idea of where this `shortcut-triggered` event comes from and it should be good enough for us to differentiate which page that shortcut is from.",
+      "parentUuid": "18efeed7_12bcea2f",
+      "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cbbaca0_ccc45247",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-06T16:01:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "344ab6c7_2298cc33",
+      "range": {
+        "startLine": 132,
+        "startChar": 3,
+        "endLine": 146,
+        "endChar": 9
+      },
+      "revId": "0fe6122c4d9adbcdbcd10f0885c90557bc0d813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

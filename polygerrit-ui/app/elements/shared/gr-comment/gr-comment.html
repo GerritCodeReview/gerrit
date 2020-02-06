@@ -338,7 +338,19 @@ limitations under the License.
         </div>
         <div class="robotActions" hidden$="[[!_showRobotActions]]">
           <template is="dom-if" if="[[isRobotComment]]">
+            <gr-endpoint-decorator name="robot-comment-controls">
+              <gr-endpoint-param name="comment" value="[[comment]]">
+              </gr-endpoint-param>
+            </gr-endpoint-decorator>
             <template is="dom-if" if="[[!_hasHumanReply]]">
+              <gr-button
+                  link
+                  secondary
+                  class="action show-fix"
+                  hidden$="[[_hasNoFix(comment)]]"
+                  on-click="_handleShowFix">
+                Show Fix
+              </gr-button>
               <gr-button
                   link
                   class="action fix"
@@ -347,18 +359,6 @@ limitations under the License.
                 Please Fix
               </gr-button>
             </template>
-            <gr-button
-                link
-                secondary
-                class="action show-fix"
-                hidden$="[[_hasNoFix(comment)]]"
-                on-click="_handleShowFix">
-              Show Fix
-            </gr-button>
-            <gr-endpoint-decorator name="robot-comment-controls">
-              <gr-endpoint-param name="comment" value="[[comment]]">
-              </gr-endpoint-param>
-            </gr-endpoint-decorator>
           </template>
         </div>
       </div>

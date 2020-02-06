@@ -24,11 +24,13 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @extends Polymer.Element
    */
   class GrFileListHeader extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
+    Gerrit.KeyboardShortcutBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {

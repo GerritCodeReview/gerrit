@@ -441,6 +441,8 @@ limitations under the License.
                 <gr-button
                     id="replyBtn"
                     class="reply"
+                    title="[[computeTitleForButton(Shortcut.OPEN_REPLY_DIALOG,
+                      ShortcutSection.ACTIONS)]]"
                     hidden$="[[!_loggedIn]]"
                     primary
                     disabled="[[_replyDisabled]]"

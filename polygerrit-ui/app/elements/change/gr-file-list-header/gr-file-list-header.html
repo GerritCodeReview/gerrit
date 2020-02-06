@@ -223,6 +223,8 @@ limitations under the License.
         <span class="downloadContainer desktop">
           <gr-button link
               class="download"
+              title="[[computeTitleForButton(Shortcut.OPEN_DOWNLOAD_DIALOG,
+                ShortcutSection.ACTIONS)]]"
               on-click="_handleDownloadTap">Download</gr-button>
         </span>
         <span class$="includedInContainer [[_hideIncludedIn(change)]] desktop">
@@ -235,6 +237,8 @@ limitations under the License.
           <gr-button
               id="expandBtn"
               link
+              title="[[computeTitleForButton(Shortcut.EXPAND_ALL_DIFF_CONTEXT,
+                ShortcutSection.DIFFS)]]"
               on-click="_expandAllDiffs">Expand All</gr-button>
           <gr-button
               id="collapseBtn"

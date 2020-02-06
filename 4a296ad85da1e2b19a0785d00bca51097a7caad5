@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27468b33_3bd7aef9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T16:22:41Z",
+      "side": 1,
+      "message": "This is \"work in progress change\". Please ignore all this console.log things. sometimes I uploaded current state just to backup my changes.",
+      "parentUuid": "9c82938c_eb1039a5",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 41
+      },
+      "revId": "4a296ad85da1e2b19a0785d00bca51097a7caad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e127f44d_cd2ac2c1",
         "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel_test.html",
         "patchSetId": 21
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-02T14:20:42Z",
       "side": 1,
       "message": "Revert?",
+      "range": {
+        "startLine": 90,
+        "startChar": 11,
+        "endLine": 90,
+        "endChar": 15
+      },
+      "revId": "4a296ad85da1e2b19a0785d00bca51097a7caad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e357e65e_844745f0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T16:22:41Z",
+      "side": 1,
+      "message": "This is \"work in progress change\". Please ignore all. Sometimes I uploaded current state just to backup my changes.",
+      "parentUuid": "e127f44d_cd2ac2c1",
       "range": {
         "startLine": 90,
         "startChar": 11,
@@ -68,6 +116,30 @@
       "revId": "4a296ad85da1e2b19a0785d00bca51097a7caad5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "016067df_4c134212",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-06T16:22:41Z",
+      "side": 1,
+      "message": "This is \"work in progress change\". Please ignore all. Sometimes I uploaded current state just to backup my changes.",
+      "parentUuid": "2de54a5b_45263de9",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 70
+      },
+      "revId": "4a296ad85da1e2b19a0785d00bca51097a7caad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

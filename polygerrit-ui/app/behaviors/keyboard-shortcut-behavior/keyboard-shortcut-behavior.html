@@ -269,17 +269,17 @@ shortcuts are.
   _describe(Shortcut.NEXT_UNREVIEWED_FILE, ShortcutSection.DIFFS,
       'Mark file as reviewed and go to next unreviewed file');
 
-  _describe(Shortcut.NEXT_FILE, ShortcutSection.NAVIGATION, 'Select next file');
+  _describe(Shortcut.NEXT_FILE, ShortcutSection.NAVIGATION, 'Go to next file');
   _describe(Shortcut.PREV_FILE, ShortcutSection.NAVIGATION,
-      'Select previous file');
+      'Go to previous file');
   _describe(Shortcut.NEXT_FILE_WITH_COMMENTS, ShortcutSection.NAVIGATION,
-      'Select next file that has comments');
+      'Go to next file that has comments');
   _describe(Shortcut.PREV_FILE_WITH_COMMENTS, ShortcutSection.NAVIGATION,
-      'Select previous file that has comments');
+      'Go to previous file that has comments');
   _describe(Shortcut.OPEN_FIRST_FILE, ShortcutSection.NAVIGATION,
-      'Show first file');
+      'Go to first file');
   _describe(Shortcut.OPEN_LAST_FILE, ShortcutSection.NAVIGATION,
-      'Show last file');
+      'Go to last file');
   _describe(Shortcut.UP_TO_DASHBOARD, ShortcutSection.NAVIGATION,
       'Up to dashboard');
   _describe(Shortcut.UP_TO_CHANGE, ShortcutSection.NAVIGATION, 'Up to change');
@@ -348,6 +348,17 @@ shortcuts are.
 
     removeListener(listener) {
       return this.listeners.delete(listener);
+    }
+
+    getDescription(section, shortcutName) {
+      const binding =
+          _help.get(section).find(binding => binding.shortcut == shortcutName);
+      return binding ? binding.text : '';
+    }
+
+    getShortcut(shortcutName) {
+      const binding = this.bindings.get(shortcutName);
+      return binding ? this.describeBinding(binding) : '';
     }
 
     activeShortcutsBySection() {
@@ -478,6 +489,8 @@ shortcuts are.
       GO_KEY: GO_KEY,
       // eslint-disable-next-line object-shorthand
       Shortcut: Shortcut,
+      // eslint-disable-next-line object-shorthand
+      ShortcutSection: ShortcutSection,
 
       properties: {
         _shortcut_go_key_last_pressed: {
@@ -526,6 +539,12 @@ shortcuts are.
 
       bindShortcut(shortcut, ...bindings) {
         shortcutManager.bindShortcut(shortcut, ...bindings);
+      },
+
+      createTitle(shortcutName, section) {
+        const desc = shortcutManager.getDescription(section, shortcutName);
+        const shortcut = shortcutManager.getShortcut(shortcutName);
+        return (desc && shortcut) ? `${desc} (shortcut: ${shortcut})` : '';
       },
 
       _addOwnKeyBindings(shortcut, handler) {
@@ -632,6 +651,11 @@ shortcuts are.
      */
     Gerrit.KeyboardShortcutMixin = base =>
       class extends base {
+        get Shortcut() { return undefined; }
+
+        get ShortcutSection() { return undefined; }
+
+        createTitle(shortcutName, section) {}
       };
   }
 })(window);

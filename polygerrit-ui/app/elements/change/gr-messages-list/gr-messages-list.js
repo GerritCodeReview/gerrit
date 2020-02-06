@@ -25,10 +25,15 @@
     SHOW_MORE: 'show-more-messages',
   };
 
-  /** @extends Polymer.Element */
-  class GrMessagesList extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @extends Polymer.Element
+   */
+  class GrMessagesList extends Polymer.mixinBehaviors( [
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-messages-list'; }
 
     static get properties() {
@@ -55,6 +60,11 @@
           value: false,
           observer: '_expandedChanged',
         },
+
+        _expandCollapseTitle: {
+          type: String,
+        },
+
         _hideAutomated: {
           type: Boolean,
           value: false,
@@ -173,6 +183,14 @@
         for (let i = 0; i < this._visibleMessages.length; i++) {
           this.notifyPath(`_visibleMessages.${i}.expanded`);
         }
+      }
+
+      if (this._expanded) {
+        this._expandCollapseTitle = this.createTitle(
+            this.Shortcut.COLLAPSE_ALL_MESSAGES, this.ShortcutSection.ACTIONS);
+      } else {
+        this._expandCollapseTitle = this.createTitle(
+            this.Shortcut.EXPAND_ALL_MESSAGES, this.ShortcutSection.ACTIONS);
       }
     }
 

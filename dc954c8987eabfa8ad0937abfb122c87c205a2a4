@@ -16,6 +16,24 @@
       "revId": "dc954c8987eabfa8ad0937abfb122c87c205a2a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "640de630_9e2a3dac",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-06T17:03:00Z",
+      "side": 1,
+      "message": "Heads Up! 1 unresolved comment. 😊\n\nI think it\u0027s not much logic here, but I will look in next shortcut improvement.",
+      "parentUuid": "92279b4c_d364c703",
+      "revId": "dc954c8987eabfa8ad0937abfb122c87c205a2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

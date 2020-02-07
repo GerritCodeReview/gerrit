@@ -16,6 +16,24 @@
       "revId": "9a365966f353658c66426a55c7db9548f9e2ad1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcc3206e_6bded1a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-07T09:47:08Z",
+      "side": 1,
+      "message": "Not a new endpoint. Documentation already exists.",
+      "parentUuid": "993d6c64_6cfab0b5",
+      "revId": "9a365966f353658c66426a55c7db9548f9e2ad1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

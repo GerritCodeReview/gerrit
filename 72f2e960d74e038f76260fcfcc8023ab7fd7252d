@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d5b69e8_58975d1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-07T07:50:41Z",
+      "side": 1,
+      "message": "This div needs to be hidden in collapsed state. Even empty divs create a block with line-height I think.\n\nMaybe you can move hidden$\u003d\"[[!showReplyButton]]\" to this \u003cdiv\u003e, and then it would be sufficient for the delete button to have hidden$\u003d\"[[!isAdmin)]]\".",
+      "range": {
+        "startLine": 226,
+        "startChar": 15,
+        "endLine": 226,
+        "endChar": 18
+      },
+      "revId": "72f2e960d74e038f76260fcfcc8023ab7fd7252d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72000b2c_a5c063d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-07T07:50:41Z",
+      "side": 1,
+      "message": "It could take a second or two until the REST API call comes back. I think we need some pattern to indicate to the user that a request is inflight. Or does restAPI.deleteChangeCommitMessage already take care of that?",
+      "revId": "72f2e960d74e038f76260fcfcc8023ab7fd7252d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

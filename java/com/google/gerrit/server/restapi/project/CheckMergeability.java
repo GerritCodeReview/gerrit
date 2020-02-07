@@ -18,6 +18,7 @@ import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.inject.Inject;
 import java.io.IOException;
+import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;
@@ -78,7 +80,8 @@ public class CheckMergeability implements RestReadView<BranchResource> {
 
   @Override
   public Response<MergeableInfo> apply(BranchResource resource)
-      throws IOException, BadRequestException, ResourceNotFoundException {
+      throws IOException, BadRequestException, ResourceNotFoundException,
+          ResourceConflictException {
     if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
         || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
       throw new BadRequestException("Submit type: " + submitType + " is not supported");
@@ -123,6 +126,12 @@ public class CheckMergeability implements RestReadView<BranchResource> {
       }
     } catch (InvalidMergeStrategyException e) {
       throw new BadRequestException(e.getMessage());
+    } catch (NoMergeBaseException e) {
+      // TODO(ekempin) Rather return MergeableInfo with mergeable = false. But then we need a new
+      // field in MergeableInfo to carry the message to the client and the frontend needs to be
+      // adapted to show the message to the user.
+      throw new ResourceConflictException(
+          String.format("Change cannot be merged: %s", e.getMessage()), e);
     }
     return Response.ok(result);
   }

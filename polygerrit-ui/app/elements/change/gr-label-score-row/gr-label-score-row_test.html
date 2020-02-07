@@ -122,36 +122,36 @@ limitations under the License.
       assert.equal(detail.value, '-1');
     });
 
-    test('_computeButtonClass', () => {
+    test('_computeVoteAttribute', () => {
       let value = 1;
       let index = 0;
       const totalItems = 5;
       // positive and first position
-      assert.equal(element._computeButtonClass(value, index,
+      assert.equal(element._computeVoteAttribute(value, index,
           totalItems), 'positive');
       // negative and first position
       value = -1;
-      assert.equal(element._computeButtonClass(value, index,
+      assert.equal(element._computeVoteAttribute(value, index,
           totalItems), 'min');
       // negative but not first position
       index = 1;
-      assert.equal(element._computeButtonClass(value, index,
+      assert.equal(element._computeVoteAttribute(value, index,
           totalItems), 'negative');
       // neutral
       value = 0;
-      assert.equal(element._computeButtonClass(value, index,
+      assert.equal(element._computeVoteAttribute(value, index,
           totalItems), 'neutral');
       // positive but not last position
       value = 1;
-      assert.equal(element._computeButtonClass(value, index,
+      assert.equal(element._computeVoteAttribute(value, index,
           totalItems), 'positive');
       // positive and last position
       index = 4;
-      assert.equal(element._computeButtonClass(value, index,
+      assert.equal(element._computeVoteAttribute(value, index,
           totalItems), 'max');
       // negative and last position
       value = -1;
-      assert.equal(element._computeButtonClass(value, index,
+      assert.equal(element._computeVoteAttribute(value, index,
           totalItems), 'negative');
     });
 

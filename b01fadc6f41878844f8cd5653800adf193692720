@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "3f331e40_192e70bf",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-07T10:31:16Z",
+      "side": 1,
+      "message": "Looks good.",
+      "parentUuid": "09db7225_2f052276",
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76a2c629_03ef7368",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 3
@@ -236,6 +254,30 @@
       "side": 1,
       "message": "I tried \n\n  assertThat(person).\n\nbut it doesn\u0027t autocomplete \"email\". Do I need to import something?\n\n(This is why I\u0027m not fond of wrappers like Truth)",
       "parentUuid": "76a2c629_03ef7368",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 46
+      },
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b03797e3_565c19cd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-07T10:31:16Z",
+      "side": 1,
+      "message": "You would need to import GitPersonSubject#assertThat.",
+      "parentUuid": "f409c274_899ac0fa",
       "range": {
         "startLine": 282,
         "startChar": 4,

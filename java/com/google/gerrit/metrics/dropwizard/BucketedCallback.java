@@ -22,6 +22,8 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** Abstract callback metric broken down into buckets. */
@@ -66,7 +68,13 @@ abstract class BucketedCallback<V> implements BucketedMetric {
   }
 
   void doPrune() {
-    cells.entrySet().removeIf(objectValueGaugeEntry -> !objectValueGaugeEntry.getValue().set);
+    Set<Entry<Object, BucketedCallback<V>.ValueGauge>> entries = cells.entrySet();
+    for (Map.Entry<Object, ValueGauge> e: entries) {
+      if (!e.getValue().set) {
+        entries.remove(e);
+        registry.remove(submetric(e.getKey()));
+      }
+    }
   }
 
   void doEndSet() {

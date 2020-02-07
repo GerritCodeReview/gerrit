@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4a1dca6a_e55ed049",
+        "filename": "polygerrit-ui/app/elements/font-roboto-local-loader.js",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-07T13:05:45Z",
+      "side": 1,
+      "message": "I would keep it as is",
+      "parentUuid": "eeb9fe35_495d8854",
+      "revId": "3d1aed9bd67e31697cf9ac8d402947c24537b2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a92c16b_82a7d6b7",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 34

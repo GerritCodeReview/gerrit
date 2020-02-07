@@ -1162,8 +1162,10 @@
               {message});
           break;
         case REVERT_TYPES.REVERT_SUBMISSION:
-          this._fireAction('/revert_submission', this.actions.revert_submission,
-              false, {message});
+          /* TODO(dhruvsri): remove the fallback option once BE stops sending
+          revert submission */
+          this._fireAction('/revert_submission', this.actions.revert_submission
+            || this.actions.revert, false, {message});
           break;
         default:
           console.error('invalid revert type');

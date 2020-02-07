@@ -192,11 +192,6 @@
   const AWAIT_CHANGE_ATTEMPTS = 5;
   const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
-  const REVERT_TYPES = {
-    REVERT_SINGLE_CHANGE: 1,
-    REVERT_SUBMISSION: 2,
-  };
-
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
@@ -1151,23 +1146,12 @@
     }
 
     _handleRevertDialogConfirm(e) {
-      const revertType = e.detail.revertType;
       const message = e.detail.message;
       const el = this.$.confirmRevertDialog;
       this.$.overlay.close();
       el.hidden = true;
-      switch (revertType) {
-        case REVERT_TYPES.REVERT_SINGLE_CHANGE:
-          this._fireAction('/revert', this.actions.revert, false,
-              {message});
-          break;
-        case REVERT_TYPES.REVERT_SUBMISSION:
-          this._fireAction('/revert_submission', this.actions.revert_submission,
-              false, {message});
-          break;
-        default:
-          console.error('invalid revert type');
-      }
+      this._fireAction('/revert', this.actions.revert, false,
+          {message});
     }
 
     _handleRevertSubmissionDialogConfirm() {

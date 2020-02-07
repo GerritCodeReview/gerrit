@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-popup-interface.html"/>
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
@@ -39,11 +40,16 @@ limitations under the License.
   <template>
     <div id="barfoo">some test module</div>
   </template>
-  <script>Polymer({is: 'gr-user-test-popup'});</script>
+  <script>
+    readyToTest().then(() => {
+      Polymer({is: 'gr-user-test-popup'});
+    });
+  </script>
 </dom-module>
 
 <script>
-  suite('gr-popup-interface tests', () => {
+  suite('gr-popup-interface tests', async () => {
+    await readyToTest();
     let container;
     let instance;
     let plugin;

@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-select.html">
 
@@ -50,7 +51,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-select tests', () => {
+  suite('gr-select tests', async () => {
+    await readyToTest();
     let element;
 
     setup(() => {
@@ -102,17 +104,17 @@ limitations under the License.
       assert.equal(element.bindValue, '3');
       assert.isTrue(changeStub.called);
     });
-  });
 
-  suite('gr-select no options tests', () => {
-    let element;
+    suite('gr-select no options tests', () => {
+      let element;
 
-    setup(() => {
-      element = fixture('noOptions');
-    });
+      setup(() => {
+        element = fixture('noOptions');
+      });
 
-    test('bindValue must not be changed', () => {
-      assert.isUndefined(element.bindValue);
+      test('bindValue must not be changed', () => {
+        assert.isUndefined(element.bindValue);
+      });
     });
   });
 </script>

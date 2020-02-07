@@ -24,6 +24,7 @@ limitations under the License.
 <script src="/bower_components/page/page.js"></script>
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-change-list-view.html">
 
@@ -39,7 +40,8 @@ limitations under the License.
   const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
   const COMMIT_HASH = '12345678';
 
-  suite('gr-change-list-view tests', () => {
+  suite('gr-change-list-view tests', async () => {
+    await readyToTest();
     let element;
     let sandbox;
 

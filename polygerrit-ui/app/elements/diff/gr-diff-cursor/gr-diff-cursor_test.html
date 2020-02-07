@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../scripts/util.js"></script>
 
@@ -49,7 +50,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff-cursor tests', () => {
+  suite('gr-diff-cursor tests', async () => {
+    await readyToTest();
     let sandbox;
     let cursorElement;
     let diffElement;
@@ -387,25 +389,25 @@ limitations under the License.
         done();
       });
     });
-  });
 
-  suite('gr-diff-cursor event tests', () => {
-    let sandbox;
-    let someEmptyDiv;
+    suite('gr-diff-cursor event tests', () => {
+      let sandbox;
+      let someEmptyDiv;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      someEmptyDiv = fixture('empty');
-    });
-
-    teardown(() => sandbox.restore());
-
-    test('ready is fired after component is rendered', done => {
-      const cursorElement = document.createElement('gr-diff-cursor');
-      cursorElement.addEventListener('ready', () => {
-        done();
+      setup(() => {
+        sandbox = sinon.sandbox.create();
+        someEmptyDiv = fixture('empty');
       });
-      someEmptyDiv.appendChild(cursorElement);
+
+      teardown(() => sandbox.restore());
+
+      test('ready is fired after component is rendered', done => {
+        const cursorElement = document.createElement('gr-diff-cursor');
+        cursorElement.addEventListener('ready', () => {
+          done();
+        });
+        someEmptyDiv.appendChild(cursorElement);
+      });
     });
   });
 </script>

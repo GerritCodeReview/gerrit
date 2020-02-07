@@ -35,7 +35,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-apply-fix-dialog tests', () => {
+  suite('gr-apply-fix-dialog tests', async () => {
+    await readyToTest();
     let element;
     let sandbox;
     const ROBOT_COMMENT = {

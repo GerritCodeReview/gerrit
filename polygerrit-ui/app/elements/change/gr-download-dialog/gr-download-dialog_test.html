@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-download-dialog.html">
 
@@ -119,7 +120,8 @@ limitations under the License.
     };
   }
 
-  suite('gr-download-dialog', () => {
+  suite('gr-download-dialog', async () => {
+    await readyToTest();
     let element;
     let sandbox;
 

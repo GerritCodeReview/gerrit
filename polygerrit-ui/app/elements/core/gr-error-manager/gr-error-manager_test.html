@@ -35,7 +35,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-error-manager tests', () => {
+  suite('gr-error-manager tests', async () => {
+    await readyToTest();
     let element;
     let sandbox;
 

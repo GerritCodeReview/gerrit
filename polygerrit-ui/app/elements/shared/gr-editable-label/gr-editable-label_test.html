@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="/bower_components/iron-test-helpers/mock-interactions.js"></script>
 
@@ -54,7 +55,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-editable-label tests', () => {
+  suite('gr-editable-label tests', async () => {
+    await readyToTest();
     let element;
     let elementNoPlaceholder;
     let input;
@@ -217,30 +219,30 @@ limitations under the License.
       // Press escape:
       MockInteractions.tap(element.$.cancelBtn);
     });
-  });
 
-  suite('gr-editable-label read-only tests', () => {
-    let element;
-    let label;
+    suite('gr-editable-label read-only tests', () => {
+      let element;
+      let label;
 
-    setup(() => {
-      element = fixture('read-only');
-      label = element.$$('label');
-    });
+      setup(() => {
+        element = fixture('read-only');
+        label = element.$$('label');
+      });
 
-    test('disallows edit when read-only', () => {
-      // The dropdown is closed.
-      assert.isFalse(element.$.dropdown.opened);
-      MockInteractions.tap(label);
+      test('disallows edit when read-only', () => {
+        // The dropdown is closed.
+        assert.isFalse(element.$.dropdown.opened);
+        MockInteractions.tap(label);
 
-      Polymer.dom.flush();
+        Polymer.dom.flush();
 
-      // The dropdown is still closed.
-      assert.isFalse(element.$.dropdown.opened);
-    });
+        // The dropdown is still closed.
+        assert.isFalse(element.$.dropdown.opened);
+      });
 
-    test('label is not marked as editable', () => {
-      assert.isFalse(label.classList.contains('editable'));
+      test('label is not marked as editable', () => {
+        assert.isFalse(label.classList.contains('editable'));
+      });
     });
   });
 </script>

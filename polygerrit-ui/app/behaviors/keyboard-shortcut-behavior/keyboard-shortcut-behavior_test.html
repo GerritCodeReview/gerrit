@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../test/common-test-setup.html"/>
 <link rel="import" href="keyboard-shortcut-behavior.html">
 
@@ -41,7 +42,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('keyboard-shortcut-behavior tests', () => {
+  suite('keyboard-shortcut-behavior tests', async () => {
+    await readyToTest();
     const kb = window.Gerrit.KeyboardShortcutBinder;
 
     let element;

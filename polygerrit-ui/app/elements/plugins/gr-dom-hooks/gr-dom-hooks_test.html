@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-dom-hooks.html"/>
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
@@ -36,7 +37,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-dom-hooks tests', () => {
+  suite('gr-dom-hooks tests', async () => {
+    await readyToTest();
     const PUBLIC_METHODS =
         ['onAttached', 'getLastAttached', 'getAllAttached', 'getModuleName'];
 

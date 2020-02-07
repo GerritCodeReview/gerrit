@@ -25,6 +25,7 @@ limitations under the License.
 <script src="/bower_components/web-component-tester/browser.js"></script>
 <script src="../../diff/gr-diff-highlight/gr-annotation.js"></script>
 
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-js-api-interface.html"/>
 
@@ -37,7 +38,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-annotation-actions-context tests', () => {
+  suite('gr-annotation-actions-context tests', async () => {
+    await readyToTest();
     let instance;
     let sandbox;
     let el;

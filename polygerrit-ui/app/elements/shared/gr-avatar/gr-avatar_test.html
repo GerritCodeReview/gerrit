@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-avatar.html">
 
@@ -35,7 +36,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-avatar tests', () => {
+  suite('gr-avatar tests', async () => {
+    await readyToTest();
     let element;
     let sandbox;
 
@@ -130,69 +132,28 @@ limitations under the License.
             element.style.backgroundImage.includes('/accounts/123/avatar?s=64'));
       });
     });
-  });
 
-  suite('plugin has avatars', () => {
-    let element;
-    let sandbox;
+    suite('plugin has avatars', () => {
+      let element;
+      let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+      setup(() => {
+        sandbox = sinon.sandbox.create();
 
-      stub('gr-avatar', {
-        _getConfig: () => Promise.resolve({plugin: {has_avatars: true}}),
+        stub('gr-avatar', {
+          _getConfig: () => Promise.resolve({plugin: {has_avatars: true}}),
+        });
+
+        element = fixture('basic');
       });
 
-      element = fixture('basic');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('dom for non available account', () => {
-      assert.isFalse(element.hasAttribute('hidden'));
-
-      // Emulate plugins loaded.
-      Gerrit._loadPlugins([]);
-
-      return Promise.all([
-        element.$.restAPI.getConfig(),
-        Gerrit.awaitPluginsLoaded(),
-      ]).then(() => {
-        assert.isTrue(element.hasAttribute('hidden'));
-
-        assert.strictEqual(element.style.backgroundImage, '');
-      });
-    });
-  });
-
-  suite('config not set', () => {
-    let element;
-    let sandbox;
-
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-
-      stub('gr-avatar', {
-        _getConfig: () => Promise.resolve({}),
+      teardown(() => {
+        sandbox.restore();
       });
 
-      element = fixture('basic');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('avatar hidden when account set', () => {
-      flush(() => {
+      test('dom for non available account', () => {
         assert.isFalse(element.hasAttribute('hidden'));
 
-        element.imageSize = 64;
-        element.account = {
-          _account_id: 123,
-        };
         // Emulate plugins loaded.
         Gerrit._loadPlugins([]);
 
@@ -201,6 +162,47 @@ limitations under the License.
           Gerrit.awaitPluginsLoaded(),
         ]).then(() => {
           assert.isTrue(element.hasAttribute('hidden'));
+
+          assert.strictEqual(element.style.backgroundImage, '');
+        });
+      });
+    });
+
+    suite('config not set', () => {
+      let element;
+      let sandbox;
+
+      setup(() => {
+        sandbox = sinon.sandbox.create();
+
+        stub('gr-avatar', {
+          _getConfig: () => Promise.resolve({}),
+        });
+
+        element = fixture('basic');
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('avatar hidden when account set', () => {
+        flush(() => {
+          assert.isFalse(element.hasAttribute('hidden'));
+
+          element.imageSize = 64;
+          element.account = {
+            _account_id: 123,
+          };
+          // Emulate plugins loaded.
+          Gerrit._loadPlugins([]);
+
+          return Promise.all([
+            element.$.restAPI.getConfig(),
+            Gerrit.awaitPluginsLoaded(),
+          ]).then(() => {
+            assert.isTrue(element.hasAttribute('hidden'));
+          });
         });
       });
     });

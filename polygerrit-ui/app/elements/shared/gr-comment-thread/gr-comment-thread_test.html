@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../scripts/util.js"></script>
 
@@ -43,185 +44,189 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-comment-thread tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-comment-thread tests', async () => {
+    await readyToTest();
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
+    suite('basic test', () => {
+      let element;
+      let sandbox;
+
+      setup(() => {
+        sandbox = sinon.sandbox.create();
+        stub('gr-rest-api-interface', {
+          getLoggedIn() { return Promise.resolve(false); },
+        });
+        sandbox = sinon.sandbox.create();
+        element = fixture('basic');
       });
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+      teardown(() => {
+        sandbox.restore();
+      });
 
-    test('comments are sorted correctly', () => {
-      const comments = [
-        {
+      test('comments are sorted correctly', () => {
+        const comments = [
+          {
+            message: 'i like you, too',
+            in_reply_to: 'sallys_confession',
+            __date: new Date('2015-12-25'),
+          }, {
+            id: 'sallys_confession',
+            message: 'i like you, jack',
+            updated: '2015-12-24 15:00:20.396000000',
+          }, {
+            id: 'sally_to_dr_finklestein',
+            message: 'i’m running away',
+            updated: '2015-10-31 09:00:20.396000000',
+          }, {
+            id: 'sallys_defiance',
+            in_reply_to: 'sally_to_dr_finklestein',
+            message: 'i will poison you so i can get away',
+            updated: '2015-10-31 15:00:20.396000000',
+          }, {
+            id: 'dr_finklesteins_response',
+            in_reply_to: 'sally_to_dr_finklestein',
+            message: 'no i will pull a thread and your arm will fall off',
+            updated: '2015-10-31 11:00:20.396000000',
+          }, {
+            id: 'sallys_mission',
+            message: 'i have to find santa',
+            updated: '2015-12-24 15:00:20.396000000',
+          },
+        ];
+        const results = element._sortedComments(comments);
+        assert.deepEqual(results, [
+          {
+            id: 'sally_to_dr_finklestein',
+            message: 'i’m running away',
+            updated: '2015-10-31 09:00:20.396000000',
+          }, {
+            id: 'dr_finklesteins_response',
+            in_reply_to: 'sally_to_dr_finklestein',
+            message: 'no i will pull a thread and your arm will fall off',
+            updated: '2015-10-31 11:00:20.396000000',
+          }, {
+            id: 'sallys_defiance',
+            in_reply_to: 'sally_to_dr_finklestein',
+            message: 'i will poison you so i can get away',
+            updated: '2015-10-31 15:00:20.396000000',
+          }, {
+            id: 'sallys_confession',
+            message: 'i like you, jack',
+            updated: '2015-12-24 15:00:20.396000000',
+          }, {
+            id: 'sallys_mission',
+            message: 'i have to find santa',
+            updated: '2015-12-24 15:00:20.396000000',
+          }, {
+            message: 'i like you, too',
+            in_reply_to: 'sallys_confession',
+            __date: new Date('2015-12-25'),
+          },
+        ]);
+      });
+
+      test('addOrEditDraft w/ edit draft', () => {
+        element.comments = [{
+          id: 'jacks_reply',
           message: 'i like you, too',
           in_reply_to: 'sallys_confession',
-          __date: new Date('2015-12-25'),
-        }, {
-          id: 'sallys_confession',
-          message: 'i like you, jack',
-          updated: '2015-12-24 15:00:20.396000000',
-        }, {
-          id: 'sally_to_dr_finklestein',
-          message: 'i’m running away',
-          updated: '2015-10-31 09:00:20.396000000',
-        }, {
-          id: 'sallys_defiance',
-          in_reply_to: 'sally_to_dr_finklestein',
-          message: 'i will poison you so i can get away',
-          updated: '2015-10-31 15:00:20.396000000',
-        }, {
-          id: 'dr_finklesteins_response',
-          in_reply_to: 'sally_to_dr_finklestein',
-          message: 'no i will pull a thread and your arm will fall off',
-          updated: '2015-10-31 11:00:20.396000000',
-        }, {
-          id: 'sallys_mission',
-          message: 'i have to find santa',
-          updated: '2015-12-24 15:00:20.396000000',
-        },
-      ];
-      const results = element._sortedComments(comments);
-      assert.deepEqual(results, [
-        {
-          id: 'sally_to_dr_finklestein',
-          message: 'i’m running away',
-          updated: '2015-10-31 09:00:20.396000000',
-        }, {
-          id: 'dr_finklesteins_response',
-          in_reply_to: 'sally_to_dr_finklestein',
-          message: 'no i will pull a thread and your arm will fall off',
-          updated: '2015-10-31 11:00:20.396000000',
-        }, {
-          id: 'sallys_defiance',
-          in_reply_to: 'sally_to_dr_finklestein',
-          message: 'i will poison you so i can get away',
-          updated: '2015-10-31 15:00:20.396000000',
-        }, {
-          id: 'sallys_confession',
-          message: 'i like you, jack',
-          updated: '2015-12-24 15:00:20.396000000',
-        }, {
-          id: 'sallys_mission',
-          message: 'i have to find santa',
-          updated: '2015-12-24 15:00:20.396000000',
-        }, {
-          message: 'i like you, too',
-          in_reply_to: 'sallys_confession',
-          __date: new Date('2015-12-25'),
-        },
-      ]);
-    });
+          updated: '2015-12-25 15:00:20.396000000',
+          __draft: true,
+        }];
+        const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+            () => { return {}; });
+        const addDraftStub = sandbox.stub(element, 'addDraft');
 
-    test('addOrEditDraft w/ edit draft', () => {
-      element.comments = [{
-        id: 'jacks_reply',
-        message: 'i like you, too',
-        in_reply_to: 'sallys_confession',
-        updated: '2015-12-25 15:00:20.396000000',
-        __draft: true,
-      }];
-      const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
-          () => { return {}; });
-      const addDraftStub = sandbox.stub(element, 'addDraft');
+        element.addOrEditDraft(123);
 
-      element.addOrEditDraft(123);
-
-      assert.isTrue(commentElStub.called);
-      assert.isFalse(addDraftStub.called);
-    });
-
-    test('addOrEditDraft w/o edit draft', () => {
-      element.comments = [];
-      const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
-          () => { return {}; });
-      const addDraftStub = sandbox.stub(element, 'addDraft');
-
-      element.addOrEditDraft(123);
-
-      assert.isFalse(commentElStub.called);
-      assert.isTrue(addDraftStub.called);
-    });
-
-    test('_shouldDisableAction', () => {
-      let showActions = true;
-      const lastComment = {};
-      assert.equal(
-          element._shouldDisableAction(showActions, lastComment), false);
-      showActions = false;
-      assert.equal(
-          element._shouldDisableAction(showActions, lastComment), true);
-      showActions = true;
-      lastComment.__draft = true;
-      assert.equal(
-          element._shouldDisableAction(showActions, lastComment), true);
-      const robotComment = {};
-      robotComment.robot_id = true;
-      assert.equal(
-          element._shouldDisableAction(showActions, robotComment), false);
-    });
-
-    test('_hideActions', () => {
-      let showActions = true;
-      const lastComment = {};
-      assert.equal(element._hideActions(showActions, lastComment), false);
-      showActions = false;
-      assert.equal(element._hideActions(showActions, lastComment), true);
-      showActions = true;
-      lastComment.__draft = true;
-      assert.equal(element._hideActions(showActions, lastComment), true);
-      const robotComment = {};
-      robotComment.robot_id = true;
-      assert.equal(element._hideActions(showActions, robotComment), true);
-    });
-
-    test('setting project name loads the project config', done => {
-      const projectName = 'foo/bar/baz';
-      const getProjectStub = sandbox.stub(element.$.restAPI, 'getProjectConfig')
-          .returns(Promise.resolve({}));
-      element.projectName = projectName;
-      flush(() => {
-        assert.isTrue(getProjectStub.calledWithExactly(projectName));
-        done();
+        assert.isTrue(commentElStub.called);
+        assert.isFalse(addDraftStub.called);
       });
-    });
 
-    test('optionally show file path', () => {
-      // Path info doesn't exist when showFilePath is false. Because it's in a
-      // dom-if it is not yet in the dom.
-      assert.isNotOk(element.$$('.pathInfo'));
+      test('addOrEditDraft w/o edit draft', () => {
+        element.comments = [];
+        const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+            () => { return {}; });
+        const addDraftStub = sandbox.stub(element, 'addDraft');
 
-      sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
-      element.changeNum = 123;
-      element.projectName = 'test project';
-      element.path = 'path/to/file';
-      element.patchNum = 3;
-      element.lineNum = 5;
-      element.showFilePath = true;
-      flushAsynchronousOperations();
-      assert.isOk(element.$$('.pathInfo'));
-      assert.notEqual(getComputedStyle(element.$$('.pathInfo')).display,
-          'none');
-      assert.isTrue(Gerrit.Nav.getUrlForDiffById.lastCall.calledWithExactly(
-          element.changeNum, element.projectName, element.path,
-          element.patchNum, null, element.lineNum));
-    });
+        element.addOrEditDraft(123);
 
-    test('_computeDisplayPath', () => {
-      const path = 'path/to/file';
-      assert.equal(element._computeDisplayPath(path), 'path/to/file');
+        assert.isFalse(commentElStub.called);
+        assert.isTrue(addDraftStub.called);
+      });
 
-      element.lineNum = 5;
-      assert.equal(element._computeDisplayPath(path), 'path/to/file#5');
+      test('_shouldDisableAction', () => {
+        let showActions = true;
+        const lastComment = {};
+        assert.equal(
+            element._shouldDisableAction(showActions, lastComment), false);
+        showActions = false;
+        assert.equal(
+            element._shouldDisableAction(showActions, lastComment), true);
+        showActions = true;
+        lastComment.__draft = true;
+        assert.equal(
+            element._shouldDisableAction(showActions, lastComment), true);
+        const robotComment = {};
+        robotComment.robot_id = true;
+        assert.equal(
+            element._shouldDisableAction(showActions, robotComment), false);
+      });
+
+      test('_hideActions', () => {
+        let showActions = true;
+        const lastComment = {};
+        assert.equal(element._hideActions(showActions, lastComment), false);
+        showActions = false;
+        assert.equal(element._hideActions(showActions, lastComment), true);
+        showActions = true;
+        lastComment.__draft = true;
+        assert.equal(element._hideActions(showActions, lastComment), true);
+        const robotComment = {};
+        robotComment.robot_id = true;
+        assert.equal(element._hideActions(showActions, robotComment), true);
+      });
+
+      test('setting project name loads the project config', done => {
+        const projectName = 'foo/bar/baz';
+        const getProjectStub = sandbox.stub(element.$.restAPI, 'getProjectConfig')
+            .returns(Promise.resolve({}));
+        element.projectName = projectName;
+        flush(() => {
+          assert.isTrue(getProjectStub.calledWithExactly(projectName));
+          done();
+        });
+      });
+
+      test('optionally show file path', () => {
+        // Path info doesn't exist when showFilePath is false. Because it's in a
+        // dom-if it is not yet in the dom.
+        assert.isNotOk(element.$$('.pathInfo'));
+
+        sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
+        element.changeNum = 123;
+        element.projectName = 'test project';
+        element.path = 'path/to/file';
+        element.patchNum = 3;
+        element.lineNum = 5;
+        element.showFilePath = true;
+        flushAsynchronousOperations();
+        assert.isOk(element.$$('.pathInfo'));
+        assert.notEqual(getComputedStyle(element.$$('.pathInfo')).display,
+            'none');
+        assert.isTrue(Gerrit.Nav.getUrlForDiffById.lastCall.calledWithExactly(
+            element.changeNum, element.projectName, element.path,
+            element.patchNum, null, element.lineNum));
+      });
+
+      test('_computeDisplayPath', () => {
+        const path = 'path/to/file';
+        assert.equal(element._computeDisplayPath(path), 'path/to/file');
+
+        element.lineNum = 5;
+        assert.equal(element._computeDisplayPath(path), 'path/to/file#5');
+      });
     });
   });
 

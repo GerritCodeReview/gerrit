@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-js-api-interface.html">
 
@@ -31,7 +32,8 @@ limitations under the License.
 <script>
   const PRELOADED_PROTOCOL = 'preloaded:';
 
-  suite('gr-api-utils tests', () => {
+  suite('gr-api-utils tests', async () => {
+    await readyToTest();
     suite('test getPluginNameFromUrl', () => {
       const {getPluginNameFromUrl} = window._apiUtils;
 

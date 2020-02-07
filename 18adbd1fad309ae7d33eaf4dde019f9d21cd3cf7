@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1de02575_0e20d821",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 30
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-07T13:45:36Z",
+      "side": 0,
+      "message": "The same comment: java/com/google/gerrit/httpd/raw/BazelBuild.java has to be updated.",
+      "revId": "18adbd1fad309ae7d33eaf4dde019f9d21cd3cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

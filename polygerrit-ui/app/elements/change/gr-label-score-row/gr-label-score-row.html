@@ -61,19 +61,19 @@ limitations under the License.
           @apply --vote-chip-styles;
         }
       }
-      gr-button.iron-selected.max {
+      gr-button.iron-selected[vote="max"] {
         --button-background-color: var(--vote-color-approved);
       }
-      gr-button.iron-selected.positive {
+      gr-button.iron-selected[vote="positive"] {
         --button-background-color: var(--vote-color-recommended);
       }
-      gr-button.iron-selected.min {
+      gr-button.iron-selected[vote="min"] {
         --button-background-color: var(--vote-color-rejected);
       }
-      gr-button.iron-selected.negative {
+      gr-button.iron-selected[vote="negative"] {
         --button-background-color: var(--vote-color-disliked);
       }
-      gr-button.iron-selected.neutral {
+      gr-button.iron-selected[vote="neutral"] {
         --button-background-color: var(--vote-color-neutral);
       }
       .placeholder {
@@ -114,7 +114,7 @@ limitations under the License.
             items="[[_items]]"
             as="value">
           <gr-button
-              class$="[[_computeButtonClass(value, index, _items.length)]]"
+              vote$="[[_computeVoteAttribute(value, index, _items.length)]]"
               has-tooltip
               data-name$="[[label.name]]"
               data-value$="[[value]]"

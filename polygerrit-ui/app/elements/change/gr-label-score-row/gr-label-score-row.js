@@ -99,25 +99,24 @@
       }
     }
 
-    _computeButtonClass(value, index, totalItems) {
-      const classes = [];
-      if (value === this.selectedValue) {
-        classes.push('iron-selected');
-      }
-
+    /**
+     * Maps the label value to exactly one of: min, max, positive, negative,
+     * neutral. Used for the 'vote' attribute, because we don't want to
+     * interfere with <iron-selector> using the 'class' attribute for setting
+     * 'iron-selected'.
+     */
+    _computeVoteAttribute(value, index, totalItems) {
       if (value < 0 && index === 0) {
-        classes.push('min');
+        return 'min';
       } else if (value < 0) {
-        classes.push('negative');
+        return 'negative';
       } else if (value > 0 && index === totalItems - 1) {
-        classes.push('max');
+        return 'max';
       } else if (value > 0) {
-        classes.push('positive');
+        return 'positive';
       } else {
-        classes.push('neutral');
+        return 'neutral';
       }
-
-      return classes.join(' ');
     }
 
     _computeLabelValue(labels, permittedLabels, label) {

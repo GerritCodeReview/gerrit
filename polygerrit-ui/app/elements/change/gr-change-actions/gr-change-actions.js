@@ -1162,8 +1162,8 @@
               {message});
           break;
         case REVERT_TYPES.REVERT_SUBMISSION:
-          this._fireAction('/revert_submission', this.actions.revert_submission,
-              false, {message});
+          this._fireAction('/revert', this.actions.revert, false,
+              {message});
           break;
         default:
           console.error('invalid revert type');

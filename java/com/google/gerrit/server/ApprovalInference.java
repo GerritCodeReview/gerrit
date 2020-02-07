@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.entities.Account;
@@ -54,6 +55,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 @Singleton
 public class ApprovalInference {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
@@ -95,29 +98,175 @@ public class ApprovalInference {
     checkArgument(n != psId.get());
     LabelType type = project.getLabelTypes().byLabel(psa.labelId());
     if (type == null) {
+      logger.atFine().log(
+          "approval %d on label %s of patch set %d of change %d cannot be copied"
+              + " to patch set %d because the label no longer exists on project %s",
+          psa.value(),
+          psa.label(),
+          n,
+          psa.key().patchSetId().changeId().get(),
+          psId.get(),
+          project.getName());
       return false;
-    } else if ((type.isCopyMinScore() && type.isMaxNegative(psa))
-        || (type.isCopyMaxScore() && type.isMaxPositive(psa))) {
+    } else if (type.isCopyMinScore() && type.isMaxNegative(psa)) {
+      logger.atFine().log(
+          "veto approval %s on label %s of patch set %d of change %d can be copied"
+              + " to patch set %d because the label has set copyMinScore = true on project %s",
+          psa.value(),
+          psa.label(),
+          n,
+          psa.key().patchSetId().changeId().get(),
+          psId.get(),
+          project.getName());
+      return true;
+    } else if (type.isCopyMaxScore() && type.isMaxPositive(psa)) {
+      logger.atFine().log(
+          "max approval %s on label %s of patch set %d of change %d can be copied"
+              + " to patch set %d because the label has set copyMaxScore = true on project %s",
+          psa.value(),
+          psa.label(),
+          n,
+          psa.key().patchSetId().changeId().get(),
+          psId.get(),
+          project.getName());
       return true;
     } else if (type.isCopyAnyScore()) {
+      logger.atFine().log(
+          "approval %d on label %s of patch set %d of change %d can be copied"
+              + " to patch set %d because the label has set copyAnyScore = true on project %s",
+          psa.value(),
+          psa.label(),
+          n,
+          psa.key().patchSetId().changeId().get(),
+          psId.get(),
+          project.getName());
       return true;
     } else if (type.getCopyValues().contains(psa.value())) {
+      logger.atFine().log(
+          "approval %d on label %s of patch set %d of change %d can be copied"
+              + " to patch set %d because the label has set copyValue = %d on project %s",
+          psa.value(),
+          psa.label(),
+          n,
+          psa.key().patchSetId().changeId().get(),
+          psId.get(),
+          psa.value(),
+          project.getName());
       return true;
     }
     switch (kind) {
       case MERGE_FIRST_PARENT_UPDATE:
-        return type.isCopyAllScoresOnMergeFirstParentUpdate();
+        if (type.isCopyAllScoresOnMergeFirstParentUpdate()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
+              psa.value(),
+              psa.label(),
+              n,
+              psa.key().patchSetId().changeId().get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        return false;
       case NO_CODE_CHANGE:
-        return type.isCopyAllScoresIfNoCodeChange();
+        if (type.isCopyAllScoresIfNoCodeChange()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresIfNoCodeChange = true on project %s",
+              psa.value(),
+              psa.label(),
+              n,
+              psa.key().patchSetId().changeId().get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        return false;
       case TRIVIAL_REBASE:
-        return type.isCopyAllScoresOnTrivialRebase();
+        if (type.isCopyAllScoresOnTrivialRebase()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresOnTrivialRebase = true on project %s",
+              psa.value(),
+              psa.label(),
+              n,
+              psa.key().patchSetId().changeId().get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        return false;
       case NO_CHANGE:
-        return type.isCopyAllScoresIfNoChange()
-            || type.isCopyAllScoresOnTrivialRebase()
-            || type.isCopyAllScoresOnMergeFirstParentUpdate()
-            || type.isCopyAllScoresIfNoCodeChange();
+        if (type.isCopyAllScoresIfNoChange()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresIfNoCodeChange = true on project %s",
+              psa.value(),
+              psa.label(),
+              n,
+              psa.key().patchSetId().changeId().get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        if (type.isCopyAllScoresOnTrivialRebase()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresOnTrivialRebase = true on project %s",
+              psa.value(),
+              psa.label(),
+              n,
+              psa.key().patchSetId().changeId().get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        if (type.isCopyAllScoresOnMergeFirstParentUpdate()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
+              psa.value(),
+              psa.label(),
+              n,
+              psa.key().patchSetId().changeId().get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        if (type.isCopyAllScoresIfNoCodeChange()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresIfNoCodeChange = true on project %s",
+              psa.value(),
+              psa.label(),
+              n,
+              psa.key().patchSetId().changeId().get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        return false;
       case REWORK:
       default:
+        logger.atFine().log(
+            "approval %d on label %s of patch set %d of change %d cannot be copied"
+                + " to patch set %d because change kind is %s",
+            psa.value(), psa.label(), n, psa.key().patchSetId().changeId().get(), psId.get(), kind);
         return false;
     }
   }
@@ -179,6 +328,9 @@ public class ApprovalInference {
             repoConfig,
             priorPatchSet.getValue().commitId(),
             ps.commitId());
+    logger.atFine().log(
+        "change kind for patch set %d of change %d against prior patch set %s is %s",
+        ps.id().get(), ps.id().changeId().get(), priorPatchSet.getValue().id().changeId(), kind);
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9872e2e8_9a6d64f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1166,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-02-07T10:52:37Z",
+      "side": 1,
+      "message": "I think you can already do this.",
+      "range": {
+        "startLine": 1165,
+        "startChar": 11,
+        "endLine": 1166,
+        "endChar": 30
+      },
+      "revId": "f9dcb7390823531077e23d599521fa62b315ec19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -322,7 +322,8 @@
         _robotCommentsPatchSetDropdownItems: {
           type: Array,
           value() { return []; },
-          computed: '_computeRobotCommentsPatchSetDropdownItems(_change)',
+          computed: '_computeRobotCommentsPatchSetDropdownItems(_change, ' +
+            '_commentThreads)',
         },
         _currentRobotCommentsPatchSet: {
           type: Number,
@@ -593,13 +594,32 @@
       return false;
     }
 
-    _computeRobotCommentsPatchSetDropdownItems(change) {
-      if (!change.revisions) return [];
+    _commentCountPerPatchSet(threads) {
+      const containsRobotComment = comments => comments.some(
+          comment => comment.robot_id
+      );
+      return threads.reduce((count, thread) => {
+        const comments = thread.comments;
+        if (comments.length === 0 || !containsRobotComment(comments)) {
+          return count;
+        }
+        count[comments[0].patch_set] = (count[comments[0].patch_set] || 0) +
+          comments.length;
+        return count;
+      }, {});
+    }
+
+    _computeRobotCommentsPatchSetDropdownItems(change, commentThreads) {
+      if (!change || !commentThreads || !change.revisions) return [];
+      const commentCount = this._commentCountPerPatchSet(commentThreads);
+      const findingsText = patch =>
+        'Patchset ' + patch + ' (' + (commentCount[patch] || 0) + ' findings)';
+
       return Object.values(change.revisions)
           .filter(patch => patch._number !== 'edit')
           .map(patch => {
             return {
-              text: 'Patchset ' + patch._number,
+              text: findingsText(patch._number),
               value: patch._number,
             };
           })

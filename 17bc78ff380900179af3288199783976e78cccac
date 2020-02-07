@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "1cd22a52_6ca4ea5c",
+        "filename": "polygerrit-ui/app/rollup.config.js",
+        "patchSetId": 41
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-07T14:13:35Z",
+      "side": 1,
+      "message": "\u003e It seems, comments can be removed by terser.\n\nCan you point out how to do it? We could test the size of the app when the comments are wiped out.",
+      "parentUuid": "cd5ce4a4_361c4d88",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 55
+      },
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d7e4ace_bff78eeb",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 41
@@ -1232,6 +1256,24 @@
       "revId": "17bc78ff380900179af3288199783976e78cccac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cce986b8_d6e35abf",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/utils.js",
+        "patchSetId": 41
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-07T14:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "812b3180_24c8eb4d",
+      "revId": "17bc78ff380900179af3288199783976e78cccac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

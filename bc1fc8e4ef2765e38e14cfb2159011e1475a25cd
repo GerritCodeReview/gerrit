@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a2439ad_46ea1a99",
+        "filename": "package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-08T12:20:48Z",
+      "side": 1,
+      "message": "What if bazelisk is found, but the tests fail?  Won\u0027t then attempt to run the tests again with bazel?",
+      "revId": "bc1fc8e4ef2765e38e14cfb2159011e1475a25cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

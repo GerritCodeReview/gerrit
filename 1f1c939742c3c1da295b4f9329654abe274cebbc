@@ -70,6 +70,29 @@
       "revId": "1f1c939742c3c1da295b4f9329654abe274cebbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dedfbe4c_c361b4fe",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1600,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-08T18:49:54Z",
+      "side": 1,
+      "message": "If extending REST endpoint, would it also make sense to extend the SSH command to accept uuid parameter, because SSH command is using the REST endpoint?",
+      "range": {
+        "startLine": 1600,
+        "startChar": 0,
+        "endLine": 1600,
+        "endChar": 49
+      },
+      "revId": "1f1c939742c3c1da295b4f9329654abe274cebbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

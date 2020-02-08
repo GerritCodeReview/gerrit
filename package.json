@@ -19,7 +19,7 @@
     "eslint": "./node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app",
     "eslintfix": "npm run eslint -- --fix",
     "test-template": "./polygerrit-ui/app/run_template_test.sh",
-    "polylint": "bazel test polygerrit-ui/app:polylint_test"
+    "polylint": "which bazelisk 2>/dev/null && bazelisk test polygerrit-ui/app:polylint_test || bazel test polygerrit-ui/app:polylint_test"
   },
   "repository": {
     "type": "git",

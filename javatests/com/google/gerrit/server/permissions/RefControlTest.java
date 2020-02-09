@@ -477,6 +477,20 @@ public class RefControlTest {
   }
 
   @Test
+  public void usernamePatternRegExpCanUpdate() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(
+            allow(PUSH)
+                .ref("^refs/heads/users/${username}/(public|private)/.+")
+                .group(REGISTERED_USERS))
+        .update();
+    ProjectControl u = user(localKey, "a-registered-user");
+    assertCanUpdate("refs/heads/users/a-registered-user/private/a", u);
+  }
+
+  @Test
   public void usernamePatternNonRegex() throws Exception {
     projectOperations
         .project(localKey)
@@ -1130,6 +1144,15 @@ public class RefControlTest {
   }
 
   @Test
+  public void toRegExpRefPatternsOK() throws Exception {
+    RefPattern.toRegExp("refs/*");
+    RefPattern.toRegExp("^refs/heads/*");
+    RefPattern.toRegExp("^refs/tags/[0-9a-zA-Z-_.]+");
+    RefPattern.toRegExp("refs/heads/review/${username}/*");
+    RefPattern.toRegExp("^refs/heads/review/${username}/.+");
+  }
+
+  @Test
   public void testValidateBadRefPatternDoubleCaret() throws Exception {
     assertThrows(InvalidNameException.class, () -> RefPattern.validate("^^refs/*"));
   }
@@ -1144,6 +1167,11 @@ public class RefControlTest {
   @Test
   public void validateRefPatternNoDanglingCharacter() throws Exception {
     RefPattern.validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}");
+  }
+
+  @Test
+  public void toRegExpRefPatternNoDanglingCharacter() throws Exception {
+    RefPattern.toRegExp("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}");
   }
 
   private ProjectState getProjectState(Project.NameKey nameKey) throws Exception {

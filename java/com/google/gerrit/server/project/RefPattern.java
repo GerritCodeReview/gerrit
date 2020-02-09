@@ -18,10 +18,13 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import dk.brics.automaton.RegExp;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -74,7 +77,13 @@ public class RefPattern {
     if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);
     }
-    return new RegExp(refPattern, RegExp.NONE);
+    ParameterizedString template = new ParameterizedString(refPattern);
+    String replacement = "_PLACEHOLDER_";
+    Map<String, String> params =
+        ImmutableMap.of(
+            RefPattern.USERID_SHARDED, replacement,
+            RefPattern.USERNAME, replacement);
+    return new RegExp(template.replace(params), RegExp.NONE);
   }
 
   public static void validate(String refPattern) throws InvalidNameException {

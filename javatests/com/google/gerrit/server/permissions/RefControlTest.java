@@ -526,10 +526,10 @@ public class RefControlTest {
   }
 
   @Test
-  public void usernamePatternRegExpCanUpdate() throws Exception {
+  public void usernamePatternRegExpCanUploadToAnyRef() throws Exception {
     allow(local, PUSH, REGISTERED_USERS, "^refs/heads/users/${username}/(public|private)/.+");
     ProjectControl u = user(local, "a-registered-user");
-    assertCanUpdate("refs/heads/users/a-registered-user/private/a", u);
+    assertCanUpload(u);
   }
 
   @Test
@@ -548,6 +548,8 @@ public class RefControlTest {
 
     ProjectControl u = user(local, "d.v", DEVS);
     ProjectControl d = user(local, "dev", DEVS);
+    assertCanAccess(u);
+    assertCanAccess(d);
     assertCannotRead("refs/sb/dev/heads/foobar", u);
     assertCanRead("refs/sb/dev/heads/foobar", d);
   }

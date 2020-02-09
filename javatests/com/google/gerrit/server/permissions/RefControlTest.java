@@ -477,7 +477,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void usernamePatternRegExpCanUpdate() throws Exception {
+  public void usernamePatternRegExpCanUploadToAnyRef() throws Exception {
     projectOperations
         .project(localKey)
         .forUpdate()
@@ -487,7 +487,7 @@ public class RefControlTest {
                 .group(REGISTERED_USERS))
         .update();
     ProjectControl u = user(localKey, "a-registered-user");
-    assertCanUpdate("refs/heads/users/a-registered-user/private/a", u);
+    assertCanUpload(u);
   }
 
   @Test
@@ -514,6 +514,8 @@ public class RefControlTest {
 
     ProjectControl u = user(localKey, "d.v", DEVS);
     ProjectControl d = user(localKey, "dev", DEVS);
+    assertCanAccess(u);
+    assertCanAccess(d);
     assertCannotRead("refs/sb/dev/heads/foobar", u);
     assertCanRead("refs/sb/dev/heads/foobar", d);
   }

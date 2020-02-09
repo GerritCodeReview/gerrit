@@ -15,7 +15,6 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.gerrit.common.data.PermissionRule.Action.BLOCK;
-import static com.google.gerrit.server.project.RefPattern.isRE;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toList;
 
@@ -33,7 +32,6 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.RefPatternMatcher.ExpandParameters;
 import com.google.gerrit.server.project.SectionMatcher;
 import com.google.inject.Inject;
@@ -130,9 +128,7 @@ public class PermissionCollection {
     PermissionCollection filter(
         Iterable<SectionMatcher> matcherList, String ref, CurrentUser user) {
       try (Timer0.Context ignored = filterLatency.start()) {
-        if (isRE(ref)) {
-          ref = RefPattern.shortestExample(ref);
-        } else if (ref.endsWith("/*")) {
+        if (ref.endsWith("/*")) {
           ref = ref.substring(0, ref.length() - 1);
         }
 

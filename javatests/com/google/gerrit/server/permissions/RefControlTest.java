@@ -505,6 +505,20 @@ public class RefControlTest {
   }
 
   @Test
+  public void accessSingleRefUsernamePatternWithRegex() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allow(READ).ref("^refs/sb/${username}/heads/.*").group(DEVS))
+        .update();
+
+    ProjectControl u = user(localKey, "d.v", DEVS);
+    ProjectControl d = user(localKey, "dev", ADMIN);
+    assertCanAccess(u);
+    assertAccessDenied(d);
+  }
+
+  @Test
   public void usernameEmailPatternWithRegex() throws Exception {
     projectOperations
         .project(localKey)

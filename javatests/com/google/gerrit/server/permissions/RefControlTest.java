@@ -526,6 +526,13 @@ public class RefControlTest {
   }
 
   @Test
+  public void usernamePatternRegExpCanUploadToAnyRef() {
+    allow(local, PUSH, REGISTERED_USERS, "^refs/heads/users/${username}/(public|private)/.+");
+    ProjectControl u = user(local, "a-registered-user");
+    assertCanUpdate("refs/heads/users/a-registered-user/private/a", u);
+  }
+
+  @Test
   public void usernamePatternNonRegex() {
     allow(local, READ, DEVS, "refs/sb/${username}/heads/*");
 
@@ -943,6 +950,7 @@ public class RefControlTest {
     RefPattern.validate("^refs/heads/*");
     RefPattern.validate("^refs/tags/[0-9a-zA-Z-_.]+");
     RefPattern.validate("refs/heads/review/${username}/*");
+    RefPattern.validate("^refs/heads/review/${username}/.+");
   }
 
   @Test(expected = InvalidNameException.class)

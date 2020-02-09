@@ -93,6 +93,30 @@
       "revId": "1f1c939742c3c1da295b4f9329654abe274cebbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b23d49d_8e24c479",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1600,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-09T04:10:23Z",
+      "side": 1,
+      "message": "Good idea. Maybe do it as a follow-up?",
+      "parentUuid": "dedfbe4c_c361b4fe",
+      "range": {
+        "startLine": 1600,
+        "startChar": 0,
+        "endLine": 1600,
+        "endChar": 49
+      },
+      "revId": "1f1c939742c3c1da295b4f9329654abe274cebbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7276077f_9b1d78a5",
+        "filename": ".bazelversion",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-09T11:09:23Z",
+      "side": 1,
+      "message": "Unrelated here. I reverted the Bazel upgrade in this change to verify that the test breakage is actually caused by Bazel upgrade.",
+      "revId": "df7f9d8eec2beab0d849b44e5877250e611caae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,23 @@
       "revId": "7d82ad054b4e4506d04779da50e890d646644534",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fcc9b5d_2aaf0c6c",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T12:55:32Z",
+      "side": 0,
+      "message": "Could you replace this dep with \"//lib/js:sinonjs\" here instead of adding it in polygerrit-ui/app/BUILD?",
+      "revId": "7d82ad054b4e4506d04779da50e890d646644534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

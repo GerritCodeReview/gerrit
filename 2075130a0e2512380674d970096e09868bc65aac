@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e94075a_08b893d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-10T12:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aae34c8_479fe2bc",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "2075130a0e2512380674d970096e09868bc65aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0baf684_c4d5c871",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "2075130a0e2512380674d970096e09868bc65aac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcbcad2f_1c942bfd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6099,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-10T12:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0baf684_c4d5c871",
+      "range": {
+        "startLine": 6099,
+        "startChar": 3,
+        "endLine": 6099,
+        "endChar": 36
+      },
+      "revId": "2075130a0e2512380674d970096e09868bc65aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5161897a_21d540d4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6104,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-10T12:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80afaede_a9f942e7",
+      "range": {
+        "startLine": 6103,
+        "startChar": 52,
+        "endLine": 6104,
+        "endChar": 22
+      },
+      "revId": "2075130a0e2512380674d970096e09868bc65aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3c35956_79913760",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 5
@@ -91,6 +163,30 @@
       "revId": "2075130a0e2512380674d970096e09868bc65aac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97b60f11_14ef6e60",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-10T12:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3c35956_79913760",
+      "range": {
+        "startLine": 281,
+        "startChar": 37,
+        "endLine": 281,
+        "endChar": 43
+      },
+      "revId": "2075130a0e2512380674d970096e09868bc65aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

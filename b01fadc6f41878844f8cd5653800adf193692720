@@ -287,6 +287,30 @@
       "revId": "b01fadc6f41878844f8cd5653800adf193692720",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d425eb73_3e420790",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-10T12:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b03797e3_565c19cd",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 46
+      },
+      "revId": "b01fadc6f41878844f8cd5653800adf193692720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

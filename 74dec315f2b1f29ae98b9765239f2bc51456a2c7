@@ -22,6 +22,30 @@
       "revId": "74dec315f2b1f29ae98b9765239f2bc51456a2c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a9e7197_4e3f071b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-10T15:05:54Z",
+      "side": 1,
+      "message": "ah I the vscode is trying to be smart to auto enable multiple line edition on the pair of `div` when I modify one of it... or maybe just some extension i have.",
+      "parentUuid": "073cbea9_da506cf6",
+      "range": {
+        "startLine": 238,
+        "startChar": 21,
+        "endLine": 238,
+        "endChar": 58
+      },
+      "revId": "74dec315f2b1f29ae98b9765239f2bc51456a2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

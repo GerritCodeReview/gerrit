@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a79fef65_ecf25035",
+        "filename": "polygerrit-ui/app/rollup.config.js",
+        "patchSetId": 46
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8d32973_d02da95d",
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d0246c5_d67c1741",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 46
@@ -59,6 +77,48 @@
     },
     {
       "key": {
+        "uuid": "a96125b0_c017b8a1",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Aligned to 100",
+      "parentUuid": "1d0246c5_d67c1741",
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf573a43_7ddcb13a",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "The file was added in the previous change. It is in the same directory (polygerrit-ui/app/)\nOr you can look at this file here:\nhttps://gerrit.googlesource.com/gerrit/+/refs/changes/11/251111/46/polygerrit-ui/app/redirects.json",
+      "parentUuid": "127b976e_d7dd03b4",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 9,
+        "endChar": 75
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "935f9a30_3fdbbe74",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 46
@@ -79,6 +139,30 @@
       "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfd50d11_82ca6ff0",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "935f9a30_3fdbbe74",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +212,54 @@
     },
     {
       "key": {
+        "uuid": "99a202a7_32509438",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16e18f65_23e66d1c",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eb9ac99_5f63d098",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ca6aad0_86b7a5e0",
+      "range": {
+        "startLine": 11,
+        "startChar": 55,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36bb8b74_7d066eed",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 46
@@ -148,6 +280,30 @@
       "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e2ebbb0_79f1b713",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36bb8b74_7d066eed",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -197,6 +353,54 @@
     },
     {
       "key": {
+        "uuid": "1f8b0fe5_34ec229e",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "257939b4_efadfd69",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 71
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89babd2d_e8832afc",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bdbccc7_2696f738",
+      "range": {
+        "startLine": 13,
+        "startChar": 91,
+        "endLine": 13,
+        "endChar": 92
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b8bdcf7_5e93bee2",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 46
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "15608882_8df17a8c",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b8bdcf7_5e93bee2",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 23
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d90c462_81509754",
         "filename": "tools/node_tools/polygerrit_app_preprocessor/README.md",
         "patchSetId": 46
@@ -231,6 +459,24 @@
       "writtenOn": "2020-02-10T10:32:57Z",
       "side": 1,
       "message": "Will both tools be deleted after migration from HTML imports to ES modules?\n\nDepending on the answer I will either spend or not spend time on reviewing any of this. :-)\n\nAlso add the answer to the file.",
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aed3190a_fe330bfa",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/README.md",
+        "patchSetId": 46
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:36:55Z",
+      "side": 1,
+      "message": "Yes, both tools will be deleted.",
+      "parentUuid": "7d90c462_81509754",
       "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

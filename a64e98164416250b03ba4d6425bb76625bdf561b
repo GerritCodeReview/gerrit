@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9237b77_d67a1447",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 47
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-10T12:02:25Z",
+      "side": 1,
+      "message": "necessary",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "a64e98164416250b03ba4d6425bb76625bdf561b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24d3cc3e_867af641",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 47
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-10T12:02:25Z",
+      "side": 1,
+      "message": "superfluous",
+      "range": {
+        "startLine": 220,
+        "startChar": 8,
+        "endLine": 221,
+        "endChar": 17
+      },
+      "revId": "a64e98164416250b03ba4d6425bb76625bdf561b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2887c48a_766b3583",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 47
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-10T12:02:25Z",
+      "side": 1,
+      "message": "these are lists, right? Should you do sort so list ordering doesn\u0027t make a difference?",
+      "range": {
+        "startLine": 277,
+        "startChar": 11,
+        "endLine": 277,
+        "endChar": 58
+      },
+      "revId": "a64e98164416250b03ba4d6425bb76625bdf561b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dc2f529_f74e957d",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 47
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-10T12:02:25Z",
+      "side": 1,
+      "message": "one \" too many.",
+      "range": {
+        "startLine": 283,
+        "startChar": 3,
+        "endLine": 283,
+        "endChar": 8
+      },
+      "revId": "a64e98164416250b03ba4d6425bb76625bdf561b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

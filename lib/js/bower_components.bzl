@@ -343,10 +343,6 @@ def define_bower_components():
         license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
     )
     bower_component(
-        name = "sinonjs",
-        license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
-    )
-    bower_component(
         name = "stacky",
         license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
     )
@@ -365,7 +361,6 @@ def define_bower_components():
             ":lodash",
             ":mocha",
             ":sinon-chai",
-            ":sinonjs",
             ":stacky",
             ":test-fixture",
         ],

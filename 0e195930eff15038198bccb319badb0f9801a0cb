@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e62592b_6468ea73",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-10T14:33:23Z",
+      "side": 1,
+      "message": "How about rewriting this line this way for the sake of consistency?\n\n----\nbazel test --jvmopt\u003d\u0027-Ddebug\u003dtrue\u0027 lucene_query_test\n----",
+      "revId": "0e195930eff15038198bccb319badb0f9801a0cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

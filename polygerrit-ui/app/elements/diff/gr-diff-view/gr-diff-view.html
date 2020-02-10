@@ -75,6 +75,12 @@ limitations under the License.
       header {
         padding: var(--spacing-s) var(--spacing-l);
       }
+      .changeNumberColon {
+        color: transparent;
+      }
+      .headerSubject {
+        margin-right: var(--spacing-m);
+      }
       .patchRangeLeft {
         align-items: center;
         display: flex;
@@ -215,16 +221,15 @@ limitations under the License.
     >
       <header>
         <h3>
-          <a href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
-            [[_changeNum]]</a><span>:</span>
-          <span>[[_change.subject]]</span>
-          <span class="dash">—</span>
+          <a href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">[[_changeNum]]</a><!--
+       --><span class="changeNumberColon">:</span>
+          <span class="headerSubject">[[_change.subject]]</span>
           <input id="reviewed"
               class="reviewed hideOnEdit"
               type="checkbox"
               on-change="_handleReviewedChange"
-              hidden$="[[!_loggedIn]]" hidden>
-          <div class="jumpToFileContainer">
+              hidden$="[[!_loggedIn]]" hidden><!--
+       --><div class="jumpToFileContainer">
             <gr-dropdown-list
                 id="dropdown"
                 value="[[_path]]"

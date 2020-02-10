@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../../test/common-test-setup.html"/>
 <script src="../../../../scripts/util.js"></script>
 <script src="../gr-auth.js"></script>
@@ -31,7 +32,8 @@ limitations under the License.
 <script>void(0);</script>
 
 <script>
-  suite('gr-rest-api-helper tests', () => {
+  suite('gr-rest-api-helper tests', async () => {
+    await readyToTest();
     let helper;
     let sandbox;
     let cache;

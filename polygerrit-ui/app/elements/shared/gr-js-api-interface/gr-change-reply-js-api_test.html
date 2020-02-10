@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <!--
 This must refer to the element this interface is wrapping around. Otherwise
@@ -39,7 +40,8 @@ breaking changes to gr-reply-dialog won’t be noticed.
 </test-fixture>
 
 <script>
-  suite('gr-change-reply-js-api tests', () => {
+  suite('gr-change-reply-js-api tests', async () => {
+    await readyToTest();
     let element;
     let sandbox;
     let changeReply;

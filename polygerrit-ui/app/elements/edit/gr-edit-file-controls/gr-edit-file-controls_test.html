@@ -22,6 +22,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 
 <link rel="import" href="../gr-edit-constants.html">
@@ -36,70 +37,71 @@ limitations under the License.
 </test-fixture>
 
 <script>
-suite('gr-edit-file-controls tests', () => {
-  let element;
-  let sandbox;
-  let fileActionHandler;
-
-  setup(() => {
-    sandbox = sinon.sandbox.create();
-    element = fixture('basic');
-    fileActionHandler = sandbox.stub();
-    element.addEventListener('file-action-tap', fileActionHandler);
+  suite('gr-edit-file-controls tests', async () => {
+    await readyToTest();
+    let element;
+    let sandbox;
+    let fileActionHandler;
+  
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+      fileActionHandler = sandbox.stub();
+      element.addEventListener('file-action-tap', fileActionHandler);
+    });
+  
+    teardown(() => { sandbox.restore(); });
+  
+    test('open tap emits event', () => {
+      const actions = element.$.actions;
+      element.filePath = 'foo';
+      actions._open();
+      flushAsynchronousOperations();
+  
+      MockInteractions.tap(actions.$$('li [data-id="open"]'));
+      assert.isTrue(fileActionHandler.called);
+      assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
+          {action: GrEditConstants.Actions.OPEN.id, path: 'foo'});
+    });
+  
+    test('delete tap emits event', () => {
+      const actions = element.$.actions;
+      element.filePath = 'foo';
+      actions._open();
+      flushAsynchronousOperations();
+  
+      MockInteractions.tap(actions.$$('li [data-id="delete"]'));
+      assert.isTrue(fileActionHandler.called);
+      assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
+          {action: GrEditConstants.Actions.DELETE.id, path: 'foo'});
+    });
+  
+    test('restore tap emits event', () => {
+      const actions = element.$.actions;
+      element.filePath = 'foo';
+      actions._open();
+      flushAsynchronousOperations();
+  
+      MockInteractions.tap(actions.$$('li [data-id="restore"]'));
+      assert.isTrue(fileActionHandler.called);
+      assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
+          {action: GrEditConstants.Actions.RESTORE.id, path: 'foo'});
+    });
+  
+    test('rename tap emits event', () => {
+      const actions = element.$.actions;
+      element.filePath = 'foo';
+      actions._open();
+      flushAsynchronousOperations();
+  
+      MockInteractions.tap(actions.$$('li [data-id="rename"]'));
+      assert.isTrue(fileActionHandler.called);
+      assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
+          {action: GrEditConstants.Actions.RENAME.id, path: 'foo'});
+    });
+  
+    test('computed properties', () => {
+      assert.equal(element._allFileActions.length, 4);
+    });
   });
-
-  teardown(() => { sandbox.restore(); });
-
-  test('open tap emits event', () => {
-    const actions = element.$.actions;
-    element.filePath = 'foo';
-    actions._open();
-    flushAsynchronousOperations();
-
-    MockInteractions.tap(actions.$$('li [data-id="open"]'));
-    assert.isTrue(fileActionHandler.called);
-    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
-        {action: GrEditConstants.Actions.OPEN.id, path: 'foo'});
-  });
-
-  test('delete tap emits event', () => {
-    const actions = element.$.actions;
-    element.filePath = 'foo';
-    actions._open();
-    flushAsynchronousOperations();
-
-    MockInteractions.tap(actions.$$('li [data-id="delete"]'));
-    assert.isTrue(fileActionHandler.called);
-    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
-        {action: GrEditConstants.Actions.DELETE.id, path: 'foo'});
-  });
-
-  test('restore tap emits event', () => {
-    const actions = element.$.actions;
-    element.filePath = 'foo';
-    actions._open();
-    flushAsynchronousOperations();
-
-    MockInteractions.tap(actions.$$('li [data-id="restore"]'));
-    assert.isTrue(fileActionHandler.called);
-    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
-        {action: GrEditConstants.Actions.RESTORE.id, path: 'foo'});
-  });
-
-  test('rename tap emits event', () => {
-    const actions = element.$.actions;
-    element.filePath = 'foo';
-    actions._open();
-    flushAsynchronousOperations();
-
-    MockInteractions.tap(actions.$$('li [data-id="rename"]'));
-    assert.isTrue(fileActionHandler.called);
-    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
-        {action: GrEditConstants.Actions.RENAME.id, path: 'foo'});
-  });
-
-  test('computed properties', () => {
-    assert.equal(element._allFileActions.length, 4);
-  });
-});
 </script>

@@ -23,11 +23,13 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../test/common-test-setup.html"/>
 <script src="gr-display-name-utils.js"></script>
 
 <script>
-  suite('gr-display-name-utils tests', () => {
+  suite('gr-display-name-utils tests', async () => {
+    await readyToTest();
     // eslint-disable-next-line no-unused-vars
     const config = {
       user: {

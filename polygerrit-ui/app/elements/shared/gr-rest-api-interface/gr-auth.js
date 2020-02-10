@@ -16,6 +16,7 @@
  */
 (function(window) {
   'use strict';
+  window.Gerrit = window.Gerrit || {};
 
   // Prevent redefinition.
   if (window.Gerrit.Auth) { return; }

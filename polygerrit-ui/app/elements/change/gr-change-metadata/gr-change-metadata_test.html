@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="../../core/gr-router/gr-router.html">
 <link rel="import" href="gr-change-metadata.html">
@@ -36,7 +37,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-metadata tests', () => {
+  suite('gr-change-metadata tests', async () => {
+    await readyToTest();
     let element;
     let sandbox;
 

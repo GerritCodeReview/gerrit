@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-textarea.html">
 
@@ -46,7 +47,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-textarea tests', () => {
+  suite('gr-textarea tests', async () => {
+    await readyToTest();
     let element;
     let sandbox;
 
@@ -323,53 +325,53 @@ limitations under the License.
         assert.isFalse(enterSpy.called);
       });
     });
-  });
 
-  suite('gr-textarea monospace', () => {
+    suite('gr-textarea monospace', () => {
     // gr-textarea set monospace class in the ready() method.
     // In Polymer2, ready() is called from the fixture(...) method,
     // If ready() is called again later, some nested elements doesn't
     // handle it correctly. A separate test-fixture is used to set
     // properties before ready() is called.
 
-    let element;
-    let sandbox;
+      let element;
+      let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('monospace');
+      setup(() => {
+        sandbox = sinon.sandbox.create();
+        element = fixture('monospace');
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('monospace is set properly', () => {
+        assert.isTrue(element.classList.contains('monospace'));
+      });
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('monospace is set properly', () => {
-      assert.isTrue(element.classList.contains('monospace'));
-    });
-  });
-
-  suite('gr-textarea hideBorder', () => {
+    suite('gr-textarea hideBorder', () => {
     // gr-textarea set noBorder class in the ready() method.
     // In Polymer2, ready() is called from the fixture(...) method,
     // If ready() is called again later, some nested elements doesn't
     // handle it correctly. A separate test-fixture is used to set
     // properties before ready() is called.
 
-    let element;
-    let sandbox;
+      let element;
+      let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('hideBorder');
-    });
+      setup(() => {
+        sandbox = sinon.sandbox.create();
+        element = fixture('hideBorder');
+      });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+      teardown(() => {
+        sandbox.restore();
+      });
 
-    test('hideBorder is set properly', () => {
-      assert.isTrue(element.$.textarea.classList.contains('noBorder'));
+      test('hideBorder is set properly', () => {
+        assert.isTrue(element.$.textarea.classList.contains('noBorder'));
+      });
     });
   });
 </script>

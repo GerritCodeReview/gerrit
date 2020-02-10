@@ -16,6 +16,7 @@
  */
 (function(window) {
   'use strict';
+  window.Gerrit = window.Gerrit || {};
 
   if (window.GrReviewerSuggestionsProvider) {
     return;

@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="/bower_components/page/page.js"></script>
 
@@ -43,7 +44,8 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-list basic tests', () => {
+  suite('gr-change-list basic tests', async () => {
+    await readyToTest();
     // Define keybindings before attaching other fixtures.
     const kb = window.Gerrit.KeyboardShortcutBinder;
     kb.bindShortcut(kb.Shortcut.CURSOR_NEXT_CHANGE, 'j');
@@ -431,192 +433,192 @@ limitations under the License.
         assert.isNotOk(element.$$(elementClass));
       });
     });
-  });
 
-  suite('dashboard queries', () => {
-    let element;
-    let sandbox;
+    suite('dashboard queries', () => {
+      let element;
+      let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
+      setup(() => {
+        sandbox = sinon.sandbox.create();
+        element = fixture('basic');
+      });
 
-    teardown(() => { sandbox.restore(); });
+      teardown(() => { sandbox.restore(); });
 
-    test('query without age and limit unchanged', () => {
-      const query = 'status:closed owner:me';
-      assert.deepEqual(element._processQuery(query), query);
-    });
+      test('query without age and limit unchanged', () => {
+        const query = 'status:closed owner:me';
+        assert.deepEqual(element._processQuery(query), query);
+      });
 
-    test('query with age and limit', () => {
-      const query = 'status:closed age:1week limit:10 owner:me';
-      const expectedQuery = 'status:closed owner:me';
-      assert.deepEqual(element._processQuery(query), expectedQuery);
-    });
+      test('query with age and limit', () => {
+        const query = 'status:closed age:1week limit:10 owner:me';
+        const expectedQuery = 'status:closed owner:me';
+        assert.deepEqual(element._processQuery(query), expectedQuery);
+      });
 
-    test('query with age', () => {
-      const query = 'status:closed age:1week owner:me';
-      const expectedQuery = 'status:closed owner:me';
-      assert.deepEqual(element._processQuery(query), expectedQuery);
-    });
+      test('query with age', () => {
+        const query = 'status:closed age:1week owner:me';
+        const expectedQuery = 'status:closed owner:me';
+        assert.deepEqual(element._processQuery(query), expectedQuery);
+      });
 
-    test('query with limit', () => {
-      const query = 'status:closed limit:10 owner:me';
-      const expectedQuery = 'status:closed owner:me';
-      assert.deepEqual(element._processQuery(query), expectedQuery);
-    });
+      test('query with limit', () => {
+        const query = 'status:closed limit:10 owner:me';
+        const expectedQuery = 'status:closed owner:me';
+        assert.deepEqual(element._processQuery(query), expectedQuery);
+      });
 
-    test('query with age as value and not key', () => {
-      const query = 'status:closed random:age';
-      const expectedQuery = 'status:closed random:age';
-      assert.deepEqual(element._processQuery(query), expectedQuery);
-    });
+      test('query with age as value and not key', () => {
+        const query = 'status:closed random:age';
+        const expectedQuery = 'status:closed random:age';
+        assert.deepEqual(element._processQuery(query), expectedQuery);
+      });
 
-    test('query with limit as value and not key', () => {
-      const query = 'status:closed random:limit';
-      const expectedQuery = 'status:closed random:limit';
-      assert.deepEqual(element._processQuery(query), expectedQuery);
-    });
+      test('query with limit as value and not key', () => {
+        const query = 'status:closed random:limit';
+        const expectedQuery = 'status:closed random:limit';
+        assert.deepEqual(element._processQuery(query), expectedQuery);
+      });
 
-    test('query with -age key', () => {
-      const query = 'status:closed -age:1week';
-      const expectedQuery = 'status:closed';
-      assert.deepEqual(element._processQuery(query), expectedQuery);
-    });
-  });
-
-  suite('gr-change-list sections', () => {
-    let element;
-    let sandbox;
-
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => { sandbox.restore(); });
-
-    test('keyboard shortcuts', done => {
-      element.selectedIndex = 0;
-      element.sections = [
-        {
-          results: [
-            {_number: 0},
-            {_number: 1},
-            {_number: 2},
-          ],
-        },
-        {
-          results: [
-            {_number: 3},
-            {_number: 4},
-            {_number: 5},
-          ],
-        },
-        {
-          results: [
-            {_number: 6},
-            {_number: 7},
-            {_number: 8},
-          ],
-        },
-      ];
-      flushAsynchronousOperations();
-      Polymer.RenderStatus.afterNextRender(element, () => {
-        const elementItems = Polymer.dom(element.root).querySelectorAll(
-            'gr-change-list-item');
-        assert.equal(elementItems.length, 9);
-
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-        assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-
-        const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-        assert.equal(element.selectedIndex, 2);
-
-        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-        assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
-            'Should navigate to /c/2/');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 75); // 'k'
-        assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-        assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
-            'Should navigate to /c/1/');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-        assert.equal(element.selectedIndex, 4);
-        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-        assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
-            'Should navigate to /c/4/');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
-        const change = element._changeForIndex(element.selectedIndex);
-        assert.equal(change.reviewed, true,
-            'Should mark change as reviewed');
-        MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
-        assert.equal(change.reviewed, false,
-            'Should mark change as unreviewed');
-        done();
+      test('query with -age key', () => {
+        const query = 'status:closed -age:1week';
+        const expectedQuery = 'status:closed';
+        assert.deepEqual(element._processQuery(query), expectedQuery);
       });
     });
 
-    test('highlight attribute is updated correctly', () => {
-      element.changes = [
-        {
-          _number: 0,
-          status: 'NEW',
-          owner: {_account_id: 0},
-        },
-        {
-          _number: 1,
-          status: 'ABANDONED',
-          owner: {_account_id: 0},
-        },
-      ];
-      element.account = {_account_id: 42};
-      flushAsynchronousOperations();
-      let items = element._getListItems();
-      assert.equal(items.length, 2);
-      assert.isFalse(items[0].hasAttribute('highlight'));
-      assert.isFalse(items[1].hasAttribute('highlight'));
+    suite('gr-change-list sections', () => {
+      let element;
+      let sandbox;
 
-      // Assign all issues to the user, but only the first one is highlighted
-      // because the second one is abandoned.
-      element.set(['changes', 0, 'assignee'], {_account_id: 12});
-      element.set(['changes', 1, 'assignee'], {_account_id: 12});
-      element.account = {_account_id: 12};
-      flushAsynchronousOperations();
-      items = element._getListItems();
-      assert.isTrue(items[0].hasAttribute('highlight'));
-      assert.isFalse(items[1].hasAttribute('highlight'));
-    });
+      setup(() => {
+        sandbox = sinon.sandbox.create();
+        element = fixture('basic');
+      });
 
-    test('_computeItemHighlight gives false for null account', () => {
-      assert.isFalse(
-          element._computeItemHighlight(null, {assignee: {_account_id: 42}}));
-    });
+      teardown(() => { sandbox.restore(); });
 
-    test('_computeItemAbsoluteIndex', () => {
-      sandbox.stub(element, '_computeLabelNames');
-      element.sections = [
-        {results: new Array(1)},
-        {results: new Array(2)},
-        {results: new Array(3)},
-      ];
+      test('keyboard shortcuts', done => {
+        element.selectedIndex = 0;
+        element.sections = [
+          {
+            results: [
+              {_number: 0},
+              {_number: 1},
+              {_number: 2},
+            ],
+          },
+          {
+            results: [
+              {_number: 3},
+              {_number: 4},
+              {_number: 5},
+            ],
+          },
+          {
+            results: [
+              {_number: 6},
+              {_number: 7},
+              {_number: 8},
+            ],
+          },
+        ];
+        flushAsynchronousOperations();
+        Polymer.RenderStatus.afterNextRender(element, () => {
+          const elementItems = Polymer.dom(element.root).querySelectorAll(
+              'gr-change-list-item');
+          assert.equal(elementItems.length, 9);
 
-      assert.equal(element._computeItemAbsoluteIndex(0, 0), 0);
-      // Out of range but no matter.
-      assert.equal(element._computeItemAbsoluteIndex(0, 1), 1);
+          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+          assert.equal(element.selectedIndex, 1);
+          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
 
-      assert.equal(element._computeItemAbsoluteIndex(1, 0), 1);
-      assert.equal(element._computeItemAbsoluteIndex(1, 1), 2);
-      assert.equal(element._computeItemAbsoluteIndex(1, 2), 3);
-      assert.equal(element._computeItemAbsoluteIndex(2, 0), 3);
-      assert.equal(element._computeItemAbsoluteIndex(3, 0), 6);
+          const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+          assert.equal(element.selectedIndex, 2);
+
+          MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
+          assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
+              'Should navigate to /c/2/');
+
+          MockInteractions.pressAndReleaseKeyOn(element, 75); // 'k'
+          assert.equal(element.selectedIndex, 1);
+          MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
+          assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
+              'Should navigate to /c/1/');
+
+          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+          assert.equal(element.selectedIndex, 4);
+          MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
+          assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
+              'Should navigate to /c/4/');
+
+          MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
+          const change = element._changeForIndex(element.selectedIndex);
+          assert.equal(change.reviewed, true,
+              'Should mark change as reviewed');
+          MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
+          assert.equal(change.reviewed, false,
+              'Should mark change as unreviewed');
+          done();
+        });
+      });
+
+      test('highlight attribute is updated correctly', () => {
+        element.changes = [
+          {
+            _number: 0,
+            status: 'NEW',
+            owner: {_account_id: 0},
+          },
+          {
+            _number: 1,
+            status: 'ABANDONED',
+            owner: {_account_id: 0},
+          },
+        ];
+        element.account = {_account_id: 42};
+        flushAsynchronousOperations();
+        let items = element._getListItems();
+        assert.equal(items.length, 2);
+        assert.isFalse(items[0].hasAttribute('highlight'));
+        assert.isFalse(items[1].hasAttribute('highlight'));
+
+        // Assign all issues to the user, but only the first one is highlighted
+        // because the second one is abandoned.
+        element.set(['changes', 0, 'assignee'], {_account_id: 12});
+        element.set(['changes', 1, 'assignee'], {_account_id: 12});
+        element.account = {_account_id: 12};
+        flushAsynchronousOperations();
+        items = element._getListItems();
+        assert.isTrue(items[0].hasAttribute('highlight'));
+        assert.isFalse(items[1].hasAttribute('highlight'));
+      });
+
+      test('_computeItemHighlight gives false for null account', () => {
+        assert.isFalse(
+            element._computeItemHighlight(null, {assignee: {_account_id: 42}}));
+      });
+
+      test('_computeItemAbsoluteIndex', () => {
+        sandbox.stub(element, '_computeLabelNames');
+        element.sections = [
+          {results: new Array(1)},
+          {results: new Array(2)},
+          {results: new Array(3)},
+        ];
+
+        assert.equal(element._computeItemAbsoluteIndex(0, 0), 0);
+        // Out of range but no matter.
+        assert.equal(element._computeItemAbsoluteIndex(0, 1), 1);
+
+        assert.equal(element._computeItemAbsoluteIndex(1, 0), 1);
+        assert.equal(element._computeItemAbsoluteIndex(1, 1), 2);
+        assert.equal(element._computeItemAbsoluteIndex(1, 2), 3);
+        assert.equal(element._computeItemAbsoluteIndex(2, 0), 3);
+        assert.equal(element._computeItemAbsoluteIndex(3, 0), 6);
+      });
     });
   });
 </script>

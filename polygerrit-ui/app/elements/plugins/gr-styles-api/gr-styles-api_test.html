@@ -23,6 +23,7 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="gr-styles-api.html">
@@ -33,11 +34,16 @@ limitations under the License.
   <template>
     <div id="wrapper"></div>
   </template>
-  <script>Polymer({is: 'gr-style-test-element'});</script>
+  <script>
+    readyToTest().then(() => {
+      Polymer({is: 'gr-style-test-element'});
+    });
+  </script>
 </dom-module>
 
 <script>
-  suite('gr-styles-api tests', () => {
+  suite('gr-styles-api tests', async () => {
+    await readyToTest();
     let sandbox;
     let stylesApi;
 
@@ -63,118 +69,118 @@ limitations under the License.
       const styleObject = stylesApi.css('background: red');
       assert.isDefined(styleObject);
     });
-  });
 
-  suite('GrStyleObject tests', () => {
-    let sandbox;
-    let stylesApi;
-    let displayInlineStyle;
-    let displayNoneStyle;
+    suite('GrStyleObject tests', () => {
+      let sandbox;
+      let stylesApi;
+      let displayInlineStyle;
+      let displayNoneStyle;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      Gerrit._loadPlugins([]);
-      stylesApi = plugin.styles();
-      displayInlineStyle = stylesApi.css('display: inline');
-      displayNoneStyle = stylesApi.css('display: none');
-    });
+      setup(() => {
+        sandbox = sinon.sandbox.create();
+        let plugin;
+        Gerrit.install(p => { plugin = p; }, '0.1',
+            'http://test.com/plugins/testplugin/static/test.js');
+        Gerrit._loadPlugins([]);
+        stylesApi = plugin.styles();
+        displayInlineStyle = stylesApi.css('display: inline');
+        displayNoneStyle = stylesApi.css('display: none');
+      });
 
-    teardown(() => {
-      displayInlineStyle = null;
-      displayNoneStyle = null;
-      stylesApi = null;
-      sandbox.restore();
-    });
+      teardown(() => {
+        displayInlineStyle = null;
+        displayNoneStyle = null;
+        stylesApi = null;
+        sandbox.restore();
+      });
 
-    function createNestedElements(parentElement) {
-      /* parentElement
-      *  |--- element1
-      *  |--- element2
-      *       |--- element3
-      **/
-      const element1 = document.createElement('div');
-      const element2 = document.createElement('div');
-      const element3 = document.createElement('div');
-      Polymer.dom(parentElement).appendChild(element1);
-      Polymer.dom(parentElement).appendChild(element2);
-      Polymer.dom(element2).appendChild(element3);
+      function createNestedElements(parentElement) {
+        /* parentElement
+        *  |--- element1
+        *  |--- element2
+        *       |--- element3
+        **/
+        const element1 = document.createElement('div');
+        const element2 = document.createElement('div');
+        const element3 = document.createElement('div');
+        Polymer.dom(parentElement).appendChild(element1);
+        Polymer.dom(parentElement).appendChild(element2);
+        Polymer.dom(element2).appendChild(element3);
 
-      return [element1, element2, element3];
-    }
-
-    test('getClassName  - body level elements', () => {
-      const bodyLevelElements = createNestedElements(document.body);
-
-      testGetClassName(bodyLevelElements);
-    });
-
-    test('getClassName  - elements inside polymer element', () => {
-      const polymerElement = document.createElement('gr-style-test-element');
-      Polymer.dom(document.body).appendChild(polymerElement);
-      const contentElements = createNestedElements(polymerElement.$.wrapper);
-
-      testGetClassName(contentElements);
-    });
-
-    function testGetClassName(elements) {
-      assertAllElementsHaveDefaultStyle(elements);
-
-      const className1 = displayInlineStyle.getClassName(elements[0]);
-      const className2 = displayNoneStyle.getClassName(elements[1]);
-      const className3 = displayInlineStyle.getClassName(elements[2]);
-
-      assert.notEqual(className2, className1);
-      assert.equal(className3, className1);
-
-      assertAllElementsHaveDefaultStyle(elements);
-
-      elements[0].classList.add(className1);
-      elements[1].classList.add(className2);
-      elements[2].classList.add(className1);
-
-      assertDisplayPropertyValues(elements, ['inline', 'none', 'inline']);
-    }
-
-    test('apply - body level elements', () => {
-      const bodyLevelElements = createNestedElements(document.body);
-
-      testApply(bodyLevelElements);
-    });
-
-    test('apply - elements inside polymer element', () => {
-      const polymerElement = document.createElement('gr-style-test-element');
-      Polymer.dom(document.body).appendChild(polymerElement);
-      const contentElements = createNestedElements(polymerElement.$.wrapper);
-
-      testApply(contentElements);
-    });
-
-    function testApply(elements) {
-      assertAllElementsHaveDefaultStyle(elements);
-      displayInlineStyle.apply(elements[0]);
-      displayNoneStyle.apply(elements[1]);
-      displayInlineStyle.apply(elements[2]);
-      assertDisplayPropertyValues(elements, ['inline', 'none', 'inline']);
-    }
-
-    function assertAllElementsHaveDefaultStyle(elements) {
-      for (const element of elements) {
-        assert.equal(getComputedStyle(element).getPropertyValue('display'),
-            'block');
+        return [element1, element2, element3];
       }
-    }
 
-    function assertDisplayPropertyValues(elements, expectedDisplayValues) {
-      for (const key in elements) {
-        if (elements.hasOwnProperty(key)) {
-          assert.equal(
-              getComputedStyle(elements[key]).getPropertyValue('display'),
-              expectedDisplayValues[key]);
+      test('getClassName  - body level elements', () => {
+        const bodyLevelElements = createNestedElements(document.body);
+
+        testGetClassName(bodyLevelElements);
+      });
+
+      test('getClassName  - elements inside polymer element', () => {
+        const polymerElement = document.createElement('gr-style-test-element');
+        Polymer.dom(document.body).appendChild(polymerElement);
+        const contentElements = createNestedElements(polymerElement.$.wrapper);
+
+        testGetClassName(contentElements);
+      });
+
+      function testGetClassName(elements) {
+        assertAllElementsHaveDefaultStyle(elements);
+
+        const className1 = displayInlineStyle.getClassName(elements[0]);
+        const className2 = displayNoneStyle.getClassName(elements[1]);
+        const className3 = displayInlineStyle.getClassName(elements[2]);
+
+        assert.notEqual(className2, className1);
+        assert.equal(className3, className1);
+
+        assertAllElementsHaveDefaultStyle(elements);
+
+        elements[0].classList.add(className1);
+        elements[1].classList.add(className2);
+        elements[2].classList.add(className1);
+
+        assertDisplayPropertyValues(elements, ['inline', 'none', 'inline']);
+      }
+
+      test('apply - body level elements', () => {
+        const bodyLevelElements = createNestedElements(document.body);
+
+        testApply(bodyLevelElements);
+      });
+
+      test('apply - elements inside polymer element', () => {
+        const polymerElement = document.createElement('gr-style-test-element');
+        Polymer.dom(document.body).appendChild(polymerElement);
+        const contentElements = createNestedElements(polymerElement.$.wrapper);
+
+        testApply(contentElements);
+      });
+
+      function testApply(elements) {
+        assertAllElementsHaveDefaultStyle(elements);
+        displayInlineStyle.apply(elements[0]);
+        displayNoneStyle.apply(elements[1]);
+        displayInlineStyle.apply(elements[2]);
+        assertDisplayPropertyValues(elements, ['inline', 'none', 'inline']);
+      }
+
+      function assertAllElementsHaveDefaultStyle(elements) {
+        for (const element of elements) {
+          assert.equal(getComputedStyle(element).getPropertyValue('display'),
+              'block');
         }
       }
-    }
+
+      function assertDisplayPropertyValues(elements, expectedDisplayValues) {
+        for (const key in elements) {
+          if (elements.hasOwnProperty(key)) {
+            assert.equal(
+                getComputedStyle(elements[key]).getPropertyValue('display'),
+                expectedDisplayValues[key]);
+          }
+        }
+      }
+    });
   });
 </script>

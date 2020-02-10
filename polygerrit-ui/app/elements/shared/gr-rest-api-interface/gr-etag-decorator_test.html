@@ -23,12 +23,14 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 
 <script src="gr-etag-decorator.js"></script>
 
 <script>
-  suite('gr-etag-decorator', () => {
+  suite('gr-etag-decorator', async () => {
+    await readyToTest();
     let etag;
     let sandbox;
 

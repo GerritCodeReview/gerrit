@@ -23,10 +23,12 @@ limitations under the License.
 
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 
 <script>
-  suite('gr-navigation tests', () => {
+  suite('gr-navigation tests', async () => {
+    await readyToTest();
     test('invalid patch ranges throw exceptions', () => {
       assert.throw(() => Gerrit.Nav.getUrlForChange('123', undefined, 12));
       assert.throw(() => Gerrit.Nav.getUrlForDiff('123', 'x.c', undefined, 12));

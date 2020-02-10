@@ -102,7 +102,10 @@ design reviewer is expected to respect the community
 link:https://www.gerritcodereview.com/codeofconduct.html[Code of Conduct].
 
 Ideas for alternative solutions should be uploaded as a change that
-describes the solution (see link:#collaboration[above]).
+describes the solution (see link:#collaboration[above]). This should be
+done as early as possible during the review process, so that related
+comment threads stop there and do not clutter the current review. It is up
+to the alternative reviews to then host their related comments.
 
 Changes which make a conclusion on a design (changes that add/change
 the `conclusion.md` file, see link:#structure[Design Doc Structure])

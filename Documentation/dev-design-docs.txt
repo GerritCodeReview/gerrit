@@ -96,7 +96,10 @@ the change in Gerrit.
 == Design doc review
 
 Everyone in the link:dev-roles.html[Gerrit community] is welcome to
-take part in the design review and comment on the design.
+take part in the design review and comment on the design. As such, every
+design reviewer is expected to respect the community
+link:https://www.gerritcodereview.com/codeofconduct.html[Code of Conduct].
+Violations are not tolerated no matter the disagreement with the design.
 
 Ideas for alternative solutions should be uploaded as a change that
 describes the solution (see link:#collaboration[above]).

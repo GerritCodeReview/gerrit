@@ -1,0 +1,727 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3116aa17_afcec508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "I don\u0027t think that others can grasp from this formulation why e.g. the parentUuid field is removed. After all, it currently is part of a RobotComment. There are reasons, though, why it should not be part of a RobotComment. It would be helpful to mention these within the commit message.",
+      "range": {
+        "startLine": 13,
+        "startChar": 30,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a86af91f_9ba0b4cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "To understand this change and also for posterity, it would be helpful to mention that the \u0027unresolved\u0027 flag is also only used for human comments right now. It\u0027s fine to do the modifications (and longer explanations) in a follow-up change but I would still mention it here.",
+      "range": {
+        "startLine": 13,
+        "startChar": 56,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8fa70b5_bb6862d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Typo: fields",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 44
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db786953_7828949a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "I\u0027d expect to see some explanation regarding backwards compatibility of the NoteDb storage format and cache entries within this commit message. When you add such a comment, also include some reasoning why you think backwards compatibility is ensured (e.g. add a test or describe a manual test you did).",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93406382_94009fff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "storage\n\nAfter all, CommentInfo and CommentInput are also part of the backend.",
+      "range": {
+        "startLine": 34,
+        "startChar": 32,
+        "endLine": 34,
+        "endChar": 44
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db3bb1e_144ed91a",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "This description should indicate that \u0027Comment\u0027 is just a base class and not directly the \"inline comments\" of Gerrit. (Please come up with a descriptive, concise formulation for that.)",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 82
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb1465c3_8464d74f",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "We should consider to make this class abstract so that we don\u0027t unintentionally start using it directly in the future. This would also allow us to e.g. introduce an abstract method which is then used in getApproximateSize().",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 12
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a59ac84_fd4f89a1",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Does HumanComment override this method and add the value of it\u0027s additional fields?",
+      "range": {
+        "startLine": 303,
+        "startChar": 13,
+        "endLine": 303,
+        "endChar": 33
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb33c69a_14aee6a3",
+        "filename": "java/com/google/gerrit/entities/HumanComment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "This class needs a Javadoc description.",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 25
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92957665_35ef942d",
+        "filename": "java/com/google/gerrit/entities/HumanComment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Shouldn\u0027t parentUuid be copied here?",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecd8e486_067e2b88",
+        "filename": "java/com/google/gerrit/entities/HumanComment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "What about equals() and hashCode()?",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c63204b_6c0c3f88",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Copying the list is unnecessary. Please see my previous comment about the use of generic types and bounds/wildcards on them.",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 64
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94137ae9_5a3a4547",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "There\u0027s a better way than copying all comments: Use List\u003c? extends Comment\u003e in EmailReviewComments#create and further code lines.",
+      "range": {
+        "startLine": 360,
+        "startChar": 6,
+        "endLine": 360,
+        "endChar": 64
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27242552_abcef328",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "For consistency reasons, it would be helpful to use a similar structure for human comments below (instead of the inline check in line 430).",
+      "range": {
+        "startLine": 418,
+        "startChar": 8,
+        "endLine": 420,
+        "endChar": 61
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aae41b5_7a2b9af7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeRevisionNote.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Did you test that this works with existing data?",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5af907b4_7db4ebd5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "It\u0027s a bit strange that this line uses HumanComment.Status whereas line 280 uses Comment.Status. I would advise to use the same for both to avoid confusion. In addition, we should consider to move the inner class Status to HumanComment as the status only makes sense in the context of a human comment.",
+      "range": {
+        "startLine": 283,
+        "startChar": 18,
+        "endLine": 283,
+        "endChar": 37
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b492eefb_95010ffa",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "As the below code is using Comment as type, it\u0027s strange to have HumanComment.Key instead of Comment.Key as type here.",
+      "range": {
+        "startLine": 480,
+        "startChar": 8,
+        "endLine": 480,
+        "endChar": 20
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9e9b3c4_fa068f22",
+        "filename": "java/com/google/gerrit/server/notedb/HumanCommentsRevisionNoteData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "This class now exists in addition to RevisionNoteData. We only need one of them, though. As its intended use is for ChangeRevisionNote, I\u0027d vote for keeping the RevisionNoteData and removing this class.",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 35
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4507829_bc726d51",
+        "filename": "java/com/google/gerrit/server/notedb/RobotCommentUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "This seems to be a copy of the previous line. Remove?",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b9e16b9_d5081e52",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "The names of those methods suggest that they return (Human|Robot)Comments. The return a number, though. Please adjust the method names (e.g. countXXX).",
+      "range": {
+        "startLine": 763,
+        "startChar": 31,
+        "endLine": 763,
+        "endChar": 90
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "805971d4_c9bd30fc",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "That\u0027s an unnecessary copy of the human comments. Solution: Change type to Collection\u003cHumanComment\u003e and remove everything after publishedComments().",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7ce625c_07fdd174",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "This method could still be defined in terms of Comment instead of HumanComment.",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e21ee41_a98b9fef",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Typo: unresolved",
+      "range": {
+        "startLine": 812,
+        "startChar": 5,
+        "endLine": 812,
+        "endChar": 14
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5e1bd07_16d6e231",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Could be simplified to \"c.unresolved\".",
+      "range": {
+        "startLine": 815,
+        "startChar": 54,
+        "endLine": 815,
+        "endChar": 74
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03a5311a_6400d9a6",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Rename to HumanCommentFormatter?",
+      "range": {
+        "startLine": 164,
+        "startChar": 15,
+        "endLine": 164,
+        "endChar": 31
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb2e75c7_b3ea4223",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "The above code uses Comment as type. Hence, using HumanComment.Range instead of Comment.Range could be very confusing. I\u0027m not even sure whether AutoValue can handle it correctly.",
+      "range": {
+        "startLine": 849,
+        "startChar": 13,
+        "endLine": 849,
+        "endChar": 25
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f7741a1_e109526a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutDraftComment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Here and below: Comment.Key would be the preferred choice.",
+      "range": {
+        "startLine": 97,
+        "startChar": 18,
+        "endLine": 97,
+        "endChar": 34
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b917bc7_c05482a7",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "This test does a full round trip and hence doesn\u0027t ensure backwards compatibility. Did you check that the generated JSON strings stayed the same?",
+      "range": {
+        "startLine": 672,
+        "startChar": 14,
+        "endLine": 672,
+        "endChar": 40
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea3b7a11_5e6cec19",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Here and below: Comment.Key instead of HumanComment.Key.",
+      "range": {
+        "startLine": 675,
+        "startChar": 16,
+        "endLine": 675,
+        "endChar": 32
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3208aa8_18215044",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Here and below: Comment.Identity instead of HumanComment.Identity.",
+      "range": {
+        "startLine": 918,
+        "startChar": 30,
+        "endLine": 918,
+        "endChar": 51
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52f5cd06_528d01ee",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Here and below: Comment.Range instead of HumanComment.Range.",
+      "range": {
+        "startLine": 920,
+        "startChar": 30,
+        "endLine": 920,
+        "endChar": 48
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74281a1b_49874af1",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommentTimestampAdapterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "This test should ensure the tested behavior for all comments, not just human ones. Hence, I\u0027d use the type Comment here and below and only HumanComment for the constructor.",
+      "range": {
+        "startLine": 153,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 16
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d19d140_87df9342",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommentTimestampAdapterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-02-10T11:46:23Z",
+      "side": 1,
+      "message": "Comment.Key instead of HumanComment.Key.",
+      "range": {
+        "startLine": 155,
+        "startChar": 16,
+        "endLine": 155,
+        "endChar": 32
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

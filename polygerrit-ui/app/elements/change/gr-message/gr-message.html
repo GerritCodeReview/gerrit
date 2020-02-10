@@ -81,10 +81,14 @@ limitations under the License.
         margin: 0 -4px;
       }
       .collapsed gr-comment-list,
-      .collapsed .replyContainer,
+      .collapsed .replyBtn,
+      .collapsed .deleteBtn,
       .collapsed .hideOnCollapsed,
       .hideOnOpen {
         display: none;
+      }
+      .replyBtn {
+        margin-right: var(--spacing-m);
       }
       .collapsed .hideOnOpen {
         display: block;
@@ -219,9 +223,19 @@ limitations under the License.
                 content="[[_messageContentExpanded]]"
                 config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
             <template is="dom-if" if="[[!_isMessageContentEmpty()]]">
-              <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
-                <gr-button link small on-click="_handleReplyTap">Reply</gr-button>
-              </div>
+              <div class="replyActionContainer" hidden$="[[!showReplyButton]]" hidden>
+                  <gr-button
+                     class="replyBtn"
+                     link small on-click="_handleReplyTap">
+                    Reply
+                  </gr-button>
+                  <gr-button
+                    disabled$=[[_isDeletingChangeMsg]]
+                    class="deleteBtn" hidden$="[[!_isAdmin]]" hidden
+                    link small on-click="_handleDeleteMessage">
+                    Delete
+                  </gr-button>
+              </div> hidden$="[[!showReplyButton]]" hidden
             </template>
             <gr-comment-list
                 comments="[[comments]]"

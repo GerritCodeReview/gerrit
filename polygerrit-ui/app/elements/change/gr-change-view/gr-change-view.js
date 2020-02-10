@@ -413,6 +413,8 @@
       this.addEventListener('comment-refresh', this._reloadDrafts.bind(this));
       this.addEventListener('comment-discard',
           this._handleCommentDiscard.bind(this));
+      this.addEventListener('change-message-deleted',
+          () => this._reload());
       this.addEventListener('editable-content-save',
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',

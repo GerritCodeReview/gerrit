@@ -16,6 +16,24 @@
       "revId": "17209d10879e0a3b9da12fd4f5d72fe7b7ff4ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23845b49_b1bd4c2f",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-10T19:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7d5a084_6979ec31",
+      "revId": "17209d10879e0a3b9da12fd4f5d72fe7b7ff4ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -28,6 +28,7 @@ bower_component_bundle(
         "//lib/js:iron-test-helpers",
         "//lib/js:test-fixture",
         "//lib/js:web-component-tester",
+        "//lib/js:sinonjs",
         "//polygerrit-ui:polygerrit_components.bower_components",
     ],
 )

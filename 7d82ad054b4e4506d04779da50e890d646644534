@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11ff3d3c_1d04e2ab",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-10T13:25:25Z",
+      "side": 0,
+      "message": "sinon v1.17.1 doesn\u0027t support bower and doesn\u0027t work with wct...",
+      "parentUuid": "744b2f73_c51b4477",
+      "range": {
+        "startLine": 158,
+        "startChar": 19,
+        "endLine": 158,
+        "endChar": 26
+      },
+      "revId": "7d82ad054b4e4506d04779da50e890d646644534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fcc9b5d_2aaf0c6c",
         "filename": "lib/js/bower_components.bzl",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "7d82ad054b4e4506d04779da50e890d646644534",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8470e7ad_e7c1d8fe",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-10T13:25:25Z",
+      "side": 0,
+      "message": "it failed the build when refer to `//lib/js:sinonjs` here:\n```\nTraceback (most recent call last):\n\tFile \"/Users/taoalpha/workspace/gerrit/lib/js/BUILD\", line 24\n\t\t_bower_component(name \u003d \u0027web-component-tester\u0027)\n\tFile \"/Users/taoalpha/workspace/gerrit/tools/bzl/js.bzl\", line 136, in _bower_component_impl\n\t\tdepset(\u003c2 more arguments\u003e)\nexpected type \u0027depset\u0027 for \u0027transitive\u0027 element but got type \u0027list\u0027 instead\n```",
+      "parentUuid": "5fcc9b5d_2aaf0c6c",
+      "revId": "7d82ad054b4e4506d04779da50e890d646644534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

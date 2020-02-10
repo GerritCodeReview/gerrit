@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f4597fc3_19f188ac",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 37
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94e20144_0d2df9c3",
+      "revId": "61d39112fdadc1e008928bba79ebb9481d2b1013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e7bf4c1_d36f71c8",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 37
@@ -30,6 +48,30 @@
       "writtenOn": "2020-02-10T10:39:37Z",
       "side": 1,
       "message": "Which change adds this file?",
+      "range": {
+        "startLine": 94,
+        "startChar": 17,
+        "endLine": 94,
+        "endChar": 31
+      },
+      "revId": "61d39112fdadc1e008928bba79ebb9481d2b1013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd4efb3b_c6720785",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 37
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-10T13:58:52Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/250400/32",
+      "parentUuid": "6e7bf4c1_d36f71c8",
       "range": {
         "startLine": 94,
         "startChar": 17,

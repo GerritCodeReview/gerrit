@@ -22,6 +22,30 @@
       "revId": "4a8c1545050e259b6697358ebc0e2ab913c7b20e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e076b508_5fbb84b8",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-10T14:26:45Z",
+      "side": 1,
+      "message": "It was to show that the method call does not generate exception anymore.\n\nthe RefPattern.toRegExp tests are removed in patchset 7 and a specific regexp+gerrit pattern is added in validateRefPatternsOK",
+      "parentUuid": "e7bf762d_67397921",
+      "range": {
+        "startLine": 1134,
+        "startChar": 4,
+        "endLine": 1139,
+        "endChar": 3
+      },
+      "revId": "4a8c1545050e259b6697358ebc0e2ab913c7b20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

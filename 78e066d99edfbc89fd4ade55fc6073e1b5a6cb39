@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8d32973_d02da95d",
+        "filename": "polygerrit-ui/app/rollup.config.js",
+        "patchSetId": 46
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "Might be worth noting that \"plugin\" refers to rollup plugin and not Gerrit plugin throughout this file.",
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d0246c5_d67c1741",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "It does not have to be perfect, but roughly aligning all the comments to 80 or 100 chars would be nice.",
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "127b976e_d7dd03b4",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "Is there an example of such a file somewhere?",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 9,
+        "endChar": 75
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "935f9a30_3fdbbe74",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "remain",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ca6aad0_86b7a5e0",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "have been",
+      "range": {
+        "startLine": 11,
+        "startChar": 55,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16e18f65_23e66d1c",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "the update",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36bb8b74_7d066eed",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "with correct references to node_modules",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bdbccc7_2696f738",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "full stop",
+      "range": {
+        "startLine": 13,
+        "startChar": 91,
+        "endLine": 13,
+        "endChar": 92
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "257939b4_efadfd69",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "the directory",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 71
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b8bdcf7_5e93bee2",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 46
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "Maybe move this note to the top of the comment.\n\nAs this is temporary I will not comment further on the comment. Thank for writing it!",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 23
+      },
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d90c462_81509754",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/README.md",
+        "patchSetId": 46
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:32:57Z",
+      "side": 1,
+      "message": "Will both tools be deleted after migration from HTML imports to ES modules?\n\nDepending on the answer I will either spend or not spend time on reviewing any of this. :-)\n\nAlso add the answer to the file.",
+      "revId": "78e066d99edfbc89fd4ade55fc6073e1b5a6cb39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

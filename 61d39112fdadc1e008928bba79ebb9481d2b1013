@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94e20144_0d2df9c3",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 37
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:39:37Z",
+      "side": 1,
+      "message": "Add a comment that this is temporary? Also below.",
+      "revId": "61d39112fdadc1e008928bba79ebb9481d2b1013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e7bf4c1_d36f71c8",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 37
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T10:39:37Z",
+      "side": 1,
+      "message": "Which change adds this file?",
+      "range": {
+        "startLine": 94,
+        "startChar": 17,
+        "endLine": 94,
+        "endChar": 31
+      },
+      "revId": "61d39112fdadc1e008928bba79ebb9481d2b1013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

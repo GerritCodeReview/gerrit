@@ -716,6 +716,25 @@ limitations under the License.
       });
     });
 
+    test('deleteChangeCommitMessage', () => {
+      element._projectLookup = {1: 'test'};
+      const change_num = '1';
+      const messageId = 'abc';
+      sandbox.stub(element._restApiHelper, 'send').returns(
+          Promise.resolve([change_num, messageId]));
+      sandbox.stub(element, 'getResponseObject')
+          .returns(Promise.resolve([change_num, messageId]));
+      return element.deleteChangeCommitMessage(change_num, messageId).then(() => {
+        assert.isTrue(element._restApiHelper.send.calledOnce);
+        assert.equal(
+            element._restApiHelper.send.lastCall.args[0].method,
+            'DELETE'
+        );
+        assert.equal(element._restApiHelper.send.lastCall.args[0].url,
+            '/changes/test~1/messages/abc');
+      });
+    });
+
     test('startWorkInProgress', () => {
       const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve('ok'));

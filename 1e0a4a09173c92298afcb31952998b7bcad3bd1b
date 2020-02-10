@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "1a205267_d0b02139",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-10T15:20:42Z",
+      "side": 1,
+      "message": "Done by removing the GET endpoint.\n\nRe one PUT/POST endpoint for all account changes: Yeah, that would probably be nice. I was also thinking about that. But it goes beyond the scope of this change. And I don\u0027t have enough experience/background with the Gerrit REST API to decide whether this is actually a worthwhile idea to pursue.",
+      "parentUuid": "02944dfd_dd8df9c0",
+      "revId": "1e0a4a09173c92298afcb31952998b7bcad3bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dcf9edf_42fcfd20",
         "filename": "java/com/google/gerrit/extensions/api/accounts/DisplayNameInput.java",
         "patchSetId": 3

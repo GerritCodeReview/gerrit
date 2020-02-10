@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f59cc3e1_3d257a98",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-10T14:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d5b69e8_58975d1a",
+      "range": {
+        "startLine": 226,
+        "startChar": 15,
+        "endLine": 226,
+        "endChar": 18
+      },
+      "revId": "72f2e960d74e038f76260fcfcc8023ab7fd7252d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72000b2c_a5c063d7",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "72f2e960d74e038f76260fcfcc8023ab7fd7252d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7953af18_ea430abc",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-10T14:58:26Z",
+      "side": 1,
+      "message": "Will disable the button when call starts and re-enabled it once finished.",
+      "parentUuid": "72000b2c_a5c063d7",
+      "revId": "72f2e960d74e038f76260fcfcc8023ab7fd7252d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

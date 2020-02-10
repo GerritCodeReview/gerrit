@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7d5a084_6979ec31",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-10T19:27:39Z",
+      "side": 1,
+      "message": "I think this last sentence is not necessary as the scope of the code of conduct and consequences of breaches are explained in the CoC already,",
+      "revId": "17209d10879e0a3b9da12fd4f5d72fe7b7ff4ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

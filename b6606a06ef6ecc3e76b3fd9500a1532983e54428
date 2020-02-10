@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9602b7c5_e59476ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-10T15:35:59Z",
+      "side": 1,
+      "message": "maybe just format here a bit better ? i.e: separate line for the `\u003c/a\u003e` and span",
+      "range": {
+        "startLine": 225,
+        "startChar": 26,
+        "endLine": 225,
+        "endChar": 70
+      },
+      "revId": "b6606a06ef6ecc3e76b3fd9500a1532983e54428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d9b189f_bb839e17",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-10T15:35:59Z",
+      "side": 1,
+      "message": "is this necessary ?",
+      "range": {
+        "startLine": 231,
+        "startChar": 47,
+        "endLine": 232,
+        "endChar": 10
+      },
+      "revId": "b6606a06ef6ecc3e76b3fd9500a1532983e54428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

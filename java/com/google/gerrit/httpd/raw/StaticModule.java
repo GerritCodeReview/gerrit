@@ -222,7 +222,8 @@ public class StaticModule extends ServletModule {
         @CanonicalWebUrl @Nullable String canonicalUrl,
         @GerritServerConfig Config cfg,
         GerritApi gerritApi) {
-      String cdnPath = cfg.getString("gerrit", null, "cdnPath");
+      String cdnPath = options.useDevCdn() ?
+          options.devCdn() : cfg.getString("gerrit", null, "cdnPath");
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
       return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi);
     }
@@ -233,29 +234,8 @@ public class StaticModule extends ServletModule {
       return new PolyGerritUiServlet(cache, polyGerritBasePath());
     }
 
-    @Provides
-    @Singleton
-    BowerComponentsDevServlet getBowerComponentsServlet(@Named(CACHE) Cache<Path, Resource> cache)
-        throws IOException {
-      return getPaths().isDev() ? new BowerComponentsDevServlet(cache, getPaths().builder) : null;
-    }
-
-    @Provides
-    @Singleton
-    FontsDevServlet getFontsServlet(@Named(CACHE) Cache<Path, Resource> cache) throws IOException {
-      return getPaths().isDev() ? new FontsDevServlet(cache, getPaths().builder) : null;
-    }
-
     private Path polyGerritBasePath() {
       Paths p = getPaths();
-      if (options.forcePolyGerritDev()) {
-        checkArgument(
-            p.sourceRoot != null, "no source root directory found for PolyGerrit developer mode");
-      }
-
-      if (p.isDev()) {
-        return p.sourceRoot.resolve("polygerrit-ui").resolve("app");
-      }
 
       return p.warFs != null
           ? p.warFs.getPath("/polygerrit_ui")
@@ -265,7 +245,6 @@ public class StaticModule extends ServletModule {
 
   private static class Paths {
     private final FileSystem warFs;
-    private final BazelBuild builder;
     private final Path sourceRoot;
     private final Path unpackedWar;
     private final boolean development;
@@ -285,21 +264,19 @@ public class StaticModule extends ServletModule {
                   launcherLoadedFrom.getParentFile().getParentFile().getParentFile().toURI());
           sourceRoot = null;
           development = false;
-          builder = null;
           return;
         }
         warFs = getDistributionArchive(launcherLoadedFrom);
         if (warFs == null) {
           unpackedWar = makeWarTempDir();
           development = true;
-        } else if (options.forcePolyGerritDev()) {
+        } else if (options.useDevCdn()) {
           unpackedWar = null;
           development = true;
         } else {
           unpackedWar = null;
           development = false;
           sourceRoot = null;
-          builder = null;
           return;
         }
       } catch (IOException e) {
@@ -307,7 +284,6 @@ public class StaticModule extends ServletModule {
       }
 
       sourceRoot = getSourceRootOrNull();
-      builder = new BazelBuild(sourceRoot);
     }
 
     private static Path getSourceRootOrNull() {
@@ -376,21 +352,15 @@ public class StaticModule extends ServletModule {
     private final Paths paths;
     private final HttpServlet polyGerritIndex;
     private final PolyGerritUiServlet polygerritUI;
-    private final BowerComponentsDevServlet bowerComponentServlet;
-    private final FontsDevServlet fontServlet;
 
     @Inject
     PolyGerritFilter(
         Paths paths,
         @Named(POLYGERRIT_INDEX_SERVLET) HttpServlet polyGerritIndex,
-        PolyGerritUiServlet polygerritUI,
-        @Nullable BowerComponentsDevServlet bowerComponentServlet,
-        @Nullable FontsDevServlet fontServlet) {
+        PolyGerritUiServlet polygerritUI) {
       this.paths = paths;
       this.polyGerritIndex = polyGerritIndex;
       this.polygerritUI = polygerritUI;
-      this.bowerComponentServlet = bowerComponentServlet;
-      this.fontServlet = fontServlet;
     }
 
     @Override
@@ -407,22 +377,6 @@ public class StaticModule extends ServletModule {
 
       GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
       String path = pathInfo(req);
-
-      // Special case assets during development that are built by Bazel and not
-      // served out of the source tree.
-      //
-      // In the war case, these are either inlined, or live under
-      // /polygerrit_ui in the war file, so we can just treat them as normal
-      // assets.
-      if (paths.isDev()) {
-        if (path.startsWith("/bower_components/")) {
-          bowerComponentServlet.service(reqWrapper, res);
-          return;
-        } else if (path.startsWith("/fonts/")) {
-          fontServlet.service(reqWrapper, res);
-          return;
-        }
-      }
 
       if (isPolyGerritIndex(path)) {
         polyGerritIndex.service(reqWrapper, res);

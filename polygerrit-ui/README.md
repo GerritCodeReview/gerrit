@@ -37,12 +37,11 @@ npm install
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
 harmless.
 
-## Running locally against production data
+## Serving files locally
 
 #### Go server
 
-To test the local Polymer frontend against gerrit-review.googlesource.com
-simply execute:
+To test the local Polymer frontend against production data or a local test site execute:
 
 ```sh
 ./polygerrit-ui/run-server.sh
@@ -51,10 +50,7 @@ simply execute:
 npm run start
 ```
 
-Then visit http://localhost:8081
-
-This method is based on a
-[simple hand-written Go webserver](https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/server.go).
+These commands start [simple hand-written Go webserver](https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/server.go).
 Mostly it just switches between serving files locally and proxying the real
 server based on the file name. It also does some basic response rewriting, e.g.
 it patches the `config/server/info` response with plugin information provided on
@@ -63,6 +59,13 @@ the command line:
 ```sh
 ./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
 ```
+ 
+
+## Running locally against production data
+
+### Local website
+
+Start [Go server](#go-server) and then visit http://localhost:8081
 
 The biggest draw back of this method is that you cannot log in, so cannot test
 scenarios that require it.
@@ -97,7 +100,7 @@ $(bazel info output_base)/external/local_jdk/bin/java \
     -jar bazel-bin/gerrit.war daemon \
     -d $GERRIT_SITE \
     --console-log \
-    --polygerrit-dev
+    --dev-cdn http://localhost:8081
 ```
 
 ## Running Tests

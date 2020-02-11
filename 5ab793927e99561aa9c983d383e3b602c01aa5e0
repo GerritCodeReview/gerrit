@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ba3609bb_d28e7b96",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T15:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2be0067_a9089371",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "5ab793927e99561aa9c983d383e3b602c01aa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1d6eede_1e3f4820",
         "filename": "tools/bzl/license-map.py",
         "patchSetId": 38

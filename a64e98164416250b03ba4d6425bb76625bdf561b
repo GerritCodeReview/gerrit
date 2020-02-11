@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2e525a11_338d6d2e",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 47
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T15:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9237b77_d67a1447",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "a64e98164416250b03ba4d6425bb76625bdf561b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24d3cc3e_867af641",
         "filename": "tools/bzl/license-map.py",
         "patchSetId": 47
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "413ed897_d84e4b88",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 47
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T15:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24d3cc3e_867af641",
+      "range": {
+        "startLine": 220,
+        "startChar": 8,
+        "endLine": 221,
+        "endChar": 17
+      },
+      "revId": "a64e98164416250b03ba4d6425bb76625bdf561b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2887c48a_766b3583",
         "filename": "tools/bzl/license-map.py",
         "patchSetId": 47
@@ -116,6 +164,30 @@
       "revId": "a64e98164416250b03ba4d6425bb76625bdf561b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd4e6c13_df8d6ed5",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 47
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T15:00:34Z",
+      "side": 1,
+      "message": "Yes, good catch.\nAdd sorting on creation",
+      "parentUuid": "2887c48a_766b3583",
+      "range": {
+        "startLine": 277,
+        "startChar": 11,
+        "endLine": 277,
+        "endChar": 58
+      },
+      "revId": "a64e98164416250b03ba4d6425bb76625bdf561b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +223,30 @@
         "id": 1024147
       },
       "writtenOn": "2020-02-11T14:43:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dc2f529_f74e957d",
+      "range": {
+        "startLine": 283,
+        "startChar": 3,
+        "endLine": 283,
+        "endChar": 8
+      },
+      "revId": "a64e98164416250b03ba4d6425bb76625bdf561b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8434c23_075de29d",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 47
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T15:00:34Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "4dc2f529_f74e957d",

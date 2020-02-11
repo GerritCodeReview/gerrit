@@ -16,6 +16,24 @@
       "revId": "78b7cc61853ab0a60e4ae2d60bcb5de150d913d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39f1affb_904c8633",
+        "filename": ".gitmodules",
+        "patchSetId": 14
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T19:32:43Z",
+      "side": 1,
+      "message": "It is better to have consistency with other submodules.\nAdded branch \u003d .",
+      "parentUuid": "0b715a9a_6154d207",
+      "revId": "78b7cc61853ab0a60e4ae2d60bcb5de150d913d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -8,9 +8,11 @@
       "updated": "2020-02-11T20:27:59Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "SCHEDULED",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/79606/console",
+      "finished": "2020-02-11T20:38:50Z",
       "created": "2020-02-11T19:24:44Z",
-      "updated": "2020-02-11T19:24:44Z"
+      "updated": "2020-02-11T20:28:14Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",

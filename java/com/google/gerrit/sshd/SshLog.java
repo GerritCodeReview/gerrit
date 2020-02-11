@@ -53,6 +53,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   private static final String P_EXEC = "executionTime";
   private static final String P_STATUS = "status";
   private static final String P_AGENT = "agent";
+  private static final String P_MESSAGE = "message";
 
   private final Provider<SshSession> session;
   private final Provider<Context> context;
@@ -147,6 +148,10 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   }
 
   void onExecute(DispatchCommand dcmd, int exitValue, SshSession sshSession) {
+    onExecute(dcmd, exitValue, sshSession, null);
+  }
+
+  void onExecute(DispatchCommand dcmd, int exitValue, SshSession sshSession, String message) {
     final Context ctx = context.get();
     ctx.finished = TimeUtil.nowMs();
 
@@ -178,6 +183,10 @@ class SshLog implements LifecycleListener, GerritConfigListener {
     String peerAgent = sshSession.getPeerAgent();
     if (peerAgent != null) {
       event.setProperty(P_AGENT, peerAgent);
+    }
+
+    if (message != null) {
+      event.setProperty(P_MESSAGE, message);
     }
 
     if (async != null) {

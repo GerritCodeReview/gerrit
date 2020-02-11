@@ -1037,6 +1037,75 @@
           'diff-context-expanded', {numLines: event.detail.numLines}
       );
     }
+
+    /**
+     * Find the last chunk for the given side.
+     *
+     * @param {!Object} diff
+     * @param {boolean} leftSide true if checking the base of the diff,
+     *     false if testing the revision.
+     * @return {Object|null} returns the chunk object or null if there was
+     *     no chunk for that side.
+     */
+    _lastChunkForSide(diff, leftSide) {
+      if (!diff.content.length) { return null; }
+
+      let chunkIndex = diff.content.length;
+      let chunk;
+
+      // Walk backwards until we find a chunk for the given side.
+      do {
+        chunkIndex--;
+        chunk = diff.content[chunkIndex];
+      } while (
+      // We haven't reached the beginning.
+        chunkIndex >= 0 &&
+
+          // The chunk doesn't have both sides.
+          !chunk.ab &&
+
+          // The chunk doesn't have the given side.
+          ((leftSide && (!chunk.a || !chunk.a.length)) ||
+           (!leftSide && (!chunk.b || !chunk.b.length))));
+
+      // If we reached the beginning of the diff and failed to find a chunk
+      // with the given side, return null.
+      if (chunkIndex === -1) { return null; }
+
+      return chunk;
+    }
+
+    /**
+     * Check whether the specified side of the diff has a trailing newline.
+     *
+     * @param {!Object} diff
+     * @param {boolean} leftSide true if checking the base of the diff,
+     *     false if testing the revision.
+     * @return {boolean|null} Return true if the side has a trailing newline.
+     *     Return false if it doesn't. Return null if not applicable (for
+     *     example, if the diff has no content on the specified side).
+     */
+    _hasTrailingNewlines(diff, leftSide) {
+      const chunk = this._lastChunkForSide(diff, leftSide);
+      if (!chunk) { return null; }
+      let lines;
+      if (chunk.ab) {
+        lines = chunk.ab;
+      } else {
+        lines = leftSide ? chunk.a : chunk.b;
+      }
+      return lines[lines.length - 1] === '';
+    }
+
+    _showNewlineWarningLeft(diff) {
+      const hasNewline = this._hasTrailingNewlines(diff, true);
+      return !(hasNewline || hasNewline === null);
+    }
+
+    _showNewlineWarningRight(diff) {
+      const hasNewline = this._hasTrailingNewlines(diff, false);
+      return !(hasNewline || hasNewline === null);
+    }
   }
 
   customElements.define(GrDiffHost.is, GrDiffHost);

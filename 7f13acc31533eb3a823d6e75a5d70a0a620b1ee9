@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "383bf3c7_d7a56ae1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T17:14:46Z",
+      "side": 1,
+      "message": "Do other places in this file work correctly with invisible gr-diff-host?\nI.e. why filter is applied here and not in get diffs() {...} method?",
+      "range": {
+        "startLine": 1115,
+        "startChar": 21,
+        "endLine": 1115,
+        "endChar": 40
+      },
+      "revId": "7f13acc31533eb3a823d6e75a5d70a0a620b1ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

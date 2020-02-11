@@ -1074,6 +1074,10 @@
         console.log('Expanding diff', iter, 'of', initialCount, ':',
             path);
         const diffElem = this._findDiffByPath(path, diffElements);
+        if (!diffElem) {
+          console.warn(`Did not find <gr-diff-host> element for ${path}`);
+          return;
+        }
         diffElem.comments = this.changeComments.getCommentsBySideForPath(
             path, this.patchRange, this.projectConfig);
         const promises = [diffElem.reload()];
@@ -1105,6 +1109,12 @@
      * @return {!Object|undefined} (GrDiffElement)
      */
     _findDiffByPath(path, diffElements) {
+      // It is possible that a bogus diff element is hanging around invisibly
+      // from earlier with a different patch set choice and associated with a
+      // different entry in the files array. So filter on visible items only.
+      diffElements = diffElements.filter(
+          el => el && el.style && el.style.display !== 'none');
+
       for (let i = 0; i < diffElements.length; i++) {
         if (diffElements[i].path === path) {
           return diffElements[i];

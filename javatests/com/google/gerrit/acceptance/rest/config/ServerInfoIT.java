@@ -25,6 +25,7 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -41,6 +42,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @Test
   // accounts
   @GerritConfig(name = "accounts.visibility", value = "VISIBLE_GROUP")
+  @GerritConfig(name = "accounts.defaultDisplayName", value = "FIRST_NAME")
 
   // auth
   @GerritConfig(name = "auth.type", value = "HTTP")
@@ -82,6 +84,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // accounts
     assertThat(i.accounts.visibility).isEqualTo(AccountVisibility.VISIBLE_GROUP);
+    assertThat(i.accounts.defaultDisplayName).isEqualTo(AccountDefaultDisplayName.FIRST_NAME);
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.HTTP);

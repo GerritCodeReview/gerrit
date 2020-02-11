@@ -1531,13 +1531,14 @@ a suitable JRE.  Overrides the environment variable 'JAVA_HOME'.
 
 [[container.javaOptions]]container.javaOptions::
 +
-Additional options to pass along to the Java runtime.  If multiple
-values are configured, they are passed in order on the command line,
-separated by spaces.  These options are appended onto 'JAVA_OPTIONS'.
-
+Additional options to pass along to the Java runtime. May be specified
+multiple times to configure multiple values. If multiple values are
+configured, they are passed in order on the command line, separated by
+spaces.  These options are appended onto 'JAVA_OPTIONS'.
++
 For example, it is possible to overwrite Gerrit's default log4j
 configuration:
-
++
 ----
   javaOptions = -Dlog4j.configuration=file:///home/gerrit/site/etc/log4j.properties
 ----

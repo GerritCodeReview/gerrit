@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad77b4da_a6e06424",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-11T19:06:46Z",
+      "side": 1,
+      "message": "\"uses\" or \"enables using\"?",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 17
+      },
+      "revId": "9c79db24e5468ad771f363913867ed17b5814a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac1849bb_69cae1a6",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-11T19:06:46Z",
+      "side": 1,
+      "message": "\"start the\" or \"start a\"",
+      "range": {
+        "startLine": 53,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 20
+      },
+      "revId": "9c79db24e5468ad771f363913867ed17b5814a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8693fa2a_b04144cf",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-11T19:06:46Z",
+      "side": 1,
+      "message": "Maybe mentions that you could also use\n\n  https://cdn.googlesource.com/polygerrit_ui/678.0/\n\nOr not?",
+      "revId": "9c79db24e5468ad771f363913867ed17b5814a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

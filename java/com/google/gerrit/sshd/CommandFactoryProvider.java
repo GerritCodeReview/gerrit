@@ -194,7 +194,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
                 @Override
                 public void onExit(int rc, String exitMessage) {
                   exit.onExit(translateExit(rc), exitMessage);
-                  log(rc);
+                  log(rc, exitMessage);
                 }
 
                 @Override
@@ -229,6 +229,12 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     private void log(int rc) {
       if (logged.compareAndSet(false, true)) {
         log.onExecute(cmd, rc, ctx.getSession());
+      }
+    }
+
+    private void log(int rc, String message) {
+      if (logged.compareAndSet(false, true)) {
+        log.onExecute(cmd, rc, ctx.getSession(), message);
       }
     }
 

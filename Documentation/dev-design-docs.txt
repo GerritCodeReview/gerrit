@@ -59,8 +59,9 @@ It is expected that:
 * All possible solutions are fairly discussed with their pros and cons,
   and treated equally until a conclusion is made.
 * Unrelated issues (judged by the design doc owner) that are identified
-  during discussions are extracted into new design docs (initially
-  consisting only of an `index.md` and a `use-cases.md` file).
+  during discussions may be extracted into new design docs (initially
+  consisting only of an `index.md` and a `use-cases.md` file). Doing so
+  is optional yet can be done by either the design owner or reviewers.
 * Changes making iterative improvements can be submitted frequently
   (e.g. additional uses-cases can be added later, solutions can be
   submitted without describing implementation details, etc.).
@@ -97,7 +98,9 @@ the change in Gerrit.
 == Design doc review
 
 Everyone in the link:dev-roles.html[Gerrit community] is welcome to
-take part in the design review and comment on the design.
+take part in the design review and comment on the design. As such, every
+design reviewer is expected to respect the community
+link:https://www.gerritcodereview.com/codeofconduct.html[Code of Conduct].
 
 Positive `Code-Review` votes on changes that add/modify design docs are
 sticky. This means any `Code-Review+1` and `Code-Review+2` vote is
@@ -107,7 +110,14 @@ review round by removing all positive `Code-Review` votes from the
 change manually.
 
 Ideas for alternative solutions should be uploaded as a change that
-describes the solution (see link:#collaboration[above]).
+describes the solution (see link:#collaboration[above]). This should be
+done as early as possible during the review process, so that related
+comment threads stop there and do not clutter the current review. It is up
+to the alternative reviews to then host their related comments.
+
+Verification should be based on the generated `jekyll` site using the
+local `docker`, rather than via the rendering in `gitiles` (via
+`gerrit-review`).
 
 Changes which make a conclusion on a design (changes that add/change
 the `conclusion.md` file, see link:#structure[Design Doc Structure])

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8c137a4_87c29578",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T16:46:56Z",
+      "side": 1,
+      "message": "nit: you can use reduce here:\nconst comments \u003d thread.comments;\nconst robotCommentsCount \u003d thread.comments.reduce((acc, comment) \u003d\u003e comment.robot_id ? acc + 1 : 1, 0)\nconst patchSet \u003d comments[0].patch_set;\ncount[patchSet] \u003d (count[patchSet] || 0) + robotCommentsCount;",
+      "range": {
+        "startLine": 600,
+        "startChar": 8,
+        "endLine": 603,
+        "endChar": 0
+      },
+      "revId": "2474284e7da2837683d4ea4df7d76c79c7db2594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8410cdcb_ddf5e0a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T16:46:56Z",
+      "side": 1,
+      "message": "nit: may be move to a local variable",
+      "range": {
+        "startLine": 603,
+        "startChar": 14,
+        "endLine": 603,
+        "endChar": 35
+      },
+      "revId": "2474284e7da2837683d4ea4df7d76c79c7db2594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

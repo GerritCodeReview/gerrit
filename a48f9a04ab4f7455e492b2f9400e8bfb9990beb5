@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd0d0257_1cb47e62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-11T21:39:44Z",
+      "side": 1,
+      "message": "Local elastic verification depends on this PR to get merged first.",
+      "range": {
+        "startLine": 11,
+        "startChar": 59,
+        "endLine": 13,
+        "endChar": 67
+      },
+      "revId": "a48f9a04ab4f7455e492b2f9400e8bfb9990beb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

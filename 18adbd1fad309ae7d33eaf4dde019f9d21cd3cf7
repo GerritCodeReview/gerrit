@@ -16,6 +16,24 @@
       "revId": "18adbd1fad309ae7d33eaf4dde019f9d21cd3cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5417a7c1_a0865b9e",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 30
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T17:04:12Z",
+      "side": 0,
+      "message": "Fixed in the separate change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/254439",
+      "parentUuid": "1de02575_0e20d821",
+      "revId": "18adbd1fad309ae7d33eaf4dde019f9d21cd3cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

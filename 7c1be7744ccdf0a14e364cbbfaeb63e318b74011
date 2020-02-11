@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "383520b3_e8851ff7",
+        "filename": "lib/js/BUILD",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T17:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e6fce89_8fdf9c99",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f2b4ff_3d0a866a",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 17
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7c0d7a23_d9fb0586",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T17:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f2b4ff_3d0a866a",
+      "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0b2a344_d3024de4",
         "filename": "lib/js/npm.bzl",
         "patchSetId": 17
@@ -56,6 +98,24 @@
       "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19d658bc_62173830",
+        "filename": "lib/js/npm.bzl",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T17:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0b2a344_d3024de4",
+      "revId": "7c1be7744ccdf0a14e364cbbfaeb63e318b74011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

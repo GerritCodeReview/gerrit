@@ -1530,5 +1530,102 @@ limitations under the License.
         });
       });
     });
+
+    suite.only('trailing newlines', () => {
+      setup(() => {
+      });
+
+      suite('_lastChunkForSide', () => {
+        test('deltas', () => {
+          const diff = {content: [
+            {a: ['foo', 'bar'], b: ['baz']},
+            {ab: ['foo', 'bar', 'baz']},
+            {b: ['foo']},
+          ]};
+          assert.equal(element._lastChunkForSide(diff, false), diff.content[2]);
+          assert.equal(element._lastChunkForSide(diff, true), diff.content[1]);
+
+          diff.content.push({a: ['foo'], b: ['bar']});
+          assert.equal(element._lastChunkForSide(diff, false), diff.content[3]);
+          assert.equal(element._lastChunkForSide(diff, true), diff.content[3]);
+        });
+
+        test('addition with a undefined', () => {
+          const diff = {content: [
+            {b: ['foo', 'bar', 'baz']},
+          ]};
+          assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
+          assert.isNull(element._lastChunkForSide(diff, true));
+        });
+
+        test('addition with a empty', () => {
+          const diff = {content: [
+            {a: [], b: ['foo', 'bar', 'baz']},
+          ]};
+          assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
+          assert.isNull(element._lastChunkForSide(diff, true));
+        });
+
+        test('deletion with b undefined', () => {
+          const diff = {content: [
+            {a: ['foo', 'bar', 'baz']},
+          ]};
+          assert.isNull(element._lastChunkForSide(diff, false));
+          assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
+        });
+
+        test('deletion with b empty', () => {
+          const diff = {content: [
+            {a: ['foo', 'bar', 'baz'], b: []},
+          ]};
+          assert.isNull(element._lastChunkForSide(diff, false));
+          assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
+        });
+
+        test('empty', () => {
+          const diff = {content: []};
+          assert.isNull(element._lastChunkForSide(diff, false));
+          assert.isNull(element._lastChunkForSide(diff, true));
+        });
+      });
+
+      suite('_hasTrailingNewlines', () => {
+        test('shared no trailing', () => {
+          const diff = undefined;
+          sandbox.stub(element, '_lastChunkForSide')
+              .returns({ab: ['foo', 'bar']});
+          assert.isFalse(element._hasTrailingNewlines(diff, false));
+          assert.isFalse(element._hasTrailingNewlines(diff, true));
+        });
+
+        test('delta trailing in right', () => {
+          const diff = undefined;
+          sandbox.stub(element, '_lastChunkForSide')
+              .returns({a: ['foo', 'bar'], b: ['baz', '']});
+          assert.isTrue(element._hasTrailingNewlines(diff, false));
+          assert.isFalse(element._hasTrailingNewlines(diff, true));
+        });
+
+        test('addition', () => {
+          const diff = undefined;
+          sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+            if (leftSide) { return null; }
+            return {b: ['foo', '']};
+          });
+          assert.isTrue(element._hasTrailingNewlines(diff, false));
+          assert.isNull(element._hasTrailingNewlines(diff, true));
+        });
+
+        test('deletion', () => {
+          const diff = undefined;
+          sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+            if (!leftSide) { return null; }
+            return {a: ['foo']};
+          });
+          assert.isNull(element._hasTrailingNewlines(diff, false));
+          assert.isFalse(element._hasTrailingNewlines(diff, true));
+        });
+      });
+    });
   });
 </script>

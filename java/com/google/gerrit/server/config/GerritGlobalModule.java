@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
+import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.CloneCommand;
@@ -85,6 +86,7 @@ import com.google.gerrit.server.TraceRequestListener;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDeactivator;
+import com.google.gerrit.server.account.AccountDefaultDisplayNameProvider;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
@@ -269,6 +271,9 @@ public class GerritGlobalModule extends FactoryModule {
     factory(InboundEmailRejectionSender.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
+    bind(AccountDefaultDisplayName.class)
+        .toProvider(AccountDefaultDisplayNameProvider.class)
+        .in(SINGLETON);
     factory(ProjectOwnerGroupsProvider.Factory.class);
     factory(SubmitRuleEvaluator.Factory.class);
 

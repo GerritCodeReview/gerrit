@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
+import com.google.gerrit.server.account.AccountDefaultDisplayNameProvider;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
@@ -74,6 +75,7 @@ import org.eclipse.jgit.lib.Config;
 public class GetServerInfo implements RestReadView<ConfigResource> {
   private final Config config;
   private final AccountVisibilityProvider accountVisibilityProvider;
+  private final AccountDefaultDisplayNameProvider accountDefaultDisplayNameProvider;
   private final AuthConfig authConfig;
   private final Realm realm;
   private final PluginMapContext<DownloadScheme> downloadSchemes;
@@ -96,6 +98,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public GetServerInfo(
       @GerritServerConfig Config config,
       AccountVisibilityProvider accountVisibilityProvider,
+      AccountDefaultDisplayNameProvider accountDefaultDisplayNameProvider,
       AuthConfig authConfig,
       Realm realm,
       PluginMapContext<DownloadScheme> downloadSchemes,
@@ -115,6 +118,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       SitePaths sitePaths) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
+    this.accountDefaultDisplayNameProvider = accountDefaultDisplayNameProvider;
     this.authConfig = authConfig;
     this.realm = realm;
     this.downloadSchemes = downloadSchemes;
@@ -156,6 +160,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private AccountsInfo getAccountsInfo() {
     AccountsInfo info = new AccountsInfo();
     info.visibility = accountVisibilityProvider.get();
+    info.defaultDisplayName = accountDefaultDisplayNameProvider.get();
     return info;
   }
 

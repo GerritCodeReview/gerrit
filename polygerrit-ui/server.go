@@ -64,11 +64,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	http.Handle("/", http.FileServer(http.Dir("app")))
+	http.Handle("/", corsHeaderMiddleware(http.FileServer(http.Dir("app"))))
 	http.Handle("/bower_components/",
-		http.FileServer(httpfs.New(zipfs.New(componentsArchive, "bower_components"))))
+		corsHeaderMiddleware(
+			http.FileServer(httpfs.New(zipfs.New(componentsArchive, "bower_components")))))
 	http.Handle("/fonts/",
-		http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts"))))
+		corsHeaderMiddleware(http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts")))))
 
 	http.HandleFunc("/index.html", handleIndex)
 	http.HandleFunc("/changes/", handleProxy)
@@ -90,6 +91,14 @@ func main() {
 	}
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))
+}
+
+func corsHeaderMiddleware(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(writer http.ResponseWriter, req *http.Request) {
+		writer.Header().Set("Access-Control-Allow-Origin", "*")
+		writer.Header().Set("Cache-Control", "public, max-age=10, must-revalidate")
+		h.ServeHTTP(writer, req)
+	})
 }
 
 func openDataArchive(path string) (*zip.ReadCloser, error) {

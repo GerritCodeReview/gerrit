@@ -309,6 +309,8 @@
           this.Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
       this.bindShortcut(
           this.Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
+      this.bindShortcut(
+          this.Shortcut.TOGGLE_BLAME, 'b');
 
       this.bindShortcut(
           this.Shortcut.OPEN_FIRST_FILE, ']');

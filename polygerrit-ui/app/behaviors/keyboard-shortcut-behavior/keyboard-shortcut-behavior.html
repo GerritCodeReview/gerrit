@@ -182,6 +182,7 @@ shortcuts are.
     SEARCH: 'SEARCH',
     SEND_REPLY: 'SEND_REPLY',
     EMOJI_DROPDOWN: 'EMOJI_DROPDOWN',
+    TOGGLE_BLAME: 'TOGGLE_BLAME',
   };
 
   const _help = new Map();
@@ -268,6 +269,7 @@ shortcuts are.
       'Toggle unified/side-by-side diff');
   _describe(Shortcut.NEXT_UNREVIEWED_FILE, ShortcutSection.DIFFS,
       'Mark file as reviewed and go to next unreviewed file');
+  _describe(Shortcut.TOGGLE_BLAME, ShortcutSection.DIFFS, 'Toggle blame');
 
   _describe(Shortcut.NEXT_FILE, ShortcutSection.NAVIGATION, 'Go to next file');
   _describe(Shortcut.PREV_FILE, ShortcutSection.NAVIGATION,

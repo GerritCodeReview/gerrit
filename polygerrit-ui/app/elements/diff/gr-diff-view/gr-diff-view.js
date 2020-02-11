@@ -262,6 +262,7 @@
         [this.Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
         [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
         [this.Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
+        [this.Shortcut.TOGGLE_BLAME]: '_toggleBlame',
 
         // Final two are actually handled by gr-comment-thread.
         [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,

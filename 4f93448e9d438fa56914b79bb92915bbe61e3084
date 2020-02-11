@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "31a4c807_7f044ec7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-11T21:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d8b97a0_8e32571c",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 4
+      },
+      "revId": "4f93448e9d438fa56914b79bb92915bbe61e3084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8debebb6_6752ec0f",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 23
@@ -45,6 +69,30 @@
       "revId": "4f93448e9d438fa56914b79bb92915bbe61e3084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a01ec7c_4bf9a3ba",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-11T21:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8debebb6_6752ec0f",
+      "range": {
+        "startLine": 404,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 52
+      },
+      "revId": "4f93448e9d438fa56914b79bb92915bbe61e3084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

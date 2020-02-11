@@ -16,7 +16,7 @@ The minimum nodejs version supported is 8.x+
 
 ```sh
 # Debian experimental
-sudo apt-get install nodejs-legacy
+sudo apt-get install nodejs
 sudo apt-get install npm
 
 # OS X with Homebrew
@@ -26,6 +26,8 @@ brew install npm
 
 All other platforms:
 [download from nodejs.org](https://nodejs.org/en/download/).
+
+or use [nvm - Node Version Manager](https://github.com/nvm-sh/nvm).
 
 Various steps below require installing additional npm packages. The full list of
 dependencies can be installed with:
@@ -188,9 +190,7 @@ npm run polylint
 
 ## Template Type Safety
 
-> **Warning**: This feature is temporary disabled, because it doesn't work with Polymer 2 and Polymer 3.
-Some of the checks are made by polymer linter.
-
+> **Warning**: This feature is temporary disabled, because it doesn't work with Polymer 2 and Polymer 3. Some of the checks are made by polymer linter.
 
 Polymer elements are not type checked against the element definition, making it
 trivial to break the display when refactoring or moving code. We now run
@@ -228,3 +228,19 @@ TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-u
 ```sh
 TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_change-list --test_arg=gr-change-list-view
 ```
+
+## Contributing
+
+Our users report bugs / feature requests related to the UI through [Monorail Issues - PolyGerrit](https://bugs.chromium.org/p/gerrit/issues/list?q=component%3APolyGerrit).
+
+If you want to help, feel free to grab one from those `New` issues without
+assignees and send us a change.
+
+If you don't know who to assign to review your code change, you can use
+this special account: `gerrit-fe-reviewers@api-project-164060093628.iam.gserviceaccount.com`
+and just assign to that account, it will automatically pick two volunteers
+from the queue we have for FE reviewers.
+
+If you are willing to join the queue and help the community review changes,
+you can create an issue through Monorail and request to join the queue!
+We will review your request and start from there.

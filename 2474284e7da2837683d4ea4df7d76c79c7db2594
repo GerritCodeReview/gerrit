@@ -93,6 +93,30 @@
       "revId": "2474284e7da2837683d4ea4df7d76c79c7db2594",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9143b0d_ad7686d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T17:17:39Z",
+      "side": 1,
+      "message": "I mean use comments.reduce instead of comments.filter(...).",
+      "parentUuid": "51feea7a_ae010245",
+      "range": {
+        "startLine": 600,
+        "startChar": 8,
+        "endLine": 603,
+        "endChar": 0
+      },
+      "revId": "2474284e7da2837683d4ea4df7d76c79c7db2594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

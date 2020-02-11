@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d8b97a0_8e32571c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-11T21:03:07Z",
+      "side": 1,
+      "message": "Add missing",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 4
+      },
+      "revId": "4f93448e9d438fa56914b79bb92915bbe61e3084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8debebb6_6752ec0f",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-11T21:03:07Z",
+      "side": 1,
+      "message": "I think you need to specify where to run this command or provide full path i.e.: bazel test --jvmopt\u003d\u0027-Ddebug\u003dtrue\u0027 javatests/com/google/gerrit/server/query/group:lucene_query_test\n\nJust copy pasting that command fails.",
+      "range": {
+        "startLine": 404,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 52
+      },
+      "revId": "4f93448e9d438fa56914b79bb92915bbe61e3084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

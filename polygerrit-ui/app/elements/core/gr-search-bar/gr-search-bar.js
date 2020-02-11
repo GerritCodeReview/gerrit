@@ -57,7 +57,6 @@
     'is:assigned',
     'is:closed',
     'is:ignored',
-    'is:mergeable',
     'is:merged',
     'is:open',
     'is:owner',
@@ -97,8 +96,8 @@
   ];
 
   // All of the ops, with corresponding negations.
-  const SEARCH_OPERATORS_WITH_NEGATIONS =
-    SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
+  const SEARCH_OPERATORS_WITH_NEGATIONS_SET =
+    new Set(SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`)));
 
   const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -166,6 +165,27 @@
       };
     }
 
+    attached() {
+      super.attached();
+      this.$.restAPI.getConfig().then(serverConfig => {
+        const mergeability = serverConfig
+         && serverConfig.index
+          && serverConfig.index.mergeabilityComputationBehavior;
+        if (mergeability === 'API_REF_UPDATED_AND_CHANGE_REINDEX'
+        || mergeability === 'REF_UPDATED_AND_CHANGE_REINDEX') {
+          // add 'is:mergeable' to SEARCH_OPERATORS_WITH_NEGATIONS_SET
+          this._addOperator('is:mergeable');
+        }
+      });
+    }
+
+    _addOperator(name, include_neg = true) {
+      SEARCH_OPERATORS_WITH_NEGATIONS_SET.add(name);
+      if (include_neg) {
+        SEARCH_OPERATORS_WITH_NEGATIONS_SET.add(`-${name}`);
+      }
+    }
+
     keyboardShortcuts() {
       return {
         [this.Shortcut.SEARCH]: '_handleSearch',
@@ -200,9 +220,8 @@
       }
       const trimmedInput = this._inputVal && this._inputVal.trim();
       if (trimmedInput) {
-        const predefinedOpOnlyQuery = SEARCH_OPERATORS_WITH_NEGATIONS.some(
-            op => op.endsWith(':') && op === trimmedInput
-        );
+        const predefinedOpOnlyQuery = [...SEARCH_OPERATORS_WITH_NEGATIONS_SET]
+            .some(op => op.endsWith(':') && op === trimmedInput);
         if (predefinedOpOnlyQuery) {
           return;
         }
@@ -249,7 +268,7 @@
           return this.accountSuggestions(predicate, expression);
 
         default:
-          return Promise.resolve(SEARCH_OPERATORS_WITH_NEGATIONS
+          return Promise.resolve([...SEARCH_OPERATORS_WITH_NEGATIONS_SET]
               .filter(operator => operator.includes(input))
               .map(operator => { return {text: operator}; }));
       }

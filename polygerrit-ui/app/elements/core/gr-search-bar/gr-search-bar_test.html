@@ -30,7 +30,7 @@ limitations under the License.
 <link rel="import" href="gr-search-bar.html">
 <script src="../../../scripts/util.js"></script>
 
-<script>void(0);</script>
+<script>void (0);</script>
 
 <test-fixture id="basic">
   <template>
@@ -47,9 +47,10 @@ limitations under the License.
     let element;
     let sandbox;
 
-    setup(() => {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      flush(done);
     });
 
     teardown(() => {
@@ -188,6 +189,46 @@ limitations under the License.
         element._getSearchSuggestions('asdasdasdasd').then(s => {
           assert.equal(s.length, 0);
           done();
+        });
+      });
+
+      test('Autocompltes without is:mergable when disabled', done => {
+        element._getSearchSuggestions('is:mergeab').then(s => {
+          assert.equal(s.length, 0);
+          done();
+        });
+      });
+    });
+
+    [
+      'API_REF_UPDATED_AND_CHANGE_REINDEX',
+      'REF_UPDATED_AND_CHANGE_REINDEX',
+    ].forEach(mergeability => {
+      suite(`mergeability as ${mergeability}`, () => {
+        setup(done => {
+          stub('gr-rest-api-interface', {
+            getConfig() {
+              return Promise.resolve({
+                index: {
+                  mergeabilityComputationBehavior: mergeability,
+                },
+              });
+            },
+          });
+
+          element = fixture('basic');
+          flush(done);
+        });
+
+        test('Autocompltes with is:mergable when enabled', done => {
+          element._getSearchSuggestions('is:mergeab').then(s => {
+            assert.equal(s.length, 2);
+            assert.equal(s[0].name, 'is:mergeable');
+            assert.equal(s[0].value, 'is:mergeable');
+            assert.equal(s[1].name, '-is:mergeable');
+            assert.equal(s[1].value, '-is:mergeable');
+            done();
+          });
         });
       });
     });

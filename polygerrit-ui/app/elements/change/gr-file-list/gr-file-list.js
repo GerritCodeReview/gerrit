@@ -334,8 +334,12 @@
     }
 
     get diffs() {
-      return Array.from(
-          Polymer.dom(this.root).querySelectorAll('gr-diff-host'));
+      const diffs = Polymer.dom(this.root).querySelectorAll('gr-diff-host');
+      // It is possible that a bogus diff element is hanging around invisibly
+      // from earlier with a different patch set choice and associated with a
+      // different entry in the files array. So filter on visible items only.
+      return Array.from(diffs).filter(
+          el => !!el && !!el.style && el.style.display !== 'none');
     }
 
     openDiffPrefs() {
@@ -1074,6 +1078,10 @@
         console.log('Expanding diff', iter, 'of', initialCount, ':',
             path);
         const diffElem = this._findDiffByPath(path, diffElements);
+        if (!diffElem) {
+          console.warn(`Did not find <gr-diff-host> element for ${path}`);
+          return Promise.resolve();
+        }
         diffElem.comments = this.changeComments.getCommentsBySideForPath(
             path, this.patchRange, this.projectConfig);
         const promises = [diffElem.reload()];

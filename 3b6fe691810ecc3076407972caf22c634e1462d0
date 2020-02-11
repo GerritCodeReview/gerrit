@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72684120_0cb37aa0",
+        "filename": "java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-11T23:09:12Z",
+      "side": 1,
+      "message": "This only gets initialized at L82. Is it possible that we will get here without that line being previously reached?  In that case, this block should be wrapped in a null check.",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 13
+      },
+      "revId": "3b6fe691810ecc3076407972caf22c634e1462d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

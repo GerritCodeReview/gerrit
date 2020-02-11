@@ -22,6 +22,30 @@
       "revId": "b3157948b502780f66ea4d8db78ffdae5f0bac28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cc60006_0862b3e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 44
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-11T19:49:28Z",
+      "side": 1,
+      "message": "Yes\nhttps://gerrit-review.googlesource.com/c/gerrit/+/251111/49/Documentation/licenses.txt\nhttps://gerrit-review.googlesource.com/c/gerrit/+/251111/49/Documentation/js_licenses.txt",
+      "parentUuid": "dcbc07c3_89a021d1",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "b3157948b502780f66ea4d8db78ffdae5f0bac28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

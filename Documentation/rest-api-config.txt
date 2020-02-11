@@ -1419,10 +1419,13 @@ section.
 
 [options="header",cols="1,6"]
 |=============================
-|Field Name           |Description
-|`visibility`         |
+|Field Name            |Description
+|`visibility`          |
 link:config-gerrit.html#accounts.visibility[Visibility setting for
 accounts].
+|`default_display_name`|The default strategy for choosing the display
+name in the UI, see also
+link:config-gerrit.html#accounts.defaultDisplayName[gerrit.config].
 |=============================
 
 [[auth-info]]

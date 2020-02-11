@@ -22,4 +22,7 @@ package com.google.gerrit.extensions.common;
 public class AccountsInfo {
   /** The value of the {@code accounts.visibility} parameter in {@code gerrit.config}. */
   public AccountVisibility visibility;
+
+  /** The value of the {@code accounts.visibility} parameter in {@code gerrit.config}. */
+  public AccountDefaultDisplayName defaultDisplayName;
 }

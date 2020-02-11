@@ -121,6 +121,25 @@ If `NONE`, no users other than the current user are visible.
 +
 Default is `ALL`.
 
+[[accounts.defaultDisplayName]]accounts.defaultDisplayName::
++
+If a user account does not have a display name set, which is the normal
+case, then this configuration value chooses the strategy how to choose
+the display name.
++
+If `FULL_NAME`, then the (full) name of the user is chosen from
+link:rest-api-accounts.html#account-info[AccountInfo].
++
+If `FIRST_NAME`, then the first word (i.e. everything until first
+whitespace character) of the (full) name of the user is chosen from
+link:rest-api-accounts.html#account-info[AccountInfo].
++
+If `USERNAME`, then the username of the user is chosen from
+link:rest-api-accounts.html#account-info[AccountInfo]. If that is not
+set, then the (full) name will be used.
++
+Default is `FULL_NAME`.
+
 [[addreviewer]]
 === Section addreviewer
 

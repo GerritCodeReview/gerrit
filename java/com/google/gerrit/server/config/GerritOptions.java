@@ -17,12 +17,12 @@ package com.google.gerrit.server.config;
 public class GerritOptions {
   private final boolean headless;
   private final boolean slave;
-  private final boolean forcePolyGerritDev;
+  private final String devCdn;
 
-  public GerritOptions(boolean headless, boolean slave, boolean forcePolyGerritDev) {
+  public GerritOptions(boolean headless, boolean slave, String devCdn) {
     this.headless = headless;
     this.slave = slave;
-    this.forcePolyGerritDev = forcePolyGerritDev;
+    this.devCdn = devCdn;
   }
 
   public boolean headless() {
@@ -33,7 +33,11 @@ public class GerritOptions {
     return !slave;
   }
 
-  public boolean forcePolyGerritDev() {
-    return !headless && forcePolyGerritDev;
+  public String devCdn() {
+    return devCdn;
+  }
+
+  public boolean useDevCdn() {
+    return !headless && devCdn.length() > 0;
   }
 }

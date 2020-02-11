@@ -154,6 +154,12 @@ def load_bower_archives():
         sha1 = "78f0dc184efe47012a2b1b9a16a4289acf8300dc",
     )
     bower_archive(
+        name = "sinonjs",
+        package = "sinonjs",
+        version = "1.17.1",
+        sha1 = "a26a6aab7358807de52ba738770f6ac709afd240",
+    )
+    bower_archive(
         name = "stacky",
         package = "stacky",
         version = "1.3.2",

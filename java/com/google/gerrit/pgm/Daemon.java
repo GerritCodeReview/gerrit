@@ -168,8 +168,12 @@ public class Daemon extends SiteProgram {
   @Option(name = "--headless", usage = "Don't start the UI frontend")
   private boolean headless;
 
-  @Option(name = "--polygerrit-dev", usage = "Force PolyGerrit UI for development")
-  private boolean polyGerritDev;
+  private String devCdn = "";
+
+  @Option(name = "--dev-cdn", usage = "Use specified cdn for serving static content.")
+  private void setDevCdn(String cdn) {
+    devCdn = cdn;
+  }
 
   @Option(
       name = "--init",
@@ -463,8 +467,7 @@ public class Daemon extends SiteProgram {
         new AbstractModule() {
           @Override
           protected void configure() {
-            bind(GerritOptions.class)
-                .toInstance(new GerritOptions(headless, replica, polyGerritDev));
+            bind(GerritOptions.class).toInstance(new GerritOptions(headless, replica, devCdn));
             if (inMemoryTest) {
               bind(String.class)
                   .annotatedWith(SecureStoreClassName.class)

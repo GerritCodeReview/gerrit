@@ -35,9 +35,11 @@ public class AccountInfo {
 
   /**
    * The display name of the user. This allows users to control how their name is displayed in the
-   * UI. It will likely be unset for most users. Host admins will just choose a default (full name,
-   * user name, first name, ...) for all users, and this account property is just a way to opt out
-   * of the host wide default strategy of choosing the display name.
+   * UI. It will likely be unset for most users. This account property is just a way to opt out of
+   * the host wide default strategy of choosing the display name, see
+   * accounts.accountDefaultDisplayName in the server config. The default strategy is not applied by
+   * the backend. The display name will just be left unset, and the client has to load and apply the
+   * default strategy.
    */
   public String displayName;
 

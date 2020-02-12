@@ -93,12 +93,7 @@ limitations under the License.
       assert(callback.notCalled);
     });
 
-    test('report pluginsLoaded', done => {
-      stub('gr-reporting', {
-        pluginsLoaded() {
-          done();
-        },
-      });
+    test('report pluginsLoaded', () => {
       Gerrit._loadPlugins([]);
     });
 
@@ -124,10 +119,8 @@ limitations under the License.
       sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
         Gerrit.install(() => void 0, undefined, url);
       });
-      const pluginsLoadedStub = sandbox.stub();
-      stub('gr-reporting', {
-        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-      });
+      const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+          .pluginsLoaded;
 
       const plugins = [
         'http://test.com/plugins/foo/static/test.js',
@@ -145,10 +138,6 @@ limitations under the License.
     test('isPluginEnabled and isPluginLoaded', done => {
       sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
         Gerrit.install(() => void 0, undefined, url);
-      });
-      const pluginsLoadedStub = sandbox.stub();
-      stub('gr-reporting', {
-        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
       });
 
       const plugins = [
@@ -188,10 +177,8 @@ limitations under the License.
         }, undefined, url);
       });
 
-      const pluginsLoadedStub = sandbox.stub();
-      stub('gr-reporting', {
-        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-      });
+      const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+          .pluginsLoaded;
 
       Gerrit._loadPlugins(plugins);
 
@@ -220,10 +207,8 @@ limitations under the License.
         }, undefined, url);
       });
 
-      const pluginsLoadedStub = sandbox.stub();
-      stub('gr-reporting', {
-        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-      });
+      const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+          .pluginsLoaded;
 
       Gerrit._loadPlugins(plugins);
       assert.isTrue(
@@ -255,10 +240,8 @@ limitations under the License.
         }, undefined, url);
       });
 
-      const pluginsLoadedStub = sandbox.stub();
-      stub('gr-reporting', {
-        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-      });
+      const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+          .pluginsLoaded;
 
       Gerrit._loadPlugins(plugins);
 
@@ -284,10 +267,8 @@ limitations under the License.
         }, url === plugins[0] ? '' : 'alpha', url);
       });
 
-      const pluginsLoadedStub = sandbox.stub();
-      stub('gr-reporting', {
-        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-      });
+      const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+          .pluginsLoaded;
 
       Gerrit._loadPlugins(plugins);
 
@@ -303,10 +284,8 @@ limitations under the License.
       sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
         Gerrit.install(() => void 0, undefined, url);
       });
-      const pluginsLoadedStub = sandbox.stub();
-      stub('gr-reporting', {
-        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-      });
+      const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+          .pluginsLoaded;
 
       const plugins = [
         'http://test.com/plugins/foo/static/test.js',

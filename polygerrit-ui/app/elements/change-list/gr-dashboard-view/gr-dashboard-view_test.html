@@ -48,6 +48,7 @@ limitations under the License.
         getAccountDetails() { return Promise.resolve({}); },
         getAccountStatus() { return Promise.resolve(false); },
       });
+
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
       getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
@@ -365,14 +366,13 @@ limitations under the License.
     });
 
     test('params change triggers dashboardDisplayed()', () => {
-      sandbox.stub(element.$.reporting, 'dashboardDisplayed');
       element.params = {
         view: Gerrit.Nav.View.DASHBOARD,
         project: 'project',
         dashboard: 'dashboard',
       };
       return paramsChangedPromise.then(() => {
-        assert.isTrue(element.$.reporting.dashboardDisplayed.calledOnce);
+        assert.isTrue(element.reporting.dashboardDisplayed.calledOnce);
       });
     });
   });

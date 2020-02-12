@@ -93,6 +93,30 @@
       "revId": "b6606a06ef6ecc3e76b3fd9500a1532983e54428",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a005a38c_ade66e55",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-12T09:01:05Z",
+      "side": 1,
+      "message": "ya i was thinking to have the flex set on parent. But that may require some other css changes, won\u0027t block the change for that. +2",
+      "parentUuid": "4b3d1534_d38849d5",
+      "range": {
+        "startLine": 231,
+        "startChar": 47,
+        "endLine": 232,
+        "endChar": 10
+      },
+      "revId": "b6606a06ef6ecc3e76b3fd9500a1532983e54428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,6 +40,14 @@ public class Schema_151 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    JdbcSchema schema = (JdbcSchema) db;
+    if (!createdOnColumnExists(schema.getConnection())) {
+      try (Statement stmt = schema.getConnection().createStatement()) {
+        stmt.execute(
+            "ALTER TABLE account_groups ADD COLUMN created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+      }
+    }
+
     try (PreparedStatement groupUpdate =
             prepareStatement(db, "UPDATE account_groups SET created_on = ? WHERE group_id = ?");
         PreparedStatement addedOnRetrieval =
@@ -54,6 +65,11 @@ public class Schema_151 extends SchemaVersion {
         groupUpdate.executeUpdate();
       }
     }
+  }
+
+  @VisibleForTesting
+  public static boolean createdOnColumnExists(Connection connection) throws SQLException {
+    return connection.getMetaData().getColumns(null, null, "ACCOUNT_GROUPS", "CREATED_ON").next();
   }
 
   private static Optional<Timestamp> getFirstTimeMentioned(

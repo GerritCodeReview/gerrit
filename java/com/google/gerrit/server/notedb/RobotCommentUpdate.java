@@ -229,6 +229,15 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
   }
 
   @Override
+  protected void setParentCommitId(CommitBuilder cb, ObjectId branchTip) {
+    if (!branchTip.equals(ObjectId.zeroId())) {
+      cb.setParentId(branchTip);
+    } else {
+      cb.setParentIds(); // Ref is currently nonexistent, commit has no parents.
+    }
+  }
+
+  @Override
   public boolean isEmpty() {
     return put.isEmpty();
   }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42579e14_4d50deb2",
+        "filename": "e2e-tests/load-tests/src/test/resources/data/CloneUsingBothProtocols.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-12T22:19:02Z",
+      "side": 1,
+      "message": "A couple of considerations:\n- if the scenario is meant to show something that works out of the box this won\u0027t probably be the case unfortunately, since \u0027fetch\u0027 and \u0027pull\u0027 are not stateless and they will require a setup step to clone the repos they will fetch/pull from. I usually do it with a script external to Gatling before running the tests (I thought I had already created a CR for the script but I cannot see it :/ )\n- if it is meant to show the possible command that can be used and their parameters, it might be worth showing some of them (for example fetching a particular ref when doing a \u0027fetch\u0027)",
+      "range": {
+        "startLine": 6,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "07279b94db0e6191add2107f92456678442690cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

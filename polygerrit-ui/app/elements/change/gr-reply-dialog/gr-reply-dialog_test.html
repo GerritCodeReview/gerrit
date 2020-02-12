@@ -72,6 +72,9 @@ limitations under the License.
     const makeGroup = function() { return {id: lastId++}; };
 
     setup(() => {
+      window.GrReporting = {
+        getInstance: window.getGrReportingMock,
+      };
       sandbox = sinon.sandbox.create();
 
       changeNum = 42;

@@ -43,6 +43,9 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
+      window.GrReporting = {
+        getInstance: window.getGrReportingMock,
+      };
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });

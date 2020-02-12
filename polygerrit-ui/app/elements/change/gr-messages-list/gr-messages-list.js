@@ -92,6 +92,12 @@
       };
     }
 
+    /** @override */
+    created() {
+      super.created();
+      this.reporting = GrReporting.getInstance();
+    }
+
     scrollToMessage(messageID) {
       let el = this.$$('[data-message-id="' + messageID + '"]');
       // If the message is hidden, expand the hidden messages back to that
@@ -361,7 +367,7 @@
 
     _handleShowAllTap() {
       this._visibleMessages = this._processedMessages;
-      this.$.reporting.reportInteraction(ReportingEvent.SHOW_ALL);
+      this.reporting.reportInteraction(ReportingEvent.SHOW_ALL);
     }
 
     _handleIncrementShownMessages() {
@@ -371,7 +377,7 @@
       const newMessages = this._processedMessages.slice(-(len + delta), -len);
       // Add newMessages to the beginning of _visibleMessages
       this.splice(...['_visibleMessages', 0, 0].concat(newMessages));
-      this.$.reporting.reportInteraction(ReportingEvent.SHOW_MORE);
+      this.reporting.reportInteraction(ReportingEvent.SHOW_MORE);
     }
 
     _processedMessagesChanged(messages) {
@@ -385,7 +391,7 @@
           acc[val] = (acc[val] || 0) + 1;
           return acc;
         }, {all: messages.length});
-        this.$.reporting.reportInteraction('messages-count', tagsCounted);
+        this.reporting.reportInteraction('messages-count', tagsCounted);
       }
     }
 

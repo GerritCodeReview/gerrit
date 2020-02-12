@@ -60,6 +60,9 @@ limitations under the License.
         stub('gr-rest-api-interface', {
           getAccount() { return Promise.resolve(null); },
         });
+        window.GrReporting = {
+          getInstance: window.getGrReportingMock,
+        };
         element = fixture('basic');
         element.comment = {
           author: {
@@ -300,7 +303,10 @@ limitations under the License.
           sandbox.stub(element, '_discardDraft')
               .returns(Promise.resolve({}));
           endStub = sinon.stub();
-          getTimerStub = sandbox.stub(element.$.reporting, 'getTimer')
+          if (element.reporting.getTimer.restore) {
+            element.reporting.getTimer.restore();
+          }
+          getTimerStub = sandbox.stub(element.reporting, 'getTimer')
               .returns({end: endStub});
         });
 
@@ -334,15 +340,13 @@ limitations under the License.
       });
 
       test('edit reports interaction', () => {
-        const reportStub = sandbox.stub(element.$.reporting,
-            'recordDraftInteraction');
+        const reportStub = element.reporting.recordDraftInteraction;
         MockInteractions.tap(element.$$('.edit'));
         assert.isTrue(reportStub.calledOnce);
       });
 
       test('discard reports interaction', () => {
-        const reportStub = sandbox.stub(element.$.reporting,
-            'recordDraftInteraction');
+        const reportStub = element.reporting.recordDraftInteraction;
         element.draft = true;
         MockInteractions.tap(element.$$('.discard'));
         assert.isTrue(reportStub.calledOnce);

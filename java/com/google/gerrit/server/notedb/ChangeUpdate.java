@@ -516,6 +516,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   @Override
+  protected void setParentCommitId(CommitBuilder cb, ObjectId branchTip) {
+    if (!branchTip.equals(ObjectId.zeroId())) {
+      cb.setParentId(branchTip);
+    } else {
+      cb.setParentIds(); // Ref is currently nonexistent, commit has no parents.
+    }
+  }
+
+  @Override
   protected boolean bypassMaxUpdates() {
     // Allow abandoning or submitting a change even if it would exceed the max update count.
     return status != null && status.isClosed();

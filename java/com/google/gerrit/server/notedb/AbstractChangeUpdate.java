@@ -184,6 +184,8 @@ public abstract class AbstractChangeUpdate {
 
   protected abstract String getRefName();
 
+  protected abstract void setParentCommitId(CommitBuilder cb, ObjectId branchTip);
+
   /**
    * Whether to allow bypassing the check that an update does not exceed the max update count on an
    * object.
@@ -224,11 +226,7 @@ public abstract class AbstractChangeUpdate {
     }
     cb.setAuthor(authorIdent);
     cb.setCommitter(new PersonIdent(serverIdent, when));
-    if (!curr.equals(z)) {
-      cb.setParentId(curr);
-    } else {
-      cb.setParentIds(); // Ref is currently nonexistent, commit has no parents.
-    }
+    setParentCommitId(cb, curr);
     if (cb.getTreeId() == null) {
       if (curr.equals(z)) {
         cb.setTreeId(emptyTree(ins)); // No parent, assume empty tree.

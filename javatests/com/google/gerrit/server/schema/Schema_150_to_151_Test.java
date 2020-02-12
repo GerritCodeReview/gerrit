@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.schema.Schema_151.createdOnColumnExists;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -149,6 +150,17 @@ public class Schema_150_to_151_Test {
 
     Timestamp createdOn = getCreatedOn(groupId);
     assertThat(createdOn).isEqualTo(AccountGroup.auditCreationInstantTs());
+  }
+
+  @Test
+  public void createdOnIsAddedWhenItIsMissing() throws Exception {
+    assertThat(createdOnColumnExists(connection)).isTrue();
+    try (Statement deleteColumn = connection.createStatement()) {
+      deleteColumn.execute("ALTER TABLE account_groups DROP COLUMN created_on");
+    }
+    assertThat(createdOnColumnExists(connection)).isFalse();
+    schema151.migrateData(db, new TestUpdateUI());
+    assertThat(createdOnColumnExists(connection)).isTrue();
   }
 
   private AccountGroup.Id createGroupInReviewDb(String name) throws Exception {

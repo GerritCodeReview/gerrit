@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1ae51f3f_13da39bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-12T11:06:58Z",
+      "side": 1,
+      "message": "so for now, the revert submission is sent to: Request URL: /changes/dborowitz%2F1~6433/revert_submission\n\nrevert single will be sent to: Request URL: /changes/dborowitz%2F1~6433/revert\n\nwith your change, they be sent to same url: `/changes/xxx/revert`, and at the same time, `changes/xxxx/revert_submission` is still working fine before removal of the extra button. i am not sure if BE will handle that correctly and @Gal needs to confirm that before merging this.",
+      "parentUuid": "97beeee0_16f23132",
+      "revId": "f04793b9d97777db31207a2ceb1ea689ebfbffea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "632c0fd9_73966bcf",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 2

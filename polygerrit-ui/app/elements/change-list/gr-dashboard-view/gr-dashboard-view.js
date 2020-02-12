@@ -96,6 +96,12 @@
     }
 
     /** @override */
+    created() {
+      super.created();
+      this.reporting = GrReporting.getInstance();
+    }
+
+    /** @override */
     attached() {
       super.attached();
       this._loadPreferences();
@@ -182,7 +188,7 @@
           })
           .then(() => {
             this._maybeShowDraftsBanner();
-            this.$.reporting.dashboardDisplayed();
+            this.reporting.dashboardDisplayed();
           })
           .catch(err => {
             this.fire('title-change', {

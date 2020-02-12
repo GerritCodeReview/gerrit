@@ -16,6 +16,7 @@ limitations under the License.
 -->
 <script src="/bower_components/moment/moment.js"></script>
 <script src="../scripts/util.js"></script>
+<script src="../elements/core/gr-reporting/gr-reporting.js"></script>
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
@@ -31,7 +32,6 @@ limitations under the License.
 <link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
 <link rel="import" href="./core/gr-main-header/gr-main-header.html">
 <link rel="import" href="./core/gr-navigation/gr-navigation.html">
-<link rel="import" href="./core/gr-reporting/gr-reporting.html">
 <link rel="import" href="./core/gr-router/gr-router.html">
 <link rel="import" href="./core/gr-smart-search/gr-smart-search.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
@@ -229,7 +229,6 @@ limitations under the License.
     <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
     <gr-error-manager id="errorManager" login-url="[[_loginUrl]]"></gr-error-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-reporting id="reporting"></gr-reporting>
     <gr-router id="router"></gr-router>
     <gr-plugin-host id="plugins"
         config="[[_serverConfig]]">

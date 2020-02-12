@@ -116,7 +116,6 @@ limitations under the License.
       });
 
       test('params change triggers diffViewDisplayed()', () => {
-        sandbox.stub(element.$.reporting, 'diffViewDisplayed');
         sandbox.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
         sandbox.spy(element, '_paramsChanged');
         element.params = {
@@ -128,7 +127,7 @@ limitations under the License.
         };
 
         return element._paramsChanged.returnValues[0].then(() => {
-          assert.isTrue(element.$.reporting.diffViewDisplayed.calledOnce);
+          assert.isTrue(element.reporting.diffViewDisplayed.calledOnce);
         });
       });
 

@@ -96,7 +96,9 @@ limitations under the License.
           },
           getProjectConfig() { return Promise.resolve({}); },
         });
-
+        window.GrReporting = {
+          getInstance: window.getGrReportingMock,
+        };
         sandbox = sinon.sandbox.create();
         sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
 
@@ -1764,7 +1766,7 @@ limitations under the License.
 
       test('_handleAction reports', () => {
         sandbox.stub(element, '_fireAction');
-        const reportStub = sandbox.stub(element.$.reporting, 'reportInteraction');
+        const reportStub = element.reporting.reportInteraction;
         element._handleAction('type', 'key');
         assert.isTrue(reportStub.called);
         assert.equal(reportStub.lastCall.args[0], 'type-key');

@@ -22,6 +22,30 @@
       "revId": "cc210114e3981cc24520fcc51edb0fe609b1b518",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09bdab9b_2e076cf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-12T15:18:43Z",
+      "side": 1,
+      "message": "log4j-config is the name for the Bazel rule which includes log4j.properties in the BUILD.",
+      "parentUuid": "8ebebf13_f894543f",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 28
+      },
+      "revId": "cc210114e3981cc24520fcc51edb0fe609b1b518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

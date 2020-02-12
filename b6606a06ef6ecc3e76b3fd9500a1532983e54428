@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0a5e4d4e_9d84d77b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T08:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9602b7c5_e59476ce",
+      "range": {
+        "startLine": 225,
+        "startChar": 26,
+        "endLine": 225,
+        "endChar": 70
+      },
+      "revId": "b6606a06ef6ecc3e76b3fd9500a1532983e54428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d9b189f_bb839e17",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "b6606a06ef6ecc3e76b3fd9500a1532983e54428",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b3d1534_d38849d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T08:57:33Z",
+      "side": 1,
+      "message": "Yes. Otherwise there will be a space rendered between the checkbox and the dropdown, which increases the distance too much. And we would rather want to control the distance between the two with padding and margin. An alternative would be to put the two together into a flex container, but I kind of like the approach of rendering all the elements in one display:inline flow.",
+      "parentUuid": "0d9b189f_bb839e17",
+      "range": {
+        "startLine": 231,
+        "startChar": 47,
+        "endLine": 232,
+        "endChar": 10
+      },
+      "revId": "b6606a06ef6ecc3e76b3fd9500a1532983e54428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

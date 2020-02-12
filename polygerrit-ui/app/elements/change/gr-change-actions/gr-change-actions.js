@@ -442,6 +442,7 @@
     /** @override */
     created() {
       super.created();
+      this.reporting = GrReporting.getInstance();
       this.addEventListener('fullscreen-overlay-opened',
           () => this._handleHideBackgroundContent());
       this.addEventListener('fullscreen-overlay-closed',
@@ -976,7 +977,7 @@
     }
 
     _handleAction(type, key) {
-      this.$.reporting.reportInteraction(`${type}-${key}`);
+      this.reporting.reportInteraction(`${type}-${key}`);
       switch (type) {
         case ActionType.REVISION:
           this._handleRevisionAction(key);

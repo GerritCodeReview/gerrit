@@ -557,13 +557,6 @@ limitations under the License.
       });
 
       test('initially show only 20 messages', () => {
-        sandbox.stub(element.$.reporting, 'reportInteraction',
-            (eventName, details) => {
-              assert.equal(typeof(eventName), 'string');
-              if (details) {
-                assert.equal(typeof(details), 'object');
-              }
-            });
         const messages = Array.from(Array(23).keys())
             .map(() => {
               return {};

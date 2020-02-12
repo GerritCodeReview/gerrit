@@ -36,7 +36,6 @@ limitations under the License.
 
 <script>
   suite('gr-error-manager tests', async () => {
-    await readyToTest();
     let element;
     let sandbox;
 
@@ -423,10 +422,7 @@ limitations under the License.
       test('show-error', () => {
         const openStub = sandbox.stub(element.$.errorOverlay, 'open');
         const closeStub = sandbox.stub(element.$.errorOverlay, 'close');
-        const reportStub = sandbox.stub(
-            element.$.reporting,
-            'reportErrorDialog'
-        );
+        const reportStub = element.reporting.reportErrorDialog;
 
         const message = 'test message';
         element.fire('show-error', {message});

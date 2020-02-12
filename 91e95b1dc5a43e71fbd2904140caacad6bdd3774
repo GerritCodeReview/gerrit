@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35a6bac4_0bb00f22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-12T00:16:37Z",
+      "side": 1,
+      "message": "Should this be added in the documentation somewhere?",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "91e95b1dc5a43e71fbd2904140caacad6bdd3774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

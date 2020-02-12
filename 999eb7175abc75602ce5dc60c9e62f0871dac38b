@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d69381f_0c66833a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T15:58:20Z",
+      "side": 1,
+      "message": "running",
+      "range": {
+        "startLine": 517,
+        "startChar": 41,
+        "endLine": 517,
+        "endChar": 44
+      },
+      "revId": "999eb7175abc75602ce5dc60c9e62f0871dac38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

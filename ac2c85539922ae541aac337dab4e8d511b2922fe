@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed976e47_90122ab0",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T15:58:20Z",
+      "side": 1,
+      "message": "running",
+      "range": {
+        "startLine": 517,
+        "startChar": 41,
+        "endLine": 517,
+        "endChar": 44
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c5290df_e4b4ad97",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T15:58:20Z",
+      "side": 1,
+      "message": "a license",
+      "range": {
+        "startLine": 553,
+        "startChar": 76,
+        "endLine": 553,
+        "endChar": 83
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba6a198e_49d8ebe1",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T15:58:20Z",
+      "side": 1,
+      "message": "the package",
+      "range": {
+        "startLine": 553,
+        "startChar": 4,
+        "endLine": 553,
+        "endChar": 11
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d8b2016_a40a2567",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T15:58:20Z",
+      "side": 1,
+      "message": "to the",
+      "range": {
+        "startLine": 556,
+        "startChar": 33,
+        "endLine": 556,
+        "endChar": 35
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fa7f7d1_8d42dc72",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T15:58:20Z",
+      "side": 1,
+      "message": "the update",
+      "range": {
+        "startLine": 556,
+        "startChar": 6,
+        "endLine": 556,
+        "endChar": 12
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "690649fa_3f766144",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T15:58:20Z",
+      "side": 1,
+      "message": "What is the use case? Dependencies that are declared, but not used? Or dependencies that are only used for development, but not for the release? I think it would be nice to add a sentence about it, because it sounds weird that a license is not allowed, but you can still use it.",
+      "range": {
+        "startLine": 561,
+        "startChar": 32,
+        "endLine": 561,
+        "endChar": 61
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

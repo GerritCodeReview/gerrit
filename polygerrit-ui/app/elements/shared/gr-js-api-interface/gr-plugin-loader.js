@@ -88,7 +88,7 @@
 
     _getReporting() {
       if (!this._reporting) {
-        this._reporting = document.createElement('gr-reporting');
+        this._reporting = GrReporting.getInstance();
       }
       return this._reporting;
     }

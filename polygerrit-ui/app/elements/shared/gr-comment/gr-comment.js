@@ -210,6 +210,12 @@
     }
 
     /** @override */
+    created() {
+      super.created();
+      this.reporting = GrReporting.getInstance();
+    }
+
+    /** @override */
     attached() {
       super.attached();
       if (this.editing) {
@@ -537,7 +543,7 @@
       e.preventDefault();
       this._messageText = this.comment.message;
       this.editing = true;
-      this.$.reporting.recordDraftInteraction();
+      this.reporting.recordDraftInteraction();
     }
 
     _handleSave(e) {
@@ -549,7 +555,7 @@
       }
       const timingLabel = this.comment.id ?
         REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
-      const timer = this.$.reporting.getTimer(timingLabel);
+      const timer = this.reporting.getTimer(timingLabel);
       this.set('comment.__editing', false);
       return this.save().then(() => { timer.end(); });
     }
@@ -594,7 +600,7 @@
 
     _handleDiscard(e) {
       e.preventDefault();
-      this.$.reporting.recordDraftInteraction();
+      this.reporting.recordDraftInteraction();
 
       if (!this._messageText) {
         this._discardDraft();
@@ -609,7 +615,7 @@
 
     _handleConfirmDiscard(e) {
       e.preventDefault();
-      const timer = this.$.reporting.getTimer(REPORT_DISCARD_DRAFT);
+      const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
       this._closeConfirmDiscardOverlay();
       return this._discardDraft().then(() => { timer.end(); });
     }
@@ -750,7 +756,7 @@
     }
 
     _handleToggleResolved() {
-      this.$.reporting.recordDraftInteraction();
+      this.reporting.recordDraftInteraction();
       this.resolved = !this.resolved;
       // Modify payload instead of this.comment, as this.comment is passed from
       // the parent by ref.

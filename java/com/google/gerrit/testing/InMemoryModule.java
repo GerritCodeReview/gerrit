@@ -181,7 +181,7 @@ public class InMemoryModule extends FactoryModule {
     // support Path-based Configs, only FileBasedConfig.
     bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
-    bind(GerritOptions.class).toInstance(new GerritOptions(false, false, false));
+    bind(GerritOptions.class).toInstance(new GerritOptions(false, false, ""));
 
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4f9fa516_c95064e8",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-12T17:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6daf067c_8cde1b28",
+      "range": {
+        "startLine": 395,
+        "startChar": 97,
+        "endLine": 395,
+        "endChar": 98
+      },
+      "revId": "8fb75c2635e4d7748c52ce4466af0d36bd738795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d520db7_cc49d894",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 25
@@ -45,6 +69,30 @@
       "revId": "8fb75c2635e4d7748c52ce4466af0d36bd738795",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4145c4f_0949703a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-12T17:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d520db7_cc49d894",
+      "range": {
+        "startLine": 397,
+        "startChar": 0,
+        "endLine": 399,
+        "endChar": 92
+      },
+      "revId": "8fb75c2635e4d7748c52ce4466af0d36bd738795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ccaf808c_b857f600",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-12T17:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "656d6351_c5df2c70",
+      "range": {
+        "startLine": 401,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 41
+      },
+      "revId": "8fb75c2635e4d7748c52ce4466af0d36bd738795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db2ebac_30f79a2f",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 25
@@ -91,6 +163,30 @@
       "revId": "8fb75c2635e4d7748c52ce4466af0d36bd738795",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c289265f_327baac5",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-12T17:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db2ebac_30f79a2f",
+      "range": {
+        "startLine": 404,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 99
+      },
+      "revId": "8fb75c2635e4d7748c52ce4466af0d36bd738795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "b8ec2666_3ad073b1",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-12T17:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b6b2db1_74d548c8",
+      "range": {
+        "startLine": 154,
+        "startChar": 21,
+        "endLine": 154,
+        "endChar": 40
+      },
+      "revId": "8fb75c2635e4d7748c52ce4466af0d36bd738795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15acc1b1_ee7fbb5d",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 25
@@ -137,6 +257,30 @@
       "revId": "8fb75c2635e4d7748c52ce4466af0d36bd738795",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a3ba581_5e4dbcf4",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-12T17:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15acc1b1_ee7fbb5d",
+      "range": {
+        "startLine": 161,
+        "startChar": 21,
+        "endLine": 161,
+        "endChar": 38
+      },
+      "revId": "8fb75c2635e4d7748c52ce4466af0d36bd738795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

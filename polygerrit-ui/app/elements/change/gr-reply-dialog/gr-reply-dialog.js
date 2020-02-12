@@ -251,6 +251,12 @@
     }
 
     /** @override */
+    created() {
+      super.created();
+      this.reporting = GrReporting.getInstance();
+    }
+
+    /** @override */
     attached() {
       super.attached();
       this._getAccount().then(account => {
@@ -439,7 +445,7 @@
     }
 
     send(includeComments, startReview) {
-      this.$.reporting.time(SEND_REPLY_TIMING_LABEL);
+      this.reporting.time(SEND_REPLY_TIMING_LABEL);
       const labels = this.$.labelScores.getLabelValues();
 
       const obj = {

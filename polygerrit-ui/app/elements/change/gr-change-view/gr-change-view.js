@@ -381,6 +381,7 @@
     /** @override */
     created() {
       super.created();
+      this.reporting = GrReporting.getInstance();
 
       this.addEventListener('topic-changed',
           () => this._handleTopicChanged());
@@ -511,7 +512,7 @@
       this._currentView = this.$.commentTabs.selected;
       const type = Object.keys(CommentTabs).find(key => CommentTabs[key] ===
           this._currentView);
-      this.$.reporting.reportInteraction('comment-tab-changed', {tabName:
+      this.reporting.reportInteraction('comment-tab-changed', {tabName:
           type});
     }
 
@@ -540,7 +541,7 @@
         this._selectedTabPluginEndpoint = '';
         this._selectedTabPluginHeader = '';
       }
-      this.$.reporting.reportInteraction('tab-changed',
+      this.reporting.reportInteraction('tab-changed',
           {tabName: this._currentTabName, source});
     }
 
@@ -557,7 +558,7 @@
       }
       primaryTabs.selected = idx;
       primaryTabs.scrollIntoView();
-      this.$.reporting.reportInteraction('show-tab', {tabName: e.detail.tab});
+      this.reporting.reportInteraction('show-tab', {tabName: e.detail.tab});
     }
 
     _handleEditCommitMessage(e) {
@@ -825,7 +826,7 @@
     _handleReplySent(e) {
       this.addEventListener('change-details-loaded',
           () => {
-            this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+            this.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
           }, {once: true});
       this.$.replyOverlay.close();
       this._reload();
@@ -1572,8 +1573,8 @@
     _reload(opt_isLocationChange) {
       this._loading = true;
       this._relatedChangesCollapsed = true;
-      this.$.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
-      this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
+      this.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
+      this.reporting.time(CHANGE_DATA_TIMING_LABEL);
 
       // Array to house all promises related to data requests.
       const allDataPromises = [];
@@ -1592,9 +1593,9 @@
                 {bubbles: true, composed: true}));
           })
           .then(() => {
-            this.$.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+            this.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
             if (opt_isLocationChange) {
-              this.$.reporting.changeDisplayed();
+              this.reporting.changeDisplayed();
             }
           });
 
@@ -1663,9 +1664,9 @@
       }
 
       Promise.all(allDataPromises).then(() => {
-        this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
+        this.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
         if (opt_isLocationChange) {
-          this.$.reporting.changeFullyLoaded();
+          this.reporting.changeFullyLoaded();
         }
       });
 

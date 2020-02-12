@@ -22,6 +22,30 @@
       "revId": "07279b94db0e6191add2107f92456678442690cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64356a2e_63b9d79d",
+        "filename": "e2e-tests/load-tests/src/test/resources/data/CloneUsingBothProtocols.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T23:09:25Z",
+      "side": 1,
+      "message": "\u003e A couple of considerations:\n\u003e - if the scenario is meant to show something that works out of the box this won\u0027t probably be the case unfortunately, since \u0027fetch\u0027 and \u0027pull\u0027 are not stateless and they will require a setup step to clone the repos they will fetch/pull from. I usually do it with a script external to Gatling before running the tests (I thought I had already created a CR for the script but I cannot see it :/ )\n\nThanks for clarifying this external setup aspect. In the meantime, I noticed some setup steps that are bundled in (some of) the gatling-git Spec classes. When I try the \"push\" command or PushSpec, I get REJECTED_NONFASTFORWARD which lends a Gatling KO. I might be missing some external setup step then for that one.\n\nI noticed that the fetch and pull Specs have a Push setup step, but that command\u0027s resulting status is not checked by the code. I wonder if those Push steps bundled in the fetch/pull commands work as expected. When I run fetch/pull commands naively as above locally, I always get Gatling OK\u0027s so no KO.\n\n\u003e - if it is meant to show the possible command that can be used and their parameters, it might be worth showing some of them (for example fetching a particular ref when doing a \u0027fetch\u0027)\n\nNot for now at least. Because of this and the above findings, I\u0027ll abandon this series for now. Thanks again for explaining and checking what I\u0027m trying to report above then.",
+      "parentUuid": "42579e14_4d50deb2",
+      "range": {
+        "startLine": 6,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "07279b94db0e6191add2107f92456678442690cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

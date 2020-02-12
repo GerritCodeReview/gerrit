@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca29cceb_43e2baeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T13:16:44Z",
+      "side": 1,
+      "message": "Blank line missing if willing to have paragraphs.",
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec13cf66_054430f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T13:16:44Z",
+      "side": 1,
+      "message": "Was the default use of \u0027:\u0027 the cause of that exception? Would add a few words about what was causing the exception more precisely. This to help justify the use of the new replacement, and why/how it is fixing this Issue below.",
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afb0f3b2_8c7efbbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T13:16:44Z",
+      "side": 1,
+      "message": "Can you update the Status of that Issue, in Monorail, based on the intended scope or role of this change towards it?",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47705a09_f6552d84",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T13:16:44Z",
+      "side": 1,
+      "message": "Surrounding test methods don\u0027t throw unless necessary.",
+      "range": {
+        "startLine": 529,
+        "startChar": 47,
+        "endLine": 529,
+        "endChar": 64
+      },
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42fde007_253eeed1",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T13:16:44Z",
+      "side": 1,
+      "message": "What is the role of explicitly starting from the beginning, here, compared to the surrounding methods which don\u0027t (lines 523 and 537, for example)? Would explain in the commit message, if this is to be kept.",
+      "range": {
+        "startLine": 530,
+        "startChar": 42,
+        "endLine": 530,
+        "endChar": 43
+      },
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06178994_44b0d28e",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T13:16:44Z",
+      "side": 1,
+      "message": "Related to my previous comment.",
+      "range": {
+        "startLine": 953,
+        "startChar": 25,
+        "endLine": 953,
+        "endChar": 26
+      },
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

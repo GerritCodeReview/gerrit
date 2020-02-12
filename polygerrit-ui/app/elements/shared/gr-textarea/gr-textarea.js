@@ -127,6 +127,12 @@
     }
 
     /** @override */
+    created() {
+      super.created();
+      this.reporting = GrReporting.getInstance();
+    }
+
+    /** @override */
     ready() {
       super.ready();
       if (this.monospace) {
@@ -201,7 +207,7 @@
       this.text = this._getText(text);
       this.$.textarea.selectionStart = colonIndex + 1;
       this.$.textarea.selectionEnd = colonIndex + 1;
-      this.$.reporting.reportInteraction('select-emoji', {type: text});
+      this.reporting.reportInteraction('select-emoji', {type: text});
       this._resetEmojiDropdown();
     }
 
@@ -286,7 +292,7 @@
 
     _openEmojiDropdown() {
       this.$.emojiSuggestions.open();
-      this.$.reporting.reportInteraction('open-emoji-dropdown');
+      this.reporting.reportInteraction('open-emoji-dropdown');
     }
 
     _formatSuggestions(matchedSuggestions) {

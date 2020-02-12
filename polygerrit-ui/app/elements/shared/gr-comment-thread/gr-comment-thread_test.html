@@ -52,6 +52,9 @@ limitations under the License.
       let sandbox;
 
       setup(() => {
+        window.GrReporting = {
+          getInstance: window.getGrReportingMock,
+        };
         sandbox = sinon.sandbox.create();
         stub('gr-rest-api-interface', {
           getLoggedIn() { return Promise.resolve(false); },
@@ -235,6 +238,9 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
+      window.GrReporting = {
+        getInstance: window.getGrReportingMock,
+      };
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
@@ -277,8 +283,7 @@ limitations under the License.
 
     test('reply', () => {
       const commentEl = element.$$('gr-comment');
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = element.reporting.recordDraftInteraction;
       assert.ok(commentEl);
 
       const replyBtn = element.$.replyBtn;
@@ -294,8 +299,7 @@ limitations under the License.
 
     test('quote reply', () => {
       const commentEl = element.$$('gr-comment');
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = element.reporting.recordDraftInteraction;
       assert.ok(commentEl);
 
       const quoteBtn = element.$.quoteBtn;
@@ -310,8 +314,7 @@ limitations under the License.
     });
 
     test('quote reply multiline', () => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = element.reporting.recordDraftInteraction;
       element.comments = [{
         author: {
           name: 'Mr. Peanutbutter',
@@ -340,8 +343,7 @@ limitations under the License.
     });
 
     test('ack', done => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = element.reporting.recordDraftInteraction;
       element.changeNum = '42';
       element.patchNum = '1';
 
@@ -362,8 +364,7 @@ limitations under the License.
     });
 
     test('done', done => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = element.reporting.recordDraftInteraction;
       element.changeNum = '42';
       element.patchNum = '1';
       const commentEl = element.$$('gr-comment');

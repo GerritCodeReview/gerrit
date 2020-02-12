@@ -51,6 +51,9 @@ limitations under the License.
     };
 
     setup(() => {
+      window.GrReporting = {
+        getInstance: window.getGrReportingMock,
+      };
       window.clock = sinon.useFakeTimers();
       sandbox = sinon.sandbox.create();
       getResponseObjectStub = sandbox.stub().returns(Promise.resolve());

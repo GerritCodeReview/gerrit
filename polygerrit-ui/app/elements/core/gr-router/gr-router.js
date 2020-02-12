@@ -196,7 +196,7 @@
 
   // Setup listeners outside of the router component initialization.
   (function() {
-    const reporting = document.createElement('gr-reporting');
+    const reporting = GrReporting.getInstance();
 
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -240,6 +240,12 @@
           value: true,
         },
       };
+    }
+
+    /** @override */
+    created() {
+      super.created();
+      this.reporting = GrReporting.getInstance();
     }
 
     start() {
@@ -693,7 +699,7 @@
         return;
       }
       page(pattern, this._loadUserMiddleware.bind(this), data => {
-        this.$.reporting.locationChanged(handlerName);
+        this.reporting.locationChanged(handlerName);
         const promise = opt_authRedirect ?
           this._redirectIfNotLoggedIn(data) : Promise.resolve();
         promise.then(() => { this[handlerName](data); });
@@ -715,7 +721,7 @@
 
       page.exit('*', (ctx, next) => {
         if (!this._isRedirecting) {
-          this.$.reporting.beforeLocationChanged();
+          this.reporting.beforeLocationChanged();
         }
         this._isRedirecting = false;
         this._isInitialLoad = false;
@@ -1063,7 +1069,7 @@
         project,
         dashboard: decodeURIComponent(data.params[1]),
       });
-      this.$.reporting.setRepoName(project);
+      this.reporting.setRepoName(project);
     }
 
     _handleGroupInfoRoute(data) {
@@ -1144,7 +1150,7 @@
         detail: Gerrit.Nav.RepoDetailView.COMMANDS,
         repo,
       });
-      this.$.reporting.setRepoName(repo);
+      this.reporting.setRepoName(repo);
     }
 
     _handleRepoAccessRoute(data) {
@@ -1154,7 +1160,7 @@
         detail: Gerrit.Nav.RepoDetailView.ACCESS,
         repo,
       });
-      this.$.reporting.setRepoName(repo);
+      this.reporting.setRepoName(repo);
     }
 
     _handleRepoDashboardsRoute(data) {
@@ -1164,7 +1170,7 @@
         detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
         repo,
       });
-      this.$.reporting.setRepoName(repo);
+      this.reporting.setRepoName(repo);
     }
 
     _handleBranchListOffsetRoute(data) {
@@ -1270,7 +1276,7 @@
         view: Gerrit.Nav.View.REPO,
         repo,
       });
-      this.$.reporting.setRepoName(repo);
+      this.reporting.setRepoName(repo);
     }
 
     _handlePluginListOffsetRoute(data) {
@@ -1332,7 +1338,7 @@
         view: Gerrit.Nav.View.CHANGE,
       };
 
-      this.$.reporting.setRepoName(params.project);
+      this.reporting.setRepoName(params.project);
       this._redirectOrNavigate(params);
     }
 
@@ -1352,7 +1358,7 @@
         params.leftSide = address.leftSide;
         params.lineNum = address.lineNum;
       }
-      this.$.reporting.setRepoName(params.project);
+      this.reporting.setRepoName(params.project);
       this._redirectOrNavigate(params);
     }
 
@@ -1402,7 +1408,7 @@
         path: ctx.params[3],
         view: Gerrit.Nav.View.EDIT,
       });
-      this.$.reporting.setRepoName(project);
+      this.reporting.setRepoName(project);
     }
 
     _handleChangeEditRoute(ctx) {
@@ -1415,7 +1421,7 @@
         view: Gerrit.Nav.View.CHANGE,
         edit: true,
       });
-      this.$.reporting.setRepoName(project);
+      this.reporting.setRepoName(project);
     }
 
     /**

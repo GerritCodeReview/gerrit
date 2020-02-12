@@ -264,6 +264,11 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   @Override
+  protected void setParentCommitId(CommitBuilder cb, ObjectId branchTip) {
+    cb.setParentIds(); // Draft updates should not keep history of parent commits
+  }
+
+  @Override
   public boolean isEmpty() {
     return delete.isEmpty() && put.isEmpty();
   }

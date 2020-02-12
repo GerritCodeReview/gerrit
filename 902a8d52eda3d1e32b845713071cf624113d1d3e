@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "066bc64f_82c5ba01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T09:31:07Z",
+      "side": 1,
+      "message": "Added:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/251978/12/polygerrit-ui/README.md#70",
+      "parentUuid": "10e89382_41bbec1d",
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7982c59e_1fada04c",
         "filename": "WORKSPACE",
         "patchSetId": 18
@@ -181,6 +199,24 @@
       "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b22b92ea_e7e0e50b",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T09:31:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5225df12_c8f711b8",
+      "revId": "902a8d52eda3d1e32b845713071cf624113d1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1d416d25_8e2e5765",
+        "filename": "package.json",
+        "patchSetId": 24
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T09:31:07Z",
+      "side": 1,
+      "message": "It is recommended by the authors of rules_nodejs:\nhttps://bazelbuild.github.io/rules_nodejs/install.html, topic yarn_install vs. npm_install",
+      "parentUuid": "d7c2137f_242b1d90",
+      "range": {
+        "startLine": 17,
+        "startChar": 3,
+        "endLine": 17,
+        "endChar": 189
+      },
+      "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "675d9ed9_2850587d",
         "filename": "polygerrit-ui/app/package.json",
         "patchSetId": 24
@@ -45,6 +69,30 @@
       "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "409efb1b_3a265c3e",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 24
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T09:31:07Z",
+      "side": 1,
+      "message": "Doesn\u0027t matter here, it is updated in the following changes",
+      "parentUuid": "675d9ed9_2850587d",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 4
+      },
+      "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e4238bf1_02c89bec",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 24
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T09:31:07Z",
+      "side": 1,
+      "message": "Doesn\u0027t matter here, it is updated in the following changes",
+      "parentUuid": "ec1bc81f_b2309bf5",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f502ca99_3976543e",
         "filename": "tools/node_tools/package.json",
         "patchSetId": 24
@@ -85,6 +157,24 @@
       "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eda57207_ac9c627a",
+        "filename": "tools/node_tools/package.json",
+        "patchSetId": 24
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T09:31:07Z",
+      "side": 1,
+      "message": "yarn.lock pins exact version, so here it is enough to pin only major version.",
+      "parentUuid": "f502ca99_3976543e",
+      "revId": "2c91d88b9c1b45c9dd0ad203ae81595e27a83bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

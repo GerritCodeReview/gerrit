@@ -42,6 +42,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.SessionAware;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.command.CommandFactory;
 import org.apache.sshd.server.session.ServerSession;
@@ -98,7 +99,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
   public CommandFactory get() {
     return new CommandFactory() {
       @Override
-      public Command createCommand(String requestCommand) {
+      public Command createCommand(ChannelSession channel, String requestCommand) {
         String c = requestCommand;
         SshCreateCommandInterceptor interceptor = createCommandInterceptor.get();
         if (interceptor != null) {
@@ -156,7 +157,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     }
 
     @Override
-    public void start(Environment env) throws IOException {
+    public void start(ChannelSession channel, Environment env) throws IOException {
       this.env = env;
       final Context ctx = this.ctx;
       task.set(
@@ -165,7 +166,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
                 @Override
                 public void run() {
                   try {
-                    onStart();
+                    onStart(channel);
                   } catch (Exception e) {
                     logger.atWarning().withCause(e).log(
                         "Cannot start command \"%s\" for user %s",
@@ -180,7 +181,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
               }));
     }
 
-    private void onStart() throws IOException {
+    private void onStart(ChannelSession channel) throws IOException {
       synchronized (this) {
         final Context old = sshScope.set(ctx);
         try {
@@ -203,7 +204,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
                   log(rc);
                 }
               });
-          cmd.start(env);
+          cmd.start(channel, env);
         } finally {
           sshScope.set(old);
         }
@@ -233,20 +234,20 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     }
 
     @Override
-    public void destroy() {
+    public void destroy(ChannelSession channel) {
       Future<?> future = task.getAndSet(null);
       if (future != null) {
         future.cancel(true);
-        destroyExecutor.execute(this::onDestroy);
+        destroyExecutor.execute(() -> onDestroy(channel));
       }
     }
 
-    private void onDestroy() {
+    private void onDestroy(ChannelSession channel) {
       synchronized (this) {
         if (cmd != null) {
           final Context old = sshScope.set(ctx);
           try {
-            cmd.destroy();
+            cmd.destroy(channel);
             log(BaseCommand.STATUS_CANCEL);
           } finally {
             ctx = null;

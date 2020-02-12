@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.Collection;
@@ -81,18 +82,22 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
 
   private static Set<PublicKey> myHostKeys(KeyPairProvider p) {
     final Set<PublicKey> keys = new HashSet<>(6);
-    addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
-    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP256);
-    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP384);
-    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP521);
-    addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
-    addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
+    try {
+      addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
+      addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP256);
+      addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP384);
+      addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP521);
+      addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
+      addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
+    } catch (IOException | GeneralSecurityException e) {
+      throw new IllegalStateException("Cannot load SSHD host key", e);
+    }
     return keys;
   }
 
-  private static void addPublicKey(
-      final Collection<PublicKey> out, KeyPairProvider p, String type) {
-    final KeyPair pair = p.loadKey(type);
+  private static void addPublicKey(Collection<PublicKey> out, KeyPairProvider p, String type)
+      throws IOException, GeneralSecurityException {
+    KeyPair pair = p.loadKey(null, type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
     }

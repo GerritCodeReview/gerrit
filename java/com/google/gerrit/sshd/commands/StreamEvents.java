@@ -45,6 +45,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.STREAM_EVENTS)
@@ -134,7 +135,7 @@ final class StreamEvents extends BaseCommand {
   private PrintWriter stdout;
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(ChannelSession channel, Environment env) throws IOException {
     try {
       parseCommandLine();
     } catch (UnloggedFailure e) {
@@ -191,7 +192,7 @@ final class StreamEvents extends BaseCommand {
   }
 
   @Override
-  public void destroy() {
+  public void destroy(ChannelSession channel) {
     removeEventListenerRegistration();
 
     final boolean exit;

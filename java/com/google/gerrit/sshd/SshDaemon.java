@@ -51,6 +51,7 @@ import java.nio.file.PathMatcher;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
+import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
@@ -66,6 +67,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.common.BaseBuilder;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.channel.RequestHandler;
 import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
@@ -82,7 +84,7 @@ import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
-import org.apache.sshd.common.kex.KeyExchange;
+import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.Random;
@@ -97,6 +99,7 @@ import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.server.ServerBuilder;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.UserAuth;
+import org.apache.sshd.server.auth.UserAuthFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
@@ -110,6 +113,7 @@ import org.apache.sshd.server.global.NoMoreSessionsHandler;
 import org.apache.sshd.server.global.TcpipForwardHandler;
 import org.apache.sshd.server.session.ServerSessionImpl;
 import org.apache.sshd.server.session.SessionFactory;
+import org.apache.sshd.server.subsystem.SubsystemFactory;
 import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.bouncycastle.crypto.prng.VMPCRandomGenerator;
 import org.eclipse.jgit.lib.Config;
@@ -390,12 +394,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       return Collections.emptyList();
     }
 
-    final List<PublicKey> keys = myHostKeys();
-    final List<HostKey> r = new ArrayList<>();
+    List<PublicKey> keys = myHostKeys();
+    List<HostKey> r = new ArrayList<>();
     for (PublicKey pub : keys) {
-      final Buffer buf = new ByteArrayBuffer();
+      Buffer buf = new ByteArrayBuffer();
       buf.putRawPublicKey(pub);
-      final byte[] keyBin = buf.getCompactData();
+      byte[] keyBin = buf.getCompactData();
 
       for (String addr : advertised) {
         try {
@@ -412,18 +416,22 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private List<PublicKey> myHostKeys() {
     final KeyPairProvider p = getKeyPairProvider();
     final List<PublicKey> keys = new ArrayList<>(6);
-    addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
-    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP256);
-    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP384);
-    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP521);
-    addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
-    addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
+    try {
+      addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
+      addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP256);
+      addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP384);
+      addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP521);
+      addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
+      addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
+    } catch (IOException | GeneralSecurityException e) {
+      throw new IllegalStateException("Cannot load SSHD host key", e);
+    }
     return keys;
   }
 
-  private static void addPublicKey(
-      final Collection<PublicKey> out, KeyPairProvider p, String type) {
-    final KeyPair pair = p.loadKey(type);
+  private static void addPublicKey(final Collection<PublicKey> out, KeyPairProvider p, String type)
+      throws IOException, GeneralSecurityException {
+    final KeyPair pair = p.loadKey(null, type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
     }
@@ -442,9 +450,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   private void initKeyExchanges(Config cfg) {
-    List<NamedFactory<KeyExchange>> a = ServerBuilder.setUpDefaultKeyExchanges(true);
+    List<KeyExchangeFactory> a = ServerBuilder.setUpDefaultKeyExchanges(true);
     setKeyExchangeFactories(
-        filter(cfg, "kex", (NamedFactory<KeyExchange>[]) a.toArray(new NamedFactory<?>[a.size()])));
+        filter(cfg, "kex", (KeyExchangeFactory[]) a.toArray(new KeyExchangeFactory[a.size()])));
   }
 
   private void initProviderBouncyCastle(Config cfg) {
@@ -523,14 +531,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   private void initCiphers(Config cfg) {
-    final List<NamedFactory<Cipher>> a = BaseBuilder.setUpDefaultCiphers(true);
+    List<NamedFactory<Cipher>> a = BaseBuilder.setUpDefaultCiphers(true);
 
     for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext(); ) {
-      final NamedFactory<Cipher> f = i.next();
+      NamedFactory<Cipher> f = i.next();
       try {
-        final Cipher c = f.create();
-        final byte[] key = new byte[c.getBlockSize()];
-        final byte[] iv = new byte[c.getIVSize()];
+        Cipher c = f.create();
+        byte[] key = new byte[c.getKdfSize()];
+        byte[] iv = new byte[c.getIVSize()];
         c.init(Cipher.Mode.Encrypt, key, iv);
       } catch (InvalidKeyException e) {
         logger.atWarning().log(
@@ -556,10 +564,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SafeVarargs
-  private static <T> List<NamedFactory<T>> filter(
-      final Config cfg, String key, NamedFactory<T>... avail) {
-    final ArrayList<NamedFactory<T>> def = new ArrayList<>();
-    for (NamedFactory<T> n : avail) {
+  private static <T extends NamedResource> List<T> filter(
+      final Config cfg, String key, T... avail) {
+    final ArrayList<T> def = new ArrayList<>();
+    for (T n : avail) {
       if (n == null) {
         break;
       }
@@ -585,7 +593,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         def.clear();
       }
 
-      final NamedFactory<T> n = find(name, avail);
+      final T n = find(name, avail);
       if (n == null) {
         final StringBuilder msg = new StringBuilder();
         msg.append("sshd.").append(key).append(" = ").append(name).append(" unsupported; only ");
@@ -613,8 +621,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SafeVarargs
-  private static <T> NamedFactory<T> find(String name, NamedFactory<T>... avail) {
-    for (NamedFactory<T> n : avail) {
+  private static <T extends NamedResource> T find(String name, T... avail) {
+    for (T n : avail) {
       if (n != null && name.equals(n.getName())) {
         return n;
       }
@@ -623,7 +631,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initSignatures() {
-    setSignatureFactories(BaseBuilder.setUpDefaultSignatures(true));
+    setSignatureFactories(ServerBuilder.setUpDefaultSignatureFactories(false));
   }
 
   private void initCompression(boolean enableCompression) {
@@ -660,7 +668,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initSubsystems() {
-    setSubsystemFactories(Collections.<NamedFactory<Command>>emptyList());
+    setSubsystemFactories(Collections.<SubsystemFactory>emptyList());
   }
 
   private void initUserAuth(
@@ -668,7 +676,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       final GSSAuthenticator kerberosAuthenticator,
       String kerberosKeytab,
       String kerberosPrincipal) {
-    List<NamedFactory<UserAuth>> authFactories = new ArrayList<>();
+    List<UserAuthFactory> authFactories = new ArrayList<>();
     if (kerberosKeytab != null) {
       authFactories.add(UserAuthGSSFactory.INSTANCE);
       logger.atInfo().log("Enabling kerberos with keytab %s", kerberosKeytab);

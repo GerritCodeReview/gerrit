@@ -29,26 +29,32 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "sshd",
-        artifact = "org.apache.sshd:sshd-core:2.0.0",
-        sha1 = "f4275079a2463cfd2bf1548a80e1683288a8e86b",
+        artifact = "org.apache.sshd:sshd-core:2.4.0",
+        sha1 = "102eefb7e195aae25096f54f2398e54cb0fe839c",
+    )
+
+    maven_jar(
+        name = "sshd-common",
+        artifact = "org.apache.sshd:sshd-common:2.4.0",
+        sha1 = "017be0597f41449518762fc529c707148007f4bc",
     )
 
     maven_jar(
         name = "eddsa",
-        artifact = "net.i2p.crypto:eddsa:0.2.0",
-        sha1 = "0856a92559c4daf744cb27c93cd8b7eb1f8c4780",
+        artifact = "net.i2p.crypto:eddsa:0.3.0",
+        sha1 = "1901c8d4d8bffb7d79027686cfb91e704217c3e1",
     )
 
     maven_jar(
         name = "mina-core",
-        artifact = "org.apache.mina:mina-core:2.0.17",
-        sha1 = "7e10ec974760436d931f3e58be507d1957bcc8db",
+        artifact = "org.apache.mina:mina-core:2.1.3",
+        sha1 = "de31a9e9ae2daea713409cf749369baa9a83ab5b",
     )
 
     maven_jar(
         name = "sshd-mina",
-        artifact = "org.apache.sshd:sshd-mina:2.0.0",
-        sha1 = "50f2669312494f6c1996d8bd0d266c1fca7be6f6",
+        artifact = "org.apache.sshd:sshd-mina:2.4.0",
+        sha1 = "8aa8715d07bd61ad8315df66d43c0c04b1b755c8",
     )
 
     # elasticsearch-rest-client explicitly depends on this version

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d02fda34_155b83aa",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-12T09:28:46Z",
+      "side": 1,
+      "message": "Is this meant for dev or prod usage?\n\nIf it\u0027s for dev, this seems to be duplicate with what the go server provides?",
+      "range": {
+        "startLine": 174,
+        "startChar": 18,
+        "endLine": 174,
+        "endChar": 21
+      },
+      "revId": "e776cb242f7fe4bb143bd02df490c4f530e28990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

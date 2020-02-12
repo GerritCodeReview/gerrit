@@ -254,6 +254,7 @@
     /** @override */
     created() {
       super.created();
+      this.reporting = GrReporting.getInstance();
       this.addEventListener(
           // These are named inconsistently for a reason:
           // The create-comment event is fired to indicate that we should
@@ -352,21 +353,21 @@
                 const needsSyntaxHighlighting = event.detail &&
                       event.detail.contentRendered;
                 if (needsSyntaxHighlighting) {
-                  this.$.reporting.time(TimingLabel.SYNTAX);
+                  this.reporting.time(TimingLabel.SYNTAX);
                   this.$.syntaxLayer.process().then(() => {
-                    this.$.reporting.timeEnd(TimingLabel.SYNTAX);
-                    this.$.reporting.timeEnd(TimingLabel.TOTAL);
+                    this.reporting.timeEnd(TimingLabel.SYNTAX);
+                    this.reporting.timeEnd(TimingLabel.TOTAL);
                     resolve();
                   });
                 } else {
-                  this.$.reporting.timeEnd(TimingLabel.TOTAL);
+                  this.reporting.timeEnd(TimingLabel.TOTAL);
                   resolve();
                 }
                 this.removeEventListener('render', callback);
                 if (shouldReportMetric) {
                   // We report diffViewContentDisplayed only on reload caused
                   // by params changed - expected only on Diff Page.
-                  this.$.reporting.diffViewContentDisplayed();
+                  this.reporting.diffViewContentDisplayed();
                 }
               };
               this.addEventListener('render', callback);
@@ -585,11 +586,11 @@
       // Report the due_to_rebase percentage in the "diff" category when
       // applicable.
       if (this.patchRange.basePatchNum === 'PARENT') {
-        this.$.reporting.reportInteraction(EVENT_AGAINST_PARENT);
+        this.reporting.reportInteraction(EVENT_AGAINST_PARENT);
       } else if (percentRebaseDelta === 0) {
-        this.$.reporting.reportInteraction(EVENT_ZERO_REBASE);
+        this.reporting.reportInteraction(EVENT_ZERO_REBASE);
       } else {
-        this.$.reporting.reportInteraction(EVENT_NONZERO_REBASE,
+        this.reporting.reportInteraction(EVENT_NONZERO_REBASE,
             {percentRebaseDelta});
       }
     }
@@ -709,7 +710,7 @@
           isOnParent);
       threadEl.addOrEditDraft(lineNum, range);
 
-      this.$.reporting.recordDraftInteraction();
+      this.reporting.recordDraftInteraction();
     }
 
     /**
@@ -1007,7 +1008,7 @@
     _listenToViewportRender() {
       const renderUpdateListener = start => {
         if (start > NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT) {
-          this.$.reporting.diffViewDisplayed();
+          this.reporting.diffViewDisplayed();
           this.$.syntaxLayer.removeListener(renderUpdateListener);
         }
       };
@@ -1016,16 +1017,16 @@
     }
 
     _handleRenderStart() {
-      this.$.reporting.time(TimingLabel.TOTAL);
-      this.$.reporting.time(TimingLabel.CONTENT);
+      this.reporting.time(TimingLabel.TOTAL);
+      this.reporting.time(TimingLabel.CONTENT);
     }
 
     _handleRenderContent() {
-      this.$.reporting.timeEnd(TimingLabel.CONTENT);
+      this.reporting.timeEnd(TimingLabel.CONTENT);
     }
 
     _handleNormalizeRange(event) {
-      this.$.reporting.reportInteraction('normalize-range',
+      this.reporting.reportInteraction('normalize-range',
           {
             side: event.detail.side,
             lineNum: event.detail.lineNum,
@@ -1033,7 +1034,7 @@
     }
 
     _handleDiffContextExpanded(event) {
-      this.$.reporting.reportInteraction(
+      this.reporting.reportInteraction(
           'diff-context-expanded', {numLines: event.detail.numLines}
       );
     }

@@ -240,6 +240,7 @@
     /** @override */
     created() {
       super.created();
+      this.reporting = GrReporting.getInstance();
       this.addEventListener('keydown',
           e => this._scopedKeydownHandler(e));
     }
@@ -322,14 +323,14 @@
       return Promise.all(promises).then(() => {
         this._loading = false;
         this._detectChromiteButler();
-        this.$.reporting.fileListDisplayed();
+        this.reporting.fileListDisplayed();
       });
     }
 
     _detectChromiteButler() {
       const hasButler = !!document.getElementById('butler-suggested-owners');
       if (hasButler) {
-        this.$.reporting.reportExtension('butler');
+        this.reporting.reportExtension('butler');
       }
     }
 
@@ -397,7 +398,7 @@
     _updateDiffPreferences() {
       if (!this.diffs.length) { return; }
       // Re-render all expanded diffs sequentially.
-      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
+      this.reporting.time(EXPAND_ALL_TIMING_LABEL);
       this._renderInOrder(this._expandedFilePaths, this.diffs,
           this._expandedFilePaths.length);
     }
@@ -908,7 +909,7 @@
       // Start the timer for the rendering work hwere because this is where the
       // _shownFiles property is being set, and _shownFiles is used in the
       // dom-repeat binding.
-      this.$.reporting.time(RENDER_TIMING_LABEL);
+      this.reporting.time(RENDER_TIMING_LABEL);
 
       // How many more files are being shown (if it's an increase).
       this._reportinShownFilesIncrement =
@@ -1038,7 +1039,7 @@
       // Required so that the newly created diff view is included in this.diffs.
       Polymer.dom.flush();
 
-      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
+      this.reporting.time(EXPAND_ALL_TIMING_LABEL);
 
       if (newPaths.length) {
         this._renderInOrder(newPaths, this.diffs, newPaths.length);
@@ -1093,7 +1094,7 @@
         this._cancelForEachDiff = null;
         this._nextRenderParams = null;
         console.log('Finished expanding', initialCount, 'diff(s)');
-        this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
+        this.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
             EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
         this.$.diffCursor.handleDiffUpdate();
       }));
@@ -1345,7 +1346,7 @@
     _reportRenderedRow(index) {
       if (index === this._shownFiles.length - 1) {
         this.async(() => {
-          this.$.reporting.timeEndWithAverage(RENDER_TIMING_LABEL,
+          this.reporting.timeEndWithAverage(RENDER_TIMING_LABEL,
               RENDER_AVG_TIMING_LABEL, this._reportinShownFilesIncrement);
         }, 1);
       }

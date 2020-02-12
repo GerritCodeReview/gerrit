@@ -72,6 +72,7 @@
     /** @override */
     created() {
       super.created();
+      this.reporting = GrReporting.getInstance();
       this.addEventListener('click',
           e => this._handleAction(e));
       this.addEventListener('keydown',
@@ -101,7 +102,7 @@
           path = el.tagName + idString + ' ' + path;
         }
       }
-      this.$.reporting.reportInteraction('button-click',
+      this.reporting.reportInteraction('button-click',
           {path: path.trim().toLowerCase()});
     }
 

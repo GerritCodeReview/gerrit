@@ -51,6 +51,7 @@ limitations under the License.
     };
 
     setup(() => {
+      
       window.clock = sinon.useFakeTimers();
       sandbox = sinon.sandbox.create();
       getResponseObjectStub = sandbox.stub().returns(Promise.resolve());

@@ -53,9 +53,9 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
+      
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
-      sandbox.stub(element.$.reporting, 'reportInteraction');
     });
 
     teardown(() => {

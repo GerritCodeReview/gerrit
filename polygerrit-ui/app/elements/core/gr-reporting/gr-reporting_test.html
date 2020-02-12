@@ -25,15 +25,9 @@ limitations under the License.
 <script src="/bower_components/web-component-tester/browser.js"></script>
 <script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-reporting.html">
+<script src="gr-reporting.js"></script>
 
 <script>void(0);</script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-reporting></gr-reporting>
-  </template>
-</test-fixture>
 
 <script>
   suite('gr-reporting tests', async () => {
@@ -48,15 +42,8 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       clock = sinon.useFakeTimers(NOW_TIME);
-      element = fixture('basic');
+      element = window.GrReporting.getInstance();
       element._baselines = Object.assign({}, GrReporting.STARTUP_TIMERS);
-      fakePerformance = {
-        navigationStart: 1,
-        loadEventEnd: 2,
-      };
-      fakePerformance.toJSON = () => fakePerformance;
-      sinon.stub(element, 'performanceTiming',
-          {get() { return fakePerformance; }});
       sandbox.stub(element, 'reporter');
     });
 
@@ -83,6 +70,13 @@ limitations under the License.
     });
 
     test('pageLoaded', () => {
+      fakePerformance = {
+        navigationStart: 1,
+        loadEventEnd: 2,
+      };
+      fakePerformance.toJSON = () => fakePerformance;
+      sinon.stub(element, 'performanceTiming',
+          {get() { return fakePerformance; }});
       element.pageLoaded();
       assert.isTrue(
           element.reporter.calledWithExactly(

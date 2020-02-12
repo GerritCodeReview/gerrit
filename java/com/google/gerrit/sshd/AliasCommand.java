@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 
 /** Command that executes some other command. */
@@ -47,9 +48,9 @@ public class AliasCommand extends BaseCommand {
   }
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(ChannelSession channel, Environment env) throws IOException {
     try {
-      begin(env);
+      begin(channel, env);
     } catch (Failure e) {
       String msg = e.getMessage();
       if (!msg.endsWith("\n")) {
@@ -61,7 +62,7 @@ public class AliasCommand extends BaseCommand {
     }
   }
 
-  private void begin(Environment env) throws IOException, Failure {
+  private void begin(ChannelSession channel, Environment env) throws IOException, Failure {
     Map<String, CommandProvider> map = root.getMap();
     for (String name : chain(command)) {
       CommandProvider p = map.get(name);
@@ -90,15 +91,15 @@ public class AliasCommand extends BaseCommand {
     }
     provideStateTo(cmd);
     atomicCmd.set(cmd);
-    cmd.start(env);
+    cmd.start(channel, env);
   }
 
   @Override
-  public void destroy() {
+  public void destroy(ChannelSession channel) {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {
       try {
-        cmd.destroy();
+        cmd.destroy(channel);
       } catch (Exception e) {
         Throwables.throwIfUnchecked(e);
         throw new RuntimeException(e);

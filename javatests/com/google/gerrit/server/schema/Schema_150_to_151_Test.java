@@ -151,6 +151,22 @@ public class Schema_150_to_151_Test {
     assertThat(createdOn).isEqualTo(AccountGroup.auditCreationInstantTs());
   }
 
+  @Test
+  public void createdOnIsAddedWhenItIsMissing() throws Exception {
+    assertCreatedOnColumnExists(true);
+    try (Statement deleteColumn = connection.createStatement()) {
+      deleteColumn.execute("ALTER TABLE account_groups DROP COLUMN created_on");
+    }
+    assertCreatedOnColumnExists(false);
+    schema151.migrateData(db, new TestUpdateUI());
+    assertCreatedOnColumnExists(true);
+  }
+
+  private void assertCreatedOnColumnExists(boolean expected) throws Exception {
+    boolean actual = Schema_151.createdOnColumnExists(connection);
+    assertThat(actual).isEqualTo(expected);
+  }
+
   private AccountGroup.Id createGroupInReviewDb(String name) throws Exception {
     AccountGroup group =
         new AccountGroup(

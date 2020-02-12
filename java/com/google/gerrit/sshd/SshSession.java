@@ -19,7 +19,7 @@ import com.google.gerrit.server.CurrentUser;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import org.apache.sshd.common.AttributeStore.AttributeKey;
+import org.apache.sshd.common.AttributeRepository.AttributeKey;
 
 /** Global data related to an active SSH connection. */
 public class SshSession {

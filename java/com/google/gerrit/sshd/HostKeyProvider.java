@@ -18,7 +18,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -44,21 +43,21 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     Path ecdsaKey_521 = site.ssh_ecdsa_521;
     Path ed25519Key = site.ssh_ed25519;
 
-    final List<File> stdKeys = new ArrayList<>(6);
+    final List<Path> stdKeys = new ArrayList<>(6);
     if (Files.exists(rsaKey)) {
-      stdKeys.add(rsaKey.toAbsolutePath().toFile());
+      stdKeys.add(rsaKey);
     }
     if (Files.exists(ecdsaKey_256)) {
-      stdKeys.add(ecdsaKey_256.toAbsolutePath().toFile());
+      stdKeys.add(ecdsaKey_256);
     }
     if (Files.exists(ecdsaKey_384)) {
-      stdKeys.add(ecdsaKey_384.toAbsolutePath().toFile());
+      stdKeys.add(ecdsaKey_384);
     }
     if (Files.exists(ecdsaKey_521)) {
-      stdKeys.add(ecdsaKey_521.toAbsolutePath().toFile());
+      stdKeys.add(ecdsaKey_521);
     }
     if (Files.exists(ed25519Key)) {
-      stdKeys.add(ed25519Key.toAbsolutePath().toFile());
+      stdKeys.add(ed25519Key);
     }
 
     if (Files.exists(objKey)) {
@@ -70,14 +69,14 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
       // Both formats of host key exist, we don't know which format
       // should be authoritative. Complain and abort.
       //
-      stdKeys.add(objKey.toAbsolutePath().toFile());
+      stdKeys.add(objKey);
       throw new ProvisionException("Multiple host keys exist: " + stdKeys);
     }
     if (stdKeys.isEmpty()) {
       throw new ProvisionException("No SSH keys under " + site.etc_dir);
     }
     FileKeyPairProvider kp = new FileKeyPairProvider();
-    kp.setFiles(stdKeys);
+    kp.setPaths(stdKeys);
     return kp;
   }
 }

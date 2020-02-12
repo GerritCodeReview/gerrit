@@ -34,7 +34,7 @@ public class SshdModule extends AbstractModule {
     if (keys == null) {
       keys = new SimpleGeneratorHostKeyProvider();
       keys.setAlgorithm("RSA");
-      keys.loadKeys();
+      keys.loadKeys(null);
     }
     return keys;
   }

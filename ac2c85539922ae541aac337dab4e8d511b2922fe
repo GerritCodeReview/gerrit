@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "210f5773_b190b65b",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T16:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed976e47_90122ab0",
+      "range": {
+        "startLine": 517,
+        "startChar": 41,
+        "endLine": 517,
+        "endChar": 44
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c5290df_e4b4ad97",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 22
@@ -68,6 +92,54 @@
       "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12b17080_001ba07a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T16:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba6a198e_49d8ebe1",
+      "range": {
+        "startLine": 553,
+        "startChar": 4,
+        "endLine": 553,
+        "endChar": 11
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12fd87db_d44c13a2",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T16:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c5290df_e4b4ad97",
+      "range": {
+        "startLine": 553,
+        "startChar": 76,
+        "endLine": 553,
+        "endChar": 83
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "f57c029f_ee2919ec",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T16:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fa7f7d1_8d42dc72",
+      "range": {
+        "startLine": 556,
+        "startChar": 6,
+        "endLine": 556,
+        "endChar": 12
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c786f5f9_dfc858ea",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T16:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d8b2016_a40a2567",
+      "range": {
+        "startLine": 556,
+        "startChar": 33,
+        "endLine": 556,
+        "endChar": 35
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "690649fa_3f766144",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 22
@@ -137,6 +257,30 @@
       "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7af9fc8a_9e3f94c1",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T16:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "690649fa_3f766144",
+      "range": {
+        "startLine": 561,
+        "startChar": 32,
+        "endLine": 561,
+        "endChar": 61
+      },
+      "revId": "ac2c85539922ae541aac337dab4e8d511b2922fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

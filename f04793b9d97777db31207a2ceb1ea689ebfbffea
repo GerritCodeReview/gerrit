@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97beeee0_16f23132",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-12T10:56:35Z",
+      "side": 1,
+      "message": "Yes, I should refactor now to always use the same change action type.",
+      "parentUuid": "628f2a98_36fc91be",
+      "revId": "f04793b9d97777db31207a2ceb1ea689ebfbffea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "632c0fd9_73966bcf",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "f04793b9d97777db31207a2ceb1ea689ebfbffea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f8781ae_54fb97fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-12T10:56:35Z",
+      "side": 1,
+      "message": "This is the extra dialog(for the second button that backend will soon stop sending, so we will remove this piece of code from FE once BE change is live and stable.)\nhttps://screenshot.googleplex.com/k4rSna3fMWy",
+      "parentUuid": "632c0fd9_73966bcf",
+      "revId": "f04793b9d97777db31207a2ceb1ea689ebfbffea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

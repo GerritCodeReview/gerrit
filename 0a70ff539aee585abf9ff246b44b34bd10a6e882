@@ -104,6 +104,24 @@
       "revId": "0a70ff539aee585abf9ff246b44b34bd10a6e882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75e5e8e8_20de8f43",
+        "filename": ".gitmodules",
+        "patchSetId": 15
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T10:47:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36aa8265_0ae6e6bf",
+      "revId": "0a70ff539aee585abf9ff246b44b34bd10a6e882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

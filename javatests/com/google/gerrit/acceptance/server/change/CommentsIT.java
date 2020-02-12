@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.DeleteCommentRewriter;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
@@ -74,6 +76,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -358,6 +361,36 @@ public class CommentsIT extends AbstractDaemonTest {
     List<CommentInfo> list = getPublishedCommentsAsList(changeId);
     assertThat(Lists.transform(list, infoToInput(file)))
         .containsExactlyElementsIn(expectedComments);
+  }
+
+  /**
+   * This test makes sure that draft ref commits in NoteDb have no parent commits This is important
+   * so that each new draft update (add, modify, delete) does not keep track of previous history
+   */
+  @Test
+  public void draftRefCommitShouldHaveNoParents() throws Exception {
+    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String draftRefName = RefNames.refsDraftComments(r.getChange().getId(), user.getId());
+
+    DraftInput comment1 = newDraft("file_1", Side.REVISION, 1, "comment 1");
+    addDraft(changeId, revId, comment1);
+    assertThat(getDraftCommentRefCommit(draftRefName).parents).isEmpty();
+
+    DraftInput comment2 = newDraft("file_2", Side.REVISION, 2, "comment 2");
+    addDraft(changeId, revId, comment2);
+    assertThat(getDraftCommentRefCommit(draftRefName).parents).isEmpty();
+
+    deleteDraft(changeId, revId, comment1.id);
+    assertThat(getDraftCommentRefCommit(draftRefName).parents).isEmpty();
+
+    assertThat(
+            getDraftComments(changeId, revId).values().stream()
+                .flatMap(List::stream)
+                .map(commentInfo -> commentInfo.message))
+        .containsExactly("comment 2");
   }
 
   @Test
@@ -1109,6 +1142,15 @@ public class CommentsIT extends AbstractDaemonTest {
         assertThat(commitAfter.getEncoding()).isEqualTo(commitBefore.getEncoding());
         assertThat(commitAfter.getEncodingName()).isEqualTo(commitBefore.getEncodingName());
       }
+    }
+  }
+
+  private CommitInfo getDraftCommentRefCommit(String refName) throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk walk = new RevWalk(repo)) {
+      RevCommit commit = walk.parseCommit(repo.resolve(refName));
+      CommitInfo commitInfo = CommitUtil.toCommitInfo(commit, walk);
+      return commitInfo;
     }
   }
 

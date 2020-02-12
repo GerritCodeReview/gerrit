@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,6 +30,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 /** A schema which adds the 'created on' field to groups. */
@@ -37,6 +42,13 @@ public class Schema_151 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    Connection connection = ((JdbcSchema) db).getConnection();
+    if (!createdOnColumnExists(connection)) {
+      try (Statement stmt = connection.createStatement()) {
+        stmt.execute("ALTER TABLE account_groups ADD COLUMN created_on TIMESTAMP NULL");
+      }
+    }
+
     try (PreparedStatement groupUpdate =
             prepareStatement(db, "UPDATE account_groups SET created_on = ? WHERE group_id = ?");
         PreparedStatement addedOnRetrieval =
@@ -54,6 +66,20 @@ public class Schema_151 extends SchemaVersion {
         groupUpdate.executeUpdate();
       }
     }
+  }
+
+  @VisibleForTesting
+  public static boolean createdOnColumnExists(Connection connection) throws SQLException {
+    DatabaseMetaData metaData = connection.getMetaData();
+    boolean toUpper = metaData.storesUpperCaseIdentifiers();
+    return metaData
+        .getColumns(
+            null, null, convertCase(toUpper, "account_groups"), convertCase(toUpper, "created_on"))
+        .next();
+  }
+
+  private static String convertCase(boolean toUpper, String input) {
+    return toUpper ? input.toUpperCase(Locale.US) : input;
   }
 
   private static Optional<Timestamp> getFirstTimeMentioned(

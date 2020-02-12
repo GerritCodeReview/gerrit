@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "628f2a98_36fc91be",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-12T10:00:38Z",
+      "side": 1,
+      "message": "i am completely lost with this change...  it seems that the `revert` and `revert submission` merged into the same api ? \n\n```\n    _fireAction(endpoint, action, revAction, opt_payload) {\n      const cleanupFn \u003d\n          this._setLoadingOnButtonWithKey(action.__type, action.__key);\n\n      this._send(action.method, opt_payload, endpoint, revAction, cleanupFn,\n          action).then(this._handleResponse.bind(this, action));\n    }\n```",
+      "revId": "f04793b9d97777db31207a2ceb1ea689ebfbffea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "632c0fd9_73966bcf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-12T10:00:38Z",
+      "side": 1,
+      "message": "then what happens to this ? i thought you only `copied` revert submission logic to the revert dialog (so two flows merged into one).",
+      "revId": "f04793b9d97777db31207a2ceb1ea689ebfbffea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

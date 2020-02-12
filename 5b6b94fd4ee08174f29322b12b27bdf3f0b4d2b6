@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a2ca36a_dafe8387",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T13:33:02Z",
+      "side": 1,
+      "message": "Would mention Issue 3340 in this change too.",
+      "revId": "5b6b94fd4ee08174f29322b12b27bdf3f0b4d2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78508468_a13e60c0",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T13:33:02Z",
+      "side": 1,
+      "message": "Can the role of this added check be briefly explained in the commit message?",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 117,
+        "endChar": 29
+      },
+      "revId": "5b6b94fd4ee08174f29322b12b27bdf3f0b4d2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2196ef42_e2704dfe",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-12T13:33:02Z",
+      "side": 1,
+      "message": "Not sure I understand why we replace the previous update test case with an upload one. It is likely fine to add this upload test, now why not keeping the update one? This replacement would need an explanation in the commit message I think, if to remain.",
+      "range": {
+        "startLine": 529,
+        "startChar": 38,
+        "endLine": 532,
+        "endChar": 19
+      },
+      "revId": "5b6b94fd4ee08174f29322b12b27bdf3f0b4d2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

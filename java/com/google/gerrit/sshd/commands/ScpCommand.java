@@ -35,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 
 final class ScpCommand extends BaseCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -82,7 +83,7 @@ final class ScpCommand extends BaseCommand {
   }
 
   @Override
-  public void start(Environment env) {
+  public void start(ChannelSession channel, Environment env) {
     startThread(this::runImp, AccessPath.SSH_COMMAND);
   }
 

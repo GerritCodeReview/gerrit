@@ -11,7 +11,7 @@
     "fried-twinkie": "^0.2.2",
     "polylint": "^2.10.4",
     "typescript": "^2.x.x",
-    "web-component-tester": "^6.5.0"
+    "web-component-tester": "^6.5.1"
   },
   "scripts": {
     "start": "polygerrit-ui/run-server.sh",

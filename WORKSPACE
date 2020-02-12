@@ -1164,8 +1164,8 @@ bower_archive(
 bower_archive(
     name = "web-component-tester",
     package = "polymer/web-component-tester",
-    sha1 = "62739cb633fccfddc5eeed98e9e3f69cd0388b5b",
-    version = "6.5.0",
+    sha1 = "d84f6a13bde5f8fd39ee208d43f33925410530d7",
+    version = "6.5.1",
 )
 
 # Bower component transitive dependencies.

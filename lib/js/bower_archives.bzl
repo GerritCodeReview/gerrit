@@ -155,7 +155,7 @@ def load_bower_archives():
     )
     bower_archive(
         name = "sinonjs",
-        package = "sinonjs",
+        package = "Polymer/sinon.js",
         version = "1.17.1",
         sha1 = "a26a6aab7358807de52ba738770f6ac709afd240",
     )

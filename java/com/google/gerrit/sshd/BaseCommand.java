@@ -80,7 +80,7 @@ public abstract class BaseCommand implements Command {
   protected OutputStream out;
   protected OutputStream err;
 
-  private ExitCallback exit;
+  protected ExitCallback exit;
 
   @Inject protected CurrentUser user;
 
@@ -88,7 +88,7 @@ public abstract class BaseCommand implements Command {
 
   @Inject private CmdLineParser.Factory cmdLineParserFactory;
 
-  @Inject private RequestCleanup cleanup;
+  @Inject protected RequestCleanup cleanup;
 
   @Inject @CommandExecutor private ScheduledThreadPoolExecutor executor;
 

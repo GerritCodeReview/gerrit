@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.DeleteCommentRewriter;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
@@ -74,6 +76,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -361,21 +364,63 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void draftCommentsCommitsHaveNoParents() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String draftRefName = RefNames.refsDraftComments(r.getChange().getId(), user.getId());
+
+    /*
+     Perform 3 operations: add comment 0, add comment 1, delete comment 0
+     the draft ref commit should have no parents after each operation
+    */
+    String[] ops = {"ADD_DRAFT", "ADD_DRAFT", "DELETE_DRAFT"};
+    List<CommentInfo> commentInfos = new ArrayList<>();
+
+    for (int i = 0; i < ops.length; i++) {
+      switch (ops[i]) {
+        case "ADD_DRAFT":
+          DraftInput comment = newDraft("file" + i, Side.REVISION, i, "comment " + i);
+          CommentInfo commentInfo = addDraft(changeId, revId, comment);
+          commentInfos.add(commentInfo);
+          break;
+        case "DELETE_DRAFT":
+          assertThat(commentInfos).isNotEmpty();
+          deleteDraft(changeId, revId, commentInfos.get(0).id);
+          commentInfos.remove(0);
+          break;
+      }
+      assertThat(getDraftCommentRefCommit(draftRefName).parents).isEmpty();
+    }
+
+    /* Make sure comment 1 is the only draft comment we have */
+    Map<String, List<CommentInfo>> draftComments = getDraftComments(changeId, revId);
+    assertThat(
+            draftComments.values().stream()
+                .flatMap(List::stream)
+                .map(commentInfo -> commentInfo.message))
+        .containsExactly("comment 1"); // comment 0 was deleted by the third operation
+  }
+
+  @Test
   public void putDraft() throws Exception {
     for (Integer line : lines) {
       PushOneCommit.Result r = createChange();
       Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
+      String draftRefName = RefNames.refsDraftComments(r.getChange().getId(), user.getId());
       String path = "file1";
       DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
+      assertThat(getDraftCommentRefCommit(draftRefName).parents).isEmpty();
       Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
       String uuid = actual.id;
       comment.message = "updated comment 1";
       updateDraft(changeId, revId, comment, uuid);
+      assertThat(getDraftCommentRefCommit(draftRefName).parents).isEmpty();
       result = getDraftComments(changeId, revId);
       actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
@@ -1202,6 +1247,15 @@ public class CommentsIT extends AbstractDaemonTest {
       String path, int parent, int line, String message) {
     CommentInput c = new CommentInput();
     return populate(c, path, Side.PARENT, Integer.valueOf(parent), line, message, false);
+  }
+
+  private CommitInfo getDraftCommentRefCommit(String refName) throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk walk = new RevWalk(repo)) {
+      RevCommit commit = walk.parseCommit(repo.resolve(refName));
+      CommitInfo commitInfo = CommitUtil.toCommitInfo(commit, walk);
+      return commitInfo;
+    }
   }
 
   private DraftInput newDraft(String path, Side side, int line, String message) {

@@ -613,6 +613,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   @Override
+  protected void setParentCommitId(CommitBuilder cb, ObjectId branchTip) {
+    if (!branchTip.equals(ObjectId.zeroId())) {
+      cb.setParentId(branchTip);
+    } else {
+      cb.setParentIds(); // Ref is currently nonexistent, commit has no parents.
+    }
+  }
+
+  @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws OrmException, IOException {
     checkState(

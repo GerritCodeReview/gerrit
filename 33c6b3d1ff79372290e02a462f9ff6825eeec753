@@ -16,6 +16,24 @@
       "revId": "33c6b3d1ff79372290e02a462f9ff6825eeec753",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93ea96f0_ce2107b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-12T11:14:41Z",
+      "side": 1,
+      "message": "It was already done on master by https://gerrit-review.googlesource.com/c/gerrit/+/254352 so it\u0027s a no-op in this merge.",
+      "parentUuid": "a7a2bb49_8547537f",
+      "revId": "33c6b3d1ff79372290e02a462f9ff6825eeec753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

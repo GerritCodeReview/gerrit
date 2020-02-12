@@ -34,6 +34,24 @@
       "revId": "2dbe1453c8c19f1ed582a808abb07856a27a19a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f4667d5_2d2f14da",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-12T00:28:33Z",
+      "side": 1,
+      "message": "fixed by calling forceCreate(\"\") if WindowCache metrics are not available yet",
+      "parentUuid": "81f68142_a25a666a",
+      "revId": "2dbe1453c8c19f1ed582a808abb07856a27a19a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

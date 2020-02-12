@@ -19,7 +19,7 @@ import io.gatling.core.structure.ScenarioBuilder
 
 import scala.concurrent.duration._
 
-class CloneUsingBothProtocols extends GitSimulation {
+class TestLocalSetup extends GitSimulation {
 
   private val test: ScenarioBuilder = scenario(name)
       .feed(data)

@@ -13,9 +13,11 @@
       "updated": "2020-02-12T15:34:46Z"
     },
     "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "SCHEDULED",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/79877/console",
+      "finished": "2020-02-12T17:52:23Z",
       "created": "2020-02-12T15:34:46Z",
-      "updated": "2020-02-12T15:34:46Z"
+      "updated": "2020-02-12T17:41:47Z"
     }
   }
 }

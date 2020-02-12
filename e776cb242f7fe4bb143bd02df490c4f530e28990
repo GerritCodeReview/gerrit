@@ -22,6 +22,30 @@
       "revId": "e776cb242f7fe4bb143bd02df490c4f530e28990",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2e076c7_0c73bb02",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-12T09:57:11Z",
+      "side": 1,
+      "message": "This is for dev usage.\nIt was a duplicate, but after this change all static resources can be loaded from the go server. Java code was removed.\nI.e. now:\nstart server.go\nrun gerrit with --dev-cdn http://localhost:8081",
+      "parentUuid": "d02fda34_155b83aa",
+      "range": {
+        "startLine": 174,
+        "startChar": 18,
+        "endLine": 174,
+        "endChar": 21
+      },
+      "revId": "e776cb242f7fe4bb143bd02df490c4f530e28990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

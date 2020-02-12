@@ -161,6 +161,7 @@
     /** @override */
     created() {
       super.created();
+      this.reporting = GrReporting.getInstance();
       this.addEventListener('comment-update',
           e => this._handleCommentUpdate(e));
     }
@@ -305,7 +306,7 @@
 
     _createReplyComment(parent, content, opt_isEditing,
         opt_unresolved) {
-      this.$.reporting.recordDraftInteraction();
+      this.reporting.recordDraftInteraction();
       const reply = this._newReply(
           this._orderedComments[this._orderedComments.length - 1].id,
           parent.line,

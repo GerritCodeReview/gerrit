@@ -143,6 +143,9 @@ limitations under the License.
           getDiffRobotComments() { return Promise.resolve({}); },
           getDiffDrafts() { return Promise.resolve({}); },
         });
+        window.GrReporting = {
+          getInstance: window.getGrReportingMock,
+        };
         sandbox = sinon.sandbox.create();
         messages = _.times(3, randomMessage);
         // Element must be wrapped in an element with direct access to the
@@ -557,13 +560,6 @@ limitations under the License.
       });
 
       test('initially show only 20 messages', () => {
-        sandbox.stub(element.$.reporting, 'reportInteraction',
-            (eventName, details) => {
-              assert.equal(typeof(eventName), 'string');
-              if (details) {
-                assert.equal(typeof(details), 'object');
-              }
-            });
         const messages = Array.from(Array(23).keys())
             .map(() => {
               return {};

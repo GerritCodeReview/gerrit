@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7a2bb49_8547537f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-12T11:10:47Z",
+      "side": 1,
+      "message": "There is no diff for this change. But maybe I don\u0027t understand how this merge works?",
+      "revId": "33c6b3d1ff79372290e02a462f9ff6825eeec753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -115,6 +115,10 @@ done as early as possible during the review process, so that related
 comment threads stop there and do not clutter the current review. It is up
 to the alternative reviews to then host their related comments.
 
+Verification should be based on the generated `jekyll` site using the
+local `docker`, rather than via the rendering in `gitiles` (via
+`gerrit-review`).
+
 Changes which make a conclusion on a design (changes that add/change
 the `conclusion.md` file, see link:#structure[Design Doc Structure])
 should stay open for a minimum of 10 calendar days so that everyone has

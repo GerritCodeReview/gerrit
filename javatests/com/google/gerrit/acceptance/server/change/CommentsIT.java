@@ -360,6 +360,40 @@ public class CommentsIT extends AbstractDaemonTest {
         .containsExactlyElementsIn(expectedComments);
   }
 
+  /**
+   * This test makes sure that the commits in the refs/draft-comments ref in NoteDb have no parent
+   * commits. This is important so that each new draft update (add, modify, delete) does not keep
+   * track of previous history. Run the test with this flag: --test_env=GERRIT_NOTEDB=ON
+   */
+  @Test
+  public void commitsInDraftCommentsRefHaveNoParent() throws Exception {
+    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String draftRefName = RefNames.refsDraftComments(r.getChange().getId(), user.getId());
+
+    DraftInput comment1 = newDraft("file_1", Side.REVISION, 1, "comment 1");
+    CommentInfo commentInfo1 = addDraft(changeId, revId, comment1);
+    assertThat(getHeadOfDraftCommentsRef(draftRefName).getParentCount()).isEqualTo(0);
+
+    DraftInput comment2 = newDraft("file_2", Side.REVISION, 2, "comment 2");
+    CommentInfo commentInfo2 = addDraft(changeId, revId, comment2);
+    assertThat(getHeadOfDraftCommentsRef(draftRefName).getParentCount()).isEqualTo(0);
+
+    deleteDraft(changeId, revId, commentInfo1.id);
+    assertThat(getHeadOfDraftCommentsRef(draftRefName).getParentCount()).isEqualTo(0);
+    assertThat(
+            getDraftComments(changeId, revId).values().stream()
+                .flatMap(List::stream)
+                .map(commentInfo -> commentInfo.message))
+        .containsExactly("comment 2");
+
+    deleteDraft(changeId, revId, commentInfo2.id);
+    assertThat(getHeadOfDraftCommentsRef(draftRefName)).isNull();
+    assertThat(getDraftComments(changeId, revId).values().stream().flatMap(List::stream)).isEmpty();
+  }
+
   @Test
   public void putDraft() throws Exception {
     for (Integer line : lines) {
@@ -1109,6 +1143,12 @@ public class CommentsIT extends AbstractDaemonTest {
         assertThat(commitAfter.getEncoding()).isEqualTo(commitBefore.getEncoding());
         assertThat(commitAfter.getEncodingName()).isEqualTo(commitBefore.getEncodingName());
       }
+    }
+  }
+
+  private RevCommit getHeadOfDraftCommentsRef(String refName) throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      return getHead(repo, refName);
     }
   }
 

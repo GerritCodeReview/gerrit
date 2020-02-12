@@ -26,7 +26,6 @@ bower_component_bundle(
     testonly = True,
     deps = [
         "//lib/js:iron-test-helpers",
-        "//lib/js:sinonjs",
         "//lib/js:test-fixture",
         "//lib/js:web-component-tester",
         "//polygerrit-ui:polygerrit_components.bower_components",

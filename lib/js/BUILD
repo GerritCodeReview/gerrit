@@ -41,12 +41,6 @@ js_component(
     license = "//lib:LICENSE-ba-linkify",
 )
 
-js_component(
-    name = "sinonjs",
-    srcs = ["//lib/sinon:sinon.js"],
-    license = "//lib:LICENSE-sinon",
-)
-
 bower_component(
     name = "codemirror-minified",
     license = "//lib:LICENSE-codemirror-minified",

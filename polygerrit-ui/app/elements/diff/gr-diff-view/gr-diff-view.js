@@ -271,6 +271,12 @@
     }
 
     /** @override */
+    created() {
+      super.created();
+      this.reporting = GrReporting.getInstance();
+    }
+
+    /** @override */
     attached() {
       super.attached();
       this._getLoggedIn().then(loggedIn => {
@@ -749,9 +755,9 @@
             return this.$.diffHost.reload(true);
           })
           .then(() => {
-            this.$.reporting.diffViewFullyLoaded();
+            this.reporting.diffViewFullyLoaded();
             // If diff view displayed has not ended yet, it ends here.
-            this.$.reporting.diffViewDisplayed();
+            this.reporting.diffViewDisplayed();
           });
     }
 

@@ -168,44 +168,43 @@
 
   // The Polymer pass of JSCompiler requires this to be reassignable
   // eslint-disable-next-line prefer-const
-  let GrReporting = Polymer({
-    is: 'gr-reporting',
+  class GrReporting {
+    constructor() {
+      this.category = undefined;
+      this._baselines = STARTUP_TIMERS;
+      this._timers = {
+        timeBetweenDraftActions: null,
+      };
+    }
 
-    properties: {
-      category: String,
-
-      _baselines: {
-        type: Object,
-        value: STARTUP_TIMERS, // Shared across all instances.
-      },
-
-      _timers: {
-        type: Object,
-        value: {timeBetweenDraftActions: null}, // Shared across all instances.
-      },
-    },
+    static getInstance() {
+      if (!GrReporting.instance) {
+        GrReporting.instance = new GrReporting();
+      }
+      return GrReporting.instance;
+    }
 
     get performanceTiming() {
       return window.performance.timing;
-    },
+    }
 
     get slowRpcSnapshot() {
       return slowRpcList.slice();
-    },
+    }
 
     now() {
       return Math.round(window.performance.now());
-    },
+    }
 
     _arePluginsLoaded() {
       return this._baselines &&
         !this._baselines.hasOwnProperty(TIMER.PLUGINS_LOADED);
-    },
+    }
 
     _isMetricsPluginLoaded() {
       return this._arePluginsLoaded() || this._baselines &&
         !this._baselines.hasOwnProperty(TIMER.METRICS_PLUGIN_LOADED);
-    },
+    }
 
     /**
      * Reporter reports events. Events will be queued if metrics plugin is not
@@ -239,7 +238,7 @@
           pending = [];
         }
       }
-    },
+    }
 
     _reportEvent(eventInfo, opt_noLog) {
       const {type, value, name} = eventInfo;
@@ -252,7 +251,7 @@
           console.log(`Reporting: ${name}`);
         }
       }
-    },
+    }
 
     _createEventInfo(type, category, name, value, eventDetails) {
       const eventInfo = {
@@ -276,7 +275,7 @@
       }
 
       return eventInfo;
-    },
+    }
 
     /**
      * User-perceived app start time, should be reported when the app is ready.
@@ -284,7 +283,7 @@
     appStarted() {
       this.timeEnd(TIMING.APP_STARTED);
       this.pageLoaded();
-    },
+    }
 
     /**
      * Page load time and other metrics, should be reported at any time
@@ -300,7 +299,7 @@
             eventName => this._reportPerformanceTiming(eventName)
         );
       }
-    },
+    }
 
     _reportPerformanceTiming(eventName, eventDetails) {
       const eventTiming = this.performanceTiming[eventName];
@@ -311,7 +310,7 @@
         this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
             `NavResTime - ${eventName}`, elapsedTime, eventDetails, true);
       }
-    },
+    }
 
     beforeLocationChanged() {
       for (const prop of Object.keys(this._baselines)) {
@@ -327,12 +326,12 @@
       reportRepoName = undefined;
       // reset slow rpc list since here start page loads which report these rpcs
       slowRpcList = [];
-    },
+    }
 
     locationChanged(page) {
       this.reporter(
           NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
-    },
+    }
 
     dashboardDisplayed() {
       if (this._baselines.hasOwnProperty(TIMER.STARTUP_DASHBOARD_DISPLAYED)) {
@@ -342,7 +341,7 @@
         this.timeEnd(TIMER.DASHBOARD_DISPLAYED, {rpcList:
           this.slowRpcSnapshot});
       }
-    },
+    }
 
     changeDisplayed() {
       if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_DISPLAYED)) {
@@ -352,7 +351,7 @@
         this.timeEnd(TIMER.CHANGE_DISPLAYED, {rpcList:
           this.slowRpcSnapshot});
       }
-    },
+    }
 
     changeFullyLoaded() {
       if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_LOAD_FULL)) {
@@ -360,7 +359,7 @@
       } else {
         this.timeEnd(TIMER.CHANGE_LOAD_FULL);
       }
-    },
+    }
 
     diffViewDisplayed() {
       if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_DISPLAYED)) {
@@ -370,7 +369,7 @@
         this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED, {rpcList:
           this.slowRpcSnapshot});
       }
-    },
+    }
 
     diffViewFullyLoaded() {
       if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_LOAD_FULL)) {
@@ -378,7 +377,7 @@
       } else {
         this.timeEnd(TIMER.DIFF_VIEW_LOAD_FULL);
       }
-    },
+    }
 
     diffViewContentDisplayed() {
       if (this._baselines.hasOwnProperty(
@@ -387,7 +386,7 @@
       } else {
         this.timeEnd(TIMER.DIFF_VIEW_CONTENT_DISPLAYED);
       }
-    },
+    }
 
     fileListDisplayed() {
       if (this._baselines.hasOwnProperty(TIMER.STARTUP_FILE_LIST_DISPLAYED)) {
@@ -395,24 +394,24 @@
       } else {
         this.timeEnd(TIMER.FILE_LIST_DISPLAYED);
       }
-    },
+    }
 
     reportExtension(name) {
       this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
-    },
+    }
 
     pluginLoaded(name) {
       if (name.startsWith('metrics-')) {
         this.timeEnd(TIMER.METRICS_PLUGIN_LOADED);
       }
-    },
+    }
 
     pluginsLoaded(pluginsList) {
       this.timeEnd(TIMER.PLUGINS_LOADED);
       this.reporter(
           PLUGINS.TYPE, PLUGINS.INSTALLED, PLUGINS.INSTALLED, undefined,
           {pluginsList: pluginsList || []}, true);
-    },
+    }
 
     /**
      * Reset named timer.
@@ -420,7 +419,7 @@
     time(name) {
       this._baselines[name] = this.now();
       window.performance.mark(`${name}-start`);
-    },
+    }
 
     /**
      * Finish named timer and report it to server.
@@ -440,7 +439,7 @@
         // (if undefined).
         window.performance.measure(name);
       }
-    },
+    }
 
     /**
      * Reports just line timeEnd, but additionally reports an average given a
@@ -460,7 +459,7 @@
       if (!denominator) { return; }
       const time = this.now() - baseTime;
       this._reportTiming(averageName, time / denominator);
-    },
+    }
 
     /**
      * Send a timing report with an arbitrary time value.
@@ -472,7 +471,7 @@
     _reportTiming(name, time, eventDetails) {
       this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name, time,
           eventDetails);
-    },
+    }
 
     /**
      * Get a timer object to for reporing a user timing. The start time will be
@@ -521,7 +520,7 @@
 
       // The timer is initialized to its creation time.
       return timer.reset();
-    },
+    }
 
     /**
      * Log timing information for an RPC.
@@ -535,12 +534,12 @@
       if (elapsed >= SLOW_RPC_THRESHOLD) {
         slowRpcList.push({anonymizedUrl, elapsed});
       }
-    },
+    }
 
     reportInteraction(eventName, details) {
       this.reporter(INTERACTION_TYPE, this.category, eventName, undefined,
           details, true);
-    },
+    }
 
     /**
      * A draft interaction was started. Update the time-betweeen-draft-actions
@@ -560,17 +559,17 @@
 
       // Mark the time and reinitialize the timer.
       timer.end().reset();
-    },
+    }
 
     reportErrorDialog(message) {
       this.reporter(ERROR_DIALOG.TYPE, ERROR_DIALOG.CATEGORY,
           'ErrorDialog: ' + message, {error: new Error(message)});
-    },
+    }
 
     setRepoName(repoName) {
       reportRepoName = repoName;
-    },
-  });
+    }
+  }
 
   window.GrReporting = GrReporting;
   // Expose onerror installation so it would be accessible from tests.

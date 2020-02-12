@@ -27,6 +27,6 @@ class CloneUsingBothProtocols extends GitSimulation {
 
   setUp(
     test.inject(
-      constantUsersPerSec(1) during (2 seconds)
+      constantUsersPerSec(1) during (6 seconds)
     )).protocols(protocol)
 }

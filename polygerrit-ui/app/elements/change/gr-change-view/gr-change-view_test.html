@@ -704,15 +704,6 @@ limitations under the License.
           assert.equal(element.$.commentTabs.selected,
               CommentTabs.COMMENT_THREADS);
           assert.equal(element._currentView, CommentTabs.COMMENT_THREADS);
-
-          // Switch back to 'Change Log' tab
-          element._paramsChanged(element.params);
-          flush(() => {
-            assert.equal(element.$.commentTabs.selected,
-                CommentTabs.CHANGE_LOG);
-            assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
-            done();
-          });
         });
       });
     });
@@ -1110,7 +1101,8 @@ limitations under the License.
           .returns('/change/123');
       assert.equal(
           element._computeCopyTextForTitle(change),
-          '123: test subject | https://localhost:8081/change/123'
+          `123: test subject | ` +
+          `${location.protocol}//${location.host}/change/123`
       );
     });
 
@@ -2127,10 +2119,8 @@ limitations under the License.
       });
 
       test('don\'t report changedDisplayed on reply', done => {
-        const changeDisplayStub =
-          sandbox.stub(element.$.reporting, 'changeDisplayed');
-        const changeFullyLoadedStub =
-          sandbox.stub(element.$.reporting, 'changeFullyLoaded');
+        const changeDisplayStub = element.reporting.changeDisplayed;
+        const changeFullyLoadedStub = element.reporting.changeFullyLoaded;
         element._handleReplySent();
         flush(() => {
           assert.isFalse(changeDisplayStub.called);
@@ -2140,10 +2130,8 @@ limitations under the License.
       });
 
       test('report changedDisplayed on _paramsChanged', done => {
-        const changeDisplayStub =
-          sandbox.stub(element.$.reporting, 'changeDisplayed');
-        const changeFullyLoadedStub =
-          sandbox.stub(element.$.reporting, 'changeFullyLoaded');
+        const changeDisplayStub = element.reporting.changeDisplayed;
+        const changeFullyLoadedStub = element.reporting.changeFullyLoaded;
         element._paramsChanged({
           view: Gerrit.Nav.View.CHANGE,
           changeNum: 101,

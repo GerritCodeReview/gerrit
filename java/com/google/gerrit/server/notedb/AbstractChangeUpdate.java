@@ -197,6 +197,14 @@ public abstract class AbstractChangeUpdate {
 
   protected abstract String getRefName();
 
+  protected void setParentCommitId(CommitBuilder cb, ObjectId branchTip) {
+    if (!branchTip.equals(ObjectId.zeroId())) {
+      cb.setParentId(branchTip);
+    } else {
+      cb.setParentIds(); // Ref is currently nonexistent, commit has no parents.
+    }
+  }
+
   /**
    * Apply this update to the given inserter.
    *
@@ -236,11 +244,7 @@ public abstract class AbstractChangeUpdate {
     }
     cb.setAuthor(authorIdent);
     cb.setCommitter(new PersonIdent(serverIdent, when));
-    if (!curr.equals(z)) {
-      cb.setParentId(curr);
-    } else {
-      cb.setParentIds(); // Ref is currently nonexistent, commit has no parents.
-    }
+    setParentCommitId(cb, curr);
     if (cb.getTreeId() == null) {
       if (curr.equals(z)) {
         cb.setTreeId(emptyTree(ins)); // No parent, assume empty tree.

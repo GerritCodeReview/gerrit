@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,6 +38,24 @@ public class Schema_151 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    try {
+      migrateData(db);
+    } catch (SQLException e) {
+      if (e.getMessage().contains("does not exist")) {
+        // The column doesn't exist; attempt to create it and try again
+        JdbcSchema schema = (JdbcSchema) db;
+        try (Statement stmt = schema.getConnection().createStatement()) {
+          stmt.execute(
+              "ALTER TABLE account_groups ADD COLUMN created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+        }
+        migrateData(db);
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  private void migrateData(ReviewDb db) throws SQLException {
     try (PreparedStatement groupUpdate =
             prepareStatement(db, "UPDATE account_groups SET created_on = ? WHERE group_id = ?");
         PreparedStatement addedOnRetrieval =

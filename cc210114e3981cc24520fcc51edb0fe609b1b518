@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ebebf13_f894543f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-12T15:02:49Z",
+      "side": 1,
+      "message": "Can you please clarify, you said to add log4j.proporties, but in BUILD I see adding log4j-config, maybe you meant log4j-config?",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 28
+      },
+      "revId": "cc210114e3981cc24520fcc51edb0fe609b1b518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

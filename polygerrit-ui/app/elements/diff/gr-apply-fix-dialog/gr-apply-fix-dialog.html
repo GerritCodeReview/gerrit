@@ -14,8 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-icon/iron-icon.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
@@ -52,13 +52,8 @@ limitations under the License.
         margin-right: var(--spacing-l);
       }
     </style>
-    <gr-overlay id="applyFixOverlay" with-backdrop>
-      <gr-dialog
-        id="applyFixDialog"
-        on-confirm="_handleApplyFix"
-        confirm-label="[[_getApplyFixButtonLabel(_isApplyFixLoading)]]"
-        disabled="[[_isApplyFixLoading]]"
-        on-cancel="onCancel">
+    <gr-overlay id="applyFixOverlay" with-backdrop="">
+      <gr-dialog id="applyFixDialog" on-confirm="_handleApplyFix" confirm-label="[[_getApplyFixButtonLabel(_isApplyFixLoading)]]" disabled="[[_isApplyFixLoading]]" on-cancel="onCancel">
         <div slot="header">[[_robotId]] - [[getFixDescription(_currentFix)]]</div>
         <div slot="main">
           <template is="dom-repeat" items="[[_currentPreviews]]">
@@ -66,11 +61,7 @@ limitations under the License.
               <span>[[item.filepath]]</span>
             </div>
             <div class="diffContainer">
-              <gr-diff
-                prefs="[[overridePartialPrefs(prefs)]]"
-                change-num="[[changeNum]]"
-                path="[[item.filepath]]"
-                diff="[[item.preview]]"></gr-diff>
+              <gr-diff prefs="[[overridePartialPrefs(prefs)]]" change-num="[[changeNum]]" path="[[item.filepath]]" diff="[[item.preview]]"></gr-diff>
             </div>
           </template>
         </div>

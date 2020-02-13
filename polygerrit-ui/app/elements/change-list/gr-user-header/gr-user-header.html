@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
@@ -43,10 +43,7 @@ limitations under the License.
         display: none;
       }
     </style>
-    <gr-avatar
-        account="[[_accountDetails]]"
-        image-size="100"
-        aria-label="Account avatar"></gr-avatar>
+    <gr-avatar account="[[_accountDetails]]" image-size="100" aria-label="Account avatar"></gr-avatar>
     <div class="info">
       <h1 class="name">
         [[_computeDetail(_accountDetails, 'name')]]
@@ -62,8 +59,7 @@ limitations under the License.
       </div>
       <div>
         <span>Joined:</span>
-        <gr-date-formatter
-            date-str="[[_computeDetail(_accountDetails, 'registered_on')]]">
+        <gr-date-formatter date-str="[[_computeDetail(_accountDetails, 'registered_on')]]">
         </gr-date-formatter>
       </div>
       <gr-endpoint-decorator name="user-header">

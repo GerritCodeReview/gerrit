@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-label-score-row/gr-label-score-row.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -44,17 +44,10 @@ limitations under the License.
     </style>
     <div class="scoresTable">
       <template is="dom-repeat" items="[[_labels]]" as="label">
-        <gr-label-score-row
-            class$="[[_computeLabelAccessClass(label.name, permittedLabels)]]"
-            label="[[label]]"
-            name="[[label.name]]"
-            labels="[[change.labels]]"
-            permitted-labels="[[permittedLabels]]"
-            label-values="[[_labelValues]]"></gr-label-score-row>
+        <gr-label-score-row class$="[[_computeLabelAccessClass(label.name, permittedLabels)]]" label="[[label]]" name="[[label.name]]" labels="[[change.labels]]" permitted-labels="[[permittedLabels]]" label-values="[[_labelValues]]"></gr-label-score-row>
       </template>
     </div>
-    <div class="mergedMessage"
-        hidden$="[[!_changeIsMerged(change.status)]]">
+    <div class="mergedMessage" hidden$="[[!_changeIsMerged(change.status)]]">
       Because this change has been merged, votes may not be decreased.
     </div>
   </template>

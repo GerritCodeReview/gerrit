@@ -15,12 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
-<link rel="import" href="/bower_components/iron-fit-behavior/iron-fit-behavior.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-fit-behavior/iron-fit-behavior.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <script src="../../../scripts/rootElement.js"></script>
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -76,33 +76,17 @@ limitations under the License.
         display: none;
       }
     </style>
-    <div
-        class="dropdown-content"
-        slot="dropdown-content"
-        id="suggestions"
-        role="listbox">
+    <div class="dropdown-content" slot="dropdown-content" id="suggestions" role="listbox">
       <ul>
         <template is="dom-repeat" items="[[suggestions]]">
-          <li data-index$="[[index]]"
-              data-value$="[[item.dataValue]]"
-              tabindex="-1"
-              aria-label$="[[item.name]]"
-              class="autocompleteOption"
-              role="option"
-              on-click="_handleClickItem">
+          <li data-index$="[[index]]" data-value$="[[item.dataValue]]" tabindex="-1" aria-label$="[[item.name]]" class="autocompleteOption" role="option" on-click="_handleClickItem">
             <span>[[item.text]]</span>
             <span class$="label [[_computeLabelClass(item)]]">[[item.label]]</span>
           </li>
         </template>
       </ul>
     </div>
-    <gr-cursor-manager
-        id="cursor"
-        index="{{index}}"
-        cursor-target-class="selected"
-        scroll-behavior="never"
-        focus-on-move
-        stops="[[_suggestionEls]]"></gr-cursor-manager>
+    <gr-cursor-manager id="cursor" index="{{index}}" cursor-target-class="selected" scroll-behavior="never" focus-on-move="" stops="[[_suggestionEls]]"></gr-cursor-manager>
   </template>
   <script src="gr-autocomplete-dropdown.js"></script>
 </dom-module>

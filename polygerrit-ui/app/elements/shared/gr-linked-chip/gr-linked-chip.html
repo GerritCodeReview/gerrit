@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
 <link rel="import" href="../gr-button/gr-button.html">
@@ -80,17 +80,9 @@ limitations under the License.
     </style>
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
       <a href$="[[href]]">
-        <gr-limited-text
-            limit="[[limit]]"
-            text="[[text]]"></gr-limited-text>
+        <gr-limited-text limit="[[limit]]" text="[[text]]"></gr-limited-text>
       </a>
-      <gr-button
-          id="remove"
-          link
-          hidden$="[[!removable]]"
-          hidden
-          class$="remove [[_getBackgroundClass(transparentBackground)]]"
-          on-click="_handleRemoveTap">
+      <gr-button id="remove" link="" hidden$="[[!removable]]" hidden="" class$="remove [[_getBackgroundClass(transparentBackground)]]" on-click="_handleRemoveTap">
         <iron-icon icon="gr-icons:close"></iron-icon>
       </gr-button>
     </div>

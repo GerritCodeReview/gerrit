@@ -15,10 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-input/iron-input.html">
+<link rel="import" href="/node_modules/polymer-bridges/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -72,11 +72,7 @@ limitations under the License.
           <template is="dom-repeat" items="[[pluginOption.info.values]]">
             <div class="row">
               <span>[[item]]</span>
-              <gr-button
-                  link
-                  disabled$="[[disabled]]"
-                  data-item$="[[item]]"
-                  on-click="_handleDelete">Delete</gr-button>
+              <gr-button link="" disabled$="[[disabled]]" data-item$="[[item]]" on-click="_handleDelete">Delete</gr-button>
             </div>
           </template>
         </div>
@@ -85,20 +81,10 @@ limitations under the License.
         <div class="row placeholder">None configured.</div>
       </template>
       <div class$="row [[_computeShowInputRow(disabled)]]">
-        <iron-input
-            on-keydown="_handleInputKeydown"
-            bind-value="{{_newValue}}">
-          <input
-              is="iron-input"
-              id="input"
-              on-keydown="_handleInputKeydown"
-              bind-value="{{_newValue}}">
+        <iron-input on-keydown="_handleInputKeydown" bind-value="{{_newValue}}">
+          <input is="iron-input" id="input" on-keydown="_handleInputKeydown" bind-value="{{_newValue}}">
         </iron-input>
-        <gr-button
-            id="addButton"
-            disabled$="[[!_newValue.length]]"
-            link
-            on-click="_handleAddTap">Add</gr-button>
+        <gr-button id="addButton" disabled$="[[!_newValue.length]]" link="" on-click="_handleAddTap">Add</gr-button>
       </div>
     </div>
   </template>

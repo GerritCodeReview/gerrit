@@ -108,19 +108,29 @@ html {
   --spacing-xl: 16px;
   --spacing-xxl: 24px;
 
+  /* elevation */
+  --elevation-level-1: 0px 1px 2px 0px rgba(60, 64, 67, .30), 0px 1px 3px 1px rgba(60, 64, 67, .15);
+  --elevation-level-2: 0px 1px 2px 0px rgba(60, 64, 67, .30), 0px 2px 6px 2px rgba(60, 64, 67, .15);
+  --elevation-level-3: 0px 1px 3px 0px rgba(60, 64, 67, .30), 0px 4px 8px 3px rgba(60, 64, 67, .15);
+  --elevation-level-4: 0px 2px 3px 0px rgba(60, 64, 67, .30), 0px 6px 10px 4px rgba(60, 64, 67, .15);
+  --elevation-level-5: 0px 4px 4px 0px rgba(60, 64, 67, .30), 0px 8px 12px 6px rgba(60, 64, 67, .15);
+
   /* header and footer */
   --footer-background-color: var(--background-color-tertiary);
   --footer-border-top: 1px solid var(--border-color);
   --header-background-color: var(--background-color-tertiary);
-  --header-border-bottom: 1px solid var(--border-color);
+  --header-border-bottom: 0;
   --header-border-image: '';
-  --header-box-shadow: none;
+  --header-box-shadow: var(--elevation-level-1);
   --header-padding: 0 var(--spacing-l);
   --header-icon-size: 0em;
   --header-icon: none;
   --header-text-color: black;
   --header-title-content: 'Gerrit';
   --header-title-font-size: 1.75rem;
+
+  --section-header-background-color: #e8eaed;
+  --section-border-color: #dadce0;
 
   /* diff colors */
   --dark-add-highlight-color: #aaf2aa;
@@ -170,13 +180,6 @@ html {
   --syntax-title-color: #0000c0;
   --syntax-type-color: #2a66d9;
   --syntax-variable-color: var(--primary-text-color);
-
-  /* elevation */
-  --elevation-level-1: 0px 1px 2px 0px rgba(60, 64, 67, .30), 0px 1px 3px 1px rgba(60, 64, 67, .15);
-  --elevation-level-2: 0px 1px 2px 0px rgba(60, 64, 67, .30), 0px 2px 6px 2px rgba(60, 64, 67, .15);
-  --elevation-level-3: 0px 1px 3px 0px rgba(60, 64, 67, .30), 0px 4px 8px 3px rgba(60, 64, 67, .15);
-  --elevation-level-4: 0px 2px 3px 0px rgba(60, 64, 67, .30), 0px 6px 10px 4px rgba(60, 64, 67, .15);
-  --elevation-level-5: 0px 4px 4px 0px rgba(60, 64, 67, .30), 0px 8px 12px 6px rgba(60, 64, 67, .15);
 
   /* misc */
   --border-radius: 4px;

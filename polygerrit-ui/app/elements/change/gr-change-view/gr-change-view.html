@@ -68,7 +68,6 @@ limitations under the License.
       }
       .header {
         align-items: center;
-        background-color: var(--table-header-background-color);
         border-bottom: 1px solid var(--border-color);
         display: flex;
         padding: var(--spacing-s) var(--spacing-l);
@@ -233,8 +232,10 @@ limitations under the License.
         margin-right: -5px;
       }
       paper-tabs {
-        background-color: var(--table-header-background-color);
-        border-top: 1px solid var(--border-color);
+        background-color: var(--section-header-background-color);
+        border-top: 1px solid var(--section-border-color);
+        border-bottom: 1px solid var(--section-border-color);
+        /* box-shadow: 0px 2px 1px -1px rgba(60, 64, 67, .30), 0px 2px 2px 0px rgba(60, 64, 67, .15); */
         height: calc(var(--line-height-normal) + 2*var(--spacing-m));
         --paper-tabs-selection-bar-color: var(--link-color);
       }

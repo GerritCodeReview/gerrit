@@ -197,6 +197,8 @@
     REVERT_SUBMISSION: 2,
   };
 
+  const SKIP_ACTIONS = [ChangeActions.REVERT_SUBMISSION];
+
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
@@ -1508,11 +1510,16 @@
       }
     }
 
+    _shouldSkipAction(key) {
+      return SKIP_ACTIONS.includes(key);
+    }
+
     _computeTopLevelActions(actionRecord, hiddenActionsRecord) {
       const hiddenActions = hiddenActionsRecord.base || [];
       return actionRecord.base.filter(a => {
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
-        return !(overflow || hiddenActions.includes(a.__key));
+        return !(overflow || hiddenActions.includes(a.__key) ||
+          this._shouldSkipAction(a.__key));
       });
     }
 

@@ -17,7 +17,7 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -36,17 +36,7 @@ limitations under the License.
       }
     </style>
     <form>
-      <gr-autocomplete
-          show-search-icon
-          id="searchInput"
-          text="{{_inputVal}}"
-          query="[[query]]"
-          on-commit="_handleInputCommit"
-          allow-non-suggested-values
-          multi
-          threshold="[[_threshold]]"
-          tab-complete
-          vertical-offset="30"></gr-autocomplete>
+      <gr-autocomplete show-search-icon="" id="searchInput" text="{{_inputVal}}" query="[[query]]" on-commit="_handleInputCommit" allow-non-suggested-values="" multi="" threshold="[[_threshold]]" tab-complete="" vertical-offset="30"></gr-autocomplete>
     </form>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

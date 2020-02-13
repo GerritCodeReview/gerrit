@@ -15,19 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 
 <dom-module id="gr-diff-cursor">
   <template>
-    <gr-cursor-manager
-        id="cursorManager"
-        scroll-behavior="[[_scrollBehavior]]"
-        cursor-target-class="target-row"
-        focus-on-move="[[_focusOnMove]]"
-        target="{{diffRow}}"
-        scroll-top-margin="[[scrollTopMargin]]"
-    ></gr-cursor-manager>
+    <gr-cursor-manager id="cursorManager" scroll-behavior="[[_scrollBehavior]]" cursor-target-class="target-row" focus-on-move="[[_focusOnMove]]" target="{{diffRow}}" scroll-top-margin="[[scrollTopMargin]]"></gr-cursor-manager>
   </template>
   <script src="gr-diff-cursor.js"></script>
 </dom-module>

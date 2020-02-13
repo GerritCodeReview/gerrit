@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-icon/iron-icon.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../shared/gr-account-label/gr-account-label.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
@@ -217,32 +217,18 @@ limitations under the License.
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
             <div class="message hideOnOpen">[[_messageContentCollapsed]]</div>
-            <gr-formatted-text
-                no-trailing-margin
-                class="message hideOnCollapsed"
-                content="[[_messageContentExpanded]]"
-                config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
+            <gr-formatted-text no-trailing-margin="" class="message hideOnCollapsed" content="[[_messageContentExpanded]]" config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
             <template is="dom-if" if="[[!_isMessageContentEmpty()]]">
-              <div class="replyActionContainer" hidden$="[[!showReplyButton]]" hidden>
-                  <gr-button
-                     class="replyBtn"
-                     link small on-click="_handleReplyTap">
+              <div class="replyActionContainer" hidden$="[[!showReplyButton]]" hidden="">
+                  <gr-button class="replyBtn" link="" small="" on-click="_handleReplyTap">
                     Reply
                   </gr-button>
-                  <gr-button
-                    disabled$=[[_isDeletingChangeMsg]]
-                    class="deleteBtn" hidden$="[[!_isAdmin]]" hidden
-                    link small on-click="_handleDeleteMessage">
+                  <gr-button disabled$="[[_isDeletingChangeMsg]]" class="deleteBtn" hidden$="[[!_isAdmin]]" hidden="" link="" small="" on-click="_handleDeleteMessage">
                     Delete
                   </gr-button>
               </div>
             </template>
-            <gr-comment-list
-                comments="[[comments]]"
-                change-num="[[changeNum]]"
-                patch-num="[[message._revision_number]]"
-                project-name="[[projectName]]"
-                project-config="[[_projectConfig]]"></gr-comment-list>
+            <gr-comment-list comments="[[comments]]" change-num="[[changeNum]]" patch-num="[[message._revision_number]]" project-name="[[projectName]]" project-config="[[_projectConfig]]"></gr-comment-list>
           </div>
         </template>
         <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">
@@ -250,8 +236,7 @@ limitations under the License.
             <template is="dom-repeat" items="[[message.updates]]" as="update">
               <div class="updateCategory">
                 [[update.message]]
-                <template
-                    is="dom-repeat" items="[[update.reviewers]]" as="reviewer">
+                <template is="dom-repeat" items="[[update.reviewers]]" as="reviewer">
                   <gr-account-chip account="[[reviewer]]">
                   </gr-account-chip>
                 </template>
@@ -265,25 +250,15 @@ limitations under the License.
           </template>
           <template is="dom-if" if="[[!message.id]]">
             <span class="date">
-              <gr-date-formatter
-                  has-tooltip
-                  show-date-and-time
-                  date-str="[[message.date]]"></gr-date-formatter>
+              <gr-date-formatter has-tooltip="" show-date-and-time="" date-str="[[message.date]]"></gr-date-formatter>
             </span>
           </template>
           <template is="dom-if" if="[[message.id]]">
             <span class="date" on-click="_handleAnchorClick">
-              <gr-date-formatter
-                  has-tooltip
-                  show-date-and-time
-                  date-str="[[message.date]]"></gr-date-formatter>
+              <gr-date-formatter has-tooltip="" show-date-and-time="" date-str="[[message.date]]"></gr-date-formatter>
             </span>
           </template>
-          <iron-icon
-              id="expandToggle"
-              on-click="_toggleExpanded"
-              title="Toggle expanded state"
-              icon="[[_computeExpandToggleIcon(_expanded)]]"></iron-icon>
+          <iron-icon id="expandToggle" on-click="_toggleExpanded" title="Toggle expanded state" icon="[[_computeExpandToggleIcon(_expanded)]]"></iron-icon>
         </span>
       </div>
     </div>

@@ -309,14 +309,14 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void ownerProject() {
+  public void ownerProject() throws Exception {
     allow(local, OWNER, ADMIN, "refs/*");
 
     assertAdminsAreOwnersAndDevsAreNot();
   }
 
   @Test
-  public void denyOwnerProject() {
+  public void denyOwnerProject() throws Exception {
     allow(local, OWNER, ADMIN, "refs/*");
     deny(local, OWNER, DEVS, "refs/*");
 
@@ -324,7 +324,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockOwnerProject() {
+  public void blockOwnerProject() throws Exception {
     allow(local, OWNER, ADMIN, "refs/*");
     block(local, OWNER, DEVS, "refs/*");
 
@@ -332,7 +332,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void branchDelegation1() {
+  public void branchDelegation1() throws Exception {
     allow(local, OWNER, ADMIN, "refs/*");
     allow(local, OWNER, DEVS, "refs/heads/x/*");
 
@@ -348,7 +348,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void branchDelegation2() {
+  public void branchDelegation2() throws Exception {
     allow(local, OWNER, ADMIN, "refs/*");
     allow(local, OWNER, DEVS, "refs/heads/x/*");
     allow(local, OWNER, fixers, "refs/heads/x/y/*");
@@ -375,7 +375,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void inheritRead_SingleBranchDeniesUpload() {
+  public void inheritRead_SingleBranchDeniesUpload() throws Exception {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
@@ -389,7 +389,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockPushDrafts() {
+  public void blockPushDrafts() throws Exception {
     allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
     allow(local, PUSH, REGISTERED_USERS, "refs/drafts/*");
@@ -400,7 +400,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockPushDraftsUnblockAdmin() {
+  public void blockPushDraftsUnblockAdmin() throws Exception {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
     allow(parent, PUSH, ADMIN, "refs/drafts/*");
     allow(local, PUSH, REGISTERED_USERS, "refs/drafts/*");
@@ -417,7 +417,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void inheritRead_SingleBranchDoesNotOverrideInherited() {
+  public void inheritRead_SingleBranchDoesNotOverrideInherited() throws Exception {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
@@ -442,7 +442,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void inheritRead_OverrideWithDeny() {
+  public void inheritRead_OverrideWithDeny() throws Exception {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
 
@@ -450,7 +450,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void inheritRead_AppendWithDenyOfRef() {
+  public void inheritRead_AppendWithDenyOfRef() throws Exception {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/heads/*");
 
@@ -462,7 +462,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void inheritRead_OverridesAndDeniesOfRef() {
+  public void inheritRead_OverridesAndDeniesOfRef() throws Exception {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
@@ -475,7 +475,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void inheritSubmit_OverridesAndDeniesOfRef() {
+  public void inheritSubmit_OverridesAndDeniesOfRef() throws Exception {
     allow(parent, SUBMIT, REGISTERED_USERS, "refs/*");
     deny(local, SUBMIT, REGISTERED_USERS, "refs/*");
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
@@ -487,7 +487,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void cannotUploadToAnyRef() {
+  public void cannotUploadToAnyRef() throws Exception {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/for/refs/heads/*");
@@ -498,14 +498,14 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void usernamePatternCanUploadToAnyRef() {
+  public void usernamePatternCanUploadToAnyRef() throws Exception {
     allow(local, PUSH, REGISTERED_USERS, "refs/heads/users/${username}/*");
     ProjectControl u = user(local, "a-registered-user");
     assertCanUpload(u);
   }
 
   @Test
-  public void usernamePatternNonRegex() {
+  public void usernamePatternNonRegex() throws Exception {
     allow(local, READ, DEVS, "refs/sb/${username}/heads/*");
 
     ProjectControl u = user(local, "u", DEVS);
@@ -515,7 +515,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void usernamePatternWithRegex() {
+  public void usernamePatternWithRegex() throws Exception {
     allow(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
 
     ProjectControl u = user(local, "d.v", DEVS);
@@ -525,7 +525,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void usernameEmailPatternWithRegex() {
+  public void usernameEmailPatternWithRegex() throws Exception {
     allow(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
 
     ProjectControl u = user(local, "d.v@ger-rit.org", DEVS);
@@ -535,7 +535,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void sortWithRegex() {
+  public void sortWithRegex() throws Exception {
     allow(local, READ, DEVS, "^refs/heads/.*");
     allow(parent, READ, ANONYMOUS_USERS, "^refs/heads/.*-QA-.*");
 
@@ -546,7 +546,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockRule_ParentBlocksChild() {
+  public void blockRule_ParentBlocksChild() throws Exception {
     allow(local, PUSH, DEVS, "refs/tags/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
     ProjectControl u = user(local, DEVS);
@@ -554,7 +554,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockRule_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
+  public void blockRule_ParentBlocksChildEvenIfAlreadyBlockedInChild() throws Exception {
     allow(local, PUSH, DEVS, "refs/tags/*");
     block(local, PUSH, ANONYMOUS_USERS, "refs/tags/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
@@ -564,7 +564,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockPartialRangeLocally() {
+  public void blockPartialRangeLocally() throws Exception {
     block(local, LABEL + "Code-Review", +1, +2, DEVS, "refs/heads/master");
 
     ProjectControl u = user(local, DEVS);
@@ -574,7 +574,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockLabelRange_ParentBlocksChild() {
+  public void blockLabelRange_ParentBlocksChild() throws Exception {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(parent, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
@@ -588,7 +588,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockLabelRange_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
+  public void blockLabelRange_ParentBlocksChildEvenIfAlreadyBlockedInChild() throws Exception {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(parent, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
@@ -603,7 +603,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void inheritSubmit_AllowInChildDoesntAffectUnblockInParent() {
+  public void inheritSubmit_AllowInChildDoesntAffectUnblockInParent() throws Exception {
     block(parent, SUBMIT, ANONYMOUS_USERS, "refs/heads/*");
     allow(parent, SUBMIT, REGISTERED_USERS, "refs/heads/*");
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
@@ -615,7 +615,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockNoForce() {
+  public void unblockNoForce() throws Exception {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/*");
 
@@ -624,7 +624,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockForce() {
+  public void unblockForce() throws Exception {
     PermissionRule r = block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     r.setForce(true);
     allow(local, PUSH, DEVS, "refs/heads/*").setForce(true);
@@ -634,7 +634,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockRead_NotPossible() {
+  public void unblockRead_NotPossible() throws Exception {
     block(parent, READ, ANONYMOUS_USERS, "refs/*");
     allow(parent, READ, ADMIN, "refs/*");
     allow(local, READ, ANONYMOUS_USERS, "refs/*");
@@ -644,7 +644,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockForceWithAllowNoForce_NotPossible() {
+  public void unblockForceWithAllowNoForce_NotPossible() throws Exception {
     PermissionRule r = block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     r.setForce(true);
     allow(local, PUSH, DEVS, "refs/heads/*");
@@ -654,7 +654,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockMoreSpecificRef_Fails() {
+  public void unblockMoreSpecificRef_Fails() throws Exception {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master");
 
@@ -663,7 +663,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockMoreSpecificRefInLocal_Fails() {
+  public void unblockMoreSpecificRefInLocal_Fails() throws Exception {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master");
 
@@ -672,7 +672,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockMoreSpecificRefWithExclusiveFlag() {
+  public void unblockMoreSpecificRefWithExclusiveFlag() throws Exception {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master", true);
 
@@ -681,7 +681,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockVoteMoreSpecificRefWithExclusiveFlag() {
+  public void unblockVoteMoreSpecificRefWithExclusiveFlag() throws Exception {
     String perm = LABEL + "Code-Review";
 
     block(local, perm, -1, 1, ANONYMOUS_USERS, "refs/heads/*");
@@ -693,7 +693,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockFromParentDoesNotAffectChild() {
+  public void unblockFromParentDoesNotAffectChild() throws Exception {
     allow(parent, PUSH, DEVS, "refs/heads/master", true);
     block(local, PUSH, DEVS, "refs/heads/master");
 
@@ -702,7 +702,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockFromParentDoesNotAffectChildDifferentGroups() {
+  public void unblockFromParentDoesNotAffectChildDifferentGroups() throws Exception {
     allow(parent, PUSH, DEVS, "refs/heads/master", true);
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/master");
 
@@ -711,7 +711,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockMoreSpecificRefInLocalWithExclusiveFlag_Fails() {
+  public void unblockMoreSpecificRefInLocalWithExclusiveFlag_Fails() throws Exception {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master", true);
 
@@ -720,7 +720,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockMoreSpecificRefWithinProject() {
+  public void blockMoreSpecificRefWithinProject() throws Exception {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/secret");
     allow(local, PUSH, DEVS, "refs/heads/*", true);
 
@@ -730,7 +730,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockOtherPermissionWithMoreSpecificRefAndExclusiveFlag_Fails() {
+  public void unblockOtherPermissionWithMoreSpecificRefAndExclusiveFlag_Fails() throws Exception {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master");
     allow(local, SUBMIT, DEVS, "refs/heads/master", true);
@@ -740,7 +740,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockLargerScope_Fails() {
+  public void unblockLargerScope_Fails() throws Exception {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/master");
     allow(local, PUSH, DEVS, "refs/heads/*");
 
@@ -749,7 +749,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockInLocal_Fails() {
+  public void unblockInLocal_Fails() throws Exception {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, fixers, "refs/heads/*");
 
@@ -758,7 +758,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockInParentBlockInLocal() {
+  public void unblockInParentBlockInLocal() throws Exception {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(parent, PUSH, DEVS, "refs/heads/*");
     block(local, PUSH, DEVS, "refs/heads/*");
@@ -768,7 +768,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockForceEditTopicName() {
+  public void unblockForceEditTopicName() throws Exception {
     block(local, EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
@@ -779,7 +779,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockInLocalForceEditTopicName_Fails() {
+  public void unblockInLocalForceEditTopicName_Fails() throws Exception {
     block(parent, EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
@@ -790,7 +790,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockRange() {
+  public void unblockRange() throws Exception {
     block(local, LABEL + "Code-Review", -1, +1, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
@@ -801,7 +801,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockRangeOnMoreSpecificRef_Fails() {
+  public void unblockRangeOnMoreSpecificRef_Fails() throws Exception {
     block(local, LABEL + "Code-Review", -1, +1, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/master");
 
@@ -812,7 +812,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockRangeOnLargerScope_Fails() {
+  public void unblockRangeOnLargerScope_Fails() throws Exception {
     block(local, LABEL + "Code-Review", -1, +1, ANONYMOUS_USERS, "refs/heads/master");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
@@ -823,7 +823,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void nonconfiguredCannotVote() {
+  public void nonconfiguredCannotVote() throws Exception {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
     ProjectControl u = user(local, REGISTERED_USERS);
@@ -833,7 +833,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockInLocalRange_Fails() {
+  public void unblockInLocalRange_Fails() throws Exception {
     block(parent, LABEL + "Code-Review", -1, 1, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
@@ -844,7 +844,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockRangeForChangeOwner() {
+  public void unblockRangeForChangeOwner() throws Exception {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
     ProjectControl u = user(local, DEVS);
@@ -855,7 +855,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unblockRangeForNotChangeOwner() {
+  public void unblockRangeForNotChangeOwner() throws Exception {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
     ProjectControl u = user(local, DEVS);
@@ -865,7 +865,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockChangeOwnerVote() {
+  public void blockChangeOwnerVote() throws Exception {
     block(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
     ProjectControl u = user(local, DEVS);
@@ -875,7 +875,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unionOfPermissibleVotes() {
+  public void unionOfPermissibleVotes() throws Exception {
     allow(local, LABEL + "Code-Review", -1, +1, DEVS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, REGISTERED_USERS, "refs/heads/*");
 
@@ -886,7 +886,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unionOfPermissibleVotesPermissionOrder() {
+  public void unionOfPermissibleVotesPermissionOrder() throws Exception {
     allow(local, LABEL + "Code-Review", -2, +2, REGISTERED_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -1, +1, DEVS, "refs/heads/*");
 
@@ -897,7 +897,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void unionOfBlockedVotes() {
+  public void unionOfBlockedVotes() throws Exception {
     allow(parent, LABEL + "Code-Review", -1, +1, DEVS, "refs/heads/*");
     block(parent, LABEL + "Code-Review", -2, +2, REGISTERED_USERS, "refs/heads/*");
     block(local, LABEL + "Code-Review", -2, +1, REGISTERED_USERS, "refs/heads/*");
@@ -909,7 +909,7 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
-  public void blockOwner() {
+  public void blockOwner() throws Exception {
     block(parent, OWNER, ANONYMOUS_USERS, "refs/*");
     allow(local, OWNER, DEVS, "refs/*");
 

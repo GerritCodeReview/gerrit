@@ -1141,7 +1141,10 @@
      * Load and display blame information if it has not already been loaded.
      * Otherwise hide it.
      */
-    _toggleBlame() {
+    _toggleBlame(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+
       if (this._isBlameLoaded) {
         this.$.diffHost.clearBlame();
         return;

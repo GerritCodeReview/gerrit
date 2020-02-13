@@ -3620,6 +3620,9 @@ Polymer-2015
 * @polymer/neon-animation
 * @polymer/paper-behaviors
 * @polymer/paper-button
+* @polymer/paper-dialog
+* @polymer/paper-dialog-behavior
+* @polymer/paper-dialog-scrollable
 * @polymer/paper-icon-button
 * @polymer/paper-input
 * @polymer/paper-item

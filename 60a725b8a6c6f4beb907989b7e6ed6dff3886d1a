@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6ea526e_4c591a09",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-02-13T13:36:32Z",
+      "side": 1,
+      "message": "Optional.empty() might be better",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "60a725b8a6c6f4beb907989b7e6ed6dff3886d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

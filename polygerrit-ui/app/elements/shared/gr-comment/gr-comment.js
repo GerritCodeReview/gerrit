@@ -32,6 +32,22 @@
   const FILE = 'FILE';
 
   /**
+   * All candidates tips to show, will pick randomly.
+   */
+  const RESPECTFUL_REVIEW_TIPS= [
+    'DO: Assume competence.',
+    'DO: Provide rationale or context.',
+    'DO: Consider how comments may be interpreted.',
+    'DON’T: Criticize the person.',
+    'DON’T: Use harsh language.',
+    'DO: Provide specific and actionable feedback.',
+    'DO: Clearly mark nitpicks and optional comments.',
+    'DO: Clarify code or reply to the reviewer’s comment.',
+    'DO: When disagreeing with feedback, explain the advantage' +
+    ' of your approach.',
+  ];
+
+  /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @extends Polymer.Element
@@ -167,6 +183,17 @@
           type: Object,
           value: () => { return {}; },
         },
+
+        /**
+         * Show respectful tip.
+         *
+         * To avoid a habit of ignoring it,
+         * we only show this 1 out of 50 comments user edits
+         */
+        _showRespectfulTip: {
+          type: Boolean,
+          value: () => Math.random() <= 0.02,
+        },
       };
     }
 
@@ -207,6 +234,13 @@
       if (this.textarea) {
         this.textarea.closeDropdown();
       }
+    }
+
+    get _respectfulReviewTip() {
+      const randomIdx = Math.floor(
+          Math.random() * RESPECTFUL_REVIEW_TIPS.length
+      );
+      return RESPECTFUL_REVIEW_TIPS[randomIdx];
     }
 
     get textarea() {

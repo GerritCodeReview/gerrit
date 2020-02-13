@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9ceede0_2844b7ad",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-13T16:53:21Z",
+      "side": 1,
+      "message": "This constants could be moved to the SshLog-class to avoid duplication.",
+      "revId": "7a53bb33744f59d4fc104e608faebd483e952d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

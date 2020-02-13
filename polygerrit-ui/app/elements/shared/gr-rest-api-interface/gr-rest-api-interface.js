@@ -1661,7 +1661,7 @@
           endpoint: '/edit/',
           params,
           reportEndpointAsIs: true,
-        });
+        }, true);
       });
     }
 

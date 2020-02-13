@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
@@ -31,14 +31,9 @@ limitations under the License.
     <style include="gr-table-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
-    <gr-list-view
-        filter="[[_filter]]"
-        items=false
-        offset=0
-        loading="[[_loading]]"
-        path="[[_path]]">
+    <gr-list-view filter="[[_filter]]" items="false" offset="0" loading="[[_loading]]" path="[[_path]]">
       <table id="list" class="genericList">
-        <tr class="headerRow">
+        <tbody><tr class="headerRow">
           <th class="name topHeader">Name</th>
           <th class="name topHeader"></th>
           <th class="name topHeader"></th>
@@ -46,7 +41,7 @@ limitations under the License.
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <tbody class$="[[computeLoadingClass(_loading)]]">
+        </tbody><tbody class$="[[computeLoadingClass(_loading)]]">
           <template is="dom-repeat" items="[[_documentationSearches]]">
             <tr class="table">
               <td class="name">

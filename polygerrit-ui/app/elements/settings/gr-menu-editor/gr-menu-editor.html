@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-input/iron-input.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -61,25 +61,13 @@ limitations under the License.
               <td>[[item.name]]</td>
               <td class="urlCell">[[item.url]]</td>
               <td class="buttonColumn">
-                <gr-button
-                    link
-                    data-index$="[[index]]"
-                    on-click="_handleMoveUpButton"
-                    class="moveUpButton">↑</gr-button>
+                <gr-button link="" data-index$="[[index]]" on-click="_handleMoveUpButton" class="moveUpButton">↑</gr-button>
               </td>
               <td class="buttonColumn">
-                <gr-button
-                    link
-                    data-index$="[[index]]"
-                    on-click="_handleMoveDownButton"
-                    class="moveDownButton">↓</gr-button>
+                <gr-button link="" data-index$="[[index]]" on-click="_handleMoveDownButton" class="moveDownButton">↓</gr-button>
               </td>
               <td>
-                <gr-button
-                    link
-                    data-index$="[[index]]"
-                    on-click="_handleDeleteButton"
-                    class="remove-button">Delete</gr-button>
+                <gr-button link="" data-index$="[[index]]" on-click="_handleDeleteButton" class="remove-button">Delete</gr-button>
               </td>
             </tr>
           </template>
@@ -87,38 +75,19 @@ limitations under the License.
         <tfoot>
           <tr>
             <th>
-              <iron-input
-                  placeholder="New Title"
-                  on-keydown="_handleInputKeydown"
-                  bind-value="{{_newName}}">
-                <input
-                    is="iron-input"
-                    placeholder="New Title"
-                    on-keydown="_handleInputKeydown"
-                    bind-value="{{_newName}}">
+              <iron-input placeholder="New Title" on-keydown="_handleInputKeydown" bind-value="{{_newName}}">
+                <input is="iron-input" placeholder="New Title" on-keydown="_handleInputKeydown" bind-value="{{_newName}}">
               </iron-input>
             </th>
             <th>
-              <iron-input
-                  class="newUrlInput"
-                  placeholder="New URL"
-                  on-keydown="_handleInputKeydown"
-                  bind-value="{{_newUrl}}">
-                <input
-                    class="newUrlInput"
-                    is="iron-input"
-                    placeholder="New URL"
-                    on-keydown="_handleInputKeydown"
-                    bind-value="{{_newUrl}}">
+              <iron-input class="newUrlInput" placeholder="New URL" on-keydown="_handleInputKeydown" bind-value="{{_newUrl}}">
+                <input class="newUrlInput" is="iron-input" placeholder="New URL" on-keydown="_handleInputKeydown" bind-value="{{_newUrl}}">
               </iron-input>
             </th>
             <th></th>
             <th></th>
             <th>
-              <gr-button
-                  link
-                  disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
-                  on-click="_handleAddButton">Add</gr-button>
+              <gr-button link="" disabled$="[[_computeAddDisabled(_newName, _newUrl)]]" on-click="_handleAddButton">Add</gr-button>
             </th>
           </tr>
         </tfoot>

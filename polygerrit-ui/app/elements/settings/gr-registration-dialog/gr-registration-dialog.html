@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-input/iron-input.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
@@ -85,31 +85,19 @@ limitations under the License.
         <hr>
         <section>
           <div class="title">Full Name</div>
-          <iron-input
-              bind-value="{{_account.name}}">
-            <input
-                is="iron-input"
-                id="name"
-                bind-value="{{_account.name}}"
-                disabled="[[_saving]]">
+          <iron-input bind-value="{{_account.name}}">
+            <input is="iron-input" id="name" bind-value="{{_account.name}}" disabled="[[_saving]]">
           </iron-input>
         </section>
         <section class$="[[_computeUsernameClass(_usernameMutable)]]">
           <div class="title">Username</div>
-          <iron-input
-              bind-value="{{_account.username}}">
-            <input
-                is="iron-input"
-                id="username"
-                bind-value="{{_account.username}}"
-                disabled="[[_saving]]">
+          <iron-input bind-value="{{_account.username}}">
+            <input is="iron-input" id="username" bind-value="{{_account.username}}" disabled="[[_saving]]">
           </iron-input>
         </section>
         <section>
           <div class="title">Preferred Email</div>
-          <select
-              id="email"
-              disabled="[[_saving]]">
+          <select id="email" disabled="[[_saving]]">
             <option value="[[_account.email]]">[[_account.email]]</option>
             <template is="dom-repeat" items="[[_account.secondary_emails]]">
               <option value="[[item]]">[[item]]</option>
@@ -123,17 +111,8 @@ limitations under the License.
         </p>
       </main>
       <footer>
-        <gr-button
-            id="closeButton"
-            link
-            disabled="[[_saving]]"
-            on-click="_handleClose">Close</gr-button>
-        <gr-button
-            id="saveButton"
-            primary
-            link
-            disabled="[[_computeSaveDisabled(_account.name, _account.email, _saving)]]"
-            on-click="_handleSave">Save</gr-button>
+        <gr-button id="closeButton" link="" disabled="[[_saving]]" on-click="_handleClose">Close</gr-button>
+        <gr-button id="saveButton" primary="" link="" disabled="[[_computeSaveDisabled(_account.name, _account.email, _saving)]]" on-click="_handleSave">Save</gr-button>
       </footer>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -31,10 +31,7 @@ limitations under the License.
         white-space: nowrap;
       }
     </style>
-    <gr-tooltip
-        id="tooltip"
-        text="Press c to comment"
-        position-below="[[positionBelow]]"></gr-tooltip>
+    <gr-tooltip id="tooltip" text="Press c to comment" position-below="[[positionBelow]]"></gr-tooltip>
   </template>
   <script src="gr-selection-action-box.js"></script>
 </dom-module>

@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -25,7 +25,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
 
 <dom-module id="gr-change-requirements">
-  <template strip-whitespace>
+  <template strip-whitespace="">
     <style include="shared-styles">
       :host {
         display: table;
@@ -91,9 +91,7 @@ limitations under the License.
         height: var(--spacing-m);
       }
     </style>
-    <template
-        is="dom-repeat"
-        items="[[_requirements]]">
+    <template is="dom-repeat" items="[[_requirements]]">
       <section>
         <div class="title requirement">
           <span class$="status [[item.style]]">
@@ -103,9 +101,7 @@ limitations under the License.
         </div>
       </section>
     </template>
-    <template
-        is="dom-repeat"
-        items="[[_requiredLabels]]">
+    <template is="dom-repeat" items="[[_requiredLabels]]">
       <section>
         <div class="title">
           <span class$="status [[item.style]]">
@@ -114,33 +110,21 @@ limitations under the License.
           <gr-limited-text class="name" limit="40" text="[[item.label]]"></gr-limited-text>
         </div>
         <div class="value">
-          <gr-label-info
-              change="{{change}}"
-              account="[[account]]"
-              mutable="[[mutable]]"
-              label="[[item.label]]"
-              label-info="[[item.labelInfo]]"></gr-label-info>
+          <gr-label-info change="{{change}}" account="[[account]]" mutable="[[mutable]]" label="[[item.label]]" label-info="[[item.labelInfo]]"></gr-label-info>
         </div>
       </section>
     </template>
     <section class="spacer"></section>
     <section class$="spacer [[_computeShowOptional(_optionalLabels.*)]]"></section>
-    <section
-        show-bottom-border$="[[_showOptionalLabels]]"
-        on-click="_handleShowHide"
-        class$="showHide [[_computeShowOptional(_optionalLabels.*)]]">
+    <section show-bottom-border$="[[_showOptionalLabels]]" on-click="_handleShowHide" class$="showHide [[_computeShowOptional(_optionalLabels.*)]]">
       <div class="title">Other labels</div>
       <div class="value">
-        <iron-icon
-            id="showHide"
-            icon="[[_computeShowHideIcon(_showOptionalLabels)]]">
+        <iron-icon id="showHide" icon="[[_computeShowHideIcon(_showOptionalLabels)]]">
         </iron-icon>
-      </label>
+      
       </div>
     </section>
-    <template
-        is="dom-repeat"
-        items="[[_optionalLabels]]">
+    <template is="dom-repeat" items="[[_optionalLabels]]">
       <section class$="optional [[_computeSectionClass(_showOptionalLabels)]]">
         <div class="title">
           <span class$="status [[item.style]]">
@@ -154,12 +138,7 @@ limitations under the License.
           <gr-limited-text class="name" limit="40" text="[[item.label]]"></gr-limited-text>
         </div>
         <div class="value">
-          <gr-label-info
-              change="{{change}}"
-              account="[[account]]"
-              mutable="[[mutable]]"
-              label="[[item.label]]"
-              label-info="[[item.labelInfo]]"></gr-label-info>
+          <gr-label-info change="{{change}}" account="[[account]]" mutable="[[mutable]]" label="[[item.label]]" label-info="[[item.labelInfo]]"></gr-label-info>
         </div>
       </section>
     </template>

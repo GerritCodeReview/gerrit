@@ -197,6 +197,12 @@
     REVERT_SUBMISSION: 2,
   };
 
+  /* Revert submission is skipped as the normal revert dialog will now show
+  the user a choice between reverting single change or an entire submission.
+  Hence, a second button is not needed.
+  */
+  const SKIP_ACTIONS = [ChangeActions.REVERT_SUBMISSION];
+
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
@@ -1470,7 +1476,8 @@
               action.icon = action.__key;
             }
             return action;
-          });
+          })
+          .filter(action => !this._shouldSkipAction(action.__key));
     }
 
     _getActionPriority(action) {
@@ -1506,6 +1513,10 @@
       } else {
         return priorityDelta;
       }
+    }
+
+    _shouldSkipAction(key) {
+      return SKIP_ACTIONS.includes(key);
     }
 
     _computeTopLevelActions(actionRecord, hiddenActionsRecord) {

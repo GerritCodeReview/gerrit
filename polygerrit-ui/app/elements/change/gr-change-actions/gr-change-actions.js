@@ -197,6 +197,8 @@
     REVERT_SUBMISSION: 2,
   };
 
+  const SKIP_ACTIONS = [ChangeActions.REVERT_SUBMISSION];
+
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
@@ -1470,7 +1472,8 @@
               action.icon = action.__key;
             }
             return action;
-          });
+          })
+          .filter(action => !this._shouldSkipAction(action.__key));
     }
 
     _getActionPriority(action) {
@@ -1506,6 +1509,10 @@
       } else {
         return priorityDelta;
       }
+    }
+
+    _shouldSkipAction(key) {
+      return SKIP_ACTIONS.includes(key);
     }
 
     _computeTopLevelActions(actionRecord, hiddenActionsRecord) {

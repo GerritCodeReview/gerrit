@@ -46,6 +46,8 @@ import org.eclipse.jgit.lib.Config;
 class SshLog implements LifecycleListener, GerritConfigListener {
   private static final Logger log = Logger.getLogger(SshLog.class);
 
+  private static final String JSON_SUFFIX = ".json";
+
   protected static final String LOG_NAME = "sshd_log";
   protected static final String P_SESSION = "session";
   protected static final String P_USER_NAME = "userName";
@@ -62,6 +64,9 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   private final GroupAuditService auditService;
   private final SystemLog systemLog;
 
+  private final boolean json;
+  private final boolean text;
+
   private final Object lock = new Object();
 
   @Inject
@@ -76,6 +81,9 @@ class SshLog implements LifecycleListener, GerritConfigListener {
     this.auditService = auditService;
     this.systemLog = systemLog;
 
+    this.json = config.getBoolean("log", "jsonLogging", false);
+    this.text = config.getBoolean("log", "textLogging", true) || !json;
+
     if (config.getBoolean("sshd", "requestLog", true)) {
       enableLogging();
     }
@@ -85,7 +93,16 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   public boolean enableLogging() {
     synchronized (lock) {
       if (async == null) {
-        async = systemLog.createAsyncAppender(LOG_NAME, new SshLogLayout());
+        async = new AsyncAppender();
+
+        if (text) {
+          async.addAppender(systemLog.createAsyncAppender(LOG_NAME, new SshLogLayout()));
+        }
+
+        if (json) {
+          async.addAppender(
+              systemLog.createAsyncAppender(LOG_NAME + JSON_SUFFIX, new SshLogJsonLayout()));
+        }
         return true;
       }
       return false;

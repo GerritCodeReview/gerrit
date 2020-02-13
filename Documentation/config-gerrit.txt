@@ -3642,8 +3642,8 @@ By default unset.
 
 [[log.jsonLogging]]log.jsonLogging::
 +
-If set to true, enables error and http logging in JSON format (file name:
-"logs/{error|httpd}_log.json").
+If set to true, enables error, ssh and http logging in JSON format (file name:
+"logs/{error|sshd|httpd}_log.json").
 +
 Defaults to false.
 

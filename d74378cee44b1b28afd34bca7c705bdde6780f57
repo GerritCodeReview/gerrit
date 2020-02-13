@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "7ef38553_39923364",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:23:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70ab57e9_e19303f4",
+      "range": {
+        "startLine": 529,
+        "startChar": 47,
+        "endLine": 529,
+        "endChar": 64
+      },
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42fde007_253eeed1",
         "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
         "patchSetId": 11

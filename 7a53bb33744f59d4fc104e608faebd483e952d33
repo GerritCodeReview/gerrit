@@ -16,6 +16,24 @@
       "revId": "7a53bb33744f59d4fc104e608faebd483e952d33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "382657c3_c4c718a0",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-13T17:08:11Z",
+      "side": 1,
+      "message": "if you fix this, do the same for SshLogLayout",
+      "parentUuid": "b9ceede0_2844b7ad",
+      "revId": "7a53bb33744f59d4fc104e608faebd483e952d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

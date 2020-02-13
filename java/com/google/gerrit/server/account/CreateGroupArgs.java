@@ -20,6 +20,7 @@ import java.util.Collection;
 
 public class CreateGroupArgs {
   private AccountGroup.NameKey groupName;
+  public AccountGroup.UUID uuid;
   public String groupDescription;
   public boolean visibleToAll;
   public AccountGroup.UUID ownerGroupUuid;

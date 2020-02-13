@@ -43,6 +43,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import org.eclipse.jetty.http.HttpScheme;
+import org.eclipse.jetty.io.ConnectionStatistics;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.ForwardedRequestCustomizer;
@@ -117,9 +118,11 @@ public class JettyServer {
 
   static class Metrics {
     private final QueuedThreadPool threadPool;
+    private ConnectionStatistics connStats;
 
-    Metrics(QueuedThreadPool threadPool) {
+    Metrics(QueuedThreadPool threadPool, ConnectionStatistics connStats) {
       this.threadPool = threadPool;
+      this.connStats = connStats;
     }
 
     public int getIdleThreads() {
@@ -153,12 +156,49 @@ public class JettyServer {
     public boolean isLowOnThreads() {
       return threadPool.isLowOnThreads();
     }
+
+    public long getConnections() {
+      return connStats.getConnections();
+    }
+
+    public long getConnectionsTotal() {
+      return connStats.getConnectionsTotal();
+    }
+
+    public long getConnectionDurationMax() {
+      return connStats.getConnectionDurationMax();
+    }
+
+    public double getConnectionDurationMean() {
+      return connStats.getConnectionDurationMean();
+    }
+
+    public double getConnectionDurationStdDev() {
+      return connStats.getConnectionDurationStdDev();
+    }
+
+    public long getReceivedMessages() {
+      return connStats.getReceivedMessages();
+    }
+
+    public long getSentMessages() {
+      return connStats.getSentMessages();
+    }
+
+    public long getReceivedBytes() {
+      return connStats.getReceivedBytes();
+    }
+
+    public long getSentBytes() {
+      return connStats.getSentBytes();
+    }
   }
 
   private final SitePaths site;
   private final Server httpd;
   private final Metrics metrics;
   private boolean reverseProxy;
+  private ConnectionStatistics connStats;
 
   @Inject
   JettyServer(
@@ -172,7 +212,11 @@ public class JettyServer {
     QueuedThreadPool pool = threadPool(cfg, threadSettingsConfig);
     httpd = new Server(pool);
     httpd.setConnectors(listen(httpd, cfg));
-    metrics = new Metrics(pool);
+    connStats = new ConnectionStatistics();
+    for (Connector connector : httpd.getConnectors()) {
+      connector.addBean(connStats);
+    }
+    metrics = new Metrics(pool, connStats);
 
     Handler app = makeContext(env, cfg);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {

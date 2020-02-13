@@ -1,0 +1,91 @@
+// Copyright (C) 2020 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.pgm.http.jetty;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TimeZone;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.apache.log4j.Layout;
+import org.apache.log4j.spi.LoggingEvent;
+
+public class HttpLogJsonLayout extends Layout {
+  private final SimpleDateFormat dateFormat;
+  private long lastTimeMillis;
+  private String lastTimeString;
+
+  public HttpLogJsonLayout() {
+    final TimeZone tz = TimeZone.getDefault();
+    dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z");
+    dateFormat.setTimeZone(tz);
+
+    lastTimeMillis = System.currentTimeMillis();
+    lastTimeString = dateFormat.format(new Date(lastTimeMillis));
+  }
+
+  @Override
+  public String format(LoggingEvent event) {
+    final StringBuilder buf = new StringBuilder(128);
+    buf.append('{');
+
+    HashMap<String, String> kvMap = new HashMap<>();
+    kvMap.put("host", (String) event.getMDC(HttpLog.P_HOST));
+    kvMap.put("thread", event.getThreadName());
+    kvMap.put("user", (String) event.getMDC(HttpLog.P_USER));
+    kvMap.put("timestamp", formatDate(event.getTimeStamp()));
+    kvMap.put("method", (String) event.getMDC(HttpLog.P_METHOD));
+    kvMap.put("resource", (String) event.getMDC(HttpLog.P_RESOURCE));
+    kvMap.put("protocol", (String) event.getMDC(HttpLog.P_PROTOCOL));
+    kvMap.put("status", (String) event.getMDC(HttpLog.P_STATUS));
+    kvMap.put("content_length", (String) event.getMDC(HttpLog.P_CONTENT_LENGTH));
+    kvMap.put("referer", (String) event.getMDC(HttpLog.P_REFERER));
+    kvMap.put("user_agent", (String) event.getMDC(HttpLog.P_USER_AGENT));
+
+    List<String> formattedKV =
+        kvMap.entrySet().stream()
+            .filter(kv -> kv.getValue() != null)
+            .flatMap(kv -> Stream.of(String.format("\"%s\":\"%s\"", kv.getKey(), kv.getValue())))
+            .collect(Collectors.toList());
+
+    buf.append(String.join(",", formattedKV));
+    buf.append('}');
+    buf.append('\n');
+    return buf.toString();
+  }
+
+  private String formatDate(long now) {
+    final long rounded = now - (int) (now % 1000);
+    if (rounded != lastTimeMillis) {
+      synchronized (dateFormat) {
+        lastTimeMillis = rounded;
+        lastTimeString = dateFormat.format(new Date(lastTimeMillis));
+        return lastTimeString;
+      }
+    }
+
+    return lastTimeString;
+  }
+
+  @Override
+  public boolean ignoresThrowable() {
+    return true;
+  }
+
+  @Override
+  public void activateOptions() {}
+}

@@ -22,6 +22,30 @@
       "revId": "60a725b8a6c6f4beb907989b7e6ed6dff3886d1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "791f1089_a5308953",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-13T13:43:35Z",
+      "side": 1,
+      "message": "Then we have to rewrite the signature to have Optional\u003cString\u003e.\n\nWe could do that and remove this constructor but I find it cleaner if we separate the two.",
+      "parentUuid": "d6ea526e_4c591a09",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "60a725b8a6c6f4beb907989b7e6ed6dff3886d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

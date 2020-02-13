@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-selector/iron-selector.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../../styles/gr-voting-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -99,36 +99,19 @@ limitations under the License.
     </style>
     <span class="labelNameCell">[[label.name]]</span>
     <div class="buttonsCell">
-      <template is="dom-repeat"
-          items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
-          as="value">
+      <template is="dom-repeat" items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]" as="value">
         <span class="placeholder" data-label$="[[label.name]]"></span>
       </template>
-      <iron-selector
-          id="labelSelector"
-          attr-for-selected="data-value"
-          selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
-          hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
-          on-selected-item-changed="_setSelectedValueText">
-        <template is="dom-repeat"
-            items="[[_items]]"
-            as="value">
-          <gr-button
-              vote$="[[_computeVoteAttribute(value, index, _items.length)]]"
-              has-tooltip
-              data-name$="[[label.name]]"
-              data-value$="[[value]]"
-              title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
+      <iron-selector id="labelSelector" attr-for-selected="data-value" selected="[[_computeLabelValue(labels, permittedLabels, label)]]" hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]" on-selected-item-changed="_setSelectedValueText">
+        <template is="dom-repeat" items="[[_items]]" as="value">
+          <gr-button vote$="[[_computeVoteAttribute(value, index, _items.length)]]" has-tooltip="" data-name$="[[label.name]]" data-value$="[[value]]" title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
             [[value]]</gr-button>
         </template>
       </iron-selector>
-      <template is="dom-repeat"
-          items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
-          as="value">
+      <template is="dom-repeat" items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]" as="value">
         <span class="placeholder" data-label$="[[label.name]]"></span>
       </template>
-      <span class="labelMessage"
-          hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+      <span class="labelMessage" hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
         You don't have permission to edit this label.
       </span>
     </div>

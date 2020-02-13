@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
@@ -75,9 +75,7 @@ limitations under the License.
                 <td class="emailAddressColumn">[[item.email_address]]</td>
                 <td class="identityColumn">[[_computeIdentity(item.identity)]]</td>
                 <td class="deleteColumn">
-                  <gr-button
-                      class$="deleteButton [[_computeHideDeleteClass(item.can_delete)]]"
-                      on-click="_handleDeleteItem">
+                  <gr-button class$="deleteButton [[_computeHideDeleteClass(item.can_delete)]]" on-click="_handleDeleteItem">
                     Delete
                   </gr-button>
                 </td>
@@ -89,18 +87,13 @@ limitations under the License.
       <template is="dom-if" if="[[_showLinkAnotherIdentity]]">
         <fieldset>
           <a href$="[[_computeLinkAnotherIdentity()]]">
-            <gr-button id="linkAnotherIdentity" link>Link Another Identity</gr-button>
+            <gr-button id="linkAnotherIdentity" link="">Link Another Identity</gr-button>
           </a>
         </fieldset>
       </template>
     </div>
-    <gr-overlay id="overlay" with-backdrop>
-      <gr-confirm-delete-item-dialog
-          class="confirmDialog"
-          on-confirm="_handleDeleteItemConfirm"
-          on-cancel="_handleConfirmDialogCancel"
-          item="[[_idName]]"
-          item-type="id"></gr-confirm-delete-item-dialog>
+    <gr-overlay id="overlay" with-backdrop="">
+      <gr-confirm-delete-item-dialog class="confirmDialog" on-confirm="_handleDeleteItemConfirm" on-cancel="_handleConfirmDialogCancel" item="[[_idName]]" item-type="id"></gr-confirm-delete-item-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e1876aa_084e27da",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-13T22:26:46Z",
+      "side": 0,
+      "message": "It seems, without this line server will not work if browser doesn\u0027t sent gzip header",
+      "range": {
+        "startLine": 134,
+        "startChar": 1,
+        "endLine": 135,
+        "endChar": 63
+      },
+      "revId": "8ea08f5badb00090632cec17c10b9f72d1de125c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -128,6 +128,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -139,7 +141,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -198,6 +202,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           + "OR cc:${user})";
 
   protected abstract Injector createInjector();
+
+  @BeforeClass
+  public static void setLogLevel() {
+    if (Boolean.getBoolean("debug")) {
+      LogManager.getRootLogger().setLevel(Level.DEBUG);
+    }
+  }
+
+  @AfterClass
+  public static void resetLogLevel() {
+    if (Boolean.getBoolean("debug")) {
+      LogManager.getRootLogger().setLevel(Level.INFO);
+    }
+  }
 
   @Before
   public void setUpInjector() throws Exception {

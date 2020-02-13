@@ -505,6 +505,14 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   @Test
+  public void usernamePatternRegExpCanUploadToAnyRef() throws Exception {
+    allow(local, PUSH, REGISTERED_USERS, "^refs/heads/users/${username}/(public|private)/.+");
+    ProjectControl u = user(local, "a-registered-user");
+    assertCanUpload(u);
+    assertCanUpdate("refs/heads/users/a-registered-user/private/a", u);
+  }
+
+  @Test
   public void usernamePatternNonRegex() throws Exception {
     allow(local, READ, DEVS, "refs/sb/${username}/heads/*");
 
@@ -520,6 +528,8 @@ public class RefControlTest extends GerritBaseTests {
 
     ProjectControl u = user(local, "d.v", DEVS);
     ProjectControl d = user(local, "dev", DEVS);
+    assertCanAccess(u);
+    assertCanAccess(d);
     assertCannotRead("refs/sb/dev/heads/foobar", u);
     assertCanRead("refs/sb/dev/heads/foobar", d);
   }
@@ -922,6 +932,7 @@ public class RefControlTest extends GerritBaseTests {
     RefPattern.validate("^refs/heads/*");
     RefPattern.validate("^refs/tags/[0-9a-zA-Z-_.]+");
     RefPattern.validate("refs/heads/review/${username}/*");
+    RefPattern.validate("^refs/heads/review/${username}/.+");
   }
 
   @Test(expected = InvalidNameException.class)

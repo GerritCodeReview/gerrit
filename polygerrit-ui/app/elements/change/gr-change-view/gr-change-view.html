@@ -60,7 +60,7 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       .container:not(.loading) {
-        background-color: var(--view-background-color);
+        background-color: var(--background-color-tertiary);
       }
       .container.loading {
         color: var(--deemphasized-text-color);
@@ -68,7 +68,7 @@ limitations under the License.
       }
       .header {
         align-items: center;
-        background-color: var(--table-header-background-color);
+        background-color: var(--background-color-primary);
         border-bottom: 1px solid var(--border-color);
         display: flex;
         padding: var(--spacing-s) var(--spacing-l);
@@ -112,13 +112,18 @@ limitations under the License.
       .changeStatus {
         text-transform: capitalize;
       }
-      .changeInfo {
-        background-color: var(--table-header-background-color);
-      }
       /* Strong specificity here is needed due to
          https://github.com/Polymer/polymer/issues/2531 */
-      .container section.changeInfo {
+      .container .changeInfo {
         display: flex;
+        background-color: var(--background-color-secondary);
+      }
+      section {
+        background-color: var(--view-background-color);
+        box-shadow: var(--elevation-level-1);
+      }
+      section.patchInfo,
+      section.changeLog {
       }
       .changeId {
         color: var(--deemphasized-text-color);
@@ -233,9 +238,9 @@ limitations under the License.
         margin-right: -5px;
       }
       paper-tabs {
-        background-color: var(--table-header-background-color);
-        border-top: 1px solid var(--border-color);
-        height: calc(var(--line-height-normal) + 2*var(--spacing-m));
+        background-color: var(--background-color-tertiary);
+        margin-top: var(--spacing-m);
+        height: calc(var(--line-height-h3) + var(--spacing-m));
         --paper-tabs-selection-bar-color: var(--link-color);
       }
       paper-tab {
@@ -363,165 +368,166 @@ limitations under the License.
         class="container"
         on-show-checks-table="_handleShowTab"
         hidden$="{{_loading}}">
-      <div class$="[[_computeHeaderClass(_editMode)]]">
-        <div class="headerTitle">
-          <div class="changeStatuses">
-            <template is="dom-repeat" items="[[_changeStatuses]]" as="status">
-              <gr-change-status
-                  max-width="100"
-                  status="[[status]]"></gr-change-status>
-            </template>
-          </div>
-          <div class="statusText">
-            <template
-                is="dom-if"
-                if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
-              <span class="text"> as </span>
-              <gr-commit-info
-                  change="[[_change]]"
-                  commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                  server-config="[[_serverConfig]]"></gr-commit-info>
-            </template>
-          </div>
-          <gr-change-star
-              id="changeStar"
-              change="{{_change}}"
-              on-toggle-star="_handleToggleStar"
-              hidden$="[[!_loggedIn]]"></gr-change-star>
-
-          <a aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
-              href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
-          <span class="changeNumberColon">:&nbsp;</span>
-          <span class="headerSubject">[[_change.subject]]</span>
-          <gr-copy-clipboard
-            hide-input
-            text="[[_computeCopyTextForTitle(_change)]]">
-          </gr-copy-clipboard>
-        </div><!-- end headerTitle -->
-        <div class="commitActions" hidden$="[[!_loggedIn]]">
-          <gr-change-actions
-              id="actions"
-              change="[[_change]]"
-              disable-edit="[[disableEdit]]"
-              has-parent="[[hasParent]]"
-              actions="[[_change.actions]]"
-              revision-actions="{{_currentRevisionActions}}"
-              change-num="[[_changeNum]]"
-              change-status="[[_change.status]]"
-              commit-num="[[_commitInfo.commit]]"
-              latest-patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
-              commit-message="[[_latestCommitMessage]]"
-              edit-patchset-loaded="[[hasEditPatchsetLoaded(_patchRange.*)]]"
-              edit-mode="[[_editMode]]"
-              edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
-              private-by-default="[[_projectConfig.private_by_default]]"
-              on-reload-change="_handleReloadChange"
-              on-edit-tap="_handleEditTap"
-              on-stop-edit-tap="_handleStopEditTap"
-              on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
-        </div><!-- end commit actions -->
-      </div><!-- end header -->
-      <section class="changeInfo">
-        <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
-          <gr-change-metadata
-              id="metadata"
-              change="{{_change}}"
-              account="[[_account]]"
-              revision="[[_selectedRevision]]"
-              commit-info="[[_commitInfo]]"
-              server-config="[[_serverConfig]]"
-              parent-is-current="[[_parentIsCurrent]]"
-              on-show-reply-dialog="_handleShowReplyDialog">
-          </gr-change-metadata>
-        </div>
-        <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
-          <div id="commitAndRelated" class="hideOnMobileOverlay">
-            <div class="commitContainer">
-              <div>
-                <gr-button
-                    id="replyBtn"
-                    class="reply"
-                    title="[[createTitle(Shortcut.OPEN_REPLY_DIALOG,
-                      ShortcutSection.ACTIONS)]]"
-                    hidden$="[[!_loggedIn]]"
-                    primary
-                    disabled="[[_replyDisabled]]"
-                    on-click="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
-              </div>
-              <div
-                  id="commitMessage"
-                  class="commitMessage">
-                <gr-editable-content id="commitMessageEditor"
-                    editing="[[_editingCommitMessage]]"
-                    content="{{_latestCommitMessage}}"
-                    storage-key="[[_computeCommitMessageKey(_change._number, _change.current_revision)]]"
-                    remove-zero-width-space
-                    collapsed$="[[_computeCommitMessageCollapsed(_commitCollapsed, _commitCollapsible)]]">
-                  <gr-linked-text pre
-                      content="[[_latestCommitMessage]]"
-                      config="[[_projectConfig.commentlinks]]"
-                      remove-zero-width-space></gr-linked-text>
-                </gr-editable-content>
-                <gr-button link
-                    class="editCommitMessage"
-                    on-click="_handleEditCommitMessage"
-                    hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
-                <div class="changeId" hidden$="[[!_changeIdCommitMessageError]]">
-                  <hr>
-                  Change-Id:
-                  <span
-                      class$="[[_computeChangeIdClass(_changeIdCommitMessageError)]]"
-                      title$="[[_computeTitleAttributeWarning(_changeIdCommitMessageError)]]">
-                    [[_change.change_id]]
-                  </span>
-                </div>
-              </div>
-              <div
-                  id="commitCollapseToggle"
-                  class="collapseToggleContainer"
-                  hidden$="[[!_commitCollapsible]]">
-                <gr-button
-                    link
-                    id="commitCollapseToggleButton"
-                    class="collapseToggleButton"
-                    on-click="_toggleCommitCollapsed">
-                  [[_computeCollapseText(_commitCollapsed)]]
-                </gr-button>
-              </div>
-              <gr-endpoint-decorator name="commit-container">
-                <gr-endpoint-param name="change" value="[[_change]]">
-                </gr-endpoint-param>
-                <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
-                </gr-endpoint-param>
-              </gr-endpoint-decorator>
+      <section class="changeInfoSection">
+        <div class$="[[_computeHeaderClass(_editMode)]]">
+          <div class="headerTitle">
+            <div class="changeStatuses">
+              <template is="dom-repeat" items="[[_changeStatuses]]" as="status">
+                <gr-change-status
+                    max-width="100"
+                    status="[[status]]"></gr-change-status>
+              </template>
             </div>
-            <div class="relatedChanges">
-              <gr-related-changes-list id="relatedChanges"
-                  class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed)]]"
-                  change="[[_change]]"
-                  mergeable="[[_mergeable]]"
-                  has-parent="{{hasParent}}"
-                  on-update="_updateRelatedChangeMaxHeight"
-                  patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
-                  on-new-section-loaded="_computeShowRelatedToggle">
-              </gr-related-changes-list>
-              <div
-                  id="relatedChangesToggle"
-                  class="collapseToggleContainer">
-                <gr-button
-                    link
-                    id="relatedChangesToggleButton"
-                    class="collapseToggleButton"
-                    on-click="_toggleRelatedChangesCollapsed">
-                  [[_computeCollapseText(_relatedChangesCollapsed)]]
-                </gr-button>
+            <div class="statusText">
+              <template
+                  is="dom-if"
+                  if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
+                <span class="text"> as </span>
+                <gr-commit-info
+                    change="[[_change]]"
+                    commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
+                    server-config="[[_serverConfig]]"></gr-commit-info>
+              </template>
+            </div>
+            <gr-change-star
+                id="changeStar"
+                change="{{_change}}"
+                on-toggle-star="_handleToggleStar"
+                hidden$="[[!_loggedIn]]"></gr-change-star>
+
+            <a aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
+                href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
+            <span class="changeNumberColon">:&nbsp;</span>
+            <span class="headerSubject">[[_change.subject]]</span>
+            <gr-copy-clipboard
+              hide-input
+              text="[[_computeCopyTextForTitle(_change)]]">
+            </gr-copy-clipboard>
+          </div><!-- end headerTitle -->
+          <div class="commitActions" hidden$="[[!_loggedIn]]">
+            <gr-change-actions
+                id="actions"
+                change="[[_change]]"
+                disable-edit="[[disableEdit]]"
+                has-parent="[[hasParent]]"
+                actions="[[_change.actions]]"
+                revision-actions="{{_currentRevisionActions}}"
+                change-num="[[_changeNum]]"
+                change-status="[[_change.status]]"
+                commit-num="[[_commitInfo.commit]]"
+                latest-patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+                commit-message="[[_latestCommitMessage]]"
+                edit-patchset-loaded="[[hasEditPatchsetLoaded(_patchRange.*)]]"
+                edit-mode="[[_editMode]]"
+                edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
+                private-by-default="[[_projectConfig.private_by_default]]"
+                on-reload-change="_handleReloadChange"
+                on-edit-tap="_handleEditTap"
+                on-stop-edit-tap="_handleStopEditTap"
+                on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
+          </div><!-- end commit actions -->
+        </div><!-- end header -->
+        <div class="changeInfo">
+          <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
+            <gr-change-metadata
+                id="metadata"
+                change="{{_change}}"
+                account="[[_account]]"
+                revision="[[_selectedRevision]]"
+                commit-info="[[_commitInfo]]"
+                server-config="[[_serverConfig]]"
+                parent-is-current="[[_parentIsCurrent]]"
+                on-show-reply-dialog="_handleShowReplyDialog">
+            </gr-change-metadata>
+          </div>
+          <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
+            <div id="commitAndRelated" class="hideOnMobileOverlay">
+              <div class="commitContainer">
+                <div>
+                  <gr-button
+                      id="replyBtn"
+                      class="reply"
+                      title="[[createTitle(Shortcut.OPEN_REPLY_DIALOG,
+                        ShortcutSection.ACTIONS)]]"
+                      hidden$="[[!_loggedIn]]"
+                      primary
+                      disabled="[[_replyDisabled]]"
+                      on-click="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+                </div>
+                <div
+                    id="commitMessage"
+                    class="commitMessage">
+                  <gr-editable-content id="commitMessageEditor"
+                      editing="[[_editingCommitMessage]]"
+                      content="{{_latestCommitMessage}}"
+                      storage-key="[[_computeCommitMessageKey(_change._number, _change.current_revision)]]"
+                      remove-zero-width-space
+                      collapsed$="[[_computeCommitMessageCollapsed(_commitCollapsed, _commitCollapsible)]]">
+                    <gr-linked-text pre
+                        content="[[_latestCommitMessage]]"
+                        config="[[_projectConfig.commentlinks]]"
+                        remove-zero-width-space></gr-linked-text>
+                  </gr-editable-content>
+                  <gr-button link
+                      class="editCommitMessage"
+                      on-click="_handleEditCommitMessage"
+                      hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
+                  <div class="changeId" hidden$="[[!_changeIdCommitMessageError]]">
+                    <hr>
+                    Change-Id:
+                    <span
+                        class$="[[_computeChangeIdClass(_changeIdCommitMessageError)]]"
+                        title$="[[_computeTitleAttributeWarning(_changeIdCommitMessageError)]]">
+                      [[_change.change_id]]
+                    </span>
+                  </div>
+                </div>
+                <div
+                    id="commitCollapseToggle"
+                    class="collapseToggleContainer"
+                    hidden$="[[!_commitCollapsible]]">
+                  <gr-button
+                      link
+                      id="commitCollapseToggleButton"
+                      class="collapseToggleButton"
+                      on-click="_toggleCommitCollapsed">
+                    [[_computeCollapseText(_commitCollapsed)]]
+                  </gr-button>
+                </div>
+                <gr-endpoint-decorator name="commit-container">
+                  <gr-endpoint-param name="change" value="[[_change]]">
+                  </gr-endpoint-param>
+                  <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                  </gr-endpoint-param>
+                </gr-endpoint-decorator>
+              </div>
+              <div class="relatedChanges">
+                <gr-related-changes-list id="relatedChanges"
+                    class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed)]]"
+                    change="[[_change]]"
+                    mergeable="[[_mergeable]]"
+                    has-parent="{{hasParent}}"
+                    on-update="_updateRelatedChangeMaxHeight"
+                    patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+                    on-new-section-loaded="_computeShowRelatedToggle">
+                </gr-related-changes-list>
+                <div
+                    id="relatedChangesToggle"
+                    class="collapseToggleContainer">
+                  <gr-button
+                      link
+                      id="relatedChangesToggleButton"
+                      class="collapseToggleButton"
+                      on-click="_toggleRelatedChangesCollapsed">
+                    [[_computeCollapseText(_relatedChangesCollapsed)]]
+                  </gr-button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="patchInfo">
         <template is="dom-if" if="[[_showPrimaryTabs]]">
           <paper-tabs id="primaryTabs" on-selected-changed="_handleFileTabChange">
             <paper-tab>Files</paper-tab>
@@ -539,6 +545,7 @@ limitations under the License.
           </paper-tabs>
         </template>
 
+      <section class="patchInfo">
         <div hidden$="[[!_showFileTabContent]]">
           <gr-file-list-header
             id="fileListHeader"
@@ -606,62 +613,66 @@ limitations under the License.
         <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
         </gr-endpoint-param>
       </gr-endpoint-decorator>
-      <paper-tabs
-          id="commentTabs"
-          on-selected-changed="_handleCommentTabChange">
-        <paper-tab class="changeLog">Change Log</paper-tab>
-        <paper-tab
-            class="commentThreads">
-          <gr-tooltip-content
-              has-tooltip
-              title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]">
-            <span>Comment Threads</span></gr-tooltip-content>
-        </paper-tab>
-        <paper-tab class="robotComments">Findings</paper-tab>
-      </paper-tabs>
-      <template is="dom-if" if="[[_isSelectedView(_currentView,
-        _commentTabs.CHANGE_LOG)]]">
-        <gr-messages-list
-            class="hideOnMobileOverlay"
-            change-num="[[_changeNum]]"
-            labels="[[_change.labels]]"
-            messages="[[_change.messages]]"
-            reviewer-updates="[[_change.reviewer_updates]]"
-            change-comments="[[_changeComments]]"
-            project-name="[[_change.project]]"
-            show-reply-buttons="[[_loggedIn]]"
-            on-message-anchor-tap="_handleMessageAnchorTap"
-            on-reply="_handleMessageReply"></gr-messages-list>
-      </template>
-      <template is="dom-if" if="[[_isSelectedView(_currentView,
-        _commentTabs.COMMENT_THREADS)]]">
-        <gr-thread-list
-            threads="[[_commentThreads]]"
-            change="[[_change]]"
-            change-num="[[_changeNum]]"
-            comment-tab="[[_currentView]]"
-            logged-in="[[_loggedIn]]"
-            only-show-robot-comments-with-human-reply
-            on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
-      </template>
-      <template is="dom-if" if="[[_isSelectedView(_currentView,
-        _commentTabs.ROBOT_COMMENTS)]]">
-        <gr-dropdown-list
-          class="patch-set-dropdown"
-          items="[[_robotCommentsPatchSetDropdownItems]]"
-          on-value-change="_handleRobotCommentPatchSetChanged"
-          value="[[_currentRobotCommentsPatchSet]]">
-        </gr-dropdown-list>
-        <gr-thread-list
-            threads="[[_robotCommentThreads]]"
-            change="[[_change]]"
-            change-num="[[_changeNum]]"
-            logged-in="[[_loggedIn]]"
-            comment-tab="[[_currentView]]"
-            hide-toggle-buttons
-            on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
-      </template>
+
+        <paper-tabs
+            id="commentTabs"
+            on-selected-changed="_handleCommentTabChange">
+          <paper-tab class="changeLog">Change Log</paper-tab>
+          <paper-tab
+              class="commentThreads">
+            <gr-tooltip-content
+                has-tooltip
+                title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]">
+              <span>Comment Threads</span></gr-tooltip-content>
+          </paper-tab>
+          <paper-tab class="robotComments">Findings</paper-tab>
+        </paper-tabs>
+      <section class="changeLog">
+        <template is="dom-if" if="[[_isSelectedView(_currentView,
+          _commentTabs.CHANGE_LOG)]]">
+          <gr-messages-list
+              class="hideOnMobileOverlay"
+              change-num="[[_changeNum]]"
+              labels="[[_change.labels]]"
+              messages="[[_change.messages]]"
+              reviewer-updates="[[_change.reviewer_updates]]"
+              change-comments="[[_changeComments]]"
+              project-name="[[_change.project]]"
+              show-reply-buttons="[[_loggedIn]]"
+              on-message-anchor-tap="_handleMessageAnchorTap"
+              on-reply="_handleMessageReply"></gr-messages-list>
+        </template>
+        <template is="dom-if" if="[[_isSelectedView(_currentView,
+          _commentTabs.COMMENT_THREADS)]]">
+          <gr-thread-list
+              threads="[[_commentThreads]]"
+              change="[[_change]]"
+              change-num="[[_changeNum]]"
+              comment-tab="[[_currentView]]"
+              logged-in="[[_loggedIn]]"
+              only-show-robot-comments-with-human-reply
+              on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
+        </template>
+        <template is="dom-if" if="[[_isSelectedView(_currentView,
+          _commentTabs.ROBOT_COMMENTS)]]">
+          <gr-dropdown-list
+            class="patch-set-dropdown"
+            items="[[_robotCommentsPatchSetDropdownItems]]"
+            on-value-change="_handleRobotCommentPatchSetChanged"
+            value="[[_currentRobotCommentsPatchSet]]">
+          </gr-dropdown-list>
+          <gr-thread-list
+              threads="[[_robotCommentThreads]]"
+              change="[[_change]]"
+              change-num="[[_changeNum]]"
+              logged-in="[[_loggedIn]]"
+              comment-tab="[[_currentView]]"
+              hide-toggle-buttons
+              on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
+        </template>
+      </section>
     </div>
+
     <gr-apply-fix-dialog
       id="applyFixDialog"
       prefs="[[_diffPrefs]]"

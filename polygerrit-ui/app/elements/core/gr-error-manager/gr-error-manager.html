@@ -16,7 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../core/gr-error-dialog/gr-error-dialog.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
@@ -29,21 +29,10 @@ limitations under the License.
 
 <dom-module id="gr-error-manager">
   <template>
-    <gr-overlay with-backdrop id="errorOverlay">
-      <gr-error-dialog
-          id="errorDialog"
-          on-dismiss="_handleDismissErrorDialog"
-          confirm-label="Dismiss"
-          confirm-on-enter
-          login-url="[[loginUrl]]"
-      ></gr-error-dialog>
+    <gr-overlay with-backdrop="" id="errorOverlay">
+      <gr-error-dialog id="errorDialog" on-dismiss="_handleDismissErrorDialog" confirm-label="Dismiss" confirm-on-enter="" login-url="[[loginUrl]]"></gr-error-dialog>
     </gr-overlay>
-    <gr-overlay
-      id="noInteractionOverlay"
-      with-backdrop
-      always-on-top
-      no-cancel-on-esc-key
-      no-cancel-on-outside-click>
+    <gr-overlay id="noInteractionOverlay" with-backdrop="" always-on-top="" no-cancel-on-esc-key="" no-cancel-on-outside-click="">
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>

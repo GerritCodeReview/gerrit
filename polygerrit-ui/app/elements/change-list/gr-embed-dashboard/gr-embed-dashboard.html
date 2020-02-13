@@ -15,18 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../change-list/gr-change-list/gr-change-list.html">
 <link rel="import" href="../gr-create-change-help/gr-create-change-help.html">
 
 <dom-module id="gr-embed-dashboard">
   <template>
-    <gr-change-list
-        show-star
-        account="[[account]]"
-        preferences="[[preferences]]"
-        sections="[[sections]]">
+    <gr-change-list show-star="" account="[[account]]" preferences="[[preferences]]" sections="[[sections]]">
       <div id="emptyOutgoing" slot="empty-outgoing">
         <template is="dom-if" if="[[showNewUserHelp]]">
           <gr-create-change-help></gr-create-change-help>

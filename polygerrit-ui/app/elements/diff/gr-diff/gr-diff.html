@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -281,7 +281,7 @@ limitations under the License.
       td.blame .blameDate {
         font-family: var(--monospace-font-family);
         color: var(--link-color);
-        cursor: pointer;
+        text-decoration: none;
       }
       .full-width td.blame {
         overflow: hidden;
@@ -362,37 +362,15 @@ limitations under the License.
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
-      <template
-          is="dom-repeat"
-          items="[[_diffHeaderItems]]">
+      <template is="dom-repeat" items="[[_diffHeaderItems]]">
         <div>[[item]]</div>
       </template>
     </div>
-    <div class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]"
-        on-tap="_handleTap">
+    <div class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]" on-tap="_handleTap">
       <gr-diff-selection diff="[[diff]]">
-        <gr-diff-highlight
-            id="highlights"
-            logged-in="[[loggedIn]]"
-            comment-ranges="{{_commentRanges}}">
-          <gr-diff-builder
-              id="diffBuilder"
-              comment-ranges="[[_commentRanges]]"
-              coverage-ranges="[[coverageRanges]]"
-              project-name="[[projectName]]"
-              diff="[[diff]]"
-              path="[[path]]"
-              change-num="[[changeNum]]"
-              patch-num="[[patchRange.patchNum]]"
-              view-mode="[[viewMode]]"
-              is-image-diff="[[isImageDiff]]"
-              base-image="[[baseImage]]"
-              layers="[[layers]]"
-              revision-image="[[revisionImage]]">
-            <table
-                id="diffTable"
-                class$="[[_diffTableClass]]"
-                role="presentation"></table>
+        <gr-diff-highlight id="highlights" logged-in="[[loggedIn]]" comment-ranges="{{_commentRanges}}">
+          <gr-diff-builder id="diffBuilder" comment-ranges="[[_commentRanges]]" coverage-ranges="[[coverageRanges]]" project-name="[[projectName]]" diff="[[diff]]" path="[[path]]" change-num="[[changeNum]]" patch-num="[[patchRange.patchNum]]" view-mode="[[viewMode]]" is-image-diff="[[isImageDiff]]" base-image="[[baseImage]]" layers="[[layers]]" revision-image="[[revisionImage]]">
+            <table id="diffTable" class$="[[_diffTableClass]]" role="presentation"></table>
 
             <template is="dom-if" if="[[showNoChangeMessage(loading, prefs, _diffLength)]]">
               <div class="whitespace-change-only-message">

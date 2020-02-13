@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.http.jetty;
 import com.google.common.base.Strings;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.httpd.restapi.LogRedactUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -28,11 +29,13 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
+import org.eclipse.jgit.lib.Config;
 
 /** Writes the {@code httpd_log} file with per-request data. */
 class HttpLog extends AbstractLifeCycle implements RequestLog {
   private static final Logger log = Logger.getLogger(HttpLog.class);
   private static final String LOG_NAME = "httpd_log";
+  private static final String JSON_SUFFIX = ".json";
 
   interface HttpLogFactory {
     HttpLog get();
@@ -51,8 +54,20 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   private final AsyncAppender async;
 
   @Inject
-  HttpLog(SystemLog systemLog) {
-    async = systemLog.createAsyncAppender(LOG_NAME, new HttpLogLayout());
+  HttpLog(SystemLog systemLog, @GerritServerConfig Config config) {
+    boolean json = config.getBoolean("log", "jsonLogging", false);
+    boolean text = config.getBoolean("log", "textLogging", true) || !json;
+
+    async = new AsyncAppender();
+
+    if (text) {
+      async.addAppender(systemLog.createAsyncAppender(LOG_NAME, new HttpLogLayout()));
+    }
+
+    if (json) {
+      async.addAppender(
+          systemLog.createAsyncAppender(LOG_NAME + JSON_SUFFIX, new HttpLogJsonLayout()));
+    }
   }
 
   @Override

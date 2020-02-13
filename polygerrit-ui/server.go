@@ -463,6 +463,7 @@ func (_ *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Encoding", "gzip")
+	addDevHeaders(w)
 	gzw := newGzipResponseWriter(w)
 	defer gzw.Close()
 	http.DefaultServeMux.ServeHTTP(gzw, r)

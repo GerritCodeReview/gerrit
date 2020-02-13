@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ae9204e_b5652095",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-13T07:40:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we should support direct migration from versions as old as 2.6, but I don\u0027t think it\u0027s unreasonable to go from 2.14 to 2.16. It seems a few people want to do that, hence it\u0027s been reported as an issue on the mailing list a couple of times. As far as I can see, the broken 150 to 151 migration is the only one that blocks it.\n\nAlso for our (Collabnet) customers, we have a lot of them on 2.14 and it\u0027s difficult, if not impossible, to mandate them to do a two stage upgrade if they want to go to 2.16.",
+      "parentUuid": "5b588f80_332547c1",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2976ff05_89be5536",
         "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-13T07:17:59Z",
       "side": 1,
       "message": "What if someone is trying to migrate 2.6 to 3.0. How do we know this that actually account_groups column is missing? It is hard coded and not induced from the error message.",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 71
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1127f62_a56a629a",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-13T07:40:48Z",
+      "side": 1,
+      "message": "Because the migration is only trying to update that column and I wanted to reduce the comparison down to the minimum to account for potential variation in the error message between sql dialects.\n\nNote I have only actually tested this against postgresql though.",
+      "parentUuid": "2976ff05_89be5536",
       "range": {
         "startLine": 45,
         "startChar": 8,

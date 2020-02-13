@@ -61,13 +61,13 @@ class RevisionNoteBuilder {
   }
 
   final byte[] baseRaw;
-  final List<? extends Comment> baseComments;
+  private final List<? extends Comment> baseComments;
   final Map<Comment.Key, Comment> put;
-  final Set<Comment.Key> delete;
+  private final Set<Comment.Key> delete;
 
   private String pushCert;
 
-  RevisionNoteBuilder(RevisionNote<? extends Comment> base) {
+  private RevisionNoteBuilder(RevisionNote<? extends Comment> base) {
     if (base != null) {
       baseRaw = base.getRaw();
       baseComments = base.getEntities();

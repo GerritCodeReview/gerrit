@@ -140,9 +140,16 @@ limitations under the License.
         --paper-toggle-button-checked-button-color: var(--link-color);
       }
       paper-tabs {
+        font-size: var(--font-size-h3);
+        font-weight: var(--font-weight-bold);
+        line-height: var(--line-height-h3);
+        --paper-font-common-base: {
+          font-family: var(--font-family);
+          -webkit-font-smoothing: initial;
+        };
         --paper-tab-content-focused: {
           /* paper-tabs uses 700 here, which can look awkward */
-          font-weight: var(--font-weight-normal);
+          font-weight: var(--font-weight-bold);
         };
         --paper-tab-content-unselected: {
           /* paper-tabs uses 0.8 here, but we want to control the color directly */

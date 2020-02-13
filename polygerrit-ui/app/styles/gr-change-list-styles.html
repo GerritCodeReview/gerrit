@@ -17,33 +17,12 @@ limitations under the License.
 <dom-module id="gr-change-list-styles">
   <template>
     <style>
-      gr-change-list-item,
-      tr {
+      gr-change-list-item {
         border-top: 1px solid var(--border-color);
       }
       gr-change-list-item[selected],
       gr-change-list-item:focus {
         background-color: var(--selection-background-color);
-      }
-      /* The border-collapse attribute only works on sibling elements, not
-        cousin elements. So, if we want the table to have a sticky header and
-        have borders between each row, we must disable the border-top on the
-        elements directly below a .topHeader. */
-      .topHeader ~ gr-change-list-item:first-of-type,
-      .topHeader + .groupHeader {
-        border-top: none;
-      }
-      /* Needed to show a border on top of the first gr-change-list-item when a
-        groupHeader exists. Cannot use + selector because of dom-repeats
-        existing in the DOM tree. */
-      .topHeader ~ .groupHeader ~ gr-change-list-item {
-        border-top: 1px solid var(--border-color);
-      }
-      tbody {
-        border-bottom: 1px solid var(--border-color);
-      }
-      tr.topHeader {
-        border: none;
       }
       th {
         text-align: left;
@@ -62,6 +41,10 @@ limitations under the License.
       .topHeader,
       .groupHeader {
         font-weight: var(--font-weight-bold);
+      }
+      .groupHeader {
+        font-size: var(--font-size-h3);
+        line-height: var(--line-height-h3);
       }
       .topHeader th {
         background-color: var(--table-header-background-color);
@@ -85,8 +68,15 @@ limitations under the License.
         border-left: 1px solid var(--border-color);
         top: 0;
       }
+      .topHeader {
+        background-color: var(--background-color-primary);
+      }
       .groupHeader {
-        background-color: var(--table-subheader-background-color);
+        background-color: transparent;
+      }
+      .groupContent {
+        background-color: var(--background-color-primary);
+        box-shadow: var(--elevation-level-1);
       }
       .groupHeader a {
         color: var(--primary-text-color);
@@ -97,6 +87,9 @@ limitations under the License.
       }
       .cell {
         padding: var(--spacing-s) 0;
+      }
+      .groupHeader .cell {
+        padding-top: var(--spacing-l);
       }
       .star {
         padding: 0;

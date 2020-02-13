@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "926806d8_ef961a12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:00:15Z",
+      "side": 1,
+      "message": "commit message modified",
+      "parentUuid": "ca29cceb_43e2baeb",
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec13cf66_054430f9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -33,6 +51,24 @@
       "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7558772b_ab9a65a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:00:15Z",
+      "side": 1,
+      "message": "No, it\u0027s related to the regex special caracters \u0027{\u0027 and \u0027}\u0027 (end anchor \u0027$\u0027 doesn\u0027t throw one)   this part was just here to highlight the difference with the same method in RefPatternMatcher, which I initialy copied and faced another exception",
+      "parentUuid": "ec13cf66_054430f9",
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0964b05_7169cc50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:00:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afb0f3b2_8c7efbbe",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -106,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "46a4a685_4be0d9d8",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:00:15Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "f48fca57_cb0d9773",
+      "range": {
+        "startLine": 529,
+        "startChar": 47,
+        "endLine": 529,
+        "endChar": 64
+      },
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42fde007_253eeed1",
         "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
         "patchSetId": 11
@@ -129,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1c63735a_719d991e",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:00:15Z",
+      "side": 1,
+      "message": "reference without the start anchor are not regexp, this change and its parent are fixing read/push/access errors when regexps are involved, thus \"^\" (https://gerrit-review.googlesource.com/Documentation/access-control.html#_project_access_control_lists)",
+      "parentUuid": "42fde007_253eeed1",
+      "range": {
+        "startLine": 530,
+        "startChar": 42,
+        "endLine": 530,
+        "endChar": 43
+      },
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06178994_44b0d28e",
         "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
         "patchSetId": 11
@@ -149,6 +257,30 @@
       "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e6c83c5_dfce2ff4",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:00:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06178994_44b0d28e",
+      "range": {
+        "startLine": 953,
+        "startChar": 25,
+        "endLine": 953,
+        "endChar": 26
+      },
+      "revId": "d74378cee44b1b28afd34bca7c705bdde6780f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

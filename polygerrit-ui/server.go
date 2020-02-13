@@ -131,7 +131,6 @@ func addDevHeadersMiddleware(h http.Handler) http.Handler {
 }
 
 func addDevHeaders(writer http.ResponseWriter) {
-	writer.Header().Set("Access-Control-Allow-Origin", "*")
 	writer.Header().Set("Cache-Control", "public, max-age=10, must-revalidate")
 
 }
@@ -463,6 +462,7 @@ func (_ *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Encoding", "gzip")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	gzw := newGzipResponseWriter(w)
 	defer gzw.Close()
 	http.DefaultServeMux.ServeHTTP(gzw, r)

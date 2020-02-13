@@ -137,7 +137,7 @@ func addDevHeaders(writer http.ResponseWriter) {
 }
 
 func getFinalPath(redirects []redirects, originalPath string) string {
-	testComponentsPrefix := "/components/";
+	testComponentsPrefix := "/components/"
 	if strings.HasPrefix(originalPath, testComponentsPrefix) {
 		return "/../node_modules/" + originalPath[len(testComponentsPrefix):]
 	}
@@ -179,12 +179,12 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 		writer.WriteHeader(500)
 		return
 	}
-	if (parsedUrl.Path != "/" && strings.HasSuffix(parsedUrl.Path, "/")) {
+	if parsedUrl.Path != "/" && strings.HasSuffix(parsedUrl.Path, "/") {
 		dirListingMux.ServeHTTP(writer, originalRequest)
-		return;
+		return
 	}
 	if parsedUrl.Path == "/bower_components/web-component-tester/browser.js" {
-		http.Redirect(writer, originalRequest, "/bower_components/wct-browser-legacy/browser.js", 301);
+		http.Redirect(writer, originalRequest, "/bower_components/wct-browser-legacy/browser.js", 301)
 		return
 	}
 
@@ -214,7 +214,7 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 }
 
 func readFile(originalPath string, redirectedPath string) ([]byte, error) {
-	pathsToTry := [] string{"app" + redirectedPath}
+	pathsToTry := []string{"app" + redirectedPath}
 	bowerComponentsSuffix := "/bower_components/"
 	nodeModulesPrefix := "/node_modules/"
 

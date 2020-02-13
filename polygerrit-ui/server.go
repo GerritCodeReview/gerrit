@@ -89,6 +89,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// local source code
+	http.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("app/styles"))))
+	http.Handle("/elements/", http.StripPrefix("/elements/", http.FileServer(http.Dir("app/elements"))))
+	http.Handle("/behaviors/", http.StripPrefix("/behaviors/", http.FileServer(http.Dir("app/behaviors"))))
+
 	redirects := readRedirects()
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) { handleSrcRequest(redirects, w, req) })
 
@@ -131,10 +136,10 @@ func addDevHeaders(writer http.ResponseWriter) {
 }
 
 func getFinalPath(redirects []redirects, originalPath string) string {
-  testComponentsPrefix := "/components/";
-  if strings.HasPrefix(originalPath, testComponentsPrefix) {
-    return "/../node_modules/" + originalPath[len(testComponentsPrefix):]
-  }
+	testComponentsPrefix := "/components/"
+	if strings.HasPrefix(originalPath, testComponentsPrefix) {
+		return "/../node_modules/" + originalPath[len(testComponentsPrefix):]
+	}
 
 	for _, redirect := range redirects {
 		fromDir := redirect.From
@@ -174,9 +179,9 @@ func handleSrcRequest(redirects []redirects, writer http.ResponseWriter, origina
 		return
 	}
 	if parsedUrl.Path == "/bower_components/web-component-tester/browser.js" {
-    http.Redirect(writer, originalRequest, "/bower_components/wct-browser-legacy/browser.js", 301);
-	  return
-  }
+		http.Redirect(writer, originalRequest, "/bower_components/wct-browser-legacy/browser.js", 301)
+		return
+	}
 
 	requestPath := getFinalPath(redirects, parsedUrl.Path)
 
@@ -186,8 +191,8 @@ func handleSrcRequest(redirects []redirects, writer http.ResponseWriter, origina
 
 	data, err := readFile(parsedUrl.Path, requestPath)
 	if err != nil {
-    writer.WriteHeader(404)
-    return
+		writer.WriteHeader(404)
+		return
 	}
 	if strings.HasSuffix(requestPath, ".js") {
 		r := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
@@ -204,27 +209,27 @@ func handleSrcRequest(redirects []redirects, writer http.ResponseWriter, origina
 }
 
 func readFile(originalPath string, redirectedPath string) ([]byte, error) {
-  pathsToTry := [] string { "app" + redirectedPath }
-  bowerComponentsSuffix := "/bower_components/"
-  nodeModulesPrefix := "/node_modules/"
+	pathsToTry := []string{"app" + redirectedPath}
+	bowerComponentsSuffix := "/bower_components/"
+	nodeModulesPrefix := "/node_modules/"
 
-  if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
-    pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/" + originalPath[len(bowerComponentsSuffix):])
-    pathsToTry = append(pathsToTry, "node_modules/" + originalPath[len(bowerComponentsSuffix):])
-  }
+	if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
+		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(bowerComponentsSuffix):])
+		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(bowerComponentsSuffix):])
+	}
 
-  if strings.HasPrefix(originalPath, nodeModulesPrefix) {
-    pathsToTry = append(pathsToTry, "node_modules/" + originalPath[len(nodeModulesPrefix):])
-  }
+	if strings.HasPrefix(originalPath, nodeModulesPrefix) {
+		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(nodeModulesPrefix):])
+	}
 
-  for _, path := range pathsToTry {
-    data, err := ioutil.ReadFile(path)
-    if err == nil {
-      return data, nil
-    }
-  }
+	for _, path := range pathsToTry {
+		data, err := ioutil.ReadFile(path)
+		if err == nil {
+			return data, nil
+		}
+	}
 
-  return nil, errors.New("File not found")
+	return nil, errors.New("File not found")
 }
 
 func openDataArchive(path string) (*zip.ReadCloser, error) {

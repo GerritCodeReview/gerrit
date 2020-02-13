@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "155bd316_3c9536b4",
+        "filename": "java/com/google/gerrit/server/account/AccountDefaultDisplayNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-13T15:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "626f7506_06de47f6",
+      "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43ae058b_cba79a8e",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "3a91902c_5500449b",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-13T15:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43ae058b_cba79a8e",
+      "range": {
+        "startLine": 274,
+        "startChar": 3,
+        "endLine": 276,
+        "endChar": 23
+      },
+      "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b72f10d0_849b7c94",
         "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2020-02-13T12:26:19Z",
       "side": 1,
       "message": "Instead of shipping this with ServerInfo, why don\u0027t we fill in the default into AccountInfo in the backend?\nThis way, the frontend doesn\u0027t have to care about what is configured, it can just always use \"display_name\"\n\nThis would only require a change in AccountLoader AFAICS.",
+      "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2fa3a4a_f870c977",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-13T15:28:34Z",
+      "side": 1,
+      "message": "That is an option, yes, but generally I like the frontend to be in the know about stuff. In this case it would be nice in the user settings dialog to tell the user that the \"display name\" is unset, but that the host applies a default policy. If the frontend does not know about this, then the user would not really have the insight into how it works and would not be able to go back to an \"unset\" display name and thus choosing the default rule to apply. WDYT?",
+      "parentUuid": "b72f10d0_849b7c94",
       "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

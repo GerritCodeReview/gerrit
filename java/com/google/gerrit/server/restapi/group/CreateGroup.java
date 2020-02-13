@@ -138,6 +138,16 @@ public class CreateGroup
     AccountGroup.UUID ownerUuid = owner(input);
     CreateGroupArgs args = new CreateGroupArgs();
     args.setGroupName(name);
+    args.uuid = Strings.isNullOrEmpty(input.uuid) ? null : AccountGroup.UUID.parse(input.uuid);
+    if (args.uuid != null) {
+      if (!args.uuid.isInternalGroup()) {
+        throw new BadRequestException(String.format("invalid group UUID '%s'", args.uuid.get()));
+      }
+      if (groupCache.get(args.uuid).isPresent()) {
+        throw new ResourceConflictException(
+            String.format("group with UUID '%s' already exists", args.uuid.get()));
+      }
+    }
     args.groupDescription = Strings.emptyToNull(input.description);
     args.visibleToAll = MoreObjects.firstNonNull(input.visibleToAll, defaultVisibleToAll);
     args.ownerGroupUuid = ownerUuid;
@@ -196,9 +206,11 @@ public class CreateGroup
 
     AccountGroup.Id groupId = AccountGroup.id(sequences.nextGroupId());
     AccountGroup.UUID uuid =
-        GroupUuid.make(
-            createGroupArgs.getGroupName(),
-            self.get().newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone()));
+        MoreObjects.firstNonNull(
+            createGroupArgs.uuid,
+            GroupUuid.make(
+                createGroupArgs.getGroupName(),
+                self.get().newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone())));
     InternalGroupCreation groupCreation =
         InternalGroupCreation.builder()
             .setGroupUUID(uuid)

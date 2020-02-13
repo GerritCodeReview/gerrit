@@ -503,8 +503,9 @@ describes the created group.
   }
 ----
 
-If the group creation fails because the name is already in use the
-response is "`409 Conflict`".
+If the group creation fails because the name is already in use, or the
+UUID was specified and the UUID is already in use, the response is
+"`409 Conflict`".
 
 [[get-group-detail]]
 === Get Group Detail
@@ -1591,6 +1592,7 @@ a new internal group.
 |Field Name      ||Description
 |`name`          |optional|The name of the group (not encoded). +
 If set, must match the group name in the URL.
+|`uuid`          |optional|The UUID of the group.
 |`description`   |optional|The description of the group.
 |`visible_to_all`|optional|
 Whether the group is visible to all registered users. +

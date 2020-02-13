@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 
@@ -27,11 +27,7 @@ limitations under the License.
       }
     </style>
     <h3>[[title]]</h3>
-    <gr-button
-        title$="[[tooltip]]"
-        disabled$="[[disabled]]"
-        on-click
-        ="_onCommandTap">
+    <gr-button title$="[[tooltip]]" disabled$="[[disabled]]" on-click="_onCommandTap">
       [[title]]
     </gr-button>
   </template>

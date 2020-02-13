@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
@@ -189,11 +189,7 @@ limitations under the License.
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li class$="[[_computeLinkGroupClass(linkGroup)]]">
-            <gr-dropdown
-                link
-                down-arrow
-                items = [[linkGroup.links]]
-                horizontal-align="left">
+            <gr-dropdown link="" down-arrow="" items="[[linkGroup.links]]" horizontal-align="left">
               <span class="linksTitle" id="[[linkGroup.title]]">
                 [[linkGroup.title]]
               </span>
@@ -202,29 +198,18 @@ limitations under the License.
         </template>
       </ul>
       <div class="rightItems">
-        <gr-endpoint-decorator
-            class="hideOnMobile"
-            name="header-small-banner"></gr-endpoint-decorator>
-        <gr-smart-search
-            id="search"
-            search-query="{{searchQuery}}"></gr-smart-search>
-        <gr-endpoint-decorator
-            class="hideOnMobile"
-            name="header-browse-source"></gr-endpoint-decorator>
+        <gr-endpoint-decorator class="hideOnMobile" name="header-small-banner"></gr-endpoint-decorator>
+        <gr-smart-search id="search" search-query="{{searchQuery}}"></gr-smart-search>
+        <gr-endpoint-decorator class="hideOnMobile" name="header-browse-source"></gr-endpoint-decorator>
         <div class="accountContainer" id="accountContainer">
-          <iron-icon id="mobileSearch" icon="gr-icons:search" on-tap='_onMobileSearchTap'></iron-icon>
+          <iron-icon id="mobileSearch" icon="gr-icons:search" on-tap="_onMobileSearchTap"></iron-icon>
           <div class$="[[_computeIsInvisible(_registerURL)]]">
-            <a
-                class="registerButton"
-                href$="[[_registerURL]]">
+            <a class="registerButton" href$="[[_registerURL]]">
               [[_registerText]]
             </a>
           </div>
           <a class="loginButton" href$="[[loginUrl]]">Sign in</a>
-          <a
-              class="settingsButton"
-              href$="[[_generateSettingsLink()]]"
-              title="Settings">
+          <a class="settingsButton" href$="[[_generateSettingsLink()]]" title="Settings">
             <iron-icon icon="gr-icons:settings"></iron-icon>
           </a>
           <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>

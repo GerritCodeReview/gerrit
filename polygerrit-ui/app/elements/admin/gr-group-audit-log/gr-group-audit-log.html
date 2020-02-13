@@ -16,7 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/gr-table-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -51,9 +51,7 @@ limitations under the License.
         <template is="dom-repeat" items="[[_auditLog]]">
           <tr class="table">
             <td class="date">
-              <gr-date-formatter
-                  has-tooltip
-                  date-str="[[item.date]]">
+              <gr-date-formatter has-tooltip="" date-str="[[item.date]]">
               </gr-date-formatter>
             </td>
             <td class="type">[[itemType(item.type)]]</td>

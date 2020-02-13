@@ -19,7 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
@@ -128,14 +128,13 @@ limitations under the License.
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
     <td class="cell leftPadding"></td>
-    <td class="cell star" hidden$="[[!showStar]]" hidden>
+    <td class="cell star" hidden$="[[!showStar]]" hidden="">
       <gr-change-star change="{{change}}"></gr-change-star>
     </td>
-    <td class="cell number" hidden$="[[!showNumber]]" hidden>
+    <td class="cell number" hidden$="[[!showNumber]]" hidden="">
       <a href$="[[changeURL]]">[[change._number]]</a>
     </td>
-    <td class="cell subject"
-        hidden$="[[isColumnHidden('Subject', visibleChangeTableColumns)]]">
+    <td class="cell subject" hidden$="[[isColumnHidden('Subject', visibleChangeTableColumns)]]">
       <div class="container">
         <div class="content">
           <a title$="[[change.subject]]" href$="[[changeURL]]">
@@ -148,46 +147,35 @@ limitations under the License.
         <span>&nbsp;</span>
       </div>
     </td>
-    <td class="cell status"
-        hidden$="[[isColumnHidden('Status', visibleChangeTableColumns)]]">
+    <td class="cell status" hidden$="[[isColumnHidden('Status', visibleChangeTableColumns)]]">
       <template is="dom-repeat" items="[[statuses]]" as="status">
         <div class="comma">,</div>
-        <gr-change-status flat status="[[status]]"></gr-change-status>
+        <gr-change-status flat="" status="[[status]]"></gr-change-status>
       </template>
       <template is="dom-if" if="[[!statuses.length]]">
         <span class="placeholder">--</span>
       </template>
     </td>
-    <td class="cell owner"
-        hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]">
-      <gr-account-link
-          account="[[change.owner]]"></gr-account-link>
+    <td class="cell owner" hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]">
+      <gr-account-link account="[[change.owner]]"></gr-account-link>
     </td>
-    <td class="cell assignee"
-        hidden$="[[isColumnHidden('Assignee', visibleChangeTableColumns)]]">
+    <td class="cell assignee" hidden$="[[isColumnHidden('Assignee', visibleChangeTableColumns)]]">
       <template is="dom-if" if="[[change.assignee]]">
-        <gr-account-link
-            id="assigneeAccountLink"
-            account="[[change.assignee]]"></gr-account-link>
+        <gr-account-link id="assigneeAccountLink" account="[[change.assignee]]"></gr-account-link>
       </template>
       <template is="dom-if" if="[[!change.assignee]]">
         <span class="placeholder">--</span>
       </template>
     </td>
-    <td class="cell repo"
-        hidden$="[[isColumnHidden('Repo', visibleChangeTableColumns)]]">
+    <td class="cell repo" hidden$="[[isColumnHidden('Repo', visibleChangeTableColumns)]]">
       <a class="fullRepo" href$="[[_computeRepoUrl(change)]]">
         [[_computeRepoDisplay(change)]]
       </a>
-      <a
-          class="truncatedRepo"
-          href$="[[_computeRepoUrl(change)]]"
-          title$="[[_computeRepoDisplay(change)]]">
+      <a class="truncatedRepo" href$="[[_computeRepoUrl(change)]]" title$="[[_computeRepoDisplay(change)]]">
         [[_computeRepoDisplay(change, 'true')]]
       </a>
     </td>
-    <td class="cell branch"
-        hidden$="[[isColumnHidden('Branch', visibleChangeTableColumns)]]">
+    <td class="cell branch" hidden$="[[isColumnHidden('Branch', visibleChangeTableColumns)]]">
       <a href$="[[_computeRepoBranchURL(change)]]">
         [[change.branch]]
       </a>
@@ -198,17 +186,11 @@ limitations under the License.
      --></a>)
       </template>
     </td>
-    <td class="cell updated"
-        hidden$="[[isColumnHidden('Updated', visibleChangeTableColumns)]]">
-      <gr-date-formatter
-          has-tooltip
-          date-str="[[change.updated]]"></gr-date-formatter>
+    <td class="cell updated" hidden$="[[isColumnHidden('Updated', visibleChangeTableColumns)]]">
+      <gr-date-formatter has-tooltip="" date-str="[[change.updated]]"></gr-date-formatter>
     </td>
-    <td class="cell size"
-        hidden$="[[isColumnHidden('Size', visibleChangeTableColumns)]]">
-      <gr-tooltip-content
-          has-tooltip
-          title="[[_computeSizeTooltip(change)]]">
+    <td class="cell size" hidden$="[[isColumnHidden('Size', visibleChangeTableColumns)]]">
+      <gr-tooltip-content has-tooltip="" title="[[_computeSizeTooltip(change)]]">
         <template is="dom-if" if="[[_changeSize]]">
             <span>[[_changeSize]]</span>
         </template>
@@ -218,13 +200,11 @@ limitations under the License.
       </gr-tooltip-content>
     </td>
     <template is="dom-repeat" items="[[labelNames]]" as="labelName">
-      <td title$="[[_computeLabelTitle(change, labelName)]]"
-          class$="[[_computeLabelClass(change, labelName)]]">
+      <td title$="[[_computeLabelTitle(change, labelName)]]" class$="[[_computeLabelClass(change, labelName)]]">
         [[_computeLabelValue(change, labelName)]]
       </td>
     </template>
-    <template is="dom-repeat" items="[[_dynamicCellEndpoints]]"
-      as="pluginEndpointName">
+    <template is="dom-repeat" items="[[_dynamicCellEndpoints]]" as="pluginEndpointName">
       <td class="cell endpoint">
         <gr-endpoint-decorator name$="[[pluginEndpointName]]">
           <gr-endpoint-param name="change" value="[[change]]">

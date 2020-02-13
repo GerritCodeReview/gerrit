@@ -16,8 +16,8 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-input/iron-input.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -74,13 +74,7 @@ limitations under the License.
       <h3>Select an agreement type:</h3>
       <template is="dom-repeat" items="[[_serverConfig.auth.contributor_agreements]]">
         <span class="contributorAgreementButton">
-          <input id$="claNewAgreementsInput[[item.name]]"
-              name="claNewAgreementsRadio"
-              type="radio"
-              data-name$="[[item.name]]"
-              data-url$="[[item.url]]"
-              on-click="_handleShowAgreement"
-              disabled$="[[_disableAgreements(item, _groups, _signedAgreements)]]">
+          <input id$="claNewAgreementsInput[[item.name]]" name="claNewAgreementsRadio" type="radio" data-name$="[[item.name]]" data-url$="[[item.url]]" on-click="_handleShowAgreement" disabled$="[[_disableAgreements(item, _groups, _signedAgreements)]]">
           <label id="claNewAgreementsLabel">[[item.name]]</label>
         </span>
         <div class$="alreadySubmittedText [[_hideAgreements(item, _groups, _signedAgreements)]]">
@@ -98,12 +92,8 @@ limitations under the License.
         </div>
         <div class$="agreementsTextBox [[_computeHideAgreementClass(_agreementName, _serverConfig.auth.contributor_agreements)]]">
           <h3 class="smallHeading">Complete the agreement:</h3>
-          <iron-input bind-value="{{_agreementsText}}"
-                      placeholder="Enter 'I agree' here">
-            <input id="input-agreements"
-                   is="iron-input"
-                   bind-value="{{_agreementsText}}"
-                   placeholder="Enter 'I agree' here">
+          <iron-input bind-value="{{_agreementsText}}" placeholder="Enter 'I agree' here">
+            <input id="input-agreements" is="iron-input" bind-value="{{_agreementsText}}" placeholder="Enter 'I agree' here">
           </iron-input>
           <gr-button on-click="_handleSaveAgreements" disabled="[[_disableAgreementsText(_agreementsText)]]">
             Submit

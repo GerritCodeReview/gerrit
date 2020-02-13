@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18d4312a_fb14c468",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-13T15:36:12Z",
+      "side": 1,
+      "message": "This statement will prevent the test from being executed.\n\nI found more occurrences of assume() in other tests (e.g. NoteDbOnlyIt:updateChangeFailureRollsBackrefUpdate) which also prevents those tests from being executed.\n\nThe test will be executed when the change is merged to master.",
+      "range": {
+        "startLine": 372,
+        "startChar": 4,
+        "endLine": 372,
+        "endChar": 67
+      },
+      "revId": "386ccccf8ec2c716628058ce97c5204400d49cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

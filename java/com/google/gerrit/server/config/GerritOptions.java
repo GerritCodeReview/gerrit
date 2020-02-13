@@ -14,15 +14,21 @@
 
 package com.google.gerrit.server.config;
 
+import java.util.Optional;
+
 public class GerritOptions {
   private final boolean headless;
   private final boolean slave;
-  private final String devCdn;
+  private final Optional<String> devCdn;
+
+  public GerritOptions(boolean headless, boolean slave) {
+    this(headless, slave, null);
+  }
 
   public GerritOptions(boolean headless, boolean slave, String devCdn) {
     this.headless = headless;
     this.slave = slave;
-    this.devCdn = devCdn;
+    this.devCdn = headless ? Optional.empty() : Optional.ofNullable(devCdn);
   }
 
   public boolean headless() {
@@ -33,11 +39,7 @@ public class GerritOptions {
     return !slave;
   }
 
-  public String devCdn() {
+  public Optional<String> devCdn() {
     return devCdn;
-  }
-
-  public boolean useDevCdn() {
-    return !headless && devCdn.length() > 0;
   }
 }

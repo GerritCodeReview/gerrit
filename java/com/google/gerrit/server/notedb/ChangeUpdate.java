@@ -236,7 +236,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, reviewer, Optional.of(value));
   }
 
-  public void removeApproval(String label) {
+  void removeApproval(String label) {
     removeApprovalFor(getAccountId(), label);
   }
 
@@ -323,8 +323,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return draftUpdate;
   }
 
-  @VisibleForTesting
-  RobotCommentUpdate createRobotCommentUpdateIfNull() {
+  private void createRobotCommentUpdateIfNull() {
     if (robotCommentUpdate == null) {
       ChangeNotes notes = getNotes();
       if (notes != null) {
@@ -336,7 +335,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 getChange(), accountId, realAccountId, authorIdent, when);
       }
     }
-    return robotCommentUpdate;
   }
 
   public void setTopic(String topic) {
@@ -352,15 +350,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     rw.parseBody(commit);
     this.commit = commit.name();
     subject = commit.getShortMessage();
-    this.pushCert = pushCert;
-  }
-
-  /**
-   * Set the revision without depending on the commit being present in the repository; should only
-   * be used for converting old corrupt commits.
-   */
-  public void setRevisionForMissingCommit(String id, String pushCert) {
-    commit = id;
     this.pushCert = pushCert;
   }
 
@@ -528,8 +517,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         deleteCommentRewriter == null && deleteChangeMessageRewriter == null,
         "cannot update and rewrite ref in one BatchUpdate");
 
-    CommitBuilder cb = new CommitBuilder();
-
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
     if (commitSubject != null) {
@@ -675,6 +662,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf);
     }
 
+    CommitBuilder cb = new CommitBuilder();
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -736,11 +724,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return robotCommentUpdate;
   }
 
-  public DeleteCommentRewriter getDeleteCommentRewriter() {
+  DeleteCommentRewriter getDeleteCommentRewriter() {
     return deleteCommentRewriter;
   }
 
-  public DeleteChangeMessageRewriter getDeleteChangeMessageRewriter() {
+  DeleteChangeMessageRewriter getDeleteChangeMessageRewriter() {
     return deleteChangeMessageRewriter;
   }
 

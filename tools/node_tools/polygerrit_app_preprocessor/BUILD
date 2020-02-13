@@ -28,28 +28,10 @@ rollup_bundle(
     ],
 )
 
-rollup_bundle(
-    name = "links-updater-bundle",
-    config_file = "rollup.config.js",
-    entry_point = "links-updater.ts",
-    format = "cjs",
-    rollup_bin = "//tools/node_tools:rollup-bin",
-    deps = [
-        ":preprocessor",
-        "@tools_npm//rollup-plugin-node-resolve",
-    ],
-)
-
 nodejs_binary(
     name = "preprocessor-bin",
     data = ["@tools_npm//:node_modules"],
     entry_point = "preprocessor-bundle.js",
-)
-
-nodejs_binary(
-    name = "links-updater-bin",
-    data = ["@tools_npm//:node_modules"],
-    entry_point = "links-updater-bundle.js",
 )
 
 # TODO(dmfilippov): Find a better way to fix it (another workaround or submit a bug to

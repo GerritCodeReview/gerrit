@@ -46,36 +46,6 @@ var (
 	bundledPluginsPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_assets/[0-9.]*")
 )
 
-type redirectTarget struct {
-	NpmModule string            `json:"npm_module"`
-	Dir       string            `json:"dir"`
-	Files     map[string]string `json:"files"`
-}
-
-type redirects struct {
-	From string         `json:"from"`
-	To   redirectTarget `json:"to"`
-}
-
-type redirectsJson struct {
-	Redirects []redirects `json:"redirects"`
-}
-
-func readRedirects() []redirects {
-	redirectsFile, err := os.Open("app/redirects.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer redirectsFile.Close()
-	redirectsFileContent, err := ioutil.ReadAll(redirectsFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-	var result redirectsJson
-	json.Unmarshal([]byte(redirectsFileContent), &result)
-	return result.Redirects
-}
-
 func main() {
 	flag.Parse()
 
@@ -89,14 +59,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	redirects := readRedirects()
-
 	dirListingMux := http.NewServeMux()
 	dirListingMux.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("app/styles"))))
 	dirListingMux.Handle("/elements/", http.StripPrefix("/elements/", http.FileServer(http.Dir("app/elements"))))
 	dirListingMux.Handle("/behaviors/", http.StripPrefix("/behaviors/", http.FileServer(http.Dir("app/behaviors"))))
 
-	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) { handleSrcRequest(redirects, dirListingMux, w, req) })
+	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) { handleSrcRequest(dirListingMux, w, req) })
 
 	http.Handle("/fonts/",
 		addDevHeadersMiddleware(http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts")))))
@@ -136,39 +104,7 @@ func addDevHeaders(writer http.ResponseWriter) {
 
 }
 
-func getFinalPath(redirects []redirects, originalPath string) string {
-	for _, redirect := range redirects {
-		fromDir := redirect.From
-		if !strings.HasSuffix(fromDir, "/") {
-			fromDir = fromDir + "/"
-		}
-		if strings.HasPrefix(originalPath, fromDir) {
-			targetDir := ""
-			if redirect.To.NpmModule != "" {
-				targetDir = "node_modules/" + redirect.To.NpmModule
-			} else {
-				targetDir = redirect.To.Dir
-			}
-			if !strings.HasSuffix(targetDir, "/") {
-				targetDir = targetDir + "/"
-			}
-			if !strings.HasPrefix(targetDir, "/") {
-				targetDir = "/" + targetDir
-			}
-			filename := originalPath[len(fromDir):]
-			if redirect.To.Files != nil {
-				newfilename, found := redirect.To.Files[filename]
-				if found {
-					filename = newfilename
-				}
-			}
-			return targetDir + filename
-		}
-	}
-	return originalPath
-}
-
-func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, writer http.ResponseWriter, originalRequest *http.Request) {
+func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, originalRequest *http.Request) {
 	parsedUrl, err := url.Parse(originalRequest.RequestURI)
 	if err != nil {
 		writer.WriteHeader(500)
@@ -179,7 +115,7 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 		return;
 	}
 
-	requestPath := getFinalPath(redirects, parsedUrl.Path)
+	requestPath := parsedUrl.Path
 
 	if !strings.HasPrefix(requestPath, "/") {
 		requestPath = "/" + requestPath

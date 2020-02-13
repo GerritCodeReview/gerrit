@@ -121,8 +121,9 @@ public class IndexHtmlUtil {
   }
 
   /** Returns dynamic parameters of {@code index.html}. */
-  public static Map<String, Map<String, SanitizedContent>> dynamicTemplateData(GerritApi gerritApi)
+  public static Map<String, Object> dynamicTemplateData(GerritApi gerritApi)
       throws RestApiException {
+    ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Gson gson = OutputFormat.JSON_COMPACT.newGson();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();
@@ -141,6 +142,7 @@ public class IndexHtmlUtil {
       initialData.put(
           "\"/accounts/self/preferences.edit\"",
           serializeObject(gson, accountApi.getEditPreferences()));
+      data.put("userAuth", true);
     } catch (AuthException e) {
       logger.atFine().withCause(e).log(
           "Can't inline account-related data because user is unauthenticated");
@@ -148,7 +150,9 @@ public class IndexHtmlUtil {
       // TODO(hiesel): Tell the client that the user is not authenticated so that it doesn't have to
       // fetch anyway. This requires more client side modifications.
     }
-    return ImmutableMap.of("gerritInitialData", initialData);
+
+    data.put("gerritInitialData", initialData);
+    return data.build();
   }
 
   /** Returns all static parameters of {@code index.html}. */

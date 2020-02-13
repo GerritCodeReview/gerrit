@@ -16,7 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../gr-account-label/gr-account-label.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -39,9 +39,7 @@ limitations under the License.
     </style>
     <span>
       <a href$="[[_computeOwnerLink(account)]]" tabindex="-1">
-        <gr-account-label account="[[account]]"
-            additional-text="[[additionalText]]"
-            avatar-image-size="[[avatarImageSize]]"></gr-account-label>
+        <gr-account-label account="[[account]]" additional-text="[[additionalText]]" avatar-image-size="[[avatarImageSize]]"></gr-account-label>
       </a>
     </span>
   </template>

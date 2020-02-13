@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/gr-subpage-styles.html">
@@ -46,20 +46,11 @@ limitations under the License.
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
         <h2 id="options">Command</h2>
         <div id="form">
-          <gr-repo-command
-              title="Create change"
-              on-command-tap="_createNewChange">
+          <gr-repo-command title="Create change" on-command-tap="_createNewChange">
           </gr-repo-command>
-          <gr-repo-command
-              id="editRepoConfig"
-              title="Edit repo config"
-              on-command-tap="_handleEditRepoConfig">
+          <gr-repo-command id="editRepoConfig" title="Edit repo config" on-command-tap="_handleEditRepoConfig">
           </gr-repo-command>
-          <gr-repo-command
-              title="[[_repoConfig.actions.gc.label]]"
-              tooltip="[[_repoConfig.actions.gc.title]]"
-              hidden$="[[!_repoConfig.actions.gc.enabled]]"
-              on-command-tap="_handleRunningGC">
+          <gr-repo-command title="[[_repoConfig.actions.gc.label]]" tooltip="[[_repoConfig.actions.gc.title]]" hidden$="[[!_repoConfig.actions.gc.enabled]]" on-command-tap="_handleRunningGC">
           </gr-repo-command>
           <gr-endpoint-decorator name="repo-command">
             <gr-endpoint-param name="config" value="[[_repoConfig]]">
@@ -70,21 +61,13 @@ limitations under the License.
         </div>
       </div>
     </main>
-    <gr-overlay id="createChangeOverlay" with-backdrop>
-      <gr-dialog
-          id="createChangeDialog"
-          confirm-label="Create"
-          disabled="[[!_canCreate]]"
-          on-confirm="_handleCreateChange"
-          on-cancel="_handleCloseCreateChange">
+    <gr-overlay id="createChangeOverlay" with-backdrop="">
+      <gr-dialog id="createChangeDialog" confirm-label="Create" disabled="[[!_canCreate]]" on-confirm="_handleCreateChange" on-cancel="_handleCloseCreateChange">
         <div class="header" slot="header">
           Create Change
         </div>
         <div class="main" slot="main">
-          <gr-create-change-dialog
-              id="createNewChangeModal"
-              can-create="{{_canCreate}}"
-              repo-name="[[repo]]"></gr-create-change-dialog>
+          <gr-create-change-dialog id="createNewChangeModal" can-create="{{_canCreate}}" repo-name="[[repo]]"></gr-create-change-dialog>
         </div>
       </gr-dialog>
     </gr-overlay>

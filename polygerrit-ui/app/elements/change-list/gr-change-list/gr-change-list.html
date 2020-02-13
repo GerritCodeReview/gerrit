@@ -20,7 +20,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
@@ -53,13 +53,12 @@ limitations under the License.
       }
     </style>
     <table id="changeList">
-      <tr class="topHeader">
+      <tbody><tr class="topHeader">
         <th class="leftPadding"></th>
-        <th class="star" hidden$="[[!showStar]]" hidden></th>
-        <th class="number" hidden$="[[!showNumber]]" hidden>#</th>
+        <th class="star" hidden$="[[!showStar]]" hidden=""></th>
+        <th class="number" hidden$="[[!showNumber]]" hidden="">#</th>
         <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
-          <th class$="[[_lowerCase(item)]]"
-              hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
+          <th class$="[[_lowerCase(item)]]" hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
             [[item]]
           </th>
         </template>
@@ -68,22 +67,19 @@ limitations under the License.
             [[_computeLabelShortcut(labelName)]]
           </th>
         </template>
-        <template is="dom-repeat" items="[[_dynamicHeaderEndpoints]]"
-          as="pluginHeader">
+        <template is="dom-repeat" items="[[_dynamicHeaderEndpoints]]" as="pluginHeader">
           <th class="endpoint">
             <gr-endpoint-decorator name$="[[pluginHeader]]">
             </gr-endpoint-decorator>
           </th>
         </template>
       </tr>
-      <template is="dom-repeat" items="[[sections]]" as="changeSection"
-          index-as="sectionIndex">
+      <template is="dom-repeat" items="[[sections]]" as="changeSection" index-as="sectionIndex">
         <template is="dom-if" if="[[changeSection.name]]">
           <tr class="groupHeader">
             <td class="leftPadding"></td>
-            <td class="star" hidden$="[[!showStar]]" hidden></td>
-            <td class="cell"
-                colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
+            <td class="star" hidden$="[[!showStar]]" hidden=""></td>
+            <td class="cell" colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               <a href$="[[_sectionHref(changeSection.query)]]" class="section-title">
                 <span class="section-name">[[changeSection.name]]</span>
                 <span class="section-count-label">[[changeSection.countLabel]]</span>
@@ -94,9 +90,8 @@ limitations under the License.
         <template is="dom-if" if="[[_isEmpty(changeSection)]]">
           <tr class="noChanges">
             <td class="leftPadding"></td>
-            <td class="star" hidden$="[[!showStar]]" hidden></td>
-            <td class="cell"
-                colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
+            <td class="star" hidden$="[[!showStar]]" hidden=""></td>
+            <td class="cell" colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               <template is="dom-if" if="[[_isOutgoing(changeSection)]]">
                 <slot name="empty-outgoing"></slot>
               </template>
@@ -107,24 +102,11 @@ limitations under the License.
           </tr>
         </template>
         <template is="dom-repeat" items="[[changeSection.results]]" as="change">
-          <gr-change-list-item
-              selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
-              highlight$="[[_computeItemHighlight(account, change)]]"
-              needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
-              change="[[change]]"
-              visible-change-table-columns="[[visibleChangeTableColumns]]"
-              show-number="[[showNumber]]"
-              show-star="[[showStar]]"
-              tabindex="0"
-              label-names="[[labelNames]]"></gr-change-list-item>
+          <gr-change-list-item selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]" highlight$="[[_computeItemHighlight(account, change)]]" needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]" change="[[change]]" visible-change-table-columns="[[visibleChangeTableColumns]]" show-number="[[showNumber]]" show-star="[[showStar]]" tabindex="0" label-names="[[labelNames]]"></gr-change-list-item>
         </template>
       </template>
-    </table>
-    <gr-cursor-manager
-        id="cursor"
-        index="{{selectedIndex}}"
-        scroll-behavior="keep-visible"
-        focus-on-move></gr-cursor-manager>
+    </tbody></table>
+    <gr-cursor-manager id="cursor" index="{{selectedIndex}}" scroll-behavior="keep-visible" focus-on-move=""></gr-cursor-manager>
   </template>
   <script src="gr-change-list.js"></script>
 </dom-module>

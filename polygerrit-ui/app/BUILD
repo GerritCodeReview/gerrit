@@ -1,5 +1,4 @@
 load(":rules.bzl", "polygerrit_bundle")
-load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "update_links")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -53,23 +52,13 @@ filegroup(
     ),
 )
 
-# update_links - temporary action. Later links/references will be updated in repository,
-# so this rule will be removed.
-update_links(
-    name = "test-srcs-updated-links",
+# Workaround for https://github.com/bazelbuild/bazel/issues/1305
+filegroup(
+    name = "test-srcs-fg",
     srcs = [
         "test/common-test-setup.html",
         "test/index.html",
         ":pg_code",
-    ],
-    redirects = "redirects.json",
-)
-
-# Workaround for https://github.com/bazelbuild/bazel/issues/1305
-filegroup(
-    name = "test-srcs-updated-links-fg",
-    srcs = [
-        ":test-srcs-updated-links",
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
     ],
@@ -83,7 +72,7 @@ sh_test(
         "$(location @ui_dev_npm//web-component-tester/bin:wct)",
     ],
     data = [
-        ":test-srcs-updated-links-fg",
+        ":test-srcs-fg",
         "@ui_dev_npm//web-component-tester/bin:wct",
     ],
     # Should not run sandboxed.
@@ -109,21 +98,11 @@ sh_test(
     ],
 )
 
-# update_links - temporary action. Later links/references will be updated in repository,
-# so this rule will be removed.
-update_links(
-    name = "polylint-updated-links",
-    srcs = [
-        ":pg_code_without_test",
-    ],
-    redirects = "redirects.json",
-)
-
 # Workaround for https://github.com/bazelbuild/bazel/issues/1305
 filegroup(
-    name = "polylint-updated-links-fg",
+    name = "polylint-test-srcs-fg",
     srcs = [
-        ":polylint-updated-links",
+        ":pg_code_without_test",
         "@ui_npm//:node_modules",
     ],
 )
@@ -138,7 +117,7 @@ sh_test(
     ],
     data = [
         "polymer.json",
-        ":polylint-updated-links-fg",
+        ":polylint-test-srcs-fg",
         "@tools_npm//polymer-cli/bin:polymer",
     ],
     # Should not run sandboxed.

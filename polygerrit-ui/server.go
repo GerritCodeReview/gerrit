@@ -215,12 +215,11 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 
 func readFile(originalPath string, redirectedPath string) ([]byte, error) {
 	pathsToTry := []string{"app" + redirectedPath}
-	bowerComponentsSuffix := "/bower_components/"
+	componentsPrefix := "/components/"
 	nodeModulesPrefix := "/node_modules/"
-
-	if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
-		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(bowerComponentsSuffix):])
-		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(bowerComponentsSuffix):])
+	if strings.HasPrefix(originalPath, componentsPrefix) {
+		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(componentsPrefix):])
+		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(componentsPrefix):])
 	}
 
 	if strings.HasPrefix(originalPath, nodeModulesPrefix) {

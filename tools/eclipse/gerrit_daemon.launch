@@ -11,7 +11,7 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="Main"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="daemon --console-log --show-stack-trace -d ${resource_loc:/gerrit}/../gerrit_testsite"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="daemon --console-log --show-stack-trace --dev-cdn http://localhost:8081 -d ${resource_loc:/gerrit}/../gerrit_testsite"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="gerrit"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgerrit.plugin-classes=${resource_loc:/gerrit/eclipse-out}/plugins"/>
 </launchConfiguration>

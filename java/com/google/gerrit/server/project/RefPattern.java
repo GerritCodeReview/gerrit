@@ -73,6 +73,10 @@ public class RefPattern {
     return refPattern.startsWith(AccessSection.REGEX_PREFIX);
   }
 
+  public static boolean containsParameters(String refPattern) {
+    return refPattern.contains("${");
+  }
+
   public static RegExp toRegExp(String refPattern) {
     if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);

@@ -1,52 +1,5 @@
 """This file contains rules to preprocess files before bundling"""
 
-def _update_links_impl(ctx):
-    """Wrapper for the links-update command-line tool"""
-
-    dir_name = ctx.label.name
-    output_files = []
-    input_js_files = []
-    output_js_files = []
-    js_files_args = ctx.actions.args()
-    js_files_args.set_param_file_format("multiline")
-    js_files_args.use_param_file("%s", use_always = True)
-
-    for f in ctx.files.srcs:
-        output_file = ctx.actions.declare_file(dir_name + "/" + f.path)
-        output_files.append(output_file)
-        if f.extension == "html":
-            input_js_files.append(f)
-            output_js_files.append(output_file)
-            js_files_args.add(f)
-            js_files_args.add(output_file)
-        else:
-            ctx.actions.expand_template(
-                output = output_file,
-                template = f,
-                substitutions = {},
-            )
-
-    ctx.actions.run(
-        executable = ctx.executable._updater,
-        outputs = output_js_files,
-        inputs = input_js_files + [ctx.file.redirects],
-        arguments = [js_files_args, ctx.file.redirects.path],
-    )
-    return [DefaultInfo(files = depset(output_files))]
-
-update_links = rule(
-    implementation = _update_links_impl,
-    attrs = {
-        "srcs": attr.label_list(allow_files = True),
-        "redirects": attr.label(allow_single_file = True, mandatory = True),
-        "_updater": attr.label(
-            default = ":links-updater-bin",
-            executable = True,
-            cfg = "host",
-        ),
-    },
-)
-
 def _get_node_modules_root(node_modules):
     if node_modules == None or len(node_modules) == 0:
         return None

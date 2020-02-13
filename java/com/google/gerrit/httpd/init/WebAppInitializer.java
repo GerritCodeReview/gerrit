@@ -338,7 +338,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         new AbstractModule() {
           @Override
           protected void configure() {
-            bind(GerritOptions.class).toInstance(new GerritOptions(false, false, ""));
+            bind(GerritOptions.class).toInstance(new GerritOptions(false, false));
             bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
           }
         });

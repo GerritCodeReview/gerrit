@@ -221,8 +221,7 @@ public class StaticModule extends ServletModule {
         @CanonicalWebUrl @Nullable String canonicalUrl,
         @GerritServerConfig Config cfg,
         GerritApi gerritApi) {
-      String cdnPath =
-          options.useDevCdn() ? options.devCdn() : cfg.getString("gerrit", null, "cdnPath");
+      String cdnPath = options.devCdn().orElse(cfg.getString("gerrit", null, "cdnPath"));
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
       return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi);
     }
@@ -269,7 +268,7 @@ public class StaticModule extends ServletModule {
         if (warFs == null) {
           unpackedWar = makeWarTempDir();
           development = true;
-        } else if (options.useDevCdn()) {
+        } else if (options.devCdn().isPresent()) {
           unpackedWar = null;
           development = true;
         } else {

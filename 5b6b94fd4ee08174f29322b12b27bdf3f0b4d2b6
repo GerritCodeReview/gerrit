@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "479145d3_dc4b187e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:02:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a2ca36a_dafe8387",
+      "revId": "5b6b94fd4ee08174f29322b12b27bdf3f0b4d2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78508468_a13e60c0",
         "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "98e034a9_eb7b1c9a",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:02:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78508468_a13e60c0",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 117,
+        "endChar": 29
+      },
+      "revId": "5b6b94fd4ee08174f29322b12b27bdf3f0b4d2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2196ef42_e2704dfe",
         "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
         "patchSetId": 6
@@ -62,6 +104,30 @@
       "revId": "5b6b94fd4ee08174f29322b12b27bdf3f0b4d2b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45c48839_1b74276a",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-02-13T00:02:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2196ef42_e2704dfe",
+      "range": {
+        "startLine": 529,
+        "startChar": 38,
+        "endLine": 532,
+        "endChar": 19
+      },
+      "revId": "5b6b94fd4ee08174f29322b12b27bdf3f0b4d2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

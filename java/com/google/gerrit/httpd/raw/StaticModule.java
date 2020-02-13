@@ -348,16 +348,13 @@ public class StaticModule extends ServletModule {
 
   @Singleton
   private static class PolyGerritFilter implements Filter {
-    private final Paths paths;
     private final HttpServlet polyGerritIndex;
     private final PolyGerritUiServlet polygerritUI;
 
     @Inject
     PolyGerritFilter(
-        Paths paths,
         @Named(POLYGERRIT_INDEX_SERVLET) HttpServlet polyGerritIndex,
         PolyGerritUiServlet polygerritUI) {
-      this.paths = paths;
       this.polyGerritIndex = polyGerritIndex;
       this.polygerritUI = polygerritUI;
     }

@@ -67,6 +67,12 @@ limitations under the License.
                 title: 'Submit patch set 2 into master',
                 enabled: true,
               },
+              revert_submission: {
+                method: 'POST',
+                label: 'Revert submission',
+                title: 'Revert this submission',
+                enabled: true,
+              },
             });
           },
           send(method, url, payload) {
@@ -124,6 +130,11 @@ limitations under the License.
         assert.equal(element._topLevelPrimaryActions[0].label, 'Submit');
         assert.equal(element._topLevelSecondaryActions.length,
             element._topLevelActions.length - 1);
+      });
+
+      test('revert submission action is skipped', () => {
+        assert.isFalse(element._allActionValues.includes(action =>
+          action.key === 'revert_submission'));
       });
 
       test('_shouldHideActions', () => {

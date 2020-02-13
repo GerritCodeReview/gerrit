@@ -227,6 +227,27 @@ limitations under the License.
         user-select: none;
       }
 
+      .respectfulReviewTip {
+        justify-content: space-between;
+        display: flex;
+        background: var(--background-color-tertiary);
+        padding: var(--spacing-m);
+        border-radius: var(--spacing-xl);
+        margin-bottom: var(--spacing-m);
+      }
+      .respectfulReviewTip span {
+        display: flex;
+      }
+      .respectfulReviewTip span iron-icon {
+        margin-right: var(--spacing-s);
+      }
+      .respectfulReviewTip a {
+        /*
+         * in case text is over-length,
+         * read more should always show in single line
+         */
+        flex-basis: 80px;
+      }
     </style>
     <div id="container" class="container">
       <div class="header" id="header" on-click="_handleToggleCollapsed">
@@ -289,6 +310,15 @@ limitations under the License.
               disabled="{{disabled}}"
               rows="4"
               text="{{_messageText}}"></gr-textarea>
+          <template is="dom-if" if="[[_showRespectfulTip]]">
+            <p class="respectfulReviewTip">
+              <span>
+                <iron-icon id="icon" icon="gr-icons:info"></iron-icon>
+                [[_respectfulReviewTip]]
+              </span>
+              <a href="https://testing.googleblog.com/2019/11/code-health-respectful-reviews-useful.html" target="_blank">read more</a>
+            </p>
+          </template>
         </template>
         <!--The message class is needed to ensure selectability from
         gr-diff-selection.-->

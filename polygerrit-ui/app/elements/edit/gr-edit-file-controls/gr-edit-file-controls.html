@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
@@ -49,13 +49,7 @@ limitations under the License.
         }
       }
     </style>
-    <gr-dropdown
-        id="actions"
-        items="[[_fileActions]]"
-        down-arrow
-        vertical-offset="20"
-        on-tap-item="_handleActionTap"
-        link>Actions</gr-dropdown>
+    <gr-dropdown id="actions" items="[[_fileActions]]" down-arrow="" vertical-offset="20" on-tap-item="_handleActionTap" link="">Actions</gr-dropdown>
   </template>
   <script src="gr-edit-file-controls.js"></script>
 </dom-module>

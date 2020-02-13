@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../../styles/gr-voting-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -27,7 +27,7 @@ limitations under the License.
 <link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-label-info">
-  <template strip-whitespace>
+  <template strip-whitespace="">
     <style include="gr-voting-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
@@ -90,36 +90,22 @@ limitations under the License.
         padding-top: var(--spacing-s);
       }
     </style>
-    <table>
-      <p class$="placeholder [[_computeShowPlaceholder(labelInfo, change.labels.*)]]">
+    <p class$="placeholder [[_computeShowPlaceholder(labelInfo, change.labels.*)]]">
         No votes.
-      </p>
-      <template
-          is="dom-repeat"
-          items="[[_mapLabelInfo(labelInfo, account, change.labels.*)]]"
-          as="mappedLabel">
+      </p><table>
+      
+      <template is="dom-repeat" items="[[_mapLabelInfo(labelInfo, account, change.labels.*)]]" as="mappedLabel">
         <tr class="labelValueContainer">
           <td>
-            <gr-label
-                has-tooltip
-                title="[[_computeValueTooltip(labelInfo, mappedLabel.value)]]"
-                class$="[[mappedLabel.className]] voteChip">
+            <gr-label has-tooltip="" title="[[_computeValueTooltip(labelInfo, mappedLabel.value)]]" class$="[[mappedLabel.className]] voteChip">
               [[mappedLabel.value]]
             </gr-label>
           </td>
           <td>
-            <gr-account-chip
-                account="[[mappedLabel.account]]"
-                transparent-background></gr-account-chip>
+            <gr-account-chip account="[[mappedLabel.account]]" transparent-background=""></gr-account-chip>
           </td>
           <td>
-            <gr-button
-                link
-                aria-label="Remove"
-                on-click="_onDeleteVote"
-                tooltip="Remove vote"
-                data-account-id$="[[mappedLabel.account._account_id]]"
-                class$="deleteBtn [[_computeDeleteClass(mappedLabel.account, mutable, change)]]">
+            <gr-button link="" aria-label="Remove" on-click="_onDeleteVote" tooltip="Remove vote" data-account-id$="[[mappedLabel.account._account_id]]" class$="deleteBtn [[_computeDeleteClass(mappedLabel.account, mutable, change)]]">
               <iron-icon icon="gr-icons:delete"></iron-icon>
             </gr-button>
           </td>

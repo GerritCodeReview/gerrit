@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
@@ -87,28 +87,16 @@ limitations under the License.
         }
       }
     </style>
-    <gr-fixed-panel keep-on-scroll>
+    <gr-fixed-panel keep-on-scroll="">
       <header>
         <span class="controlGroup">
           <span>Edit mode</span>
           <span class="separator"></span>
-          <gr-editable-label
-              label-text="File path"
-              value="[[_path]]"
-              placeholder="File path..."
-              on-changed="_handlePathChanged"></gr-editable-label>
+          <gr-editable-label label-text="File path" value="[[_path]]" placeholder="File path..." on-changed="_handlePathChanged"></gr-editable-label>
         </span>
         <span class="controlGroup rightControls">
-          <gr-button
-              id="close"
-              link
-              on-click="_handleCloseTap">Close</gr-button>
-          <gr-button
-              id="save"
-              disabled$="[[_saveDisabled]]"
-              primary
-              link
-              on-click="_saveEdit">Save</gr-button>
+          <gr-button id="close" link="" on-click="_handleCloseTap">Close</gr-button>
+          <gr-button id="save" disabled$="[[_saveDisabled]]" primary="" link="" on-click="_saveEdit">Save</gr-button>
         </span>
       </header>
     </gr-fixed-panel>

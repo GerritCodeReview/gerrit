@@ -15,9 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-input/iron-input.html">
+<link rel="import" href="/node_modules/polymer-bridges/paper-toggle-button/paper-toggle-button.html">
 
 <link rel="import" href="../../../behaviors/gr-repo-plugin-config-behavior/gr-repo-plugin-config-behavior.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
@@ -55,53 +55,29 @@ limitations under the License.
         <template is="dom-repeat" items="[[_pluginConfigOptions]]" as="option">
           <section class$="section [[option.info.type]]">
             <span class="title">
-              <gr-tooltip-content
-                  has-tooltip="[[option.info.description]]"
-                  show-icon="[[option.info.description]]"
-                  title="[[option.info.description]]">
+              <gr-tooltip-content has-tooltip="[[option.info.description]]" show-icon="[[option.info.description]]" title="[[option.info.description]]">
                 <span>[[option.info.display_name]]</span>
               </gr-tooltip-content>
             </span>
             <span class="value">
               <template is="dom-if" if="[[_isArray(option.info.type)]]">
-                <gr-plugin-config-array-editor
-                    on-plugin-config-option-changed="_handleArrayChange"
-                    plugin-option="[[option]]"></gr-plugin-config-array-editor>
+                <gr-plugin-config-array-editor on-plugin-config-option-changed="_handleArrayChange" plugin-option="[[option]]"></gr-plugin-config-array-editor>
               </template>
               <template is="dom-if" if="[[_isBoolean(option.info.type)]]">
-                <paper-toggle-button
-                    checked="[[_computeChecked(option.info.value)]]"
-                    on-change="_handleBooleanChange"
-                    data-option-key$="[[option._key]]"
-                    disabled$="[[_computeDisabled(option.info.editable)]]"></paper-toggle-button>
+                <paper-toggle-button checked="[[_computeChecked(option.info.value)]]" on-change="_handleBooleanChange" data-option-key$="[[option._key]]" disabled$="[[_computeDisabled(option.info.editable)]]"></paper-toggle-button>
               </template>
               <template is="dom-if" if="[[_isList(option.info.type)]]">
-                <gr-select
-                    bind-value$="[[option.info.value]]"
-                    on-change="_handleListChange">
-                  <select
-                      data-option-key$="[[option._key]]"
-                      disabled$="[[_computeDisabled(option.info.editable)]]">
-                    <template is="dom-repeat"
-                        items="[[option.info.permitted_values]]"
-                        as="value">
+                <gr-select bind-value$="[[option.info.value]]" on-change="_handleListChange">
+                  <select data-option-key$="[[option._key]]" disabled$="[[_computeDisabled(option.info.editable)]]">
+                    <template is="dom-repeat" items="[[option.info.permitted_values]]" as="value">
                       <option value$="[[value]]">[[value]]</option>
                     </template>
                   </select>
                 </gr-select>
               </template>
               <template is="dom-if" if="[[_isString(option.info.type)]]">
-                <iron-input
-                    bind-value="[[option.info.value]]"
-                    on-input="_handleStringChange"
-                    data-option-key$="[[option._key]]"
-                    disabled$="[[_computeDisabled(option.info.editable)]]">
-                  <input
-                      is="iron-input"
-                      value="[[option.info.value]]"
-                      on-input="_handleStringChange"
-                      data-option-key$="[[option._key]]"
-                      disabled$="[[_computeDisabled(option.info.editable)]]">
+                <iron-input bind-value="[[option.info.value]]" on-input="_handleStringChange" data-option-key$="[[option._key]]" disabled$="[[_computeDisabled(option.info.editable)]]">
+                  <input is="iron-input" value="[[option.info.value]]" on-input="_handleStringChange" data-option-key$="[[option._key]]" disabled$="[[_computeDisabled(option.info.editable)]]">
                 </iron-input>
               </template>
               <template is="dom-if" if="[[option.info.inherited_value]]">

@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -38,20 +38,10 @@ limitations under the License.
         text-decoration: none;
       }
     </style>
-    <gr-dialog
-        id="dialog"
-        cancel-label=""
-        on-confirm="_handleConfirm"
-        confirm-label="Dismiss"
-        confirm-on-enter>
+    <gr-dialog id="dialog" cancel-label="" on-confirm="_handleConfirm" confirm-label="Dismiss" confirm-on-enter="">
       <div class="header" slot="header">An error occurred</div>
       <div class="main" slot="main">[[text]]</div>
-      <gr-button
-          id="signIn"
-          class$="signInLink"
-          hidden$="[[!showSignInButton]]"
-          link
-          slot="footer">
+      <gr-button id="signIn" class$="signInLink" hidden$="[[!showSignInButton]]" link="" slot="footer">
         <a href$="[[loginUrl]]" class="signInLink">Sign in</a>
       </gr-button>
     </gr-dialog>

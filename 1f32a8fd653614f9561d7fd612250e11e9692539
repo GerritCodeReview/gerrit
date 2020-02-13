@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebb30412_b6d62955",
+        "filename": "java/com/google/gerrit/server/account/AccountDefaultDisplayNameProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-13T08:20:03Z",
+      "side": 1,
+      "message": "Isn\u0027t this single line sufficient?",
+      "revId": "1f32a8fd653614f9561d7fd612250e11e9692539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

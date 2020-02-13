@@ -99,7 +99,7 @@ def _prepare_for_bundling_impl(ctx):
     html_files_dict = dict()
     js_files_dict = dict()
 
-    root_path = ctx.bin_dir.path + "/" + ctx.attr.root_path
+    root_path = ctx.attr.root_path
     if not root_path.endswith("/"):
         root_path = root_path + "/"
 

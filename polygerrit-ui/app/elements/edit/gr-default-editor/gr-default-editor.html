@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-default-editor">
@@ -36,10 +36,7 @@ limitations under the License.
         outline: none;
       }
     </style>
-    <textarea
-        id="textarea"
-        value="[[fileContent]]"
-        on-input="_handleTextareaInput"></textarea>
+    <textarea id="textarea" value="[[fileContent]]" on-input="_handleTextareaInput"></textarea>
   </template>
   <script src="gr-default-editor.js"></script>
 </dom-module>

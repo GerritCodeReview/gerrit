@@ -15,11 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -49,36 +49,20 @@ limitations under the License.
       <div id="form">
         <section id="itemNameSection">
           <span class="title">[[detailType]] name</span>
-          <iron-input
-              placeholder="[[detailType]] Name"
-              bind-value="{{_itemName}}">
-            <input
-                is="iron-input"
-                placeholder="[[detailType]] Name"
-                bind-value="{{_itemName}}">
+          <iron-input placeholder="[[detailType]] Name" bind-value="{{_itemName}}">
+            <input is="iron-input" placeholder="[[detailType]] Name" bind-value="{{_itemName}}">
           </iron-input>
         </section>
         <section id="itemRevisionSection">
           <span class="title">Initial Revision</span>
-          <iron-input
-              placeholder="Revision (Branch or SHA-1)"
-              bind-value="{{_itemRevision}}">
-            <input
-                is="iron-input"
-                placeholder="Revision (Branch or SHA-1)"
-                bind-value="{{_itemRevision}}">
+          <iron-input placeholder="Revision (Branch or SHA-1)" bind-value="{{_itemRevision}}">
+            <input is="iron-input" placeholder="Revision (Branch or SHA-1)" bind-value="{{_itemRevision}}">
           </iron-input>
         </section>
-        <section id="itemAnnotationSection"
-                 class$="[[_computeHideItemClass(itemDetail)]]">
+        <section id="itemAnnotationSection" class$="[[_computeHideItemClass(itemDetail)]]">
           <span class="title">Annotation</span>
-          <iron-input
-              placeholder="Annotation (Optional)"
-              bind-value="{{_itemAnnotation}}">
-            <input
-                is="iron-input"
-                placeholder="Annotation (Optional)"
-                bind-value="{{_itemAnnotation}}">
+          <iron-input placeholder="Annotation (Optional)" bind-value="{{_itemAnnotation}}">
+            <input is="iron-input" placeholder="Annotation (Optional)" bind-value="{{_itemAnnotation}}">
           </iron-input>
         </section>
       </div>

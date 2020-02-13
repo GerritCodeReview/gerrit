@@ -17,7 +17,7 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
@@ -72,34 +72,17 @@ limitations under the License.
         }
       }
     </style>
-    <div class="loading" hidden$="[[!_loading]]" hidden>Loading...</div>
-    <div hidden$="[[_loading]]" hidden>
-      <gr-repo-header
-          repo="[[_repo]]"
-          class$="[[_computeHeaderClass(_repo)]]"></gr-repo-header>
-      <gr-user-header
-          user-id="[[_userId]]"
-          show-dashboard-link
-          logged-in="[[_loggedIn]]"
-          class$="[[_computeHeaderClass(_userId)]]"></gr-user-header>
-      <gr-change-list
-          account="[[account]]"
-          changes="{{_changes}}"
-          preferences="[[preferences]]"
-          selected-index="{{viewState.selectedChangeIndex}}"
-          show-star="[[_loggedIn]]"
-          on-toggle-star="_handleToggleStar"
-          on-toggle-reviewed="_handleToggleReviewed"></gr-change-list>
+    <div class="loading" hidden$="[[!_loading]]" hidden="">Loading...</div>
+    <div hidden$="[[_loading]]" hidden="">
+      <gr-repo-header repo="[[_repo]]" class$="[[_computeHeaderClass(_repo)]]"></gr-repo-header>
+      <gr-user-header user-id="[[_userId]]" show-dashboard-link="" logged-in="[[_loggedIn]]" class$="[[_computeHeaderClass(_userId)]]"></gr-user-header>
+      <gr-change-list account="[[account]]" changes="{{_changes}}" preferences="[[preferences]]" selected-index="{{viewState.selectedChangeIndex}}" show-star="[[_loggedIn]]" on-toggle-star="_handleToggleStar" on-toggle-reviewed="_handleToggleReviewed"></gr-change-list>
       <nav class$="[[_computeNavClass(_loading)]]">
           Page [[_computePage(_offset, _changesPerPage)]]
-          <a id="prevArrow"
-              href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
-              class$="[[_computePrevArrowClass(_offset)]]">
+          <a id="prevArrow" href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]" class$="[[_computePrevArrowClass(_offset)]]">
             <iron-icon icon="gr-icons:chevron-left"></iron-icon>
           </a>
-          <a id="nextArrow"
-              href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]"
-              class$="[[_computeNextArrowClass(_changes)]]">
+          <a id="nextArrow" href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]" class$="[[_computeNextArrowClass(_changes)]]">
             <iron-icon icon="gr-icons:chevron-right"></iron-icon>
           </a>
       </nav>

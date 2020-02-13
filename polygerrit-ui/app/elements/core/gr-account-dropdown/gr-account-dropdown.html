@@ -16,7 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -41,14 +41,9 @@ limitations under the License.
         vertical-align: middle;
       }
     </style>
-    <gr-dropdown
-        link
-        items=[[links]]
-        top-content=[[topContent]]
-        horizontal-align="right">
-        <span hidden$="[[_hasAvatars]]" hidden>[[_accountName(account)]]</span>
-        <gr-avatar account="[[account]]" hidden$="[[!_hasAvatars]]" hidden
-            image-size="56" aria-label="Account avatar"></gr-avatar>
+    <gr-dropdown link="" items="[[links]]" top-content="[[topContent]]" horizontal-align="right">
+        <span hidden$="[[_hasAvatars]]" hidden="">[[_accountName(account)]]</span>
+        <gr-avatar account="[[account]]" hidden$="[[!_hasAvatars]]" hidden="" image-size="56" aria-label="Account avatar"></gr-avatar>
     </gr-dropdown>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

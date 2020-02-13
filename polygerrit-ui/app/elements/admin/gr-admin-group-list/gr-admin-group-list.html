@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
@@ -36,15 +36,7 @@ limitations under the License.
     <style include="gr-table-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
-    <gr-list-view
-        create-new="[[_createNewCapability]]"
-        filter="[[_filter]]"
-        items="[[_groups]]"
-        items-per-page="[[_groupsPerPage]]"
-        loading="[[_loading]]"
-        offset="[[_offset]]"
-        on-create-clicked="_handleCreateClicked"
-        path="[[_path]]">
+    <gr-list-view create-new="[[_createNewCapability]]" filter="[[_filter]]" items="[[_groups]]" items-per-page="[[_groupsPerPage]]" loading="[[_loading]]" offset="[[_offset]]" on-create-clicked="_handleCreateClicked" path="[[_path]]">
       <table id="list" class="genericList">
         <tr class="headerRow">
           <th class="name topHeader">Group Name</th>
@@ -67,23 +59,13 @@ limitations under the License.
         </tbody>
       </table>
     </gr-list-view>
-    <gr-overlay id="createOverlay" with-backdrop>
-      <gr-dialog
-          id="createDialog"
-          class="confirmDialog"
-          disabled="[[!_hasNewGroupName]]"
-          confirm-label="Create"
-          confirm-on-enter
-          on-confirm="_handleCreateGroup"
-          on-cancel="_handleCloseCreate">
+    <gr-overlay id="createOverlay" with-backdrop="">
+      <gr-dialog id="createDialog" class="confirmDialog" disabled="[[!_hasNewGroupName]]" confirm-label="Create" confirm-on-enter="" on-confirm="_handleCreateGroup" on-cancel="_handleCloseCreate">
         <div class="header" slot="header">
           Create Group
         </div>
         <div class="main" slot="main">
-          <gr-create-group-dialog
-              has-new-group-name="{{_hasNewGroupName}}"
-              params="[[params]]"
-              id="createNewModal"></gr-create-group-dialog>
+          <gr-create-group-dialog has-new-group-name="{{_hasNewGroupName}}" params="[[params]]" id="createNewModal"></gr-create-group-dialog>
         </div>
       </gr-dialog>
     </gr-overlay>

@@ -16,8 +16,8 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/gr-subpage-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -54,24 +54,17 @@ limitations under the License.
           <fieldset>
             <h3 id="groupUUID">Group UUID</h3>
             <fieldset>
-              <gr-copy-clipboard
-                  text="[[groupId]]"></gr-copy-clipboard>
+              <gr-copy-clipboard text="[[groupId]]"></gr-copy-clipboard>
             </fieldset>
             <h3 id="groupName" class$="[[_computeHeaderClass(_rename)]]">
               Group Name
             </h3>
             <fieldset>
               <span class="value">
-                <gr-autocomplete
-                    id="groupNameInput"
-                    text="{{_groupConfig.name}}"
-                    disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"></gr-autocomplete>
+                <gr-autocomplete id="groupNameInput" text="{{_groupConfig.name}}" disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"></gr-autocomplete>
               </span>
               <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
-                <gr-button
-                    id="inputUpdateNameBtn"
-                    on-click="_handleSaveName"
-                    disabled="[[!_rename]]">
+                <gr-button id="inputUpdateNameBtn" on-click="_handleSaveName" disabled="[[!_rename]]">
                   Rename Group</gr-button>
               </span>
             </fieldset>
@@ -80,18 +73,11 @@ limitations under the License.
             </h3>
             <fieldset>
               <span class="value">
-                <gr-autocomplete
-                    id="groupOwnerInput"
-                    text="{{_groupConfig.owner}}"
-                    value="{{_groupConfigOwner}}"
-                    query="[[_query]]"
-                    disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
+                <gr-autocomplete id="groupOwnerInput" text="{{_groupConfig.owner}}" value="{{_groupConfigOwner}}" query="[[_query]]" disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 </gr-autocomplete>
               </span>
               <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
-                <gr-button
-                    on-click="_handleSaveOwner"
-                    disabled="[[!_owner]]">
+                <gr-button on-click="_handleSaveOwner" disabled="[[!_owner]]">
                   Change Owners</gr-button>
               </span>
             </fieldset>
@@ -100,16 +86,10 @@ limitations under the License.
             </h3>
             <fieldset>
               <div>
-                <iron-autogrow-textarea
-                    class="description"
-                    autocomplete="on"
-                    bind-value="{{_groupConfig.description}}"
-                    disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"></iron-autogrow-textarea>
+                <iron-autogrow-textarea class="description" autocomplete="on" bind-value="{{_groupConfig.description}}" disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"></iron-autogrow-textarea>
               </div>
               <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
-                <gr-button
-                    on-click="_handleSaveDescription"
-                    disabled="[[!_description]]">
+                <gr-button on-click="_handleSaveDescription" disabled="[[!_description]]">
                   Save Description
                 </gr-button>
               </span>
@@ -123,9 +103,7 @@ limitations under the License.
                   Make group visible to all registered users
                 </span>
                 <span class="value">
-                  <gr-select
-                      id="visibleToAll"
-                      bind-value="{{_groupConfig.options.visible_to_all}}">
+                  <gr-select id="visibleToAll" bind-value="{{_groupConfig.options.visible_to_all}}">
                     <select disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                       <template is="dom-repeat" items="[[_submitTypes]]">
                         <option value="[[item.value]]">[[item.label]]</option>
@@ -135,9 +113,7 @@ limitations under the License.
                 </span>
               </section>
               <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
-                <gr-button
-                    on-click="_handleSaveOptions"
-                    disabled="[[!_options]]">
+                <gr-button on-click="_handleSaveOptions" disabled="[[!_options]]">
                   Save Group Options
                 </gr-button>
               </span>

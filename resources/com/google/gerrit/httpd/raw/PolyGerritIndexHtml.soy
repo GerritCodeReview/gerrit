@@ -33,6 +33,7 @@
   {@param? defaultDiffDetailHex: ?}
   {@param? preloadChangePage: ?}
   {@param? preloadDiffPage: ?}
+  {@param? userAuth: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}
@@ -84,12 +85,21 @@
   {if $changeRequestsPath}
     {if $preloadChangePage and $defaultChangeDetailHex}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultChangeDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {if $userAuth}
+        <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/?download-commands=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {/if}
     {/if}
     {if $preloadDiffPage and $defaultDiffDetailHex}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultDiffDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {if $userAuth}
+        <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {/if}
     {/if}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/robotcomments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    {if $userAuth}
+      <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/drafts" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    {/if}
   {/if}
 
   // RobotoMono fonts are used in styles/fonts.css

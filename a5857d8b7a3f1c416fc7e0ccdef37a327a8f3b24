@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b588f80_332547c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-13T07:17:59Z",
+      "side": 1,
+      "message": "Why it is a requirement to be able to skip major versions during upgrades? Should we support direct migration from 2.6 to 3.0?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2976ff05_89be5536",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-13T07:17:59Z",
+      "side": 1,
+      "message": "What if someone is trying to migrate 2.6 to 3.0. How do we know this that actually account_groups column is missing? It is hard coded and not induced from the error message.",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 71
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

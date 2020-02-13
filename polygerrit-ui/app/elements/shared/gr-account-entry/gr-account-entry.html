@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../gr-autocomplete/gr-autocomplete.html">
@@ -30,18 +30,7 @@ limitations under the License.
         overflow: hidden;
       }
     </style>
-    <gr-autocomplete
-        id="input"
-        borderless="[[borderless]]"
-        placeholder="[[placeholder]]"
-        threshold="[[suggestFrom]]"
-        query="[[querySuggestions]]"
-        allow-non-suggested-values="[[allowAnyInput]]"
-        on-commit="_handleInputCommit"
-        clear-on-commit
-        warn-uncommitted
-        text="{{_inputText}}"
-        vertical-offset="24">
+    <gr-autocomplete id="input" borderless="[[borderless]]" placeholder="[[placeholder]]" threshold="[[suggestFrom]]" query="[[querySuggestions]]" allow-non-suggested-values="[[allowAnyInput]]" on-commit="_handleInputCommit" clear-on-commit="" warn-uncommitted="" text="{{_inputText}}" vertical-offset="24">
     </gr-autocomplete>
   </template>
   <script src="gr-account-entry.js"></script>

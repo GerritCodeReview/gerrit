@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
 
@@ -29,17 +29,12 @@ limitations under the License.
     </style>
     <div class="container">
       <template is="dom-if" if="[[_showWebLink]]">
-        <a target="_blank" rel="noopener"
-            href$="[[_webLink]]">[[_computeShortHash(commitInfo)]]</a>
+        <a target="_blank" rel="noopener" href$="[[_webLink]]">[[_computeShortHash(commitInfo)]]</a>
       </template>
       <template is="dom-if" if="[[!_showWebLink]]">
         [[_computeShortHash(commitInfo)]]
       </template>
-      <gr-copy-clipboard
-          has-tooltip
-          button-title="Copy full SHA to clipboard"
-          hide-input
-          text="[[commitInfo.commit]]">
+      <gr-copy-clipboard has-tooltip="" button-title="Copy full SHA to clipboard" hide-input="" text="[[commitInfo.commit]]">
       </gr-copy-clipboard>
     </div>
   </template>

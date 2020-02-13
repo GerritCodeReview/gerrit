@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-key-binding-display">
@@ -35,10 +35,7 @@ limitations under the License.
       <template is="dom-if" if="[[index]]">
         or
       </template>
-      <template
-          is="dom-repeat"
-          items="[[_computeModifiers(item)]]"
-          as="modifier">
+      <template is="dom-repeat" items="[[_computeModifiers(item)]]" as="modifier">
         <span class="key modifier">[[modifier]]</span>
       </template>
       <span class="key">[[_computeKey(item)]]</span>

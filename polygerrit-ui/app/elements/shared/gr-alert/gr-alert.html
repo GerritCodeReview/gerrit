@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../gr-button/gr-button.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -74,11 +74,7 @@ limitations under the License.
     </style>
     <div class="content-wrapper">
       <span class="text">[[text]]</span>
-      <gr-button
-          link
-          class="action"
-          hidden$="[[_hideActionButton]]"
-          on-click="_handleActionTap">[[actionText]]</gr-button>
+      <gr-button link="" class="action" hidden$="[[_hideActionButton]]" on-click="_handleActionTap">[[actionText]]</gr-button>
     </div>
   </template>
   <script src="gr-alert.js"></script>

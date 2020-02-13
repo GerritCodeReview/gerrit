@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/iron-input/iron-input.html">
 
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../shared/gr-avatar/gr-avatar.html">
@@ -47,8 +47,7 @@ limitations under the License.
       <section>
         <span class="title"></span>
         <span class="value">
-          <gr-avatar account="[[_account]]"
-              image-size="120"></gr-avatar>
+          <gr-avatar account="[[_account]]" image-size="120"></gr-avatar>
         </span>
       </section>
       <section class$="[[_hideAvatarChangeUrl(_avatarChangeUrl)]]">
@@ -70,63 +69,32 @@ limitations under the License.
       <section>
         <span class="title">Registered</span>
         <span class="value">
-          <gr-date-formatter
-              has-tooltip
-              date-str="[[_account.registered_on]]"></gr-date-formatter>
+          <gr-date-formatter has-tooltip="" date-str="[[_account.registered_on]]"></gr-date-formatter>
         </span>
       </section>
       <section id="usernameSection">
         <span class="title">Username</span>
-        <span
-            hidden$="[[usernameMutable]]"
-            class="value">[[_username]]</span>
-        <span
-            hidden$="[[!usernameMutable]]"
-            class="value">
-          <iron-input
-              on-keydown="_handleKeydown"
-              bind-value="{{_username}}">
-            <input
-                is="iron-input"
-                id="usernameInput"
-                disabled="[[_saving]]"
-                on-keydown="_handleKeydown"
-                bind-value="{{_username}}">
+        <span hidden$="[[usernameMutable]]" class="value">[[_username]]</span>
+        <span hidden$="[[!usernameMutable]]" class="value">
+          <iron-input on-keydown="_handleKeydown" bind-value="{{_username}}">
+            <input is="iron-input" id="usernameInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_username}}">
           </iron-input>
         </span>
       </section>
       <section id="nameSection">
         <span class="title">Full name</span>
-        <span
-            hidden$="[[nameMutable]]"
-            class="value">[[_account.name]]</span>
-        <span
-            hidden$="[[!nameMutable]]"
-            class="value">
-          <iron-input
-              on-keydown="_handleKeydown"
-              bind-value="{{_account.name}}">
-            <input
-                is="iron-input"
-                id="nameInput"
-                disabled="[[_saving]]"
-                on-keydown="_handleKeydown"
-                bind-value="{{_account.name}}">
+        <span hidden$="[[nameMutable]]" class="value">[[_account.name]]</span>
+        <span hidden$="[[!nameMutable]]" class="value">
+          <iron-input on-keydown="_handleKeydown" bind-value="{{_account.name}}">
+            <input is="iron-input" id="nameInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_account.name}}">
           </iron-input>
         </span>
       </section>
       <section>
         <span class="title">Status (e.g. "Vacation")</span>
         <span class="value">
-          <iron-input
-              on-keydown="_handleKeydown"
-              bind-value="{{_account.status}}">
-            <input
-                is="iron-input"
-                id="statusInput"
-                disabled="[[_saving]]"
-                on-keydown="_handleKeydown"
-                bind-value="{{_account.status}}">
+          <iron-input on-keydown="_handleKeydown" bind-value="{{_account.status}}">
+            <input is="iron-input" id="statusInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_account.status}}">
           </iron-input>
         </span>
       </section>

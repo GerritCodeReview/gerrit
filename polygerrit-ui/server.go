@@ -137,11 +137,6 @@ func addDevHeaders(writer http.ResponseWriter) {
 }
 
 func getFinalPath(redirects []redirects, originalPath string) string {
-	testComponentsPrefix := "/components/";
-	if strings.HasPrefix(originalPath, testComponentsPrefix) {
-		return "/../node_modules/" + originalPath[len(testComponentsPrefix):]
-	}
-
 	for _, redirect := range redirects {
 		fromDir := redirect.From
 		if !strings.HasSuffix(fromDir, "/") {
@@ -183,10 +178,6 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 		dirListingMux.ServeHTTP(writer, originalRequest)
 		return;
 	}
-	if parsedUrl.Path == "/bower_components/web-component-tester/browser.js" {
-		http.Redirect(writer, originalRequest, "/bower_components/wct-browser-legacy/browser.js", 301);
-		return
-	}
 
 	requestPath := getFinalPath(redirects, parsedUrl.Path)
 
@@ -215,12 +206,11 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 
 func readFile(originalPath string, redirectedPath string) ([]byte, error) {
 	pathsToTry := [] string{"app" + redirectedPath}
-	bowerComponentsSuffix := "/bower_components/"
-	nodeModulesPrefix := "/node_modules/"
-
-	if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
-		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(bowerComponentsSuffix):])
-		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(bowerComponentsSuffix):])
+	componentsPrefix := "/components/"
+	nodeModulesPrefix := "/node_modules/"	
+	if strings.HasPrefix(originalPath, componentsPrefix) {
+		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(componentsPrefix):])
+		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(componentsPrefix):])
 	}
 
 	if strings.HasPrefix(originalPath, nodeModulesPrefix) {

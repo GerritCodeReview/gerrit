@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -56,25 +56,15 @@ limitations under the License.
         <tbody>
           <tr>
             <td>Number</td>
-            <td class="checkboxContainer"
-                on-click="_handleCheckboxContainerClick">
-              <input
-                  type="checkbox"
-                  name="number"
-                  on-click="_handleNumberCheckboxClick"
-                  checked$="[[showNumber]]">
+            <td class="checkboxContainer" on-click="_handleCheckboxContainerClick">
+              <input type="checkbox" name="number" on-click="_handleNumberCheckboxClick" checked$="[[showNumber]]">
             </td>
           </tr>
           <template is="dom-repeat" items="[[columnNames]]">
             <tr>
               <td>[[item]]</td>
-              <td class="checkboxContainer"
-                  on-click="_handleCheckboxContainerClick">
-                <input
-                    type="checkbox"
-                    name="[[item]]"
-                    on-click="_handleTargetClick"
-                    checked$="[[!isColumnHidden(item, displayedColumns)]]">
+              <td class="checkboxContainer" on-click="_handleCheckboxContainerClick">
+                <input type="checkbox" name="[[item]]" on-click="_handleTargetClick" checked$="[[!isColumnHidden(item, displayedColumns)]]">
               </td>
             </tr>
           </template>

@@ -15,16 +15,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/node_modules/polymer-bridges/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/node_modules/polymer-bridges/paper-button/paper-button.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 
 <dom-module id="gr-button">
-  <template strip-whitespace>
+  <template strip-whitespace="">
     <style include="shared-styles">
       /* general styles for all buttons */
       :host {
@@ -171,10 +171,7 @@ limitations under the License.
         border-top-color: var(--deemphasized-text-color);
       }
     </style>
-    <paper-button
-        raised="[[!link]]"
-        disabled="[[_computeDisabled(disabled, loading)]]"
-        tabindex="-1">
+    <paper-button raised="[[!link]]" disabled="[[_computeDisabled(disabled, loading)]]" tabindex="-1">
       <slot></slot>
       <i class="downArrow"></i>
     </paper-button>

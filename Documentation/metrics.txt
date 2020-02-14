@@ -60,6 +60,15 @@ objects needing finalization.
 
 ==== Jetty
 
+* `http/server/jetty/connections/connections`: The current number of open connections
+* `http/server/jetty/connections/connections_total`: The total number of connections opened
+* `http/server/jetty/connections/connections_duration_max`: The max duration of a connection in ms
+* `http/server/jetty/connections/connections_duration_mean`: The mean duration of a connection in ms
+* `http/server/jetty/connections/connections_duration_stdev`: The standard deviation of the duration of a connection in ms
+* `http/server/jetty/connections/received_messages`: The total number of messages received
+* `http/server/jetty/connections/sent_messages`: The total number of messages sent
+* `http/server/jetty/connections/received_bytes`: Total number of bytes received by tracked connections
+* `http/server/jetty/connections/sent_bytes`: Total number of bytes sent by tracked connections"
 * `http/server/jetty/threadpool/active_threads`: Active threads
 * `http/server/jetty/threadpool/idle_threads`: Idle threads
 * `http/server/jetty/threadpool/reserved_threads`: Reserved threads
@@ -130,6 +139,18 @@ topic submissions that concluded successfully.
 
 * `jgit/block_cache/cache_used`: Bytes of memory retained in JGit block cache.
 * `jgit/block_cache/open_files`: File handles held open by JGit block cache.
+* `avg_load_time` Average time to load a cache entry for JGit block cache.
+* `eviction_count` : Cache evictions for JGit block cache.
+* `eviction_ratio` : Cache eviction ratio for JGit block cache.
+* `hit_count` : Cache hits for JGit block cache.
+* `hit_ratio` : Cache hit ratio for JGit block cache.
+* `load_failure_count` : Failed cache loads for JGit block cache.
+* `load_failure_ratio` : Failed cache load ratio for JGit block cache.
+* `load_success_count` : Successful cache loads for JGit block cache.
+* `miss_count` : Cache misses for JGit block cache.
+* `miss_ratio` : Cache miss ratio for JGit block cache.
+* `cache_used_per_repository` : Bytes of memory retained per repository for the top N repositories
+having most data in the cache. The number N of reported repositories is limited to 1000.
 
 === Git
 

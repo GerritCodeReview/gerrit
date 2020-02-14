@@ -152,6 +152,24 @@
       "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e8429ab_1a3c6adf",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-14T09:39:10Z",
+      "side": 1,
+      "message": "\u003e If you are ok with keeping as is, then yes, I can add some more documentation to the AccountInfo, although AccountInfo.java already has a few lines explaining this fairly well.\n\n\nI am OK with this as-is, but it\u0027d be nice to be explicit in documentation.\n\n\u003e Is it then good that the name of a user is rendered differently for some changes vs others?\nYeah, I had the same thought after I sent my comment :-)\n\n\u003e Ideally I think you would need both: Fill the default value, but also set a boolean \"isDefault\". That would be a nice feature, but we don\u0027t have the time to build it right now, so I would prefer to keep as is and leave the displayName unset.\n\nSG.",
+      "parentUuid": "b025586e_23d70f21",
+      "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

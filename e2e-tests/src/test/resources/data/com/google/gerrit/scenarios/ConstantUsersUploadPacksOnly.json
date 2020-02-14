@@ -1,0 +1,6 @@
+[
+  {
+    "url": "https://gerrit-svc:8080/gerrit",
+    "cmd": "clone"
+  }
+]

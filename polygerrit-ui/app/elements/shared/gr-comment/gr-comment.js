@@ -32,6 +32,22 @@
   const FILE = 'FILE';
 
   /**
+   * All candidates tips to show, will pick randomly.
+   */
+  const RESPECTFUL_REVIEW_TIPS= [
+    'DO: Assume competence.',
+    'DO: Provide rationale or context.',
+    'DO: Consider how comments may be interpreted.',
+    'DON’T: Criticize the person.',
+    'DON’T: Use harsh language.',
+    'DO: Provide specific and actionable feedback.',
+    'DO: Clearly mark nitpicks and optional comments.',
+    'DO: Clarify code or reply to the reviewer’s comment.',
+    'DO: When disagreeing with feedback, explain the advantage' +
+    ' of your approach.',
+  ];
+
+  /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
    * @extends Polymer.Element
@@ -167,6 +183,16 @@
           type: Object,
           value: () => { return {}; },
         },
+
+        _showRespectfulTip: {
+          type: Boolean,
+          value: false,
+        },
+        _respectfulReviewTip: String,
+        _respectfulTipDismissed: {
+          type: Boolean,
+          value: false,
+        },
       };
     }
 
@@ -198,6 +224,22 @@
       this._getIsAdmin().then(isAdmin => {
         this._isAdmin = isAdmin;
       });
+
+      // Show respectful tip based on cache
+      // this will make sure we only and always show
+      // a tip once every Math.max(a day, period between creating comments)
+      const cachedVisibilityOfRespectfulTip =
+        this.$.storage.getRespectfulTipVisibility();
+      if (!cachedVisibilityOfRespectfulTip) {
+        this._showRespectfulTip = true;
+        const randomIdx = Math.floor(
+            Math.random() * RESPECTFUL_REVIEW_TIPS.length
+        );
+        this._respectfulReviewTip = RESPECTFUL_REVIEW_TIPS[randomIdx];
+        this.$.reporting.reportInteraction('respectful-tip-appeared');
+        // update cache
+        this.$.storage.setRespectfulTipVisibility();
+      }
     }
 
     /** @override */
@@ -207,6 +249,19 @@
       if (this.textarea) {
         this.textarea.closeDropdown();
       }
+    }
+
+    _computeVisibilityOfTip(showTip, tipDismissed) {
+      return showTip && !tipDismissed;
+    }
+
+    _dismissRespectfulTip() {
+      this._respectfulTipDismissed = true;
+      this.$.reporting.reportInteraction('respectful-tip-dismissed');
+    }
+
+    _onRespectfulReadMoreClick() {
+      this.$.reporting.reportInteraction('respectful-read-more-clicked');
     }
 
     get textarea() {

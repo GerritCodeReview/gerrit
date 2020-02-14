@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8b8b6a14_22e92a7f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-14T13:31:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d0b8e3a9_90579de6",
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f52746ca_141af3a3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 5
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "65774914_d0b1c96b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-14T13:31:28Z",
+      "side": 1,
+      "message": "Went with the dom-if.",
+      "parentUuid": "f52746ca_141af3a3",
+      "range": {
+        "startLine": 296,
+        "startChar": 37,
+        "endLine": 296,
+        "endChar": 55
+      },
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe108e4a_c6005532",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -56,6 +98,24 @@
       "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "144ac16a_b9742f41",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-14T13:31:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fe108e4a_c6005532",
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

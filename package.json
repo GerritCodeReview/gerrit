@@ -16,6 +16,7 @@
     "web-component-tester": "^6.5.1"
   },
   "scripts": {
+    "clean": "git clean -ffdx && bazel clean --expunge",
     "start": "polygerrit-ui/run-server.sh",
     "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh",
     "eslint": "./node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app",

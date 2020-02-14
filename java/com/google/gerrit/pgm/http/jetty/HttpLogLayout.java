@@ -14,6 +14,16 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_CONTENT_LENGTH;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_HOST;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_METHOD;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_PROTOCOL;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_REFERER;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_RESOURCE;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_STATUS;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER_AGENT;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -38,7 +48,7 @@ public final class HttpLogLayout extends Layout {
   public String format(LoggingEvent event) {
     final StringBuilder buf = new StringBuilder(128);
 
-    opt(buf, event, HttpLog.P_HOST);
+    opt(buf, event, P_HOST);
 
     buf.append(' ');
     buf.append('[');
@@ -49,7 +59,7 @@ public final class HttpLogLayout extends Layout {
     buf.append('-'); // identd on client system (never requested)
 
     buf.append(' ');
-    opt(buf, event, HttpLog.P_USER);
+    opt(buf, event, P_USER);
 
     buf.append(' ');
     buf.append('[');
@@ -58,24 +68,24 @@ public final class HttpLogLayout extends Layout {
 
     buf.append(' ');
     buf.append('"');
-    buf.append(event.getMDC(HttpLog.P_METHOD));
+    buf.append(event.getMDC(P_METHOD));
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_RESOURCE));
+    buf.append(event.getMDC(P_RESOURCE));
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_PROTOCOL));
+    buf.append(event.getMDC(P_PROTOCOL));
     buf.append('"');
 
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_STATUS));
+    buf.append(event.getMDC(P_STATUS));
 
     buf.append(' ');
-    opt(buf, event, HttpLog.P_CONTENT_LENGTH);
+    opt(buf, event, P_CONTENT_LENGTH);
 
     buf.append(' ');
-    dq_opt(buf, event, HttpLog.P_REFERER);
+    dq_opt(buf, event, P_REFERER);
 
     buf.append(' ');
-    dq_opt(buf, event, HttpLog.P_USER_AGENT);
+    dq_opt(buf, event, P_USER_AGENT);
 
     buf.append('\n');
     return buf.toString();

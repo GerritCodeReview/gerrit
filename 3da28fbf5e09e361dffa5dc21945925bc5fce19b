@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "838fb099_c3952bed",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-14T10:03:32Z",
+      "side": 1,
+      "message": "This won\u0027t work for the metrics added in https://gerrit-review.googlesource.com/c/gerrit/+/254438 which adds structured message of concatenated upload-pack metrics which are separated by blanks. I guess they should be also converted into json",
+      "revId": "3da28fbf5e09e361dffa5dc21945925bc5fce19b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

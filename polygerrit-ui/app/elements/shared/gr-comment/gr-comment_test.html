@@ -1031,5 +1031,124 @@ limitations under the License.
         MockInteractions.tap(element.$$('.show-fix'));
       });
     });
+
+    suite('respectful tips', () => {
+      let element;
+      let sandbox;
+      let clock;
+      setup(() => {
+        stub('gr-rest-api-interface', {
+          getAccount() { return Promise.resolve(null); },
+        });
+        clock = sinon.useFakeTimers();
+        sandbox = sinon.sandbox.create();
+      });
+
+      teardown(() => {
+        clock.restore();
+        sandbox.restore();
+      });
+
+      test('show tip when no cached record', done => {
+        // fake stub for storage
+        const respectfulGetStub = sinon.stub();
+        const respectfulSetStub = sinon.stub();
+        stub('gr-storage', {
+          getRespectfulTipVisibility() { return respectfulGetStub(); },
+          setRespectfulTipVisibility() { return respectfulSetStub(); },
+        });
+        respectfulGetStub.returns(null);
+        element = fixture('draft');
+        // fake random
+        element.getRandomNum = () => 0;
+        element.comment = {__editing: true};
+        flush(() => {
+          assert.isTrue(respectfulGetStub.called);
+          assert.isTrue(respectfulSetStub.called);
+          assert.isTrue(
+              !!element.shadowRoot.querySelector('.respectfulReviewTip')
+          );
+          done();
+        });
+      });
+
+      test('do not show tip when fall out of probability', done => {
+        // fake stub for storage
+        const respectfulGetStub = sinon.stub();
+        const respectfulSetStub = sinon.stub();
+        stub('gr-storage', {
+          getRespectfulTipVisibility() { return respectfulGetStub(); },
+          setRespectfulTipVisibility() { return respectfulSetStub(); },
+        });
+        respectfulGetStub.returns(null);
+        element = fixture('draft');
+        // fake random
+        element.getRandomNum = () => 3;
+        element.comment = {__editing: true};
+        flush(() => {
+          assert.isTrue(respectfulGetStub.called);
+          assert.isFalse(respectfulSetStub.called);
+          assert.isFalse(
+              !!element.shadowRoot.querySelector('.respectfulReviewTip')
+          );
+          done();
+        });
+      });
+
+      test('show tip when editing changed to true', done => {
+        // fake stub for storage
+        const respectfulGetStub = sinon.stub();
+        const respectfulSetStub = sinon.stub();
+        stub('gr-storage', {
+          getRespectfulTipVisibility() { return respectfulGetStub(); },
+          setRespectfulTipVisibility() { return respectfulSetStub(); },
+        });
+        respectfulGetStub.returns(null);
+        element = fixture('draft');
+        // fake random
+        element.getRandomNum = () => 0;
+        element.comment = {__editing: false};
+        flush(() => {
+          assert.isFalse(respectfulGetStub.called);
+          assert.isFalse(respectfulSetStub.called);
+          assert.isFalse(
+              !!element.shadowRoot.querySelector('.respectfulReviewTip')
+          );
+
+          element.editing = true;
+          flush(() => {
+            assert.isTrue(respectfulGetStub.called);
+            assert.isTrue(respectfulSetStub.called);
+            assert.isTrue(
+                !!element.shadowRoot.querySelector('.respectfulReviewTip')
+            );
+            done();
+          });
+        });
+      });
+
+      test('no tip when cached record', done => {
+        // fake stub for storage
+        const respectfulGetStub = sinon.stub();
+        const respectfulSetStub = sinon.stub();
+        stub('gr-storage', {
+          getRespectfulTipVisibility() { return respectfulGetStub(); },
+          setRespectfulTipVisibility() { return respectfulSetStub(); },
+        });
+        respectfulGetStub.returns({});
+        element = fixture('draft');
+        // fake random
+        element.getRandomNum = () => 0;
+        element.comment = {__editing: true};
+        flush(() => {
+          assert.isTrue(respectfulGetStub.called);
+          assert.isFalse(respectfulSetStub.called);
+          assert.isFalse(
+              !!element.shadowRoot.querySelector('.respectfulReviewTip')
+          );
+          done();
+        });
+      });
+    });
   });
 </script>

@@ -24,6 +24,7 @@
   const CLEANUP_THROTTLE_INTERVAL = 24 * 60 * 60 * 1000;
 
   const CLEANUP_PREFIXES = [
+    'respectfultip:',
     'draft:',
     'editablecontent:',
   ];
@@ -74,6 +75,16 @@
     setEditableContentItem(key, message) {
       this._setObject(this._getEditableContentKey(key),
           {message, updated: Date.now()});
+    }
+
+    getRespectfulTipVisibility() {
+      this._cleanupItems();
+      return this._getObject('respectfultip:visibility');
+    }
+
+    setRespectfulTipVisibility() {
+      this._cleanupItems();
+      this._setObject('respectfultip:visibility', {updated: Date.now()});
     }
 
     eraseEditableContentItem(key) {

@@ -227,6 +227,28 @@ limitations under the License.
         user-select: none;
       }
 
+      .respectfulReviewTip {
+        justify-content: space-between;
+        display: flex;
+        background: var(--background-color-tertiary);
+        padding: var(--spacing-m);
+        border-radius: var(--border-radius);
+        margin-bottom: var(--spacing-m);
+      }
+      .respectfulReviewTip div {
+        display: flex;
+      }
+      .respectfulReviewTip div iron-icon {
+        margin-right: var(--spacing-s);
+      }
+      .respectfulReviewTip a {
+        white-space: nowrap;
+        margin-right: var(--spacing-s);
+        padding-left: var(--spacing-m);
+      }
+      .pointer {
+        cursor: pointer;
+      }
     </style>
     <div id="container" class="container">
       <div class="header" id="header" on-click="_handleToggleCollapsed">
@@ -289,6 +311,30 @@ limitations under the License.
               disabled="{{disabled}}"
               rows="4"
               text="{{_messageText}}"></gr-textarea>
+          <template is="dom-if" if="[[_computeVisibilityOfTip(_showRespectfulTip, _respectfulTipDismissed)]]">
+            <div class="respectfulReviewTip">
+              <div>
+                <gr-tooltip-content
+                  has-tooltip
+                  title="Tips for respectful code reviews.">
+                  <iron-icon icon="gr-icons:lightbulb-outline"></iron-icon>
+                </gr-tooltip-content>
+                [[_respectfulReviewTip]]
+              </div>
+              <div>
+                <a
+                  on-click="_onRespectfulReadMoreClick"
+                  href="https://testing.googleblog.com/2019/11/code-health-respectful-reviews-useful.html"
+                  target="_blank">
+                  Read more
+                </a>
+                <iron-icon
+                  class="pointer"
+                  on-click="_dismissRespectfulTip"
+                  icon="gr-icons:close"></iron-icon>
+              </div>
+            </div>
+          </template>
         </template>
         <!--The message class is needed to ensure selectability from
         gr-diff-selection.-->

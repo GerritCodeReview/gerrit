@@ -577,11 +577,9 @@
     const blameNode = this._createElement('span',
         isStartOfRange ? 'startOfRange' : '');
 
-    const shaNode = this._createElement('span', 'blameDate');
+    const shaNode = this._createElement('a', 'blameDate');
     shaNode.innerText = `${date}`;
-    shaNode.onclick = function() {
-      location.href = '/q/' + commit.id;
-    };
+    shaNode.setAttribute('href', `/q/${commit.id}`);
     blameNode.appendChild(shaNode);
 
     const shortName = commit.author.split(' ')[0];

@@ -40,6 +40,8 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
   private final boolean forceLogging;
   private final boolean performanceLogging;
   private final MutablePerformanceLogRecords mutablePerformanceLogRecords;
+  private final boolean aclLogging;
+  private final MutableAclLogRecords mutableAclLogRecords;
 
   /**
    * Creates a LoggingContextAwareCallable that wraps the given {@link Callable}.
@@ -47,15 +49,21 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
    * @param callable Callable that should be wrapped.
    * @param mutablePerformanceLogRecords instance of {@link MutablePerformanceLogRecords} to which
    *     performance log records that are created from the runnable are added
+   * @param mutableAclLogRecords instance of {@link MutableAclLogRecords} to which ACL log records
+   *     that are created from the runnable are added
    */
   LoggingContextAwareCallable(
-      Callable<T> callable, MutablePerformanceLogRecords mutablePerformanceLogRecords) {
+      Callable<T> callable,
+      MutablePerformanceLogRecords mutablePerformanceLogRecords,
+      MutableAclLogRecords mutableAclLogRecords) {
     this.callable = callable;
     this.callingThread = Thread.currentThread();
     this.tags = LoggingContext.getInstance().getTagsAsMap();
     this.forceLogging = LoggingContext.getInstance().isLoggingForced();
     this.performanceLogging = LoggingContext.getInstance().isPerformanceLogging();
     this.mutablePerformanceLogRecords = mutablePerformanceLogRecords;
+    this.aclLogging = LoggingContext.getInstance().isAclLogging();
+    this.mutableAclLogRecords = mutableAclLogRecords;
   }
 
   @Override
@@ -76,6 +84,8 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
     loggingCtx.forceLogging(forceLogging);
     loggingCtx.performanceLogging(performanceLogging);
     loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
+    loggingCtx.aclLogging(aclLogging);
+    loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
     try {
       return callable.call();
     } finally {

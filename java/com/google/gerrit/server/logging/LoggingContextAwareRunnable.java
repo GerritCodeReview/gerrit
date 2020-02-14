@@ -58,6 +58,8 @@ public class LoggingContextAwareRunnable implements Runnable {
   private final boolean forceLogging;
   private final boolean performanceLogging;
   private final MutablePerformanceLogRecords mutablePerformanceLogRecords;
+  private final boolean aclLogging;
+  private final MutableAclLogRecords mutableAclLogRecords;
 
   /**
    * Creates a LoggingContextAwareRunnable that wraps the given {@link Runnable}.
@@ -65,15 +67,21 @@ public class LoggingContextAwareRunnable implements Runnable {
    * @param runnable Runnable that should be wrapped.
    * @param mutablePerformanceLogRecords instance of {@link MutablePerformanceLogRecords} to which
    *     performance log records that are created from the runnable are added
+   * @param mutableAclLogRecords instance of {@link MutableAclLogRecords} to which ACL log records
+   *     that are created from the runnable are added
    */
   LoggingContextAwareRunnable(
-      Runnable runnable, MutablePerformanceLogRecords mutablePerformanceLogRecords) {
+      Runnable runnable,
+      MutablePerformanceLogRecords mutablePerformanceLogRecords,
+      MutableAclLogRecords mutableAclLogRecords) {
     this.runnable = runnable;
     this.callingThread = Thread.currentThread();
     this.tags = LoggingContext.getInstance().getTagsAsMap();
     this.forceLogging = LoggingContext.getInstance().isLoggingForced();
     this.performanceLogging = LoggingContext.getInstance().isPerformanceLogging();
     this.mutablePerformanceLogRecords = mutablePerformanceLogRecords;
+    this.aclLogging = LoggingContext.getInstance().isAclLogging();
+    this.mutableAclLogRecords = mutableAclLogRecords;
   }
 
   public Runnable unwrap() {
@@ -99,6 +107,8 @@ public class LoggingContextAwareRunnable implements Runnable {
     loggingCtx.forceLogging(forceLogging);
     loggingCtx.performanceLogging(performanceLogging);
     loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
+    loggingCtx.aclLogging(aclLogging);
+    loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
     try {
       runnable.run();
     } finally {

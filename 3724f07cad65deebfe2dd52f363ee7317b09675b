@@ -39,6 +39,24 @@
       "revId": "3724f07cad65deebfe2dd52f363ee7317b09675b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f9d9ee6_c69087f9",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-14T10:34:37Z",
+      "side": 1,
+      "message": "You could get Provider\u003cCurrentUser\u003e injected and call #isIdentifiedUser() on it to get the same information without an exception.",
+      "parentUuid": "35dade81_e5cb06f1",
+      "revId": "3724f07cad65deebfe2dd52f363ee7317b09675b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "510689c6_d0076676",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-02-14T09:47:37Z",
+      "side": 1,
+      "message": "It would be great if we could also have a tooltip here that gives users a chance to understand what this is about. I think the proposal had \"Respectful code review\". Maybe a bit clearer: \"Tips for respectful code reviews\"?",
+      "range": {
+        "startLine": 316,
+        "startChar": 16,
+        "endLine": 316,
+        "endChar": 70
+      },
+      "revId": "ebd430ad9b76542597eaa7dfda7d9987f14fc112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85bc7f53_01588700",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
         "patchSetId": 2

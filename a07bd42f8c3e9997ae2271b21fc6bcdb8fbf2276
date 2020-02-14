@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b26909bb_72416c4f",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-14T10:53:41Z",
+      "side": 1,
+      "message": "Do we still need to explicitly set the unit even when it\u0027s an empty string?",
+      "range": {
+        "startLine": 71,
+        "startChar": 75,
+        "endLine": 71,
+        "endChar": 87
+      },
+      "revId": "a07bd42f8c3e9997ae2271b21fc6bcdb8fbf2276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8887123_6eaf0daa",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-14T10:53:41Z",
+      "side": 1,
+      "message": "is the newline needed?",
+      "range": {
+        "startLine": 166,
+        "startChar": 85,
+        "endLine": 166,
+        "endChar": 87
+      },
+      "revId": "a07bd42f8c3e9997ae2271b21fc6bcdb8fbf2276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

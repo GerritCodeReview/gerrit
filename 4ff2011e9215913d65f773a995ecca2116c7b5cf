@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89730445_c913dec8",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-14T10:50:23Z",
+      "side": 1,
+      "message": "[optional] maybe better to name it just \"setParentCommit\"",
+      "range": {
+        "startLine": 200,
+        "startChar": 17,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9c5bf7a_4172ff7c",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-14T10:50:23Z",
+      "side": 1,
+      "message": "maybe name this \"parentCommitId\"?",
+      "range": {
+        "startLine": 200,
+        "startChar": 62,
+        "endLine": 200,
+        "endChar": 71
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0281deec_a4fea86c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-14T10:50:23Z",
+      "side": 1,
+      "message": "nit: missing trailing \u0027.\u0027",
+      "range": {
+        "startLine": 368,
+        "startChar": 74,
+        "endLine": 368,
+        "endChar": 81
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b1f0fa9_03903c17",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-14T10:50:23Z",
+      "side": 1,
+      "message": "It\u0027s unclear what \"draft ref commits\u0027 are. Maybe say \"the commits in the refs/draft-comments ref\".",
+      "range": {
+        "startLine": 368,
+        "startChar": 31,
+        "endLine": 368,
+        "endChar": 48
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d801ca62_4fdf4cef",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-14T10:50:23Z",
+      "side": 1,
+      "message": "nit: missing trailing \u0027.\u0027",
+      "range": {
+        "startLine": 369,
+        "startChar": 89,
+        "endLine": 369,
+        "endChar": 96
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d330d1a_e62a1beb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-14T10:50:23Z",
+      "side": 1,
+      "message": "The term \"draftRefCommit\" is unclear. What you mean are the commits in the draft comments ref.\nMaybe name it \"commitsInDraftCommentsRefHaveNoParent\" or \"draftCommentsRefDoesntKeepHistory\".",
+      "range": {
+        "startLine": 373,
+        "startChar": 14,
+        "endLine": 373,
+        "endChar": 47
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb6be07d_f00b182b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-14T10:50:23Z",
+      "side": 1,
+      "message": "maybe name it \"getHeadOfDraftCommentsRef\"?",
+      "range": {
+        "startLine": 1153,
+        "startChar": 21,
+        "endLine": 1153,
+        "endChar": 45
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03b4fd69_299a22e5",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-14T10:50:23Z",
+      "side": 1,
+      "message": "I think the conversion to CommitInfo is not needed, can you just return RevCommit?\n\nThen you can remove this method and just use the getHead method from AbstractDaemonTest.",
+      "range": {
+        "startLine": 1157,
+        "startChar": 6,
+        "endLine": 1159,
+        "endChar": 24
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

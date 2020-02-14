@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85bc7f53_01588700",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-14T09:16:21Z",
+      "side": 1,
+      "message": "Can you capitalise the words? \"Read More\"?",
+      "revId": "ebd430ad9b76542597eaa7dfda7d9987f14fc112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adfe4322_42876c4c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-14T09:16:21Z",
+      "side": 1,
+      "message": "Maybe extract this to a constant? I\u0027m not sure if we have a pattern of doing logic in the attribute definition.",
+      "revId": "ebd430ad9b76542597eaa7dfda7d9987f14fc112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ea729ff_7bed5815",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-14T10:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fad2242e_b1f0eb1c",
+      "range": {
+        "startLine": 145,
+        "startChar": 16,
+        "endLine": 145,
+        "endChar": 24
+      },
+      "revId": "3724f07cad65deebfe2dd52f363ee7317b09675b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35dade81_e5cb06f1",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 3

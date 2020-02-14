@@ -23,15 +23,6 @@ import org.eclipse.jgit.util.QuotedString;
 
 public final class SshLogLayout extends Layout {
 
-  private static final String P_SESSION = "session";
-  private static final String P_USER_NAME = "userName";
-  private static final String P_ACCOUNT_ID = "accountId";
-  private static final String P_WAIT = "queueWaitTime";
-  private static final String P_EXEC = "executionTime";
-  private static final String P_STATUS = "status";
-  private static final String P_AGENT = "agent";
-  private static final String P_MESSAGE = "message";
-
   private final Calendar calendar;
   private long lastTimeMillis;
   private final char[] lastTimeString = new char[20];
@@ -54,24 +45,24 @@ public final class SshLogLayout extends Layout {
     formatDate(event.getTimeStamp(), buf);
     buf.append(']');
 
-    req(P_SESSION, buf, event);
+    req(SshLog.P_SESSION, buf, event);
 
     buf.append(' ');
     buf.append('[');
     buf.append(event.getThreadName());
     buf.append(']');
 
-    req(P_USER_NAME, buf, event);
-    req(P_ACCOUNT_ID, buf, event);
+    req(SshLog.P_USER_NAME, buf, event);
+    req(SshLog.P_ACCOUNT_ID, buf, event);
 
     buf.append(' ');
     buf.append(event.getMessage());
 
-    opt(P_WAIT, buf, event);
-    opt(P_EXEC, buf, event);
-    opt(P_MESSAGE, buf, event);
-    opt(P_STATUS, buf, event);
-    opt(P_AGENT, buf, event);
+    opt(SshLog.P_WAIT, buf, event);
+    opt(SshLog.P_EXEC, buf, event);
+    opt(SshLog.P_MESSAGE, buf, event);
+    opt(SshLog.P_STATUS, buf, event);
+    opt(SshLog.P_AGENT, buf, event);
 
     buf.append('\n');
     return buf.toString();

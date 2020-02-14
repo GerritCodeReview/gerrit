@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b7e72c62_1636a1f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-02-14T16:47:51Z",
+      "side": 1,
+      "message": "I think it\u0027s been an expected norm for a while that you can skip versions for schema upgrades unless the release notes explicitly state that you cannot. 2.10 [1] for example, specifically calls out you must upgrade to 2.8 or 2.9 first.\n\nBeyond that, I agree that if we can keep that working with effort someone is willing to contribute, we should. It makes it easier to take advantage of newer libraries and optimizations (such as [2]) when upgrading.\n\n[1] http://gerrit-documentation.storage.googleapis.com/ReleaseNotes/ReleaseNotes-2.10.html\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/249812",
+      "parentUuid": "569df8b5_46df494f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2976ff05_89be5536",
         "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1

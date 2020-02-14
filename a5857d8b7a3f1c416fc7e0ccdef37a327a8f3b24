@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "569df8b5_46df494f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-14T09:29:17Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s a formal requirement, but if people are willing to contribute changes to make it possible, then I don\u0027t think we should reject them.",
+      "parentUuid": "9ae9204e_b5652095",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2976ff05_89be5536",
         "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1
@@ -89,6 +113,53 @@
         "startChar": 8,
         "endLine": 45,
         "endChar": 71
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3caadb37_e176e850",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-14T09:29:17Z",
+      "side": 1,
+      "message": "If we could be more specific here, that would feel safer to me.",
+      "parentUuid": "e1127f62_a56a629a",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 71
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a8eb1ff_a4aef3fe",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-14T09:29:17Z",
+      "side": 1,
+      "message": "This reads like it could potentially introduce wrong timestamps/assumptions for creations. Can you add a comment why that is not an issue?",
+      "range": {
+        "startLine": 49,
+        "startChar": 82,
+        "endLine": 49,
+        "endChar": 99
       },
       "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -116,6 +116,24 @@
       "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1058a774_686d205b",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-14T08:54:47Z",
+      "side": 1,
+      "message": "I am not at all against the frontend knowing the default policy. The use case on showing the default in a user settings dialog makes a lot of sense. This is different from other endpoints, so I wanted to make sure we have thought about it.\n\nFor example: User preferences are shipped on the API using inheritance from: Defaults -\u003e host overrides -\u003e user overrides. The JSON you get on the API has all these defaults and overrides applied and is authoritative on what should be done (e.g. how fast the cursor should blink ;-)).\n\nIf we stick with shipping only explicitly set display_names in AccountInfo, we need to document in the AccountInfo doc that the default will not be applied and that we expect the client to apply the default if unset.\n\nI do think there would be value in having the backend apply a default instead of leaving it unset. For example: If we were to build a dashboard for more than one Gerrit host, we\u0027d not only have to query all the hosts, but also load their ServerInfo before showing a combined list of changes with display names.",
+      "parentUuid": "e2fa3a4a_f870c977",
+      "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

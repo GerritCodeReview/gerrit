@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "13258986_49a67404",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-14T12:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b26909bb_72416c4f",
+      "range": {
+        "startLine": 71,
+        "startChar": 75,
+        "endLine": 71,
+        "endChar": 87
+      },
+      "revId": "a07bd42f8c3e9997ae2271b21fc6bcdb8fbf2276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8887123_6eaf0daa",
         "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "a07bd42f8c3e9997ae2271b21fc6bcdb8fbf2276",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fd7f9e3_c890d12a",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-14T12:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8887123_6eaf0daa",
+      "range": {
+        "startLine": 166,
+        "startChar": 85,
+        "endLine": 166,
+        "endChar": 87
+      },
+      "revId": "a07bd42f8c3e9997ae2271b21fc6bcdb8fbf2276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

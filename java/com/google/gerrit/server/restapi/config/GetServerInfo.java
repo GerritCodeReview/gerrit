@@ -20,6 +20,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
@@ -74,6 +75,7 @@ import org.eclipse.jgit.lib.Config;
 public class GetServerInfo implements RestReadView<ConfigResource> {
   private final Config config;
   private final AccountVisibilityProvider accountVisibilityProvider;
+  private final AccountDefaultDisplayName accountDefaultDisplayName;
   private final AuthConfig authConfig;
   private final Realm realm;
   private final PluginMapContext<DownloadScheme> downloadSchemes;
@@ -96,6 +98,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public GetServerInfo(
       @GerritServerConfig Config config,
       AccountVisibilityProvider accountVisibilityProvider,
+      AccountDefaultDisplayName accountDefaultDisplayName,
       AuthConfig authConfig,
       Realm realm,
       PluginMapContext<DownloadScheme> downloadSchemes,
@@ -115,6 +118,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       SitePaths sitePaths) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
+    this.accountDefaultDisplayName = accountDefaultDisplayName;
     this.authConfig = authConfig;
     this.realm = realm;
     this.downloadSchemes = downloadSchemes;
@@ -156,6 +160,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private AccountsInfo getAccountsInfo() {
     AccountsInfo info = new AccountsInfo();
     info.visibility = accountVisibilityProvider.get();
+    info.defaultDisplayName = accountDefaultDisplayName;
     return info;
   }
 

@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
@@ -52,17 +53,20 @@ import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gson.Gson;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -76,6 +80,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -126,6 +131,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String topic;
   private String commit;
   private Optional<Account.Id> assignee;
+  @Nullable private AttentionUpdate attentionUpdate;
   private Set<String> hashtags;
   private String changeMessage;
   private String tag;
@@ -144,6 +150,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private RobotCommentUpdate robotCommentUpdate;
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
+
+  /** ö */
+  private Gson gson = OutputFormat.JSON_COMPACT.newGson();
 
   @AssistedInject
   private ChangeUpdate(
@@ -264,6 +273,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return ObjectId.fromString(commit);
   }
 
+  // ö Set e.g. from SetHashtagsOp, so likely for small changes, especially ones that don't contain
   public void setChangeMessage(String changeMessage) {
     this.changeMessage = changeMessage;
   }
@@ -528,8 +538,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         deleteCommentRewriter == null && deleteChangeMessageRewriter == null,
         "cannot update and rewrite ref in one BatchUpdate");
 
-    CommitBuilder cb = new CommitBuilder();
-
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
     if (commitSubject != null) {
@@ -576,6 +584,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (commit != null) {
       addFooter(msg, FOOTER_COMMIT, commit);
+    }
+
+    //ö Add a Tag: footer?
+    //ö Add an "Attention added: ..." line?
+    if (attentionUpdate != null) {  // ö
+      addFooter(msg, FOOTER_ATTENTION, gson.toJson(attentionUpdate));
     }
 
     if (assignee != null) {
@@ -675,6 +689,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf);
     }
 
+    CommitBuilder cb = new CommitBuilder();
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -781,5 +796,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     PersonIdent.appendSanitized(sb, ident.getEmailAddress());
     sb.append('>');
     return sb;
+  }
+
+  public void setAttentionUpdate(AttentionUpdate attentionUpdate) {
+    this.attentionUpdate = attentionUpdate;
   }
 }

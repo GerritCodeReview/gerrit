@@ -75,6 +75,9 @@ public class ReviewInput {
    */
   public boolean ready;
 
+  /** Updates to the attention set of the change. */
+  public List<AttentionInput> attentionUpdates;
+
   public enum DraftHandling {
     /** Leave pending drafts alone. */
     KEEP,

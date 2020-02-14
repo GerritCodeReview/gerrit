@@ -59,6 +59,7 @@ public class GetDetail implements RestReadView<ChangeResource>, DynamicOptions.B
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) {
+    System.out.println("##### rsrc " + rsrc);
     return delegate.apply(rsrc);
   }
 }

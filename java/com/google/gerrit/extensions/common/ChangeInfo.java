@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.entities.AttentionUpdate;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -24,11 +25,12 @@ import java.util.Map;
 
 public class ChangeInfo {
   // ActionJson#copy(List, ChangeInfo) must be adapted if new fields are added that are not
-  // protected by any ListChangesOption.
+  // protected by any ListChangesOption. ö ... i.e. that are listed by default!?
   public String id;
   public String project;
   public String branch;
   public String topic;
+  public Collection<AttentionUpdate> attentionSet;
   public AccountInfo assignee;
   public Collection<String> hashtags;
   public String changeId;

@@ -504,6 +504,13 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().shortName();
     out.topic = in.getTopic();
+    // ö Do we need to check for presence in the index?
+    // ö if (indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE)) {
+    // ö TODO: Understand how this works.
+    if (false) {// cd.att
+      // out.attentionSet
+      out.assignee = accountLoader.get(cd.assignee().get());
+    }
     out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();

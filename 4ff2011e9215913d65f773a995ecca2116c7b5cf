@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "5a13e55f_3cc572f9",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-14T11:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5bf7a_4172ff7c",
+      "range": {
+        "startLine": 200,
+        "startChar": 62,
+        "endLine": 200,
+        "endChar": 71
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cdb34ab_f9f0a5da",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-14T11:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89730445_c913dec8",
+      "range": {
+        "startLine": 200,
+        "startChar": 17,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0281deec_a4fea86c",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 6
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "396b34eb_082416d2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-14T11:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0281deec_a4fea86c",
+      "range": {
+        "startLine": 368,
+        "startChar": 74,
+        "endLine": 368,
+        "endChar": 81
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301f890b_be06eb04",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-14T11:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b1f0fa9_03903c17",
+      "range": {
+        "startLine": 368,
+        "startChar": 31,
+        "endLine": 368,
+        "endChar": 48
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d801ca62_4fdf4cef",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 6
@@ -114,6 +210,30 @@
       "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9fe0c73_a49e0f1a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-14T11:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d801ca62_4fdf4cef",
+      "range": {
+        "startLine": 369,
+        "startChar": 89,
+        "endLine": 369,
+        "endChar": 96
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "4ca44e7a_db15151e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-14T11:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d330d1a_e62a1beb",
+      "range": {
+        "startLine": 373,
+        "startChar": 14,
+        "endLine": 373,
+        "endChar": 47
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb6be07d_f00b182b",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 6
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "30285caf_229239c4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-14T11:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb6be07d_f00b182b",
+      "range": {
+        "startLine": 1153,
+        "startChar": 21,
+        "endLine": 1153,
+        "endChar": 45
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03b4fd69_299a22e5",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 6
@@ -183,6 +351,30 @@
       "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1020d6d7_d34046c9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-02-14T11:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03b4fd69_299a22e5",
+      "range": {
+        "startLine": 1157,
+        "startChar": 6,
+        "endLine": 1159,
+        "endChar": 24
+      },
+      "revId": "4ff2011e9215913d65f773a995ecca2116c7b5cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

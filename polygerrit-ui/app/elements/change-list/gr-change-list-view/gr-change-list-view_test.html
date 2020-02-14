@@ -198,7 +198,6 @@ limitations under the License.
 
     suite('query based navigation', () => {
       setup(() => {
-        sandbox.stub(Gerrit.Nav, 'getUrlForChange', () => '/r/c/1');
       });
 
       teardown(done => {
@@ -209,10 +208,11 @@ limitations under the License.
       });
 
       test('Searching for a change ID redirects to change', done => {
+        const change = {_number: 1};
         sandbox.stub(element, '_getChanges')
-            .returns(Promise.resolve([{_number: 1}]));
-        sandbox.stub(element, '_replaceCurrentLocation', url => {
-          assert.equal(url, '/r/c/1');
+            .returns(Promise.resolve([change]));
+        sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
+          assert.equal(url, change);
           done();
         });
 
@@ -220,10 +220,11 @@ limitations under the License.
       });
 
       test('Searching for a change num redirects to change', done => {
+        const change = {_number: 1};
         sandbox.stub(element, '_getChanges')
-            .returns(Promise.resolve([{_number: 1}]));
-        sandbox.stub(element, '_replaceCurrentLocation', url => {
-          assert.equal(url, '/r/c/1');
+            .returns(Promise.resolve([change]));
+        sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
+          assert.equal(url, change);
           done();
         });
 
@@ -231,10 +232,11 @@ limitations under the License.
       });
 
       test('Commit hash redirects to change', done => {
+        const change = {_number: 1};
         sandbox.stub(element, '_getChanges')
-            .returns(Promise.resolve([{_number: 1}]));
-        sandbox.stub(element, '_replaceCurrentLocation', url => {
-          assert.equal(url, '/r/c/1');
+            .returns(Promise.resolve([change]));
+        sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
+          assert.equal(url, change);
           done();
         });
 
@@ -244,7 +246,7 @@ limitations under the License.
       test('Searching for an invalid change ID searches', () => {
         sandbox.stub(element, '_getChanges')
             .returns(Promise.resolve([]));
-        const stub = sandbox.stub(element, '_replaceCurrentLocation');
+        const stub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
 
         element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
         flushAsynchronousOperations();
@@ -255,7 +257,7 @@ limitations under the License.
       test('Change ID with multiple search results searches', () => {
         sandbox.stub(element, '_getChanges')
             .returns(Promise.resolve([{}, {}]));
-        const stub = sandbox.stub(element, '_replaceCurrentLocation');
+        const stub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
 
         element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
         flushAsynchronousOperations();

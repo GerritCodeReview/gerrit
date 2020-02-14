@@ -821,7 +821,8 @@
 
     _reload() {
       // Load the current change without any patch range.
-      location.href = this.getBaseUrl() + '/c/' + this.change._number;
+      Gerrit.Nav.navigateToChange(this.change);
+      this.cancel();
     }
 
     _computeSendButtonLabel(canBeStarted) {

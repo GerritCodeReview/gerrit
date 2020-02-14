@@ -20,7 +20,9 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +70,9 @@ public class ReviewInput {
    * and {@link #ready} to be true.
    */
   public boolean workInProgress;
+
+  // Simulate algorithm to update the ad.
+  public String ad = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
 
   /**
    * If true mark the change as ready for review. It is an error for both {@link #workInProgress}

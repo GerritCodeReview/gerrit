@@ -27,42 +27,29 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawParseUtils;
 
 public class ChangeNoteUtil {
-  public static final FooterKey FOOTER_ASSIGNEE = new FooterKey("Assignee");
-  public static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
-  public static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
-  public static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
-  public static final FooterKey FOOTER_CURRENT = new FooterKey("Current");
-  public static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
-  public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
-  public static final FooterKey FOOTER_LABEL = new FooterKey("Label");
-  public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
-  public static final FooterKey FOOTER_PATCH_SET_DESCRIPTION =
+  static final FooterKey FOOTER_ASSIGNEE = new FooterKey("Assignee");
+  static final FooterKey FOOTER_ATTENTION = new FooterKey("Attention");
+  static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
+  static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
+  static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
+  static final FooterKey FOOTER_CURRENT = new FooterKey("Current");
+  static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
+  static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
+  static final FooterKey FOOTER_LABEL = new FooterKey("Label");
+  static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
+  static final FooterKey FOOTER_PATCH_SET_DESCRIPTION =
       new FooterKey("Patch-set-description");
-  public static final FooterKey FOOTER_PRIVATE = new FooterKey("Private");
-  public static final FooterKey FOOTER_REAL_USER = new FooterKey("Real-user");
-  public static final FooterKey FOOTER_STATUS = new FooterKey("Status");
-  public static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
-  public static final FooterKey FOOTER_SUBMISSION_ID = new FooterKey("Submission-id");
-  public static final FooterKey FOOTER_SUBMITTED_WITH = new FooterKey("Submitted-with");
-  public static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
-  public static final FooterKey FOOTER_TAG = new FooterKey("Tag");
-  public static final FooterKey FOOTER_WORK_IN_PROGRESS = new FooterKey("Work-in-progress");
-  public static final FooterKey FOOTER_REVERT_OF = new FooterKey("Revert-of");
-  public static final FooterKey FOOTER_CHERRY_PICK_OF = new FooterKey("Cherry-pick-of");
-
-  static final String AUTHOR = "Author";
-  static final String BASE_PATCH_SET = "Base-for-patch-set";
-  static final String COMMENT_RANGE = "Comment-range";
-  static final String FILE = "File";
-  static final String LENGTH = "Bytes";
-  static final String PARENT = "Parent";
-  static final String PARENT_NUMBER = "Parent-number";
-  static final String PATCH_SET = "Patch-set";
-  static final String REAL_AUTHOR = "Real-author";
-  static final String REVISION = "Revision";
-  static final String UUID = "UUID";
-  static final String UNRESOLVED = "Unresolved";
-  static final String TAG = FOOTER_TAG.getName();
+  static final FooterKey FOOTER_PRIVATE = new FooterKey("Private");
+  static final FooterKey FOOTER_REAL_USER = new FooterKey("Real-user");
+  static final FooterKey FOOTER_STATUS = new FooterKey("Status");
+  static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
+  static final FooterKey FOOTER_SUBMISSION_ID = new FooterKey("Submission-id");
+  static final FooterKey FOOTER_SUBMITTED_WITH = new FooterKey("Submitted-with");
+  static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
+  static final FooterKey FOOTER_TAG = new FooterKey("Tag");
+  static final FooterKey FOOTER_WORK_IN_PROGRESS = new FooterKey("Work-in-progress");
+  static final FooterKey FOOTER_REVERT_OF = new FooterKey("Revert-of");
+  static final FooterKey FOOTER_CHERRY_PICK_OF = new FooterKey("Cherry-pick-of");
 
   private final ChangeNoteJson changeNoteJson;
   private final String serverId;

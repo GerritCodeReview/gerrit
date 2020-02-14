@@ -58,6 +58,15 @@ objects needing finalization.
 
 ==== Jetty
 
+* `http/server/jetty/connections/connections`: The current number of open connections
+* `http/server/jetty/connections/connections_total`: The total number of connections opened
+* `http/server/jetty/connections/connections_duration_max`: The max duration of a connection in ms
+* `http/server/jetty/connections/connections_duration_mean`: The mean duration of a connection in ms
+* `http/server/jetty/connections/connections_duration_stdev`: The standard deviation of the duration of a connection in ms
+* `http/server/jetty/connections/received_messages`: The total number of messages received
+* `http/server/jetty/connections/sent_messages`: The total number of messages sent
+* `http/server/jetty/connections/received_bytes`: Total number of bytes received by tracked connections
+* `http/server/jetty/connections/sent_bytes`: Total number of bytes sent by tracked connections"
 * `http/server/jetty/threadpool/active_threads`: Active threads
 * `http/server/jetty/threadpool/idle_threads`: Idle threads
 * `http/server/jetty/threadpool/reserved_threads`: Reserved threads

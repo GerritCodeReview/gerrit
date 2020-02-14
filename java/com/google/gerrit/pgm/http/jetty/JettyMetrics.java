@@ -17,6 +17,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.metrics.CallbackMetric;
 import com.google.gerrit.metrics.CallbackMetric0;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -45,27 +46,83 @@ public class JettyMetrics {
         metrics.newCallbackMetric(
             "http/server/jetty/threadpool/idle_threads",
             Integer.class,
-            new Description("Idle threads").setGauge().setUnit("threads"));
+            new Description("Idle threads").setGauge());
     CallbackMetric0<Integer> busyThreads =
         metrics.newCallbackMetric(
             "http/server/jetty/threadpool/active_threads",
             Integer.class,
-            new Description("Active threads").setGauge().setUnit("threads"));
+            new Description("Active threads").setGauge());
     CallbackMetric0<Integer> reservedThreads =
         metrics.newCallbackMetric(
             "http/server/jetty/threadpool/reserved_threads",
             Integer.class,
-            new Description("Reserved threads").setGauge().setUnit("threads"));
+            new Description("Reserved threads").setGauge());
     CallbackMetric0<Integer> queueSize =
         metrics.newCallbackMetric(
             "http/server/jetty/threadpool/queue_size",
             Integer.class,
-            new Description("Queued requests waiting for a thread").setGauge().setUnit("requests"));
+            new Description("Queued requests waiting for a thread").setGauge());
     CallbackMetric0<Boolean> lowOnThreads =
         metrics.newCallbackMetric(
             "http/server/jetty/threadpool/is_low_on_threads",
             Boolean.class,
             new Description("Whether thread pool is low on threads").setGauge());
+    CallbackMetric0<Long> connections =
+        metrics.newCallbackMetric(
+            "http/server/jetty/connections/connections",
+            Long.class,
+            new Description("The current number of open connections").setGauge());
+    CallbackMetric0<Long> connectionsTotal =
+        metrics.newCallbackMetric(
+            "http/server/jetty/connections/connections_total",
+            Long.class,
+            new Description("The total number of connections opened").setGauge());
+    CallbackMetric0<Long> connectionDurationMax =
+        metrics.newCallbackMetric(
+            "http/server/jetty/connections/connections_duration_max",
+            Long.class,
+            new Description("The max duration of a connection")
+                .setGauge()
+                .setUnit(Units.MILLISECONDS));
+    CallbackMetric0<Double> connectionDurationMean =
+        metrics.newCallbackMetric(
+            "http/server/jetty/connections/connections_duration_mean",
+            Double.class,
+            new Description("The mean duration of a connection")
+                .setGauge()
+                .setUnit(Units.MILLISECONDS));
+    CallbackMetric0<Double> connectionDurationStDev =
+        metrics.newCallbackMetric(
+            "http/server/jetty/connections/connections_duration_stdev",
+            Double.class,
+            new Description("The standard deviation of the duration of a connection")
+                .setGauge()
+                .setUnit(Units.MILLISECONDS));
+    CallbackMetric0<Long> receivedMessages =
+        metrics.newCallbackMetric(
+            "http/server/jetty/connections/received_messages",
+            Long.class,
+            new Description("The total number of messages received").setGauge());
+    CallbackMetric0<Long> sentMessages =
+        metrics.newCallbackMetric(
+            "http/server/jetty/connections/sent_messages",
+            Long.class,
+            new Description("The total number of messages sent").setGauge());
+    CallbackMetric0<Long> receivedBytes =
+        metrics.newCallbackMetric(
+            "http/server/jetty/connections/received_bytes",
+            Long.class,
+            new Description("Total number of bytes received by tracked connections")
+                .setGauge()
+                .setUnit(Units.BYTES));
+    CallbackMetric0<Long> sentBytes =
+        metrics.newCallbackMetric(
+            "http/server/jetty/connections/sent_bytes",
+            Long.class,
+            new Description("Total number of bytes sent by tracked connections")
+                .setGauge()
+                .setUnit(Units.BYTES));
+
     JettyServer.Metrics jettyMetrics = jetty.getMetrics();
     metrics.newTrigger(
         ImmutableSet.<CallbackMetric<?>>of(
@@ -76,7 +133,16 @@ public class JettyMetrics {
             maxPoolSize,
             poolSize,
             queueSize,
-            lowOnThreads),
+            lowOnThreads,
+            connections,
+            connectionsTotal,
+            connectionDurationMax,
+            connectionDurationMean,
+            connectionDurationStDev,
+            receivedMessages,
+            sentMessages,
+            receivedBytes,
+            sentBytes),
         () -> {
           minPoolSize.set(jettyMetrics.getMinThreads());
           maxPoolSize.set(jettyMetrics.getMaxThreads());
@@ -86,6 +152,15 @@ public class JettyMetrics {
           reservedThreads.set(jettyMetrics.getReservedThreads());
           queueSize.set(jettyMetrics.getQueueSize());
           lowOnThreads.set(jettyMetrics.isLowOnThreads());
+          connections.set(jettyMetrics.getConnections());
+          connectionsTotal.set(jettyMetrics.getConnectionsTotal());
+          connectionDurationMax.set(jettyMetrics.getConnectionDurationMax());
+          connectionDurationMean.set(jettyMetrics.getConnectionDurationMean());
+          connectionDurationStDev.set(jettyMetrics.getConnectionDurationStdDev());
+          receivedMessages.set(jettyMetrics.getReceivedMessages());
+          sentMessages.set(jettyMetrics.getSentMessages());
+          receivedBytes.set(jettyMetrics.getReceivedBytes());
+          sentBytes.set(jettyMetrics.getSentBytes());
         });
   }
 }

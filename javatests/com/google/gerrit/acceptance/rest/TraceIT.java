@@ -771,6 +771,45 @@ public class TraceIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  @GerritConfig(name = "tracing.userVisibleLogging", value = "true")
+  public void debugLogsOnAuthException() throws Exception {
+    RestResponse response = anonymousRestSession.post("/changes/");
+    response.assertForbidden();
+    assertThat(response.getEntityContent())
+        .endsWith("Logs:\nREST endpoint not allowed for anonymous user");
+
+    response = userRestSession.delete("/projects/" + project.get() + "/description");
+    response.assertForbidden();
+    assertThat(response.getEntityContent())
+        .endsWith(
+            "Logs:\n"
+                + "'user' can perform 'read' with force=false on project '"
+                + project.get()
+                + "' for ref 'refs/*'");
+
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+    response = userRestSession.post("/changes/" + changeId + "/revisions/current/submit");
+    response.assertForbidden();
+    assertThat(response.getEntityContent())
+        .endsWith(
+            "Logs:\n"
+                + "'user' can perform 'read' with force=false on project '"
+                + project.get()
+                + "' for ref 'refs/heads/master'\n"
+                + "'user' cannot perform 'submit' with force=false on project '"
+                + project.get()
+                + "' for ref 'refs/heads/master'");
+  }
+
+  @Test
+  public void noDebugLogsOnAuthExceptionIfDisabled() throws Exception {
+    RestResponse response = anonymousRestSession.post("/changes/");
+    response.assertForbidden();
+    assertThat(response.getEntityContent()).doesNotContain("Logs:");
+  }
+
   private void assertForceLogging(boolean expected) {
     assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
         .isEqualTo(expected);

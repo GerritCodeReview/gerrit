@@ -277,6 +277,7 @@
      */
     appStarted() {
       this.timeEnd(TIMING.APP_STARTED);
+      this.pageLoaded();
     },
 
     /**

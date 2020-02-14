@@ -14,10 +14,15 @@
 
 package com.google.gerrit.extensions.api.config;
 
+import java.util.List;
+
 public class AccessCheckInfo {
   public String message;
   // HTTP status code
   public int status;
+
+  /** Debug logs that may help to understand why a permission is denied or allowed. */
+  public List<String> debugLogs;
 
   // for future extension, we may add inputs / results for bulk checks.
 }

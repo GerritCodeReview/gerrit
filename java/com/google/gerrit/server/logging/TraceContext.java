@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
@@ -222,9 +223,17 @@ public class TraceContext implements AutoCloseable {
   // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>
   private final Table<String, String, Boolean> tags = HashBasedTable.create();
 
-  private boolean stopForceLoggingOnClose;
+  private final boolean oldAclLogging;
+  private final ImmutableList<String> oldAclLogRecords;
 
-  private TraceContext() {}
+  private boolean stopForceLoggingOnClose;
+  private boolean stopAclLoggingOnClose;
+
+  private TraceContext() {
+    // Just in case remember the old state and reset ACL log entries.
+    this.oldAclLogging = LoggingContext.getInstance().isAclLogging();
+    this.oldAclLogRecords = LoggingContext.getInstance().getAclLogRecords();
+  }
 
   public TraceContext addTag(RequestId.Type requestId, Object tagValue) {
     return addTag(requireNonNull(requestId, "request ID is required").name(), tagValue);
@@ -265,6 +274,23 @@ public class TraceContext implements AutoCloseable {
         .findFirst();
   }
 
+  public TraceContext enableAclLogging() {
+    if (stopAclLoggingOnClose) {
+      return this;
+    }
+
+    stopAclLoggingOnClose = !LoggingContext.getInstance().aclLogging(true);
+    return this;
+  }
+
+  public boolean isAclLoggingEnabled() {
+    return LoggingContext.getInstance().isAclLogging();
+  }
+
+  public ImmutableList<String> getAclLogRecords() {
+    return LoggingContext.getInstance().getAclLogRecords();
+  }
+
   @Override
   public void close() {
     for (Table.Cell<String, String, Boolean> cell : tags.cellSet()) {
@@ -274,6 +300,11 @@ public class TraceContext implements AutoCloseable {
     }
     if (stopForceLoggingOnClose) {
       LoggingContext.getInstance().forceLogging(false);
+    }
+
+    if (stopAclLoggingOnClose) {
+      LoggingContext.getInstance().aclLogging(oldAclLogging);
+      LoggingContext.getInstance().setAclLogRecords(oldAclLogRecords);
     }
   }
 }

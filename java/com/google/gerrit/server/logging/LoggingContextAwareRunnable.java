@@ -58,6 +58,8 @@ public class LoggingContextAwareRunnable implements Runnable {
   private final boolean forceLogging;
   private final boolean performanceLogging;
   private final MutablePerformanceLogRecords mutablePerformanceLogRecords;
+  private final boolean aclLogging;
+  private final MutableAclLogRecords mutableAclLogRecords;
 
   /**
    * Creates a LoggingContextAwareRunnable that wraps the given {@link Runnable}.
@@ -65,15 +67,21 @@ public class LoggingContextAwareRunnable implements Runnable {
    * @param runnable Runnable that should be wrapped.
    * @param mutablePerformanceLogRecords instance of {@link MutablePerformanceLogRecords} to which
    *     performance log records that are created from the runnable are added
+   * @param mutableAclLogRecords instance of {@link MutableAclLogRecords} to which ACL log records
+   *     that are created from the runnable are added
    */
   LoggingContextAwareRunnable(
-      Runnable runnable, MutablePerformanceLogRecords mutablePerformanceLogRecords) {
+      Runnable runnable,
+      MutablePerformanceLogRecords mutablePerformanceLogRecords,
+      MutableAclLogRecords mutableAclLogRecords) {
     this.runnable = runnable;
     this.callingThread = Thread.currentThread();
     this.tags = LoggingContext.getInstance().getTagsAsMap();
     this.forceLogging = LoggingContext.getInstance().isLoggingForced();
     this.performanceLogging = LoggingContext.getInstance().isPerformanceLogging();
     this.mutablePerformanceLogRecords = mutablePerformanceLogRecords;
+    this.aclLogging = LoggingContext.getInstance().isAclLogging();
+    this.mutableAclLogRecords = mutableAclLogRecords;
   }
 
   public Runnable unwrap() {
@@ -98,6 +106,7 @@ public class LoggingContextAwareRunnable implements Runnable {
     loggingCtx.setTags(tags);
     loggingCtx.forceLogging(forceLogging);
     loggingCtx.performanceLogging(performanceLogging);
+    loggingCtx.aclLogging(aclLogging);
 
     // For the performance log records use the {@link MutablePerformanceLogRecords} instance from
     // the logging context of the calling thread in the logging context of the new thread. This way
@@ -106,6 +115,13 @@ public class LoggingContextAwareRunnable implements Runnable {
     // only at the end of the request and performance log records that are created in another thread
     // should not get lost.
     loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
+
+    // For the ACL log records use the {@link MutableAclLogRecords} instance from the logging
+    // context of the calling thread in the logging context of the new thread. This way ACL log
+    // records that are created from the new thread are available from the logging context of the
+    // calling thread. This is important since ACL log records are processed only at the end of the
+    // request and ACL log records that are created in another thread should not get lost.
+    loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
     try {
       runnable.run();
     } finally {

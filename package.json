@@ -16,6 +16,8 @@
     "web-component-tester": "^6.5.1"
   },
   "scripts": {
+    "clean": "rm -rf node_modules ; rm -rf polygerrit-ui/node_modules ; rm -rf polygerrit-ui/app/node_modules ; rm -rf tools/node_tools/node_modules",
+    "clean-all": "rm -rf node_modules ; rm -rf polygerrit-ui/node_modules ; rm -rf polygerrit-ui/app/node_modules ; rm -rf tools/node_tools/node_modules ; bazel clean ; bazel clean --expunge",
     "start": "polygerrit-ui/run-server.sh",
     "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh",
     "eslint": "./node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app",

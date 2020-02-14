@@ -94,7 +94,7 @@
 
   // RobotoMono fonts are used in styles/fonts.css
   {if $useGoogleFonts}
-    <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700&display=swap" as="style">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700&display=swap">
   {else}
     // @see https://github.com/w3c/preload/issues/32 regarding crossorigin
     <link rel="preload" href="{$staticResourcePath}/fonts/RobotoMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
@@ -103,9 +103,9 @@
     <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Regular.woff" as="font" type="font/woff" crossorigin="anonymous">{\n}
     <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
     <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Medium.woff" as="font" type="font/woff" crossorigin="anonymous">{\n}
+    <link rel="preload" as="style" href="{$staticResourcePath}/styles/fonts.css">{\n}
   {/if}
-  <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
-  <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
+  <link rel="preload" as="style" href="{$staticResourcePath}/styles/main.css">{\n}
 
   <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
 
@@ -120,6 +120,14 @@
   {/if}
 
   <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
+
+  // Now use preloaded resources
+  {if $useGoogleFonts}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700&display=swap">{\n}
+  {else}
+    <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
+  {/if}
+  <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
 
   <body unresolved>{\n}
   <gr-app id="app"></gr-app>{\n}

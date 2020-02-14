@@ -17,6 +17,8 @@
 
 import * as fs from "fs";
 import * as parse5 from "parse5";
+import RewritingStream from "parse5-html-rewriting-stream";
+
 import * as dom5 from "dom5";
 import {HtmlFileUtils, RedirectsResolver} from "./utils";
 import {Node} from 'dom5';
@@ -34,9 +36,7 @@ import {JSONRedirects} from "./redirects";
  * Additionaly, update some test links (related to web-component-tester)
  */
 
-function main() {
-  console.log(process.cwd());
-
+async function main() {
   if (process.argv.length < 4) {
     console.info("Usage:\n\tnode links_updater.js input_output_param_files redirectFile.json\n");
     process.exit(1);
@@ -50,7 +50,7 @@ function main() {
   for(let i = 0; i < input.length; i += 2) {
     const srcFile = input[i];
     const targetFile = input[i + 1];
-    updater.updateFile(srcFile, targetFile);
+    await updater.updateFile(srcFile, targetFile);
   }
 }
 
@@ -69,26 +69,32 @@ class HtmlFileUpdater {
   public constructor(private readonly redirectsResolver: RedirectsResolver) {
   }
 
-  public updateFile(srcFile: string, targetFile: string) {
+  public async updateFile(srcFile: string, targetFile: string) {
     const html = fs.readFileSync(srcFile, "utf-8");
     const ast = parse5.parseFragment(html, {locationInfo: true}) as Node;
-
-
-    const webComponentTesterImportNode = dom5.query(ast, HtmlFileUpdater.Predicates.isWebComponentTesterImport);
-    if(webComponentTesterImportNode) {
-      dom5.setAttribute(webComponentTesterImportNode,  "src", "/components/wct-browser-legacy/browser.js");
-    }
-
-    // Update all HTML imports
-    const updateHtmlImportHref = (htmlImportNode: Node) => this.updateRefAttribute(htmlImportNode, srcFile, "href");
-    dom5.queryAll(ast, HtmlFileUpdater.Predicates.isHtmlImport).forEach(updateHtmlImportHref);
-
-    // Update all <script src=...> tags
-    const updateScriptSrc = (scriptTagNode: Node) => this.updateRefAttribute(scriptTagNode, srcFile, "src");
-    dom5.queryAll(ast, HtmlFileUpdater.Predicates.isScriptWithSrcTag).forEach(updateScriptSrc);
-
-    const newContent = parse5.serialize(ast);
-    FileUtils.writeContent(targetFile, newContent);
+    const readStream = fs.createReadStream(srcFile, { encoding: "utf-8"});
+    const tmpFile = targetFile+".tmp";
+    const writeStream = fs.createWriteStream(tmpFile, { encoding: "utf-8" });
+    const rewriter = new RewritingStream();
+    (rewriter as any).tokenizer.preprocessor.bufferWaterline = Infinity;
+    rewriter.on('startTag', (tag: any) => {
+      if(HtmlFileUpdater.Predicates.isWebComponentTesterImport(tag)) {
+        dom5.setAttribute(tag,  "src", "/components/wct-browser-legacy/browser.js");
+      } else if(HtmlFileUpdater.Predicates.isHtmlImport(tag)) {
+        this.updateRefAttribute(tag, srcFile, "href");
+      } else if(HtmlFileUpdater.Predicates.isScriptWithSrcTag(tag)) {
+        this.updateRefAttribute(tag, srcFile, "src");
+      }
+      rewriter.emitStartTag(tag);
+    });
+    return new Promise((resolve) => {
+      readStream.on("end", () => {
+        writeStream.close();
+        fs.renameSync(tmpFile, targetFile);
+        resolve();
+      });
+      readStream.pipe(rewriter).pipe(writeStream);
+    });
   }
 
   private getResolvedPath(parentHtml: string, href: string) {
@@ -120,4 +126,4 @@ class HtmlFileUpdater {
   }
 }
 
-main();
+main().then(process.exit(0)).catch(reason => fail(`Failed. Reason: ${reason}`));

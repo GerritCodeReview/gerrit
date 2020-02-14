@@ -177,8 +177,7 @@
               for (const query in LookupQueryPatterns) {
                 if (LookupQueryPatterns.hasOwnProperty(query) &&
                 this._query.match(LookupQueryPatterns[query])) {
-                  this._replaceCurrentLocation(
-                      Gerrit.Nav.getUrlForChange(changes[0]));
+                  Gerrit.Nav.navigateToChange(changes[0]);
                   return;
                 }
               }
@@ -198,10 +197,6 @@
           this.preferences = {};
         }
       });
-    }
-
-    _replaceCurrentLocation(url) {
-      window.location.replace(url);
     }
 
     _getChanges() {

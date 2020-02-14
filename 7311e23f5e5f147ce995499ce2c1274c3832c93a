@@ -16,6 +16,24 @@
       "revId": "7311e23f5e5f147ce995499ce2c1274c3832c93a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11ffddf5_5a29fdff",
+        "filename": "package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-14T14:04:16Z",
+      "side": 1,
+      "message": "Dosen\u0027t git use .gitignore? In which wouldn\u0027t it ignore node_modules because it\u0027ll be in that file.",
+      "parentUuid": "68d0b362_59605cfa",
+      "revId": "7311e23f5e5f147ce995499ce2c1274c3832c93a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

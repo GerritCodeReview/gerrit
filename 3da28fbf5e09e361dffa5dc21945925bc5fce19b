@@ -16,6 +16,24 @@
       "revId": "3da28fbf5e09e361dffa5dc21945925bc5fce19b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc890efa_5560ae87",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-14T10:23:28Z",
+      "side": 1,
+      "message": "I agree, they would be in \"mdc_message\" now as a single string. I was already confused that there are 2 \"messages\". Let me improve that.",
+      "parentUuid": "838fb099_c3952bed",
+      "revId": "3da28fbf5e09e361dffa5dc21945925bc5fce19b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

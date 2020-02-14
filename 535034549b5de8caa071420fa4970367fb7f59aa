@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0de7c615_c8b89014",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-14T11:13:33Z",
+      "side": 1,
+      "message": "Internal Google detail that is not relevant to the open source project.",
+      "revId": "535034549b5de8caa071420fa4970367fb7f59aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b36381f_cfadfb4d",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-14T11:13:33Z",
+      "side": 1,
+      "message": "Should we rather fix the CD commitFooters to return an empty list rather than null?",
+      "revId": "535034549b5de8caa071420fa4970367fb7f59aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

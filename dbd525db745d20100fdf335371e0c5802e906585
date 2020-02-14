@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "978e143d_4ab804dc",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-14T15:55:23Z",
+      "side": 1,
+      "message": "Why this needs to be an async appender if both child appenders below are anyway\ncreated as async appenders?",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49fda87b_16316f64",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-14T15:55:23Z",
+      "side": 1,
+      "message": "This is the old style, you likely copied from some old code. We do not use final\nfor local variables any more (unless this is really necessary).",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 9
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b64a622e_356e2426",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-14T15:55:23Z",
+      "side": 1,
+      "message": "Move this down to the line 64 as we do not need to create StringBuffer before that line.",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 20
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a98e5f82_a33e0a65",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-14T15:55:23Z",
+      "side": 1,
+      "message": "Every map is a set of \"kv\" pairs, we don\u0027t need that in the name",
+      "range": {
+        "startLine": 46,
+        "startChar": 28,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bd6ded3_bc13d573",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-14T15:55:23Z",
+      "side": 1,
+      "message": "[optiona]\n\nTo avoid repetition of the casting to String create a helper method:\n\n  private void put(Map m, String k, Object v) {\n    m.put(k, (String) v);\n  }\n\nand then use it here:\n\n  put(kvMap, \"host\", event.getMDC(HttpLog.P_HOST));",
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c82c12c_a45dd4ca",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-14T15:55:23Z",
+      "side": 1,
+      "message": "If we anyway create an in-memory representation of the json then we can use Gson\nto format.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 42
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2957815c_da5ce27c",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-14T15:55:23Z",
+      "side": 1,
+      "message": "[optional]\n\nThis is copied from HttpLogLayout, maybe we can move this code into a utility class and reuse.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 3
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

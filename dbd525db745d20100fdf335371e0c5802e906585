@@ -111,6 +111,47 @@
     },
     {
       "key": {
+        "uuid": "d1dfef5b_a239beae",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-14T16:01:06Z",
+      "side": 1,
+      "message": "static import of this and other constants, then we don\u0027t need to use the HttpLog. prefix everywhere",
+      "range": {
+        "startLine": 47,
+        "startChar": 44,
+        "endLine": 47,
+        "endChar": 58
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa93422e_d7a63504",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-14T16:01:06Z",
+      "side": 1,
+      "message": "Another possibility is to define a helper method for event.getMDC:\n\n  private static String get(LogginEvent e, String k) {\n    return (String) e.getMDC(k);\n  }\n\nand then use:\n\n  kvMap.put(\"host\", get(event, HttpLog.P_HOST));",
+      "parentUuid": "8bd6ded3_bc13d573",
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c82c12c_a45dd4ca",
         "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
         "patchSetId": 5

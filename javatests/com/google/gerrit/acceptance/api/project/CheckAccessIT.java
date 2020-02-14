@@ -162,28 +162,37 @@ public class CheckAccessIT extends AbstractDaemonTest {
     String project;
     String permission;
     int want;
+    List<String> expectedDebugLogs;
 
-    static TestCase project(String mail, String project, int want) {
+    static TestCase project(String mail, String project, int want, List<String> expectedDebugLogs) {
       TestCase t = new TestCase();
       t.input = new AccessCheckInput();
       t.input.account = mail;
       t.project = project;
       t.want = want;
+      t.expectedDebugLogs = expectedDebugLogs;
       return t;
     }
 
-    static TestCase projectRef(String mail, String project, String ref, int want) {
+    static TestCase projectRef(
+        String mail, String project, String ref, int want, List<String> expectedDebugLogs) {
       TestCase t = new TestCase();
       t.input = new AccessCheckInput();
       t.input.account = mail;
       t.input.ref = ref;
       t.project = project;
       t.want = want;
+      t.expectedDebugLogs = expectedDebugLogs;
       return t;
     }
 
     static TestCase projectRefPerm(
-        String mail, String project, String ref, String permission, int want) {
+        String mail,
+        String project,
+        String ref,
+        String permission,
+        int want,
+        List<String> expectedDebugLogs) {
       TestCase t = new TestCase();
       t.input = new AccessCheckInput();
       t.input.account = mail;
@@ -191,6 +200,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
       t.input.permission = permission;
       t.project = project;
       t.want = want;
+      t.expectedDebugLogs = expectedDebugLogs;
       return t;
     }
   }
@@ -217,27 +227,98 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 normalProject.get(),
                 "refs/heads/master",
                 Permission.VIEW_PRIVATE_CHANGES,
-                403),
-            TestCase.project(user.email(), normalProject.get(), 200),
-            TestCase.project(user.email(), secretProject.get(), 403),
+                403,
+                ImmutableList.of(
+                    "'user' can perform 'read' with force=false on project '"
+                        + normalProject.get()
+                        + "' for ref 'refs/*'",
+                    "'user' cannot perform 'viewPrivateChanges' with force=false on project '"
+                        + normalProject.get()
+                        + "' for ref 'refs/heads/master'")),
+            TestCase.project(
+                user.email(),
+                normalProject.get(),
+                200,
+                ImmutableList.of(
+                    "'user' can perform 'read' with force=false on project '"
+                        + normalProject.get()
+                        + "' for ref 'refs/*'")),
+            TestCase.project(
+                user.email(),
+                secretProject.get(),
+                403,
+                ImmutableList.of(
+                    "'user' cannot perform 'read' with force=false on project '"
+                        + secretProject.get()
+                        + "' for ref 'refs/*' because this permission is blocked")),
             TestCase.projectRef(
-                user.email(), secretRefProject.get(), "refs/heads/secret/master", 403),
+                user.email(),
+                secretRefProject.get(),
+                "refs/heads/secret/master",
+                403,
+                ImmutableList.of(
+                    "'user' can perform 'read' with force=false on project '"
+                        + secretRefProject.get()
+                        + "' for ref 'refs/heads/*'",
+                    "'user' cannot perform 'read' with force=false on project '"
+                        + secretRefProject.get()
+                        + "' for ref 'refs/heads/secret/master' because this permission is blocked")),
             TestCase.projectRef(
-                privilegedUser.email(), secretRefProject.get(), "refs/heads/secret/master", 200),
-            TestCase.projectRef(privilegedUser.email(), normalProject.get(), null, 200),
-            TestCase.projectRef(privilegedUser.email(), secretProject.get(), null, 200),
+                privilegedUser.email(),
+                secretRefProject.get(),
+                "refs/heads/secret/master",
+                200,
+                ImmutableList.of(
+                    "'privilegedUser' can perform 'read' with force=false on project '"
+                        + secretRefProject.get()
+                        + "' for ref 'refs/heads/*'",
+                    "'privilegedUser' can perform 'read' with force=false on project '"
+                        + secretRefProject.get()
+                        + "' for ref 'refs/heads/secret/master'")),
+            TestCase.projectRef(
+                privilegedUser.email(),
+                normalProject.get(),
+                null,
+                200,
+                ImmutableList.of(
+                    "'privilegedUser' can perform 'read' with force=false on project '"
+                        + normalProject.get()
+                        + "' for ref 'refs/*'")),
+            TestCase.projectRef(
+                privilegedUser.email(),
+                secretProject.get(),
+                null,
+                200,
+                ImmutableList.of(
+                    "'privilegedUser' can perform 'read' with force=false on project '"
+                        + secretProject.get()
+                        + "' for ref 'refs/*'")),
             TestCase.projectRefPerm(
                 privilegedUser.email(),
                 normalProject.get(),
                 "refs/heads/master",
                 Permission.VIEW_PRIVATE_CHANGES,
-                200),
+                200,
+                ImmutableList.of(
+                    "'privilegedUser' can perform 'read' with force=false on project '"
+                        + normalProject.get()
+                        + "' for ref 'refs/*'",
+                    "'privilegedUser' can perform 'viewPrivateChanges' with force=false on project '"
+                        + normalProject.get()
+                        + "' for ref 'refs/heads/master'")),
             TestCase.projectRefPerm(
                 privilegedUser.email(),
                 normalProject.get(),
                 "refs/heads/master",
                 Permission.FORGE_SERVER,
-                200));
+                200,
+                ImmutableList.of(
+                    "'privilegedUser' can perform 'read' with force=false on project '"
+                        + normalProject.get()
+                        + "' for ref 'refs/*'",
+                    "'privilegedUser' can perform 'forgeServerAsCommitter' with force=false on project '"
+                        + normalProject.get()
+                        + "' for ref 'refs/heads/master'")));
 
     for (TestCase tc : inputs) {
       String in = newGson().toJson(tc.input);
@@ -272,6 +353,14 @@ public class CheckAccessIT extends AbstractDaemonTest {
           break;
         default:
           assertWithMessage(String.format("unknown code %d", want)).fail();
+      }
+
+      if (!info.debugLogs.equals(tc.expectedDebugLogs)) {
+        assertWithMessage(
+                String.format(
+                    "check.access(%s, %s) = %s, want %s",
+                    tc.project, in, info.debugLogs, tc.expectedDebugLogs))
+            .fail();
       }
     }
   }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b2fa3a6_50b158ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-14T13:46:36Z",
+      "side": 1,
+      "message": "sure, like i said, people love more uncertainty sometimes lol :)",
+      "parentUuid": "d9417dbb_ebfb572e",
+      "range": {
+        "startLine": 232,
+        "startChar": 8,
+        "endLine": 233,
+        "endChar": 45
+      },
+      "revId": "01876f89f87ee78d1768b0c3d7f0da5a955f9613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2981a46_d3569cce",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "01876f89f87ee78d1768b0c3d7f0da5a955f9613",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f65520f2_4cf63bf0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-14T13:46:36Z",
+      "side": 1,
+      "message": "good suggestion, will do!",
+      "parentUuid": "c2981a46_d3569cce",
+      "range": {
+        "startLine": 239,
+        "startChar": 25,
+        "endLine": 239,
+        "endChar": 69
+      },
+      "revId": "01876f89f87ee78d1768b0c3d7f0da5a955f9613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

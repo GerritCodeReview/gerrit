@@ -34,6 +34,24 @@
       "revId": "3da28fbf5e09e361dffa5dc21945925bc5fce19b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2fe492b_6bc0502e",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-14T14:50:23Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "cc890efa_5560ae87",
+      "revId": "3da28fbf5e09e361dffa5dc21945925bc5fce19b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

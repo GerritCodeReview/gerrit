@@ -1119,7 +1119,7 @@ public abstract class AbstractDaemonTest {
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref r = repo.exactRef(name);
-      return rw.parseCommit(r.getObjectId());
+      return r != null ? rw.parseCommit(r.getObjectId()) : null;
     }
   }
 

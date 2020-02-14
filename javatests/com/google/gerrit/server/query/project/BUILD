@@ -21,7 +21,9 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib/guice",
+        "//lib/log:log4j",
         "//lib/truth",
+        "//resources:log4j-config",
     ],
 )
 

@@ -18,9 +18,12 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.exceptions.InvalidNameException;
 import dk.brics.automaton.RegExp;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -69,11 +72,21 @@ public class RefPattern {
     return refPattern.startsWith(AccessSection.REGEX_PREFIX);
   }
 
+  public static boolean containsParameters(String refPattern) {
+    return refPattern.contains("${");
+  }
+
   public static RegExp toRegExp(String refPattern) {
     if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);
     }
-    return new RegExp(refPattern, RegExp.NONE);
+    ParameterizedString template = new ParameterizedString(refPattern);
+    String replacement = "_PLACEHOLDER_";
+    Map<String, String> params =
+        ImmutableMap.of(
+            RefPattern.USERID_SHARDED, replacement,
+            RefPattern.USERNAME, replacement);
+    return new RegExp(template.replace(params), RegExp.NONE);
   }
 
   public static void validate(String refPattern) throws InvalidNameException {

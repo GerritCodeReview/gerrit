@@ -23,8 +23,10 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib/guice",
+        "//lib/log:log4j",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
+        "//resources:log4j-config",
     ],
 )
 

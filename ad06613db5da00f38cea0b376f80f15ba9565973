@@ -134,6 +134,24 @@
       "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b025586e_23d70f21",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-14T09:32:58Z",
+      "side": 1,
+      "message": "Yes, thanks for bringing this up. It is very helpful for me to look deeper into this and think about it more.\n\nFor user preferences I consider it as a missing feature that the user/client/frontend does not know whether a setting is just an applied default value or a consciously chosen user value. Personally I often have the problem that I play around with different diff settings (e.g. for debugging issues) and then I have no idea what the default was. And I have no way to reset my settings.\n\nAccountInfo is a different endpoint than preferences, so having the account behave consistent with user preferences is maybe not so important. Also for preferences you typically have default *values*, not an enum that describes a fallback strategy.\n\nIf you are ok with keeping as is, then yes, I can add some more documentation to the AccountInfo, although AccountInfo.java already has a few lines explaining this fairly well.\n\nI am not convinced that in your example the prefilled display name is a good idea, because it might have different values dependent on the host. Is it then good that the name of a user is rendered differently for some changes vs others?\n\nIdeally I think you would need both: Fill the default value, but also set a boolean \"isDefault\". That would be a nice feature, but we don\u0027t have the time to build it right now, so I would prefer to keep as is and leave the displayName unset.",
+      "parentUuid": "1058a774_686d205b",
+      "revId": "ad06613db5da00f38cea0b376f80f15ba9565973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -45,15 +45,16 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 class SshLog implements LifecycleListener, GerritConfigListener {
   private static final Logger log = Logger.getLogger(SshLog.class);
-  private static final String LOG_NAME = "sshd_log";
-  private static final String P_SESSION = "session";
-  private static final String P_USER_NAME = "userName";
-  private static final String P_ACCOUNT_ID = "accountId";
-  private static final String P_WAIT = "queueWaitTime";
-  private static final String P_EXEC = "executionTime";
-  private static final String P_STATUS = "status";
-  private static final String P_AGENT = "agent";
-  private static final String P_MESSAGE = "message";
+
+  protected static final String LOG_NAME = "sshd_log";
+  protected static final String P_SESSION = "session";
+  protected static final String P_USER_NAME = "userName";
+  protected static final String P_ACCOUNT_ID = "accountId";
+  protected static final String P_WAIT = "queueWaitTime";
+  protected static final String P_EXEC = "executionTime";
+  protected static final String P_STATUS = "status";
+  protected static final String P_AGENT = "agent";
+  protected static final String P_MESSAGE = "message";
 
   private final Provider<SshSession> session;
   private final Provider<Context> context;

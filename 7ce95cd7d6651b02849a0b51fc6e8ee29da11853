@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a515af59_3ff1c4ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-14T14:03:09Z",
+      "side": 1,
+      "message": "`after M80` to be accurate. And maybe mention its because the htmlImports now are loaded async which may happen after page load event.",
+      "revId": "7ce95cd7d6651b02849a0b51fc6e8ee29da11853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

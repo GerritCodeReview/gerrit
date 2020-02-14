@@ -477,6 +477,21 @@ public class RefControlTest {
   }
 
   @Test
+  public void usernamePatternRegExpCanUploadToAnyRef() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(
+            allow(PUSH)
+                .ref("^refs/heads/users/${username}/(public|private)/.+")
+                .group(REGISTERED_USERS))
+        .update();
+    ProjectControl u = user(localKey, "a-registered-user");
+    assertCanUpload(u);
+    assertCanUpdate("refs/heads/users/a-registered-user/private/a", u);
+  }
+
+  @Test
   public void usernamePatternNonRegex() throws Exception {
     projectOperations
         .project(localKey)
@@ -500,6 +515,8 @@ public class RefControlTest {
 
     ProjectControl u = user(localKey, "d.v", DEVS);
     ProjectControl d = user(localKey, "dev", DEVS);
+    assertCanAccess(u);
+    assertCanAccess(d);
     assertCannotRead("refs/sb/dev/heads/foobar", u);
     assertCanRead("refs/sb/dev/heads/foobar", d);
   }
@@ -1127,6 +1144,7 @@ public class RefControlTest {
     RefPattern.validate("^refs/heads/*");
     RefPattern.validate("^refs/tags/[0-9a-zA-Z-_.]+");
     RefPattern.validate("refs/heads/review/${username}/*");
+    RefPattern.validate("^refs/heads/review/${username}/.+");
   }
 
   @Test

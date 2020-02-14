@@ -34,7 +34,9 @@ java_library(
         "//lib:jgit",
         "//lib:jgit-junit",
         "//lib/guice",
+        "//lib/log:log4j",
         "//lib/truth",
+        "//resources:log4j-config",
     ],
 )
 

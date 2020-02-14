@@ -106,12 +106,14 @@ More complex scenarios can be further developed, under the `com.google.gerrit.sc
 
 Valid commands are:
 
+* `clone`
 * `fetch`
 * `pull`
 * `push`
-* `clone`
 
-The example above assumes that the `loadtest-repo` project exists in the Gerrit under test.
+The example above assumes that the `loadtest-repo` project exists in the Gerrit under test. The
+`HTTP Credentials` or password obtained from test user's `Settings` (in Gerrit) may be required, in
+`src/test/resources/application.conf`, depending on the above commands used.
 
 == How to run tests
 

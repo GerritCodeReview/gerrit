@@ -162,9 +162,16 @@
           for (const query in LookupQueryPatterns) {
             if (LookupQueryPatterns.hasOwnProperty(query) &&
                 this._query.match(LookupQueryPatterns[query])) {
+<<<<<<< HEAD   (10781b Merge branch 'stable-3.0' into stable-3.1)
               this._replaceCurrentLocation(
                   Gerrit.Nav.getUrlForChange(changes[0]));
               return;
+=======
+                  Gerrit.Nav.navigateToChange(changes[0]);
+                  return;
+                }
+              }
+>>>>>>> CHANGE (37a41c Use internal navigation instead of hard reload)
             }
           }
         }
@@ -185,10 +192,13 @@
       });
     },
 
+<<<<<<< HEAD   (10781b Merge branch 'stable-3.0' into stable-3.1)
     _replaceCurrentLocation(url) {
       window.location.replace(url);
     },
 
+=======
+>>>>>>> CHANGE (37a41c Use internal navigation instead of hard reload)
     _getChanges() {
       return this.$.restAPI.getChanges(this._changesPerPage, this._query,
           this._offset);

@@ -798,8 +798,14 @@
 
     _reload() {
       // Load the current change without any patch range.
+<<<<<<< HEAD   (10781b Merge branch 'stable-3.0' into stable-3.1)
       location.href = this.getBaseUrl() + '/c/' + this.change._number;
     },
+=======
+      Gerrit.Nav.navigateToChange(this.change);
+      this.cancel();
+    }
+>>>>>>> CHANGE (37a41c Use internal navigation instead of hard reload)
 
     _computeSendButtonLabel(canBeStarted) {
       return canBeStarted ? ButtonLabels.START_REVIEW : ButtonLabels.SEND;

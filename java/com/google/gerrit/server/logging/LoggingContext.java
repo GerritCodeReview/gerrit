@@ -44,6 +44,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
   private static final ThreadLocal<Boolean> performanceLogging = new ThreadLocal<>();
   private static final ThreadLocal<MutablePerformanceLogRecords> performanceLogRecords =
       new ThreadLocal<>();
+  private static final ThreadLocal<Boolean> aclLogging = new ThreadLocal<>();
+  private static final ThreadLocal<MutableAclLogRecords> aclLogRecords = new ThreadLocal<>();
 
   private LoggingContext() {}
 
@@ -57,13 +59,16 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       return runnable;
     }
 
-    // Pass the MutablePerformanceLogRecords instance into the LoggingContextAwareRunnable
-    // constructor so that performance log records that are created in the wrapped runnable are
-    // added to this MutablePerformanceLogRecords instance. This is important since performance
-    // log records are processed only at the end of the request and performance log records that
-    // are created in another thread should not get lost.
+    // Pass the MutablePerformanceLogRecords and MutableAclLogRecords instances into the
+    // LoggingContextAwareRunnable constructor so that performance log records and ACL log records
+    // that are created in the wrapped runnable are added to these MutablePerformanceLogRecords and
+    // MutableAclLogRecords instances. This is important since performance log records and ACL log
+    // records are processed only at the end of the request and performance log records and ACL log
+    // records that are created in another thread should not get lost.
     return new LoggingContextAwareRunnable(
-        runnable, getInstance().getMutablePerformanceLogRecords());
+        runnable,
+        getInstance().getMutablePerformanceLogRecords(),
+        getInstance().getMutableAclRecords());
   }
 
   public static <T> Callable<T> copy(Callable<T> callable) {
@@ -71,20 +76,25 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       return callable;
     }
 
-    // Pass the MutablePerformanceLogRecords instance into the LoggingContextAwareCallable
-    // constructor so that performance log records that are created in the wrapped runnable are
-    // added to this MutablePerformanceLogRecords instance. This is important since performance
-    // log records are processed only at the end of the request and performance log records that
-    // are created in another thread should not get lost.
+    // Pass the MutablePerformanceLogRecords and MutableAclLogRecords instances into the
+    // LoggingContextAwareCallable constructor so that performance log records and ACL log records
+    // that are created in the wrapped runnable are added to these MutablePerformanceLogRecords and
+    // MutableAclLogRecords instances. This is important since performance log records and ACL
+    // records are processed only at the end of the request and performance log records and ACL
+    // records that are created in another thread should not get lost.
     return new LoggingContextAwareCallable<>(
-        callable, getInstance().getMutablePerformanceLogRecords());
+        callable,
+        getInstance().getMutablePerformanceLogRecords(),
+        getInstance().getMutableAclRecords());
   }
 
   public boolean isEmpty() {
     return tags.get() == null
         && forceLogging.get() == null
         && performanceLogging.get() == null
-        && performanceLogRecords.get() == null;
+        && performanceLogRecords.get() == null
+        && aclLogging.get() == null
+        && aclLogRecords.get() == null;
   }
 
   public void clear() {
@@ -92,6 +102,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     forceLogging.remove();
     performanceLogging.remove();
     performanceLogRecords.remove();
+    aclLogging.remove();
+    aclLogRecords.remove();
   }
 
   @Override
@@ -257,6 +269,101 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return records;
   }
 
+  boolean isAclLogging() {
+    Boolean isAclLogging = aclLogging.get();
+    return isAclLogging != null ? isAclLogging : false;
+  }
+
+  /**
+   * Enables ACL logging.
+   *
+   * <p>It's important to enable ACL logging only in a context that ensures to consume the captured
+   * ACL log records. Otherwise captured ACL log records might leak into other requests that are
+   * executed by the same thread (if a thread pool is used to process requests).
+   *
+   * @param enable whether ACL logging should be enabled.
+   * @return whether ACL logging was be enabled before invoking this method (old value).
+   */
+  boolean aclLogging(boolean enable) {
+    Boolean oldValue = aclLogging.get();
+    if (enable) {
+      aclLogging.set(true);
+    } else {
+      aclLogging.remove();
+    }
+    return oldValue != null ? oldValue : false;
+  }
+
+  /**
+   * Adds a ACL log record.
+   *
+   * @param aclLogRecord ACL log record
+   */
+  public void addAclLogRecord(String aclLogRecord) {
+    if (!isAclLogging()) {
+      return;
+    }
+
+    getMutableAclRecords().add(aclLogRecord);
+  }
+
+  ImmutableList<String> getAclLogRecords() {
+    MutableAclLogRecords records = aclLogRecords.get();
+    if (records != null) {
+      return records.list();
+    }
+    return ImmutableList.of();
+  }
+
+  void clearAclLogEntries() {
+    aclLogRecords.remove();
+  }
+
+  /**
+   * Set the ACL log records in this logging context. Existing log records are overwritten.
+   *
+   * <p>This method makes a defensive copy of the passed in list.
+   *
+   * @param newAclLogRecords ACL log records that should be set
+   */
+  void setAclLogRecords(List<String> newAclLogRecords) {
+    if (newAclLogRecords.isEmpty()) {
+      aclLogRecords.remove();
+      return;
+    }
+
+    getMutableAclRecords().set(newAclLogRecords);
+  }
+
+  /**
+   * Sets a {@link MutableAclLogRecords} instance for storing ACL log records.
+   *
+   * <p><strong>Attention:</strong> The passed in {@link MutableAclLogRecords} instance is directly
+   * stored in the logging context.
+   *
+   * <p>This method is intended to be only used when the logging context is copied to a new thread
+   * to ensure that the ACL log records that are added in the new thread are added to the same
+   * {@link MutableAclLogRecords} instance (see {@link LoggingContextAwareRunnable} and {@link
+   * LoggingContextAwareCallable}). This is important since ACL log records are processed only at
+   * the end of the request and ACL log records that are created in another thread should not get
+   * lost.
+   *
+   * @param mutableAclLogRecords the {@link MutableAclLogRecords} instance in which ACL log records
+   *     should be stored
+   */
+  void setMutableAclLogRecords(MutableAclLogRecords mutableAclLogRecords) {
+    aclLogRecords.set(requireNonNull(mutableAclLogRecords));
+  }
+
+  private MutableAclLogRecords getMutableAclRecords() {
+    MutableAclLogRecords records = aclLogRecords.get();
+    if (records == null) {
+      records = new MutableAclLogRecords();
+      aclLogRecords.set(records);
+    }
+    return records;
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
@@ -264,6 +371,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
         .add("forceLogging", forceLogging.get())
         .add("performanceLogging", performanceLogging.get())
         .add("performanceLogRecords", performanceLogRecords.get())
+        .add("aclLogging", aclLogging.get())
+        .add("aclLogRecords", aclLogRecords.get())
         .toString();
   }
 }

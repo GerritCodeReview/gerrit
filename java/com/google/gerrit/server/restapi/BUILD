@@ -22,6 +22,7 @@ java_library(
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
         "//lib:args4j",

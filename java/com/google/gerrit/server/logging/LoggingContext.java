@@ -44,6 +44,9 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
   private static final ThreadLocal<Boolean> performanceLogging = new ThreadLocal<>();
   private static final ThreadLocal<MutablePerformanceLogRecords> performanceLogRecords =
       new ThreadLocal<>();
+  private static final ThreadLocal<Boolean> userVisibleLogging = new ThreadLocal<>();
+  private static final ThreadLocal<MutableUserVisibleLogRecords> userVisibleLogRecords =
+      new ThreadLocal<>();
 
   private LoggingContext() {}
 
@@ -57,13 +60,17 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       return runnable;
     }
 
-    // Pass the MutablePerformanceLogRecords instance into the LoggingContextAwareRunnable
-    // constructor so that performance log records that are created in the wrapped runnable are
-    // added to this MutablePerformanceLogRecords instance. This is important since performance
-    // log records are processed only at the end of the request and performance log records that
-    // are created in another thread should not get lost.
+    // Pass the MutablePerformanceLogRecords and MutableVisibleUserLogRecords instances into the
+    // LoggingContextAwareRunnable constructor so that performance log records and user visible log
+    // records that are created in the wrapped runnable are added to these
+    // MutablePerformanceLogRecords and MutableVisibleUserLogRecords instances. This is important
+    // since performance log records and user visible log records are processed only at the end of
+    // the request and performance log records and user visible log records that are created in
+    // another thread should not get lost.
     return new LoggingContextAwareRunnable(
-        runnable, getInstance().getMutablePerformanceLogRecords());
+        runnable,
+        getInstance().getMutablePerformanceLogRecords(),
+        getInstance().getMutableUserVisibleLogRecords());
   }
 
   public static <T> Callable<T> copy(Callable<T> callable) {
@@ -71,20 +78,26 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       return callable;
     }
 
-    // Pass the MutablePerformanceLogRecords instance into the LoggingContextAwareCallable
-    // constructor so that performance log records that are created in the wrapped runnable are
-    // added to this MutablePerformanceLogRecords instance. This is important since performance
-    // log records are processed only at the end of the request and performance log records that
-    // are created in another thread should not get lost.
+    // Pass the MutablePerformanceLogRecords and MutableVisibleUserLogRecords instances into the
+    // LoggingContextAwareCallable constructor so that performance log records and user visible log
+    // records that are created in the wrapped runnable are added to these
+    // MutablePerformanceLogRecords and MutableVisibleUserLogRecords instances. This is important
+    // since performance log records and user visible log records are processed only at the end of
+    // the request and performance log records and user visible log records that are created in
+    // another thread should not get lost.
     return new LoggingContextAwareCallable<>(
-        callable, getInstance().getMutablePerformanceLogRecords());
+        callable,
+        getInstance().getMutablePerformanceLogRecords(),
+        getInstance().getMutableUserVisibleLogRecords());
   }
 
   public boolean isEmpty() {
     return tags.get() == null
         && forceLogging.get() == null
         && performanceLogging.get() == null
-        && performanceLogRecords.get() == null;
+        && performanceLogRecords.get() == null
+        && userVisibleLogging.get() == null
+        && userVisibleLogRecords.get() == null;
   }
 
   public void clear() {
@@ -92,6 +105,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     forceLogging.remove();
     performanceLogging.remove();
     performanceLogRecords.remove();
+    userVisibleLogging.remove();
+    userVisibleLogRecords.remove();
   }
 
   @Override
@@ -257,6 +272,102 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return records;
   }
 
+  boolean isUserVisibleLogging() {
+    Boolean isUserVisibleLogging = userVisibleLogging.get();
+    return isUserVisibleLogging != null ? isUserVisibleLogging : false;
+  }
+
+  /**
+   * Enables user visible logging.
+   *
+   * <p>It's important to enable user visible logging only in a context that ensures to consume the
+   * captured user visible log records. Otherwise captured user visible log records might leak into
+   * other requests that are executed by the same thread (if a thread pool is used to process
+   * requests).
+   *
+   * @param enable whether user visible logging should be enabled.
+   * @return whether user visible logging was be enabled before invoking this method (old value).
+   */
+  boolean userVisibleLogging(boolean enable) {
+    Boolean oldValue = userVisibleLogging.get();
+    if (enable) {
+      userVisibleLogging.set(true);
+    } else {
+      userVisibleLogging.remove();
+    }
+    return oldValue != null ? oldValue : false;
+  }
+
+  /**
+   * Adds a user visible log record.
+   *
+   * @param userVisibleLogRecord user visible log record
+   */
+  public void addUserVisibleLogRecord(String userVisibleLogRecord) {
+    if (!isUserVisibleLogging()) {
+      return;
+    }
+
+    getMutableUserVisibleLogRecords().add(userVisibleLogRecord);
+  }
+
+  ImmutableList<String> getUserVisibleLogRecords() {
+    MutableUserVisibleLogRecords records = userVisibleLogRecords.get();
+    if (records != null) {
+      return records.list();
+    }
+    return ImmutableList.of();
+  }
+
+  void clearUserVisibleLogEntries() {
+    userVisibleLogRecords.remove();
+  }
+
+  /**
+   * Set the user visible log records in this logging context. Existing log records are overwritten.
+   *
+   * <p>This method makes a defensive copy of the passed in list.
+   *
+   * @param newUserVisibleLogRecords user visible log records that should be set
+   */
+  void setUserVisibleLogRecords(List<String> newUserVisibleLogRecords) {
+    if (newUserVisibleLogRecords.isEmpty()) {
+      userVisibleLogRecords.remove();
+      return;
+    }
+
+    getMutableUserVisibleLogRecords().set(newUserVisibleLogRecords);
+  }
+
+  /**
+   * Sets a {@link MutableUserVisibleLogRecords} instance for storing user visible log records.
+   *
+   * <p><strong>Attention:</strong> The passed in {@link MutableUserVisibleLogRecords} instance is
+   * directly stored in the logging context.
+   *
+   * <p>This method is intended to be only used when the logging context is copied to a new thread
+   * to ensure that the user visible log records that are added in the new thread are added to the
+   * same {@link MutableUserVisibleLogRecords} instance (see {@link LoggingContextAwareRunnable} and
+   * {@link LoggingContextAwareCallable}). This is important since user visible log records are
+   * processed only at the end of the request and user visible log records that are created in
+   * another thread should not get lost.
+   *
+   * @param mutableUserVisibleLogRecords the {@link MutableUserVisibleLogRecords} instance in which
+   *     user visible log records should be stored
+   */
+  void setMutableUserVisibleLogRecords(MutableUserVisibleLogRecords mutableUserVisibleLogRecords) {
+    userVisibleLogRecords.set(requireNonNull(mutableUserVisibleLogRecords));
+  }
+
+  private MutableUserVisibleLogRecords getMutableUserVisibleLogRecords() {
+    MutableUserVisibleLogRecords records = userVisibleLogRecords.get();
+    if (records == null) {
+      records = new MutableUserVisibleLogRecords();
+      userVisibleLogRecords.set(records);
+    }
+    return records;
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
@@ -264,6 +375,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
         .add("forceLogging", forceLogging.get())
         .add("performanceLogging", performanceLogging.get())
         .add("performanceLogRecords", performanceLogRecords.get())
+        .add("userVisibleLogging", userVisibleLogging.get())
+        .add("userVisibleLogRecords", userVisibleLogRecords.get())
         .toString();
   }
 }

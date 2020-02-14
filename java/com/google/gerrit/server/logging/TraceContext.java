@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
@@ -222,9 +223,17 @@ public class TraceContext implements AutoCloseable {
   // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>
   private final Table<String, String, Boolean> tags = HashBasedTable.create();
 
-  private boolean stopForceLoggingOnClose;
+  private final boolean oldUserVisibleLogging;
+  private final ImmutableList<String> oldUserVisibleLogRecords;
 
-  private TraceContext() {}
+  private boolean stopForceLoggingOnClose;
+  private boolean stopUserVisibleLoggingOnClose;
+
+  private TraceContext() {
+    // Just in case remember the old state and reset user visible log entries.
+    this.oldUserVisibleLogging = LoggingContext.getInstance().isUserVisibleLogging();
+    this.oldUserVisibleLogRecords = LoggingContext.getInstance().getUserVisibleLogRecords();
+  }
 
   public TraceContext addTag(RequestId.Type requestId, Object tagValue) {
     return addTag(requireNonNull(requestId, "request ID is required").name(), tagValue);
@@ -256,6 +265,15 @@ public class TraceContext implements AutoCloseable {
     return this;
   }
 
+  public TraceContext enableUserVisibleLogging() {
+    if (stopUserVisibleLoggingOnClose) {
+      return this;
+    }
+
+    stopUserVisibleLoggingOnClose = !LoggingContext.getInstance().userVisibleLogging(true);
+    return this;
+  }
+
   public boolean isTracing() {
     return LoggingContext.getInstance().isLoggingForced();
   }
@@ -263,6 +281,10 @@ public class TraceContext implements AutoCloseable {
   public Optional<String> getTraceId() {
     return LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name()).stream()
         .findFirst();
+  }
+
+  public ImmutableList<String> getUserVisibleLogRecords() {
+    return LoggingContext.getInstance().getUserVisibleLogRecords();
   }
 
   @Override
@@ -274,6 +296,11 @@ public class TraceContext implements AutoCloseable {
     }
     if (stopForceLoggingOnClose) {
       LoggingContext.getInstance().forceLogging(false);
+    }
+
+    if (stopUserVisibleLoggingOnClose) {
+      LoggingContext.getInstance().userVisibleLogging(oldUserVisibleLogging);
+      LoggingContext.getInstance().setUserVisibleLogRecords(oldUserVisibleLogRecords);
     }
   }
 }

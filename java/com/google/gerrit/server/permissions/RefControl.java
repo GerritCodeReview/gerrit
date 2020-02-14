@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.logging.CallerFinder;
+import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
@@ -387,40 +388,46 @@ class RefControl {
   /** True if the user has this permission. */
   private boolean canPerform(String permissionName, boolean isChangeOwner, boolean withForce) {
     if (isBlocked(permissionName, isChangeOwner, withForce)) {
-      logger.atFine().log(
-          "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s'"
-              + " because this permission is blocked (caller: %s)",
-          getUser().getLoggableName(),
-          permissionName,
-          withForce,
-          projectControl.getProject().getName(),
-          refName,
-          callerFinder.findCallerLazy());
+      String logMessage =
+          String.format(
+              "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s'"
+                  + " because this permission is blocked",
+              getUser().getLoggableName(),
+              permissionName,
+              withForce,
+              projectControl.getProject().getName(),
+              refName);
+      LoggingContext.getInstance().addUserVisibleLogRecord(logMessage);
+      logger.atFine().log("%s (caller: %s)", logMessage, callerFinder.findCallerLazy());
       return false;
     }
 
     for (PermissionRule pr : relevant.getAllowRules(permissionName)) {
       if (isAllow(pr, withForce) && projectControl.match(pr, isChangeOwner)) {
-        logger.atFine().log(
-            "'%s' can perform '%s' with force=%s on project '%s' for ref '%s' (caller: %s)",
-            getUser().getLoggableName(),
-            permissionName,
-            withForce,
-            projectControl.getProject().getName(),
-            refName,
-            callerFinder.findCallerLazy());
+        String logMessage =
+            String.format(
+                "'%s' can perform '%s' with force=%s on project '%s' for ref '%s'",
+                getUser().getLoggableName(),
+                permissionName,
+                withForce,
+                projectControl.getProject().getName(),
+                refName);
+        LoggingContext.getInstance().addUserVisibleLogRecord(logMessage);
+        logger.atFine().log("%s (caller: %s)", logMessage, callerFinder.findCallerLazy());
         return true;
       }
     }
 
-    logger.atFine().log(
-        "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s' (caller: %s)",
-        getUser().getLoggableName(),
-        permissionName,
-        withForce,
-        projectControl.getProject().getName(),
-        refName,
-        callerFinder.findCallerLazy());
+    String logMessage =
+        String.format(
+            "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s'",
+            getUser().getLoggableName(),
+            permissionName,
+            withForce,
+            projectControl.getProject().getName(),
+            refName);
+    LoggingContext.getInstance().addUserVisibleLogRecord(logMessage);
+    logger.atFine().log("%s (caller: %s)", logMessage, callerFinder.findCallerLazy());
     return false;
   }
 

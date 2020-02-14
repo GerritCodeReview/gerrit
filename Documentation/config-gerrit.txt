@@ -4856,6 +4856,19 @@ installed, because then performance logging is always disabled.
 +
 By default, true.
 
+[[tracing.userVisibleLogging]]tracing.userVisibleLogging::
++
+Whether user visible logging is enabled.
++
+When user visible logging is enabled, some debug logs are included into
+the response to the calling user if a request fails. These logs give
+the user more context about why a request failed. E.g. these logs show
+which permissions were denied.
++
+User visible logging is only supported for the REST API.
++
+By default, false.
+
 [[tracing.traceid]]
 ==== Subsection tracing.<trace-id>
 

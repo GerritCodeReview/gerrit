@@ -112,6 +112,7 @@ import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupAuditService;
+import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
@@ -326,6 +327,10 @@ public class RestApiServlet extends HttpServlet {
     ViewData viewData = null;
 
     try (TraceContext traceContext = enableTracing(req, res)) {
+      if (globals.config.getBoolean("tracing", "userVisibleLogging", false)) {
+        traceContext.enableUserVisibleLogging();
+      }
+
       List<IdString> path = splitPath(req);
 
       RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
@@ -611,9 +616,13 @@ public class RestApiServlet extends HttpServlet {
                 req, res, statusCode = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
       } catch (AuthException e) {
         cause = Optional.of(e);
+        StringBuilder msg = new StringBuilder(messageOr(e, "Forbidden"));
+        if (!traceContext.getUserVisibleLogRecords().isEmpty()) {
+          msg.append("\n\nLogs:\n");
+          msg.append(Joiner.on('\n').join(traceContext.getUserVisibleLogRecords()));
+        }
         responseBytes =
-            replyError(
-                req, res, statusCode = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
+            replyError(req, res, statusCode = SC_FORBIDDEN, msg.toString(), e.caching(), e);
       } catch (AmbiguousViewException e) {
         cause = Optional.of(e);
         responseBytes =
@@ -1633,6 +1642,8 @@ public class RestApiServlet extends HttpServlet {
     if (isRead(req)) {
       user.setAccessPath(AccessPath.REST_API);
     } else if (user instanceof AnonymousUser) {
+      LoggingContext.getInstance()
+          .addUserVisibleLogRecord("REST endpoint not allowed for anonymous user");
       throw new AuthException("Authentication required");
     } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {
       throw new AuthException(

@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "f3146e86_0fe53eb1",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-14T10:51:09Z",
+      "side": 1,
+      "message": "Agreed. I\u0027ll need to look into what differences there are in the error message, if any, between the various SQL dialects.",
+      "parentUuid": "3caadb37_e176e850",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 71
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a8eb1ff_a4aef3fe",
         "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1
@@ -155,6 +179,30 @@
       "writtenOn": "2020-02-14T09:29:17Z",
       "side": 1,
       "message": "This reads like it could potentially introduce wrong timestamps/assumptions for creations. Can you add a comment why that is not an issue?",
+      "range": {
+        "startLine": 49,
+        "startChar": 82,
+        "endLine": 49,
+        "endChar": 99
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d80d149_71e12bf8",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-14T10:51:09Z",
+      "side": 1,
+      "message": "The column doesn\u0027t exist at this point, so there\u0027s no way we can get the real data. I\u0027m not sure what else we can do other than giving it a default value.",
+      "parentUuid": "4a8eb1ff_a4aef3fe",
       "range": {
         "startLine": 49,
         "startChar": 82,

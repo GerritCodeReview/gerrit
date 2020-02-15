@@ -11,7 +11,6 @@ gwt_module(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gwtexpui/safehtml",
-        "//java/com/google/gwtexpui/user:agent",
         "//lib/gwt:user",
     ],
 )

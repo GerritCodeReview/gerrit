@@ -11,7 +11,6 @@ junit_tests(
         "//java/com/google/gerrit/mail",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
-        "//java/org/eclipse/jgit:server",
         "//lib:gson",
         "//lib:guava-retrying",
         "//lib:gwtorm",

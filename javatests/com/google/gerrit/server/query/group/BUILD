@@ -8,6 +8,7 @@ java_library(
     testonly = True,
     srcs = ABSTRACT_QUERY_TEST,
     visibility = ["//visibility:public"],
+    runtime_deps = ["//resources:log4j-config"],
     deps = [
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",

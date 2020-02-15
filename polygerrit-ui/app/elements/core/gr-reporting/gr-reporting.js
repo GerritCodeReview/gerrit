@@ -97,6 +97,7 @@
   const DRAFT_ACTION_TIMER_MAX = 2 * 60 * 1000; // 2 minutes.
 
   let pending = [];
+  let rpcList = [];
 
   // Variables that hold context info in global scope
   let reportRepoName = undefined;
@@ -318,6 +319,7 @@
       this.time(TIMER.DIFF_VIEW_LOAD_FULL);
       this.time(TIMER.FILE_LIST_DISPLAYED);
       reportRepoName = undefined;
+      rpcList = [];
     },
 
     locationChanged(page) {
@@ -327,17 +329,17 @@
 
     dashboardDisplayed() {
       if (this._baselines.hasOwnProperty(TIMER.STARTUP_DASHBOARD_DISPLAYED)) {
-        this.timeEnd(TIMER.STARTUP_DASHBOARD_DISPLAYED);
+        this.timeEnd(TIMER.STARTUP_DASHBOARD_DISPLAYED, true);
       } else {
-        this.timeEnd(TIMER.DASHBOARD_DISPLAYED);
+        this.timeEnd(TIMER.DASHBOARD_DISPLAYED, true);
       }
     },
 
     changeDisplayed() {
       if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_DISPLAYED)) {
-        this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED);
+        this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED, true);
       } else {
-        this.timeEnd(TIMER.CHANGE_DISPLAYED);
+        this.timeEnd(TIMER.CHANGE_DISPLAYED, true);
       }
     },
 
@@ -351,9 +353,9 @@
 
     diffViewDisplayed() {
       if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_DISPLAYED)) {
-        this.timeEnd(TIMER.STARTUP_DIFF_VIEW_DISPLAYED);
+        this.timeEnd(TIMER.STARTUP_DIFF_VIEW_DISPLAYED, true);
       } else {
-        this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED);
+        this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED, true);
       }
     },
 
@@ -410,11 +412,14 @@
     /**
      * Finish named timer and report it to server.
      */
-    timeEnd(name) {
+    timeEnd(name, addRpc) {
       if (!this._baselines.hasOwnProperty(name)) { return; }
       const baseTime = this._baselines[name];
       delete this._baselines[name];
-      this._reportTiming(name, this.now() - baseTime);
+      this._reportTiming(name, this.now() - baseTime, addRpc && {rpcList});
+      if (addRpc) {
+        rpcList = [];
+      }
 
       // Finalize the interval. Either from a registered start mark or
       // the navigation start time (if baseTime is 0).
@@ -517,6 +522,9 @@
     reportRpcTiming(anonymizedUrl, elapsed) {
       this.reporter(TIMING.TYPE, TIMING.CATEGORY_RPC, 'RPC-' + anonymizedUrl,
           elapsed, {}, true);
+      if (elapsed >= 500) {
+        rpcList.push({anonymizedUrl, elapsed});
+      }
     },
 
     reportInteraction(eventName, details) {

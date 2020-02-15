@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1047ed7_93217334",
+        "filename": "package.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-15T05:22:49Z",
+      "side": 1,
+      "message": "When exactly does this get executed?  I\u0027m not sure it\u0027s a good idea to arbitrarily run a git clean in the workspace; it will remove any new unstaged files which might not be expected.",
+      "range": {
+        "startLine": 19,
+        "startChar": 14,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "f396546a0d90b021ac36e650438b3c50a4967e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

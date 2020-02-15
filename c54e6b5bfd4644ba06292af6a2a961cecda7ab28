@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57d7fadf_d688a1c0",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-15T18:14:41Z",
+      "side": 1,
+      "message": "Is this change related to this change on master: [1] and corresponding issue: [2], where these variables are supported to increase log level:\n\n* \"GERRIT_LOG_LEVEL\"\n* \"gerrit.logLevel\"\n\nIf two different ways to increase log level are required, can we harmonize the used system variable names and update the documentation correspondingly?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/246178\n[2] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11953",
+      "revId": "c54e6b5bfd4644ba06292af6a2a961cecda7ab28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f799f2fe_bbc002a0",
+        "filename": "javatests/com/google/gerrit/server/query/account/BUILD",
+        "patchSetId": 26
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-15T18:14:41Z",
+      "side": 1,
+      "message": "Here and in other BUILD files in this change: this is not a compile dependency, but a runtime dependency. Hence unused_deps complains that it is unused.",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 35
+      },
+      "revId": "c54e6b5bfd4644ba06292af6a2a961cecda7ab28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

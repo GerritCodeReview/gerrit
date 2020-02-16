@@ -103,8 +103,7 @@ public class GerritServer implements AutoCloseable {
           null, // @GerritConfig is only valid on methods.
           null, // @GerritConfigs is only valid on methods.
           null, // @GlobalPluginConfig is only valid on methods.
-          null, // @GlobalPluginConfigs is only valid on methods.
-          getLogLevelThresholdAnnotation(testDesc));
+          null); // @GlobalPluginConfigs is only valid on methods.
     }
 
     public static Description forTestMethod(
@@ -124,8 +123,7 @@ public class GerritServer implements AutoCloseable {
           testDesc.getAnnotation(GerritConfig.class),
           testDesc.getAnnotation(GerritConfigs.class),
           testDesc.getAnnotation(GlobalPluginConfig.class),
-          testDesc.getAnnotation(GlobalPluginConfigs.class),
-          getLogLevelThresholdAnnotation(testDesc));
+          testDesc.getAnnotation(GlobalPluginConfigs.class));
     }
 
     private static boolean has(Class<? extends Annotation> annotation, Class<?> clazz) {
@@ -135,14 +133,6 @@ public class GerritServer implements AutoCloseable {
         }
       }
       return false;
-    }
-
-    private static Level getLogLevelThresholdAnnotation(org.junit.runner.Description testDesc) {
-      LogThreshold logLevelThreshold = testDesc.getTestClass().getAnnotation(LogThreshold.class);
-      if (logLevelThreshold == null) {
-        return Level.DEBUG;
-      }
-      return Level.toLevel(logLevelThreshold.level());
     }
 
     abstract org.junit.runner.Description testDescription();
@@ -173,8 +163,6 @@ public class GerritServer implements AutoCloseable {
 
     @Nullable
     abstract GlobalPluginConfigs pluginConfigs();
-
-    abstract Level logLevelThreshold();
 
     private void checkValidAnnotations() {
       if (configs() != null && config() != null) {
@@ -364,7 +352,7 @@ public class GerritServer implements AutoCloseable {
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
     desc.checkValidAnnotations();
-    configureLogging(desc.logLevelThreshold());
+    configureLogging();
     CyclicBarrier serverStarted = new CyclicBarrier(2);
     Daemon daemon =
         new Daemon(
@@ -469,7 +457,7 @@ public class GerritServer implements AutoCloseable {
     return new GerritServer(desc, site, createTestInjector(daemon), daemon, daemonService);
   }
 
-  private static void configureLogging(Level threshold) {
+  private static void configureLogging() {
     LogManager.resetConfiguration();
 
     PatternLayout layout = new PatternLayout();
@@ -478,7 +466,7 @@ public class GerritServer implements AutoCloseable {
     ConsoleAppender dst = new ConsoleAppender();
     dst.setLayout(layout);
     dst.setTarget("System.err");
-    dst.setThreshold(threshold);
+    dst.setThreshold(Level.DEBUG);
     dst.activateOptions();
 
     Logger root = LogManager.getRootLogger();

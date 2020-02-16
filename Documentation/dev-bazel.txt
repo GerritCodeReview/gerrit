@@ -288,7 +288,7 @@ The WAR file will be placed in:
 Debugging tests:
 
 ----
-  bazel test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod  testTarget
+  bazel test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod testTarget
 ----
 
 Debug test example:
@@ -388,6 +388,25 @@ That default is currently 2 GB and should be set to at least 5 (GB).
 If Docker is not available, the Elasticsearch tests will be skipped.
 Note that Bazel currently does not show
 link:https://github.com/bazelbuild/bazel/issues/3476[the skipped tests].
+
+[[logging]]
+=== Controlling logging level
+
+Per default, logging level is set to `INFO` level for all tests. The `DEBUG`
+log level can be enabled for the tests.
+
+In IDE, set `-Dgerrit.logLevel=debug` as a VM argument. With `bazel`, pass
+`GERRIT_LOG_LEVEL=debug` environment variable:
+
+----
+  bazel test --test_filter=com.gerrit.server.notedb.ChangeNotesTest \
+  --test_env=GERRIT_LOG_LEVEL=debug \
+  javatests/com/google/gerrit/server:server_tests
+----
+
+The log results can be found in:
+`bazel-testlogs/javatests/com/google/gerrit/server/server_tests/test.log`.
+
 
 == Dependencies
 
@@ -583,7 +602,6 @@ To use the binary from the Bazel build, you need to use the `run_npm_binary.py`
 wrapper script. For an example, see the use of `crisper` in `tools/bzl/js.bzl`.
 
 
-
 [[RBE]]
 == Google Remote Build Support
 
@@ -616,8 +634,6 @@ bazel test --config=remote \
     --remote_instance_name=projects/${PROJECT}/instances/default_instance \
     javatests/...
 ```
-
-
 
 
 GERRIT

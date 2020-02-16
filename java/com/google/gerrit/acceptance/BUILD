@@ -88,8 +88,6 @@ java_library2(
         "//lib/httpcomponents:httpcore",
         "//lib/jetty:servlet",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/log:impl-log4j",
-        "//lib/log:log4j",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
         "//prolog:gerrit-prolog-common",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0909b88_163c95ed",
+        "filename": "javatests/com/google/gerrit/server/query/account/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-16T14:17:35Z",
+      "side": 0,
+      "message": "Here and other query test BUILD files. The change where log4j configuration was added to the query test classes was reverted in: [1] so that this should be reworked.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/255336/1",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 35
+      },
+      "revId": "6e748ac1c05eea1762b4593a1a8733c7a23198da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

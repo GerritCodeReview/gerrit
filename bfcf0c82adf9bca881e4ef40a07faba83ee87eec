@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1dd91b_6e9a11d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-16T16:24:53Z",
+      "side": 1,
+      "message": "The Nullability of getHead() method was removed in this CL: [1], that was merged on stable-3.0 branch, so that this change would silently revert that refactoring, that we should not do in a merge commit.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/207011",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 46
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0039d3d_357ee589",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-16T16:24:53Z",
+      "side": 1,
+      "message": "@Nullable annotation was also removed in the CL that I mentioned, but wasn\u0027t re-added here.",
+      "range": {
+        "startLine": 1119,
+        "startChar": 2,
+        "endLine": 1119,
+        "endChar": 76
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28a2b309_9c2fbf5d",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-16T16:24:53Z",
+      "side": 1,
+      "message": "Revert?",
+      "range": {
+        "startLine": 1122,
+        "startChar": 6,
+        "endLine": 1122,
+        "endChar": 64
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcf00054_c4199297",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-16T16:24:53Z",
+      "side": 1,
+      "message": "Remove this part of comment, as NoteDb is on per default on stable-3.0 branch and test mode cannot be switched to ReviewDb.",
+      "range": {
+        "startLine": 362,
+        "startChar": 32,
+        "endLine": 362,
+        "endChar": 88
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4f8bd3c_089bfabb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-16T16:24:53Z",
+      "side": 1,
+      "message": "After the refactoring, done in: [1], the non existing head supposed to be checked explicitly with hasHead() method, see for example how it was changed in: [1], in  ProjectIT:\n\n  -assertThat(getRemoteHead(project.get(), \"foo\")).isNull();\n  +assertThat(hasHead(project, \"foo\")).isFalse();\n\nSo that the same should be done here:\n\n* @Inject private ProjectOperations projectOperations;\n* add a method (or do it inline):\n\n  private boolean hasHead(String b) {\n    return projectOperations.project(allUsers).hasHead(b);\n  }\n\n* change line 388 to be:\n\n  assertThat(hasHead(draftRefName)).isFalse();\n\n\n\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/207011",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 388,
+        "endChar": 65
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

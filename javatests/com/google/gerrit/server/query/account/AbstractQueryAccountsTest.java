@@ -91,14 +91,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -149,20 +145,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   protected CurrentUser admin;
 
   protected abstract Injector createInjector();
-
-  @BeforeClass
-  public static void setLogLevel() {
-    if (Boolean.getBoolean("debug")) {
-      LogManager.getRootLogger().setLevel(Level.DEBUG);
-    }
-  }
-
-  @AfterClass
-  public static void resetLogLevel() {
-    if (Boolean.getBoolean("debug")) {
-      LogManager.getRootLogger().setLevel(Level.INFO);
-    }
-  }
 
   @Before
   public void setUpInjector() throws Exception {

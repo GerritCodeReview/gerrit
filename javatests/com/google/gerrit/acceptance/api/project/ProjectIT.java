@@ -33,7 +33,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -758,7 +757,6 @@ public class ProjectIT extends AbstractDaemonTest {
     }
   }
 
-  @Nullable
   protected RevCommit getRemoteHead(String project, String branch) throws Exception {
     return getRemoteHead(new Project.NameKey(project), branch);
   }

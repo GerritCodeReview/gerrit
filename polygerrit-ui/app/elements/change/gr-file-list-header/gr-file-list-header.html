@@ -154,10 +154,6 @@ limitations under the License.
     </style>
     <div class$="patchInfo-header [[_computeEditModeClass(editMode)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]">
       <div class="patchInfo-left">
-        <template is="dom-if"
-            if="[[showTitle]]">
-          <h3 class="label">Files</h3>
-        </template>
         <div class="patchInfoContent">
           <gr-patch-range-select
               id="rangeSelect"

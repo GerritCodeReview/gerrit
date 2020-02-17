@@ -15,7 +15,6 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/util/time",
-        "//java/org/eclipse/jgit:server",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/auto:auto-value",

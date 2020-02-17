@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "38991039_28d9e026",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-02-17T09:28:52Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6ab533a5_ad49ecd2",
+      "revId": "85c72c6b3e349a95c33454dd90853cd443e36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dbe77558_59fb9d40",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 5

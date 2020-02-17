@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
@@ -52,17 +53,20 @@ import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionStatus;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gson.Gson;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -106,6 +110,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
   }
 
+  private final Gson gson = OutputFormat.JSON_COMPACT.newGson();
+
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
@@ -125,6 +131,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
+  private List<AttentionStatus> attentionUpdates;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -368,6 +375,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.hashtags = hashtags;
   }
 
+  public void setAttentionUpdates(List<AttentionStatus> attentionUpdates) {
+    this.attentionUpdates = attentionUpdates;
+  }
+
   public void setAssignee(Account.Id assignee) {
     checkArgument(assignee != null, "use removeAssignee");
     this.assignee = Optional.of(assignee);
@@ -578,6 +589,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_COMMIT, commit);
     }
 
+    if (attentionUpdates != null) {
+      for (AttentionStatus attentionUpdate : attentionUpdates) {
+        addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionStatusToJson(attentionUpdate,
+            serverIdent, gson));
+      }
+    }
+
     if (assignee != null) {
       if (assignee.isPresent()) {
         addFooter(msg, FOOTER_ASSIGNEE);
@@ -713,6 +731,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && status == null
         && submissionId == null
         && submitRecords == null
+        && attentionUpdates == null
         && assignee == null
         && hashtags == null
         && topic == null
@@ -776,6 +795,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private StringBuilder addIdent(StringBuilder sb, Account.Id accountId) {
     PersonIdent ident = newIdent(accountId, when);
 
+    // ö Extract?
     PersonIdent.appendSanitized(sb, ident.getName());
     sb.append(" <");
     PersonIdent.appendSanitized(sb, ident.getEmailAddress());

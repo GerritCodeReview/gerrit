@@ -294,6 +294,7 @@ limitations under the License.
           <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _path)]]">
             <gr-button
                 link
+                id='toggleBlame'
                 title="[[createTitle(Shortcut.TOGGLE_BLAME, ShortcutSection.DIFFS)]]"
                 disabled="[[_isBlameLoading]]"
                 on-click="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>

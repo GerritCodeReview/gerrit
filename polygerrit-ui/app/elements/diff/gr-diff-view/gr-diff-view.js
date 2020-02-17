@@ -262,7 +262,7 @@
         [this.Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
         [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
         [this.Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
-        [this.Shortcut.TOGGLE_BLAME]: '_toggleBlame',
+        [this.Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
 
         // Final two are actually handled by gr-comment-thread.
         [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
@@ -1141,10 +1141,7 @@
      * Load and display blame information if it has not already been loaded.
      * Otherwise hide it.
      */
-    _toggleBlame(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-
+    _toggleBlame() {
       if (this._isBlameLoaded) {
         this.$.diffHost.clearBlame();
         return;
@@ -1160,6 +1157,12 @@
           .catch(() => {
             this._isBlameLoading = false;
           });
+    }
+
+    _handleToggleBlame(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+      this._toggleBlame();
     }
 
     _computeBlameLoaderClass(isImageDiff, path) {

@@ -69,6 +69,7 @@
   const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
   const FILES_TAB_NAME = 'files';
+  const FINDINGS_TAB_NAME = 'findings';
 
   /**
    * @appliesMixin Gerrit.FireMixin
@@ -315,10 +316,6 @@
         _dynamicTabHeaderEndpoints: {
           type: Array,
         },
-        _showPrimaryTabs: {
-          type: Boolean,
-          computed: '_computeShowPrimaryTabs(_dynamicTabHeaderEndpoints)',
-        },
         /** @type {Array<string>} */
         _dynamicTabContentEndpoints: {
           type: Array,
@@ -342,6 +339,10 @@
         _files_tab_name: {
           type: String,
           value: FILES_TAB_NAME,
+        },
+        _findings_tab_name: {
+          type: String,
+          value: FINDINGS_TAB_NAME,
         },
         _currentTabName: {
           type: String,
@@ -1109,10 +1110,6 @@
       }
 
       return 'PARENT';
-    }
-
-    _computeShowPrimaryTabs(dynamicTabHeaderEndpoints) {
-      return dynamicTabHeaderEndpoints && dynamicTabHeaderEndpoints.length > 0;
     }
 
     _computeChangeUrl(change) {

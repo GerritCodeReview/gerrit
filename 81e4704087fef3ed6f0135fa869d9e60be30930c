@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78a6b141_27479409",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-17T11:05:28Z",
+      "side": 1,
+      "message": "now?",
+      "range": {
+        "startLine": 200,
+        "startChar": 67,
+        "endLine": 200,
+        "endChar": 70
+      },
+      "revId": "81e4704087fef3ed6f0135fa869d9e60be30930c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3a82903_26cd945b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-17T11:05:28Z",
+      "side": 1,
+      "message": "Is there also a TODO for removing the entire action, first backend side, then frontend?",
+      "range": {
+        "startLine": 204,
+        "startChar": 38,
+        "endLine": 204,
+        "endChar": 55
+      },
+      "revId": "81e4704087fef3ed6f0135fa869d9e60be30930c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

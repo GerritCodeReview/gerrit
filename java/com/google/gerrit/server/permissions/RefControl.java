@@ -388,8 +388,8 @@ class RefControl {
   private boolean canPerform(String permissionName, boolean isChangeOwner, boolean withForce) {
     if (isBlocked(permissionName, isChangeOwner, withForce)) {
       logger.atFine().log(
-          "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s' (caller: %s)"
-              + " because this permission is blocked",
+          "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s'"
+              + " because this permission is blocked (caller: %s)",
           getUser().getLoggableName(),
           permissionName,
           withForce,

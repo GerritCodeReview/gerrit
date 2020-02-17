@@ -9,6 +9,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/launcher",
+        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/server",

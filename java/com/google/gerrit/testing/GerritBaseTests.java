@@ -15,6 +15,7 @@
 package com.google.gerrit.testing;
 
 import com.google.common.base.CharMatcher;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -24,6 +25,11 @@ import org.junit.rules.TestName;
 public abstract class GerritBaseTests {
   @Rule public ExpectedException exception = ExpectedException.none();
   @Rule public final TestName testName = new TestName();
+
+  @BeforeClass
+  public static void beforeClassTest() {
+    TestLoggingActivator.configureLogging();
+  }
 
   protected String getSanitizedMethodName() {
     String name = testName.getMethodName().toLowerCase();

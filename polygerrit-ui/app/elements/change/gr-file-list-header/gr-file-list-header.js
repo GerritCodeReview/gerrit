@@ -95,7 +95,7 @@
         },
         showTitle: {
           type: Boolean,
-          value: true,
+          value: false,
         },
         _descriptionReadOnly: {
           type: Boolean,

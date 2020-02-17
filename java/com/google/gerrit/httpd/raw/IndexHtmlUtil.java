@@ -121,8 +121,8 @@ public class IndexHtmlUtil {
   }
 
   /** Returns dynamic parameters of {@code index.html}. */
-  public static Map<String, Map<String, SanitizedContent>> dynamicTemplateData(GerritApi gerritApi)
-      throws RestApiException {
+  public static ImmutableMap<String, Map<String, SanitizedContent>> dynamicTemplateData(
+      GerritApi gerritApi) throws RestApiException {
     Gson gson = OutputFormat.JSON_COMPACT.newGson();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();

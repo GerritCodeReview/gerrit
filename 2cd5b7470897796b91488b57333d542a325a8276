@@ -22,6 +22,30 @@
       "revId": "2cd5b7470897796b91488b57333d542a325a8276",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71b888df_b3c879d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-17T20:11:24Z",
+      "side": 1,
+      "message": "Is this side effect described in this commit message part related to plugins build and tests on stable branches? I would say no? The reason I think it is unrelated, is because in-tree and standalone gerrit build and test rely on plugin-api and acceptance-framework but not on intermediate artifacts. And plugin-api and acceptance-framework shouldn\u0027t be changed by this change.\n\nDo you have evidence of any plugin build or test breakage caused by this change?\n\nIt worth noting though, that with this change H2-Database is not exposed any more in plugin-api.jar. The same applies for master as well, but nobody ever complained about it.",
+      "parentUuid": "a2d38f71_3da58830",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 27
+      },
+      "revId": "2cd5b7470897796b91488b57333d542a325a8276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

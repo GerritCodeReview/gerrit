@@ -108,11 +108,13 @@ limitations under the License.
       sandbox.spy(element, 'timeEnd');
       element.changeDisplayed();
       assert.isFalse(
-          element.timeEnd.calledWithExactly('ChangeDisplayed'));
+          element.timeEnd.calledWithExactly('ChangeDisplayed', {rpcList: []}));
       assert.isTrue(
-          element.timeEnd.calledWithExactly('StartupChangeDisplayed'));
+          element.timeEnd.calledWithExactly('StartupChangeDisplayed',
+              {rpcList: []}));
       element.changeDisplayed();
-      assert.isTrue(element.timeEnd.calledWithExactly('ChangeDisplayed'));
+      assert.isTrue(element.timeEnd.calledWithExactly('ChangeDisplayed',
+          {rpcList: []}));
     });
 
     test('changeFullyLoaded', () => {
@@ -130,11 +132,14 @@ limitations under the License.
       sandbox.spy(element, 'timeEnd');
       element.diffViewDisplayed();
       assert.isFalse(
-          element.timeEnd.calledWithExactly('DiffViewDisplayed'));
+          element.timeEnd.calledWithExactly('DiffViewDisplayed',
+              {rpcList: []}));
       assert.isTrue(
-          element.timeEnd.calledWithExactly('StartupDiffViewDisplayed'));
+          element.timeEnd.calledWithExactly('StartupDiffViewDisplayed',
+              {rpcList: []}));
       element.diffViewDisplayed();
-      assert.isTrue(element.timeEnd.calledWithExactly('DiffViewDisplayed'));
+      assert.isTrue(element.timeEnd.calledWithExactly('DiffViewDisplayed',
+          {rpcList: []}));
     });
 
     test('fileListDisplayed', () => {
@@ -152,11 +157,29 @@ limitations under the License.
       sandbox.spy(element, 'timeEnd');
       element.dashboardDisplayed();
       assert.isFalse(
-          element.timeEnd.calledWithExactly('DashboardDisplayed'));
+          element.timeEnd.calledWithExactly('DashboardDisplayed',
+              {rpcList: []}));
       assert.isTrue(
-          element.timeEnd.calledWithExactly('StartupDashboardDisplayed'));
+          element.timeEnd.calledWithExactly('StartupDashboardDisplayed',
+              {rpcList: []}));
       element.dashboardDisplayed();
-      assert.isTrue(element.timeEnd.calledWithExactly('DashboardDisplayed'));
+      assert.isTrue(element.timeEnd.calledWithExactly('DashboardDisplayed',
+          {rpcList: []}));
+    });
+
+    test('dashboardDisplayed', () => {
+      sandbox.spy(element, 'timeEnd');
+      element.reportRpcTiming('/changes/*~*/comments', 500);
+      element.dashboardDisplayed();
+      assert.isTrue(
+          element.timeEnd.calledWithExactly('StartupDashboardDisplayed',
+              {rpcList: [
+                {
+                  anonymizedUrl: '/changes/*~*/comments',
+                  elapsed: 500,
+                },
+              ]}
+          ));
     });
 
     test('time and timeEnd', () => {

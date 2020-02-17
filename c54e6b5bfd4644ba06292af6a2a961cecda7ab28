@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c4467822_fed6bf90",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T14:54:41Z",
+      "side": 1,
+      "message": "\u003e Is this change related to this change on master: [1] and corresponding issue: [2], where these variables are supported to increase log level:\n\u003e \n\u003e * \"GERRIT_LOG_LEVEL\"\n\u003e * \"gerrit.logLevel\"\n\nYes. This relatedness should have been noticed earlier while initiating (then reviewing) this work. Thanks for noticing though.\n\n\u003e If two different ways to increase log level are required, can we harmonize the used system variable names and update the documentation correspondingly?\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/c/gerrit/+/246178\n\u003e [2] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11953\n\nThanks for having worked on that ever since:\n\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/255333\n[4] https://gerrit-review.googlesource.com/c/gerrit/+/255334\n[5] https://gerrit-review.googlesource.com/c/gerrit/+/255335\n[6] https://gerrit-review.googlesource.com/c/gerrit/+/255336\n[7] https://gerrit-review.googlesource.com/c/gerrit/+/255337\n\n@Hamza, would you mind trying the above way [5,7] out? -To confirm that it can enable DEBUG for Issue 10498\u0027s (this change) specific purpose. If it doesn\u0027t, then that Issue 10498 will need to be re-opened and worked on further. -Thanks.",
+      "parentUuid": "57d7fadf_d688a1c0",
+      "revId": "c54e6b5bfd4644ba06292af6a2a961cecda7ab28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f799f2fe_bbc002a0",
         "filename": "javatests/com/google/gerrit/server/query/account/BUILD",
         "patchSetId": 26
@@ -30,6 +48,30 @@
       "writtenOn": "2020-02-15T18:14:41Z",
       "side": 1,
       "message": "Here and in other BUILD files in this change: this is not a compile dependency, but a runtime dependency. Hence unused_deps complains that it is unused.",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 35
+      },
+      "revId": "c54e6b5bfd4644ba06292af6a2a961cecda7ab28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f695d5_316d83f6",
+        "filename": "javatests/com/google/gerrit/server/query/account/BUILD",
+        "patchSetId": 26
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T14:54:41Z",
+      "side": 1,
+      "message": "\u003e Here and in other BUILD files in this change: this is not a compile dependency, but a runtime dependency. Hence unused_deps complains that it is unused.\n\nThis was an (albeit more minor) oversight, too. Thanks again for the notice, @David. We recently added unused_deps to our DoD (@Hamza).",
+      "parentUuid": "f799f2fe_bbc002a0",
       "range": {
         "startLine": 26,
         "startChar": 8,

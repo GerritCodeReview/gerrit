@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd119f99_483d5ab6",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T09:07:33Z",
+      "side": 1,
+      "message": "use a set if you want to rule out duplicates, if you want to count multi-occurrences, maybe have a map for it, either way it should make the log easier to read and analyze",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 17
+      },
+      "revId": "c1d7302bcb4929c59c4390713e77e5bcc68c416e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54855454_9f7c16ba",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T09:07:33Z",
+      "side": 1,
+      "message": "maybe just have a `getter` for this and always return with `slice` to make sure only return with snapshot",
+      "range": {
+        "startLine": 335,
+        "startChar": 58,
+        "endLine": 335,
+        "endChar": 69
+      },
+      "revId": "c1d7302bcb4929c59c4390713e77e5bcc68c416e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ae44a2c_b80ae0ed",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T09:07:33Z",
+      "side": 1,
+      "message": "maybe add a test with non-empty rpcList",
+      "revId": "c1d7302bcb4929c59c4390713e77e5bcc68c416e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

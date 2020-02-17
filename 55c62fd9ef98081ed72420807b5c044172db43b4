@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44bb4e2f_a69117ba",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-17T14:13:55Z",
+      "side": 1,
+      "message": "use thread safe java.time.DateTimeFormatter to avoid synchronization ?\n\nhttps://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html",
+      "revId": "55c62fd9ef98081ed72420807b5c044172db43b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

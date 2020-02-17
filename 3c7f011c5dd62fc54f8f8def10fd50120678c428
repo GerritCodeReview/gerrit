@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32ca9304_62f6dc79",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T15:48:54Z",
+      "side": 1,
+      "message": "question, why this `key` passed in can be `REVERT_SUBMISSION` after the removal of the button ?",
+      "revId": "3c7f011c5dd62fc54f8f8def10fd50120678c428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

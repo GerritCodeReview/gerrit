@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4603e444_f8f00b42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T16:22:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3c1dd91b_6e9a11d2",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 46
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0039d3d_357ee589",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73dda0e5_67e0638a",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T16:22:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b0039d3d_357ee589",
+      "range": {
+        "startLine": 1119,
+        "startChar": 2,
+        "endLine": 1119,
+        "endChar": 76
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "aed6b289_b3c19a58",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T16:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28a2b309_9c2fbf5d",
+      "range": {
+        "startLine": 1122,
+        "startChar": 6,
+        "endLine": 1122,
+        "endChar": 64
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcf00054_c4199297",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "cdbecf3a_331bd002",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T16:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcf00054_c4199297",
+      "range": {
+        "startLine": 362,
+        "startChar": 32,
+        "endLine": 362,
+        "endChar": 88
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4f8bd3c_089bfabb",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 3
@@ -114,6 +210,30 @@
       "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "768f2f12_a2b74afd",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T16:22:10Z",
+      "side": 1,
+      "message": "Done; thanks @David.",
+      "parentUuid": "d4f8bd3c_089bfabb",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 388,
+        "endChar": 65
+      },
+      "revId": "bfcf0c82adf9bca881e4ef40a07faba83ee87eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

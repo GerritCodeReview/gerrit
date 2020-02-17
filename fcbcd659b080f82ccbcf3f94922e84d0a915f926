@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55d3651a_b6fa156c",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-17T17:24:10Z",
+      "side": 1,
+      "message": "JsonLayout.formatDate seems to truncate precision to 1 second.\nEither we don\u0027t do this and write milliseconds to the log or\nwe use a different format pattern here only writing timestamp\nwith 1 second precision.\n\nNot sure why we truncate precision to 1 second for http logs.",
+      "range": {
+        "startLine": 35,
+        "startChar": 60,
+        "endLine": 35,
+        "endChar": 63
+      },
+      "revId": "fcbcd659b080f82ccbcf3f94922e84d0a915f926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -93,6 +93,30 @@
       "revId": "af53d62a8a4d0ae4d688c4499c83c9511b1b3fc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50984e93_81cd4746",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T09:38:17Z",
+      "side": 1,
+      "message": "ah thought that was for the first half part before... can you move the `skipAction` check to the first lien in the filter ? as it has nothing to do with the overflow computation at all. And it will be easier to understand the code with that\n\nAnd do you also need to hide it for other places ? like overflow actions etc ? I am not sure will the revert submission button always in the top level or not for all hosts.\n\nIf you need to have it for multiple places, it may make more sense to have a separate computed property that contains all non-skipped actions and used it to compute for all places.",
+      "parentUuid": "c081dd20_0a22a4d6",
+      "range": {
+        "startLine": 1521,
+        "startChar": 60,
+        "endLine": 1522,
+        "endChar": 37
+      },
+      "revId": "af53d62a8a4d0ae4d688c4499c83c9511b1b3fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

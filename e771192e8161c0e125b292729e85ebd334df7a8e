@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc83b43d_2e527fa3",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-17T10:22:52Z",
+      "side": 1,
+      "message": "nit: may be add comment why do you reset it here, but not right after sending",
+      "range": {
+        "startLine": 327,
+        "startChar": 6,
+        "endLine": 327,
+        "endChar": 23
+      },
+      "revId": "e771192e8161c0e125b292729e85ebd334df7a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

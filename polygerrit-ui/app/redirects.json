@@ -16,10 +16,7 @@
     {
       "from": "/bower_components/fetch",
       "to": {
-        "npm_module": "whatwg-fetch",
-        "files": {
-          "fetch.js": "dist/fetch.umd.js"
-        }
+        "npm_module": "whatwg-fetch"
       }
     },
     {

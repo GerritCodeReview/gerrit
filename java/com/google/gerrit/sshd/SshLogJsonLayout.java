@@ -23,56 +23,25 @@ import static com.google.gerrit.sshd.SshLog.P_STATUS;
 import static com.google.gerrit.sshd.SshLog.P_USER_NAME;
 import static com.google.gerrit.sshd.SshLog.P_WAIT;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gerrit.server.logging.JsonLayout;
+import com.google.gerrit.server.logging.JsonLogEntry;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
 
-public class SshLogJsonLayout extends Layout {
-  private final SimpleDateFormat dateFormat;
-  private final Gson gson;
-  private long lastTimeMillis;
-  private String lastTimeString;
+public class SshLogJsonLayout extends JsonLayout {
 
-  public SshLogJsonLayout() {
-    final TimeZone tz = TimeZone.getDefault();
-    dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS Z");
-    dateFormat.setTimeZone(tz);
-
-    lastTimeMillis = System.currentTimeMillis();
-    lastTimeString = dateFormat.format(new Date(lastTimeMillis));
-
-    gson = newGson();
+  @Override
+  public SimpleDateFormat setDateFormat() {
+    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS Z");
   }
 
   @Override
-  public String format(LoggingEvent event) {
-    SshJsonLog logEntry = new SshJsonLog(event);
-    return gson.toJson(logEntry) + ",\n";
-  }
-
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
-  }
-
-  @Override
-  public void activateOptions() {}
-
-  private Gson newGson() {
-    GsonBuilder gb =
-        new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .disableHtmlEscaping();
-    return gb.create();
+  public JsonLogEntry createLogEntry(LoggingEvent event) {
+    return new SshJsonLogEntry(event);
   }
 
   @SuppressWarnings("unused")
-  private class SshJsonLog {
+  private class SshJsonLogEntry extends JsonLogEntry {
     public String timestamp;
     public String session;
     public String thread;
@@ -95,7 +64,7 @@ public class SshLogJsonLayout extends Layout {
     public String objectsTotal;
     public String bytesTotal;
 
-    public SshJsonLog(LoggingEvent event) {
+    public SshJsonLogEntry(LoggingEvent event) {
       this.timestamp = formatDate(event.getTimeStamp());
       this.session = getMdcString(event, P_SESSION);
       this.thread = event.getThreadName();
@@ -122,23 +91,6 @@ public class SshLogJsonLayout extends Layout {
         this.objectsTotal = ssh_metrics[9];
         this.bytesTotal = ssh_metrics[10];
       }
-    }
-
-    private String getMdcString(LoggingEvent event, String key) {
-      return (String) event.getMDC(key);
-    }
-
-    private String formatDate(long now) {
-      final long rounded = now - (int) (now % 1000);
-      if (rounded != lastTimeMillis) {
-        synchronized (dateFormat) {
-          lastTimeMillis = rounded;
-          lastTimeString = dateFormat.format(new Date(lastTimeMillis));
-          return lastTimeString;
-        }
-      }
-
-      return lastTimeString;
     }
   }
 }

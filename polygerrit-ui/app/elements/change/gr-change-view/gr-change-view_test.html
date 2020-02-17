@@ -544,7 +544,11 @@ limitations under the License.
         // Fake computeDraftCount as its required for ChangeComments,
         // see gr-comment-api#reloadDrafts.
         reloadStub = sandbox.stub(element.$.commentAPI, 'reloadDrafts')
-            .returns(Promise.resolve({drafts, computeDraftCount: () => 1}));
+            .returns(Promise.resolve({
+              drafts,
+              getAllThreadsForChange: () => ([]),
+              computeDraftCount: () => 1,
+            }));
       });
 
       test('drafts are reloaded when reload-drafts fired', done => {

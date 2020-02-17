@@ -314,10 +314,6 @@
         _dynamicTabHeaderEndpoints: {
           type: Array,
         },
-        _showPrimaryTabs: {
-          type: Boolean,
-          computed: '_computeShowPrimaryTabs(_dynamicTabHeaderEndpoints)',
-        },
         /** @type {Array<string>} */
         _dynamicTabContentEndpoints: {
           type: Array,
@@ -332,6 +328,18 @@
         },
         _currentRobotCommentsPatchSet: {
           type: Number,
+        },
+        TABS: {
+          type: Object,
+          value: {
+            FILES: 0,
+            PLUGINS: 1,
+            FINDINGS: 2,
+          },
+        },
+        _tab: {
+          type: Number,
+          value: 0,
         },
       };
     }
@@ -503,10 +511,14 @@
       return currentView === view;
     }
 
+    _isCurrentTab(currentTab, tab) {
+      return currentTab === tab;
+    }
+
     _handleFileTabChange(e) {
       const selectedIndex = this.shadowRoot
           .querySelector('#primaryTabs').selected;
-      this._showFileTabContent = selectedIndex === 0;
+      this._tab = selectedIndex;
       // Initial tab is the static files list.
       const newSelectedTab =
           this._dynamicTabContentEndpoints[selectedIndex - 1];
@@ -1081,10 +1093,6 @@
       }
 
       return 'PARENT';
-    }
-
-    _computeShowPrimaryTabs(dynamicTabHeaderEndpoints) {
-      return dynamicTabHeaderEndpoints && dynamicTabHeaderEndpoints.length > 0;
     }
 
     _computeChangeUrl(change) {

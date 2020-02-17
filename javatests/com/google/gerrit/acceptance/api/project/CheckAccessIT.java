@@ -226,7 +226,6 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 privilegedUser.email(), secretRefProject.get(), "refs/heads/secret/master", 200),
             TestCase.projectRef(privilegedUser.email(), normalProject.get(), null, 200),
             TestCase.projectRef(privilegedUser.email(), secretProject.get(), null, 200),
-            TestCase.projectRef(privilegedUser.email(), secretProject.get(), null, 200),
             TestCase.projectRefPerm(
                 privilegedUser.email(),
                 normalProject.get(),

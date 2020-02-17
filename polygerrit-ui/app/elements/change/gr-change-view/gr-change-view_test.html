@@ -330,7 +330,8 @@ limitations under the License.
         assert(element._dynamicTabHeaderEndpoints.includes(
             'change-view-tab-header-url'));
         const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
-        assert.equal(paperTabs.querySelectorAll('paper-tab').length, 2);
+        // 3 Tabs are : Files, Plugin, Findings
+        assert.equal(paperTabs.querySelectorAll('paper-tab').length, 3);
         assert.equal(paperTabs.querySelectorAll('paper-tab')[1].dataset.name,
             'change-view-tab-header-url');
       });

@@ -536,22 +536,23 @@ limitations under the License.
       </section>
 
       <section class="patchInfo">
-        <template is="dom-if" if="[[_showPrimaryTabs]]">
-          <paper-tabs id="primaryTabs" on-selected-changed="_handleFileTabChange">
-            <paper-tab data-name$="[[_files_tab_name]]">Files</paper-tab>
-            <template is="dom-repeat" items="[[_dynamicTabHeaderEndpoints]]"
-              as="tabHeader">
-              <paper-tab data-name$="[[tabHeader]]">
-                  <gr-endpoint-decorator name$="[[tabHeader]]">
-                      <gr-endpoint-param name="change" value="[[_change]]">
-                      </gr-endpoint-param>
-                      <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
-                      </gr-endpoint-param>
-                  </gr-endpoint-decorator>
-              </paper-tab>
-            </template>
-          </paper-tabs>
-        </template>
+        <paper-tabs id="primaryTabs" on-selected-changed="_handleFileTabChange">
+          <paper-tab data-name$="[[_files_tab_name]]">Files</paper-tab>
+          <template is="dom-repeat" items="[[_dynamicTabHeaderEndpoints]]"
+            as="tabHeader">
+            <paper-tab data-name$="[[tabHeader]]">
+                <gr-endpoint-decorator name$="[[tabHeader]]">
+                    <gr-endpoint-param name="change" value="[[_change]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                    </gr-endpoint-param>
+                </gr-endpoint-decorator>
+            </paper-tab>
+          </template>
+          <paper-tab data-name$="[[_findings_tab_name]]">
+            Findings
+          </paper-tab>
+        </paper-tabs>
         <div hidden$="[[!_findIfTabMatches(_currentTabName, _files_tab_name)]]">
           <gr-file-list-header
             id="fileListHeader"
@@ -573,15 +574,14 @@ limitations under the License.
             base-patch-num="{{_patchRange.basePatchNum}}"
             files-expanded="[[_filesExpanded]]"
             diff-prefs-disabled="[[_diffPrefsDisabled]]"
-            show-title="[[!_showPrimaryTabs]]"
             on-open-diff-prefs="_handleOpenDiffPrefs"
             on-open-download-dialog="_handleOpenDownloadDialog"
             on-open-upload-help-dialog="_handleOpenUploadHelpDialog"
             on-open-included-in-dialog="_handleOpenIncludedInDialog"
             on-expand-diffs="_expandAllDiffs"
             on-collapse-diffs="_collapseAllDiffs">
-        </gr-file-list-header>
-        <gr-file-list
+          </gr-file-list-header>
+          <gr-file-list
             id="fileList"
             class="hideOnMobileOverlay"
             diff-prefs="{{_diffPrefs}}"
@@ -600,8 +600,26 @@ limitations under the License.
             file-list-increment="{{_numFilesShown}}"
             on-files-shown-changed="_setShownFiles"
             on-file-action-tap="_handleFileActionTap"
-            on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
+            on-reload-drafts="_reloadDraftsWithCallback">
+          </gr-file-list>
         </div>
+
+        <template is="dom-if" if="[[_findIfTabMatches(_currentTabName, _findings_tab_name)]]">
+          <gr-dropdown-list
+            class="patch-set-dropdown"
+            items="[[_robotCommentsPatchSetDropdownItems]]"
+            on-value-change="_handleRobotCommentPatchSetChanged"
+            value="[[_currentRobotCommentsPatchSet]]">
+          </gr-dropdown-list>
+          <gr-thread-list
+              threads="[[_robotCommentThreads]]"
+              change="[[_change]]"
+              change-num="[[_changeNum]]"
+              logged-in="[[_loggedIn]]"
+              comment-tab="[[_currentView]]"
+              hide-toggle-buttons
+              on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
+        </template>
 
         <template is="dom-if" if="[[_findIfTabMatches(_currentTabName, _selectedTabPluginHeader)]]">
           <gr-endpoint-decorator name$="[[_selectedTabPluginEndpoint]]">
@@ -631,9 +649,7 @@ limitations under the License.
               title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]">
             <span>Comment Threads</span></gr-tooltip-content>
         </paper-tab>
-        <paper-tab class="robotComments">Findings</paper-tab>
       </paper-tabs>
-
       <section class="changeLog">
         <template is="dom-if" if="[[_isSelectedView(_currentView,
           _commentTabs.CHANGE_LOG)]]">
@@ -658,23 +674,6 @@ limitations under the License.
               comment-tab="[[_currentView]]"
               logged-in="[[_loggedIn]]"
               only-show-robot-comments-with-human-reply
-              on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
-        </template>
-        <template is="dom-if" if="[[_isSelectedView(_currentView,
-          _commentTabs.ROBOT_COMMENTS)]]">
-          <gr-dropdown-list
-            class="patch-set-dropdown"
-            items="[[_robotCommentsPatchSetDropdownItems]]"
-            on-value-change="_handleRobotCommentPatchSetChanged"
-            value="[[_currentRobotCommentsPatchSet]]">
-          </gr-dropdown-list>
-          <gr-thread-list
-              threads="[[_robotCommentThreads]]"
-              change="[[_change]]"
-              change-num="[[_changeNum]]"
-              logged-in="[[_loggedIn]]"
-              comment-tab="[[_currentView]]"
-              hide-toggle-buttons
               on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
         </template>
       </section>

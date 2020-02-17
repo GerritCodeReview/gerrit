@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bbc728b_964c0229",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-02-17T14:48:03Z",
+      "side": 1,
+      "message": "},",
+      "range": {
+        "startLine": 535,
+        "startChar": 4,
+        "endLine": 535,
+        "endChar": 5
+      },
+      "revId": "65569da05fa3e91e42fa6b343d3dd9b94ea3d9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

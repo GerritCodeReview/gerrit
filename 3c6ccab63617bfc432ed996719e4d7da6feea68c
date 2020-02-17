@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "784c6dea_295f0e0f",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-17T12:35:01Z",
+      "side": 1,
+      "message": "could you instrument CheckAccess instead? I think we want to always gate this on admin access.",
+      "range": {
+        "startLine": 620,
+        "startChar": 3,
+        "endLine": 623,
+        "endChar": 2
+      },
+      "revId": "3c6ccab63617bfc432ed996719e4d7da6feea68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -28,6 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionStatus;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AssigneeStatusUpdateProto;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AttentionStatusProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeColumnsProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerSetEntryProto;
@@ -55,6 +57,7 @@ import com.google.inject.TypeLiteral;
 import com.google.protobuf.ByteString;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,6 +67,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotesStateTest {
+
   private static final Change.Id ID = Change.id(123);
   private static final ObjectId SHA =
       ObjectId.fromString("1234567812345678123456781234567812345678");
@@ -93,6 +97,13 @@ public class ChangeNotesStateTest {
 
   private ChangeNotesState.Builder newBuilder() {
     return ChangeNotesState.Builder.empty(ID).metaId(SHA).columns(cols);
+  }
+
+  private ChangeNotesStateProto.Builder newProtoBuilder() {
+    return ChangeNotesStateProto.newBuilder()
+        .setMetaId(SHA_BYTES)
+        .setChangeId(ID.get())
+        .setColumns(colsProto);
   }
 
   @Test
@@ -589,6 +600,39 @@ public class ChangeNotesStateTest {
   }
 
   @Test
+  public void serializeAttentionUpdates() throws Exception {
+    assertRoundTrip(
+        newBuilder()
+            .attentionUpdates(
+                ImmutableList.of(
+                    AttentionStatus.createFromRead(
+                        Instant.EPOCH.plusSeconds(23),
+                        Account.id(1000),
+                        AttentionStatus.Operation.ADD,
+                        "reason 1"),
+                    AttentionStatus.createFromRead(
+                        Instant.EPOCH.plusSeconds(42),
+                        Account.id(2000),
+                        AttentionStatus.Operation.REMOVE,
+                        "reason 2")))
+            .build(),
+        newProtoBuilder()
+            .addAttentionStatus(
+                AttentionStatusProto.newBuilder()
+                    .setDate(23_000) // epoch millis
+                    .setAccount(1000)
+                    .setOperation("ADD")
+                    .setReason("reason 1"))
+            .addAttentionStatus(
+                AttentionStatusProto.newBuilder()
+                    .setDate(42_000) // epoch millis
+                    .setAccount(2000)
+                    .setOperation("REMOVE")
+                    .setReason("reason 2"))
+            .build());
+  }
+
+  @Test
   public void serializeAssigneeUpdates() throws Exception {
     assertRoundTrip(
         newBuilder()
@@ -745,6 +789,9 @@ public class ChangeNotesStateTest {
                     "reviewerUpdates",
                     new TypeLiteral<ImmutableList<ReviewerStatusUpdate>>() {}.getType())
                 .put(
+                    "attentionUpdates",
+                    new TypeLiteral<ImmutableList<AttentionStatus>>() {}.getType())
+                .put(
                     "assigneeUpdates",
                     new TypeLiteral<ImmutableList<AssigneeStatusUpdate>>() {}.getType())
                 .put("submitRecords", new TypeLiteral<ImmutableList<SubmitRecord>>() {}.getType())
@@ -824,10 +871,10 @@ public class ChangeNotesStateTest {
         .hasFields(
             ImmutableMap.of(
                 "table",
-                    new TypeLiteral<
-                        ImmutableTable<
-                            ReviewerStateInternal, Account.Id, Timestamp>>() {}.getType(),
-                "accounts", new TypeLiteral<ImmutableSet<Account.Id>>() {}.getType()));
+                new TypeLiteral<
+                    ImmutableTable<ReviewerStateInternal, Account.Id, Timestamp>>() {}.getType(),
+                "accounts",
+                new TypeLiteral<ImmutableSet<Account.Id>>() {}.getType()));
   }
 
   @Test
@@ -836,9 +883,10 @@ public class ChangeNotesStateTest {
         .hasFields(
             ImmutableMap.of(
                 "table",
-                    new TypeLiteral<
-                        ImmutableTable<ReviewerStateInternal, Address, Timestamp>>() {}.getType(),
-                "users", new TypeLiteral<ImmutableSet<Address>>() {}.getType()));
+                new TypeLiteral<
+                    ImmutableTable<ReviewerStateInternal, Address, Timestamp>>() {}.getType(),
+                "users",
+                new TypeLiteral<ImmutableSet<Address>>() {}.getType()));
   }
 
   @Test

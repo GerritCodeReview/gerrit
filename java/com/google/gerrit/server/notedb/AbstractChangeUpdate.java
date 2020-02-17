@@ -110,7 +110,7 @@ public abstract class AbstractChangeUpdate {
       ChangeNoteUtil noteUtil, PersonIdent serverIdent, CurrentUser u, Date when) {
     checkUserType(u);
     if (u instanceof IdentifiedUser) {
-      return noteUtil.newIdent(u.asIdentifiedUser().getAccount(), when, serverIdent);
+      return noteUtil.newIdent(u.asIdentifiedUser().getAccount().id(), when, serverIdent);
     } else if (u instanceof InternalUser) {
       return serverIdent;
     }
@@ -162,10 +162,6 @@ public abstract class AbstractChangeUpdate {
 
   public Account.Id getNullableAccountId() {
     return accountId;
-  }
-
-  protected PersonIdent newIdent(Account.Id authorId, Date when) {
-    return noteUtil.newIdent(authorId, when, serverIdent);
   }
 
   /** Whether no updates have been done. */

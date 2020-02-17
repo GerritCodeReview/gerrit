@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
@@ -43,6 +44,7 @@ import static java.util.stream.Collectors.joining;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ListMultimap;
@@ -57,6 +59,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionStatus;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -75,6 +78,7 @@ import com.google.gerrit.server.util.LabelVote;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -102,7 +106,6 @@ class ChangeNotesParser {
 
   // Private final members initialized in the constructor.
   private final ChangeNoteJson changeNoteJson;
-
   private final NoteDbMetrics metrics;
   private final Change.Id id;
   private final ObjectId tip;
@@ -114,6 +117,9 @@ class ChangeNotesParser {
   private final Table<Address, ReviewerStateInternal, Timestamp> reviewersByEmail;
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
+  /** Holds only the most recent update per user. Older updates are discarded. */
+  private final Map<Account.Id, AttentionStatus> latestAttentionStatus;
+
   private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
   private final ListMultimap<ObjectId, Comment> comments;
@@ -169,6 +175,7 @@ class ChangeNotesParser {
     pendingReviewersByEmail = ReviewerByEmailSet.empty();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
+    latestAttentionStatus = new HashMap<>();
     assigneeUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
@@ -239,6 +246,7 @@ class ChangeNotesParser {
         pendingReviewersByEmail,
         allPastReviewers,
         buildReviewerUpdates(),
+        ImmutableList.copyOf(latestAttentionStatus.values()),
         assigneeUpdates,
         submitRecords,
         buildAllMessages(),
@@ -359,6 +367,7 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
+    parseAttentionUpdates(commit);
     parseAssigneeUpdates(ts, commit);
 
     if (submissionId == null) {
@@ -566,6 +575,21 @@ class ChangeNotesParser {
       hashtags = ImmutableSet.of();
     } else {
       hashtags = Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
+    }
+  }
+
+  private void parseAttentionUpdates(ChangeNotesCommit commit) throws ConfigInvalidException {
+    List<String> attentionStrings = commit.getFooterLineValues(FOOTER_ATTENTION);
+    for (String attentionString : attentionStrings) {
+
+      Optional<AttentionStatus> attentionStatus =
+          ChangeNoteUtil.attentionStatusFromJson(
+              Instant.ofEpochSecond(commit.getCommitTime()), attentionString);
+      if (!attentionStatus.isPresent()) {
+        throw invalidFooter(FOOTER_ATTENTION, attentionString);
+      }
+      // Processing is in reverse chronological order. Keep only the latest update.
+      latestAttentionStatus.putIfAbsent(attentionStatus.get().account(), attentionStatus.get());
     }
   }
 

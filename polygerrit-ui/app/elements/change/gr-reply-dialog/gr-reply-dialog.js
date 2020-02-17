@@ -138,10 +138,6 @@
           type: String,
           value: '',
         },
-        diffDrafts: {
-          type: Object,
-          observer: '_handleHeightChanged',
-        },
         /** @type {!Function} */
         filterReviewerSuggestion: {
           type: Function,
@@ -228,9 +224,13 @@
         _sendDisabled: {
           type: Boolean,
           computed: '_computeSendButtonDisabled(_sendButtonLabel, ' +
-            'diffDrafts, draft, _reviewersMutated, _labelsChanged, ' +
+            'draftCommentThreads, draft, _reviewersMutated, _labelsChanged, ' +
             '_includeComments, disabled)',
           observer: '_sendDisabledChanged',
+        },
+        draftCommentThreads: {
+          type: Array,
+          observer: '_handleHeightChanged',
         },
       };
     }
@@ -576,17 +576,12 @@
       });
     }
 
-    _computeHideDraftList(drafts) {
-      return Object.keys(drafts || {}).length == 0;
+    _computeHideDraftList(draftCommentThreads) {
+      return draftCommentThreads.length === 0;
     }
 
-    _computeDraftsTitle(drafts) {
-      let total = 0;
-      for (const file in drafts) {
-        if (drafts.hasOwnProperty(file)) {
-          total += drafts[file].length;
-        }
-      }
+    _computeDraftsTitle(draftCommentThreads) {
+      const total = draftCommentThreads.length;
       if (total == 0) { return ''; }
       if (total == 1) { return '1 Draft'; }
       if (total > 1) { return total + ' Drafts'; }
@@ -837,12 +832,13 @@
       return savingComments ? 'saving' : '';
     }
 
-    _computeSendButtonDisabled(buttonLabel, drafts, text, reviewersMutated,
+    _computeSendButtonDisabled(
+        buttonLabel, draftCommentThreads, text, reviewersMutated,
         labelsChanged, includeComments, disabled) {
       // Polymer 2: check for undefined
       if ([
         buttonLabel,
-        drafts,
+        draftCommentThreads,
         text,
         reviewersMutated,
         labelsChanged,
@@ -854,7 +850,7 @@
 
       if (disabled) { return true; }
       if (buttonLabel === ButtonLabels.START_REVIEW) { return false; }
-      const hasDrafts = includeComments && Object.keys(drafts).length;
+      const hasDrafts = includeComments && draftCommentThreads.length;
       return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
     }
 
@@ -886,6 +882,15 @@
           change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC);
       provider.init();
       return provider;
+    }
+
+    _onThreadListModified() {
+      // TODO(taoalpha): this won't propogate the changes to the files
+      // should consider replacing this with either top level events
+      // or gerrit level events
+
+      // emit the event so change-view can also get updated with latest changes
+      this.fire('comment-refresh');
     }
   }
 

@@ -159,7 +159,7 @@ limitations under the License.
           }));
     }
 
-    test('default to publishing drafts with reply', done => {
+    test('default to publishing draft comments with reply', done => {
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
       // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
@@ -190,7 +190,7 @@ limitations under the License.
       });
     });
 
-    test('keep drafts with reply', done => {
+    test('keep draft comments with reply', done => {
       MockInteractions.tap(element.shadowRoot.querySelector('#includeComments'));
       assert.equal(element._includeComments, false);
 
@@ -969,13 +969,13 @@ limitations under the License.
       element._handle400Error(cloneableResponse(400, text));
     });
 
-    test('fires height change when the drafts load', done => {
+    test('fires height change when the drafts comments load', done => {
       // Flush DOM operations before binding to the autogrow event so we don't
       // catch the events fired from the initial layout.
       flush(() => {
         const autoGrowHandler = sinon.stub();
         element.addEventListener('autogrow', autoGrowHandler);
-        element.diffDrafts = {};
+        element.draftCommentThreads = [];
         flush(() => {
           assert.isTrue(autoGrowHandler.called);
           done();
@@ -1101,7 +1101,7 @@ limitations under the License.
       const fn = element._computeSendButtonDisabled.bind(element);
       assert.isFalse(fn(
           /* buttonLabel= */ 'Start review',
-          /* drafts= */ {},
+          /* draftCommentThreads= */ [],
           /* text= */ '',
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
@@ -1110,7 +1110,7 @@ limitations under the License.
       ));
       assert.isTrue(fn(
           /* buttonLabel= */ 'Send',
-          /* drafts= */ {},
+          /* draftCommentThreads= */ [],
           /* text= */ '',
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
@@ -1120,7 +1120,7 @@ limitations under the License.
       // Mock nonempty comment draft array, with seding comments.
       assert.isFalse(fn(
           /* buttonLabel= */ 'Send',
-          /* drafts= */ {file: ['draft']},
+          /* draftCommentThreads= */ [{comments: [{__draft: true}]}],
           /* text= */ '',
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
@@ -1130,7 +1130,7 @@ limitations under the License.
       // Mock nonempty comment draft array, without seding comments.
       assert.isTrue(fn(
           /* buttonLabel= */ 'Send',
-          /* drafts= */ {file: ['draft']},
+          /* draftCommentThreads= */ [{comments: [{__draft: true}]}],
           /* text= */ '',
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
@@ -1140,7 +1140,7 @@ limitations under the License.
       // Mock nonempty change message.
       assert.isFalse(fn(
           /* buttonLabel= */ 'Send',
-          /* drafts= */ {},
+          /* draftCommentThreads= */ {},
           /* text= */ 'test',
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
@@ -1150,7 +1150,7 @@ limitations under the License.
       // Mock reviewers mutated.
       assert.isFalse(fn(
           /* buttonLabel= */ 'Send',
-          /* drafts= */ {},
+          /* draftCommentThreads= */ {},
           /* text= */ '',
           /* reviewersMutated= */ true,
           /* labelsChanged= */ false,
@@ -1160,7 +1160,7 @@ limitations under the License.
       // Mock labels changed.
       assert.isFalse(fn(
           /* buttonLabel= */ 'Send',
-          /* drafts= */ {},
+          /* draftCommentThreads= */ {},
           /* text= */ '',
           /* reviewersMutated= */ false,
           /* labelsChanged= */ true,
@@ -1170,7 +1170,7 @@ limitations under the License.
       // Whole dialog is disabled.
       assert.isTrue(fn(
           /* buttonLabel= */ 'Send',
-          /* drafts= */ {},
+          /* draftCommentThreads= */ {},
           /* text= */ '',
           /* reviewersMutated= */ false,
           /* labelsChanged= */ true,
@@ -1184,13 +1184,13 @@ limitations under the License.
       // Stub the below function to avoid side effects from the send promise
       // resolving.
       sandbox.stub(element, '_purgeReviewersPendingRemove');
-      element.diffDrafts = {};
+      element.draftCommentThreads = [];
       flushAsynchronousOperations();
 
       MockInteractions.tap(element.$$('gr-button.send'));
       assert.isFalse(sendStub.called);
 
-      element.diffDrafts = {test: [{val: true}]};
+      element.draftCommentThreads = [{comments: [{__draft: true}]}];
       flushAsynchronousOperations();
 
       MockInteractions.tap(element.$$('gr-button.send'));
@@ -1198,11 +1198,11 @@ limitations under the License.
     });
 
     test('getFocusStops', () => {
-      // Setting diffDrafts to an empty object causes _sendDisabled to be
+      // Setting draftCommentThreads to an empty object causes _sendDisabled to be
       // computed to false.
-      element.diffDrafts = {};
+      element.draftCommentThreads = [];
       assert.equal(element.getFocusStops().end, element.$.cancelButton);
-      element.diffDrafts = {test: [{val: true}]};
+      element.draftCommentThreads = [{comments: [{__draft: true}]}];
       assert.equal(element.getFocusStops().end, element.$.sendButton);
     });
 

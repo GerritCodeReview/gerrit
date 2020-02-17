@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31af0764_374e7330",
+        "filename": "javatests/com/google/gerrit/server/query/account/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-17T20:13:19Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be added any more, as it was reverted.",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 35
+      },
+      "revId": "a2036855f3328b502d24a0ca7b77bed4524d2032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "881ee92e_e6f30083",
+        "filename": "javatests/com/google/gerrit/server/query/change/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-17T20:13:19Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 35
+      },
+      "revId": "a2036855f3328b502d24a0ca7b77bed4524d2032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a16c93db_c77fa541",
+        "filename": "javatests/com/google/gerrit/server/query/group/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-17T20:13:19Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "a2036855f3328b502d24a0ca7b77bed4524d2032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a3f602_ddea6771",
+        "filename": "javatests/com/google/gerrit/server/query/project/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-17T20:13:19Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "a2036855f3328b502d24a0ca7b77bed4524d2032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90442c2d_4383887f",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-17T14:16:39Z",
+      "side": 1,
+      "message": "use DateTimeFormatter which is thread safe ?",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "20477e929e87ebb488a05a746492d7c9befa7bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

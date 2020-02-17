@@ -1225,6 +1225,11 @@
     _setLoadingOnButtonWithKey(type, key) {
       this._actionLoadingMessage = this._computeLoadingLabel(key);
 
+      if (key === ChangeActions.REVERT_SUBMISSION) {
+        // Revert submission button no longer exists
+        key = ChangeActions.REVERT;
+      }
+
       // If the action appears in the overflow menu.
       if (this._getActionOverflowIndex(type, key) !== -1) {
         this.push('_disabledMenuActions', key === '/' ? 'delete' : key);
@@ -1236,7 +1241,7 @@
 
       // Otherwise it's a top-level action.
       const buttonEl = this.$$(`[data-action-key="${key}"]`);
-      buttonEl.setAttribute('loading', true);
+      // If key is revert-submission, then button key should be 'revert'
       buttonEl.disabled = true;
       return function() {
         this._actionLoadingMessage = '';

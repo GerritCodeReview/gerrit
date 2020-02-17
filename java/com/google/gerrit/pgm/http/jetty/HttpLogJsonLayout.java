@@ -24,55 +24,25 @@ import static com.google.gerrit.pgm.http.jetty.HttpLog.P_STATUS;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER_AGENT;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import com.google.gerrit.server.logging.JsonLayout;
+import com.google.gerrit.server.logging.JsonLogEntry;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
-import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
 
-public class HttpLogJsonLayout extends Layout {
-  private final DateTimeFormatter dateFormatter;
-  private final Gson gson;
-  private final ZoneOffset timeOffset;
+public class HttpLogJsonLayout extends JsonLayout {
 
-  public HttpLogJsonLayout() {
-    dateFormatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss,SSS Z");
-    timeOffset = OffsetDateTime.now().getOffset();
-
-    gson = newGson();
+  @Override
+  public DateTimeFormatter setDateTimeFormatter() {
+    return DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss,SSS Z");
   }
 
   @Override
-  public String format(LoggingEvent event) {
-    HttpJsonLog logEntry = new HttpJsonLog(event);
-    return gson.toJson(logEntry) + ",\n";
-  }
-
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
-  }
-
-  @Override
-  public void activateOptions() {}
-
-  private Gson newGson() {
-    GsonBuilder gb =
-        new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .disableHtmlEscaping();
-    return gb.create();
+  public JsonLogEntry createLogEntry(LoggingEvent event) {
+    return new HttpJsonLogEntry(event);
   }
 
   @SuppressWarnings("unused")
-  private class HttpJsonLog {
+  private class HttpJsonLogEntry extends JsonLogEntry {
     public String host;
     public String thread;
     public String user;
@@ -85,7 +55,7 @@ public class HttpLogJsonLayout extends Layout {
     public String referer;
     public String userAgent;
 
-    public HttpJsonLog(LoggingEvent event) {
+    public HttpJsonLogEntry(LoggingEvent event) {
       this.host = getMdcString(event, P_HOST);
       this.thread = event.getThreadName();
       this.user = getMdcString(event, P_USER);
@@ -97,18 +67,6 @@ public class HttpLogJsonLayout extends Layout {
       this.contentLength = getMdcString(event, P_CONTENT_LENGTH);
       this.referer = getMdcString(event, P_REFERER);
       this.userAgent = getMdcString(event, P_USER_AGENT);
-    }
-
-    private String getMdcString(LoggingEvent event, String key) {
-      return (String) event.getMDC(key);
-    }
-
-    private String formatDate(long now) {
-      int nanoSeconds = (int) TimeUnit.NANOSECONDS.convert(now % 1000, TimeUnit.MILLISECONDS);
-      return ZonedDateTime.of(
-              LocalDateTime.ofEpochSecond(now / 1000, nanoSeconds, timeOffset),
-              ZoneId.systemDefault())
-          .format(dateFormatter);
     }
   }
 }

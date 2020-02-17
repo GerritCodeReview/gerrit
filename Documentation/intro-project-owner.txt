@@ -757,7 +757,28 @@ link:project-configuration.html#project-state[project state] to `ReadOnly` or
 
 Gerrit core does not support the renaming of projects.
 
-As workaround you can perform the following steps:
+If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/rename-project[
+rename-project] plugin is installed, projects can be renamed using
+the `rename-project` ssh command.
+
+There are a few caveats:
+* You cannot rename projects that use “submodule subscription”
+* You cannot rename projects that have any child projects
+* You cannot rename using a project name that already exists
+* You cannot rename the “All-Projects” project
+* You cannot rename the “All-Users” project
+* You should limit project renames to administrator users. Because of all these caveats,
+  it is not recommended to allow any non-admin user to perform any project rename.
+
+----
+ssh -p 29418 johndoe@gerrit.host.name rename-project old-projectname new-projectname
+----
+
+The caller must be a member of a group that is granted the ‘Rename Project’ capability
+(provided by this plugin) or the ‘Administrate Server’ capability.
+
+If you don't want to use the rename-project plugin you can perform the following steps as
+a workaround:
 
 . link:#project-creation[Create a new project] with the new name.
 . link:#import-history[Import the history of the old project].
@@ -765,11 +786,6 @@ As workaround you can perform the following steps:
 
 Please note that a drawback of this workaround is that the whole review
 history (changes, review comments) is lost.
-
-Alternatively, you can use the
-link:https://gerrit.googlesource.com/plugins/importer/[importer] plugin
-to copy the project _including the review history_, and then
-link:#project-deletion[delete the old project].
 
 GERRIT
 ------

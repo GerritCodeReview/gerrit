@@ -28,6 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionStatus;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -744,6 +745,9 @@ public class ChangeNotesStateTest {
                 .put(
                     "reviewerUpdates",
                     new TypeLiteral<ImmutableList<ReviewerStatusUpdate>>() {}.getType())
+                .put(
+                    "attentionUpdates",
+                    new TypeLiteral<ImmutableList<AttentionStatus>>() {}.getType())
                 .put(
                     "assigneeUpdates",
                     new TypeLiteral<ImmutableList<AssigneeStatusUpdate>>() {}.getType())

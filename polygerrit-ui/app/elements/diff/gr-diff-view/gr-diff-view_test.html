@@ -74,6 +74,7 @@ limitations under the License.
       kb.bindShortcut(kb.Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
       kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
       kb.bindShortcut(kb.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
+      kb.bindShortcut(kb.Shortcut.TOGGLE_BLAME, 'b');
 
       let element;
       let sandbox;
@@ -1117,6 +1118,21 @@ limitations under the License.
             .then(reviewed => assert.isTrue(reviewed)));
 
         return Promise.all(promises);
+      });
+
+      suite('blame', () => {
+        test('toggle blame with button', () => {
+          const toggleBlame = sandbox.stub(
+              element.$.diffHost, 'loadBlame', () => Promise.resolve());
+          MockInteractions.tap(element.$.toggleBlame);
+          assert.isTrue(toggleBlame.calledOnce);
+        });
+        test('toggle blame with shortcut', () => {
+          const toggleBlame = sandbox.stub(
+              element.$.diffHost, 'loadBlame', () => Promise.resolve());
+          MockInteractions.pressAndReleaseKeyOn(element, 66, null, 'b');
+          assert.isTrue(toggleBlame.calledOnce);
+        });
       });
 
       suite('editMode behavior', () => {

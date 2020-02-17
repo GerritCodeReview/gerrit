@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ab533a5_ad49ecd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T08:54:27Z",
+      "side": 1,
+      "message": "curious, how does it look like in dark theme ?",
+      "revId": "85c72c6b3e349a95c33454dd90853cd443e36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbe77558_59fb9d40",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T08:54:27Z",
+      "side": 1,
+      "message": "empty rules ?",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 7
+      },
+      "revId": "85c72c6b3e349a95c33454dd90853cd443e36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd9cdfe0_fa454dd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T08:54:27Z",
+      "side": 1,
+      "message": "I feel like this a good opportunity to extract these into separate components... or maybe too much for a small redesign change. won\u0027t block the change for that",
+      "revId": "85c72c6b3e349a95c33454dd90853cd443e36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ac6fe7a_e99d6c0f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T08:54:27Z",
+      "side": 1,
+      "message": "the indentation seems wrong for this block after removal of the section",
+      "range": {
+        "startLine": 531,
+        "startChar": 8,
+        "endLine": 546,
+        "endChar": 19
+      },
+      "revId": "85c72c6b3e349a95c33454dd90853cd443e36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4dbefef_7e7b7827",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T08:54:27Z",
+      "side": 1,
+      "message": "ditto, indentation off",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 617,
+        "endChar": 3
+      },
+      "revId": "85c72c6b3e349a95c33454dd90853cd443e36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7eed01ca_e3bf3ddc",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T08:54:27Z",
+      "side": 1,
+      "message": "this can just be grouped into the `.topHeader`, which may be easier for change and read",
+      "revId": "85c72c6b3e349a95c33454dd90853cd443e36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

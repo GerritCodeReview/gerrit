@@ -525,6 +525,7 @@ limitations under the License.
         <template is="dom-if" if="[[_showPrimaryTabs]]">
           <paper-tabs id="primaryTabs" on-selected-changed="_handleFileTabChange">
             <paper-tab>Files</paper-tab>
+            <paper-tab class="robotComments">Findings</paper-tab>
             <template is="dom-repeat" items="[[_dynamicTabHeaderEndpoints]]"
               as="tabHeader">
               <paper-tab>
@@ -539,7 +540,7 @@ limitations under the License.
           </paper-tabs>
         </template>
 
-        <div hidden$="[[!_showFileTabContent]]">
+        <div hidden$="[[!_isCurrentTab(_tab, TABS.FILES)">
           <gr-file-list-header
             id="fileListHeader"
             account="[[_account]]"
@@ -567,8 +568,8 @@ limitations under the License.
             on-open-included-in-dialog="_handleOpenIncludedInDialog"
             on-expand-diffs="_expandAllDiffs"
             on-collapse-diffs="_collapseAllDiffs">
-        </gr-file-list-header>
-        <gr-file-list
+          </gr-file-list-header>
+          <gr-file-list
             id="fileList"
             class="hideOnMobileOverlay"
             diff-prefs="{{_diffPrefs}}"
@@ -587,10 +588,28 @@ limitations under the License.
             file-list-increment="{{_numFilesShown}}"
             on-files-shown-changed="_setShownFiles"
             on-file-action-tap="_handleFileActionTap"
-            on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
+            on-reload-drafts="_reloadDraftsWithCallback">
+          </gr-file-list>
         </div>
 
-        <template is="dom-if" if="[[!_showFileTabContent]]">
+        <template is="dom-if" if="[[_isCurrentTab(_tab, TABS.FINDINGS)]]">
+          <gr-dropdown-list
+            class="patch-set-dropdown"
+            items="[[_robotCommentsPatchSetDropdownItems]]"
+            on-value-change="_handleRobotCommentPatchSetChanged"
+            value="[[_currentRobotCommentsPatchSet]]">
+          </gr-dropdown-list>
+          <gr-thread-list
+              threads="[[_robotCommentThreads]]"
+              change="[[_change]]"
+              change-num="[[_changeNum]]"
+              logged-in="[[_loggedIn]]"
+              comment-tab="[[_currentView]]"
+              hide-toggle-buttons
+              on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
+        </template>
+        
+        <template is="dom-if" if="[[_isCurrentTab(_tab, TABS.PLUGINS)]]">
             <gr-endpoint-decorator name$="[[_selectedFilesTabPluginEndpoint]]">
                 <gr-endpoint-param name="change" value="[[_change]]">
                 </gr-endpoint-param>
@@ -617,7 +636,6 @@ limitations under the License.
               title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]">
             <span>Comment Threads</span></gr-tooltip-content>
         </paper-tab>
-        <paper-tab class="robotComments">Findings</paper-tab>
       </paper-tabs>
       <template is="dom-if" if="[[_isSelectedView(_currentView,
         _commentTabs.CHANGE_LOG)]]">
@@ -642,23 +660,6 @@ limitations under the License.
             comment-tab="[[_currentView]]"
             logged-in="[[_loggedIn]]"
             only-show-robot-comments-with-human-reply
-            on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
-      </template>
-      <template is="dom-if" if="[[_isSelectedView(_currentView,
-        _commentTabs.ROBOT_COMMENTS)]]">
-        <gr-dropdown-list
-          class="patch-set-dropdown"
-          items="[[_robotCommentsPatchSetDropdownItems]]"
-          on-value-change="_handleRobotCommentPatchSetChanged"
-          value="[[_currentRobotCommentsPatchSet]]">
-        </gr-dropdown-list>
-        <gr-thread-list
-            threads="[[_robotCommentThreads]]"
-            change="[[_change]]"
-            change-num="[[_changeNum]]"
-            logged-in="[[_loggedIn]]"
-            comment-tab="[[_currentView]]"
-            hide-toggle-buttons
             on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
       </template>
     </div>

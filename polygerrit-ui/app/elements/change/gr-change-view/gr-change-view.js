@@ -327,6 +327,18 @@
         _currentRobotCommentsPatchSet: {
           type: Number,
         },
+        TABS: {
+          type: Object,
+          value: {
+            FILES: 0,
+            FINDINGS: 1,
+            PLUGINS: 2,
+          },
+        },
+        _tab: {
+          type: Number,
+          value: 0,
+        },
       };
     }
 
@@ -497,10 +509,14 @@
       return currentView === view;
     }
 
+    _isCurrentTab(currentTab, tab) {
+      return currentTab === tab;
+    }
+
     _handleFileTabChange(e) {
       const selectedIndex = this.shadowRoot
           .querySelector('#primaryTabs').selected;
-      this._showFileTabContent = selectedIndex === 0;
+      this._tab = selectedIndex;
       // Initial tab is the static files list.
       const newSelectedTab =
           this._dynamicTabContentEndpoints[selectedIndex - 1];

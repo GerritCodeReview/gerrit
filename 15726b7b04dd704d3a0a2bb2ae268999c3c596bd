@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "079cccf4_0efa7629",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-17T14:14:15Z",
+      "side": 1,
+      "message": "use thread safe java.time.DateTimeFormatter to avoid synchronization ?\n\nhttps://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html",
+      "revId": "15726b7b04dd704d3a0a2bb2ae268999c3c596bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

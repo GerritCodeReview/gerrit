@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9818a685_716a64ec",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:48:18Z",
+      "side": 1,
+      "message": "The AsyncAppender is specifically designed to add each event it receives to all child appenders [1]. Thus, creating an AsyncAppender here and adding the text and/or json AsyncAppender to it allows us to add logs to them in just one step (line 115). You could probably do that by using a list and forEach, but there might be some pitfalls and why do that, if the class is designed to deal with exactly this situation.\n\n[1] https://github.com/apache/log4j/blob/7be00eed88152dd011a619e8bae5a631235c3f4c/src/main/java/org/apache/log4j/AsyncAppender.java#L36",
+      "parentUuid": "978e143d_4ab804dc",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49fda87b_16316f64",
         "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "dbd525db745d20100fdf335371e0c5802e906585",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a93dd983_ccf3f048",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49fda87b_16316f64",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 9
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "31be7a02_dc5582a1",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64a622e_356e2426",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 20
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a98e5f82_a33e0a65",
         "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
         "patchSetId": 5
@@ -91,6 +163,30 @@
       "revId": "dbd525db745d20100fdf335371e0c5802e906585",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "684a24eb_12956845",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a98e5f82_a33e0a65",
+      "range": {
+        "startLine": 46,
+        "startChar": 28,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -152,6 +248,48 @@
     },
     {
       "key": {
+        "uuid": "4f19cd09_58dea132",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1dfef5b_a239beae",
+      "range": {
+        "startLine": 47,
+        "startChar": 44,
+        "endLine": 47,
+        "endChar": 58
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6577390_143c6d72",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa93422e_d7a63504",
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c82c12c_a45dd4ca",
         "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
         "patchSetId": 5
@@ -175,6 +313,30 @@
     },
     {
       "key": {
+        "uuid": "43af359e_bd57b312",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c82c12c_a45dd4ca",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 42
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2957815c_da5ce27c",
         "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
         "patchSetId": 5
@@ -186,6 +348,30 @@
       "writtenOn": "2020-02-14T15:55:23Z",
       "side": 1,
       "message": "[optional]\n\nThis is copied from HttpLogLayout, maybe we can move this code into a utility class and reuse.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 3
+      },
+      "revId": "dbd525db745d20100fdf335371e0c5802e906585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b3b53c0_603bf3cf",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:48:18Z",
+      "side": 1,
+      "message": "Since it is not a 1-to-1 copy, because I don\u0027t add it directly to a string buffer here, I would have to change the version in HttpLogLayout as well. Let me think about it and do that in a separate change.",
+      "parentUuid": "2957815c_da5ce27c",
       "range": {
         "startLine": 71,
         "startChar": 0,

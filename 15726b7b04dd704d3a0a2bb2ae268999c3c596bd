@@ -16,6 +16,24 @@
       "revId": "15726b7b04dd704d3a0a2bb2ae268999c3c596bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77ca7ea8_423146e4",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:49:05Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "588aca24_895aebaa",
+      "revId": "15726b7b04dd704d3a0a2bb2ae268999c3c596bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

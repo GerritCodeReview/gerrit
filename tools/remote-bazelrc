@@ -57,7 +57,7 @@ build:remote --platforms=@bazel_toolchains//configs/ubuntu16_04_clang/1.2:rbe_ub
 # Set various strategies so that all actions execute remotely. Mixing remote
 # and local execution will lead to errors unless the toolchain and remote
 # machine exactly match the host machine.
-build:remote --spawn_strategy=remote
+build:remote --spawn_strategy=remote,sandboxed
 build:remote --strategy=Javac=remote
 build:remote --strategy=Closure=remote
 build:remote --strategy=Genrule=remote

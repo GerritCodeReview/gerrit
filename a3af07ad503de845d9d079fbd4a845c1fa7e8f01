@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e7b3e55_623a2b33",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T22:09:28Z",
+      "side": 1,
+      "message": "I would link this to [1].\n\n[1] https://gerrit.googlesource.com/plugins/rename-project/+/refs/heads/master/src/main/resources/Documentation/cmd-rename.md",
+      "range": {
+        "startLine": 762,
+        "startChar": 0,
+        "endLine": 762,
+        "endChar": 32
+      },
+      "revId": "a3af07ad503de845d9d079fbd4a845c1fa7e8f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6cb3cec_ede4bd26",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T22:09:28Z",
+      "side": 1,
+      "message": "List does not render as expected locally. However, I would replace it anyway, with a link to [2], to not duplicate that information here.\n\n[2] https://gerrit.googlesource.com/plugins/rename-project/+/refs/heads/master/src/main/resources/Documentation/about.md",
+      "range": {
+        "startLine": 764,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 82
+      },
+      "revId": "a3af07ad503de845d9d079fbd4a845c1fa7e8f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d63c1717_c15424de",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T22:09:28Z",
+      "side": 1,
+      "message": "Should already be provided within [1,2] from my comments above; would remove.",
+      "range": {
+        "startLine": 773,
+        "startChar": 0,
+        "endLine": 778,
+        "endChar": 66
+      },
+      "revId": "a3af07ad503de845d9d079fbd4a845c1fa7e8f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

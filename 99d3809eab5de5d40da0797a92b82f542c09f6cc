@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6768da79_f3d8bec5",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-17T18:30:06Z",
+      "side": -1,
+      "message": "Wrong conflict resolution. Mockito should be kept.",
+      "revId": "99d3809eab5de5d40da0797a92b82f542c09f6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
@@ -57,6 +58,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionStatus;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -64,6 +66,7 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.AssigneeStatusUpdate;
@@ -72,6 +75,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
@@ -100,9 +104,10 @@ import org.eclipse.jgit.util.RawParseUtils;
 class ChangeNotesParser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private Gson gson = OutputFormat.JSON_COMPACT.newGson();
+
   // Private final members initialized in the constructor.
   private final ChangeNoteJson changeNoteJson;
-
   private final NoteDbMetrics metrics;
   private final Change.Id id;
   private final ObjectId tip;
@@ -114,6 +119,7 @@ class ChangeNotesParser {
   private final Table<Address, ReviewerStateInternal, Timestamp> reviewersByEmail;
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
+  private final List<AttentionStatus> attentionUpdates;
   private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
   private final ListMultimap<ObjectId, Comment> comments;
@@ -169,6 +175,7 @@ class ChangeNotesParser {
     pendingReviewersByEmail = ReviewerByEmailSet.empty();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
+    attentionUpdates = new ArrayList<>();
     assigneeUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
@@ -239,6 +246,7 @@ class ChangeNotesParser {
         pendingReviewersByEmail,
         allPastReviewers,
         buildReviewerUpdates(),
+        attentionUpdates,
         assigneeUpdates,
         submitRecords,
         buildAllMessages(),
@@ -359,6 +367,8 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
+    // ö include timestamp?
+    parseAttentionUpdates(commit);
     parseAssigneeUpdates(ts, commit);
 
     if (submissionId == null) {
@@ -567,6 +577,12 @@ class ChangeNotesParser {
     } else {
       hashtags = Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
     }
+  }
+
+  private void parseAttentionUpdates(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String attentionString = parseOneFooter(commit, FOOTER_ATTENTION);
+    AttentionStatus attentionStatus = ChangeNoteUtil.attentionStatusFromJson(attentionString, gson);
+    attentionUpdates.add(attentionStatus);
   }
 
   private void parseAssigneeUpdates(Timestamp ts, ChangeNotesCommit commit)

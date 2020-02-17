@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fcd3acac_26bcaab3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-17T09:33:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae882939_5ebf4526",
+      "range": {
+        "startLine": 1513,
+        "startChar": 4,
+        "endLine": 1513,
+        "endChar": 15
+      },
+      "revId": "af53d62a8a4d0ae4d688c4499c83c9511b1b3fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c74ce37f_cd3f0c72",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "af53d62a8a4d0ae4d688c4499c83c9511b1b3fc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c081dd20_0a22a4d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-17T09:33:17Z",
+      "side": 1,
+      "message": "There is an overall negation to this variable being computed.\nSo ! (_shouldSkipActions)",
+      "parentUuid": "c74ce37f_cd3f0c72",
+      "range": {
+        "startLine": 1521,
+        "startChar": 60,
+        "endLine": 1522,
+        "endChar": 37
+      },
+      "revId": "af53d62a8a4d0ae4d688c4499c83c9511b1b3fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

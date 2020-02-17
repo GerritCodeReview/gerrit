@@ -62,11 +62,11 @@ limitations under the License.
       MockInteractions.tap(element.$$('gr-button:not([primary])'));
     });
 
-    test('enabling editing updates edit field contents', () => {
+    test('enabling editing keeps old content', () => {
       element.content = 'current content';
-      element._newContent = 'stale content';
+      element._newContent = 'old content';
       element.editing = true;
-      assert.equal(element._newContent, 'current content');
+      assert.equal(element._newContent, 'old content');
     });
 
     test('disabling editing does not update edit field contents', () => {

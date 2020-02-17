@@ -45,6 +45,29 @@
       "revId": "81e4704087fef3ed6f0135fa869d9e60be30930c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce1ca6e9_9245c2e0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T11:41:29Z",
+      "side": 1,
+      "message": "nit:maybe pass the `action` instead, its more fit with the name, and also easier to change once you need other info of the action.",
+      "range": {
+        "startLine": 1518,
+        "startChar": 4,
+        "endLine": 1518,
+        "endChar": 21
+      },
+      "revId": "81e4704087fef3ed6f0135fa869d9e60be30930c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

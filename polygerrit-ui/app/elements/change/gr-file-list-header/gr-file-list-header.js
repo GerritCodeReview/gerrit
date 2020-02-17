@@ -93,10 +93,6 @@
           type: String,
           value: '',
         },
-        showTitle: {
-          type: Boolean,
-          value: true,
-        },
         _descriptionReadOnly: {
           type: Boolean,
           computed: '_computeDescriptionReadOnly(loggedIn, change, account)',

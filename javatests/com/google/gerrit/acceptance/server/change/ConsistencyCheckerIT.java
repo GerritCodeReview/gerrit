@@ -830,7 +830,8 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   private void addNoteDbCommit(Change.Id id, String commitMessage) throws Exception {
     PersonIdent committer = serverIdent.get();
-    PersonIdent author = noteUtil.newIdent(getAccount(admin.id()), committer.getWhen(), committer);
+    PersonIdent author =
+        noteUtil.newIdent(getAccount(admin.id()).id(), committer.getWhen(), committer);
     serverSideTestRepo
         .branch(RefNames.changeMetaRef(id))
         .commit()

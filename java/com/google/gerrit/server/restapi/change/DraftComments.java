@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -64,7 +64,7 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
       throws ResourceNotFoundException, AuthException {
     checkIdentifiedUser();
     String uuid = id.get();
-    for (Comment c :
+    for (HumanComment c :
         commentsUtil.draftByPatchSetAuthor(
             rev.getPatchSet().id(), rev.getAccountId(), rev.getNotes())) {
       if (uuid.equals(c.key.uuid)) {

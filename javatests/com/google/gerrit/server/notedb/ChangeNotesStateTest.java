@@ -31,6 +31,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -670,8 +671,8 @@ public class ChangeNotesStateTest {
 
   @Test
   public void serializePublishedComments() throws Exception {
-    Comment c1 =
-        new Comment(
+    HumanComment c1 =
+        new HumanComment(
             new Comment.Key("uuid1", "file1", 1),
             Account.id(1001),
             new Timestamp(1212L),
@@ -682,8 +683,8 @@ public class ChangeNotesStateTest {
     c1.setCommitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     String c1Json = Serializer.GSON.toJson(c1);
 
-    Comment c2 =
-        new Comment(
+    HumanComment c2 =
+        new HumanComment(
             new Comment.Key("uuid2", "file2", 2),
             Account.id(1002),
             new Timestamp(3434L),
@@ -751,7 +752,7 @@ public class ChangeNotesStateTest {
                 .put("changeMessages", new TypeLiteral<ImmutableList<ChangeMessage>>() {}.getType())
                 .put(
                     "publishedComments",
-                    new TypeLiteral<ImmutableListMultimap<ObjectId, Comment>>() {}.getType())
+                    new TypeLiteral<ImmutableListMultimap<ObjectId, HumanComment>>() {}.getType())
                 .put("updateCount", int.class)
                 .build());
   }
@@ -923,7 +924,7 @@ public class ChangeNotesStateTest {
                 "startChar", int.class,
                 "endLine", int.class,
                 "endChar", int.class));
-    assertThatSerializedClass(Comment.class)
+    assertThatSerializedClass(HumanComment.class)
         .hasFields(
             ImmutableMap.<String, Type>builder()
                 .put("key", Comment.Key.class)

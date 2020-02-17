@@ -18,7 +18,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,15 +31,15 @@ public class TextParser {
    * Parses comments from plaintext email.
    *
    * @param email @param email the message as received from the email service
-   * @param comments list of {@link Comment}s previously persisted on the change that caused the
-   *     original notification email to be sent out. Ordering must be the same as in the outbound
-   *     email
+   * @param comments list of {@link HumanComment}s previously persisted on the change that caused
+   *     the original notification email to be sent out. Ordering must be the same as in the
+   *     outbound email
    * @param changeUrl canonical change url that points to the change on this Gerrit instance.
    *     Example: https://go-review.googlesource.com/#/c/91570
    * @return list of MailComments parsed from the plaintext part of the email
    */
   public static List<MailComment> parse(
-      MailMessage email, Collection<Comment> comments, String changeUrl) {
+      MailMessage email, Collection<HumanComment> comments, String changeUrl) {
     String body = email.textContent();
     // Replace CR-LF by \n
     body = body.replace("\r\n", "\n");
@@ -62,11 +62,11 @@ public class TextParser {
       body = body.replace(doubleQuotePattern, singleQuotePattern);
     }
 
-    PeekingIterator<Comment> iter = Iterators.peekingIterator(comments.iterator());
+    PeekingIterator<HumanComment> iter = Iterators.peekingIterator(comments.iterator());
 
     MailComment currentComment = null;
     String lastEncounteredFileName = null;
-    Comment lastEncounteredComment = null;
+    HumanComment lastEncounteredComment = null;
     for (String line : Splitter.on('\n').split(body)) {
       if (line.equals(">")) {
         // Skip empty lines
@@ -89,7 +89,7 @@ public class TextParser {
         if (!iter.hasNext()) {
           continue;
         }
-        Comment perspectiveComment = iter.peek();
+        HumanComment perspectiveComment = iter.peek();
         if (line.equals(ParserUtil.filePath(changeUrl, perspectiveComment))) {
           if (lastEncounteredFileName == null
               || !lastEncounteredFileName.equals(perspectiveComment.key.filename)) {

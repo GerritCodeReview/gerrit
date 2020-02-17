@@ -26,7 +26,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -50,7 +50,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private final Account.Id author;
   private final Ref ref;
 
-  private ImmutableListMultimap<ObjectId, Comment> comments;
+  private ImmutableListMultimap<ObjectId, HumanComment> comments;
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
   @AssistedInject
@@ -80,12 +80,12 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return author;
   }
 
-  public ImmutableListMultimap<ObjectId, Comment> getComments() {
+  public ImmutableListMultimap<ObjectId, HumanComment> getComments() {
     return comments;
   }
 
-  public boolean containsComment(Comment c) {
-    for (Comment existing : comments.values()) {
+  public boolean containsComment(HumanComment c) {
+    for (HumanComment existing : comments.values()) {
       if (c.key.equals(existing.key)) {
         return true;
       }
@@ -120,10 +120,13 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap =
         RevisionNoteMap.parse(
-            args.changeNoteJson, reader, NoteMap.read(reader, tipCommit), Comment.Status.DRAFT);
-    ListMultimap<ObjectId, Comment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
+            args.changeNoteJson,
+            reader,
+            NoteMap.read(reader, tipCommit),
+            HumanComment.Status.DRAFT);
+    ListMultimap<ObjectId, HumanComment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
-      for (Comment c : rn.getEntities()) {
+      for (HumanComment c : rn.getEntities()) {
         cs.put(c.getCommitId(), c);
       }
     }

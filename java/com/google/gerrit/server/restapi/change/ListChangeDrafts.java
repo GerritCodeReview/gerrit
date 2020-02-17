@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -23,7 +23,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.restapi.change.CommentJson.CommentFormatter;
+import com.google.gerrit.server.restapi.change.CommentJson.HumanCommentFormatter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -46,7 +46,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<Comment> listComments(ChangeResource rsrc) {
+  protected Iterable<HumanComment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
   }
@@ -76,11 +76,11 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     return getCommentFormatter().formatAsList(listComments(rsrc));
   }
 
-  private CommentFormatter getCommentFormatter() {
+  private HumanCommentFormatter getCommentFormatter() {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())
         .setFillPatchSet(true)
-        .newCommentFormatter();
+        .newHumanCommentFormatter();
   }
 }

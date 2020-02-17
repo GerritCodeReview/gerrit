@@ -44,6 +44,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
@@ -413,14 +414,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /** @return inline comments on each revision. */
-  public ImmutableListMultimap<ObjectId, Comment> getComments() {
+  public ImmutableListMultimap<ObjectId, HumanComment> getHumanComments() {
     return state.publishedComments();
   }
 
   public ImmutableSet<Comment.Key> getCommentKeys() {
     if (commentKeys == null) {
       ImmutableSet.Builder<Comment.Key> b = ImmutableSet.builder();
-      for (Comment c : getComments().values()) {
+      for (HumanComment c : getHumanComments().values()) {
         b.add(new Comment.Key(c.key));
       }
       commentKeys = b.build();
@@ -432,11 +433,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.updateCount();
   }
 
-  public ImmutableListMultimap<ObjectId, Comment> getDraftComments(Account.Id author) {
+  public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(Account.Id author) {
     return getDraftComments(author, null);
   }
 
-  public ImmutableListMultimap<ObjectId, Comment> getDraftComments(
+  public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(
       Account.Id author, @Nullable Ref ref) {
     loadDraftComments(author, ref);
     // Filter out any zombie draft comments. These are drafts that are also in
@@ -480,7 +481,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return robotCommentNotes;
   }
 
-  public boolean containsComment(Comment c) {
+  public boolean containsComment(HumanComment c) {
     if (containsCommentPublished(c)) {
       return true;
     }
@@ -488,8 +489,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return draftCommentNotes.containsComment(c);
   }
 
-  public boolean containsCommentPublished(Comment c) {
-    for (Comment l : getComments().values()) {
+  public boolean containsCommentPublished(HumanComment c) {
+    for (HumanComment l : getHumanComments().values()) {
       if (c.key.equals(l.key)) {
         return true;
       }

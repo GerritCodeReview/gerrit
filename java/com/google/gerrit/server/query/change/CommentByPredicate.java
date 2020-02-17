@@ -16,7 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.Objects;
 
@@ -39,7 +39,7 @@ public class CommentByPredicate extends ChangeIndexPredicate {
         return true;
       }
     }
-    for (Comment c : cd.publishedComments()) {
+    for (HumanComment c : cd.publishedComments()) {
       if (Objects.equals(c.author.getId(), id)) {
         return true;
       }

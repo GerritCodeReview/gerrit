@@ -23,7 +23,7 @@ import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.QUOT
 import java.util.List;
 import org.junit.Test;
 
-public class CommentFormatterTest {
+public class HumanCommentFormatterTest {
   private void assertBlock(
       List<CommentFormatter.Block> list, int index, CommentFormatter.BlockType type, String text) {
     CommentFormatter.Block block = list.get(index);

@@ -63,7 +63,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
         PatchSet patchSet,
         IdentifiedUser user,
         ChangeMessage message,
-        List<Comment> comments,
+        List<? extends Comment> comments,
         String patchSetComment,
         List<LabelVote> labels);
   }
@@ -78,7 +78,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final PatchSet patchSet;
   private final IdentifiedUser user;
   private final ChangeMessage message;
-  private final List<Comment> comments;
+  private final List<? extends Comment> comments;
   private final String patchSetComment;
   private final List<LabelVote> labels;
 
@@ -93,7 +93,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       @Assisted PatchSet patchSet,
       @Assisted IdentifiedUser user,
       @Assisted ChangeMessage message,
-      @Assisted List<Comment> comments,
+      @Assisted List<? extends Comment> comments,
       @Nullable @Assisted String patchSetComment,
       @Assisted List<LabelVote> labels) {
     this.sendEmailsExecutor = executor;

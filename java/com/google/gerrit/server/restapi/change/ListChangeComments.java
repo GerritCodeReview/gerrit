@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -33,7 +33,7 @@ public class ListChangeComments extends ListChangeDrafts {
   }
 
   @Override
-  protected Iterable<Comment> listComments(ChangeResource rsrc) {
+  protected Iterable<HumanComment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentsUtil.publishedByChange(cd.notes());
   }

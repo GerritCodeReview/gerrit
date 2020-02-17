@@ -18,7 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -60,7 +60,7 @@ public class HtmlParser {
    * @return list of MailComments parsed from the html part of the email
    */
   public static List<MailComment> parse(
-      MailMessage email, Collection<Comment> comments, String changeUrl) {
+      MailMessage email, Collection<HumanComment> comments, String changeUrl) {
     // TODO(hiesel) Add support for Gmail Mobile
     // TODO(hiesel) Add tests for other popular email clients
 
@@ -71,10 +71,10 @@ public class HtmlParser {
     // Gerrit as these are generally more reliable then the text captions.
     List<MailComment> parsedComments = new ArrayList<>();
     Document d = Jsoup.parse(email.htmlContent());
-    PeekingIterator<Comment> iter = Iterators.peekingIterator(comments.iterator());
+    PeekingIterator<HumanComment> iter = Iterators.peekingIterator(comments.iterator());
 
     String lastEncounteredFileName = null;
-    Comment lastEncounteredComment = null;
+    HumanComment lastEncounteredComment = null;
     for (Element e : d.body().getAllElements()) {
       String elementName = e.tagName();
       boolean isInBlockQuote =
@@ -91,7 +91,7 @@ public class HtmlParser {
         if (!iter.hasNext()) {
           continue;
         }
-        Comment perspectiveComment = iter.peek();
+        HumanComment perspectiveComment = iter.peek();
         if (href.equals(ParserUtil.filePath(changeUrl, perspectiveComment))) {
           if (lastEncounteredFileName == null
               || !lastEncounteredFileName.equals(perspectiveComment.key.filename)) {

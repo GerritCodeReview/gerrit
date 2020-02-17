@@ -20,8 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.Comment.Status;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
@@ -60,7 +59,7 @@ public class PublishCommentUtil {
   public void publish(
       ChangeContext ctx,
       ChangeUpdate changeUpdate,
-      Collection<Comment> draftComments,
+      Collection<HumanComment> draftComments,
       @Nullable String tag) {
     ChangeNotes notes = ctx.getNotes();
     checkArgument(notes != null);
@@ -70,8 +69,8 @@ public class PublishCommentUtil {
 
     Map<PatchSet.Id, PatchSet> patchSets =
         psUtil.getAsMap(notes, draftComments.stream().map(d -> psId(notes, d)).collect(toSet()));
-    Set<Comment> commentsToPublish = new HashSet<>();
-    for (Comment draftComment : draftComments) {
+    Set<HumanComment> commentsToPublish = new HashSet<>();
+    for (HumanComment draftComment : draftComments) {
       PatchSet.Id psIdOfDraftComment = psId(notes, draftComment);
       PatchSet ps = patchSets.get(psIdOfDraftComment);
       if (ps == null) {
@@ -109,10 +108,10 @@ public class PublishCommentUtil {
       }
       commentsToPublish.add(draftComment);
     }
-    commentsUtil.putComments(changeUpdate, Status.PUBLISHED, commentsToPublish);
+    commentsUtil.putHumanComments(changeUpdate, HumanComment.Status.PUBLISHED, commentsToPublish);
   }
 
-  private static PatchSet.Id psId(ChangeNotes notes, Comment c) {
+  private static PatchSet.Id psId(ChangeNotes notes, HumanComment c) {
     return PatchSet.id(notes.getChangeId(), c.key.patchSetId);
   }
 

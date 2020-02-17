@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -41,7 +42,7 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
   }
 
   static RevisionNoteMap<ChangeRevisionNote> parse(
-      ChangeNoteJson noteJson, ObjectReader reader, NoteMap noteMap, Comment.Status status)
+      ChangeNoteJson noteJson, ObjectReader reader, NoteMap noteMap, HumanComment.Status status)
       throws ConfigInvalidException, IOException {
     ImmutableMap.Builder<ObjectId, ChangeRevisionNote> result = ImmutableMap.builder();
     for (Note note : noteMap) {

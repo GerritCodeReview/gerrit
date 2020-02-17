@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
@@ -84,13 +85,13 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     FIXED
   }
 
-  private static Key key(Comment c) {
+  private static Key key(HumanComment c) {
     return new AutoValue_ChangeDraftUpdate_Key(c.getCommitId(), c.key);
   }
 
   private final AllUsersName draftsProject;
 
-  private List<Comment> put = new ArrayList<>();
+  private List<HumanComment> put = new ArrayList<>();
   private Map<Key, DeleteReason> delete = new HashMap<>();
 
   @AssistedInject
@@ -121,7 +122,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     this.draftsProject = allUsers;
   }
 
-  public void putComment(Comment c) {
+  public void putComment(HumanComment c) {
     checkState(!put.contains(c), "comment already added");
     verifyComment(c);
     put.add(c);
@@ -130,7 +131,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   /**
    * Marks a comment for deletion. Called when the comment is deleted because the user published it.
    */
-  public void markCommentPublished(Comment c) {
+  public void markCommentPublished(HumanComment c) {
     checkState(!delete.containsKey(key(c)), "comment already marked for deletion");
     verifyComment(c);
     delete.put(key(c), DeleteReason.PUBLISHED);
@@ -139,7 +140,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   /**
    * Marks a comment for deletion. Called when the comment is deleted because the user removed it.
    */
-  public void deleteComment(Comment c) {
+  public void deleteComment(HumanComment c) {
     checkState(!delete.containsKey(key(c)), "comment already marked for deletion");
     verifyComment(c);
     delete.put(key(c), DeleteReason.DELETED);
@@ -194,7 +195,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     Set<ObjectId> updatedCommits = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
-    for (Comment c : put) {
+    for (HumanComment c : put) {
       if (!delete.keySet().contains(key(c))) {
         cache.get(c.getCommitId()).putComment(c);
       }
@@ -263,7 +264,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, Comment.Status.DRAFT);
+        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, HumanComment.Status.DRAFT);
   }
 
   @Override

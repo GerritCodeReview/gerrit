@@ -17,14 +17,14 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.change.CommentResource;
+import com.google.gerrit.server.change.HumanCommentResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GetComment implements RestReadView<CommentResource> {
+public class GetComment implements RestReadView<HumanCommentResource> {
 
   private final Provider<CommentJson> commentJson;
 
@@ -34,7 +34,7 @@ public class GetComment implements RestReadView<CommentResource> {
   }
 
   @Override
-  public Response<CommentInfo> apply(CommentResource rsrc) throws PermissionBackendException {
-    return Response.ok(commentJson.get().newCommentFormatter().format(rsrc.getComment()));
+  public Response<CommentInfo> apply(HumanCommentResource rsrc) throws PermissionBackendException {
+    return Response.ok(commentJson.get().newHumanCommentFormatter().format(rsrc.getComment()));
   }
 }

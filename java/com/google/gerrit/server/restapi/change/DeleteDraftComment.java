@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -80,7 +81,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, PatchListNotAvailableException {
-      Optional<Comment> maybeComment =
+      Optional<HumanComment> maybeComment =
           commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
@@ -90,9 +91,9 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
-      Comment c = maybeComment.get();
+      HumanComment c = maybeComment.get();
       setCommentCommitId(c, patchListCache, ctx.getChange(), ps);
-      commentsUtil.deleteComments(ctx.getUpdate(psId), Collections.singleton(c));
+      commentsUtil.deleteHumanComments(ctx.getUpdate(psId), Collections.singleton(c));
       return true;
     }
   }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2d38f71_3da58830",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T15:17:11Z",
+      "side": 1,
+      "message": "Once /if this change gets merged, should we warn the community (repo-discuss), about some plugin branches potentially failing to build?\n\nAlso with the above information so plugin maintainers know how to fix this. That includes us having to potentially fix some (or many) in the following days.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 27
+      },
+      "revId": "2cd5b7470897796b91488b57333d542a325a8276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

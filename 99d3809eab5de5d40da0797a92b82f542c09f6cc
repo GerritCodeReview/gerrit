@@ -16,6 +16,24 @@
       "revId": "99d3809eab5de5d40da0797a92b82f542c09f6cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "653b2f58_6e03b361",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-17T18:59:37Z",
+      "side": -1,
+      "message": "\u003e Wrong conflict resolution. Mockito should be kept.\n\nSorry for the resulting noise; done.",
+      "parentUuid": "6768da79_f3d8bec5",
+      "revId": "99d3809eab5de5d40da0797a92b82f542c09f6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

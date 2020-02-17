@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f534b5b_65e623ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-17T17:58:49Z",
+      "side": 1,
+      "message": "should not use buttonKey all the time ?",
+      "range": {
+        "startLine": 1235,
+        "startChar": 45,
+        "endLine": 1235,
+        "endChar": 48
+      },
+      "revId": "4a52362c8bf074cac2f41fb854a98b79b5e10209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "588aca24_895aebaa",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-17T16:04:43Z",
+      "side": 0,
+      "message": "wrong file changed here",
+      "revId": "15726b7b04dd704d3a0a2bb2ae268999c3c596bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

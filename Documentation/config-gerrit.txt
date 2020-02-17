@@ -1608,6 +1608,21 @@ Default on JGit is 10 MiB on all platforms.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
+[[core.packedGitUseStrongRefs]]core.packedGitUseStrongRefs::
++
+Set to `true` in order to use strong references to reference packfile
+pages cached in the WindowCache. Otherwise SoftReferences are used.
+If this option is set to `false`, the Java garbage collector will
+flush the WindowCache to free memory if the used heap comes close to
+the maximum heap size. This has the advantage that it can quickly
+reclaim memory which was used by the WindowCache but comes at the
+price that the previously cached pack file content needs to be again
+copied from the file system cache to the Gerrit process.
+Setting this option to `true` prevents flushing the WindowCache
+which provides more predictable performance.
++
+Default is `false`.
+
 [[core.deltaBaseCaseLimit]]core.deltaBaseCacheLimit::
 +
 Maximum number of bytes to reserve for caching base objects

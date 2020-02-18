@@ -333,6 +333,14 @@
         _currentRobotCommentsPatchSet: {
           type: Number,
         },
+        FILES: {
+          type: String,
+          value: 'files',
+        },
+        _currentTabName: {
+          type: String,
+          value: this.FILES,
+        },
       };
     }
 
@@ -503,20 +511,23 @@
       return currentView === view;
     }
 
-    _handleFileTabChange(e) {
-      const selectedIndex = this.shadowRoot
-          .querySelector('#primaryTabs').selected;
-      this._showFileTabContent = selectedIndex === 0;
-      // Initial tab is the static files list.
-      const newSelectedTab =
-          this._dynamicTabContentEndpoints[selectedIndex - 1];
-      if (newSelectedTab !== this._selectedFilesTabPluginEndpoint) {
-        this._selectedFilesTabPluginEndpoint = newSelectedTab;
+    _isCurrentTab(currentTab, tabs) {
+      return tabs.length ? tabs.includes(currentTab) : (tabs === currentTab);
+    }
 
-        const tabName = this._selectedFilesTabPluginEndpoint || 'files';
-        const source = e && e.type ? e.type : '';
-        this.$.reporting.reportInteraction('tab-changed', {tabName, source});
+    _handleFileTabChange(e) {
+      const selectedIndex = e.target.selected;
+      this._currentTabName = e.target.querySelectorAll(
+          'paper-tab')[selectedIndex].dataset.name;
+      const source = e && e.type ? e.type : '';
+      const pluginIndex = this._dynamicTabHeaderEndpoints.indexOf(
+          this._currentTabName);
+      if (pluginIndex !== -1) {
+        this._selectedFilesTabPluginEndpoint = this._dynamicTabContentEndpoints[
+            pluginIndex];
       }
+      this.$.reporting.reportInteraction('tab-changed',
+          {tabName: this._currentTabName, source});
     }
 
     _handleShowTab(e) {
@@ -525,7 +536,11 @@
         console.warn(e.detail.tab + ' tab not found');
         return;
       }
-      this.shadowRoot.querySelector('#primaryTabs').selected = idx + 1;
+      this._currentTabName = this._dynamicTabHeaderEndpoints[idx];
+      this._selectedFilesTabPluginEndpoint = this._dynamicTabContentEndpoints[
+          idx];
+      this.shadowRoot.querySelector(`[data-name="${this._currentTabName}"]`)
+          .active = true;
       this.shadowRoot.querySelector('#primaryTabs').scrollIntoView();
       this.$.reporting.reportInteraction('show-tab', {tabName: e.detail.tab});
     }

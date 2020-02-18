@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -42,6 +43,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * and not get deleted. These refs point to an empty tree.
  */
 public class DeleteZombieCommentsRefs {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final String EMPTY_TREE_ID = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
   private final String DRAFT_REFS_PREFIX = "refs/draft-comments";
   private final int CHUNK_SIZE = 100; // log progress after deleting every CHUNK_SIZE refs
@@ -70,18 +73,15 @@ public class DeleteZombieCommentsRefs {
     List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(DRAFT_REFS_PREFIX);
     List<Ref> zombieRefs = filterZombieRefs(draftRefs);
 
-    System.out.println(
-        String.format(
-            "Found a total of %d zombie draft refs in %s repo.",
-            zombieRefs.size(), allUsers.get()));
+    logger.atInfo().log(
+        "Found a total of %d zombie draft refs in %s repo.", zombieRefs.size(), allUsers.get());
 
-    System.out.println(String.format("Cleanup percentage = %d", cleanupPercentage));
+    logger.atInfo().log("Cleanup percentage = %d", cleanupPercentage);
     zombieRefs =
         zombieRefs.stream()
             .filter(ref -> Change.Id.fromAllUsersRef(ref.getName()).get() % 100 < cleanupPercentage)
             .collect(toImmutableList());
-    System.out.println(
-        String.format("Number of zombie refs to be cleaned = %d", zombieRefs.size()));
+    logger.atInfo().log("Number of zombie refs to be cleaned = %d", zombieRefs.size());
 
     long zombieRefsCnt = zombieRefs.size();
     long deletedRefsCnt = 0;
@@ -124,7 +124,7 @@ public class DeleteZombieCommentsRefs {
   }
 
   private void logProgress(long deletedRefsCount, long allRefsCount, long elapsed) {
-    System.out.format(
+    logger.atInfo().log(
         "Deleted %d/%d zombie draft refs (%d seconds)\n", deletedRefsCount, allRefsCount, elapsed);
   }
 }

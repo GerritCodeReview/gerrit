@@ -23,6 +23,7 @@ LIBS = [
     "//lib/bouncycastle:bcprov",
     "//lib/bouncycastle:bcpg",
     "//lib/log:impl-log4j",
+    "//prolog:gerrit-prolog-common",
     "//resources:log4j-config",
 ]
 

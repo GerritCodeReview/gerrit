@@ -65,6 +65,7 @@
         _change: Object,
         _changeEditDetail: Object,
         _changeNum: String,
+        _lineNum: Number,
         _patchNum: String,
         _path: String,
         _type: String,
@@ -126,6 +127,7 @@
       this._changeNum = value.changeNum;
       this._path = value.path;
       this._patchNum = value.patchNum || this.EDIT_NAME;
+      this._lineNum = value.lineNum;
 
       // NOTE: This may be called before attachment (e.g. while parentElement is
       // null). Fire title-change in an async so that, if attachment to the DOM

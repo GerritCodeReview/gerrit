@@ -314,7 +314,7 @@ limitations under the License.
           </span>
           <template is="dom-if" if="[[_computeIsLoggedIn(_loggedIn)]]">
             <span class="editButton">
-              <a href$="[[_computeEditURL(_change, _patchRange, _path)]]">
+              <a href$="[[_computeEditURL(_change, _patchRange, _path, _lineNum)]]">
                 <iron-icon icon="gr-icons:edit"></iron-icon>
               </a>
               <span class="separator"></span>

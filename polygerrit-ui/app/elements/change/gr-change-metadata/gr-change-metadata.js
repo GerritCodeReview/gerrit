@@ -500,6 +500,56 @@
       provider.init();
       return provider;
     }
+
+    _openSuggestDialogOne() {
+      this._testSuggestionTitle = 'Needs owner approval';
+      this._testOne = true;
+      this._testTwo = false;
+      this._testApplyEnabled = false;
+      this._testSuggestionItems = [];
+      this._testFetched = false;
+      this._testSuggestButtonText = 'Suggest';
+      this.$.suggestionDialog.open();
+    }
+
+    _openSuggestDialogTwo() {
+      this._testSuggestionTitle = 'Needs Code Review approval';
+      this._testTwo = true;
+      this._testOne = false;
+      this._testApplyEnabled = false;
+      this._testSuggestionItems = [];
+      this._testFetched = false;
+      this._testSuggestButtonText = 'Suggest';
+      this.$.suggestionDialog.open();
+    }
+
+    _generateRandomId() {
+      return Math.random().toString(16)
+          .slice(0, 6);
+    }
+
+    _testGetSuggestion() {
+      this._testFetching = true;
+      this._testSuggestButtonText = 'Suggesting';
+      this._fetchSuggestions().then(suggestions => {
+        this._testSuggestionItems = suggestions;
+        this._testFetched = true;
+        this._testFetching = false;
+        this._testSuggestButtonText = 'Suggest';
+        Polymer.dom.flush();
+      });
+    }
+
+    _fetchSuggestions() {
+      return new Promise(r => setTimeout(r, 2000)).then(() => [
+        {name: this._generateRandomId()},
+        {name: this._generateRandomId()},
+      ]);
+    }
+
+    _testEnableApply() {
+      this._testApplyEnabled = true;
+    }
   }
 
   customElements.define(GrChangeMetadata.is, GrChangeMetadata);

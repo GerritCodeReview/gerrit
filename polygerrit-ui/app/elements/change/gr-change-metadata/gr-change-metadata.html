@@ -16,6 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../styles/gr-change-metadata-shared-styles.html">
@@ -122,6 +123,21 @@ limitations under the License.
       .hashtag gr-linked-chip,
       .topic gr-linked-chip {
         --linked-chip-text-color: var(--link-color);
+      }
+
+      /* test section */
+      #suggestionDialog h2 {
+        padding: var(--spacing-m);
+      }
+      #suggestionDialog table {
+        border-collapse: collapse;
+        margin: 0 var(--spacing-l);
+      }
+      #suggestionDialog table td,
+      #suggestionDialog table th {
+        border: 1px solid var(--border-color);
+        text-align: left;
+        padding: var(--spacing-m);
       }
     </style>
     <gr-external-style id="externalStyle" name="change-metadata">
@@ -345,6 +361,99 @@ limitations under the License.
         <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
         <gr-endpoint-param name="revision" value="[[revision]]"></gr-endpoint-param>
       </gr-endpoint-decorator>
+      <section>
+        <div class="title">
+          Needs-Owner-Approval
+        </div>
+        <div class="value">
+          <iron-icon icon="gr-icons:more-horiz" on-click="_openSuggestDialogOne"></iron-icon>
+        </div>
+      </section>
+      <section>
+        <div class="title">
+          Needs-Code-Review-Approval
+        </div>
+        <div class="value">
+          <iron-icon icon="gr-icons:more-horiz" on-click="_openSuggestDialogTwo"></iron-icon>
+        </div>
+      </section>
+      <paper-dialog id="suggestionDialog" modal>
+        <h2>[[_testSuggestionTitle]]</h2>
+        <template is="dom-if" if="[[_testOne]]">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input type="checkbox" checked />
+                </td>
+                <td>File 1</td>
+                <td>Missing code review approvel</td>
+              </tr>
+              <template is="dom-if" if="[[_testFetched]]">
+                <tr>
+                  <td colspan="3">
+                    Suggested reviewers:
+                    <template is="dom-repeat" items="[[_testSuggestionItems]]">
+                      <label>
+                        <input on-click="_testEnableApply" type="checkbox" /> [[item.name]]
+                      </label>
+                    </template>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <gr-button link on-click="_testGetSuggestion" disabled$="[[_testFetching]]">
+            [[_testSuggestButtonText]]
+          </gr-button>
+        </template>
+        <template is="dom-if" if="[[_testTwo]]">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input type="checkbox" checked />
+                </td>
+                <td>File 1</td>
+                <td>Missing code review approvel</td>
+              </tr>
+              <template is="dom-if" if="[[_testFetched]]">
+                <tr>
+                  <td colspan="3">
+                    Suggested reviewers:
+                    <template is="dom-repeat" items="[[_testSuggestionItems]]">
+                      <label>
+                        <input on-click="_testEnableApply" type="checkbox" /> [[item.name]]
+                      </label>
+                    </template>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <gr-button link on-click="_testGetSuggestion" disabled$="[[_testFetching]]">
+            [[_testSuggestButtonText]]
+          </gr-button>
+        </template>
+        <div class="buttons">
+          <paper-button dialog-confirm autofocus>Close</paper-button>
+          <paper-button dialog-confirm disabled$="[[!_testApplyEnabled]]">Apply</paper-button>
+        </div>
+      </paper-dialog>
     </gr-external-style>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

@@ -82,7 +82,7 @@ limitations under the License.
       }
       gr-change-status {
         display: initial;
-        margin: var(--spacing-xxs) var(--spacing-xxs) var(--spacing-xxs) var(--spacing-s);
+        margin-left: var(--spacing-s);
       }
       gr-change-status:first-child {
         margin-left: 0;
@@ -91,10 +91,13 @@ limitations under the License.
         align-items: center;
         display: flex;
         flex: 1;
+      }
+      .headerSubject {
         font-family: var(--header-font-family);
         font-size: var(--font-size-h3);
         font-weight: var(--font-weight-h3);
         line-height: var(--line-height-h3);
+        margin-left: var(--spacing-l);
       }
       .changeNumberColon {
         color: transparent;
@@ -104,7 +107,8 @@ limitations under the License.
       }
       gr-change-star {
         margin-right: var(--spacing-xs);
-        margin-left: var(--spacing-l);
+        margin-left: var(--spacing-s);
+        --gr-change-star-size: var(--line-height-normal);
       }
       gr-reply-dialog {
         width: 60em;

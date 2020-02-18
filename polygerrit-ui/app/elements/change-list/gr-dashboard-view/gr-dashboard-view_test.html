@@ -157,18 +157,18 @@ limitations under the License.
       });
 
       test('1 change', () => {
-        assert.equal('(1)',
+        assert.equal('',
             element._computeSectionCountLabel(['1']));
       });
 
-      test('2 changes', () => {
-        assert.equal('(2)',
-            element._computeSectionCountLabel(['1', '2']));
+      test('5 changes', () => {
+        assert.equal('5 changes',
+            element._computeSectionCountLabel(['1', '2', '3', '4', '5']));
       });
 
-      test('1 change and more', () => {
-        assert.equal('(1 and more)',
-            element._computeSectionCountLabel([{_more_changes: true}]));
+      test('6 changes and more', () => {
+        assert.equal('6 changes and more',
+            element._computeSectionCountLabel([{}, {}, {}, {}, {}, {_more_changes: true}]));
       });
     });
 

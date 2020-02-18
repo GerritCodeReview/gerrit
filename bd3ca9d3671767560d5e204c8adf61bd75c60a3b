@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cb7a570_492bff7c",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-18T00:52:14Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 29
+      },
+      "revId": "bd3ca9d3671767560d5e204c8adf61bd75c60a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

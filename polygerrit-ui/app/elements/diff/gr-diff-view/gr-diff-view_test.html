@@ -378,8 +378,20 @@ limitations under the License.
 
       test('_computeEditURL uses Gerrit.Nav', () => {
         const getUrlStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
-        element._computeEditURL(123, {patchNum: undefined}, 'abc/def');
+        element._computeEditURL(
+            123, {patchNum: undefined}, 'abc/def', undefined);
         assert.isTrue(getUrlStub.called);
+        assert.deepEqual(Gerrit.Nav.getEditUrlForDiff.lastCall.args,
+              [123, 'abc/def', undefined, undefined]);
+      });
+
+      test('_computeEditURL uses Gerrit.Nav with lineNum', () => {
+        const getUrlStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
+        element._computeEditURL(
+            123, {patchNum: undefined}, 'abc/def', 4);
+        assert.isTrue(getUrlStub.called);
+        assert.deepEqual(Gerrit.Nav.getEditUrlForDiff.lastCall.args,
+              [123, 'abc/def', undefined, 4]);
       });
 
       suite('diff prefs hidden', () => {

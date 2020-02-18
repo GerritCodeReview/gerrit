@@ -119,6 +119,12 @@ limitations under the License.
               link
               class="action quote"
               on-click="_handleCommentQuote">Quote</gr-button>
+          <a href$="[[_handleCommentFixInlineEditor(changeNum, projectName, path, patchNum, lineNum)]]">
+            <gr-button
+                id="fixBtn"
+                link
+                class="action fix">Fix</gr-button>
+          </a>
           <gr-button
               id="ackBtn"
               link

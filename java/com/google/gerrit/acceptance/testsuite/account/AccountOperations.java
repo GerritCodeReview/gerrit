@@ -95,5 +95,25 @@ public interface AccountOperations {
      * @return a builder to update the account
      */
     TestAccountUpdate.Builder forUpdate();
+
+    /**
+     * Starts the fluent chain to invalidate an account. The returned builder can be used to specify
+     * how the account should be made invalid. To invalidate the account for real, {@link
+     * TestAccountInvalidation.Builder#invalidate()} must be called.
+     *
+     * <p>Example:
+     *
+     * <pre>
+     * accountOperations.forInvalidation()
+     *     .preferredEmailWithoutExternalId("foo.bar@example.com")
+     *     .invalidate();
+     * </pre>
+     *
+     * <p><strong>Note:</strong> The invalidation will fail with an exception if the account to
+     * invalidate doesn't exist.
+     *
+     * @return a builder to invalidate the account
+     */
+    TestAccountInvalidation.Builder forInvalidation();
   }
 }

@@ -24,7 +24,6 @@
    */
   class GrAccountLabel extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
-    Gerrit.TooltipBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -42,11 +41,6 @@
           computed: '_computeAccountTitle(account, additionalText)',
         },
         additionalText: String,
-        hasTooltip: {
-          type: Boolean,
-          reflectToAttribute: true,
-          computed: '_computeHasTooltip(account)',
-        },
         hideAvatar: {
           type: Boolean,
           value: false,
@@ -122,7 +116,7 @@
 
     _computeHasTooltip(account) {
       // If an account has loaded to fire this method, then set to true.
-      return !!account;
+      return false;
     }
   }
 

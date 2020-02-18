@@ -4832,9 +4832,11 @@ When suggesting reviewers, we go over recent changes of the user, and
 give priority to users that are present as reviewers in any of those
 changes. The number of changes we go over is `sugggest.relevantChanges`.
 +
-By default 50. This nubmer is a tradeoff between speed and accuracy.
+This nubmer is a tradeoff between speed and accuracy.
 A high number would be accurate but slow, and a low number would be
 fast but inaccurate.
++
+By default 50.
 
 [[tracing]]
 === Section tracing

@@ -216,6 +216,8 @@
           type: Number,
           value: 0,
         },
+
+        _lineNum: Number,
       };
     }
 
@@ -604,12 +606,12 @@
       return this._getDiffUrl(this._change, this._patchRange, newPath.path);
     }
 
-    _computeEditURL(change, patchRange, path) {
+    _computeEditURL(change, patchRange, path, opt_lineNum) {
       if ([change, patchRange, path].some(arg => arg === undefined)) {
         return '';
       }
       return Gerrit.Nav.getEditUrlForDiff(
-          change, path, patchRange.patchNum);
+          change, path, patchRange.patchNum, opt_lineNum);
     }
 
     /**
@@ -995,6 +997,7 @@
       const url = Gerrit.Nav.getUrlForDiffById(this._changeNum,
           this._change.project, this._path, this._patchRange.patchNum,
           this._patchRange.basePatchNum, number, leftSide);
+      this._lineNum = number;
       history.replaceState(null, '', url);
     }
 

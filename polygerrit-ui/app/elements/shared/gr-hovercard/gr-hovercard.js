@@ -76,7 +76,7 @@
          */
         position: {
           type: String,
-          value: 'bottom',
+          value: 'right',
         },
 
         container: Object,

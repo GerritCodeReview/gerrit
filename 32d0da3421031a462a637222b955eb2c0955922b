@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dde131f1_0550a63b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-18T16:28:59Z",
+      "side": 1,
+      "message": "At this point, we have no other database anymore, so this can be dropped :-)",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ac7b216_b7e39ec7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-18T16:28:59Z",
+      "side": 1,
+      "message": "You carefully evaluated where to store the attention set data exactly, can you document the outcome of this in the commit message?",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68cda01a_3ef5704a",
+        "filename": "java/com/google/gerrit/entities/AttentionStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-18T16:28:59Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beebe5a7_de000d2f",
+        "filename": "java/com/google/gerrit/entities/AttentionStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-18T16:28:59Z",
+      "side": 1,
+      "message": "nit: use \u003ca\u003e tags\n\nReference: https://stackoverflow.com/questions/1082050/linking-to-an-external-url-in-javadoc",
+      "range": {
+        "startLine": 13,
+        "startChar": 10,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49f914f1_7402c5f2",
+        "filename": "java/com/google/gerrit/entities/AttentionStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-18T16:28:59Z",
+      "side": 1,
+      "message": "How do we represent updates?\n\nSo when I add user X to the attention set with reason R1 but then I found a typo in the reason so I update to R2, but the user stays in the attention set.\n\nYour later test suggests that such updates are disallowed, but is that true requirement-wise?",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94adf465_2571fedd",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-18T16:28:59Z",
+      "side": 1,
+      "message": "nit: could use Optional\u003cAttentionStatus\u003e",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fac10f82_5394257c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-18T16:28:59Z",
+      "side": 1,
+      "message": "nit: attentionUpdates is a misnomer because it contains exactly one entry per user, not updates. Maybe use latestAttentionSetEntry ?\n\nMore broadly, I think the map here is a misfit: It does not contain all updates, but at the same time it\u0027s not just the current state of the attention set, because it contains entries that are \"REMOVED\".\n\nShould we use a Table instead as we do with reviewers?",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7db4b0a9_b0ef2084",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-18T16:28:59Z",
+      "side": 1,
+      "message": "Please add a round trip test to this class that asserts that we can read/write the attentionUpdates similar to serializeReviewerUpdates().",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06451898_bec0b527",
+        "filename": "proto/cache.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-18T16:28:59Z",
+      "side": 1,
+      "message": "24",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 14
+      },
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

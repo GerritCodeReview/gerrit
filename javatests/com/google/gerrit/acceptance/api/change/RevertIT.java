@@ -766,16 +766,8 @@ public class RevertIT extends AbstractDaemonTest {
     }
     // submit all changes
     gApi.changes().id(resultCommits.get(1).getChangeId()).current().submit();
-    RevertSubmissionInfo revertSubmissionInfo =
-        gApi.changes().id(resultCommits.get(1).getChangeId()).revertSubmission();
-    assertThat(
-            revertSubmissionInfo.revertChanges.stream()
-                .map(change -> change.created)
-                .distinct()
-                .count())
-        .isEqualTo(1);
-
-    List<ChangeApi> revertChanges = getChangeApis(revertSubmissionInfo);
+    List<ChangeApi> revertChanges =
+        getChangeApis(gApi.changes().id(resultCommits.get(1).getChangeId()).revertSubmission());
 
     assertThat(revertChanges).hasSize(3);
 
@@ -843,16 +835,8 @@ public class RevertIT extends AbstractDaemonTest {
     approve(secondResult.getChangeId());
     approve(firstResult.getChangeId());
     gApi.changes().id(secondResult.getChangeId()).current().submit();
-    RevertSubmissionInfo revertSubmissionInfo =
-        gApi.changes().id(firstResult.getChangeId()).revertSubmission();
-    assertThat(
-            revertSubmissionInfo.revertChanges.stream()
-                .map(change -> change.created)
-                .distinct()
-                .count())
-        .isEqualTo(1);
-
-    List<ChangeApi> revertChanges = getChangeApis(revertSubmissionInfo);
+    List<ChangeApi> revertChanges =
+        getChangeApis(gApi.changes().id(firstResult.getChangeId()).revertSubmission());
     Collections.reverse(revertChanges);
     String sha1SecondChange = secondResult.getCommit().getName();
     String sha1FirstRevert = revertChanges.get(0).current().commit(false).commit;
@@ -916,16 +900,8 @@ public class RevertIT extends AbstractDaemonTest {
     approve(firstResult.getChangeId());
     // submit both changes
     gApi.changes().id(secondResult.getChangeId()).current().submit();
-    RevertSubmissionInfo revertSubmissionInfo =
-        gApi.changes().id(secondResult.getChangeId()).revertSubmission();
-    assertThat(
-            revertSubmissionInfo.revertChanges.stream()
-                .map(change -> change.created)
-                .distinct()
-                .count())
-        .isEqualTo(1);
-
-    List<ChangeApi> revertChanges = getChangeApis(revertSubmissionInfo);
+    List<ChangeApi> revertChanges =
+        getChangeApis(gApi.changes().id(secondResult.getChangeId()).revertSubmission());
     // has size 2 because of the same topic, and submitWholeTopic is true.
     assertThat(gApi.changes().id(revertChanges.get(0).get()._number).submittedTogether())
         .hasSize(2);
@@ -961,15 +937,8 @@ public class RevertIT extends AbstractDaemonTest {
     }
     // submit all changes
     gApi.changes().id(resultCommits.get(1).getChangeId()).current().submit();
-    RevertSubmissionInfo revertSubmissionInfo =
-        gApi.changes().id(resultCommits.get(1).getChangeId()).revertSubmission();
-    assertThat(
-            revertSubmissionInfo.revertChanges.stream()
-                .map(change -> change.created)
-                .distinct()
-                .count())
-        .isEqualTo(1);
-    List<ChangeApi> revertChanges = getChangeApis(revertSubmissionInfo);
+    List<ChangeApi> revertChanges =
+        getChangeApis(gApi.changes().id(resultCommits.get(1).getChangeId()).revertSubmission());
     assertThat(revertChanges.get(0).current().files().get("c.txt").linesDeleted).isEqualTo(1);
     assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(1);
     assertThat(revertChanges.get(2).current().files().get("b.txt").linesDeleted).isEqualTo(1);
@@ -1015,15 +984,8 @@ public class RevertIT extends AbstractDaemonTest {
     approve(fourthResult.getChangeId());
     gApi.changes().id(fourthResult.getChangeId()).current().submit();
 
-    RevertSubmissionInfo revertSubmissionInfo =
-        gApi.changes().id(secondResult.getChangeId()).revertSubmission();
-    assertThat(
-            revertSubmissionInfo.revertChanges.stream()
-                .map(change -> change.created)
-                .distinct()
-                .count())
-        .isEqualTo(1);
-    List<ChangeApi> revertChanges = getChangeApis(revertSubmissionInfo);
+    List<ChangeApi> revertChanges =
+        getChangeApis(gApi.changes().id(secondResult.getChangeId()).revertSubmission());
     Collections.reverse(revertChanges);
     assertThat(revertChanges.get(0).current().files().get("c.txt").linesDeleted).isEqualTo(1);
     assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(1);
@@ -1072,15 +1034,8 @@ public class RevertIT extends AbstractDaemonTest {
     approve(fourthResult.getChangeId());
     gApi.changes().id(fourthResult.getChangeId()).current().submit();
 
-    RevertSubmissionInfo revertSubmissionInfo =
-        gApi.changes().id(secondResult.getChangeId()).revertSubmission();
-    assertThat(
-            revertSubmissionInfo.revertChanges.stream()
-                .map(change -> change.created)
-                .distinct()
-                .count())
-        .isEqualTo(1);
-    List<ChangeApi> revertChanges = getChangeApis(revertSubmissionInfo);
+    List<ChangeApi> revertChanges =
+        getChangeApis(gApi.changes().id(secondResult.getChangeId()).revertSubmission());
     Collections.reverse(revertChanges);
     assertThat(revertChanges.get(0).current().files().get("c.txt").linesDeleted).isEqualTo(1);
     assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(1);

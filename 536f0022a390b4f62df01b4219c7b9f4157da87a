@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c4bf66a_b5041a26",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-18T19:46:38Z",
+      "side": 1,
+      "message": "The whole of this collapses into only rendering [1], with a broken link for \"plugin documentation\". Fixed in Ia4d81fee.\n\n[1] projects can be renamed using the plugin documentation",
+      "range": {
+        "startLine": 761,
+        "startChar": 21,
+        "endLine": 764,
+        "endChar": 143
+      },
+      "revId": "536f0022a390b4f62df01b4219c7b9f4157da87a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -216,6 +216,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     public Void call() throws Exception {
       try (Repository repo = repoManager.openRepository(project)) {
         OnlineReindexMode.begin();
+        logger.atFine().log("indexing of project %s started", project.get());
 
         // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
         // not important for indexing, since sites should have a fully populated DiffSummary cache.
@@ -227,13 +228,17 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         logger.atSevere().log(rnfe.getMessage());
       } finally {
         OnlineReindexMode.end();
+        logger.atFine().log("indexing of project %s ended", project.get());
       }
       return null;
     }
 
     private void index(ChangeNotesResult r) {
+      logger.atFine().log("indexing change ", r.id());
+
       if (r.error().isPresent()) {
         fail("Failed to read change " + r.id() + " for indexing", true, r.error().get());
+        logger.atFine().withCause(r.error().get()).log("Failed to read change ", r.id());
         return;
       }
       try {
@@ -242,9 +247,13 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         verboseWriter.println("Reindexed change " + r.id());
       } catch (RejectedExecutionException e) {
         // Server shutdown, don't spam the logs.
+        logger.atFine().withCause(e).log("Failed to read change ", r.id());
         failSilently();
       } catch (Exception e) {
+        logger.atFine().withCause(e).log("Failed to read change ", r.id());
         fail("Failed to index change " + r.id(), true, e);
+      } catch (Throwable e) {
+        logger.atFine().withCause(e).log("Failed to read change ", r.id());
       }
     }
 

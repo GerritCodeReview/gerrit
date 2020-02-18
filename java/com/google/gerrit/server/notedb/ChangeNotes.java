@@ -207,6 +207,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public Stream<ChangeNotesResult> scan(Repository repo, Project.NameKey project)
         throws IOException {
       ScanResult sr = scanChangeIds(repo);
+      logger.atFine().log(
+          "%d changes from meta and %d changes from patch-sets found in project %s",
+          sr.fromMetaRefs().size(), sr.fromPatchSetRefs().size(), project);
 
       return sr.all().stream().map(id -> scanOneChange(project, sr, id)).filter(Objects::nonNull);
     }
@@ -215,6 +218,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (!sr.fromMetaRefs().contains(id)) {
         // Stray patch set refs can happen due to normal error conditions, e.g. failed
         // push processing, so aren't worth even a warning.
+        logger.atFine().log(
+            "skipping change %s found in project %s because is not found in meta-refs",
+            id, project);
         return null;
       }
 

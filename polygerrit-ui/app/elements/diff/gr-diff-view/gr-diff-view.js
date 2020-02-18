@@ -216,6 +216,8 @@
           type: Number,
           value: 0,
         },
+
+        _lineNum: Number,
       };
     }
 
@@ -607,9 +609,9 @@
     _goToEditFile() {
       // TODO(taoalpha): add a shortcut for editing
       const editUrl = Gerrit.Nav.getEditUrlForDiff(
-          this._change, this._path, this._patchRange.patchNum);
+          this._change, this._path, this._patchRange.patchNum, this._lineNum);
       return Gerrit.Nav.navigateToRelativeUrl(editUrl);
-    }
+    },
 
     /**
      * Gives an object representing the target of navigating either left or
@@ -994,6 +996,7 @@
       const url = Gerrit.Nav.getUrlForDiffById(this._changeNum,
           this._change.project, this._path, this._patchRange.patchNum,
           this._patchRange.basePatchNum, number, leftSide);
+      this._lineNum = number;
       history.replaceState(null, '', url);
     }
 

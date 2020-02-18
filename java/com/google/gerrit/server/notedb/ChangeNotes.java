@@ -219,10 +219,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       }
 
       // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.
-      Change change = ChangeNotes.Factory.newChange(project, id);
-
-      logger.atFine().log("adding change %s found in project %s", id, project);
-      return toResult(change);
+      try {
+        Change change = ChangeNotes.Factory.newChange(project, id);
+        logger.atFine().log("adding change %s found in project %s", id, project);
+        return toResult(change);
+      } catch (IllegalStateException ise) {
+        if (ise.getMessage().contains("invalid server id")) {
+          logger.atWarning().withCause(ise).log(
+              "skipping change %d in project %s because of an invalid server id",
+              id.get(), project);
+          return null;
+        }
+        throw ise;
+      }
     }
 
     @Nullable

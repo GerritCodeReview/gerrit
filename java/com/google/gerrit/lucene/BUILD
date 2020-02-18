@@ -9,8 +9,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
-        "//java/com/google/gerrit/reviewdb:server",
-        "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib/lucene:lucene-core-and-backward-codecs",
     ],

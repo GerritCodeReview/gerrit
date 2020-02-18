@@ -6,7 +6,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:annotations",
-        "//java/com/google/gerrit/common:server",
         "//lib:args4j",
         "//lib:guava",
         "//lib/auto:auto-value-annotations",

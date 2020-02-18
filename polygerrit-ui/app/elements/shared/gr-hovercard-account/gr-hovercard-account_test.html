@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-hovercard</title>
+
+<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
+<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../../../test/test-pre-setup.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="/bower_components/iron-test-helpers/mock-interactions.js"></script>
+
+<link rel="import" href="gr-hovercard.html">
+
+<script>void(0);</script>
+
+<button id="foo">Hello</button>
+<test-fixture id="basic">
+  <template>
+    <gr-hovercard for="foo" id="bar"></gr-hovercard>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-hovercard tests', async () => {
+    await readyToTest();
+    let element;
+    let sandbox;
+    // For css animations
+    const TRANSITION_TIME = 500;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => { sandbox.restore(); });
+
+    test('updatePosition', () => {
+      // Test that the correct style properties have at least been set.
+      element.position = 'bottom';
+      element.updatePosition();
+      assert.typeOf(element.style.getPropertyValue('left'), 'string');
+      assert.typeOf(element.style.getPropertyValue('top'), 'string');
+      assert.typeOf(element.style.getPropertyValue('paddingTop'), 'string');
+      assert.typeOf(element.style.getPropertyValue('marginTop'), 'string');
+
+      const parentRect = document.documentElement.getBoundingClientRect();
+      const targetRect = element._target.getBoundingClientRect();
+      const thisRect = element.getBoundingClientRect();
+
+      const targetLeft = targetRect.left - parentRect.left;
+      const targetTop = targetRect.top - parentRect.top;
+
+      const pixelCompare = pixel =>
+        Math.round(parseInt(pixel.substring(0, pixel.length - 1)), 10);
+
+      assert.equal(
+          pixelCompare(element.style.left),
+          pixelCompare(
+              (targetLeft + (targetRect.width - thisRect.width) / 2) + 'px'));
+      assert.equal(
+          pixelCompare(element.style.top),
+          pixelCompare(
+              (targetTop + targetRect.height + element.offset) + 'px'));
+    });
+
+    test('hide', done => {
+      element.hide({});
+      setTimeout(() => {
+        const style = getComputedStyle(element);
+        assert.isFalse(element._isShowing);
+        assert.isFalse(element.classList.contains('hovered'));
+        assert.equal(style.opacity, '0');
+        assert.equal(style.visibility, 'hidden');
+        assert.notEqual(element.container, Polymer.dom(element).parentNode);
+        done();
+      }, TRANSITION_TIME);
+    });
+
+    test('show', done => {
+      element.show({});
+      setTimeout(() => {
+        const style = getComputedStyle(element);
+        assert.isTrue(element._isShowing);
+        assert.isTrue(element.classList.contains('hovered'));
+        assert.equal(style.opacity, '1');
+        assert.equal(style.visibility, 'visible');
+        done();
+      }, TRANSITION_TIME);
+    });
+
+    test('card shows on enter and hides on leave', done => {
+      const button = Polymer.dom(document).querySelector('button');
+      assert.isFalse(element._isShowing);
+      button.addEventListener('mouseenter', event => {
+        assert.isTrue(element._isShowing);
+        button.dispatchEvent(new CustomEvent('mouseleave'));
+      });
+      button.addEventListener('mouseleave', event => {
+        assert.isFalse(element._isShowing);
+        done();
+      });
+      button.dispatchEvent(new CustomEvent('mouseenter'));
+    });
+  });
+</script>

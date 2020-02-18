@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../gr-avatar/gr-avatar.html">
+<link rel="import" href="../gr-hovercard/gr-hovercard.html">
 <link rel="import" href="../gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -50,8 +51,27 @@ limitations under the License.
       .showEmail .email {
         display: inline-block;
       }
+
+      .hover-top {
+        display: flex;
+      }
+      .hover-name {
+        font-weight: bold;
+      }
     </style>
     <span>
+      <gr-hovercard>
+        <div class="hover-top">
+          <div class="hover-avatar">
+            <gr-avatar account="[[account]]" image-size="24"></gr-avatar>
+          </div>
+          <div class="hover-account">
+            <div class="hover-name">[[account.name]]</div>
+            <div class="hover-email">[[account.email]]</div>
+          </div>
+        </div>
+        [[account.status]]
+      </gr-hovercard>
       <template is="dom-if" if="[[!hideAvatar]]">
         <gr-avatar account="[[account]]"
             image-size="[[avatarImageSize]]"></gr-avatar>

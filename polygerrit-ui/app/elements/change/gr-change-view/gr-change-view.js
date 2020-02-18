@@ -839,7 +839,6 @@
     }
 
     _paramsChanged(value) {
-      // TODO(dhruvsri): Fix underlining of comment tab when page loads
       this._currentView = CommentTabs.CHANGE_LOG;
       this._setPrimaryTab();
       if (value.view !== Gerrit.Nav.View.CHANGE) {
@@ -897,11 +896,25 @@
     }
 
     _setPrimaryTab() {
-      // Selected has to be set after the paper-tabs are visible because
+      // Selected has to be set after the paper-tabs are visible, because
       // the selected underline depends on calculations made by the browser.
-      this.$.commentTabs.selected = 0;
-      const primaryTabs = this.shadowRoot.querySelector('#primaryTabs');
-      if (primaryTabs) primaryTabs.selected = 0;
+      // paper-tabs depends on iron-resizable-behavior, which only fires on
+      // attached() without using RenderStatus.beforeNextRender. Not changing
+      // this when migrating from Polymer 1 to 2 was probably an oversight by
+      // the paper component maintainers.
+      // https://polymer-library.polymer-project.org/2.0/docs/upgrade#attach-time-attached-connectedcallback
+      // By calling _onTabSizingChanged() we are reaching into the private API
+      // of paper-tabs, but we believe this workaround is acceptable for the
+      // time being.
+      Polymer.RenderStatus.beforeNextRender(this, () => {
+        this.$.commentTabs.selected = 0;
+        this.$.commentTabs._onTabSizingChanged();
+        const primaryTabs = this.shadowRoot.querySelector('#primaryTabs');
+        if (primaryTabs) {
+          primaryTabs.selected = 0;
+          primaryTabs._onTabSizingChanged();
+        }
+      });
     }
 
     _performPostLoadTasks() {

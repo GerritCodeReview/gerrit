@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f1d0f7_388b2c7f",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-18T16:04:30Z",
+      "side": 1,
+      "message": "By the usual Java naming conventions this method should rather be named:\nnewDataTimeFormatter or createDateTimeFormatter or getDateTimeFormetter\n\nThe setXXX naming style is typically used for a method which sets the value for a field\nof this class",
+      "range": {
+        "startLine": 42,
+        "startChar": 36,
+        "endLine": 42,
+        "endChar": 56
+      },
+      "revId": "cab9884f81f6b25dc438576e520510f346103aed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e448e7b9_da73563c",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-18T16:04:30Z",
+      "side": 1,
+      "message": "IMHO a better name(s) would be: createJsonLogEntry, toJsonLogentry, asJsonLogEntry\n\nI would prefer the 2nd or 3rd option.",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 45
+      },
+      "revId": "cab9884f81f6b25dc438576e520510f346103aed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e865ee6c_af374c65",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-18T16:04:30Z",
+      "side": 1,
+      "message": "inline",
+      "range": {
+        "startLine": 49,
+        "startChar": 23,
+        "endLine": 49,
+        "endChar": 31
+      },
+      "revId": "cab9884f81f6b25dc438576e520510f346103aed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f51605_0a68af94",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-02-18T16:04:30Z",
+      "side": 1,
+      "message": "inline of make it static",
+      "revId": "cab9884f81f6b25dc438576e520510f346103aed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

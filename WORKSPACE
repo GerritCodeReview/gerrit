@@ -1,5 +1,5 @@
 workspace(name = "gerrit")
-
+This is a very long test-line, this is a very long test-line, this is a very long test-line, this is a very long test-line, this is a very long test-line, this is a very long test-line, this is a very long test-line, 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")

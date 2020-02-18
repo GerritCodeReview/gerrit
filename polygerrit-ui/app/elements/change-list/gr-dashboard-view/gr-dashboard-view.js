@@ -239,9 +239,12 @@
         return '';
       }
       const more = changes[changes.length - 1]._more_changes;
+      if (!more && changes.length < 5) {
+        return '';
+      }
       const numChanges = changes.length;
       const andMore = more ? ' and more' : '';
-      return `(${numChanges}${andMore})`;
+      return `${numChanges} changes${andMore}`;
     }
 
     _computeUserHeaderClass(params) {

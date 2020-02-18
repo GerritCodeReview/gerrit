@@ -373,6 +373,16 @@
     }
 
     _handleCommentFix(e) {
+      // Leave a comment that you fixed it.
+      const comment = this._lastComment;
+      this._createReplyComment(comment, 'Fixed', false, false);
+
+      // Go to line in inline editor
+      Gerrit.Nav.getEditUrlForDiff(
+          this.changeNum, this.path, undefined, this.lineNum);
+    }
+
+    _handleCommentFix(e) {
       const comment = e.detail.comment;
       const msg = comment.message;
       const quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';

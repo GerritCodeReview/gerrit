@@ -346,6 +346,10 @@ public class AccountResolver {
 
       // More than one match. If there are any that match the full name as well, return only that
       // subset. Otherwise, all are equally non-matching, so return the full set.
+      if (lt == 0) {
+        // No name was specified in the input string.
+        return allMatches.stream();
+      }
       String name = nameOrEmail.substring(0, lt - 1);
       ImmutableList<AccountState> nameMatches =
           allMatches.stream()

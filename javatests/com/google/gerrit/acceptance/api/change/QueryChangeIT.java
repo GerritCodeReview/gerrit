@@ -25,8 +25,10 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -40,6 +42,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class QueryChangeIT extends AbstractDaemonTest {
+  @Inject private AccountOperations accountOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<QueryChanges> queryChangesProvider;
 
@@ -193,6 +196,33 @@ public class QueryChangeIT extends AbstractDaemonTest {
       queryChanges.addQuery("Code-Review" + operator + "-10");
       assertThat(queryChanges.apply(TopLevelResource.INSTANCE).statusCode()).isEqualTo(SC_OK);
     }
+  }
+
+  @Test
+  public void queryByFullNameEmailFormatWithEmptyFullNameWhenEmailMatchesSeveralAccounts()
+      throws Exception {
+    // Create 2 accounts with the same preferred email (both account must have no external ID for
+    // the email because otherwise the account with the external ID takes precedence).
+    String email = "foo.bar@example.com";
+    Account.Id account1 = accountOperations.newAccount().create();
+    accountOperations
+        .account(account1)
+        .forInvalidation()
+        .preferredEmailWithoutExternalId(email)
+        .invalidate();
+    Account.Id account2 = accountOperations.newAccount().create();
+    accountOperations
+        .account(account2)
+        .forInvalidation()
+        .preferredEmailWithoutExternalId(email)
+        .invalidate();
+
+    // Search with "Full Name <email>" format, but without full name. Both created accounts match
+    // the email. In this case Gerrit falls back to match on the full name. Check that this logic
+    // doesn't fail if the full name in the input string is not present.
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery("<" + email + ">");
+    assertThat(queryChanges.apply(TopLevelResource.INSTANCE).statusCode()).isEqualTo(SC_OK);
   }
 
   private static void assertNoChangeHasMoreChangesSet(List<ChangeInfo> results) {

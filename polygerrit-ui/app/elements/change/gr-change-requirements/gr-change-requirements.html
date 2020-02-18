@@ -16,6 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -90,6 +91,24 @@ limitations under the License.
       .spacer {
         height: var(--spacing-m);
       }
+
+      /* test section */
+      #suggestionDialog h2 {
+        padding: var(--spacing-m);
+      }
+      #suggestionDialog table {
+        border-collapse: collapse;
+        margin: 0 var(--spacing-l);
+      }
+      #suggestionDialog table td,
+      #suggestionDialog table th {
+        border: 1px solid var(--border-color);
+        text-align: left;
+        padding: var(--spacing-m);
+      }
+      .pointer {
+        cursor: pointer;
+      }
     </style>
     <template
         is="dom-repeat"
@@ -100,6 +119,9 @@ limitations under the License.
             <iron-icon class="icon" icon="[[_computeRequirementIcon(item.satisfied)]]"></iron-icon>
           </span>
           <gr-limited-text class="name" limit="40" text="[[item.fallback_text]]"></gr-limited-text>
+        </div>
+        <div class="value pointer">
+          <iron-icon icon="gr-icons:more-horiz" on-click="_openSuggestDialogTwo"></iron-icon>
         </div>
       </section>
     </template>
@@ -164,6 +186,83 @@ limitations under the License.
       </section>
     </template>
     <section class$="spacer [[_computeShowOptional(_optionalLabels.*)]] [[_computeSectionClass(_showOptionalLabels)]]"></section>
+    <paper-dialog id="suggestionDialog" modal>
+      <h2>[[_testSuggestionTitle]]</h2>
+      <template is="dom-if" if="[[_testOne]]">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input type="checkbox" checked />
+              </td>
+              <td>File 1</td>
+              <td>Missing code review approvel</td>
+            </tr>
+            <template is="dom-if" if="[[_testFetched]]">
+              <tr>
+                <td colspan="3">
+                  Suggested reviewers:
+                  <template is="dom-repeat" items="[[_testSuggestionItems]]">
+                    <label>
+                      <input on-click="_testEnableApply" type="checkbox" /> [[item.name]]
+                    </label>
+                  </template>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+        <gr-button link on-click="_testGetSuggestion" disabled$="[[_testFetching]]">
+          [[_testSuggestButtonText]]
+        </gr-button>
+      </template>
+      <template is="dom-if" if="[[_testTwo]]">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input type="checkbox" checked />
+              </td>
+              <td>File 1</td>
+              <td>Missing code review approvel</td>
+            </tr>
+            <template is="dom-if" if="[[_testFetched]]">
+              <tr>
+                <td colspan="3">
+                  Suggested reviewers:
+                  <template is="dom-repeat" items="[[_testSuggestionItems]]">
+                    <label>
+                      <input on-click="_testEnableApply" type="checkbox" /> [[item.name]]
+                    </label>
+                  </template>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+        <gr-button link on-click="_testGetSuggestion" disabled$="[[_testFetching]]">
+          [[_testSuggestButtonText]]
+        </gr-button>
+      </template>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>Close</paper-button>
+        <paper-button dialog-confirm disabled$="[[!_testApplyEnabled]]">Apply</paper-button>
+      </div>
+    </paper-dialog>
   </template>
   <script src="gr-change-requirements.js"></script>
 </dom-module>

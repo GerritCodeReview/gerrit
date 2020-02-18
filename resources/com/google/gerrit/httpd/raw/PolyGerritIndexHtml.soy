@@ -102,17 +102,32 @@
     {/if}
   {/if}
 
-  // RobotoMono fonts are used in styles/fonts.css
   {if $useGoogleFonts}
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700&display=swap">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700|Open+Sans:400,600,700&display=swap">
   {else}
+    // $useGoogleFonts only exists so that hosts can opt-out of loading fonts from fonts.googleapis.com.
+    // fonts.css and the woff2 files in the fonts/ directory are only relevant, if $useGoogleFonts is false.
+
     // @see https://github.com/w3c/preload/issues/32 regarding crossorigin
-    <link rel="preload" href="{$staticResourcePath}/fonts/RobotoMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
-    <link rel="preload" href="{$staticResourcePath}/fonts/RobotoMono-Regular.woff" as="font" type="font/woff" crossorigin="anonymous">{\n}
-    <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
-    <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Regular.woff" as="font" type="font/woff" crossorigin="anonymous">{\n}
-    <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
-    <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Medium.woff" as="font" type="font/woff" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-400.woff2"        as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-600.woff2"        as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-700.woff2"        as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-ext-400.woff2"    as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-ext-600.woff2"    as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-ext-700.woff2"    as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-400.woff2"          as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-500.woff2"          as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-700.woff2"          as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-ext-400.woff2"      as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-ext-500.woff2"      as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-ext-700.woff2"      as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-400.woff2"     as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-500.woff2"     as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-700.woff2"     as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-ext-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-ext-500.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-ext-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
+
     <link rel="preload" as="style" href="{$staticResourcePath}/styles/fonts.css">{\n}
   {/if}
   <link rel="preload" as="style" href="{$staticResourcePath}/styles/main.css">{\n}
@@ -133,7 +148,7 @@
 
   // Now use preloaded resources
   {if $useGoogleFonts}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700&display=swap">{\n}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700|Open+Sans:400,600,700&display=swap">{\n}
   {else}
     <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
   {/if}

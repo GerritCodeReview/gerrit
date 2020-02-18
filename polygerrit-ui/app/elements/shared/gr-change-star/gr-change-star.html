@@ -29,6 +29,11 @@ limitations under the License.
       iron-icon.active {
         fill: var(--link-color);
       }
+      iron-icon {
+        vertical-align: top;
+        --iron-icon-height: var(--gr-change-star-size, var(--line-height-normal, 20px));
+        --iron-icon-width: var(--gr-change-star-size, var(--line-height-normal, 20px));
+      }
     </style>
     <button aria-label="Change star" on-click="toggleStar">
       <iron-icon

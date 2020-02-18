@@ -640,23 +640,21 @@ limitations under the License.
 
       test('tab switch works correctly', done => {
         assert.isTrue(element._paramsChanged.called);
-        assert.equal(element.$.commentTabs.selected, CommentTabs.CHANGE_LOG);
 
         // Wait for tab to get selected
         flush(() => {
           assert.equal(element.$.commentTabs.selected, CommentTabs.CHANGE_LOG);
           assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
+
           // Switch to comment thread tab
           MockInteractions.tap(element.$$('paper-tab.commentThreads'));
-          assert.equal(element.$.commentTabs.selected, 1);
+          assert.equal(element.$.commentTabs.selected,
+              CommentTabs.COMMENT_THREADS);
           assert.equal(element._currentView, CommentTabs.COMMENT_THREADS);
 
+          // Switch back to 'Change Log' tab
           element._paramsChanged(element.params);
-          assert.equal(element.$.commentTabs.selected,
-              CommentTabs.CHANGE_LOG);
-          assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
           flush(() => {
-            // Correct tab is selected after the patchset is changed
             assert.equal(element.$.commentTabs.selected,
                 CommentTabs.CHANGE_LOG);
             assert.equal(element._currentView, CommentTabs.CHANGE_LOG);

@@ -122,7 +122,7 @@
 
     _computeHasTooltip(account) {
       // If an account has loaded to fire this method, then set to true.
-      return !!account;
+      return false;
     }
   }
 

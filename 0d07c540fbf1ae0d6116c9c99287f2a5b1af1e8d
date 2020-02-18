@@ -16,6 +16,24 @@
       "revId": "0d07c540fbf1ae0d6116c9c99287f2a5b1af1e8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43f22120_78188c9f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4793,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-02-18T08:45:19Z",
+      "side": 1,
+      "message": "Only noticed now ;)\nFixed here I30e1c543c",
+      "parentUuid": "8913db61_3282ed54",
+      "revId": "0d07c540fbf1ae0d6116c9c99287f2a5b1af1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

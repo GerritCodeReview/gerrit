@@ -129,6 +129,12 @@ limitations under the License.
               link
               class="action done"
               on-click="_handleCommentDone">Done</gr-button>
+          <a href$="[[_handleFixLine(changeNum, projectName, path, patchNum, lineNum)]]">
+            <gr-button
+                id="fixLineBtn"
+                link
+                class="action fixLine">Fix line</gr-button>
+          </a>
         </div>
       </div>
     </div>

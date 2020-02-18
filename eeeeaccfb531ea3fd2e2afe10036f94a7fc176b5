@@ -187,6 +187,24 @@
       "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05c1eff5_bf47f354",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-18T07:11:20Z",
+      "side": 1,
+      "message": "\u003e Would you be able to open a issue for this so it\u0027s not forgotten please?\n\nDone: issue 12364. Thanks a lot for your work to re-add all lost inline edit features in PolyGerrit.",
+      "parentUuid": "c87642af_1a957204",
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

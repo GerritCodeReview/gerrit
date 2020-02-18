@@ -22,6 +22,30 @@
       "revId": "bd3ca9d3671767560d5e204c8adf61bd75c60a3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2d45d7d_48ff89a3",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-18T08:00:14Z",
+      "side": 1,
+      "message": "I got warnings in the IDE that the fields are nowhere used, after they are set. I guess the detection doesn\u0027t recognize that GSON will use the fields.",
+      "parentUuid": "0cb7a570_492bff7c",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 29
+      },
+      "revId": "bd3ca9d3671767560d5e204c8adf61bd75c60a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

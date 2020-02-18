@@ -138,6 +138,12 @@
           computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
         },
         _commentThreads: Array,
+        // TODO(taoalpha): Consider replacing diffDrafts
+        // with _draftCommentThreads everywhere, currently only
+        // replaced in reply-dialoig
+        _draftCommentThreads: {
+          type: Array,
+        },
         _robotCommentThreads: {
           type: Array,
           computed: '_computeRobotCommentThreads(_commentThreads,'
@@ -1484,24 +1490,29 @@
      */
     _reloadComments() {
       return this.$.commentAPI.loadAll(this._changeNum)
-          .then(comments => {
-            this._changeComments = comments;
-            this._diffDrafts = Object.assign({}, this._changeComments.drafts);
-            this._commentThreads = this._changeComments.getAllThreadsForChange()
-                .map(c => Object.assign({}, c));
-          });
+          .then(comments => this._recomputeComments(comments));
     }
 
     /**
      * Fetches a new changeComment object, but only updated data for drafts is
      * requested.
+     *
+     * TODO(taoalpha): clean up this and _reloadComments, as single comment
+     * can be a thread so it does not make sense to only update drafts
+     * without updating threads
      */
     _reloadDrafts() {
       return this.$.commentAPI.reloadDrafts(this._changeNum)
-          .then(comments => {
-            this._changeComments = comments;
-            this._diffDrafts = Object.assign({}, this._changeComments.drafts);
-          });
+          .then(comments => this._recomputeComments(comments));
+    }
+
+    _recomputeComments(comments) {
+      this._changeComments = comments;
+      this._diffDrafts = Object.assign({}, this._changeComments.drafts);
+      this._commentThreads = this._changeComments.getAllThreadsForChange()
+          .map(c => Object.assign({}, c));
+      this._draftCommentThreads = this._commentThreads
+          .filter(c => c.comments[c.comments.length - 1].__draft);
     }
 
     /**

@@ -34,6 +34,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
 <link rel="import" href="../../shared/gr-account-list/gr-account-list.html">
 <link rel="import" href="../gr-label-scores/gr-label-scores.html">
+<link rel="import" href="../gr-thread-list/gr-thread-list.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../change/gr-comment-list/gr-comment-list.html">
 <script src="../../../scripts/gr-display-name-utils/gr-display-name-utils.js"></script>
@@ -45,7 +46,7 @@ limitations under the License.
       :host {
         background-color: var(--dialog-background-color);
         display: block;
-        max-height: 100%;
+        max-height: 90vh;
       }
       :host([disabled]) {
         pointer-events: none;
@@ -250,19 +251,22 @@ limitations under the License.
         </gr-endpoint-decorator>
         <div id="pluginMessage">[[_pluginMessage]]</div>
       </section>
-      <section class="draftsContainer" hidden$="[[_computeHideDraftList(diffDrafts)]]">
+      <section class="draftsContainer" hidden$="[[_computeHideDraftList(draftCommentThreads)]]">
         <div class="includeComments">
           <input type="checkbox" id="includeComments"
               checked="{{_includeComments::change}}">
-          <label for="includeComments">Publish [[_computeDraftsTitle(diffDrafts)]]</label>
+          <label for="includeComments">Publish [[_computeDraftsTitle(draftCommentThreads)]]</label>
         </div>
-        <gr-comment-list
-            id="commentList"
-            comments="[[diffDrafts]]"
-            change-num="[[change._number]]"
-            project-config="[[projectConfig]]"
-            patch-num="[[patchNum]]"
-            hidden$="[[!_includeComments]]"></gr-comment-list>
+        <gr-thread-list
+          id="commentList"
+          hidden$="[[!_includeComments]]"
+          threads="[[draftCommentThreads]]"
+          change="[[change]]"
+          change-num="[[change._number]]"
+          logged-in="true"
+          hide-toggle-buttons
+          on-thread-list-modified="_onThreadListModified">
+        </gr-thread-list>
         <span
             id="savingLabel"
             class$="[[_computeSavingLabelClass(_savingComments)]]">

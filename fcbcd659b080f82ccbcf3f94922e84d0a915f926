@@ -46,6 +46,30 @@
       "revId": "fcbcd659b080f82ccbcf3f94922e84d0a915f926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8fca1df_f684a4ea",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-18T10:18:06Z",
+      "side": 1,
+      "message": "Done.\nI removed the truncation for both logs.",
+      "parentUuid": "c2def65c_6673e8ad",
+      "range": {
+        "startLine": 35,
+        "startChar": 60,
+        "endLine": 35,
+        "endChar": 63
+      },
+      "revId": "fcbcd659b080f82ccbcf3f94922e84d0a915f926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -68,6 +68,7 @@
   const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
   const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
+  const FILES_TAB_NAME = 'files';
 
   /**
    * @appliesMixin Gerrit.FireMixin
@@ -322,7 +323,12 @@
         _dynamicTabContentEndpoints: {
           type: Array,
         },
-        _selectedFilesTabPluginEndpoint: {
+        // The dynamic content of the plugin added tab
+        _selectedTabPluginEndpoint: {
+          type: String,
+        },
+        // The dynamic heading of the plugin added tab
+        _selectedTabPluginHeader: {
           type: String,
         },
         _robotCommentsPatchSetDropdownItems: {
@@ -332,6 +338,14 @@
         },
         _currentRobotCommentsPatchSet: {
           type: Number,
+        },
+        _files_tab_name: {
+          type: String,
+          value: FILES_TAB_NAME,
+        },
+        _currentTabName: {
+          type: String,
+          value: FILES_TAB_NAME,
         },
       };
     }
@@ -503,30 +517,44 @@
       return currentView === view;
     }
 
-    _handleFileTabChange(e) {
-      const selectedIndex = this.shadowRoot
-          .querySelector('#primaryTabs').selected;
-      this._showFileTabContent = selectedIndex === 0;
-      // Initial tab is the static files list.
-      const newSelectedTab =
-          this._dynamicTabContentEndpoints[selectedIndex - 1];
-      if (newSelectedTab !== this._selectedFilesTabPluginEndpoint) {
-        this._selectedFilesTabPluginEndpoint = newSelectedTab;
+    _findIfTabMatches(currentTab, tab) {
+      return currentTab === tab;
+    }
 
-        const tabName = this._selectedFilesTabPluginEndpoint || 'files';
-        const source = e && e.type ? e.type : '';
-        this.$.reporting.reportInteraction('tab-changed', {tabName, source});
+    _handleFileTabChange(e) {
+      const selectedIndex = e.target.selected;
+      const tabs = e.target.querySelectorAll('paper-tab');
+      this._currentTabName = tabs[selectedIndex] &&
+        tabs[selectedIndex].dataset.name;
+      const source = e && e.type ? e.type : '';
+      const pluginIndex = this._dynamicTabHeaderEndpoints.indexOf(
+          this._currentTabName);
+      if (pluginIndex !== -1) {
+        this._selectedTabPluginEndpoint = this._dynamicTabContentEndpoints[
+            pluginIndex];
+        this._selectedTabPluginHeader = this._dynamicTabHeaderEndpoints[
+            pluginIndex];
+      } else {
+        this._selectedTabPluginEndpoint = '';
+        this._selectedTabPluginHeader = '';
       }
+      this.$.reporting.reportInteraction('tab-changed',
+          {tabName: this._currentTabName, source});
     }
 
     _handleShowTab(e) {
-      const idx = this._dynamicTabContentEndpoints.indexOf(e.detail.tab);
+      const primaryTabs = this.shadowRoot.querySelector('#primaryTabs');
+      const tabs = primaryTabs.querySelectorAll('paper-tab');
+      let idx = -1;
+      tabs.forEach((tab, index) => {
+        if (tab.dataset.name === e.detail.tab) idx = index;
+      });
       if (idx === -1) {
         console.warn(e.detail.tab + ' tab not found');
         return;
       }
-      this.shadowRoot.querySelector('#primaryTabs').selected = idx + 1;
-      this.shadowRoot.querySelector('#primaryTabs').scrollIntoView();
+      primaryTabs.selected = idx;
+      primaryTabs.scrollIntoView();
       this.$.reporting.reportInteraction('show-tab', {tabName: e.detail.tab});
     }
 

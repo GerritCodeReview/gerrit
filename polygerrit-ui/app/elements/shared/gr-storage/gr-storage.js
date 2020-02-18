@@ -17,16 +17,17 @@
 (function() {
   'use strict';
 
-  // Date cutoff is one day:
-  const CLEANUP_MAX_AGE = 24 * 60 * 60 * 1000;
+  const DURATION_DAY = 24 * 60 * 60 * 1000;
 
   // Clean up old entries no more frequently than one day.
-  const CLEANUP_THROTTLE_INTERVAL = 24 * 60 * 60 * 1000;
+  const CLEANUP_THROTTLE_INTERVAL = DURATION_DAY;
 
-  const CLEANUP_PREFIXES = [
-    'draft:',
-    'editablecontent:',
-  ];
+  const CLEANUP_PREFIXES_MAX_AGE_MAP = {
+    // respectfultip has a 3 day expiration
+    'respectfultip:': 3 * DURATION_DAY,
+    'draft:': DURATION_DAY,
+    'editablecontent:': DURATION_DAY,
+  };
 
   /** @extends Polymer.Element */
   class GrStorage extends Polymer.GestureEventListeners(
@@ -76,6 +77,19 @@
           {message, updated: Date.now()});
     }
 
+    getRespectfulTipVisibility() {
+      this._cleanupItems();
+      return this._getObject('respectfultip:visibility');
+    }
+
+    setRespectfulTipVisibility(delayDays = 0) {
+      this._cleanupItems();
+      this._setObject(
+          'respectfultip:visibility',
+          {updated: Date.now() + delayDays * DURATION_DAY}
+      );
+    }
+
     eraseEditableContentItem(key) {
       this._storage.removeItem(this._getEditableContentKey(key));
     }
@@ -106,18 +120,17 @@
       this._lastCleanup = Date.now();
 
       let item;
-      for (const key in this._storage) {
-        if (!this._storage.hasOwnProperty(key)) { continue; }
-        for (const prefix of CLEANUP_PREFIXES) {
+      Object.keys(this._storage).forEach(key => {
+        Object.keys(CLEANUP_PREFIXES_MAX_AGE_MAP).forEach(prefix => {
           if (key.startsWith(prefix)) {
             item = this._getObject(key);
-            if (Date.now() - item.updated > CLEANUP_MAX_AGE) {
+            const expiration = CLEANUP_PREFIXES_MAX_AGE_MAP[prefix];
+            if (Date.now() - item.updated > expiration) {
               this._storage.removeItem(key);
             }
-            break;
           }
-        }
-      }
+        });
+      });
     }
 
     _getObject(key) {

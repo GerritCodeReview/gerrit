@@ -1541,6 +1541,37 @@ limitations under the License.
             view: Gerrit.Nav.View.EDIT,
             path: 'foo/bar/baz',
             patchNum: 3,
+            lineNum: undefined,
+          };
+
+          element._handleDiffEditRoute(ctx);
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(normalizeRangeSpy.calledOnce);
+          assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);
+          assert.isFalse(normalizeRangeSpy.lastCall.returnValue);
+          assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
+        });
+
+        test('_handleDiffEditRoute with lineNum', () => {
+          const normalizeRangeSpy =
+              sandbox.spy(element, '_normalizePatchRangeParams');
+          sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+          const ctx = {
+            params: [
+              'foo/bar', // 0 Project
+              1234, // 1 Change number
+              3, // 2 Patch num
+              'foo/bar/baz', // 3 File path
+            ],
+            hash: 4, // lineNum
+          };
+          const appParams = {
+            project: 'foo/bar',
+            changeNum: 1234,
+            view: Gerrit.Nav.View.EDIT,
+            path: 'foo/bar/baz',
+            patchNum: 3,
+            lineNum: 4,
           };
 
           element._handleDiffEditRoute(ctx);

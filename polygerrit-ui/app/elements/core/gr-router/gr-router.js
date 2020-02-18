@@ -132,8 +132,8 @@
     // eslint-disable-next-line max-len
     DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
 
-    // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>]/<path>,edit
-    DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit$/,
+    // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>]/<path>,edit[#lineNum]
+    DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit(\#\d+)?$/,
 
     // Matches non-project-relative
     // /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
@@ -1394,6 +1394,7 @@
         changeNum: ctx.params[1],
         patchNum: ctx.params[2],
         path: ctx.params[3],
+        lineNum: ctx.hash,
         view: Gerrit.Nav.View.EDIT,
       });
       this.$.reporting.setRepoName(project);

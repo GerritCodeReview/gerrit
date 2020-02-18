@@ -380,6 +380,12 @@
       this._createReplyComment(comment, response, false, true);
     }
 
+    _handleFixLine(changeNum, project, path, patchNum, lineNum) {
+      // Go to line in inline editor
+      return Gerrit.Nav.getEditUrlForDiffById(
+          changeNum, project, path, patchNum, lineNum);
+    }
+
     _commentElWithDraftID(id) {
       const els = Polymer.dom(this.root).querySelectorAll('gr-comment');
       for (const el of els) {

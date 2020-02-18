@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cea2480a_0dd43321",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-18T14:18:06Z",
+      "side": 1,
+      "message": "Let Flogger do the formatting for you:\n\n  logger.atInfo().log(\n      \"Found a total of %d zombie draft refs in %s repo.\", zombieRefs.size(), allUsers.get());\n\nThe same below.",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 22
+      },
+      "revId": "b8726a155a92f47743dde3f883b626a5bb5fa163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

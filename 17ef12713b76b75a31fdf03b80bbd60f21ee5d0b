@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6a01a74_491ff594",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-18T18:03:32Z",
+      "side": 1,
+      "message": "com.google.gerrit?",
+      "range": {
+        "startLine": 402,
+        "startChar": 27,
+        "endLine": 402,
+        "endChar": 37
+      },
+      "revId": "17ef12713b76b75a31fdf03b80bbd60f21ee5d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92531da2_822e98c5",
+        "filename": "java/com/google/gerrit/testing/TestLoggingActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-18T18:03:32Z",
+      "side": 1,
+      "message": "I believe this will not solve the issue pertaining to silencing DEBUG logs being emitted by external dependencies. So when running the Elasticsearch and Lucene tests, the DEBUG logs were still being emitted by the external dependencies even when the GERRIT_LOG_LEVEL option was set at INFO. In the case of Elasticsearch and Lucene tests, up to 45% of the DEBUG logs were from classes outside this package so I think it\u0027s a good idea to also have the option of disabling logs coming out of the com.google.gerrit package in this case.",
+      "revId": "17ef12713b76b75a31fdf03b80bbd60f21ee5d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bc542af_45f76e6d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-19T15:16:51Z",
+      "side": 1,
+      "message": "Is it possible to have dom-if here?",
+      "range": {
+        "startLine": 552,
+        "startChar": 8,
+        "endLine": 552,
+        "endChar": 70
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb1e5502_fbf3b89b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-19T15:16:51Z",
+      "side": 1,
+      "message": "Are there any other tabs except _dynamicTabHeaderEndpoints and FILES?\nFor me it seems, that it is enough to have only one function _isFilesTab(_currentTabName) and:\n\u003cdiv hidden$\u003d\"[[!_isFilesTab(_currentTabName)]]\"\u003e\n...\n\u003ctemplate is dom-if if\u003d\"[[!_isFilesTab(_currentTabName)]]\"\u003e\n\nAm I missing something? In which cases my suggestion doesn\u0027t work?",
+      "range": {
+        "startLine": 603,
+        "startChar": 36,
+        "endLine": 603,
+        "endChar": 99
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b65db4c6_138cb045",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-19T15:16:51Z",
+      "side": 1,
+      "message": "Do you have any future plans regarding this function?\nWith the existing template (in gr-change-view.html) it is always knows what is input parameter.\nIf you split this function to 2 separate functions (for example, _ifFileTab(currentTab) and another one for array).",
+      "range": {
+        "startLine": 517,
+        "startChar": 6,
+        "endLine": 517,
+        "endChar": 62
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

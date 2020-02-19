@@ -176,7 +176,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   @UiHandler(value = {"cancel1", "cancel2"})
   void onCancel(@SuppressWarnings("unused") ClickEvent event) {
-    Gerrit.display(PageLinks.toProjectAcceess(getProjectKey()));
+    Gerrit.display(PageLinks.toProjectAccess(getProjectKey()));
   }
 
   @UiHandler("commit")

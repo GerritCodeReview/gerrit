@@ -90,7 +90,7 @@ public class PageLinks {
     return ADMIN_PROJECTS + p.get();
   }
 
-  public static String toProjectAcceess(Project.NameKey p) {
+  public static String toProjectAccess(Project.NameKey p) {
     return "/admin/projects/" + p.get() + ",access";
   }
 

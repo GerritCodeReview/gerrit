@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c991bc12_961e4696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-19T10:41:48Z",
+      "side": 1,
+      "message": "This is little bit obsolete.",
+      "range": {
+        "startLine": 13,
+        "startChar": 14,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "1689457aa06ac9274ae1a55116f9aa7428b9f82d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7c2018e5_3fc174d5",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
         "patchSetId": 4

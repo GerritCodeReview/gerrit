@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "571cc816_b888c26b",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-19T09:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66f1d0f7_388b2c7f",
+      "range": {
+        "startLine": 42,
+        "startChar": 36,
+        "endLine": 42,
+        "endChar": 56
+      },
+      "revId": "cab9884f81f6b25dc438576e520510f346103aed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e448e7b9_da73563c",
         "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-18T16:04:30Z",
       "side": 1,
       "message": "IMHO a better name(s) would be: createJsonLogEntry, toJsonLogentry, asJsonLogEntry\n\nI would prefer the 2nd or 3rd option.",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 45
+      },
+      "revId": "cab9884f81f6b25dc438576e520510f346103aed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57ae2512_d45ce880",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-19T09:16:19Z",
+      "side": 1,
+      "message": "Done.\nI have one issue with that, but that would also be the case with my original naming. In the end, what is created in this method is an object with fields representing the key-value pairs of a json, but not really a Json string/file. This might be misleading. Maybe the abstract class expected as a return value should rather be called LogEntryForJson or something like this. WDYT?",
+      "parentUuid": "e448e7b9_da73563c",
       "range": {
         "startLine": 44,
         "startChar": 31,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "929595e0_03f981a2",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-19T09:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e865ee6c_af374c65",
+      "range": {
+        "startLine": 49,
+        "startChar": 23,
+        "endLine": 49,
+        "endChar": 31
+      },
+      "revId": "cab9884f81f6b25dc438576e520510f346103aed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31f51605_0a68af94",
         "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
         "patchSetId": 5
@@ -85,6 +157,24 @@
       "revId": "cab9884f81f6b25dc438576e520510f346103aed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e72bb504_6c4df47d",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-19T09:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31f51605_0a68af94",
+      "revId": "cab9884f81f6b25dc438576e520510f346103aed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -84,6 +84,7 @@ public class TestLoggingActivator {
     dst.setTarget("System.err");
     dst.setThreshold(Level.DEBUG);
     dst.activateOptions();
+    dst.setName("rootAppender");
 
     Logger root = LogManager.getRootLogger();
     root.removeAllAppenders();

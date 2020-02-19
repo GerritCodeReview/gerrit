@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff9653b6_a9c51c9a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-19T15:20:58Z",
+      "side": 1,
+      "message": "actually, do you need to show `0 findings` ? it seems weird.. and `1 findings` is just wrong. can you also add some tests for this ?",
+      "revId": "54cf479ff2134131dc9dca8fe2d97a40095eb866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

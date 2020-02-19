@@ -375,7 +375,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     @Override
     public ResultSet<V> read() throws OrmException {
-      return readImpl((doc) -> AbstractElasticIndex.this.fromDocument(doc, opts.fields()));
+      return readImpl(doc -> AbstractElasticIndex.this.fromDocument(doc, opts.fields()));
     }
 
     @Override

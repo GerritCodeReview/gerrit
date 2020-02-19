@@ -498,12 +498,12 @@ public abstract class PermissionBackend {
     public Set<LabelPermission.WithValue> testLabels(Collection<LabelType> types)
         throws PermissionBackendException {
       requireNonNull(types, "LabelType");
-      return test(types.stream().flatMap((t) -> valuesOf(t).stream()).collect(toSet()));
+      return test(types.stream().flatMap(t -> valuesOf(t).stream()).collect(toSet()));
     }
 
     private static Set<LabelPermission.WithValue> valuesOf(LabelType label) {
       return label.getValues().stream()
-          .map((v) -> new LabelPermission.WithValue(label, v))
+          .map(v -> new LabelPermission.WithValue(label, v))
           .collect(toSet());
     }
   }

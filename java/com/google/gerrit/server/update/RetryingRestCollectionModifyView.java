@@ -32,7 +32,7 @@ public abstract class RetryingRestCollectionModifyView<
   @Override
   public final O apply(P parentResource, I input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
-    return retryHelper.execute((updateFactory) -> applyImpl(updateFactory, parentResource, input));
+    return retryHelper.execute(updateFactory -> applyImpl(updateFactory, parentResource, input));
   }
 
   protected abstract O applyImpl(BatchUpdate.Factory updateFactory, P parentResource, I input)

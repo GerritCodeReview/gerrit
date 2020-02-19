@@ -127,7 +127,7 @@ public class LabelType {
 
     maxNegative = Short.MIN_VALUE;
     maxPositive = Short.MAX_VALUE;
-    if (values.size() > 0) {
+    if (!values.isEmpty()) {
       if (values.get(0).getValue() < 0) {
         maxNegative = values.get(0).getValue();
       }

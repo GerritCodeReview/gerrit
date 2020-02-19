@@ -83,7 +83,7 @@ public class ParentProjectBox extends Composite {
           new Callback() {
             @Override
             public void onSuggestionsReady(Request request, Response response) {
-              if (exclude.size() > 0) {
+              if (!exclude.isEmpty()) {
                 Set<Suggestion> filteredSuggestions = new HashSet<>(response.getSuggestions());
                 for (Suggestion s : response.getSuggestions()) {
                   if (exclude.contains(s.getReplacementString())) {

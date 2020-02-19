@@ -548,7 +548,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private void decodeReviewedBy(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     Collection<IndexableField> reviewedBy = doc.get(REVIEWEDBY_FIELD);
-    if (reviewedBy.size() > 0) {
+    if (!reviewedBy.isEmpty()) {
       Set<Account.Id> accounts = Sets.newHashSetWithExpectedSize(reviewedBy.size());
       for (IndexableField r : reviewedBy) {
         int id = r.numericValue().intValue();

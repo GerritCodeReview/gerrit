@@ -258,7 +258,7 @@ public class GetDiff implements RestReadView<FileResource> {
           throw new IllegalStateException("unknown change type: " + ps.getChangeType());
         }
 
-        if (ps.getPatchHeader().size() > 0) {
+        if (!ps.getPatchHeader().isEmpty()) {
           result.diffHeader = ps.getPatchHeader();
         }
         result.content = content.lines;

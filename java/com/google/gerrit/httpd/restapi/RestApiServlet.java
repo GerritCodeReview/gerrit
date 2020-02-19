@@ -1289,7 +1289,7 @@ public class RestApiServlet extends HttpServlet {
     for (String p : Splitter.on('/').split(path)) {
       out.add(IdString.fromUrl(p));
     }
-    if (out.size() > 0 && out.get(out.size() - 1).isEmpty()) {
+    if (!out.isEmpty() && out.get(out.size() - 1).isEmpty()) {
       out.remove(out.size() - 1);
     }
     return out;

@@ -333,7 +333,7 @@ class OpenIdServiceImpl {
       areq.setEmailAddress(fetchRsp.getAttributeValue("Email"));
     }
 
-    if (openIdDomains != null && openIdDomains.size() > 0) {
+    if (openIdDomains != null && !openIdDomains.isEmpty()) {
       // Administrator limited email domains, which can be used for OpenID.
       // Login process will only work if the passed email matches one
       // of these domains.

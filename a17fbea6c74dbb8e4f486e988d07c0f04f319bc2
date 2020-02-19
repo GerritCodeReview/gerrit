@@ -16,6 +16,24 @@
       "revId": "a17fbea6c74dbb8e4f486e988d07c0f04f319bc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c867f54_ad308546",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogJsonLayout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-19T09:16:33Z",
+      "side": 1,
+      "message": "Done.\nI decided to make the method static, since I\u0027d like to keep the constructor as small as possible.",
+      "parentUuid": "94a0a7c7_668c4e43",
+      "revId": "a17fbea6c74dbb8e4f486e988d07c0f04f319bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

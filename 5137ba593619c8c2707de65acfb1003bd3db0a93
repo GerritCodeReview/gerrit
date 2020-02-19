@@ -70,6 +70,24 @@
       "revId": "5137ba593619c8c2707de65acfb1003bd3db0a93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f46fb0ee_10028aa8",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-19T21:01:33Z",
+      "side": 1,
+      "message": "\u003e Ack\n\nThe spirit of this thread is now progressing through I2c81d282\u0027s latest patches; thanks @Matthias. That is still WIP for me though. Currently adding more plugins to it (the list) -this week and maybe next.",
+      "parentUuid": "ce8211ad_39c26f35",
+      "revId": "5137ba593619c8c2707de65acfb1003bd3db0a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

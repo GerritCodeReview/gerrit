@@ -43,19 +43,27 @@ limitations under the License.
         @apply --text-container-style;
         width: 100%;
       }
+      /*
+       * Typically icons are 20px, which is the normal line-height.
+       * The copy icon is too prominent at 20px, so we choose 16px
+       * here, but add 2x2px padding below, so the entire
+       * component should still fit nicely into a normal inline
+       * layout flow.
+       */
       #icon {
-        height: var(--line-height-normal);
-        width: var(--line-height-normal);
+        height: 16px;
+        width: 16px;
       }
       gr-button {
         --gr-button: {
-          padding: 0px var(--spacing-s);
+          padding: 2px;
         }
       }
 
     </style>
     <div class="text">
       <iron-input
+          hidden$="[[hideInput]]"
           class="copyText"
           type="text"
           bind-value="[[text]]"

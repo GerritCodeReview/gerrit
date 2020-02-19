@@ -33,10 +33,10 @@ import org.eclipse.jgit.lib.Config;
 public class TrackingFootersProvider implements Provider<TrackingFooters> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static String TRACKING_ID_TAG = "trackingid";
-  private static String FOOTER_TAG = "footer";
-  private static String SYSTEM_TAG = "system";
-  private static String REGEX_TAG = "match";
+  private static final String TRACKING_ID_TAG = "trackingid";
+  private static final String FOOTER_TAG = "footer";
+  private static final String SYSTEM_TAG = "system";
+  private static final String REGEX_TAG = "match";
   private final List<TrackingFooter> trackingFooters = new ArrayList<>();
 
   @Inject

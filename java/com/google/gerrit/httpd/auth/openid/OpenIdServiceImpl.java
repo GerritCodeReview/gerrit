@@ -192,7 +192,7 @@ class OpenIdServiceImpl {
     // We might already have this account on file. Look for it.
     //
     try {
-      return accountManager.lookup(aReq.getIdentity()) == null;
+      return !accountManager.lookup(aReq.getIdentity()).isPresent();
     } catch (AccountException e) {
       logger.atWarning().withCause(e).log("Cannot determine if user account exists");
       return true;

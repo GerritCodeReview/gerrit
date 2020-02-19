@@ -77,7 +77,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
    * @return the maximal set of statuses that any changes matching the input predicates may have,
    *     based on examining boolean and {@link ChangeStatusPredicate}s.
    */
-  public static EnumSet<Change.Status> getPossibleStatus(Predicate<ChangeData> in) {
+  public static Set<Change.Status> getPossibleStatus(Predicate<ChangeData> in) {
     EnumSet<Change.Status> s = extractStatus(in);
     return s != null ? s : EnumSet.allOf(Change.Status.class);
   }

@@ -32,7 +32,7 @@ public class TestSubmitRuleInfo {
   public static class None {
     private None() {}
 
-    public static None INSTANCE = new None();
+    public static final None INSTANCE = new None();
   }
 
   @Override

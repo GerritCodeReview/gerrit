@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * An API for the change edit of a change. A change edit is similar to a patch set and will become
@@ -51,7 +52,7 @@ public interface ChangeEditApi {
       return base;
     }
 
-    public EnumSet<ChangeEditDetailOption> options() {
+    public Set<ChangeEditDetailOption> options() {
       return options;
     }
   }

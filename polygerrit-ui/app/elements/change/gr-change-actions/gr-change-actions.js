@@ -459,6 +459,14 @@
       super.ready();
       this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
       this._handleLoadingComplete();
+
+      // register all dialogs
+      this.abandonDialogId = window.grDialogService.register({
+        tagName: 'gr-confirm-abandon-dialog',
+        listeners: {
+          confirm: e => this._handleAbandonDialogConfirm(e),
+        },
+      });
     }
 
     _getSubmitAction(revisionActions) {
@@ -1005,7 +1013,7 @@
           this.showRevertSubmissionDialog();
           break;
         case ChangeActions.ABANDON:
-          this._showActionDialog(this.$.confirmAbandonDialog);
+          grDialogService.open(this.abandonDialogId);
           break;
         case QUICK_APPROVE_ACTION.key:
           action = this._allActionValues.find(o => o.key === key);
@@ -1184,12 +1192,9 @@
           false, {message: el.message});
     }
 
-    _handleAbandonDialogConfirm() {
-      const el = this.$.confirmAbandonDialog;
-      this.$.overlay.close();
-      el.hidden = true;
+    _handleAbandonDialogConfirm(e) {
       this._fireAction('/abandon', this.actions.abandon, false,
-          {message: el.message});
+          {message: e.detail.reason});
     }
 
     _handleCreateFollowUpChange() {
@@ -1393,7 +1398,7 @@
     }
 
     _handleAbandonTap() {
-      this._showActionDialog(this.$.confirmAbandonDialog);
+      grDialogService.open(this.abandonDialogId);
     }
 
     _handleCherrypickTap() {

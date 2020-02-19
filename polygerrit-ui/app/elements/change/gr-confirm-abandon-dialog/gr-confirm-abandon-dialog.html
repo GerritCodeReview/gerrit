@@ -15,26 +15,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="/bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="/bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-confirm-abandon-dialog">
   <template>
+    <style include="paper-dialog-shared-styles"></style>
     <style include="shared-styles">
       :host {
         display: block;
-      }
-      :host([disabled]) {
-        opacity: .5;
-        pointer-events: none;
-      }
-      .main {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
+        padding: var(--spacing-m);
       }
       label {
         cursor: pointer;
@@ -48,21 +42,30 @@ limitations under the License.
         width: 73ch; /* Add a char to account for the border. */
       }
     </style>
-    <gr-dialog
-        confirm-label="Abandon"
-        on-confirm="_handleConfirmTap"
-        on-cancel="_handleCancelTap">
-      <div class="header" slot="header">Abandon Change</div>
-      <div class="main" slot="main">
-        <label for="messageInput">Abandon Message</label>
-        <iron-autogrow-textarea
-            id="messageInput"
-            class="message"
-            autocomplete="on"
-            placeholder="<Insert reasoning here>"
-            bind-value="{{message}}"></iron-autogrow-textarea>
-      </div>
-    </gr-dialog>
+    <h2>Abandon Change</h2>
+    <div class="main">
+      <iron-autogrow-textarea
+        autofocus
+        id="messageInput"
+        class="message"
+        autocomplete="on"
+        placeholder="<Insert reasoning here>"
+        bind-value="{{message}}"></iron-autogrow-textarea>
+    </div>
+    <div class="paper-dialog-buttons">
+      <gr-button
+        dialog-dismiss
+        id="cancel"
+        link>
+        Cancel
+      </gr-button>
+      <gr-button
+        id="confirm" link primary
+        on-click="_handleConfirm"
+        disabled$="[[disabled]]">
+        Abandon
+      </gr-button>
+    </div>
   </template>
   <script src="gr-confirm-abandon-dialog.js"></script>
 </dom-module>

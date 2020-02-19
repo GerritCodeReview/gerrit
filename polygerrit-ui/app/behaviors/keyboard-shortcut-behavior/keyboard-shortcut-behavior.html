@@ -525,7 +525,10 @@ shortcuts are.
           return true;
         }
         for (let i = 0; e.path && i < e.path.length; i++) {
-          if (e.path[i].tagName === 'GR-OVERLAY') { return true; }
+          if (e.path[i].tagName === 'GR-OVERLAY'
+            || e.path[i].id === 'dialogContainer') {
+            return true;
+          }
         }
 
         this.fire('shortcut-triggered', {

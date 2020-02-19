@@ -20,11 +20,13 @@
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Polymer.PaperDialogBehavior
    * @extends Polymer.Element
    */
   class GrConfirmAbandonDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
+    Polymer.PaperDialogBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -44,6 +46,11 @@
     static get properties() {
       return {
         message: String,
+        withBackdrop: {
+          type: Boolean,
+          value: true,
+          reflectToAttribute: true,
+        },
       };
     }
 
@@ -61,7 +68,7 @@
       this._confirm();
     }
 
-    _handleConfirmTap(e) {
+    _handleConfirm(e) {
       e.preventDefault();
       e.stopPropagation();
       this._confirm();
@@ -69,12 +76,6 @@
 
     _confirm() {
       this.fire('confirm', {reason: this.message}, {bubbles: false});
-    }
-
-    _handleCancelTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.fire('cancel', null, {bubbles: false});
     }
   }
 

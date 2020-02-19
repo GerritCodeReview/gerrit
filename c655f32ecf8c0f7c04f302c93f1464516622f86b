@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe8307e3_fe3ee14d",
+        "filename": "java/com/google/gerrit/server/logging/JsonLayout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-19T13:38:54Z",
+      "side": 1,
+      "message": "I think this can be replaced by\n\n      return ZonedDateTime.of(\n              LocalDateTime.ofInstant(Instant.ofEpochMilli(now), timeOffset),\n              ZoneId.systemDefault())\n          .format(dateFormatter);",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 31
+      },
+      "revId": "c655f32ecf8c0f7c04f302c93f1464516622f86b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

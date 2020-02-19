@@ -22,6 +22,30 @@
       "revId": "218fc7abe3249dafb28996cce7e1e6c82ae80fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3add3d0_90624132",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-19T11:51:20Z",
+      "side": 1,
+      "message": "Actually I forgot to change the right side of the boolean check: it should be !args.serverId.equals(stateServerId).\n\nIf the stateServerId is null or empty, we don\u0027t do the serverId check at all.\nSee the comment above, it is a requirement for allowing the serverId in the persistent\ncache without having to rebuild the whole cache from scratch.",
+      "parentUuid": "d5927f15_98411d70",
+      "range": {
+        "startLine": 540,
+        "startChar": 9,
+        "endLine": 540,
+        "endChar": 84
+      },
+      "revId": "218fc7abe3249dafb28996cce7e1e6c82ae80fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

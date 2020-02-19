@@ -17,48 +17,24 @@ limitations under the License.
 <dom-module id="gr-change-list-styles">
   <template>
     <style>
-      gr-change-list-item:not(:first-of-type) {
+      gr-change-list-item {
         border-top: 1px solid var(--border-color);
       }
       gr-change-list-item[selected],
       gr-change-list-item:focus {
         background-color: var(--selection-background-color);
       }
-      th {
-        text-align: left;
-      }
-      th,
+      .topHeader td,
       .cell {
         vertical-align: middle;
       }
-      th:not(.label):not(.endpoint),
+      .topHeader td:not(.label):not(.endpoint),
       .cell:not(.label):not(.endpoint) {
         padding-right: 8px;
       }
-      th.label {
-        border-left: none;
-      }
-      .topHeader th {
-        background-color: var(--background-color-primary);
-        padding: var(--spacing-s) 0;
-        position: -webkit-sticky;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-      }
-      /* :after pseudoelements are used here because borders on sticky table
-        headers with a background color are broken. */
-      th:after {
-        border-bottom: 1px solid var(--border-color);
-        bottom: 0;
-        content: '';
-        left: 0;
-        position: absolute;
-        width: 100%;
-      }
-      th.label:after {
-        border-left: 1px solid var(--border-color);
-        top: 0;
+      .topHeader td {
+        color: var(--deemphasized-text-color);
+        text-align: left;
       }
       .groupHeader {
         background-color: transparent;
@@ -77,6 +53,7 @@ limitations under the License.
       .groupHeader a:hover {
         text-decoration: underline;
       }
+      .topHeader td,
       .cell {
         padding: var(--spacing-s) 0;
       }
@@ -113,12 +90,10 @@ limitations under the License.
       .label, .endpoint {
         border-left: 1px solid var(--border-color);
       }
+      .topHeader td.label,
       .label {
         text-align: center;
         width: 3rem;
-      }
-      .topHeader .label {
-        border: none;
       }
       .truncatedRepo {
         display: none;

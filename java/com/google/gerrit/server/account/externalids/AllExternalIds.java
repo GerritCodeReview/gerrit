@@ -39,7 +39,7 @@ public abstract class AllExternalIds {
 
   static AllExternalIds create(Collection<ExternalId> externalIds) {
     return new AutoValue_AllExternalIds(
-        externalIds.stream().collect(toImmutableSetMultimap(e -> e.accountId(), e -> e)),
+        externalIds.stream().collect(toImmutableSetMultimap(ExternalId::accountId, e -> e)),
         byEmailCopy(externalIds));
   }
 
@@ -47,7 +47,7 @@ public abstract class AllExternalIds {
       Collection<ExternalId> externalIds) {
     return externalIds.stream()
         .filter(e -> !Strings.isNullOrEmpty(e.email()))
-        .collect(toImmutableSetMultimap(e -> e.email(), e -> e));
+        .collect(toImmutableSetMultimap(ExternalId::email, e -> e));
   }
 
   public abstract ImmutableSetMultimap<Account.Id, ExternalId> byAccount();

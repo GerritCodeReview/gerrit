@@ -266,13 +266,12 @@ public class ProjectsConsistencyChecker {
       List<ChangeData> queryResult =
           retryHelper.execute(
               ActionType.INDEX_QUERY,
-              () -> {
-                // Execute the query.
-                return changeQueryProvider
-                    .get()
-                    .setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET)
-                    .query(and(basePredicate, or(predicates)));
-              },
+              () ->
+                  // Execute the query.
+                  changeQueryProvider
+                      .get()
+                      .setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET)
+                      .query(and(basePredicate, or(predicates))),
               OrmException.class::isInstance);
 
       // Result for this query that we want to return to the client.

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f1ec33c_b89779c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-19T09:19:09Z",
+      "side": 1,
+      "message": "Which part of the two do you mean here (full name or email)?",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "d2ac7268241da2de788ffb62a4691cb96c21e9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91fca5e8_72d03641",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-19T09:19:09Z",
+      "side": 1,
+      "message": "nit: sounds like slang :-)\n\nhow about: \"To ultimately invalidate the account ...\"",
+      "range": {
+        "startLine": 101,
+        "startChar": 47,
+        "endLine": 101,
+        "endChar": 81
+      },
+      "revId": "d2ac7268241da2de788ffb62a4691cb96c21e9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47f5e7b3_84e3bc67",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestAccountInvalidation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-19T09:19:09Z",
+      "side": 1,
+      "message": "nit: missing JavaDoc",
+      "revId": "d2ac7268241da2de788ffb62a4691cb96c21e9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

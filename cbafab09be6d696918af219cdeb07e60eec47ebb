@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d58dfac8_8a186c60",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-19T10:32:35Z",
+      "side": 1,
+      "message": "is this still needed after changing back to `()`, I assume you have this margin to make it more separated with the title",
+      "revId": "cbafab09be6d696918af219cdeb07e60eec47ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

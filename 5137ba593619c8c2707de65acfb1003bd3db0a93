@@ -34,6 +34,24 @@
       "revId": "5137ba593619c8c2707de65acfb1003bd3db0a93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "742893c8_3cde7eee",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-19T15:36:17Z",
+      "side": 1,
+      "message": "ok\n\nI agree documentation shouldn\u0027t be duplicated in this matrix, but I think it would be good to have a short description of each plugin in the matric which gives a bit more context than the raw name of the plugin which is sometimes not self-explanatory",
+      "parentUuid": "96caf2ad_519937e0",
+      "revId": "5137ba593619c8c2707de65acfb1003bd3db0a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

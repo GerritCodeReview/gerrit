@@ -90,7 +90,7 @@ public enum ListChangesOption {
     return value;
   }
 
-  public static EnumSet<ListChangesOption> fromBits(int v) {
+  public static Set<ListChangesOption> fromBits(int v) {
     EnumSet<ListChangesOption> r = EnumSet.noneOf(ListChangesOption.class);
     for (ListChangesOption o : ListChangesOption.values()) {
       if ((v & (1 << o.value)) != 0) {

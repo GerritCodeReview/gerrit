@@ -35,7 +35,7 @@ public enum ListAccountsOption {
     return value;
   }
 
-  public static EnumSet<ListAccountsOption> fromBits(int v) {
+  public static Set<ListAccountsOption> fromBits(int v) {
     EnumSet<ListAccountsOption> r = EnumSet.noneOf(ListAccountsOption.class);
     for (ListAccountsOption o : ListAccountsOption.values()) {
       if ((v & (1 << o.value)) != 0) {

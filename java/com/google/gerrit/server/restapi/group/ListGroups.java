@@ -85,7 +85,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final Groups groups;
   private final GroupResolver groupResolver;
 
-  private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
+  private Set<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
   private boolean visibleToAll;
   private Account.Id user;
   private boolean owned;
@@ -234,7 +234,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.groupResolver = groupResolver;
   }
 
-  public void setOptions(EnumSet<ListGroupsOption> options) {
+  public void setOptions(Set<ListGroupsOption> options) {
     this.options = options;
   }
 

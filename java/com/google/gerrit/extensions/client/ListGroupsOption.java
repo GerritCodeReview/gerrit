@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.client;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 /** Output options available when using {@code /groups/} RPCs. */
 public enum ListGroupsOption {
@@ -34,7 +35,7 @@ public enum ListGroupsOption {
     return value;
   }
 
-  public static EnumSet<ListGroupsOption> fromBits(int v) {
+  public static Set<ListGroupsOption> fromBits(int v) {
     EnumSet<ListGroupsOption> r = EnumSet.noneOf(ListGroupsOption.class);
     for (ListGroupsOption o : ListGroupsOption.values()) {
       if ((v & (1 << o.value)) != 0) {
@@ -51,7 +52,7 @@ public enum ListGroupsOption {
     return r;
   }
 
-  public static int toBits(EnumSet<ListGroupsOption> set) {
+  public static int toBits(Set<ListGroupsOption> set) {
     int r = 0;
     for (ListGroupsOption o : set) {
       r |= 1 << o.value;

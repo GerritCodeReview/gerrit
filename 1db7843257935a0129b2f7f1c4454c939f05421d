@@ -46,6 +46,30 @@
       "revId": "1db7843257935a0129b2f7f1c4454c939f05421d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d4f8200_52437eb7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-19T08:41:14Z",
+      "side": 1,
+      "message": "\u003e Another option could be not throw exception at all. ChangeNotes.Factory.newChange() could be declared as @Nullable and return null in some cases. Of course the caller sites would have to be adapted for this new semantic.\n\nI need to do a bit more analysis on the impact of not throwing an exception at all, but looks interesting.\n\nAlso DavidP\u0027s suggestion is very good, I actually was thinking about it while writing the patch, but I was possibly too exhausted to do it last night :-(\n\nThanks to both of you for the fruitful feedback, much appreciated.",
+      "parentUuid": "889f2791_0c994c2b",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 227,
+        "endChar": 61
+      },
+      "revId": "1db7843257935a0129b2f7f1c4454c939f05421d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

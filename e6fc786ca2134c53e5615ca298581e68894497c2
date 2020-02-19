@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3973805c_f48345bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-19T18:48:02Z",
+      "side": 1,
+      "message": "I need to adjust the submodule(s).",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "e6fc786ca2134c53e5615ca298581e68894497c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

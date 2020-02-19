@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f1f52080_d730572a",
+        "filename": "java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-19T09:16:27Z",
+      "side": 1,
+      "message": "See my answer there",
+      "parentUuid": "0db83118_17045749",
+      "range": {
+        "startLine": 96,
+        "startChar": 20,
+        "endLine": 96,
+        "endChar": 33
+      },
+      "revId": "55c62fd9ef98081ed72420807b5c044172db43b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44bb4e2f_a69117ba",
         "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
         "patchSetId": 4
@@ -71,6 +95,30 @@
       "writtenOn": "2020-02-18T15:58:13Z",
       "side": 1,
       "message": "this is yet another copy of this code",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 3
+      },
+      "revId": "55c62fd9ef98081ed72420807b5c044172db43b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7200be7_1a8aafc0",
+        "filename": "java/com/google/gerrit/sshd/SshLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-19T09:16:27Z",
+      "side": 1,
+      "message": "I have a separate change now, at least extracting this method out of the JsonLog classes. Also using the DateTimeFormatter now diverged the method from the one used for http text logs.",
+      "parentUuid": "11bef80f_0433d73d",
       "range": {
         "startLine": 84,
         "startChar": 0,

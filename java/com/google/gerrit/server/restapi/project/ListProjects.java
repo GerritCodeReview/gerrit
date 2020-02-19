@@ -359,7 +359,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       queries.add(String.format("(state:%s)", state.name()));
     }
 
-    return Joiner.on(" AND ").join(queries).toString();
+    return Joiner.on(" AND ").join(queries);
   }
 
   private SortedMap<String, ProjectInfo> applyAsQuery(String query) throws BadRequestException {

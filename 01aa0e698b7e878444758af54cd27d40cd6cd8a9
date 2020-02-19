@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "62f0e57d_53845f7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-19T08:42:05Z",
+      "side": 1,
+      "message": "Please clarify.\nThe name _currentTabName means that it contains current tab.\nHow _isCurrentTab(_currentTabName,...) can return false?\nMay be rename _isCurrentTab or _currentTabName ?",
+      "range": {
+        "startLine": 596,
+        "startChar": 36,
+        "endLine": 596,
+        "endChar": 94
+      },
+      "revId": "01aa0e698b7e878444758af54cd27d40cd6cd8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c19d07cd_adcec355",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3

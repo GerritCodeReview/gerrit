@@ -19,12 +19,13 @@ limitations under the License.
   <template>
     <style>
       .genericList {
+        background-color: var(--background-color-primary);
         border-collapse: collapse;
         width: 100%;
       }
+      .genericList th,
       .genericList td {
-        height: 2.25rem;
-        padding: var(--spacing-s) 0;
+        padding: var(--spacing-m) 0;
         vertical-align: middle;
       }
       .genericList tr {
@@ -51,11 +52,17 @@ limitations under the License.
       .genericList tr td:last-of-type {
         border-left: 1px solid var(--border-color);
         text-align: center;
-        padding: 0 var(--spacing-l);
+        padding-left: var(--spacing-l);
+      }
+      .genericList tr th.delete,
+      .genericList tr td.delete {
+        padding-top: 0;
+        padding-bottom: 0;
       }
       .genericList tr th.delete,
       .genericList tr td.delete,
-      .genericList tr.loadingMsg td {
+      .genericList tr.loadingMsg td,
+      .genericList tr.groupHeader td {
         border-left: none;
       }
       .genericList .loading {
@@ -72,12 +79,8 @@ limitations under the License.
         text-align: left;
         vertical-align: middle
       }
-      .genericList .topHeader {
-        background-color: var(--table-header-background-color);
-        height: 3rem;
-      }
       .genericList .groupHeader {
-        background-color: var(--table-subheader-background-color);
+        background-color: var(--background-color-secondary);
         font-family: var(--header-font-family);
         font-size: var(--font-size-h3);
         font-weight: var(--font-weight-h3);

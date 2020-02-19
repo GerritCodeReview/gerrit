@@ -69,7 +69,7 @@ public class RawMailParser {
     }
 
     // Add From, To and Cc
-    if (mimeMessage.getFrom() != null && mimeMessage.getFrom().size() > 0) {
+    if (mimeMessage.getFrom() != null && !mimeMessage.getFrom().isEmpty()) {
       Mailbox from = mimeMessage.getFrom().get(0);
       messageBuilder.from(new Address(from.getName(), from.getAddress()));
     }

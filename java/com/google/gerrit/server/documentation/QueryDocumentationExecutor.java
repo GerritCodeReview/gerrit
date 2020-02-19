@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -42,7 +41,7 @@ import org.apache.lucene.store.RAMDirectory;
 public class QueryDocumentationExecutor {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static Map<String, Float> WEIGHTS =
+  private static final ImmutableMap<String, Float> WEIGHTS =
       ImmutableMap.of(
           Constants.TITLE_FIELD, 2.0f,
           Constants.DOC_FIELD, 1.0f);

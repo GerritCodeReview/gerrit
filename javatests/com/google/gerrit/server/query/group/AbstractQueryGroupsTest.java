@@ -68,8 +68,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.spi.Filter;
+import org.apache.log4j.spi.LoggingEvent;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -114,6 +120,31 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   protected CurrentUser user;
 
   protected abstract Injector createInjector();
+
+  @BeforeClass
+  public static void beforeESandLuceneTest() {
+    Level gerritLevel = LogManager.getLogger("com.google.gerrit").getLevel();
+    LogManager.getRootLogger()
+        .getAppender("rootAppender")
+        .addFilter(
+            new Filter() {
+              @Override
+              public int decide(LoggingEvent event) {
+                String logOrigin = event.getLocationInformation().getClassName();
+                if ((!logOrigin.substring(0, 16).equals("com.google.gerrit"))
+                    && event.getLevel().equals(Level.DEBUG)
+                    && !gerritLevel.equals(Level.DEBUG)) {
+                  return DENY;
+                }
+                return NEUTRAL;
+              }
+            });
+  }
+
+  @AfterClass
+  public static void afterESandLuceneTest() {
+    LogManager.getRootLogger().getAppender("rootAppender").clearFilters();
+  }
 
   @Before
   public void setUpInjector() throws Exception {

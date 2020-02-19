@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c11f5370_bd3fc121",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-19T12:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dde131f1_0550a63b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ac7b216_b7e39ec7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "86e30764_e9f4c984",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-19T12:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ac7b216_b7e39ec7",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68cda01a_3ef5704a",
         "filename": "java/com/google/gerrit/entities/AttentionStatus.java",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "32d0da3421031a462a637222b955eb2c0955922b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "716f84e6_65dd640e",
+        "filename": "java/com/google/gerrit/entities/AttentionStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-19T12:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68cda01a_3ef5704a",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "76b01300_9975787b",
+        "filename": "java/com/google/gerrit/entities/AttentionStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-19T12:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "beebe5a7_de000d2f",
+      "range": {
+        "startLine": 13,
+        "startChar": 10,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49f914f1_7402c5f2",
         "filename": "java/com/google/gerrit/entities/AttentionStatus.java",
         "patchSetId": 1
@@ -93,6 +177,24 @@
       "writtenOn": "2020-02-18T16:28:59Z",
       "side": 1,
       "message": "How do we represent updates?\n\nSo when I add user X to the attention set with reason R1 but then I found a typo in the reason so I update to R2, but the user stays in the attention set.\n\nYour later test suggests that such updates are disallowed, but is that true requirement-wise?",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d07e8c69_8c2472d8",
+        "filename": "java/com/google/gerrit/entities/AttentionStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-19T12:11:55Z",
+      "side": 1,
+      "message": "It\u0027s only disallowed to have two updates concerning the same user in the same commit, becaue then we wouldn\u0027t know which one should win. In the case you describe we\u0027d have one commit with ADD and R1 and then another one with ADD and R2. The parsing ignores the first one so the second one would win.",
+      "parentUuid": "49f914f1_7402c5f2",
       "revId": "32d0da3421031a462a637222b955eb2c0955922b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "aa6cb289_7b8fefc9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-19T12:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94adf465_2571fedd",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac10f82_5394257c",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1
@@ -127,6 +247,24 @@
       "writtenOn": "2020-02-18T16:28:59Z",
       "side": 1,
       "message": "nit: attentionUpdates is a misnomer because it contains exactly one entry per user, not updates. Maybe use latestAttentionSetEntry ?\n\nMore broadly, I think the map here is a misfit: It does not contain all updates, but at the same time it\u0027s not just the current state of the attention set, because it contains entries that are \"REMOVED\".\n\nShould we use a Table instead as we do with reviewers?",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "952c37da_82e4453f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-19T12:11:55Z",
+      "side": 1,
+      "message": "\u003e nit: attentionUpdates is a misnomer because it contains exactly one entry per user, not updates. Maybe use latestAttentionSetEntry ?\n\nChanged to latestAttentionStatus. (I\u0027m trying to avoid the \"Set\" in types because I think the UI concept doesn\u0027t translate 1:1 to the data structures and I\u0027d find that confusing. Happy to rethink that if it\u0027s confusing for others though :-)\n \n\u003e More broadly, I think the map here is a misfit: It does not contain all updates, but at the same time it\u0027s not just the current state of the attention set, because it contains entries that are \"REMOVED\".\n\nI would interpret the REMOVED status as distinct from \"was never in the set\". Then this would have the current status for all users that were ever concerned. If only the active users are of interest (which is probably the usual case) it can be filtered for ADD.\n\n\u003e Should we use a Table instead as we do with reviewers?\n\nI\u0027m not sure I understand the benefit. We\u0027d keep a more complex data structure and then simplify it when building the ChangeNotesState. That seems more complicated than discarding records as early as possible.",
+      "parentUuid": "fac10f82_5394257c",
       "revId": "32d0da3421031a462a637222b955eb2c0955922b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "83c16de4_208d96ba",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-19T12:11:55Z",
+      "side": 1,
+      "message": "Good point, and actually flagged some missing code.",
+      "parentUuid": "7db4b0a9_b0ef2084",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06451898_bec0b527",
         "filename": "proto/cache.proto",
         "patchSetId": 1
@@ -170,6 +326,30 @@
       "revId": "32d0da3421031a462a637222b955eb2c0955922b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d20eea0b_ae6a5127",
+        "filename": "proto/cache.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-19T12:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06451898_bec0b527",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 14
+      },
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

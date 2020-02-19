@@ -16,6 +16,24 @@
       "revId": "cbafab09be6d696918af219cdeb07e60eec47ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b84495a_c4322e31",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-19T10:34:25Z",
+      "side": 1,
+      "message": "Yes, I have tweaked this from spacing-m to spacing-s when going back to \"(5)\" format. But I think these 4 pixels margin are good, because of the different font size and color.",
+      "parentUuid": "d58dfac8_8a186c60",
+      "revId": "cbafab09be6d696918af219cdeb07e60eec47ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

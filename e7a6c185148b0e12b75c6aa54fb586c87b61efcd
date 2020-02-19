@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a81fb8fb_953937c8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-19T09:41:08Z",
+      "side": 1,
+      "message": "-1 I am actually against constants for one use case. It\u0027s much more clearer with value.",
+      "parentUuid": "b1fac5bf_c47c21ac",
+      "revId": "e7a6c185148b0e12b75c6aa54fb586c87b61efcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5fd05b5c_3f48ca9d",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
         "patchSetId": 5

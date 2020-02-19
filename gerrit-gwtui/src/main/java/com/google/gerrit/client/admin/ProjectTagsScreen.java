@@ -470,7 +470,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       boolean on = false;
       for (int row = 1; row < table.getRowCount(); row++) {
         Widget w = table.getWidget(row, 1);
-        if (w != null && w instanceof CheckBox) {
+        if (w instanceof CheckBox) {
           CheckBox sel = (CheckBox) w;
           if (sel.getValue()) {
             on = true;

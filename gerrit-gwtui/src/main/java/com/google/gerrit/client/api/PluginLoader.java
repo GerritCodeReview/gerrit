@@ -163,7 +163,7 @@ public class PluginLoader extends DialogBox {
 
         Exception e = plugin.failure();
         String msg;
-        if (e != null && e instanceof CodeDownloadException) {
+        if (e instanceof CodeDownloadException) {
           msg = Gerrit.M.cannotDownloadPlugin(plugin.url());
         } else {
           msg = Gerrit.M.pluginFailed(plugin.name());

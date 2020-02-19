@@ -167,7 +167,7 @@ public class GroupCollector {
     checkState(!done, "visit() called after getGroups()");
     Set<RevCommit> interestingParents = getInterestingParents(c);
 
-    if (interestingParents.size() == 0) {
+    if (interestingParents.isEmpty()) {
       // All parents are uninteresting: treat this commit as the root of a new
       // group of related changes.
       groups.put(c, c.name());

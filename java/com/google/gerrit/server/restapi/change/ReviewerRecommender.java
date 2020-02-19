@@ -238,7 +238,7 @@ public class ReviewerRecommender {
     // (weighted 10d), number of comments (weighted 0.5d) and number of owned
     // changes (weighted 1d).
     Map<Account.Id, MutableDouble> reviewers = new LinkedHashMap<>();
-    if (candidates.size() == 0) {
+    if (candidates.isEmpty()) {
       return reviewers;
     }
     List<Predicate<ChangeData>> predicates = new ArrayList<>();

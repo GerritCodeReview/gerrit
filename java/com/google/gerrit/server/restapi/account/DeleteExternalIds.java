@@ -72,7 +72,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
       permissionBackend.currentUser().check(GlobalPermission.ACCESS_DATABASE);
     }
 
-    if (extIds == null || extIds.size() == 0) {
+    if (extIds == null || extIds.isEmpty()) {
       throw new BadRequestException("external IDs are required");
     }
 

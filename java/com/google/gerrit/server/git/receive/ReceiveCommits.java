@@ -2159,7 +2159,7 @@ class ReceiveCommits {
           return Collections.emptyList();
         }
 
-        if (changes.size() == 0) {
+        if (changes.isEmpty()) {
           if (!isValidChangeId(p.changeKey.get())) {
             reject(magicBranch.cmd, "invalid Change-Id");
             return Collections.emptyList();

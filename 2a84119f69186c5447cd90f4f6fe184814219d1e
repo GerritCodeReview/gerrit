@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1e7820ea_c82295c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-19T15:56:15Z",
+      "side": 1,
+      "message": "Since this is the default view, having dom-if makes not that much sense since it will be handled the exact same way by Polymer.",
+      "parentUuid": "6bc542af_45f76e6d",
+      "range": {
+        "startLine": 552,
+        "startChar": 8,
+        "endLine": 552,
+        "endChar": 70
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb1e5502_fbf3b89b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "bcfcdfb9_f9b74be9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-19T15:56:15Z",
+      "side": 1,
+      "message": "Yes, I am adding a FINDINGS tab in a follow up change.\nAlso, we may be adding further tabs in the future and I want to make it simple to add tabs.",
+      "parentUuid": "cb1e5502_fbf3b89b",
+      "range": {
+        "startLine": 603,
+        "startChar": 36,
+        "endLine": 603,
+        "endChar": 99
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b65db4c6_138cb045",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b47eaef3_00126118",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-19T15:56:15Z",
+      "side": 1,
+      "message": "Since both functions will be doing exactly the same thing, I think it\u0027s fine to have it here for now.",
+      "parentUuid": "b65db4c6_138cb045",
+      "range": {
+        "startLine": 517,
+        "startChar": 6,
+        "endLine": 517,
+        "endChar": 62
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

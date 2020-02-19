@@ -70,6 +70,30 @@
       "revId": "1db7843257935a0129b2f7f1c4454c939f05421d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27eefb4d_07bbe450",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-19T11:39:52Z",
+      "side": 1,
+      "message": "\u003e \u003e Another option could be not throw exception at all. ChangeNotes.Factory.newChange() could be declared as @Nullable and return null in some cases. Of course the caller sites would have to be adapted for this new semantic.\n\u003e \n\u003e I need to do a bit more analysis on the impact of not throwing an exception at all, but looks interesting.\n\nIt looks like that the only way to block the load of the change notes is to throw an exception, because the onLoad() method is void and can\u0027t be changed to return a value.\n\nIt would be best IMHO to keep the same semantics then, and just make the exception more specific. DavidP / DavidO what do you think?",
+      "parentUuid": "6d4f8200_52437eb7",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 227,
+        "endChar": 61
+      },
+      "revId": "1db7843257935a0129b2f7f1c4454c939f05421d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

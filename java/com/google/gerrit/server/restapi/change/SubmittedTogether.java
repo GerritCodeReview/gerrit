@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import org.kohsuke.args4j.Option;
 
 public class SubmittedTogether implements RestReadView<ChangeResource> {
@@ -95,12 +96,12 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     this.sorter = sorter;
   }
 
-  public SubmittedTogether addListChangesOption(EnumSet<ListChangesOption> o) {
+  public SubmittedTogether addListChangesOption(Set<ListChangesOption> o) {
     jsonOpt.addAll(o);
     return this;
   }
 
-  public SubmittedTogether addSubmittedTogetherOption(EnumSet<SubmittedTogetherOption> o) {
+  public SubmittedTogether addSubmittedTogetherOption(Set<SubmittedTogetherOption> o) {
     options.addAll(o);
     return this;
   }

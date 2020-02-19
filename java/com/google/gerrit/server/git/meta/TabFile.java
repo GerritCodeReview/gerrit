@@ -33,7 +33,7 @@ public class TabFile {
     String parse(String str);
   }
 
-  public static Parser TRIM = String::trim;
+  public static final Parser TRIM = String::trim;
 
   protected static class Row {
     public String left;

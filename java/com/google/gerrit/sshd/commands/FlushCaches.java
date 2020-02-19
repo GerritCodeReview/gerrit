@@ -58,14 +58,14 @@ final class FlushCaches extends SshCommand {
   protected void run() throws Failure {
     try {
       if (list) {
-        if (all || caches.size() > 0) {
+        if (all || !caches.isEmpty()) {
           throw die("cannot use --list with --all or --cache");
         }
         doList();
         return;
       }
 
-      if (all && caches.size() > 0) {
+      if (all && !caches.isEmpty()) {
         throw die("cannot combine --all and --cache");
       } else if (!all && caches.size() == 1 && caches.contains("all")) {
         caches.clear();

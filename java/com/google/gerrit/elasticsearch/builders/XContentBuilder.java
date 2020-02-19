@@ -15,13 +15,13 @@
 package com.google.gerrit.elasticsearch.builders;
 
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
-import com.google.common.base.Charsets;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
@@ -139,7 +139,7 @@ public final class XContentBuilder implements Closeable {
   public String string() {
     close();
     byte[] bytesArray = bos.toByteArray();
-    return new String(bytesArray, Charsets.UTF_8);
+    return new String(bytesArray, UTF_8);
   }
 
   private void writeValue(Object value) throws IOException {

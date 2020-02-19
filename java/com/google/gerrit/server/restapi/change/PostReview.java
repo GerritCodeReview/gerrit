@@ -289,7 +289,7 @@ public class PostReview
       Account.Id id = revision.getUser().getAccountId();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
-        ccOrReviewer = input.labels.values().stream().filter(v -> v != 0).findFirst().isPresent();
+        ccOrReviewer = input.labels.values().stream().anyMatch(v -> v != 0);
       }
 
       if (!ccOrReviewer) {

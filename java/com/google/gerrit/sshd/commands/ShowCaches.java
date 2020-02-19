@@ -290,6 +290,10 @@ final class ShowCaches extends SshCommand {
     return i != null ? i : 0;
   }
 
+  private static long nullToZero(Long i) {
+    return i != null ? i : 0;
+  }
+
   private void sshSummary() {
     IoAcceptor acceptor = daemon.getIoAcceptor();
     if (acceptor == null) {

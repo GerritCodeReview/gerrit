@@ -31,10 +31,10 @@ import java.util.Set;
 
 @Singleton
 public class CacheMetrics {
+  private static final Field<String> F_NAME = Field.ofString("cache_name");
+
   @Inject
   public CacheMetrics(MetricMaker metrics, DynamicMap<Cache<?, ?>> cacheMap) {
-    Field<String> F_NAME = Field.ofString("cache_name");
-
     CallbackMetric1<String, Long> memEnt =
         metrics.newCallbackMetric(
             "caches/memory_cached",

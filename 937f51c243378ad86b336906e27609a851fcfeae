@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a55b66d_c92605e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-19T10:15:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be3c8aa6_1e773ca8",
+      "range": {
+        "startLine": 600,
+        "startChar": 29,
+        "endLine": 600,
+        "endChar": 34
+      },
+      "revId": "937f51c243378ad86b336906e27609a851fcfeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e846a6d_ee4eef72",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -116,6 +140,30 @@
       "revId": "937f51c243378ad86b336906e27609a851fcfeae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9c87ea_2a32fd50",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-19T10:15:57Z",
+      "side": 1,
+      "message": "oh i see.\n\nstring concatenation is not good for reading imho. Maybe try change that to template string and just inline it, it will be much more readable and more cleaner:\n\n`Patchset ${patch._number} (${commentCount[patch._number] || 0}) findings`",
+      "parentUuid": "8f964cf2_e1a69c01",
+      "range": {
+        "startLine": 613,
+        "startChar": 6,
+        "endLine": 615,
+        "endChar": 0
+      },
+      "revId": "937f51c243378ad86b336906e27609a851fcfeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

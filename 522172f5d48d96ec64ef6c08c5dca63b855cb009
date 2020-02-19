@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f481b2db_fbfa9e5b",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-19T18:54:31Z",
+      "side": 1,
+      "message": "Magical number. I would suggest you use another way.",
+      "range": {
+        "startLine": 165,
+        "startChar": 42,
+        "endLine": 165,
+        "endChar": 47
+      },
+      "revId": "522172f5d48d96ec64ef6c08c5dca63b855cb009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40c4dce8_c8ccdfff",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-19T18:54:31Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 233,
+        "startChar": 42,
+        "endLine": 233,
+        "endChar": 47
+      },
+      "revId": "522172f5d48d96ec64ef6c08c5dca63b855cb009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56df28f0_2499a1ee",
+        "filename": "javatests/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-19T18:54:31Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 134,
+        "startChar": 42,
+        "endLine": 134,
+        "endChar": 47
+      },
+      "revId": "522172f5d48d96ec64ef6c08c5dca63b855cb009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0a1700f_27dc8b13",
+        "filename": "javatests/com/google/gerrit/server/query/project/AbstractQueryProjectsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-19T18:54:31Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 130,
+        "startChar": 42,
+        "endLine": 130,
+        "endChar": 47
+      },
+      "revId": "522172f5d48d96ec64ef6c08c5dca63b855cb009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

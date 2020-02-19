@@ -152,12 +152,16 @@ limitations under the License.
     });
 
     test('colspans', () => {
-      const thItemCount = Polymer.dom(element.root).querySelectorAll(
-          'th').length;
+      element.sections = [
+        {results: [{}]},
+      ];
+      flushAsynchronousOperations();
+      const tdItemCount = Polymer.dom(element.root).querySelectorAll(
+          'td').length;
 
       const changeTableColumns = [];
       const labelNames = [];
-      assert.equal(thItemCount, element._computeColspan(
+      assert.equal(tdItemCount, element._computeColspan(
           changeTableColumns, labelNames));
     });
 
@@ -324,6 +328,9 @@ limitations under the License.
 
       setup(() => {
         element = fixture('basic');
+        element.sections = [
+          {results: [{}]},
+        ];
         element.account = {_account_id: 1001};
         element.preferences = {
           legacycid_in_change_table: true,
@@ -350,6 +357,9 @@ limitations under the License.
 
       setup(() => {
         element = fixture('basic');
+        element.sections = [
+          {results: [{}]},
+        ];
         element.account = {_account_id: 1001};
         element.preferences = {
           legacycid_in_change_table: true,
@@ -381,6 +391,9 @@ limitations under the License.
 
       setup(() => {
         element = fixture('basic');
+        element.sections = [
+          {results: [{}]},
+        ];
         element.account = {_account_id: 1001};
         element.preferences = {
           legacycid_in_change_table: true,

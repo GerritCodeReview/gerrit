@@ -8,7 +8,9 @@ java_library(
     testonly = True,
     srcs = ABSTRACT_QUERY_TEST,
     visibility = ["//visibility:public"],
-    runtime_deps = ["//prolog:gerrit-prolog-common"],
+    runtime_deps = [
+        "//prolog:gerrit-prolog-common",
+    ],
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
@@ -26,6 +28,7 @@ java_library(
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/log:log4j",
         "//lib/truth",
     ],
 )

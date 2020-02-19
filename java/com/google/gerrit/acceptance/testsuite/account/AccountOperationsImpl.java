@@ -168,5 +168,23 @@ public class AccountOperationsImpl implements AccountOperations {
       accountUpdate.status().ifPresent(builder::setStatus);
       accountUpdate.active().ifPresent(builder::setActive);
     }
+
+    @Override
+    public TestAccountInvalidation.Builder forInvalidation() {
+      return TestAccountInvalidation.builder(this::invalidateAccount);
+    }
+
+    private void invalidateAccount(TestAccountInvalidation testAccountInvalidation)
+        throws Exception {
+      Optional<AccountState> accountState = getAccountState(accountId);
+      checkState(accountState.isPresent(), "Tried to invalidate a non-existing test account");
+
+      if (testAccountInvalidation.preferredEmailWithoutExternalId().isPresent()) {
+        updateAccount(
+            (account, updateBuilder) ->
+                updateBuilder.setPreferredEmail(
+                    testAccountInvalidation.preferredEmailWithoutExternalId().get()));
+      }
+    }
   }
 }

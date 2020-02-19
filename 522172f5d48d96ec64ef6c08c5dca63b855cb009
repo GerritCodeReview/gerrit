@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f1d6cc16_11b050f4",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-19T18:57:21Z",
+      "side": 1,
+      "message": "Hard to read. How about beforeElasticAndLuceneTest",
+      "range": {
+        "startLine": 156,
+        "startChar": 21,
+        "endLine": 156,
+        "endChar": 42
+      },
+      "revId": "522172f5d48d96ec64ef6c08c5dca63b855cb009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f481b2db_fbfa9e5b",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 3

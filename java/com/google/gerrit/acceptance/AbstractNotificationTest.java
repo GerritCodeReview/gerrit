@@ -305,6 +305,9 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   protected class StagedUsers {
+    public static final String REVIEWER_BY_EMAIL = "reviewerByEmail@example.com";
+    public static final String CC_BY_EMAIL = "ccByEmail@example.com";
+
     public final TestAccount owner;
     public final TestAccount author;
     public final TestAccount uploader;
@@ -313,8 +316,6 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public final TestAccount starrer;
     public final TestAccount assignee;
     public final TestAccount watchingProjectOwner;
-    public final String reviewerByEmail = "reviewerByEmail@example.com";
-    public final String ccerByEmail = "ccByEmail@example.com";
     private final Map<NotifyType, TestAccount> watchers = new HashMap<>();
     private final Map<String, TestAccount> accountsByEmail = new HashMap<>();
 
@@ -415,9 +416,9 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       ReviewInput in =
           ReviewInput.noScore()
               .reviewer(reviewer.email)
-              .reviewer(reviewerByEmail)
+              .reviewer(REVIEWER_BY_EMAIL)
               .reviewer(ccer.email, ReviewerState.CC, false)
-              .reviewer(ccerByEmail, ReviewerState.CC, false);
+              .reviewer(CC_BY_EMAIL, ReviewerState.CC, false);
       ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
       supportReviewersByEmail = true;
       if (result.reviewers.values().stream().anyMatch(v -> v.error != null)) {

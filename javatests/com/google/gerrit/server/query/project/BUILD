@@ -19,6 +19,7 @@ java_library(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib/guice",
+        "//lib/log:log4j",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
     ],

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "820b6065_52c3afc9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-19T06:11:12Z",
+      "side": 1,
+      "message": "Instead of doing this, can we introduce a specific exception type to represent invalid server id?  The exception could include both the expected server id and the actual server id.",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 227,
+        "endChar": 61
+      },
+      "revId": "1db7843257935a0129b2f7f1c4454c939f05421d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

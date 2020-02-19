@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d317258_69a619e8",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-19T11:36:32Z",
+      "side": 1,
+      "message": "I like this gray-ish color for headers, but lets confirm with @delphine",
+      "revId": "1e14d26f31c79054d260ee685486b33f311663f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

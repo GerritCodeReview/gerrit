@@ -46,6 +46,29 @@
       "revId": "218fc7abe3249dafb28996cce7e1e6c82ae80fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "749b2762_3033314c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-19T11:51:43Z",
+      "side": 1,
+      "message": "I forgot to add this class, adding it now.",
+      "range": {
+        "startLine": 541,
+        "startChar": 16,
+        "endLine": 541,
+        "endChar": 40
+      },
+      "revId": "218fc7abe3249dafb28996cce7e1e6c82ae80fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

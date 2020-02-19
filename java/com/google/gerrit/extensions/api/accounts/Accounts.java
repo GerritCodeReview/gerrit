@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public interface Accounts {
   /**
@@ -138,7 +139,7 @@ public interface Accounts {
     private int limit;
     private int start;
     private boolean suggest;
-    private EnumSet<ListAccountsOption> options = EnumSet.noneOf(ListAccountsOption.class);
+    private Set<ListAccountsOption> options = EnumSet.noneOf(ListAccountsOption.class);
 
     /** Execute query and return a list of accounts. */
     public abstract List<AccountInfo> get() throws RestApiException;
@@ -185,7 +186,7 @@ public interface Accounts {
     }
 
     /** Set options on the request, replacing existing options. */
-    public QueryRequest withOptions(EnumSet<ListAccountsOption> options) {
+    public QueryRequest withOptions(Set<ListAccountsOption> options) {
       this.options = options;
       return this;
     }
@@ -206,7 +207,7 @@ public interface Accounts {
       return suggest;
     }
 
-    public EnumSet<ListAccountsOption> getOptions() {
+    public Set<ListAccountsOption> getOptions() {
       return options;
     }
   }

@@ -315,6 +315,9 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   protected class StagedUsers {
+    public static final String REVIEWER_BY_EMAIL = "reviewerByEmail@example.com";
+    public static final String CC_BY_EMAIL = "ccByEmail@example.com";
+
     public final TestAccount owner;
     public final TestAccount author;
     public final TestAccount uploader;
@@ -323,8 +326,6 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public final TestAccount starrer;
     public final TestAccount assignee;
     public final TestAccount watchingProjectOwner;
-    public final String reviewerByEmail = "reviewerByEmail@example.com";
-    public final String ccerByEmail = "ccByEmail@example.com";
     private final Map<NotifyType, TestAccount> watchers = new HashMap<>();
     private final Map<String, TestAccount> accountsByEmail = new HashMap<>();
 

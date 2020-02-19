@@ -49,11 +49,11 @@ public class NotifyConfig implements Comparable<NotifyConfig> {
     return types.contains(type) || types.contains(NotifyType.ALL);
   }
 
-  public EnumSet<NotifyType> getNotify() {
+  public Set<NotifyType> getNotify() {
     return types;
   }
 
-  public void setTypes(EnumSet<NotifyType> newTypes) {
+  public void setTypes(Set<NotifyType> newTypes) {
     types = EnumSet.copyOf(newTypes);
   }
 

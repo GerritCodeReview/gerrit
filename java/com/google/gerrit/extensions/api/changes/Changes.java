@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public interface Changes {
   /**
@@ -116,7 +117,7 @@ public interface Changes {
     }
 
     /** Set options on the request, replacing existing options. */
-    public QueryRequest withOptions(EnumSet<ListChangesOption> options) {
+    public QueryRequest withOptions(Set<ListChangesOption> options) {
       this.options = options;
       return this;
     }
@@ -149,7 +150,7 @@ public interface Changes {
       return start;
     }
 
-    public EnumSet<ListChangesOption> getOptions() {
+    public Set<ListChangesOption> getOptions() {
       return options;
     }
 

@@ -755,7 +755,9 @@ Gerrit core does not support the renaming of projects.
 If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/rename-project[rename-project]
 plugin is installed, projects can be renamed using the
 link:https://gerrit.googlesource.com/plugins/rename-project/+/refs/heads/master/src/main/resources/Documentation/cmd-rename.md[rename-project]
-ssh command. Find details about prerequisites in the
+ssh command.
+
+Find details about prerequisites in the
 link:https://gerrit.googlesource.com/plugins/rename-project/+/refs/heads/master/src/main/resources/Documentation/about.md[plugin documentation].
 
 If you don't want to use the rename-project plugin you can perform the following steps as

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c2018e5_3fc174d5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-19T09:36:54Z",
+      "side": 1,
+      "message": "I like more when it is shown each time. It is shown for 4 changes as well. Maybe not show it for 0 and 1. (so you don\u0027t need to calculate plural of change 😊",
+      "range": {
+        "startLine": 242,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 7
+      },
+      "revId": "1689457aa06ac9274ae1a55116f9aa7428b9f82d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

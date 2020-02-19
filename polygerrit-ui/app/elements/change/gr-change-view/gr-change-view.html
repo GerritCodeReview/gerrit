@@ -102,6 +102,9 @@ limitations under the License.
       .changeNumberColon {
         color: transparent;
       }
+      .changeCopyClipboard {
+        margin-left: var(--spacing-s);
+      }
       #replyBtn {
         margin-bottom: var(--spacing-l);
       }
@@ -236,7 +239,6 @@ limitations under the License.
       }
       gr-commit-info {
         display: inline-block;
-        margin-right: -5px;
       }
       paper-tabs {
         background-color: var(--background-color-tertiary);
@@ -404,6 +406,7 @@ limitations under the License.
             <span class="changeNumberColon">:&nbsp;</span>
             <span class="headerSubject">[[_change.subject]]</span>
             <gr-copy-clipboard
+              class="changeCopyClipboard"
               hide-input
               text="[[_computeCopyTextForTitle(_change)]]">
             </gr-copy-clipboard>

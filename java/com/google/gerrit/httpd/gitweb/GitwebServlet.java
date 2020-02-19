@@ -96,9 +96,9 @@ class GitwebServlet extends HttpServlet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String PROJECT_LIST_ACTION = "project_list";
+  private static final int BUFFER_SIZE = 8192;
 
   private final Set<String> deniedActions;
-  private final int bufferSize = 8192;
   private final Path gitwebCgi;
   private final URI gitwebUrl;
   private final LocalDiskRepositoryManager repoManager;
@@ -506,11 +506,11 @@ class GitwebServlet extends HttpServlet {
       proc.getOutputStream().close();
     }
 
-    try (InputStream in = new BufferedInputStream(proc.getInputStream(), bufferSize)) {
+    try (InputStream in = new BufferedInputStream(proc.getInputStream(), BUFFER_SIZE)) {
       readCgiHeaders(rsp, in);
 
       try (OutputStream out = rsp.getOutputStream()) {
-        final byte[] buf = new byte[bufferSize];
+        final byte[] buf = new byte[BUFFER_SIZE];
         int n;
         while ((n = in.read(buf)) > 0) {
           out.write(buf, 0, n);
@@ -645,7 +645,7 @@ class GitwebServlet extends HttpServlet {
             () -> {
               try {
                 try {
-                  final byte[] buf = new byte[bufferSize];
+                  final byte[] buf = new byte[BUFFER_SIZE];
                   int remaining = contentLength;
                   while (0 < remaining) {
                     final int max = Math.max(buf.length, remaining);

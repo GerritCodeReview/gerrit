@@ -43,7 +43,7 @@ import org.kohsuke.args4j.Option;
 public class GetPatch implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
 
-  private final String FILE_NOT_FOUND = "File not found: %s.";
+  private static final String FILE_NOT_FOUND = "File not found: %s.";
 
   @Option(name = "--zip")
   private boolean zip;

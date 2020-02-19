@@ -128,6 +128,24 @@
       "revId": "d2ac7268241da2de788ffb62a4691cb96c21e9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0e91efb_5e1ec6eb",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestAccountInvalidation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-19T10:08:04Z",
+      "side": 1,
+      "message": "Making a difference - one comment at a time :-)",
+      "parentUuid": "20e11aa4_8c9ec078",
+      "revId": "d2ac7268241da2de788ffb62a4691cb96c21e9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

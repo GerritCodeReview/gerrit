@@ -460,8 +460,8 @@ public class AccountManager {
               }
 
               if (filteredExtIdsByScheme.size() > 1
-                  || !filteredExtIdsByScheme.stream()
-                      .anyMatch(e -> e.key().equals(who.getExternalIdKey()))) {
+                  || filteredExtIdsByScheme.stream()
+                      .noneMatch(e -> e.key().equals(who.getExternalIdKey()))) {
                 u.deleteExternalIds(filteredExtIdsByScheme);
               }
             });

@@ -45,9 +45,10 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public class DeleteZombieCommentsRefs {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final String EMPTY_TREE_ID = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
-  private final String DRAFT_REFS_PREFIX = "refs/draft-comments";
-  private final int CHUNK_SIZE = 100; // log progress after deleting every CHUNK_SIZE refs
+  private static final String EMPTY_TREE_ID = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
+  private static final String DRAFT_REFS_PREFIX = "refs/draft-comments";
+  private static final int CHUNK_SIZE = 100; // log progress after deleting every CHUNK_SIZE refs
+
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final int cleanupPercentage;

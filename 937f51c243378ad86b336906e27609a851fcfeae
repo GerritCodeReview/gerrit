@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "11f17ed2_a08ac723",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-19T09:48:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e846a6d_ee4eef72",
+      "range": {
+        "startLine": 604,
+        "startChar": 8,
+        "endLine": 605,
+        "endChar": 29
+      },
+      "revId": "937f51c243378ad86b336906e27609a851fcfeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1a342e3_41894ec4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -68,6 +92,30 @@
       "revId": "937f51c243378ad86b336906e27609a851fcfeae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f964cf2_e1a69c01",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-19T09:48:57Z",
+      "side": 1,
+      "message": "I think it looks much cleaner.",
+      "parentUuid": "f1a342e3_41894ec4",
+      "range": {
+        "startLine": 613,
+        "startChar": 6,
+        "endLine": 615,
+        "endChar": 0
+      },
+      "revId": "937f51c243378ad86b336906e27609a851fcfeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c19d07cd_adcec355",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-19T08:39:13Z",
+      "side": 1,
+      "message": "This code is unclear.\nFrom the .html file I see, that the last parameter can be either string or array. But both types (array and string) have length property.\n\nIf tabs.length is 0, it compare tabs and currentTab. Not clear what is the idea.",
+      "range": {
+        "startLine": 515,
+        "startChar": 13,
+        "endLine": 517,
+        "endChar": 0
+      },
+      "revId": "01aa0e698b7e878444758af54cd27d40cd6cd8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

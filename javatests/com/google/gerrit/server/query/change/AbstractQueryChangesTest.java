@@ -995,11 +995,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byLabel() throws Exception {
     accountManager.authenticate(AuthRequest.forUser("anotheruser"));
     TestRepository<Repo> repo = createProject("repo");
-    ChangeInserter ins = newChange(repo, null, null, null, null, false);
-    ChangeInserter ins2 = newChange(repo, null, null, null, null, false);
-    ChangeInserter ins3 = newChange(repo, null, null, null, null, false);
-    ChangeInserter ins4 = newChange(repo, null, null, null, null, false);
-    ChangeInserter ins5 = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins = newChange(repo);
+    ChangeInserter ins2 = newChange(repo);
+    ChangeInserter ins3 = newChange(repo);
+    ChangeInserter ins4 = newChange(repo);
+    ChangeInserter ins5 = newChange(repo);
 
     Change reviewMinus2Change = insert(repo, ins);
     gApi.changes().id(reviewMinus2Change.getId().get()).current().review(ReviewInput.reject());
@@ -1096,11 +1096,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     projectCache.evict(cfg.getProject());
 
     ReviewInput reviewVerified = new ReviewInput().label("Verified", 1);
-    ChangeInserter ins = newChange(repo, null, null, null, null, false);
-    ChangeInserter ins2 = newChange(repo, null, null, null, null, false);
-    ChangeInserter ins3 = newChange(repo, null, null, null, null, false);
-    ChangeInserter ins4 = newChange(repo, null, null, null, null, false);
-    ChangeInserter ins5 = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins = newChange(repo);
+    ChangeInserter ins2 = newChange(repo);
+    ChangeInserter ins3 = newChange(repo);
+    ChangeInserter ins4 = newChange(repo);
+    ChangeInserter ins5 = newChange(repo);
 
     // CR+1
     Change reviewCRplus1 = insert(repo, ins);
@@ -1141,7 +1141,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byLabelNotOwner() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    ChangeInserter ins = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins = newChange(repo);
     Account.Id user1 = createAccount("user1");
 
     Change reviewPlus1Change = insert(repo, ins);

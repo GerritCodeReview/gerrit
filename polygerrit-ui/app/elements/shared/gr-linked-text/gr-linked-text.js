@@ -68,10 +68,16 @@
           this._handleParseResult.bind(this), this.removeZeroWidthSpace);
       parser.parse(content);
 
-      // Ensure that links originating from HTML commentlink configs open in a
-      // new tab. @see Issue 5567
+      // Ensure that external links originating from HTML commentlink configs
+      // open in a new tab. @see Issue 5567
+      // Ensure links to the same host originating from commentlink configs
+      // open in the same tab. @see Issue 4616
       output.querySelectorAll('a').forEach(anchor => {
-        anchor.setAttribute('target', '_blank');
+        if (anchor.hostname === window.location.hostname) {
+          anchor.setAttribute('target', '_parent');
+        } else {
+          anchor.setAttribute('target', '_blank');
+        }
         anchor.setAttribute('rel', 'noopener');
       });
     },

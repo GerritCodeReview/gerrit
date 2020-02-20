@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62f86a50_916c199d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-20T13:08:30Z",
+      "side": 1,
+      "message": "Isn\u0027t this case covered by the loop at L922 already?",
+      "range": {
+        "startLine": 917,
+        "startChar": 0,
+        "endLine": 919,
+        "endChar": 5
+      },
+      "revId": "bbb48268a54e8e1c4073c8f133ea170e199c6f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3c727b4_d2e7ae21",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-20T13:08:30Z",
+      "side": 1,
+      "message": "I believe this is the real fix and the only line change needed.",
+      "range": {
+        "startLine": 923,
+        "startChar": 8,
+        "endLine": 923,
+        "endChar": 13
+      },
+      "revId": "bbb48268a54e8e1c4073c8f133ea170e199c6f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

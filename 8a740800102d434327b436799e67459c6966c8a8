@@ -22,6 +22,30 @@
       "revId": "8a740800102d434327b436799e67459c6966c8a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "268fb157_72a9bc32",
+        "filename": "java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-20T07:09:54Z",
+      "side": 1,
+      "message": "I\u0027m sure this isn\u0027t the only place where we expect only one result, but yes, I will add a log.\n\nThe creation of duplicate change Ids was fixed in one of the previous 2.16 releases, so this will only be a problem for changes created before then.",
+      "parentUuid": "087cbae7_72666586",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 48
+      },
+      "revId": "8a740800102d434327b436799e67459c6966c8a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

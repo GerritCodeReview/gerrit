@@ -61,8 +61,13 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
       Change.Key key = Change.Key.parse(tokens.get(2));
       Project.NameKey project = new Project.NameKey(tokens.get(0));
       Branch.NameKey branch = new Branch.NameKey(project, tokens.get(1));
-      for (ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
-        setter.addValue(cd.getId());
+      List<ChangeData> changes = queryProvider.get().byBranchKey(branch, key);
+      if (!changes.isEmpty()) {
+        if (changes.size() > 1) {
+          throw new CmdLineException(
+              owner, localizable("\"%s\": resolves to multiple changes"), token);
+        }
+        setter.addValue(changes.get(0).getId());
         return 1;
       }
     } catch (IllegalArgumentException e) {

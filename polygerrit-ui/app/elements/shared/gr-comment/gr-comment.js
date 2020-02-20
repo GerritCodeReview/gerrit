@@ -40,11 +40,6 @@
     'DO: Consider how comments may be interpreted.',
     'DON’T: Criticize the person.',
     'DON’T: Use harsh language.',
-    'DO: Provide specific and actionable feedback.',
-    'DO: Clearly mark nitpicks and optional comments.',
-    'DO: Clarify code or reply to the reviewer’s comment.',
-    'DO: When disagreeing with feedback, explain the advantage' +
-    ' of your approach.',
   ];
 
   /**

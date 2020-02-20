@@ -17,6 +17,7 @@ package com.google.gerrit.server.args4j;
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.common.base.Splitter;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,6 +36,8 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class ChangeIdHandler extends OptionHandler<Change.Id> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
@@ -61,8 +64,14 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
       Change.Key key = Change.Key.parse(tokens.get(2));
       Project.NameKey project = new Project.NameKey(tokens.get(0));
       Branch.NameKey branch = new Branch.NameKey(project, tokens.get(1));
-      for (ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
-        setter.addValue(cd.getId());
+      List<ChangeData> changes = queryProvider.get().byBranchKey(branch, key);
+      if (!changes.isEmpty()) {
+        if (changes.size() > 1) {
+          String msg = "\"%s\": resolves to multiple changes";
+          logger.atSevere().log(msg, token);
+          throw new CmdLineException(owner, localizable(msg), token);
+        }
+        setter.addValue(changes.get(0).getId());
         return 1;
       }
     } catch (IllegalArgumentException e) {

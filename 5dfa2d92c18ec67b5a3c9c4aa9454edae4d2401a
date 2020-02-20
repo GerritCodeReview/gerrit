@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "99be0899_30a17292",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T17:02:06Z",
+      "side": 1,
+      "message": "i think you may need to update some tests for this.",
+      "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "624734a6_12871d87",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -13,6 +30,58 @@
       "writtenOn": "2020-02-20T16:48:54Z",
       "side": 1,
       "message": "Should be lowercase and match camel casing.",
+      "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b94616f8_d83d5e1f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T17:02:06Z",
+      "side": 1,
+      "message": "ya this is very ugly. maybe have the constant defined at the top and refer here and below.",
+      "parentUuid": "624734a6_12871d87",
+      "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "440ad03b_057ecd94",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T17:02:06Z",
+      "side": 1,
+      "message": "this is tricky, I don\u0027t think this is very reliable, if _currentTabName is initialized before _FILES_TAB_NAME, the value of it will become undefined.",
+      "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99fa1192_207a1811",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T17:02:06Z",
+      "side": 1,
+      "message": "please make sure we have tests on this flow",
       "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

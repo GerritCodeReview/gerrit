@@ -462,6 +462,24 @@
     },
     {
       "key": {
+        "uuid": "d26f5bb6_f6049de7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T17:02:06Z",
+      "side": 1,
+      "message": "let me introduce `call` or `apply` :) \n`Array.prototype.findIndex.call(array_like, e \u003d\u003e e.dataset.name \u003d\u003d\u003d xx)`",
+      "parentUuid": "82ecfb57_b8d1996d",
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0fd6a7b0_b3a35dd9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4

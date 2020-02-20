@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ec55110_ad8c3a95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-02-20T19:57:29Z",
+      "side": 1,
+      "message": "I don\u0027t find this very intuitive. I would personally rather see an error message than mistakenly see changes for a user I didn\u0027t expect.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "bbb48268a54e8e1c4073c8f133ea170e199c6f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "62f86a50_916c199d",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "40724807_1127a0d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T13:27:44Z",
+      "side": 1,
+      "message": "discussed offline, use cases can be combined into a single function",
+      "parentUuid": "01839963_5e7780a7",
+      "range": {
+        "startLine": 552,
+        "startChar": 8,
+        "endLine": 552,
+        "endChar": 70
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb1e5502_fbf3b89b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 4

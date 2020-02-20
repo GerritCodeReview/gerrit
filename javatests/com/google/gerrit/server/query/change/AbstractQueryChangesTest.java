@@ -1698,9 +1698,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void visible() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
-    Change change2 = insert(repo, newChange(repo));
-
-    gApi.changes().id(change2.getChangeId()).setPrivate(true, "private");
+    Change change2 = insert(repo, newChangePrivate(repo));
 
     String q = "project:repo";
 
@@ -3130,31 +3128,35 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
-    return newChange(repo, null, null, null, null, false);
+    return newChange(repo, null, null, null, null, false, false);
   }
 
   protected ChangeInserter newChangeForCommit(TestRepository<Repo> repo, RevCommit commit)
       throws Exception {
-    return newChange(repo, commit, null, null, null, false);
+    return newChange(repo, commit, null, null, null, false, false);
   }
 
   protected ChangeInserter newChangeForBranch(TestRepository<Repo> repo, String branch)
       throws Exception {
-    return newChange(repo, null, branch, null, null, false);
+    return newChange(repo, null, branch, null, null, false, false);
   }
 
   protected ChangeInserter newChangeWithStatus(TestRepository<Repo> repo, Change.Status status)
       throws Exception {
-    return newChange(repo, null, null, status, null, false);
+    return newChange(repo, null, null, status, null, false, false);
   }
 
   protected ChangeInserter newChangeWithTopic(TestRepository<Repo> repo, String topic)
       throws Exception {
-    return newChange(repo, null, null, null, topic, false);
+    return newChange(repo, null, null, null, topic, false, false);
   }
 
   protected ChangeInserter newChangeWorkInProgress(TestRepository<Repo> repo) throws Exception {
-    return newChange(repo, null, null, null, null, true);
+    return newChange(repo, null, null, null, null, true, false);
+  }
+
+  protected ChangeInserter newChangePrivate(TestRepository<Repo> repo) throws Exception {
+    return newChange(repo, null, null, null, null, false, true);
   }
 
   protected ChangeInserter newChange(
@@ -3163,7 +3165,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       @Nullable String branch,
       @Nullable Change.Status status,
       @Nullable String topic,
-      boolean workInProgress)
+      boolean workInProgress,
+      boolean isPrivate)
       throws Exception {
     if (commit == null) {
       commit = repo.parseBody(repo.commit().message("message").create());
@@ -3181,7 +3184,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .setValidate(false)
             .setStatus(status)
             .setTopic(topic)
-            .setWorkInProgress(workInProgress);
+            .setWorkInProgress(workInProgress)
+            .setPrivate(isPrivate);
     return ins;
   }
 

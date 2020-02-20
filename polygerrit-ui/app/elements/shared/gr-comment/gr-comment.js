@@ -34,12 +34,25 @@
   /**
    * All candidates tips to show, will pick randomly.
    */
-  const RESPECTFUL_REVIEW_TIPS= [
+  const RESPECTFUL_REVIEW_TIPS = [
     'DO: Assume competence.',
     'DO: Provide rationale or context.',
     'DO: Consider how comments may be interpreted.',
     'DON’T: Criticize the person.',
     'DON’T: Use harsh language.',
+  ];
+
+  const RESPECTFUL_REVIEW_TIPS_AUTHOR = [
+    ...RESPECTFUL_REVIEW_TIPS,
+    'DO: Clarify code or reply to the reviewer’s comment.',
+    'DO: When disagreeing with feedback, ' +
+    'explain the advantage of your approach.',
+  ];
+
+  const RESPECTFUL_REVIEW_TIPS_REVIEWER = [
+    ...RESPECTFUL_REVIEW_TIPS,
+    'DO: Provide specific and actionable feedback.',
+    'DO: Clearly mark nitpicks and optional comments.',
   ];
 
   /**
@@ -233,6 +246,21 @@
 
     _onEditingChange(editing) {
       if (!editing) return;
+
+      this._determineRespectfulTip();
+    }
+
+    _determineRespectfulTip() {
+      const snapshot = this.$.restAPI.getStateSnapshot();
+
+      // don't show tip if no change / user data
+      if (!snapshot.change || !snapshot.change.owner || !snapshot.account) {
+        return;
+      }
+
+      const isAuthor =
+        snapshot.change.owner._account_id === snapshot.account._account_id;
+
       // visibility based on cache this will make sure we only and always show
       // a tip once every Math.max(a day, period between creating comments)
       const cachedVisibilityOfRespectfulTip =
@@ -241,8 +269,9 @@
         // we still want to show the tip with a probability of 30%
         if (this.getRandomNum(0, 3) >= 1) return;
         this._showRespectfulTip = true;
-        const randomIdx = this.getRandomNum(0, RESPECTFUL_REVIEW_TIPS.length);
-        this._respectfulReviewTip = RESPECTFUL_REVIEW_TIPS[randomIdx];
+        this._respectfulReviewTip = isAuthor ?
+          this._getRandomTip(RESPECTFUL_REVIEW_TIPS_AUTHOR):
+          this._getRandomTip(RESPECTFUL_REVIEW_TIPS_REVIEWER);
         this.$.reporting.reportInteraction(
             'respectful-tip-appeared',
             {tip: this._respectfulReviewTip}
@@ -250,6 +279,11 @@
         // update cache
         this.$.storage.setRespectfulTipVisibility();
       }
+    }
+
+    _getRandomTip(candidates) {
+      const randomIdx = this.getRandomNum(0, candidates.length);
+      return candidates[randomIdx];
     }
 
     /** Set as a separate method so easy to stub. */

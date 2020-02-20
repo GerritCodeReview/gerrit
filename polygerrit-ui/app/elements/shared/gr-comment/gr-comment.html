@@ -236,7 +236,8 @@ limitations under the License.
         border-radius: var(--border-radius);
         margin-bottom: var(--spacing-m);
       }
-      .respectfulReviewTip div {
+      .respectfulReviewTip div,
+      .respectfulReviewTip gr-tooltip-content {
         display: flex;
       }
       .respectfulReviewTip div iron-icon {
@@ -247,6 +248,9 @@ limitations under the License.
         margin-right: var(--spacing-s);
         padding-left: var(--spacing-m);
         text-decoration: none;
+      }
+      .respectfulReviewTip .respectfulTipPrefix {
+        font-style: italic;
       }
       .pointer {
         cursor: pointer;
@@ -315,14 +319,15 @@ limitations under the License.
               text="{{_messageText}}"></gr-textarea>
           <template is="dom-if" if="[[_computeVisibilityOfTip(_showRespectfulTip, _respectfulTipDismissed)]]">
             <div class="respectfulReviewTip">
-              <div>
-                <gr-tooltip-content
-                  has-tooltip
-                  title="Tips for respectful code reviews.">
-                  <iron-icon class="pointer" icon="gr-icons:lightbulb-outline"></iron-icon>
-                </gr-tooltip-content>
-                [[_respectfulReviewTip]]
-              </div>
+              <gr-tooltip-content
+                has-tooltip
+                title="Tips for respectful code reviews.">
+                <iron-icon icon="gr-icons:lightbulb-outline"></iron-icon>
+                <span>
+                  <i class="respectfulTipPrefix">Commenting tip - </i>
+                  [[_respectfulReviewTip]]
+                </span>
+              </gr-tooltip-content>
               <div>
                 <a
                   on-click="_onRespectfulReadMoreClick"

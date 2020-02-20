@@ -103,6 +103,16 @@
           type: Object,
           value: {}, // Intentional to share the object across instances.
         },
+
+        /**
+         * A snapshot of current state of fetches.
+         * It should contain all the latest state of different entities like:
+         * account, change etc
+         */
+        _stateSnapshot: {
+          type: Object,
+          value: {}, // Intentional to share this across instances
+        },
       };
     }
 
@@ -111,6 +121,10 @@
       super.created();
       this._auth = Gerrit.Auth;
       this._initRestApiHelper();
+    }
+
+    getStateSnapshot() {
+      return this._stateSnapshot;
     }
 
     _initRestApiHelper() {
@@ -596,6 +610,9 @@
             this._cache.delete('/accounts/self/detail');
           }
         },
+      }).then(account => {
+        this._stateSnapshot.account = account;
+        return account;
       });
     }
 
@@ -995,7 +1012,11 @@
         return this._getChangeDetail(
             changeNum, optionsHex, opt_errFn, opt_cancelCondition)
             .then(GrReviewerUpdatesParser.parse);
-      });
+      })
+          .then(change=> {
+            this._stateSnapshot.change = change;
+            return change;
+          });
     }
 
     _getChangeOptionsHex(config) {

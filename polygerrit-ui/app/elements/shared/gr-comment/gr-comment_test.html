@@ -1032,13 +1032,156 @@ limitations under the License.
       });
     });
 
+    suite('respectful tips without account / change', () => {
+      let element;
+      let sandbox;
+      setup(() => {
+        stub('gr-rest-api-interface', {
+          getAccount() { return Promise.resolve({}); },
+          getChangeDetail() { return Promise.resolve({owner: {}}); },
+          getStateSnapshot() {
+            return {};
+          },
+        });
+        sandbox = sinon.sandbox.create();
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('no tip', done => {
+        // fake stub for storage
+        const respectfulGetStub = sinon.stub();
+        const respectfulSetStub = sinon.stub();
+        stub('gr-storage', {
+          getRespectfulTipVisibility() { return respectfulGetStub(); },
+          setRespectfulTipVisibility() { return respectfulSetStub(); },
+        });
+        respectfulGetStub.returns(null);
+        element = fixture('draft');
+        // fake random
+        element.getRandomNum = () => 0;
+        element.comment = {__editing: true};
+        flush(() => {
+          assert.isFalse(respectfulGetStub.called);
+          assert.isFalse(respectfulSetStub.called);
+          assert.isFalse(
+              !!element.shadowRoot.querySelector('.respectfulReviewTip')
+          );
+          done();
+        });
+      });
+    });
+
+    suite('use reviewer respectful tips when not the owner commenting', () => {
+      let element;
+      let sandbox;
+      setup(() => {
+        stub('gr-rest-api-interface', {
+          getAccount() { return Promise.resolve({}); },
+          getChangeDetail() { return Promise.resolve({owner: {}}); },
+          getStateSnapshot() {
+            return {account: {_account_id: 1}, change: {owner: {}}};
+          },
+        });
+        sandbox = sinon.sandbox.create();
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('show tip for reviewer', done => {
+        // fake stub for storage
+        const respectfulGetStub = sinon.stub();
+        const respectfulSetStub = sinon.stub();
+        stub('gr-storage', {
+          getRespectfulTipVisibility() { return respectfulGetStub(); },
+          setRespectfulTipVisibility() { return respectfulSetStub(); },
+        });
+        respectfulGetStub.returns(null);
+        element = fixture('draft');
+        // fake random
+        element.getRandomNum = () => 0;
+        const tipSpy = sandbox.spy(element, '_getRandomTip');
+        element.comment = {__editing: true};
+        const aTip = 'DO: Clarify code or reply to the reviewer’s comment.';
+        const rTip = 'DO: Provide specific and actionable feedback.';
+        flush(() => {
+          assert.isTrue(respectfulGetStub.called);
+          assert.isTrue(respectfulSetStub.called);
+          assert.isTrue(tipSpy.lastCall.args[0].includes(rTip));
+          assert.isFalse(tipSpy.lastCall.args[0].includes(aTip));
+          assert.isTrue(
+              !!element.shadowRoot.querySelector('.respectfulReviewTip')
+          );
+          done();
+        });
+      });
+    });
+
+    suite('use author respectful tips when owner commenting', () => {
+      let element;
+      let sandbox;
+      setup(() => {
+        stub('gr-rest-api-interface', {
+          getAccount() { return Promise.resolve({}); },
+          getChangeDetail() { return Promise.resolve({owner: {}}); },
+          getStateSnapshot() {
+            return {
+              account: {_account_id: 1},
+              change: {owner: {_account_id: 1}},
+            };
+          },
+        });
+        sandbox = sinon.sandbox.create();
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('show tip for author', done => {
+        // fake stub for storage
+        const respectfulGetStub = sinon.stub();
+        const respectfulSetStub = sinon.stub();
+        stub('gr-storage', {
+          getRespectfulTipVisibility() { return respectfulGetStub(); },
+          setRespectfulTipVisibility() { return respectfulSetStub(); },
+        });
+        respectfulGetStub.returns(null);
+        element = fixture('draft');
+        // fake random
+        element.getRandomNum = () => 0;
+        const tipSpy = sandbox.spy(element, '_getRandomTip');
+        element.comment = {__editing: true};
+        const aTip = 'DO: Clarify code or reply to the reviewer’s comment.';
+        const rTip = 'DO: Provide specific and actionable feedback.';
+        flush(() => {
+          assert.isTrue(respectfulGetStub.called);
+          assert.isTrue(respectfulSetStub.called);
+          assert.isFalse(tipSpy.lastCall.args[0].includes(rTip));
+          assert.isTrue(tipSpy.lastCall.args[0].includes(aTip));
+          assert.isTrue(
+              !!element.shadowRoot.querySelector('.respectfulReviewTip')
+          );
+          done();
+        });
+      });
+    });
+
     suite('respectful tips', () => {
       let element;
       let sandbox;
       let clock;
       setup(() => {
         stub('gr-rest-api-interface', {
-          getAccount() { return Promise.resolve(null); },
+          getAccount() { return Promise.resolve({}); },
+          getChangeDetail() { return Promise.resolve({owner: {}}); },
+          getStateSnapshot() {
+            return {account: {}, change: {owner: {}}};
+          },
         });
         clock = sinon.useFakeTimers();
         sandbox = sinon.sandbox.create();

@@ -41,6 +41,7 @@ import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -130,7 +131,6 @@ import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
@@ -163,6 +163,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -1470,12 +1471,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void refsUsersSelfIsAdvertised() throws Exception {
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
-      assertThat(
-              permissionBackend.currentUser().project(allUsers)
-                  .filter(ImmutableList.of(), allUsersRepo, RefFilterOptions.defaults()).stream()
-                  .map(Ref::getName))
-          .containsExactly(RefNames.REFS_USERS_SELF);
+    TestRepository<?> testRepository = cloneProject(allUsers, user);
+    try (Git git = testRepository.git()) {
+      List<String> advertisedRefs =
+          git.lsRemote().call().stream().map(Ref::getName).collect(toList());
+      assertThat(advertisedRefs).contains(RefNames.REFS_USERS_SELF);
     }
   }
 

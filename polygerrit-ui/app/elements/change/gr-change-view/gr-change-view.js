@@ -622,8 +622,9 @@
           .filter(patch => patch._number !== 'edit')
           .map(patch => {
             return {
-              text: `Patchset ${patch._number} (${commentCount[patch._number]}`
-                + ` findings)`,
+              triggerText: `Patchset ${patch._number}`,
+              text: `Patchset ${patch._number}`
+                + `(${commentCount[patch._number] || 0} findings)`,
               value: patch._number,
             };
           })

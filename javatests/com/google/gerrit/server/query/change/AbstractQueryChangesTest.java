@@ -1703,20 +1703,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change2.getChangeId()).setPrivate(true, "private");
 
     String q = "project:repo";
-    assertQuery(q, change2, change1);
 
-    // Second user cannot see first user's private change.
-    Account.Id user2 =
-        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+    // Bad request for query with non-existent user
+    assertThatQueryException(q + " visibleto:notexisting");
+
+    // Current user can see all changes
+    assertQuery(q, change2, change1);
+    assertQuery(q + " visibleto:self", change2, change1);
+
+    // Second user cannot see first user's private change
+    Account.Id user2 = createAccount("anotheruser");
     assertQuery(q + " visibleto:" + user2.get(), change1);
+    assertQuery(q + " visibleto:anotheruser", change1);
 
     String g1 = createGroup("group1", "Administrators");
     gApi.groups().id(g1).addMembers("anotheruser");
     assertQuery(q + " visibleto:" + g1, change1);
 
-    requestContext.setContext(
-        newRequestContext(
-            accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId()));
+    requestContext.setContext(newRequestContext(user2));
     assertQuery("is:visible", change1);
   }
 

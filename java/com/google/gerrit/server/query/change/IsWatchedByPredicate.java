@@ -77,7 +77,7 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
       } else if (f != null) {
         r.add(f);
       } else {
-        r.add(builder.status_open());
+        r.add(builder.statusOpen());
       }
     }
     if (r.isEmpty()) {

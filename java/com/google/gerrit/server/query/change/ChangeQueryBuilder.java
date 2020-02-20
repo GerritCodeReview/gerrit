@@ -499,7 +499,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return ChangeStatusPredicate.parse(statusName);
   }
 
-  public Predicate<ChangeData> status_open() {
+  public Predicate<ChangeData> statusOpen() {
     return ChangeStatusPredicate.open();
   }
 

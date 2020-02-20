@@ -41,26 +41,26 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
   public ChangeIdHandler(
       // TODO(dborowitz): Not sure whether this is injectable here.
       Provider<InternalChangeQuery> queryProvider,
-      @Assisted final CmdLineParser parser,
-      @Assisted final OptionDef option,
-      @Assisted final Setter<Change.Id> setter) {
+      @Assisted CmdLineParser parser,
+      @Assisted OptionDef option,
+      @Assisted Setter<Change.Id> setter) {
     super(parser, option, setter);
     this.queryProvider = queryProvider;
   }
 
   @Override
   public final int parseArguments(Parameters params) throws CmdLineException {
-    final String token = params.getParameter(0);
-    final List<String> tokens = Splitter.on(',').splitToList(token);
+    String token = params.getParameter(0);
+    List<String> tokens = Splitter.on(',').splitToList(token);
     if (tokens.size() != 3) {
       throw new CmdLineException(
           owner, localizable("change should be specified as <project>,<branch>,<change-id>"));
     }
 
     try {
-      final Change.Key key = Change.Key.parse(tokens.get(2));
-      final Project.NameKey project = new Project.NameKey(tokens.get(0));
-      final Branch.NameKey branch = new Branch.NameKey(project, tokens.get(1));
+      Change.Key key = Change.Key.parse(tokens.get(2));
+      Project.NameKey project = new Project.NameKey(tokens.get(0));
+      Branch.NameKey branch = new Branch.NameKey(project, tokens.get(1));
       for (ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
         setter.addValue(cd.getId());
         return 1;

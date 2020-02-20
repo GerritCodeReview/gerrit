@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b401f70f_97b0ad03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-20T15:50:07Z",
+      "side": 1,
+      "message": "DEBUG org.elasticsearch.client.RestClient : request [HEAD http://localhost:33224/sortedbyfullnameaccounts_0010?allow_no_indices\u003dfalse] returned [HTTP/1.1 404 Not Found] The HTTP request log is a DEBUG level log that occurs many times and leads to the output log being cluttered from it.\n\nI initially wanted to hardcode the values of the packages and classes that were emitting the DEBUG logs when the tests were running inside the code and suppressing them using LogManager.getLogger(\"LoggerToSilence\").setLevel(Level.INFO), but I thought that finding a way of having a more logical mechanism of suppressing ALL the DEBUG logs emitted specifically by the test calls without necessarily having to specify where they come from one by one was a better idea, and Filters provided the solution for that. An alternative would also be LogManager.getRootLogger().setLevel(Level.INFO) but I have not used it since it was not used earlier when it could have been used. If you think it is a better solution I will add it instead of the filter. \n\nThe change is only in Elasticsearch query tests following the issue: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d10498 and Lucene query tests too following a discussion in https://gerrit-review.googlesource.com/c/gerrit/+/251654 where it was agreed that enabling DEBUG logs should only be optional and that the change extends to Lucene query tests too.\n\nThanks for letting me know about the possibility of silencing the logs in TestLoggingActivator.java. I did not think of it. However it seems to hardcode the values which I referred to my reason of not doing it earlier in the comment. If you think that is a better way to proceed though, I will change it right away.",
+      "parentUuid": "01cb8bea_d476bfda",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "e45c70c5e972f0bc4837340dc51ba44ca75b1119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1fd8b344_dd6a013f",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-20T00:10:34Z",
       "side": 1,
       "message": "Doesn\u0027t look like correct regex, @Hamza, can you check whether \"\\\\.\" is correct in this regex? Same for other classes.",
+      "range": {
+        "startLine": 165,
+        "startChar": 41,
+        "endLine": 165,
+        "endChar": 65
+      },
+      "revId": "e45c70c5e972f0bc4837340dc51ba44ca75b1119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0031888_943ddd76",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-20T15:50:07Z",
+      "side": 1,
+      "message": "Java gave an error of using \"^com\\.google\\.gerrit.*\" saying: \"Invalid escape sequence (valid ones are  \\b  \\t  \\n  \\f  \\r  \\\"  \\\u0027  \\\\ )\" so I had to replace the \"\\.\" with \"\\\\.\" to make it a valid escape sequence with Java.",
+      "parentUuid": "1fd8b344_dd6a013f",
       "range": {
         "startLine": 165,
         "startChar": 41,

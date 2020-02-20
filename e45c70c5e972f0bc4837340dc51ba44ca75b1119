@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3fc8d8dd_34587d5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-20T16:14:30Z",
+      "side": 1,
+      "message": "I strongly prefer to hard code yet another third party dependency for org.elasticseach to info logging level in one single place. Done. Instead of adding in multiple places in the code base such a low level (spi) log4j logging event filtering.",
+      "parentUuid": "b401f70f_97b0ad03",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "e45c70c5e972f0bc4837340dc51ba44ca75b1119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1fd8b344_dd6a013f",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 5

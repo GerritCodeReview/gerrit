@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f46e6266_4cac4893",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T16:39:55Z",
+      "side": 1,
+      "message": "maybe mention a bit why about this ? i.e: make the newline warnings to be configurable for gr-diff which perform as a simple rendering layer.",
+      "revId": "482263950f82aef990e8ede0ee4b20c678207ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "864b5bd9_fa450929",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T16:39:55Z",
+      "side": 1,
+      "message": "can this just be `hasNewline \u003d\u003d\u003d false`, that should be the exactly same as  what gr-diff had right ?",
+      "revId": "482263950f82aef990e8ede0ee4b20c678207ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

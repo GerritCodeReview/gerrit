@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "01839963_5e7780a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T12:42:05Z",
+      "side": 1,
+      "message": "I agree with having a dom-if, it can reduce the # of nodes to render initially, and we probably will add permalink to tabs, so its possible that the files view may not the default view later.\n\nother than that, I would just have a separate function to check if its files tab `_shouldShowFileTab`, and `_shouldShowPluginTab` for dynamicEndpoint tabs instead of having them in one function and overload that function",
+      "parentUuid": "1e7820ea_c82295c6",
+      "range": {
+        "startLine": 552,
+        "startChar": 8,
+        "endLine": 552,
+        "endChar": 70
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb1e5502_fbf3b89b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 4
@@ -96,6 +120,75 @@
     },
     {
       "key": {
+        "uuid": "d417f7f7_ed0d3dc9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T12:42:05Z",
+      "side": 1,
+      "message": "exiting code, but rename this variable plz (just drop the `files` part)",
+      "range": {
+        "startLine": 604,
+        "startChar": 42,
+        "endLine": 604,
+        "endChar": 73
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa29ffb8_c31ad0ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T12:42:05Z",
+      "side": 1,
+      "message": "indentation seems incorrect",
+      "range": {
+        "startLine": 605,
+        "startChar": 10,
+        "endLine": 605,
+        "endChar": 14
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "570ad202_baf01de5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T12:42:05Z",
+      "side": 1,
+      "message": "maybe rename to `_filesTabName`",
+      "range": {
+        "startLine": 337,
+        "startChar": 8,
+        "endLine": 337,
+        "endChar": 13
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b65db4c6_138cb045",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -140,6 +233,69 @@
       "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94796a09_758a54ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T12:42:05Z",
+      "side": 1,
+      "message": "its always against the pattern when you have such a long chain of properties without guarding",
+      "range": {
+        "startLine": 524,
+        "startChar": 28,
+        "endLine": 525,
+        "endChar": 50
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f00db2f_5e9ecb84",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T12:42:05Z",
+      "side": 1,
+      "message": "use `findIndex`",
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fd6a7b0_b3a35dd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-20T12:42:05Z",
+      "side": 1,
+      "message": "same this as a reference to avoid duplicated querying",
+      "range": {
+        "startLine": 548,
+        "startChar": 6,
+        "endLine": 548,
+        "endChar": 51
+      },
+      "revId": "2a84119f69186c5447cd90f4f6fe184814219d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

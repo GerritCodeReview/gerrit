@@ -462,7 +462,7 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       try {
-        perm.check(RefPermission.MERGE);
+        perm.check(RefPermission.MERGE, receiveEvent);
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException("you are not allowed to upload merges", e);

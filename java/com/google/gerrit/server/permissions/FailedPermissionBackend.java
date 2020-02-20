@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
@@ -190,7 +191,8 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public void check(RefPermission perm) throws PermissionBackendException {
+    public void check(RefPermission perm, CommitReceivedEvent receiveEvent)
+        throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
 

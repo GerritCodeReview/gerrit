@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -407,7 +408,12 @@ public abstract class PermissionBackend {
     public abstract ForChange indexedChange(ChangeData cd, ChangeNotes notes);
 
     /** Verify scoped user can {@code perm}, throwing if denied. */
-    public abstract void check(RefPermission perm) throws AuthException, PermissionBackendException;
+    public void check(RefPermission perm) throws AuthException, PermissionBackendException {
+      check(perm, null);
+    }
+
+    public abstract void check(RefPermission perm, CommitReceivedEvent receiveEvent)
+        throws AuthException, PermissionBackendException;
 
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
     public abstract Set<RefPermission> test(Collection<RefPermission> permSet)

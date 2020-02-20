@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fd8b344_dd6a013f",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2020-02-20T00:10:34Z",
+      "side": 1,
+      "message": "Doesn\u0027t look like correct regex, @Hamza, can you check whether \"\\\\.\" is correct in this regex? Same for other classes.",
+      "range": {
+        "startLine": 165,
+        "startChar": 41,
+        "endLine": 165,
+        "endChar": 65
+      },
+      "revId": "e45c70c5e972f0bc4837340dc51ba44ca75b1119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

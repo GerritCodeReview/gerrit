@@ -460,7 +460,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     gApi.changes().id(change1.getChangeId()).setPrivate(true, null);
 
-    // Change1 is not private, but should be still visible to its owner.
+    // Change1 is private, but should be still visible to its owner.
     assertQuery("is:open", change1, change2);
     assertQuery("is:private", change1);
 

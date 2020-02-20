@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupDescription;
@@ -913,12 +914,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return isVisible();
     }
     Set<Account.Id> m = args.accountResolver.findAll(who);
-    if (!m.isEmpty()) {
-      List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
-      for (Account.Id id : m) {
-        return visibleto(args.userFactory.create(id));
-      }
-      return Predicate.or(p);
+    if (m.size() == 1) {
+      return visibleto(args.userFactory.create(Iterables.getOnlyElement(m)));
+    } else if (m.size() > 1) {
+      throw error(String.format("\"%s\" resolves to multiple accounts", who));
     }
 
     // If its not an account, maybe its a group?

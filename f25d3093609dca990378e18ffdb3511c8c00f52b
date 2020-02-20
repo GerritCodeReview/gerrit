@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f13c2f1f_d0a30747",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-20T20:25:23Z",
+      "side": 1,
+      "message": "This change is actually adding two features. May be clarify this in the commit message (or optionally, even split in two changes)?\n\n1. Open inline editor from diff view and preserve the line number\n2. Open inline editor by clicking on \"Fix line\" button in the comment box and jump to the right line number.",
+      "revId": "f25d3093609dca990378e18ffdb3511c8c00f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "265d8548_3bd8ca22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-20T20:25:23Z",
+      "side": 1,
+      "message": "This change depends on plugin extension: [1]. Add the same topic to both changes?\n\n[1] https://gerrit-review.googlesource.com/c/plugins/codemirror-editor/+/256192",
+      "revId": "f25d3093609dca990378e18ffdb3511c8c00f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db7d05d2_37cbad0a",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-20T20:25:23Z",
+      "side": 1,
+      "message": "If this is an optional parameter, then it should be called opt_lineNum. If it\u0027s not optional, then it should appear before the optional arguments, so before opt_patchNum.",
+      "range": {
+        "startLine": 474,
+        "startChar": 52,
+        "endLine": 474,
+        "endChar": 59
+      },
+      "revId": "f25d3093609dca990378e18ffdb3511c8c00f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24b5e1b9_a608fb96",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-20T20:25:23Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 488,
+        "startChar": 68,
+        "endLine": 488,
+        "endChar": 75
+      },
+      "revId": "f25d3093609dca990378e18ffdb3511c8c00f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

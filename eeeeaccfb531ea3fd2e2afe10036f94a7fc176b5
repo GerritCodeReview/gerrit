@@ -205,6 +205,24 @@
       "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2569d84d_574b225a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-20T18:31:28Z",
+      "side": 1,
+      "message": "Done in both https://gerrit-review.googlesource.com/c/gerrit/+/255513/11 and https://gerrit-review.googlesource.com/c/plugins/codemirror-editor/+/256192",
+      "parentUuid": "05c1eff5_bf47f354",
+      "revId": "eeeeaccfb531ea3fd2e2afe10036f94a7fc176b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

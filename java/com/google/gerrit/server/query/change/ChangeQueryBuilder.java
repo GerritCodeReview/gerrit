@@ -548,7 +548,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("visible".equalsIgnoreCase(value)) {
-      return is_visible();
+      return isVisible();
     }
 
     if ("reviewed".equalsIgnoreCase(value)) {
@@ -910,7 +910,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> visibleto(String who)
       throws QueryParseException, OrmException, IOException, ConfigInvalidException {
     if (isSelf(who)) {
-      return is_visible();
+      return isVisible();
     }
     Set<Account.Id> m = args.accountResolver.findAll(who);
     if (!m.isEmpty()) {
@@ -944,7 +944,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         args.anonymousUserProvider);
   }
 
-  public Predicate<ChangeData> is_visible() throws QueryParseException {
+  public Predicate<ChangeData> isVisible() throws QueryParseException {
     return visibleto(args.getUser());
   }
 

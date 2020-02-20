@@ -83,7 +83,7 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
     if (r.isEmpty()) {
       return none();
     } else if (checkIsVisible) {
-      return ImmutableList.of(or(r), builder.is_visible());
+      return ImmutableList.of(or(r), builder.isVisible());
     } else {
       return ImmutableList.of(or(r));
     }

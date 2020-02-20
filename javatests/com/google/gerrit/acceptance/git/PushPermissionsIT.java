@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import java.util.Arrays;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
@@ -76,6 +78,33 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
       u.save();
     }
+  }
+
+  @Test
+  public void pushMergeRegular() throws Exception {
+    grant(project, "refs/heads/master", Permission.CREATE, false, REGISTERED_USERS);
+    grant(project, "refs/heads/master", Permission.PUSH, false, REGISTERED_USERS);
+
+    RevCommit c1 = testRepo.branch("HEAD").commit().create();
+    RevCommit c2 = testRepo.commit().parent(c1).create();
+
+    testRepo.reset(c2);
+    PushResult r = push("HEAD:refs/heads/master");
+    assertThat(r.getRemoteUpdate("refs/heads/master").getStatus()).isEqualTo(Status.OK);
+
+    RevCommit c3 = testRepo.commit().parent(c1).parent(c2).create();
+    testRepo.reset(c3);
+    r = push("HEAD:refs/heads/master");
+    String msg =
+        String.format(
+            "commit %s: you are not allowed to upload merges",
+            c3.abbreviate(RevId.ABBREV_LEN).name());
+    assertThat(r.getRemoteUpdate("refs/heads/master")).isNotEqualTo(Status.OK);
+    assertThat(r.getRemoteUpdate("refs/heads/master").getMessage()).isEqualTo(msg);
+
+    grant(project, "refs/heads/master", Permission.PUSH_MERGE, false, REGISTERED_USERS);
+    r = push("HEAD:refs/heads/master");
+    assertThat(r.getRemoteUpdate("refs/heads/master").getStatus()).isEqualTo(Status.OK);
   }
 
   @Test

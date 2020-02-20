@@ -1201,16 +1201,11 @@
       return result;
     }
 
-    _computeReplyButtonLabel(changeRecord, canStartReview) {
+    _computeReplyButtonLabel(changeRecord) {
       // Polymer 2: check for undefined
-      if ([changeRecord, canStartReview].some(arg => arg === undefined)) {
+      if ([changeRecord].some(arg => arg === undefined)) {
         return 'Reply';
       }
-
-      if (canStartReview) {
-        return 'Start review';
-      }
-
       const drafts = (changeRecord && changeRecord.base) || {};
       const draftCount = Object.keys(drafts)
           .reduce((count, file) => count + drafts[file].length, 0);

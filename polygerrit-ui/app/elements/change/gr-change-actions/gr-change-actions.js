@@ -66,6 +66,7 @@
     REVERT: 'revert',
     REVERT_SUBMISSION: 'revert_submission',
     REVIEWED: 'reviewed',
+    START_REVIEW: 'ready',
     STOP_EDIT: 'stopEdit',
     UNIGNORE: 'unignore',
     UNREVIEWED: 'unreviewed',
@@ -183,6 +184,7 @@
     ChangeActions.RESTORE,
     ChangeActions.REVERT,
     ChangeActions.REVERT_SUBMISSION,
+    ChangeActions.START_REVIEW,
     ChangeActions.STOP_EDIT,
     QUICK_APPROVE_ACTION.key,
     RevisionActions.REBASE,
@@ -1030,6 +1032,9 @@
         case ChangeActions.WIP:
           this._handleWipTap();
           break;
+        case ChangeActions.START_REVIEW:
+          this._handleReadyTap();
+          break;
         case ChangeActions.MOVE:
           this._handleMoveTap();
           break;
@@ -1308,6 +1313,7 @@
             }
             break;
           case ChangeActions.WIP:
+          case ChangeActions.START_REVIEW:
           case ChangeActions.DELETE_EDIT:
           case ChangeActions.PUBLISH_EDIT:
           case ChangeActions.REBASE_EDIT:
@@ -1425,6 +1431,10 @@
 
     _handleWipTap() {
       this._fireAction('/wip', this.actions.wip, false);
+    }
+
+    _handleReadyTap() {
+      this._fireAction('/ready', this.actions.ready, false);
     }
 
     _handlePublishEditTap() {

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "43754234_87ed9013",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-20T18:27:10Z",
+      "side": 1,
+      "message": "Ack. Do you think it is better to configure it in the TestLoggingActivator.java this way for example: put(\"org.elasticsearch\", getGerritLogLevel()) ?",
+      "parentUuid": "3fc8d8dd_34587d5e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "e45c70c5e972f0bc4837340dc51ba44ca75b1119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fd8b344_dd6a013f",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 5

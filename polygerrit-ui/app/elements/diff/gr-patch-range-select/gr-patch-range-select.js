@@ -45,12 +45,12 @@
         _baseDropdownContent: {
           type: Object,
           computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
-            '_sortedRevisions, changeComments, revisionInfo)',
+            '_sortedRevisions, changeComments, revisionInfo, messages)',
         },
         _patchDropdownContent: {
           type: Object,
           computed: '_computePatchDropdownContent(availablePatches,' +
-            'basePatchNum, _sortedRevisions, changeComments)',
+            'basePatchNum, _sortedRevisions, changeComments, messages)',
         },
         changeNum: String,
         changeComments: Object,
@@ -60,6 +60,7 @@
         basePatchNum: String,
         revisions: Object,
         revisionInfo: Object,
+        messages: Object,
         _sortedRevisions: Array,
       };
     }
@@ -75,7 +76,7 @@
     }
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
-        changeComments, revisionInfo) {
+        changeComments, revisionInfo, messages) {
       // Polymer 2: check for undefined
       if ([
         availablePatches,
@@ -83,6 +84,7 @@
         _sortedRevisions,
         changeComments,
         revisionInfo,
+        messages,
       ].some(arg => arg === undefined)) {
         return undefined;
       }
@@ -97,7 +99,8 @@
       for (const basePatch of availablePatches) {
         const basePatchNum = basePatch.num;
         const entry = this._createDropdownEntry(basePatchNum, 'Patchset ',
-            _sortedRevisions, changeComments, this._getShaForPatch(basePatch));
+            _sortedRevisions, changeComments, messages,
+            this._getShaForPatch(basePatch));
         dropdownContent.push(Object.assign({}, entry, {
           disabled: this._computeLeftDisabled(
               basePatch.num, patchNum, _sortedRevisions),
@@ -125,17 +128,18 @@
     _computeMobileText(patchNum, changeComments, revisions) {
       return `${patchNum}` +
           `${this._computePatchSetCommentsString(changeComments, patchNum)}` +
-          `${this._computePatchSetDescription(revisions, patchNum, true)}`;
+          `${this._computePatchSetDescription(revisions, patchNum, [], true)}`;
     }
 
     _computePatchDropdownContent(availablePatches, basePatchNum,
-        _sortedRevisions, changeComments) {
+        _sortedRevisions, changeComments, messages) {
       // Polymer 2: check for undefined
       if ([
         availablePatches,
         basePatchNum,
         _sortedRevisions,
         changeComments,
+        messages,
       ].some(arg => arg === undefined)) {
         return undefined;
       }
@@ -145,7 +149,7 @@
         const patchNum = patch.num;
         const entry = this._createDropdownEntry(
             patchNum, patchNum === 'edit' ? '' : 'Patchset ', _sortedRevisions,
-            changeComments, this._getShaForPatch(patch));
+            changeComments, messages, this._getShaForPatch(patch));
         dropdownContent.push(Object.assign({}, entry, {
           disabled: this._computeRightDisabled(basePatchNum, patchNum,
               _sortedRevisions),
@@ -161,14 +165,14 @@
     }
 
     _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments,
-        sha) {
+        messages, sha) {
       const entry = {
         triggerText: `${prefix}${patchNum}`,
         text: this._computeText(patchNum, prefix, changeComments, sha),
         mobileText: this._computeMobileText(patchNum, changeComments,
             sortedRevisions),
         bottomText: `${this._computePatchSetDescription(
-            sortedRevisions, patchNum)}`,
+            sortedRevisions, patchNum, messages)}`,
         value: patchNum,
       };
       const date = this._computePatchSetDate(sortedRevisions, patchNum);
@@ -252,8 +256,14 @@
      * @param {number|string} patchNum
      * @param {boolean=} opt_addFrontSpace
      */
-    _computePatchSetDescription(revisions, patchNum, opt_addFrontSpace) {
+    _computePatchSetDescription(revisions, patchNum, messages,
+        opt_addFrontSpace) {
+      const codeReview = messages
+          .filter(m => m.message.includes(`Patch Set ${patchNum}: Code-Review`));
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
+      if (codeReview.length > 0) {
+        return 'You: +1';
+      }
       return (rev && rev.description) ?
         (opt_addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';

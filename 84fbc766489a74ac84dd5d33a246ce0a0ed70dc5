@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a89a35ec_cbbf25d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-21T13:05:57Z",
+      "side": 1,
+      "message": "I think so. for network related error, it will always show with endpoint its failing on and also server error from backend + trace. this is the common pattern we have for now.",
+      "parentUuid": "06158a2b_be317f0c",
+      "range": {
+        "startLine": 108,
+        "startChar": 18,
+        "endLine": 108,
+        "endChar": 21
+      },
+      "revId": "84fbc766489a74ac84dd5d33a246ce0a0ed70dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d082c428_a5456765",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js",
         "patchSetId": 1

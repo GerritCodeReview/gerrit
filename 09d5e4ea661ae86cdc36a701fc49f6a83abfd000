@@ -119,6 +119,76 @@
       "revId": "09d5e4ea661ae86cdc36a701fc49f6a83abfd000",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "robotId": "linter",
+      "robotRunId": "2",
+      "fixSuggestions": [
+        {
+          "fixId": "21b9638e_4980ab9c",
+          "description": "Renaming interface member to camelCase",
+          "replacements": [
+            {
+              "path": "tools/node_tools/polygerrit_app_preprocessor/utils.ts",
+              "range": {
+                "startLine": 56,
+                "startChar": 2,
+                "endLine": 56,
+                "endChar": 22
+              },
+              "replacement": "insideNodeModules"
+            }
+          ]
+        },
+        {
+          "fixId": "99f45023_475d9c3d",
+          "description": "Renaming interface member to camelCase",
+          "replacements": [
+            {
+              "path": "tools/node_tools/polygerrit_app_preprocessor/links-updater.ts",
+              "range": {
+                "startLine": 98,
+                "startChar": 22,
+                "endLine": 98,
+                "endChar": 41
+              },
+              "replacement": "insideNodeModules"
+            },
+            {
+              "path": "tools/node_tools/polygerrit_app_preprocessor/links-updater.ts",
+              "range": {
+                "startLine": 101,
+                "startChar": 21,
+                "endLine": 101,
+                "endChar": 40
+              },
+              "replacement": "insideNodeModules"
+            }
+          ]
+        }
+      ],
+      "key": {
+        "uuid": "6237ca31_146b7443",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-21T16:36:42Z",
+      "side": 1,
+      "message": "Use lower camel case for naming interface member.",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 21
+      },
+      "tag": "robot",
+      "revId": "09d5e4ea661ae86cdc36a701fc49f6a83abfd000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -45,6 +45,11 @@ limitations under the License.
       fix_suggestions: [{fix_id: 'fix_1'}, {fix_id: 'fix_2'}],
     };
 
+    const ROBOT_COMMENT_WITH_ONE_FIX = {
+      robot_id: 'robot_1',
+      fix_suggestions: [{fix_id: 'fix_1'}],
+    };
+
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
@@ -106,6 +111,56 @@ limitations under the License.
             assert.equal(element._currentFix.fix_id, 'fix_1');
             assert.equal(element._currentPreviews.length, 2);
             assert.equal(element._robotId, 'robot_1');
+            done();
+          });
+    });
+
+    test.only('next button state updated when suggestions changed', done => {
+      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+          .returns(Promise.resolve({
+            f1: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['loqlwkqll'],
+                },
+                {
+                  b: ['qwqqsqw'],
+                },
+                {
+                  ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
+                },
+              ],
+            },
+            f2: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['eqweqweqwex'],
+                },
+                {
+                  b: ['zassdasd'],
+                },
+                {
+                  ab: ['zassdasd', 'dasdasda', 'asdasdad'],
+                },
+              ],
+            },
+          }));
+      sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
+
+      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_ONE_FIX}})
+          .then(() => {
+            assert.isTrue(element.$.nextFix.disabled);
+            return Promise.resolve();
+          })
+          .then(() => {
+            return element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}});
+          })
+          .then(() => {
+            assert.isFalse(element.$.nextFix.disabled);
             done();
           });
     });

@@ -95,10 +95,10 @@ class HtmlFileUpdater {
     const originalPath = '/' + HtmlFileUtils.getPathRelativeToRoot(parentHtml, href);
 
     const resolvedInfo = this.redirectsResolver.resolve(originalPath, true);
-    if (!resolvedInfo.insideNodeModules && resolvedInfo.target === originalPath) {
+    if (!resolvedInfo.inside_node_modules && resolvedInfo.target === originalPath) {
       return href;
     }
-    if (resolvedInfo.insideNodeModules) {
+    if (resolvedInfo.inside_node_modules) {
       return '/node_modules/' + resolvedInfo.target;
     }
     if (href.startsWith('/')) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baef9670_1f7a04ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-02-21T09:36:09Z",
+      "side": 1,
+      "message": "I would write UT so it\u0027s not broken again.",
+      "revId": "e900a45dddb80d094d08b1d3446a1b00dd93852a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

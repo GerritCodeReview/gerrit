@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "06158a2b_be317f0c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-02-21T13:00:25Z",
+      "side": 1,
+      "message": "Does the error itself contain enough information to localize the problem? Now that you remove the \"Error generating/applying fix preview:\" prefix?",
+      "range": {
+        "startLine": 108,
+        "startChar": 18,
+        "endLine": 108,
+        "endChar": 21
+      },
+      "revId": "84fbc766489a74ac84dd5d33a246ce0a0ed70dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d082c428_a5456765",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js",
         "patchSetId": 1

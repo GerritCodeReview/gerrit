@@ -359,15 +359,16 @@
         fetchOptions: options,
         anonymizedUrl: req.reportUrlAsIs ? url : req.anonymizedUrl,
       };
-      const xhr = this.fetch(fetchReq).then(response => {
-        if (!response.ok) {
-          if (req.errFn) {
-            return req.errFn.call(undefined, response);
-          }
-          this.fire('server-error', {request: fetchReq, response});
-        }
-        return response;
-      })
+      const xhr = this.fetch(fetchReq)
+          .then(response => {
+            if (!response.ok) {
+              if (req.errFn) {
+                return req.errFn.call(undefined, response);
+              }
+              this.fire('server-error', {request: fetchReq, response});
+            }
+            return response;
+          })
           .catch(err => {
             this.fire('network-error', {error: err});
             if (req.errFn) {

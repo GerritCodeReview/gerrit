@@ -22,6 +22,7 @@ limitations under the License.
 
 <script src='/bower_components/webcomponentsjs/webcomponents-lite.js'></script>
 <script src='/bower_components/web-component-tester/browser.js'></script>
+<script src="../../../test/test-pre-setup.js"></script>
 <link rel='import' href='../../../test/common-test-setup.html' />
 
 <link rel='import' href='./gr-apply-fix-dialog.html'>
@@ -110,15 +111,24 @@ limitations under the License.
     });
 
     test('preview endpoint throws error should reset dialog', done => {
-      element.addEventListener('show-error', () => {
+      sandbox.stub(window, 'fetch', (url => {
+        if (url.endsWith('/preview')) {
+          return Promise.reject(new Error('backend error'));
+        }
+        return Promise.resolve({
+          ok: true,
+          text() { return Promise.resolve(''); },
+          status: 200,
+        });
+      }));
+      const errorStub = sinon.stub();
+      document.addEventListener('network-error', errorStub);
+      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}});
+      flush(() => {
+        assert.isTrue(errorStub.called);
         assert.deepEqual(element._currentFix, {});
-        assert.equal(element._currentPreviews.length, 0);
         done();
       });
-      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview',
-          () => Promise.reject(new Error('backend error')));
-
-      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}});
     });
 
     test('apply fix button should call apply' +
@@ -187,6 +197,29 @@ limitations under the License.
             assert.equal(element._currentFix.fix_id, 'fix_1');
             done();
           });
+    });
+
+    test('server-error should throw for failed apply call', done => {
+      sandbox.stub(window, 'fetch', (url => {
+        if (url.endsWith('/apply')) {
+          return Promise.reject(new Error('backend error'));
+        }
+        return Promise.resolve({
+          ok: true,
+          text() { return Promise.resolve(''); },
+          status: 200,
+        });
+      }));
+      const errorStub = sinon.stub();
+      document.addEventListener('network-error', errorStub);
+      sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      element._currentFix = {fix_id: '123'};
+      element._handleApplyFix();
+      flush(() => {
+        assert.isFalse(Gerrit.Nav.navigateToChange.called);
+        assert.isTrue(errorStub.called);
+        done();
+      });
     });
   });
 </script>

@@ -46,6 +46,30 @@
       "revId": "fcda5e3d215e1bba2354152ea6988b97509118bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5804446_2254fe41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-21T10:54:25Z",
+      "side": 1,
+      "message": "ya, it won\u0027t affect gerrit itself that much only if plugins want to use this component and load itself as an iframe (we do have iframe plugins tho).\n\nbut we do have use cases of using `gr-diff` and part of gerrit in some other places other than gerrit (not sure whether they want to use it in iframe or sub components tho), to me, `_self` would be slightly better for those cases as it won\u0027t leak the navigating out of its frame.",
+      "parentUuid": "3888ed66_706c7c42",
+      "range": {
+        "startLine": 77,
+        "startChar": 41,
+        "endLine": 77,
+        "endChar": 48
+      },
+      "revId": "fcda5e3d215e1bba2354152ea6988b97509118bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

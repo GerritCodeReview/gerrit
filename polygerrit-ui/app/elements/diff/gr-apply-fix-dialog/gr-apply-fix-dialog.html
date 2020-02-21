@@ -76,10 +76,10 @@ limitations under the License.
         </div>
         <div slot="footer" class="fix-picker" hidden$="[[hasSingleFix(_fixSuggestions)]]">
           <span>Suggested fix [[addOneTo(_selectedFixIdx)]] of [[_fixSuggestions.length]]</span>
-          <gr-button on-click="_onPrevFixClick" disabled$="[[_noPrevFix(_selectedFixIdx)]]">
+          <gr-button id="prevFix" on-click="_onPrevFixClick" disabled$="[[_noPrevFix(_selectedFixIdx)]]">
             <iron-icon icon="gr-icons:chevron-left"></iron-icon>
           </gr-button>
-          <gr-button on-click="_onNextFixClick" disabled$="[[_noNextFix(_selectedFixIdx)]]">
+          <gr-button id="nextFix" on-click="_onNextFixClick" disabled$="[[_noNextFix(_selectedFixIdx, _fixSuggestions)]]">
             <iron-icon icon="gr-icons:chevron-right"></iron-icon>
           </gr-button>
         </div>

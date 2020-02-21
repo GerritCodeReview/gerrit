@@ -152,9 +152,9 @@
       return _selectedFixIdx === 0;
     },
 
-    _noNextFix(_selectedFixIdx) {
-      if (this._fixSuggestions == null) return true;
-      return _selectedFixIdx === this._fixSuggestions.length - 1;
+    _noNextFix(_selectedFixIdx, fixSuggestions) {
+      if (fixSuggestions == null) return true;
+      return _selectedFixIdx === fixSuggestions.length - 1;
     },
 
     _close() {

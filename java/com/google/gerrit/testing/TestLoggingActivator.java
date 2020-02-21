@@ -81,7 +81,7 @@ public class TestLoggingActivator {
     return Level.toLevel(value, Level.INFO);
   }
 
-  public static void configureLogging() {
+  public static void configureLogging(Level threshold) {
     LogManager.resetConfiguration();
 
     PatternLayout layout = new PatternLayout();
@@ -90,7 +90,7 @@ public class TestLoggingActivator {
     ConsoleAppender dst = new ConsoleAppender();
     dst.setLayout(layout);
     dst.setTarget("System.err");
-    dst.setThreshold(Level.DEBUG);
+    dst.setThreshold(threshold);
     dst.activateOptions();
 
     Logger root = LogManager.getRootLogger();

@@ -17,6 +17,7 @@ package com.google.gerrit.testing;
 import com.google.common.base.CharMatcher;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
+import org.apache.log4j.Level;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -34,7 +35,7 @@ public abstract class GerritBaseTests {
 
   @BeforeClass
   public static void beforeClassTest() {
-    TestLoggingActivator.configureLogging();
+    TestLoggingActivator.configureLogging(Level.DEBUG);
   }
 
   protected String getSanitizedMethodName() {

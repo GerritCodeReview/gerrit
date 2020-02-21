@@ -70,6 +70,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+import org.apache.log4j.Level;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
@@ -97,7 +98,8 @@ public class GerritServer implements AutoCloseable {
           null, // @GerritConfig is only valid on methods.
           null, // @GerritConfigs is only valid on methods.
           null, // @GlobalPluginConfig is only valid on methods.
-          null); // @GlobalPluginConfigs is only valid on methods.
+          null, // @GlobalPluginConfigs is only valid on methods.
+          getLogLevelThresholdAnnotation(testDesc));
     }
 
     public static Description forTestMethod(
@@ -117,7 +119,8 @@ public class GerritServer implements AutoCloseable {
           testDesc.getAnnotation(GerritConfig.class),
           testDesc.getAnnotation(GerritConfigs.class),
           testDesc.getAnnotation(GlobalPluginConfig.class),
-          testDesc.getAnnotation(GlobalPluginConfigs.class));
+          testDesc.getAnnotation(GlobalPluginConfigs.class),
+          getLogLevelThresholdAnnotation(testDesc));
     }
 
     private static boolean has(Class<? extends Annotation> annotation, Class<?> clazz) {
@@ -127,6 +130,14 @@ public class GerritServer implements AutoCloseable {
         }
       }
       return false;
+    }
+
+    private static Level getLogLevelThresholdAnnotation(org.junit.runner.Description testDesc) {
+      LogThreshold logLevelThreshold = testDesc.getTestClass().getAnnotation(LogThreshold.class);
+      if (logLevelThreshold == null) {
+        return Level.DEBUG;
+      }
+      return Level.toLevel(logLevelThreshold.level());
     }
 
     abstract org.junit.runner.Description testDescription();
@@ -157,6 +168,8 @@ public class GerritServer implements AutoCloseable {
 
     @Nullable
     abstract GlobalPluginConfigs pluginConfigs();
+
+    abstract Level logLevelThreshold();
 
     private void checkValidAnnotations() {
       if (configs() != null && config() != null) {
@@ -306,7 +319,7 @@ public class GerritServer implements AutoCloseable {
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
     desc.checkValidAnnotations();
-    TestLoggingActivator.configureLogging();
+    TestLoggingActivator.configureLogging(desc.logLevelThreshold());
     CyclicBarrier serverStarted = new CyclicBarrier(2);
     Daemon daemon =
         new Daemon(

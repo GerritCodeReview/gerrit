@@ -16,6 +16,24 @@
       "revId": "0582b29806042bc606de60b3b809cc4625e28f63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35b8730e_41a1dd36",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-21T11:03:06Z",
+      "side": 1,
+      "message": "Doh, false alarm. It\u0027s because the commit message in the update begins and ends with \" for some reason.",
+      "parentUuid": "909b2b03_b6a1b1d3",
+      "revId": "0582b29806042bc606de60b3b809cc4625e28f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

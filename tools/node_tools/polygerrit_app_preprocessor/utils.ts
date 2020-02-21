@@ -53,7 +53,6 @@ interface RedirectForFile {
 
 interface ResolvedPath {
   target: string;
-  insideNodeModules: boolean;
 }
 
 /** RedirectsResolver based on the list of redirects, calculates
@@ -67,13 +66,13 @@ export class RedirectsResolver {
   public resolve(pathRelativeToRoot: string, resolveNodeModules: boolean): ResolvedPath {
     const redirect = this.findRedirect(pathRelativeToRoot);
     if (!redirect) {
-      return {target: pathRelativeToRoot, insideNodeModules: false};
+      return {target: pathRelativeToRoot, inside_node_modules: false};
     }
     if (isRedirectToNodeModule(redirect.to)) {
       return {
         target: resolveNodeModules ? RedirectsResolver.resolveNodeModuleFile(redirect.to,
             redirect.pathToFile) : pathRelativeToRoot,
-        insideNodeModules: resolveNodeModules
+        inside_node_modules: resolveNodeModules
       };
     }
     if (isRedirectToDir(redirect.to)) {
@@ -81,7 +80,7 @@ export class RedirectsResolver {
       if (!newDir.endsWith('/')) {
         newDir = newDir + '/';
       }
-      return {target: `${newDir}${redirect.pathToFile}`, insideNodeModules: false}
+      return {target: `${newDir}${redirect.pathToFile}`, inside_node_modules: false}
     }
     throw new Error(`Invalid redirect for path: ${pathRelativeToRoot}`);
   }

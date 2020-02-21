@@ -70,6 +70,30 @@
       "revId": "7563839993ba69a818672898bcdb0fc53042845e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f07a772_8ef51bb2",
+        "filename": "java/com/google/gerrit/testing/TestLoggingActivator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-21T16:18:52Z",
+      "side": 1,
+      "message": "It does not emit many logs. Maybe 4 or 5 in the process of initially starting up the docker image.\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12388",
+      "parentUuid": "826a342e_f3cc5050",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 79,
+        "endChar": 66
+      },
+      "revId": "7563839993ba69a818672898bcdb0fc53042845e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "746ad1c9372ecee629c60f5badb864b9d3a1df84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "881d3258_00ea3a43",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-21T08:13:21Z",
+      "side": 1,
+      "message": "Yes, good catch. I wish we had an ErrorProne check that would fail the build on this.",
+      "parentUuid": "d4dd57c4_4514fb7d",
+      "range": {
+        "startLine": 412,
+        "startChar": 44,
+        "endLine": 412,
+        "endChar": 46
+      },
+      "revId": "746ad1c9372ecee629c60f5badb864b9d3a1df84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

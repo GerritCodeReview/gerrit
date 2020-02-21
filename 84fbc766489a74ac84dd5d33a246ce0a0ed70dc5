@@ -22,6 +22,30 @@
       "revId": "84fbc766489a74ac84dd5d33a246ce0a0ed70dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80378efc_7f69d098",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-21T11:59:57Z",
+      "side": 1,
+      "message": "just reformat lines. also its good to have this as a reference since it can tell you where the error handled in rest api",
+      "parentUuid": "d082c428_a5456765",
+      "range": {
+        "startLine": 362,
+        "startChar": 5,
+        "endLine": 363,
+        "endChar": 29
+      },
+      "revId": "84fbc766489a74ac84dd5d33a246ce0a0ed70dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

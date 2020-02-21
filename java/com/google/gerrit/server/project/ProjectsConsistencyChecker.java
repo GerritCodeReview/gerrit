@@ -239,7 +239,7 @@ public class ProjectsConsistencyChecker {
         predicates.add(new CommitPredicate(commit.name()));
       }
 
-      if (predicates.size() > 0) {
+      if (!predicates.isEmpty()) {
         // Execute the query with the remaining predicates that were collected.
         autoCloseableChanges.addAll(
             executeQueryAndAutoCloseChanges(
@@ -266,13 +266,12 @@ public class ProjectsConsistencyChecker {
       List<ChangeData> queryResult =
           retryHelper.execute(
               ActionType.INDEX_QUERY,
-              () -> {
-                // Execute the query.
-                return changeQueryProvider
-                    .get()
-                    .setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET)
-                    .query(and(basePredicate, or(predicates)));
-              },
+              () ->
+                  // Execute the query.
+                  changeQueryProvider
+                      .get()
+                      .setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET)
+                      .query(and(basePredicate, or(predicates))),
               StorageException.class::isInstance);
 
       // Result for this query that we want to return to the client.

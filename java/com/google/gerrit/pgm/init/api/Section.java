@@ -69,7 +69,7 @@ public class Section {
     all.addAll(Arrays.asList(flags.cfg.getStringList(section, subsection, name)));
 
     if (value != null) {
-      if (all.size() == 0 || all.size() == 1) {
+      if (all.isEmpty() || all.size() == 1) {
         flags.cfg.setString(section, subsection, name, value);
       } else {
         all.set(0, value);
@@ -78,7 +78,7 @@ public class Section {
 
     } else if (all.size() == 1) {
       flags.cfg.unset(section, subsection, name);
-    } else if (all.size() != 0) {
+    } else if (!all.isEmpty()) {
       all.remove(0);
       flags.cfg.setStringList(section, subsection, name, all);
     }

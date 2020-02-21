@@ -484,7 +484,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return ChangeStatusPredicate.parse(statusName);
   }
 
-  public Predicate<ChangeData> status_open() {
+  public Predicate<ChangeData> statusOpen() {
     return ChangeStatusPredicate.open();
   }
 
@@ -533,7 +533,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("visible".equalsIgnoreCase(value)) {
-      return is_visible();
+      return isVisible();
     }
 
     if ("reviewed".equalsIgnoreCase(value)) {
@@ -942,7 +942,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> visibleto(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     if (isSelf(who)) {
-      return is_visible();
+      return isVisible();
     }
     try {
       return Predicate.or(
@@ -977,7 +977,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         args.anonymousUserProvider);
   }
 
-  public Predicate<ChangeData> is_visible() throws QueryParseException {
+  public Predicate<ChangeData> isVisible() throws QueryParseException {
     return visibleto(args.getUser());
   }
 

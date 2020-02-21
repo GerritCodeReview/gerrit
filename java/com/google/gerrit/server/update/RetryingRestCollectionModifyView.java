@@ -45,7 +45,7 @@ public abstract class RetryingRestCollectionModifyView<
               .onAutoTrace(traceId::set)
               .build();
       return retryHelper
-          .execute((updateFactory) -> applyImpl(updateFactory, parentResource, input), retryOptions)
+          .execute(updateFactory -> applyImpl(updateFactory, parentResource, input), retryOptions)
           .traceId(traceId.get());
     } catch (Exception e) {
       Throwables.throwIfInstanceOf(e, RestApiException.class);

@@ -49,8 +49,6 @@ DEPLOY_ENV = [
     "//lib/guice:guice-servlet",
     "//lib/mail",
     "//lib/mina:sshd",
-    "//lib/log:impl-log4j",
-    "//lib/log:log4j",
     "//lib:guava",
     "//lib/bouncycastle:bcpg",
     "//lib/bouncycastle:bcprov",

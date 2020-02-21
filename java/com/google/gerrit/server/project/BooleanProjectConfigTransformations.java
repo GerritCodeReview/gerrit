@@ -27,7 +27,7 @@ import java.util.HashSet;
 /** Provides transformations to get and set BooleanProjectConfigs from the API. */
 public class BooleanProjectConfigTransformations {
 
-  private static ImmutableMap<BooleanProjectConfig, Mapper> MAPPER =
+  private static final ImmutableMap<BooleanProjectConfig, Mapper> MAPPER =
       ImmutableMap.<BooleanProjectConfig, Mapper>builder()
           .put(
               BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS,

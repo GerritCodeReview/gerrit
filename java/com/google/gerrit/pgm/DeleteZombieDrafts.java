@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.gerrit.metrics.DisabledMetricMaker;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -68,6 +70,7 @@ public class DeleteZombieDrafts extends SiteProgram {
             bind(String.class)
                 .annotatedWith(SecureStoreClassName.class)
                 .toProvider(Providers.of(getConfiguredSecureStoreClass()));
+            bind(MetricMaker.class).to(DisabledMetricMaker.class);
             install(new FactoryModuleBuilder().build(DeleteZombieCommentsRefs.Factory.class));
           }
         });

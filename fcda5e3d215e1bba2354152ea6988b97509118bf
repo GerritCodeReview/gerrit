@@ -22,6 +22,30 @@
       "revId": "fcda5e3d215e1bba2354152ea6988b97509118bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3888ed66_706c7c42",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-02-21T10:31:14Z",
+      "side": 1,
+      "message": "IIUC (I\u0027m no FE-wiz) since PG doesn\u0027t use frames (for obvious reasons) and due to the obsolete nature of target values, _parent and _self are practically synonymous and have the same effect. The only significant difference is the obsolete descriptions of what they used to do when frames was a thing.\nOne could make a case for \"_top\" but not from a functionality standpoint, mainly because the description doesn\u0027t involve the term \"frame\":-) \"Opens the linked document in the full body of the window\".\nNeither of _parent, _self, _top is used elsewhere in PolyGerrit so there\u0027s no precedence.\nTo me it doesn\u0027t matter since the difference is merely semantic.",
+      "parentUuid": "92c28fc5_ecdb9eb2",
+      "range": {
+        "startLine": 77,
+        "startChar": 41,
+        "endLine": 77,
+        "endChar": 48
+      },
+      "revId": "fcda5e3d215e1bba2354152ea6988b97509118bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

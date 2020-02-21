@@ -46,6 +46,30 @@
       "revId": "7563839993ba69a818672898bcdb0fc53042845e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "826a342e_f3cc5050",
+        "filename": "java/com/google/gerrit/testing/TestLoggingActivator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-21T15:40:36Z",
+      "side": 1,
+      "message": "How many lines of logs would this produce if we not change it here, only on container boot, right?\n\nI agree with David that we should try not to hard code ES version here. Can someone create issue upstream and kindly ask to log these statements in the way, that we can easily suppress the output with one parent logger, e.g.: org.testcontainers? To unblock this change, we could just add these lines:\n\n          .put(\"org.eclipse.jgit.util.SystemReader\", Level.WARN)\n          // Silence non-critical messages from Elasticsearch.\t\n          .put(\"org.elasticsearch\", Level.WARN)\n          // Silence non-critical messages from Docker for Elasticsearch query tests.\n          .put(\"org.testcontainers\", Level.WARN)\n          .put(\"com.github.dockerjava.core\", Level.WARN)\n\nrevert the other additions for now and merge it.",
+      "parentUuid": "302caac0_89d517ec",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 79,
+        "endChar": 66
+      },
+      "revId": "7563839993ba69a818672898bcdb0fc53042845e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -462,7 +462,7 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       try {
-        perm.check(RefPermission.MERGE);
+        perm.check(RefPermission.MERGE, receiveEvent);
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException("you are not allowed to upload merges", e);
@@ -559,7 +559,7 @@ public class CommitValidators {
       }
       if (!sboAuthor && !sboCommitter && !sboMe) {
         try {
-          perm.check(RefPermission.FORGE_COMMITTER);
+          perm.check(RefPermission.FORGE_COMMITTER, receiveEvent);
         } catch (AuthException denied) {
           throw new CommitValidationException(
               "not Signed-off-by author/committer/uploader in message footer", denied);
@@ -593,7 +593,7 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       try {
-        perm.check(RefPermission.FORGE_AUTHOR);
+        perm.check(RefPermission.FORGE_AUTHOR, receiveEvent);
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException(
@@ -626,7 +626,7 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       try {
-        perm.check(RefPermission.FORGE_COMMITTER);
+        perm.check(RefPermission.FORGE_COMMITTER, receiveEvent);
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException(
@@ -662,7 +662,7 @@ public class CommitValidators {
           && author.getEmailAddress().equals(gerritIdent.getEmailAddress())) {
         try {
           // Stop authors from amending the merge commits that Gerrit itself creates.
-          perm.check(RefPermission.FORGE_SERVER);
+          perm.check(RefPermission.FORGE_SERVER, receiveEvent);
         } catch (AuthException denied) {
           throw new CommitValidationException(
               String.format(

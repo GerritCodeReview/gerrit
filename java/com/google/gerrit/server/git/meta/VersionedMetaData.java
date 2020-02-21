@@ -409,7 +409,7 @@ public abstract class VersionedMetaData {
           // read the subject line and use it as reflog message
           ru.setRefLogMessage("commit: " + reader.readLine(), true);
         }
-        logger.atFine().log("Saving commit: " + message);
+        logger.atFine().log("Saving commit: %s", message.trim());
         inserter.flush();
         RefUpdate.Result result = ru.update();
         switch (result) {

@@ -22,6 +22,30 @@
       "revId": "7563839993ba69a818672898bcdb0fc53042845e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "302caac0_89d517ec",
+        "filename": "java/com/google/gerrit/testing/TestLoggingActivator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-02-21T15:32:37Z",
+      "side": 1,
+      "message": "I believe the DockerLoggerFactory creates the loggers with these names and with the parent directly as root, so I don\u0027t think there is a way to silence a common parent. Maybe have it linked to ElasticsearchContainer.java which contains the latest version information?",
+      "parentUuid": "68ec16a6_da967741",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 79,
+        "endChar": 66
+      },
+      "revId": "7563839993ba69a818672898bcdb0fc53042845e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

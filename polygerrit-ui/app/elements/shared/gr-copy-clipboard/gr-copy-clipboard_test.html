@@ -68,13 +68,23 @@ limitations under the License.
     });
 
     test('_handleInputClick', () => {
-      const inputElement = element.$$('input');
+      // iron-input as parent should never be hidden as copy won't work
+      // on nested hidden elements
+      const ironInputElement = element.shadowRoot.querySelector('iron-input');
+      assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
+
+      const inputElement = element.shadowRoot.querySelector('input');
       MockInteractions.tap(inputElement);
       assert.equal(inputElement.selectionStart, 0);
       assert.equal(inputElement.selectionEnd, element.text.length - 1);
     });
 
     test('hideInput', () => {
+      // iron-input as parent should never be hidden as copy won't work
+      // on nested hidden elements
+      const ironInputElement = element.shadowRoot.querySelector('iron-input');
+      assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
+
       assert.notEqual(getComputedStyle(element.$.input).display, 'none');
       element.hideInput = true;
       flushAsynchronousOperations();

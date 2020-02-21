@@ -165,12 +165,7 @@ public class SetParent
         throw new ResourceConflictException("cannot set parent to self");
       }
 
-      if (Iterables.tryFind(
-              parent.tree(),
-              p -> {
-                return p.getNameKey().equals(project);
-              })
-          .isPresent()) {
+      if (Iterables.tryFind(parent.tree(), p -> p.getNameKey().equals(project)).isPresent()) {
         throw new ResourceConflictException(
             "cycle exists between " + project.get() + " and " + parent.getName());
       }

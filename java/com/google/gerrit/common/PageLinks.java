@@ -90,16 +90,16 @@ public class PageLinks {
     return ADMIN_PROJECTS + p.get();
   }
 
-  public static String toProjectAcceess(Project.NameKey p) {
-    return "/admin/projects/" + p.get() + ",access";
+  public static String toProjectAccess(Project.NameKey p) {
+    return ADMIN_PROJECTS + p.get() + ",access";
   }
 
   public static String toProjectBranches(Project.NameKey p) {
-    return "/admin/projects/" + p.get() + ",branches";
+    return ADMIN_PROJECTS + p.get() + ",branches";
   }
 
   public static String toProjectTags(Project.NameKey p) {
-    return "/admin/projects/" + p.get() + ",tags";
+    return ADMIN_PROJECTS + p.get() + ",tags";
   }
 
   public static String toAccountQuery(String fullname, Status status) {

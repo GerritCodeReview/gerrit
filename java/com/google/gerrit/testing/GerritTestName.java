@@ -15,6 +15,7 @@
 package com.google.gerrit.testing;
 
 import com.google.common.base.CharMatcher;
+import org.junit.BeforeClass;
 import org.junit.rules.TestName;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -22,6 +23,11 @@ import org.junit.runners.model.Statement;
 
 public class GerritTestName implements TestRule {
   private final TestName delegate = new TestName();
+
+  @BeforeClass
+  public static void beforeClassTest() {
+    TestLoggingActivator.configureLogging();
+  }
 
   public String getSanitizedMethodName() {
     String name = delegate.getMethodName().toLowerCase();

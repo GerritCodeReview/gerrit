@@ -17,6 +17,7 @@ package com.google.gerrit.server.args4j;
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.common.base.Splitter;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -35,34 +36,42 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class ChangeIdHandler extends OptionHandler<Change.Id> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   public ChangeIdHandler(
       // TODO(dborowitz): Not sure whether this is injectable here.
       Provider<InternalChangeQuery> queryProvider,
-      @Assisted final CmdLineParser parser,
-      @Assisted final OptionDef option,
-      @Assisted final Setter<Change.Id> setter) {
+      @Assisted CmdLineParser parser,
+      @Assisted OptionDef option,
+      @Assisted Setter<Change.Id> setter) {
     super(parser, option, setter);
     this.queryProvider = queryProvider;
   }
 
   @Override
   public final int parseArguments(Parameters params) throws CmdLineException {
-    final String token = params.getParameter(0);
-    final List<String> tokens = Splitter.on(',').splitToList(token);
+    String token = params.getParameter(0);
+    List<String> tokens = Splitter.on(',').splitToList(token);
     if (tokens.size() != 3) {
       throw new CmdLineException(
           owner, localizable("change should be specified as <project>,<branch>,<change-id>"));
     }
 
     try {
-      final Change.Key key = Change.Key.parse(tokens.get(2));
-      final Project.NameKey project = Project.nameKey(tokens.get(0));
-      final BranchNameKey branch = BranchNameKey.create(project, tokens.get(1));
-      for (ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
-        setter.addValue(cd.getId());
+      Change.Key key = Change.Key.parse(tokens.get(2));
+      Project.NameKey project = Project.nameKey(tokens.get(0));
+      BranchNameKey branch = BranchNameKey.create(project, tokens.get(1));
+      List<ChangeData> changes = queryProvider.get().byBranchKey(branch, key);
+      if (!changes.isEmpty()) {
+        if (changes.size() > 1) {
+          String msg = "\"%s\": resolves to multiple changes";
+          logger.atSevere().log(msg, token);
+          throw new CmdLineException(owner, localizable(msg), token);
+        }
+        setter.addValue(changes.get(0).getId());
         return 1;
       }
     } catch (IllegalArgumentException e) {

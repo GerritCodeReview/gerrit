@@ -37,8 +37,8 @@ public class AccountsConsistencyChecker {
     for (AccountState accountState : accounts.all()) {
       Account account = accountState.account();
       if (account.preferredEmail() != null) {
-        if (!accountState.externalIds().stream()
-            .anyMatch(e -> account.preferredEmail().equals(e.email()))) {
+        if (accountState.externalIds().stream()
+            .noneMatch(e -> account.preferredEmail().equals(e.email()))) {
           addError(
               String.format(
                   "Account '%s' has no external ID for its preferred email '%s'",

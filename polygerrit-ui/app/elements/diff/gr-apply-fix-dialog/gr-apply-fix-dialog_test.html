@@ -40,9 +40,14 @@ limitations under the License.
     await readyToTest();
     let element;
     let sandbox;
-    const ROBOT_COMMENT = {
+    const ROBOT_COMMENT_WITH_TWO_FIXES = {
       robot_id: 'robot_1',
       fix_suggestions: [{fix_id: 'fix_1'}, {fix_id: 'fix_2'}],
+    };
+
+    const ROBOT_COMMENT_WITH_ONE_FIX = {
+      robot_id: 'robot_1',
+      fix_suggestions: [{fix_id: 'fix_1'}],
     };
 
     setup(() => {
@@ -101,11 +106,27 @@ limitations under the License.
           }));
       sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
 
-      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}})
+      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
           .then(() => {
             assert.equal(element._currentFix.fix_id, 'fix_1');
             assert.equal(element._currentPreviews.length, 2);
             assert.equal(element._robotId, 'robot_1');
+            done();
+          });
+    });
+
+    test('next button state updated when suggestions changed', done => {
+      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+          .returns(Promise.resolve({}));
+      sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
+
+      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_ONE_FIX}})
+          .then(() => assert.isTrue(element.$.nextFix.disabled))
+          .then(() =>
+            element.open({detail: {patchNum: 2,
+              comment: ROBOT_COMMENT_WITH_TWO_FIXES}}))
+          .then(() => {
+            assert.isFalse(element.$.nextFix.disabled);
             done();
           });
     });
@@ -123,7 +144,8 @@ limitations under the License.
       }));
       const errorStub = sinon.stub();
       document.addEventListener('network-error', errorStub);
-      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}});
+      element.open({detail: {patchNum: 2,
+        comment: ROBOT_COMMENT_WITH_TWO_FIXES}});
       flush(() => {
         assert.isTrue(errorStub.called);
         assert.deepEqual(element._currentFix, {});
@@ -189,7 +211,7 @@ limitations under the License.
           }));
       sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
 
-      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}})
+      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
           .then(() => {
             element._onNextFixClick();
             assert.equal(element._currentFix.fix_id, 'fix_2');

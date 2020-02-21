@@ -148,13 +148,17 @@
       }
     },
 
-    _noPrevFix(_selectedFixIdx) {
+    _noPrevFix(_selectedFixIdx, fixSuggestions) {
+      // We should depend on fixSuggestions, because _noPrevFix
+      // must be updated each time, when fixSuggestions array is changed
+      // Otherwise prevButton preserves disabled state from the
+      // previous fix
       return _selectedFixIdx === 0;
     },
 
-    _noNextFix(_selectedFixIdx) {
-      if (this._fixSuggestions == null) return true;
-      return _selectedFixIdx === this._fixSuggestions.length - 1;
+    _noNextFix(_selectedFixIdx, fixSuggestions) {
+      if (fixSuggestions == null) return true;
+      return _selectedFixIdx === fixSuggestions.length - 1;
     },
 
     _close() {

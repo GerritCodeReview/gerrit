@@ -22,6 +22,30 @@
       "revId": "25561e1b4fe4e2977634db7eccb7990d000b7ccf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "343329d4_010e679a",
+        "filename": "javatests/com/google/gerrit/server/update/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-21T20:24:48Z",
+      "side": 1,
+      "message": "\u003e Since common:server was also removed.\n\nAccording to latest local testing and patch set 2\u0027s passing CI, both are needed.",
+      "parentUuid": "cb993cf8_6f2dbfe0",
+      "range": {
+        "startLine": 12,
+        "startChar": 34,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "25561e1b4fe4e2977634db7eccb7990d000b7ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

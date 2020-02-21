@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "909b2b03_b6a1b1d3",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-21T11:01:12Z",
+      "side": 1,
+      "message": "This is coming in the log with double quotes",
+      "revId": "0582b29806042bc606de60b3b809cc4625e28f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

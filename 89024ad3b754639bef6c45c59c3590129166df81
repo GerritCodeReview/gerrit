@@ -1,0 +1,74 @@
+{
+  "comments": [
+    {
+      "robotId": "Linter",
+      "robotRunId": "2",
+      "fixSuggestions": [
+        {
+          "fixId": "d88dca6f_0d6943de",
+          "description": "Update interface members",
+          "replacements": [
+            {
+              "path": "tools/node_tools/polygerrit_app_preprocessor/utils.ts",
+              "range": {
+                "startLine": 56,
+                "startChar": 2,
+                "endLine": 56,
+                "endChar": 21
+              },
+              "replacement": "insideNodeModules"
+            }
+          ]
+        },
+        {
+          "fixId": "a38f7961_1900f92f",
+          "description": "Update usages",
+          "replacements": [
+            {
+              "path": "tools/node_tools/polygerrit_app_preprocessor/links-updater.ts",
+              "range": {
+                "startLine": 98,
+                "startChar": 22,
+                "endLine": 98,
+                "endChar": 41
+              },
+              "replacement": "insideNodeModules"
+            },
+            {
+              "path": "tools/node_tools/polygerrit_app_preprocessor/links-updater.ts",
+              "range": {
+                "startLine": 101,
+                "startChar": 21,
+                "endLine": 101,
+                "endChar": 40
+              },
+              "replacement": "insideNodeModules"
+            }
+          ]
+        }
+      ],
+      "key": {
+        "uuid": "9ccf53d8_f4ecdb0c",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-21T16:40:47Z",
+      "side": 1,
+      "message": "Use lower camel case for naming interface member.",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 21
+      },
+      "tag": "robot",
+      "revId": "89024ad3b754639bef6c45c59c3590129166df81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

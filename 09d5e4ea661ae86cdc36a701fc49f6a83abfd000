@@ -1,0 +1,64 @@
+{
+  "comments": [
+    {
+      "robotId": "linter",
+      "robotRunId": "2",
+      "fixSuggestions": [
+        {
+          "fixId": "153abec8_c3f95714",
+          "description": "Renaming interface member to camelCase",
+          "replacements": [
+            {
+              "path": "tools/node_tools/polygerrit_app_preprocessor/utils.ts",
+              "range": {
+                "startLine": 98,
+                "startChar": 1,
+                "endLine": 98,
+                "endChar": 4
+              },
+              "replacement": "insideNodeModules"
+            }
+          ]
+        },
+        {
+          "fixId": "e2c10a8f_53c35dcb",
+          "description": "Renaming interface member to camelCase",
+          "replacements": [
+            {
+              "path": "tools/node_tools/polygerrit_app_preprocessor/links-updater.ts",
+              "range": {
+                "startLine": 56,
+                "startChar": 1,
+                "endLine": 56,
+                "endChar": 3
+              },
+              "replacement": "insideNodeModules"
+            }
+          ]
+        }
+      ],
+      "key": {
+        "uuid": "10cf2fe2_fd1a107c",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-21T16:30:06Z",
+      "side": 1,
+      "message": "Use lower camel case for naming interface member.",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "tag": "robot",
+      "revId": "09d5e4ea661ae86cdc36a701fc49f6a83abfd000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

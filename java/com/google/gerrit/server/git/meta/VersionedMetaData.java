@@ -409,7 +409,7 @@ public abstract class VersionedMetaData {
           // read the subject line and use it as reflog message
           ru.setRefLogMessage("commit: " + reader.readLine(), true);
         }
-        logger.atFine().log("Saving commit: %s", message.trim());
+        logger.atFine().log("Saving commit '%s' on project '%s'", message.trim(), projectName);
         inserter.flush();
         RefUpdate.Result result = ru.update();
         switch (result) {
@@ -417,6 +417,9 @@ public abstract class VersionedMetaData {
           case FAST_FORWARD:
             revision = rw.parseCommit(ru.getNewObjectId());
             update.fireGitRefUpdatedEvent(ru);
+            logger.atFine().log(
+                "Saved commit '%s' as revision '%s' on project '%s'",
+                message.trim(), revision.name(), projectName);
             return revision;
           case LOCK_FAILURE:
             throw new LockFailureException(errorMsg(ru, db.getDirectory()), ru);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92c28fc5_ecdb9eb2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-21T09:36:12Z",
+      "side": 1,
+      "message": "should this be `_self` instead ?",
+      "range": {
+        "startLine": 77,
+        "startChar": 41,
+        "endLine": 77,
+        "endChar": 48
+      },
+      "revId": "fcda5e3d215e1bba2354152ea6988b97509118bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

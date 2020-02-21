@@ -40,7 +40,7 @@ public abstract class RetryingRestModifyView<R extends RestResource, I, O>
               .onAutoTrace(traceId::set)
               .build();
       return retryHelper
-          .execute((updateFactory) -> applyImpl(updateFactory, resource, input), retryOptions)
+          .execute(updateFactory -> applyImpl(updateFactory, resource, input), retryOptions)
           .traceId(traceId.get());
     } catch (Exception e) {
       Throwables.throwIfInstanceOf(e, RestApiException.class);

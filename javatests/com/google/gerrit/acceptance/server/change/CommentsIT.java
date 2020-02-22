@@ -81,10 +81,10 @@ import org.junit.Test;
 public class CommentsIT extends AbstractDaemonTest {
   @Inject private ChangeNoteUtil noteUtil;
   @Inject private FakeEmailSender email;
+  @Inject private ProjectOperations projectOperations;
   @Inject private Provider<ChangesCollection> changes;
   @Inject private Provider<PostReview> postReview;
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject ProjectOperations projectOperations;
 
   private final Integer[] lines = {0, 1};
 
@@ -385,6 +385,39 @@ public class CommentsIT extends AbstractDaemonTest {
 
     List<CommentInfo> list = getPublishedCommentsAsList(changeId);
     assertThat(list.stream().map(infoToInput(file))).containsExactlyElementsIn(expectedComments);
+  }
+
+  /**
+   * This test makes sure that the commits in the refs/draft-comments ref in NoteDb have no parent
+   * commits. This is important so that each new draft update (add, modify, delete) does not keep
+   * track of previous history.
+   */
+  @Test
+  public void commitsInDraftCommentsRefHaveNoParent() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String draftRefName = RefNames.refsDraftComments(r.getChange().getId(), user.id());
+
+    DraftInput comment1 = newDraft("file_1", Side.REVISION, 1, "comment 1");
+    CommentInfo commentInfo1 = addDraft(changeId, revId, comment1);
+    assertThat(getHeadOfDraftCommentsRef(draftRefName).getParentCount()).isEqualTo(0);
+
+    DraftInput comment2 = newDraft("file_2", Side.REVISION, 2, "comment 2");
+    CommentInfo commentInfo2 = addDraft(changeId, revId, comment2);
+    assertThat(getHeadOfDraftCommentsRef(draftRefName).getParentCount()).isEqualTo(0);
+
+    deleteDraft(changeId, revId, commentInfo1.id);
+    assertThat(getHeadOfDraftCommentsRef(draftRefName).getParentCount()).isEqualTo(0);
+    assertThat(
+            getDraftComments(changeId, revId).values().stream()
+                .flatMap(List::stream)
+                .map(commentInfo -> commentInfo.message))
+        .containsExactly("comment 2");
+
+    deleteDraft(changeId, revId, commentInfo2.id);
+    assertThat(projectOperations.project(allUsers).hasHead(draftRefName)).isFalse();
+    assertThat(getDraftComments(changeId, revId).values().stream().flatMap(List::stream)).isEmpty();
   }
 
   @Test
@@ -1109,6 +1142,12 @@ public class CommentsIT extends AbstractDaemonTest {
         assertThat(commitAfter.getEncoding()).isEqualTo(commitBefore.getEncoding());
         assertThat(commitAfter.getEncodingName()).isEqualTo(commitBefore.getEncodingName());
       }
+    }
+  }
+
+  private RevCommit getHeadOfDraftCommentsRef(String refName) throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      return getHead(repo, refName);
     }
   }
 

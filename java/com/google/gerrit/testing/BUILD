@@ -45,6 +45,8 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",
+        "//lib/log:impl-log4j",
+        "//lib/log:log4j",
         "//lib/truth",
     ],
 )

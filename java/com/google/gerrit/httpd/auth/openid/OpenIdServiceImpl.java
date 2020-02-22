@@ -192,7 +192,7 @@ class OpenIdServiceImpl {
     // We might already have this account on file. Look for it.
     //
     try {
-      return accountManager.lookup(aReq.getIdentity()) == null;
+      return !accountManager.lookup(aReq.getIdentity()).isPresent();
     } catch (AccountException e) {
       logger.atWarning().withCause(e).log("Cannot determine if user account exists");
       return true;
@@ -333,7 +333,7 @@ class OpenIdServiceImpl {
       areq.setEmailAddress(fetchRsp.getAttributeValue("Email"));
     }
 
-    if (openIdDomains != null && openIdDomains.size() > 0) {
+    if (openIdDomains != null && !openIdDomains.isEmpty()) {
       // Administrator limited email domains, which can be used for OpenID.
       // Login process will only work if the passed email matches one
       // of these domains.

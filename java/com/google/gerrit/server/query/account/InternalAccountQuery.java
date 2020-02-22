@@ -71,7 +71,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     List<AccountState> accountStates = byExternalId(externalId);
     if (accountStates.size() == 1) {
       return accountStates.get(0);
-    } else if (accountStates.size() > 0) {
+    } else if (!accountStates.isEmpty()) {
       StringBuilder msg = new StringBuilder();
       msg.append("Ambiguous external ID ").append(externalId).append(" for accounts: ");
       Joiner.on(", ")

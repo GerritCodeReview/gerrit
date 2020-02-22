@@ -77,7 +77,7 @@
      */
     getDarkTheme() {
       return new Promise((resolve, reject) => {
-        (this.importHref || Polymer.importHref)(
+        Polymer.importHref(
             this._getLibRoot() + DARK_THEME_PATH, () => {
               const module = document.createElement('style');
               module.setAttribute('include', 'dark-theme');

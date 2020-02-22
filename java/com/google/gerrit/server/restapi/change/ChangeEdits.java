@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -35,6 +36,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -66,9 +68,12 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.Base64;
 import org.kohsuke.args4j.Option;
 
 @Singleton
@@ -277,6 +282,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
   /** Put handler that is activated when PUT request is called on collection element. */
   @Singleton
   public static class Put implements RestModifyView<ChangeEditResource, FileContentInput> {
+    private static final Pattern BINARY_DATA_PATTERN =
+        Pattern.compile("data:([\\w/.-]*);([\\w]+),(.*)");
+    private static final String BASE64 = "base64";
+
     private final ChangeEditModifier editModifier;
     private final GitRepositoryManager repositoryManager;
     private final EditMessage editMessage;
@@ -301,22 +310,36 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     public Response<Object> apply(ChangeResource rsrc, String path, FileContentInput input)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
-      if (input.content == null) {
-        throw new BadRequestException("new content required");
+
+      if (input.content == null && input.binary_content == null) {
+        throw new BadRequestException("either content or binary_content is required");
       }
 
-      if (Patch.COMMIT_MSG.equals(path)) {
+      RawInput newContent;
+      if (input.binary_content != null) {
+        Matcher m = BINARY_DATA_PATTERN.matcher(input.binary_content);
+        if (m.matches() && BASE64.equals(m.group(2))) {
+          newContent = RawInputUtil.create(Base64.decode(m.group(3)));
+        } else {
+          throw new BadRequestException("binary_content must be encoded as base64 data uri");
+        }
+      } else {
+        newContent = input.content;
+      }
+
+      if (Patch.COMMIT_MSG.equals(path) && input.binary_content == null) {
         EditMessage.Input editCommitMessageInput = new EditMessage.Input();
         editCommitMessageInput.message =
-            new String(ByteStreams.toByteArray(input.content.getInputStream()), UTF_8);
+            new String(ByteStreams.toByteArray(newContent.getInputStream()), UTF_8);
         return editMessage.apply(rsrc, editCommitMessageInput);
       }
+
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
 
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
-        editModifier.modifyFile(repository, rsrc.getNotes(), path, input.content);
+        editModifier.modifyFile(repository, rsrc.getNotes(), path, newContent);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

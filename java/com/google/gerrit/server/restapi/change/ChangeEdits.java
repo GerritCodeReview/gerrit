@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -30,6 +31,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -61,9 +63,12 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.Base64;
 import org.kohsuke.args4j.Option;
 
 @Singleton
@@ -295,12 +300,24 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         throw new ResourceConflictException("Invalid path: " + path);
       }
 
-      if (input.content == null) {
-        throw new BadRequestException("new content required");
+      if (input.content == null && input.binary_content == null) {
+        throw new BadRequestException("Either content or binary_content is required");
+      }
+
+      RawInput newContent;
+      if (input.binary_content != null) {
+        Matcher m = Pattern.compile("data:([\\w/.-]*);([\\w]+),(.*)").matcher(input.binary_content);
+        if (m.matches() && "base64".equals(m.group(2))) {
+          newContent = RawInputUtil.create(Base64.decode(m.group(3)));
+        } else {
+          throw new BadRequestException("File must be encoded with base64 data uri");
+        }
+      } else {
+        newContent = input.content;
       }
 
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
-        editModifier.modifyFile(repository, rsrc.getNotes(), path, input.content);
+        editModifier.modifyFile(repository, rsrc.getNotes(), path, newContent);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

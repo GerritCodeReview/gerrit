@@ -94,6 +94,15 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
   private static final String CONTENT_NEW2_STR = "quxÄÜÖßµ";
   private static final byte[] CONTENT_NEW2 = CONTENT_NEW2_STR.getBytes(UTF_8);
+  private static final String CONTENT_BINARY_ENCODED_NEW =
+      "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==";
+  private static final byte[] CONTENT_BINARY_DECODED_NEW = "Hello, World!".getBytes(UTF_8);
+  private static final String CONTENT_BINARY_ENCODED_NEW2 =
+      "data:text/plain;base64,VXBsb2FkaW5nIHRvIGFuIGVkaXQgd29ya2VkIQ==";
+  private static final byte[] CONTENT_BINARY_DECODED_NEW2 =
+      "Uploading to an edit worked!".getBytes(UTF_8);
+  private static final String CONTENT_BINARY_ENCODED_NEW3 =
+      "data:text/plain,VXBsb2FkaW5nIHRvIGFuIGVkaXQgd29ya2VkIQ==";
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -534,6 +543,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.content = RawInputUtil.create(CONTENT_NEW);
     adminRestSession.putRaw(urlEditFile(changeId, FILE_NAME), in.content).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
+  }
+
+  @Test
+  public void createAndUploadBinaryInChangeEditOneRequestRest() throws Exception {
+    FileContentInput in = new FileContentInput();
+    in.binary_content = CONTENT_BINARY_ENCODED_NEW;
+    adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW);
+    in.binary_content = CONTENT_BINARY_ENCODED_NEW2;
+    adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW2);
+  }
+
+  @Test
+  public void invalidBase64UploadBinaryInChangeEditOneRequestRest() throws Exception {
+    FileContentInput in = new FileContentInput();
+    in.binary_content = CONTENT_BINARY_ENCODED_NEW3;
+    adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertBadRequest();
   }
 
   @Test

@@ -1,4 +1,4 @@
-// Copyright (C) 2019 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,19 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.google.gerrit.acceptance;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+package com.google.gerrit.server.logging;
 
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import org.apache.log4j.spi.LoggingEvent;
 
-@Target({TYPE, METHOD})
-@Retention(RUNTIME)
-@Inherited
-public @interface LogThreshold {
-  String level() default "DEBUG";
+public abstract class JsonLogEntry {
+  public String getMdcString(LoggingEvent event, String key) {
+    return (String) event.getMDC(key);
+  }
 }

@@ -130,7 +130,6 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
@@ -213,7 +212,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
-  @Inject private PermissionBackend permissionBackend;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
 

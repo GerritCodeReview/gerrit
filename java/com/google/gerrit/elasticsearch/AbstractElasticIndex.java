@@ -392,7 +392,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     @Override
     public ResultSet<V> read() {
-      return readImpl((doc) -> AbstractElasticIndex.this.fromDocument(doc, opts.fields()));
+      return readImpl(doc -> AbstractElasticIndex.this.fromDocument(doc, opts.fields()));
     }
 
     @Override

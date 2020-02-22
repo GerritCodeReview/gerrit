@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface Groups {
   /**
@@ -166,7 +167,7 @@ public interface Groups {
       return this;
     }
 
-    public EnumSet<ListGroupsOption> getOptions() {
+    public Set<ListGroupsOption> getOptions() {
       return options;
     }
 
@@ -224,7 +225,7 @@ public interface Groups {
     private String query;
     private int limit;
     private int start;
-    private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
+    private Set<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
 
     /** Execute query and returns the matched groups as list. */
     public abstract List<GroupInfo> get() throws RestApiException;
@@ -266,7 +267,7 @@ public interface Groups {
     }
 
     /** Set options on the request, replacing existing options. */
-    public QueryRequest withOptions(EnumSet<ListGroupsOption> options) {
+    public QueryRequest withOptions(Set<ListGroupsOption> options) {
       this.options = options;
       return this;
     }
@@ -283,7 +284,7 @@ public interface Groups {
       return start;
     }
 
-    public EnumSet<ListGroupsOption> getOptions() {
+    public Set<ListGroupsOption> getOptions() {
       return options;
     }
   }

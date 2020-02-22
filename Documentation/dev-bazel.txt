@@ -293,7 +293,7 @@ The WAR file will be placed in:
 Debugging tests:
 
 ----
-  bazel test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod  testTarget
+  bazel test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod testTarget
 ----
 
 Debug test example:
@@ -376,20 +376,24 @@ If Docker is not available, the Elasticsearch tests will be skipped.
 Note that Bazel currently does not show
 link:https://github.com/bazelbuild/bazel/issues/3476[the skipped tests,role=external,window=_blank].
 
-[[debug]]
-=== Index Query Tests
+[[logging]]
+=== Controlling logging level
 
-The `DEBUG` log level can optionally be enabled for the index query tests. That log level applies to
-both Elasticsearch and Lucene tests.
+Per default, logging level is set to `INFO` level for all tests. The `DEBUG`
+log level can be enabled for the tests.
 
-In Eclipse, set `-Ddebug=true` as a VM argument under the Run Configuration's `Arguments` tab.
-
-With `bazel`, here is an example for the Lucene `account` test:
+In IDE, set `-Dgerrit.logLevel=debug` as a VM argument. With `bazel`, pass
+`GERRIT_LOG_LEVEL=debug` environment variable:
 
 ----
-bazel test --jvmopt='-Ddebug=true' \
-javatests/com/google/gerrit/server/query/account:lucene_query_test
+  bazel test --test_filter=com.gerrit.server.notedb.ChangeNotesTest \
+  --test_env=GERRIT_LOG_LEVEL=debug \
+  javatests/com/google/gerrit/server:server_tests
 ----
+
+The log results can be found in:
+`bazel-testlogs/javatests/com/google/gerrit/server/server_tests/test.log`.
+
 
 == Dependencies
 
@@ -596,7 +600,6 @@ command with correct arguments. You can find the list of arguments in the
 link:https://classic.yarnpkg.com/en/docs/cli/upgrade/[yarn upgrade doc,role=external,window=_blank].
 
 
-
 [[RBE]]
 == Google Remote Build Support
 
@@ -629,8 +632,6 @@ bazel test --config=remote \
     --remote_instance_name=projects/${PROJECT}/instances/default_instance \
     javatests/...
 ```
-
-
 
 
 GERRIT

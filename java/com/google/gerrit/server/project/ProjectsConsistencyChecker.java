@@ -233,7 +233,7 @@ public class ProjectsConsistencyChecker {
         predicates.add(new CommitPredicate(commit.name()));
       }
 
-      if (predicates.size() > 0) {
+      if (!predicates.isEmpty()) {
         // Execute the query with the remaining predicates that were collected.
         autoCloseableChanges.addAll(
             executeQueryAndAutoCloseChanges(

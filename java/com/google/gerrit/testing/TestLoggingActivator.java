@@ -63,6 +63,14 @@ public class TestLoggingActivator {
           .put("org.eclipse.jgit.transport.PacketLineOut", Level.WARN)
           .put("org.eclipse.jgit.internal.storage.file.FileSnapshot", Level.WARN)
           .put("org.eclipse.jgit.util.FS", Level.WARN)
+          .put("org.eclipse.jgit.util.SystemReader", Level.WARN)
+
+          // Silence non-critical messages from Elasticsearch.
+          .put("org.elasticsearch", Level.WARN)
+
+          // Silence non-critical messages from Docker for Elasticsearch query tests.
+          .put("org.testcontainers", Level.WARN)
+          .put("com.github.dockerjava.core", Level.WARN)
           .build();
 
   private static Level getGerritLogLevel() {

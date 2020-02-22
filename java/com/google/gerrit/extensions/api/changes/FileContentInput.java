@@ -20,4 +20,5 @@ import com.google.gerrit.extensions.restapi.RawInput;
 /** Content to be added to a file (new or existing) via change edit. */
 public class FileContentInput {
   @DefaultInput public RawInput content;
+  public String binary_content;
 }

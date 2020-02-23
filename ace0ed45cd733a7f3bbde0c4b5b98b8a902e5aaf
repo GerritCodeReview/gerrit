@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1bb50f7_70c1442d",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T20:43:37Z",
+      "side": 1,
+      "message": "args, and adapt below.",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 7
+      },
+      "revId": "ace0ed45cd733a7f3bbde0c4b5b98b8a902e5aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cc4f11e_8a109a0e",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T20:43:37Z",
+      "side": 1,
+      "message": "args, and adapt below.",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 8
+      },
+      "revId": "ace0ed45cd733a7f3bbde0c4b5b98b8a902e5aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccfe4767_413f7fee",
+        "filename": "tools/js/download_bower.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T20:43:37Z",
+      "side": 1,
+      "message": "args, and adapt below.",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 8
+      },
+      "revId": "ace0ed45cd733a7f3bbde0c4b5b98b8a902e5aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

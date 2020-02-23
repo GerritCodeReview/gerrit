@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64ebf20c_dccdaefe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T15:39:04Z",
+      "side": 1,
+      "message": "It can be undefined and is thus optional (see my comment below), and should be called opt_lineNum?",
+      "range": {
+        "startLine": 609,
+        "startChar": 46,
+        "endLine": 609,
+        "endChar": 53
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad72bc2e_c8fbc1f1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T15:39:04Z",
+      "side": 1,
+      "message": "This raises the question whether or not lineNum should be added in this set for the check and was forgotten to be added? If you fix the variable name to be  opt_lineNum then the answer is obvious: no.",
+      "range": {
+        "startLine": 610,
+        "startChar": 11,
+        "endLine": 610,
+        "endChar": 35
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be8c42a8_99ecc966",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T15:39:04Z",
+      "side": 1,
+      "message": "number can be undefined, if cursorAddress was not defined.",
+      "range": {
+        "startLine": 1001,
+        "startChar": 24,
+        "endLine": 1001,
+        "endChar": 30
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db110223_0cbe9bd7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T15:39:04Z",
+      "side": 1,
+      "message": "May be call it: _handleCommentFixInlineEditor?",
+      "range": {
+        "startLine": 122,
+        "startChar": 22,
+        "endLine": 122,
+        "endChar": 51
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de52dffa_33186e52",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T15:39:04Z",
+      "side": 1,
+      "message": "Stale action naming compared with button name. Can it be just called \"fix\"?",
+      "range": {
+        "startLine": 126,
+        "startChar": 30,
+        "endLine": 126,
+        "endChar": 37
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdb94e38_11e41aca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T15:39:04Z",
+      "side": 1,
+      "message": "opt_lineNum, in case the focus wasn\u0027t set in right pane and the cursor position is undefined?",
+      "range": {
+        "startLine": 383,
+        "startChar": 70,
+        "endLine": 383,
+        "endChar": 77
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

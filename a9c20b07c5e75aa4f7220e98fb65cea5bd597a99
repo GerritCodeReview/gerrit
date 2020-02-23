@@ -22,6 +22,30 @@
       "revId": "a9c20b07c5e75aa4f7220e98fb65cea5bd597a99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "038e090c_a653a129",
+        "filename": "tools/js/download_bower.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T16:43:55Z",
+      "side": 1,
+      "message": "Thanks, done!\n\nI missed this one.",
+      "parentUuid": "10d3cf92_b99c016a",
+      "range": {
+        "startLine": 112,
+        "startChar": 11,
+        "endLine": 112,
+        "endChar": 17
+      },
+      "revId": "a9c20b07c5e75aa4f7220e98fb65cea5bd597a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

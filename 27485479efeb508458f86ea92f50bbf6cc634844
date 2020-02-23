@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ecd88ca_0a05b41e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T08:08:49Z",
+      "side": 1,
+      "message": "This is confusing: \"scrolling to line in inline editor\" works already now, without that change. May be rephrase it:\n\n  Add support for opening inline editor on specific line",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "27485479efeb508458f86ea92f50bbf6cc634844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "483da0a9_9e40848a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T08:08:49Z",
+      "side": 1,
+      "message": "This doesn\u0027t work. If I look at the code that was added here: [1], I don\u0027t see where line number is handled. It also seems, that the method in: [1] is executed during opening of diff view. After scrolling to page 42 and opening inline editor by pushing \"Edit Pen\" icon, the position in the opened inline editor is still 0 and not 42.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/253332/11/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js#607",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "27485479efeb508458f86ea92f50bbf6cc634844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4550b993_53c9508a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T08:08:49Z",
+      "side": 1,
+      "message": "Just \"FIX\" if my other comment is addressed.",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "27485479efeb508458f86ea92f50bbf6cc634844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c46d16_a9c15f7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T08:08:49Z",
+      "side": 1,
+      "message": "Confirmed that this use case works.",
+      "revId": "27485479efeb508458f86ea92f50bbf6cc634844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44004caf_2bc543e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T08:08:49Z",
+      "side": 1,
+      "message": "It probably not a good button name. We are jumping to specific line, but we might fix entire code/text block and not a single line. Name it like it was called in the GWT UI, just \"Fix\".",
+      "range": {
+        "startLine": 136,
+        "startChar": 39,
+        "endLine": 136,
+        "endChar": 47
+      },
+      "revId": "27485479efeb508458f86ea92f50bbf6cc634844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84783db5_e4c7bde0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T08:08:49Z",
+      "side": 1,
+      "message": "I would rather not add this button to the most right position. \"DONE\" button should be kept as default action. Move it in the middle of actions, e.g. after or before Quote action.",
+      "range": {
+        "startLine": 132,
+        "startChar": 10,
+        "endLine": 137,
+        "endChar": 14
+      },
+      "revId": "27485479efeb508458f86ea92f50bbf6cc634844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b73b38d9_f14609a8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T08:08:49Z",
+      "side": 1,
+      "message": "I would have expected, that this method is called _handleCommentFix, but I see, that such method already exits, and does something entirely different?",
+      "range": {
+        "startLine": 383,
+        "startChar": 4,
+        "endLine": 383,
+        "endChar": 18
+      },
+      "revId": "27485479efeb508458f86ea92f50bbf6cc634844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eec11ce9_3e896890",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T08:08:49Z",
+      "side": 1,
+      "message": "his comment is not needed, if the method name was chosen carefully and has self explaining name.",
+      "range": {
+        "startLine": 384,
+        "startChar": 6,
+        "endLine": 384,
+        "endChar": 36
+      },
+      "revId": "27485479efeb508458f86ea92f50bbf6cc634844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

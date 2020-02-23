@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87d1ccf8_4a0542fb",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T07:09:26Z",
+      "side": 1,
+      "message": "Here and in all other places: this should be int and not \u0027int\u0027 (string is not callable, see: [1])\n\n  $ python3 contrib/populate-fixture-data.py\n  Traceback (most recent call last):\n    File \"contrib/populate-fixture-data.py\", line 311, in \u003cmodule\u003e\n      main()\n    File \"contrib/populate-fixture-data.py\", line 282, in main\n      help\u003d\"number of users to generate\")\n    File \"/usr/lib64/python3.7/argparse.py\", line 1358, in add_argument\n      raise ValueError(\u0027%r is not callable\u0027 % (type_func,))\n  ValueError: \u0027int\u0027 is not callable\n\n[1] https://stackoverflow.com/questions/15352701/argparse-how-to-accept-arguments-that-have-different-types",
+      "range": {
+        "startLine": 281,
+        "startChar": 22,
+        "endLine": 281,
+        "endChar": 27
+      },
+      "revId": "d1435216dc603b94b251846e4995d239b4ba9877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

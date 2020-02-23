@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "044d31d5_0879185d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-23T02:47:13Z",
+      "side": 1,
+      "message": "Also add a check to make sure only one of them is set.",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 305,
+        "endChar": 7
+      },
+      "revId": "dbfe9ec5b0a2337349bc583b9c80d5dd425df1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70d3be76_a7d41291",
         "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 4

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d3824539_68dd605a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T15:54:46Z",
+      "side": 1,
+      "message": "Yeh, this can be opt_lineNum, thanks!",
+      "parentUuid": "64ebf20c_dccdaefe",
+      "range": {
+        "startLine": 609,
+        "startChar": 46,
+        "endLine": 609,
+        "endChar": 53
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad72bc2e_c8fbc1f1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 20
@@ -45,6 +69,30 @@
       "revId": "430af2fbab21b791c207069f020609208c70eb5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f35ab92_d1621522",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T15:54:46Z",
+      "side": 1,
+      "message": "Nope, this was done on purpose, as lineNum will be undefined if not set thus #\u003cline-num\u003e won\u0027t be set if undefined (check is already done down the pipe).\n\nSince if we add a undefined check here, that means this function will not work without lineNum being defined, which is not what we want.",
+      "parentUuid": "ad72bc2e_c8fbc1f1",
+      "range": {
+        "startLine": 610,
+        "startChar": 11,
+        "endLine": 610,
+        "endChar": 35
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "dc677314_03399103",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T15:54:46Z",
+      "side": 1,
+      "message": "Yup, this is so lineNum is removed if undefined, the check down the pipe will not set lineNum if it\u0027s undefined.\n\nFor example on the diff you can click \"File\" [1], which resets the lineNum so it\u0027s not set.\n\n[1] https://imgur.com/a/e5zYjl8",
+      "parentUuid": "be8c42a8_99ecc966",
+      "range": {
+        "startLine": 1001,
+        "startChar": 24,
+        "endLine": 1001,
+        "endChar": 30
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db110223_0cbe9bd7",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
         "patchSetId": 20
@@ -91,6 +163,30 @@
       "revId": "430af2fbab21b791c207069f020609208c70eb5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c15ce8_77220614",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T15:54:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "db110223_0cbe9bd7",
+      "range": {
+        "startLine": 122,
+        "startChar": 22,
+        "endLine": 122,
+        "endChar": 51
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "658d8139_25ff9f5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T15:54:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "de52dffa_33186e52",
+      "range": {
+        "startLine": 126,
+        "startChar": 30,
+        "endLine": 126,
+        "endChar": 37
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb94e38_11e41aca",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 20
@@ -137,6 +257,30 @@
       "revId": "430af2fbab21b791c207069f020609208c70eb5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4dcbaf7_b3725868",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T15:54:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fdb94e38_11e41aca",
+      "range": {
+        "startLine": 383,
+        "startChar": 70,
+        "endLine": 383,
+        "endChar": 77
+      },
+      "revId": "430af2fbab21b791c207069f020609208c70eb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3352db2e_1c330149",
+        "filename": "tools/version.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T16:08:20Z",
+      "side": 1,
+      "message": "Why it was done differently as in other files? Can we keep here the same idiom:\n\n  args \u003d vars(parser.parse_args())\n  DEST_PATTERN \u003d r\u0027\\g\u003c1\u003e%s\\g\u003c3\u003e\u0027 % args[\u0027version\u0027]",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "4f7d83a9a8b9d0158d4c187bc1afe6be4d33bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

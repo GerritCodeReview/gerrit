@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c42fe5fb_d642846f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2739,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T03:32:24Z",
+      "side": 1,
+      "message": "Appears it has not be defined (the input) in this doc.\n\nAdded the doc, thanks, done.",
+      "parentUuid": "618b3fc1_a6258190",
+      "revId": "dbfe9ec5b0a2337349bc583b9c80d5dd425df1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "044d31d5_0879185d",
         "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "72b0d354_3f739b23",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T03:32:24Z",
+      "side": 1,
+      "message": "Not needed as if input.binary_content is set then setting input.content does nothing (the test was failing, checked and input.binary_content returned non-null, but content was returning null even though i set it).\n\nSo because the content type must be application/json to use input.binary_content, we are safe without a test for this (and even then, it seems impossible to make one as the test will fail due to input.content returning null and binary_content returning a base-64 encoded data uri).",
+      "parentUuid": "044d31d5_0879185d",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 305,
+        "endChar": 7
+      },
+      "revId": "dbfe9ec5b0a2337349bc583b9c80d5dd425df1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d3be76_a7d41291",
         "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 4
@@ -56,6 +98,24 @@
       "revId": "dbfe9ec5b0a2337349bc583b9c80d5dd425df1c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1735a2be_dd444912",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T03:32:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "70d3be76_a7d41291",
+      "revId": "dbfe9ec5b0a2337349bc583b9c80d5dd425df1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

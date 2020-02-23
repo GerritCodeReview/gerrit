@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618b3fc1_a6258190",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2739,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-23T02:39:07Z",
+      "side": 1,
+      "message": "The binary_content field should be added to the description of the input entity.",
+      "revId": "dbfe9ec5b0a2337349bc583b9c80d5dd425df1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70d3be76_a7d41291",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-23T02:39:07Z",
+      "side": 1,
+      "message": "Add a test for passing invalid base64 content.",
+      "revId": "dbfe9ec5b0a2337349bc583b9c80d5dd425df1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

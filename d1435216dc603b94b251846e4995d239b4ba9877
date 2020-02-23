@@ -22,6 +22,30 @@
       "revId": "d1435216dc603b94b251846e4995d239b4ba9877",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de860c2b_fc849fe3",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T15:36:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "87d1ccf8_4a0542fb",
+      "range": {
+        "startLine": 281,
+        "startChar": 22,
+        "endLine": 281,
+        "endChar": 27
+      },
+      "revId": "d1435216dc603b94b251846e4995d239b4ba9877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

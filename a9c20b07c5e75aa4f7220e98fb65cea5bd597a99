@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10d3cf92_b99c016a",
+        "filename": "tools/js/download_bower.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-23T16:38:52Z",
+      "side": 1,
+      "message": "May be replace this with opts[\u0027s\u0027] too? If I run `bazel build :release` it\u0027s failing on this line:\n\n  ERROR: Analysis of target \u0027//:release\u0027 failed; build aborted: no such package \u0027@webcomponentsjs//\u0027: failed [/usr/bin/python, /home/davido/projects/gerrit/tools/js/download_bower.py, \"-b\", \"/usr/bin/python /home/davido/projects/gerrit/tools/js/run_npm_binary.py /home/davido/.cache/bazel/_bazel_davido/27a001f4182820ef315d8d2d4f1edafe/external/bower/bower@1.8.8.npm_binary.tgz\", \"-n\", \"webcomponentsjs\", \"-p\", \"webcomponents/webcomponentsjs\", \"-v\", \"0.7.24\", \"-s\", \"559227f8ee9db9bfbd81989f24510cc0c1bfc65c\", \"-o\", \"webcomponentsjs__download_bower.zip\"]: Traceback (most recent call last):\n    File \"/home/davido/projects/gerrit/tools/js/download_bower.py\", line 135, in \u003cmodule\u003e\n    sys.exit(main(sys.argv[1:]))\n  File \"/home/davido/projects/gerrit/tools/js/download_bower.py\", line 112, in main\n    if opts.s:\n  AttributeError: \u0027dict\u0027 object has no attribute \u0027s\u0027",
+      "range": {
+        "startLine": 112,
+        "startChar": 11,
+        "endLine": 112,
+        "endChar": 17
+      },
+      "revId": "a9c20b07c5e75aa4f7220e98fb65cea5bd597a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -29,12 +29,12 @@ import org.eclipse.jgit.lib.Config;
 public class ChangeCleanupConfig {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static String SECTION = "changeCleanup";
-  private static String KEY_ABANDON_AFTER = "abandonAfter";
-  private static String KEY_ABANDON_IF_MERGEABLE = "abandonIfMergeable";
-  private static String KEY_ABANDON_MESSAGE = "abandonMessage";
-  private static String KEY_CLEANUP_ACCOUNT_PATCH_REVIEW = "cleanupAccountPatchReview";
-  private static String DEFAULT_ABANDON_MESSAGE =
+  private static final String SECTION = "changeCleanup";
+  private static final String KEY_ABANDON_AFTER = "abandonAfter";
+  private static final String KEY_ABANDON_IF_MERGEABLE = "abandonIfMergeable";
+  private static final String KEY_ABANDON_MESSAGE = "abandonMessage";
+  private static final String KEY_CLEANUP_ACCOUNT_PATCH_REVIEW = "cleanupAccountPatchReview";
+  private static final String DEFAULT_ABANDON_MESSAGE =
       "Auto-Abandoned due to inactivity, see "
           + "${URL}\n"
           + "\n"

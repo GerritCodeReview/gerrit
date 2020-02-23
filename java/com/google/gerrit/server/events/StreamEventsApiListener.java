@@ -230,7 +230,7 @@ public class StreamEventsApiListener
   }
 
   String[] hashtagArray(Collection<String> hashtags) {
-    if (hashtags != null && hashtags.size() > 0) {
+    if (hashtags != null && !hashtags.isEmpty()) {
       return Sets.newHashSet(hashtags).toArray(new String[hashtags.size()]);
     }
     return null;

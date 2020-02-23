@@ -211,6 +211,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return sr.all().stream().map(id -> scanOneChange(project, sr, id)).filter(Objects::nonNull);
     }
 
+    @Nullable
     private ChangeNotesResult scanOneChange(Project.NameKey project, ScanResult sr, Change.Id id) {
       if (!sr.fromMetaRefs().contains(id)) {
         // Stray patch set refs can happen due to normal error conditions, e.g. failed
@@ -219,10 +220,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       }
 
       // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.
-      Change change = ChangeNotes.Factory.newChange(project, id);
-
-      logger.atFine().log("adding change %s found in project %s", id, project);
-      return toResult(change);
+      try {
+        Change change = ChangeNotes.Factory.newChange(project, id);
+        logger.atFine().log("adding change %s found in project %s", id, project);
+        return toResult(change);
+      } catch (InvalidServerIdException ise) {
+        logger.atWarning().withCause(ise).log(
+            "skipping change %d in project %s because of an invalid server id", id.get(), project);
+        return null;
+      }
     }
 
     @Nullable
@@ -531,9 +537,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * be to bump the cache version, but that would invalidate all persistent cache entries, what we
      * rather try to avoid.
      */
-    checkState(
-        Strings.isNullOrEmpty(stateServerId) || args.serverId.equals(stateServerId),
-        String.format("invalid server id, expected %s: actual: %s", args.serverId, stateServerId));
+    if (!Strings.isNullOrEmpty(stateServerId) && !args.serverId.equals(stateServerId)) {
+      throw new InvalidServerIdException(args.serverId, stateServerId);
+    }
 
     state.copyColumnsTo(change);
     revisionNoteMap = v.revisionNoteMap();

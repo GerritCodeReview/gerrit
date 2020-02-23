@@ -51,16 +51,21 @@ def gerrit_plugin(
 
     # TODO(davido): Remove manual merge of manifest file when this feature
     # request is implemented: https://github.com/bazelbuild/bazel/issues/2009
+    # TODO(davido): Remove manual touch command when this issue is resolved:
+    # https://github.com/bazelbuild/bazel/issues/10789
     genrule2(
         name = name + target_suffix,
         stamp = 1,
         srcs = ["%s__non_stamped_deploy.jar" % name],
         cmd = " && ".join([
+            "TZ=UTC",
+            "export TZ",
             "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % dir_name.upper(),
             "cd $$TMP",
             "unzip -q $$ROOT/$<",
             "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
-            "zip -qr $$ROOT/$@ .",
+            "find . -exec touch '{}' ';'",
+            "zip -Xqr $$ROOT/$@ .",
         ]),
         outs = ["%s%s.jar" % (name, target_suffix)],
         visibility = ["//visibility:public"],

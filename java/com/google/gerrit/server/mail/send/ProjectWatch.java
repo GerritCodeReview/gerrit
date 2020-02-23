@@ -244,7 +244,7 @@ public class ProjectWatch {
       qb = args.queryBuilder.get().asUser(args.anonymousUser.get());
     } else {
       qb = args.queryBuilder.get().asUser(user);
-      p = qb.is_visible();
+      p = qb.isVisible();
     }
 
     if (filter != null) {

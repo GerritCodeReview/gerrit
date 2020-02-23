@@ -8,7 +8,6 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/metrics",
-        "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/server",
         "//lib:args4j",
         "//lib:guava",

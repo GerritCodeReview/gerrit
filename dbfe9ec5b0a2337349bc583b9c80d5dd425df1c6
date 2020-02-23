@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "df271eb0_48e39007",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T22:09:02Z",
+      "side": 1,
+      "message": "Tested by removing @DefaultInput and that seemed to allow my test to pass (the one you suggested to make for example to set both binary_content and content).",
+      "parentUuid": "72b0d354_3f739b23",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 305,
+        "endChar": 7
+      },
+      "revId": "dbfe9ec5b0a2337349bc583b9c80d5dd425df1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d3be76_a7d41291",
         "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 4

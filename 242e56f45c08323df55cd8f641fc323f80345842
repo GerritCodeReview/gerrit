@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e20b938_4d872316",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-23T00:24:41Z",
+      "side": 1,
+      "message": "This seems to be a duplicate of the above test. Apart from a few changes from a quick diff things look different in the above, i suggest reverting this addition and leaving the part above. I see the above was changed in https://gerrit-review.googlesource.com/c/gerrit/+/253873 (on master)",
+      "revId": "242e56f45c08323df55cd8f641fc323f80345842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

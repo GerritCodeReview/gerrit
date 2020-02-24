@@ -36,6 +36,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/gr-count-string-formatter/gr-count-string-formatter.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
+<link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
 <link rel="import" href="../gr-file-list-constants.html">
 
 <dom-module id="gr-file-list">
@@ -247,6 +248,18 @@ limitations under the License.
         padding: var(--spacing-s) 0;
       }
 
+      .pathLink gr-copy-clipboard {
+        display: none;
+        vertical-align: bottom;
+        --gr-button: {
+          padding: 0px;
+        }
+      }
+
+      .pathLink:hover gr-copy-clipboard {
+        display: inline-block;
+      }
+
       /** small screen breakpoint: 768px */
       @media screen and (max-width: 55em) {
         .desktop {
@@ -330,6 +343,10 @@ limitations under the License.
                     class="truncatedFileName">
                   [[computeTruncatedPath(file.__path)]]
                 </span>
+                <gr-copy-clipboard
+                  hide-input
+                  stop-propagation
+                  text="[[file.__path]]"></gr-copy-clipboard>
               </a>
               <div class="oldPath" hidden$="[[!file.old_path]]" hidden
                   title$="[[file.old_path]]">

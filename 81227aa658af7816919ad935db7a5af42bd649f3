@@ -16,6 +16,24 @@
       "revId": "81227aa658af7816919ad935db7a5af42bd649f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ca1f48_1fe9358d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-24T14:48:00Z",
+      "side": 1,
+      "message": "hmm somehow the `eslintfix` did not do that for me",
+      "parentUuid": "ff443470_af4f01d3",
+      "revId": "81227aa658af7816919ad935db7a5af42bd649f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -140,8 +140,8 @@
 
     _onNextFixClick(e) {
       if (e) e.stopPropagation();
-      if (this._selectedFixIdx < this._fixSuggestions.length &&
-        this._fixSuggestions != null) {
+      if (this._fixSuggestions &&
+        this._selectedFixIdx < this._fixSuggestions.length) {
         this._selectedFixIdx += 1;
         return this._showSelectedFixSuggestion(
             this._fixSuggestions[this._selectedFixIdx]);

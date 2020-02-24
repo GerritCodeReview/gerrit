@@ -3,10 +3,7 @@ load("@rules_java//java:defs.bzl", "java_library")
 java_library(
     name = "api",
     data = ["//lib:LICENSE-slf4j"],
-    visibility = [
-        "//lib/jgit/org.eclipse.jgit:__pkg__",
-        "//plugins:__pkg__",
-    ],
+    visibility = ["//visibility:public"],
     exports = ["@log-api//jar"],
 )
 

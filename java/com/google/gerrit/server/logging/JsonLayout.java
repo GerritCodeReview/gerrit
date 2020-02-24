@@ -34,7 +34,7 @@ public abstract class JsonLayout extends Layout {
 
   public JsonLayout() {
     dateFormatter = createDateTimeFormatter();
-    timeOffset = OffsetDateTime.now().getOffset();
+    timeOffset = OffsetDateTime.now(ZoneId.systemDefault()).getOffset();
 
     gson = newGson();
   }

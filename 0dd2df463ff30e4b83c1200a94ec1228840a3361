@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f61dde2c_bf6181fa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-24T15:03:26Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/256230",
+      "parentUuid": "be112299_ce252e15",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 36
+      },
+      "revId": "0dd2df463ff30e4b83c1200a94ec1228840a3361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cbbb7c0_a0f51ed5",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.html",
         "patchSetId": 3

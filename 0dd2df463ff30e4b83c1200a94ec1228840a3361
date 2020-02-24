@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be112299_ce252e15",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-24T15:01:46Z",
+      "side": 1,
+      "message": "existing code, `null|undefined` check needs to happen before the length (i think we should fix it in this change instead of creating a new change)",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 36
+      },
+      "revId": "0dd2df463ff30e4b83c1200a94ec1228840a3361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cbbb7c0_a0f51ed5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-24T15:01:46Z",
+      "side": 1,
+      "message": "can we rename this to `ROBOT_COMMENT_WITH_TWO_FIXES`, since a new type of comment added, we should have separate those. And ideally we should have ROBOT_COMMENT as the one without fixes. (apparently we don\u0027t tests for that case in this file, but that maybe out of this change\u0027s scope)",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 23
+      },
+      "revId": "0dd2df463ff30e4b83c1200a94ec1228840a3361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aafc7ad9_2eff2320",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-24T15:01:46Z",
+      "side": 1,
+      "message": "nit: are those necessary ? i would assume the keys are the fix id but they seems don\u0027t match with the fix_suggestions, maybe return `{}` will just work fine ?",
+      "range": {
+        "startLine": 121,
+        "startChar": 12,
+        "endLine": 150,
+        "endChar": 14
+      },
+      "revId": "0dd2df463ff30e4b83c1200a94ec1228840a3361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a168f44_f8c6e513",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-24T15:01:46Z",
+      "side": 1,
+      "message": "seems not necessary, can just `return`, the promise chain will continue without issue",
+      "range": {
+        "startLine": 157,
+        "startChar": 19,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "0dd2df463ff30e4b83c1200a94ec1228840a3361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

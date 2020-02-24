@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f15342fc_b472d4ed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-24T15:28:48Z",
+      "side": 1,
+      "message": "that\u0027s so nice of you! Can you also reformat this code to be more consistent with gerrit\u0027s code ? like use `xxxx` instead of `_xxxx` in methods...",
+      "revId": "03b601b0777e107cd9633dc631108f27c7c24445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

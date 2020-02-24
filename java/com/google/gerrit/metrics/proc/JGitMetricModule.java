@@ -156,7 +156,12 @@ public class JGitMetricModule extends MetricModule {
         "jgit/block_cache/miss_ratio",
         Double.class,
         new Description("Cache miss ratio for JGit block cache.").setGauge(),
-        WindowCacheStats.getStats()::getMissRatio);
+        new Supplier<Double>() {
+          @Override
+          public Double get() {
+            return WindowCacheStats.getStats().getMissRatio();
+          }
+        });
 
     CallbackMetric1<String, Long> repoEnt =
         metrics.newCallbackMetric(

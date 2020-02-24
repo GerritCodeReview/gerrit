@@ -18,6 +18,7 @@ java_library(
         "//lib/guice",
         "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/log:api",
         "//lib/testcontainers",
         "//lib/testcontainers:testcontainers-elasticsearch",
     ],

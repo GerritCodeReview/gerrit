@@ -34,6 +34,24 @@
       "revId": "0b1dd7b0c57ffd51da66ae029884d857d2afab75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46e83a67_d4a78d76",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-24T13:17:24Z",
+      "side": 1,
+      "message": "I don\u0027t understand this.\nIf the return value does not depend on \u0027fixSuggestions\u0027 at all, then why do you need to recompute it if \u0027fixSuggestions\u0027 updates?\nIn case fixSuggestions updates, the return value of _noPrevFix() remains exactly the same as before.",
+      "parentUuid": "1de6c976_348d0357",
+      "revId": "0b1dd7b0c57ffd51da66ae029884d857d2afab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

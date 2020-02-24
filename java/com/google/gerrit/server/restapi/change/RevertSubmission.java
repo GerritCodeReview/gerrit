@@ -308,8 +308,6 @@ public class RevertSubmission
     cherryPickInput.message = revertInput.message;
     ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
     Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
-    // TODO (paiking): In the the future, the timestamp should be the same for all the revert
-    // changes.
     try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.nowTs())) {
       bu.setNotify(
           notifyResolver.resolve(

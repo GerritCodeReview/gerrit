@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a85ce054_7aa65e44",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-24T15:48:04Z",
+      "side": 1,
+      "message": "When debugging this it turns out this static method is evaluated when the configure method is run. Instead it should be called when the supplier\u0027s get method is called. Gerrit reconfigures the WindowCache using the configuration given in gerrit.config. During this reconfiguration a new WindowCache instance and consequently also a new StatsRecorderImpl instance is created. Though the JGitMetricModule still has a reference to the old WindowCache\u0027s StatsRecorderImpl which will never see any metric data since JGit is now using the new instance.",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 35
+      },
+      "revId": "9ec9fee57fa30173ed7d457dfe1d1ec4f16a930f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

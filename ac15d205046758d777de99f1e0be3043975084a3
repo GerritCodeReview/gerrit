@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "906aa2b2_9895f2bf",
+        "filename": "lib/log/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-02-24T19:31:48Z",
+      "side": 0,
+      "message": "Let\u0027s keep the restriction, just extend it like this:\n\n  visibility \u003d [\n      \"//javatests/com/google/gerrit/elasticsearch:__pkg__\",\n      \"//lib/jgit/org.eclipse.jgit:__pkg__\",\n      \"//plugins:__pkg__\",\n  ],",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 6
+      },
+      "revId": "ac15d205046758d777de99f1e0be3043975084a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

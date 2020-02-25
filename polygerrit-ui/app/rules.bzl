@@ -20,11 +20,11 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
     # remain unchanged. After the update, all references to bower_components have been replaced with
     # correct references to node_modules.
     # The output of this rule is a directory, which mirrors the directory layout of srcs files.
-    update_links(
-        name = app_name + "-updated-links",
-        srcs = srcs,
-        redirects = redirects,
-    )
+    #    update_links(
+    #        name = app_name + "-updated-links",
+    #        srcs = srcs,
+    #        redirects = redirects,
+    #    )
     # Note: prepare_for_bundling and polymer_bundler_tool will be removed after switch to
     #   ES6 modules.
     # Polymer 3 uses ES modules; gerrit still use HTML imports and polymer-bridges. In such
@@ -62,38 +62,45 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
     # Output of the rule is 2 file: HTML bundle and JS bundle and HTML file loads JS file with
     # <script src="..."> tag.
 
-    prepare_for_bundling(
-        name = app_name + "-prebundling-srcs",
-        srcs = [
-            app_name + "-updated-links",
-        ],
-        additional_node_modules_to_preprocess = [
-            "@ui_npm//polymer-bridges",
-        ],
-        entry_point = entry_point,
-        node_modules = [
+    #    prepare_for_bundling(
+    #        name = app_name + "-prebundling-srcs",
+    #        srcs = [
+    #            app_name + "-updated-links",
+    #        ],
+    #        additional_node_modules_to_preprocess = [
+    #            "@ui_npm//polymer-bridges",
+    #        ],
+    #        entry_point = entry_point,
+    #        node_modules = [
+    #            "@ui_npm//:node_modules",
+    #        ],
+    #        root_path = "polygerrit-ui/app/" + app_name + "-updated-links/polygerrit-ui/app",
+    #    )
+
+    #    native.filegroup(
+    #        name = app_name + "-prebundling-srcs-js",
+    #        srcs = [app_name + "-prebundling-srcs"],
+    #        output_group = "js",
+    #    )
+    #
+    #    native.filegroup(
+    #        name = app_name + "-prebundling-srcs-html",
+    #        srcs = [app_name + "-prebundling-srcs"],
+    #        output_group = "html",
+    #    )
+
+    native.filegroup(
+        name = app_name + "-full-src",
+        srcs = srcs + [
             "@ui_npm//:node_modules",
         ],
-        root_path = "polygerrit-ui/app/" + app_name + "-updated-links/polygerrit-ui/app",
-    )
-
-    native.filegroup(
-        name = app_name + "-prebundling-srcs-js",
-        srcs = [app_name + "-prebundling-srcs"],
-        output_group = "js",
-    )
-
-    native.filegroup(
-        name = app_name + "-prebundling-srcs-html",
-        srcs = [app_name + "-prebundling-srcs"],
-        output_group = "html",
     )
 
     rollup_bundle(
         name = app_name + "-bundle-js",
-        srcs = [app_name + "-prebundling-srcs-js"],
+        srcs = [app_name + "-full-src"],
         config_file = ":rollup.config.js",
-        entry_point = app_name + "-prebundling-srcs/entry.js",
+        entry_point = "elements/" + app_name + ".js",
         rollup_bin = "//tools/node_tools:rollup-bin",
         sourcemap = "hidden",
         deps = [
@@ -103,8 +110,8 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
 
     polymer_bundler_tool(
         name = app_name + "-bundle-html",
-        srcs = [app_name + "-prebundling-srcs-html"],
-        entry_point = app_name + "-prebundling-srcs/entry.html",
+        srcs = [entry_point],
+        entry_point = entry_point,
         script_src_value = app_name + ".js",
     )
 

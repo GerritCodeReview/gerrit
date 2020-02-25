@@ -136,38 +136,6 @@ func addDevHeaders(writer http.ResponseWriter) {
 
 }
 
-func getFinalPath(redirects []redirects, originalPath string) string {
-	for _, redirect := range redirects {
-		fromDir := redirect.From
-		if !strings.HasSuffix(fromDir, "/") {
-			fromDir = fromDir + "/"
-		}
-		if strings.HasPrefix(originalPath, fromDir) {
-			targetDir := ""
-			if redirect.To.NpmModule != "" {
-				targetDir = "node_modules/" + redirect.To.NpmModule
-			} else {
-				targetDir = redirect.To.Dir
-			}
-			if !strings.HasSuffix(targetDir, "/") {
-				targetDir = targetDir + "/"
-			}
-			if !strings.HasPrefix(targetDir, "/") {
-				targetDir = "/" + targetDir
-			}
-			filename := originalPath[len(fromDir):]
-			if redirect.To.Files != nil {
-				newfilename, found := redirect.To.Files[filename]
-				if found {
-					filename = newfilename
-				}
-			}
-			return targetDir + filename
-		}
-	}
-	return originalPath
-}
-
 func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, writer http.ResponseWriter, originalRequest *http.Request) {
 	parsedUrl, err := url.Parse(originalRequest.RequestURI)
 	if err != nil {
@@ -183,23 +151,32 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 		return
 	}
 
-	requestPath := getFinalPath(redirects, parsedUrl.Path)
+	requestPath := parsedUrl.Path
 
 	if !strings.HasPrefix(requestPath, "/") {
 		requestPath = "/" + requestPath
 	}
 
+	isJsFile := strings.HasSuffix(requestPath, ".js") || strings.HasSuffix(requestPath, ".mjs")
 	data, err := readFile(parsedUrl.Path, requestPath)
 	if err != nil {
-		writer.WriteHeader(404)
-		return
+		data, err = readFile(parsedUrl.Path + ".js", requestPath + ".js")
+		if err != nil {
+			writer.WriteHeader(404)
+			return
+		}
+		isJsFile = true
 	}
-	if strings.HasSuffix(requestPath, ".js") {
-		r := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
-		data = r.ReplaceAll(data, []byte("$1 '/node_modules/$2'"))
+	if isJsFile {
+		moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
 		writer.Header().Set("Content-Type", "application/javascript")
 	} else if strings.HasSuffix(requestPath, ".css") {
 		writer.Header().Set("Content-Type", "text/css")
+	} else if strings.HasSuffix(requestPath, "_test.html") {
+		moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
+		writer.Header().Set("Content-Type", "text/html")
 	} else if strings.HasSuffix(requestPath, ".html") {
 		writer.Header().Set("Content-Type", "text/html")
 	}
@@ -209,7 +186,7 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 }
 
 func readFile(originalPath string, redirectedPath string) ([]byte, error) {
-	pathsToTry := []string{"app" + redirectedPath}
+	pathsToTry := []string{"app/modulizer_out" + redirectedPath, "app" + redirectedPath}
 	bowerComponentsSuffix := "/bower_components/"
 	nodeModulesPrefix := "/node_modules/"
 	testComponentsPrefix := "/components/"

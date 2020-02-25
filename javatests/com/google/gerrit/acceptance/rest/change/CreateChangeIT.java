@@ -331,7 +331,19 @@ public class CreateChangeIT extends AbstractDaemonTest {
         changeInTwoBranches("foo", "foo.txt", "bar", "bar.txt");
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.baseCommit = setup.get("master").getCommit().getId().name();
-    assertCreateSucceeds(input);
+    ChangeInfo result = assertCreateSucceeds(input);
+    assertThat(gApi.changes().id(result.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(input.baseCommit);
+  }
+
+  @Test
+  public void createChangeWithParentChange() throws Exception {
+    Result change = createChange();
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseChange = change.getChangeId();
+    ChangeInfo result = assertCreateSucceeds(input);
+    assertThat(gApi.changes().id(result.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(change.getCommit().getId().name());
   }
 
   @Test

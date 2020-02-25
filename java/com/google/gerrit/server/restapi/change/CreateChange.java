@@ -335,9 +335,10 @@ public class CreateChange
 
       Timestamp now = TimeUtil.nowTs();
 
+      PersonIdent committer = me.newCommitterIdent(now, serverTimeZone);
       PersonIdent author =
           input.author == null
-              ? me.newCommitterIdent(now, serverTimeZone)
+              ? committer
               : new PersonIdent(input.author.name, input.author.email, now, serverTimeZone);
 
       String commitMessage = getCommitMessage(input.subject, me);
@@ -345,7 +346,7 @@ public class CreateChange
       CodeReviewCommit c;
       if (input.merge != null) {
         // create a merge commit
-        c = newMergeCommit(git, oi, rw, projectState, mergeTip, input.merge, author, commitMessage);
+        c = newMergeCommit(git, oi, rw, projectState, mergeTip, input.merge, author, committer, commitMessage);
         if (!c.getFilesWithGitConflicts().isEmpty()) {
           logger.atFine().log(
               "merge commit has conflicts in the following files: %s",
@@ -353,7 +354,7 @@ public class CreateChange
         }
       } else {
         // create an empty commit
-        c = newCommit(oi, rw, author, mergeTip, commitMessage);
+        c = newCommit(oi, rw, author, committer, mergeTip, commitMessage);
       }
 
       Change.Id changeId = Change.id(seq.nextChangeId());
@@ -495,6 +496,7 @@ public class CreateChange
       ObjectInserter oi,
       CodeReviewRevWalk rw,
       PersonIdent authorIdent,
+      PersonIdent committerIdent,
       RevCommit mergeTip,
       String commitMessage)
       throws IOException {
@@ -507,7 +509,7 @@ public class CreateChange
       commit.setParentId(mergeTip);
     }
     commit.setAuthor(authorIdent);
-    commit.setCommitter(authorIdent);
+    commit.setCommitter(committerIdent);
     commit.setMessage(commitMessage);
     return rw.parseCommit(insert(oi, commit));
   }
@@ -520,6 +522,7 @@ public class CreateChange
       RevCommit mergeTip,
       MergeInput merge,
       PersonIdent authorIdent,
+      PersonIdent committerIdent,
       String commitMessage)
       throws RestApiException, IOException {
     logger.atFine().log(
@@ -556,6 +559,7 @@ public class CreateChange
           mergeStrategy,
           merge.allowConflicts,
           authorIdent,
+          committerIdent,
           commitMessage,
           rw);
     } catch (NoMergeBaseException e) {

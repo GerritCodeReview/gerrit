@@ -52,7 +52,9 @@
       "error",
       80,
       2,
-      {"ignoreComments": true}
+      {"ignoreComments": true,
+      "ignorePattern":"^import .*;$"
+      }
     ],
     "new-cap": ["error", { "capIsNewExceptions": ["Polymer", "LegacyElementMixin", "GestureEventListeners", "LegacyDataMixin"] }],
     "no-console": "off",
@@ -131,5 +133,13 @@
   ],
   "settings": {
     "html/report-bad-indent": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*_html.js", "gr-icons.js", "*-theme.js", "*-styles.js"],
+      "rules": {
+        "max-len": "off"
+      }
+    }
+  ]
 }

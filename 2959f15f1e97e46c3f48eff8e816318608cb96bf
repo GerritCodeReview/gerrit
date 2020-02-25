@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0e0fa8a_8deec967",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-25T10:58:58Z",
+      "side": 1,
+      "message": "You could probably phrase this generically, \"Pass mutablerecords (performance \u0026 ACL logs) into ... \", so you save work when there is a 3rd type added.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 4
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "028b6d8c_58bacc11",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-25T10:58:58Z",
+      "side": 1,
+      "message": "can\u0027t we clear out the ACL logs regardless of the consumer? This sounds dangerous, and aside from the info leak, a possible resource leak.",
+      "range": {
+        "startLine": 281,
+        "startChar": 42,
+        "endLine": 282,
+        "endChar": 80
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5850fb81_129baed2",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-25T10:58:58Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 298,
+        "startChar": 10,
+        "endLine": 298,
+        "endChar": 11
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c1ce85a_d31a1f28",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-25T10:58:58Z",
+      "side": 1,
+      "message": "this is the 3rd time you mention this. Can you find a way to document this in only one place?",
+      "range": {
+        "startLine": 346,
+        "startChar": 33,
+        "endLine": 350,
+        "endChar": 4
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f62aae48_d9ca8508",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-25T10:58:58Z",
+      "side": 1,
+      "message": "this looks cut \u0026 paste too. Can you document it only once?",
+      "range": {
+        "startLine": 96,
+        "startChar": 77,
+        "endLine": 101,
+        "endChar": 61
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f802fae_5a17a009",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareRunnable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-25T10:58:58Z",
+      "side": 1,
+      "message": "and again.",
+      "range": {
+        "startLine": 120,
+        "startChar": 42,
+        "endLine": 123,
+        "endChar": 90
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58825ef7_313aa8b4",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-25T10:58:58Z",
+      "side": 1,
+      "message": "could you wrap the call so you do this only once?",
+      "range": {
+        "startLine": 135,
+        "startChar": 46,
+        "endLine": 136,
+        "endChar": 55
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

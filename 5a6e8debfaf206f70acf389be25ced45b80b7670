@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0222bf5c_6cd68f19",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T13:27:40Z",
+      "side": 1,
+      "message": "won\u0027t you need to update some java tests for this as well ?",
+      "revId": "5a6e8debfaf206f70acf389be25ced45b80b7670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

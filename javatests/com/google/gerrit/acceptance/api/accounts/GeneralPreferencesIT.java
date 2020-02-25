@@ -56,7 +56,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "changeTable");
     assertThat(o.my)
         .containsExactly(
-            new MenuItem("Changes", "#/dashboard/self", null),
+            new MenuItem("Dashboard", "#/dashboard/self", null),
             new MenuItem("Draft Comments", "#/q/has:draft", null),
             new MenuItem("Edits", "#/q/has:edit", null),
             new MenuItem("Watched Changes", "#/q/is:watched+is:open", null),

@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e9102f6_a45143c9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:12:13Z",
+      "side": 1,
+      "message": "better to be more strict regarding the match, like matching the `#` as well ? so it won\u0027t match something like `edittttt`",
+      "revId": "7c9ea3de7d2d5999cc91711c5a2540883a4a6120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77189786_4b12f941",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 1397,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:12:13Z",
+      "side": 1,
+      "message": "not very sure about whether we should use hash for it or a param.\n\nseems that we use hash for change diff page :(",
+      "revId": "7c9ea3de7d2d5999cc91711c5a2540883a4a6120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5deb725_7fb5a522",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:12:13Z",
+      "side": 1,
+      "message": "same, add a test with a defined line num",
+      "revId": "7c9ea3de7d2d5999cc91711c5a2540883a4a6120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd2b5f75_c36d9403",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:12:13Z",
+      "side": 1,
+      "message": "why is this ? i think the right side can be some old pathset as well",
+      "revId": "7c9ea3de7d2d5999cc91711c5a2540883a4a6120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ebf1d0e_17fc39e1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:12:13Z",
+      "side": 1,
+      "message": "what about adding a new test with a defined lineNum :)",
+      "revId": "7c9ea3de7d2d5999cc91711c5a2540883a4a6120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "331ef9c8_d49ae54d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:12:13Z",
+      "side": 1,
+      "message": "`Open in editor` maybe better ?  `fix` may not apply",
+      "range": {
+        "startLine": 126,
+        "startChar": 35,
+        "endLine": 126,
+        "endChar": 38
+      },
+      "revId": "7c9ea3de7d2d5999cc91711c5a2540883a4a6120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

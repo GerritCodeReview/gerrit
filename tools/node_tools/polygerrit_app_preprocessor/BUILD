@@ -40,6 +40,30 @@ rollup_bundle(
     ],
 )
 
+rollup_bundle(
+    name = "modulizer-postprocessor-bundle",
+    config_file = "rollup.config.js",
+    entry_point = "modulizer-postprocessor.ts",
+    format = "cjs",
+    rollup_bin = "//tools/node_tools:rollup-bin",
+    deps = [
+        ":preprocessor",
+        "@tools_npm//rollup-plugin-node-resolve",
+    ],
+)
+
+rollup_bundle(
+    name = "script-tag-replacer-bundle",
+    config_file = "rollup.config.js",
+    entry_point = "script-tag-replacer.ts",
+    format = "cjs",
+    rollup_bin = "//tools/node_tools:rollup-bin",
+    deps = [
+        ":preprocessor",
+        "@tools_npm//rollup-plugin-node-resolve",
+    ],
+)
+
 nodejs_binary(
     name = "preprocessor-bin",
     data = ["@tools_npm//:node_modules"],
@@ -50,6 +74,18 @@ nodejs_binary(
     name = "links-updater-bin",
     data = ["@tools_npm//:node_modules"],
     entry_point = "links-updater-bundle.js",
+)
+
+nodejs_binary(
+    name = "script-tag-replacer-bin",
+    data = ["@tools_npm//:node_modules"],
+    entry_point = "script-tag-replacer-bundle.js",
+)
+
+nodejs_binary(
+    name = "modulizer-postprocessor-bin",
+    data = ["@tools_npm//:node_modules"],
+    entry_point = "modulizer-postprocessor-bundle.js",
 )
 
 # TODO(dmfilippov): Find a better way to fix it (another workaround or submit a bug to

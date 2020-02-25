@@ -88,7 +88,7 @@ limitations under the License.
     suite('filter', () => {
       setup(() => {
         documentationSearches = _.times(25, documentationGenerator);
-        documentationSearchesFiltered = _.times(1, documentationSearches);
+        _.times(1, documentationSearches);
       });
 
       test('_paramsChanged', done => {

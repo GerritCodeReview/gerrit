@@ -41,6 +41,7 @@ limitations under the License.
     let sandbox;
     let element;
     let plugin;
+    let importHrefStub;
 
     const installPlugin = () => {
       if (plugin) { return; }
@@ -74,7 +75,8 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(Polymer, 'importHref', (url, resolve) => resolve());
+      importHrefStub = sandbox.stub(Polymer, 'importHref',
+          (url, resolve) => resolve());
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
     });
 
@@ -85,7 +87,7 @@ limitations under the License.
     test('imports plugin-provided module', async () => {
       lateRegister();
       await new Promise(flush);
-      assert.isTrue(Polymer.importHref.calledWith(new URL(TEST_URL)));
+      assert.isTrue(importHrefStub.calledWith(new URL(TEST_URL)));
     });
 
     test('applies plugin-provided styles', async () => {
@@ -117,7 +119,7 @@ limitations under the License.
     test('loads and applies preloaded modules', async () => {
       earlyRegister();
       await new Promise(flush);
-      assert.isTrue(Polymer.importHref.calledWith(new URL(TEST_URL)));
+      assert.isTrue(importHrefStub.calledWith(new URL(TEST_URL)));
       assert.isTrue(element._applyStyle.calledWith('some-module'));
     });
   });

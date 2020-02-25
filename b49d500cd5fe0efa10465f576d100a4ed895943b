@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "275afbaa_67a4de60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T12:23:01Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "b49d500cd5fe0efa10465f576d100a4ed895943b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b64adcd2_1b7da09a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T12:23:01Z",
+      "side": 1,
+      "message": "add the reason plz. i.e: as the findings tab is always the last tab\n\nthat brings a question, is that required ? and why ? can not we just have findings next to files and all plugin tabs after them ?\n\nsince you did not mention anything about findings here, I would suggest just drop this from the commit message",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "b49d500cd5fe0efa10465f576d100a4ed895943b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6076b62_c6679943",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T12:23:01Z",
+      "side": 1,
+      "message": "existing, maybe error it instead `warn`, we would love to have this in the js error log if any.\n\nor report with a different event name. I will prefer error it as its not expected behavior",
+      "range": {
+        "startLine": 553,
+        "startChar": 16,
+        "endLine": 553,
+        "endChar": 20
+      },
+      "revId": "b49d500cd5fe0efa10465f576d100a4ed895943b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92e1d5aa_73497885",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T12:23:01Z",
+      "side": 1,
+      "message": "Nice work!",
+      "revId": "b49d500cd5fe0efa10465f576d100a4ed895943b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

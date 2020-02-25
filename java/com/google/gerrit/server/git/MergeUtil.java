@@ -21,7 +21,6 @@ import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.naturalOrder;
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Strings;
@@ -44,8 +43,6 @@ import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -62,7 +59,6 @@ import com.google.gerrit.server.submit.CommitMergeStatus;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.submit.MergeSorter;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -127,44 +123,6 @@ public class MergeUtil {
    * <p>This is a constant so output is stable over time even if the SHA-1 prefix becomes ambiguous.
    */
   private static final int NAME_ABBREV_LEN = 6;
-
-  static class PluggableCommitMessageGenerator {
-    private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
-
-    @Inject
-    PluggableCommitMessageGenerator(DynamicSet<ChangeMessageModifier> changeMessageModifiers) {
-      this.changeMessageModifiers = changeMessageModifiers;
-    }
-
-    public String generate(
-        RevCommit original, RevCommit mergeTip, BranchNameKey dest, String originalMessage) {
-      requireNonNull(original.getRawBuffer());
-      if (mergeTip != null) {
-        requireNonNull(mergeTip.getRawBuffer());
-      }
-
-      int count = 0;
-      String current = originalMessage;
-      for (Extension<ChangeMessageModifier> ext : changeMessageModifiers.entries()) {
-        ChangeMessageModifier changeMessageModifier = ext.get();
-        String className = changeMessageModifier.getClass().getName();
-        current = changeMessageModifier.onSubmit(current, original, mergeTip, dest);
-        checkState(
-            current != null,
-            "%s.onSubmit from plugin %s returned null instead of new commit message",
-            className,
-            ext.getPluginName());
-        count++;
-        logger.atFine().log(
-            "Invoked %s from plugin %s, message length now %d",
-            className, ext.getPluginName(), current.length());
-      }
-      logger.atFine().log(
-          "Invoked %d ChangeMessageModifiers on message with original length %d",
-          count, originalMessage.length());
-      return current;
-    }
-  }
 
   private static final String R_HEADS_MASTER = Constants.R_HEADS + Constants.MASTER;
 

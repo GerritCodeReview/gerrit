@@ -40,6 +40,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionStatus;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
@@ -373,6 +374,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ImmutableList<ReviewerStatusUpdate> getReviewerUpdates() {
     return state.reviewerUpdates();
+  }
+
+  public ImmutableList<AttentionStatus> getAttentionUpdates() {
+    return state.attentionUpdates();
   }
 
   /**

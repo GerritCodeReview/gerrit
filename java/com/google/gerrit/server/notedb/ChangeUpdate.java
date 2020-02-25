@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
@@ -52,6 +53,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionStatus;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Project;
@@ -125,6 +127,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
+  private List<AttentionStatus> attentionUpdates;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -368,6 +371,21 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.hashtags = hashtags;
   }
 
+  /**
+   * All updates must have a timestamp of null since we use the commit's timestamp. There also must
+   * not be multiple updates for a single user.
+   */
+  void setAttentionUpdates(List<AttentionStatus> attentionUpdates) {
+    checkArgument(
+        attentionUpdates.stream().noneMatch(x -> x.timestamp() != null),
+        "must not specify timestamp for write");
+    checkArgument(
+        attentionUpdates.stream().map(AttentionStatus::account).distinct().count()
+            == attentionUpdates.size(),
+        "must not specify multiple updates for single user");
+    this.attentionUpdates = attentionUpdates;
+  }
+
   public void setAssignee(Account.Id assignee) {
     checkArgument(assignee != null, "use removeAssignee");
     this.assignee = Optional.of(assignee);
@@ -578,6 +596,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_COMMIT, commit);
     }
 
+    if (attentionUpdates != null) {
+      for (AttentionStatus attentionUpdate : attentionUpdates) {
+        addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionStatusToJson(attentionUpdate));
+      }
+    }
+
     if (assignee != null) {
       if (assignee.isPresent()) {
         addFooter(msg, FOOTER_ASSIGNEE);
@@ -713,6 +737,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && status == null
         && submissionId == null
         && submitRecords == null
+        && attentionUpdates == null
         && assignee == null
         && hashtags == null
         && topic == null
@@ -774,12 +799,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private StringBuilder addIdent(StringBuilder sb, Account.Id accountId) {
-    PersonIdent ident = newIdent(accountId, when);
-
-    PersonIdent.appendSanitized(sb, ident.getName());
-    sb.append(" <");
-    PersonIdent.appendSanitized(sb, ident.getEmailAddress());
-    sb.append('>');
+    PersonIdent ident = noteUtil.newIdent(accountId, when, serverIdent);
+    ChangeNoteUtil.appendIdentString(sb, ident.getName(), ident.getEmailAddress());
     return sb;
   }
 }

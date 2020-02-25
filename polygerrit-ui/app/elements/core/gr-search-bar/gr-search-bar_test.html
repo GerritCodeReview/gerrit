@@ -62,7 +62,7 @@ limitations under the License.
       assert.equal(element._inputVal, 'foo');
     });
 
-    getActiveElement = () => (document.activeElement.shadowRoot ?
+    const getActiveElement = () => (document.activeElement.shadowRoot ?
       document.activeElement.shadowRoot.activeElement :
       document.activeElement);
 

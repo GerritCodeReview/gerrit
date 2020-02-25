@@ -7,7 +7,6 @@ polygerrit_bundle(
     name = "polygerrit_ui",
     srcs = glob(
         [
-            "**/*.html",
             "**/*.js",
         ],
         exclude = [
@@ -15,6 +14,7 @@ polygerrit_bundle(
             "node_modules_licenses/**",
             "test/**",
             "**/*_test.html",
+            "**/*_test.js",
         ],
     ),
     outs = ["polygerrit_ui.zip"],
@@ -49,27 +49,30 @@ filegroup(
             "**/*_test.html",
             "test/**",
             "samples/**",
+            "**/*_test.js",
         ],
     ),
 )
 
-# update_links - temporary action. Later links/references will be updated in repository,
-# so this rule will be removed.
-update_links(
-    name = "test-srcs-updated-links",
-    srcs = [
-        "test/common-test-setup.html",
-        "test/index.html",
-        ":pg_code",
-    ],
-    redirects = "redirects.json",
-)
+## update_links - temporary action. Later links/references will be updated in repository,
+## so this rule will be removed.
+#update_links(
+#    name = "test-srcs-updated-links",
+#    srcs = [
+#        "test/common-test-setup.html",
+#        "test/index.html",
+#        ":pg_code",
+#    ],
+#    redirects = "redirects.json",
+#)
 
 # Workaround for https://github.com/bazelbuild/bazel/issues/1305
 filegroup(
     name = "test-srcs-updated-links-fg",
     srcs = [
-        ":test-srcs-updated-links",
+        "test/common-test-setup.js",
+        "test/index.html",
+        ":pg_code",
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
     ],

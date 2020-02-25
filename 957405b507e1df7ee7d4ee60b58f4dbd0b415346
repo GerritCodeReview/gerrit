@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6fe036c_98a61740",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:40:06Z",
+      "side": 1,
+      "message": "I think its pretty safe to do so, but I will defer the +2 to Ben just in case he knows more :)",
+      "revId": "957405b507e1df7ee7d4ee60b58f4dbd0b415346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

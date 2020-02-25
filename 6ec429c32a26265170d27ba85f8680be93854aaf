@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f41f3580_3ee74bc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:26:48Z",
+      "side": 1,
+      "message": "screenshots",
+      "revId": "6ec429c32a26265170d27ba85f8680be93854aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "420bc726_32f51728",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:26:48Z",
+      "side": 1,
+      "message": "why do you need this ? seems no style changes for this class at all",
+      "range": {
+        "startLine": 552,
+        "startChar": 57,
+        "endLine": 552,
+        "endChar": 78
+      },
+      "revId": "6ec429c32a26265170d27ba85f8680be93854aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f77cb24_ad941e58",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:26:48Z",
+      "side": 1,
+      "message": "what about name collision ? if plugin registered the endpoint with the same name. the code will basically not work any more.\n\nwe can not prevent that from happening with current design, but maybe worth making these two names more unique with some prefixes etc",
+      "revId": "6ec429c32a26265170d27ba85f8680be93854aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccf6ddd1_f9a31d0d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:26:48Z",
+      "side": 1,
+      "message": "add a comment on top about what three tabs will be there.",
+      "revId": "6ec429c32a26265170d27ba85f8680be93854aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b21ef97_1ea1fd4a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T14:26:48Z",
+      "side": 1,
+      "message": "this seems to be a breaking change. or if no one else is using this `showTitle` property, why not just clean up and remove this attribute entirely ?",
+      "revId": "6ec429c32a26265170d27ba85f8680be93854aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

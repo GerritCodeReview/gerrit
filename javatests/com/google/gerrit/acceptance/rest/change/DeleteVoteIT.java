@@ -73,7 +73,7 @@ public class DeleteVoteIT extends AbstractDaemonTest {
     List<FakeEmailSender.Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     FakeEmailSender.Message msg = messages.get(0);
-    assertThat(msg.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(msg.rcpt()).containsExactly(user.getNameEmail());
     assertThat(msg.body()).contains(admin.fullName() + " has removed a vote from this change.");
     assertThat(msg.body())
         .contains("Removed Code-Review+1 by " + user.fullName() + " <" + user.email() + ">\n");

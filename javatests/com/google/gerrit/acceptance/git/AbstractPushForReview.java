@@ -545,7 +545,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
 
     sender.clear();
     r = pushTo(pushSpec + ",notify=" + NotifyHandling.ALL);
@@ -553,7 +553,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(sender.getMessages()).hasSize(1);
     m = sender.getMessages().get(0);
     assertThat(m.rcpt())
-        .containsExactly(user.getEmailAddress(), user2.getEmailAddress(), user3.getEmailAddress());
+        .containsExactly(user.getNameEmail(), user2.getNameEmail(), user3.getNameEmail());
 
     sender.clear();
     r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-to=" + user3.email());
@@ -1116,7 +1116,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertThat(sender.getMessages()).hasSize(1);
     assertThat(sender.getMessages().get(0).rcpt())
-        .containsExactly(user.getEmailAddress(), user2.getEmailAddress());
+        .containsExactly(user.getNameEmail(), user2.getNameEmail());
   }
 
   @Test
@@ -1141,7 +1141,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertThat(sender.getMessages()).hasSize(1);
     assertThat(sender.getMessages().get(0).rcpt())
-        .containsExactly(user.getEmailAddress(), user2.getEmailAddress());
+        .containsExactly(user.getNameEmail(), user2.getNameEmail());
   }
 
   /**
@@ -1838,7 +1838,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushWithEmailInFooter() throws Exception {
-    pushWithReviewerInFooter(user.getEmailAddress().toString(), user);
+    pushWithReviewerInFooter(user.getNameEmail().toString(), user);
   }
 
   @Test

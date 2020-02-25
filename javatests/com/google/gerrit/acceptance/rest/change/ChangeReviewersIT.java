@@ -150,7 +150,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains(admin.fullName() + " has uploaded this change for review.");
   }
 
@@ -188,7 +188,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     Message m = messages.get(0);
     List<Address> expectedAddresses = new ArrayList<>(firstUsers.size());
     for (TestAccount u : firstUsers) {
-      expectedAddresses.add(u.getEmailAddress());
+      expectedAddresses.add(u.getNameEmail());
     }
     assertThat(m.rcpt()).containsExactlyElementsIn(expectedAddresses);
 
@@ -216,9 +216,9 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     m = messages.get(0);
     expectedAddresses = new ArrayList<>(4);
     for (int i = 0; i < 3; i++) {
-      expectedAddresses.add(users.get(users.size() - i - 1).getEmailAddress());
+      expectedAddresses.add(users.get(users.size() - i - 1).getNameEmail());
     }
-    expectedAddresses.add(reviewer.getEmailAddress());
+    expectedAddresses.add(reviewer.getNameEmail());
     assertThat(m.rcpt()).containsExactlyElementsIn(expectedAddresses);
   }
 
@@ -398,13 +398,13 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(2);
 
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress(), observer.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail(), observer.getNameEmail());
     assertThat(m.body()).contains(admin.fullName() + " has posted comments on this change.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
     assertThat(m.body()).contains("Patch Set 1: Code-Review+2");
 
     m = messages.get(1);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress(), observer.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail(), observer.getNameEmail());
     assertThat(m.body()).contains("Hello " + user.fullName() + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
   }
@@ -635,7 +635,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     sender.clear();
     gApi.changes().id(r.getChangeId()).current().review(reviewInput);
     assertThat(sender.getMessages()).hasSize(1);
-    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.getEmailAddress());
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.getNameEmail());
   }
 
   @Test
@@ -652,7 +652,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     sender.clear();
     gApi.changes().id(r.getChangeId()).addReviewer(addReviewer);
     assertThat(sender.getMessages()).hasSize(1);
-    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.getEmailAddress());
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.getNameEmail());
   }
 
   @Test
@@ -829,7 +829,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   private void assertThatUserIsOnlyReviewer(String changeId) throws Exception {
-    AccountInfo userInfo = new AccountInfo(user.fullName(), user.getEmailAddress().getEmail());
+    AccountInfo userInfo = new AccountInfo(user.fullName(), user.getNameEmail().getEmail());
     userInfo._accountId = user.id().get();
     userInfo.username = user.username();
     assertThat(gApi.changes().id(changeId).get().reviewers)

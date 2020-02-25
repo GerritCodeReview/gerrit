@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "1c42fd33_f55d4720",
+        "filename": "java/com/google/gerrit/entities/AttentionStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-25T12:28:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d07e8c69_8c2472d8",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94adf465_2571fedd",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 1
@@ -268,6 +286,24 @@
       "revId": "32d0da3421031a462a637222b955eb2c0955922b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c83dec5_486c2b19",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-25T12:28:38Z",
+      "side": 1,
+      "message": "Ok, we can change this in case we need to serve history later on in some API endpoint.",
+      "parentUuid": "952c37da_82e4453f",
+      "revId": "32d0da3421031a462a637222b955eb2c0955922b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

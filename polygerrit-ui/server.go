@@ -137,11 +137,6 @@ func addDevHeaders(writer http.ResponseWriter) {
 }
 
 func getFinalPath(redirects []redirects, originalPath string) string {
-	testComponentsPrefix := "/components/"
-	if strings.HasPrefix(originalPath, testComponentsPrefix) {
-		return "/../node_modules/" + originalPath[len(testComponentsPrefix):]
-	}
-
 	for _, redirect := range redirects {
 		fromDir := redirect.From
 		if !strings.HasSuffix(fromDir, "/") {
@@ -217,6 +212,12 @@ func readFile(originalPath string, redirectedPath string) ([]byte, error) {
 	pathsToTry := []string{"app" + redirectedPath}
 	bowerComponentsSuffix := "/bower_components/"
 	nodeModulesPrefix := "/node_modules/"
+	testComponentsPrefix := "/components/"
+
+	if strings.HasPrefix(originalPath, testComponentsPrefix) {
+		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(testComponentsPrefix):])
+		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(testComponentsPrefix):])
+	}
 
 	if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
 		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(bowerComponentsSuffix):])

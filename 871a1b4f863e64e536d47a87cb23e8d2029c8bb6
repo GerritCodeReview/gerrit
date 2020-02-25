@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "202cd29d_b13141ea",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-02-25T14:12:16Z",
+      "side": 1,
+      "message": "Don\u0027t you need to assert that the new change was indeed created as successor of the provided base change?",
+      "revId": "871a1b4f863e64e536d47a87cb23e8d2029c8bb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

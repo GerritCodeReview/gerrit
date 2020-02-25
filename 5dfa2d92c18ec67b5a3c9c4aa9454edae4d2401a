@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7f57a9cf_7b88646a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-25T10:48:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99be0899_30a17292",
+      "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "624734a6_12871d87",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -51,6 +69,24 @@
       "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c489741_8ae96c0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-25T10:48:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b94616f8_d83d5e1f",
+      "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -104,6 +140,24 @@
       "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08c8df95_5f083e9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-25T10:48:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440ad03b_057ecd94",
+      "revId": "5dfa2d92c18ec67b5a3c9c4aa9454edae4d2401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

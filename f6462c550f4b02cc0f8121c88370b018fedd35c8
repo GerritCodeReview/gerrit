@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "964f63b8_a9f3fe93",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T13:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db26721c_46521ef4",
+      "revId": "f6462c550f4b02cc0f8121c88370b018fedd35c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62ebe87b_e323f146",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "f6462c550f4b02cc0f8121c88370b018fedd35c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6b4b493_f2f5b7d7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T13:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62ebe87b_e323f146",
+      "revId": "f6462c550f4b02cc0f8121c88370b018fedd35c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

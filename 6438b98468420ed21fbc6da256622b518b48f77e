@@ -16,6 +16,24 @@
       "revId": "6438b98468420ed21fbc6da256622b518b48f77e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06b50157_d7c782c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-25T20:57:34Z",
+      "side": 0,
+      "message": "Yeah shouldn\u0027t have erased it. Placed it back.",
+      "parentUuid": "df7ee01e_9660e31f",
+      "revId": "6438b98468420ed21fbc6da256622b518b48f77e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
+ * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,10 @@
  * limitations under the License.
  */
 
-
-export default {
-  external: ['fs', 'path', 'parse5', 'dom5', 'parse5-html-rewriting-stream',
-    'ts-morph', "stream"],
-  onwarn: warn => {
-    // Typescript adds helper methods for await and promise which look like
-    // var __awaiter = (this && this.__awaiter)
-    // It is safe to ignore this warning
-    if(warn.code === 'THIS_IS_UNDEFINED') { return; }
-    throw new Error(warn.message);
-  }
-};
+if (!window.Polymer) {
+  window.Polymer = {
+    passiveTouchGestures: true,
+    lazyRegister: true,
+  };
+}
+window.Gerrit = window.Gerrit || {};

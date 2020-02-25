@@ -1282,7 +1282,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertNotifyCc(TestAccount expected) {
-    assertNotifyCc(expected.getEmailAddress());
+    assertNotifyCc(expected.getNameEmail());
   }
 
   protected void assertNotifyCc(String expectedEmail, String expectedFullname) {
@@ -1302,7 +1302,7 @@ public abstract class AbstractDaemonTest {
   protected void assertNotifyBcc(TestAccount expected) {
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(expected.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(expected.getNameEmail());
     assertThat(m.headers().get("To").isEmpty()).isTrue();
     assertThat(m.headers().get("Cc").isEmpty()).isTrue();
   }

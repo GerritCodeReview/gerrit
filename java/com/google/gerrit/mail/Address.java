@@ -16,6 +16,7 @@ package com.google.gerrit.mail;
 
 import com.google.gerrit.common.Nullable;
 
+/** Represents an address (name + email) in an email message. */
 public class Address {
   public static Address parse(String in) {
     final int lt = in.indexOf('<');

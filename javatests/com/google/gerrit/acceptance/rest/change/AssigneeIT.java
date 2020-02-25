@@ -61,7 +61,7 @@ public class AssigneeIT extends AbstractDaemonTest {
 
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
   }
 
   @Test

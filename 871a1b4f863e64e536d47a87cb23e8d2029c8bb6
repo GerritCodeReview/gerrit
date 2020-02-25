@@ -16,6 +16,24 @@
       "revId": "871a1b4f863e64e536d47a87cb23e8d2029c8bb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70e0430c_25c27fc8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-02-25T14:24:52Z",
+      "side": 1,
+      "message": "Good catch, fixed for both tests :)",
+      "parentUuid": "202cd29d_b13141ea",
+      "revId": "871a1b4f863e64e536d47a87cb23e8d2029c8bb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

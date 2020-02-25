@@ -68,7 +68,7 @@ limitations under the License.
     });
 
     test('test annotateRange', () => {
-      annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+      const annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
       const start = 0;
       const end = 100;
       const cssStyleObject = plugin.styles().css('background-color: #000000');

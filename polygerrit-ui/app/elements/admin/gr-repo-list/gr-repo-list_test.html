@@ -123,6 +123,7 @@ limitations under the License.
     });
 
     suite('filter', () => {
+      let reposFiltered;
       setup(() => {
         repos = _.times(25, repoGenerator);
         reposFiltered = _.times(1, repoGenerator);

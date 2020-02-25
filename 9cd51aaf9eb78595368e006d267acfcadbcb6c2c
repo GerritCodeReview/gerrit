@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccd31300_0d885844",
+        "filename": "lib/ba-linkify/src/ba-linkify.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-02-25T12:03:53Z",
+      "side": 1,
+      "message": "Nit: space before +",
+      "range": {
+        "startLine": 117,
+        "startChar": 38,
+        "endLine": 117,
+        "endChar": 39
+      },
+      "revId": "9cd51aaf9eb78595368e006d267acfcadbcb6c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

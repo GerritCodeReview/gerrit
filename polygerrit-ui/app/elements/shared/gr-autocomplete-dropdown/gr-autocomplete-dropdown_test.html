@@ -149,7 +149,7 @@ limitations under the License.
     });
 
     test('updated suggestions resets cursor stops', () => {
-      resetStopsSpy = sandbox.spy(element, '_resetCursorStops');
+      const resetStopsSpy = sandbox.spy(element, '_resetCursorStops');
       element.suggestions = [];
       assert.isTrue(resetStopsSpy.called);
     });

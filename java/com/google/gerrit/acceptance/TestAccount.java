@@ -79,7 +79,7 @@ public abstract class TestAccount {
         .toString();
   }
 
-  public Address getEmailAddress() {
+  public Address getNameEmail() {
     // Address is weird enough that it's safer and clearer to create a new instance in a
     // non-abstract method rather than, say, having an abstract emailAddress() as part of this
     // AutoValue class. Specifically:

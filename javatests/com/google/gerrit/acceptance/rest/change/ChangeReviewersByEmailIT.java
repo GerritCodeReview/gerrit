@@ -209,7 +209,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       List<Message> messages = sender.getMessages();
       assertThat(messages).hasSize(1);
       assertThat(messages.get(0).rcpt())
-          .containsExactly(Address.parse(addInput.reviewer), user.getEmailAddress());
+          .containsExactly(Address.parse(addInput.reviewer), user.getNameEmail());
       sender.clear();
     }
   }

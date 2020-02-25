@@ -857,7 +857,7 @@ public class AccountIT extends AbstractDaemonTest {
       gApi.changes().id(r.getChangeId()).abandon();
       List<Message> messages = sender.getMessages();
       assertThat(messages).hasSize(1);
-      assertThat(messages.get(0).rcpt()).containsExactly(user2.getEmailAddress());
+      assertThat(messages.get(0).rcpt()).containsExactly(user2.getNameEmail());
       accountIndexedCounter.assertNoReindex();
     }
   }
@@ -883,7 +883,7 @@ public class AccountIT extends AbstractDaemonTest {
       List<Message> messages = sender.getMessages();
       assertThat(messages).hasSize(1);
       Message message = messages.get(0);
-      assertThat(message.rcpt()).containsExactly(user.getEmailAddress());
+      assertThat(message.rcpt()).containsExactly(user.getNameEmail());
       assertMailReplyTo(message, admin.email());
       accountIndexedCounter.assertNoReindex();
     }
@@ -1840,7 +1840,7 @@ public class AccountIT extends AbstractDaemonTest {
 
       assertThat(sender.getMessages()).hasSize(1);
       Message message = sender.getMessages().get(0);
-      assertThat(message.rcpt()).containsExactly(user.getEmailAddress());
+      assertThat(message.rcpt()).containsExactly(user.getNameEmail());
       assertThat(message.body()).contains("new SSH keys have been added");
 
       // Delete key
@@ -1852,7 +1852,7 @@ public class AccountIT extends AbstractDaemonTest {
 
       assertThat(sender.getMessages()).hasSize(1);
       message = sender.getMessages().get(0);
-      assertThat(message.rcpt()).containsExactly(user.getEmailAddress());
+      assertThat(message.rcpt()).containsExactly(user.getNameEmail());
       assertThat(message.body()).contains("SSH keys have been deleted");
     }
   }

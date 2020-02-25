@@ -216,7 +216,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains(admin.fullName() + " has uploaded this change for review.");
 
     // check that watcher is not notified if notify=NONE
@@ -299,9 +299,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo info = assertCreateSucceeds(input);
 
     RevisionApi rApi = gApi.changes().id(info.id).current();
-    GitPerson person = rApi.commit(false).author;
-    assertThat(person).email().isEqualTo(input.author.email);
-    assertThat(person).name().isEqualTo(input.author.name);
+    GitPerson author = rApi.commit(false).author;
+    assertThat(author).email().isEqualTo(input.author.email);
+    assertThat(author).name().isEqualTo(input.author.name);
+    GitPerson committer = rApi.commit(false).committer;
+    assertThat(committer).email().isEqualTo(admin.getNameEmail().getEmail());
   }
 
   @Test
@@ -446,6 +448,22 @@ public class CreateChangeIT extends AbstractDaemonTest {
     List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
+  }
+
+  @Test
+  public void createMergeChangeAuthor() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    in.author = new AccountInput();
+    in.author.name = "Gerritless Jane";
+    in.author.email = "gerritlessjane@invalid";
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    RevisionApi rApi = gApi.changes().id(change.id).current();
+    GitPerson author = rApi.commit(false).author;
+    assertThat(author).email().isEqualTo(in.author.email);
+    GitPerson committer = rApi.commit(false).committer;
+    assertThat(committer).email().isEqualTo(admin.getNameEmail().getEmail());
   }
 
   @Test

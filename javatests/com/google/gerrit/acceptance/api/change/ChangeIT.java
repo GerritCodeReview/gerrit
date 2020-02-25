@@ -1518,7 +1518,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.from().getName()).isEqualTo("Administrator (Code Review)");
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("I'd like you to do a code review");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
     assertMailReplyTo(m, admin.email());
@@ -1587,7 +1587,7 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("Hello " + user.fullName() + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
@@ -1771,7 +1771,7 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("Hello " + user.fullName() + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
@@ -2162,7 +2162,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
   }
 
   @Test
@@ -2411,7 +2411,7 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message msg = messages.get(0);
-    assertThat(msg.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(msg.rcpt()).containsExactly(user.getNameEmail());
     assertThat(msg.body()).contains(admin.fullName() + " has removed a vote from this change.");
     assertThat(msg.body())
         .contains("Removed Code-Review+1 by " + user.fullName() + " <" + user.email() + ">\n");
@@ -4527,7 +4527,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
-    assertThat(messages.get(0).rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(messages.get(0).rcpt()).containsExactly(user.getNameEmail());
   }
 
   @Test

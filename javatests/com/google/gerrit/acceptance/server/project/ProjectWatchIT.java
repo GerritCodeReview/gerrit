@@ -241,7 +241,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
@@ -273,7 +273,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
@@ -295,7 +295,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user2.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user2.getNameEmail());
     assertThat(m.body()).contains("Change subject: TRIGGER_USER2\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
@@ -322,7 +322,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("Change subject: Document multiprimary setup\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
@@ -357,7 +357,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
@@ -385,7 +385,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
@@ -407,7 +407,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user2.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user2.getNameEmail());
     assertThat(m.body()).contains("Change subject: TRIGGER_USER2\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
@@ -434,7 +434,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("Change subject: Document multiprimary setup\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
@@ -547,7 +547,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(userThatCanViewPrivateChanges.getEmailAddress());
+    assertThat(m.rcpt()).containsExactly(userThatCanViewPrivateChanges.getNameEmail());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }

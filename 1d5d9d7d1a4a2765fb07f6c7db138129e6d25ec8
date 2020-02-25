@@ -16,6 +16,24 @@
       "revId": "1d5d9d7d1a4a2765fb07f6c7db138129e6d25ec8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddb0d08b_1c4de42f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-25T12:31:04Z",
+      "side": 1,
+      "message": "ya I don\u0027t really like this that much either. Having a separate class for the state will be a bit too much. let me see if I can make it better.",
+      "parentUuid": "5715f8ce_89028c41",
+      "revId": "1d5d9d7d1a4a2765fb07f6c7db138129e6d25ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

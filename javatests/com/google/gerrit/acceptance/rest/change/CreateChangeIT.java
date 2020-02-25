@@ -335,6 +335,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createChangeWithParentChange() throws Exception {
+    String change = createChange().getChangeId();
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseChange = change;
+    assertCreateSucceeds(input);
+  }
+
+  @Test
   public void createChangeWithBadParentCommitFails() throws Exception {
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.baseCommit = "notasha1";

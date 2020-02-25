@@ -7,7 +7,6 @@ polygerrit_bundle(
     name = "polygerrit_ui",
     srcs = glob(
         [
-            "**/*.html",
             "**/*.js",
         ],
         exclude = [

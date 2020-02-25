@@ -637,7 +637,7 @@ limitations under the License.
 
       test('_computeAddAndRemove sections', () => {
         // Add a new permission to a section
-        expectedInput = {
+        let expectedInput = {
           add: {
             'refs/*': {
               permissions: {
@@ -742,7 +742,7 @@ limitations under the License.
 
       test('_computeAddAndRemove new section', () => {
         // Add a new permission to a section
-        expectedInput = {
+        let expectedInput = {
           add: {
             'refs/for/*': {
               added: true,

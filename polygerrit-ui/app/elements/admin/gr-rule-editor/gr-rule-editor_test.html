@@ -262,11 +262,11 @@ limitations under the License.
 
       test('all selects are disabled when not in edit mode', () => {
         const selects = Polymer.dom(element.root).querySelectorAll('select');
-        for (select of selects) {
+        for (const select of selects) {
           assert.isTrue(select.disabled);
         }
         element.editing = true;
-        for (select of selects) {
+        for (const select of selects) {
           assert.isFalse(select.disabled);
         }
       });

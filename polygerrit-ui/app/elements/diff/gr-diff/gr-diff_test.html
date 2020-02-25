@@ -1052,7 +1052,7 @@ limitations under the License.
     test('`render` event has contentRendered field in detail', done => {
       element = fixture('basic');
       element.prefs = {};
-      renderStub = sandbox.stub(element.$.diffBuilder, 'render')
+      sandbox.stub(element.$.diffBuilder, 'render')
           .returns(Promise.resolve());
       element.addEventListener('render', event => {
         assert.isTrue(event.detail.contentRendered);

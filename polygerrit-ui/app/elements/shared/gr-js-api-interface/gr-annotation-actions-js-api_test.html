@@ -60,7 +60,7 @@ limitations under the License.
     test('add/get layer', () => {
       const str = 'lorem ipsum blah blah';
       const line = {text: str};
-      el = document.createElement('div');
+      const el = document.createElement('div');
       el.textContent = str;
       const changeNum = 1234;
       const patchNum = 2;
@@ -91,6 +91,7 @@ limitations under the License.
       const layer2Spy = sandbox.spy(annotationLayer2, 'notifyListeners');
 
       let notify;
+      let notifyFuncCalled;
       const notifyFunc = n => {
         notifyFuncCalled = true;
         notify = n;
@@ -119,7 +120,7 @@ limitations under the License.
     });
 
     test('toggle checkbox', () => {
-      fakeEl = {content: fixture('basic')};
+      const fakeEl = {content: fixture('basic')};
       const hookStub = {onAttached: sandbox.stub()};
       sandbox.stub(plugin, 'hook').returns(hookStub);
 
@@ -130,7 +131,7 @@ limitations under the License.
         onAttachedFuncCalled = true;
       };
       annotationActions.enableToggleCheckbox('test label', onAttachedFunc);
-      emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
+      const emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
       emulateAttached();
 
       // Assert that onAttachedFunc is called and HTML elements have the

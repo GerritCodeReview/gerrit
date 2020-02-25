@@ -16,35 +16,41 @@
  */
 (function() {
   'use strict';
-  Polymer({
-    is: 'gr-apply-fix-dialog',
 
-    properties: {
+  /**
+   * @appliesMixin Gerrit.FireMixin
+   */
+  class GrApplyFixDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-apply-fix-dialog'; }
+
+    static get properties() {
+      return {
       // Diff rendering preference API response.
-      prefs: Array,
-      // ChangeInfo API response object.
-      change: Object,
-      changeNum: String,
-      _patchNum: Number,
-      // robot ID associated with a robot comment.
-      _robotId: String,
-      // Selected FixSuggestionInfo entity from robot comment API response.
-      _currentFix: Object,
-      // Flattened /preview API response DiffInfo map object.
-      _currentPreviews: {type: Array, value: () => []},
-      // FixSuggestionInfo entities from robot comment API response.
-      _fixSuggestions: Array,
-      _isApplyFixLoading: {
-        type: Boolean,
-        value: false,
-      },
-      // Index of currently showing suggested fix.
-      _selectedFixIdx: Number,
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+        prefs: Array,
+        // ChangeInfo API response object.
+        change: Object,
+        changeNum: String,
+        _patchNum: Number,
+        // robot ID associated with a robot comment.
+        _robotId: String,
+        // Selected FixSuggestionInfo entity from robot comment API response.
+        _currentFix: Object,
+        // Flattened /preview API response DiffInfo map object.
+        _currentPreviews: {type: Array, value: () => []},
+        // FixSuggestionInfo entities from robot comment API response.
+        _fixSuggestions: Array,
+        _isApplyFixLoading: {
+          type: Boolean,
+          value: false,
+        },
+        // Index of currently showing suggested fix.
+        _selectedFixIdx: Number,
+      };
+    }
 
     /**
      * Given robot comment CustomEvent objevt, fetch diffs associated
@@ -73,24 +79,26 @@
             // ensures gr-overlay repositions overlay in center
             this.$.applyFixOverlay.fire('iron-resize');
           });
-    },
+    }
 
     attached() {
+      super.attached();
       this.refitOverlay = () => {
         // re-center the dialog as content changed
         this.$.applyFixOverlay.fire('iron-resize');
       };
       this.addEventListener('diff-context-expanded', this.refitOverlay);
-    },
+    }
 
     detached() {
+      super.detached();
       this.removeEventListener('diff-context-expanded', this.refitOverlay);
-    },
+    }
 
     _showSelectedFixSuggestion(fixSuggestion) {
       this._currentFix = fixSuggestion;
       return this._fetchFixPreview(fixSuggestion.fix_id);
-    },
+    }
 
     _fetchFixPreview(fixId) {
       return this.$.restAPI
@@ -107,27 +115,27 @@
             this._close();
             throw err;
           });
-    },
+    }
 
     hasSingleFix(_fixSuggestions) {
       return (_fixSuggestions || {}).length === 1;
-    },
+    }
 
     overridePartialPrefs(prefs) {
       // generate a smaller gr-diff than fullscreen for dialog
       return Object.assign({}, prefs, {line_length: 50});
-    },
+    }
 
     onCancel(e) {
       if (e) {
         e.stopPropagation();
       }
       this._close();
-    },
+    }
 
     addOneTo(_selectedFixIdx) {
       return _selectedFixIdx + 1;
-    },
+    }
 
     _onPrevFixClick(e) {
       if (e) e.stopPropagation();
@@ -136,7 +144,7 @@
         return this._showSelectedFixSuggestion(
             this._fixSuggestions[this._selectedFixIdx]);
       }
-    },
+    }
 
     _onNextFixClick(e) {
       if (e) e.stopPropagation();
@@ -146,16 +154,16 @@
         return this._showSelectedFixSuggestion(
             this._fixSuggestions[this._selectedFixIdx]);
       }
-    },
+    }
 
     _noPrevFix(_selectedFixIdx) {
       return _selectedFixIdx === 0;
-    },
+    }
 
     _noNextFix(_selectedFixIdx, fixSuggestions) {
       if (fixSuggestions == null) return true;
       return _selectedFixIdx === fixSuggestions.length - 1;
-    },
+    }
 
     _close() {
       this._currentFix = {};
@@ -167,11 +175,11 @@
         composed: true,
       }));
       this.$.applyFixOverlay.close();
-    },
+    }
 
     _getApplyFixButtonLabel(isLoading) {
       return isLoading ? 'Saving...' : 'Apply Fix';
-    },
+    }
 
     _handleApplyFix(e) {
       if (e) {
@@ -192,11 +200,13 @@
             }
             this._isApplyFixLoading = false;
           });
-    },
+    }
 
     getFixDescription(currentFix) {
       return currentFix != null && currentFix.description ?
         currentFix.description : '';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrApplyFixDialog.is, GrApplyFixDialog);
 })();

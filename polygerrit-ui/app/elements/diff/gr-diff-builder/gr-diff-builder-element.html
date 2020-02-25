@@ -1,0 +1,54 @@
+<!--
+@license
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
+<link rel="import" href="../gr-coverage-layer/gr-coverage-layer.html">
+<link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
+<link rel="import" href="../../../elements/shared/gr-hovercard/gr-hovercard.html">
+<link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
+
+<dom-module id="gr-diff-builder">
+  <template>
+    <div class="contentWrapper">
+      <slot></slot>
+    </div>
+    <gr-ranged-comment-layer
+        id="rangeLayer"
+        comment-ranges="[[commentRanges]]"></gr-ranged-comment-layer>
+    <gr-coverage-layer
+        id="coverageLayerLeft"
+        coverage-ranges="[[_leftCoverageRanges]]"
+        side="left"></gr-coverage-layer>
+    <gr-coverage-layer
+        id="coverageLayerRight"
+        coverage-ranges="[[_rightCoverageRanges]]"
+        side="right"></gr-coverage-layer>
+    <gr-diff-processor
+        id="processor"
+        groups="{{_groups}}"></gr-diff-processor>
+  </template>
+  <script src="../../../scripts/util.js"></script>
+  <script src="../gr-diff/gr-diff-line.js"></script>
+  <script src="../gr-diff/gr-diff-group.js"></script>
+  <script src="../gr-diff-highlight/gr-annotation.js"></script>
+  <script src="gr-diff-builder.js"></script>
+  <script src="gr-diff-builder-side-by-side.js"></script>
+  <script src="gr-diff-builder-unified.js"></script>
+  <script src="gr-diff-builder-image.js"></script>
+  <script src="gr-diff-builder-binary.js"></script>
+  <script src="gr-diff-builder-element.js"></script>
+</dom-module>

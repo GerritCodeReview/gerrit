@@ -2,7 +2,9 @@
   "name": "gerrit",
   "version": "3.1.0-SNAPSHOT",
   "description": "Gerrit Code Review",
-  "dependencies": {},
+  "dependencies": {
+    "polymer-modulizer": "^0.4.3"
+  },
   "devDependencies": {
     "@bazel/rollup": "^1.1.0",
     "@bazel/typescript": "^1.0.1",

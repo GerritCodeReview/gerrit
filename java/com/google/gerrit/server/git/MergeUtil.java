@@ -432,7 +432,33 @@ public class MergeUtil {
       RevCommit originalCommit,
       String mergeStrategy,
       boolean allowConflicts,
-      PersonIdent committerIndent,
+      PersonIdent committerIdent,
+      String commitMsg,
+      CodeReviewRevWalk rw)
+      throws IOException, MergeIdenticalTreeException, MergeConflictException,
+          InvalidMergeStrategyException {
+    return createMergeCommit(
+        inserter,
+        repoConfig,
+        mergeTip,
+        originalCommit,
+        mergeStrategy,
+        allowConflicts,
+        committerIdent,
+        committerIdent,
+        commitMsg,
+        rw);
+  }
+
+  public static CodeReviewCommit createMergeCommit(
+      ObjectInserter inserter,
+      Config repoConfig,
+      RevCommit mergeTip,
+      RevCommit originalCommit,
+      String mergeStrategy,
+      boolean allowConflicts,
+      PersonIdent authorIdent,
+      PersonIdent committerIdent,
       String commitMsg,
       CodeReviewRevWalk rw)
       throws IOException, MergeIdenticalTreeException, MergeConflictException,
@@ -496,8 +522,8 @@ public class MergeUtil {
     CommitBuilder mergeCommit = new CommitBuilder();
     mergeCommit.setTreeId(tree);
     mergeCommit.setParentIds(mergeTip, originalCommit);
-    mergeCommit.setAuthor(committerIndent);
-    mergeCommit.setCommitter(committerIndent);
+    mergeCommit.setAuthor(authorIdent);
+    mergeCommit.setCommitter(committerIdent);
     mergeCommit.setMessage(commitMsg);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(mergeCommit));
     commit.setFilesWithGitConflicts(filesWithGitConflicts);

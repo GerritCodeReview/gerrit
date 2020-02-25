@@ -17,7 +17,8 @@
 
 
 export default {
-  external: ['fs', 'path', 'parse5', 'dom5', 'parse5-html-rewriting-stream'],
+  external: ['fs', 'path', 'parse5', 'dom5', 'parse5-html-rewriting-stream',
+    'ts-morph', "stream"],
   onwarn: warn => {
     // Typescript adds helper methods for await and promise which look like
     // var __awaiter = (this && this.__awaiter)

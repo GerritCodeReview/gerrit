@@ -1666,7 +1666,6 @@ limitations under the License.
                   .returns(Promise.resolve({revert_changes: [
                     {change_id: 12345},
                   ]}));
-              showActionDialogStub = sandbox.stub(element, '_showActionDialog');
               navigateToSearchQueryStub = sandbox.stub(Gerrit.Nav,
                   'navigateToSearchQuery');
             });

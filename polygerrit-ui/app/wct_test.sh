@@ -16,7 +16,7 @@ cp -R -L ./external/ui_dev_npm/node_modules/* $t/node_modules
 # it always receives file from ui_npm. It can broke WCT itself but luckely it works.
 cp -R -L ./external/ui_npm/node_modules/* $t/node_modules
 
-cp -R -L ./polygerrit-ui/app/test-srcs-updated-links/polygerrit-ui/app/* $t/
+cp -R -L ./polygerrit-ui/app/* $t/
 
 export PATH="$(dirname $NPM):$PATH"
 

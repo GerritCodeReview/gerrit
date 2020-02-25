@@ -202,6 +202,7 @@
         _sendButtonLabel: {
           type: String,
           computed: '_computeSendButtonLabel(canBeStarted)',
+          observer: '_sendDisabledChanged',
         },
         _savingComments: Boolean,
         _reviewersMutated: {
@@ -225,6 +226,13 @@
           type: Boolean,
           computed: '_computeSendButtonDisabled(_sendButtonLabel, ' +
             'draftCommentThreads, draft, _reviewersMutated, _labelsChanged, ' +
+            '_includeComments, disabled)',
+          observer: '_sendDisabledChanged',
+        },
+        _sendReplyDisabled: {
+          type: Boolean,
+          computed: '_computeReplyButtonDisabled(draftCommentThreads, draft, ' +
+            '_reviewersMutated, _labelsChanged, ' +
             '_includeComments, disabled)',
           observer: '_sendDisabledChanged',
         },
@@ -852,6 +860,16 @@
       if (buttonLabel === ButtonLabels.START_REVIEW) { return false; }
       const hasDrafts = includeComments && draftCommentThreads.length;
       return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
+    }
+
+    _computeReplyButtonDisabled(draftCommentThreads, drafts, text,
+        reviewersMutated, labelsChanged, includeComments, disabled) {
+      if (this.isState(this.knownLatestState, 'not-latest')) {
+        return true;
+      }
+      return this._computeSendButtonDisabled(ButtonLabels.SEND,
+          draftCommentThreads, drafts, text, reviewersMutated, labelsChanged,
+          includeComments, disabled);
     }
 
     _computePatchSetWarning(patchNum, labelsChanged) {

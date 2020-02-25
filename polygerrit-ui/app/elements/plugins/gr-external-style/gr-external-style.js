@@ -37,6 +37,12 @@
       };
     }
 
+    _importHref(url, resolve, reject) {
+      // It is impossible to mock es6-module imported function.
+      // The _importHref function is mocked in test.
+      Polymer.importHref(url, resolve, reject);
+    }
+
     /**
      * @suppress {checkTypes}
      */
@@ -44,7 +50,7 @@
       if (this._urlsImported.includes(url)) { return Promise.resolve(); }
       this._urlsImported.push(url);
       return new Promise((resolve, reject) => {
-        Polymer.importHref(url, resolve, reject);
+        this._importHref(url, resolve, reject);
       });
     }
 

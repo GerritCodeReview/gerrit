@@ -27,12 +27,7 @@
     + 'for this change.';
   const NO_ROBOT_COMMENTS_THREADS_MESSAGE = 'There are no findings for this ' +
     'patchset.';
-
-  const CommentTabs = {
-    CHANGE_LOG: 0,
-    COMMENT_THREADS: 1,
-    ROBOT_COMMENTS: 2,
-  };
+  const FINDINGS_TAB_NAME = '__gerrit_internal_findings';
 
   class GrThreadList extends Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
@@ -73,7 +68,10 @@
           type: Boolean,
           value: false,
         },
-        commentTab: Number,
+        tab: {
+          type: String,
+          value: '',
+        },
       };
     }
 
@@ -83,8 +81,8 @@
       return loggedIn ? 'show' : '';
     }
 
-    _computeNoThreadsMessage(commentTab) {
-      if (commentTab === CommentTabs.ROBOT_COMMENTS) {
+    _computeNoThreadsMessage(tab) {
+      if (tab === FINDINGS_TAB_NAME) {
         return NO_ROBOT_COMMENTS_THREADS_MESSAGE;
       }
       return NO_THREADS_MESSAGE;

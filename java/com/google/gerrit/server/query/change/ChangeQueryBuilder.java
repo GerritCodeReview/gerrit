@@ -703,7 +703,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> branch(String name) {
+  public Predicate<ChangeData> branch(String name) throws QueryParseException {
     if (name.startsWith("^")) {
       return ref("^" + RefNames.fullName(name.substring(1)));
     }
@@ -732,7 +732,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> ref(String ref) {
+  public Predicate<ChangeData> ref(String ref) throws QueryParseException {
     if (ref.startsWith("^")) {
       return new RegexRefPredicate(ref);
     }

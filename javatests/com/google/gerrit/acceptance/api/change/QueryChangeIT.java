@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
@@ -31,6 +32,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.inject.Inject;
@@ -223,6 +225,26 @@ public class QueryChangeIT extends AbstractDaemonTest {
     QueryChanges queryChanges = queryChangesProvider.get();
     queryChanges.addQuery("<" + email + ">");
     assertThat(queryChanges.apply(TopLevelResource.INSTANCE).statusCode()).isEqualTo(SC_OK);
+  }
+
+  @Test
+  public void defaultQueryCannotBeParsedDueToInvalidRegEx() throws Exception {
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery("^[A");
+    BadRequestException e =
+        assertThrows(
+            BadRequestException.class, () -> queryChanges.apply(TopLevelResource.INSTANCE));
+    assertThat(e).hasMessageThat().contains("no viable alternative at character '['");
+  }
+
+  @Test
+  public void defaultQueryWithInvalidQuotedRegEx() throws Exception {
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery("\"^[A\"");
+    BadRequestException e =
+        assertThrows(
+            BadRequestException.class, () -> queryChanges.apply(TopLevelResource.INSTANCE));
+    assertThat(e).hasMessageThat().isEqualTo("invalid regular expression: [A");
   }
 
   private static void assertNoChangeHasMoreChangesSet(List<ChangeInfo> results) {

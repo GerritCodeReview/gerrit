@@ -45,6 +45,54 @@
       "revId": "a6d2c91e305d34e08b6765879b5a709d3b41fd07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f128bd16_4a8b3ce5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2743,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-26T02:27:01Z",
+      "side": 1,
+      "message": "Since you can generate just the \"SGVsbG8sIFdvcmxkIQ\u003d\u003d\" for example without the (.+)base64,. So this needs to be a URI so it includes it. See https://en.wikipedia.org/wiki/Data_URI_scheme#Syntax",
+      "parentUuid": "73da3b32_d172d1af",
+      "range": {
+        "startLine": 2743,
+        "startChar": 42,
+        "endLine": 2743,
+        "endChar": 45
+      },
+      "revId": "a6d2c91e305d34e08b6765879b5a709d3b41fd07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34c2115f_f227e354",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2743,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-26T02:27:01Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1779ed9f_5bfb3cfe",
+      "range": {
+        "startLine": 2743,
+        "startChar": 37,
+        "endLine": 2743,
+        "endChar": 41
+      },
+      "revId": "a6d2c91e305d34e08b6765879b5a709d3b41fd07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

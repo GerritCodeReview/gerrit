@@ -314,7 +314,7 @@ limitations under the License.
               rows="4"
               text="{{_messageText}}"></gr-textarea>
           <template is="dom-if" if="[[_computeVisibilityOfTip(_showRespectfulTip, _respectfulTipDismissed)]]">
-            <div class="respectfulReviewTip">
+            <div class="respectfulReviewTip" tabindex="-1">
               <div>
                 <gr-tooltip-content
                   has-tooltip
@@ -325,6 +325,7 @@ limitations under the License.
               </div>
               <div>
                 <a
+                  tabIndex="-1"
                   on-click="_onRespectfulReadMoreClick"
                   href="https://testing.googleblog.com/2019/11/code-health-respectful-reviews-useful.html"
                   target="_blank">

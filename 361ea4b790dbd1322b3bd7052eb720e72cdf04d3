@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "370f977f_237807cf",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-02-26T14:15:41Z",
+      "side": 1,
+      "message": "The field date appears to be related to time but does not include a unit in its name. This is a best practice to avoid nasty unit-mismatch bugs.",
+      "range": {
+        "startLine": 210,
+        "startChar": 10,
+        "endLine": 210,
+        "endChar": 14
+      },
+      "revId": "361ea4b790dbd1322b3bd7052eb720e72cdf04d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

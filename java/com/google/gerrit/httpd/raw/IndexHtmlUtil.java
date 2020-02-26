@@ -186,12 +186,6 @@ public class IndexHtmlUtil {
     if (urlParameterMap.containsKey("ce")) {
       data.put("polyfillCE", "true");
     }
-    if (urlParameterMap.containsKey("sd")) {
-      data.put("polyfillSD", "true");
-    }
-    if (urlParameterMap.containsKey("sc")) {
-      data.put("polyfillSC", "true");
-    }
     if (urlParameterMap.containsKey("gf")) {
       data.put("useGoogleFonts", "true");
     }

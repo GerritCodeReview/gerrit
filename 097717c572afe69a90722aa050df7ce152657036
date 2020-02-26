@@ -110,6 +110,30 @@
       "revId": "097717c572afe69a90722aa050df7ce152657036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7686f8f_58159fb3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-02-26T09:52:39Z",
+      "side": 1,
+      "message": "Yes, good point.\nThis still doesn\u0027t solve the problem of two different plugins ending up choosing the name name.\nSomething to consider for the future.",
+      "parentUuid": "bdeba127_4bdd74f1",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 78
+      },
+      "revId": "097717c572afe69a90722aa050df7ce152657036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

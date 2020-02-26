@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bb903189_70601b01",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-26T12:30:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dfaccee_d311a502",
+      "revId": "53bb4bfc0f21db714caa2ca5f1b9a48e13626140",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b034673_ca53d383",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
         "patchSetId": 3
@@ -51,6 +69,24 @@
       "revId": "53bb4bfc0f21db714caa2ca5f1b9a48e13626140",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59d3cf0c_0c4b26d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-26T12:30:33Z",
+      "side": 1,
+      "message": "just want to keep existing behavior, I don\u0027t want any surprise for this change. Checked most of our use cases, should be safe to always prevent. will do",
+      "parentUuid": "1b034673_ca53d383",
+      "revId": "53bb4bfc0f21db714caa2ca5f1b9a48e13626140",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

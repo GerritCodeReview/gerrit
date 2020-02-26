@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1dfaccee_d311a502",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-26T11:30:25Z",
+      "side": 1,
+      "message": "i used the vertical-align to avoid that jump, but ya `visibility:hidden` might be a better way to work across platform and browsers",
+      "parentUuid": "48aec23a_cca1c35a",
+      "revId": "53bb4bfc0f21db714caa2ca5f1b9a48e13626140",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b034673_ca53d383",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
         "patchSetId": 3

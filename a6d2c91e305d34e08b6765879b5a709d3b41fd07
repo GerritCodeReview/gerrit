@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73da3b32_d172d1af",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2743,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-26T02:22:05Z",
+      "side": 1,
+      "message": "why \"uri\"?",
+      "range": {
+        "startLine": 2743,
+        "startChar": 42,
+        "endLine": 2743,
+        "endChar": 45
+      },
+      "revId": "a6d2c91e305d34e08b6765879b5a709d3b41fd07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1779ed9f_5bfb3cfe",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2743,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-02-26T02:22:05Z",
+      "side": 1,
+      "message": "data",
+      "range": {
+        "startLine": 2743,
+        "startChar": 37,
+        "endLine": 2743,
+        "endChar": 41
+      },
+      "revId": "a6d2c91e305d34e08b6765879b5a709d3b41fd07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7bd34ca_2ba40357",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-02-26T13:48:20Z",
+      "side": 1,
+      "message": "(cherry picked from commit 666b34d33c1b4e73147006dbced080bfec7f9751)",
+      "revId": "4d68f0a4ab2239035ed2bdfa36ac161be64367ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

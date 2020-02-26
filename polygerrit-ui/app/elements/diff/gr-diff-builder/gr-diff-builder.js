@@ -115,18 +115,6 @@
     group.element = element;
   };
 
-  GrDiffBuilder.prototype.renderSection = function(element) {
-    for (let i = 0; i < this.groups.length; i++) {
-      const group = this.groups[i];
-      if (group.element === element) {
-        const newElement = this.buildSectionElement(group);
-        group.element.parentElement.replaceChild(newElement, group.element);
-        group.element = newElement;
-        break;
-      }
-    }
-  };
-
   GrDiffBuilder.prototype.getGroupsByLineRange = function(
       startLine, endLine, opt_side) {
     const groups = [];

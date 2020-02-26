@@ -823,15 +823,6 @@ limitations under the License.
         element.render(keyLocations, prefs).then(done);
       });
 
-      test('renderSection', () => {
-        let section = outputEl.querySelector('stub:nth-of-type(2)');
-        const prevInnerHTML = section.innerHTML;
-        section.innerHTML = 'wiped';
-        element._builder.renderSection(section);
-        section = outputEl.querySelector('stub:nth-of-type(2)');
-        assert.equal(section.innerHTML, prevInnerHTML);
-      });
-
       test('addColumns is called', done => {
         element.render(keyLocations, {}).then(done);
         assert.isTrue(element._builder.addColumns.called);

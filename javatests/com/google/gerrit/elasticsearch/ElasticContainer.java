@@ -16,6 +16,8 @@ package com.google.gerrit.elasticsearch;
 
 import org.apache.http.HttpHost;
 import org.junit.AssumptionViolatedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
 /* Helper class for running ES integration tests in docker container */
@@ -72,6 +74,11 @@ public class ElasticContainer extends ElasticsearchContainer {
 
   private ElasticContainer(ElasticVersion version) {
     super(getImageName(version));
+  }
+
+  @Override
+  protected Logger logger() {
+    return LoggerFactory.getLogger("org.testcontainers");
   }
 
   public HttpHost getHttpHost() {

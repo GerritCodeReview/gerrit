@@ -16,6 +16,24 @@
       "revId": "097717c572afe69a90722aa050df7ce152657036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99db187c_e9dfc1f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-26T09:31:06Z",
+      "side": 1,
+      "message": "otherwise the box-shadow added by ben will have a horizontal bar on top of the tabs",
+      "parentUuid": "75cd3fd7_d45ca4f1",
+      "revId": "097717c572afe69a90722aa050df7ce152657036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

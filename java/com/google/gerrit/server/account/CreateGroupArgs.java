@@ -35,6 +35,6 @@ public class CreateGroupArgs {
   }
 
   public void setGroupName(String n) {
-    groupName = n != null ? AccountGroup.nameKey(n) : null;
+    groupName = n != null ? AccountGroup.nameKey(n.trim()) : null;
   }
 }

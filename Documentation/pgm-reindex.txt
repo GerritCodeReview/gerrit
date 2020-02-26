@@ -7,6 +7,7 @@ reindex - Rebuild the secondary index
 [verse]
 --
 _java_ -jar gerrit.war _reindex_
+  -d <SITE_PATH>
   [--threads]
   [--changes-schema-version]
   [--verbose]

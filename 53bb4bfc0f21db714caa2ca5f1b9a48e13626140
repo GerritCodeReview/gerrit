@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48aec23a_cca1c35a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-26T11:09:38Z",
+      "side": 1,
+      "message": "Changing \"display\" on hover could potentially make the UI jump when moving the mouse over the path.\n\nMaybe consider using \"visibility:hidden\" instead.",
+      "revId": "53bb4bfc0f21db714caa2ca5f1b9a48e13626140",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b034673_ca53d383",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-26T11:09:38Z",
+      "side": 1,
+      "message": "Maybe just always stop propagation and prevent default? What could be a reason to not do this? If you have one, then also document it here.",
+      "revId": "53bb4bfc0f21db714caa2ca5f1b9a48e13626140",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

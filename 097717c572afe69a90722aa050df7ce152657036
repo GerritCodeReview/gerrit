@@ -34,6 +34,29 @@
       "revId": "097717c572afe69a90722aa050df7ce152657036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdeba127_4bdd74f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-02-26T09:37:03Z",
+      "side": 1,
+      "message": "nit: if you want to make some name unique, it is better to use some prefix, like:\n//Define globally\nconst uniqueNamePrefix \u003d \"_polygerrit-ui-AB231243-\"\nAnd then use it everywhere:\nconst FILES_TAB_NAME \u003d uniqueNamePrefix + \"files\";\nconst FINDINGS_TAB_NAME \u003d uniqueNamePrefix + \"findings\";",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 78
+      },
+      "revId": "097717c572afe69a90722aa050df7ce152657036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -37,6 +37,11 @@
           type: Boolean,
           value: false,
         },
+        /** Set to true if you want to stop event propagation. */
+        stopPropagation: {
+          type: Boolean,
+          value: false,
+        },
       };
     }
 
@@ -53,7 +58,11 @@
       Polymer.dom(e).rootTarget.select();
     }
 
-    _copyToClipboard() {
+    _copyToClipboard(e) {
+      if (this.stopPropagation) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       if (this.hideInput) {
         this.$.input.style.display = 'block';
       }

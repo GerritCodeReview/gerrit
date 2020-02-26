@@ -363,6 +363,13 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createGroupNameIsTrimmed() throws Exception {
+    String newGroupName = name("newGroup");
+    GroupInfo g = gApi.groups().create(" " + newGroupName + " ").get();
+    assertGroupInfo(group(newGroupName), g);
+  }
+
+  @Test
   public void createDuplicateInternalGroupCaseSensitiveName_Conflict() throws Exception {
     String dupGroupName = name("dupGroup");
     gApi.groups().create(dupGroupName);
@@ -1346,17 +1353,6 @@ public class GroupsIT extends AbstractDaemonTest {
       assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
     }
     assertStaleGroupAndReindex(groupUuid);
-  }
-
-  @Test
-  public void groupNamesWithLeadingAndTrailingWhitespace() throws Exception {
-    for (String leading : ImmutableList.of("", " ", "  ")) {
-      for (String trailing : ImmutableList.of("", " ", "  ")) {
-        String name = leading + name("group") + trailing;
-        GroupInfo g = gApi.groups().create(name).get();
-        assertThat(g.name).isEqualTo(name);
-      }
-    }
   }
 
   @Test

@@ -1470,8 +1470,14 @@
             } else {
               this._selectedRevision =
                 Object.values(this._change.revisions).find(
-                    revision => revision._number ===
-                      parseInt(this._patchRange.patchNum, 10));
+                    revision => {
+                      // edit patchset is a special one
+                      const thePatchNum = this._patchRange.patchNum;
+                      if (thePatchNum === 'edit') {
+                        return revision._number === thePatchNum;
+                      }
+                      return revision._number === parseInt(thePatchNum, 10);
+                    });
             }
           });
     }
@@ -1963,8 +1969,12 @@
       if (!this._selectedRevision) {
         return;
       }
-      // If patchNumStr is"edit", then patchNum is undefined hence an OR
-      const patchNum = parseInt(patchNumStr, 10) || patchNumStr;
+
+      let patchNum = parseInt(patchNumStr, 10);
+      if (patchNumStr === 'edit') {
+        patchNum = patchNumStr;
+      }
+
       if (patchNum === this._selectedRevision._number) {
         return;
       }

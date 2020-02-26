@@ -132,14 +132,14 @@ public class ExternalIdIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(
             AuthException.class, () -> gApi.accounts().id(admin.id().get()).getExternalIds());
-    assertThat(thrown).hasMessageThat().contains("access database not permitted");
+    assertThat(thrown).hasMessageThat().contains("modify account not permitted");
   }
 
   @Test
-  public void getExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
+  public void getExternalIdsOfOtherUserWithModifyAccount() throws Exception {
     projectOperations
         .allProjectsForUpdate()
-        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
         .update();
 
     Collection<ExternalId> expectedIds = getAccountState(admin.id()).externalIds();
@@ -193,7 +193,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 gApi.accounts()
                     .id(admin.id().get())
                     .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList())));
-    assertThat(thrown).hasMessageThat().contains("access database not permitted");
+    assertThat(thrown).hasMessageThat().contains("modify account not permitted");
   }
 
   @Test
@@ -213,10 +213,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
+  public void deleteExternalIdsOfOtherUserWithModifyAccount() throws Exception {
     projectOperations
         .allProjectsForUpdate()
-        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
         .update();
 
     List<AccountExternalIdInfo> externalIds = gApi.accounts().self().getExternalIds();
@@ -464,7 +464,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void readExternalIdsWhenInvalidExternalIdsExist() throws Exception {
     projectOperations
         .allProjectsForUpdate()
-        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
         .update();
     requestScopeOperations.resetCurrentApiUser();
 

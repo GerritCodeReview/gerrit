@@ -1728,6 +1728,10 @@ can contain a list of link:#project-watch-info[ProjectWatchInfo] entities.
 
 Retrieves the external ids of a user account.
 
+Only external ids belonging to the caller may be requested. Users that have
+link:access-control.html#capability_modifyAccount[Modify Account] can request
+external ids that belong to other accounts.
+
 .Request
 ----
   GET /a/accounts/self/external.ids HTTP/1.0
@@ -1761,7 +1765,9 @@ link:#account-external-id-info[AccountExternalIdInfo] entities.
 Delete a list of external ids for a user account. The target external ids must
 be provided as a list in the request body.
 
-Only external ids belonging to the caller may be deleted.
+Only external ids belonging to the caller may be deleted. Users that have
+link:access-control.html#capability_modifyAccount[Modify Account] can delete
+external ids that belong to other accounts.
 
 .Request
 ----

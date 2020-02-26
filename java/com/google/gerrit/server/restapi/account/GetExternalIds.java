@@ -67,7 +67,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
   public Response<List<AccountExternalIdInfo>> apply(AccountResource resource)
       throws RestApiException, IOException, PermissionBackendException {
     if (!self.get().hasSameAccountId(resource.getUser())) {
-      permissionBackend.currentUser().check(GlobalPermission.ACCESS_DATABASE);
+      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     Collection<ExternalId> ids = externalIds.byAccount(resource.getUser().getAccountId());

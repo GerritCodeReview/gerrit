@@ -1180,18 +1180,6 @@ used.
 +
 Default is true.
 
-[[change.api.allowedIdentifier]]change.api.allowedIdentifier::
-+
-Change identifier(s) that are allowed on the API. See
-link:rest-api-changes.html#change-id[Change Id] for more information.
-+
-Possible values are `ALL`, `TRIPLET`, `NUMERIC_ID`, `I_HASH`, and
-`COMMIT_HASH` or any combination of those as a string list.
-`PROJECT_NUMERIC_ID` is always allowed and doesn't need to be listed
-explicitly.
-+
-Default is `ALL`.
-
 [[change.allowDrafts]]change.allowDrafts::
 +
 Legacy support for drafts workflow. If set to true, pushing a new change

@@ -19,6 +19,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -54,6 +55,8 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class ChangeFinder {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String CACHE_NAME = "changeid_project";
 
   public static Module module() {
@@ -239,7 +242,11 @@ public class ChangeFinder {
     List<ChangeNotes> notes = new ArrayList<>(cds.size());
     if (!indexConfig.separateChangeSubIndexes()) {
       for (ChangeData cd : cds) {
-        notes.add(cd.notes());
+        try {
+          notes.add(cd.notes());
+        } catch (NoSuchChangeException e) {
+          logger.atWarning().log("Change %s seen in index, but missing in NoteDb", e.getMessage());
+        }
       }
       return notes;
     }
@@ -253,7 +260,11 @@ public class ChangeFinder {
     Set<Change.Id> seen = Sets.newHashSetWithExpectedSize(cds.size());
     for (ChangeData cd : cds) {
       if (seen.add(cd.getId())) {
-        notes.add(cd.notes());
+        try {
+          notes.add(cd.notes());
+        } catch (NoSuchChangeException e) {
+          logger.atWarning().log("Change %s seen in index, but missing in NoteDb", e.getMessage());
+        }
       }
     }
     return notes;

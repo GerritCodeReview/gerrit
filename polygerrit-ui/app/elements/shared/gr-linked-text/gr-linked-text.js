@@ -81,9 +81,7 @@
       // Ensure links to the same host originating from commentlink configs
       // open in the same tab. @see Issue 4616
       output.querySelectorAll('a').forEach(anchor => {
-        if (anchor.hostname === window.location.hostname) {
-          anchor.setAttribute('target', '_self');
-        } else {
+        if (anchor.hostname !== window.location.hostname) {
           anchor.setAttribute('target', '_blank');
         }
         anchor.setAttribute('rel', 'noopener');

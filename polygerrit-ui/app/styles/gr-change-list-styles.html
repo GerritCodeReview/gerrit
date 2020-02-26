@@ -38,6 +38,14 @@ limitations under the License.
       }
       .groupHeader {
         background-color: transparent;
+        color: var(--deemphasized-text-color);
+        vertical-align: bottom;
+      }
+      .groupHeader td {
+        padding-top: var(--spacing-xl);
+      }
+      .groupHeader td.title {
+        color: var(--primary-text-color);
         font-size: var(--font-size-h3);
         font-weight: var(--font-weight-h3);
         line-height: var(--line-height-h3);
@@ -56,9 +64,6 @@ limitations under the License.
       .groupTitle td,
       .cell {
         padding: var(--spacing-s) 0;
-      }
-      .groupHeader .cell {
-        padding-top: var(--spacing-l);
       }
       .star {
         padding: 0;
@@ -87,8 +92,13 @@ limitations under the License.
       .star {
         width: 30px;
       }
-      .label, .endpoint {
+      .label,
+      .endpoint {
         border-left: 1px solid var(--border-color);
+      }
+      .groupHeader .label,
+      .groupHeader .endpoint {
+        border-left: none;
       }
       .groupTitle td.label,
       .label {

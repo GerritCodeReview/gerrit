@@ -201,6 +201,12 @@
       }
     }
 
+    _computeColumnHeaders(columns) {
+      const c = [...columns];
+      c.splice(0, 1);
+      return c;
+    }
+
     _computeColspan(changeTableColumns, labelNames) {
       if (!changeTableColumns || !labelNames) return;
       return changeTableColumns.length + labelNames.length +

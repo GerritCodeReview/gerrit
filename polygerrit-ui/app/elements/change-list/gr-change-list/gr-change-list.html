@@ -64,38 +64,14 @@ limitations under the License.
             <tr class="groupHeader">
               <td class="leftPadding"></td>
               <td class="star" hidden$="[[!showStar]]" hidden></td>
-              <td class="cell"
-                  colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
+              <td class="number" hidden$="[[!showNumber]]" hidden>#</td>
+              <td class="title">
                 <a href$="[[_sectionHref(changeSection.query)]]" class="section-title">
                   <span class="section-name">[[changeSection.name]]</span>
                   <span class="section-count-label">[[changeSection.countLabel]]</span>
                 </a>
               </td>
-            </tr>
-          </tbody>
-        </template>
-        <tbody class="groupContent">
-          <template is="dom-if" if="[[_isEmpty(changeSection)]]">
-            <tr class="noChanges">
-              <td class="leftPadding"></td>
-              <td class="star" hidden$="[[!showStar]]" hidden></td>
-              <td class="cell"
-                  colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
-                <template is="dom-if" if="[[_isOutgoing(changeSection)]]">
-                  <slot name="empty-outgoing"></slot>
-                </template>
-                <template is="dom-if" if="[[!_isOutgoing(changeSection)]]">
-                  No changes
-                </template>
-              </td>
-            </tr>
-          </template>
-          <template is="dom-if" if="[[!_isEmpty(changeSection)]]">
-            <tr class="groupTitle">
-              <td class="leftPadding"></td>
-              <td class="star" hidden$="[[!showStar]]" hidden></td>
-              <td class="number" hidden$="[[!showNumber]]" hidden>#</td>
-              <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
+              <template is="dom-repeat" items="[[_computeColumnHeaders(changeTableColumns)]]" as="item">
                 <td class$="[[_lowerCase(item)]]"
                     hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
                   [[item]]
@@ -113,6 +89,23 @@ limitations under the License.
                   </gr-endpoint-decorator>
                 </td>
               </template>
+            </tr>
+          </tbody>
+        </template>
+        <tbody class="groupContent">
+          <template is="dom-if" if="[[_isEmpty(changeSection)]]">
+            <tr class="noChanges">
+              <td class="leftPadding"></td>
+              <td class="star" hidden$="[[!showStar]]" hidden></td>
+              <td class="cell"
+                  colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
+                <template is="dom-if" if="[[_isOutgoing(changeSection)]]">
+                  <slot name="empty-outgoing"></slot>
+                </template>
+                <template is="dom-if" if="[[!_isOutgoing(changeSection)]]">
+                  No changes
+                </template>
+              </td>
             </tr>
           </template>
           <template is="dom-repeat" items="[[changeSection.results]]" as="change">

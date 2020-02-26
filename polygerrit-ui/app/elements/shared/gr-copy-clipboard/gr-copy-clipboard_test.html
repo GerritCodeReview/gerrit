@@ -90,5 +90,16 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.equal(getComputedStyle(element.$.input).display, 'none');
     });
+
+    test('stop events propagation', () => {
+      const divParent = document.createElement('div');
+      divParent.appendChild(element);
+      const clickStub = sinon.stub();
+      divParent.addEventListener('click', clickStub);
+      element.stopPropagation = true;
+      const copyBtn = element.shadowRoot.querySelector('.copyToClipboard');
+      MockInteractions.tap(copyBtn);
+      assert.isFalse(clickStub.called);
+    });
   });
 </script>

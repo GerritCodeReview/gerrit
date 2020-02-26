@@ -36,6 +36,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/gr-count-string-formatter/gr-count-string-formatter.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
+<link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
 <link rel="import" href="../gr-file-list-constants.html">
 
 <dom-module id="gr-file-list">
@@ -115,13 +116,9 @@ limitations under the License.
       .path {
         cursor: pointer;
         flex: 1;
-        text-decoration: none;
         /* Wrap it into multiple lines if too long. */
         white-space: normal;
         word-break: break-word;
-      }
-      .path:hover :first-child {
-        text-decoration: underline;
       }
       .oldPath {
         color: var(--deemphasized-text-color);
@@ -245,6 +242,26 @@ limitations under the License.
         display: inline-block;
         margin: -2px 0;
         padding: var(--spacing-s) 0;
+        text-decoration: none;
+      }
+      .pathLink:hover {
+        text-decoration: underline;
+      }
+
+      /** copy on file path **/
+      .pathLink gr-copy-clipboard,
+      .oldPath gr-copy-clipboard {
+        display: inline-block;
+        visibility: hidden;
+        vertical-align: bottom;
+        text-decoration: none;
+        --gr-button: {
+          padding: 0px;
+        }
+      }
+      .pathLink:hover gr-copy-clipboard,
+      .oldPath:hover gr-copy-clipboard {
+        visibility: visible;
       }
 
       /** small screen breakpoint: 768px */
@@ -273,7 +290,7 @@ limitations under the License.
         }
         .expanded .fullFileName,
         .truncatedFileName {
-          display: block;
+          display: inline;
         }
         .expanded .truncatedFileName,
         .fullFileName {
@@ -330,11 +347,18 @@ limitations under the License.
                     class="truncatedFileName">
                   [[computeTruncatedPath(file.__path)]]
                 </span>
+                <gr-copy-clipboard
+                  hide-input
+                  text="[[file.__path]]"></gr-copy-clipboard>
               </a>
-              <div class="oldPath" hidden$="[[!file.old_path]]" hidden
-                  title$="[[file.old_path]]">
-                [[file.old_path]]
-              </div>
+              <template is="dom-if" if="[[file.old_path]]">
+                <div class="oldPath" title$="[[file.old_path]]">
+                  [[file.old_path]]
+                  <gr-copy-clipboard
+                    hide-input
+                    text="[[file.old_path]]"></gr-copy-clipboard>
+                </div>
+              </template>
             </span>
             <div class="comments desktop">
               <span class="drafts">

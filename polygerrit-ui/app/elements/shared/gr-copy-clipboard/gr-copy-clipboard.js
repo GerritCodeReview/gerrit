@@ -53,7 +53,10 @@
       Polymer.dom(e).rootTarget.select();
     }
 
-    _copyToClipboard() {
+    _copyToClipboard(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
       if (this.hideInput) {
         this.$.input.style.display = 'block';
       }

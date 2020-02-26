@@ -22,10 +22,10 @@ python tools/js/bower2bazel.py -w lib/js/bower_archives.bzl \
 
 from __future__ import print_function
 
+import argparse
 import collections
 import json
 import hashlib
-import optparse
 import os
 import subprocess
 import sys
@@ -141,11 +141,11 @@ def bower_command(args):
             os.getcwd() + "/tools/js/run_npm_binary.py", sorted(fs)[0]] + args
 
 
-def main(args):
-    opts = optparse.OptionParser()
-    opts.add_option('-w', help='.bzl output for WORKSPACE')
-    opts.add_option('-b', help='.bzl output for //lib:BUILD')
-    opts, args = opts.parse_args()
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-w', help='.bzl output for WORKSPACE')
+    parser.add_argument('-b', help='.bzl output for //lib:BUILD')
+    args = parser.parse_args()
 
     target_str = subprocess.check_output([
         "bazel", "query", "kind(bower_component_bundle, //polygerrit-ui/...)"])
@@ -166,12 +166,12 @@ def main(args):
     cmd = bower_command(["install"])
 
     build_out = sys.stdout
-    if opts.b:
-        build_out = open(opts.b + ".tmp", 'w')
+    if args.b:
+        build_out = open(args.b + ".tmp", 'w')
 
     ws_out = sys.stdout
-    if opts.b:
-        ws_out = open(opts.w + ".tmp", 'w')
+    if args.b:
+        ws_out = open(args.w + ".tmp", 'w')
 
     header = """# DO NOT EDIT
 # generated with the following command:
@@ -193,8 +193,8 @@ def main(args):
     build_out.close()
 
     os.chdir(oldwd)
-    os.rename(opts.w + ".tmp", opts.w)
-    os.rename(opts.b + ".tmp", opts.b)
+    os.rename(args.w + ".tmp", args.w)
+    os.rename(args.b + ".tmp", args.b)
 
 
 def dump_workspace(data, seeds, out):
@@ -259,4 +259,4 @@ def interpret_bower_json(seeds, ws_out, build_out):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()

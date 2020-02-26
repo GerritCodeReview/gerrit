@@ -15,9 +15,9 @@
 
 from __future__ import print_function
 
+import argparse
 import hashlib
 import json
-import optparse
 import os
 import shutil
 import subprocess
@@ -80,44 +80,44 @@ def cache_entry(name, package, version, sha1):
     return os.path.join(CACHE_DIR, '%s-%s.zip-%s' % (name, version, sha1))
 
 
-def main(args):
-    opts = optparse.OptionParser()
-    opts.add_option('-n', help='short name of component')
-    opts.add_option('-b', help='bower command')
-    opts.add_option('-p', help='full package name of component')
-    opts.add_option('-v', help='version number')
-    opts.add_option('-s', help='expected content sha1')
-    opts.add_option('-o', help='output file location')
-    opts, args_ = opts.parse_args(args)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-n', help='short name of component')
+    parser.add_argument('-b', help='bower command')
+    parser.add_argument('-p', help='full package name of component')
+    parser.add_argument('-v', help='version number')
+    parser.add_argument('-s', help='expected content sha1')
+    parser.add_argument('-o', help='output file location')
+    args = parser.parse_args()
 
-    assert opts.p
-    assert opts.v
-    assert opts.n
+    assert args.p
+    assert args.v
+    assert args.n
 
     cwd = os.getcwd()
-    outzip = os.path.join(cwd, opts.o)
-    cached = cache_entry(opts.n, opts.p, opts.v, opts.s)
+    outzip = os.path.join(cwd, args.o)
+    cached = cache_entry(args.n, args.p, args.v, args.s)
 
     if not os.path.exists(cached):
-        info = bower_info(opts.b, opts.n, opts.p, opts.v)
+        info = bower_info(args.b, args.n, args.p, args.v)
         ignore_deps(info)
         subprocess.check_call(
             bower_cmd(
-                opts.b, '--quiet', 'install', '%s#%s' % (opts.p, opts.v)))
+                args.b, '--quiet', 'install', '%s#%s' % (args.p, args.v)))
         bc = os.path.join(cwd, 'bower_components')
         subprocess.check_call(
-            ['zip', '-q', '--exclude', '.bower.json', '-r', cached, opts.n],
+            ['zip', '-q', '--exclude', '.bower.json', '-r', cached, args.n],
             cwd=bc)
 
-        if opts.s:
-            path = os.path.join(bc, opts.n)
+        if args.s:
+            path = os.path.join(bc, args.n)
             sha1 = bowerutil.hash_bower_component(
                 hashlib.sha1(), path).hexdigest()
-            if opts.s != sha1:
+            if args.s != sha1:
                 print((
                     '%s#%s:\n'
                     'expected %s\n'
-                    'received %s\n') % (opts.p, opts.v, opts.s, sha1),
+                    'received %s\n') % (args.p, args.v, args.s, sha1),
                     file=sys.stderr)
                 try:
                     os.remove(cached)
@@ -132,4 +132,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main())

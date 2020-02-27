@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fd5b7c1e_8c19f375",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-02-27T10:12:13Z",
+      "side": 1,
+      "message": "So it is. I must have been working on this right between the changes.\nI should have done an extra check. My bad.",
+      "parentUuid": "57065d6b_476c338a",
+      "revId": "a7ea508e4c2f9b39f155c80205bea0a1d59b8e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d561b20_67978549",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "a7ea508e4c2f9b39f155c80205bea0a1d59b8e21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e34db77b_197d34d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-02-27T10:12:13Z",
+      "side": 1,
+      "message": "And if this is the case on top of the previous comment, then this change has no sense and I will abandon it.\n\nI didn\u0027t notice work being done on this with the issues not being updated recently.\nI should have done an extra check. My bad.",
+      "parentUuid": "1d561b20_67978549",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "a7ea508e4c2f9b39f155c80205bea0a1d59b8e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

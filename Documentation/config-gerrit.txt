@@ -2375,6 +2375,40 @@ groups either. This means there is no danger of ambiguous group names
 when this parameter is removed and the system group uses the default
 name again.
 
+[[has-operand-alias]]
+=== Section has operand alias
+
+'has' operand aliasing allows global aliases to be defined for query
+'has' operands. Currently only change queries are supported. The alias
+name is the git config key name, and the 'has' operand being aliased
+is the git config value.
+
+For example:
+
+----
+[has-operand-alias "change"]
+  oldtopic = topic
+----
+
+This section is particularly useful to alias 'has' operands (which may
+be long and clunky as they include a plugin name in them) to shorter
+operands without the plugin name. Admins should take care to choose
+shorter operands that are unique and unlikely to conflict in future.
+
+Aliases are resolved dynamically at invocation time to the currently
+loaded version of plugins. If a referenced plugin is not loaded, or
+does not define the command, "unsupported operand" is returned to the
+user.
+
+Aliases will override existing 'has' operands. In case of multiple
+aliases with same name, the last one defined will be used.
+
+When the target of an alias does not exist, the 'has' operand with the
+name of the alias will be used (if present). This enables an admin to
+configure the system to override a core 'has' operand with an operand
+provided by a plugin when present and otherwise fall back to the 'has'
+operand provided by core.
+
 [[http]]
 === Section http
 

@@ -313,6 +313,7 @@ limitations under the License.
                 on-click="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
           </span>
           <template is="dom-if" if="[[_computeIsLoggedIn(_loggedIn)]]">
+            <span class="separator"></span>
             <span class="editButton">
               <a href$="[[_computeEditURL(_change, _patchRange, _path)]]">
                 <iron-icon icon="gr-icons:edit"></iron-icon>

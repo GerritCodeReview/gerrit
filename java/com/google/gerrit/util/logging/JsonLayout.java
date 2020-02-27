@@ -33,13 +33,11 @@ public abstract class JsonLayout extends Layout {
   private final ZoneOffset timeOffset;
 
   public JsonLayout() {
-    dateFormatter = createDateTimeFormatter();
+    dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     timeOffset = OffsetDateTime.now(ZoneId.systemDefault()).getOffset();
 
     gson = newGson();
   }
-
-  public abstract DateTimeFormatter createDateTimeFormatter();
 
   public abstract JsonLogEntry toJsonLogEntry(LoggingEvent event);
 

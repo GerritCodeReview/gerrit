@@ -111,12 +111,12 @@ public class ChangeFinder {
     this.allowedIdTypes = ImmutableSet.copyOf(configuredChangeIdTypes);
   }
 
-  public ChangeNotes findOne(String id) {
+  public Optional<ChangeNotes> findOne(String id) {
     List<ChangeNotes> ctls = find(id);
     if (ctls.size() != 1) {
-      return null;
+      return Optional.empty();
     }
-    return ctls.get(0);
+    return Optional.of(ctls.get(0));
   }
 
   /**
@@ -214,12 +214,12 @@ public class ChangeFinder {
     }
   }
 
-  public ChangeNotes findOne(Change.Id id) {
+  public Optional<ChangeNotes> findOne(Change.Id id) {
     List<ChangeNotes> notes = find(id);
     if (notes.size() != 1) {
-      throw new NoSuchChangeException(id);
+      return Optional.empty();
     }
-    return notes.get(0);
+    return Optional.of(notes.get(0));
   }
 
   public List<ChangeNotes> find(Change.Id id) {

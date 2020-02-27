@@ -22,7 +22,6 @@ import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -32,6 +31,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class PatchSetParser {
@@ -126,12 +126,11 @@ public class PatchSetParser {
     if (projectState != null) {
       return notesFactory.create(projectState.getNameKey(), changeId);
     }
-    try {
-      ChangeNotes notes = changeFinder.findOne(changeId);
-      return notesFactory.create(notes.getProjectName(), changeId);
-    } catch (NoSuchChangeException e) {
-      throw error("\"" + changeId + "\" no such change", e);
+    Optional<ChangeNotes> notes = changeFinder.findOne(changeId);
+    if (!notes.isPresent()) {
+      throw error("\"" + changeId + "\" no such change");
     }
+    return notesFactory.create(notes.get().getProjectName(), changeId);
   }
 
   private static boolean inProject(Change change, ProjectState projectState) {

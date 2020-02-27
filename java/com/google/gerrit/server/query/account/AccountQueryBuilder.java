@@ -41,6 +41,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import java.util.Optional;
 
 /** Parses a query string meant to be applied to account objects. */
 public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQueryBuilder> {
@@ -115,20 +116,23 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
   @Operator
   public Predicate<AccountState> cansee(String change)
       throws QueryParseException, PermissionBackendException {
-    ChangeNotes changeNotes = args.changeFinder.findOne(change);
-    if (changeNotes == null) {
+    Optional<ChangeNotes> changeNotes = args.changeFinder.findOne(change);
+    if (!changeNotes.isPresent()) {
       throw error(String.format("change %s not found", change));
     }
 
     try {
-      args.permissionBackend.user(args.getUser()).change(changeNotes).check(ChangePermission.READ);
+      args.permissionBackend
+          .user(args.getUser())
+          .change(changeNotes.get())
+          .check(ChangePermission.READ);
     } catch (AuthException e) {
       String msg = String.format("change %s not found", change);
       logger.atSevere().withCause(e).log(msg);
       throw error(msg);
     }
 
-    return AccountPredicates.cansee(args, changeNotes);
+    return AccountPredicates.cansee(args, changeNotes.get());
   }
 
   @Operator

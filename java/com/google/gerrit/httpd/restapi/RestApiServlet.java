@@ -1702,9 +1702,9 @@ public class RestApiServlet extends HttpServlet {
     if (rootCollection instanceof ProjectsCollection) {
       requestInfo.project(Project.nameKey(resourceId));
     } else if (rootCollection instanceof ChangesCollection) {
-      ChangeNotes changeNotes = globals.changeFinder.findOne(resourceId);
-      if (changeNotes != null) {
-        requestInfo.project(changeNotes.getProjectName());
+      Optional<ChangeNotes> changeNotes = globals.changeFinder.findOne(resourceId);
+      if (changeNotes.isPresent()) {
+        requestInfo.project(changeNotes.get().getProjectName());
       }
     }
     return requestInfo.build();

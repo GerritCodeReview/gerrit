@@ -70,7 +70,6 @@ java_library(
         "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jsoup",
-        "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
         "//lib/lucene:lucene-analyzers-common",
         "//lib/lucene:lucene-queryparser",

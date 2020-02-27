@@ -64,6 +64,9 @@ limitations under the License.
         align-items: center;
         display: flex;
       }
+      gr-message:not(:last-of-type) {
+        border-bottom: 1px solid var(--border-color);
+      }
       gr-message:nth-child(2n) {
         background-color: var(--background-color-secondary);
       }

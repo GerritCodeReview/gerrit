@@ -54,7 +54,8 @@ public class FakeQueryBuilder extends ChangeQueryBuilder {
             null,
             null,
             null,
-            new Config()));
+            new Config(),
+            null));
   }
 
   @Operator

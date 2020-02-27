@@ -79,10 +79,11 @@
       // Ensure that external links originating from HTML commentlink configs
       // open in a new tab. @see Issue 5567
       // Ensure links to the same host originating from commentlink configs
-      // open in the same tab. @see Issue 4616
+      // open in the same tab. When target is not set - default is _self
+      // @see Issue 4616
       output.querySelectorAll('a').forEach(anchor => {
         if (anchor.hostname === window.location.hostname) {
-          anchor.setAttribute('target', '_self');
+          anchor.removeAttribute('target');
         } else {
           anchor.setAttribute('target', '_blank');
         }

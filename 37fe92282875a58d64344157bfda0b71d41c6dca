@@ -33,6 +33,42 @@
       "revId": "37fe92282875a58d64344157bfda0b71d41c6dca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "790a2957_c5eefd64",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-27T14:42:18Z",
+      "side": 1,
+      "message": "logged user won\u0027t have the edit either, so a separator will not be necessary for them right ?",
+      "parentUuid": "9361d813_b70faa06",
+      "revId": "37fe92282875a58d64344157bfda0b71d41c6dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f2a2827_aaeba74c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-27T14:42:18Z",
+      "side": 1,
+      "message": "i am fine with the text as well",
+      "parentUuid": "eee827df_c389b52a",
+      "revId": "37fe92282875a58d64344157bfda0b71d41c6dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

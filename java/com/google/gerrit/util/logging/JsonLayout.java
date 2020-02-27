@@ -17,29 +17,17 @@ package com.google.gerrit.util.logging;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
 
 public abstract class JsonLayout extends Layout {
-  private final DateTimeFormatter dateFormatter;
   private final Gson gson;
-  private final ZoneOffset timeOffset;
+  protected final LogTimestampFormatter timestampFormatter;
 
   public JsonLayout() {
-    dateFormatter = createDateTimeFormatter();
-    timeOffset = OffsetDateTime.now(ZoneId.systemDefault()).getOffset();
-
+    timestampFormatter = new LogTimestampFormatter();
     gson = newGson();
   }
-
-  public abstract DateTimeFormatter createDateTimeFormatter();
 
   public abstract JsonLogEntry toJsonLogEntry(LoggingEvent event);
 
@@ -54,12 +42,6 @@ public abstract class JsonLayout extends Layout {
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .disableHtmlEscaping();
     return gb.create();
-  }
-
-  public String formatDate(long now) {
-    return ZonedDateTime.of(
-            LocalDateTime.ofInstant(Instant.ofEpochMilli(now), timeOffset), ZoneId.systemDefault())
-        .format(dateFormatter);
   }
 
   @Override

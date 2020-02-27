@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -141,6 +142,10 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
     if (options.contains(FillOptions.USERNAME)) {
       info.username = accountState.userName().orElse(null);
+    }
+
+    if (options.contains(FillOptions.DISPLAY_NAME)) {
+      info.displayName = account.displayName();
     }
 
     if (options.contains(FillOptions.STATUS)) {

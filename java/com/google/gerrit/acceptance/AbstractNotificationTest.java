@@ -407,14 +407,14 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
     public TestAccount testAccount(String name) throws Exception {
       String username = name(name);
-      TestAccount account = accountCreator.create(username, email(username), name);
+      TestAccount account = accountCreator.create(username, email(username), name, null);
       accountsByEmail.put(account.email(), account);
       return account;
     }
 
     public TestAccount testAccount(String name, String groupName) throws Exception {
       String username = name(name);
-      TestAccount account = accountCreator.create(username, email(username), name, groupName);
+      TestAccount account = accountCreator.create(username, email(username), name, null, groupName);
       accountsByEmail.put(account.email(), account);
       return account;
     }

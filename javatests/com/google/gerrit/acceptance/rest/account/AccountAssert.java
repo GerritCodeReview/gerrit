@@ -32,6 +32,7 @@ public class AccountAssert {
   public static void assertAccountInfo(TestAccount testAccount, AccountInfo accountInfo) {
     assertThat(accountInfo._accountId).isEqualTo(testAccount.id().get());
     assertThat(accountInfo.name).isEqualTo(testAccount.fullName());
+    assertThat(accountInfo.displayName).isEqualTo(testAccount.displayName());
     assertThat(accountInfo.email).isEqualTo(testAccount.email());
     assertThat(accountInfo.inactive).isNull();
   }

@@ -26,7 +26,7 @@ import java.util.Set;
 public abstract class AccountDirectory {
   /** Fields to be populated for a REST API response. */
   public enum FillOptions {
-    /** Human friendly display name presented in the web interface. */
+    /** Full name or username. */
     NAME,
 
     /** Preferred email address to contact the user at. */
@@ -48,7 +48,10 @@ public abstract class AccountDirectory {
     STATUS,
 
     /** The state of the account (e.g. active or inactive) */
-    STATE
+    STATE,
+
+    /** Human friendly display name presented in the web interface chosen by the user. */
+    DISPLAY_NAME
   }
 
   public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)

@@ -41,6 +41,7 @@ public class AccountLoader {
               FillOptions.NAME,
               FillOptions.EMAIL,
               FillOptions.USERNAME,
+              FillOptions.DISPLAY_NAME,
               FillOptions.STATUS,
               FillOptions.STATE,
               FillOptions.AVATARS));

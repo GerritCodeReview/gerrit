@@ -47,7 +47,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     String name = name("user42");
-    user42 = accountCreator.create(name, name + "@example.com", "User 42");
+    user42 = accountCreator.create(name, name + "@example.com", "User 42", null);
   }
 
   @Test

@@ -279,7 +279,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
 
     // watch project as user2
-    TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
+    TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2", null);
     requestScopeOperations.setApiUser(user2.id());
     watch(watchedProject);
 
@@ -391,7 +391,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
 
     // watch project as user2
-    TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
+    TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2", null);
     requestScopeOperations.setApiUser(user2.id());
     watch(anyProject);
 
@@ -528,7 +528,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // watch project as user that can view all private change
     TestAccount userThatCanViewPrivateChanges =
         accountCreator.create(
-            "user2", "user2@test.com", "User2", groupThatCanViewPrivateChanges.name);
+            "user2", "user2@test.com", "User2", null, groupThatCanViewPrivateChanges.name);
     requestScopeOperations.setApiUser(userThatCanViewPrivateChanges.id());
     watch(watchedProject);
 

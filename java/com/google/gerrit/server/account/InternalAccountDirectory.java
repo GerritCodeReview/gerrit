@@ -143,6 +143,10 @@ public class InternalAccountDirectory extends AccountDirectory {
       info.username = accountState.userName().orElse(null);
     }
 
+    if (options.contains(FillOptions.DISPLAY_NAME)) {
+      info.displayName = account.displayName();
+    }
+
     if (options.contains(FillOptions.STATUS)) {
       info.status = account.status();
     }

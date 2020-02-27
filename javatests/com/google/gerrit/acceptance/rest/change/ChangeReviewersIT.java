@@ -194,7 +194,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // CC a group that overlaps with some existing reviewers and CCed accounts.
     TestAccount reviewer =
-        accountCreator.create(name("reviewer"), "addCcGroup-reviewer@example.com", "Reviewer");
+        accountCreator.create(
+            name("reviewer"), "addCcGroup-reviewer@example.com", "Reviewer", null);
     result = addReviewer(changeId, reviewer.username());
     assertThat(result.error).isNull();
     sender.clear();
@@ -546,11 +547,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   public void addOverlappingGroups() throws Exception {
     String emailPrefix = "addOverlappingGroups-";
     TestAccount user1 =
-        accountCreator.create(name("user1"), emailPrefix + "user1@example.com", "User1");
+        accountCreator.create(name("user1"), emailPrefix + "user1@example.com", "User1", null);
     TestAccount user2 =
-        accountCreator.create(name("user2"), emailPrefix + "user2@example.com", "User2");
+        accountCreator.create(name("user2"), emailPrefix + "user2@example.com", "User2", null);
     TestAccount user3 =
-        accountCreator.create(name("user3"), emailPrefix + "user3@example.com", "User3");
+        accountCreator.create(name("user3"), emailPrefix + "user3@example.com", "User3", null);
     String group1 = groupOperations.newGroup().name("group1").create().get();
     String group2 = groupOperations.newGroup().name("group2").create().get();
     gApi.groups().id(group1).addMembers(user1.username(), user2.username());
@@ -912,7 +913,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     for (int i = 0; i < n; i++) {
       result.add(
           accountCreator.create(
-              name("u" + i), emailPrefix + "-" + i + "@example.com", "Full Name " + i));
+              name("u" + i), emailPrefix + "-" + i + "@example.com", "Full Name " + i, null));
     }
     return result;
   }

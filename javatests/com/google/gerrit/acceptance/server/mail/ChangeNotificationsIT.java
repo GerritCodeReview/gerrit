@@ -76,9 +76,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Before
   public void createExtraAccounts() throws Exception {
     extraReviewer =
-        accountCreator.create("extraReviewer", "extraReviewer@example.com", "extraReviewer");
-    extraCcer = accountCreator.create("extraCcer", "extraCcer@example.com", "extraCcer");
-    other = accountCreator.create("other", "other@example.com", "other");
+        accountCreator.create("extraReviewer", "extraReviewer@example.com", "extraReviewer", null);
+    extraCcer = accountCreator.create("extraCcer", "extraCcer@example.com", "extraCcer", null);
+    other = accountCreator.create("other", "other@example.com", "other", null);
   }
 
   @Before
@@ -129,7 +129,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void abandonReviewableChangeByOther() throws Exception {
     StagedChange sc = stageReviewableChange();
-    TestAccount other = accountCreator.create("other", "other@example.com", "other");
+    TestAccount other = accountCreator.create("other", "other@example.com", "other", null);
     abandon(sc.changeId, other);
     assertThat(sender)
         .sent("abandon", sc)
@@ -145,7 +145,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void abandonReviewableChangeByOtherCcingSelf() throws Exception {
     StagedChange sc = stageReviewableChange();
-    TestAccount other = accountCreator.create("other", "other@example.com", "other");
+    TestAccount other = accountCreator.create("other", "other@example.com", "other", null);
     abandon(sc.changeId, other, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("abandon", sc)
@@ -190,7 +190,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void abandonReviewableChangeByOtherCcingSelfNotifyOwner() throws Exception {
     StagedChange sc = stageReviewableChange();
-    TestAccount other = accountCreator.create("other", "other@example.com", "other");
+    TestAccount other = accountCreator.create("other", "other@example.com", "other", null);
     abandon(sc.changeId, other, CC_ON_OWN_COMMENTS, OWNER);
     assertThat(sender).sent("abandon", sc).to(sc.owner).cc(other).noOneElse();
     assertThat(sender).didNotSend();
@@ -277,7 +277,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void addReviewerToReviewableChange(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email());
     // TODO(logan): Should CCs be included?
     assertThat(sender)
@@ -301,7 +301,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void addReviewerToReviewableChangeByOwnerCcingSelf(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, null);
     // TODO(logan): Should CCs be included?
     assertThat(sender)
@@ -324,9 +324,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   private void addReviewerToReviewableChangeByOther(Adder adder) throws Exception {
-    TestAccount other = accountCreator.create("other", "other@example.com", "other");
+    TestAccount other = accountCreator.create("other", "other@example.com", "other", null);
     StagedChange sc = stageReviewableChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, other, reviewer.email());
     // TODO(logan): Should CCs be included?
     assertThat(sender)
@@ -349,9 +349,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   private void addReviewerToReviewableChangeByOtherCcingSelf(Adder adder) throws Exception {
-    TestAccount other = accountCreator.create("other", "other@example.com", "other");
+    TestAccount other = accountCreator.create("other", "other@example.com", "other", null);
     StagedChange sc = stageReviewableChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, other, reviewer.email(), CC_ON_OWN_COMMENTS, null);
     // TODO(logan): Should CCs be included?
     assertThat(sender)
@@ -399,7 +399,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void addReviewerToWipChange(Adder adder) throws Exception {
     StagedChange sc = stageWipChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email());
     assertThat(sender).didNotSend();
   }
@@ -417,7 +417,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void addReviewerToReviewableWipChangeSingly() throws Exception {
     StagedChange sc = stageReviewableWipChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(singly(), sc.changeId, sc.owner, reviewer.email());
     // TODO(dborowitz): In theory this should match the batch case, but we don't currently pass
     // enough info into AddReviewersEmail#emailReviewers to distinguish the reviewStarted case.
@@ -429,7 +429,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void addReviewerToReviewableWipChangeBatch() throws Exception {
     StagedChange sc = stageReviewableWipChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(batch(), sc.changeId, sc.owner, reviewer.email());
     // For a review-started WIP change, same as in the notify=ALL case. It's not especially
     // important to notify just because a reviewer is added, but we do want to notify in the other
@@ -444,7 +444,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void addReviewerToWipChangeNotifyAll(Adder adder) throws Exception {
     StagedChange sc = stageWipChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), NotifyHandling.ALL);
     // TODO(logan): Should CCs be included?
     assertThat(sender)
@@ -468,7 +468,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void addReviewerToReviewableChangeNotifyOwnerReviewers(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), OWNER_REVIEWERS);
     // TODO(logan): Should CCs be included?
     assertThat(sender)
@@ -493,7 +493,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwner(Adder adder)
       throws Exception {
     StagedChange sc = stageReviewableChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, OWNER);
     assertThat(sender).didNotSend();
   }
@@ -511,7 +511,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void addReviewerToReviewableChangeByOwnerCcingSelfNotifyNone(Adder adder)
       throws Exception {
     StagedChange sc = stageReviewableChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, NONE);
     assertThat(sender).didNotSend();
   }
@@ -695,7 +695,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void commentOnReviewableChangeByOther() throws Exception {
-    TestAccount other = accountCreator.create("other", "other@example.com", "other");
+    TestAccount other = accountCreator.create("other", "other@example.com", "other", null);
     StagedChange sc = stageReviewableChange();
     review(other, sc.changeId, ENABLED);
     assertThat(sender)
@@ -711,7 +711,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void commentOnReviewableChangeByOtherCcingSelf() throws Exception {
-    TestAccount other = accountCreator.create("other", "other@example.com", "other");
+    TestAccount other = accountCreator.create("other", "other@example.com", "other", null);
     StagedChange sc = stageReviewableChange();
     review(other, sc.changeId, CC_ON_OWN_COMMENTS);
     assertThat(sender)
@@ -2353,7 +2353,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void changeAssigneeOnReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChange();
-    TestAccount other = accountCreator.create("other", "other@example.com", "other");
+    TestAccount other = accountCreator.create("other", "other@example.com", "other", null);
     assign(sc, sc.owner, other);
     sender.clear();
     assign(sc, sc.owner, sc.assignee);

@@ -570,7 +570,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   private TestAccount createAccountWithSecondaryEmail(String name, String secondaryEmail)
       throws Exception {
-    TestAccount foo = accountCreator.create(name(name), "foo.primary@example.com", "Foo");
+    TestAccount foo = accountCreator.create(name(name), "foo.primary@example.com", "Foo", null);
     EmailInput input = new EmailInput();
     input.email = secondaryEmail;
     input.noConfirmation = true;
@@ -601,7 +601,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   private TestAccount user(String name, String fullName, String emailName) throws Exception {
-    return accountCreator.create(name(name), name(emailName) + "@example.com", fullName);
+    return accountCreator.create(name(name), name(emailName) + "@example.com", fullName, null);
   }
 
   private TestAccount user(String name, String fullName) throws Exception {

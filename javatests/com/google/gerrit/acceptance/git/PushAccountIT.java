@@ -182,7 +182,8 @@ public class PushAccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      TestAccount foo = accountCreator.create(name("foo"), name("foo") + "@example.com", "Foo");
+      TestAccount foo =
+          accountCreator.create(name("foo"), name("foo") + "@example.com", "Foo", null);
       String userRef = RefNames.refsUsers(foo.id());
       accountIndexedCounter.clear();
 
@@ -442,7 +443,7 @@ public class PushAccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      TestAccount oooUser = accountCreator.create("away", "away@mail.invalid", "Ambrose Way");
+      TestAccount oooUser = accountCreator.create("away", "away@mail.invalid", "Ambrose Way", null);
       requestScopeOperations.setApiUser(oooUser.id());
 
       // Must clone as oooUser to ensure the push is allowed.
@@ -539,7 +540,8 @@ public class PushAccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      TestAccount foo = accountCreator.create(name("foo"), name("foo") + "@example.com", "Foo");
+      TestAccount foo =
+          accountCreator.create(name("foo"), name("foo") + "@example.com", "Foo", null);
       String userRef = RefNames.refsUsers(foo.id());
 
       String noEmail = "no.email";
@@ -584,7 +586,8 @@ public class PushAccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      TestAccount foo = accountCreator.create(name("foo"), name("foo") + "@example.com", "Foo");
+      TestAccount foo =
+          accountCreator.create(name("foo"), name("foo") + "@example.com", "Foo", null);
       String userRef = RefNames.refsUsers(foo.id());
       accountIndexedCounter.clear();
 

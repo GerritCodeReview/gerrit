@@ -516,7 +516,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushForMasterWithNotify() throws Exception {
     // create a user that watches the project
-    TestAccount user3 = accountCreator.create("user3", "user3@example.com", "User3");
+    TestAccount user3 = accountCreator.create("user3", "user3@example.com", "User3", null);
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = project.get();
@@ -676,7 +676,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // add several reviewers
     TestAccount user2 =
-        accountCreator.create("another-user", "another.user@example.com", "Another User");
+        accountCreator.create("another-user", "another.user@example.com", "Another User", null);
     r =
         pushTo(
             "refs/for/master%topic="

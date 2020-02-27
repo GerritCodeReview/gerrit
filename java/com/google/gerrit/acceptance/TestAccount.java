@@ -47,8 +47,9 @@ public abstract class TestAccount {
       @Nullable String username,
       @Nullable String email,
       @Nullable String fullName,
+      @Nullable String displayName,
       @Nullable String httpPassword) {
-    return new AutoValue_TestAccount(id, username, email, fullName, httpPassword);
+    return new AutoValue_TestAccount(id, username, email, fullName, displayName, httpPassword);
   }
 
   public abstract Account.Id id();
@@ -61,6 +62,9 @@ public abstract class TestAccount {
 
   @Nullable
   public abstract String fullName();
+
+  @Nullable
+  public abstract String displayName();
 
   @Nullable
   public abstract String httpPassword();

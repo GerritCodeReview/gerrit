@@ -913,7 +913,7 @@ public class AccountIT extends AbstractDaemonTest {
     String email = "preferred@example.com";
     String name = "Foo";
     String username = name("foo");
-    TestAccount foo = accountCreator.create(username, email, name);
+    TestAccount foo = accountCreator.create(username, email, name, null);
     String secondaryEmail = "secondary@example.com";
     EmailInput input = newEmailInput(secondaryEmail);
     gApi.accounts().id(foo.id().get()).addEmail(input);
@@ -938,7 +938,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void detailOfOtherAccountDoesntIncludeSecondaryEmailsWithoutModifyAccount()
       throws Exception {
     String email = "preferred@example.com";
-    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
     String secondaryEmail = "secondary@example.com";
     EmailInput input = newEmailInput(secondaryEmail);
     gApi.accounts().id(foo.id().get()).addEmail(input);
@@ -951,7 +951,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void detailOfOtherAccountIncludeSecondaryEmailsWithModifyAccount() throws Exception {
     String email = "preferred@example.com";
-    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
     String secondaryEmail = "secondary@example.com";
     EmailInput input = newEmailInput(secondaryEmail);
     gApi.accounts().id(foo.id().get()).addEmail(input);
@@ -963,7 +963,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void getOwnEmails() throws Exception {
     String email = "preferred@example.com";
-    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
 
     requestScopeOperations.setApiUser(foo.id());
     assertThat(getEmails()).containsExactly(email);
@@ -980,7 +980,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void cannotGetEmailsOfOtherAccountWithoutModifyAccount() throws Exception {
     String email = "preferred2@example.com";
-    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
 
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
@@ -992,7 +992,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void getEmailsOfOtherAccount() throws Exception {
     String email = "preferred3@example.com";
     String secondaryEmail = "secondary3@example.com";
-    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
     EmailInput input = newEmailInput(secondaryEmail);
     gApi.accounts().id(foo.id().get()).addEmail(input);
 
@@ -1908,7 +1908,7 @@ public class AccountIT extends AbstractDaemonTest {
     // Create an account with a preferred email.
     String username = name("foo");
     String email = username + "@example.com";
-    TestAccount account = accountCreator.create(username, email, "Foo Bar");
+    TestAccount account = accountCreator.create(username, email, "Foo Bar", null);
 
     ConsistencyCheckInput input = new ConsistencyCheckInput();
     input.checkAccounts = new CheckAccountsInput();

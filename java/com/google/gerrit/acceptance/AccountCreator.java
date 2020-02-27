@@ -69,6 +69,7 @@ public class AccountCreator {
       @Nullable String username,
       @Nullable String email,
       @Nullable String fullName,
+      @Nullable String displayName,
       String... groupNames)
       throws Exception {
 
@@ -94,7 +95,11 @@ public class AccountCreator {
         .insert(
             "Create Test Account",
             id,
-            u -> u.setFullName(fullName).setPreferredEmail(email).addExternalIds(extIds));
+            u ->
+                u.setFullName(fullName)
+                    .setDisplayName(displayName)
+                    .setPreferredEmail(email)
+                    .addExternalIds(extIds));
 
     if (groupNames != null) {
       for (String n : groupNames) {
@@ -107,7 +112,7 @@ public class AccountCreator {
       }
     }
 
-    account = TestAccount.create(id, username, email, fullName, httpPass);
+    account = TestAccount.create(id, username, email, fullName, displayName, httpPass);
     if (username != null) {
       accounts.put(username, account);
     }
@@ -115,7 +120,7 @@ public class AccountCreator {
   }
 
   public TestAccount create(@Nullable String username, String group) throws Exception {
-    return create(username, null, username, group);
+    return create(username, null, username, null, group);
   }
 
   public TestAccount create() throws Exception {
@@ -123,23 +128,23 @@ public class AccountCreator {
   }
 
   public TestAccount create(@Nullable String username) throws Exception {
-    return create(username, null, username, (String[]) null);
+    return create(username, null, username, null, (String[]) null);
   }
 
   public TestAccount admin() throws Exception {
-    return create("admin", "admin@example.com", "Administrator", "Administrators");
+    return create("admin", "admin@example.com", "Administrator", "Adminny", "Administrators");
   }
 
   public TestAccount admin2() throws Exception {
-    return create("admin2", "admin2@example.com", "Administrator2", "Administrators");
+    return create("admin2", "admin2@example.com", "Administrator2", null, "Administrators");
   }
 
   public TestAccount user() throws Exception {
-    return create("user", "user@example.com", "User");
+    return create("user", "user@example.com", "User", null);
   }
 
   public TestAccount user2() throws Exception {
-    return create("user2", "user2@example.com", "User2");
+    return create("user2", "user2@example.com", "User2", null);
   }
 
   public TestAccount get(String username) {

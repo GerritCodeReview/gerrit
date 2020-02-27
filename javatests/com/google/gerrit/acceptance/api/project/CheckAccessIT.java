@@ -62,7 +62,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
     AccountGroup.UUID privilegedGroupUuid =
         groupOperations.newGroup().name(name("privilegedGroup")).create();
 
-    privilegedUser = accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden");
+    privilegedUser = accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden", null);
     groupOperations.group(privilegedGroupUuid).forUpdate().addMember(privilegedUser.id()).update();
 
     projectOperations

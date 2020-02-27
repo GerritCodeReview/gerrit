@@ -67,7 +67,6 @@ java_library(
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
         "//lib/jsoup",
-        "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
         "//lib/lucene:lucene-analyzers-common",
         "//lib/lucene:lucene-queryparser",

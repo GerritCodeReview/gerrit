@@ -23,8 +23,8 @@ import static com.google.gerrit.sshd.SshLog.P_STATUS;
 import static com.google.gerrit.sshd.SshLog.P_USER_NAME;
 import static com.google.gerrit.sshd.SshLog.P_WAIT;
 
-import com.google.gerrit.server.logging.JsonLayout;
-import com.google.gerrit.server.logging.JsonLogEntry;
+import com.google.gerrit.util.logging.JsonLayout;
+import com.google.gerrit.util.logging.JsonLogEntry;
 import java.time.format.DateTimeFormatter;
 import org.apache.log4j.spi.LoggingEvent;
 

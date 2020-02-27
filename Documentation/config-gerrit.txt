@@ -1162,18 +1162,6 @@ disabled any push to `refs/drafts/branch` will be rejected.
 +
 Default is false.
 
-[[change.api.allowedIdentifier]]change.api.allowedIdentifier::
-+
-Change identifier(s) that are allowed on the API. See
-link:rest-api-changes.html#change-id[Change Id] for more information.
-+
-Possible values are `ALL`, `TRIPLET`, `NUMERIC_ID`, `I_HASH`, and
-`COMMIT_HASH` or any combination of those as a string list.
-`PROJECT_NUMERIC_ID` is always allowed and doesn't need to be listed
-explicitly.
-+
-Default is `ALL`.
-
 [[change.api.excludeMergeableInChangeInfo]]change.api.excludeMergeableInChangeInfo::
 +
 If true, the mergeability bit in

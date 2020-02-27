@@ -22,6 +22,7 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
+        "//java/com/google/gerrit/util/logging",
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava",

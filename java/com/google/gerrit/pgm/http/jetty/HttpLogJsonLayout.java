@@ -26,15 +26,9 @@ import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER_AGENT;
 
 import com.google.gerrit.util.logging.JsonLayout;
 import com.google.gerrit.util.logging.JsonLogEntry;
-import java.time.format.DateTimeFormatter;
 import org.apache.log4j.spi.LoggingEvent;
 
 public class HttpLogJsonLayout extends JsonLayout {
-
-  @Override
-  public DateTimeFormatter createDateTimeFormatter() {
-    return DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss,SSS Z");
-  }
 
   @Override
   public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
@@ -59,7 +53,7 @@ public class HttpLogJsonLayout extends JsonLayout {
       this.host = getMdcString(event, P_HOST);
       this.thread = event.getThreadName();
       this.user = getMdcString(event, P_USER);
-      this.timestamp = formatDate(event.getTimeStamp());
+      this.timestamp = timestampFormatter.format(event.getTimeStamp());
       this.method = getMdcString(event, P_METHOD);
       this.resource = getMdcString(event, P_RESOURCE);
       this.protocol = getMdcString(event, P_PROTOCOL);

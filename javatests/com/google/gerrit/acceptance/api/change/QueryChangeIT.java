@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseClockStep;
@@ -30,7 +31,9 @@ import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -245,6 +248,39 @@ public class QueryChangeIT extends AbstractDaemonTest {
         assertThrows(
             BadRequestException.class, () -> queryChanges.apply(TopLevelResource.INSTANCE));
     assertThat(e).hasMessageThat().isEqualTo("invalid regular expression: [A");
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  @GerritConfig(name = "has-operand-alias.change.unaddressedaliastest", value = "unresolved")
+  public void hasOperandAliasQuery() throws Exception {
+    String cId1 = createChange().getChangeId();
+    String cId2 = createChange().getChangeId();
+    int numericId1 = gApi.changes().id(cId1).get()._number;
+    int numericId2 = gApi.changes().id(cId2).get()._number;
+
+    ReviewInput input = new ReviewInput();
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    comment.line = 1;
+    comment.message = "comment";
+    comment.unresolved = true;
+    input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
+    gApi.changes().id(cId2).current().review(input);
+
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery("is:open repo:" + project.get());
+    queryChanges.addQuery("has:unaddressedaliastest repo:" + project.get());
+
+    List<List<ChangeInfo>> result =
+        (List<List<ChangeInfo>>) queryChanges.apply(TopLevelResource.INSTANCE).value();
+    assertThat(result).hasSize(2);
+    assertThat(result.get(0)).hasSize(2);
+    assertThat(result.get(1)).hasSize(1);
+
+    List<Integer> firstResultIds =
+        ImmutableList.of(result.get(0).get(0)._number, result.get(0).get(1)._number);
+    assertThat(firstResultIds).containsExactly(numericId1, numericId2);
+    assertThat(result.get(1).get(0)._number).isEqualTo(numericId2);
   }
 
   private static void assertNoChangeHasMoreChangesSet(List<ChangeInfo> results) {

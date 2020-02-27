@@ -77,7 +77,10 @@ public class ErrorLogFile {
     if (text) {
       root.addAppender(
           SystemLog.createAppender(
-              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n"), rotate));
+              logdir,
+              LOG_NAME,
+              new PatternLayout("[%d{yyyy-MM-dd HH:mm:ss,SSS Z}] [%t] %-5p %c %x: %m%n"),
+              rotate));
     }
 
     if (json) {

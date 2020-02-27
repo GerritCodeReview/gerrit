@@ -25,15 +25,9 @@ import static com.google.gerrit.sshd.SshLog.P_WAIT;
 
 import com.google.gerrit.util.logging.JsonLayout;
 import com.google.gerrit.util.logging.JsonLogEntry;
-import java.time.format.DateTimeFormatter;
 import org.apache.log4j.spi.LoggingEvent;
 
 public class SshLogJsonLayout extends JsonLayout {
-
-  @Override
-  public DateTimeFormatter createDateTimeFormatter() {
-    return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss,SSS Z");
-  }
 
   @Override
   public JsonLogEntry toJsonLogEntry(LoggingEvent event) {

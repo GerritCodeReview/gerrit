@@ -14,24 +14,23 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
 
 public final class HttpLogLayout extends Layout {
-  private final SimpleDateFormat dateFormat;
-  private long lastTimeMillis;
-  private String lastTimeString;
+  private final DateTimeFormatter dateFormatter;
+  private final ZoneOffset timeOffset;
 
   public HttpLogLayout() {
-    final TimeZone tz = TimeZone.getDefault();
-    dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z");
-    dateFormat.setTimeZone(tz);
-
-    lastTimeMillis = System.currentTimeMillis();
-    lastTimeString = dateFormat.format(new Date(lastTimeMillis));
+    dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss,SSS Z");
+    timeOffset = OffsetDateTime.now().getOffset();
   }
 
   @Override
@@ -53,7 +52,7 @@ public final class HttpLogLayout extends Layout {
 
     buf.append(' ');
     buf.append('[');
-    formatDate(event.getTimeStamp(), buf);
+    buf.append(formatDate(event.getTimeStamp()));
     buf.append(']');
 
     buf.append(' ');
@@ -101,17 +100,10 @@ public final class HttpLogLayout extends Layout {
     }
   }
 
-  private void formatDate(long now, StringBuilder sbuf) {
-    final long rounded = now - (int) (now % 1000);
-    if (rounded != lastTimeMillis) {
-      synchronized (dateFormat) {
-        lastTimeMillis = rounded;
-        lastTimeString = dateFormat.format(new Date(lastTimeMillis));
-        sbuf.append(lastTimeString);
-      }
-    } else {
-      sbuf.append(lastTimeString);
-    }
+  private String formatDate(long now) {
+    return ZonedDateTime.of(
+            LocalDateTime.ofInstant(Instant.ofEpochMilli(now), timeOffset), ZoneId.systemDefault())
+        .format(dateFormatter);
   }
 
   @Override

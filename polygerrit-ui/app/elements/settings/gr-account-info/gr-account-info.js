@@ -49,11 +49,12 @@
           type: Boolean,
           notify: true,
           computed: '_computeHasUnsavedChanges(_hasNameChange, ' +
-            '_hasUsernameChange, _hasStatusChange)',
+            '_hasUsernameChange, _hasStatusChange, _hasDisplayNameChange)',
         },
 
         _hasNameChange: Boolean,
         _hasUsernameChange: Boolean,
+        _hasDisplayNameChange: Boolean,
         _hasStatusChange: Boolean,
         _loading: {
           type: Boolean,
@@ -81,6 +82,7 @@
       return [
         '_nameChanged(_account.name)',
         '_statusChanged(_account.status)',
+        '_displayNameChanged(_account.display_name)',
       ];
     }
 
@@ -96,6 +98,7 @@
       promises.push(this.$.restAPI.getAccount().then(account => {
         this._hasNameChange = false;
         this._hasUsernameChange = false;
+        this._hasDisplayNameChange = false;
         this._hasStatusChange = false;
         // Provide predefined value for username to trigger computation of
         // username mutability.
@@ -123,9 +126,11 @@
       // Must be done in sequence to avoid race conditions (@see Issue 5721)
       return this._maybeSetName()
           .then(this._maybeSetUsername.bind(this))
+          .then(this._maybeSetDisplayName.bind(this))
           .then(this._maybeSetStatus.bind(this))
           .then(() => {
             this._hasNameChange = false;
+            this._hasDisplayNameChange = false;
             this._hasStatusChange = false;
             this._saving = false;
             this.fire('account-detail-update');
@@ -144,14 +149,22 @@
         Promise.resolve();
     }
 
+    _maybeSetDisplayName() {
+      return this._hasDisplayNameChange ?
+        this.$.restAPI.setAccountDisplayName(this._account.display_name) :
+        Promise.resolve();
+    }
+
     _maybeSetStatus() {
       return this._hasStatusChange ?
         this.$.restAPI.setAccountStatus(this._account.status) :
         Promise.resolve();
     }
 
-    _computeHasUnsavedChanges(nameChanged, usernameChanged, statusChanged) {
-      return nameChanged || usernameChanged || statusChanged;
+    _computeHasUnsavedChanges(nameChanged, usernameChanged, statusChanged,
+        displayNameChanged) {
+      return nameChanged || usernameChanged || statusChanged
+          || displayNameChanged;
     }
 
     _computeUsernameMutable(config, username) {
@@ -175,6 +188,11 @@
     _statusChanged() {
       if (this._loading) { return; }
       this._hasStatusChange = true;
+    }
+
+    _displayNameChanged() {
+      if (this._loading) { return; }
+      this._hasDisplayNameChange = true;
     }
 
     _usernameChanged() {

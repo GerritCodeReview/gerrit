@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9361d813_b70faa06",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-02-27T14:11:31Z",
+      "side": 1,
+      "message": "Shouldn’t this go underneath blame rather then here, because logged out users won’t get this separator?",
+      "revId": "37fe92282875a58d64344157bfda0b71d41c6dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,18 +19,12 @@ import com.google.gerrit.util.logging.JsonLogEntry;
 import com.google.gson.annotations.SerializedName;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
 
 public class ErrorLogJsonLayout extends JsonLayout {
-
-  @Override
-  public DateTimeFormatter createDateTimeFormatter() {
-    return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-  }
 
   @Override
   public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
@@ -65,7 +59,7 @@ public class ErrorLogJsonLayout extends JsonLayout {
     public int version = 2;
 
     public ErrorJsonLogEntry(LoggingEvent event) {
-      this.timestamp = formatDate(event.getTimeStamp());
+      this.timestamp = timestampFormatter.format(event.getTimeStamp());
       this.sourceHost = getSourceHost();
       this.message = event.getRenderedMessage();
       if (event.getThrowableInformation() != null) {

@@ -18,6 +18,7 @@ import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
+import com.google.gerrit.util.logging.LogTimestampFormatter;
 import java.io.IOException;
 import java.nio.file.Path;
 import org.apache.log4j.ConsoleAppender;
@@ -77,7 +78,11 @@ public class ErrorLogFile {
     if (text) {
       root.addAppender(
           SystemLog.createAppender(
-              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n"), rotate));
+              logdir,
+              LOG_NAME,
+              new PatternLayout(
+                  "[%d{" + LogTimestampFormatter.TIMESTAMP_FORMAT + "}] [%t] %-5p %c %x: %m%n"),
+              rotate));
     }
 
     if (json) {

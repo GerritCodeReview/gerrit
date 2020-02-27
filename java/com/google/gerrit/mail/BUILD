@@ -12,7 +12,6 @@ java_library(
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",
         "//lib/jsoup",
-        "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
         "//lib/mime4j:core",
         "//lib/mime4j:dom",

@@ -72,8 +72,6 @@ Apache2.0
 * jetty:server
 * jetty:servlet
 * jetty:util
-* log:json-smart
-* log:jsonevent-layout
 * log:log4j
 * lucene:lucene-analyzers-common
 * lucene:lucene-core-and-backward-codecs-merged

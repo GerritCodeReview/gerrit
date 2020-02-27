@@ -17,12 +17,12 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/util/cli",
+        "//java/com/google/gerrit/util/logging",
         "//lib:args4j",
         "//lib:guava",
         "//lib:jgit",
         "//lib/flogger:api",
         "//lib/guice",
-        "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
     ],
 )

@@ -323,12 +323,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "jsonevent-layout",
-    artifact = "net.logstash.log4j:jsonevent-layout:1.7",
-    sha1 = "507713504f0ddb75ba512f62763519c43cf46fde",
-)
-
-maven_jar(
     name = "json-smart",
     artifact = "net.minidev:json-smart:1.1.1",
     sha1 = "24a2f903d25e004de30ac602c5b47f2d4e420a59",

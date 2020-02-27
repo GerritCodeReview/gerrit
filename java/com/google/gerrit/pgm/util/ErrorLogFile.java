@@ -20,7 +20,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import java.io.IOException;
 import java.nio.file.Path;
-import net.logstash.log4j.JSONEventLayoutV1;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -84,7 +83,7 @@ public class ErrorLogFile {
     if (json) {
       root.addAppender(
           SystemLog.createAppender(
-              logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1(), rotate));
+              logdir, LOG_NAME + JSON_SUFFIX, new ErrorLogJsonLayout(), rotate));
     }
   }
 }

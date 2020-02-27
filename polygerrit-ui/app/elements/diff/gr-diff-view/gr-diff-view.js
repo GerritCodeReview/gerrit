@@ -526,6 +526,7 @@
       return this._getDiffUrl(this._change, this._patchRange, newPath.path);
     },
 
+<<<<<<< HEAD   (ff3b43 Merge "Documentation: Replace plugins list with home page" i)
     _computeEditURL(change, patchRange, path) {
       if ([change, patchRange, path].some(arg => arg === undefined)) {
         return '';
@@ -533,6 +534,14 @@
       return Gerrit.Nav.getEditUrlForDiff(
           change, path, patchRange.patchNum);
     },
+=======
+    _goToEditFile() {
+      // TODO(taoalpha): add a shortcut for editing
+      const editUrl = Gerrit.Nav.getEditUrlForDiff(
+          this._change, this._path, this._patchRange.patchNum);
+      return Gerrit.Nav.navigateToRelativeUrl(editUrl);
+    }
+>>>>>>> CHANGE (32a926 Add a separator between blame and the edit icon)
 
     /**
      * Gives an object representing the target of navigating either left or

@@ -533,6 +533,386 @@ limitations under the License.
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
         assert.isFalse(linkEls[2].hasAttribute('href'));
         element._path = 'chell.go';
+<<<<<<< HEAD   (ff3b43 Merge "Documentation: Replace plugins list with home page" i)
+=======
+
+        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+        assert.isTrue(element._loading);
+        assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
+            '5'),
+        'Should navigate to /c/42/5..10');
+      });
+
+      test('keyboard shortcuts with old patch number', () => {
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: PARENT,
+          patchNum: '1',
+        };
+        element._change = {
+          _number: 42,
+          revisions: {
+            a: {_number: 1, commit: {parents: []}},
+            b: {_number: 2, commit: {parents: []}},
+          },
+        };
+        element._files = getFilesFromFileList(
+            ['chell.go', 'glados.txt', 'wheatley.md']);
+        element._path = 'glados.txt';
+
+        const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+        const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+
+        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+        assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
+            'should only work when the user is logged in.');
+        assert.isNull(window.sessionStorage.getItem(
+            'changeView.showReplyDialog'));
+
+        element._loggedIn = true;
+        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+        assert.isTrue(element.changeViewState.showReplyDialog);
+
+        assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
+            PARENT), 'Should navigate to /c/42/1');
+
+        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+        assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
+            PARENT), 'Should navigate to /c/42/1');
+
+        MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+        assert(diffNavStub.lastCall.calledWithExactly(element._change,
+            'wheatley.md', '1', PARENT),
+        'Should navigate to /c/42/1/wheatley.md');
+        element._path = 'wheatley.md';
+
+        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+        assert(diffNavStub.lastCall.calledWithExactly(element._change,
+            'glados.txt', '1', PARENT),
+        'Should navigate to /c/42/1/glados.txt');
+        element._path = 'glados.txt';
+
+        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+        assert(diffNavStub.lastCall.calledWithExactly(
+            element._change,
+            'chell.go',
+            '1',
+            PARENT), 'Should navigate to /c/42/1/chell.go');
+        element._path = 'chell.go';
+
+        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+        assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
+            PARENT), 'Should navigate to /c/42/1');
+      });
+
+      test('edit should redirect to edit page', done => {
+        element._loggedIn = true;
+        element._path = 't.txt';
+        element._patchRange = {
+          basePatchNum: PARENT,
+          patchNum: '1',
+        };
+        element._change = {
+          _number: 42,
+          revisions: {
+            a: {_number: 1, commit: {parents: []}},
+            b: {_number: 2, commit: {parents: []}},
+          },
+        };
+        const redirectStub = sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+        flush(() => {
+          const editBtn = element.shadowRoot
+              .querySelector('.editButton gr-button');
+          assert.isTrue(!!editBtn);
+          MockInteractions.tap(editBtn);
+          assert.isTrue(redirectStub.called);
+          done();
+        });
+      });
+
+      test('edit hidden when not logged in', done => {
+        element._loggedIn = false;
+        element._path = 't.txt';
+        element._patchRange = {
+          basePatchNum: PARENT,
+          patchNum: '1',
+        };
+        element._change = {
+          _number: 42,
+          revisions: {
+            a: {_number: 1, commit: {parents: []}},
+            b: {_number: 2, commit: {parents: []}},
+          },
+        };
+        flush(() => {
+          const editBtn = element.shadowRoot
+              .querySelector('.editButton gr-button');
+          assert.isFalse(!!editBtn);
+          done();
+        });
+      });
+
+      suite('diff prefs hidden', () => {
+        test('when no prefs or logged out', () => {
+          element.disableDiffPrefs = false;
+          element._loggedIn = false;
+          flushAsynchronousOperations();
+          assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+          element._loggedIn = true;
+          flushAsynchronousOperations();
+          assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+          element._loggedIn = false;
+          element._prefs = {font_size: '12'};
+          flushAsynchronousOperations();
+          assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+          element._loggedIn = true;
+          flushAsynchronousOperations();
+          assert.isFalse(element.$.diffPrefsContainer.hidden);
+        });
+
+        test('when disableDiffPrefs is set', () => {
+          element._loggedIn = true;
+          element._prefs = {font_size: '12'};
+          element.disableDiffPrefs = false;
+          flushAsynchronousOperations();
+
+          assert.isFalse(element.$.diffPrefsContainer.hidden);
+          element.disableDiffPrefs = true;
+          flushAsynchronousOperations();
+
+          assert.isTrue(element.$.diffPrefsContainer.hidden);
+        });
+      });
+
+      test('prefsButton opens gr-diff-preferences', () => {
+        const handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
+        const overlayOpenStub = sandbox.stub(element.$.diffPreferencesDialog,
+            'open');
+        const prefsButton =
+            Polymer.dom(element.root).querySelector('.prefsButton');
+
+        MockInteractions.tap(prefsButton);
+
+        assert.isTrue(handlePrefsTapSpy.called);
+        assert.isTrue(overlayOpenStub.called);
+      });
+
+      test('_computeCommentString', done => {
+        loadCommentSpy = sandbox.spy(element.$.commentAPI, 'loadAll');
+        const path = '/test';
+        element.$.commentAPI.loadAll().then(comments => {
+          const commentCountStub =
+              sandbox.stub(comments, 'computeCommentCount');
+          const unresolvedCountStub =
+              sandbox.stub(comments, 'computeUnresolvedNum');
+          commentCountStub.withArgs(1, path).returns(0);
+          commentCountStub.withArgs(2, path).returns(1);
+          commentCountStub.withArgs(3, path).returns(2);
+          commentCountStub.withArgs(4, path).returns(0);
+          unresolvedCountStub.withArgs(1, path).returns(1);
+          unresolvedCountStub.withArgs(2, path).returns(0);
+          unresolvedCountStub.withArgs(3, path).returns(2);
+          unresolvedCountStub.withArgs(4, path).returns(0);
+
+          assert.equal(element._computeCommentString(comments, 1, path, {}),
+              '1 unresolved');
+          assert.equal(
+              element._computeCommentString(comments, 2, path, {status: 'M'}),
+              '1 comment');
+          assert.equal(
+              element._computeCommentString(comments, 2, path, {status: 'U'}),
+              'no changes, 1 comment');
+          assert.equal(
+              element._computeCommentString(comments, 3, path, {status: 'A'}),
+              '2 comments, 2 unresolved');
+          assert.equal(
+              element._computeCommentString(
+                  comments, 4, path, {status: 'M'}
+              ), '');
+          assert.equal(
+              element._computeCommentString(comments, 4, path, {status: 'U'}),
+              'no changes');
+          done();
+        });
+      });
+
+      suite('url params', () => {
+        setup(() => {
+          sandbox.stub(
+              Gerrit.Nav,
+              'getUrlForDiff',
+              (c, p, pn, bpn) => `${c._number}-${p}-${pn}-${bpn}`);
+          sandbox.stub(
+              Gerrit.Nav
+              , 'getUrlForChange',
+              (c, pn, bpn) => `${c._number}-${pn}-${bpn}`);
+        });
+
+        test('_formattedFiles', () => {
+          element._changeNum = '42';
+          element._patchRange = {
+            basePatchNum: PARENT,
+            patchNum: '10',
+          };
+          element._change = {_number: 42};
+          element._files = getFilesFromFileList(
+              ['chell.go', 'glados.txt', 'wheatley.md',
+                '/COMMIT_MSG', '/MERGE_LIST']);
+          element._path = 'glados.txt';
+          const expectedFormattedFiles = [
+            {
+              text: 'chell.go',
+              mobileText: 'chell.go',
+              value: 'chell.go',
+              bottomText: '',
+            }, {
+              text: 'glados.txt',
+              mobileText: 'glados.txt',
+              value: 'glados.txt',
+              bottomText: '',
+            }, {
+              text: 'wheatley.md',
+              mobileText: 'wheatley.md',
+              value: 'wheatley.md',
+              bottomText: '',
+            },
+            {
+              text: 'Commit message',
+              mobileText: 'Commit message',
+              value: '/COMMIT_MSG',
+              bottomText: '',
+            },
+            {
+              text: 'Merge list',
+              mobileText: 'Merge list',
+              value: '/MERGE_LIST',
+              bottomText: '',
+            },
+          ];
+
+          assert.deepEqual(element._formattedFiles, expectedFormattedFiles);
+          assert.equal(element._formattedFiles[1].value, element._path);
+        });
+
+        test('prev/up/next links', () => {
+          element._changeNum = '42';
+          element._patchRange = {
+            basePatchNum: PARENT,
+            patchNum: '10',
+          };
+          element._change = {
+            _number: 42,
+            revisions: {
+              a: {_number: 10, commit: {parents: []}},
+            },
+          };
+          element._files = getFilesFromFileList(
+              ['chell.go', 'glados.txt', 'wheatley.md']);
+          element._path = 'glados.txt';
+          flushAsynchronousOperations();
+          const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
+          assert.equal(linkEls.length, 3);
+          assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
+          assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+          assert.equal(linkEls[2].getAttribute('href'),
+              '42-wheatley.md-10-PARENT');
+          element._path = 'wheatley.md';
+          flushAsynchronousOperations();
+          assert.equal(linkEls[0].getAttribute('href'),
+              '42-glados.txt-10-PARENT');
+          assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+          assert.isFalse(linkEls[2].hasAttribute('href'));
+          element._path = 'chell.go';
+          flushAsynchronousOperations();
+          assert.isFalse(linkEls[0].hasAttribute('href'));
+          assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+          assert.equal(linkEls[2].getAttribute('href'),
+              '42-glados.txt-10-PARENT');
+          element._path = 'not_a_real_file';
+          flushAsynchronousOperations();
+          assert.equal(linkEls[0].getAttribute('href'),
+              '42-wheatley.md-10-PARENT');
+          assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+          assert.equal(linkEls[2].getAttribute('href'), '42-chell.go-10-PARENT');
+        });
+
+        test('prev/up/next links with patch range', () => {
+          element._changeNum = '42';
+          element._patchRange = {
+            basePatchNum: '5',
+            patchNum: '10',
+          };
+          element._change = {
+            _number: 42,
+            revisions: {
+              a: {_number: 5, commit: {parents: []}},
+              b: {_number: 10, commit: {parents: []}},
+            },
+          };
+          element._files = getFilesFromFileList(
+              ['chell.go', 'glados.txt', 'wheatley.md']);
+          element._path = 'glados.txt';
+          flushAsynchronousOperations();
+          const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
+          assert.equal(linkEls.length, 3);
+          assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
+          assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+          assert.equal(linkEls[2].getAttribute('href'), '42-wheatley.md-10-5');
+          element._path = 'wheatley.md';
+          flushAsynchronousOperations();
+          assert.equal(linkEls[0].getAttribute('href'), '42-glados.txt-10-5');
+          assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+          assert.isFalse(linkEls[2].hasAttribute('href'));
+          element._path = 'chell.go';
+          flushAsynchronousOperations();
+          assert.isFalse(linkEls[0].hasAttribute('href'));
+          assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+          assert.equal(linkEls[2].getAttribute('href'), '42-glados.txt-10-5');
+        });
+      });
+
+      test('_handlePatchChange calls navigateToDiff correctly', () => {
+        const navigateStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+        element._change = {_number: 321, project: 'foo/bar'};
+        element._path = 'path/to/file.txt';
+
+        element._patchRange = {
+          basePatchNum: 'PARENT',
+          patchNum: '3',
+        };
+
+        const detail = {
+          basePatchNum: 'PARENT',
+          patchNum: '1',
+        };
+
+        element.$.rangeSelect.dispatchEvent(
+            new CustomEvent('patch-range-change', {detail, bubbles: false}));
+
+        assert(navigateStub.lastCall.calledWithExactly(element._change,
+            element._path, '1', 'PARENT'));
+      });
+
+      test('_prefs.manual_review is respected', () => {
+        const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
+            () => Promise.resolve());
+        const getReviewedStub = sandbox.stub(element, '_getReviewedStatus',
+            () => Promise.resolve());
+
+        sandbox.stub(element.$.diffHost, 'reload');
+        element._loggedIn = true;
+        element.params = {
+          view: Gerrit.Nav.View.DIFF,
+          changeNum: '42',
+          patchNum: '2',
+          basePatchNum: '1',
+          path: '/COMMIT_MSG',
+        };
+        element._prefs = {manual_review: true};
+>>>>>>> CHANGE (32a926 Add a separator between blame and the edit icon)
         flushAsynchronousOperations();
         assert.isFalse(linkEls[0].hasAttribute('href'));
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');

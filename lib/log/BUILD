@@ -40,17 +40,6 @@ java_library(
 )
 
 java_library(
-    name = "jsonevent-layout",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@jsonevent-layout//jar"],
-    runtime_deps = [
-        ":json-smart",
-        "//lib/commons:lang",
-    ],
-)
-
-java_library(
     name = "json-smart",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

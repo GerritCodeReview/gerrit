@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57065d6b_476c338a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-27T10:05:52Z",
+      "side": 1,
+      "message": "The button is already on the right hand side.",
+      "revId": "a7ea508e4c2f9b39f155c80205bea0a1d59b8e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d561b20_67978549",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-27T10:05:52Z",
+      "side": 1,
+      "message": "We have specifically renamed it from Send to Save in https://gerrit-review.googlesource.com/c/gerrit/+/253220",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "a7ea508e4c2f9b39f155c80205bea0a1d59b8e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fc7d6d7_3d514249",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-27T08:16:10Z",
+      "side": 1,
+      "message": "whoops",
+      "range": {
+        "startLine": 69,
+        "startChar": 93,
+        "endLine": 69,
+        "endChar": 140
+      },
+      "revId": "3519637944304f37178e415c397bd3b424addf85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

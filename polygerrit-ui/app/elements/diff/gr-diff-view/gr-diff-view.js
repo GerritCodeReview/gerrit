@@ -526,13 +526,12 @@
       return this._getDiffUrl(this._change, this._patchRange, newPath.path);
     },
 
-    _computeEditURL(change, patchRange, path) {
-      if ([change, patchRange, path].some(arg => arg === undefined)) {
-        return '';
-      }
-      return Gerrit.Nav.getEditUrlForDiff(
-          change, path, patchRange.patchNum);
-    },
+    _goToEditFile() {
+      // TODO(taoalpha): add a shortcut for editing
+      const editUrl = Gerrit.Nav.getEditUrlForDiff(
+          this._change, this._path, this._patchRange.patchNum);
+      return Gerrit.Nav.navigateToRelativeUrl(editUrl);
+    }
 
     /**
      * Gives an object representing the target of navigating either left or

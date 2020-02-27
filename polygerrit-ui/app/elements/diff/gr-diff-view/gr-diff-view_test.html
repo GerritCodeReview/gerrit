@@ -344,10 +344,51 @@ limitations under the License.
           PARENT), 'Should navigate to /c/42/1');
     });
 
-    test('_computeEditURL uses Gerrit.Nav', () => {
-      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
-      element._computeEditURL(123, {patchNum: undefined}, 'abc/def');
-      assert.isTrue(getUrlStub.called);
+    test('edit should redirect to edit page', done => {
+      element._loggedIn = true;
+      element._path = 't.txt';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: '1',
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
+        },
+      };
+      const redirectStub = sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+      flush(() => {
+        const editBtn = element.shadowRoot
+            .querySelector('.editButton gr-button');
+        assert.isTrue(!!editBtn);
+        MockInteractions.tap(editBtn);
+        assert.isTrue(redirectStub.called);
+        done();
+      });
+    });
+
+    test('edit hidden when not logged in', done => {
+      element._loggedIn = false;
+      element._path = 't.txt';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: '1',
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
+        },
+      };
+      flush(() => {
+        const editBtn = element.shadowRoot
+            .querySelector('.editButton gr-button');
+        assert.isFalse(!!editBtn);
+        done();
+      });
     });
 
     test('Diff preferences hidden when no prefs or logged out', () => {

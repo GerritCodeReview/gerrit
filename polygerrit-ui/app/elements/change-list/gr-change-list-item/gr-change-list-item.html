@@ -26,6 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-change-status/gr-change-status.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -68,6 +69,9 @@ limitations under the License.
         text-overflow: ellipsis;
         white-space: nowrap;
         width: 100%;
+      }
+      .comments {
+        white-space: nowrap;
       }
       .spacer {
         height: 0;
@@ -173,6 +177,11 @@ limitations under the License.
       <template is="dom-if" if="[[!change.assignee]]">
         <span class="placeholder">--</span>
       </template>
+    </td>
+    <td class="cell comments"
+        hidden$="[[isColumnHidden('Comments', visibleChangeTableColumns)]]">
+      <iron-icon hidden$="[[!change.unresolved_comment_count]]" icon="gr-icons:comment"></iron-icon>
+      <span>[[_computeComments(change)]]</span>
     </td>
     <td class="cell repo"
         hidden$="[[isColumnHidden('Repo', visibleChangeTableColumns)]]">

@@ -128,6 +128,24 @@
       "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "929e8d27_881e20a1",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-02-28T13:33:27Z",
+      "side": 1,
+      "message": "if you borrowed code under Apache 2 license you need to implement the conditions for redistribution of derived work in section 4 of the license\n\nhttp://www.apache.org/licenses/LICENSE-2.0#redistribution",
+      "parentUuid": "280182bd_14a4f9d5",
+      "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

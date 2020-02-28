@@ -1574,6 +1574,10 @@ Value of the link:config-gerrit.html#change.mergeabilityComputationBehavior[
 configuration parameter] that controls whether the mergeability bit in
 link:rest-api-changes.html#change-info[ChangeInfo] will never be set and if the
 bit is indexed.
+|`enable_attention_set` |defaults to `false`|
+Returns true if attention set UI features are enabled.
+|`enable_assignee` |defaults to `true`|
+Returns true if assignee related UI features are enabled.
 |=============================
 
 [[change-index-config-info]]

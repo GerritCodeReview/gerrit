@@ -1222,6 +1222,20 @@ If set to true, users are not allowed to create private changes.
 +
 The default is false.
 
+[[change.enableAttentionSet]]change.enableAttentionSet::
++
+If set to true, then all UI features for using and interacting with the
+attention set are enabled.
++
+The default is false for now, but will be changed to true in Q2 2020.
+
+[[change.enableAssignee]]change.enableAssignee::
++
+If set to true, then all UI features for using and interacting with the
+assignee are enabled.
++
+The default is true for now, but will be changed to false in Q2 2020.
+
 [[change.largeChange]]change.largeChange::
 +
 Number of changed lines from which on a change is considered as a large

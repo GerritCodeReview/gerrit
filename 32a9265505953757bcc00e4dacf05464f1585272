@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d3e7882_792a9e09",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-02-28T10:36:41Z",
+      "side": 1,
+      "message": "Personally, I think the separators are just visual noise and don\u0027t really help, so I would prefer removing them all. But feel free to submit as is.",
+      "revId": "32a9265505953757bcc00e4dacf05464f1585272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

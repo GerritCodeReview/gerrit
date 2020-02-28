@@ -146,6 +146,24 @@
       "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7f073b5_49b9d029",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-02-28T13:51:21Z",
+      "side": 1,
+      "message": "FWICT this file hasn\u0027t any similarities with JSONEventLayoutV1 beyond what any implementation of a json layout would have.",
+      "parentUuid": "929e8d27_881e20a1",
+      "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

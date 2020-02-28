@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a871814_b1c16179",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2381,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-02-28T17:33:41Z",
+      "side": 1,
+      "message": "maybe use backticks for has to show it\u0027s a keyword? (update everywhere in this section)\n\n `has` operand aliasing ... for query `has`",
+      "range": {
+        "startLine": 2381,
+        "startChar": 0,
+        "endLine": 2381,
+        "endChar": 3
+      },
+      "revId": "341a53398938c8d311bebc617992fde3a4258a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff4178d0_117c7f71",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-02-28T17:33:41Z",
+      "side": 1,
+      "message": "Is it better to use https://docs.oracle.com/javase/8/docs/api/java/util/Map.html#getOrDefault-java.lang.Object-V- ?\n\n value \u003d hasOperandAliases.getOrDefault(value, value);",
+      "revId": "341a53398938c8d311bebc617992fde3a4258a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

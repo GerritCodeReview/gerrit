@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24cee9e8_6b868599",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-28T09:07:29Z",
+      "side": 1,
+      "message": "a good screenshot should cover as many your corner cases as possible: like 0, 1 at least",
+      "revId": "a78dd5baf3a9f069ad745a93375a4248c8f2f01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e37b0161_912518be",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-28T09:07:29Z",
+      "side": 1,
+      "message": "`0 findings` ? is that intended ? i think we don\u0027t need that for 0, same as we don\u0027t have text for no comments",
+      "revId": "a78dd5baf3a9f069ad745a93375a4248c8f2f01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37f60d8f_5e3fed28",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-28T09:07:29Z",
+      "side": 1,
+      "message": "add one for 0, and maybe assert on text as well",
+      "revId": "a78dd5baf3a9f069ad745a93375a4248c8f2f01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

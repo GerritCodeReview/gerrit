@@ -110,6 +110,24 @@
       "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "280182bd_14a4f9d5",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-02-28T12:22:43Z",
+      "side": 1,
+      "message": "JSONEventLayoutV1 is under Apache 2.0, I don\u0027t think there are any issues:\nhttps://github.com/logstash/log4j-jsonevent-layout/blob/master/LICENSE\nhttp://www.apache.org/licenses/LICENSE-2.0",
+      "parentUuid": "092f6e02_7f9b79a1",
+      "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

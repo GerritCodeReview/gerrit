@@ -313,13 +313,15 @@ limitations under the License.
                 on-click="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
           </span>
           <template is="dom-if" if="[[_computeIsLoggedIn(_loggedIn)]]">
+            <span class="separator"></span>
             <span class="editButton">
-              <a href$="[[_computeEditURL(_change, _patchRange, _path)]]">
-                <iron-icon icon="gr-icons:edit"></iron-icon>
-              </a>
-              <span class="separator"></span>
+              <gr-button
+                link
+                title="Edit current file"
+                on-click="_goToEditFile">edit</gr-button>
             </span>
           </template>
+          <span class="separator"></span>
           <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
             <span>Diff view:</span>
             <gr-diff-mode-selector

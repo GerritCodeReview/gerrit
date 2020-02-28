@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eeebcee5_a342b54f",
+        "filename": "java/com/google/gerrit/acceptance/TestAccount.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-02-28T09:24:03Z",
+      "side": 1,
+      "message": "This is becoming unreadable and I think we should move to exposing only a Builder instead, but it doesn\u0027t have to be in this change.",
+      "revId": "a90ba349d054f434d8bacd89afeb0ed1643f59ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

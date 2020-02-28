@@ -1,0 +1,17 @@
+- job:
+    name: gerrit-build
+    parent: gerrit-build-base
+    description: Build Gerrit
+    required-projects:
+      - plugins/codemirror-editor
+      - plugins/commit-message-length-validator
+      - plugins/download-commands
+      - plugins/hooks
+      - plugins/replication
+      - plugins/reviewnotes
+      - plugins/singleusergroup
+
+- project:
+    check:
+      jobs:
+        - gerrit-build

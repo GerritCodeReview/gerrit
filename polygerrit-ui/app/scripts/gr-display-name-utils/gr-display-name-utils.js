@@ -44,15 +44,11 @@
     }
 
     static getAccountDisplayName(config, account, enableEmail) {
-      const reviewerName = this._accountOrAnon(config, account, enableEmail);
+      const reviewerName = this.getUserName(config, account, !!enableEmail);
       const reviewerEmail = this._accountEmail(account.email);
       const reviewerStatus = account.status ? '(' + account.status + ')' : '';
       return [reviewerName, reviewerEmail, reviewerStatus]
           .filter(p => p.length > 0).join(' ');
-    }
-
-    static _accountOrAnon(config, reviewer, enableEmail) {
-      return this.getUserName(config, reviewer, !!enableEmail);
     }
 
     static _accountEmail(email) {

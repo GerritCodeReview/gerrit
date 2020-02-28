@@ -72,10 +72,6 @@
       }
     }
 
-    _accountOrAnon(name) {
-      return this.getUserName(this._serverConfig, name, false);
-    }
-
     /**
      * Fetch from the API the predicted projects.
      *
@@ -154,11 +150,12 @@
 
     _mapAccountsHelper(accounts, predicate) {
       return accounts.map(account => {
+        const userName = this.getUserName(this._serverConfig, account, false);
         return {
           label: account.name || '',
           text: account.email ?
             `${predicate}:${account.email}` :
-            `${predicate}:"${this._accountOrAnon(account)}"`,
+            `${predicate}:"${userName}"`,
         };
       });
     }

@@ -16,6 +16,24 @@
       "revId": "32a9265505953757bcc00e4dacf05464f1585272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa6f2d39_83653e80",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-02-28T11:57:53Z",
+      "side": 1,
+      "message": "ya i kind agree, but sometimes I like the clear visual separation it brings. will keep it as is for now.",
+      "parentUuid": "9d3e7882_792a9e09",
+      "revId": "32a9265505953757bcc00e4dacf05464f1585272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

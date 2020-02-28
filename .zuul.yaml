@@ -1,0 +1,36 @@
+- job:
+    name: gerrit-base
+    parent: gerrit-setup
+    description: |
+      Base job for all Gerrit-related builds
+
+      This adds required projects needed for all Gerrit-related builds
+      (i.e., builds of Gerrit itself or plugins) on this branch.
+    # No additional required-projects required for this branch.
+
+- job:
+    name: gerrit-build
+    parent: gerrit-build-base
+    description: |
+      Build Gerrit
+
+      This builds Gerrit with the core plugins.
+    required-projects:
+      # This inherits from gerrit-base, so submodules listed above do
+      # not need to be repeated here.
+      - plugins/codemirror-editor
+      - plugins/commit-message-length-validator
+      - plugins/delete-project
+      - plugins/download-commands
+      - plugins/gitiles
+      - plugins/hooks
+      - plugins/plugin-manager
+      - plugins/replication
+      - plugins/reviewnotes
+      - plugins/singleusergroup
+      - plugins/webhooks
+
+- project:
+    check:
+      jobs:
+        - gerrit-build

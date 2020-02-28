@@ -80,6 +80,21 @@ limitations under the License.
               name: 'user',
               username: 'user',
             },
+            patch_set: 2,
+            robot_id: 'rb1',
+            id: 'ecf9fa_fe1a5f62',
+            line: 5,
+            updated: '2018-02-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+          },
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
+            },
             patch_set: 4,
             id: 'ecf0b9fa_fe1a5f62',
             line: 5,
@@ -109,6 +124,21 @@ limitations under the License.
       },
       {
         comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
+            },
+            patch_set: 3,
+            id: 'ecf0b9fa_fe5f62',
+            robot_id: 'rb2',
+            line: 5,
+            updated: '2018-02-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+          },
           {
             __path: 'test.txt',
             author: {
@@ -735,6 +765,23 @@ limitations under the License.
           done();
         });
       });
+
+      test('robot comments count per patchset', () => {
+        const count = element._robotCommentCountPerPatchSet(THREADS);
+        const expectedCount = {
+          2: 1,
+          3: 1,
+          4: 2,
+        };
+        assert.deepEqual(count, expectedCount);
+        assert.equal(element._computeText({_number: 2}, THREADS),
+            'Patchset 2 (1 finding)');
+        assert.equal(element._computeText({_number: 4}, THREADS),
+            'Patchset 4 (2 findings)');
+        assert.equal(element._computeText({_number: 5}, THREADS),
+            'Patchset 5');
+      });
+
       test('only robot comments are rendered', () => {
         assert.equal(element._robotCommentThreads.length, 2);
         assert.equal(element._robotCommentThreads[0].comments[0].robot_id,
@@ -745,7 +792,7 @@ limitations under the License.
       test('changing patchsets resets robot comments', done => {
         element.set('_change.current_revision', 'rev3');
         flush(() => {
-          assert.equal(element._robotCommentThreads.length, 0);
+          assert.equal(element._robotCommentThreads.length, 1);
           done();
         });
       });

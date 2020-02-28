@@ -386,7 +386,7 @@ public class StoredPreferences {
       my = my(defaultCfg);
     }
     if (my.isEmpty()) {
-      my.add(new MenuItem("Changes", "#/dashboard/self", null));
+      my.add(new MenuItem("Dashboard", "#/dashboard/self", null));
       my.add(new MenuItem("Draft Comments", "#/q/has:draft", null));
       my.add(new MenuItem("Edits", "#/q/has:edit", null));
       my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open", null));

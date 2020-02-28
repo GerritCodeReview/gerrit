@@ -25,6 +25,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list-item/gr-change-list-item.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
@@ -135,6 +136,7 @@ limitations under the License.
         index="{{selectedIndex}}"
         scroll-behavior="keep-visible"
         focus-on-move></gr-cursor-manager>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-list.js"></script>
 </dom-module>

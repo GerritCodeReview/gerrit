@@ -69,6 +69,9 @@ limitations under the License.
         white-space: nowrap;
         width: 100%;
       }
+      .comments {
+        white-space: nowrap;
+      }
       .spacer {
         height: 0;
         overflow: hidden;
@@ -173,6 +176,10 @@ limitations under the License.
       <template is="dom-if" if="[[!change.assignee]]">
         <span class="placeholder">--</span>
       </template>
+    </td>
+    <td class="cell comments"
+        hidden$="[[isColumnHidden('Comments', visibleChangeTableColumns)]]">
+      <span>[[_computeComments(change)]]</span>
     </td>
     <td class="cell repo"
         hidden$="[[isColumnHidden('Repo', visibleChangeTableColumns)]]">

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a8817dd2_bcc063a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-28T11:15:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ee448ff0_87923012",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 23
+      },
+      "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "714838af_d747aaea",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-28T07:54:11Z",
       "side": 1,
       "message": "Perhaps I\u0027m misunderstanding something but I don\u0027t see the issue with having different timestamp formats. Why would you do string comparison between timestamps?\nIf there\u0027s an issue with having different timestamps in json and test logs, I would suggest that we instead change to ISO 8601 in the error_log.",
+      "range": {
+        "startLine": 13,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "620b65ca_8d197a6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-02-28T11:15:57Z",
+      "side": 1,
+      "message": "Yes, using a standard is definitely the better solution here. Let me change that.",
+      "parentUuid": "714838af_d747aaea",
       "range": {
         "startLine": 13,
         "startChar": 25,

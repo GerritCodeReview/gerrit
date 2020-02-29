@@ -60,7 +60,7 @@ public interface UrlFormatter {
         .map(url -> url + String.format("@%s%d", side == 0 ? "a" : "", startLine));
   }
 
-  /** Returns a URL pointing to a section of the settings page. */
+  /** Returns a URL pointing to the settings page. */
   default Optional<String> getSettingsUrl() {
     return getWebUrl().map(url -> url + "settings");
   }

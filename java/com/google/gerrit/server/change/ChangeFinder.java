@@ -17,13 +17,11 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.restapi.DeprecatedIdentifierException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.IndexConfig;
@@ -32,8 +30,6 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -50,7 +46,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class ChangeFinder {
@@ -79,7 +74,6 @@ public class ChangeFinder {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory changeNotesFactory;
   private final Counter1<ChangeIdType> changeIdCounter;
-  private final ImmutableSet<ChangeIdType> allowedIdTypes;
 
   @Inject
   ChangeFinder(
@@ -87,8 +81,7 @@ public class ChangeFinder {
       @Named(CACHE_NAME) Cache<Change.Id, String> changeIdProjectCache,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory changeNotesFactory,
-      MetricMaker metricMaker,
-      @GerritServerConfig Config config) {
+      MetricMaker metricMaker) {
     this.indexConfig = indexConfig;
     this.changeIdProjectCache = changeIdProjectCache;
     this.queryProvider = queryProvider;
@@ -101,11 +94,6 @@ public class ChangeFinder {
                 .setUnit("requests"),
             Field.ofEnum(ChangeIdType.class, "change_id_type", Metadata.Builder::changeIdType)
                 .build());
-    List<ChangeIdType> configuredChangeIdTypes =
-        ConfigUtil.getEnumList(config, "change", "api", "allowedIdentifier", ChangeIdType.ALL);
-    // Ensure that PROJECT_NUMERIC_ID can't be removed
-    configuredChangeIdTypes.add(ChangeIdType.PROJECT_NUMERIC_ID);
-    this.allowedIdTypes = ImmutableSet.copyOf(configuredChangeIdTypes);
   }
 
   public ChangeNotes findOne(String id) {
@@ -123,25 +111,6 @@ public class ChangeFinder {
    * @return possibly-empty list of notes for all matching changes; may or may not be visible.
    */
   public List<ChangeNotes> find(String id) {
-    try {
-      return find(id, false);
-    } catch (DeprecatedIdentifierException e) {
-      // This can't happen because we don't enforce deprecation
-      throw new StorageException(e);
-    }
-  }
-
-  /**
-   * Find changes matching the given identifier.
-   *
-   * @param id change identifier.
-   * @param enforceDeprecation boolean to see if we should throw {@link
-   *     DeprecatedIdentifierException} in case the identifier is deprecated
-   * @return possibly-empty list of notes for all matching changes; may or may not be visible.
-   * @throws DeprecatedIdentifierException if the identifier is deprecated.
-   */
-  public List<ChangeNotes> find(String id, boolean enforceDeprecation)
-      throws DeprecatedIdentifierException {
     if (id.isEmpty()) {
       return Collections.emptyList();
     }
@@ -152,7 +121,7 @@ public class ChangeFinder {
       // Try project~numericChangeId
       Integer n = Ints.tryParse(id.substring(z + 1));
       if (n != null) {
-        checkIdType(ChangeIdType.PROJECT_NUMERIC_ID, enforceDeprecation, n.toString());
+        changeIdCounter.increment(ChangeIdType.PROJECT_NUMERIC_ID);
         return fromProjectNumber(id.substring(0, z), n.intValue());
       }
     }
@@ -161,7 +130,7 @@ public class ChangeFinder {
       // Try numeric changeId
       Integer n = Ints.tryParse(id);
       if (n != null) {
-        checkIdType(ChangeIdType.NUMERIC_ID, enforceDeprecation, n.toString());
+        changeIdCounter.increment(ChangeIdType.NUMERIC_ID);
         return find(Change.id(n));
       }
     }
@@ -172,7 +141,7 @@ public class ChangeFinder {
 
     // Try commit hash
     if (id.matches("^([0-9a-fA-F]{" + ObjectIds.ABBREV_STR_LEN + "," + ObjectIds.STR_LEN + "})$")) {
-      checkIdType(ChangeIdType.COMMIT_HASH, enforceDeprecation, id);
+      changeIdCounter.increment(ChangeIdType.COMMIT_HASH);
       return asChangeNotes(query.byCommit(id));
     }
 
@@ -181,7 +150,7 @@ public class ChangeFinder {
       Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id, y, z);
       if (triplet.isPresent()) {
         ChangeTriplet t = triplet.get();
-        checkIdType(ChangeIdType.TRIPLET, enforceDeprecation, triplet.get().toString());
+        changeIdCounter.increment(ChangeIdType.TRIPLET);
         return asChangeNotes(query.byBranchKey(t.branch(), t.id()));
       }
     }
@@ -189,7 +158,7 @@ public class ChangeFinder {
     // Try isolated Ihash... format ("Change-Id: Ihash").
     List<ChangeNotes> notes = asChangeNotes(query.byKeyPrefix(id));
     if (!notes.isEmpty()) {
-      checkIdType(ChangeIdType.I_HASH, enforceDeprecation, id);
+      changeIdCounter.increment(ChangeIdType.I_HASH);
     }
     return notes;
   }
@@ -257,19 +226,5 @@ public class ChangeFinder {
       }
     }
     return notes;
-  }
-
-  private void checkIdType(ChangeIdType type, boolean enforceDeprecation, String val)
-      throws DeprecatedIdentifierException {
-    if (enforceDeprecation
-        && !allowedIdTypes.contains(ChangeIdType.ALL)
-        && !allowedIdTypes.contains(type)) {
-      throw new DeprecatedIdentifierException(
-          String.format(
-              "The provided change identifier %s is deprecated. "
-                  + "Use 'project~changeNumber' instead.",
-              val));
-    }
-    changeIdCounter.increment(type);
   }
 }

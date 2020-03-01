@@ -24,8 +24,8 @@ import static com.google.gerrit.pgm.http.jetty.HttpLog.P_STATUS;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER_AGENT;
 
-import com.google.gerrit.server.logging.JsonLayout;
-import com.google.gerrit.server.logging.JsonLogEntry;
+import com.google.gerrit.util.logging.JsonLayout;
+import com.google.gerrit.util.logging.JsonLogEntry;
 import java.time.format.DateTimeFormatter;
 import org.apache.log4j.spi.LoggingEvent;
 

@@ -5557,8 +5557,7 @@ In this case, use a POST request instead:
 Identifier that uniquely identifies one change. It contains the URL-encoded
 project name as well as the change number: "'$$<project>~<numericId>$$'"
 
-Depending on the server's configuration, Gerrit can still support the following
-deprecated identifiers. These will be removed in a future release:
+Gerrit also supports the following identifiers:
 
 * an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
   where for the branch the `refs/heads/` prefix can be omitted
@@ -5566,10 +5565,6 @@ deprecated identifiers. These will be removed in a future release:
 * a Change-Id if it uniquely identifies one change
   ("I8473b95934b5732ac55d26311a706c9c2bde9940")
 * a numeric change ID ("4247")
-
-If you need more time to migrate off of old change IDs, please see
-link:config-gerrit.html#change.api.allowedIdentifier[change.api.allowedIdentifier]
-for more information on how to enable the use of deprecated identifiers.
 
 [[change-message-id]]
 === \{change-message-id\}

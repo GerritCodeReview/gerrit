@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from optparse import OptionParser
+import argparse
 import re
 import sys
 
@@ -239,34 +239,34 @@ LINK_SCRIPT = """
 
 """
 
-opts = OptionParser()
-opts.add_option('-o', '--out', help='output file')
-opts.add_option('-s', '--src', help='source file')
-opts.add_option('-x', '--suffix', help='suffix for included filenames')
-opts.add_option('-b', '--searchbox', action="store_true", default=True,
+parser = argparse.ArgumentParser()
+parser.add_argument('-o', '--out', help='output file')
+parser.add_argument('-s', '--src', help='source file')
+parser.add_argument('-x', '--suffix', help='suffix for included filenames')
+parser.add_argument('-b', '--searchbox', action="store_true", default=True,
                 help="generate the search boxes")
-opts.add_option('--no-searchbox', action="store_false", dest='searchbox',
+parser.add_argument('--no-searchbox', action="store_false", dest='searchbox',
                 help="don't generate the search boxes")
-opts.add_option('--site-search', action="store", metavar="SITE",
+parser.add_argument('--site-search', action="store", metavar="SITE",
                 help=("generate the search box using google. SITE should " +
                       "point to the domain/path of the site, eg. " +
                       "gerrit-review.googlesource.com/Documentation"))
-options, _ = opts.parse_args()
+args = parser.parse_args()
 
-if options.site_search:
+if args.site_search:
   SEARCH_BOX = (SEARCH_BOX %
-                GOOGLE_SITE_SEARCH.replace("@SITE@", options.site_search))
+                GOOGLE_SITE_SEARCH.replace("@SITE@", args.site_search))
 else:
   SEARCH_BOX = SEARCH_BOX % BUILTIN_SEARCH
 
 
 try:
     try:
-        out_file = open(options.out, 'w', errors='ignore')
-        src_file = open(options.src, 'r', errors='ignore')
+        out_file = open(args.out, 'w', errors='ignore')
+        src_file = open(args.src, 'r', errors='ignore')
     except TypeError:
-        out_file = open(options.out, 'w')
-        src_file = open(options.src, 'r')
+        out_file = open(args.out, 'w')
+        src_file = open(args.src, 'r')
     last_line = ''
     ignore_next_line = False
     last_title = ''
@@ -277,14 +277,14 @@ try:
             last_line = ''
         elif PAT_SEARCHBOX.match(last_line):
             # Case of 'SEARCHBOX\n---------'
-            if options.searchbox:
+            if args.searchbox:
                 out_file.write(SEARCH_BOX)
             last_line = ''
         elif PAT_INCLUDE.match(line):
             # Case of 'include::<filename>'
             match = PAT_INCLUDE.match(line)
             out_file.write(last_line)
-            last_line = match.group(1) + options.suffix + match.group(2) + '\n'
+            last_line = match.group(1) + args.suffix + match.group(2) + '\n'
         elif PAT_STARS.match(line):
             if PAT_TITLE.match(last_line):
                 # Case of the title in '.<title>\n****\nget::<url>\n****'
@@ -310,5 +310,5 @@ try:
     out_file.close()
 except IOError as err:
     sys.stderr.write(
-        "error while expanding %s to %s: %s" % (options.src, options.out, err))
+        "error while expanding %s to %s: %s" % (args.src, args.out, err))
     exit(1)

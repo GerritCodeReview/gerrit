@@ -349,6 +349,53 @@ limitations under the License.
           PARENT), 'Should navigate to /c/42/1');
     });
 
+    test('edit should redirect to edit page', done => {
+      element._loggedIn = true;
+      element._path = 't.txt';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: '1',
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
+        },
+      };
+      const redirectStub = sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+      flush(() => {
+        const editBtn = Polymer.dom(element.root)
+            .querySelector('.editButton gr-button');
+        assert.isTrue(!!editBtn);
+        MockInteractions.tap(editBtn);
+        assert.isTrue(redirectStub.called);
+        done();
+      });
+    });
+
+    test('edit hidden when not logged in', done => {
+      element._loggedIn = false;
+      element._path = 't.txt';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: '1',
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
+        },
+      };
+      flush(() => {
+        const editBtn = Polymer.dom(element.root)
+            .querySelector('.editButton gr-button');
+        assert.isFalse(!!editBtn);
+        done();
+      });
+    });
+
     suite('diff prefs hidden', () => {
       test('when no prefs or logged out', () => {
         element.disableDiffPrefs = false;

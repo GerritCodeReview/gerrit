@@ -142,7 +142,7 @@ limitations under the License.
       const linkEl = element.$.output.childNodes[1];
       assert.equal(textNode.textContent, prefix);
       const url = '/q/' + changeID;
-      assert.equal(linkEl.target, '_self');
+      assert.isFalse(linkEl.hasAttribute('target'));
       // Since url is a path, the host is added automatically.
       assert.isTrue(linkEl.href.endsWith(url));
       assert.equal(linkEl.textContent, changeID);
@@ -160,7 +160,7 @@ limitations under the License.
       const linkEl = element.$.output.childNodes[1];
       assert.equal(textNode.textContent, prefix);
       const url = '/r/q/' + changeID;
-      assert.equal(linkEl.target, '_self');
+      assert.isFalse(linkEl.hasAttribute('target'));
       // Since url is a path, the host is added automatically.
       assert.isTrue(linkEl.href.endsWith(url));
       assert.equal(linkEl.textContent, changeID);
@@ -201,7 +201,7 @@ limitations under the License.
 
       assert.equal(textNode.textContent, prefix);
 
-      assert.equal(changeLinkEl.target, '_self');
+      assert.isFalse(changeLinkEl.hasAttribute('target'));
       assert.isTrue(changeLinkEl.href.endsWith(changeUrl));
       assert.equal(changeLinkEl.textContent, changeID);
 

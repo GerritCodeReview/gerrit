@@ -181,7 +181,7 @@
               }
               // If we are done, resolve the promise.
               if (state.chunkIndex >= chunks.length) {
-                resolve(this.groups);
+                resolve();
                 this._nextStepHandle = null;
                 return;
               }

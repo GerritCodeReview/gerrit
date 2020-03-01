@@ -1180,18 +1180,6 @@ Allow blame on side by side diff. If set to false, blame cannot be used.
 +
 Default is true.
 
-[[change.api.allowedIdentifier]]change.api.allowedIdentifier::
-+
-Change identifier(s) that are allowed on the API. See
-link:rest-api-changes.html#change-id[Change Id] for more information.
-+
-Possible values are `ALL`, `TRIPLET`, `NUMERIC_ID`, `I_HASH`, and
-`COMMIT_HASH` or any combination of those as a string list.
-`PROJECT_NUMERIC_ID` is always allowed and doesn't need to be listed
-explicitly.
-+
-Default is `ALL`.
-
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
 When reviewing diff commits, the left-hand side shows the output of the

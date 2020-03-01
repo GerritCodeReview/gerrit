@@ -4,6 +4,7 @@ java_library(
     name = "api",
     data = ["//lib:LICENSE-slf4j"],
     visibility = [
+        "//javatests/com/google/gerrit/elasticsearch:__pkg__",
         "//lib:__pkg__",
         "//plugins:__pkg__",
     ],

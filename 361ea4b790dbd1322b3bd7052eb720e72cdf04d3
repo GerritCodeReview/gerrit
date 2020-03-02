@@ -22,6 +22,30 @@
       "revId": "361ea4b790dbd1322b3bd7052eb720e72cdf04d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a1d886a_943bc039",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-02T13:25:23Z",
+      "side": 1,
+      "message": "I\u0027ll do that in go/gerrid/257378.",
+      "parentUuid": "370f977f_237807cf",
+      "range": {
+        "startLine": 210,
+        "startChar": 10,
+        "endLine": 210,
+        "endChar": 14
+      },
+      "revId": "361ea4b790dbd1322b3bd7052eb720e72cdf04d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

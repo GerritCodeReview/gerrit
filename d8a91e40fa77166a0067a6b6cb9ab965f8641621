@@ -164,6 +164,24 @@
       "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "205e6481_75eeb572",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-03-02T10:22:00Z",
+      "side": 1,
+      "message": "There are some similarities, like the creation of the map describing the exception, which I basically copied. If necessary, I will add the respective line in the license header.",
+      "parentUuid": "e7f073b5_49b9d029",
+      "revId": "d8a91e40fa77166a0067a6b6cb9ab965f8641621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

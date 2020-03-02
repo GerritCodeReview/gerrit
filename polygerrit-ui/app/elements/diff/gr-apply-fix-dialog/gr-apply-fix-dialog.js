@@ -30,7 +30,7 @@
 
     static get properties() {
       return {
-      // Diff rendering preference API response.
+        // Diff rendering preference API response.
         prefs: Array,
         // ChangeInfo API response object.
         change: Object,
@@ -50,6 +50,11 @@
         },
         // Index of currently showing suggested fix.
         _selectedFixIdx: Number,
+        _disableApplyFixButton: {
+          type: Boolean,
+          computed: '_computeDisableApplyFixButton(_isApplyFixLoading, change, '
+            + '_patchNum)',
+        },
       };
     }
 
@@ -180,6 +185,27 @@
 
     _getApplyFixButtonLabel(isLoading) {
       return isLoading ? 'Saving...' : 'Apply Fix';
+    }
+
+    _computeTooltip(disableApplyFixButton, change, patchNum) {
+      if (!change || disableApplyFixButton == undefined || patchNum ==
+        undefined) return '';
+      const currentPatchNum = change.revisions && change.current_revision ?
+        change.revisions[change.current_revision]._number : 0;
+      return (disableApplyFixButton && currentPatchNum !== patchNum) ?
+        'Fix can only be applied to the latest patchset' : '';
+    }
+
+    _computeDisableApplyFixButton(isApplyFixLoading, change, patchNum) {
+      if (!change || isApplyFixLoading == undefined || patchNum == undefined) {
+        return true;
+      }
+      const currentPatchNum = change.revisions[change.current_revision]._number;
+      if (patchNum !== currentPatchNum) {
+        // Disable apply fix button for older patchsets
+        return true;
+      }
+      return isApplyFixLoading;
     }
 
     _handleApplyFix(e) {

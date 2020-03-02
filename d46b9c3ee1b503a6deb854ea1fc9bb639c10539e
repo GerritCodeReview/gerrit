@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37dea242_0f40690c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-02T13:04:21Z",
+      "side": 1,
+      "message": "It would be cleaner if dependency removal is extracted into own change preceding this one",
+      "revId": "d46b9c3ee1b503a6deb854ea1fc9bb639c10539e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccafffdd_c2da0b54",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-02T13:04:21Z",
+      "side": 1,
+      "message": "clazz\n\nThis name is often used in the Java world for variables which store class name or Class object.",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 27
+      },
+      "revId": "d46b9c3ee1b503a6deb854ea1fc9bb639c10539e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6564478_1bba268e",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-02T13:04:21Z",
+      "side": 1,
+      "message": "maybe just: logger\n\nthen it would be consistent naming pattern with the previous two names: clazz, method, logger",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 28
+      },
+      "revId": "d46b9c3ee1b503a6deb854ea1fc9bb639c10539e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89b926ea_bb103fb4",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-02T13:04:21Z",
+      "side": 1,
+      "message": "would IP address be a better choice here? I remember we had Gerrit users complaining about\nslow/unresponsive Gerrit server and we found out that it was due to Gerrit trying to resolve\nclient IP address into a hostname.",
+      "range": {
+        "startLine": 78,
+        "startChar": 42,
+        "endLine": 78,
+        "endChar": 53
+      },
+      "revId": "d46b9c3ee1b503a6deb854ea1fc9bb639c10539e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1207096_fc8526ed",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-02T13:04:21Z",
+      "side": 1,
+      "message": "this is repeated again in the line 88, can be extracted into a local variable",
+      "range": {
+        "startLine": 86,
+        "startChar": 10,
+        "endLine": 86,
+        "endChar": 64
+      },
+      "revId": "d46b9c3ee1b503a6deb854ea1fc9bb639c10539e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "932eca9d_9ed24913",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-02T13:04:21Z",
+      "side": 1,
+      "message": "extract into local variable",
+      "range": {
+        "startLine": 90,
+        "startChar": 10,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "d46b9c3ee1b503a6deb854ea1fc9bb639c10539e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb684aef_615d8ac1",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-02T13:04:21Z",
+      "side": 1,
+      "message": "extract into local variable",
+      "range": {
+        "startLine": 93,
+        "startChar": 10,
+        "endLine": 93,
+        "endChar": 40
+      },
+      "revId": "d46b9c3ee1b503a6deb854ea1fc9bb639c10539e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

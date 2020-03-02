@@ -58,6 +58,9 @@
           type: Boolean,
           value: false,
         },
+        confirmTooltip: {
+          type: String,
+        },
       };
     }
 

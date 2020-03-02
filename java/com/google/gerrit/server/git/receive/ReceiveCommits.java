@@ -630,9 +630,7 @@ class ReceiveCommits {
       }
     }
 
-    int commandTypes = (magicCommands.isEmpty() ? 0 : 1) + (regularCommands.isEmpty() ? 0 : 1);
-
-    if (commandTypes > 1) {
+    if (!magicCommands.isEmpty() && !regularCommands.isEmpty()) {
       rejectRemaining(commands, "cannot combine normal pushes and magic pushes");
       return;
     }

@@ -366,6 +366,9 @@
                 return req.errFn.call(undefined, response);
               }
               this.fire('server-error', {request: fetchReq, response});
+
+              // always return null for this case
+              return null;
             }
             return response;
           })

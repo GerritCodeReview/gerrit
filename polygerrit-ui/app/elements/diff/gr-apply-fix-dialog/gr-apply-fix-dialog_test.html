@@ -153,10 +153,10 @@ limitations under the License.
       });
     });
 
-    test('apply fix button should call apply' +
+    test('apply fix button should call apply ' +
     'and navigate to change view', done => {
       sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
-          .returns(Promise.resolve());
+          .returns(Promise.resolve({}));
       sandbox.stub(Gerrit.Nav, 'navigateToChange');
       element._currentFix = {fix_id: '123'};
 
@@ -171,6 +171,22 @@ limitations under the License.
         // reset gr-apply-fix-dialog and close
         assert.deepEqual(element._currentFix, {});
         assert.equal(element._currentPreviews.length, 0);
+        done();
+      });
+    });
+
+    test('should not navigate to change view if no reponse', done => {
+      sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
+          .returns(Promise.resolve(null));
+      sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      element._currentFix = {fix_id: '123'};
+
+      element._handleApplyFix().then(() => {
+        assert.isTrue(element.$.restAPI.applyFixSuggestion
+            .calledWithExactly('1', 2, '123'));
+        assert.isTrue(Gerrit.Nav.navigateToChange.notCalled);
+
+        assert.equal(element._isApplyFixLoading, false);
         done();
       });
     });

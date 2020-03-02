@@ -18,14 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
-import com.google.gerrit.extensions.restapi.DeprecatedIdentifierException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.inject.Inject;
 import org.junit.Before;
@@ -139,29 +137,5 @@ public class ChangeIdIT extends AbstractDaemonTest {
   @Test
   public void wrongChangeIdReturnsNotFound() throws Exception {
     assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id("I1234567890"));
-  }
-
-  @Test
-  @GerritConfig(
-      name = "change.api.allowedIdentifier",
-      values = {"PROJECT_NUMERIC_ID", "NUMERIC_ID"})
-  public void deprecatedChangeIdReturnsBadRequest() throws Exception {
-    // project~changeNumber still works
-    ChangeApi cApi1 = gApi.changes().id(project.get(), changeInfo._number);
-    assertThat(cApi1.get().changeId).isEqualTo(changeInfo.changeId);
-    // Change number still works
-    ChangeApi cApi2 = gApi.changes().id(changeInfo._number);
-    assertThat(cApi2.get().changeId).isEqualTo(changeInfo.changeId);
-    // IHash throws
-    ChangeInfo ci =
-        gApi.changes().create(new ChangeInput(project.get(), "master", "different message")).get();
-    DeprecatedIdentifierException thrown =
-        assertThrows(DeprecatedIdentifierException.class, () -> gApi.changes().id(ci.changeId));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains(
-            "The provided change identifier "
-                + ci.changeId
-                + " is deprecated. Use 'project~changeNumber' instead.");
   }
 }

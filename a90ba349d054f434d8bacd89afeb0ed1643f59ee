@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8c2fc891_7addc6e5",
+        "filename": "java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-02T08:11:58Z",
+      "side": 1,
+      "message": "This broke the checks and the find-owners plugins, can you please adapt them so that we can import this change?",
+      "revId": "a90ba349d054f434d8bacd89afeb0ed1643f59ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eeebcee5_a342b54f",
         "filename": "java/com/google/gerrit/acceptance/TestAccount.java",
         "patchSetId": 3

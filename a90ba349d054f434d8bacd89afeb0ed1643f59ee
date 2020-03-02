@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "26ad4e25_9aac2e38",
+        "filename": "java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-02T10:24:36Z",
+      "side": 1,
+      "message": "No problem! Thanks for the fixes!",
+      "parentUuid": "b78d0db1_9750ee2b",
+      "revId": "a90ba349d054f434d8bacd89afeb0ed1643f59ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eeebcee5_a342b54f",
         "filename": "java/com/google/gerrit/acceptance/TestAccount.java",
         "patchSetId": 3

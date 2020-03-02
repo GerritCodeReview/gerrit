@@ -141,7 +141,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
-            .setColumns(colsProto.toBuilder().setLastUpdatedOn(98765L))
+            .setColumns(colsProto.toBuilder().setLastUpdatedOnMillis(98765L))
             .build());
   }
 
@@ -586,13 +586,13 @@ public class ChangeNotesStateTest {
             .setColumns(colsProto)
             .addReviewerUpdate(
                 ReviewerStatusUpdateProto.newBuilder()
-                    .setDate(1212L)
+                    .setDateMillis(1212L)
                     .setUpdatedBy(1000)
                     .setReviewer(2002)
                     .setState("CC"))
             .addReviewerUpdate(
                 ReviewerStatusUpdateProto.newBuilder()
-                    .setDate(3434L)
+                    .setDateMillis(3434L)
                     .setUpdatedBy(1000)
                     .setReviewer(2001)
                     .setState("REVIEWER"))
@@ -619,13 +619,13 @@ public class ChangeNotesStateTest {
         newProtoBuilder()
             .addAttentionStatus(
                 AttentionStatusProto.newBuilder()
-                    .setDate(23_000) // epoch millis
+                    .setDateMillis(23_000) // epoch millis
                     .setAccount(1000)
                     .setOperation("ADD")
                     .setReason("reason 1"))
             .addAttentionStatus(
                 AttentionStatusProto.newBuilder()
-                    .setDate(42_000) // epoch millis
+                    .setDateMillis(42_000) // epoch millis
                     .setAccount(2000)
                     .setOperation("REMOVE")
                     .setReason("reason 2"))
@@ -649,13 +649,13 @@ public class ChangeNotesStateTest {
             .setColumns(colsProto)
             .addAssigneeUpdate(
                 AssigneeStatusUpdateProto.newBuilder()
-                    .setDate(1212L)
+                    .setDateMillis(1212L)
                     .setUpdatedBy(1000)
                     .setCurrentAssignee(2001)
                     .setHasCurrentAssignee(true))
             .addAssigneeUpdate(
                 AssigneeStatusUpdateProto.newBuilder()
-                    .setDate(3434L)
+                    .setDateMillis(3434L)
                     .setUpdatedBy(1000)
                     .setHasCurrentAssignee(false))
             .build());

@@ -90,7 +90,8 @@ message ChangeNotesStateProto {
 
     int64 created_on = 2;
 
-    int64 last_updated_on = 3;
+    // Epoch millis.
+    int64 last_updated_on_millis = 3;
 
     int32 owner = 4;
 
@@ -168,7 +169,7 @@ message ChangeNotesStateProto {
   // Next ID: 5
   message ReviewerStatusUpdateProto {
     // Epoch millis.
-    int64 date = 1;
+    int64 date_millis = 1;
     int32 updated_by = 2;
     int32 reviewer = 3;
     string state = 4;
@@ -196,7 +197,7 @@ message ChangeNotesStateProto {
 
   message AssigneeStatusUpdateProto {
     // Epoch millis.
-    int64 date = 1;
+    int64 date_millis = 1;
     int32 updated_by = 2;
     int32 current_assignee = 3;
     bool has_current_assignee = 4;
@@ -207,7 +208,7 @@ message ChangeNotesStateProto {
   // context.
   message AttentionStatusProto {
     // Epoch millis.
-    int64 date = 1;
+    int64 date_millis = 1;
     int32 account = 2;
     // Maps to enum AttentionStatus.Operation
     string operation = 3;

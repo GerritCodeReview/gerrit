@@ -461,6 +461,10 @@ destination branch.
 +
 Mergeability of abandoned changes is not computed. This operator will
 not find any abandoned but mergeable changes.
++
+This operator only works if Gerrit indexes 'mergeable'. See
+link:config-gerrit.html#index.change.indexMergeable[indexMergeable]
+for details.
 
 [[ignored]]
 is:ignored::

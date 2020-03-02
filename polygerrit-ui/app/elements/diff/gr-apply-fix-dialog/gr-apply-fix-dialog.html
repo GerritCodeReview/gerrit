@@ -57,7 +57,8 @@ limitations under the License.
         id="applyFixDialog"
         on-confirm="_handleApplyFix"
         confirm-label="[[_getApplyFixButtonLabel(_isApplyFixLoading)]]"
-        disabled="[[_isApplyFixLoading]]"
+        disabled="[[_disableApplyFixButton(_isApplyFixLoading, change, _patchNum)]]"
+        confirm-tooltip="[[_disabledApplyFixTooltip]]"
         on-cancel="onCancel">
         <div slot="header">[[_robotId]] - [[getFixDescription(_currentFix)]]</div>
         <div slot="main">

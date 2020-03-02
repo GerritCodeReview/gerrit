@@ -40,6 +40,10 @@
       },
       // Index of currently showing suggested fix.
       _selectedFixIdx: Number,
+      _disabledApplyFixTooltip: {
+        type: String,
+        value: 'Fix can only be applied to the latest patchset',
+      },
     },
 
     behaviors: [
@@ -171,6 +175,15 @@
 
     _getApplyFixButtonLabel(isLoading) {
       return isLoading ? 'Saving...' : 'Apply Fix';
+    },
+
+    _disableApplyFixButton(isApplyFixLoading, change, patchNum) {
+      if (!change || patchNum == undefined) return;
+      if (patchNum !== change.revisions[change.current_revision]._number) {
+        // Disable apply fix button for older patchsets
+        return true;
+      }
+      return isApplyFixLoading;
     },
 
     _handleApplyFix(e) {

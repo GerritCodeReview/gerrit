@@ -50,7 +50,6 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
-        "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
         "//lib/prolog:cafeteria",
         "//lib/prolog:compiler",

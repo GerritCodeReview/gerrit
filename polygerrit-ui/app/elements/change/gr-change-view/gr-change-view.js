@@ -71,6 +71,7 @@
   // Making the tab names more unique in case a plugin adds one with same name
   const FILES_TAB_NAME = '__gerrit_internal_files';
   const FINDINGS_TAB_NAME = '__gerrit_internal_findings';
+  const ROBOT_COMMENTS_LIMIT = 10;
 
   /**
    * @appliesMixin Gerrit.FireMixin
@@ -150,7 +151,7 @@
         _robotCommentThreads: {
           type: Array,
           computed: '_computeRobotCommentThreads(_commentThreads,'
-            + ' _currentRobotCommentsPatchSet)',
+            + ' _currentRobotCommentsPatchSet, _showAllRobotComments)',
         },
         /** @type {?} */
         _serverConfig: {
@@ -349,6 +350,14 @@
         _currentTabName: {
           type: String,
           value: FILES_TAB_NAME,
+        },
+        _showAllRobotComments: {
+          type: Boolean,
+          value: false,
+        },
+        _showRobotCommentsButton: {
+          type: Boolean,
+          value: false,
         },
       };
     }
@@ -677,13 +686,25 @@
       this._currentRobotCommentsPatchSet = patchSet;
     }
 
-    _computeRobotCommentThreads(commentThreads, currentRobotCommentsPatchSet) {
+    _computeShowText(showAllRobotComments) {
+      return showAllRobotComments ? 'Show Less' : 'Show more';
+    }
+
+    _toggleShowRobotComments() {
+      this._showAllRobotComments = !this._showAllRobotComments;
+    }
+
+    _computeRobotCommentThreads(commentThreads, currentRobotCommentsPatchSet,
+        showAllRobotComments) {
       if (!commentThreads || !currentRobotCommentsPatchSet) return [];
-      return commentThreads.filter(thread => {
+      const threads = commentThreads.filter(thread => {
         const comments = thread.comments || [];
         return comments.length && comments[0].robot_id && (comments[0].patch_set
           === currentRobotCommentsPatchSet);
       });
+      this._showRobotCommentsButton = threads.length > ROBOT_COMMENTS_LIMIT;
+      return threads.slice(0, showAllRobotComments ? undefined :
+        ROBOT_COMMENTS_LIMIT);
     }
 
     _handleReloadCommentThreads() {

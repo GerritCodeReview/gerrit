@@ -69,6 +69,7 @@ limitations under the License.
       CHANGE_LOG: 0,
       COMMENT_THREADS: 1,
     };
+    const ROBOT_COMMENTS_LIMIT = 10;
 
     const THREADS = [
       {
@@ -761,6 +762,8 @@ limitations under the License.
           current_revision: 'rev4',
         };
         element._commentThreads = THREADS;
+        const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
+        MockInteractions.tap(paperTabs.querySelectorAll('paper-tab')[2]);
         flush(() => {
           done();
         });
@@ -794,6 +797,38 @@ limitations under the License.
         flush(() => {
           assert.equal(element._robotCommentThreads.length, 1);
           done();
+        });
+      });
+
+      test('Show more button is hidden', () => {
+        assert.isNull(element.shadowRoot.querySelector('.show-robot-comments'));
+      });
+
+      suite('robot comments show more button', () => {
+        setup(done => {
+          const arr = [];
+          for (let i = 0; i <= 30; i++) {
+            arr.push(...THREADS);
+          }
+          element._commentThreads = arr;
+          flush(() => {
+            done();
+          });
+        });
+
+        test('Show more button is rendered', () => {
+          assert.isOk(element.shadowRoot.querySelector('.show-robot-comments'));
+          assert.equal(element._robotCommentThreads.length,
+              ROBOT_COMMENTS_LIMIT);
+        });
+
+        test('Clicking show more button renders all comments', done => {
+          MockInteractions.tap(element.shadowRoot.querySelector(
+              '.show-robot-comments'));
+          flush(() => {
+            assert.equal(element._robotCommentThreads.length, 62);
+            done();
+          });
         });
       });
     });

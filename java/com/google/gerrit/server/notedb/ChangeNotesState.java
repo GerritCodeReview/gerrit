@@ -511,8 +511,8 @@ public abstract class ChangeNotesState {
       ChangeColumnsProto.Builder b =
           ChangeColumnsProto.newBuilder()
               .setChangeKey(cols.changeKey().get())
-              .setCreatedOn(cols.createdOn().getTime())
-              .setLastUpdatedOn(cols.lastUpdatedOn().getTime())
+              .setCreatedOnMillis(cols.createdOn().getTime())
+              .setLastUpdatedOnMillis(cols.lastUpdatedOn().getTime())
               .setOwner(cols.owner().get())
               .setBranch(cols.branch());
       if (cols.currentPatchSetId() != null) {
@@ -549,7 +549,7 @@ public abstract class ChangeNotesState {
       return ReviewerSetEntryProto.newBuilder()
           .setState(REVIEWER_STATE_CONVERTER.reverse().convert(c.getRowKey()))
           .setAccountId(c.getColumnKey().get())
-          .setTimestamp(c.getValue().getTime())
+          .setTimestampMillis(c.getValue().getTime())
           .build();
     }
 
@@ -558,13 +558,13 @@ public abstract class ChangeNotesState {
       return ReviewerByEmailSetEntryProto.newBuilder()
           .setState(REVIEWER_STATE_CONVERTER.reverse().convert(c.getRowKey()))
           .setAddress(c.getColumnKey().toHeaderString())
-          .setTimestamp(c.getValue().getTime())
+          .setTimestampMillis(c.getValue().getTime())
           .build();
     }
 
     private static ReviewerStatusUpdateProto toReviewerStatusUpdateProto(ReviewerStatusUpdate u) {
       return ReviewerStatusUpdateProto.newBuilder()
-          .setDate(u.date().getTime())
+          .setDateMillis(u.date().getTime())
           .setUpdatedBy(u.updatedBy().get())
           .setReviewer(u.reviewer().get())
           .setState(REVIEWER_STATE_CONVERTER.reverse().convert(u.state()))
@@ -573,7 +573,7 @@ public abstract class ChangeNotesState {
 
     private static AttentionStatusProto toAttentionStatusProto(AttentionStatus attentionStatus) {
       return AttentionStatusProto.newBuilder()
-          .setDate(attentionStatus.timestamp().toEpochMilli())
+          .setDateMillis(attentionStatus.timestamp().toEpochMilli())
           .setAccount(attentionStatus.account().get())
           .setOperation(attentionStatus.operation().name())
           .setReason(attentionStatus.reason())
@@ -583,7 +583,7 @@ public abstract class ChangeNotesState {
     private static AssigneeStatusUpdateProto toAssigneeStatusUpdateProto(AssigneeStatusUpdate u) {
       AssigneeStatusUpdateProto.Builder builder =
           AssigneeStatusUpdateProto.newBuilder()
-              .setDate(u.date().getTime())
+              .setDateMillis(u.date().getTime())
               .setUpdatedBy(u.updatedBy().get())
               .setHasCurrentAssignee(u.currentAssignee().isPresent());
 
@@ -648,8 +648,8 @@ public abstract class ChangeNotesState {
       ChangeColumns.Builder b =
           ChangeColumns.builder()
               .changeKey(Change.key(proto.getChangeKey()))
-              .createdOn(new Timestamp(proto.getCreatedOn()))
-              .lastUpdatedOn(new Timestamp(proto.getLastUpdatedOn()))
+              .createdOn(new Timestamp(proto.getCreatedOnMillis()))
+              .lastUpdatedOn(new Timestamp(proto.getLastUpdatedOnMillis()))
               .owner(Account.id(proto.getOwner()))
               .branch(proto.getBranch());
       if (proto.getHasCurrentPatchSetId()) {
@@ -687,7 +687,7 @@ public abstract class ChangeNotesState {
         b.put(
             REVIEWER_STATE_CONVERTER.convert(e.getState()),
             Account.id(e.getAccountId()),
-            new Timestamp(e.getTimestamp()));
+            new Timestamp(e.getTimestampMillis()));
       }
       return ReviewerSet.fromTable(b.build());
     }
@@ -700,7 +700,7 @@ public abstract class ChangeNotesState {
         b.put(
             REVIEWER_STATE_CONVERTER.convert(e.getState()),
             Address.parse(e.getAddress()),
-            new Timestamp(e.getTimestamp()));
+            new Timestamp(e.getTimestampMillis()));
       }
       return ReviewerByEmailSet.fromTable(b.build());
     }
@@ -711,7 +711,7 @@ public abstract class ChangeNotesState {
       for (ReviewerStatusUpdateProto proto : protos) {
         b.add(
             ReviewerStatusUpdate.create(
-                new Timestamp(proto.getDate()),
+                new Timestamp(proto.getDateMillis()),
                 Account.id(proto.getUpdatedBy()),
                 Account.id(proto.getReviewer()),
                 REVIEWER_STATE_CONVERTER.convert(proto.getState())));
@@ -725,7 +725,7 @@ public abstract class ChangeNotesState {
       for (AttentionStatusProto proto : protos) {
         b.add(
             AttentionStatus.createFromRead(
-                Instant.ofEpochMilli(proto.getDate()),
+                Instant.ofEpochMilli(proto.getDateMillis()),
                 Account.id(proto.getAccount()),
                 AttentionStatus.Operation.valueOf(proto.getOperation()),
                 proto.getReason()));
@@ -739,7 +739,7 @@ public abstract class ChangeNotesState {
       for (AssigneeStatusUpdateProto proto : protos) {
         b.add(
             AssigneeStatusUpdate.create(
-                new Timestamp(proto.getDate()),
+                new Timestamp(proto.getDateMillis()),
                 Account.id(proto.getUpdatedBy()),
                 proto.getHasCurrentAssignee()
                     ? Optional.of(Account.id(proto.getCurrentAssignee()))

@@ -42,7 +42,8 @@ message OAuthTokenProto {
   string token = 1;
   string secret = 2;
   string raw = 3;
-  int64 expires_at = 4;
+  // Epoch millis.
+  int64 expires_at_millis = 4;
   string provider_id = 5;
 }
 
@@ -88,9 +89,11 @@ message ChangeNotesStateProto {
   message ChangeColumnsProto {
     string change_key = 1;
 
-    int64 created_on = 2;
+    // Epoch millis.
+    int64 created_on_millis = 2;
 
-    int64 last_updated_on = 3;
+    // Epoch millis.
+    int64 last_updated_on_millis = 3;
 
     int32 owner = 4;
 
@@ -147,7 +150,8 @@ message ChangeNotesStateProto {
   message ReviewerSetEntryProto {
     string state = 1;
     int32 account_id = 2;
-    int64 timestamp = 3;
+    // Epoch millis.
+    int64 timestamp_millis = 3;
   }
   repeated ReviewerSetEntryProto reviewer = 8;
 
@@ -155,7 +159,8 @@ message ChangeNotesStateProto {
   message ReviewerByEmailSetEntryProto {
     string state = 1;
     string address = 2;
-    int64 timestamp = 3;
+    // Epoch millis.
+    int64 timestamp_millis = 3;
   }
   repeated ReviewerByEmailSetEntryProto reviewer_by_email = 9;
 
@@ -168,7 +173,7 @@ message ChangeNotesStateProto {
   // Next ID: 5
   message ReviewerStatusUpdateProto {
     // Epoch millis.
-    int64 date = 1;
+    int64 date_millis = 1;
     int32 updated_by = 2;
     int32 reviewer = 3;
     string state = 4;
@@ -196,7 +201,7 @@ message ChangeNotesStateProto {
 
   message AssigneeStatusUpdateProto {
     // Epoch millis.
-    int64 date = 1;
+    int64 date_millis = 1;
     int32 updated_by = 2;
     int32 current_assignee = 3;
     bool has_current_assignee = 4;
@@ -207,7 +212,7 @@ message ChangeNotesStateProto {
   // context.
   message AttentionStatusProto {
     // Epoch millis.
-    int64 date = 1;
+    int64 date_millis = 1;
     int32 account = 2;
     // Maps to enum AttentionStatus.Operation
     string operation = 3;

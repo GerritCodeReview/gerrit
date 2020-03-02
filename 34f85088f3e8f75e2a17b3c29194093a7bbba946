@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "453c18ea_2903234b",
+        "filename": "java/com/google/gerrit/sshd/SshLogLayout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-02T13:07:18Z",
+      "side": 1,
+      "message": "This code is repeated also in the HttpLogLayout: extract into a utility class and reuse\nfrom all places where timestamp formatting is done.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "34f85088f3e8f75e2a17b3c29194093a7bbba946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

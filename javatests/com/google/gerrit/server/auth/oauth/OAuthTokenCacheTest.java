@@ -41,7 +41,7 @@ public final class OAuthTokenCacheTest {
                 .setToken("token")
                 .setSecret("secret")
                 .setRaw("raw")
-                .setExpiresAt(12345L)
+                .setExpiresAtMillis(12345L)
                 .setProviderId("provider")
                 .build());
     assertThat(s.deserialize(serialized)).isEqualTo(token);
@@ -56,7 +56,7 @@ public final class OAuthTokenCacheTest {
             .setToken("token")
             .setSecret("secret")
             .setRaw("raw")
-            .setExpiresAt(12345L)
+            .setExpiresAtMillis(12345L)
             .setProviderId("")
             .build();
 

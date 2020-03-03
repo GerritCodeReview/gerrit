@@ -22,6 +22,30 @@
       "revId": "8dc73214d6072c7e33c6dea3bd3349ca9fd99cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51da194e_519075f2",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-03T11:04:42Z",
+      "side": 1,
+      "message": "It is an actual timestamp. Should I rename this (and the others) to timestamp_millis?",
+      "parentUuid": "940a28f6_9b9df3dc",
+      "range": {
+        "startLine": 215,
+        "startChar": 10,
+        "endLine": 215,
+        "endChar": 21
+      },
+      "revId": "8dc73214d6072c7e33c6dea3bd3349ca9fd99cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

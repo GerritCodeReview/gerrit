@@ -91,6 +91,23 @@
       "revId": "a0e0861484bb920619666b93d9cba14395cd5261",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9654ea2_b6df07d6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-03T15:32:29Z",
+      "side": 1,
+      "message": "`confirmTooltip` should be string type",
+      "revId": "a0e0861484bb920619666b93d9cba14395cd5261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

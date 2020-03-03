@@ -29,26 +29,23 @@ limitations under the License.
 <link rel="import" href="../../plugins/gr-styles-api/gr-styles-api.html">
 <link rel="import" href="../../plugins/gr-theme-api/gr-theme-api.html">
 <link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
-
-<dom-module id="gr-js-api-interface">
-  <!--
-    Note: the order matters as files depend on each other.
-    1. gr-api-utils will be used in multiple files below.
-    2. gr-gerrit depends on gr-plugin-loader, gr-public-js-api and
-      also gr-plugin-endpoints
-    3. gr-public-js-api depends on gr-plugin-rest-api
-  -->
-  <script src="gr-api-utils.js"></script>
-  <script src="../gr-event-interface/gr-event-interface.js"></script>
-  <script src="gr-annotation-actions-context.js"></script>
-  <script src="gr-annotation-actions-js-api.js"></script>
-  <script src="gr-change-actions-js-api.js"></script>
-  <script src="gr-change-reply-js-api.js"></script>
-  <script src="gr-js-api-interface.js"></script>
-  <script src="gr-plugin-endpoints.js"></script>
-  <script src="gr-plugin-action-context.js"></script>
-  <script src="gr-plugin-rest-api.js"></script>
-  <script src="gr-public-js-api.js"></script>
-  <script src="gr-plugin-loader.js"></script>
-  <script src="gr-gerrit.js"></script>
-</dom-module>
+<!--
+  Note: the order matters as files depend on each other.
+  1. gr-api-utils will be used in multiple files below.
+  2. gr-gerrit depends on gr-plugin-loader, gr-public-js-api and
+    also gr-plugin-endpoints
+  3. gr-public-js-api depends on gr-plugin-rest-api
+-->
+<script src="gr-api-utils.js"></script>
+<script src="../gr-event-interface/gr-event-interface.js"></script>
+<script src="gr-annotation-actions-context.js"></script>
+<script src="gr-annotation-actions-js-api.js"></script>
+<script src="gr-change-actions-js-api.js"></script>
+<script src="gr-change-reply-js-api.js"></script>
+<link rel="import" href="./gr-js-api-interface-element.html">
+<script src="gr-plugin-endpoints.js"></script>
+<script src="gr-plugin-action-context.js"></script>
+<script src="gr-plugin-rest-api.js"></script>
+<script src="gr-public-js-api.js"></script>
+<script src="gr-plugin-loader.js"></script>
+<script src="gr-gerrit.js"></script>

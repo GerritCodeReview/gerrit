@@ -46,6 +46,30 @@
       "revId": "8dc73214d6072c7e33c6dea3bd3349ca9fd99cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f59b7adf_77cee16f",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-03-03T12:50:13Z",
+      "side": 1,
+      "message": "yeah, seems like an improvement.\n\nThis will be serialized into JSON, right?  So we had better get the names right from the start, because we can\u0027t change it afterwards.",
+      "parentUuid": "51da194e_519075f2",
+      "range": {
+        "startLine": 215,
+        "startChar": 10,
+        "endLine": 215,
+        "endChar": 21
+      },
+      "revId": "8dc73214d6072c7e33c6dea3bd3349ca9fd99cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

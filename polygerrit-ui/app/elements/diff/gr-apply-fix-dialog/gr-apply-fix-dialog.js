@@ -181,11 +181,17 @@
         return;
       }
       this._isApplyFixLoading = true;
-      return this.$.restAPI.applyFixSuggestion(this.changeNum, this._patchNum,
-          this._currentFix.fix_id).then(res => {
-        Gerrit.Nav.navigateToChange(this.change, 'edit', this._patchNum);
-        this._close();
-      });
+      return this.$.restAPI
+          .applyFixSuggestion(
+              this.changeNum, this._patchNum, this._currentFix.fix_id
+          )
+          .then(res => {
+            if (res && res.ok) {
+              Gerrit.Nav.navigateToChange(this.change, 'edit', this._patchNum);
+              this._close();
+            }
+            this._isApplyFixLoading = false;
+          });
     },
 
     getFixDescription(currentFix) {

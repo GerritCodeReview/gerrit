@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b2c65afe_3a013118",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-03T15:31:32Z",
+      "side": 1,
+      "message": "nit: unnecessary `()` and check for `change` before accessing revision, as this is a computed property and after polymer 2, it will be invoked as long as \u003e\u003d1 dependencies are defined.",
+      "range": {
+        "startLine": 182,
+        "startChar": 13,
+        "endLine": 182,
+        "endChar": 15
+      },
+      "revId": "a0e0861484bb920619666b93d9cba14395cd5261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a176094c_72911994",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
         "patchSetId": 4
@@ -16,6 +39,29 @@
       "range": {
         "startLine": 182,
         "startChar": 41,
+        "endLine": 183,
+        "endChar": 57
+      },
+      "revId": "a0e0861484bb920619666b93d9cba14395cd5261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18cc360b_05322990",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-03T15:31:32Z",
+      "side": 1,
+      "message": "should you check for if this equals to `patchNum` ? and if no test failed, it means something is wrong with your test :)",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
         "endLine": 183,
         "endChar": 57
       },

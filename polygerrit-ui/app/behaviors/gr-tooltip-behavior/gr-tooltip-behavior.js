@@ -52,13 +52,27 @@
     /** @override */
     detached() {
       this._handleHideTooltip();
+      this.removeEventListener('mouseenter', this._mouseenterHandler);
+    },
+
+    /** @override */
+    attached() {
+      this._mouseenterHandler = this._handleShowTooltip.bind(this);
     },
 
     _setupTooltipListeners() {
-      if (this._hasSetupTooltipListeners || !this.hasTooltip) { return; }
+      if (!this.hasTooltip) {
+        // if attribute set to false, remvoe the listener
+        this.removeEventListener('mouseenter', this._mouseenterHandler);
+        return;
+      }
+
+      if (this._hasSetupTooltipListeners) {
+        return;
+      }
       this._hasSetupTooltipListeners = true;
 
-      this.addEventListener('mouseenter', this._handleShowTooltip.bind(this));
+      this.addEventListener('mouseenter', this._mouseenterHandler);
     },
 
     _handleShowTooltip(e) {

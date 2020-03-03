@@ -20,6 +20,15 @@ limitations under the License.
 <link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../../../elements/shared/gr-hovercard/gr-hovercard.html">
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
+<script src="../../../scripts/util.js"></script>
+<script src="../gr-diff/gr-diff-line.js"></script>
+<script src="../gr-diff/gr-diff-group.js"></script>
+<script src="../gr-diff-highlight/gr-annotation.js"></script>
+<script src="gr-diff-builder.js"></script>
+<script src="gr-diff-builder-side-by-side.js"></script>
+<script src="gr-diff-builder-unified.js"></script>
+<script src="gr-diff-builder-image.js"></script>
+<script src="gr-diff-builder-binary.js"></script>
 
 <dom-module id="gr-diff-builder">
   <template>
@@ -41,14 +50,5 @@ limitations under the License.
         id="processor"
         groups="{{_groups}}"></gr-diff-processor>
   </template>
-  <script src="../../../scripts/util.js"></script>
-  <script src="../gr-diff/gr-diff-line.js"></script>
-  <script src="../gr-diff/gr-diff-group.js"></script>
-  <script src="../gr-diff-highlight/gr-annotation.js"></script>
-  <script src="gr-diff-builder.js"></script>
-  <script src="gr-diff-builder-side-by-side.js"></script>
-  <script src="gr-diff-builder-unified.js"></script>
-  <script src="gr-diff-builder-image.js"></script>
-  <script src="gr-diff-builder-binary.js"></script>
   <script src="gr-diff-builder-element.js"></script>
 </dom-module>

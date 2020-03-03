@@ -67,6 +67,7 @@ import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.HasOperandAliasConfig;
 import com.google.gerrit.server.config.OperatorAliasConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -232,6 +233,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final Provider<AnonymousUser> anonymousUserProvider;
     final OperatorAliasConfig operatorAliasConfig;
     final boolean indexMergeable;
+    final HasOperandAliasConfig hasOperandAliasConfig;
 
     private final Provider<CurrentUser> self;
 
@@ -265,7 +267,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider,
         OperatorAliasConfig operatorAliasConfig,
-        @GerritServerConfig Config gerritConfig) {
+        @GerritServerConfig Config gerritConfig,
+        HasOperandAliasConfig hasOperandAliasConfig) {
       this(
           queryProvider,
           rewriter,
@@ -294,7 +297,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           groupMembers,
           anonymousUserProvider,
           operatorAliasConfig,
-          MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex());
+          MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex(),
+          hasOperandAliasConfig);
     }
 
     private Arguments(
@@ -325,7 +329,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider,
         OperatorAliasConfig operatorAliasConfig,
-        boolean indexMergeable) {
+        boolean indexMergeable,
+        HasOperandAliasConfig hasOperandAliasConfig) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -354,6 +359,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.anonymousUserProvider = anonymousUserProvider;
       this.operatorAliasConfig = operatorAliasConfig;
       this.indexMergeable = indexMergeable;
+      this.hasOperandAliasConfig = hasOperandAliasConfig;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -385,7 +391,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           groupMembers,
           anonymousUserProvider,
           operatorAliasConfig,
-          indexMergeable);
+          indexMergeable,
+          hasOperandAliasConfig);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -426,6 +433,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private final Arguments args;
+  protected Map<String, String> hasOperandAliases = Collections.emptyMap();
 
   @Inject
   ChangeQueryBuilder(Arguments args) {
@@ -441,6 +449,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private void setupAliases() {
     setOperatorAliases(args.operatorAliasConfig.getChangeQueryOperatorAliases());
+    hasOperandAliases = args.hasOperandAliasConfig.getChangeQueryHasOperandAliases();
   }
 
   public Arguments getArgs() {
@@ -518,6 +527,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> has(String value) throws QueryParseException {
+    value = hasOperandAliases.getOrDefault(value, value);
     if ("star".equalsIgnoreCase(value)) {
       return starredby(self());
     }

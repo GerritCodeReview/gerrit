@@ -3281,10 +3281,10 @@ eslint-plugin-html@^6.0.0:
   dependencies:
     htmlparser2 "^3.10.1"
 
-eslint-plugin-jsdoc@^18.4.3:
-  version "18.11.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-18.11.0.tgz#724e6aa35f01c7f80629b2e313b007422cc159af"
-  integrity sha512-24J2+eK2ZHZ1KvpKcoOEir2k4xJKfPzZ1JC9PToi8y8Tn59T8TVVSNRTTRzsDdiaQeIbehApB3KxqIfJG8o7hg==
+eslint-plugin-jsdoc@^19.2.0:
+  version "19.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-19.2.0.tgz#f522b970878ae402b28ce62187305b33dfe2c834"
+  integrity sha512-QdNifBFLXCDGdy+26RXxcrqzEZarFWNybCZQVqJQYEYPlxd6lm+LPkrs6mCOhaGc2wqC6zqpedBQFX8nQJuKSw==
   dependencies:
     comment-parser "^0.7.2"
     debug "^4.1.1"

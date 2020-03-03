@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "314d22df_7111c515",
+        "filename": "package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-03T13:31:37Z",
+      "side": 1,
+      "message": "please update the version for this package on ci as well: https://gerrit.googlesource.com/gerrit-ci-scripts/+/master/jenkins-docker/slave-node-wct/Dockerfile",
+      "revId": "9de12f2365b49cc3ed4e639f13037f59a31990b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

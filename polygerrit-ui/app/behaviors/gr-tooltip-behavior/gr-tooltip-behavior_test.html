@@ -146,5 +146,12 @@ limitations under the License.
       element.hasTooltip = true;
       assert.isTrue(addListenerStub.called);
     });
+
+    test('clean up listeners when has-tooltip changed to false', () => {
+      const removeListenerStub = sandbox.stub(element, 'removeEventListener');
+      element.hasTooltip = true;
+      element.hasTooltip = false;
+      assert.isTrue(removeListenerStub.called);
+    });
   });
 </script>

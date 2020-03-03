@@ -15,8 +15,8 @@
 
 from __future__ import print_function
 
+import argparse
 from hashlib import sha1
-from optparse import OptionParser
 from os import link, makedirs, path, remove
 import shutil
 from subprocess import check_call, CalledProcessError
@@ -75,13 +75,13 @@ def cache_entry(args):
     return path.join(CACHE_DIR, name)
 
 
-opts = OptionParser()
-opts.add_option('-o', help='local output file')
-opts.add_option('-u', help='URL to download')
-opts.add_option('-v', help='expected content SHA-1')
-opts.add_option('-x', action='append', help='file to delete from ZIP')
-opts.add_option('--exclude_java_sources', action='store_true')
-args, _ = opts.parse_args()
+parser = argparse.ArgumentParser()
+parser.add_argument('-o', help='local output file')
+parser.add_argument('-u', help='URL to download')
+parser.add_argument('-v', help='expected content SHA-1')
+parser.add_argument('-x', action='append', help='file to delete from ZIP')
+parser.add_argument('--exclude_java_sources', action='store_true')
+args = parser.parse_args()
 
 root_dir = args.o
 while root_dir and path.dirname(root_dir) != root_dir:

@@ -17,6 +17,7 @@ java_library(
         "//lib:junit",
         "//lib/guice",
         "//lib/httpcomponents:httpcore",
+        "//lib/log:api",
         "//lib/testcontainers",
         "//lib/testcontainers:testcontainers-elasticsearch",
     ],

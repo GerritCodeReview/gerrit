@@ -245,6 +245,7 @@ class ReceiveCommits {
   private static final String CANNOT_DELETE_CHANGES = "Cannot delete from '" + REFS_CHANGES + "'";
   private static final String CANNOT_DELETE_CONFIG =
       "Cannot delete project configuration from '" + RefNames.REFS_CONFIG + "'";
+  private static final String INTERNAL_SERVER_ERROR = "internal server error";
 
   interface Factory {
     ReceiveCommits create(
@@ -590,7 +591,7 @@ class ReceiveCommits {
       commands =
           commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
       processCommandsUnsafe(commands, progress);
-      rejectRemaining(commands, "internal server error");
+      rejectRemaining(commands, INTERNAL_SERVER_ERROR);
 
       // This sends error messages before the 'done' string of the progress monitor is sent.
       // Currently, the test framework relies on this ordering to understand if pushes completed
@@ -726,7 +727,7 @@ class ReceiveCommits {
         logger.atFine().log("Added %d additional ref updates", added);
         bu.execute();
       } catch (UpdateException | RestApiException e) {
-        rejectRemaining(cmds, "internal server error");
+        rejectRemaining(cmds, INTERNAL_SERVER_ERROR);
         logger.atFine().withCause(e).log("update failed:");
       }
 
@@ -967,7 +968,7 @@ class ReceiveCommits {
       } catch (RestApiException | IOException e) {
         logger.atSevere().withCause(e).log(
             "Can't insert change/patch set for %s", project.getName());
-        reject(magicBranchCmd, "internal server error: " + e.getMessage());
+        reject(magicBranchCmd, String.format("%s: %s", INTERNAL_SERVER_ERROR, e.getMessage()));
       }
 
       if (magicBranch != null && magicBranch.submit) {
@@ -1892,7 +1893,7 @@ class ReceiveCommits {
             } catch (IOException e) {
               logger.atWarning().withCause(e).log(
                   "Project %s cannot read %s", project.getName(), id.name());
-              reject(cmd, "internal server error");
+              reject(cmd, INTERNAL_SERVER_ERROR);
               return;
             }
           }
@@ -1919,7 +1920,7 @@ class ReceiveCommits {
       } catch (IOException ex) {
         logger.atWarning().withCause(ex).log(
             "Error walking to %s in project %s", destBranch, project.getName());
-        reject(cmd, "internal server error");
+        reject(cmd, INTERNAL_SERVER_ERROR);
         return;
       }
 
@@ -2328,7 +2329,7 @@ class ReceiveCommits {
         logger.atFine().log("Finished updating groups from GroupCollector");
       } catch (StorageException e) {
         logger.atSevere().withCause(e).log("Error collecting groups for changes");
-        reject(magicBranch.cmd, "internal server error");
+        reject(magicBranch.cmd, INTERNAL_SERVER_ERROR);
       }
       return newChanges;
     }
@@ -2653,11 +2654,11 @@ class ReceiveCommits {
       } catch (StorageException err) {
         logger.atSevere().withCause(err).log(
             "Cannot read database before replacement for project %s", project.getName());
-        rejectRemainingRequests(replaceByChange.values(), "internal server error");
+        rejectRemainingRequests(replaceByChange.values(), INTERNAL_SERVER_ERROR);
       } catch (IOException | PermissionBackendException err) {
         logger.atSevere().withCause(err).log(
             "Cannot read repository before replacement for project %s", project.getName());
-        rejectRemainingRequests(replaceByChange.values(), "internal server error");
+        rejectRemainingRequests(replaceByChange.values(), INTERNAL_SERVER_ERROR);
       }
       logger.atFine().log("Read %d changes to replace", replaceByChange.size());
 

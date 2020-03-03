@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9f5dbd0_1c111b39",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-03T14:34:59Z",
+      "side": 1,
+      "message": "seems not needed any more",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 30
+      },
+      "revId": "f62d7fbcce7f66071c060b7d188ac3ca4c3f9bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d09ba635_2b110e25",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-03T14:34:59Z",
+      "side": 1,
+      "message": "won\u0027t this message a bit confusing if its disabled because applyfix is loading ?",
+      "revId": "f62d7fbcce7f66071c060b7d188ac3ca4c3f9bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57856739_361ff0dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-03T14:34:59Z",
+      "side": 1,
+      "message": "if you check for undefined, check for all of them, including the `isApplyFixLoading`",
+      "revId": "f62d7fbcce7f66071c060b7d188ac3ca4c3f9bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c31a59e_b5eeb6a4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-03T14:34:59Z",
+      "side": 1,
+      "message": "test on no tooltip as well",
+      "revId": "f62d7fbcce7f66071c060b7d188ac3ca4c3f9bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab590c46_5fdb17b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-03T14:34:59Z",
+      "side": 1,
+      "message": "tests",
+      "revId": "f62d7fbcce7f66071c060b7d188ac3ca4c3f9bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,31 +1,32 @@
 <dom-module id="some-screen">
-  <script>
-    Gerrit.install(plugin => {
-      // Recommended approach for screen() API.
-      plugin.screen('main', 'some-screen-main');
-
-      const mainUrl = plugin.screenUrl('main');
-
-      // Support for deprecated screen API.
-      plugin.deprecated.screen('foo', ({token, body, show}) => {
-        body.innerHTML = `This is a plugin screen at ${token}<br/>` +
-            `<a href="${mainUrl}">Go to main plugin screen</a>`;
-        show();
-      });
-
-      // Quick and dirty way to get something on screen.
-      plugin.screen('bar').onAttached(el => {
-        el.innerHTML = `This is a plugin screen at ${el.token}<br/>` +
-            `<a href="${mainUrl}">Go to main plugin screen</a>`;
-      });
-
-      // Add a "Plugin screen" link to the change view screen.
-      plugin.hook('change-metadata-item').onAttached(el => {
-        el.innerHTML = `<a href="${mainUrl}">Plugin screen</a>`;
-      });
-    });
-  </script>
 </dom-module>
+<script>
+  Gerrit.install(plugin => {
+    // Recommended approach for screen() API.
+    plugin.screen('main', 'some-screen-main');
+
+    const mainUrl = plugin.screenUrl('main');
+
+    // Support for deprecated screen API.
+    plugin.deprecated.screen('foo', ({token, body, show}) => {
+      body.innerHTML = `This is a plugin screen at ${token}<br/>` +
+          `<a href="${mainUrl}">Go to main plugin screen</a>`;
+      show();
+    });
+
+    // Quick and dirty way to get something on screen.
+    plugin.screen('bar').onAttached(el => {
+      el.innerHTML = `This is a plugin screen at ${el.token}<br/>` +
+          `<a href="${mainUrl}">Go to main plugin screen</a>`;
+    });
+
+    // Add a "Plugin screen" link to the change view screen.
+    plugin.hook('change-metadata-item').onAttached(el => {
+      el.innerHTML = `<a href="${mainUrl}">Plugin screen</a>`;
+    });
+  });
+</script>
+
 
 <dom-module id="some-screen-main">
   <template>

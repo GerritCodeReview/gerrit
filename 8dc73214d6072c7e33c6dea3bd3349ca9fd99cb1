@@ -70,6 +70,30 @@
       "revId": "8dc73214d6072c7e33c6dea3bd3349ca9fd99cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c530804_303f559e",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-03-03T12:51:08Z",
+      "side": 1,
+      "message": "(could use time_millis as shorter name. But please paint the bike shed in pleasing colors :-)",
+      "parentUuid": "f59b7adf_77cee16f",
+      "range": {
+        "startLine": 215,
+        "startChar": 10,
+        "endLine": 215,
+        "endChar": 21
+      },
+      "revId": "8dc73214d6072c7e33c6dea3bd3349ca9fd99cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

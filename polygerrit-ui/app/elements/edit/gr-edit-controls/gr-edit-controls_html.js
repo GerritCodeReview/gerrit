@@ -1,38 +1,6 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
-<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
-<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-edit-constants.html">
-
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-edit-controls">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         align-items: center;
@@ -70,94 +38,40 @@ limitations under the License.
       }
     </style>
     <template is="dom-repeat" items="[[_actions]]" as="action">
-      <gr-button
-          id$="[[action.id]]"
-          class$="[[_computeIsInvisible(action.id, hiddenActions)]]"
-          link
-          on-click="_handleTap">[[action.label]]</gr-button>
+      <gr-button id\$="[[action.id]]" class\$="[[_computeIsInvisible(action.id, hiddenActions)]]" link="" on-click="_handleTap">[[action.label]]</gr-button>
     </template>
-    <gr-overlay id="overlay" with-backdrop>
-      <gr-dialog
-          id="openDialog"
-          class="invisible dialog"
-          disabled$="[[!_isValidPath(_path)]]"
-          confirm-label="Confirm"
-          confirm-on-enter
-          on-confirm="_handleOpenConfirm"
-          on-cancel="_handleDialogCancel">
+    <gr-overlay id="overlay" with-backdrop="">
+      <gr-dialog id="openDialog" class="invisible dialog" disabled\$="[[!_isValidPath(_path)]]" confirm-label="Confirm" confirm-on-enter="" on-confirm="_handleOpenConfirm" on-cancel="_handleDialogCancel">
         <div class="header" slot="header">
           Add a new file or open an existing file
         </div>
         <div class="main" slot="main">
-          <gr-autocomplete
-              placeholder="Enter an existing or new full file path."
-              query="[[_query]]"
-              text="{{_path}}"></gr-autocomplete>
+          <gr-autocomplete placeholder="Enter an existing or new full file path." query="[[_query]]" text="{{_path}}"></gr-autocomplete>
         </div>
       </gr-dialog>
-      <gr-dialog
-          id="deleteDialog"
-          class="invisible dialog"
-          disabled$="[[!_isValidPath(_path)]]"
-          confirm-label="Delete"
-          confirm-on-enter
-          on-confirm="_handleDeleteConfirm"
-          on-cancel="_handleDialogCancel">
+      <gr-dialog id="deleteDialog" class="invisible dialog" disabled\$="[[!_isValidPath(_path)]]" confirm-label="Delete" confirm-on-enter="" on-confirm="_handleDeleteConfirm" on-cancel="_handleDialogCancel">
         <div class="header" slot="header">Delete a file from the repo</div>
         <div class="main" slot="main">
-          <gr-autocomplete
-              placeholder="Enter an existing full file path."
-              query="[[_query]]"
-              text="{{_path}}"></gr-autocomplete>
+          <gr-autocomplete placeholder="Enter an existing full file path." query="[[_query]]" text="{{_path}}"></gr-autocomplete>
         </div>
       </gr-dialog>
-      <gr-dialog
-          id="renameDialog"
-          class="invisible dialog"
-          disabled$="[[!_computeRenameDisabled(_path, _newPath)]]"
-          confirm-label="Rename"
-          confirm-on-enter
-          on-confirm="_handleRenameConfirm"
-          on-cancel="_handleDialogCancel">
+      <gr-dialog id="renameDialog" class="invisible dialog" disabled\$="[[!_computeRenameDisabled(_path, _newPath)]]" confirm-label="Rename" confirm-on-enter="" on-confirm="_handleRenameConfirm" on-cancel="_handleDialogCancel">
         <div class="header" slot="header">Rename a file in the repo</div>
         <div class="main" slot="main">
-          <gr-autocomplete
-              placeholder="Enter an existing full file path."
-              query="[[_query]]"
-              text="{{_path}}"></gr-autocomplete>
-          <iron-input
-              class="newPathIronInput"
-              bind-value="{{_newPath}}"
-              placeholder="Enter the new path.">
-            <input
-                class="newPathInput"
-                is="iron-input"
-                bind-value="{{_newPath}}"
-                placeholder="Enter the new path.">
+          <gr-autocomplete placeholder="Enter an existing full file path." query="[[_query]]" text="{{_path}}"></gr-autocomplete>
+          <iron-input class="newPathIronInput" bind-value="{{_newPath}}" placeholder="Enter the new path.">
+            <input class="newPathInput" is="iron-input" bind-value="{{_newPath}}" placeholder="Enter the new path.">
           </iron-input>
         </div>
       </gr-dialog>
-      <gr-dialog
-          id="restoreDialog"
-          class="invisible dialog"
-          confirm-label="Restore"
-          confirm-on-enter
-          on-confirm="_handleRestoreConfirm"
-          on-cancel="_handleDialogCancel">
+      <gr-dialog id="restoreDialog" class="invisible dialog" confirm-label="Restore" confirm-on-enter="" on-confirm="_handleRestoreConfirm" on-cancel="_handleDialogCancel">
         <div class="header" slot="header">Restore this file?</div>
         <div class="main" slot="main">
-          <iron-input
-              disabled
-              bind-value="{{_path}}">
-            <input
-                is="iron-input"
-                disabled
-                bind-value="{{_path}}">
+          <iron-input disabled="" bind-value="{{_path}}">
+            <input is="iron-input" disabled="" bind-value="{{_path}}">
           </iron-input>
         </div>
       </gr-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-edit-controls.js"></script>
-</dom-module>
+`;

@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright (C) 2017 The Android Open Source Project
 
@@ -13,21 +13,19 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-<script>
-  (function(window) {
-    'use strict';
+*/
+(function(window) {
+  'use strict';
 
-    const GrEditConstants = window.GrEditConstants || {};
+  const GrEditConstants = window.GrEditConstants || {};
 
-    // Order corresponds to order in the UI.
-    GrEditConstants.Actions = {
-      OPEN: {label: 'Add/Open', id: 'open'},
-      DELETE: {label: 'Delete', id: 'delete'},
-      RENAME: {label: 'Rename', id: 'rename'},
-      RESTORE: {label: 'Restore', id: 'restore'},
-    };
+  // Order corresponds to order in the UI.
+  GrEditConstants.Actions = {
+    OPEN: {label: 'Add/Open', id: 'open'},
+    DELETE: {label: 'Delete', id: 'delete'},
+    RENAME: {label: 'Rename', id: 'rename'},
+    RESTORE: {label: 'Restore', id: 'restore'},
+  };
 
-    window.GrEditConstants = GrEditConstants;
-  })(window);
-</script>
+  window.GrEditConstants = GrEditConstants;
+})(window);

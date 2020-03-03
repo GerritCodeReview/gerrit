@@ -19,17 +19,22 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-list</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="/bower_components/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="/node_modules/page/page.js"></script>
 
-<link rel="import" href="gr-change-list.html">
+<script type="module" src="./gr-change-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-change-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -43,20 +48,415 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-change-list basic tests', async () => {
-    await readyToTest();
-    // Define keybindings before attaching other fixtures.
-    const kb = window.Gerrit.KeyboardShortcutBinder;
-    kb.bindShortcut(kb.Shortcut.CURSOR_NEXT_CHANGE, 'j');
-    kb.bindShortcut(kb.Shortcut.CURSOR_PREV_CHANGE, 'k');
-    kb.bindShortcut(kb.Shortcut.OPEN_CHANGE, 'o');
-    kb.bindShortcut(kb.Shortcut.REFRESH_CHANGE_LIST, 'shift+r');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_REVIEWED, 'r');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_STAR, 's');
-    kb.bindShortcut(kb.Shortcut.NEXT_PAGE, 'n');
-    kb.bindShortcut(kb.Shortcut.NEXT_PAGE, 'p');
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-change-list.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
+suite('gr-change-list basic tests', () => {
+  // Define keybindings before attaching other fixtures.
+  const kb = window.Gerrit.KeyboardShortcutBinder;
+  kb.bindShortcut(kb.Shortcut.CURSOR_NEXT_CHANGE, 'j');
+  kb.bindShortcut(kb.Shortcut.CURSOR_PREV_CHANGE, 'k');
+  kb.bindShortcut(kb.Shortcut.OPEN_CHANGE, 'o');
+  kb.bindShortcut(kb.Shortcut.REFRESH_CHANGE_LIST, 'shift+r');
+  kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_REVIEWED, 'r');
+  kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_STAR, 's');
+  kb.bindShortcut(kb.Shortcut.NEXT_PAGE, 'n');
+  kb.bindShortcut(kb.Shortcut.NEXT_PAGE, 'p');
 
+  let element;
+  let sandbox;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
+
+  teardown(() => { sandbox.restore(); });
+
+  suite('test show change number not logged in', () => {
+    setup(() => {
+      element = fixture('basic');
+      element.account = null;
+      element.preferences = null;
+    });
+
+    test('show number disabled', () => {
+      assert.isFalse(element.showNumber);
+    });
+  });
+
+  suite('test show change number preference enabled', () => {
+    setup(() => {
+      element = fixture('basic');
+      element.preferences = {
+        legacycid_in_change_table: true,
+        time_format: 'HHMM_12',
+        change_table: [],
+      };
+      element.account = {_account_id: 1001};
+      flushAsynchronousOperations();
+    });
+
+    test('show number enabled', () => {
+      assert.isTrue(element.showNumber);
+    });
+  });
+
+  suite('test show change number preference disabled', () => {
+    setup(() => {
+      element = fixture('basic');
+      // legacycid_in_change_table is not set when false.
+      element.preferences = {
+        time_format: 'HHMM_12',
+        change_table: [],
+      };
+      element.account = {_account_id: 1001};
+      flushAsynchronousOperations();
+    });
+
+    test('show number disabled', () => {
+      assert.isFalse(element.showNumber);
+    });
+  });
+
+  test('computed fields', () => {
+    assert.equal(element._computeLabelNames(
+        [{results: [{_number: 0, labels: {}}]}]).length, 0);
+    assert.equal(element._computeLabelNames([
+      {results: [
+        {_number: 0, labels: {Verified: {approved: {}}}},
+        {
+          _number: 1,
+          labels: {
+            'Verified': {approved: {}},
+            'Code-Review': {approved: {}},
+          },
+        },
+        {
+          _number: 2,
+          labels: {
+            'Verified': {approved: {}},
+            'Library-Compliance': {approved: {}},
+          },
+        },
+      ]},
+    ]).length, 3);
+
+    assert.equal(element._computeLabelShortcut('Code-Review'), 'CR');
+    assert.equal(element._computeLabelShortcut('Verified'), 'V');
+    assert.equal(element._computeLabelShortcut('Library-Compliance'), 'LC');
+    assert.equal(element._computeLabelShortcut('PolyGerrit-Review'), 'PR');
+    assert.equal(element._computeLabelShortcut('polygerrit-review'), 'PR');
+    assert.equal(element._computeLabelShortcut(
+        'Invalid-Prolog-Rules-Label-Name--Verified'), 'V');
+    assert.equal(element._computeLabelShortcut(
+        'Some-Special-Label-7'), 'SSL7');
+    assert.equal(element._computeLabelShortcut('--Too----many----dashes---'),
+        'TMD');
+    assert.equal(element._computeLabelShortcut(
+        'Really-rather-entirely-too-long-of-a-label-name'), 'RRETL');
+  });
+
+  test('colspans', () => {
+    element.sections = [
+      {results: [{}]},
+    ];
+    flushAsynchronousOperations();
+    const tdItemCount = dom(element.root).querySelectorAll(
+        'td').length;
+
+    const changeTableColumns = [];
+    const labelNames = [];
+    assert.equal(tdItemCount, element._computeColspan(
+        changeTableColumns, labelNames));
+  });
+
+  test('keyboard shortcuts', done => {
+    sandbox.stub(element, '_computeLabelNames');
+    element.sections = [
+      {results: new Array(1)},
+      {results: new Array(2)},
+    ];
+    element.selectedIndex = 0;
+    element.changes = [
+      {_number: 0},
+      {_number: 1},
+      {_number: 2},
+    ];
+    flushAsynchronousOperations();
+    afterNextRender(element, () => {
+      const elementItems = dom(element.root).querySelectorAll(
+          'gr-change-list-item');
+      assert.equal(elementItems.length, 3);
+
+      assert.isTrue(elementItems[0].hasAttribute('selected'));
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      assert.equal(element.selectedIndex, 1);
+      assert.isTrue(elementItems[1].hasAttribute('selected'));
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      assert.equal(element.selectedIndex, 2);
+      assert.isTrue(elementItems[2].hasAttribute('selected'));
+
+      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      assert.equal(element.selectedIndex, 2);
+      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+      assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
+          'Should navigate to /c/2/');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+      assert.equal(element.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+      assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
+          'Should navigate to /c/1/');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+      assert.equal(element.selectedIndex, 0);
+
+      const reloadStub = sandbox.stub(element, '_reloadWindow');
+      MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
+      assert.isTrue(reloadStub.called);
+
+      done();
+    });
+  });
+
+  test('changes needing review', () => {
+    element.changes = [
+      {
+        _number: 0,
+        status: 'NEW',
+        reviewed: true,
+        owner: {_account_id: 0},
+      },
+      {
+        _number: 1,
+        status: 'NEW',
+        owner: {_account_id: 0},
+      },
+      {
+        _number: 2,
+        status: 'MERGED',
+        owner: {_account_id: 0},
+      },
+      {
+        _number: 3,
+        status: 'ABANDONED',
+        owner: {_account_id: 0},
+      },
+      {
+        _number: 4,
+        status: 'NEW',
+        work_in_progress: true,
+        owner: {_account_id: 0},
+      },
+    ];
+    flushAsynchronousOperations();
+    let elementItems = dom(element.root).querySelectorAll(
+        'gr-change-list-item');
+    assert.equal(elementItems.length, 5);
+    for (let i = 0; i < elementItems.length; i++) {
+      assert.isFalse(elementItems[i].hasAttribute('needs-review'));
+    }
+
+    element.showReviewedState = true;
+    elementItems = dom(element.root).querySelectorAll(
+        'gr-change-list-item');
+    assert.equal(elementItems.length, 5);
+    assert.isFalse(elementItems[0].hasAttribute('needs-review'));
+    assert.isTrue(elementItems[1].hasAttribute('needs-review'));
+    assert.isFalse(elementItems[2].hasAttribute('needs-review'));
+    assert.isFalse(elementItems[3].hasAttribute('needs-review'));
+    assert.isFalse(elementItems[4].hasAttribute('needs-review'));
+
+    element.account = {_account_id: 42};
+    elementItems = dom(element.root).querySelectorAll(
+        'gr-change-list-item');
+    assert.equal(elementItems.length, 5);
+    assert.isFalse(elementItems[0].hasAttribute('needs-review'));
+    assert.isTrue(elementItems[1].hasAttribute('needs-review'));
+    assert.isFalse(elementItems[2].hasAttribute('needs-review'));
+    assert.isFalse(elementItems[3].hasAttribute('needs-review'));
+    assert.isFalse(elementItems[4].hasAttribute('needs-review'));
+  });
+
+  test('no changes', () => {
+    element.changes = [];
+    flushAsynchronousOperations();
+    const listItems = dom(element.root).querySelectorAll(
+        'gr-change-list-item');
+    assert.equal(listItems.length, 0);
+    const noChangesMsg =
+        dom(element.root).querySelector('.noChanges');
+    assert.ok(noChangesMsg);
+  });
+
+  test('empty sections', () => {
+    element.sections = [{results: []}, {results: []}];
+    flushAsynchronousOperations();
+    const listItems = dom(element.root).querySelectorAll(
+        'gr-change-list-item');
+    assert.equal(listItems.length, 0);
+    const noChangesMsg = dom(element.root).querySelectorAll(
+        '.noChanges');
+    assert.equal(noChangesMsg.length, 2);
+  });
+
+  suite('empty outgoing', () => {
+    test('not shown on empty non-outgoing sections', () => {
+      const section = {results: []};
+      assert.isTrue(element._isEmpty(section));
+      assert.isFalse(element._isOutgoing(section));
+    });
+
+    test('shown on empty outgoing sections', () => {
+      const section = {results: [], isOutgoing: true};
+      assert.isTrue(element._isEmpty(section));
+      assert.isTrue(element._isOutgoing(section));
+    });
+
+    test('not shown on non-empty outgoing sections', () => {
+      const section = {isOutgoing: true, results: [
+        {_number: 0, labels: {Verified: {approved: {}}}}]};
+      assert.isFalse(element._isEmpty(section));
+      assert.isTrue(element._isOutgoing(section));
+    });
+  });
+
+  test('_isOutgoing', () => {
+    assert.isTrue(element._isOutgoing({results: [], isOutgoing: true}));
+    assert.isFalse(element._isOutgoing({results: []}));
+  });
+
+  suite('empty column preference', () => {
+    let element;
+
+    setup(() => {
+      element = fixture('basic');
+      element.sections = [
+        {results: [{}]},
+      ];
+      element.account = {_account_id: 1001};
+      element.preferences = {
+        legacycid_in_change_table: true,
+        time_format: 'HHMM_12',
+        change_table: [],
+      };
+      flushAsynchronousOperations();
+    });
+
+    test('show number enabled', () => {
+      assert.isTrue(element.showNumber);
+    });
+
+    test('all columns visible', () => {
+      for (const column of element.columnNames) {
+        const elementClass = '.' + element._lowerCase(column);
+        assert.isFalse(element.$$(elementClass).hidden);
+      }
+    });
+  });
+
+  suite('full column preference', () => {
+    let element;
+
+    setup(() => {
+      element = fixture('basic');
+      element.sections = [
+        {results: [{}]},
+      ];
+      element.account = {_account_id: 1001};
+      element.preferences = {
+        legacycid_in_change_table: true,
+        time_format: 'HHMM_12',
+        change_table: [
+          'Subject',
+          'Status',
+          'Owner',
+          'Assignee',
+          'Repo',
+          'Branch',
+          'Updated',
+          'Size',
+        ],
+      };
+      flushAsynchronousOperations();
+    });
+
+    test('all columns visible', () => {
+      for (const column of element.changeTableColumns) {
+        const elementClass = '.' + element._lowerCase(column);
+        assert.isFalse(element.$$(elementClass).hidden);
+      }
+    });
+  });
+
+  suite('partial column preference', () => {
+    let element;
+
+    setup(() => {
+      element = fixture('basic');
+      element.sections = [
+        {results: [{}]},
+      ];
+      element.account = {_account_id: 1001};
+      element.preferences = {
+        legacycid_in_change_table: true,
+        time_format: 'HHMM_12',
+        change_table: [
+          'Subject',
+          'Status',
+          'Owner',
+          'Assignee',
+          'Branch',
+          'Updated',
+          'Size',
+        ],
+      };
+      flushAsynchronousOperations();
+    });
+
+    test('all columns except repo visible', () => {
+      for (const column of element.changeTableColumns) {
+        const elementClass = '.' + column.toLowerCase();
+        if (column === 'Repo') {
+          assert.isTrue(element.$$(elementClass).hidden);
+        } else {
+          assert.isFalse(element.$$(elementClass).hidden);
+        }
+      }
+    });
+  });
+
+  suite('random column does not exist', () => {
+    let element;
+
+    /* This would only exist if somebody manually updated the config
+    file. */
+    setup(() => {
+      element = fixture('basic');
+      element.account = {_account_id: 1001};
+      element.preferences = {
+        legacycid_in_change_table: true,
+        time_format: 'HHMM_12',
+        change_table: [
+          'Bad',
+        ],
+      };
+      flushAsynchronousOperations();
+    });
+
+    test('bad column does not exist', () => {
+      const elementClass = '.bad';
+      assert.isNotOk(element.$$(elementClass));
+    });
+  });
+
+  suite('dashboard queries', () => {
     let element;
     let sandbox;
 
@@ -67,571 +467,180 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
-    suite('test show change number not logged in', () => {
-      setup(() => {
-        element = fixture('basic');
-        element.account = null;
-        element.preferences = null;
-      });
-
-      test('show number disabled', () => {
-        assert.isFalse(element.showNumber);
-      });
+    test('query without age and limit unchanged', () => {
+      const query = 'status:closed owner:me';
+      assert.deepEqual(element._processQuery(query), query);
     });
 
-    suite('test show change number preference enabled', () => {
-      setup(() => {
-        element = fixture('basic');
-        element.preferences = {
-          legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [],
-        };
-        element.account = {_account_id: 1001};
-        flushAsynchronousOperations();
-      });
-
-      test('show number enabled', () => {
-        assert.isTrue(element.showNumber);
-      });
+    test('query with age and limit', () => {
+      const query = 'status:closed age:1week limit:10 owner:me';
+      const expectedQuery = 'status:closed owner:me';
+      assert.deepEqual(element._processQuery(query), expectedQuery);
     });
 
-    suite('test show change number preference disabled', () => {
-      setup(() => {
-        element = fixture('basic');
-        // legacycid_in_change_table is not set when false.
-        element.preferences = {
-          time_format: 'HHMM_12',
-          change_table: [],
-        };
-        element.account = {_account_id: 1001};
-        flushAsynchronousOperations();
-      });
-
-      test('show number disabled', () => {
-        assert.isFalse(element.showNumber);
-      });
+    test('query with age', () => {
+      const query = 'status:closed age:1week owner:me';
+      const expectedQuery = 'status:closed owner:me';
+      assert.deepEqual(element._processQuery(query), expectedQuery);
     });
 
-    test('computed fields', () => {
-      assert.equal(element._computeLabelNames(
-          [{results: [{_number: 0, labels: {}}]}]).length, 0);
-      assert.equal(element._computeLabelNames([
-        {results: [
-          {_number: 0, labels: {Verified: {approved: {}}}},
-          {
-            _number: 1,
-            labels: {
-              'Verified': {approved: {}},
-              'Code-Review': {approved: {}},
-            },
-          },
-          {
-            _number: 2,
-            labels: {
-              'Verified': {approved: {}},
-              'Library-Compliance': {approved: {}},
-            },
-          },
-        ]},
-      ]).length, 3);
-
-      assert.equal(element._computeLabelShortcut('Code-Review'), 'CR');
-      assert.equal(element._computeLabelShortcut('Verified'), 'V');
-      assert.equal(element._computeLabelShortcut('Library-Compliance'), 'LC');
-      assert.equal(element._computeLabelShortcut('PolyGerrit-Review'), 'PR');
-      assert.equal(element._computeLabelShortcut('polygerrit-review'), 'PR');
-      assert.equal(element._computeLabelShortcut(
-          'Invalid-Prolog-Rules-Label-Name--Verified'), 'V');
-      assert.equal(element._computeLabelShortcut(
-          'Some-Special-Label-7'), 'SSL7');
-      assert.equal(element._computeLabelShortcut('--Too----many----dashes---'),
-          'TMD');
-      assert.equal(element._computeLabelShortcut(
-          'Really-rather-entirely-too-long-of-a-label-name'), 'RRETL');
+    test('query with limit', () => {
+      const query = 'status:closed limit:10 owner:me';
+      const expectedQuery = 'status:closed owner:me';
+      assert.deepEqual(element._processQuery(query), expectedQuery);
     });
 
-    test('colspans', () => {
-      element.sections = [
-        {results: [{}]},
-      ];
-      flushAsynchronousOperations();
-      const tdItemCount = Polymer.dom(element.root).querySelectorAll(
-          'td').length;
-
-      const changeTableColumns = [];
-      const labelNames = [];
-      assert.equal(tdItemCount, element._computeColspan(
-          changeTableColumns, labelNames));
+    test('query with age as value and not key', () => {
+      const query = 'status:closed random:age';
+      const expectedQuery = 'status:closed random:age';
+      assert.deepEqual(element._processQuery(query), expectedQuery);
     });
+
+    test('query with limit as value and not key', () => {
+      const query = 'status:closed random:limit';
+      const expectedQuery = 'status:closed random:limit';
+      assert.deepEqual(element._processQuery(query), expectedQuery);
+    });
+
+    test('query with -age key', () => {
+      const query = 'status:closed -age:1week';
+      const expectedQuery = 'status:closed';
+      assert.deepEqual(element._processQuery(query), expectedQuery);
+    });
+  });
+
+  suite('gr-change-list sections', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => { sandbox.restore(); });
 
     test('keyboard shortcuts', done => {
-      sandbox.stub(element, '_computeLabelNames');
-      element.sections = [
-        {results: new Array(1)},
-        {results: new Array(2)},
-      ];
       element.selectedIndex = 0;
-      element.changes = [
-        {_number: 0},
-        {_number: 1},
-        {_number: 2},
+      element.sections = [
+        {
+          results: [
+            {_number: 0},
+            {_number: 1},
+            {_number: 2},
+          ],
+        },
+        {
+          results: [
+            {_number: 3},
+            {_number: 4},
+            {_number: 5},
+          ],
+        },
+        {
+          results: [
+            {_number: 6},
+            {_number: 7},
+            {_number: 8},
+          ],
+        },
       ];
       flushAsynchronousOperations();
-      Polymer.RenderStatus.afterNextRender(element, () => {
-        const elementItems = Polymer.dom(element.root).querySelectorAll(
+      afterNextRender(element, () => {
+        const elementItems = dom(element.root).querySelectorAll(
             'gr-change-list-item');
-        assert.equal(elementItems.length, 3);
+        assert.equal(elementItems.length, 9);
 
-        assert.isTrue(elementItems[0].hasAttribute('selected'));
-        MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
         assert.equal(element.selectedIndex, 1);
-        assert.isTrue(elementItems[1].hasAttribute('selected'));
-        MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-        assert.equal(element.selectedIndex, 2);
-        assert.isTrue(elementItems[2].hasAttribute('selected'));
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
 
         const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
         assert.equal(element.selectedIndex, 2);
-        MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+
+        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
         assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
             'Should navigate to /c/2/');
 
-        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+        MockInteractions.pressAndReleaseKeyOn(element, 75); // 'k'
         assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
         assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
             'Should navigate to /c/1/');
 
-        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-        assert.equal(element.selectedIndex, 0);
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+        assert.equal(element.selectedIndex, 4);
+        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
+        assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
+            'Should navigate to /c/4/');
 
-        const reloadStub = sandbox.stub(element, '_reloadWindow');
-        MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
-        assert.isTrue(reloadStub.called);
-
+        MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
+        const change = element._changeForIndex(element.selectedIndex);
+        assert.equal(change.reviewed, true,
+            'Should mark change as reviewed');
+        MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
+        assert.equal(change.reviewed, false,
+            'Should mark change as unreviewed');
         done();
       });
     });
 
-    test('changes needing review', () => {
+    test('highlight attribute is updated correctly', () => {
       element.changes = [
         {
           _number: 0,
           status: 'NEW',
-          reviewed: true,
           owner: {_account_id: 0},
         },
         {
           _number: 1,
-          status: 'NEW',
-          owner: {_account_id: 0},
-        },
-        {
-          _number: 2,
-          status: 'MERGED',
-          owner: {_account_id: 0},
-        },
-        {
-          _number: 3,
           status: 'ABANDONED',
           owner: {_account_id: 0},
         },
-        {
-          _number: 4,
-          status: 'NEW',
-          work_in_progress: true,
-          owner: {_account_id: 0},
-        },
       ];
-      flushAsynchronousOperations();
-      let elementItems = Polymer.dom(element.root).querySelectorAll(
-          'gr-change-list-item');
-      assert.equal(elementItems.length, 5);
-      for (let i = 0; i < elementItems.length; i++) {
-        assert.isFalse(elementItems[i].hasAttribute('needs-review'));
-      }
-
-      element.showReviewedState = true;
-      elementItems = Polymer.dom(element.root).querySelectorAll(
-          'gr-change-list-item');
-      assert.equal(elementItems.length, 5);
-      assert.isFalse(elementItems[0].hasAttribute('needs-review'));
-      assert.isTrue(elementItems[1].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[2].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[3].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[4].hasAttribute('needs-review'));
-
       element.account = {_account_id: 42};
-      elementItems = Polymer.dom(element.root).querySelectorAll(
-          'gr-change-list-item');
-      assert.equal(elementItems.length, 5);
-      assert.isFalse(elementItems[0].hasAttribute('needs-review'));
-      assert.isTrue(elementItems[1].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[2].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[3].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[4].hasAttribute('needs-review'));
-    });
-
-    test('no changes', () => {
-      element.changes = [];
       flushAsynchronousOperations();
-      const listItems = Polymer.dom(element.root).querySelectorAll(
-          'gr-change-list-item');
-      assert.equal(listItems.length, 0);
-      const noChangesMsg =
-          Polymer.dom(element.root).querySelector('.noChanges');
-      assert.ok(noChangesMsg);
-    });
+      let items = element._getListItems();
+      assert.equal(items.length, 2);
+      assert.isFalse(items[0].hasAttribute('highlight'));
+      assert.isFalse(items[1].hasAttribute('highlight'));
 
-    test('empty sections', () => {
-      element.sections = [{results: []}, {results: []}];
+      // Assign all issues to the user, but only the first one is highlighted
+      // because the second one is abandoned.
+      element.set(['changes', 0, 'assignee'], {_account_id: 12});
+      element.set(['changes', 1, 'assignee'], {_account_id: 12});
+      element.account = {_account_id: 12};
       flushAsynchronousOperations();
-      const listItems = Polymer.dom(element.root).querySelectorAll(
-          'gr-change-list-item');
-      assert.equal(listItems.length, 0);
-      const noChangesMsg = Polymer.dom(element.root).querySelectorAll(
-          '.noChanges');
-      assert.equal(noChangesMsg.length, 2);
+      items = element._getListItems();
+      assert.isTrue(items[0].hasAttribute('highlight'));
+      assert.isFalse(items[1].hasAttribute('highlight'));
     });
 
-    suite('empty outgoing', () => {
-      test('not shown on empty non-outgoing sections', () => {
-        const section = {results: []};
-        assert.isTrue(element._isEmpty(section));
-        assert.isFalse(element._isOutgoing(section));
-      });
-
-      test('shown on empty outgoing sections', () => {
-        const section = {results: [], isOutgoing: true};
-        assert.isTrue(element._isEmpty(section));
-        assert.isTrue(element._isOutgoing(section));
-      });
-
-      test('not shown on non-empty outgoing sections', () => {
-        const section = {isOutgoing: true, results: [
-          {_number: 0, labels: {Verified: {approved: {}}}}]};
-        assert.isFalse(element._isEmpty(section));
-        assert.isTrue(element._isOutgoing(section));
-      });
+    test('_computeItemHighlight gives false for null account', () => {
+      assert.isFalse(
+          element._computeItemHighlight(null, {assignee: {_account_id: 42}}));
     });
 
-    test('_isOutgoing', () => {
-      assert.isTrue(element._isOutgoing({results: [], isOutgoing: true}));
-      assert.isFalse(element._isOutgoing({results: []}));
-    });
+    test('_computeItemAbsoluteIndex', () => {
+      sandbox.stub(element, '_computeLabelNames');
+      element.sections = [
+        {results: new Array(1)},
+        {results: new Array(2)},
+        {results: new Array(3)},
+      ];
 
-    suite('empty column preference', () => {
-      let element;
+      assert.equal(element._computeItemAbsoluteIndex(0, 0), 0);
+      // Out of range but no matter.
+      assert.equal(element._computeItemAbsoluteIndex(0, 1), 1);
 
-      setup(() => {
-        element = fixture('basic');
-        element.sections = [
-          {results: [{}]},
-        ];
-        element.account = {_account_id: 1001};
-        element.preferences = {
-          legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [],
-        };
-        flushAsynchronousOperations();
-      });
-
-      test('show number enabled', () => {
-        assert.isTrue(element.showNumber);
-      });
-
-      test('all columns visible', () => {
-        for (const column of element.columnNames) {
-          const elementClass = '.' + element._lowerCase(column);
-          assert.isFalse(element.$$(elementClass).hidden);
-        }
-      });
-    });
-
-    suite('full column preference', () => {
-      let element;
-
-      setup(() => {
-        element = fixture('basic');
-        element.sections = [
-          {results: [{}]},
-        ];
-        element.account = {_account_id: 1001};
-        element.preferences = {
-          legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [
-            'Subject',
-            'Status',
-            'Owner',
-            'Assignee',
-            'Repo',
-            'Branch',
-            'Updated',
-            'Size',
-          ],
-        };
-        flushAsynchronousOperations();
-      });
-
-      test('all columns visible', () => {
-        for (const column of element.changeTableColumns) {
-          const elementClass = '.' + element._lowerCase(column);
-          assert.isFalse(element.$$(elementClass).hidden);
-        }
-      });
-    });
-
-    suite('partial column preference', () => {
-      let element;
-
-      setup(() => {
-        element = fixture('basic');
-        element.sections = [
-          {results: [{}]},
-        ];
-        element.account = {_account_id: 1001};
-        element.preferences = {
-          legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [
-            'Subject',
-            'Status',
-            'Owner',
-            'Assignee',
-            'Branch',
-            'Updated',
-            'Size',
-          ],
-        };
-        flushAsynchronousOperations();
-      });
-
-      test('all columns except repo visible', () => {
-        for (const column of element.changeTableColumns) {
-          const elementClass = '.' + column.toLowerCase();
-          if (column === 'Repo') {
-            assert.isTrue(element.$$(elementClass).hidden);
-          } else {
-            assert.isFalse(element.$$(elementClass).hidden);
-          }
-        }
-      });
-    });
-
-    suite('random column does not exist', () => {
-      let element;
-
-      /* This would only exist if somebody manually updated the config
-      file. */
-      setup(() => {
-        element = fixture('basic');
-        element.account = {_account_id: 1001};
-        element.preferences = {
-          legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [
-            'Bad',
-          ],
-        };
-        flushAsynchronousOperations();
-      });
-
-      test('bad column does not exist', () => {
-        const elementClass = '.bad';
-        assert.isNotOk(element.$$(elementClass));
-      });
-    });
-
-    suite('dashboard queries', () => {
-      let element;
-      let sandbox;
-
-      setup(() => {
-        sandbox = sinon.sandbox.create();
-        element = fixture('basic');
-      });
-
-      teardown(() => { sandbox.restore(); });
-
-      test('query without age and limit unchanged', () => {
-        const query = 'status:closed owner:me';
-        assert.deepEqual(element._processQuery(query), query);
-      });
-
-      test('query with age and limit', () => {
-        const query = 'status:closed age:1week limit:10 owner:me';
-        const expectedQuery = 'status:closed owner:me';
-        assert.deepEqual(element._processQuery(query), expectedQuery);
-      });
-
-      test('query with age', () => {
-        const query = 'status:closed age:1week owner:me';
-        const expectedQuery = 'status:closed owner:me';
-        assert.deepEqual(element._processQuery(query), expectedQuery);
-      });
-
-      test('query with limit', () => {
-        const query = 'status:closed limit:10 owner:me';
-        const expectedQuery = 'status:closed owner:me';
-        assert.deepEqual(element._processQuery(query), expectedQuery);
-      });
-
-      test('query with age as value and not key', () => {
-        const query = 'status:closed random:age';
-        const expectedQuery = 'status:closed random:age';
-        assert.deepEqual(element._processQuery(query), expectedQuery);
-      });
-
-      test('query with limit as value and not key', () => {
-        const query = 'status:closed random:limit';
-        const expectedQuery = 'status:closed random:limit';
-        assert.deepEqual(element._processQuery(query), expectedQuery);
-      });
-
-      test('query with -age key', () => {
-        const query = 'status:closed -age:1week';
-        const expectedQuery = 'status:closed';
-        assert.deepEqual(element._processQuery(query), expectedQuery);
-      });
-    });
-
-    suite('gr-change-list sections', () => {
-      let element;
-      let sandbox;
-
-      setup(() => {
-        sandbox = sinon.sandbox.create();
-        element = fixture('basic');
-      });
-
-      teardown(() => { sandbox.restore(); });
-
-      test('keyboard shortcuts', done => {
-        element.selectedIndex = 0;
-        element.sections = [
-          {
-            results: [
-              {_number: 0},
-              {_number: 1},
-              {_number: 2},
-            ],
-          },
-          {
-            results: [
-              {_number: 3},
-              {_number: 4},
-              {_number: 5},
-            ],
-          },
-          {
-            results: [
-              {_number: 6},
-              {_number: 7},
-              {_number: 8},
-            ],
-          },
-        ];
-        flushAsynchronousOperations();
-        Polymer.RenderStatus.afterNextRender(element, () => {
-          const elementItems = Polymer.dom(element.root).querySelectorAll(
-              'gr-change-list-item');
-          assert.equal(elementItems.length, 9);
-
-          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-          assert.equal(element.selectedIndex, 1);
-          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-
-          const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-          assert.equal(element.selectedIndex, 2);
-
-          MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-          assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
-              'Should navigate to /c/2/');
-
-          MockInteractions.pressAndReleaseKeyOn(element, 75); // 'k'
-          assert.equal(element.selectedIndex, 1);
-          MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-          assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
-              'Should navigate to /c/1/');
-
-          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-          MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-          assert.equal(element.selectedIndex, 4);
-          MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-          assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
-              'Should navigate to /c/4/');
-
-          MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
-          const change = element._changeForIndex(element.selectedIndex);
-          assert.equal(change.reviewed, true,
-              'Should mark change as reviewed');
-          MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
-          assert.equal(change.reviewed, false,
-              'Should mark change as unreviewed');
-          done();
-        });
-      });
-
-      test('highlight attribute is updated correctly', () => {
-        element.changes = [
-          {
-            _number: 0,
-            status: 'NEW',
-            owner: {_account_id: 0},
-          },
-          {
-            _number: 1,
-            status: 'ABANDONED',
-            owner: {_account_id: 0},
-          },
-        ];
-        element.account = {_account_id: 42};
-        flushAsynchronousOperations();
-        let items = element._getListItems();
-        assert.equal(items.length, 2);
-        assert.isFalse(items[0].hasAttribute('highlight'));
-        assert.isFalse(items[1].hasAttribute('highlight'));
-
-        // Assign all issues to the user, but only the first one is highlighted
-        // because the second one is abandoned.
-        element.set(['changes', 0, 'assignee'], {_account_id: 12});
-        element.set(['changes', 1, 'assignee'], {_account_id: 12});
-        element.account = {_account_id: 12};
-        flushAsynchronousOperations();
-        items = element._getListItems();
-        assert.isTrue(items[0].hasAttribute('highlight'));
-        assert.isFalse(items[1].hasAttribute('highlight'));
-      });
-
-      test('_computeItemHighlight gives false for null account', () => {
-        assert.isFalse(
-            element._computeItemHighlight(null, {assignee: {_account_id: 42}}));
-      });
-
-      test('_computeItemAbsoluteIndex', () => {
-        sandbox.stub(element, '_computeLabelNames');
-        element.sections = [
-          {results: new Array(1)},
-          {results: new Array(2)},
-          {results: new Array(3)},
-        ];
-
-        assert.equal(element._computeItemAbsoluteIndex(0, 0), 0);
-        // Out of range but no matter.
-        assert.equal(element._computeItemAbsoluteIndex(0, 1), 1);
-
-        assert.equal(element._computeItemAbsoluteIndex(1, 0), 1);
-        assert.equal(element._computeItemAbsoluteIndex(1, 1), 2);
-        assert.equal(element._computeItemAbsoluteIndex(1, 2), 3);
-        assert.equal(element._computeItemAbsoluteIndex(2, 0), 3);
-        assert.equal(element._computeItemAbsoluteIndex(3, 0), 6);
-      });
+      assert.equal(element._computeItemAbsoluteIndex(1, 0), 1);
+      assert.equal(element._computeItemAbsoluteIndex(1, 1), 2);
+      assert.equal(element._computeItemAbsoluteIndex(1, 2), 3);
+      assert.equal(element._computeItemAbsoluteIndex(2, 0), 3);
+      assert.equal(element._computeItemAbsoluteIndex(3, 0), 6);
     });
   });
+});
 </script>

@@ -1,37 +1,6 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../gr-diff-builder/gr-diff-builder-element.html">
-<link rel="import" href="../gr-diff-highlight/gr-diff-highlight.html">
-<link rel="import" href="../gr-diff-selection/gr-diff-selection.html">
-<link rel="import" href="../gr-syntax-themes/gr-syntax-theme.html">
-<link rel="import" href="../gr-ranged-comment-themes/gr-ranged-comment-theme.html">
-
-<script src="../../../scripts/hiddenscroll.js"></script>
-<script src="gr-diff-line.js"></script>
-<script src="gr-diff-group.js"></script>
-
-<dom-module id="gr-diff">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host(.no-left) .sideBySide .left,
       :host(.no-left) .sideBySide .left + td,
@@ -184,7 +153,7 @@ limitations under the License.
 
       .content .contentText:empty:after {
         /* Newline, to ensure empty lines are one line-height tall. */
-        content: '\A';
+        content: '\\A';
       }
       .contextControl {
         background-color: var(--diff-context-control-background-color);
@@ -214,7 +183,7 @@ limitations under the License.
       }
       .br:after {
         /* Line feed */
-        content: '\A';
+        content: '\\A';
       }
       .tab {
         display: inline-block;
@@ -222,7 +191,7 @@ limitations under the License.
       .tab-indicator:before {
         color: var(--diff-tab-indicator-color);
         /* >> character */
-        content: '\00BB';
+        content: '\\00BB';
         position: absolute;
       }
       /* Is defined after other background-colors, such that this
@@ -363,38 +332,16 @@ limitations under the License.
     <style include="gr-ranged-comment-theme">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
-    <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
-      <template
-          is="dom-repeat"
-          items="[[_diffHeaderItems]]">
+    <div id="diffHeader" hidden\$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
+      <template is="dom-repeat" items="[[_diffHeaderItems]]">
         <div>[[item]]</div>
       </template>
     </div>
-    <div class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]"
-        on-tap="_handleTap">
+    <div class\$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]" on-tap="_handleTap">
       <gr-diff-selection diff="[[diff]]">
-        <gr-diff-highlight
-            id="highlights"
-            logged-in="[[loggedIn]]"
-            comment-ranges="{{_commentRanges}}">
-          <gr-diff-builder
-              id="diffBuilder"
-              comment-ranges="[[_commentRanges]]"
-              coverage-ranges="[[coverageRanges]]"
-              project-name="[[projectName]]"
-              diff="[[diff]]"
-              path="[[path]]"
-              change-num="[[changeNum]]"
-              patch-num="[[patchRange.patchNum]]"
-              view-mode="[[viewMode]]"
-              is-image-diff="[[isImageDiff]]"
-              base-image="[[baseImage]]"
-              layers="[[layers]]"
-              revision-image="[[revisionImage]]">
-            <table
-                id="diffTable"
-                class$="[[_diffTableClass]]"
-                role="presentation"></table>
+        <gr-diff-highlight id="highlights" logged-in="[[loggedIn]]" comment-ranges="{{_commentRanges}}">
+          <gr-diff-builder id="diffBuilder" comment-ranges="[[_commentRanges]]" coverage-ranges="[[coverageRanges]]" project-name="[[projectName]]" diff="[[diff]]" path="[[path]]" change-num="[[changeNum]]" patch-num="[[patchRange.patchNum]]" view-mode="[[viewMode]]" is-image-diff="[[isImageDiff]]" base-image="[[baseImage]]" layers="[[layers]]" revision-image="[[revisionImage]]">
+            <table id="diffTable" class\$="[[_diffTableClass]]" role="presentation"></table>
 
             <template is="dom-if" if="[[showNoChangeMessage(loading, prefs, _diffLength)]]">
               <div class="whitespace-change-only-message">
@@ -406,13 +353,13 @@ limitations under the License.
         </gr-diff-highlight>
       </gr-diff-selection>
     </div>
-    <div class$="[[_computeNewlineWarningClass(_newlineWarning, loading)]]">
+    <div class\$="[[_computeNewlineWarningClass(_newlineWarning, loading)]]">
       [[_newlineWarning]]
     </div>
-    <div id="loadingError" class$="[[_computeErrorClass(errorMessage)]]">
+    <div id="loadingError" class\$="[[_computeErrorClass(errorMessage)]]">
       [[errorMessage]]
     </div>
-    <div id="sizeWarning" class$="[[_computeWarningClass(_showWarning)]]">
+    <div id="sizeWarning" class\$="[[_computeWarningClass(_showWarning)]]">
       <p>
         Prevented render because "Whole file" is enabled and this diff is very
         large (about [[_diffLength]] lines).
@@ -424,6 +371,4 @@ limitations under the License.
         Render anyway (may be slow)
       </gr-button>
     </div>
-  </template>
-  <script src="gr-diff.js"></script>
-</dom-module>
+`;

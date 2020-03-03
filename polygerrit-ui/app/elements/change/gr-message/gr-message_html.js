@@ -1,36 +1,6 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../shared/gr-account-label/gr-account-label.html">
-<link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../../styles/gr-voting-styles.html">
-
-<link rel="import" href="../gr-comment-list/gr-comment-list.html">
-
-<dom-module id="gr-message">
-  <template>
+export const htmlTemplate = html`
     <style include="gr-voting-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
@@ -193,16 +163,16 @@ limitations under the License.
         }
       }
     </style>
-    <div class$="[[_computeClass(_expanded)]]">
+    <div class\$="[[_computeClass(_expanded)]]">
       <div class="contentContainer">
         <div class="author" on-click="_handleAuthorClick">
-          <span hidden$="[[!showOnBehalfOf]]">
+          <span hidden\$="[[!showOnBehalfOf]]">
             <span class="name">[[message.real_author.name]]</span>
             on behalf of
           </span>
           <gr-account-label account="[[author]]" class="authorLabel"></gr-account-label>
           <template is="dom-repeat" items="[[_getScores(message, labelExtremes)]]" as="score">
-            <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
+            <span class\$="score [[_computeScoreClass(score, labelExtremes)]]">
               [[score.label]] [[score.value]]
             </span>
           </template>
@@ -216,32 +186,18 @@ limitations under the License.
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
             <div class="message hideOnOpen">[[_messageContentCollapsed]]</div>
-            <gr-formatted-text
-                no-trailing-margin
-                class="message hideOnCollapsed"
-                content="[[_messageContentExpanded]]"
-                config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
+            <gr-formatted-text no-trailing-margin="" class="message hideOnCollapsed" content="[[_messageContentExpanded]]" config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
             <template is="dom-if" if="[[!_isMessageContentEmpty()]]">
-              <div class="replyActionContainer" hidden$="[[!showReplyButton]]" hidden>
-                  <gr-button
-                     class="replyBtn"
-                     link small on-click="_handleReplyTap">
+              <div class="replyActionContainer" hidden\$="[[!showReplyButton]]" hidden="">
+                  <gr-button class="replyBtn" link="" small="" on-click="_handleReplyTap">
                     Reply
                   </gr-button>
-                  <gr-button
-                    disabled$=[[_isDeletingChangeMsg]]
-                    class="deleteBtn" hidden$="[[!_isAdmin]]" hidden
-                    link small on-click="_handleDeleteMessage">
+                  <gr-button disabled\$="[[_isDeletingChangeMsg]]" class="deleteBtn" hidden\$="[[!_isAdmin]]" hidden="" link="" small="" on-click="_handleDeleteMessage">
                     Delete
                   </gr-button>
               </div>
             </template>
-            <gr-comment-list
-                comments="[[comments]]"
-                change-num="[[changeNum]]"
-                patch-num="[[message._revision_number]]"
-                project-name="[[projectName]]"
-                project-config="[[_projectConfig]]"></gr-comment-list>
+            <gr-comment-list comments="[[comments]]" change-num="[[changeNum]]" patch-num="[[message._revision_number]]" project-name="[[projectName]]" project-config="[[_projectConfig]]"></gr-comment-list>
           </div>
         </template>
         <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">
@@ -249,8 +205,7 @@ limitations under the License.
             <template is="dom-repeat" items="[[message.updates]]" as="update">
               <div class="updateCategory">
                 [[update.message]]
-                <template
-                    is="dom-repeat" items="[[update.reviewers]]" as="reviewer">
+                <template is="dom-repeat" items="[[update.reviewers]]" as="reviewer">
                   <gr-account-chip account="[[reviewer]]">
                   </gr-account-chip>
                 </template>
@@ -264,29 +219,17 @@ limitations under the License.
           </template>
           <template is="dom-if" if="[[!message.id]]">
             <span class="date">
-              <gr-date-formatter
-                  has-tooltip
-                  show-date-and-time
-                  date-str="[[message.date]]"></gr-date-formatter>
+              <gr-date-formatter has-tooltip="" show-date-and-time="" date-str="[[message.date]]"></gr-date-formatter>
             </span>
           </template>
           <template is="dom-if" if="[[message.id]]">
             <span class="date" on-click="_handleAnchorClick">
-              <gr-date-formatter
-                  has-tooltip
-                  show-date-and-time
-                  date-str="[[message.date]]"></gr-date-formatter>
+              <gr-date-formatter has-tooltip="" show-date-and-time="" date-str="[[message.date]]"></gr-date-formatter>
             </span>
           </template>
-          <iron-icon
-              id="expandToggle"
-              on-click="_toggleExpanded"
-              title="Toggle expanded state"
-              icon="[[_computeExpandToggleIcon(_expanded)]]"></iron-icon>
+          <iron-icon id="expandToggle" on-click="_toggleExpanded" title="Toggle expanded state" icon="[[_computeExpandToggleIcon(_expanded)]]"></iron-icon>
         </span>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-message.js"></script>
-</dom-module>
+`;

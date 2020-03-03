@@ -19,16 +19,22 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-metadata</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="../../core/gr-router/gr-router.html">
-<link rel="import" href="gr-change-metadata.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../core/gr-router/gr-router.js"></script>
+<script type="module" src="./gr-change-metadata.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../core/gr-router/gr-router.js';
+import './gr-change-metadata.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,721 +42,724 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-change-metadata tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../core/gr-router/gr-router.js';
+import './gr-change-metadata.js';
+suite('gr-change-metadata tests', () => {
+  let element;
+  let sandbox;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-endpoint-decorator', {
+      _import: sandbox.stub().returns(Promise.resolve()),
+    });
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+      getLoggedIn() { return Promise.resolve(false); },
+    });
+
+    element = fixture('basic');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('computed fields', () => {
+    assert.isFalse(element._computeHideStrategy({status: 'NEW'}));
+    assert.isTrue(element._computeHideStrategy({status: 'MERGED'}));
+    assert.isTrue(element._computeHideStrategy({status: 'ABANDONED'}));
+    assert.equal(element._computeStrategy({submit_type: 'CHERRY_PICK'}),
+        'Cherry Pick');
+    assert.equal(element._computeStrategy({submit_type: 'REBASE_ALWAYS'}),
+        'Rebase Always');
+  });
+
+  test('computed fields requirements', () => {
+    assert.isFalse(element._computeShowRequirements({status: 'MERGED'}));
+    assert.isFalse(element._computeShowRequirements({status: 'ABANDONED'}));
+
+    // No labels and no requirements: submit status is useless
+    assert.isFalse(element._computeShowRequirements({
+      status: 'NEW',
+      labels: {},
+    }));
+
+    // Work in Progress: submit status should be present
+    assert.isTrue(element._computeShowRequirements({
+      status: 'NEW',
+      labels: {},
+      work_in_progress: true,
+    }));
+
+    // We have at least one reason to display Submit Status
+    assert.isTrue(element._computeShowRequirements({
+      status: 'NEW',
+      labels: {
+        Verified: {
+          approved: false,
+        },
+      },
+      requirements: [],
+    }));
+    assert.isTrue(element._computeShowRequirements({
+      status: 'NEW',
+      labels: {},
+      requirements: [{
+        fallback_text: 'Resolve all comments',
+        status: 'OK',
+      }],
+    }));
+  });
+
+  test('show strategy for open change', () => {
+    element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {}};
+    flushAsynchronousOperations();
+    const strategy = element.$$('.strategy');
+    assert.ok(strategy);
+    assert.isFalse(strategy.hasAttribute('hidden'));
+    assert.equal(strategy.children[1].innerHTML, 'Cherry Pick');
+  });
+
+  test('hide strategy for closed change', () => {
+    element.change = {status: 'MERGED', labels: {}};
+    flushAsynchronousOperations();
+    assert.isTrue(element.$$('.strategy').hasAttribute('hidden'));
+  });
+
+  test('weblinks use Gerrit.Nav interface', () => {
+    const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
+        .returns([{name: 'stubb', url: '#s'}]);
+    element.commitInfo = {};
+    element.serverConfig = {};
+    flushAsynchronousOperations();
+    const webLinks = element.$.webLinks;
+    assert.isTrue(weblinksStub.called);
+    assert.isFalse(webLinks.hasAttribute('hidden'));
+    assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
+  });
+
+  test('weblinks hidden when no weblinks', () => {
+    element.commitInfo = {};
+    element.serverConfig = {};
+    flushAsynchronousOperations();
+    const webLinks = element.$.webLinks;
+    assert.isTrue(webLinks.hasAttribute('hidden'));
+  });
+
+  test('weblinks hidden when only gitiles weblink', () => {
+    element.commitInfo = {web_links: [{name: 'gitiles', url: '#'}]};
+    element.serverConfig = {};
+    flushAsynchronousOperations();
+    const webLinks = element.$.webLinks;
+    assert.isTrue(webLinks.hasAttribute('hidden'));
+    assert.equal(element._computeWebLinks(element.commitInfo), null);
+  });
+
+  test('weblinks hidden when sole weblink is set as primary', () => {
+    const browser = 'browser';
+    element.commitInfo = {web_links: [{name: browser, url: '#'}]};
+    element.serverConfig = {
+      gerrit: {
+        primary_weblink_name: browser,
+      },
+    };
+    flushAsynchronousOperations();
+    const webLinks = element.$.webLinks;
+    assert.isTrue(webLinks.hasAttribute('hidden'));
+  });
+
+  test('weblinks are visible when other weblinks', () => {
+    const router = document.createElement('gr-router');
+    sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+        router._generateWeblinks.bind(router));
+
+    element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
+    flushAsynchronousOperations();
+    const webLinks = element.$.webLinks;
+    assert.isFalse(webLinks.hasAttribute('hidden'));
+    assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
+    // With two non-gitiles weblinks, there are two returned.
+    element.commitInfo = {
+      web_links: [{name: 'test', url: '#'}, {name: 'test2', url: '#'}]};
+    assert.equal(element._computeWebLinks(element.commitInfo).length, 2);
+  });
+
+  test('weblinks are visible when gitiles and other weblinks', () => {
+    const router = document.createElement('gr-router');
+    sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+        router._generateWeblinks.bind(router));
+
+    element.commitInfo = {
+      web_links: [{name: 'test', url: '#'}, {name: 'gitiles', url: '#'}]};
+    flushAsynchronousOperations();
+    const webLinks = element.$.webLinks;
+    assert.isFalse(webLinks.hasAttribute('hidden'));
+    // Only the non-gitiles weblink is returned.
+    assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
+  });
+
+  suite('_getNonOwnerRole', () => {
+    let change;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-endpoint-decorator', {
-        _import: sandbox.stub().returns(Promise.resolve()),
-      });
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getLoggedIn() { return Promise.resolve(false); },
-      });
-
-      element = fixture('basic');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('computed fields', () => {
-      assert.isFalse(element._computeHideStrategy({status: 'NEW'}));
-      assert.isTrue(element._computeHideStrategy({status: 'MERGED'}));
-      assert.isTrue(element._computeHideStrategy({status: 'ABANDONED'}));
-      assert.equal(element._computeStrategy({submit_type: 'CHERRY_PICK'}),
-          'Cherry Pick');
-      assert.equal(element._computeStrategy({submit_type: 'REBASE_ALWAYS'}),
-          'Rebase Always');
-    });
-
-    test('computed fields requirements', () => {
-      assert.isFalse(element._computeShowRequirements({status: 'MERGED'}));
-      assert.isFalse(element._computeShowRequirements({status: 'ABANDONED'}));
-
-      // No labels and no requirements: submit status is useless
-      assert.isFalse(element._computeShowRequirements({
-        status: 'NEW',
-        labels: {},
-      }));
-
-      // Work in Progress: submit status should be present
-      assert.isTrue(element._computeShowRequirements({
-        status: 'NEW',
-        labels: {},
-        work_in_progress: true,
-      }));
-
-      // We have at least one reason to display Submit Status
-      assert.isTrue(element._computeShowRequirements({
-        status: 'NEW',
-        labels: {
-          Verified: {
-            approved: false,
-          },
-        },
-        requirements: [],
-      }));
-      assert.isTrue(element._computeShowRequirements({
-        status: 'NEW',
-        labels: {},
-        requirements: [{
-          fallback_text: 'Resolve all comments',
-          status: 'OK',
-        }],
-      }));
-    });
-
-    test('show strategy for open change', () => {
-      element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {}};
-      flushAsynchronousOperations();
-      const strategy = element.$$('.strategy');
-      assert.ok(strategy);
-      assert.isFalse(strategy.hasAttribute('hidden'));
-      assert.equal(strategy.children[1].innerHTML, 'Cherry Pick');
-    });
-
-    test('hide strategy for closed change', () => {
-      element.change = {status: 'MERGED', labels: {}};
-      flushAsynchronousOperations();
-      assert.isTrue(element.$$('.strategy').hasAttribute('hidden'));
-    });
-
-    test('weblinks use Gerrit.Nav interface', () => {
-      const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
-          .returns([{name: 'stubb', url: '#s'}]);
-      element.commitInfo = {};
-      element.serverConfig = {};
-      flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
-      assert.isTrue(weblinksStub.called);
-      assert.isFalse(webLinks.hasAttribute('hidden'));
-      assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
-    });
-
-    test('weblinks hidden when no weblinks', () => {
-      element.commitInfo = {};
-      element.serverConfig = {};
-      flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
-      assert.isTrue(webLinks.hasAttribute('hidden'));
-    });
-
-    test('weblinks hidden when only gitiles weblink', () => {
-      element.commitInfo = {web_links: [{name: 'gitiles', url: '#'}]};
-      element.serverConfig = {};
-      flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
-      assert.isTrue(webLinks.hasAttribute('hidden'));
-      assert.equal(element._computeWebLinks(element.commitInfo), null);
-    });
-
-    test('weblinks hidden when sole weblink is set as primary', () => {
-      const browser = 'browser';
-      element.commitInfo = {web_links: [{name: browser, url: '#'}]};
-      element.serverConfig = {
-        gerrit: {
-          primary_weblink_name: browser,
-        },
-      };
-      flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
-      assert.isTrue(webLinks.hasAttribute('hidden'));
-    });
-
-    test('weblinks are visible when other weblinks', () => {
-      const router = document.createElement('gr-router');
-      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
-          router._generateWeblinks.bind(router));
-
-      element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
-      flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
-      assert.isFalse(webLinks.hasAttribute('hidden'));
-      assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
-      // With two non-gitiles weblinks, there are two returned.
-      element.commitInfo = {
-        web_links: [{name: 'test', url: '#'}, {name: 'test2', url: '#'}]};
-      assert.equal(element._computeWebLinks(element.commitInfo).length, 2);
-    });
-
-    test('weblinks are visible when gitiles and other weblinks', () => {
-      const router = document.createElement('gr-router');
-      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
-          router._generateWeblinks.bind(router));
-
-      element.commitInfo = {
-        web_links: [{name: 'test', url: '#'}, {name: 'gitiles', url: '#'}]};
-      flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
-      assert.isFalse(webLinks.hasAttribute('hidden'));
-      // Only the non-gitiles weblink is returned.
-      assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
-    });
-
-    suite('_getNonOwnerRole', () => {
-      let change;
-
-      setup(() => {
-        change = {
-          owner: {
-            email: 'abc@def',
-            _account_id: 1019328,
-          },
-          revisions: {
-            rev1: {
-              _number: 1,
-              uploader: {
-                email: 'ghi@def',
-                _account_id: 1011123,
-              },
-              commit: {
-                author: {email: 'jkl@def'},
-                committer: {email: 'ghi@def'},
-              },
-            },
-          },
-          current_revision: 'rev1',
-        };
-      });
-
-      suite('role=uploader', () => {
-        test('_getNonOwnerRole for uploader', () => {
-          assert.deepEqual(
-              element._getNonOwnerRole(change, element._CHANGE_ROLE.UPLOADER),
-              {email: 'ghi@def', _account_id: 1011123});
-        });
-
-        test('_getNonOwnerRole that it does not return uploader', () => {
-          // Set the uploader email to be the same as the owner.
-          change.revisions.rev1.uploader._account_id = 1019328;
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.UPLOADER));
-        });
-
-        test('_getNonOwnerRole null for uploader with no current rev', () => {
-          delete change.current_revision;
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.UPLOADER));
-        });
-
-        test('_computeShowRoleClass show uploader', () => {
-          assert.equal(element._computeShowRoleClass(
-              change, element._CHANGE_ROLE.UPLOADER), '');
-        });
-
-        test('_computeShowRoleClass hide uploader', () => {
-          // Set the uploader email to be the same as the owner.
-          change.revisions.rev1.uploader._account_id = 1019328;
-          assert.equal(element._computeShowRoleClass(change,
-              element._CHANGE_ROLE.UPLOADER), 'hideDisplay');
-        });
-      });
-
-      suite('role=committer', () => {
-        test('_getNonOwnerRole for committer', () => {
-          assert.deepEqual(
-              element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER),
-              {email: 'ghi@def'});
-        });
-
-        test('_getNonOwnerRole that it does not return committer', () => {
-          // Set the committer email to be the same as the owner.
-          change.revisions.rev1.commit.committer.email = 'abc@def';
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.COMMITTER));
-        });
-
-        test('_getNonOwnerRole null for committer with no current rev', () => {
-          delete change.current_revision;
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.COMMITTER));
-        });
-
-        test('_getNonOwnerRole null for committer with no commit', () => {
-          delete change.revisions.rev1.commit;
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.COMMITTER));
-        });
-
-        test('_getNonOwnerRole null for committer with no committer', () => {
-          delete change.revisions.rev1.commit.committer;
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.COMMITTER));
-        });
-      });
-
-      suite('role=author', () => {
-        test('_getNonOwnerRole for author', () => {
-          assert.deepEqual(
-              element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR),
-              {email: 'jkl@def'});
-        });
-
-        test('_getNonOwnerRole that it does not return author', () => {
-          // Set the author email to be the same as the owner.
-          change.revisions.rev1.commit.author.email = 'abc@def';
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.AUTHOR));
-        });
-
-        test('_getNonOwnerRole null for author with no current rev', () => {
-          delete change.current_revision;
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.AUTHOR));
-        });
-
-        test('_getNonOwnerRole null for author with no commit', () => {
-          delete change.revisions.rev1.commit;
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.AUTHOR));
-        });
-
-        test('_getNonOwnerRole null for author with no author', () => {
-          delete change.revisions.rev1.commit.author;
-          assert.isNull(element._getNonOwnerRole(change,
-              element._CHANGE_ROLE.AUTHOR));
-        });
-      });
-    });
-
-    test('Push Certificate Validation test BAD', () => {
-      const serverConfig = {
-        receive: {
-          enable_signed_push: true,
-        },
-      };
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      change = {
         owner: {
+          email: 'abc@def',
           _account_id: 1019328,
         },
         revisions: {
           rev1: {
             _number: 1,
-            push_certificate: {
-              key: {
-                status: 'BAD',
-                problems: [
-                  'No public keys found for key ID E5E20E52',
-                ],
-              },
+            uploader: {
+              email: 'ghi@def',
+              _account_id: 1011123,
+            },
+            commit: {
+              author: {email: 'jkl@def'},
+              committer: {email: 'ghi@def'},
             },
           },
         },
         current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
       };
-      const result =
-          element._computePushCertificateValidation(serverConfig, change);
-      assert.equal(result.message,
-          'Push certificate is invalid:\n' +
-          'No public keys found for key ID E5E20E52');
-      assert.equal(result.icon, 'gr-icons:close');
-      assert.equal(result.class, 'invalid');
     });
 
-    test('Push Certificate Validation test TRUSTED', () => {
-      const serverConfig = {
-        receive: {
-          enable_signed_push: true,
-        },
-      };
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1019328,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            push_certificate: {
-              key: {
-                status: 'TRUSTED',
-              },
-            },
-          },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      const result =
-          element._computePushCertificateValidation(serverConfig, change);
-      assert.equal(result.message,
-          'Push certificate is valid and key is trusted');
-      assert.equal(result.icon, 'gr-icons:check');
-      assert.equal(result.class, 'trusted');
-    });
-
-    test('Push Certificate Validation is missing test', () => {
-      const serverConfig = {
-        receive: {
-          enable_signed_push: true,
-        },
-      };
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1019328,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-          },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      const result =
-          element._computePushCertificateValidation(serverConfig, change);
-      assert.equal(result.message,
-          'This patch set was created without a push certificate');
-      assert.equal(result.icon, 'gr-icons:help');
-      assert.equal(result.class, 'help');
-    });
-
-    test('_computeParents', () => {
-      const parents = [{commit: '123', subject: 'abc'}];
-      assert.isUndefined(element._computeParents(
-          {revisions: {456: {commit: {parents}}}}));
-      assert.isUndefined(element._computeParents(
-          {current_revision: '789', revisions: {456: {commit: {parents}}}}));
-      assert.equal(element._computeParents(
-          {current_revision: '456', revisions: {456: {commit: {parents}}}}),
-      parents);
-    });
-
-    test('_computeParentsLabel', () => {
-      const parent = {commit: 'abc123', subject: 'My parent commit'};
-      assert.equal(element._computeParentsLabel([parent]), 'Parent');
-      assert.equal(element._computeParentsLabel([parent, parent]),
-          'Parents');
-    });
-
-    test('_computeParentListClass', () => {
-      const parent = {commit: 'abc123', subject: 'My parent commit'};
-      assert.equal(element._computeParentListClass([parent], true),
-          'parentList nonMerge current');
-      assert.equal(element._computeParentListClass([parent], false),
-          'parentList nonMerge notCurrent');
-      assert.equal(element._computeParentListClass([parent, parent], false),
-          'parentList merge notCurrent');
-      assert.equal(element._computeParentListClass([parent, parent], true),
-          'parentList merge current');
-    });
-
-    test('_showAddTopic', () => {
-      assert.isTrue(element._showAddTopic(null, false));
-      assert.isTrue(element._showAddTopic({base: {topic: null}}, false));
-      assert.isFalse(element._showAddTopic({base: {topic: null}}, true));
-      assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, true));
-      assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, false));
-    });
-
-    test('_showTopicChip', () => {
-      assert.isFalse(element._showTopicChip(null, false));
-      assert.isFalse(element._showTopicChip({base: {topic: null}}, false));
-      assert.isFalse(element._showTopicChip({base: {topic: null}}, true));
-      assert.isFalse(element._showTopicChip({base: {topic: 'foo'}}, true));
-      assert.isTrue(element._showTopicChip({base: {topic: 'foo'}}, false));
-    });
-
-    test('_showCherryPickOf', () => {
-      assert.isFalse(element._showCherryPickOf(null));
-      assert.isFalse(element._showCherryPickOf({
-        base: {
-          cherry_pick_of_change: null,
-          cherry_pick_of_patch_set: null,
-        },
-      }));
-      assert.isTrue(element._showCherryPickOf({
-        base: {
-          cherry_pick_of_change: 123,
-          cherry_pick_of_patch_set: 1,
-        },
-      }));
-    });
-
-    suite('Topic removal', () => {
-      let change;
-      setup(() => {
-        change = {
-          _number: 'the number',
-          actions: {
-            topic: {enabled: false},
-          },
-          change_id: 'the id',
-          topic: 'the topic',
-          status: 'NEW',
-          submit_type: 'CHERRY_PICK',
-          labels: {
-            test: {
-              all: [{_account_id: 1, name: 'bojack', value: 1}],
-              default_value: 0,
-              values: [],
-            },
-          },
-          removable_reviewers: [],
-        };
+    suite('role=uploader', () => {
+      test('_getNonOwnerRole for uploader', () => {
+        assert.deepEqual(
+            element._getNonOwnerRole(change, element._CHANGE_ROLE.UPLOADER),
+            {email: 'ghi@def', _account_id: 1011123});
       });
 
-      test('_computeTopicReadOnly', () => {
-        let mutable = false;
-        assert.isTrue(element._computeTopicReadOnly(mutable, change));
-        mutable = true;
-        assert.isTrue(element._computeTopicReadOnly(mutable, change));
-        change.actions.topic.enabled = true;
-        assert.isFalse(element._computeTopicReadOnly(mutable, change));
-        mutable = false;
-        assert.isTrue(element._computeTopicReadOnly(mutable, change));
+      test('_getNonOwnerRole that it does not return uploader', () => {
+        // Set the uploader email to be the same as the owner.
+        change.revisions.rev1.uploader._account_id = 1019328;
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.UPLOADER));
       });
 
-      test('topic read only hides delete button', () => {
-        element.account = {};
-        element.change = change;
-        flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
-        assert.isTrue(button.hasAttribute('hidden'));
+      test('_getNonOwnerRole null for uploader with no current rev', () => {
+        delete change.current_revision;
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.UPLOADER));
       });
 
-      test('topic not read only does not hide delete button', () => {
-        element.account = {test: true};
-        change.actions.topic.enabled = true;
-        element.change = change;
-        flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
-        assert.isFalse(button.hasAttribute('hidden'));
+      test('_computeShowRoleClass show uploader', () => {
+        assert.equal(element._computeShowRoleClass(
+            change, element._CHANGE_ROLE.UPLOADER), '');
+      });
+
+      test('_computeShowRoleClass hide uploader', () => {
+        // Set the uploader email to be the same as the owner.
+        change.revisions.rev1.uploader._account_id = 1019328;
+        assert.equal(element._computeShowRoleClass(change,
+            element._CHANGE_ROLE.UPLOADER), 'hideDisplay');
       });
     });
 
-    suite('Hashtag removal', () => {
-      let change;
-      setup(() => {
-        change = {
-          _number: 'the number',
-          actions: {
-            hashtags: {enabled: false},
-          },
-          change_id: 'the id',
-          hashtags: ['test-hashtag'],
-          status: 'NEW',
-          submit_type: 'CHERRY_PICK',
-          labels: {
-            test: {
-              all: [{_account_id: 1, name: 'bojack', value: 1}],
-              default_value: 0,
-              values: [],
-            },
-          },
-          removable_reviewers: [],
-        };
+    suite('role=committer', () => {
+      test('_getNonOwnerRole for committer', () => {
+        assert.deepEqual(
+            element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER),
+            {email: 'ghi@def'});
       });
 
-      test('_computeHashtagReadOnly', () => {
-        flushAsynchronousOperations();
-        let mutable = false;
-        assert.isTrue(element._computeHashtagReadOnly(mutable, change));
-        mutable = true;
-        assert.isTrue(element._computeHashtagReadOnly(mutable, change));
-        change.actions.hashtags.enabled = true;
-        assert.isFalse(element._computeHashtagReadOnly(mutable, change));
-        mutable = false;
-        assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+      test('_getNonOwnerRole that it does not return committer', () => {
+        // Set the committer email to be the same as the owner.
+        change.revisions.rev1.commit.committer.email = 'abc@def';
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.COMMITTER));
       });
 
-      test('hashtag read only hides delete button', () => {
-        flushAsynchronousOperations();
-        element.account = {};
-        element.change = change;
-        flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
-        assert.isTrue(button.hasAttribute('hidden'));
+      test('_getNonOwnerRole null for committer with no current rev', () => {
+        delete change.current_revision;
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.COMMITTER));
       });
 
-      test('hashtag not read only does not hide delete button', () => {
-        flushAsynchronousOperations();
-        element.account = {test: true};
-        change.actions.hashtags.enabled = true;
-        element.change = change;
-        flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
-        assert.isFalse(button.hasAttribute('hidden'));
+      test('_getNonOwnerRole null for committer with no commit', () => {
+        delete change.revisions.rev1.commit;
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.COMMITTER));
+      });
+
+      test('_getNonOwnerRole null for committer with no committer', () => {
+        delete change.revisions.rev1.commit.committer;
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.COMMITTER));
       });
     });
 
-    suite('remove reviewer votes', () => {
-      setup(() => {
-        sandbox.stub(element, '_computeTopicReadOnly').returns(true);
-        element.change = {
-          _number: 42,
-          change_id: 'the id',
-          actions: [],
-          topic: 'the topic',
-          status: 'NEW',
-          submit_type: 'CHERRY_PICK',
-          labels: {
-            test: {
-              all: [{_account_id: 1, name: 'bojack', value: 1}],
-              default_value: 0,
-              values: [],
-            },
-          },
-          removable_reviewers: [],
-        };
-        flushAsynchronousOperations();
+    suite('role=author', () => {
+      test('_getNonOwnerRole for author', () => {
+        assert.deepEqual(
+            element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR),
+            {email: 'jkl@def'});
       });
 
-      suite('assignee field', () => {
-        const dummyAccount = {
-          _account_id: 1,
-          name: 'bojack',
-        };
-        const change = {
-          actions: {
-            assignee: {enabled: false},
-          },
-          assignee: dummyAccount,
-        };
-        let deleteStub;
-        let setStub;
-
-        setup(() => {
-          deleteStub = sandbox.stub(element.$.restAPI, 'deleteAssignee');
-          setStub = sandbox.stub(element.$.restAPI, 'setAssignee');
-        });
-
-        test('changing change recomputes _assignee', () => {
-          assert.isFalse(!!element._assignee.length);
-          const change = element.change;
-          change.assignee = dummyAccount;
-          element._changeChanged(change);
-          assert.deepEqual(element._assignee[0], dummyAccount);
-        });
-
-        test('modifying _assignee calls API', () => {
-          assert.isFalse(!!element._assignee.length);
-          element.set('_assignee', [dummyAccount]);
-          assert.isTrue(setStub.calledOnce);
-          assert.deepEqual(element.change.assignee, dummyAccount);
-          element.set('_assignee', [dummyAccount]);
-          assert.isTrue(setStub.calledOnce);
-          element.set('_assignee', []);
-          assert.isTrue(deleteStub.calledOnce);
-          assert.equal(element.change.assignee, undefined);
-          element.set('_assignee', []);
-          assert.isTrue(deleteStub.calledOnce);
-        });
-
-        test('_computeAssigneeReadOnly', () => {
-          let mutable = false;
-          assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-          mutable = true;
-          assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-          change.actions.assignee.enabled = true;
-          assert.isFalse(element._computeAssigneeReadOnly(mutable, change));
-          mutable = false;
-          assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-        });
+      test('_getNonOwnerRole that it does not return author', () => {
+        // Set the author email to be the same as the owner.
+        change.revisions.rev1.commit.author.email = 'abc@def';
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.AUTHOR));
       });
 
-      test('changing topic', () => {
-        const newTopic = 'the new topic';
-        sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
-            Promise.resolve(newTopic));
-        element._handleTopicChanged({}, newTopic);
-        const topicChangedSpy = sandbox.spy();
-        element.addEventListener('topic-changed', topicChangedSpy);
-        assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
-            42, newTopic));
-        return element.$.restAPI.setChangeTopic.lastCall.returnValue
-            .then(() => {
-              assert.equal(element.change.topic, newTopic);
-              assert.isTrue(topicChangedSpy.called);
-            });
+      test('_getNonOwnerRole null for author with no current rev', () => {
+        delete change.current_revision;
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.AUTHOR));
       });
 
-      test('topic removal', () => {
-        sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
-            Promise.resolve());
-        const chip = element.$$('gr-linked-chip');
-        const remove = chip.$.remove;
-        const topicChangedSpy = sandbox.spy();
-        element.addEventListener('topic-changed', topicChangedSpy);
-        MockInteractions.tap(remove);
-        assert.isTrue(chip.disabled);
-        assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
-            42, null));
-        return element.$.restAPI.setChangeTopic.lastCall.returnValue
-            .then(() => {
-              assert.isFalse(chip.disabled);
-              assert.equal(element.change.topic, '');
-              assert.isTrue(topicChangedSpy.called);
-            });
+      test('_getNonOwnerRole null for author with no commit', () => {
+        delete change.revisions.rev1.commit;
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.AUTHOR));
       });
 
-      test('changing hashtag', () => {
-        flushAsynchronousOperations();
-        element._newHashtag = 'new hashtag';
-        const newHashtag = ['new hashtag'];
-        sandbox.stub(element.$.restAPI, 'setChangeHashtag').returns(
-            Promise.resolve(newHashtag));
-        element._handleHashtagChanged({}, 'new hashtag');
-        assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
-            42, {add: ['new hashtag']}));
-        return element.$.restAPI.setChangeHashtag.lastCall.returnValue
-            .then(() => {
-              assert.equal(element.change.hashtags, newHashtag);
-            });
-      });
-    });
-
-    test('editTopic', () => {
-      element.account = {test: true};
-      element.change = {actions: {topic: {enabled: true}}};
-      flushAsynchronousOperations();
-
-      const label = element.$$('.topicEditableLabel');
-      assert.ok(label);
-      sandbox.stub(label, 'open');
-      element.editTopic();
-      flushAsynchronousOperations();
-
-      assert.isTrue(label.open.called);
-    });
-
-    suite('plugin endpoints', () => {
-      test('endpoint params', done => {
-        element.change = {labels: {}};
-        element.revision = {};
-        let hookEl;
-        let plugin;
-        Gerrit.install(
-            p => {
-              plugin = p;
-              plugin.hook('change-metadata-item').getLastAttached()
-                  .then(el => hookEl = el);
-            },
-            '0.1',
-            'http://some/plugins/url.html');
-        Gerrit._loadPlugins([]);
-        flush(() => {
-          assert.strictEqual(hookEl.plugin, plugin);
-          assert.strictEqual(hookEl.change, element.change);
-          assert.strictEqual(hookEl.revision, element.revision);
-          done();
-        });
+      test('_getNonOwnerRole null for author with no author', () => {
+        delete change.revisions.rev1.commit.author;
+        assert.isNull(element._getNonOwnerRole(change,
+            element._CHANGE_ROLE.AUTHOR));
       });
     });
   });
+
+  test('Push Certificate Validation test BAD', () => {
+    const serverConfig = {
+      receive: {
+        enable_signed_push: true,
+      },
+    };
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      owner: {
+        _account_id: 1019328,
+      },
+      revisions: {
+        rev1: {
+          _number: 1,
+          push_certificate: {
+            key: {
+              status: 'BAD',
+              problems: [
+                'No public keys found for key ID E5E20E52',
+              ],
+            },
+          },
+        },
+      },
+      current_revision: 'rev1',
+      status: 'NEW',
+      labels: {},
+      mergeable: true,
+    };
+    const result =
+        element._computePushCertificateValidation(serverConfig, change);
+    assert.equal(result.message,
+        'Push certificate is invalid:\n' +
+        'No public keys found for key ID E5E20E52');
+    assert.equal(result.icon, 'gr-icons:close');
+    assert.equal(result.class, 'invalid');
+  });
+
+  test('Push Certificate Validation test TRUSTED', () => {
+    const serverConfig = {
+      receive: {
+        enable_signed_push: true,
+      },
+    };
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      owner: {
+        _account_id: 1019328,
+      },
+      revisions: {
+        rev1: {
+          _number: 1,
+          push_certificate: {
+            key: {
+              status: 'TRUSTED',
+            },
+          },
+        },
+      },
+      current_revision: 'rev1',
+      status: 'NEW',
+      labels: {},
+      mergeable: true,
+    };
+    const result =
+        element._computePushCertificateValidation(serverConfig, change);
+    assert.equal(result.message,
+        'Push certificate is valid and key is trusted');
+    assert.equal(result.icon, 'gr-icons:check');
+    assert.equal(result.class, 'trusted');
+  });
+
+  test('Push Certificate Validation is missing test', () => {
+    const serverConfig = {
+      receive: {
+        enable_signed_push: true,
+      },
+    };
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      owner: {
+        _account_id: 1019328,
+      },
+      revisions: {
+        rev1: {
+          _number: 1,
+        },
+      },
+      current_revision: 'rev1',
+      status: 'NEW',
+      labels: {},
+      mergeable: true,
+    };
+    const result =
+        element._computePushCertificateValidation(serverConfig, change);
+    assert.equal(result.message,
+        'This patch set was created without a push certificate');
+    assert.equal(result.icon, 'gr-icons:help');
+    assert.equal(result.class, 'help');
+  });
+
+  test('_computeParents', () => {
+    const parents = [{commit: '123', subject: 'abc'}];
+    assert.isUndefined(element._computeParents(
+        {revisions: {456: {commit: {parents}}}}));
+    assert.isUndefined(element._computeParents(
+        {current_revision: '789', revisions: {456: {commit: {parents}}}}));
+    assert.equal(element._computeParents(
+        {current_revision: '456', revisions: {456: {commit: {parents}}}}),
+    parents);
+  });
+
+  test('_computeParentsLabel', () => {
+    const parent = {commit: 'abc123', subject: 'My parent commit'};
+    assert.equal(element._computeParentsLabel([parent]), 'Parent');
+    assert.equal(element._computeParentsLabel([parent, parent]),
+        'Parents');
+  });
+
+  test('_computeParentListClass', () => {
+    const parent = {commit: 'abc123', subject: 'My parent commit'};
+    assert.equal(element._computeParentListClass([parent], true),
+        'parentList nonMerge current');
+    assert.equal(element._computeParentListClass([parent], false),
+        'parentList nonMerge notCurrent');
+    assert.equal(element._computeParentListClass([parent, parent], false),
+        'parentList merge notCurrent');
+    assert.equal(element._computeParentListClass([parent, parent], true),
+        'parentList merge current');
+  });
+
+  test('_showAddTopic', () => {
+    assert.isTrue(element._showAddTopic(null, false));
+    assert.isTrue(element._showAddTopic({base: {topic: null}}, false));
+    assert.isFalse(element._showAddTopic({base: {topic: null}}, true));
+    assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, true));
+    assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, false));
+  });
+
+  test('_showTopicChip', () => {
+    assert.isFalse(element._showTopicChip(null, false));
+    assert.isFalse(element._showTopicChip({base: {topic: null}}, false));
+    assert.isFalse(element._showTopicChip({base: {topic: null}}, true));
+    assert.isFalse(element._showTopicChip({base: {topic: 'foo'}}, true));
+    assert.isTrue(element._showTopicChip({base: {topic: 'foo'}}, false));
+  });
+
+  test('_showCherryPickOf', () => {
+    assert.isFalse(element._showCherryPickOf(null));
+    assert.isFalse(element._showCherryPickOf({
+      base: {
+        cherry_pick_of_change: null,
+        cherry_pick_of_patch_set: null,
+      },
+    }));
+    assert.isTrue(element._showCherryPickOf({
+      base: {
+        cherry_pick_of_change: 123,
+        cherry_pick_of_patch_set: 1,
+      },
+    }));
+  });
+
+  suite('Topic removal', () => {
+    let change;
+    setup(() => {
+      change = {
+        _number: 'the number',
+        actions: {
+          topic: {enabled: false},
+        },
+        change_id: 'the id',
+        topic: 'the topic',
+        status: 'NEW',
+        submit_type: 'CHERRY_PICK',
+        labels: {
+          test: {
+            all: [{_account_id: 1, name: 'bojack', value: 1}],
+            default_value: 0,
+            values: [],
+          },
+        },
+        removable_reviewers: [],
+      };
+    });
+
+    test('_computeTopicReadOnly', () => {
+      let mutable = false;
+      assert.isTrue(element._computeTopicReadOnly(mutable, change));
+      mutable = true;
+      assert.isTrue(element._computeTopicReadOnly(mutable, change));
+      change.actions.topic.enabled = true;
+      assert.isFalse(element._computeTopicReadOnly(mutable, change));
+      mutable = false;
+      assert.isTrue(element._computeTopicReadOnly(mutable, change));
+    });
+
+    test('topic read only hides delete button', () => {
+      element.account = {};
+      element.change = change;
+      flushAsynchronousOperations();
+      const button = element.$$('gr-linked-chip').$$('gr-button');
+      assert.isTrue(button.hasAttribute('hidden'));
+    });
+
+    test('topic not read only does not hide delete button', () => {
+      element.account = {test: true};
+      change.actions.topic.enabled = true;
+      element.change = change;
+      flushAsynchronousOperations();
+      const button = element.$$('gr-linked-chip').$$('gr-button');
+      assert.isFalse(button.hasAttribute('hidden'));
+    });
+  });
+
+  suite('Hashtag removal', () => {
+    let change;
+    setup(() => {
+      change = {
+        _number: 'the number',
+        actions: {
+          hashtags: {enabled: false},
+        },
+        change_id: 'the id',
+        hashtags: ['test-hashtag'],
+        status: 'NEW',
+        submit_type: 'CHERRY_PICK',
+        labels: {
+          test: {
+            all: [{_account_id: 1, name: 'bojack', value: 1}],
+            default_value: 0,
+            values: [],
+          },
+        },
+        removable_reviewers: [],
+      };
+    });
+
+    test('_computeHashtagReadOnly', () => {
+      flushAsynchronousOperations();
+      let mutable = false;
+      assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+      mutable = true;
+      assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+      change.actions.hashtags.enabled = true;
+      assert.isFalse(element._computeHashtagReadOnly(mutable, change));
+      mutable = false;
+      assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+    });
+
+    test('hashtag read only hides delete button', () => {
+      flushAsynchronousOperations();
+      element.account = {};
+      element.change = change;
+      flushAsynchronousOperations();
+      const button = element.$$('gr-linked-chip').$$('gr-button');
+      assert.isTrue(button.hasAttribute('hidden'));
+    });
+
+    test('hashtag not read only does not hide delete button', () => {
+      flushAsynchronousOperations();
+      element.account = {test: true};
+      change.actions.hashtags.enabled = true;
+      element.change = change;
+      flushAsynchronousOperations();
+      const button = element.$$('gr-linked-chip').$$('gr-button');
+      assert.isFalse(button.hasAttribute('hidden'));
+    });
+  });
+
+  suite('remove reviewer votes', () => {
+    setup(() => {
+      sandbox.stub(element, '_computeTopicReadOnly').returns(true);
+      element.change = {
+        _number: 42,
+        change_id: 'the id',
+        actions: [],
+        topic: 'the topic',
+        status: 'NEW',
+        submit_type: 'CHERRY_PICK',
+        labels: {
+          test: {
+            all: [{_account_id: 1, name: 'bojack', value: 1}],
+            default_value: 0,
+            values: [],
+          },
+        },
+        removable_reviewers: [],
+      };
+      flushAsynchronousOperations();
+    });
+
+    suite('assignee field', () => {
+      const dummyAccount = {
+        _account_id: 1,
+        name: 'bojack',
+      };
+      const change = {
+        actions: {
+          assignee: {enabled: false},
+        },
+        assignee: dummyAccount,
+      };
+      let deleteStub;
+      let setStub;
+
+      setup(() => {
+        deleteStub = sandbox.stub(element.$.restAPI, 'deleteAssignee');
+        setStub = sandbox.stub(element.$.restAPI, 'setAssignee');
+      });
+
+      test('changing change recomputes _assignee', () => {
+        assert.isFalse(!!element._assignee.length);
+        const change = element.change;
+        change.assignee = dummyAccount;
+        element._changeChanged(change);
+        assert.deepEqual(element._assignee[0], dummyAccount);
+      });
+
+      test('modifying _assignee calls API', () => {
+        assert.isFalse(!!element._assignee.length);
+        element.set('_assignee', [dummyAccount]);
+        assert.isTrue(setStub.calledOnce);
+        assert.deepEqual(element.change.assignee, dummyAccount);
+        element.set('_assignee', [dummyAccount]);
+        assert.isTrue(setStub.calledOnce);
+        element.set('_assignee', []);
+        assert.isTrue(deleteStub.calledOnce);
+        assert.equal(element.change.assignee, undefined);
+        element.set('_assignee', []);
+        assert.isTrue(deleteStub.calledOnce);
+      });
+
+      test('_computeAssigneeReadOnly', () => {
+        let mutable = false;
+        assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
+        mutable = true;
+        assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
+        change.actions.assignee.enabled = true;
+        assert.isFalse(element._computeAssigneeReadOnly(mutable, change));
+        mutable = false;
+        assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
+      });
+    });
+
+    test('changing topic', () => {
+      const newTopic = 'the new topic';
+      sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
+          Promise.resolve(newTopic));
+      element._handleTopicChanged({}, newTopic);
+      const topicChangedSpy = sandbox.spy();
+      element.addEventListener('topic-changed', topicChangedSpy);
+      assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
+          42, newTopic));
+      return element.$.restAPI.setChangeTopic.lastCall.returnValue
+          .then(() => {
+            assert.equal(element.change.topic, newTopic);
+            assert.isTrue(topicChangedSpy.called);
+          });
+    });
+
+    test('topic removal', () => {
+      sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
+          Promise.resolve());
+      const chip = element.$$('gr-linked-chip');
+      const remove = chip.$.remove;
+      const topicChangedSpy = sandbox.spy();
+      element.addEventListener('topic-changed', topicChangedSpy);
+      MockInteractions.tap(remove);
+      assert.isTrue(chip.disabled);
+      assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
+          42, null));
+      return element.$.restAPI.setChangeTopic.lastCall.returnValue
+          .then(() => {
+            assert.isFalse(chip.disabled);
+            assert.equal(element.change.topic, '');
+            assert.isTrue(topicChangedSpy.called);
+          });
+    });
+
+    test('changing hashtag', () => {
+      flushAsynchronousOperations();
+      element._newHashtag = 'new hashtag';
+      const newHashtag = ['new hashtag'];
+      sandbox.stub(element.$.restAPI, 'setChangeHashtag').returns(
+          Promise.resolve(newHashtag));
+      element._handleHashtagChanged({}, 'new hashtag');
+      assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
+          42, {add: ['new hashtag']}));
+      return element.$.restAPI.setChangeHashtag.lastCall.returnValue
+          .then(() => {
+            assert.equal(element.change.hashtags, newHashtag);
+          });
+    });
+  });
+
+  test('editTopic', () => {
+    element.account = {test: true};
+    element.change = {actions: {topic: {enabled: true}}};
+    flushAsynchronousOperations();
+
+    const label = element.$$('.topicEditableLabel');
+    assert.ok(label);
+    sandbox.stub(label, 'open');
+    element.editTopic();
+    flushAsynchronousOperations();
+
+    assert.isTrue(label.open.called);
+  });
+
+  suite('plugin endpoints', () => {
+    test('endpoint params', done => {
+      element.change = {labels: {}};
+      element.revision = {};
+      let hookEl;
+      let plugin;
+      Gerrit.install(
+          p => {
+            plugin = p;
+            plugin.hook('change-metadata-item').getLastAttached()
+                .then(el => hookEl = el);
+          },
+          '0.1',
+          'http://some/plugins/url.html');
+      Gerrit._loadPlugins([]);
+      flush(() => {
+        assert.strictEqual(hookEl.plugin, plugin);
+        assert.strictEqual(hookEl.change, element.change);
+        assert.strictEqual(hookEl.revision, element.revision);
+        done();
+      });
+    });
+  });
+});
 </script>

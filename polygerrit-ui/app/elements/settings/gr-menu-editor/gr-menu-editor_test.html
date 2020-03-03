@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-settings-view</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-menu-editor.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-menu-editor.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-menu-editor.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,139 +40,142 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-menu-editor tests', async () => {
-    await readyToTest();
-    let element;
-    let menu;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-menu-editor.js';
+import { flush as flush$0 } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-menu-editor tests', () => {
+  let element;
+  let menu;
 
-    function assertMenuNamesEqual(element, expected) {
-      const names = element.menuItems.map(i => i.name);
-      assert.equal(names.length, expected.length);
-      for (let i = 0; i < names.length; i++) {
-        assert.equal(names[i], expected[i]);
-      }
+  function assertMenuNamesEqual(element, expected) {
+    const names = element.menuItems.map(i => i.name);
+    assert.equal(names.length, expected.length);
+    for (let i = 0; i < names.length; i++) {
+      assert.equal(names[i], expected[i]);
     }
+  }
 
-    // Click the up/down button (according to direction) for the index'th row.
-    // The index of the first row is 0, corresponding to the array.
-    function move(element, index, direction) {
-      const selector = 'tr:nth-child(' + (index + 1) + ') .move' +
-          direction + 'Button';
-      const button =
-          element.$$('tbody').querySelector(selector)
-              .$$('paper-button');
-      MockInteractions.tap(button);
-    }
+  // Click the up/down button (according to direction) for the index'th row.
+  // The index of the first row is 0, corresponding to the array.
+  function move(element, index, direction) {
+    const selector = 'tr:nth-child(' + (index + 1) + ') .move' +
+        direction + 'Button';
+    const button =
+        element.$$('tbody').querySelector(selector)
+            .$$('paper-button');
+    MockInteractions.tap(button);
+  }
 
-    setup(done => {
-      element = fixture('basic');
-      menu = [
-        {url: '/first/url', name: 'first name', target: '_blank'},
-        {url: '/second/url', name: 'second name', target: '_blank'},
-        {url: '/third/url', name: 'third name', target: '_blank'},
-      ];
-      element.set('menuItems', menu);
-      Polymer.dom.flush();
-      flush(done);
-    });
-
-    test('renders', () => {
-      const rows = element.$$('tbody').querySelectorAll('tr');
-      let tds;
-
-      assert.equal(rows.length, menu.length);
-      for (let i = 0; i < menu.length; i++) {
-        tds = rows[i].querySelectorAll('td');
-        assert.equal(tds[0].textContent, menu[i].name);
-        assert.equal(tds[1].textContent, menu[i].url);
-      }
-
-      assert.isTrue(element._computeAddDisabled(element._newName,
-          element._newUrl));
-    });
-
-    test('_computeAddDisabled', () => {
-      assert.isTrue(element._computeAddDisabled('', ''));
-      assert.isTrue(element._computeAddDisabled('name', ''));
-      assert.isTrue(element._computeAddDisabled('', 'url'));
-      assert.isFalse(element._computeAddDisabled('name', 'url'));
-    });
-
-    test('add a new menu item', () => {
-      const newName = 'new name';
-      const newUrl = 'new url';
-
-      element._newName = newName;
-      element._newUrl = newUrl;
-      assert.isFalse(element._computeAddDisabled(element._newName,
-          element._newUrl));
-
-      const originalMenuLength = element.menuItems.length;
-
-      element._handleAddButton();
-
-      assert.equal(element.menuItems.length, originalMenuLength + 1);
-      assert.equal(element.menuItems[element.menuItems.length - 1].name,
-          newName);
-      assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
-    });
-
-    test('move items down', () => {
-      assertMenuNamesEqual(element,
-          ['first name', 'second name', 'third name']);
-
-      // Move the middle item down
-      move(element, 1, 'Down');
-      assertMenuNamesEqual(element,
-          ['first name', 'third name', 'second name']);
-
-      // Moving the bottom item down is a no-op.
-      move(element, 2, 'Down');
-      assertMenuNamesEqual(element,
-          ['first name', 'third name', 'second name']);
-    });
-
-    test('move items up', () => {
-      assertMenuNamesEqual(element,
-          ['first name', 'second name', 'third name']);
-
-      // Move the last item up twice to be the first.
-      move(element, 2, 'Up');
-      move(element, 1, 'Up');
-      assertMenuNamesEqual(element,
-          ['third name', 'first name', 'second name']);
-
-      // Moving the top item up is a no-op.
-      move(element, 0, 'Up');
-      assertMenuNamesEqual(element,
-          ['third name', 'first name', 'second name']);
-    });
-
-    test('remove item', () => {
-      assertMenuNamesEqual(element,
-          ['first name', 'second name', 'third name']);
-
-      // Tap the delete button for the middle item.
-      MockInteractions.tap(element.$$('tbody')
-          .querySelector('tr:nth-child(2) .remove-button')
-          .$$('paper-button'));
-
-      assertMenuNamesEqual(element, ['first name', 'third name']);
-
-      // Delete remaining items.
-      for (let i = 0; i < 2; i++) {
-        MockInteractions.tap(element.$$('tbody')
-            .querySelector('tr:first-child .remove-button')
-            .$$('paper-button'));
-      }
-      assertMenuNamesEqual(element, []);
-
-      // Add item to empty menu.
-      element._newName = 'new name';
-      element._newUrl = 'new url';
-      element._handleAddButton();
-      assertMenuNamesEqual(element, ['new name']);
-    });
+  setup(done => {
+    element = fixture('basic');
+    menu = [
+      {url: '/first/url', name: 'first name', target: '_blank'},
+      {url: '/second/url', name: 'second name', target: '_blank'},
+      {url: '/third/url', name: 'third name', target: '_blank'},
+    ];
+    element.set('menuItems', menu);
+    flush$0();
+    flush(done);
   });
+
+  test('renders', () => {
+    const rows = element.$$('tbody').querySelectorAll('tr');
+    let tds;
+
+    assert.equal(rows.length, menu.length);
+    for (let i = 0; i < menu.length; i++) {
+      tds = rows[i].querySelectorAll('td');
+      assert.equal(tds[0].textContent, menu[i].name);
+      assert.equal(tds[1].textContent, menu[i].url);
+    }
+
+    assert.isTrue(element._computeAddDisabled(element._newName,
+        element._newUrl));
+  });
+
+  test('_computeAddDisabled', () => {
+    assert.isTrue(element._computeAddDisabled('', ''));
+    assert.isTrue(element._computeAddDisabled('name', ''));
+    assert.isTrue(element._computeAddDisabled('', 'url'));
+    assert.isFalse(element._computeAddDisabled('name', 'url'));
+  });
+
+  test('add a new menu item', () => {
+    const newName = 'new name';
+    const newUrl = 'new url';
+
+    element._newName = newName;
+    element._newUrl = newUrl;
+    assert.isFalse(element._computeAddDisabled(element._newName,
+        element._newUrl));
+
+    const originalMenuLength = element.menuItems.length;
+
+    element._handleAddButton();
+
+    assert.equal(element.menuItems.length, originalMenuLength + 1);
+    assert.equal(element.menuItems[element.menuItems.length - 1].name,
+        newName);
+    assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
+  });
+
+  test('move items down', () => {
+    assertMenuNamesEqual(element,
+        ['first name', 'second name', 'third name']);
+
+    // Move the middle item down
+    move(element, 1, 'Down');
+    assertMenuNamesEqual(element,
+        ['first name', 'third name', 'second name']);
+
+    // Moving the bottom item down is a no-op.
+    move(element, 2, 'Down');
+    assertMenuNamesEqual(element,
+        ['first name', 'third name', 'second name']);
+  });
+
+  test('move items up', () => {
+    assertMenuNamesEqual(element,
+        ['first name', 'second name', 'third name']);
+
+    // Move the last item up twice to be the first.
+    move(element, 2, 'Up');
+    move(element, 1, 'Up');
+    assertMenuNamesEqual(element,
+        ['third name', 'first name', 'second name']);
+
+    // Moving the top item up is a no-op.
+    move(element, 0, 'Up');
+    assertMenuNamesEqual(element,
+        ['third name', 'first name', 'second name']);
+  });
+
+  test('remove item', () => {
+    assertMenuNamesEqual(element,
+        ['first name', 'second name', 'third name']);
+
+    // Tap the delete button for the middle item.
+    MockInteractions.tap(element.$$('tbody')
+        .querySelector('tr:nth-child(2) .remove-button')
+        .$$('paper-button'));
+
+    assertMenuNamesEqual(element, ['first name', 'third name']);
+
+    // Delete remaining items.
+    for (let i = 0; i < 2; i++) {
+      MockInteractions.tap(element.$$('tbody')
+          .querySelector('tr:first-child .remove-button')
+          .$$('paper-button'));
+    }
+    assertMenuNamesEqual(element, []);
+
+    // Add item to empty menu.
+    element._newName = 'new name';
+    element._newUrl = 'new url';
+    element._handleAddButton();
+    assertMenuNamesEqual(element, ['new name']);
+  });
+});
 </script>

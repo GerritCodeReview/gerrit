@@ -1,50 +1,6 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-count-string-formatter/gr-count-string-formatter.html">
-<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
-<link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
-<link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
-<link rel="import" href="../../shared/revision-info/revision-info.html">
-<link rel="import" href="../gr-comment-api/gr-comment-api.html">
-<link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
-<link rel="import" href="../gr-apply-fix-dialog/gr-apply-fix-dialog.html">
-<link rel="import" href="../gr-diff-host/gr-diff-host.html">
-<link rel="import" href="../gr-diff-mode-selector/gr-diff-mode-selector.html">
-<link rel="import" href="../gr-diff-preferences-dialog/gr-diff-preferences-dialog.html">
-<link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
-
-<dom-module id="gr-diff-view">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         background-color: var(--view-background-color);
@@ -225,78 +181,43 @@ limitations under the License.
         }
       }
     </style>
-    <gr-fixed-panel
-        class$="[[_computeContainerClass(_editMode)]]"
-        floating-disabled="[[_panelFloatingDisabled]]"
-        keep-on-scroll
-        ready-for-measure="[[!_loading]]"
-        on-floating-height-changed="_onChangeHeaderPanelHeightChanged"
-    >
+    <gr-fixed-panel class\$="[[_computeContainerClass(_editMode)]]" floating-disabled="[[_panelFloatingDisabled]]" keep-on-scroll="" ready-for-measure="[[!_loading]]" on-floating-height-changed="_onChangeHeaderPanelHeightChanged">
       <header>
         <div>
-          <a href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">[[_changeNum]]</a><!--
+          <a href\$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">[[_changeNum]]</a><!--
        --><span class="changeNumberColon">:</span>
           <span class="headerSubject">[[_change.subject]]</span>
-          <input id="reviewed"
-              class="reviewed hideOnEdit"
-              type="checkbox"
-              on-change="_handleReviewedChange"
-              hidden$="[[!_loggedIn]]" hidden><!--
+          <input id="reviewed" class="reviewed hideOnEdit" type="checkbox" on-change="_handleReviewedChange" hidden\$="[[!_loggedIn]]" hidden=""><!--
        --><div class="jumpToFileContainer">
-            <gr-dropdown-list
-                id="dropdown"
-                value="[[_path]]"
-                on-value-change="_handleFileChange"
-                items="[[_formattedFiles]]"
-                initial-count="75">
+            <gr-dropdown-list id="dropdown" value="[[_path]]" on-value-change="_handleFileChange" items="[[_formattedFiles]]" initial-count="75">
            </gr-dropdown-list>
           </div>
         </div>
         <div class="navLinks desktop">
-          <span class$="fileNum [[_computeFileNumClass(_fileNum, _formattedFiles)]]">
+          <span class\$="fileNum [[_computeFileNumClass(_fileNum, _formattedFiles)]]">
             File [[_fileNum]] of [[_formattedFiles.length]]
             <span class="separator"></span>
           </span>
-          <a class="navLink"
-              title="[[createTitle(Shortcut.PREV_FILE,
-                    ShortcutSection.NAVIGATION)]]"
-              href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
+          <a class="navLink" title="[[createTitle(Shortcut.PREV_FILE,
+                    ShortcutSection.NAVIGATION)]]" href\$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
             Prev</a>
           <span class="separator"></span>
-          <a class="navLink"
-              title="[[createTitle(Shortcut.UP_TO_CHANGE,
-                ShortcutSection.NAVIGATION)]]"
-              href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
+          <a class="navLink" title="[[createTitle(Shortcut.UP_TO_CHANGE,
+                ShortcutSection.NAVIGATION)]]" href\$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
             Up</a>
           <span class="separator"></span>
-          <a class="navLink"
-              title="[[createTitle(Shortcut.NEXT_FILE,
-                ShortcutSection.NAVIGATION)]]"
-              href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
+          <a class="navLink" title="[[createTitle(Shortcut.NEXT_FILE,
+                ShortcutSection.NAVIGATION)]]" href\$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
             Next</a>
         </div>
       </header>
       <div class="subHeader">
         <div class="patchRangeLeft">
-          <gr-patch-range-select
-              id="rangeSelect"
-              change-num="[[_changeNum]]"
-              change-comments="[[_changeComments]]"
-              patch-num="[[_patchRange.patchNum]]"
-              base-patch-num="[[_patchRange.basePatchNum]]"
-              files-weblinks="[[_filesWeblinks]]"
-              available-patches="[[_allPatchSets]]"
-              revisions="[[_change.revisions]]"
-              revision-info="[[_revisionInfo]]"
-              on-patch-range-change="_handlePatchChange">
+          <gr-patch-range-select id="rangeSelect" change-num="[[_changeNum]]" change-comments="[[_changeComments]]" patch-num="[[_patchRange.patchNum]]" base-patch-num="[[_patchRange.basePatchNum]]" files-weblinks="[[_filesWeblinks]]" available-patches="[[_allPatchSets]]" revisions="[[_change.revisions]]" revision-info="[[_revisionInfo]]" on-patch-range-change="_handlePatchChange">
           </gr-patch-range-select>
           <span class="download desktop">
             <span class="separator"></span>
-            <gr-dropdown
-                link
-                down-arrow
-                items="[[_computeDownloadDropdownLinks(_change.project, _changeNum, _patchRange, _path, _diff)]]"
-                horizontal-align="left">
+            <gr-dropdown link="" down-arrow="" items="[[_computeDownloadDropdownLinks(_change.project, _changeNum, _patchRange, _path, _diff)]]" horizontal-align="left">
               <span class="downloadTitle">
                 Download
               </span>
@@ -304,99 +225,54 @@ limitations under the License.
           </span>
         </div>
         <div class="rightControls">
-          <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _path)]]">
-            <gr-button
-                link
-                id='toggleBlame'
-                title="[[createTitle(Shortcut.TOGGLE_BLAME, ShortcutSection.DIFFS)]]"
-                disabled="[[_isBlameLoading]]"
-                on-click="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
+          <span class\$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _path)]]">
+            <gr-button link="" id="toggleBlame" title="[[createTitle(Shortcut.TOGGLE_BLAME, ShortcutSection.DIFFS)]]" disabled="[[_isBlameLoading]]" on-click="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
           </span>
           <template is="dom-if" if="[[_computeIsLoggedIn(_loggedIn)]]">
             <span class="separator"></span>
             <span class="editButton">
-              <gr-button
-                link
-                title="Edit current file"
-                on-click="_goToEditFile">edit</gr-button>
+              <gr-button link="" title="Edit current file" on-click="_goToEditFile">edit</gr-button>
             </span>
           </template>
           <span class="separator"></span>
-          <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
+          <div class\$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
             <span>Diff view:</span>
-            <gr-diff-mode-selector
-                id="modeSelect"
-                save-on-change="[[!_diffPrefsDisabled]]"
-                mode="{{changeViewState.diffMode}}"></gr-diff-mode-selector>
+            <gr-diff-mode-selector id="modeSelect" save-on-change="[[!_diffPrefsDisabled]]" mode="{{changeViewState.diffMode}}"></gr-diff-mode-selector>
           </div>
-          <span id="diffPrefsContainer"
-              hidden$="[[_computePrefsButtonHidden(_prefs, _diffPrefsDisabled)]]" hidden>
+          <span id="diffPrefsContainer" hidden\$="[[_computePrefsButtonHidden(_prefs, _diffPrefsDisabled)]]" hidden="">
             <span class="preferences desktop">
-              <gr-button
-                  link
-                  class="prefsButton"
-                  has-tooltip
-                  title="Diff preferences"
-                  on-click="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
+              <gr-button link="" class="prefsButton" has-tooltip="" title="Diff preferences" on-click="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
             </span>
           </span>
           <gr-endpoint-decorator name="annotation-toggler">
-            <span hidden id="annotation-span">
+            <span hidden="" id="annotation-span">
               <label for="annotation-checkbox" id="annotation-label"></label>
-              <iron-input type="checkbox" disabled>
-                <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled>
+              <iron-input type="checkbox" disabled="">
+                <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled="">
               </iron-input>
             </span>
           </gr-endpoint-decorator>
         </div>
       </div>
       <div class="fileNav mobile">
-        <a class="mobileNavLink"
-          href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
+        <a class="mobileNavLink" href\$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
           &lt;</a>
         <div class="fullFileName mobile">[[computeDisplayPath(_path)]]
         </div>
-        <a class="mobileNavLink"
-            href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
+        <a class="mobileNavLink" href\$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
           &gt;</a>
       </div>
     </gr-fixed-panel>
-    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
-    <gr-diff-host
-        id="diffHost"
-        hidden
-        hidden$="[[_loading]]"
-        class$="[[_computeDiffClass(_panelFloatingDisabled)]]"
-        is-image-diff="{{_isImageDiff}}"
-        files-weblinks="{{_filesWeblinks}}"
-        diff="{{_diff}}"
-        change-num="[[_changeNum]]"
-        commit-range="[[_commitRange]]"
-        patch-range="[[_patchRange]]"
-        path="[[_path]]"
-        prefs="[[_prefs]]"
-        project-name="[[_change.project]]"
-        view-mode="[[_diffMode]]"
-        is-blame-loaded="{{_isBlameLoaded}}"
-        on-comment-anchor-tap="_onLineSelected"
-        on-line-selected="_onLineSelected">
+    <div class="loading" hidden\$="[[!_loading]]">Loading...</div>
+    <gr-diff-host id="diffHost" hidden="" hidden\$="[[_loading]]" class\$="[[_computeDiffClass(_panelFloatingDisabled)]]" is-image-diff="{{_isImageDiff}}" files-weblinks="{{_filesWeblinks}}" diff="{{_diff}}" change-num="[[_changeNum]]" commit-range="[[_commitRange]]" patch-range="[[_patchRange]]" path="[[_path]]" prefs="[[_prefs]]" project-name="[[_change.project]]" view-mode="[[_diffMode]]" is-blame-loaded="{{_isBlameLoaded}}" on-comment-anchor-tap="_onLineSelected" on-line-selected="_onLineSelected">
     </gr-diff-host>
-    <gr-apply-fix-dialog
-      id="applyFixDialog"
-      prefs="[[_prefs]]"
-      change="[[_change]]"
-      change-num="[[_changeNum]]">
+    <gr-apply-fix-dialog id="applyFixDialog" prefs="[[_prefs]]" change="[[_change]]" change-num="[[_changeNum]]">
     </gr-apply-fix-dialog>
-    <gr-diff-preferences-dialog
-        id="diffPreferencesDialog"
-        diff-prefs="{{_prefs}}"
-        on-reload-diff-preference="_handleReloadingDiffPreference">
+    <gr-diff-preferences-dialog id="diffPreferencesDialog" diff-prefs="{{_prefs}}" on-reload-diff-preference="_handleReloadingDiffPreference">
     </gr-diff-preferences-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="cursor" scroll-top-margin="[[_scrollTopMargin]]"></gr-diff-cursor>
     <gr-comment-api id="commentAPI"></gr-comment-api>
     <gr-reporting id="reporting"></gr-reporting>
-  </template>
-  <script src="gr-diff-view.js"></script>
-</dom-module>
+`;

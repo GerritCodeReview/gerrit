@@ -19,17 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-reply-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
 
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="../../plugins/gr-plugin-host/gr-plugin-host.html">
-<link rel="import" href="gr-reply-dialog.html">
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../plugins/gr-plugin-host/gr-plugin-host.js"></script>
+<script type="module" src="./gr-reply-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../plugins/gr-plugin-host/gr-plugin-host.js';
+import './gr-reply-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -43,127 +49,131 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-reply-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let changeNum;
-    let patchNum;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../plugins/gr-plugin-host/gr-plugin-host.js';
+import './gr-reply-dialog.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-reply-dialog tests', () => {
+  let element;
+  let changeNum;
+  let patchNum;
 
-    let sandbox;
+  let sandbox;
 
-    const setupElement = element => {
-      element.change = {
-        _number: changeNum,
-        labels: {
-          'Verified': {
-            values: {
-              '-1': 'Fails',
-              ' 0': 'No score',
-              '+1': 'Verified',
-            },
-            default_value: 0,
+  const setupElement = element => {
+    element.change = {
+      _number: changeNum,
+      labels: {
+        'Verified': {
+          values: {
+            '-1': 'Fails',
+            ' 0': 'No score',
+            '+1': 'Verified',
           },
-          'Code-Review': {
-            values: {
-              '-2': 'Do not submit',
-              '-1': 'I would prefer that you didn\'t submit this',
-              ' 0': 'No score',
-              '+1': 'Looks good to me, but someone else must approve',
-              '+2': 'Looks good to me, approved',
-            },
-            all: [{_account_id: 42, value: 0}],
-            default_value: 0,
-          },
+          default_value: 0,
         },
-      };
-      element.patchNum = patchNum;
-      element.permittedLabels = {
-        'Code-Review': [
-          '-1',
-          ' 0',
-          '+1',
-        ],
-        'Verified': [
-          '-1',
-          ' 0',
-          '+1',
-        ],
-      };
-      sandbox.stub(element, 'fetchChangeUpdates')
-          .returns(Promise.resolve({isLatest: true}));
+        'Code-Review': {
+          values: {
+            '-2': 'Do not submit',
+            '-1': 'I would prefer that you didn\'t submit this',
+            ' 0': 'No score',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved',
+          },
+          all: [{_account_id: 42, value: 0}],
+          default_value: 0,
+        },
+      },
     };
+    element.patchNum = patchNum;
+    element.permittedLabels = {
+      'Code-Review': [
+        '-1',
+        ' 0',
+        '+1',
+      ],
+      'Verified': [
+        '-1',
+        ' 0',
+        '+1',
+      ],
+    };
+    sandbox.stub(element, 'fetchChangeUpdates')
+        .returns(Promise.resolve({isLatest: true}));
+  };
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+  setup(() => {
+    sandbox = sinon.sandbox.create();
 
-      changeNum = 42;
-      patchNum = 1;
+    changeNum = 42;
+    patchNum = 1;
 
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getAccount() { return Promise.resolve({_account_id: 42}); },
-      });
-
-      element = fixture('basic');
-      setupElement(element);
-
-      // Allow the elements created by dom-repeat to be stamped.
-      flushAsynchronousOperations();
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+      getAccount() { return Promise.resolve({_account_id: 42}); },
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+    element = fixture('basic');
+    setupElement(element);
 
-    test('_submit blocked when invalid email is supplied to ccs', () => {
-      const sendStub = sandbox.stub(element, 'send').returns(Promise.resolve());
-      // Stub the below function to avoid side effects from the send promise
-      // resolving.
-      sandbox.stub(element, '_purgeReviewersPendingRemove');
+    // Allow the elements created by dom-repeat to be stamped.
+    flushAsynchronousOperations();
+  });
 
-      element.$.ccs.$.entry.setText('test');
-      MockInteractions.tap(element.$$('gr-button.send'));
-      assert.isFalse(sendStub.called);
-      flushAsynchronousOperations();
+  teardown(() => {
+    sandbox.restore();
+  });
 
-      element.$.ccs.$.entry.setText('test@test.test');
-      MockInteractions.tap(element.$$('gr-button.send'));
-      assert.isTrue(sendStub.called);
-    });
+  test('_submit blocked when invalid email is supplied to ccs', () => {
+    const sendStub = sandbox.stub(element, 'send').returns(Promise.resolve());
+    // Stub the below function to avoid side effects from the send promise
+    // resolving.
+    sandbox.stub(element, '_purgeReviewersPendingRemove');
 
-    test('lgtm plugin', done => {
-      Gerrit._testOnly_resetPlugins();
-      const pluginHost = fixture('plugin-host');
-      pluginHost.config = {
-        plugin: {
-          js_resource_paths: [],
-          html_resource_paths: [
-            new URL('test/plugin.html?' + Math.random(),
-                window.location.href).toString(),
-          ],
-        },
-      };
-      element = fixture('basic');
-      setupElement(element);
-      const importSpy =
-          sandbox.spy(element.$$('gr-endpoint-decorator'), '_import');
-      Gerrit.awaitPluginsLoaded().then(() => {
-        Promise.all(importSpy.returnValues).then(() => {
-          flush(() => {
-            const textarea = element.$.textarea.getNativeTextarea();
-            textarea.value = 'LGTM';
-            textarea.dispatchEvent(new CustomEvent(
-                'input', {bubbles: true, composed: true}));
-            const labelScoreRows = Polymer.dom(element.$.labelScores.root)
-                .querySelector('gr-label-score-row[name="Code-Review"]');
-            const selectedBtn = Polymer.dom(labelScoreRows.root)
-                .querySelector('gr-button[data-value="+1"].iron-selected');
-            assert.isOk(selectedBtn);
-            done();
-          });
+    element.$.ccs.$.entry.setText('test');
+    MockInteractions.tap(element.$$('gr-button.send'));
+    assert.isFalse(sendStub.called);
+    flushAsynchronousOperations();
+
+    element.$.ccs.$.entry.setText('test@test.test');
+    MockInteractions.tap(element.$$('gr-button.send'));
+    assert.isTrue(sendStub.called);
+  });
+
+  test('lgtm plugin', done => {
+    Gerrit._testOnly_resetPlugins();
+    const pluginHost = fixture('plugin-host');
+    pluginHost.config = {
+      plugin: {
+        js_resource_paths: [],
+        html_resource_paths: [
+          new URL('test/plugin.html?' + Math.random(),
+              window.location.href).toString(),
+        ],
+      },
+    };
+    element = fixture('basic');
+    setupElement(element);
+    const importSpy =
+        sandbox.spy(element.$$('gr-endpoint-decorator'), '_import');
+    Gerrit.awaitPluginsLoaded().then(() => {
+      Promise.all(importSpy.returnValues).then(() => {
+        flush(() => {
+          const textarea = element.$.textarea.getNativeTextarea();
+          textarea.value = 'LGTM';
+          textarea.dispatchEvent(new CustomEvent(
+              'input', {bubbles: true, composed: true}));
+          const labelScoreRows = dom(element.$.labelScores.root)
+              .querySelector('gr-label-score-row[name="Code-Review"]');
+          const selectedBtn = dom(labelScoreRows.root)
+              .querySelector('gr-button[data-value="+1"].iron-selected');
+          assert.isOk(selectedBtn);
+          done();
         });
       });
     });
   });
+});
 </script>

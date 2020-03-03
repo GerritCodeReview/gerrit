@@ -19,17 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-account-label</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="../../../scripts/util.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-account-label.html">
+<script type="module" src="./gr-account-label.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-account-label.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,17 +43,124 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-account-label tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-account-label.js';
+suite('gr-account-label tests', () => {
+  let element;
 
+  setup(() => {
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+      getLoggedIn() { return Promise.resolve(false); },
+    });
+    element = fixture('basic');
+    element._config = {
+      user: {
+        anonymous_coward_name: 'Anonymous Coward',
+      },
+    };
+  });
+
+  test('null guard', () => {
+    assert.doesNotThrow(() => {
+      element.account = null;
+    });
+  });
+
+  test('missing email', () => {
+    assert.equal('', element._computeEmailStr({name: 'foo'}));
+  });
+
+  test('computed fields', () => {
+    assert.equal(
+        element._computeAccountTitle({
+          name: 'Andrew Bonventre',
+          email: 'andybons+gerrit@gmail.com',
+        }, /* additionalText= */ ''),
+        'Andrew Bonventre <andybons+gerrit@gmail.com>');
+
+    assert.equal(
+        element._computeAccountTitle({
+          name: 'Andrew Bonventre',
+        }, /* additionalText= */ ''),
+        'Andrew Bonventre');
+
+    assert.equal(
+        element._computeAccountTitle({
+          email: 'andybons+gerrit@gmail.com',
+        }, /* additionalText= */ ''),
+        'Anonymous <andybons+gerrit@gmail.com>');
+
+    assert.equal(element._computeShowEmailClass(
+        {
+          name: 'Andrew Bonventre',
+          email: 'andybons+gerrit@gmail.com',
+        }, /* additionalText= */ ''), '');
+
+    assert.equal(element._computeShowEmailClass(
+        {
+          email: 'andybons+gerrit@gmail.com',
+        }, /* additionalText= */ ''), 'showEmail');
+
+    assert.equal(element._computeShowEmailClass(
+        {name: 'Andrew Bonventre'},
+        /* additionalText= */ ''
+    ),
+    '');
+
+    assert.equal(element._computeShowEmailClass(undefined), '');
+
+    assert.equal(
+        element._computeEmailStr({name: 'test', email: 'test'}), '(test)');
+    assert.equal(element._computeEmailStr({email: 'test'}, ''), 'test');
+  });
+
+  suite('_computeName', () => {
+    test('not showing anonymous', () => {
+      const account = {name: 'Wyatt'};
+      assert.deepEqual(element._computeName(account, null), 'Wyatt');
+    });
+
+    test('showing anonymous but no config', () => {
+      const account = {};
+      assert.deepEqual(element._computeName(account, null),
+          'Anonymous');
+    });
+
+    test('test for Anonymous Coward user and replace with Anonymous', () => {
+      const config = {
+        user: {
+          anonymous_coward_name: 'Anonymous Coward',
+        },
+      };
+      const account = {};
+      assert.deepEqual(element._computeName(account, config),
+          'Anonymous');
+    });
+
+    test('test for anonymous_coward_name', () => {
+      const config = {
+        user: {
+          anonymous_coward_name: 'TestAnon',
+        },
+      };
+      const account = {};
+      assert.deepEqual(element._computeName(account, config),
+          'TestAnon');
+    });
+  });
+
+  suite('status in tooltip', () => {
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getLoggedIn() { return Promise.resolve(false); },
-      });
       element = fixture('basic');
+      element.account = {
+        name: 'test',
+        email: 'test@google.com',
+        status: 'OOO until Aug 10th',
+      };
       element._config = {
         user: {
           anonymous_coward_name: 'Anonymous Coward',
@@ -55,132 +168,28 @@ limitations under the License.
       };
     });
 
-    test('null guard', () => {
-      assert.doesNotThrow(() => {
-        element.account = null;
-      });
+    test('tooltip should contain status text', () => {
+      assert.deepEqual(element.title,
+          'test <test@google.com> (OOO until Aug 10th)');
     });
 
-    test('missing email', () => {
-      assert.equal('', element._computeEmailStr({name: 'foo'}));
+    test('status text should not have tooltip', () => {
+      flushAsynchronousOperations();
+      assert.deepEqual(element.$$('gr-limited-text').title, '');
     });
 
-    test('computed fields', () => {
-      assert.equal(
-          element._computeAccountTitle({
-            name: 'Andrew Bonventre',
-            email: 'andybons+gerrit@gmail.com',
-          }, /* additionalText= */ ''),
-          'Andrew Bonventre <andybons+gerrit@gmail.com>');
-
-      assert.equal(
-          element._computeAccountTitle({
-            name: 'Andrew Bonventre',
-          }, /* additionalText= */ ''),
-          'Andrew Bonventre');
-
-      assert.equal(
-          element._computeAccountTitle({
-            email: 'andybons+gerrit@gmail.com',
-          }, /* additionalText= */ ''),
-          'Anonymous <andybons+gerrit@gmail.com>');
-
-      assert.equal(element._computeShowEmailClass(
-          {
-            name: 'Andrew Bonventre',
-            email: 'andybons+gerrit@gmail.com',
-          }, /* additionalText= */ ''), '');
-
-      assert.equal(element._computeShowEmailClass(
-          {
-            email: 'andybons+gerrit@gmail.com',
-          }, /* additionalText= */ ''), 'showEmail');
-
-      assert.equal(element._computeShowEmailClass(
-          {name: 'Andrew Bonventre'},
-          /* additionalText= */ ''
-      ),
-      '');
-
-      assert.equal(element._computeShowEmailClass(undefined), '');
-
-      assert.equal(
-          element._computeEmailStr({name: 'test', email: 'test'}), '(test)');
-      assert.equal(element._computeEmailStr({email: 'test'}, ''), 'test');
-    });
-
-    suite('_computeName', () => {
-      test('not showing anonymous', () => {
-        const account = {name: 'Wyatt'};
-        assert.deepEqual(element._computeName(account, null), 'Wyatt');
-      });
-
-      test('showing anonymous but no config', () => {
-        const account = {};
-        assert.deepEqual(element._computeName(account, null),
-            'Anonymous');
-      });
-
-      test('test for Anonymous Coward user and replace with Anonymous', () => {
-        const config = {
-          user: {
-            anonymous_coward_name: 'Anonymous Coward',
-          },
-        };
-        const account = {};
-        assert.deepEqual(element._computeName(account, config),
-            'Anonymous');
-      });
-
-      test('test for anonymous_coward_name', () => {
-        const config = {
-          user: {
-            anonymous_coward_name: 'TestAnon',
-          },
-        };
-        const account = {};
-        assert.deepEqual(element._computeName(account, config),
-            'TestAnon');
-      });
-    });
-
-    suite('status in tooltip', () => {
-      setup(() => {
-        element = fixture('basic');
-        element.account = {
-          name: 'test',
-          email: 'test@google.com',
-          status: 'OOO until Aug 10th',
-        };
-        element._config = {
-          user: {
-            anonymous_coward_name: 'Anonymous Coward',
-          },
-        };
-      });
-
-      test('tooltip should contain status text', () => {
-        assert.deepEqual(element.title,
-            'test <test@google.com> (OOO until Aug 10th)');
-      });
-
-      test('status text should not have tooltip', () => {
-        flushAsynchronousOperations();
-        assert.deepEqual(element.$$('gr-limited-text').title, '');
-      });
-
-      test('status text should honor the name length and total length', () => {
-        assert.deepEqual(
-            element._computeStatusTextLength(element.account, element._config),
-            31
-        );
-        assert.deepEqual(
-            element._computeStatusTextLength({
-              name: 'a very long long long long name',
-            }, element._config),
-            10
-        );
-      });
+    test('status text should honor the name length and total length', () => {
+      assert.deepEqual(
+          element._computeStatusTextLength(element.account, element._config),
+          31
+      );
+      assert.deepEqual(
+          element._computeStatusTextLength({
+            name: 'a very long long long long name',
+          }, element._config),
+          10
+      );
     });
   });
+});
 </script>

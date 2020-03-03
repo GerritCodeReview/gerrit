@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-identities</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-identities.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-identities.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-identities.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,158 +40,161 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-identities tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    const ids = [
-      {
-        identity: 'username:john',
-        email_address: 'john.doe@example.com',
-        trusted: true,
-      }, {
-        identity: 'gerrit:gerrit',
-        email_address: 'gerrit@example.com',
-      }, {
-        identity: 'mailto:gerrit2@example.com',
-        email_address: 'gerrit2@example.com',
-        trusted: true,
-        can_delete: true,
-      },
-    ];
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-identities.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-identities tests', () => {
+  let element;
+  let sandbox;
+  const ids = [
+    {
+      identity: 'username:john',
+      email_address: 'john.doe@example.com',
+      trusted: true,
+    }, {
+      identity: 'gerrit:gerrit',
+      email_address: 'gerrit@example.com',
+    }, {
+      identity: 'mailto:gerrit2@example.com',
+      email_address: 'gerrit2@example.com',
+      trusted: true,
+      can_delete: true,
+    },
+  ];
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
+  setup(done => {
+    sandbox = sinon.sandbox.create();
 
-      stub('gr-rest-api-interface', {
-        getExternalIds() { return Promise.resolve(ids); },
-      });
-
-      element = fixture('basic');
-
-      element.loadData().then(() => { flush(done); });
+    stub('gr-rest-api-interface', {
+      getExternalIds() { return Promise.resolve(ids); },
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+    element = fixture('basic');
 
-    test('renders', () => {
-      const rows = Array.from(
-          Polymer.dom(element.root).querySelectorAll('tbody tr'));
+    element.loadData().then(() => { flush(done); });
+  });
 
-      assert.equal(rows.length, 2);
+  teardown(() => {
+    sandbox.restore();
+  });
 
-      const nameCells = rows.map(row =>
-        row.querySelectorAll('td')[2].textContent
-      );
+  test('renders', () => {
+    const rows = Array.from(
+        dom(element.root).querySelectorAll('tbody tr'));
 
-      assert.equal(nameCells[0], 'gerrit:gerrit');
-      assert.equal(nameCells[1], '');
-    });
+    assert.equal(rows.length, 2);
 
-    test('renders email', () => {
-      const rows = Array.from(
-          Polymer.dom(element.root).querySelectorAll('tbody tr'));
+    const nameCells = rows.map(row =>
+      row.querySelectorAll('td')[2].textContent
+    );
 
-      assert.equal(rows.length, 2);
+    assert.equal(nameCells[0], 'gerrit:gerrit');
+    assert.equal(nameCells[1], '');
+  });
 
-      const nameCells = rows.map(row =>
-        row.querySelectorAll('td')[1].textContent
-      );
+  test('renders email', () => {
+    const rows = Array.from(
+        dom(element.root).querySelectorAll('tbody tr'));
 
-      assert.equal(nameCells[0], 'gerrit@example.com');
-      assert.equal(nameCells[1], 'gerrit2@example.com');
-    });
+    assert.equal(rows.length, 2);
 
-    test('_computeIdentity', () => {
-      assert.equal(
-          element._computeIdentity(ids[0].identity), 'username:john');
-      assert.equal(element._computeIdentity(ids[2].identity), '');
-    });
+    const nameCells = rows.map(row =>
+      row.querySelectorAll('td')[1].textContent
+    );
 
-    test('filterIdentities', () => {
-      assert.isFalse(element.filterIdentities(ids[0]));
+    assert.equal(nameCells[0], 'gerrit@example.com');
+    assert.equal(nameCells[1], 'gerrit2@example.com');
+  });
 
-      assert.isTrue(element.filterIdentities(ids[1]));
-    });
+  test('_computeIdentity', () => {
+    assert.equal(
+        element._computeIdentity(ids[0].identity), 'username:john');
+    assert.equal(element._computeIdentity(ids[2].identity), '');
+  });
 
-    test('delete id', done => {
-      element._idName = 'mailto:gerrit2@example.com';
-      const loadDataStub = sandbox.stub(element, 'loadData');
-      element._handleDeleteItemConfirm().then(() => {
-        assert.isTrue(loadDataStub.called);
-        done();
-      });
-    });
+  test('filterIdentities', () => {
+    assert.isFalse(element.filterIdentities(ids[0]));
 
-    test('_handleDeleteItem opens modal', () => {
-      const deleteBtn =
-          Polymer.dom(element.root).querySelector('.deleteButton');
-      const deleteItem = sandbox.stub(element, '_handleDeleteItem');
-      MockInteractions.tap(deleteBtn);
-      assert.isTrue(deleteItem.called);
-    });
+    assert.isTrue(element.filterIdentities(ids[1]));
+  });
 
-    test('_computeShowLinkAnotherIdentity', () => {
-      let serverConfig;
-
-      serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'OAUTH',
-        },
-      };
-      assert.isTrue(element._computeShowLinkAnotherIdentity(serverConfig));
-
-      serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'OpenID',
-        },
-      };
-      assert.isTrue(element._computeShowLinkAnotherIdentity(serverConfig));
-
-      serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'HTTP_LDAP',
-        },
-      };
-      assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
-
-      serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'LDAP',
-        },
-      };
-      assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
-
-      serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'HTTP',
-        },
-      };
-      assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
-
-      serverConfig = {};
-      assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
-    });
-
-    test('_showLinkAnotherIdentity', () => {
-      element.serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'OAUTH',
-        },
-      };
-
-      assert.isTrue(element._showLinkAnotherIdentity);
-
-      element.serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'LDAP',
-        },
-      };
-
-      assert.isFalse(element._showLinkAnotherIdentity);
+  test('delete id', done => {
+    element._idName = 'mailto:gerrit2@example.com';
+    const loadDataStub = sandbox.stub(element, 'loadData');
+    element._handleDeleteItemConfirm().then(() => {
+      assert.isTrue(loadDataStub.called);
+      done();
     });
   });
+
+  test('_handleDeleteItem opens modal', () => {
+    const deleteBtn =
+        dom(element.root).querySelector('.deleteButton');
+    const deleteItem = sandbox.stub(element, '_handleDeleteItem');
+    MockInteractions.tap(deleteBtn);
+    assert.isTrue(deleteItem.called);
+  });
+
+  test('_computeShowLinkAnotherIdentity', () => {
+    let serverConfig;
+
+    serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'OAUTH',
+      },
+    };
+    assert.isTrue(element._computeShowLinkAnotherIdentity(serverConfig));
+
+    serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'OpenID',
+      },
+    };
+    assert.isTrue(element._computeShowLinkAnotherIdentity(serverConfig));
+
+    serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'HTTP_LDAP',
+      },
+    };
+    assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
+
+    serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'LDAP',
+      },
+    };
+    assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
+
+    serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'HTTP',
+      },
+    };
+    assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
+
+    serverConfig = {};
+    assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
+  });
+
+  test('_showLinkAnotherIdentity', () => {
+    element.serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'OAUTH',
+      },
+    };
+
+    assert.isTrue(element._showLinkAnotherIdentity);
+
+    element.serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'LDAP',
+      },
+    };
+
+    assert.isFalse(element._showLinkAnotherIdentity);
+  });
+});
 </script>

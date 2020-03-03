@@ -1,72 +1,76 @@
 /**
- * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2017 The Android Open Source Project
 
-  /** @extends Polymer.Element */
-  class GrPluginHost extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-plugin-host'; }
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    static get properties() {
-      return {
-        config: {
-          type: Object,
-          observer: '_configChanged',
-        },
-      };
-    }
+http://www.apache.org/licenses/LICENSE-2.0
 
-    _configChanged(config) {
-      const plugins = config.plugin;
-      const htmlPlugins = (plugins.html_resource_paths || []);
-      const jsPlugins =
-          this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins);
-      const shouldLoadTheme = config.default_theme &&
-            !Gerrit._isPluginPreloaded('preloaded:gerrit-theme');
-      const themeToLoad =
-            shouldLoadTheme ? [config.default_theme] : [];
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import "../../../scripts/bundled-polymer.js";
 
-      // Theme should be loaded first if has one to have better UX
-      const pluginsPending =
-          themeToLoad.concat(jsPlugins, htmlPlugins);
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+import { GestureEventListeners } from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 
-      const pluginOpts = {};
+/** @extends Polymer.Element */
+class GrPluginHost extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get is() { return 'gr-plugin-host'; }
 
-      if (shouldLoadTheme) {
-        // Theme needs to be loaded synchronous.
-        pluginOpts[config.default_theme] = {sync: true};
-      }
-
-      Gerrit._loadPlugins(pluginsPending, pluginOpts);
-    }
-
-    /**
-     * Omit .js plugins that have .html counterparts.
-     * For example, if plugin provides foo.js and foo.html, skip foo.js.
-     */
-    _handleMigrations(jsPlugins, htmlPlugins) {
-      return jsPlugins.filter(url => {
-        const counterpart = url.replace(/\.js$/, '.html');
-        return !htmlPlugins.includes(counterpart);
-      });
-    }
+  static get properties() {
+    return {
+      config: {
+        type: Object,
+        observer: '_configChanged',
+      },
+    };
   }
 
-  customElements.define(GrPluginHost.is, GrPluginHost);
-})();
+  _configChanged(config) {
+    const plugins = config.plugin;
+    const htmlPlugins = (plugins.html_resource_paths || []);
+    const jsPlugins =
+        this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins);
+    const shouldLoadTheme = config.default_theme &&
+          !Gerrit._isPluginPreloaded('preloaded:gerrit-theme');
+    const themeToLoad =
+          shouldLoadTheme ? [config.default_theme] : [];
+
+    // Theme should be loaded first if has one to have better UX
+    const pluginsPending =
+        themeToLoad.concat(jsPlugins, htmlPlugins);
+
+    const pluginOpts = {};
+
+    if (shouldLoadTheme) {
+      // Theme needs to be loaded synchronous.
+      pluginOpts[config.default_theme] = {sync: true};
+    }
+
+    Gerrit._loadPlugins(pluginsPending, pluginOpts);
+  }
+
+  /**
+   * Omit .js plugins that have .html counterparts.
+   * For example, if plugin provides foo.js and foo.html, skip foo.js.
+   */
+  _handleMigrations(jsPlugins, htmlPlugins) {
+    return jsPlugins.filter(url => {
+      const counterpart = url.replace(/\.js$/, '.html');
+      return !htmlPlugins.includes(counterpart);
+    });
+  }
+}
+
+customElements.define(GrPluginHost.is, GrPluginHost);

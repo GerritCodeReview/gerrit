@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright (C) 2016 The Android Open Source Project
 
@@ -13,10 +13,10 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../base-url-behavior/base-url-behavior.html">
-<script>
+*/
+import "../../scripts/bundled-polymer.js";
+
+import '../base-url-behavior/base-url-behavior.js';
 (function(window) {
   'use strict';
 
@@ -198,4 +198,3 @@ limitations under the License.
       };
   }
 })(window);
-</script>

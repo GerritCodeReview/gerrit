@@ -1,4 +1,24 @@
-<!--
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<dom-module id="gr-voting-styles">
+  <template>
+    <style>
+      :host {
+        --vote-chip-styles: {
+          border: 1px solid rgba(0,0,0,.12);
+          border-radius: 1em;
+          box-shadow: none;
+          box-sizing: border-box;
+          min-width: 3em;
+        }
+      }
+    </style>
+  </template>
+</dom-module>`;
+
+document.head.appendChild($_documentContainer.content);
+
+/**
 @license
 Copyright (C) 2017 The Android Open Source Project
 
@@ -13,20 +33,10 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-
-<dom-module id="gr-voting-styles">
-  <template>
-    <style>
-      :host {
-        --vote-chip-styles: {
-          border: 1px solid rgba(0,0,0,.12);
-          border-radius: 1em;
-          box-shadow: none;
-          box-sizing: border-box;
-          min-width: 3em;
-        }
-      }
-    </style>
-  </template>
-</dom-module>
+*/
+/*
+  FIXME(polymer-modulizer): the above comments were extracted
+  from HTML and may be out of place here. Review them and
+  then delete this comment!
+*/
+;

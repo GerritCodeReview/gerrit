@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-settings-view</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-group-list.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-group-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-group-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,81 +40,84 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-group-list tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let element;
-    let groups;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-group-list.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-group-list tests', () => {
+  let sandbox;
+  let element;
+  let groups;
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
-      groups = [{
-        url: 'some url',
-        options: {},
-        description: 'Group 1 description',
-        group_id: 1,
-        owner: 'Administrators',
-        owner_id: '123',
-        id: 'abc',
-        name: 'Group 1',
-      }, {
-        options: {visible_to_all: true},
-        id: '456',
-        name: 'Group 2',
-      }, {
-        options: {},
-        id: '789',
-        name: 'Group 3',
-      }];
+  setup(done => {
+    sandbox = sinon.sandbox.create();
+    groups = [{
+      url: 'some url',
+      options: {},
+      description: 'Group 1 description',
+      group_id: 1,
+      owner: 'Administrators',
+      owner_id: '123',
+      id: 'abc',
+      name: 'Group 1',
+    }, {
+      options: {visible_to_all: true},
+      id: '456',
+      name: 'Group 2',
+    }, {
+      options: {},
+      id: '789',
+      name: 'Group 3',
+    }];
 
-      stub('gr-rest-api-interface', {
-        getAccountGroups() { return Promise.resolve(groups); },
-      });
-
-      element = fixture('basic');
-
-      element.loadData().then(() => { flush(done); });
+    stub('gr-rest-api-interface', {
+      getAccountGroups() { return Promise.resolve(groups); },
     });
 
-    teardown(() => { sandbox.restore(); });
+    element = fixture('basic');
 
-    test('renders', () => {
-      const rows = Array.from(
-          Polymer.dom(element.root).querySelectorAll('tbody tr'));
-
-      assert.equal(rows.length, 3);
-
-      const nameCells = rows.map(row =>
-        row.querySelectorAll('td a')[0].textContent.trim()
-      );
-
-      assert.equal(nameCells[0], 'Group 1');
-      assert.equal(nameCells[1], 'Group 2');
-      assert.equal(nameCells[2], 'Group 3');
-    });
-
-    test('_computeVisibleToAll', () => {
-      assert.equal(element._computeVisibleToAll(groups[0]), 'No');
-      assert.equal(element._computeVisibleToAll(groups[1]), 'Yes');
-    });
-
-    test('_computeGroupPath', () => {
-      sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
-          () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
-
-      let group = {
-        id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
-      };
-
-      assert.equal(element._computeGroupPath(group),
-          '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
-
-      group = {
-        name: 'admin',
-      };
-
-      assert.isUndefined(element._computeGroupPath(group));
-    });
+    element.loadData().then(() => { flush(done); });
   });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('renders', () => {
+    const rows = Array.from(
+        dom(element.root).querySelectorAll('tbody tr'));
+
+    assert.equal(rows.length, 3);
+
+    const nameCells = rows.map(row =>
+      row.querySelectorAll('td a')[0].textContent.trim()
+    );
+
+    assert.equal(nameCells[0], 'Group 1');
+    assert.equal(nameCells[1], 'Group 2');
+    assert.equal(nameCells[2], 'Group 3');
+  });
+
+  test('_computeVisibleToAll', () => {
+    assert.equal(element._computeVisibleToAll(groups[0]), 'No');
+    assert.equal(element._computeVisibleToAll(groups[1]), 'Yes');
+  });
+
+  test('_computeGroupPath', () => {
+    sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
+        () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
+
+    let group = {
+      id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
+    };
+
+    assert.equal(element._computeGroupPath(group),
+        '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
+
+    group = {
+      name: 'admin',
+    };
+
+    assert.isUndefined(element._computeGroupPath(group));
+  });
+});
 </script>

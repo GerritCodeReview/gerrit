@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-plugin-action-context</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-js-api-interface.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-js-api-interface.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,126 +40,129 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-plugin-action-context tests', async () => {
-    await readyToTest();
-    let instance;
-    let sandbox;
-    let plugin;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-plugin-action-context tests', () => {
+  let instance;
+  let sandbox;
+  let plugin;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      instance = new GrPluginActionContext(plugin);
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
+    instance = new GrPluginActionContext(plugin);
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('popup() and hide()', () => {
-      const popupApiStub = {
-        close: sandbox.stub(),
-      };
-      sandbox.stub(plugin.deprecated, 'popup').returns(popupApiStub);
-      const el = {};
-      instance.popup(el);
-      assert.isTrue(instance.plugin.deprecated.popup.calledWith(el));
+  test('popup() and hide()', () => {
+    const popupApiStub = {
+      close: sandbox.stub(),
+    };
+    sandbox.stub(plugin.deprecated, 'popup').returns(popupApiStub);
+    const el = {};
+    instance.popup(el);
+    assert.isTrue(instance.plugin.deprecated.popup.calledWith(el));
 
-      instance.hide();
-      assert.isTrue(popupApiStub.close.called);
-    });
+    instance.hide();
+    assert.isTrue(popupApiStub.close.called);
+  });
 
-    test('textfield', () => {
-      assert.equal(instance.textfield().tagName, 'PAPER-INPUT');
-    });
+  test('textfield', () => {
+    assert.equal(instance.textfield().tagName, 'PAPER-INPUT');
+  });
 
-    test('br', () => {
-      assert.equal(instance.br().tagName, 'BR');
-    });
+  test('br', () => {
+    assert.equal(instance.br().tagName, 'BR');
+  });
 
-    test('msg', () => {
-      const el = instance.msg('foobar');
-      assert.equal(el.tagName, 'GR-LABEL');
-      assert.equal(el.textContent, 'foobar');
-    });
+  test('msg', () => {
+    const el = instance.msg('foobar');
+    assert.equal(el.tagName, 'GR-LABEL');
+    assert.equal(el.textContent, 'foobar');
+  });
 
-    test('div', () => {
-      const el1 = document.createElement('span');
-      el1.textContent = 'foo';
-      const el2 = document.createElement('div');
-      el2.textContent = 'bar';
-      const div = instance.div(el1, el2);
-      assert.equal(div.tagName, 'DIV');
-      assert.equal(div.textContent, 'foobar');
-    });
+  test('div', () => {
+    const el1 = document.createElement('span');
+    el1.textContent = 'foo';
+    const el2 = document.createElement('div');
+    el2.textContent = 'bar';
+    const div = instance.div(el1, el2);
+    assert.equal(div.tagName, 'DIV');
+    assert.equal(div.textContent, 'foobar');
+  });
 
-    test('button', done => {
-      const clickStub = sandbox.stub();
-      const button = instance.button('foo', {onclick: clickStub});
-      // If you don't attach a Polymer element to the DOM, then the ready()
-      // callback will not be called and then e.g. this.$ is undefined.
-      Polymer.dom(document.body).appendChild(button);
-      MockInteractions.tap(button);
-      flush(() => {
-        assert.isTrue(clickStub.called);
-        assert.equal(button.textContent, 'foo');
-        done();
-      });
-    });
-
-    test('checkbox', () => {
-      const el = instance.checkbox();
-      assert.equal(el.tagName, 'INPUT');
-      assert.equal(el.type, 'checkbox');
-    });
-
-    test('label', () => {
-      const fakeMsg = {};
-      const fakeCheckbox = {};
-      sandbox.stub(instance, 'div');
-      sandbox.stub(instance, 'msg').returns(fakeMsg);
-      instance.label(fakeCheckbox, 'foo');
-      assert.isTrue(instance.div.calledWithExactly(fakeCheckbox, fakeMsg));
-    });
-
-    test('call', () => {
-      instance.action = {
-        method: 'METHOD',
-        __key: 'key',
-        __url: '/changes/1/revisions/2/foo~bar',
-      };
-      const sendStub = sandbox.stub().returns(Promise.resolve());
-      sandbox.stub(plugin, 'restApi').returns({
-        send: sendStub,
-      });
-      const payload = {foo: 'foo'};
-      const successStub = sandbox.stub();
-      instance.call(payload, successStub);
-      assert.isTrue(sendStub.calledWith(
-          'METHOD', '/changes/1/revisions/2/foo~bar', payload));
-    });
-
-    test('call error', done => {
-      instance.action = {
-        method: 'METHOD',
-        __key: 'key',
-        __url: '/changes/1/revisions/2/foo~bar',
-      };
-      const sendStub = sandbox.stub().returns(Promise.reject(new Error('boom')));
-      sandbox.stub(plugin, 'restApi').returns({
-        send: sendStub,
-      });
-      const errorStub = sandbox.stub();
-      document.addEventListener('show-alert', errorStub);
-      instance.call();
-      flush(() => {
-        assert.isTrue(errorStub.calledOnce);
-        assert.equal(errorStub.args[0][0].detail.message,
-            'Plugin network error: Error: boom');
-        done();
-      });
+  test('button', done => {
+    const clickStub = sandbox.stub();
+    const button = instance.button('foo', {onclick: clickStub});
+    // If you don't attach a Polymer element to the DOM, then the ready()
+    // callback will not be called and then e.g. this.$ is undefined.
+    dom(document.body).appendChild(button);
+    MockInteractions.tap(button);
+    flush(() => {
+      assert.isTrue(clickStub.called);
+      assert.equal(button.textContent, 'foo');
+      done();
     });
   });
+
+  test('checkbox', () => {
+    const el = instance.checkbox();
+    assert.equal(el.tagName, 'INPUT');
+    assert.equal(el.type, 'checkbox');
+  });
+
+  test('label', () => {
+    const fakeMsg = {};
+    const fakeCheckbox = {};
+    sandbox.stub(instance, 'div');
+    sandbox.stub(instance, 'msg').returns(fakeMsg);
+    instance.label(fakeCheckbox, 'foo');
+    assert.isTrue(instance.div.calledWithExactly(fakeCheckbox, fakeMsg));
+  });
+
+  test('call', () => {
+    instance.action = {
+      method: 'METHOD',
+      __key: 'key',
+      __url: '/changes/1/revisions/2/foo~bar',
+    };
+    const sendStub = sandbox.stub().returns(Promise.resolve());
+    sandbox.stub(plugin, 'restApi').returns({
+      send: sendStub,
+    });
+    const payload = {foo: 'foo'};
+    const successStub = sandbox.stub();
+    instance.call(payload, successStub);
+    assert.isTrue(sendStub.calledWith(
+        'METHOD', '/changes/1/revisions/2/foo~bar', payload));
+  });
+
+  test('call error', done => {
+    instance.action = {
+      method: 'METHOD',
+      __key: 'key',
+      __url: '/changes/1/revisions/2/foo~bar',
+    };
+    const sendStub = sandbox.stub().returns(Promise.reject(new Error('boom')));
+    sandbox.stub(plugin, 'restApi').returns({
+      send: sendStub,
+    });
+    const errorStub = sandbox.stub();
+    document.addEventListener('show-alert', errorStub);
+    instance.call();
+    flush(() => {
+      assert.isTrue(errorStub.calledOnce);
+      assert.equal(errorStub.args[0][0].detail.message,
+          'Plugin network error: Error: boom');
+      done();
+    });
+  });
+});
 </script>

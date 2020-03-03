@@ -1,31 +1,6 @@
-<!--
-@license
-Copyright (C) 2018 The Android Open Source Project
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-label/gr-label.html">
-<link rel="import" href="../../shared/gr-label-info/gr-label-info.html">
-<link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
-
-<dom-module id="gr-change-requirements">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: table;
@@ -91,59 +66,43 @@ limitations under the License.
         height: var(--spacing-m);
       }
     </style>
-    <template
-        is="dom-repeat"
-        items="[[_requirements]]">
+    <template is="dom-repeat" items="[[_requirements]]">
       <section>
         <div class="title requirement">
-          <span class$="status [[item.style]]">
+          <span class\$="status [[item.style]]">
             <iron-icon class="icon" icon="[[_computeRequirementIcon(item.satisfied)]]"></iron-icon>
           </span>
           <gr-limited-text class="name" limit="40" text="[[item.fallback_text]]"></gr-limited-text>
         </div>
       </section>
     </template>
-    <template
-        is="dom-repeat"
-        items="[[_requiredLabels]]">
+    <template is="dom-repeat" items="[[_requiredLabels]]">
       <section>
         <div class="title">
-          <span class$="status [[item.style]]">
+          <span class\$="status [[item.style]]">
             <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
           </span>
           <gr-limited-text class="name" limit="40" text="[[item.label]]"></gr-limited-text>
         </div>
         <div class="value">
-          <gr-label-info
-              change="{{change}}"
-              account="[[account]]"
-              mutable="[[mutable]]"
-              label="[[item.label]]"
-              label-info="[[item.labelInfo]]"></gr-label-info>
+          <gr-label-info change="{{change}}" account="[[account]]" mutable="[[mutable]]" label="[[item.label]]" label-info="[[item.labelInfo]]"></gr-label-info>
         </div>
       </section>
     </template>
     <section class="spacer"></section>
-    <section class$="spacer [[_computeShowOptional(_optionalLabels.*)]]"></section>
-    <section
-        show-bottom-border$="[[_showOptionalLabels]]"
-        on-click="_handleShowHide"
-        class$="showHide [[_computeShowOptional(_optionalLabels.*)]]">
+    <section class\$="spacer [[_computeShowOptional(_optionalLabels.*)]]"></section>
+    <section show-bottom-border\$="[[_showOptionalLabels]]" on-click="_handleShowHide" class\$="showHide [[_computeShowOptional(_optionalLabels.*)]]">
       <div class="title">Other labels</div>
       <div class="value">
-        <iron-icon
-            id="showHide"
-            icon="[[_computeShowHideIcon(_showOptionalLabels)]]">
+        <iron-icon id="showHide" icon="[[_computeShowHideIcon(_showOptionalLabels)]]">
         </iron-icon>
-      </label>
+      
       </div>
     </section>
-    <template
-        is="dom-repeat"
-        items="[[_optionalLabels]]">
-      <section class$="optional [[_computeSectionClass(_showOptionalLabels)]]">
+    <template is="dom-repeat" items="[[_optionalLabels]]">
+      <section class\$="optional [[_computeSectionClass(_showOptionalLabels)]]">
         <div class="title">
-          <span class$="status [[item.style]]">
+          <span class\$="status [[item.style]]">
             <template is="dom-if" if="[[item.icon]]">
               <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
             </template>
@@ -154,16 +113,9 @@ limitations under the License.
           <gr-limited-text class="name" limit="40" text="[[item.label]]"></gr-limited-text>
         </div>
         <div class="value">
-          <gr-label-info
-              change="{{change}}"
-              account="[[account]]"
-              mutable="[[mutable]]"
-              label="[[item.label]]"
-              label-info="[[item.labelInfo]]"></gr-label-info>
+          <gr-label-info change="{{change}}" account="[[account]]" mutable="[[mutable]]" label="[[item.label]]" label-info="[[item.labelInfo]]"></gr-label-info>
         </div>
       </section>
     </template>
-    <section class$="spacer [[_computeShowOptional(_optionalLabels.*)]] [[_computeSectionClass(_showOptionalLabels)]]"></section>
-  </template>
-  <script src="gr-change-requirements.js"></script>
-</dom-module>
+    <section class\$="spacer [[_computeShowOptional(_optionalLabels.*)]] [[_computeSectionClass(_showOptionalLabels)]]"></section>
+`;

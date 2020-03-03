@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-repo-detail-list</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-repo-detail-list.html">
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-repo-detail-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-detail-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,532 +41,535 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  let counter;
-  const branchGenerator = () => {
-    return {
-      ref: `refs/heads/test${++counter}`,
-      revision: '9c9d08a438e55e52f33b608415e6dddd9b18550d',
-      web_links: [
-        {
-          name: 'diffusion',
-          url: `https://git.example.org/branch/test;refs/heads/test${counter}`,
-        },
-      ],
-    };
-  };
-  const tagGenerator = () => {
-    return {
-      ref: `refs/tags/test${++counter}`,
-      revision: '9c9d08a438e55e52f33b608415e6dddd9b18550d',
-      web_links: [
-        {
-          name: 'diffusion',
-          url: `https://git.example.org/tag/test;refs/tags/test${counter}`,
-        },
-      ],
-      message: 'Annotated tag',
-      tagger: {
-        name: 'Test User',
-        email: 'test.user@gmail.com',
-        date: '2017-09-19 14:54:00.000000000',
-        tz: 540,
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-detail-list.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+let counter;
+const branchGenerator = () => {
+  return {
+    ref: `refs/heads/test${++counter}`,
+    revision: '9c9d08a438e55e52f33b608415e6dddd9b18550d',
+    web_links: [
+      {
+        name: 'diffusion',
+        url: `https://git.example.org/branch/test;refs/heads/test${counter}`,
       },
-    };
+    ],
   };
+};
+const tagGenerator = () => {
+  return {
+    ref: `refs/tags/test${++counter}`,
+    revision: '9c9d08a438e55e52f33b608415e6dddd9b18550d',
+    web_links: [
+      {
+        name: 'diffusion',
+        url: `https://git.example.org/tag/test;refs/tags/test${counter}`,
+      },
+    ],
+    message: 'Annotated tag',
+    tagger: {
+      name: 'Test User',
+      email: 'test.user@gmail.com',
+      date: '2017-09-19 14:54:00.000000000',
+      tz: 540,
+    },
+  };
+};
 
-  suite('gr-repo-detail-list', async () => {
-    await readyToTest();
-    suite('Branches', () => {
-      let element;
-      let branches;
-      let sandbox;
+suite('gr-repo-detail-list', () => {
+  suite('Branches', () => {
+    let element;
+    let branches;
+    let sandbox;
 
-      setup(() => {
-        sandbox = sinon.sandbox.create();
-        element = fixture('basic');
-        element.detailType = 'branches';
-        counter = 0;
-        sandbox.stub(page, 'show');
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+      element.detailType = 'branches';
+      counter = 0;
+      sandbox.stub(page, 'show');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    suite('list of repo branches', () => {
+      setup(done => {
+        branches = [{
+          ref: 'HEAD',
+          revision: 'master',
+        }].concat(_.times(25, branchGenerator));
+
+        stub('gr-rest-api-interface', {
+          getRepoBranches(num, project, offset) {
+            return Promise.resolve(branches);
+          },
+        });
+
+        const params = {
+          repo: 'test',
+          detail: 'branches',
+        };
+
+        element._paramsChanged(params).then(() => { flush(done); });
       });
 
-      teardown(() => {
-        sandbox.restore();
-      });
-
-      suite('list of repo branches', () => {
-        setup(done => {
-          branches = [{
-            ref: 'HEAD',
-            revision: 'master',
-          }].concat(_.times(25, branchGenerator));
-
-          stub('gr-rest-api-interface', {
-            getRepoBranches(num, project, offset) {
-              return Promise.resolve(branches);
-            },
-          });
-
-          const params = {
-            repo: 'test',
-            detail: 'branches',
-          };
-
-          element._paramsChanged(params).then(() => { flush(done); });
-        });
-
-        test('test for branch in the list', done => {
-          flush(() => {
-            assert.equal(element._items[2].ref, 'refs/heads/test2');
-            done();
-          });
-        });
-
-        test('test for web links in the branches list', done => {
-          flush(() => {
-            assert.equal(element._items[2].web_links[0].url,
-                'https://git.example.org/branch/test;refs/heads/test2');
-            done();
-          });
-        });
-
-        test('test for refs/heads/ being striped from ref', done => {
-          flush(() => {
-            assert.equal(element._stripRefs(element._items[2].ref,
-                element.detailType), 'test2');
-            done();
-          });
-        });
-
-        test('_shownItems', () => {
-          assert.equal(element._shownItems.length, 25);
-        });
-
-        test('Edit HEAD button not admin', done => {
-          sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-          sandbox.stub(element.$.restAPI, 'getRepoAccess').returns(
-              Promise.resolve({
-                test: {is_owner: false},
-              }));
-          element._determineIfOwner('test').then(() => {
-            assert.equal(element._isOwner, false);
-            assert.equal(getComputedStyle(Polymer.dom(element.root)
-                .querySelector('.revisionNoEditing')).display, 'inline');
-            assert.equal(getComputedStyle(Polymer.dom(element.root)
-                .querySelector('.revisionEdit')).display, 'none');
-            done();
-          });
-        });
-
-        test('Edit HEAD button admin', done => {
-          const saveBtn = Polymer.dom(element.root).querySelector('.saveBtn');
-          const cancelBtn = Polymer.dom(element.root).querySelector('.cancelBtn');
-          const editBtn = Polymer.dom(element.root).querySelector('.editBtn');
-          const revisionNoEditing = Polymer.dom(element.root)
-              .querySelector('.revisionNoEditing');
-          const revisionWithEditing = Polymer.dom(element.root)
-              .querySelector('.revisionWithEditing');
-
-          sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-          sandbox.stub(element.$.restAPI, 'getRepoAccess').returns(
-              Promise.resolve({
-                test: {is_owner: true},
-              }));
-          sandbox.stub(element, '_handleSaveRevision');
-          element._determineIfOwner('test').then(() => {
-            assert.equal(element._isOwner, true);
-            // The revision container for non-editing enabled row is not visible.
-            assert.equal(getComputedStyle(revisionNoEditing).display, 'none');
-
-            // The revision container for editing enabled row is visible.
-            assert.notEqual(getComputedStyle(Polymer.dom(element.root)
-                .querySelector('.revisionEdit')).display, 'none');
-
-            // The revision and edit button are visible.
-            assert.notEqual(getComputedStyle(revisionWithEditing).display,
-                'none');
-            assert.notEqual(getComputedStyle(editBtn).display, 'none');
-
-            // The input, cancel, and save buttons are not visible.
-            const hiddenElements = Polymer.dom(element.root)
-                .querySelectorAll('.canEdit .editItem');
-
-            for (const item of hiddenElements) {
-              assert.equal(getComputedStyle(item).display, 'none');
-            }
-
-            MockInteractions.tap(editBtn);
-            flushAsynchronousOperations();
-            // The revision and edit button are not visible.
-            assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
-            assert.equal(getComputedStyle(editBtn).display, 'none');
-
-            // The input, cancel, and save buttons are not visible.
-            for (item of hiddenElements) {
-              assert.notEqual(getComputedStyle(item).display, 'none');
-            }
-
-            // The revised ref was set correctly
-            assert.equal(element._revisedRef, 'master');
-
-            assert.isFalse(saveBtn.disabled);
-
-            // Delete the ref.
-            element._revisedRef = '';
-            assert.isTrue(saveBtn.disabled);
-
-            // Change the ref to something else
-            element._revisedRef = 'newRef';
-            element._repo = 'test';
-            assert.isFalse(saveBtn.disabled);
-
-            // Save button calls handleSave. since this is stubbed, the edit
-            // section remains open.
-            MockInteractions.tap(saveBtn);
-            assert.isTrue(element._handleSaveRevision.called);
-
-            // When cancel is tapped, the edit secion closes.
-            MockInteractions.tap(cancelBtn);
-            flushAsynchronousOperations();
-
-            // The revision and edit button are visible.
-            assert.notEqual(getComputedStyle(revisionWithEditing).display,
-                'none');
-            assert.notEqual(getComputedStyle(editBtn).display, 'none');
-
-            // The input, cancel, and save buttons are not visible.
-            for (const item of hiddenElements) {
-              assert.equal(getComputedStyle(item).display, 'none');
-            }
-            done();
-          });
-        });
-
-        test('_handleSaveRevision with invalid rev', done => {
-          const event = {model: {set: sandbox.stub()}};
-          element._isEditing = true;
-          sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
-              Promise.resolve({
-                status: 400,
-              })
-          );
-
-          element._setRepoHead('test', 'newRef', event).then(() => {
-            assert.isTrue(element._isEditing);
-            assert.isFalse(event.model.set.called);
-            done();
-          });
-        });
-
-        test('_handleSaveRevision with valid rev', done => {
-          const event = {model: {set: sandbox.stub()}};
-          element._isEditing = true;
-          sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
-              Promise.resolve({
-                status: 200,
-              })
-          );
-
-          element._setRepoHead('test', 'newRef', event).then(() => {
-            assert.isFalse(element._isEditing);
-            assert.isTrue(event.model.set.called);
-            done();
-          });
-        });
-
-        test('test _computeItemName', () => {
-          assert.deepEqual(element._computeItemName('branches'), 'Branch');
-          assert.deepEqual(element._computeItemName('tags'), 'Tag');
+      test('test for branch in the list', done => {
+        flush(() => {
+          assert.equal(element._items[2].ref, 'refs/heads/test2');
+          done();
         });
       });
 
-      suite('list with less then 25 branches', () => {
-        setup(done => {
-          branches = _.times(25, branchGenerator);
-
-          stub('gr-rest-api-interface', {
-            getRepoBranches(num, repo, offset) {
-              return Promise.resolve(branches);
-            },
-          });
-
-          const params = {
-            repo: 'test',
-            detail: 'branches',
-          };
-
-          element._paramsChanged(params).then(() => { flush(done); });
-        });
-
-        test('_shownItems', () => {
-          assert.equal(element._shownItems.length, 25);
+      test('test for web links in the branches list', done => {
+        flush(() => {
+          assert.equal(element._items[2].web_links[0].url,
+              'https://git.example.org/branch/test;refs/heads/test2');
+          done();
         });
       });
 
-      suite('filter', () => {
-        test('_paramsChanged', done => {
-          sandbox.stub(
-              element.$.restAPI,
-              'getRepoBranches',
-              () => Promise.resolve(branches));
-          const params = {
-            detail: 'branches',
-            repo: 'test',
-            filter: 'test',
-            offset: 25,
-          };
-          element._paramsChanged(params).then(() => {
-            assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[0],
-                'test');
-            assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[1],
-                'test');
-            assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[2],
-                25);
-            assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[3],
-                25);
-            done();
-          });
+      test('test for refs/heads/ being striped from ref', done => {
+        flush(() => {
+          assert.equal(element._stripRefs(element._items[2].ref,
+              element.detailType), 'test2');
+          done();
         });
       });
 
-      suite('404', () => {
-        test('fires page-error', done => {
-          const response = {status: 404};
-          sandbox.stub(element.$.restAPI, 'getRepoBranches',
-              (filter, repo, reposBranchesPerPage, opt_offset, errFn) => {
-                errFn(response);
-              });
+      test('_shownItems', () => {
+        assert.equal(element._shownItems.length, 25);
+      });
 
-          element.addEventListener('page-error', e => {
-            assert.deepEqual(e.detail.response, response);
-            done();
-          });
+      test('Edit HEAD button not admin', done => {
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        sandbox.stub(element.$.restAPI, 'getRepoAccess').returns(
+            Promise.resolve({
+              test: {is_owner: false},
+            }));
+        element._determineIfOwner('test').then(() => {
+          assert.equal(element._isOwner, false);
+          assert.equal(getComputedStyle(dom(element.root)
+              .querySelector('.revisionNoEditing')).display, 'inline');
+          assert.equal(getComputedStyle(dom(element.root)
+              .querySelector('.revisionEdit')).display, 'none');
+          done();
+        });
+      });
 
-          const params = {
-            detail: 'branches',
-            repo: 'test',
-            filter: 'test',
-            offset: 25,
-          };
-          element._paramsChanged(params);
+      test('Edit HEAD button admin', done => {
+        const saveBtn = dom(element.root).querySelector('.saveBtn');
+        const cancelBtn = dom(element.root).querySelector('.cancelBtn');
+        const editBtn = dom(element.root).querySelector('.editBtn');
+        const revisionNoEditing = dom(element.root)
+            .querySelector('.revisionNoEditing');
+        const revisionWithEditing = dom(element.root)
+            .querySelector('.revisionWithEditing');
+
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        sandbox.stub(element.$.restAPI, 'getRepoAccess').returns(
+            Promise.resolve({
+              test: {is_owner: true},
+            }));
+        sandbox.stub(element, '_handleSaveRevision');
+        element._determineIfOwner('test').then(() => {
+          assert.equal(element._isOwner, true);
+          // The revision container for non-editing enabled row is not visible.
+          assert.equal(getComputedStyle(revisionNoEditing).display, 'none');
+
+          // The revision container for editing enabled row is visible.
+          assert.notEqual(getComputedStyle(dom(element.root)
+              .querySelector('.revisionEdit')).display, 'none');
+
+          // The revision and edit button are visible.
+          assert.notEqual(getComputedStyle(revisionWithEditing).display,
+              'none');
+          assert.notEqual(getComputedStyle(editBtn).display, 'none');
+
+          // The input, cancel, and save buttons are not visible.
+          const hiddenElements = dom(element.root)
+              .querySelectorAll('.canEdit .editItem');
+
+          for (const item of hiddenElements) {
+            assert.equal(getComputedStyle(item).display, 'none');
+          }
+
+          MockInteractions.tap(editBtn);
+          flushAsynchronousOperations();
+          // The revision and edit button are not visible.
+          assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
+          assert.equal(getComputedStyle(editBtn).display, 'none');
+
+          // The input, cancel, and save buttons are not visible.
+          for (item of hiddenElements) {
+            assert.notEqual(getComputedStyle(item).display, 'none');
+          }
+
+          // The revised ref was set correctly
+          assert.equal(element._revisedRef, 'master');
+
+          assert.isFalse(saveBtn.disabled);
+
+          // Delete the ref.
+          element._revisedRef = '';
+          assert.isTrue(saveBtn.disabled);
+
+          // Change the ref to something else
+          element._revisedRef = 'newRef';
+          element._repo = 'test';
+          assert.isFalse(saveBtn.disabled);
+
+          // Save button calls handleSave. since this is stubbed, the edit
+          // section remains open.
+          MockInteractions.tap(saveBtn);
+          assert.isTrue(element._handleSaveRevision.called);
+
+          // When cancel is tapped, the edit secion closes.
+          MockInteractions.tap(cancelBtn);
+          flushAsynchronousOperations();
+
+          // The revision and edit button are visible.
+          assert.notEqual(getComputedStyle(revisionWithEditing).display,
+              'none');
+          assert.notEqual(getComputedStyle(editBtn).display, 'none');
+
+          // The input, cancel, and save buttons are not visible.
+          for (const item of hiddenElements) {
+            assert.equal(getComputedStyle(item).display, 'none');
+          }
+          done();
+        });
+      });
+
+      test('_handleSaveRevision with invalid rev', done => {
+        const event = {model: {set: sandbox.stub()}};
+        element._isEditing = true;
+        sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
+            Promise.resolve({
+              status: 400,
+            })
+        );
+
+        element._setRepoHead('test', 'newRef', event).then(() => {
+          assert.isTrue(element._isEditing);
+          assert.isFalse(event.model.set.called);
+          done();
+        });
+      });
+
+      test('_handleSaveRevision with valid rev', done => {
+        const event = {model: {set: sandbox.stub()}};
+        element._isEditing = true;
+        sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
+            Promise.resolve({
+              status: 200,
+            })
+        );
+
+        element._setRepoHead('test', 'newRef', event).then(() => {
+          assert.isFalse(element._isEditing);
+          assert.isTrue(event.model.set.called);
+          done();
+        });
+      });
+
+      test('test _computeItemName', () => {
+        assert.deepEqual(element._computeItemName('branches'), 'Branch');
+        assert.deepEqual(element._computeItemName('tags'), 'Tag');
+      });
+    });
+
+    suite('list with less then 25 branches', () => {
+      setup(done => {
+        branches = _.times(25, branchGenerator);
+
+        stub('gr-rest-api-interface', {
+          getRepoBranches(num, repo, offset) {
+            return Promise.resolve(branches);
+          },
+        });
+
+        const params = {
+          repo: 'test',
+          detail: 'branches',
+        };
+
+        element._paramsChanged(params).then(() => { flush(done); });
+      });
+
+      test('_shownItems', () => {
+        assert.equal(element._shownItems.length, 25);
+      });
+    });
+
+    suite('filter', () => {
+      test('_paramsChanged', done => {
+        sandbox.stub(
+            element.$.restAPI,
+            'getRepoBranches',
+            () => Promise.resolve(branches));
+        const params = {
+          detail: 'branches',
+          repo: 'test',
+          filter: 'test',
+          offset: 25,
+        };
+        element._paramsChanged(params).then(() => {
+          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[0],
+              'test');
+          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[1],
+              'test');
+          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[2],
+              25);
+          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[3],
+              25);
+          done();
         });
       });
     });
 
-    suite('Tags', () => {
-      let element;
-      let tags;
-      let sandbox;
+    suite('404', () => {
+      test('fires page-error', done => {
+        const response = {status: 404};
+        sandbox.stub(element.$.restAPI, 'getRepoBranches',
+            (filter, repo, reposBranchesPerPage, opt_offset, errFn) => {
+              errFn(response);
+            });
 
-      setup(() => {
-        sandbox = sinon.sandbox.create();
-        element = fixture('basic');
-        element.detailType = 'tags';
-        counter = 0;
-        sandbox.stub(page, 'show');
-      });
-
-      teardown(() => {
-        sandbox.restore();
-      });
-
-      test('_computeMessage', () => {
-        let message = 'v2.15-rc1↵-----BEGIN PGP SIGNATURE-----↵Version: GnuPG v' +
-        '1↵↵iQIcBAABAgAGBQJZ27O7AAoJEF/XxZqaEoiMy6kQAMoQCpGr3J6JITI4BVWsr7QM↵xy' +
-        'EcWH5YPUko5EPTbkABHmaVyFmKGkuIQdn6c+NIbqJOk+5XT4oUyRSo1T569HPJ↵3kyxEJi' +
-        'T1ryvp5BIHwdvHx58fjw1+YkiWLZuZq1FFkUYqnWTYCrkv7Fok98pdOmV↵CL1Hgugi5uK8' +
-        '/kxf1M7+Nv6piaZ140pwSb1h6QdAjaZVfaBCnoxlG4LRUqHvEYay↵f4QYgFT67auHIGkZ4' +
-        'moUcsp2Du/1jSsCWL/CPwjPFGbbckVAjLCMT9yD3NKwpEZF↵pfsiZyHI9dL0M+QjVrM+RD' +
-        'HwIIJwra8R0IMkDlQ6MDrFlKNqNBbo588S6UPrm71L↵YuiwWlcrK9ZIybxT6LzbR65Rvez' +
-        'DSitQ+xeIfpZE19/X6BCnvlARLE8k/tC2JksI↵lEZi7Lf3FQdIcwwyt98tJkS9HX9v9jbC' +
-        '5QXifnoj3Li8tHSLuQ1dJCxHQiis6ojI↵OWUFkm0IHBXVNHA2dqYBdM+pL12mlI3wp6Ica' +
-        '4cdEVDwzu+j1xnVSFUa+d+Y2xJF↵7mytuyhHiKG4hm+zbhMv6WD8Q3FoDsJZeLY99l0hYQ' +
-        'SnnkMduFVroIs45pAs8gUA↵RvYla8mm9w/543IJAPzzFarPVLSsSyQ7tJl3UBzjKRNH/rX' +
-        'W+F22qyWD1zyHPUIR↵C00ItmwlAvveImYKpQAH↵=L+K9↵-----END PGP SIGNATURE---' +
-        '--';
-        assert.equal(element._computeMessage(message), 'v2.15-rc1↵');
-        message = 'v2.15-rc1';
-        assert.equal(element._computeMessage(message), 'v2.15-rc1');
-      });
-
-      suite('list of repo tags', () => {
-        setup(done => {
-          tags = _.times(26, tagGenerator);
-
-          stub('gr-rest-api-interface', {
-            getRepoTags(num, repo, offset) {
-              return Promise.resolve(tags);
-            },
-          });
-
-          const params = {
-            repo: 'test',
-            detail: 'tags',
-          };
-
-          element._paramsChanged(params).then(() => { flush(done); });
+        element.addEventListener('page-error', e => {
+          assert.deepEqual(e.detail.response, response);
+          done();
         });
 
-        test('test for tag in the list', done => {
-          flush(() => {
-            assert.equal(element._items[1].ref, 'refs/tags/test2');
-            done();
-          });
-        });
-
-        test('test for tag message in the list', done => {
-          flush(() => {
-            assert.equal(element._items[1].message, 'Annotated tag');
-            done();
-          });
-        });
-
-        test('test for tagger in the tag list', done => {
-          const tagger = {
-            name: 'Test User',
-            email: 'test.user@gmail.com',
-            date: '2017-09-19 14:54:00.000000000',
-            tz: 540,
-          };
-          flush(() => {
-            assert.deepEqual(element._items[1].tagger, tagger);
-            done();
-          });
-        });
-
-        test('test for web links in the tags list', done => {
-          flush(() => {
-            assert.equal(element._items[1].web_links[0].url,
-                'https://git.example.org/tag/test;refs/tags/test2');
-            done();
-          });
-        });
-
-        test('test for refs/tags/ being striped from ref', done => {
-          flush(() => {
-            assert.equal(element._stripRefs(element._items[1].ref,
-                element.detailType), 'test2');
-            done();
-          });
-        });
-
-        test('_shownItems', () => {
-          assert.equal(element._shownItems.length, 25);
-        });
-
-        test('_computeHideTagger', () => {
-          const testObject1 = {
-            tagger: 'test',
-          };
-          assert.equal(element._computeHideTagger(testObject1), '');
-
-          assert.equal(element._computeHideTagger(undefined), 'hide');
-        });
-      });
-
-      suite('list with less then 25 tags', () => {
-        setup(done => {
-          tags = _.times(25, tagGenerator);
-
-          stub('gr-rest-api-interface', {
-            getRepoTags(num, project, offset) {
-              return Promise.resolve(tags);
-            },
-          });
-
-          const params = {
-            repo: 'test',
-            detail: 'tags',
-          };
-
-          element._paramsChanged(params).then(() => { flush(done); });
-        });
-
-        test('_shownItems', () => {
-          assert.equal(element._shownItems.length, 25);
-        });
-      });
-
-      suite('filter', () => {
-        test('_paramsChanged', done => {
-          sandbox.stub(
-              element.$.restAPI,
-              'getRepoTags',
-              () => Promise.resolve(tags));
-          const params = {
-            repo: 'test',
-            detail: 'tags',
-            filter: 'test',
-            offset: 25,
-          };
-          element._paramsChanged(params).then(() => {
-            assert.equal(element.$.restAPI.getRepoTags.lastCall.args[0],
-                'test');
-            assert.equal(element.$.restAPI.getRepoTags.lastCall.args[1],
-                'test');
-            assert.equal(element.$.restAPI.getRepoTags.lastCall.args[2],
-                25);
-            assert.equal(element.$.restAPI.getRepoTags.lastCall.args[3],
-                25);
-            done();
-          });
-        });
-      });
-
-      suite('create new', () => {
-        test('_handleCreateClicked called when create-click fired', () => {
-          sandbox.stub(element, '_handleCreateClicked');
-          element.$$('gr-list-view').fire('create-clicked');
-          assert.isTrue(element._handleCreateClicked.called);
-        });
-
-        test('_handleCreateClicked opens modal', () => {
-          const openStub = sandbox.stub(element.$.createOverlay, 'open');
-          element._handleCreateClicked();
-          assert.isTrue(openStub.called);
-        });
-
-        test('_handleCreateItem called when confirm fired', () => {
-          sandbox.stub(element, '_handleCreateItem');
-          element.$.createDialog.fire('confirm');
-          assert.isTrue(element._handleCreateItem.called);
-        });
-
-        test('_handleCloseCreate called when cancel fired', () => {
-          sandbox.stub(element, '_handleCloseCreate');
-          element.$.createDialog.fire('cancel');
-          assert.isTrue(element._handleCloseCreate.called);
-        });
-      });
-
-      suite('404', () => {
-        test('fires page-error', done => {
-          const response = {status: 404};
-          sandbox.stub(element.$.restAPI, 'getRepoTags',
-              (filter, repo, reposTagsPerPage, opt_offset, errFn) => {
-                errFn(response);
-              });
-
-          element.addEventListener('page-error', e => {
-            assert.deepEqual(e.detail.response, response);
-            done();
-          });
-
-          const params = {
-            repo: 'test',
-            detail: 'tags',
-            filter: 'test',
-            offset: 25,
-          };
-          element._paramsChanged(params);
-        });
-      });
-
-      test('test _computeHideDeleteClass', () => {
-        assert.deepEqual(element._computeHideDeleteClass(true, false), 'show');
-        assert.deepEqual(element._computeHideDeleteClass(false, true), 'show');
-        assert.deepEqual(element._computeHideDeleteClass(false, false), '');
+        const params = {
+          detail: 'branches',
+          repo: 'test',
+          filter: 'test',
+          offset: 25,
+        };
+        element._paramsChanged(params);
       });
     });
   });
+
+  suite('Tags', () => {
+    let element;
+    let tags;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+      element.detailType = 'tags';
+      counter = 0;
+      sandbox.stub(page, 'show');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('_computeMessage', () => {
+      let message = 'v2.15-rc1↵-----BEGIN PGP SIGNATURE-----↵Version: GnuPG v' +
+      '1↵↵iQIcBAABAgAGBQJZ27O7AAoJEF/XxZqaEoiMy6kQAMoQCpGr3J6JITI4BVWsr7QM↵xy' +
+      'EcWH5YPUko5EPTbkABHmaVyFmKGkuIQdn6c+NIbqJOk+5XT4oUyRSo1T569HPJ↵3kyxEJi' +
+      'T1ryvp5BIHwdvHx58fjw1+YkiWLZuZq1FFkUYqnWTYCrkv7Fok98pdOmV↵CL1Hgugi5uK8' +
+      '/kxf1M7+Nv6piaZ140pwSb1h6QdAjaZVfaBCnoxlG4LRUqHvEYay↵f4QYgFT67auHIGkZ4' +
+      'moUcsp2Du/1jSsCWL/CPwjPFGbbckVAjLCMT9yD3NKwpEZF↵pfsiZyHI9dL0M+QjVrM+RD' +
+      'HwIIJwra8R0IMkDlQ6MDrFlKNqNBbo588S6UPrm71L↵YuiwWlcrK9ZIybxT6LzbR65Rvez' +
+      'DSitQ+xeIfpZE19/X6BCnvlARLE8k/tC2JksI↵lEZi7Lf3FQdIcwwyt98tJkS9HX9v9jbC' +
+      '5QXifnoj3Li8tHSLuQ1dJCxHQiis6ojI↵OWUFkm0IHBXVNHA2dqYBdM+pL12mlI3wp6Ica' +
+      '4cdEVDwzu+j1xnVSFUa+d+Y2xJF↵7mytuyhHiKG4hm+zbhMv6WD8Q3FoDsJZeLY99l0hYQ' +
+      'SnnkMduFVroIs45pAs8gUA↵RvYla8mm9w/543IJAPzzFarPVLSsSyQ7tJl3UBzjKRNH/rX' +
+      'W+F22qyWD1zyHPUIR↵C00ItmwlAvveImYKpQAH↵=L+K9↵-----END PGP SIGNATURE---' +
+      '--';
+      assert.equal(element._computeMessage(message), 'v2.15-rc1↵');
+      message = 'v2.15-rc1';
+      assert.equal(element._computeMessage(message), 'v2.15-rc1');
+    });
+
+    suite('list of repo tags', () => {
+      setup(done => {
+        tags = _.times(26, tagGenerator);
+
+        stub('gr-rest-api-interface', {
+          getRepoTags(num, repo, offset) {
+            return Promise.resolve(tags);
+          },
+        });
+
+        const params = {
+          repo: 'test',
+          detail: 'tags',
+        };
+
+        element._paramsChanged(params).then(() => { flush(done); });
+      });
+
+      test('test for tag in the list', done => {
+        flush(() => {
+          assert.equal(element._items[1].ref, 'refs/tags/test2');
+          done();
+        });
+      });
+
+      test('test for tag message in the list', done => {
+        flush(() => {
+          assert.equal(element._items[1].message, 'Annotated tag');
+          done();
+        });
+      });
+
+      test('test for tagger in the tag list', done => {
+        const tagger = {
+          name: 'Test User',
+          email: 'test.user@gmail.com',
+          date: '2017-09-19 14:54:00.000000000',
+          tz: 540,
+        };
+        flush(() => {
+          assert.deepEqual(element._items[1].tagger, tagger);
+          done();
+        });
+      });
+
+      test('test for web links in the tags list', done => {
+        flush(() => {
+          assert.equal(element._items[1].web_links[0].url,
+              'https://git.example.org/tag/test;refs/tags/test2');
+          done();
+        });
+      });
+
+      test('test for refs/tags/ being striped from ref', done => {
+        flush(() => {
+          assert.equal(element._stripRefs(element._items[1].ref,
+              element.detailType), 'test2');
+          done();
+        });
+      });
+
+      test('_shownItems', () => {
+        assert.equal(element._shownItems.length, 25);
+      });
+
+      test('_computeHideTagger', () => {
+        const testObject1 = {
+          tagger: 'test',
+        };
+        assert.equal(element._computeHideTagger(testObject1), '');
+
+        assert.equal(element._computeHideTagger(undefined), 'hide');
+      });
+    });
+
+    suite('list with less then 25 tags', () => {
+      setup(done => {
+        tags = _.times(25, tagGenerator);
+
+        stub('gr-rest-api-interface', {
+          getRepoTags(num, project, offset) {
+            return Promise.resolve(tags);
+          },
+        });
+
+        const params = {
+          repo: 'test',
+          detail: 'tags',
+        };
+
+        element._paramsChanged(params).then(() => { flush(done); });
+      });
+
+      test('_shownItems', () => {
+        assert.equal(element._shownItems.length, 25);
+      });
+    });
+
+    suite('filter', () => {
+      test('_paramsChanged', done => {
+        sandbox.stub(
+            element.$.restAPI,
+            'getRepoTags',
+            () => Promise.resolve(tags));
+        const params = {
+          repo: 'test',
+          detail: 'tags',
+          filter: 'test',
+          offset: 25,
+        };
+        element._paramsChanged(params).then(() => {
+          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[0],
+              'test');
+          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[1],
+              'test');
+          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[2],
+              25);
+          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[3],
+              25);
+          done();
+        });
+      });
+    });
+
+    suite('create new', () => {
+      test('_handleCreateClicked called when create-click fired', () => {
+        sandbox.stub(element, '_handleCreateClicked');
+        element.$$('gr-list-view').fire('create-clicked');
+        assert.isTrue(element._handleCreateClicked.called);
+      });
+
+      test('_handleCreateClicked opens modal', () => {
+        const openStub = sandbox.stub(element.$.createOverlay, 'open');
+        element._handleCreateClicked();
+        assert.isTrue(openStub.called);
+      });
+
+      test('_handleCreateItem called when confirm fired', () => {
+        sandbox.stub(element, '_handleCreateItem');
+        element.$.createDialog.fire('confirm');
+        assert.isTrue(element._handleCreateItem.called);
+      });
+
+      test('_handleCloseCreate called when cancel fired', () => {
+        sandbox.stub(element, '_handleCloseCreate');
+        element.$.createDialog.fire('cancel');
+        assert.isTrue(element._handleCloseCreate.called);
+      });
+    });
+
+    suite('404', () => {
+      test('fires page-error', done => {
+        const response = {status: 404};
+        sandbox.stub(element.$.restAPI, 'getRepoTags',
+            (filter, repo, reposTagsPerPage, opt_offset, errFn) => {
+              errFn(response);
+            });
+
+        element.addEventListener('page-error', e => {
+          assert.deepEqual(e.detail.response, response);
+          done();
+        });
+
+        const params = {
+          repo: 'test',
+          detail: 'tags',
+          filter: 'test',
+          offset: 25,
+        };
+        element._paramsChanged(params);
+      });
+    });
+
+    test('test _computeHideDeleteClass', () => {
+      assert.deepEqual(element._computeHideDeleteClass(true, false), 'show');
+      assert.deepEqual(element._computeHideDeleteClass(false, true), 'show');
+      assert.deepEqual(element._computeHideDeleteClass(false, false), '');
+    });
+  });
+});
 </script>

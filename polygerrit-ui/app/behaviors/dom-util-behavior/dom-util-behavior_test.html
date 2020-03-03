@@ -19,13 +19,13 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>dom-util-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="dom-util-behavior.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="./dom-util-behavior.js"></script>
 
 <test-fixture id="nested-structure">
   <template>
@@ -40,34 +40,37 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('dom-util-behavior tests', async () => {
-    await readyToTest();
-    let element;
-    let divs;
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './dom-util-behavior.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('dom-util-behavior tests', () => {
+  let element;
+  let divs;
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [Gerrit.DomUtilBehavior],
-      });
-    });
-
-    setup(() => {
-      const testDom = fixture('nested-structure');
-      element = testDom[0];
-      divs = testDom[1];
-    });
-
-    test('descendedFromClass', () => {
-      // .c is a child of .a and not vice versa.
-      assert.isTrue(element.descendedFromClass(divs.querySelector('.c'), 'a'));
-      assert.isFalse(element.descendedFromClass(divs.querySelector('.a'), 'c'));
-
-      // Stops at stop element.
-      assert.isFalse(element.descendedFromClass(divs.querySelector('.c'), 'a',
-          divs.querySelector('.b')));
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'test-element',
+      behaviors: [Gerrit.DomUtilBehavior],
     });
   });
+
+  setup(() => {
+    const testDom = fixture('nested-structure');
+    element = testDom[0];
+    divs = testDom[1];
+  });
+
+  test('descendedFromClass', () => {
+    // .c is a child of .a and not vice versa.
+    assert.isTrue(element.descendedFromClass(divs.querySelector('.c'), 'a'));
+    assert.isFalse(element.descendedFromClass(divs.querySelector('.a'), 'c'));
+
+    // Stops at stop element.
+    assert.isFalse(element.descendedFromClass(divs.querySelector('.c'), 'a',
+        divs.querySelector('.b')));
+  });
+});
 </script>

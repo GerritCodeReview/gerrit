@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-create-pointer-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-create-pointer-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-create-pointer-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-pointer-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,103 +40,106 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-create-pointer-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-pointer-dialog.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-create-pointer-dialog tests', () => {
+  let element;
+  let sandbox;
 
-    const ironInput = function(element) {
-      return Polymer.dom(element).querySelector('iron-input');
-    };
+  const ironInput = function(element) {
+    return dom(element).querySelector('iron-input');
+  };
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-      });
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(true); },
     });
+    element = fixture('basic');
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('branch created', done => {
-      sandbox.stub(
-          element.$.restAPI,
-          'createRepoBranch',
-          () => Promise.resolve({}));
+  test('branch created', done => {
+    sandbox.stub(
+        element.$.restAPI,
+        'createRepoBranch',
+        () => Promise.resolve({}));
 
-      assert.isFalse(element.hasNewItemName);
+    assert.isFalse(element.hasNewItemName);
 
-      element._itemName = 'test-branch';
-      element.itemDetail = 'branches';
+    element._itemName = 'test-branch';
+    element.itemDetail = 'branches';
 
-      ironInput(element.$.itemNameSection).bindValue = 'test-branch2';
-      ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
+    ironInput(element.$.itemNameSection).bindValue = 'test-branch2';
+    ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
 
-      setTimeout(() => {
-        assert.isTrue(element.hasNewItemName);
-        assert.equal(element._itemName, 'test-branch2');
-        assert.equal(element._itemRevision, 'HEAD');
-        done();
-      });
-    });
-
-    test('tag created', done => {
-      sandbox.stub(
-          element.$.restAPI,
-          'createRepoTag',
-          () => Promise.resolve({}));
-
-      assert.isFalse(element.hasNewItemName);
-
-      element._itemName = 'test-tag';
-      element.itemDetail = 'tags';
-
-      ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
-      ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
-
-      setTimeout(() => {
-        assert.isTrue(element.hasNewItemName);
-        assert.equal(element._itemName, 'test-tag2');
-        assert.equal(element._itemRevision, 'HEAD');
-        done();
-      });
-    });
-
-    test('tag created with annotations', done => {
-      sandbox.stub(
-          element.$.restAPI,
-          'createRepoTag',
-          () => Promise.resolve({}));
-
-      assert.isFalse(element.hasNewItemName);
-
-      element._itemName = 'test-tag';
-      element._itemAnnotation = 'test-message';
-      element.itemDetail = 'tags';
-
-      ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
-      ironInput(element.$.itemAnnotationSection).bindValue = 'test-message2';
-      ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
-
-      setTimeout(() => {
-        assert.isTrue(element.hasNewItemName);
-        assert.equal(element._itemName, 'test-tag2');
-        assert.equal(element._itemAnnotation, 'test-message2');
-        assert.equal(element._itemRevision, 'HEAD');
-        done();
-      });
-    });
-
-    test('_computeHideItemClass returns hideItem if type is branches', () => {
-      assert.equal(element._computeHideItemClass('branches'), 'hideItem');
-    });
-
-    test('_computeHideItemClass returns strings if not branches', () => {
-      assert.equal(element._computeHideItemClass('tags'), '');
+    setTimeout(() => {
+      assert.isTrue(element.hasNewItemName);
+      assert.equal(element._itemName, 'test-branch2');
+      assert.equal(element._itemRevision, 'HEAD');
+      done();
     });
   });
+
+  test('tag created', done => {
+    sandbox.stub(
+        element.$.restAPI,
+        'createRepoTag',
+        () => Promise.resolve({}));
+
+    assert.isFalse(element.hasNewItemName);
+
+    element._itemName = 'test-tag';
+    element.itemDetail = 'tags';
+
+    ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
+    ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
+
+    setTimeout(() => {
+      assert.isTrue(element.hasNewItemName);
+      assert.equal(element._itemName, 'test-tag2');
+      assert.equal(element._itemRevision, 'HEAD');
+      done();
+    });
+  });
+
+  test('tag created with annotations', done => {
+    sandbox.stub(
+        element.$.restAPI,
+        'createRepoTag',
+        () => Promise.resolve({}));
+
+    assert.isFalse(element.hasNewItemName);
+
+    element._itemName = 'test-tag';
+    element._itemAnnotation = 'test-message';
+    element.itemDetail = 'tags';
+
+    ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
+    ironInput(element.$.itemAnnotationSection).bindValue = 'test-message2';
+    ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
+
+    setTimeout(() => {
+      assert.isTrue(element.hasNewItemName);
+      assert.equal(element._itemName, 'test-tag2');
+      assert.equal(element._itemAnnotation, 'test-message2');
+      assert.equal(element._itemRevision, 'HEAD');
+      done();
+    });
+  });
+
+  test('_computeHideItemClass returns hideItem if type is branches', () => {
+    assert.equal(element._computeHideItemClass('branches'), 'hideItem');
+  });
+
+  test('_computeHideItemClass returns strings if not branches', () => {
+    assert.equal(element._computeHideItemClass('tags'), '');
+  });
+});
 </script>

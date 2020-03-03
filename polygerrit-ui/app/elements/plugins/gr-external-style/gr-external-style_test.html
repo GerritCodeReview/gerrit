@@ -19,13 +19,13 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-external-style</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-external-style.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-external-style.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -33,92 +33,96 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-external-style integration tests', async () => {
-    await readyToTest();
-    const TEST_URL = 'http://some/plugin/url.html';
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-external-style.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import { importHref } from '@polymer/polymer/lib/utils/import-href.js';
+suite('gr-external-style integration tests', () => {
+  const TEST_URL = 'http://some/plugin/url.html';
 
-    let sandbox;
-    let element;
-    let plugin;
+  let sandbox;
+  let element;
+  let plugin;
 
-    const installPlugin = () => {
-      if (plugin) { return; }
-      Gerrit.install(p => {
-        plugin = p;
-      }, '0.1', TEST_URL);
-    };
+  const installPlugin = () => {
+    if (plugin) { return; }
+    Gerrit.install(p => {
+      plugin = p;
+    }, '0.1', TEST_URL);
+  };
 
-    const createElement = () => {
-      element = fixture('basic');
-      sandbox.spy(element, '_applyStyle');
-    };
+  const createElement = () => {
+    element = fixture('basic');
+    sandbox.spy(element, '_applyStyle');
+  };
 
-    /**
-     * Installs the plugin, creates the element, registers style module.
-     */
-    const lateRegister = () => {
-      installPlugin();
-      createElement();
-      plugin.registerStyleModule('foo', 'some-module');
-    };
+  /**
+   * Installs the plugin, creates the element, registers style module.
+   */
+  const lateRegister = () => {
+    installPlugin();
+    createElement();
+    plugin.registerStyleModule('foo', 'some-module');
+  };
 
-    /**
-     * Installs the plugin, registers style module, creates the element.
-     */
-    const earlyRegister = () => {
-      installPlugin();
-      plugin.registerStyleModule('foo', 'some-module');
-      createElement();
-    };
+  /**
+   * Installs the plugin, registers style module, creates the element.
+   */
+  const earlyRegister = () => {
+    installPlugin();
+    plugin.registerStyleModule('foo', 'some-module');
+    createElement();
+  };
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(Polymer, 'importHref', (url, resolve) => resolve());
-      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('imports plugin-provided module', async () => {
-      lateRegister();
-      await new Promise(flush);
-      assert.isTrue(Polymer.importHref.calledWith(new URL(TEST_URL)));
-    });
-
-    test('applies plugin-provided styles', async () => {
-      lateRegister();
-      await new Promise(flush);
-      assert.isTrue(element._applyStyle.calledWith('some-module'));
-    });
-
-    test('does not double import', async () => {
-      earlyRegister();
-      await new Promise(flush);
-      plugin.registerStyleModule('foo', 'some-module');
-      await new Promise(flush);
-      const urlsImported =
-          element._urlsImported.filter(url => url.toString() === TEST_URL);
-      assert.strictEqual(urlsImported.length, 1);
-    });
-
-    test('does not double apply', async () => {
-      earlyRegister();
-      await new Promise(flush);
-      plugin.registerStyleModule('foo', 'some-module');
-      await new Promise(flush);
-      const stylesApplied =
-          element._stylesApplied.filter(name => name === 'some-module');
-      assert.strictEqual(stylesApplied.length, 1);
-    });
-
-    test('loads and applies preloaded modules', async () => {
-      earlyRegister();
-      await new Promise(flush);
-      assert.isTrue(Polymer.importHref.calledWith(new URL(TEST_URL)));
-      assert.isTrue(element._applyStyle.calledWith('some-module'));
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(Polymer, 'importHref', (url, resolve) => resolve());
+    sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('imports plugin-provided module', async () => {
+    lateRegister();
+    await new Promise(flush);
+    assert.isTrue(importHref.calledWith(new URL(TEST_URL)));
+  });
+
+  test('applies plugin-provided styles', async () => {
+    lateRegister();
+    await new Promise(flush);
+    assert.isTrue(element._applyStyle.calledWith('some-module'));
+  });
+
+  test('does not double import', async () => {
+    earlyRegister();
+    await new Promise(flush);
+    plugin.registerStyleModule('foo', 'some-module');
+    await new Promise(flush);
+    const urlsImported =
+        element._urlsImported.filter(url => url.toString() === TEST_URL);
+    assert.strictEqual(urlsImported.length, 1);
+  });
+
+  test('does not double apply', async () => {
+    earlyRegister();
+    await new Promise(flush);
+    plugin.registerStyleModule('foo', 'some-module');
+    await new Promise(flush);
+    const stylesApplied =
+        element._stylesApplied.filter(name => name === 'some-module');
+    assert.strictEqual(stylesApplied.length, 1);
+  });
+
+  test('loads and applies preloaded modules', async () => {
+    earlyRegister();
+    await new Promise(flush);
+    assert.isTrue(importHref.calledWith(new URL(TEST_URL)));
+    assert.isTrue(element._applyStyle.calledWith('some-module'));
+  });
+});
 </script>

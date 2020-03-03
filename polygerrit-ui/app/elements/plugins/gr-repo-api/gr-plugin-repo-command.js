@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright (C) 2017 The Android Open Source Project
 
@@ -13,23 +13,23 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../admin/gr-repo-command/gr-repo-command.html">
+*/
+import "../../../scripts/bundled-polymer.js";
 
-<dom-module id="gr-plugin-repo-command">
-  <template>
+import '../../admin/gr-repo-command/gr-repo-command.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+Polymer({
+  _template: html`
     <gr-repo-command title="[[title]]">
     </gr-repo-command>
-  </template>
-  <script>
-    Polymer({
-      is: 'gr-plugin-repo-command',
-      properties: {
-        title: String,
-        repoName: String,
-        config: Object,
-      },
-    });
-  </script>
-</dom-module>
+`,
+
+  is: 'gr-plugin-repo-command',
+
+  properties: {
+    title: String,
+    repoName: String,
+    config: Object,
+  }
+});

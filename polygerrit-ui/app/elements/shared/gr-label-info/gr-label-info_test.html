@@ -18,15 +18,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-label-info</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-label-info.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-label-info.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-label-info.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -34,200 +39,203 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-account-link tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-label-info.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-account-link tests', () => {
+  let element;
+  let sandbox;
 
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    // Needed to trigger computed bindings.
+    element.account = {};
+    element.change = {labels: {}};
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('remove reviewer votes', () => {
     setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      // Needed to trigger computed bindings.
-      element.account = {};
-      element.change = {labels: {}};
+      sandbox.stub(element, '_computeValueTooltip').returns('');
+      element.account = {
+        _account_id: 1,
+        name: 'bojack',
+      };
+      const test = {
+        all: [{_account_id: 1, name: 'bojack', value: 1}],
+        default_value: 0,
+        values: [],
+      };
+      element.change = {
+        _number: 42,
+        change_id: 'the id',
+        actions: [],
+        topic: 'the topic',
+        status: 'NEW',
+        submit_type: 'CHERRY_PICK',
+        labels: {test},
+        removable_reviewers: [],
+      };
+      element.labelInfo = test;
+      element.label = 'test';
+
+      flushAsynchronousOperations();
     });
 
-    teardown(() => {
-      sandbox.restore();
+    test('_computeCanDeleteVote', () => {
+      element.mutable = false;
+      const button = element.$$('gr-button');
+      assert.isTrue(isHidden(button));
+      element.change.removable_reviewers = [element.account];
+      element.mutable = true;
+      assert.isFalse(isHidden(button));
     });
 
-    suite('remove reviewer votes', () => {
-      setup(() => {
-        sandbox.stub(element, '_computeValueTooltip').returns('');
-        element.account = {
-          _account_id: 1,
-          name: 'bojack',
-        };
-        const test = {
-          all: [{_account_id: 1, name: 'bojack', value: 1}],
-          default_value: 0,
-          values: [],
-        };
-        element.change = {
-          _number: 42,
-          change_id: 'the id',
-          actions: [],
-          topic: 'the topic',
-          status: 'NEW',
-          submit_type: 'CHERRY_PICK',
-          labels: {test},
-          removable_reviewers: [],
-        };
-        element.labelInfo = test;
-        element.label = 'test';
+    test('deletes votes', () => {
+      const deleteResponse = Promise.resolve({ok: true});
+      const deleteStub = sandbox.stub(
+          element.$.restAPI, 'deleteVote').returns(deleteResponse);
 
-        flushAsynchronousOperations();
+      element.change.removable_reviewers = [element.account];
+      element.change.labels.test.recommended = {_account_id: 1};
+      element.mutable = true;
+      const button = element.$$('gr-button');
+      MockInteractions.tap(button);
+      assert.isTrue(button.disabled);
+      return deleteResponse.then(() => {
+        assert.isFalse(button.disabled);
+        assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
       });
-
-      test('_computeCanDeleteVote', () => {
-        element.mutable = false;
-        const button = element.$$('gr-button');
-        assert.isTrue(isHidden(button));
-        element.change.removable_reviewers = [element.account];
-        element.mutable = true;
-        assert.isFalse(isHidden(button));
-      });
-
-      test('deletes votes', () => {
-        const deleteResponse = Promise.resolve({ok: true});
-        const deleteStub = sandbox.stub(
-            element.$.restAPI, 'deleteVote').returns(deleteResponse);
-
-        element.change.removable_reviewers = [element.account];
-        element.change.labels.test.recommended = {_account_id: 1};
-        element.mutable = true;
-        const button = element.$$('gr-button');
-        MockInteractions.tap(button);
-        assert.isTrue(button.disabled);
-        return deleteResponse.then(() => {
-          assert.isFalse(button.disabled);
-          assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
-        });
-      });
-    });
-
-    suite('label color and order', () => {
-      test('valueless label rejected', () => {
-        element.labelInfo = {rejected: {name: 'someone'}};
-        flushAsynchronousOperations();
-        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
-        assert.isTrue(labels[0].classList.contains('negative'));
-      });
-
-      test('valueless label approved', () => {
-        element.labelInfo = {approved: {name: 'someone'}};
-        flushAsynchronousOperations();
-        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
-        assert.isTrue(labels[0].classList.contains('positive'));
-      });
-
-      test('-2 to +2', () => {
-        element.labelInfo = {
-          all: [
-            {value: 2, name: 'user 2'},
-            {value: 1, name: 'user 1'},
-            {value: -1, name: 'user 3'},
-            {value: -2, name: 'user 4'},
-          ],
-          values: {
-            '-2': 'Awful',
-            '-1': 'Don\'t submit as-is',
-            ' 0': 'No score',
-            '+1': 'Looks good to me',
-            '+2': 'Ready to submit',
-          },
-        };
-        flushAsynchronousOperations();
-        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
-        assert.isTrue(labels[0].classList.contains('max'));
-        assert.isTrue(labels[1].classList.contains('positive'));
-        assert.isTrue(labels[2].classList.contains('negative'));
-        assert.isTrue(labels[3].classList.contains('min'));
-      });
-
-      test('-1 to +1', () => {
-        element.labelInfo = {
-          all: [
-            {value: 1, name: 'user 1'},
-            {value: -1, name: 'user 2'},
-          ],
-          values: {
-            '-1': 'Don\'t submit as-is',
-            ' 0': 'No score',
-            '+1': 'Looks good to me',
-          },
-        };
-        flushAsynchronousOperations();
-        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
-        assert.isTrue(labels[0].classList.contains('max'));
-        assert.isTrue(labels[1].classList.contains('min'));
-      });
-
-      test('0 to +2', () => {
-        element.labelInfo = {
-          all: [
-            {value: 1, name: 'user 2'},
-            {value: 2, name: 'user '},
-          ],
-          values: {
-            ' 0': 'Don\'t submit as-is',
-            '+1': 'No score',
-            '+2': 'Looks good to me',
-          },
-        };
-        flushAsynchronousOperations();
-        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
-        assert.isTrue(labels[0].classList.contains('max'));
-        assert.isTrue(labels[1].classList.contains('positive'));
-      });
-
-      test('self votes at top', () => {
-        element.account = {
-          _account_id: 1,
-          name: 'bojack',
-        };
-        element.labelInfo = {
-          all: [
-            {value: 1, name: 'user 1', _account_id: 2},
-            {value: -1, name: 'bojack', _account_id: 1},
-          ],
-          values: {
-            '-1': 'Don\'t submit as-is',
-            ' 0': 'No score',
-            '+1': 'Looks good to me',
-          },
-        };
-        flushAsynchronousOperations();
-        const chips =
-            Polymer.dom(element.root).querySelectorAll('gr-account-chip');
-        assert.equal(chips[0].account._account_id, element.account._account_id);
-      });
-    });
-
-    test('_computeValueTooltip', () => {
-      // Existing label.
-      let labelInfo = {values: {0: 'Baz'}};
-      let score = '0';
-      assert.equal(element._computeValueTooltip(labelInfo, score), 'Baz');
-
-      // Non-exsistent score.
-      score = '2';
-      assert.equal(element._computeValueTooltip(labelInfo, score), '');
-
-      // No values on label.
-      labelInfo = {values: {}};
-      score = '0';
-      assert.equal(element._computeValueTooltip(labelInfo, score), '');
-    });
-
-    test('placeholder', () => {
-      element.labelInfo = {};
-      assert.isFalse(isHidden(element.$$('.placeholder')));
-      element.labelInfo = {all: []};
-      assert.isFalse(isHidden(element.$$('.placeholder')));
-      element.labelInfo = {all: [{value: 1}]};
-      assert.isTrue(isHidden(element.$$('.placeholder')));
     });
   });
+
+  suite('label color and order', () => {
+    test('valueless label rejected', () => {
+      element.labelInfo = {rejected: {name: 'someone'}};
+      flushAsynchronousOperations();
+      const labels = dom(element.root).querySelectorAll('gr-label');
+      assert.isTrue(labels[0].classList.contains('negative'));
+    });
+
+    test('valueless label approved', () => {
+      element.labelInfo = {approved: {name: 'someone'}};
+      flushAsynchronousOperations();
+      const labels = dom(element.root).querySelectorAll('gr-label');
+      assert.isTrue(labels[0].classList.contains('positive'));
+    });
+
+    test('-2 to +2', () => {
+      element.labelInfo = {
+        all: [
+          {value: 2, name: 'user 2'},
+          {value: 1, name: 'user 1'},
+          {value: -1, name: 'user 3'},
+          {value: -2, name: 'user 4'},
+        ],
+        values: {
+          '-2': 'Awful',
+          '-1': 'Don\'t submit as-is',
+          ' 0': 'No score',
+          '+1': 'Looks good to me',
+          '+2': 'Ready to submit',
+        },
+      };
+      flushAsynchronousOperations();
+      const labels = dom(element.root).querySelectorAll('gr-label');
+      assert.isTrue(labels[0].classList.contains('max'));
+      assert.isTrue(labels[1].classList.contains('positive'));
+      assert.isTrue(labels[2].classList.contains('negative'));
+      assert.isTrue(labels[3].classList.contains('min'));
+    });
+
+    test('-1 to +1', () => {
+      element.labelInfo = {
+        all: [
+          {value: 1, name: 'user 1'},
+          {value: -1, name: 'user 2'},
+        ],
+        values: {
+          '-1': 'Don\'t submit as-is',
+          ' 0': 'No score',
+          '+1': 'Looks good to me',
+        },
+      };
+      flushAsynchronousOperations();
+      const labels = dom(element.root).querySelectorAll('gr-label');
+      assert.isTrue(labels[0].classList.contains('max'));
+      assert.isTrue(labels[1].classList.contains('min'));
+    });
+
+    test('0 to +2', () => {
+      element.labelInfo = {
+        all: [
+          {value: 1, name: 'user 2'},
+          {value: 2, name: 'user '},
+        ],
+        values: {
+          ' 0': 'Don\'t submit as-is',
+          '+1': 'No score',
+          '+2': 'Looks good to me',
+        },
+      };
+      flushAsynchronousOperations();
+      const labels = dom(element.root).querySelectorAll('gr-label');
+      assert.isTrue(labels[0].classList.contains('max'));
+      assert.isTrue(labels[1].classList.contains('positive'));
+    });
+
+    test('self votes at top', () => {
+      element.account = {
+        _account_id: 1,
+        name: 'bojack',
+      };
+      element.labelInfo = {
+        all: [
+          {value: 1, name: 'user 1', _account_id: 2},
+          {value: -1, name: 'bojack', _account_id: 1},
+        ],
+        values: {
+          '-1': 'Don\'t submit as-is',
+          ' 0': 'No score',
+          '+1': 'Looks good to me',
+        },
+      };
+      flushAsynchronousOperations();
+      const chips =
+          dom(element.root).querySelectorAll('gr-account-chip');
+      assert.equal(chips[0].account._account_id, element.account._account_id);
+    });
+  });
+
+  test('_computeValueTooltip', () => {
+    // Existing label.
+    let labelInfo = {values: {0: 'Baz'}};
+    let score = '0';
+    assert.equal(element._computeValueTooltip(labelInfo, score), 'Baz');
+
+    // Non-exsistent score.
+    score = '2';
+    assert.equal(element._computeValueTooltip(labelInfo, score), '');
+
+    // No values on label.
+    labelInfo = {values: {}};
+    score = '0';
+    assert.equal(element._computeValueTooltip(labelInfo, score), '');
+  });
+
+  test('placeholder', () => {
+    element.labelInfo = {};
+    assert.isFalse(isHidden(element.$$('.placeholder')));
+    element.labelInfo = {all: []};
+    assert.isFalse(isHidden(element.$$('.placeholder')));
+    element.labelInfo = {all: [{value: 1}]};
+    assert.isTrue(isHidden(element.$$('.placeholder')));
+  });
+});
 </script>

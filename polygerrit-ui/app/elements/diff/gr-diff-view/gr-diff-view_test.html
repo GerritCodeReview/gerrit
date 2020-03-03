@@ -19,18 +19,24 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff-view</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="/bower_components/page/page.js"></script>
-<script src="../../../scripts/util.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="/node_modules/page/page.js"></script>
+<script type="module" src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-diff-view.html">
+<script type="module" src="./gr-diff-view.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-diff-view.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -44,102 +50,535 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff-view tests', async () => {
-    await readyToTest();
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-diff-view.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-diff-view tests', () => {
 
-    suite('basic tests', async () => {
-      const kb = window.Gerrit.KeyboardShortcutBinder;
-      kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
-      kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
-      kb.bindShortcut(kb.Shortcut.NEXT_LINE, 'j', 'down');
-      kb.bindShortcut(kb.Shortcut.PREV_LINE, 'k', 'up');
-      kb.bindShortcut(kb.Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
-      kb.bindShortcut(kb.Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
-      kb.bindShortcut(kb.Shortcut.NEW_COMMENT, 'c');
-      kb.bindShortcut(kb.Shortcut.SAVE_COMMENT, 'ctrl+s');
-      kb.bindShortcut(kb.Shortcut.NEXT_FILE, ']');
-      kb.bindShortcut(kb.Shortcut.PREV_FILE, '[');
-      kb.bindShortcut(kb.Shortcut.NEXT_CHUNK, 'n');
-      kb.bindShortcut(kb.Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
-      kb.bindShortcut(kb.Shortcut.PREV_CHUNK, 'p');
-      kb.bindShortcut(kb.Shortcut.PREV_COMMENT_THREAD, 'shift+p');
-      kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
-      kb.bindShortcut(kb.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
-      kb.bindShortcut(kb.Shortcut.UP_TO_CHANGE, 'u');
-      kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
-      kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
-      kb.bindShortcut(kb.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
-      kb.bindShortcut(kb.Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
-      kb.bindShortcut(kb.Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
-      kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
-      kb.bindShortcut(kb.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
-      kb.bindShortcut(kb.Shortcut.TOGGLE_BLAME, 'b');
+  suite('basic tests', () => {
+    const kb = window.Gerrit.KeyboardShortcutBinder;
+    kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
+    kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
+    kb.bindShortcut(kb.Shortcut.NEXT_LINE, 'j', 'down');
+    kb.bindShortcut(kb.Shortcut.PREV_LINE, 'k', 'up');
+    kb.bindShortcut(kb.Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
+    kb.bindShortcut(kb.Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
+    kb.bindShortcut(kb.Shortcut.NEW_COMMENT, 'c');
+    kb.bindShortcut(kb.Shortcut.SAVE_COMMENT, 'ctrl+s');
+    kb.bindShortcut(kb.Shortcut.NEXT_FILE, ']');
+    kb.bindShortcut(kb.Shortcut.PREV_FILE, '[');
+    kb.bindShortcut(kb.Shortcut.NEXT_CHUNK, 'n');
+    kb.bindShortcut(kb.Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
+    kb.bindShortcut(kb.Shortcut.PREV_CHUNK, 'p');
+    kb.bindShortcut(kb.Shortcut.PREV_COMMENT_THREAD, 'shift+p');
+    kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+    kb.bindShortcut(kb.Shortcut.UP_TO_CHANGE, 'u');
+    kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
+    kb.bindShortcut(kb.Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
+    kb.bindShortcut(kb.Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
+    kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
+    kb.bindShortcut(kb.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_BLAME, 'b');
 
-      let element;
-      let sandbox;
+    let element;
+    let sandbox;
 
-      const PARENT = 'PARENT';
+    const PARENT = 'PARENT';
 
-      function getFilesFromFileList(fileList) {
-        const changeFilesByPath = fileList.reduce((files, path) => {
-          files[path] = {};
-          return files;
-        }, {});
-        return {
-          sortedFileList: fileList,
-          changeFilesByPath,
-        };
-      }
+    function getFilesFromFileList(fileList) {
+      const changeFilesByPath = fileList.reduce((files, path) => {
+        files[path] = {};
+        return files;
+      }, {});
+      return {
+        sortedFileList: fileList,
+        changeFilesByPath,
+      };
+    }
 
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+
+      stub('gr-rest-api-interface', {
+        getConfig() { return Promise.resolve({change: {}}); },
+        getLoggedIn() { return Promise.resolve(false); },
+        getProjectConfig() { return Promise.resolve({}); },
+        getDiffChangeDetail() { return Promise.resolve({}); },
+        getChangeFiles() { return Promise.resolve({}); },
+        saveFileReviewed() { return Promise.resolve(); },
+        getDiffComments() { return Promise.resolve({}); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
+        getReviewedFiles() { return Promise.resolve([]); },
+      });
+      element = fixture('basic');
+      return element._loadComments();
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('params change triggers diffViewDisplayed()', () => {
+      sandbox.stub(element.$.reporting, 'diffViewDisplayed');
+      sandbox.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      sandbox.spy(element, '_paramsChanged');
+      element.params = {
+        view: Gerrit.Nav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+      };
+
+      return element._paramsChanged.returnValues[0].then(() => {
+        assert.isTrue(element.$.reporting.diffViewDisplayed.calledOnce);
+      });
+    });
+
+    test('toggle left diff with a hotkey', () => {
+      const toggleLeftDiffStub = sandbox.stub(
+          element.$.diffHost, 'toggleLeftDiff');
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
+      assert.isTrue(toggleLeftDiffStub.calledOnce);
+    });
+
+    test('keyboard shortcuts', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: '10',
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 10, commit: {parents: []}},
+        },
+      };
+      element._files = getFilesFromFileList(
+          ['chell.go', 'glados.txt', 'wheatley.md']);
+      element._path = 'glados.txt';
+      element.changeViewState.selectedFileIndex = 1;
+      element._loggedIn = true;
+
+      const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      assert(changeNavStub.lastCall.calledWith(element._change),
+          'Should navigate to /c/42/');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      assert(diffNavStub.lastCall.calledWith(element._change, 'wheatley.md',
+          '10', PARENT), 'Should navigate to /c/42/10/wheatley.md');
+      element._path = 'wheatley.md';
+      assert.equal(element.changeViewState.selectedFileIndex, 2);
+      assert.isTrue(element._loading);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(diffNavStub.lastCall.calledWith(element._change, 'glados.txt',
+          '10', PARENT), 'Should navigate to /c/42/10/glados.txt');
+      element._path = 'glados.txt';
+      assert.equal(element.changeViewState.selectedFileIndex, 1);
+      assert.isTrue(element._loading);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(diffNavStub.lastCall.calledWith(element._change, 'chell.go', '10',
+          PARENT), 'Should navigate to /c/42/10/chell.go');
+      element._path = 'chell.go';
+      assert.equal(element.changeViewState.selectedFileIndex, 0);
+      assert.isTrue(element._loading);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(changeNavStub.lastCall.calledWith(element._change),
+          'Should navigate to /c/42/');
+      assert.equal(element.changeViewState.selectedFileIndex, 0);
+      assert.isTrue(element._loading);
+
+      const showPrefsStub =
+          sandbox.stub(element.$.diffPreferencesDialog, 'open',
+              () => Promise.resolve());
+
+      MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
+      assert(showPrefsStub.calledOnce);
+
+      element.disableDiffPrefs = true;
+      MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
+      assert(showPrefsStub.calledOnce);
+
+      let scrollStub = sandbox.stub(element.$.cursor, 'moveToNextChunk');
+      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+      assert(scrollStub.calledOnce);
+
+      scrollStub = sandbox.stub(element.$.cursor, 'moveToPreviousChunk');
+      MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+      assert(scrollStub.calledOnce);
+
+      scrollStub = sandbox.stub(element.$.cursor, 'moveToNextCommentThread');
+      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+      assert(scrollStub.calledOnce);
+
+      scrollStub = sandbox.stub(element.$.cursor,
+          'moveToPreviousCommentThread');
+      MockInteractions.pressAndReleaseKeyOn(element, 80, 'shift', 'p');
+      assert(scrollStub.calledOnce);
+
+      const computeContainerClassStub = sandbox.stub(element.$.diffHost.$.diff,
+          '_computeContainerClass');
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      assert(computeContainerClassStub.lastCall.calledWithExactly(
+          false, 'SIDE_BY_SIDE', true));
+
+      MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
+      assert(computeContainerClassStub.lastCall.calledWithExactly(
+          false, 'SIDE_BY_SIDE', false));
+
+      sandbox.stub(element, '_setReviewed');
+      element.$.reviewed.checked = false;
+      MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
+      assert.isFalse(element._setReviewed.called);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      assert.isTrue(element._setReviewed.called);
+      assert.equal(element._setReviewed.lastCall.args[0], true);
+    });
+
+    test('shift+x shortcut expands all diff context', () => {
+      const expandStub = sandbox.stub(element.$.diffHost, 'expandAllContext');
+      MockInteractions.pressAndReleaseKeyOn(element, 88, 'shift', 'x');
+      flushAsynchronousOperations();
+      assert.isTrue(expandStub.called);
+    });
+
+    test('keyboard shortcuts with patch range', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: '5',
+        patchNum: '10',
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 10, commit: {parents: []}},
+          b: {_number: 5, commit: {parents: []}},
+        },
+      };
+      element._files = getFilesFromFileList(
+          ['chell.go', 'glados.txt', 'wheatley.md']);
+      element._path = 'glados.txt';
+
+      const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
+          'should only work when the user is logged in.');
+      assert.isNull(window.sessionStorage.getItem(
+          'changeView.showReplyDialog'));
+
+      element._loggedIn = true;
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(element.changeViewState.showReplyDialog);
+
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
+          '5'), 'Should navigate to /c/42/5..10');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
+          '5'), 'Should navigate to /c/42/5..10');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      assert.isTrue(element._loading);
+      assert(diffNavStub.lastCall.calledWithExactly(element._change,
+          'wheatley.md', '10', '5'),
+      'Should navigate to /c/42/5..10/wheatley.md');
+      element._path = 'wheatley.md';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert.isTrue(element._loading);
+      assert(diffNavStub.lastCall.calledWithExactly(element._change,
+          'glados.txt', '10', '5'),
+      'Should navigate to /c/42/5..10/glados.txt');
+      element._path = 'glados.txt';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert.isTrue(element._loading);
+      assert(diffNavStub.lastCall.calledWithExactly(
+          element._change,
+          'chell.go',
+          '10',
+          '5'),
+      'Should navigate to /c/42/5..10/chell.go');
+      element._path = 'chell.go';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert.isTrue(element._loading);
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
+          '5'),
+      'Should navigate to /c/42/5..10');
+    });
+
+    test('keyboard shortcuts with old patch number', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: '1',
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
+        },
+      };
+      element._files = getFilesFromFileList(
+          ['chell.go', 'glados.txt', 'wheatley.md']);
+      element._path = 'glados.txt';
+
+      const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
+          'should only work when the user is logged in.');
+      assert.isNull(window.sessionStorage.getItem(
+          'changeView.showReplyDialog'));
+
+      element._loggedIn = true;
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(element.changeViewState.showReplyDialog);
+
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
+          PARENT), 'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
+          PARENT), 'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      assert(diffNavStub.lastCall.calledWithExactly(element._change,
+          'wheatley.md', '1', PARENT),
+      'Should navigate to /c/42/1/wheatley.md');
+      element._path = 'wheatley.md';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(diffNavStub.lastCall.calledWithExactly(element._change,
+          'glados.txt', '1', PARENT),
+      'Should navigate to /c/42/1/glados.txt');
+      element._path = 'glados.txt';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(diffNavStub.lastCall.calledWithExactly(
+          element._change,
+          'chell.go',
+          '1',
+          PARENT), 'Should navigate to /c/42/1/chell.go');
+      element._path = 'chell.go';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
+          PARENT), 'Should navigate to /c/42/1');
+    });
+
+    test('edit should redirect to edit page', done => {
+      element._loggedIn = true;
+      element._path = 't.txt';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: '1',
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
+        },
+      };
+      const redirectStub = sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+      flush(() => {
+        const editBtn = element.shadowRoot
+            .querySelector('.editButton gr-button');
+        assert.isTrue(!!editBtn);
+        MockInteractions.tap(editBtn);
+        assert.isTrue(redirectStub.called);
+        done();
+      });
+    });
+
+    test('edit hidden when not logged in', done => {
+      element._loggedIn = false;
+      element._path = 't.txt';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: '1',
+      };
+      element._change = {
+        _number: 42,
+        revisions: {
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
+        },
+      };
+      flush(() => {
+        const editBtn = element.shadowRoot
+            .querySelector('.editButton gr-button');
+        assert.isFalse(!!editBtn);
+        done();
+      });
+    });
+
+    suite('diff prefs hidden', () => {
+      test('when no prefs or logged out', () => {
+        element.disableDiffPrefs = false;
+        element._loggedIn = false;
+        flushAsynchronousOperations();
+        assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+        element._loggedIn = true;
+        flushAsynchronousOperations();
+        assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+        element._loggedIn = false;
+        element._prefs = {font_size: '12'};
+        flushAsynchronousOperations();
+        assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+        element._loggedIn = true;
+        flushAsynchronousOperations();
+        assert.isFalse(element.$.diffPrefsContainer.hidden);
+      });
+
+      test('when disableDiffPrefs is set', () => {
+        element._loggedIn = true;
+        element._prefs = {font_size: '12'};
+        element.disableDiffPrefs = false;
+        flushAsynchronousOperations();
+
+        assert.isFalse(element.$.diffPrefsContainer.hidden);
+        element.disableDiffPrefs = true;
+        flushAsynchronousOperations();
+
+        assert.isTrue(element.$.diffPrefsContainer.hidden);
+      });
+    });
+
+    test('prefsButton opens gr-diff-preferences', () => {
+      const handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
+      const overlayOpenStub = sandbox.stub(element.$.diffPreferencesDialog,
+          'open');
+      const prefsButton =
+          dom(element.root).querySelector('.prefsButton');
+
+      MockInteractions.tap(prefsButton);
+
+      assert.isTrue(handlePrefsTapSpy.called);
+      assert.isTrue(overlayOpenStub.called);
+    });
+
+    test('_computeCommentString', done => {
+      loadCommentSpy = sandbox.spy(element.$.commentAPI, 'loadAll');
+      const path = '/test';
+      element.$.commentAPI.loadAll().then(comments => {
+        const commentCountStub =
+            sandbox.stub(comments, 'computeCommentCount');
+        const unresolvedCountStub =
+            sandbox.stub(comments, 'computeUnresolvedNum');
+        commentCountStub.withArgs(1, path).returns(0);
+        commentCountStub.withArgs(2, path).returns(1);
+        commentCountStub.withArgs(3, path).returns(2);
+        commentCountStub.withArgs(4, path).returns(0);
+        unresolvedCountStub.withArgs(1, path).returns(1);
+        unresolvedCountStub.withArgs(2, path).returns(0);
+        unresolvedCountStub.withArgs(3, path).returns(2);
+        unresolvedCountStub.withArgs(4, path).returns(0);
+
+        assert.equal(element._computeCommentString(comments, 1, path, {}),
+            '1 unresolved');
+        assert.equal(
+            element._computeCommentString(comments, 2, path, {status: 'M'}),
+            '1 comment');
+        assert.equal(
+            element._computeCommentString(comments, 2, path, {status: 'U'}),
+            'no changes, 1 comment');
+        assert.equal(
+            element._computeCommentString(comments, 3, path, {status: 'A'}),
+            '2 comments, 2 unresolved');
+        assert.equal(
+            element._computeCommentString(
+                comments, 4, path, {status: 'M'}
+            ), '');
+        assert.equal(
+            element._computeCommentString(comments, 4, path, {status: 'U'}),
+            'no changes');
+        done();
+      });
+    });
+
+    suite('url params', () => {
       setup(() => {
-        sandbox = sinon.sandbox.create();
-
-        stub('gr-rest-api-interface', {
-          getConfig() { return Promise.resolve({change: {}}); },
-          getLoggedIn() { return Promise.resolve(false); },
-          getProjectConfig() { return Promise.resolve({}); },
-          getDiffChangeDetail() { return Promise.resolve({}); },
-          getChangeFiles() { return Promise.resolve({}); },
-          saveFileReviewed() { return Promise.resolve(); },
-          getDiffComments() { return Promise.resolve({}); },
-          getDiffRobotComments() { return Promise.resolve({}); },
-          getDiffDrafts() { return Promise.resolve({}); },
-          getReviewedFiles() { return Promise.resolve([]); },
-        });
-        element = fixture('basic');
-        return element._loadComments();
+        sandbox.stub(
+            Gerrit.Nav,
+            'getUrlForDiff',
+            (c, p, pn, bpn) => `${c._number}-${p}-${pn}-${bpn}`);
+        sandbox.stub(
+            Gerrit.Nav
+            , 'getUrlForChange',
+            (c, pn, bpn) => `${c._number}-${pn}-${bpn}`);
       });
 
-      teardown(() => {
-        sandbox.restore();
-      });
-
-      test('params change triggers diffViewDisplayed()', () => {
-        sandbox.stub(element.$.reporting, 'diffViewDisplayed');
-        sandbox.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-        sandbox.spy(element, '_paramsChanged');
-        element.params = {
-          view: Gerrit.Nav.View.DIFF,
-          changeNum: '42',
-          patchNum: '2',
-          basePatchNum: '1',
-          path: '/COMMIT_MSG',
+      test('_formattedFiles', () => {
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: PARENT,
+          patchNum: '10',
         };
+        element._change = {_number: 42};
+        element._files = getFilesFromFileList(
+            ['chell.go', 'glados.txt', 'wheatley.md',
+              '/COMMIT_MSG', '/MERGE_LIST']);
+        element._path = 'glados.txt';
+        const expectedFormattedFiles = [
+          {
+            text: 'chell.go',
+            mobileText: 'chell.go',
+            value: 'chell.go',
+            bottomText: '',
+          }, {
+            text: 'glados.txt',
+            mobileText: 'glados.txt',
+            value: 'glados.txt',
+            bottomText: '',
+          }, {
+            text: 'wheatley.md',
+            mobileText: 'wheatley.md',
+            value: 'wheatley.md',
+            bottomText: '',
+          },
+          {
+            text: 'Commit message',
+            mobileText: 'Commit message',
+            value: '/COMMIT_MSG',
+            bottomText: '',
+          },
+          {
+            text: 'Merge list',
+            mobileText: 'Merge list',
+            value: '/MERGE_LIST',
+            bottomText: '',
+          },
+        ];
 
-        return element._paramsChanged.returnValues[0].then(() => {
-          assert.isTrue(element.$.reporting.diffViewDisplayed.calledOnce);
-        });
+        assert.deepEqual(element._formattedFiles, expectedFormattedFiles);
+        assert.equal(element._formattedFiles[1].value, element._path);
       });
 
-      test('toggle left diff with a hotkey', () => {
-        const toggleLeftDiffStub = sandbox.stub(
-            element.$.diffHost, 'toggleLeftDiff');
-        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
-        assert.isTrue(toggleLeftDiffStub.calledOnce);
-      });
-
-      test('keyboard shortcuts', () => {
+      test('prev/up/next links', () => {
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: PARENT,
@@ -154,99 +593,34 @@ limitations under the License.
         element._files = getFilesFromFileList(
             ['chell.go', 'glados.txt', 'wheatley.md']);
         element._path = 'glados.txt';
-        element.changeViewState.selectedFileIndex = 1;
-        element._loggedIn = true;
-
-        const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-        const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-        assert(changeNavStub.lastCall.calledWith(element._change),
-            'Should navigate to /c/42/');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
-        assert(diffNavStub.lastCall.calledWith(element._change, 'wheatley.md',
-            '10', PARENT), 'Should navigate to /c/42/10/wheatley.md');
-        element._path = 'wheatley.md';
-        assert.equal(element.changeViewState.selectedFileIndex, 2);
-        assert.isTrue(element._loading);
-
-        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-        assert(diffNavStub.lastCall.calledWith(element._change, 'glados.txt',
-            '10', PARENT), 'Should navigate to /c/42/10/glados.txt');
-        element._path = 'glados.txt';
-        assert.equal(element.changeViewState.selectedFileIndex, 1);
-        assert.isTrue(element._loading);
-
-        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-        assert(diffNavStub.lastCall.calledWith(element._change, 'chell.go', '10',
-            PARENT), 'Should navigate to /c/42/10/chell.go');
-        element._path = 'chell.go';
-        assert.equal(element.changeViewState.selectedFileIndex, 0);
-        assert.isTrue(element._loading);
-
-        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-        assert(changeNavStub.lastCall.calledWith(element._change),
-            'Should navigate to /c/42/');
-        assert.equal(element.changeViewState.selectedFileIndex, 0);
-        assert.isTrue(element._loading);
-
-        const showPrefsStub =
-            sandbox.stub(element.$.diffPreferencesDialog, 'open',
-                () => Promise.resolve());
-
-        MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
-        assert(showPrefsStub.calledOnce);
-
-        element.disableDiffPrefs = true;
-        MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
-        assert(showPrefsStub.calledOnce);
-
-        let scrollStub = sandbox.stub(element.$.cursor, 'moveToNextChunk');
-        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
-        assert(scrollStub.calledOnce);
-
-        scrollStub = sandbox.stub(element.$.cursor, 'moveToPreviousChunk');
-        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
-        assert(scrollStub.calledOnce);
-
-        scrollStub = sandbox.stub(element.$.cursor, 'moveToNextCommentThread');
-        MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
-        assert(scrollStub.calledOnce);
-
-        scrollStub = sandbox.stub(element.$.cursor,
-            'moveToPreviousCommentThread');
-        MockInteractions.pressAndReleaseKeyOn(element, 80, 'shift', 'p');
-        assert(scrollStub.calledOnce);
-
-        const computeContainerClassStub = sandbox.stub(element.$.diffHost.$.diff,
-            '_computeContainerClass');
-        MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-        assert(computeContainerClassStub.lastCall.calledWithExactly(
-            false, 'SIDE_BY_SIDE', true));
-
-        MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
-        assert(computeContainerClassStub.lastCall.calledWithExactly(
-            false, 'SIDE_BY_SIDE', false));
-
-        sandbox.stub(element, '_setReviewed');
-        element.$.reviewed.checked = false;
-        MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
-        assert.isFalse(element._setReviewed.called);
-
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        assert.isTrue(element._setReviewed.called);
-        assert.equal(element._setReviewed.lastCall.args[0], true);
-      });
-
-      test('shift+x shortcut expands all diff context', () => {
-        const expandStub = sandbox.stub(element.$.diffHost, 'expandAllContext');
-        MockInteractions.pressAndReleaseKeyOn(element, 88, 'shift', 'x');
         flushAsynchronousOperations();
-        assert.isTrue(expandStub.called);
+        const linkEls = dom(element.root).querySelectorAll('.navLink');
+        assert.equal(linkEls.length, 3);
+        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
+        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[2].getAttribute('href'),
+            '42-wheatley.md-10-PARENT');
+        element._path = 'wheatley.md';
+        flushAsynchronousOperations();
+        assert.equal(linkEls[0].getAttribute('href'),
+            '42-glados.txt-10-PARENT');
+        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.isFalse(linkEls[2].hasAttribute('href'));
+        element._path = 'chell.go';
+        flushAsynchronousOperations();
+        assert.isFalse(linkEls[0].hasAttribute('href'));
+        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[2].getAttribute('href'),
+            '42-glados.txt-10-PARENT');
+        element._path = 'not_a_real_file';
+        flushAsynchronousOperations();
+        assert.equal(linkEls[0].getAttribute('href'),
+            '42-wheatley.md-10-PARENT');
+        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[2].getAttribute('href'), '42-chell.go-10-PARENT');
       });
 
-      test('keyboard shortcuts with patch range', () => {
+      test('prev/up/next links with patch range', () => {
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: '5',
@@ -255,1167 +629,803 @@ limitations under the License.
         element._change = {
           _number: 42,
           revisions: {
-            a: {_number: 10, commit: {parents: []}},
-            b: {_number: 5, commit: {parents: []}},
+            a: {_number: 5, commit: {parents: []}},
+            b: {_number: 10, commit: {parents: []}},
           },
         };
         element._files = getFilesFromFileList(
             ['chell.go', 'glados.txt', 'wheatley.md']);
         element._path = 'glados.txt';
-
-        const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-        const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-        assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
-            'should only work when the user is logged in.');
-        assert.isNull(window.sessionStorage.getItem(
-            'changeView.showReplyDialog'));
-
-        element._loggedIn = true;
-        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-        assert.isTrue(element.changeViewState.showReplyDialog);
-
-        assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
-            '5'), 'Should navigate to /c/42/5..10');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-        assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
-            '5'), 'Should navigate to /c/42/5..10');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
-        assert.isTrue(element._loading);
-        assert(diffNavStub.lastCall.calledWithExactly(element._change,
-            'wheatley.md', '10', '5'),
-        'Should navigate to /c/42/5..10/wheatley.md');
+        flushAsynchronousOperations();
+        const linkEls = dom(element.root).querySelectorAll('.navLink');
+        assert.equal(linkEls.length, 3);
+        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
+        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+        assert.equal(linkEls[2].getAttribute('href'), '42-wheatley.md-10-5');
         element._path = 'wheatley.md';
-
-        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-        assert.isTrue(element._loading);
-        assert(diffNavStub.lastCall.calledWithExactly(element._change,
-            'glados.txt', '10', '5'),
-        'Should navigate to /c/42/5..10/glados.txt');
-        element._path = 'glados.txt';
-
-        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-        assert.isTrue(element._loading);
-        assert(diffNavStub.lastCall.calledWithExactly(
-            element._change,
-            'chell.go',
-            '10',
-            '5'),
-        'Should navigate to /c/42/5..10/chell.go');
+        flushAsynchronousOperations();
+        assert.equal(linkEls[0].getAttribute('href'), '42-glados.txt-10-5');
+        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+        assert.isFalse(linkEls[2].hasAttribute('href'));
         element._path = 'chell.go';
-
-        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-        assert.isTrue(element._loading);
-        assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
-            '5'),
-        'Should navigate to /c/42/5..10');
-      });
-
-      test('keyboard shortcuts with old patch number', () => {
-        element._changeNum = '42';
-        element._patchRange = {
-          basePatchNum: PARENT,
-          patchNum: '1',
-        };
-        element._change = {
-          _number: 42,
-          revisions: {
-            a: {_number: 1, commit: {parents: []}},
-            b: {_number: 2, commit: {parents: []}},
-          },
-        };
-        element._files = getFilesFromFileList(
-            ['chell.go', 'glados.txt', 'wheatley.md']);
-        element._path = 'glados.txt';
-
-        const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-        const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-        assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
-            'should only work when the user is logged in.');
-        assert.isNull(window.sessionStorage.getItem(
-            'changeView.showReplyDialog'));
-
-        element._loggedIn = true;
-        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-        assert.isTrue(element.changeViewState.showReplyDialog);
-
-        assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
-            PARENT), 'Should navigate to /c/42/1');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-        assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
-            PARENT), 'Should navigate to /c/42/1');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
-        assert(diffNavStub.lastCall.calledWithExactly(element._change,
-            'wheatley.md', '1', PARENT),
-        'Should navigate to /c/42/1/wheatley.md');
-        element._path = 'wheatley.md';
-
-        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-        assert(diffNavStub.lastCall.calledWithExactly(element._change,
-            'glados.txt', '1', PARENT),
-        'Should navigate to /c/42/1/glados.txt');
-        element._path = 'glados.txt';
-
-        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-        assert(diffNavStub.lastCall.calledWithExactly(
-            element._change,
-            'chell.go',
-            '1',
-            PARENT), 'Should navigate to /c/42/1/chell.go');
-        element._path = 'chell.go';
-
-        MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-        assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
-            PARENT), 'Should navigate to /c/42/1');
-      });
-
-      test('edit should redirect to edit page', done => {
-        element._loggedIn = true;
-        element._path = 't.txt';
-        element._patchRange = {
-          basePatchNum: PARENT,
-          patchNum: '1',
-        };
-        element._change = {
-          _number: 42,
-          revisions: {
-            a: {_number: 1, commit: {parents: []}},
-            b: {_number: 2, commit: {parents: []}},
-          },
-        };
-        const redirectStub = sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
-        flush(() => {
-          const editBtn = element.shadowRoot
-              .querySelector('.editButton gr-button');
-          assert.isTrue(!!editBtn);
-          MockInteractions.tap(editBtn);
-          assert.isTrue(redirectStub.called);
-          done();
-        });
-      });
-
-      test('edit hidden when not logged in', done => {
-        element._loggedIn = false;
-        element._path = 't.txt';
-        element._patchRange = {
-          basePatchNum: PARENT,
-          patchNum: '1',
-        };
-        element._change = {
-          _number: 42,
-          revisions: {
-            a: {_number: 1, commit: {parents: []}},
-            b: {_number: 2, commit: {parents: []}},
-          },
-        };
-        flush(() => {
-          const editBtn = element.shadowRoot
-              .querySelector('.editButton gr-button');
-          assert.isFalse(!!editBtn);
-          done();
-        });
-      });
-
-      suite('diff prefs hidden', () => {
-        test('when no prefs or logged out', () => {
-          element.disableDiffPrefs = false;
-          element._loggedIn = false;
-          flushAsynchronousOperations();
-          assert.isTrue(element.$.diffPrefsContainer.hidden);
-
-          element._loggedIn = true;
-          flushAsynchronousOperations();
-          assert.isTrue(element.$.diffPrefsContainer.hidden);
-
-          element._loggedIn = false;
-          element._prefs = {font_size: '12'};
-          flushAsynchronousOperations();
-          assert.isTrue(element.$.diffPrefsContainer.hidden);
-
-          element._loggedIn = true;
-          flushAsynchronousOperations();
-          assert.isFalse(element.$.diffPrefsContainer.hidden);
-        });
-
-        test('when disableDiffPrefs is set', () => {
-          element._loggedIn = true;
-          element._prefs = {font_size: '12'};
-          element.disableDiffPrefs = false;
-          flushAsynchronousOperations();
-
-          assert.isFalse(element.$.diffPrefsContainer.hidden);
-          element.disableDiffPrefs = true;
-          flushAsynchronousOperations();
-
-          assert.isTrue(element.$.diffPrefsContainer.hidden);
-        });
-      });
-
-      test('prefsButton opens gr-diff-preferences', () => {
-        const handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
-        const overlayOpenStub = sandbox.stub(element.$.diffPreferencesDialog,
-            'open');
-        const prefsButton =
-            Polymer.dom(element.root).querySelector('.prefsButton');
-
-        MockInteractions.tap(prefsButton);
-
-        assert.isTrue(handlePrefsTapSpy.called);
-        assert.isTrue(overlayOpenStub.called);
-      });
-
-      test('_computeCommentString', done => {
-        loadCommentSpy = sandbox.spy(element.$.commentAPI, 'loadAll');
-        const path = '/test';
-        element.$.commentAPI.loadAll().then(comments => {
-          const commentCountStub =
-              sandbox.stub(comments, 'computeCommentCount');
-          const unresolvedCountStub =
-              sandbox.stub(comments, 'computeUnresolvedNum');
-          commentCountStub.withArgs(1, path).returns(0);
-          commentCountStub.withArgs(2, path).returns(1);
-          commentCountStub.withArgs(3, path).returns(2);
-          commentCountStub.withArgs(4, path).returns(0);
-          unresolvedCountStub.withArgs(1, path).returns(1);
-          unresolvedCountStub.withArgs(2, path).returns(0);
-          unresolvedCountStub.withArgs(3, path).returns(2);
-          unresolvedCountStub.withArgs(4, path).returns(0);
-
-          assert.equal(element._computeCommentString(comments, 1, path, {}),
-              '1 unresolved');
-          assert.equal(
-              element._computeCommentString(comments, 2, path, {status: 'M'}),
-              '1 comment');
-          assert.equal(
-              element._computeCommentString(comments, 2, path, {status: 'U'}),
-              'no changes, 1 comment');
-          assert.equal(
-              element._computeCommentString(comments, 3, path, {status: 'A'}),
-              '2 comments, 2 unresolved');
-          assert.equal(
-              element._computeCommentString(
-                  comments, 4, path, {status: 'M'}
-              ), '');
-          assert.equal(
-              element._computeCommentString(comments, 4, path, {status: 'U'}),
-              'no changes');
-          done();
-        });
-      });
-
-      suite('url params', () => {
-        setup(() => {
-          sandbox.stub(
-              Gerrit.Nav,
-              'getUrlForDiff',
-              (c, p, pn, bpn) => `${c._number}-${p}-${pn}-${bpn}`);
-          sandbox.stub(
-              Gerrit.Nav
-              , 'getUrlForChange',
-              (c, pn, bpn) => `${c._number}-${pn}-${bpn}`);
-        });
-
-        test('_formattedFiles', () => {
-          element._changeNum = '42';
-          element._patchRange = {
-            basePatchNum: PARENT,
-            patchNum: '10',
-          };
-          element._change = {_number: 42};
-          element._files = getFilesFromFileList(
-              ['chell.go', 'glados.txt', 'wheatley.md',
-                '/COMMIT_MSG', '/MERGE_LIST']);
-          element._path = 'glados.txt';
-          const expectedFormattedFiles = [
-            {
-              text: 'chell.go',
-              mobileText: 'chell.go',
-              value: 'chell.go',
-              bottomText: '',
-            }, {
-              text: 'glados.txt',
-              mobileText: 'glados.txt',
-              value: 'glados.txt',
-              bottomText: '',
-            }, {
-              text: 'wheatley.md',
-              mobileText: 'wheatley.md',
-              value: 'wheatley.md',
-              bottomText: '',
-            },
-            {
-              text: 'Commit message',
-              mobileText: 'Commit message',
-              value: '/COMMIT_MSG',
-              bottomText: '',
-            },
-            {
-              text: 'Merge list',
-              mobileText: 'Merge list',
-              value: '/MERGE_LIST',
-              bottomText: '',
-            },
-          ];
-
-          assert.deepEqual(element._formattedFiles, expectedFormattedFiles);
-          assert.equal(element._formattedFiles[1].value, element._path);
-        });
-
-        test('prev/up/next links', () => {
-          element._changeNum = '42';
-          element._patchRange = {
-            basePatchNum: PARENT,
-            patchNum: '10',
-          };
-          element._change = {
-            _number: 42,
-            revisions: {
-              a: {_number: 10, commit: {parents: []}},
-            },
-          };
-          element._files = getFilesFromFileList(
-              ['chell.go', 'glados.txt', 'wheatley.md']);
-          element._path = 'glados.txt';
-          flushAsynchronousOperations();
-          const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
-          assert.equal(linkEls.length, 3);
-          assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
-          assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
-          assert.equal(linkEls[2].getAttribute('href'),
-              '42-wheatley.md-10-PARENT');
-          element._path = 'wheatley.md';
-          flushAsynchronousOperations();
-          assert.equal(linkEls[0].getAttribute('href'),
-              '42-glados.txt-10-PARENT');
-          assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
-          assert.isFalse(linkEls[2].hasAttribute('href'));
-          element._path = 'chell.go';
-          flushAsynchronousOperations();
-          assert.isFalse(linkEls[0].hasAttribute('href'));
-          assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
-          assert.equal(linkEls[2].getAttribute('href'),
-              '42-glados.txt-10-PARENT');
-          element._path = 'not_a_real_file';
-          flushAsynchronousOperations();
-          assert.equal(linkEls[0].getAttribute('href'),
-              '42-wheatley.md-10-PARENT');
-          assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
-          assert.equal(linkEls[2].getAttribute('href'), '42-chell.go-10-PARENT');
-        });
-
-        test('prev/up/next links with patch range', () => {
-          element._changeNum = '42';
-          element._patchRange = {
-            basePatchNum: '5',
-            patchNum: '10',
-          };
-          element._change = {
-            _number: 42,
-            revisions: {
-              a: {_number: 5, commit: {parents: []}},
-              b: {_number: 10, commit: {parents: []}},
-            },
-          };
-          element._files = getFilesFromFileList(
-              ['chell.go', 'glados.txt', 'wheatley.md']);
-          element._path = 'glados.txt';
-          flushAsynchronousOperations();
-          const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
-          assert.equal(linkEls.length, 3);
-          assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
-          assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
-          assert.equal(linkEls[2].getAttribute('href'), '42-wheatley.md-10-5');
-          element._path = 'wheatley.md';
-          flushAsynchronousOperations();
-          assert.equal(linkEls[0].getAttribute('href'), '42-glados.txt-10-5');
-          assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
-          assert.isFalse(linkEls[2].hasAttribute('href'));
-          element._path = 'chell.go';
-          flushAsynchronousOperations();
-          assert.isFalse(linkEls[0].hasAttribute('href'));
-          assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
-          assert.equal(linkEls[2].getAttribute('href'), '42-glados.txt-10-5');
-        });
-      });
-
-      test('_handlePatchChange calls navigateToDiff correctly', () => {
-        const navigateStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-        element._change = {_number: 321, project: 'foo/bar'};
-        element._path = 'path/to/file.txt';
-
-        element._patchRange = {
-          basePatchNum: 'PARENT',
-          patchNum: '3',
-        };
-
-        const detail = {
-          basePatchNum: 'PARENT',
-          patchNum: '1',
-        };
-
-        element.$.rangeSelect.dispatchEvent(
-            new CustomEvent('patch-range-change', {detail, bubbles: false}));
-
-        assert(navigateStub.lastCall.calledWithExactly(element._change,
-            element._path, '1', 'PARENT'));
-      });
-
-      test('_prefs.manual_review is respected', () => {
-        const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
-            () => Promise.resolve());
-        const getReviewedStub = sandbox.stub(element, '_getReviewedStatus',
-            () => Promise.resolve());
-
-        sandbox.stub(element.$.diffHost, 'reload');
-        element._loggedIn = true;
-        element.params = {
-          view: Gerrit.Nav.View.DIFF,
-          changeNum: '42',
-          patchNum: '2',
-          basePatchNum: '1',
-          path: '/COMMIT_MSG',
-        };
-        element._prefs = {manual_review: true};
         flushAsynchronousOperations();
-
-        assert.isFalse(saveReviewedStub.called);
-        assert.isTrue(getReviewedStub.called);
-
-        element._prefs = {};
-        flushAsynchronousOperations();
-
-        assert.isTrue(saveReviewedStub.called);
-        assert.isTrue(getReviewedStub.calledOnce);
+        assert.isFalse(linkEls[0].hasAttribute('href'));
+        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+        assert.equal(linkEls[2].getAttribute('href'), '42-glados.txt-10-5');
       });
+    });
 
-      test('file review status', () => {
-        const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
-            () => Promise.resolve());
-        sandbox.stub(element.$.diffHost, 'reload');
+    test('_handlePatchChange calls navigateToDiff correctly', () => {
+      const navigateStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      element._change = {_number: 321, project: 'foo/bar'};
+      element._path = 'path/to/file.txt';
 
-        element._loggedIn = true;
-        element.params = {
-          view: Gerrit.Nav.View.DIFF,
-          changeNum: '42',
-          patchNum: '2',
-          basePatchNum: '1',
-          path: '/COMMIT_MSG',
-        };
-        element._prefs = {};
-        flushAsynchronousOperations();
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '3',
+      };
 
-        const commitMsg = Polymer.dom(element.root).querySelector(
-            'input[type="checkbox"]');
+      const detail = {
+        basePatchNum: 'PARENT',
+        patchNum: '1',
+      };
 
-        assert.isTrue(commitMsg.checked);
-        MockInteractions.tap(commitMsg);
-        assert.isFalse(commitMsg.checked);
-        assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(false));
+      element.$.rangeSelect.dispatchEvent(
+          new CustomEvent('patch-range-change', {detail, bubbles: false}));
 
-        MockInteractions.tap(commitMsg);
-        assert.isTrue(commitMsg.checked);
-        assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
-        const callCount = saveReviewedStub.callCount;
+      assert(navigateStub.lastCall.calledWithExactly(element._change,
+          element._path, '1', 'PARENT'));
+    });
 
-        element.set('params.view', Gerrit.Nav.View.CHANGE);
-        flushAsynchronousOperations();
+    test('_prefs.manual_review is respected', () => {
+      const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
+          () => Promise.resolve());
+      const getReviewedStub = sandbox.stub(element, '_getReviewedStatus',
+          () => Promise.resolve());
 
-        // saveReviewedState observer observes params, but should not fire when
-        // view !== Gerrit.Nav.View.DIFF.
-        assert.equal(saveReviewedStub.callCount, callCount);
+      sandbox.stub(element.$.diffHost, 'reload');
+      element._loggedIn = true;
+      element.params = {
+        view: Gerrit.Nav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+      };
+      element._prefs = {manual_review: true};
+      flushAsynchronousOperations();
+
+      assert.isFalse(saveReviewedStub.called);
+      assert.isTrue(getReviewedStub.called);
+
+      element._prefs = {};
+      flushAsynchronousOperations();
+
+      assert.isTrue(saveReviewedStub.called);
+      assert.isTrue(getReviewedStub.calledOnce);
+    });
+
+    test('file review status', () => {
+      const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
+          () => Promise.resolve());
+      sandbox.stub(element.$.diffHost, 'reload');
+
+      element._loggedIn = true;
+      element.params = {
+        view: Gerrit.Nav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+      };
+      element._prefs = {};
+      flushAsynchronousOperations();
+
+      const commitMsg = dom(element.root).querySelector(
+          'input[type="checkbox"]');
+
+      assert.isTrue(commitMsg.checked);
+      MockInteractions.tap(commitMsg);
+      assert.isFalse(commitMsg.checked);
+      assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(false));
+
+      MockInteractions.tap(commitMsg);
+      assert.isTrue(commitMsg.checked);
+      assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
+      const callCount = saveReviewedStub.callCount;
+
+      element.set('params.view', Gerrit.Nav.View.CHANGE);
+      flushAsynchronousOperations();
+
+      // saveReviewedState observer observes params, but should not fire when
+      // view !== Gerrit.Nav.View.DIFF.
+      assert.equal(saveReviewedStub.callCount, callCount);
+    });
+
+    test('file review status with edit loaded', () => {
+      const saveReviewedStub = sandbox.stub(element, '_saveReviewedState');
+
+      element._patchRange = {patchNum: element.EDIT_NAME};
+      flushAsynchronousOperations();
+
+      assert.isTrue(element._editMode);
+      element._setReviewed();
+      assert.isFalse(saveReviewedStub.called);
+    });
+
+    test('hash is determined from params', done => {
+      sandbox.stub(element.$.diffHost, 'reload');
+      sandbox.stub(element, '_initCursor');
+
+      element._loggedIn = true;
+      element.params = {
+        view: Gerrit.Nav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+        hash: 10,
+      };
+
+      flush(() => {
+        assert.isTrue(element._initCursor.calledOnce);
+        done();
       });
+    });
 
-      test('file review status with edit loaded', () => {
-        const saveReviewedStub = sandbox.stub(element, '_saveReviewedState');
+    test('diff mode selector correctly toggles the diff', () => {
+      const select = element.$.modeSelect;
+      const diffDisplay = element.$.diffHost;
+      element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
 
-        element._patchRange = {patchNum: element.EDIT_NAME};
-        flushAsynchronousOperations();
+      // The mode selected in the view state reflects the selected option.
+      assert.equal(element._getDiffViewMode(), select.mode);
 
-        assert.isTrue(element._editMode);
-        element._setReviewed();
-        assert.isFalse(saveReviewedStub.called);
+      // The mode selected in the view state reflects the view rednered in the
+      // diff.
+      assert.equal(select.mode, diffDisplay.viewMode);
+
+      // We will simulate a user change of the selected mode.
+      const newMode = 'UNIFIED_DIFF';
+
+      // Set the mode, and simulate the change event.
+      element.set('changeViewState.diffMode', newMode);
+
+      // Make sure the handler was called and the state is still coherent.
+      assert.equal(element._getDiffViewMode(), newMode);
+      assert.equal(element._getDiffViewMode(), select.mode);
+      assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
+    });
+
+    test('diff mode selector initializes from preferences', () => {
+      let resolvePrefs;
+      const prefsPromise = new Promise(resolve => {
+        resolvePrefs = resolve;
       });
+      sandbox.stub(element.$.restAPI, 'getPreferences', () => prefsPromise);
 
-      test('hash is determined from params', done => {
+      // Attach a new gr-diff-view so we can intercept the preferences fetch.
+      const view = document.createElement('gr-diff-view');
+      fixture('blank').appendChild(view);
+      flushAsynchronousOperations();
+
+      // At this point the diff mode doesn't yet have the user's preference.
+      assert.equal(view._getDiffViewMode(), 'SIDE_BY_SIDE');
+
+      // Receive the overriding preference.
+      resolvePrefs({default_diff_view: 'UNIFIED'});
+      flushAsynchronousOperations();
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+    });
+
+    suite('_commitRange', () => {
+      setup(() => {
         sandbox.stub(element.$.diffHost, 'reload');
         sandbox.stub(element, '_initCursor');
+        sandbox.stub(element, '_getChangeDetail').returns(Promise.resolve({
+          _number: 42,
+          revisions: {
+            'commit-sha-1': {
+              _number: 1,
+              commit: {
+                parents: [{commit: 'sha-1-parent'}],
+              },
+            },
+            'commit-sha-2': {_number: 2},
+            'commit-sha-3': {_number: 3},
+            'commit-sha-4': {_number: 4},
+            'commit-sha-5': {
+              _number: 5,
+              commit: {
+                parents: [{commit: 'sha-5-parent'}],
+              },
+            },
+          },
+        }));
+      });
 
-        element._loggedIn = true;
+      test('uses the patchNum and basePatchNum ', done => {
         element.params = {
           view: Gerrit.Nav.View.DIFF,
           changeNum: '42',
-          patchNum: '2',
-          basePatchNum: '1',
+          patchNum: '4',
+          basePatchNum: '2',
           path: '/COMMIT_MSG',
-          hash: 10,
         };
-
         flush(() => {
-          assert.isTrue(element._initCursor.calledOnce);
+          assert.deepEqual(element._commitRange, {
+            baseCommit: 'commit-sha-2',
+            commit: 'commit-sha-4',
+          });
           done();
         });
       });
 
-      test('diff mode selector correctly toggles the diff', () => {
-        const select = element.$.modeSelect;
-        const diffDisplay = element.$.diffHost;
-        element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
-
-        // The mode selected in the view state reflects the selected option.
-        assert.equal(element._getDiffViewMode(), select.mode);
-
-        // The mode selected in the view state reflects the view rednered in the
-        // diff.
-        assert.equal(select.mode, diffDisplay.viewMode);
-
-        // We will simulate a user change of the selected mode.
-        const newMode = 'UNIFIED_DIFF';
-
-        // Set the mode, and simulate the change event.
-        element.set('changeViewState.diffMode', newMode);
-
-        // Make sure the handler was called and the state is still coherent.
-        assert.equal(element._getDiffViewMode(), newMode);
-        assert.equal(element._getDiffViewMode(), select.mode);
-        assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
-      });
-
-      test('diff mode selector initializes from preferences', () => {
-        let resolvePrefs;
-        const prefsPromise = new Promise(resolve => {
-          resolvePrefs = resolve;
-        });
-        sandbox.stub(element.$.restAPI, 'getPreferences', () => prefsPromise);
-
-        // Attach a new gr-diff-view so we can intercept the preferences fetch.
-        const view = document.createElement('gr-diff-view');
-        fixture('blank').appendChild(view);
-        flushAsynchronousOperations();
-
-        // At this point the diff mode doesn't yet have the user's preference.
-        assert.equal(view._getDiffViewMode(), 'SIDE_BY_SIDE');
-
-        // Receive the overriding preference.
-        resolvePrefs({default_diff_view: 'UNIFIED'});
-        flushAsynchronousOperations();
-        assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
-      });
-
-      suite('_commitRange', () => {
-        setup(() => {
-          sandbox.stub(element.$.diffHost, 'reload');
-          sandbox.stub(element, '_initCursor');
-          sandbox.stub(element, '_getChangeDetail').returns(Promise.resolve({
-            _number: 42,
-            revisions: {
-              'commit-sha-1': {
-                _number: 1,
-                commit: {
-                  parents: [{commit: 'sha-1-parent'}],
-                },
-              },
-              'commit-sha-2': {_number: 2},
-              'commit-sha-3': {_number: 3},
-              'commit-sha-4': {_number: 4},
-              'commit-sha-5': {
-                _number: 5,
-                commit: {
-                  parents: [{commit: 'sha-5-parent'}],
-                },
-              },
-            },
-          }));
-        });
-
-        test('uses the patchNum and basePatchNum ', done => {
-          element.params = {
-            view: Gerrit.Nav.View.DIFF,
-            changeNum: '42',
-            patchNum: '4',
-            basePatchNum: '2',
-            path: '/COMMIT_MSG',
-          };
-          flush(() => {
-            assert.deepEqual(element._commitRange, {
-              baseCommit: 'commit-sha-2',
-              commit: 'commit-sha-4',
-            });
-            done();
+      test('uses the parent when there is no base patch num ', done => {
+        element.params = {
+          view: Gerrit.Nav.View.DIFF,
+          changeNum: '42',
+          patchNum: '5',
+          path: '/COMMIT_MSG',
+        };
+        flush(() => {
+          assert.deepEqual(element._commitRange, {
+            commit: 'commit-sha-5',
+            baseCommit: 'sha-5-parent',
           });
-        });
-
-        test('uses the parent when there is no base patch num ', done => {
-          element.params = {
-            view: Gerrit.Nav.View.DIFF,
-            changeNum: '42',
-            patchNum: '5',
-            path: '/COMMIT_MSG',
-          };
-          flush(() => {
-            assert.deepEqual(element._commitRange, {
-              commit: 'commit-sha-5',
-              baseCommit: 'sha-5-parent',
-            });
-            done();
-          });
+          done();
         });
       });
+    });
 
-      test('_initCursor', () => {
-        assert.isNotOk(element.$.cursor.initialLineNumber);
+    test('_initCursor', () => {
+      assert.isNotOk(element.$.cursor.initialLineNumber);
 
-        // Does nothing when params specify no cursor address:
-        element._initCursor({});
-        assert.isNotOk(element.$.cursor.initialLineNumber);
+      // Does nothing when params specify no cursor address:
+      element._initCursor({});
+      assert.isNotOk(element.$.cursor.initialLineNumber);
 
-        // Does nothing when params specify side but no number:
-        element._initCursor({leftSide: true});
-        assert.isNotOk(element.$.cursor.initialLineNumber);
+      // Does nothing when params specify side but no number:
+      element._initCursor({leftSide: true});
+      assert.isNotOk(element.$.cursor.initialLineNumber);
 
-        // Revision hash: specifies lineNum but not side.
-        element._initCursor({lineNum: 234});
-        assert.equal(element.$.cursor.initialLineNumber, 234);
-        assert.equal(element.$.cursor.side, 'right');
+      // Revision hash: specifies lineNum but not side.
+      element._initCursor({lineNum: 234});
+      assert.equal(element.$.cursor.initialLineNumber, 234);
+      assert.equal(element.$.cursor.side, 'right');
 
-        // Base hash: specifies lineNum and side.
-        element._initCursor({leftSide: true, lineNum: 345});
-        assert.equal(element.$.cursor.initialLineNumber, 345);
-        assert.equal(element.$.cursor.side, 'left');
+      // Base hash: specifies lineNum and side.
+      element._initCursor({leftSide: true, lineNum: 345});
+      assert.equal(element.$.cursor.initialLineNumber, 345);
+      assert.equal(element.$.cursor.side, 'left');
 
-        // Specifies right side:
-        element._initCursor({leftSide: false, lineNum: 123});
-        assert.equal(element.$.cursor.initialLineNumber, 123);
-        assert.equal(element.$.cursor.side, 'right');
+      // Specifies right side:
+      element._initCursor({leftSide: false, lineNum: 123});
+      assert.equal(element.$.cursor.initialLineNumber, 123);
+      assert.equal(element.$.cursor.side, 'right');
+    });
+
+    test('_getLineOfInterest', () => {
+      assert.isNull(element._getLineOfInterest({}));
+
+      let result = element._getLineOfInterest({lineNum: 12});
+      assert.equal(result.number, 12);
+      assert.isNotOk(result.leftSide);
+
+      result = element._getLineOfInterest({lineNum: 12, leftSide: true});
+      assert.equal(result.number, 12);
+      assert.isOk(result.leftSide);
+    });
+
+    test('_onLineSelected', () => {
+      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
+      const replaceStateStub = sandbox.stub(history, 'replaceState');
+      const moveStub = sandbox.stub(element.$.cursor, 'moveToLineNumber');
+      sandbox.stub(element.$.cursor, 'getAddress')
+          .returns({number: 123, isLeftSide: false});
+
+      element._changeNum = 321;
+      element._change = {_number: 321, project: 'foo/bar'};
+      element._patchRange = {
+        basePatchNum: '3',
+        patchNum: '5',
+      };
+      const e = {};
+      const detail = {number: 123, side: 'right'};
+
+      element._onLineSelected(e, detail);
+
+      assert.isTrue(moveStub.called);
+      assert.equal(moveStub.lastCall.args[0], detail.number);
+      assert.equal(moveStub.lastCall.args[1], detail.side);
+
+      assert.isTrue(replaceStateStub.called);
+      assert.isTrue(getUrlStub.called);
+    });
+
+    test('_onLineSelected w/o line address', () => {
+      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
+      sandbox.stub(history, 'replaceState');
+      sandbox.stub(element.$.cursor, 'moveToLineNumber');
+      sandbox.stub(element.$.cursor, 'getAddress').returns(null);
+      element._changeNum = 321;
+      element._change = {_number: 321, project: 'foo/bar'};
+      element._patchRange = {basePatchNum: '3', patchNum: '5'};
+      element._onLineSelected({}, {number: 123, side: 'right'});
+      assert.isTrue(getUrlStub.calledOnce);
+      assert.isUndefined(getUrlStub.lastCall.args[5]);
+      assert.isUndefined(getUrlStub.lastCall.args[6]);
+    });
+
+    test('_getDiffViewMode', () => {
+      // No user prefs or change view state set.
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+
+      // User prefs but no change view state set.
+      element._userPrefs = {default_diff_view: 'UNIFIED_DIFF'};
+      assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
+
+      // User prefs and change view state set.
+      element.changeViewState = {diffMode: 'SIDE_BY_SIDE'};
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+    });
+
+    test('_handleToggleDiffMode', () => {
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      const e = {preventDefault: () => {}};
+      // Initial state.
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+
+      element._handleToggleDiffMode(e);
+      assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
+
+      element._handleToggleDiffMode(e);
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+    });
+
+    suite('_loadComments', () => {
+      test('empty', done => {
+        element._loadComments().then(() => {
+          assert.equal(Object.keys(element._commentMap).length, 0);
+          done();
+        });
       });
 
-      test('_getLineOfInterest', () => {
-        assert.isNull(element._getLineOfInterest({}));
-
-        let result = element._getLineOfInterest({lineNum: 12});
-        assert.equal(result.number, 12);
-        assert.isNotOk(result.leftSide);
-
-        result = element._getLineOfInterest({lineNum: 12, leftSide: true});
-        assert.equal(result.number, 12);
-        assert.isOk(result.leftSide);
-      });
-
-      test('_onLineSelected', () => {
-        const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
-        const replaceStateStub = sandbox.stub(history, 'replaceState');
-        const moveStub = sandbox.stub(element.$.cursor, 'moveToLineNumber');
-        sandbox.stub(element.$.cursor, 'getAddress')
-            .returns({number: 123, isLeftSide: false});
-
-        element._changeNum = 321;
-        element._change = {_number: 321, project: 'foo/bar'};
+      test('has paths', done => {
+        sandbox.stub(element, '_getPaths').returns({
+          'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
+          'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
+        });
+        sandbox.stub(element, '_getCommentsForPath').returns({meta: {}});
+        element._changeNum = '42';
         element._patchRange = {
           basePatchNum: '3',
           patchNum: '5',
         };
-        const e = {};
-        const detail = {number: 123, side: 'right'};
-
-        element._onLineSelected(e, detail);
-
-        assert.isTrue(moveStub.called);
-        assert.equal(moveStub.lastCall.args[0], detail.number);
-        assert.equal(moveStub.lastCall.args[1], detail.side);
-
-        assert.isTrue(replaceStateStub.called);
-        assert.isTrue(getUrlStub.called);
-      });
-
-      test('_onLineSelected w/o line address', () => {
-        const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
-        sandbox.stub(history, 'replaceState');
-        sandbox.stub(element.$.cursor, 'moveToLineNumber');
-        sandbox.stub(element.$.cursor, 'getAddress').returns(null);
-        element._changeNum = 321;
-        element._change = {_number: 321, project: 'foo/bar'};
-        element._patchRange = {basePatchNum: '3', patchNum: '5'};
-        element._onLineSelected({}, {number: 123, side: 'right'});
-        assert.isTrue(getUrlStub.calledOnce);
-        assert.isUndefined(getUrlStub.lastCall.args[5]);
-        assert.isUndefined(getUrlStub.lastCall.args[6]);
-      });
-
-      test('_getDiffViewMode', () => {
-        // No user prefs or change view state set.
-        assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
-
-        // User prefs but no change view state set.
-        element._userPrefs = {default_diff_view: 'UNIFIED_DIFF'};
-        assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
-
-        // User prefs and change view state set.
-        element.changeViewState = {diffMode: 'SIDE_BY_SIDE'};
-        assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
-      });
-
-      test('_handleToggleDiffMode', () => {
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        const e = {preventDefault: () => {}};
-        // Initial state.
-        assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
-
-        element._handleToggleDiffMode(e);
-        assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
-
-        element._handleToggleDiffMode(e);
-        assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
-      });
-
-      suite('_loadComments', () => {
-        test('empty', done => {
-          element._loadComments().then(() => {
-            assert.equal(Object.keys(element._commentMap).length, 0);
-            done();
-          });
-        });
-
-        test('has paths', done => {
-          sandbox.stub(element, '_getPaths').returns({
-            'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
-            'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
-          });
-          sandbox.stub(element, '_getCommentsForPath').returns({meta: {}});
-          element._changeNum = '42';
-          element._patchRange = {
-            basePatchNum: '3',
-            patchNum: '5',
-          };
-          element._loadComments().then(() => {
-            assert.deepEqual(Object.keys(element._commentMap),
-                ['path/to/file/one.cpp', 'path-to/file/two.py']);
-            done();
-          });
+        element._loadComments().then(() => {
+          assert.deepEqual(Object.keys(element._commentMap),
+              ['path/to/file/one.cpp', 'path-to/file/two.py']);
+          done();
         });
       });
+    });
 
-      suite('_computeCommentSkips', () => {
-        test('empty file list', () => {
-          const commentMap = {
-            'path/one.jpg': true,
-            'path/three.wav': true,
-          };
-          const path = 'path/two.m4v';
-          const fileList = [];
-          const result = element._computeCommentSkips(commentMap, fileList, path);
-          assert.isNull(result.previous);
-          assert.isNull(result.next);
-        });
-
-        test('finds skips', () => {
-          const fileList = ['path/one.jpg', 'path/two.m4v', 'path/three.wav'];
-          let path = fileList[1];
-          const commentMap = {};
-          commentMap[fileList[0]] = true;
-          commentMap[fileList[1]] = false;
-          commentMap[fileList[2]] = true;
-
-          let result = element._computeCommentSkips(commentMap, fileList, path);
-          assert.equal(result.previous, fileList[0]);
-          assert.equal(result.next, fileList[2]);
-
-          commentMap[fileList[1]] = true;
-
-          result = element._computeCommentSkips(commentMap, fileList, path);
-          assert.equal(result.previous, fileList[0]);
-          assert.equal(result.next, fileList[2]);
-
-          path = fileList[0];
-
-          result = element._computeCommentSkips(commentMap, fileList, path);
-          assert.isNull(result.previous);
-          assert.equal(result.next, fileList[1]);
-
-          path = fileList[2];
-
-          result = element._computeCommentSkips(commentMap, fileList, path);
-          assert.equal(result.previous, fileList[1]);
-          assert.isNull(result.next);
-        });
-
-        suite('skip next/previous', () => {
-          let navToChangeStub;
-          let navToDiffStub;
-
-          setup(() => {
-            navToChangeStub = sandbox.stub(element, '_navToChangeView');
-            navToDiffStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-            element._files = getFilesFromFileList([
-              'path/one.jpg', 'path/two.m4v', 'path/three.wav',
-            ]);
-            element._patchRange = {patchNum: '2', basePatchNum: '1'};
-          });
-
-          suite('_moveToPreviousFileWithComment', () => {
-            test('no skips', () => {
-              element._moveToPreviousFileWithComment();
-              assert.isFalse(navToChangeStub.called);
-              assert.isFalse(navToDiffStub.called);
-            });
-
-            test('no previous', () => {
-              const commentMap = {};
-              commentMap[element._fileList[0]] = false;
-              commentMap[element._fileList[1]] = false;
-              commentMap[element._fileList[2]] = true;
-              element._commentMap = commentMap;
-              element._path = element._fileList[1];
-
-              element._moveToPreviousFileWithComment();
-              assert.isTrue(navToChangeStub.calledOnce);
-              assert.isFalse(navToDiffStub.called);
-            });
-
-            test('w/ previous', () => {
-              const commentMap = {};
-              commentMap[element._fileList[0]] = true;
-              commentMap[element._fileList[1]] = false;
-              commentMap[element._fileList[2]] = true;
-              element._commentMap = commentMap;
-              element._path = element._fileList[1];
-
-              element._moveToPreviousFileWithComment();
-              assert.isFalse(navToChangeStub.called);
-              assert.isTrue(navToDiffStub.calledOnce);
-            });
-          });
-
-          suite('_moveToNextFileWithComment', () => {
-            test('no skips', () => {
-              element._moveToNextFileWithComment();
-              assert.isFalse(navToChangeStub.called);
-              assert.isFalse(navToDiffStub.called);
-            });
-
-            test('no previous', () => {
-              const commentMap = {};
-              commentMap[element._fileList[0]] = true;
-              commentMap[element._fileList[1]] = false;
-              commentMap[element._fileList[2]] = false;
-              element._commentMap = commentMap;
-              element._path = element._fileList[1];
-
-              element._moveToNextFileWithComment();
-              assert.isTrue(navToChangeStub.calledOnce);
-              assert.isFalse(navToDiffStub.called);
-            });
-
-            test('w/ previous', () => {
-              const commentMap = {};
-              commentMap[element._fileList[0]] = true;
-              commentMap[element._fileList[1]] = false;
-              commentMap[element._fileList[2]] = true;
-              element._commentMap = commentMap;
-              element._path = element._fileList[1];
-
-              element._moveToNextFileWithComment();
-              assert.isFalse(navToChangeStub.called);
-              assert.isTrue(navToDiffStub.calledOnce);
-            });
-          });
-        });
-      });
-
-      test('_computeEditMode', () => {
-        const callCompute = range => element._computeEditMode({base: range});
-        assert.isFalse(callCompute({}));
-        assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}));
-        assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}));
-        assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}));
-      });
-
-      test('_computeFileNum', () => {
-        assert.equal(element._computeFileNum('/foo',
-            [{value: '/foo'}, {value: '/bar'}]), 1);
-        assert.equal(element._computeFileNum('/bar',
-            [{value: '/foo'}, {value: '/bar'}]), 2);
-      });
-
-      test('_computeFileNumClass', () => {
-        assert.equal(element._computeFileNumClass(0, []), '');
-        assert.equal(element._computeFileNumClass(1,
-            [{value: '/foo'}, {value: '/bar'}]), 'show');
-      });
-
-      test('_getReviewedStatus', () => {
-        const promises = [];
-        element.$.restAPI.getReviewedFiles.restore();
-
-        sandbox.stub(element.$.restAPI, 'getReviewedFiles')
-            .returns(Promise.resolve(['path']));
-
-        promises.push(element._getReviewedStatus(true, null, null, 'path')
-            .then(reviewed => assert.isFalse(reviewed)));
-
-        promises.push(element._getReviewedStatus(false, null, null, 'otherPath')
-            .then(reviewed => assert.isFalse(reviewed)));
-
-        promises.push(element._getReviewedStatus(false, null, null, 'path')
-            .then(reviewed => assert.isTrue(reviewed)));
-
-        return Promise.all(promises);
-      });
-
-      suite('blame', () => {
-        test('toggle blame with button', () => {
-          const toggleBlame = sandbox.stub(
-              element.$.diffHost, 'loadBlame', () => Promise.resolve());
-          MockInteractions.tap(element.$.toggleBlame);
-          assert.isTrue(toggleBlame.calledOnce);
-        });
-        test('toggle blame with shortcut', () => {
-          const toggleBlame = sandbox.stub(
-              element.$.diffHost, 'loadBlame', () => Promise.resolve());
-          MockInteractions.pressAndReleaseKeyOn(element, 66, null, 'b');
-          assert.isTrue(toggleBlame.calledOnce);
-        });
-      });
-
-      suite('editMode behavior', () => {
-        setup(() => {
-          element._loggedIn = true;
-        });
-
-        const isVisible = el => {
-          assert.ok(el);
-          return getComputedStyle(el).getPropertyValue('display') !== 'none';
+    suite('_computeCommentSkips', () => {
+      test('empty file list', () => {
+        const commentMap = {
+          'path/one.jpg': true,
+          'path/three.wav': true,
         };
-
-        test('reviewed checkbox', () => {
-          sandbox.stub(element, '_handlePatchChange');
-          element._patchRange = {patchNum: '1'};
-          // Reviewed checkbox should be shown.
-          assert.isTrue(isVisible(element.$.reviewed));
-          element.set('_patchRange.patchNum', element.EDIT_NAME);
-          flushAsynchronousOperations();
-
-          assert.isFalse(isVisible(element.$.reviewed));
-        });
+        const path = 'path/two.m4v';
+        const fileList = [];
+        const result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.isNull(result.previous);
+        assert.isNull(result.next);
       });
 
-      test('_paramsChanged sets in projectLookup', () => {
-        sandbox.stub(element, '_getLineOfInterest');
-        sandbox.stub(element, '_initCursor');
-        const setStub = sandbox.stub(element.$.restAPI, 'setInProjectLookup');
-        element._paramsChanged({
-          view: Gerrit.Nav.View.DIFF,
-          changeNum: 101,
-          project: 'test-project',
-          path: '',
-        });
-        assert.isTrue(setStub.calledOnce);
-        assert.isTrue(setStub.calledWith(101, 'test-project'));
+      test('finds skips', () => {
+        const fileList = ['path/one.jpg', 'path/two.m4v', 'path/three.wav'];
+        let path = fileList[1];
+        const commentMap = {};
+        commentMap[fileList[0]] = true;
+        commentMap[fileList[1]] = false;
+        commentMap[fileList[2]] = true;
+
+        let result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.equal(result.previous, fileList[0]);
+        assert.equal(result.next, fileList[2]);
+
+        commentMap[fileList[1]] = true;
+
+        result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.equal(result.previous, fileList[0]);
+        assert.equal(result.next, fileList[2]);
+
+        path = fileList[0];
+
+        result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.isNull(result.previous);
+        assert.equal(result.next, fileList[1]);
+
+        path = fileList[2];
+
+        result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.equal(result.previous, fileList[1]);
+        assert.isNull(result.next);
       });
 
-      test('shift+m navigates to next unreviewed file', () => {
-        element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-        element._reviewedFiles = new Set(['file1', 'file2']);
-        element._path = 'file1';
-        const reviewedStub = sandbox.stub(element, '_setReviewed');
-        const navStub = sandbox.stub(element, '_navToFile');
-        MockInteractions.pressAndReleaseKeyOn(element, 77, 'shift', 'm');
+      suite('skip next/previous', () => {
+        let navToChangeStub;
+        let navToDiffStub;
+
+        setup(() => {
+          navToChangeStub = sandbox.stub(element, '_navToChangeView');
+          navToDiffStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+          element._files = getFilesFromFileList([
+            'path/one.jpg', 'path/two.m4v', 'path/three.wav',
+          ]);
+          element._patchRange = {patchNum: '2', basePatchNum: '1'};
+        });
+
+        suite('_moveToPreviousFileWithComment', () => {
+          test('no skips', () => {
+            element._moveToPreviousFileWithComment();
+            assert.isFalse(navToChangeStub.called);
+            assert.isFalse(navToDiffStub.called);
+          });
+
+          test('no previous', () => {
+            const commentMap = {};
+            commentMap[element._fileList[0]] = false;
+            commentMap[element._fileList[1]] = false;
+            commentMap[element._fileList[2]] = true;
+            element._commentMap = commentMap;
+            element._path = element._fileList[1];
+
+            element._moveToPreviousFileWithComment();
+            assert.isTrue(navToChangeStub.calledOnce);
+            assert.isFalse(navToDiffStub.called);
+          });
+
+          test('w/ previous', () => {
+            const commentMap = {};
+            commentMap[element._fileList[0]] = true;
+            commentMap[element._fileList[1]] = false;
+            commentMap[element._fileList[2]] = true;
+            element._commentMap = commentMap;
+            element._path = element._fileList[1];
+
+            element._moveToPreviousFileWithComment();
+            assert.isFalse(navToChangeStub.called);
+            assert.isTrue(navToDiffStub.calledOnce);
+          });
+        });
+
+        suite('_moveToNextFileWithComment', () => {
+          test('no skips', () => {
+            element._moveToNextFileWithComment();
+            assert.isFalse(navToChangeStub.called);
+            assert.isFalse(navToDiffStub.called);
+          });
+
+          test('no previous', () => {
+            const commentMap = {};
+            commentMap[element._fileList[0]] = true;
+            commentMap[element._fileList[1]] = false;
+            commentMap[element._fileList[2]] = false;
+            element._commentMap = commentMap;
+            element._path = element._fileList[1];
+
+            element._moveToNextFileWithComment();
+            assert.isTrue(navToChangeStub.calledOnce);
+            assert.isFalse(navToDiffStub.called);
+          });
+
+          test('w/ previous', () => {
+            const commentMap = {};
+            commentMap[element._fileList[0]] = true;
+            commentMap[element._fileList[1]] = false;
+            commentMap[element._fileList[2]] = true;
+            element._commentMap = commentMap;
+            element._path = element._fileList[1];
+
+            element._moveToNextFileWithComment();
+            assert.isFalse(navToChangeStub.called);
+            assert.isTrue(navToDiffStub.calledOnce);
+          });
+        });
+      });
+    });
+
+    test('_computeEditMode', () => {
+      const callCompute = range => element._computeEditMode({base: range});
+      assert.isFalse(callCompute({}));
+      assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}));
+      assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}));
+      assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}));
+    });
+
+    test('_computeFileNum', () => {
+      assert.equal(element._computeFileNum('/foo',
+          [{value: '/foo'}, {value: '/bar'}]), 1);
+      assert.equal(element._computeFileNum('/bar',
+          [{value: '/foo'}, {value: '/bar'}]), 2);
+    });
+
+    test('_computeFileNumClass', () => {
+      assert.equal(element._computeFileNumClass(0, []), '');
+      assert.equal(element._computeFileNumClass(1,
+          [{value: '/foo'}, {value: '/bar'}]), 'show');
+    });
+
+    test('_getReviewedStatus', () => {
+      const promises = [];
+      element.$.restAPI.getReviewedFiles.restore();
+
+      sandbox.stub(element.$.restAPI, 'getReviewedFiles')
+          .returns(Promise.resolve(['path']));
+
+      promises.push(element._getReviewedStatus(true, null, null, 'path')
+          .then(reviewed => assert.isFalse(reviewed)));
+
+      promises.push(element._getReviewedStatus(false, null, null, 'otherPath')
+          .then(reviewed => assert.isFalse(reviewed)));
+
+      promises.push(element._getReviewedStatus(false, null, null, 'path')
+          .then(reviewed => assert.isTrue(reviewed)));
+
+      return Promise.all(promises);
+    });
+
+    suite('blame', () => {
+      test('toggle blame with button', () => {
+        const toggleBlame = sandbox.stub(
+            element.$.diffHost, 'loadBlame', () => Promise.resolve());
+        MockInteractions.tap(element.$.toggleBlame);
+        assert.isTrue(toggleBlame.calledOnce);
+      });
+      test('toggle blame with shortcut', () => {
+        const toggleBlame = sandbox.stub(
+            element.$.diffHost, 'loadBlame', () => Promise.resolve());
+        MockInteractions.pressAndReleaseKeyOn(element, 66, null, 'b');
+        assert.isTrue(toggleBlame.calledOnce);
+      });
+    });
+
+    suite('editMode behavior', () => {
+      setup(() => {
+        element._loggedIn = true;
+      });
+
+      const isVisible = el => {
+        assert.ok(el);
+        return getComputedStyle(el).getPropertyValue('display') !== 'none';
+      };
+
+      test('reviewed checkbox', () => {
+        sandbox.stub(element, '_handlePatchChange');
+        element._patchRange = {patchNum: '1'};
+        // Reviewed checkbox should be shown.
+        assert.isTrue(isVisible(element.$.reviewed));
+        element.set('_patchRange.patchNum', element.EDIT_NAME);
         flushAsynchronousOperations();
 
-        assert.isTrue(reviewedStub.lastCall.args[0]);
-        assert.deepEqual(navStub.lastCall.args, [
-          'file1',
-          ['file1', 'file3'],
-          1,
-        ]);
-      });
-
-      test('File change should trigger navigateToDiff once', () => {
-        element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-        sandbox.stub(element, '_getLineOfInterest');
-        sandbox.stub(element, '_initCursor');
-        sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-
-        // Load file1
-        element._paramsChanged({
-          view: Gerrit.Nav.View.DIFF,
-          patchNum: 1,
-          changeNum: 101,
-          project: 'test-project',
-          path: 'file1',
-        });
-        assert.isTrue(Gerrit.Nav.navigateToDiff.notCalled);
-
-        // Switch to file2
-        element.$.dropdown.value = 'file2';
-        assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
-
-        // This is to mock the param change triggered by above navigate
-        element._paramsChanged({
-          view: Gerrit.Nav.View.DIFF,
-          patchNum: 1,
-          changeNum: 101,
-          project: 'test-project',
-          path: 'file2',
-        });
-
-        // No extra call
-        assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
-      });
-
-      test('_computeDownloadDropdownLinks', () => {
-        const downloadLinks = [
-          {
-            url: '/changes/test~12/revisions/1/patch?zip&path=index.php',
-            name: 'Patch',
-          },
-          {
-            url: '/changes/test~12/revisions/1' +
-                '/files/index.php/download?parent=1',
-            name: 'Left Content',
-          },
-          {
-            url: '/changes/test~12/revisions/1' +
-                '/files/index.php/download',
-            name: 'Right Content',
-          },
-        ];
-
-        const side = {
-          meta_a: true,
-          meta_b: true,
-        };
-
-        const base = {
-          patchNum: 1,
-          basePatchNum: 'PARENT',
-        };
-
-        assert.deepEqual(
-            element._computeDownloadDropdownLinks(
-                'test', 12, base, 'index.php', side),
-            downloadLinks);
-      });
-
-      test('_computeDownloadDropdownLinks diff returns renamed', () => {
-        const downloadLinks = [
-          {
-            url: '/changes/test~12/revisions/3/patch?zip&path=index.php',
-            name: 'Patch',
-          },
-          {
-            url: '/changes/test~12/revisions/2' +
-                '/files/index2.php/download',
-            name: 'Left Content',
-          },
-          {
-            url: '/changes/test~12/revisions/3' +
-                '/files/index.php/download',
-            name: 'Right Content',
-          },
-        ];
-
-        const side = {
-          change_type: 'RENAMED',
-          meta_a: {
-            name: 'index2.php',
-          },
-          meta_b: true,
-        };
-
-        const base = {
-          patchNum: 3,
-          basePatchNum: 2,
-        };
-
-        assert.deepEqual(
-            element._computeDownloadDropdownLinks(
-                'test', 12, base, 'index.php', side),
-            downloadLinks);
-      });
-
-      test('_computeDownloadFileLink', () => {
-        const base = {
-          patchNum: 1,
-          basePatchNum: 'PARENT',
-        };
-
-        assert.equal(
-            element._computeDownloadFileLink(
-                'test', 12, base, 'index.php', true),
-            '/changes/test~12/revisions/1/files/index.php/download?parent=1');
-
-        assert.equal(
-            element._computeDownloadFileLink(
-                'test', 12, base, 'index.php', false),
-            '/changes/test~12/revisions/1/files/index.php/download');
-      });
-
-      test('_computeDownloadPatchLink', () => {
-        assert.equal(
-            element._computeDownloadPatchLink(
-                'test', 12, {patchNum: 1}, 'index.php'),
-            '/changes/test~12/revisions/1/patch?zip&path=index.php');
+        assert.isFalse(isVisible(element.$.reviewed));
       });
     });
 
-    suite('gr-diff-view tests unmodified files with comments', () => {
-      setup(() => {
-        sandbox = sinon.sandbox.create();
-        const changedFiles = {
-          'file1.txt': {},
-          'a/b/test.c': {},
-        };
-        stub('gr-rest-api-interface', {
-          getConfig() { return Promise.resolve({change: {}}); },
-          getLoggedIn() { return Promise.resolve(false); },
-          getProjectConfig() { return Promise.resolve({}); },
-          getDiffChangeDetail() { return Promise.resolve({}); },
-          getChangeFiles() { return Promise.resolve(changedFiles); },
-          saveFileReviewed() { return Promise.resolve(); },
-          getDiffComments() { return Promise.resolve({}); },
-          getDiffRobotComments() { return Promise.resolve({}); },
-          getDiffDrafts() { return Promise.resolve({}); },
-          getReviewedFiles() { return Promise.resolve([]); },
-        });
-        element = fixture('basic');
-        return element._loadComments();
+    test('_paramsChanged sets in projectLookup', () => {
+      sandbox.stub(element, '_getLineOfInterest');
+      sandbox.stub(element, '_initCursor');
+      const setStub = sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+      element._paramsChanged({
+        view: Gerrit.Nav.View.DIFF,
+        changeNum: 101,
+        project: 'test-project',
+        path: '',
+      });
+      assert.isTrue(setStub.calledOnce);
+      assert.isTrue(setStub.calledWith(101, 'test-project'));
+    });
+
+    test('shift+m navigates to next unreviewed file', () => {
+      element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
+      element._reviewedFiles = new Set(['file1', 'file2']);
+      element._path = 'file1';
+      const reviewedStub = sandbox.stub(element, '_setReviewed');
+      const navStub = sandbox.stub(element, '_navToFile');
+      MockInteractions.pressAndReleaseKeyOn(element, 77, 'shift', 'm');
+      flushAsynchronousOperations();
+
+      assert.isTrue(reviewedStub.lastCall.args[0]);
+      assert.deepEqual(navStub.lastCall.args, [
+        'file1',
+        ['file1', 'file3'],
+        1,
+      ]);
+    });
+
+    test('File change should trigger navigateToDiff once', () => {
+      element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
+      sandbox.stub(element, '_getLineOfInterest');
+      sandbox.stub(element, '_initCursor');
+      sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+
+      // Load file1
+      element._paramsChanged({
+        view: Gerrit.Nav.View.DIFF,
+        patchNum: 1,
+        changeNum: 101,
+        project: 'test-project',
+        path: 'file1',
+      });
+      assert.isTrue(Gerrit.Nav.navigateToDiff.notCalled);
+
+      // Switch to file2
+      element.$.dropdown.value = 'file2';
+      assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
+
+      // This is to mock the param change triggered by above navigate
+      element._paramsChanged({
+        view: Gerrit.Nav.View.DIFF,
+        patchNum: 1,
+        changeNum: 101,
+        project: 'test-project',
+        path: 'file2',
       });
 
-      teardown(() => {
-        sandbox.restore();
-      });
+      // No extra call
+      assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
+    });
 
-      test('_getFiles add files with comments without changes', () => {
-        const patchChangeRecord = {
-          base: {
-            basePatchNum: '5',
-            patchNum: '10',
-          },
-        };
-        const changeComments = {
-          getPaths: sandbox.stub().returns({
-            'file2.txt': {},
-            'file1.txt': {},
-          }),
-        };
-        return element._getFiles(23, patchChangeRecord, changeComments)
-            .then(() => {
-              assert.deepEqual(element._files, {
-                sortedFileList: ['a/b/test.c', 'file1.txt', 'file2.txt'],
-                changeFilesByPath: {
-                  'file1.txt': {},
-                  'file2.txt': {status: 'U'},
-                  'a/b/test.c': {},
-                },
-              });
-            });
-      });
+    test('_computeDownloadDropdownLinks', () => {
+      const downloadLinks = [
+        {
+          url: '/changes/test~12/revisions/1/patch?zip&path=index.php',
+          name: 'Patch',
+        },
+        {
+          url: '/changes/test~12/revisions/1' +
+              '/files/index.php/download?parent=1',
+          name: 'Left Content',
+        },
+        {
+          url: '/changes/test~12/revisions/1' +
+              '/files/index.php/download',
+          name: 'Right Content',
+        },
+      ];
+
+      const side = {
+        meta_a: true,
+        meta_b: true,
+      };
+
+      const base = {
+        patchNum: 1,
+        basePatchNum: 'PARENT',
+      };
+
+      assert.deepEqual(
+          element._computeDownloadDropdownLinks(
+              'test', 12, base, 'index.php', side),
+          downloadLinks);
+    });
+
+    test('_computeDownloadDropdownLinks diff returns renamed', () => {
+      const downloadLinks = [
+        {
+          url: '/changes/test~12/revisions/3/patch?zip&path=index.php',
+          name: 'Patch',
+        },
+        {
+          url: '/changes/test~12/revisions/2' +
+              '/files/index2.php/download',
+          name: 'Left Content',
+        },
+        {
+          url: '/changes/test~12/revisions/3' +
+              '/files/index.php/download',
+          name: 'Right Content',
+        },
+      ];
+
+      const side = {
+        change_type: 'RENAMED',
+        meta_a: {
+          name: 'index2.php',
+        },
+        meta_b: true,
+      };
+
+      const base = {
+        patchNum: 3,
+        basePatchNum: 2,
+      };
+
+      assert.deepEqual(
+          element._computeDownloadDropdownLinks(
+              'test', 12, base, 'index.php', side),
+          downloadLinks);
+    });
+
+    test('_computeDownloadFileLink', () => {
+      const base = {
+        patchNum: 1,
+        basePatchNum: 'PARENT',
+      };
+
+      assert.equal(
+          element._computeDownloadFileLink(
+              'test', 12, base, 'index.php', true),
+          '/changes/test~12/revisions/1/files/index.php/download?parent=1');
+
+      assert.equal(
+          element._computeDownloadFileLink(
+              'test', 12, base, 'index.php', false),
+          '/changes/test~12/revisions/1/files/index.php/download');
+    });
+
+    test('_computeDownloadPatchLink', () => {
+      assert.equal(
+          element._computeDownloadPatchLink(
+              'test', 12, {patchNum: 1}, 'index.php'),
+          '/changes/test~12/revisions/1/patch?zip&path=index.php');
     });
   });
+
+  suite('gr-diff-view tests unmodified files with comments', () => {
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      const changedFiles = {
+        'file1.txt': {},
+        'a/b/test.c': {},
+      };
+      stub('gr-rest-api-interface', {
+        getConfig() { return Promise.resolve({change: {}}); },
+        getLoggedIn() { return Promise.resolve(false); },
+        getProjectConfig() { return Promise.resolve({}); },
+        getDiffChangeDetail() { return Promise.resolve({}); },
+        getChangeFiles() { return Promise.resolve(changedFiles); },
+        saveFileReviewed() { return Promise.resolve(); },
+        getDiffComments() { return Promise.resolve({}); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
+        getReviewedFiles() { return Promise.resolve([]); },
+      });
+      element = fixture('basic');
+      return element._loadComments();
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('_getFiles add files with comments without changes', () => {
+      const patchChangeRecord = {
+        base: {
+          basePatchNum: '5',
+          patchNum: '10',
+        },
+      };
+      const changeComments = {
+        getPaths: sandbox.stub().returns({
+          'file2.txt': {},
+          'file1.txt': {},
+        }),
+      };
+      return element._getFiles(23, patchChangeRecord, changeComments)
+          .then(() => {
+            assert.deepEqual(element._files, {
+              sortedFileList: ['a/b/test.c', 'file1.txt', 'file2.txt'],
+              changeFilesByPath: {
+                'file1.txt': {},
+                'file2.txt': {status: 'U'},
+                'a/b/test.c': {},
+              },
+            });
+          });
+    });
+  });
+});
 </script>

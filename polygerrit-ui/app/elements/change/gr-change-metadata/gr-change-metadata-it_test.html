@@ -19,16 +19,22 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-metadata</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="../../plugins/gr-plugin-host/gr-plugin-host.html">
-<link rel="import" href="gr-change-metadata.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../plugins/gr-plugin-host/gr-plugin-host.js"></script>
+<script type="module" src="./gr-change-metadata.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../plugins/gr-plugin-host/gr-plugin-host.js';
+import './gr-change-metadata.js';
+void(0);
+</script>
 
 <test-fixture id="element">
   <template>
@@ -42,139 +48,143 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-change-metadata integration tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../plugins/gr-plugin-host/gr-plugin-host.js';
+import './gr-change-metadata.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-change-metadata integration tests', () => {
+  let sandbox;
+  let element;
 
-    const sectionSelectors = [
-      'section.assignee',
-      'section.strategy',
-      'section.topic',
-    ];
+  const sectionSelectors = [
+    'section.assignee',
+    'section.strategy',
+    'section.topic',
+  ];
 
-    const labels = {
-      CI: {
-        all: [
-          {value: 1, name: 'user 2', _account_id: 1},
-          {value: 2, name: 'user '},
-        ],
-        values: {
-          ' 0': 'Don\'t submit as-is',
-          '+1': 'No score',
-          '+2': 'Looks good to me',
-        },
+  const labels = {
+    CI: {
+      all: [
+        {value: 1, name: 'user 2', _account_id: 1},
+        {value: 2, name: 'user '},
+      ],
+      values: {
+        ' 0': 'Don\'t submit as-is',
+        '+1': 'No score',
+        '+2': 'Looks good to me',
       },
-    };
+    },
+  };
 
-    const getStyle = function(selector, name) {
-      return window.getComputedStyle(
-          Polymer.dom(element.root).querySelector(selector))[name];
-    };
+  const getStyle = function(selector, name) {
+    return window.getComputedStyle(
+        dom(element.root).querySelector(selector))[name];
+  };
 
-    function createElement() {
-      const element = fixture('element');
-      element.change = {labels, status: 'NEW'};
-      element.revision = {};
-      return element;
-    }
+  function createElement() {
+    const element = fixture('element');
+    element.change = {labels, status: 'NEW'};
+    element.revision = {};
+    return element;
+  }
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getLoggedIn() { return Promise.resolve(false); },
-        deleteVote() { return Promise.resolve({ok: true}); },
-      });
-    });
-
-    teardown(() => {
-      sandbox.restore();
-      Gerrit._testOnly_resetPlugins();
-    });
-
-    suite('by default', () => {
-      setup(done => {
-        element = createElement();
-        flush(done);
-      });
-
-      for (const sectionSelector of sectionSelectors) {
-        test(sectionSelector + ' does not have display: none', () => {
-          assert.notEqual(getStyle(sectionSelector, 'display'), 'none');
-        });
-      }
-    });
-
-    suite('with plugin style', () => {
-      setup(done => {
-        Gerrit._testOnly_resetPlugins();
-        const pluginHost = fixture('plugin-host');
-        pluginHost.config = {
-          plugin: {
-            js_resource_paths: [],
-            html_resource_paths: [
-              new URL('test/plugin.html?' + Math.random(),
-                  window.location.href).toString(),
-            ],
-          },
-        };
-        element = createElement();
-        const importSpy = sandbox.spy(element.$.externalStyle, '_import');
-        Gerrit.awaitPluginsLoaded().then(() => {
-          Promise.all(importSpy.returnValues).then(() => {
-            flush(done);
-          });
-        });
-      });
-
-      for (const sectionSelector of sectionSelectors) {
-        test(sectionSelector + ' may have display: none', () => {
-          assert.equal(getStyle(sectionSelector, 'display'), 'none');
-        });
-      }
-    });
-
-    suite('label updates', () => {
-      let plugin;
-
-      setup(() => {
-        Gerrit.install(p => plugin = p, '0.1',
-            new URL('test/plugin.html?' + Math.random(),
-                window.location.href).toString());
-        sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
-        Gerrit._loadPlugins([]);
-        element = createElement();
-      });
-
-      test('labels changed callback', done => {
-        let callCount = 0;
-        const labelChangeSpy = sandbox.spy(arg => {
-          callCount++;
-          if (callCount === 1) {
-            assert.deepEqual(arg, labels);
-            assert.equal(arg.CI.all.length, 2);
-            element.set(['change', 'labels'], {
-              CI: {
-                all: [
-                  {value: 1, name: 'user 2', _account_id: 1},
-                ],
-                values: {
-                  ' 0': 'Don\'t submit as-is',
-                  '+1': 'No score',
-                  '+2': 'Looks good to me',
-                },
-              },
-            });
-          } else if (callCount === 2) {
-            assert.equal(arg.CI.all.length, 1);
-            done();
-          }
-        });
-
-        plugin.changeMetadata().onLabelsChanged(labelChangeSpy);
-      });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+      getLoggedIn() { return Promise.resolve(false); },
+      deleteVote() { return Promise.resolve({ok: true}); },
     });
   });
+
+  teardown(() => {
+    sandbox.restore();
+    Gerrit._testOnly_resetPlugins();
+  });
+
+  suite('by default', () => {
+    setup(done => {
+      element = createElement();
+      flush(done);
+    });
+
+    for (const sectionSelector of sectionSelectors) {
+      test(sectionSelector + ' does not have display: none', () => {
+        assert.notEqual(getStyle(sectionSelector, 'display'), 'none');
+      });
+    }
+  });
+
+  suite('with plugin style', () => {
+    setup(done => {
+      Gerrit._testOnly_resetPlugins();
+      const pluginHost = fixture('plugin-host');
+      pluginHost.config = {
+        plugin: {
+          js_resource_paths: [],
+          html_resource_paths: [
+            new URL('test/plugin.html?' + Math.random(),
+                window.location.href).toString(),
+          ],
+        },
+      };
+      element = createElement();
+      const importSpy = sandbox.spy(element.$.externalStyle, '_import');
+      Gerrit.awaitPluginsLoaded().then(() => {
+        Promise.all(importSpy.returnValues).then(() => {
+          flush(done);
+        });
+      });
+    });
+
+    for (const sectionSelector of sectionSelectors) {
+      test(sectionSelector + ' may have display: none', () => {
+        assert.equal(getStyle(sectionSelector, 'display'), 'none');
+      });
+    }
+  });
+
+  suite('label updates', () => {
+    let plugin;
+
+    setup(() => {
+      Gerrit.install(p => plugin = p, '0.1',
+          new URL('test/plugin.html?' + Math.random(),
+              window.location.href).toString());
+      sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+      Gerrit._loadPlugins([]);
+      element = createElement();
+    });
+
+    test('labels changed callback', done => {
+      let callCount = 0;
+      const labelChangeSpy = sandbox.spy(arg => {
+        callCount++;
+        if (callCount === 1) {
+          assert.deepEqual(arg, labels);
+          assert.equal(arg.CI.all.length, 2);
+          element.set(['change', 'labels'], {
+            CI: {
+              all: [
+                {value: 1, name: 'user 2', _account_id: 1},
+              ],
+              values: {
+                ' 0': 'Don\'t submit as-is',
+                '+1': 'No score',
+                '+2': 'Looks good to me',
+              },
+            },
+          });
+        } else if (callCount === 2) {
+          assert.equal(arg.CI.all.length, 1);
+          done();
+        }
+      });
+
+      plugin.changeMetadata().onLabelsChanged(labelChangeSpy);
+    });
+  });
+});
 </script>

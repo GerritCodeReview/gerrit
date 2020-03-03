@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-repo-list</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-repo-list.html">
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-repo-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,164 +41,166 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  let counter;
-  const repoGenerator = () => {
-    return {
-      id: `test${++counter}`,
-      state: 'ACTIVE',
-      web_links: [
-        {
-          name: 'diffusion',
-          url: `https://phabricator.example.org/r/project/test${counter}`,
-        },
-      ],
-    };
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-list.js';
+let counter;
+const repoGenerator = () => {
+  return {
+    id: `test${++counter}`,
+    state: 'ACTIVE',
+    web_links: [
+      {
+        name: 'diffusion',
+        url: `https://phabricator.example.org/r/project/test${counter}`,
+      },
+    ],
   };
+};
 
-  suite('gr-repo-list tests', async () => {
-    await readyToTest();
-    let element;
-    let repos;
-    let sandbox;
-    let value;
+suite('gr-repo-list tests', () => {
+  let element;
+  let repos;
+  let sandbox;
+  let value;
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(page, 'show');
+    element = fixture('basic');
+    counter = 0;
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('list with repos', () => {
+    setup(done => {
+      repos = _.times(26, repoGenerator);
+      stub('gr-rest-api-interface', {
+        getRepos(num, offset) {
+          return Promise.resolve(repos);
+        },
+      });
+      element._paramsChanged(value).then(() => { flush(done); });
+    });
+
+    test('test for test repo in the list', done => {
+      flush(() => {
+        assert.equal(element._repos[1].id, 'test2');
+        done();
+      });
+    });
+
+    test('_shownRepos', () => {
+      assert.equal(element._shownRepos.length, 25);
+    });
+
+    test('_maybeOpenCreateOverlay', () => {
+      const overlayOpen = sandbox.stub(element.$.createOverlay, 'open');
+      element._maybeOpenCreateOverlay();
+      assert.isFalse(overlayOpen.called);
+      const params = {};
+      element._maybeOpenCreateOverlay(params);
+      assert.isFalse(overlayOpen.called);
+      params.openCreateModal = true;
+      element._maybeOpenCreateOverlay(params);
+      assert.isTrue(overlayOpen.called);
+    });
+  });
+
+  suite('list with less then 25 repos', () => {
+    setup(done => {
+      repos = _.times(25, repoGenerator);
+
+      stub('gr-rest-api-interface', {
+        getRepos(num, offset) {
+          return Promise.resolve(repos);
+        },
+      });
+
+      element._paramsChanged(value).then(() => { flush(done); });
+    });
+
+    test('_shownRepos', () => {
+      assert.equal(element._shownRepos.length, 25);
+    });
+  });
+
+  suite('filter', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(page, 'show');
-      element = fixture('basic');
-      counter = 0;
+      repos = _.times(25, repoGenerator);
+      reposFiltered = _.times(1, repoGenerator);
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    suite('list with repos', () => {
-      setup(done => {
-        repos = _.times(26, repoGenerator);
-        stub('gr-rest-api-interface', {
-          getRepos(num, offset) {
-            return Promise.resolve(repos);
-          },
-        });
-        element._paramsChanged(value).then(() => { flush(done); });
-      });
-
-      test('test for test repo in the list', done => {
-        flush(() => {
-          assert.equal(element._repos[1].id, 'test2');
-          done();
-        });
-      });
-
-      test('_shownRepos', () => {
-        assert.equal(element._shownRepos.length, 25);
-      });
-
-      test('_maybeOpenCreateOverlay', () => {
-        const overlayOpen = sandbox.stub(element.$.createOverlay, 'open');
-        element._maybeOpenCreateOverlay();
-        assert.isFalse(overlayOpen.called);
-        const params = {};
-        element._maybeOpenCreateOverlay(params);
-        assert.isFalse(overlayOpen.called);
-        params.openCreateModal = true;
-        element._maybeOpenCreateOverlay(params);
-        assert.isTrue(overlayOpen.called);
+    test('_paramsChanged', done => {
+      sandbox.stub(element.$.restAPI, 'getRepos', () => Promise.resolve(repos));
+      const value = {
+        filter: 'test',
+        offset: 25,
+      };
+      element._paramsChanged(value).then(() => {
+        assert.isTrue(element.$.restAPI.getRepos.lastCall
+            .calledWithExactly('test', 25, 25));
+        done();
       });
     });
 
-    suite('list with less then 25 repos', () => {
-      setup(done => {
-        repos = _.times(25, repoGenerator);
+    test('latest repos requested are always set', done => {
+      const repoStub = sandbox.stub(element.$.restAPI, 'getRepos');
+      repoStub.withArgs('test').returns(Promise.resolve(repos));
+      repoStub.withArgs('filter').returns(Promise.resolve(reposFiltered));
+      element._filter = 'test';
 
-        stub('gr-rest-api-interface', {
-          getRepos(num, offset) {
-            return Promise.resolve(repos);
-          },
-        });
-
-        element._paramsChanged(value).then(() => { flush(done); });
-      });
-
-      test('_shownRepos', () => {
-        assert.equal(element._shownRepos.length, 25);
-      });
-    });
-
-    suite('filter', () => {
-      setup(() => {
-        repos = _.times(25, repoGenerator);
-        reposFiltered = _.times(1, repoGenerator);
-      });
-
-      test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getRepos', () => Promise.resolve(repos));
-        const value = {
-          filter: 'test',
-          offset: 25,
-        };
-        element._paramsChanged(value).then(() => {
-          assert.isTrue(element.$.restAPI.getRepos.lastCall
-              .calledWithExactly('test', 25, 25));
-          done();
-        });
-      });
-
-      test('latest repos requested are always set', done => {
-        const repoStub = sandbox.stub(element.$.restAPI, 'getRepos');
-        repoStub.withArgs('test').returns(Promise.resolve(repos));
-        repoStub.withArgs('filter').returns(Promise.resolve(reposFiltered));
-        element._filter = 'test';
-
-        // Repos are not set because the element._filter differs.
-        element._getRepos('filter', 25, 0).then(() => {
-          assert.deepEqual(element._repos, []);
-          done();
-        });
-      });
-    });
-
-    suite('loading', () => {
-      test('correct contents are displayed', () => {
-        assert.isTrue(element._loading);
-        assert.equal(element.computeLoadingClass(element._loading), 'loading');
-        assert.equal(getComputedStyle(element.$.loading).display, 'block');
-
-        element._loading = false;
-        element._repos = _.times(25, repoGenerator);
-
-        flushAsynchronousOperations();
-        assert.equal(element.computeLoadingClass(element._loading), '');
-        assert.equal(getComputedStyle(element.$.loading).display, 'none');
-      });
-    });
-
-    suite('create new', () => {
-      test('_handleCreateClicked called when create-click fired', () => {
-        sandbox.stub(element, '_handleCreateClicked');
-        element.$$('gr-list-view').fire('create-clicked');
-        assert.isTrue(element._handleCreateClicked.called);
-      });
-
-      test('_handleCreateClicked opens modal', () => {
-        const openStub = sandbox.stub(element.$.createOverlay, 'open');
-        element._handleCreateClicked();
-        assert.isTrue(openStub.called);
-      });
-
-      test('_handleCreateRepo called when confirm fired', () => {
-        sandbox.stub(element, '_handleCreateRepo');
-        element.$.createDialog.fire('confirm');
-        assert.isTrue(element._handleCreateRepo.called);
-      });
-
-      test('_handleCloseCreate called when cancel fired', () => {
-        sandbox.stub(element, '_handleCloseCreate');
-        element.$.createDialog.fire('cancel');
-        assert.isTrue(element._handleCloseCreate.called);
+      // Repos are not set because the element._filter differs.
+      element._getRepos('filter', 25, 0).then(() => {
+        assert.deepEqual(element._repos, []);
+        done();
       });
     });
   });
+
+  suite('loading', () => {
+    test('correct contents are displayed', () => {
+      assert.isTrue(element._loading);
+      assert.equal(element.computeLoadingClass(element._loading), 'loading');
+      assert.equal(getComputedStyle(element.$.loading).display, 'block');
+
+      element._loading = false;
+      element._repos = _.times(25, repoGenerator);
+
+      flushAsynchronousOperations();
+      assert.equal(element.computeLoadingClass(element._loading), '');
+      assert.equal(getComputedStyle(element.$.loading).display, 'none');
+    });
+  });
+
+  suite('create new', () => {
+    test('_handleCreateClicked called when create-click fired', () => {
+      sandbox.stub(element, '_handleCreateClicked');
+      element.$$('gr-list-view').fire('create-clicked');
+      assert.isTrue(element._handleCreateClicked.called);
+    });
+
+    test('_handleCreateClicked opens modal', () => {
+      const openStub = sandbox.stub(element.$.createOverlay, 'open');
+      element._handleCreateClicked();
+      assert.isTrue(openStub.called);
+    });
+
+    test('_handleCreateRepo called when confirm fired', () => {
+      sandbox.stub(element, '_handleCreateRepo');
+      element.$.createDialog.fire('confirm');
+      assert.isTrue(element._handleCreateRepo.called);
+    });
+
+    test('_handleCloseCreate called when cancel fired', () => {
+      sandbox.stub(element, '_handleCloseCreate');
+      element.$.createDialog.fire('cancel');
+      assert.isTrue(element._handleCloseCreate.called);
+    });
+  });
+});
 </script>

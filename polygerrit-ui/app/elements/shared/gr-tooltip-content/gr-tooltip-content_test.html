@@ -18,15 +18,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-storage</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-tooltip-content.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-tooltip-content.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-tooltip-content.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,29 +40,32 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-tooltip-content tests', async () => {
-    await readyToTest();
-    let element;
-    setup(() => {
-      element = fixture('basic');
-    });
-
-    test('icon is not visible by default', () => {
-      assert.equal(Polymer.dom(element.root)
-          .querySelector('iron-icon').hidden, true);
-    });
-
-    test('position-below attribute is reflected', () => {
-      assert.isFalse(element.hasAttribute('position-below'));
-      element.positionBelow = true;
-      assert.isTrue(element.hasAttribute('position-below'));
-    });
-
-    test('icon is visible with showIcon property', () => {
-      element.showIcon = true;
-      assert.equal(Polymer.dom(element.root)
-          .querySelector('iron-icon').hidden, false);
-    });
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-tooltip-content.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-tooltip-content tests', () => {
+  let element;
+  setup(() => {
+    element = fixture('basic');
   });
+
+  test('icon is not visible by default', () => {
+    assert.equal(dom(element.root)
+        .querySelector('iron-icon').hidden, true);
+  });
+
+  test('position-below attribute is reflected', () => {
+    assert.isFalse(element.hasAttribute('position-below'));
+    element.positionBelow = true;
+    assert.isTrue(element.hasAttribute('position-below'));
+  });
+
+  test('icon is visible with showIcon property', () => {
+    element.showIcon = true;
+    assert.equal(dom(element.root)
+        .querySelector('iron-icon').hidden, false);
+  });
+});
 </script>

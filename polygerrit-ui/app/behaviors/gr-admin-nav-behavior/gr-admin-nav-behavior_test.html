@@ -19,13 +19,13 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>keyboard-shortcut-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="gr-admin-nav-behavior.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-admin-nav-behavior.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -33,338 +33,341 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-admin-nav-behavior tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let capabilityStub;
-    let menuLinkStub;
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './gr-admin-nav-behavior.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('gr-admin-nav-behavior tests', () => {
+  let element;
+  let sandbox;
+  let capabilityStub;
+  let menuLinkStub;
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [
-          Gerrit.AdminNavBehavior,
-        ],
-      });
-    });
-
-    setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      capabilityStub = sinon.stub();
-      menuLinkStub = sinon.stub().returns([]);
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    const testAdminLinks = (account, options, expected, done) => {
-      element.getAdminLinks(account,
-          capabilityStub,
-          menuLinkStub,
-          options)
-          .then(res => {
-            assert.equal(expected.totalLength, res.links.length);
-            assert.equal(res.links[0].name, 'Repositories');
-            // Repos
-            if (expected.groupListShown) {
-              assert.equal(res.links[1].name, 'Groups');
-            }
-
-            if (expected.pluginListShown) {
-              assert.equal(res.links[2].name, 'Plugins');
-              assert.isNotOk(res.links[2].subsection);
-            }
-
-            if (expected.projectPageShown) {
-              assert.isOk(res.links[0].subsection);
-              assert.equal(res.links[0].subsection.children.length, 5);
-            } else {
-              assert.isNotOk(res.links[0].subsection);
-            }
-            // Groups
-            if (expected.groupPageShown) {
-              assert.isOk(res.links[1].subsection);
-              assert.equal(res.links[1].subsection.children.length,
-                  expected.groupSubpageLength);
-            } else if ( expected.totalLength > 1) {
-              assert.isNotOk(res.links[1].subsection);
-            }
-
-            if (expected.pluginGeneratedLinks) {
-              for (const link of expected.pluginGeneratedLinks) {
-                const linkMatch = res.links
-                    .find(l => (l.url === link.url && l.name === link.text));
-                assert.isTrue(!!linkMatch);
-
-                // External links should open in new tab.
-                if (link.url[0] !== '/') {
-                  assert.equal(linkMatch.target, '_blank');
-                } else {
-                  assert.isNotOk(linkMatch.target);
-                }
-              }
-            }
-
-            // Current section
-            if (expected.projectPageShown || expected.groupPageShown) {
-              assert.isOk(res.expandedSection);
-              assert.isOk(res.expandedSection.children);
-            } else {
-              assert.isNotOk(res.expandedSection);
-            }
-            if (expected.projectPageShown) {
-              assert.equal(res.expandedSection.name, 'my-repo');
-              assert.equal(res.expandedSection.children.length, 5);
-            } else if (expected.groupPageShown) {
-              assert.equal(res.expandedSection.name, 'my-group');
-              assert.equal(res.expandedSection.children.length,
-                  expected.groupSubpageLength);
-            }
-            done();
-          });
-    };
-
-    suite('logged out', () => {
-      let account;
-      let expected;
-
-      setup(() => {
-        expected = {
-          groupListShown: false,
-          groupPageShown: false,
-          pluginListShown: false,
-        };
-      });
-
-      test('without a specific repo or group', done => {
-        let options;
-        expected = Object.assign(expected, {
-          totalLength: 1,
-          projectPageShown: false,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-
-      test('with a repo', done => {
-        const options = {repoName: 'my-repo'};
-        expected = Object.assign(expected, {
-          totalLength: 1,
-          projectPageShown: true,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-
-      test('with plugin generated links', done => {
-        let options;
-        const generatedLinks = [
-          {text: 'internal link text', url: '/internal/link/url'},
-          {text: 'external link text', url: 'http://external/link/url'},
-        ];
-        menuLinkStub.returns(generatedLinks);
-        expected = Object.assign(expected, {
-          totalLength: 3,
-          projectPageShown: false,
-          pluginGeneratedLinks: generatedLinks,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-    });
-
-    suite('no plugin capability logged in', () => {
-      const account = {
-        name: 'test-user',
-      };
-      let expected;
-
-      setup(() => {
-        expected = {
-          totalLength: 2,
-          pluginListShown: false,
-        };
-        capabilityStub.returns(Promise.resolve({}));
-      });
-
-      test('without a specific project or group', done => {
-        let options;
-        expected = Object.assign(expected, {
-          projectPageShown: false,
-          groupListShown: true,
-          groupPageShown: false,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-
-      test('with a repo', done => {
-        const account = {
-          name: 'test-user',
-        };
-        const options = {repoName: 'my-repo'};
-        expected = Object.assign(expected, {
-          projectPageShown: true,
-          groupListShown: true,
-          groupPageShown: false,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-    });
-
-    suite('view plugin capability logged in', () => {
-      const account = {
-        name: 'test-user',
-      };
-      let expected;
-
-      setup(() => {
-        capabilityStub.returns(Promise.resolve({viewPlugins: true}));
-        expected = {
-          totalLength: 3,
-          groupListShown: true,
-          pluginListShown: true,
-        };
-      });
-
-      test('without a specific repo or group', done => {
-        let options;
-        expected = Object.assign(expected, {
-          projectPageShown: false,
-          groupPageShown: false,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-
-      test('with a repo', done => {
-        const options = {repoName: 'my-repo'};
-        expected = Object.assign(expected, {
-          projectPageShown: true,
-          groupPageShown: false,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-
-      test('admin with internal group', done => {
-        const options = {
-          groupId: 'a15262',
-          groupName: 'my-group',
-          groupIsInternal: true,
-          isAdmin: true,
-          groupOwner: false,
-        };
-        expected = Object.assign(expected, {
-          projectPageShown: false,
-          groupPageShown: true,
-          groupSubpageLength: 2,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-
-      test('group owner with internal group', done => {
-        const options = {
-          groupId: 'a15262',
-          groupName: 'my-group',
-          groupIsInternal: true,
-          isAdmin: false,
-          groupOwner: true,
-        };
-        expected = Object.assign(expected, {
-          projectPageShown: false,
-          groupPageShown: true,
-          groupSubpageLength: 2,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-
-      test('non owner or admin with internal group', done => {
-        const options = {
-          groupId: 'a15262',
-          groupName: 'my-group',
-          groupIsInternal: true,
-          isAdmin: false,
-          groupOwner: false,
-        };
-        expected = Object.assign(expected, {
-          projectPageShown: false,
-          groupPageShown: true,
-          groupSubpageLength: 1,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-
-      test('admin with external group', done => {
-        const options = {
-          groupId: 'a15262',
-          groupName: 'my-group',
-          groupIsInternal: false,
-          isAdmin: true,
-          groupOwner: true,
-        };
-        expected = Object.assign(expected, {
-          projectPageShown: false,
-          groupPageShown: true,
-          groupSubpageLength: 0,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-    });
-
-    suite('view plugin screen with plugin capability', () => {
-      const account = {
-        name: 'test-user',
-      };
-      let expected;
-
-      setup(() => {
-        capabilityStub.returns(Promise.resolve({pluginCapability: true}));
-        expected = {};
-      });
-
-      test('with plugin with capabilities', done => {
-        let options;
-        const generatedLinks = [
-          {text: 'without capability', url: '/without'},
-          {text: 'with capability',
-            url: '/with',
-            capability: 'pluginCapability'},
-        ];
-        menuLinkStub.returns(generatedLinks);
-        expected = Object.assign(expected, {
-          totalLength: 4,
-          pluginGeneratedLinks: generatedLinks,
-        });
-        testAdminLinks(account, options, expected, done);
-      });
-    });
-
-    suite('view plugin screen without plugin capability', () => {
-      const account = {
-        name: 'test-user',
-      };
-      let expected;
-
-      setup(() => {
-        capabilityStub.returns(Promise.resolve({}));
-        expected = {};
-      });
-
-      test('with plugin with capabilities', done => {
-        let options;
-        const generatedLinks = [
-          {text: 'without capability', url: '/without'},
-          {text: 'with capability',
-            url: '/with',
-            capability: 'pluginCapability'},
-        ];
-        menuLinkStub.returns(generatedLinks);
-        expected = Object.assign(expected, {
-          totalLength: 3,
-          pluginGeneratedLinks: [generatedLinks[0]],
-        });
-        testAdminLinks(account, options, expected, done);
-      });
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'test-element',
+      behaviors: [
+        Gerrit.AdminNavBehavior,
+      ],
     });
   });
+
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    capabilityStub = sinon.stub();
+    menuLinkStub = sinon.stub().returns([]);
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  const testAdminLinks = (account, options, expected, done) => {
+    element.getAdminLinks(account,
+        capabilityStub,
+        menuLinkStub,
+        options)
+        .then(res => {
+          assert.equal(expected.totalLength, res.links.length);
+          assert.equal(res.links[0].name, 'Repositories');
+          // Repos
+          if (expected.groupListShown) {
+            assert.equal(res.links[1].name, 'Groups');
+          }
+
+          if (expected.pluginListShown) {
+            assert.equal(res.links[2].name, 'Plugins');
+            assert.isNotOk(res.links[2].subsection);
+          }
+
+          if (expected.projectPageShown) {
+            assert.isOk(res.links[0].subsection);
+            assert.equal(res.links[0].subsection.children.length, 5);
+          } else {
+            assert.isNotOk(res.links[0].subsection);
+          }
+          // Groups
+          if (expected.groupPageShown) {
+            assert.isOk(res.links[1].subsection);
+            assert.equal(res.links[1].subsection.children.length,
+                expected.groupSubpageLength);
+          } else if ( expected.totalLength > 1) {
+            assert.isNotOk(res.links[1].subsection);
+          }
+
+          if (expected.pluginGeneratedLinks) {
+            for (const link of expected.pluginGeneratedLinks) {
+              const linkMatch = res.links
+                  .find(l => (l.url === link.url && l.name === link.text));
+              assert.isTrue(!!linkMatch);
+
+              // External links should open in new tab.
+              if (link.url[0] !== '/') {
+                assert.equal(linkMatch.target, '_blank');
+              } else {
+                assert.isNotOk(linkMatch.target);
+              }
+            }
+          }
+
+          // Current section
+          if (expected.projectPageShown || expected.groupPageShown) {
+            assert.isOk(res.expandedSection);
+            assert.isOk(res.expandedSection.children);
+          } else {
+            assert.isNotOk(res.expandedSection);
+          }
+          if (expected.projectPageShown) {
+            assert.equal(res.expandedSection.name, 'my-repo');
+            assert.equal(res.expandedSection.children.length, 5);
+          } else if (expected.groupPageShown) {
+            assert.equal(res.expandedSection.name, 'my-group');
+            assert.equal(res.expandedSection.children.length,
+                expected.groupSubpageLength);
+          }
+          done();
+        });
+  };
+
+  suite('logged out', () => {
+    let account;
+    let expected;
+
+    setup(() => {
+      expected = {
+        groupListShown: false,
+        groupPageShown: false,
+        pluginListShown: false,
+      };
+    });
+
+    test('without a specific repo or group', done => {
+      let options;
+      expected = Object.assign(expected, {
+        totalLength: 1,
+        projectPageShown: false,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+
+    test('with a repo', done => {
+      const options = {repoName: 'my-repo'};
+      expected = Object.assign(expected, {
+        totalLength: 1,
+        projectPageShown: true,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+
+    test('with plugin generated links', done => {
+      let options;
+      const generatedLinks = [
+        {text: 'internal link text', url: '/internal/link/url'},
+        {text: 'external link text', url: 'http://external/link/url'},
+      ];
+      menuLinkStub.returns(generatedLinks);
+      expected = Object.assign(expected, {
+        totalLength: 3,
+        projectPageShown: false,
+        pluginGeneratedLinks: generatedLinks,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+  });
+
+  suite('no plugin capability logged in', () => {
+    const account = {
+      name: 'test-user',
+    };
+    let expected;
+
+    setup(() => {
+      expected = {
+        totalLength: 2,
+        pluginListShown: false,
+      };
+      capabilityStub.returns(Promise.resolve({}));
+    });
+
+    test('without a specific project or group', done => {
+      let options;
+      expected = Object.assign(expected, {
+        projectPageShown: false,
+        groupListShown: true,
+        groupPageShown: false,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+
+    test('with a repo', done => {
+      const account = {
+        name: 'test-user',
+      };
+      const options = {repoName: 'my-repo'};
+      expected = Object.assign(expected, {
+        projectPageShown: true,
+        groupListShown: true,
+        groupPageShown: false,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+  });
+
+  suite('view plugin capability logged in', () => {
+    const account = {
+      name: 'test-user',
+    };
+    let expected;
+
+    setup(() => {
+      capabilityStub.returns(Promise.resolve({viewPlugins: true}));
+      expected = {
+        totalLength: 3,
+        groupListShown: true,
+        pluginListShown: true,
+      };
+    });
+
+    test('without a specific repo or group', done => {
+      let options;
+      expected = Object.assign(expected, {
+        projectPageShown: false,
+        groupPageShown: false,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+
+    test('with a repo', done => {
+      const options = {repoName: 'my-repo'};
+      expected = Object.assign(expected, {
+        projectPageShown: true,
+        groupPageShown: false,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+
+    test('admin with internal group', done => {
+      const options = {
+        groupId: 'a15262',
+        groupName: 'my-group',
+        groupIsInternal: true,
+        isAdmin: true,
+        groupOwner: false,
+      };
+      expected = Object.assign(expected, {
+        projectPageShown: false,
+        groupPageShown: true,
+        groupSubpageLength: 2,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+
+    test('group owner with internal group', done => {
+      const options = {
+        groupId: 'a15262',
+        groupName: 'my-group',
+        groupIsInternal: true,
+        isAdmin: false,
+        groupOwner: true,
+      };
+      expected = Object.assign(expected, {
+        projectPageShown: false,
+        groupPageShown: true,
+        groupSubpageLength: 2,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+
+    test('non owner or admin with internal group', done => {
+      const options = {
+        groupId: 'a15262',
+        groupName: 'my-group',
+        groupIsInternal: true,
+        isAdmin: false,
+        groupOwner: false,
+      };
+      expected = Object.assign(expected, {
+        projectPageShown: false,
+        groupPageShown: true,
+        groupSubpageLength: 1,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+
+    test('admin with external group', done => {
+      const options = {
+        groupId: 'a15262',
+        groupName: 'my-group',
+        groupIsInternal: false,
+        isAdmin: true,
+        groupOwner: true,
+      };
+      expected = Object.assign(expected, {
+        projectPageShown: false,
+        groupPageShown: true,
+        groupSubpageLength: 0,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+  });
+
+  suite('view plugin screen with plugin capability', () => {
+    const account = {
+      name: 'test-user',
+    };
+    let expected;
+
+    setup(() => {
+      capabilityStub.returns(Promise.resolve({pluginCapability: true}));
+      expected = {};
+    });
+
+    test('with plugin with capabilities', done => {
+      let options;
+      const generatedLinks = [
+        {text: 'without capability', url: '/without'},
+        {text: 'with capability',
+          url: '/with',
+          capability: 'pluginCapability'},
+      ];
+      menuLinkStub.returns(generatedLinks);
+      expected = Object.assign(expected, {
+        totalLength: 4,
+        pluginGeneratedLinks: generatedLinks,
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+  });
+
+  suite('view plugin screen without plugin capability', () => {
+    const account = {
+      name: 'test-user',
+    };
+    let expected;
+
+    setup(() => {
+      capabilityStub.returns(Promise.resolve({}));
+      expected = {};
+    });
+
+    test('with plugin with capabilities', done => {
+      let options;
+      const generatedLinks = [
+        {text: 'without capability', url: '/without'},
+        {text: 'with capability',
+          url: '/with',
+          capability: 'pluginCapability'},
+      ];
+      menuLinkStub.returns(generatedLinks);
+      expected = Object.assign(expected, {
+        totalLength: 3,
+        pluginGeneratedLinks: [generatedLinks[0]],
+      });
+      testAdminLinks(account, options, expected, done);
+    });
+  });
+});
 </script>

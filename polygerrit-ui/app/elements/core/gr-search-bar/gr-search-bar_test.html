@@ -19,18 +19,24 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-search-bar</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="/bower_components/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="/node_modules/page/page.js"></script>
 
-<link rel="import" href="gr-search-bar.html">
-<script src="../../../scripts/util.js"></script>
+<script type="module" src="./gr-search-bar.js"></script>
+<script type="module" src="../../../scripts/util.js"></script>
 
-<script>void (0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-search-bar.js';
+import '../../../scripts/util.js';
+void (0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -38,199 +44,202 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-search-bar tests', async () => {
-    await readyToTest();
-    const kb = window.Gerrit.KeyboardShortcutBinder;
-    kb.bindShortcut(kb.Shortcut.SEARCH, '/');
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-search-bar.js';
+import '../../../scripts/util.js';
+suite('gr-search-bar tests', () => {
+  const kb = window.Gerrit.KeyboardShortcutBinder;
+  kb.bindShortcut(kb.Shortcut.SEARCH, '/');
 
-    let element;
-    let sandbox;
+  let element;
+  let sandbox;
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      flush(done);
+  setup(done => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    flush(done);
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('value is propagated to _inputVal', () => {
+    element.value = 'foo';
+    assert.equal(element._inputVal, 'foo');
+  });
+
+  getActiveElement = () => (document.activeElement.shadowRoot ?
+    document.activeElement.shadowRoot.activeElement :
+    document.activeElement);
+
+  test('enter in search input fires event', done => {
+    element.addEventListener('handle-search', () => {
+      assert.notEqual(getActiveElement(), element.$.searchInput);
+      assert.notEqual(getActiveElement(), element.$.searchButton);
+      done();
+    });
+    element.value = 'test';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+  });
+
+  test('input blurred after commit', () => {
+    const blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
+    element.$.searchInput.text = 'fate/stay';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+    assert.isTrue(blurSpy.called);
+  });
+
+  test('empty search query does not trigger nav', () => {
+    const searchSpy = sandbox.spy();
+    element.addEventListener('handle-search', searchSpy);
+    element.value = '';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+    assert.isFalse(searchSpy.called);
+  });
+
+  test('Predefined query op with no predication doesnt trigger nav', () => {
+    const searchSpy = sandbox.spy();
+    element.addEventListener('handle-search', searchSpy);
+    element.value = 'added:';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+    assert.isFalse(searchSpy.called);
+  });
+
+  test('predefined predicate query triggers nav', () => {
+    const searchSpy = sandbox.spy();
+    element.addEventListener('handle-search', searchSpy);
+    element.value = 'age:1week';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+    assert.isTrue(searchSpy.called);
+  });
+
+  test('undefined predicate query triggers nav', () => {
+    const searchSpy = sandbox.spy();
+    element.addEventListener('handle-search', searchSpy);
+    element.value = 'random:1week';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+    assert.isTrue(searchSpy.called);
+  });
+
+  test('empty undefined predicate query triggers nav', () => {
+    const searchSpy = sandbox.spy();
+    element.addEventListener('handle-search', searchSpy);
+    element.value = 'random:';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+    assert.isTrue(searchSpy.called);
+  });
+
+  test('keyboard shortcuts', () => {
+    const focusSpy = sandbox.spy(element.$.searchInput, 'focus');
+    const selectAllSpy = sandbox.spy(element.$.searchInput, 'selectAll');
+    MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
+    assert.isTrue(focusSpy.called);
+    assert.isTrue(selectAllSpy.called);
+  });
+
+  suite('_getSearchSuggestions', () => {
+    test('Autocompletes accounts', () => {
+      sandbox.stub(element, 'accountSuggestions', () =>
+        Promise.resolve([{text: 'owner:fred@goog.co'}])
+      );
+      return element._getSearchSuggestions('owner:fr').then(s => {
+        assert.equal(s[0].value, 'owner:fred@goog.co');
+      });
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('value is propagated to _inputVal', () => {
-      element.value = 'foo';
-      assert.equal(element._inputVal, 'foo');
-    });
-
-    getActiveElement = () => (document.activeElement.shadowRoot ?
-      document.activeElement.shadowRoot.activeElement :
-      document.activeElement);
-
-    test('enter in search input fires event', done => {
-      element.addEventListener('handle-search', () => {
-        assert.notEqual(getActiveElement(), element.$.searchInput);
-        assert.notEqual(getActiveElement(), element.$.searchButton);
+    test('Autocompletes groups', done => {
+      sandbox.stub(element, 'groupSuggestions', () =>
+        Promise.resolve([
+          {text: 'ownerin:Polygerrit'},
+          {text: 'ownerin:gerrit'},
+        ])
+      );
+      element._getSearchSuggestions('ownerin:pol').then(s => {
+        assert.equal(s[0].value, 'ownerin:Polygerrit');
         done();
       });
-      element.value = 'test';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
     });
 
-    test('input blurred after commit', () => {
-      const blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
-      element.$.searchInput.text = 'fate/stay';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.isTrue(blurSpy.called);
+    test('Autocompletes projects', done => {
+      sandbox.stub(element, 'projectSuggestions', () =>
+        Promise.resolve([
+          {text: 'project:Polygerrit'},
+          {text: 'project:gerrit'},
+          {text: 'project:gerrittest'},
+        ])
+      );
+      element._getSearchSuggestions('project:pol').then(s => {
+        assert.equal(s[0].value, 'project:Polygerrit');
+        done();
+      });
     });
 
-    test('empty search query does not trigger nav', () => {
-      const searchSpy = sandbox.spy();
-      element.addEventListener('handle-search', searchSpy);
-      element.value = '';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.isFalse(searchSpy.called);
+    test('Autocompletes simple searches', done => {
+      element._getSearchSuggestions('is:o').then(s => {
+        assert.equal(s[0].name, 'is:open');
+        assert.equal(s[0].value, 'is:open');
+        assert.equal(s[1].name, 'is:owner');
+        assert.equal(s[1].value, 'is:owner');
+        done();
+      });
     });
 
-    test('Predefined query op with no predication doesnt trigger nav', () => {
-      const searchSpy = sandbox.spy();
-      element.addEventListener('handle-search', searchSpy);
-      element.value = 'added:';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.isFalse(searchSpy.called);
+    test('Does not autocomplete with no match', done => {
+      element._getSearchSuggestions('asdasdasdasd').then(s => {
+        assert.equal(s.length, 0);
+        done();
+      });
     });
 
-    test('predefined predicate query triggers nav', () => {
-      const searchSpy = sandbox.spy();
-      element.addEventListener('handle-search', searchSpy);
-      element.value = 'age:1week';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.isTrue(searchSpy.called);
+    test('Autocompltes without is:mergable when disabled', done => {
+      element._getSearchSuggestions('is:mergeab').then(s => {
+        assert.equal(s.length, 0);
+        done();
+      });
     });
+  });
 
-    test('undefined predicate query triggers nav', () => {
-      const searchSpy = sandbox.spy();
-      element.addEventListener('handle-search', searchSpy);
-      element.value = 'random:1week';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.isTrue(searchSpy.called);
-    });
-
-    test('empty undefined predicate query triggers nav', () => {
-      const searchSpy = sandbox.spy();
-      element.addEventListener('handle-search', searchSpy);
-      element.value = 'random:';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.isTrue(searchSpy.called);
-    });
-
-    test('keyboard shortcuts', () => {
-      const focusSpy = sandbox.spy(element.$.searchInput, 'focus');
-      const selectAllSpy = sandbox.spy(element.$.searchInput, 'selectAll');
-      MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
-      assert.isTrue(focusSpy.called);
-      assert.isTrue(selectAllSpy.called);
-    });
-
-    suite('_getSearchSuggestions', () => {
-      test('Autocompletes accounts', () => {
-        sandbox.stub(element, 'accountSuggestions', () =>
-          Promise.resolve([{text: 'owner:fred@goog.co'}])
-        );
-        return element._getSearchSuggestions('owner:fr').then(s => {
-          assert.equal(s[0].value, 'owner:fred@goog.co');
+  [
+    'API_REF_UPDATED_AND_CHANGE_REINDEX',
+    'REF_UPDATED_AND_CHANGE_REINDEX',
+  ].forEach(mergeability => {
+    suite(`mergeability as ${mergeability}`, () => {
+      setup(done => {
+        stub('gr-rest-api-interface', {
+          getConfig() {
+            return Promise.resolve({
+              index: {
+                mergeabilityComputationBehavior: mergeability,
+              },
+            });
+          },
         });
+
+        element = fixture('basic');
+        flush(done);
       });
 
-      test('Autocompletes groups', done => {
-        sandbox.stub(element, 'groupSuggestions', () =>
-          Promise.resolve([
-            {text: 'ownerin:Polygerrit'},
-            {text: 'ownerin:gerrit'},
-          ])
-        );
-        element._getSearchSuggestions('ownerin:pol').then(s => {
-          assert.equal(s[0].value, 'ownerin:Polygerrit');
-          done();
-        });
-      });
-
-      test('Autocompletes projects', done => {
-        sandbox.stub(element, 'projectSuggestions', () =>
-          Promise.resolve([
-            {text: 'project:Polygerrit'},
-            {text: 'project:gerrit'},
-            {text: 'project:gerrittest'},
-          ])
-        );
-        element._getSearchSuggestions('project:pol').then(s => {
-          assert.equal(s[0].value, 'project:Polygerrit');
-          done();
-        });
-      });
-
-      test('Autocompletes simple searches', done => {
-        element._getSearchSuggestions('is:o').then(s => {
-          assert.equal(s[0].name, 'is:open');
-          assert.equal(s[0].value, 'is:open');
-          assert.equal(s[1].name, 'is:owner');
-          assert.equal(s[1].value, 'is:owner');
-          done();
-        });
-      });
-
-      test('Does not autocomplete with no match', done => {
-        element._getSearchSuggestions('asdasdasdasd').then(s => {
-          assert.equal(s.length, 0);
-          done();
-        });
-      });
-
-      test('Autocompltes without is:mergable when disabled', done => {
+      test('Autocompltes with is:mergable when enabled', done => {
         element._getSearchSuggestions('is:mergeab').then(s => {
-          assert.equal(s.length, 0);
+          assert.equal(s.length, 2);
+          assert.equal(s[0].name, 'is:mergeable');
+          assert.equal(s[0].value, 'is:mergeable');
+          assert.equal(s[1].name, '-is:mergeable');
+          assert.equal(s[1].value, '-is:mergeable');
           done();
-        });
-      });
-    });
-
-    [
-      'API_REF_UPDATED_AND_CHANGE_REINDEX',
-      'REF_UPDATED_AND_CHANGE_REINDEX',
-    ].forEach(mergeability => {
-      suite(`mergeability as ${mergeability}`, () => {
-        setup(done => {
-          stub('gr-rest-api-interface', {
-            getConfig() {
-              return Promise.resolve({
-                index: {
-                  mergeabilityComputationBehavior: mergeability,
-                },
-              });
-            },
-          });
-
-          element = fixture('basic');
-          flush(done);
-        });
-
-        test('Autocompltes with is:mergable when enabled', done => {
-          element._getSearchSuggestions('is:mergeab').then(s => {
-            assert.equal(s.length, 2);
-            assert.equal(s[0].name, 'is:mergeable');
-            assert.equal(s[0].value, 'is:mergeable');
-            assert.equal(s[1].name, '-is:mergeable');
-            assert.equal(s[1].value, '-is:mergeable');
-            done();
-          });
         });
       });
     });
   });
+});
 </script>

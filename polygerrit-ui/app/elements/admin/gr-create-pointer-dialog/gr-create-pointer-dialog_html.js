@@ -1,33 +1,6 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
-
-<dom-module id="gr-create-pointer-dialog">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
@@ -49,41 +22,23 @@ limitations under the License.
       <div id="form">
         <section id="itemNameSection">
           <span class="title">[[detailType]] name</span>
-          <iron-input
-              placeholder="[[detailType]] Name"
-              bind-value="{{_itemName}}">
-            <input
-                is="iron-input"
-                placeholder="[[detailType]] Name"
-                bind-value="{{_itemName}}">
+          <iron-input placeholder="[[detailType]] Name" bind-value="{{_itemName}}">
+            <input is="iron-input" placeholder="[[detailType]] Name" bind-value="{{_itemName}}">
           </iron-input>
         </section>
         <section id="itemRevisionSection">
           <span class="title">Initial Revision</span>
-          <iron-input
-              placeholder="Revision (Branch or SHA-1)"
-              bind-value="{{_itemRevision}}">
-            <input
-                is="iron-input"
-                placeholder="Revision (Branch or SHA-1)"
-                bind-value="{{_itemRevision}}">
+          <iron-input placeholder="Revision (Branch or SHA-1)" bind-value="{{_itemRevision}}">
+            <input is="iron-input" placeholder="Revision (Branch or SHA-1)" bind-value="{{_itemRevision}}">
           </iron-input>
         </section>
-        <section id="itemAnnotationSection"
-                 class$="[[_computeHideItemClass(itemDetail)]]">
+        <section id="itemAnnotationSection" class\$="[[_computeHideItemClass(itemDetail)]]">
           <span class="title">Annotation</span>
-          <iron-input
-              placeholder="Annotation (Optional)"
-              bind-value="{{_itemAnnotation}}">
-            <input
-                is="iron-input"
-                placeholder="Annotation (Optional)"
-                bind-value="{{_itemAnnotation}}">
+          <iron-input placeholder="Annotation (Optional)" bind-value="{{_itemAnnotation}}">
+            <input is="iron-input" placeholder="Annotation (Optional)" bind-value="{{_itemAnnotation}}">
           </iron-input>
         </section>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-create-pointer-dialog.js"></script>
-</dom-module>
+`;

@@ -19,17 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-comment-thread</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="../../../scripts/util.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-comment-thread.html">
+<script type="module" src="./gr-comment-thread.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-comment-thread.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -43,194 +49,15 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-comment-thread tests', async () => {
-    await readyToTest();
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-comment-thread.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-comment-thread tests', () => {
 
-    suite('basic test', () => {
-      let element;
-      let sandbox;
-
-      setup(() => {
-        sandbox = sinon.sandbox.create();
-        stub('gr-rest-api-interface', {
-          getLoggedIn() { return Promise.resolve(false); },
-        });
-        sandbox = sinon.sandbox.create();
-        element = fixture('basic');
-      });
-
-      teardown(() => {
-        sandbox.restore();
-      });
-
-      test('comments are sorted correctly', () => {
-        const comments = [
-          {
-            message: 'i like you, too',
-            in_reply_to: 'sallys_confession',
-            __date: new Date('2015-12-25'),
-          }, {
-            id: 'sallys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-24 15:00:20.396000000',
-          }, {
-            id: 'sally_to_dr_finklestein',
-            message: 'i’m running away',
-            updated: '2015-10-31 09:00:20.396000000',
-          }, {
-            id: 'sallys_defiance',
-            in_reply_to: 'sally_to_dr_finklestein',
-            message: 'i will poison you so i can get away',
-            updated: '2015-10-31 15:00:20.396000000',
-          }, {
-            id: 'dr_finklesteins_response',
-            in_reply_to: 'sally_to_dr_finklestein',
-            message: 'no i will pull a thread and your arm will fall off',
-            updated: '2015-10-31 11:00:20.396000000',
-          }, {
-            id: 'sallys_mission',
-            message: 'i have to find santa',
-            updated: '2015-12-24 15:00:20.396000000',
-          },
-        ];
-        const results = element._sortedComments(comments);
-        assert.deepEqual(results, [
-          {
-            id: 'sally_to_dr_finklestein',
-            message: 'i’m running away',
-            updated: '2015-10-31 09:00:20.396000000',
-          }, {
-            id: 'dr_finklesteins_response',
-            in_reply_to: 'sally_to_dr_finklestein',
-            message: 'no i will pull a thread and your arm will fall off',
-            updated: '2015-10-31 11:00:20.396000000',
-          }, {
-            id: 'sallys_defiance',
-            in_reply_to: 'sally_to_dr_finklestein',
-            message: 'i will poison you so i can get away',
-            updated: '2015-10-31 15:00:20.396000000',
-          }, {
-            id: 'sallys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-24 15:00:20.396000000',
-          }, {
-            id: 'sallys_mission',
-            message: 'i have to find santa',
-            updated: '2015-12-24 15:00:20.396000000',
-          }, {
-            message: 'i like you, too',
-            in_reply_to: 'sallys_confession',
-            __date: new Date('2015-12-25'),
-          },
-        ]);
-      });
-
-      test('addOrEditDraft w/ edit draft', () => {
-        element.comments = [{
-          id: 'jacks_reply',
-          message: 'i like you, too',
-          in_reply_to: 'sallys_confession',
-          updated: '2015-12-25 15:00:20.396000000',
-          __draft: true,
-        }];
-        const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
-            () => { return {}; });
-        const addDraftStub = sandbox.stub(element, 'addDraft');
-
-        element.addOrEditDraft(123);
-
-        assert.isTrue(commentElStub.called);
-        assert.isFalse(addDraftStub.called);
-      });
-
-      test('addOrEditDraft w/o edit draft', () => {
-        element.comments = [];
-        const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
-            () => { return {}; });
-        const addDraftStub = sandbox.stub(element, 'addDraft');
-
-        element.addOrEditDraft(123);
-
-        assert.isFalse(commentElStub.called);
-        assert.isTrue(addDraftStub.called);
-      });
-
-      test('_shouldDisableAction', () => {
-        let showActions = true;
-        const lastComment = {};
-        assert.equal(
-            element._shouldDisableAction(showActions, lastComment), false);
-        showActions = false;
-        assert.equal(
-            element._shouldDisableAction(showActions, lastComment), true);
-        showActions = true;
-        lastComment.__draft = true;
-        assert.equal(
-            element._shouldDisableAction(showActions, lastComment), true);
-        const robotComment = {};
-        robotComment.robot_id = true;
-        assert.equal(
-            element._shouldDisableAction(showActions, robotComment), false);
-      });
-
-      test('_hideActions', () => {
-        let showActions = true;
-        const lastComment = {};
-        assert.equal(element._hideActions(showActions, lastComment), false);
-        showActions = false;
-        assert.equal(element._hideActions(showActions, lastComment), true);
-        showActions = true;
-        lastComment.__draft = true;
-        assert.equal(element._hideActions(showActions, lastComment), true);
-        const robotComment = {};
-        robotComment.robot_id = true;
-        assert.equal(element._hideActions(showActions, robotComment), true);
-      });
-
-      test('setting project name loads the project config', done => {
-        const projectName = 'foo/bar/baz';
-        const getProjectStub = sandbox.stub(element.$.restAPI, 'getProjectConfig')
-            .returns(Promise.resolve({}));
-        element.projectName = projectName;
-        flush(() => {
-          assert.isTrue(getProjectStub.calledWithExactly(projectName));
-          done();
-        });
-      });
-
-      test('optionally show file path', () => {
-        // Path info doesn't exist when showFilePath is false. Because it's in a
-        // dom-if it is not yet in the dom.
-        assert.isNotOk(element.$$('.pathInfo'));
-
-        sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
-        element.changeNum = 123;
-        element.projectName = 'test project';
-        element.path = 'path/to/file';
-        element.patchNum = 3;
-        element.lineNum = 5;
-        element.showFilePath = true;
-        flushAsynchronousOperations();
-        assert.isOk(element.$$('.pathInfo'));
-        assert.notEqual(getComputedStyle(element.$$('.pathInfo')).display,
-            'none');
-        assert.isTrue(Gerrit.Nav.getUrlForDiffById.lastCall.calledWithExactly(
-            element.changeNum, element.projectName, element.path,
-            element.patchNum, null, element.lineNum));
-      });
-
-      test('_computeDisplayPath', () => {
-        const path = 'path/to/file';
-        assert.equal(element._computeDisplayPath(path), 'path/to/file');
-
-        element.lineNum = 5;
-        assert.equal(element._computeDisplayPath(path), 'path/to/file#5');
-      });
-    });
-  });
-
-  suite('comment action tests', () => {
+  suite('basic test', () => {
     let element;
     let sandbox;
 
@@ -238,526 +65,709 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
-        saveDiffDraft() {
-          return Promise.resolve({
-            ok: true,
-            text() {
-              return Promise.resolve(')]}\'\n' +
-                  JSON.stringify({
-                    id: '7afa4931_de3d65bd',
-                    path: '/path/to/file.txt',
-                    line: 5,
-                    in_reply_to: 'baf0414d_60047215',
-                    updated: '2015-12-21 02:01:10.850000000',
-                    message: 'Done',
-                  }));
-            },
-          });
-        },
-        deleteDiffDraft() { return Promise.resolve({ok: true}); },
       });
-      element = fixture('withComment');
-      element.comments = [{
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        id: 'baf0414d_60047215',
-        line: 5,
-        message: 'is this a crossover episode!?',
-        updated: '2015-12-08 19:48:33.843000000',
-        path: '/path/to/file.txt',
-      }];
-      flushAsynchronousOperations();
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
     });
 
     teardown(() => {
       sandbox.restore();
     });
 
-    test('reply', () => {
-      const commentEl = element.$$('gr-comment');
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
-      assert.ok(commentEl);
-
-      const replyBtn = element.$.replyBtn;
-      MockInteractions.tap(replyBtn);
-      flushAsynchronousOperations();
-
-      const drafts = element._orderedComments.filter(c => c.__draft == true);
-      assert.equal(drafts.length, 1);
-      assert.notOk(drafts[0].message, 'message should be empty');
-      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-      assert.isTrue(reportStub.calledOnce);
-    });
-
-    test('quote reply', () => {
-      const commentEl = element.$$('gr-comment');
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
-      assert.ok(commentEl);
-
-      const quoteBtn = element.$.quoteBtn;
-      MockInteractions.tap(quoteBtn);
-      flushAsynchronousOperations();
-
-      const drafts = element._orderedComments.filter(c => c.__draft == true);
-      assert.equal(drafts.length, 1);
-      assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
-      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-      assert.isTrue(reportStub.calledOnce);
-    });
-
-    test('quote reply multiline', () => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
-      element.comments = [{
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
+    test('comments are sorted correctly', () => {
+      const comments = [
+        {
+          message: 'i like you, too',
+          in_reply_to: 'sallys_confession',
+          __date: new Date('2015-12-25'),
+        }, {
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:20.396000000',
+        }, {
+          id: 'sally_to_dr_finklestein',
+          message: 'i’m running away',
+          updated: '2015-10-31 09:00:20.396000000',
+        }, {
+          id: 'sallys_defiance',
+          in_reply_to: 'sally_to_dr_finklestein',
+          message: 'i will poison you so i can get away',
+          updated: '2015-10-31 15:00:20.396000000',
+        }, {
+          id: 'dr_finklesteins_response',
+          in_reply_to: 'sally_to_dr_finklestein',
+          message: 'no i will pull a thread and your arm will fall off',
+          updated: '2015-10-31 11:00:20.396000000',
+        }, {
+          id: 'sallys_mission',
+          message: 'i have to find santa',
+          updated: '2015-12-24 15:00:20.396000000',
         },
-        id: 'baf0414d_60047215',
-        line: 5,
-        message: 'is this a crossover episode!?\nIt might be!',
-        updated: '2015-12-08 19:48:33.843000000',
-      }];
-      flushAsynchronousOperations();
-
-      const commentEl = element.$$('gr-comment');
-      assert.ok(commentEl);
-
-      const quoteBtn = element.$.quoteBtn;
-      MockInteractions.tap(quoteBtn);
-      flushAsynchronousOperations();
-
-      const drafts = element._orderedComments.filter(c => c.__draft == true);
-      assert.equal(drafts.length, 1);
-      assert.equal(drafts[0].message,
-          '> is this a crossover episode!?\n> It might be!\n\n');
-      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-      assert.isTrue(reportStub.calledOnce);
-    });
-
-    test('ack', done => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
-      element.changeNum = '42';
-      element.patchNum = '1';
-
-      const commentEl = element.$$('gr-comment');
-      assert.ok(commentEl);
-
-      const ackBtn = element.$.ackBtn;
-      MockInteractions.tap(ackBtn);
-      flush(() => {
-        const drafts = element.comments.filter(c => c.__draft == true);
-        assert.equal(drafts.length, 1);
-        assert.equal(drafts[0].message, 'Ack');
-        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-        assert.equal(drafts[0].unresolved, false);
-        assert.isTrue(reportStub.calledOnce);
-        done();
-      });
-    });
-
-    test('done', done => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
-      element.changeNum = '42';
-      element.patchNum = '1';
-      const commentEl = element.$$('gr-comment');
-      assert.ok(commentEl);
-
-      const doneBtn = element.$.doneBtn;
-      MockInteractions.tap(doneBtn);
-      flush(() => {
-        const drafts = element.comments.filter(c => c.__draft == true);
-        assert.equal(drafts.length, 1);
-        assert.equal(drafts[0].message, 'Done');
-        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-        assert.isFalse(drafts[0].unresolved);
-        assert.isTrue(reportStub.calledOnce);
-        done();
-      });
-    });
-
-    test('save', done => {
-      element.changeNum = '42';
-      element.patchNum = '1';
-      element.path = '/path/to/file.txt';
-      const commentEl = element.$$('gr-comment');
-      assert.ok(commentEl);
-
-      const saveOrDiscardStub = sandbox.stub();
-      element.addEventListener('thread-changed', saveOrDiscardStub);
-      element.$$('gr-comment')._fireSave();
-
-      flush(() => {
-        assert.isTrue(saveOrDiscardStub.called);
-        assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
-            'baf0414d_60047215');
-        assert.equal(element.rootId, 'baf0414d_60047215');
-        assert.equal(saveOrDiscardStub.lastCall.args[0].detail.path,
-            '/path/to/file.txt');
-        done();
-      });
-    });
-
-    test('please fix', done => {
-      element.changeNum = '42';
-      element.patchNum = '1';
-      const commentEl = element.$$('gr-comment');
-      assert.ok(commentEl);
-      commentEl.addEventListener('create-fix-comment', () => {
-        const drafts = element._orderedComments.filter(c => c.__draft == true);
-        assert.equal(drafts.length, 1);
-        assert.equal(
-            drafts[0].message, '> is this a crossover episode!?\n\nPlease fix.');
-        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-        assert.isTrue(drafts[0].unresolved);
-        done();
-      });
-      commentEl.fire('create-fix-comment', {comment: commentEl.comment},
-          {bubbles: false});
-    });
-
-    test('discard', done => {
-      element.changeNum = '42';
-      element.patchNum = '1';
-      element.path = '/path/to/file.txt';
-      element.push('comments', element._newReply(
-          element.comments[0].id,
-          element.comments[0].line,
-          element.comments[0].path,
-          'it’s pronouced jiff, not giff'));
-      flushAsynchronousOperations();
-
-      const saveOrDiscardStub = sandbox.stub();
-      element.addEventListener('thread-changed', saveOrDiscardStub);
-      const draftEl =
-          Polymer.dom(element.root).querySelectorAll('gr-comment')[1];
-      assert.ok(draftEl);
-      draftEl.addEventListener('comment-discard', () => {
-        const drafts = element.comments.filter(c => c.__draft == true);
-        assert.equal(drafts.length, 0);
-        assert.isTrue(saveOrDiscardStub.called);
-        assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
-            element.rootId);
-        assert.equal(saveOrDiscardStub.lastCall.args[0].detail.path,
-            element.path);
-        done();
-      });
-      draftEl.fire('comment-discard', {comment: draftEl.comment},
-          {bubbles: false});
-    });
-
-    test('discard with a single comment still fires event with previous rootId',
-        done => {
-          element.changeNum = '42';
-          element.patchNum = '1';
-          element.path = '/path/to/file.txt';
-          element.comments = [];
-          element.addOrEditDraft('1');
-          flushAsynchronousOperations();
-          const rootId = element.rootId;
-          assert.isOk(rootId);
-
-          const saveOrDiscardStub = sandbox.stub();
-          element.addEventListener('thread-changed', saveOrDiscardStub);
-          const draftEl =
-          Polymer.dom(element.root).querySelectorAll('gr-comment')[0];
-          assert.ok(draftEl);
-          draftEl.addEventListener('comment-discard', () => {
-            assert.equal(element.comments.length, 0);
-            assert.isTrue(saveOrDiscardStub.called);
-            assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
-                rootId);
-            assert.equal(saveOrDiscardStub.lastCall.args[0].detail.path,
-                element.path);
-            done();
-          });
-          draftEl.fire('comment-discard', {comment: draftEl.comment},
-              {bubbles: false});
-        });
-
-    test('first editing comment does not add __otherEditing attribute', () => {
-      element.comments = [{
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
+      ];
+      const results = element._sortedComments(comments);
+      assert.deepEqual(results, [
+        {
+          id: 'sally_to_dr_finklestein',
+          message: 'i’m running away',
+          updated: '2015-10-31 09:00:20.396000000',
+        }, {
+          id: 'dr_finklesteins_response',
+          in_reply_to: 'sally_to_dr_finklestein',
+          message: 'no i will pull a thread and your arm will fall off',
+          updated: '2015-10-31 11:00:20.396000000',
+        }, {
+          id: 'sallys_defiance',
+          in_reply_to: 'sally_to_dr_finklestein',
+          message: 'i will poison you so i can get away',
+          updated: '2015-10-31 15:00:20.396000000',
+        }, {
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:20.396000000',
+        }, {
+          id: 'sallys_mission',
+          message: 'i have to find santa',
+          updated: '2015-12-24 15:00:20.396000000',
+        }, {
+          message: 'i like you, too',
+          in_reply_to: 'sallys_confession',
+          __date: new Date('2015-12-25'),
         },
-        id: 'baf0414d_60047215',
-        line: 5,
-        message: 'is this a crossover episode!?',
-        updated: '2015-12-08 19:48:33.843000000',
+      ]);
+    });
+
+    test('addOrEditDraft w/ edit draft', () => {
+      element.comments = [{
+        id: 'jacks_reply',
+        message: 'i like you, too',
+        in_reply_to: 'sallys_confession',
+        updated: '2015-12-25 15:00:20.396000000',
         __draft: true,
       }];
+      const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+          () => { return {}; });
+      const addDraftStub = sandbox.stub(element, 'addDraft');
 
-      const replyBtn = element.$.replyBtn;
-      MockInteractions.tap(replyBtn);
-      flushAsynchronousOperations();
+      element.addOrEditDraft(123);
 
-      const editing = element._orderedComments.filter(c => c.__editing == true);
-      assert.equal(editing.length, 1);
-      assert.equal(!!editing[0].__otherEditing, false);
+      assert.isTrue(commentElStub.called);
+      assert.isFalse(addDraftStub.called);
     });
 
-    test('When not editing other comments, local storage not set' +
-        ' after discard', done => {
-      element.changeNum = '42';
-      element.patchNum = '1';
-      element.comments = [{
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        id: 'baf0414d_60047215',
-        line: 5,
-        message: 'is this a crossover episode!?',
-        updated: '2015-12-08 19:48:31.843000000',
-      },
-      {
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        __draftID: '1',
-        in_reply_to: 'baf0414d_60047215',
-        line: 5,
-        message: 'yes',
-        updated: '2015-12-08 19:48:32.843000000',
-        __draft: true,
-        __editing: true,
-      },
-      {
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        __draftID: '2',
-        in_reply_to: 'baf0414d_60047215',
-        line: 5,
-        message: 'no',
-        updated: '2015-12-08 19:48:33.843000000',
-        __draft: true,
-      }];
-      const storageStub = sinon.stub(element.$.storage, 'setDraftComment');
-      flushAsynchronousOperations();
+    test('addOrEditDraft w/o edit draft', () => {
+      element.comments = [];
+      const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+          () => { return {}; });
+      const addDraftStub = sandbox.stub(element, 'addDraft');
 
-      const draftEl =
-      Polymer.dom(element.root).querySelectorAll('gr-comment')[1];
-      assert.ok(draftEl);
-      draftEl.addEventListener('comment-discard', () => {
-        assert.isFalse(storageStub.called);
-        storageStub.restore();
+      element.addOrEditDraft(123);
+
+      assert.isFalse(commentElStub.called);
+      assert.isTrue(addDraftStub.called);
+    });
+
+    test('_shouldDisableAction', () => {
+      let showActions = true;
+      const lastComment = {};
+      assert.equal(
+          element._shouldDisableAction(showActions, lastComment), false);
+      showActions = false;
+      assert.equal(
+          element._shouldDisableAction(showActions, lastComment), true);
+      showActions = true;
+      lastComment.__draft = true;
+      assert.equal(
+          element._shouldDisableAction(showActions, lastComment), true);
+      const robotComment = {};
+      robotComment.robot_id = true;
+      assert.equal(
+          element._shouldDisableAction(showActions, robotComment), false);
+    });
+
+    test('_hideActions', () => {
+      let showActions = true;
+      const lastComment = {};
+      assert.equal(element._hideActions(showActions, lastComment), false);
+      showActions = false;
+      assert.equal(element._hideActions(showActions, lastComment), true);
+      showActions = true;
+      lastComment.__draft = true;
+      assert.equal(element._hideActions(showActions, lastComment), true);
+      const robotComment = {};
+      robotComment.robot_id = true;
+      assert.equal(element._hideActions(showActions, robotComment), true);
+    });
+
+    test('setting project name loads the project config', done => {
+      const projectName = 'foo/bar/baz';
+      const getProjectStub = sandbox.stub(element.$.restAPI, 'getProjectConfig')
+          .returns(Promise.resolve({}));
+      element.projectName = projectName;
+      flush(() => {
+        assert.isTrue(getProjectStub.calledWithExactly(projectName));
         done();
       });
-      draftEl.fire('comment-discard', {comment: draftEl.comment},
-          {bubbles: false});
     });
 
-    test('comment-update', () => {
-      const commentEl = element.$$('gr-comment');
-      const updatedComment = {
-        id: element.comments[0].id,
-        foo: 'bar',
-      };
-      commentEl.fire('comment-update', {comment: updatedComment});
-      assert.strictEqual(element.comments[0], updatedComment);
-    });
+    test('optionally show file path', () => {
+      // Path info doesn't exist when showFilePath is false. Because it's in a
+      // dom-if it is not yet in the dom.
+      assert.isNotOk(element.$$('.pathInfo'));
 
-    suite('jack and sally comment data test consolidation', () => {
-      setup(() => {
-        element.comments = [
-          {
-            id: 'jacks_reply',
-            message: 'i like you, too',
-            in_reply_to: 'sallys_confession',
-            updated: '2015-12-25 15:00:20.396000000',
-            unresolved: false,
-          }, {
-            id: 'sallys_confession',
-            in_reply_to: 'nonexistent_comment',
-            message: 'i like you, jack',
-            updated: '2015-12-24 15:00:20.396000000',
-          }, {
-            id: 'sally_to_dr_finklestein',
-            in_reply_to: 'nonexistent_comment',
-            message: 'i’m running away',
-            updated: '2015-10-31 09:00:20.396000000',
-          }, {
-            id: 'sallys_defiance',
-            message: 'i will poison you so i can get away',
-            updated: '2015-10-31 15:00:20.396000000',
-          }];
-      });
-
-      test('orphan replies', () => {
-        assert.equal(4, element._orderedComments.length);
-      });
-
-      test('keyboard shortcuts', () => {
-        const expandCollapseStub =
-            sinon.stub(element, '_expandCollapseComments');
-        MockInteractions.pressAndReleaseKeyOn(element, 69, null, 'e');
-        assert.isTrue(expandCollapseStub.lastCall.calledWith(false));
-
-        MockInteractions.pressAndReleaseKeyOn(element, 69, 'shift', 'e');
-        assert.isTrue(expandCollapseStub.lastCall.calledWith(true));
-      });
-
-      test('comment in_reply_to is either null or most recent comment', () => {
-        element._createReplyComment(element.comments[3], 'dummy', true);
-        flushAsynchronousOperations();
-        assert.equal(element._orderedComments.length, 5);
-        assert.equal(element._orderedComments[4].in_reply_to, 'jacks_reply');
-      });
-
-      test('resolvable comments', () => {
-        assert.isFalse(element.unresolved);
-        element._createReplyComment(element.comments[3], 'dummy', true, true);
-        flushAsynchronousOperations();
-        assert.isTrue(element.unresolved);
-      });
-
-      test('_setInitialExpandedState', () => {
-        element.unresolved = true;
-        element._setInitialExpandedState();
-        for (let i = 0; i < element.comments.length; i++) {
-          assert.isFalse(element.comments[i].collapsed);
-        }
-        element.unresolved = false;
-        element._setInitialExpandedState();
-        for (let i = 0; i < element.comments.length; i++) {
-          assert.isTrue(element.comments[i].collapsed);
-        }
-        for (let i = 0; i < element.comments.length; i++) {
-          element.comments[i].robot_id = 123;
-        }
-        element._setInitialExpandedState();
-        for (let i = 0; i < element.comments.length; i++) {
-          assert.isFalse(element.comments[i].collapsed);
-        }
-      });
-    });
-
-    test('_computeHostClass', () => {
-      assert.equal(element._computeHostClass(true), 'unresolved');
-      assert.equal(element._computeHostClass(false), '');
-    });
-
-    test('addDraft sets unresolved state correctly', () => {
-      let unresolved = true;
-      element.comments = [];
-      element.addDraft(null, null, unresolved);
-      assert.equal(element.comments[0].unresolved, true);
-
-      unresolved = false; // comment should get added as actually resolved.
-      element.comments = [];
-      element.addDraft(null, null, unresolved);
-      assert.equal(element.comments[0].unresolved, false);
-
-      element.comments = [];
-      element.addDraft();
-      assert.equal(element.comments[0].unresolved, true);
-    });
-
-    test('_newDraft', () => {
-      element.commentSide = 'left';
+      sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
+      element.changeNum = 123;
+      element.projectName = 'test project';
+      element.path = 'path/to/file';
       element.patchNum = 3;
-      const draft = element._newDraft();
-      assert.equal(draft.__commentSide, 'left');
-      assert.equal(draft.patchNum, 3);
+      element.lineNum = 5;
+      element.showFilePath = true;
+      flushAsynchronousOperations();
+      assert.isOk(element.$$('.pathInfo'));
+      assert.notEqual(getComputedStyle(element.$$('.pathInfo')).display,
+          'none');
+      assert.isTrue(Gerrit.Nav.getUrlForDiffById.lastCall.calledWithExactly(
+          element.changeNum, element.projectName, element.path,
+          element.patchNum, null, element.lineNum));
     });
 
-    test('new comment gets created', () => {
-      element.comments = [];
-      element.addOrEditDraft(1);
-      assert.equal(element.comments.length, 1);
-      // Mock a submitted comment.
-      element.comments[0].id = element.comments[0].__draftID;
-      element.comments[0].__draft = false;
-      element.addOrEditDraft(1);
-      assert.equal(element.comments.length, 2);
-    });
+    test('_computeDisplayPath', () => {
+      const path = 'path/to/file';
+      assert.equal(element._computeDisplayPath(path), 'path/to/file');
 
-    test('unresolved label', () => {
-      element.unresolved = false;
-      assert.isTrue(element.$.unresolvedLabel.hasAttribute('hidden'));
-      element.unresolved = true;
-      assert.isFalse(element.$.unresolvedLabel.hasAttribute('hidden'));
-    });
-
-    test('draft comments are at the end of orderedComments', () => {
-      element.comments = [{
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        id: 2,
-        line: 5,
-        message: 'Earlier draft',
-        updated: '2015-12-08 19:48:33.843000000',
-        __draft: true,
-      },
-      {
-        author: {
-          name: 'Mr. Peanutbutter2',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        id: 1,
-        line: 5,
-        message: 'This comment was left last but is not a draft',
-        updated: '2015-12-10 19:48:33.843000000',
-      },
-      {
-        author: {
-          name: 'Mr. Peanutbutter2',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        id: 3,
-        line: 5,
-        message: 'Later draft',
-        updated: '2015-12-09 19:48:33.843000000',
-        __draft: true,
-      }];
-      assert.equal(element._orderedComments[0].id, '1');
-      assert.equal(element._orderedComments[1].id, '2');
-      assert.equal(element._orderedComments[2].id, '3');
-    });
-
-    test('reflects lineNum and commentSide to attributes', () => {
-      element.lineNum = 7;
-      element.commentSide = 'left';
-
-      assert.equal(element.getAttribute('line-num'), '7');
-      assert.equal(element.getAttribute('comment-side'), 'left');
-    });
-
-    test('reflects range to JSON serialized attribute if set', () => {
-      element.range = {
-        start_line: 4,
-        end_line: 5,
-        start_character: 6,
-        end_character: 7,
-      };
-
-      assert.deepEqual(
-          JSON.parse(element.getAttribute('range')),
-          {start_line: 4, end_line: 5, start_character: 6, end_character: 7});
-    });
-
-    test('removes range attribute if range is unset', () => {
-      element.range = {
-        start_line: 4,
-        end_line: 5,
-        start_character: 6,
-        end_character: 7,
-      };
-      element.range = undefined;
-
-      assert.notOk(element.hasAttribute('range'));
+      element.lineNum = 5;
+      assert.equal(element._computeDisplayPath(path), 'path/to/file#5');
     });
   });
+});
+
+suite('comment action tests', () => {
+  let element;
+  let sandbox;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(false); },
+      saveDiffDraft() {
+        return Promise.resolve({
+          ok: true,
+          text() {
+            return Promise.resolve(')]}\'\n' +
+                JSON.stringify({
+                  id: '7afa4931_de3d65bd',
+                  path: '/path/to/file.txt',
+                  line: 5,
+                  in_reply_to: 'baf0414d_60047215',
+                  updated: '2015-12-21 02:01:10.850000000',
+                  message: 'Done',
+                }));
+          },
+        });
+      },
+      deleteDiffDraft() { return Promise.resolve({ok: true}); },
+    });
+    element = fixture('withComment');
+    element.comments = [{
+      author: {
+        name: 'Mr. Peanutbutter',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      id: 'baf0414d_60047215',
+      line: 5,
+      message: 'is this a crossover episode!?',
+      updated: '2015-12-08 19:48:33.843000000',
+      path: '/path/to/file.txt',
+    }];
+    flushAsynchronousOperations();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('reply', () => {
+    const commentEl = element.$$('gr-comment');
+    const reportStub = sandbox.stub(element.$.reporting,
+        'recordDraftInteraction');
+    assert.ok(commentEl);
+
+    const replyBtn = element.$.replyBtn;
+    MockInteractions.tap(replyBtn);
+    flushAsynchronousOperations();
+
+    const drafts = element._orderedComments.filter(c => c.__draft == true);
+    assert.equal(drafts.length, 1);
+    assert.notOk(drafts[0].message, 'message should be empty');
+    assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+    assert.isTrue(reportStub.calledOnce);
+  });
+
+  test('quote reply', () => {
+    const commentEl = element.$$('gr-comment');
+    const reportStub = sandbox.stub(element.$.reporting,
+        'recordDraftInteraction');
+    assert.ok(commentEl);
+
+    const quoteBtn = element.$.quoteBtn;
+    MockInteractions.tap(quoteBtn);
+    flushAsynchronousOperations();
+
+    const drafts = element._orderedComments.filter(c => c.__draft == true);
+    assert.equal(drafts.length, 1);
+    assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
+    assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+    assert.isTrue(reportStub.calledOnce);
+  });
+
+  test('quote reply multiline', () => {
+    const reportStub = sandbox.stub(element.$.reporting,
+        'recordDraftInteraction');
+    element.comments = [{
+      author: {
+        name: 'Mr. Peanutbutter',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      id: 'baf0414d_60047215',
+      line: 5,
+      message: 'is this a crossover episode!?\nIt might be!',
+      updated: '2015-12-08 19:48:33.843000000',
+    }];
+    flushAsynchronousOperations();
+
+    const commentEl = element.$$('gr-comment');
+    assert.ok(commentEl);
+
+    const quoteBtn = element.$.quoteBtn;
+    MockInteractions.tap(quoteBtn);
+    flushAsynchronousOperations();
+
+    const drafts = element._orderedComments.filter(c => c.__draft == true);
+    assert.equal(drafts.length, 1);
+    assert.equal(drafts[0].message,
+        '> is this a crossover episode!?\n> It might be!\n\n');
+    assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+    assert.isTrue(reportStub.calledOnce);
+  });
+
+  test('ack', done => {
+    const reportStub = sandbox.stub(element.$.reporting,
+        'recordDraftInteraction');
+    element.changeNum = '42';
+    element.patchNum = '1';
+
+    const commentEl = element.$$('gr-comment');
+    assert.ok(commentEl);
+
+    const ackBtn = element.$.ackBtn;
+    MockInteractions.tap(ackBtn);
+    flush(() => {
+      const drafts = element.comments.filter(c => c.__draft == true);
+      assert.equal(drafts.length, 1);
+      assert.equal(drafts[0].message, 'Ack');
+      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+      assert.equal(drafts[0].unresolved, false);
+      assert.isTrue(reportStub.calledOnce);
+      done();
+    });
+  });
+
+  test('done', done => {
+    const reportStub = sandbox.stub(element.$.reporting,
+        'recordDraftInteraction');
+    element.changeNum = '42';
+    element.patchNum = '1';
+    const commentEl = element.$$('gr-comment');
+    assert.ok(commentEl);
+
+    const doneBtn = element.$.doneBtn;
+    MockInteractions.tap(doneBtn);
+    flush(() => {
+      const drafts = element.comments.filter(c => c.__draft == true);
+      assert.equal(drafts.length, 1);
+      assert.equal(drafts[0].message, 'Done');
+      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+      assert.isFalse(drafts[0].unresolved);
+      assert.isTrue(reportStub.calledOnce);
+      done();
+    });
+  });
+
+  test('save', done => {
+    element.changeNum = '42';
+    element.patchNum = '1';
+    element.path = '/path/to/file.txt';
+    const commentEl = element.$$('gr-comment');
+    assert.ok(commentEl);
+
+    const saveOrDiscardStub = sandbox.stub();
+    element.addEventListener('thread-changed', saveOrDiscardStub);
+    element.$$('gr-comment')._fireSave();
+
+    flush(() => {
+      assert.isTrue(saveOrDiscardStub.called);
+      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
+          'baf0414d_60047215');
+      assert.equal(element.rootId, 'baf0414d_60047215');
+      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.path,
+          '/path/to/file.txt');
+      done();
+    });
+  });
+
+  test('please fix', done => {
+    element.changeNum = '42';
+    element.patchNum = '1';
+    const commentEl = element.$$('gr-comment');
+    assert.ok(commentEl);
+    commentEl.addEventListener('create-fix-comment', () => {
+      const drafts = element._orderedComments.filter(c => c.__draft == true);
+      assert.equal(drafts.length, 1);
+      assert.equal(
+          drafts[0].message, '> is this a crossover episode!?\n\nPlease fix.');
+      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+      assert.isTrue(drafts[0].unresolved);
+      done();
+    });
+    commentEl.fire('create-fix-comment', {comment: commentEl.comment},
+        {bubbles: false});
+  });
+
+  test('discard', done => {
+    element.changeNum = '42';
+    element.patchNum = '1';
+    element.path = '/path/to/file.txt';
+    element.push('comments', element._newReply(
+        element.comments[0].id,
+        element.comments[0].line,
+        element.comments[0].path,
+        'it’s pronouced jiff, not giff'));
+    flushAsynchronousOperations();
+
+    const saveOrDiscardStub = sandbox.stub();
+    element.addEventListener('thread-changed', saveOrDiscardStub);
+    const draftEl =
+        dom(element.root).querySelectorAll('gr-comment')[1];
+    assert.ok(draftEl);
+    draftEl.addEventListener('comment-discard', () => {
+      const drafts = element.comments.filter(c => c.__draft == true);
+      assert.equal(drafts.length, 0);
+      assert.isTrue(saveOrDiscardStub.called);
+      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
+          element.rootId);
+      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.path,
+          element.path);
+      done();
+    });
+    draftEl.fire('comment-discard', {comment: draftEl.comment},
+        {bubbles: false});
+  });
+
+  test('discard with a single comment still fires event with previous rootId',
+      done => {
+        element.changeNum = '42';
+        element.patchNum = '1';
+        element.path = '/path/to/file.txt';
+        element.comments = [];
+        element.addOrEditDraft('1');
+        flushAsynchronousOperations();
+        const rootId = element.rootId;
+        assert.isOk(rootId);
+
+        const saveOrDiscardStub = sandbox.stub();
+        element.addEventListener('thread-changed', saveOrDiscardStub);
+        const draftEl =
+        dom(element.root).querySelectorAll('gr-comment')[0];
+        assert.ok(draftEl);
+        draftEl.addEventListener('comment-discard', () => {
+          assert.equal(element.comments.length, 0);
+          assert.isTrue(saveOrDiscardStub.called);
+          assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
+              rootId);
+          assert.equal(saveOrDiscardStub.lastCall.args[0].detail.path,
+              element.path);
+          done();
+        });
+        draftEl.fire('comment-discard', {comment: draftEl.comment},
+            {bubbles: false});
+      });
+
+  test('first editing comment does not add __otherEditing attribute', () => {
+    element.comments = [{
+      author: {
+        name: 'Mr. Peanutbutter',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      id: 'baf0414d_60047215',
+      line: 5,
+      message: 'is this a crossover episode!?',
+      updated: '2015-12-08 19:48:33.843000000',
+      __draft: true,
+    }];
+
+    const replyBtn = element.$.replyBtn;
+    MockInteractions.tap(replyBtn);
+    flushAsynchronousOperations();
+
+    const editing = element._orderedComments.filter(c => c.__editing == true);
+    assert.equal(editing.length, 1);
+    assert.equal(!!editing[0].__otherEditing, false);
+  });
+
+  test('When not editing other comments, local storage not set' +
+      ' after discard', done => {
+    element.changeNum = '42';
+    element.patchNum = '1';
+    element.comments = [{
+      author: {
+        name: 'Mr. Peanutbutter',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      id: 'baf0414d_60047215',
+      line: 5,
+      message: 'is this a crossover episode!?',
+      updated: '2015-12-08 19:48:31.843000000',
+    },
+    {
+      author: {
+        name: 'Mr. Peanutbutter',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      __draftID: '1',
+      in_reply_to: 'baf0414d_60047215',
+      line: 5,
+      message: 'yes',
+      updated: '2015-12-08 19:48:32.843000000',
+      __draft: true,
+      __editing: true,
+    },
+    {
+      author: {
+        name: 'Mr. Peanutbutter',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      __draftID: '2',
+      in_reply_to: 'baf0414d_60047215',
+      line: 5,
+      message: 'no',
+      updated: '2015-12-08 19:48:33.843000000',
+      __draft: true,
+    }];
+    const storageStub = sinon.stub(element.$.storage, 'setDraftComment');
+    flushAsynchronousOperations();
+
+    const draftEl =
+    dom(element.root).querySelectorAll('gr-comment')[1];
+    assert.ok(draftEl);
+    draftEl.addEventListener('comment-discard', () => {
+      assert.isFalse(storageStub.called);
+      storageStub.restore();
+      done();
+    });
+    draftEl.fire('comment-discard', {comment: draftEl.comment},
+        {bubbles: false});
+  });
+
+  test('comment-update', () => {
+    const commentEl = element.$$('gr-comment');
+    const updatedComment = {
+      id: element.comments[0].id,
+      foo: 'bar',
+    };
+    commentEl.fire('comment-update', {comment: updatedComment});
+    assert.strictEqual(element.comments[0], updatedComment);
+  });
+
+  suite('jack and sally comment data test consolidation', () => {
+    setup(() => {
+      element.comments = [
+        {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          in_reply_to: 'sallys_confession',
+          updated: '2015-12-25 15:00:20.396000000',
+          unresolved: false,
+        }, {
+          id: 'sallys_confession',
+          in_reply_to: 'nonexistent_comment',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:20.396000000',
+        }, {
+          id: 'sally_to_dr_finklestein',
+          in_reply_to: 'nonexistent_comment',
+          message: 'i’m running away',
+          updated: '2015-10-31 09:00:20.396000000',
+        }, {
+          id: 'sallys_defiance',
+          message: 'i will poison you so i can get away',
+          updated: '2015-10-31 15:00:20.396000000',
+        }];
+    });
+
+    test('orphan replies', () => {
+      assert.equal(4, element._orderedComments.length);
+    });
+
+    test('keyboard shortcuts', () => {
+      const expandCollapseStub =
+          sinon.stub(element, '_expandCollapseComments');
+      MockInteractions.pressAndReleaseKeyOn(element, 69, null, 'e');
+      assert.isTrue(expandCollapseStub.lastCall.calledWith(false));
+
+      MockInteractions.pressAndReleaseKeyOn(element, 69, 'shift', 'e');
+      assert.isTrue(expandCollapseStub.lastCall.calledWith(true));
+    });
+
+    test('comment in_reply_to is either null or most recent comment', () => {
+      element._createReplyComment(element.comments[3], 'dummy', true);
+      flushAsynchronousOperations();
+      assert.equal(element._orderedComments.length, 5);
+      assert.equal(element._orderedComments[4].in_reply_to, 'jacks_reply');
+    });
+
+    test('resolvable comments', () => {
+      assert.isFalse(element.unresolved);
+      element._createReplyComment(element.comments[3], 'dummy', true, true);
+      flushAsynchronousOperations();
+      assert.isTrue(element.unresolved);
+    });
+
+    test('_setInitialExpandedState', () => {
+      element.unresolved = true;
+      element._setInitialExpandedState();
+      for (let i = 0; i < element.comments.length; i++) {
+        assert.isFalse(element.comments[i].collapsed);
+      }
+      element.unresolved = false;
+      element._setInitialExpandedState();
+      for (let i = 0; i < element.comments.length; i++) {
+        assert.isTrue(element.comments[i].collapsed);
+      }
+      for (let i = 0; i < element.comments.length; i++) {
+        element.comments[i].robot_id = 123;
+      }
+      element._setInitialExpandedState();
+      for (let i = 0; i < element.comments.length; i++) {
+        assert.isFalse(element.comments[i].collapsed);
+      }
+    });
+  });
+
+  test('_computeHostClass', () => {
+    assert.equal(element._computeHostClass(true), 'unresolved');
+    assert.equal(element._computeHostClass(false), '');
+  });
+
+  test('addDraft sets unresolved state correctly', () => {
+    let unresolved = true;
+    element.comments = [];
+    element.addDraft(null, null, unresolved);
+    assert.equal(element.comments[0].unresolved, true);
+
+    unresolved = false; // comment should get added as actually resolved.
+    element.comments = [];
+    element.addDraft(null, null, unresolved);
+    assert.equal(element.comments[0].unresolved, false);
+
+    element.comments = [];
+    element.addDraft();
+    assert.equal(element.comments[0].unresolved, true);
+  });
+
+  test('_newDraft', () => {
+    element.commentSide = 'left';
+    element.patchNum = 3;
+    const draft = element._newDraft();
+    assert.equal(draft.__commentSide, 'left');
+    assert.equal(draft.patchNum, 3);
+  });
+
+  test('new comment gets created', () => {
+    element.comments = [];
+    element.addOrEditDraft(1);
+    assert.equal(element.comments.length, 1);
+    // Mock a submitted comment.
+    element.comments[0].id = element.comments[0].__draftID;
+    element.comments[0].__draft = false;
+    element.addOrEditDraft(1);
+    assert.equal(element.comments.length, 2);
+  });
+
+  test('unresolved label', () => {
+    element.unresolved = false;
+    assert.isTrue(element.$.unresolvedLabel.hasAttribute('hidden'));
+    element.unresolved = true;
+    assert.isFalse(element.$.unresolvedLabel.hasAttribute('hidden'));
+  });
+
+  test('draft comments are at the end of orderedComments', () => {
+    element.comments = [{
+      author: {
+        name: 'Mr. Peanutbutter',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      id: 2,
+      line: 5,
+      message: 'Earlier draft',
+      updated: '2015-12-08 19:48:33.843000000',
+      __draft: true,
+    },
+    {
+      author: {
+        name: 'Mr. Peanutbutter2',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      id: 1,
+      line: 5,
+      message: 'This comment was left last but is not a draft',
+      updated: '2015-12-10 19:48:33.843000000',
+    },
+    {
+      author: {
+        name: 'Mr. Peanutbutter2',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      id: 3,
+      line: 5,
+      message: 'Later draft',
+      updated: '2015-12-09 19:48:33.843000000',
+      __draft: true,
+    }];
+    assert.equal(element._orderedComments[0].id, '1');
+    assert.equal(element._orderedComments[1].id, '2');
+    assert.equal(element._orderedComments[2].id, '3');
+  });
+
+  test('reflects lineNum and commentSide to attributes', () => {
+    element.lineNum = 7;
+    element.commentSide = 'left';
+
+    assert.equal(element.getAttribute('line-num'), '7');
+    assert.equal(element.getAttribute('comment-side'), 'left');
+  });
+
+  test('reflects range to JSON serialized attribute if set', () => {
+    element.range = {
+      start_line: 4,
+      end_line: 5,
+      start_character: 6,
+      end_character: 7,
+    };
+
+    assert.deepEqual(
+        JSON.parse(element.getAttribute('range')),
+        {start_line: 4, end_line: 5, start_character: 6, end_character: 7});
+  });
+
+  test('removes range attribute if range is unset', () => {
+    element.range = {
+      start_line: 4,
+      end_line: 5,
+      start_character: 6,
+      end_character: 7,
+    };
+    element.range = undefined;
+
+    assert.notOk(element.hasAttribute('range'));
+  });
+});
 </script>

@@ -1,4 +1,23 @@
-<!--
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<dom-module id="gr-ranged-comment-theme">
+  <template>
+    <style>
+      .range {
+        background-color: var(--diff-highlight-range-color);
+        display: inline;
+      }
+      .rangeHighlight {
+        background-color: var(--diff-highlight-range-hover-color);
+        display: inline;
+      }
+    </style>
+  </template>
+</dom-module>`;
+
+document.head.appendChild($_documentContainer.content);
+
+/**
 @license
 Copyright (C) 2019 The Android Open Source Project
 
@@ -13,18 +32,10 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-<dom-module id="gr-ranged-comment-theme">
-  <template>
-    <style>
-      .range {
-        background-color: var(--diff-highlight-range-color);
-        display: inline;
-      }
-      .rangeHighlight {
-        background-color: var(--diff-highlight-range-hover-color);
-        display: inline;
-      }
-    </style>
-  </template>
-</dom-module>
+*/
+/*
+  FIXME(polymer-modulizer): the above comments were extracted
+  from HTML and may be out of place here. Review them and
+  then delete this comment!
+*/
+;

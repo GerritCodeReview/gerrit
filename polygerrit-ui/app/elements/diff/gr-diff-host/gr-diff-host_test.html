@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<link rel="import" href="gr-diff-host.html">
+<script type="module" src="./gr-diff-host.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-diff-host.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,125 +41,50 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff-host tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let getLoggedIn;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-diff-host.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-diff-host tests', () => {
+  let element;
+  let sandbox;
+  let getLoggedIn;
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    getLoggedIn = false;
+    stub('gr-rest-api-interface', {
+      async getLoggedIn() { return getLoggedIn; },
+    });
+    stub('gr-reporting', {
+      time: sandbox.stub(),
+      timeEnd: sandbox.stub(),
+    });
+    element = fixture('basic');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('plugin layers', () => {
+    const pluginLayers = [{annotate: () => {}}, {annotate: () => {}}];
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      getLoggedIn = false;
-      stub('gr-rest-api-interface', {
-        async getLoggedIn() { return getLoggedIn; },
-      });
-      stub('gr-reporting', {
-        time: sandbox.stub(),
-        timeEnd: sandbox.stub(),
+      stub('gr-js-api-interface', {
+        getDiffLayers() { return pluginLayers; },
       });
       element = fixture('basic');
     });
-
-    teardown(() => {
-      sandbox.restore();
+    test('plugin layers requested', () => {
+      element.patchRange = {};
+      element.reload();
+      assert(element.$.jsAPI.getDiffLayers.called);
     });
+  });
 
-    suite('plugin layers', () => {
-      const pluginLayers = [{annotate: () => {}}, {annotate: () => {}}];
-      setup(() => {
-        stub('gr-js-api-interface', {
-          getDiffLayers() { return pluginLayers; },
-        });
-        element = fixture('basic');
-      });
-      test('plugin layers requested', () => {
-        element.patchRange = {};
-        element.reload();
-        assert(element.$.jsAPI.getDiffLayers.called);
-      });
-    });
-
-    suite('handle comment-update', () => {
-      setup(() => {
-        sandbox.stub(element, '_commentsChanged');
-        element.comments = {
-          meta: {
-            changeNum: '42',
-            patchRange: {
-              basePatchNum: 'PARENT',
-              patchNum: 3,
-            },
-            path: '/path/to/foo',
-            projectConfig: {foo: 'bar'},
-          },
-          left: [
-            {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-            {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
-            {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-            {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
-          ],
-          right: [
-            {id: 'c1', __commentSide: 'right'},
-            {id: 'c2', __commentSide: 'right'},
-            {id: 'd1', __draft: true, __commentSide: 'right'},
-            {id: 'd2', __draft: true, __commentSide: 'right'},
-          ],
-        };
-      });
-
-      test('creating a draft', () => {
-        const comment = {__draft: true, __draftID: 'tempID', side: 'PARENT',
-          __commentSide: 'left'};
-        element.fire('comment-update', {comment});
-        assert.include(element.comments.left, comment);
-      });
-
-      test('discarding a draft', () => {
-        const draftID = 'tempID';
-        const id = 'savedID';
-        const comment = {
-          __draft: true,
-          __draftID: draftID,
-          side: 'PARENT',
-          __commentSide: 'left',
-        };
-        const diffCommentsModifiedStub = sandbox.stub();
-        element.addEventListener('diff-comments-modified',
-            diffCommentsModifiedStub);
-        element.comments.left.push(comment);
-        comment.id = id;
-        element.fire('comment-discard', {comment});
-        const drafts = element.comments.left
-            .filter(item => item.__draftID === draftID);
-        assert.equal(drafts.length, 0);
-        assert.isTrue(diffCommentsModifiedStub.called);
-      });
-
-      test('saving a draft', () => {
-        const draftID = 'tempID';
-        const id = 'savedID';
-        const comment = {
-          __draft: true,
-          __draftID: draftID,
-          side: 'PARENT',
-          __commentSide: 'left',
-        };
-        const diffCommentsModifiedStub = sandbox.stub();
-        element.addEventListener('diff-comments-modified',
-            diffCommentsModifiedStub);
-        element.comments.left.push(comment);
-        comment.id = id;
-        element.fire('comment-save', {comment});
-        const drafts = element.comments.left
-            .filter(item => item.__draftID === draftID);
-        assert.equal(drafts.length, 1);
-        assert.equal(drafts[0].id, id);
-        assert.isTrue(diffCommentsModifiedStub.called);
-      });
-    });
-
-    test('remove comment', () => {
+  suite('handle comment-update', () => {
+    setup(() => {
       sandbox.stub(element, '_commentsChanged');
       element.comments = {
         meta: {
@@ -179,1453 +109,1531 @@ limitations under the License.
           {id: 'd2', __draft: true, __commentSide: 'right'},
         ],
       };
-
-      element._removeComment({});
-      // Using JSON.stringify because Safari 9.1 (11601.5.17.1) doesn’t seem
-      // to believe that one object deepEquals another even when they do :-/.
-      assert.equal(JSON.stringify(element.comments), JSON.stringify({
-        meta: {
-          changeNum: '42',
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: 3,
-          },
-          path: '/path/to/foo',
-          projectConfig: {foo: 'bar'},
-        },
-        left: [
-          {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-          {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
-          {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-          {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
-        ],
-        right: [
-          {id: 'c1', __commentSide: 'right'},
-          {id: 'c2', __commentSide: 'right'},
-          {id: 'd1', __draft: true, __commentSide: 'right'},
-          {id: 'd2', __draft: true, __commentSide: 'right'},
-        ],
-      }));
-
-      element._removeComment({id: 'bc2', side: 'PARENT',
-        __commentSide: 'left'});
-      assert.deepEqual(element.comments, {
-        meta: {
-          changeNum: '42',
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: 3,
-          },
-          path: '/path/to/foo',
-          projectConfig: {foo: 'bar'},
-        },
-        left: [
-          {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-          {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-          {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
-        ],
-        right: [
-          {id: 'c1', __commentSide: 'right'},
-          {id: 'c2', __commentSide: 'right'},
-          {id: 'd1', __draft: true, __commentSide: 'right'},
-          {id: 'd2', __draft: true, __commentSide: 'right'},
-        ],
-      });
-
-      element._removeComment({id: 'd2', __commentSide: 'right'});
-      assert.deepEqual(element.comments, {
-        meta: {
-          changeNum: '42',
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: 3,
-          },
-          path: '/path/to/foo',
-          projectConfig: {foo: 'bar'},
-        },
-        left: [
-          {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-          {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-          {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
-        ],
-        right: [
-          {id: 'c1', __commentSide: 'right'},
-          {id: 'c2', __commentSide: 'right'},
-          {id: 'd1', __draft: true, __commentSide: 'right'},
-        ],
-      });
     });
 
-    test('thread-discard handling', () => {
-      const threads = [
-        {comments: [{id: 4711}]},
-        {comments: [{id: 42}]},
-      ];
-      element._parentIndex = 1;
-      element.changeNum = '2';
-      element.path = 'some/path';
-      element.projectName = 'Some project';
-      const threadEls = threads.map(
-          thread => {
-            const threadEl = element._createThreadElement(thread);
-            // Polymer 2 doesn't fire ready events and doesn't execute
-            // observers if element is not added to the Dom.
-            // See https://github.com/Polymer/old-docs-site/issues/2322
-            // and https://github.com/Polymer/polymer/issues/4526
-            element._attachThreadElement(threadEl);
-            return threadEl;
-          });
-      assert.equal(threadEls.length, 2);
-      assert.equal(threadEls[0].rootId, 4711);
-      assert.equal(threadEls[1].rootId, 42);
-      for (const threadEl of threadEls) {
-        Polymer.dom(element).appendChild(threadEl);
-      }
-
-      threadEls[0].dispatchEvent(
-          new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
-      const attachedThreads = element.queryAllEffectiveChildren(
-          'gr-comment-thread');
-      assert.equal(attachedThreads.length, 1);
-      assert.equal(attachedThreads[0].rootId, 42);
+    test('creating a draft', () => {
+      const comment = {__draft: true, __draftID: 'tempID', side: 'PARENT',
+        __commentSide: 'left'};
+      element.fire('comment-update', {comment});
+      assert.include(element.comments.left, comment);
     });
 
-    suite('render reporting', () => {
-      test('starts total and content timer on render-start', done => {
-        element.dispatchEvent(
-            new CustomEvent('render-start', {bubbles: true, composed: true}));
-        assert.isTrue(element.$.reporting.time.calledWithExactly(
-            'Diff Total Render'));
-        assert.isTrue(element.$.reporting.time.calledWithExactly(
-            'Diff Content Render'));
-        done();
-      });
+    test('discarding a draft', () => {
+      const draftID = 'tempID';
+      const id = 'savedID';
+      const comment = {
+        __draft: true,
+        __draftID: draftID,
+        side: 'PARENT',
+        __commentSide: 'left',
+      };
+      const diffCommentsModifiedStub = sandbox.stub();
+      element.addEventListener('diff-comments-modified',
+          diffCommentsModifiedStub);
+      element.comments.left.push(comment);
+      comment.id = id;
+      element.fire('comment-discard', {comment});
+      const drafts = element.comments.left
+          .filter(item => item.__draftID === draftID);
+      assert.equal(drafts.length, 0);
+      assert.isTrue(diffCommentsModifiedStub.called);
+    });
 
-      test('ends content timer on render-content', () => {
-        element.dispatchEvent(
-            new CustomEvent('render-content', {bubbles: true, composed: true}));
-        assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
-            'Diff Content Render'));
-      });
+    test('saving a draft', () => {
+      const draftID = 'tempID';
+      const id = 'savedID';
+      const comment = {
+        __draft: true,
+        __draftID: draftID,
+        side: 'PARENT',
+        __commentSide: 'left',
+      };
+      const diffCommentsModifiedStub = sandbox.stub();
+      element.addEventListener('diff-comments-modified',
+          diffCommentsModifiedStub);
+      element.comments.left.push(comment);
+      comment.id = id;
+      element.fire('comment-save', {comment});
+      const drafts = element.comments.left
+          .filter(item => item.__draftID === draftID);
+      assert.equal(drafts.length, 1);
+      assert.equal(drafts[0].id, id);
+      assert.isTrue(diffCommentsModifiedStub.called);
+    });
+  });
 
-      test('ends total and syntax timer after syntax layer processing', done => {
-        let notifySyntaxProcessed;
-        sandbox.stub(element.$.syntaxLayer, 'process').returns(new Promise(
-            resolve => {
-              notifySyntaxProcessed = resolve;
-            }));
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(
-            Promise.resolve({content: []}));
-        element.patchRange = {};
-        element.$.restAPI.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          return element.reload(true);
+  test('remove comment', () => {
+    sandbox.stub(element, '_commentsChanged');
+    element.comments = {
+      meta: {
+        changeNum: '42',
+        patchRange: {
+          basePatchNum: 'PARENT',
+          patchNum: 3,
+        },
+        path: '/path/to/foo',
+        projectConfig: {foo: 'bar'},
+      },
+      left: [
+        {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+        {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
+        {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+      ],
+      right: [
+        {id: 'c1', __commentSide: 'right'},
+        {id: 'c2', __commentSide: 'right'},
+        {id: 'd1', __draft: true, __commentSide: 'right'},
+        {id: 'd2', __draft: true, __commentSide: 'right'},
+      ],
+    };
+
+    element._removeComment({});
+    // Using JSON.stringify because Safari 9.1 (11601.5.17.1) doesn’t seem
+    // to believe that one object deepEquals another even when they do :-/.
+    assert.equal(JSON.stringify(element.comments), JSON.stringify({
+      meta: {
+        changeNum: '42',
+        patchRange: {
+          basePatchNum: 'PARENT',
+          patchNum: 3,
+        },
+        path: '/path/to/foo',
+        projectConfig: {foo: 'bar'},
+      },
+      left: [
+        {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+        {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
+        {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+      ],
+      right: [
+        {id: 'c1', __commentSide: 'right'},
+        {id: 'c2', __commentSide: 'right'},
+        {id: 'd1', __draft: true, __commentSide: 'right'},
+        {id: 'd2', __draft: true, __commentSide: 'right'},
+      ],
+    }));
+
+    element._removeComment({id: 'bc2', side: 'PARENT',
+      __commentSide: 'left'});
+    assert.deepEqual(element.comments, {
+      meta: {
+        changeNum: '42',
+        patchRange: {
+          basePatchNum: 'PARENT',
+          patchNum: 3,
+        },
+        path: '/path/to/foo',
+        projectConfig: {foo: 'bar'},
+      },
+      left: [
+        {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+        {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+      ],
+      right: [
+        {id: 'c1', __commentSide: 'right'},
+        {id: 'c2', __commentSide: 'right'},
+        {id: 'd1', __draft: true, __commentSide: 'right'},
+        {id: 'd2', __draft: true, __commentSide: 'right'},
+      ],
+    });
+
+    element._removeComment({id: 'd2', __commentSide: 'right'});
+    assert.deepEqual(element.comments, {
+      meta: {
+        changeNum: '42',
+        patchRange: {
+          basePatchNum: 'PARENT',
+          patchNum: 3,
+        },
+        path: '/path/to/foo',
+        projectConfig: {foo: 'bar'},
+      },
+      left: [
+        {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+        {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+      ],
+      right: [
+        {id: 'c1', __commentSide: 'right'},
+        {id: 'c2', __commentSide: 'right'},
+        {id: 'd1', __draft: true, __commentSide: 'right'},
+      ],
+    });
+  });
+
+  test('thread-discard handling', () => {
+    const threads = [
+      {comments: [{id: 4711}]},
+      {comments: [{id: 42}]},
+    ];
+    element._parentIndex = 1;
+    element.changeNum = '2';
+    element.path = 'some/path';
+    element.projectName = 'Some project';
+    const threadEls = threads.map(
+        thread => {
+          const threadEl = element._createThreadElement(thread);
+          // Polymer 2 doesn't fire ready events and doesn't execute
+          // observers if element is not added to the Dom.
+          // See https://github.com/Polymer/old-docs-site/issues/2322
+          // and https://github.com/Polymer/polymer/issues/4526
+          element._attachThreadElement(threadEl);
+          return threadEl;
         });
-        // Multiple cascading microtasks are scheduled.
-        setTimeout(() => {
-          notifySyntaxProcessed();
-          // Assert after the notification task is processed.
-          Promise.resolve().then(() => {
-            assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
-                'Diff Total Render'));
-            assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
-                'Diff Syntax Render'));
-            assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
-                'StartupDiffViewOnlyContent'));
-            done();
-          });
-        });
-      });
+    assert.equal(threadEls.length, 2);
+    assert.equal(threadEls[0].rootId, 4711);
+    assert.equal(threadEls[1].rootId, 42);
+    for (const threadEl of threadEls) {
+      dom(element).appendChild(threadEl);
+    }
 
-      test('ends total timer w/ no syntax layer processing', done => {
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(
-            Promise.resolve({content: []}));
-        element.patchRange = {};
-        element.reload();
-        // Multiple cascading microtasks are scheduled.
-        setTimeout(() => {
-          assert.isTrue(element.$.reporting.timeEnd.calledOnce);
+    threadEls[0].dispatchEvent(
+        new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
+    const attachedThreads = element.queryAllEffectiveChildren(
+        'gr-comment-thread');
+    assert.equal(attachedThreads.length, 1);
+    assert.equal(attachedThreads[0].rootId, 42);
+  });
+
+  suite('render reporting', () => {
+    test('starts total and content timer on render-start', done => {
+      element.dispatchEvent(
+          new CustomEvent('render-start', {bubbles: true, composed: true}));
+      assert.isTrue(element.$.reporting.time.calledWithExactly(
+          'Diff Total Render'));
+      assert.isTrue(element.$.reporting.time.calledWithExactly(
+          'Diff Content Render'));
+      done();
+    });
+
+    test('ends content timer on render-content', () => {
+      element.dispatchEvent(
+          new CustomEvent('render-content', {bubbles: true, composed: true}));
+      assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+          'Diff Content Render'));
+    });
+
+    test('ends total and syntax timer after syntax layer processing', done => {
+      let notifySyntaxProcessed;
+      sandbox.stub(element.$.syntaxLayer, 'process').returns(new Promise(
+          resolve => {
+            notifySyntaxProcessed = resolve;
+          }));
+      sandbox.stub(element.$.restAPI, 'getDiff').returns(
+          Promise.resolve({content: []}));
+      element.patchRange = {};
+      element.$.restAPI.getDiffPreferences().then(prefs => {
+        element.prefs = prefs;
+        return element.reload(true);
+      });
+      // Multiple cascading microtasks are scheduled.
+      setTimeout(() => {
+        notifySyntaxProcessed();
+        // Assert after the notification task is processed.
+        Promise.resolve().then(() => {
           assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
               'Diff Total Render'));
+          assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+              'Diff Syntax Render'));
+          assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+              'StartupDiffViewOnlyContent'));
           done();
         });
       });
+    });
 
-      test('completes reload promise after syntax layer processing', done => {
-        let notifySyntaxProcessed;
-        sandbox.stub(element.$.syntaxLayer, 'process').returns(new Promise(
-            resolve => {
-              notifySyntaxProcessed = resolve;
-            }));
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(
-            Promise.resolve({content: []}));
-        element.patchRange = {};
-        let reloadComplete = false;
-        element.$.restAPI.getDiffPreferences()
-            .then(prefs => {
-              element.prefs = prefs;
-              return element.reload();
-            })
-            .then(() => {
-              reloadComplete = true;
-            });
-        // Multiple cascading microtasks are scheduled.
+    test('ends total timer w/ no syntax layer processing', done => {
+      sandbox.stub(element.$.restAPI, 'getDiff').returns(
+          Promise.resolve({content: []}));
+      element.patchRange = {};
+      element.reload();
+      // Multiple cascading microtasks are scheduled.
+      setTimeout(() => {
+        assert.isTrue(element.$.reporting.timeEnd.calledOnce);
+        assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+            'Diff Total Render'));
+        done();
+      });
+    });
+
+    test('completes reload promise after syntax layer processing', done => {
+      let notifySyntaxProcessed;
+      sandbox.stub(element.$.syntaxLayer, 'process').returns(new Promise(
+          resolve => {
+            notifySyntaxProcessed = resolve;
+          }));
+      sandbox.stub(element.$.restAPI, 'getDiff').returns(
+          Promise.resolve({content: []}));
+      element.patchRange = {};
+      let reloadComplete = false;
+      element.$.restAPI.getDiffPreferences()
+          .then(prefs => {
+            element.prefs = prefs;
+            return element.reload();
+          })
+          .then(() => {
+            reloadComplete = true;
+          });
+      // Multiple cascading microtasks are scheduled.
+      setTimeout(() => {
+        assert.isFalse(reloadComplete);
+        notifySyntaxProcessed();
+        // Assert after the notification task is processed.
         setTimeout(() => {
-          assert.isFalse(reloadComplete);
-          notifySyntaxProcessed();
-          // Assert after the notification task is processed.
-          setTimeout(() => {
-            assert.isTrue(reloadComplete);
-            done();
-          });
+          assert.isTrue(reloadComplete);
+          done();
         });
       });
     });
+  });
 
-    test('reload() cancels before network resolves', () => {
-      const cancelStub = sandbox.stub(element.$.diff, 'cancel');
+  test('reload() cancels before network resolves', () => {
+    const cancelStub = sandbox.stub(element.$.diff, 'cancel');
 
-      // Stub the network calls into requests that never resolve.
-      sandbox.stub(element, '_getDiff', () => new Promise(() => {}));
+    // Stub the network calls into requests that never resolve.
+    sandbox.stub(element, '_getDiff', () => new Promise(() => {}));
+    element.patchRange = {};
+
+    element.reload();
+    assert.isTrue(cancelStub.called);
+  });
+
+  suite('not logged in', () => {
+    setup(() => {
+      getLoggedIn = false;
+      element = fixture('basic');
+    });
+
+    test('reload() loads files weblinks', () => {
+      const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
+          .returns({name: 'stubb', url: '#s'});
+      sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({
+        content: [],
+      }));
+      element.projectName = 'test-project';
+      element.path = 'test-path';
+      element.commitRange = {baseCommit: 'test-base', commit: 'test-commit'};
       element.patchRange = {};
-
-      element.reload();
-      assert.isTrue(cancelStub.called);
+      return element.reload().then(() => {
+        assert.isTrue(weblinksStub.calledTwice);
+        assert.isTrue(weblinksStub.firstCall.calledWith({
+          commit: 'test-base',
+          file: 'test-path',
+          options: {
+            weblinks: undefined,
+          },
+          repo: 'test-project',
+          type: Gerrit.Nav.WeblinkType.FILE}));
+        assert.isTrue(weblinksStub.secondCall.calledWith({
+          commit: 'test-commit',
+          file: 'test-path',
+          options: {
+            weblinks: undefined,
+          },
+          repo: 'test-project',
+          type: Gerrit.Nav.WeblinkType.FILE}));
+        assert.deepEqual(element.filesWeblinks, {
+          meta_a: [{name: 'stubb', url: '#s'}],
+          meta_b: [{name: 'stubb', url: '#s'}],
+        });
+      });
     });
 
-    suite('not logged in', () => {
+    test('_getDiff handles null diff responses', done => {
+      stub('gr-rest-api-interface', {
+        getDiff() { return Promise.resolve(null); },
+      });
+      element.changeNum = 123;
+      element.patchRange = {basePatchNum: 1, patchNum: 2};
+      element.path = 'file.txt';
+      element._getDiff().then(done);
+    });
+
+    test('reload resolves on error', () => {
+      const onErrStub = sandbox.stub(element, '_handleGetDiffError');
+      const error = {ok: false, status: 500};
+      sandbox.stub(element.$.restAPI, 'getDiff',
+          (changeNum, basePatchNum, patchNum, path, onErr) => {
+            onErr(error);
+          });
+      element.patchRange = {};
+      return element.reload().then(() => {
+        assert.isTrue(onErrStub.calledOnce);
+      });
+    });
+
+    suite('_handleGetDiffError', () => {
+      let serverErrorStub;
+      let pageErrorStub;
+
       setup(() => {
-        getLoggedIn = false;
-        element = fixture('basic');
+        serverErrorStub = sinon.stub();
+        element.addEventListener('server-error', serverErrorStub);
+        pageErrorStub = sinon.stub();
+        element.addEventListener('page-error', pageErrorStub);
       });
 
-      test('reload() loads files weblinks', () => {
-        const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
-            .returns({name: 'stubb', url: '#s'});
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({
-          content: [],
-        }));
-        element.projectName = 'test-project';
-        element.path = 'test-path';
-        element.commitRange = {baseCommit: 'test-base', commit: 'test-commit'};
-        element.patchRange = {};
-        return element.reload().then(() => {
-          assert.isTrue(weblinksStub.calledTwice);
-          assert.isTrue(weblinksStub.firstCall.calledWith({
-            commit: 'test-base',
-            file: 'test-path',
-            options: {
-              weblinks: undefined,
-            },
-            repo: 'test-project',
-            type: Gerrit.Nav.WeblinkType.FILE}));
-          assert.isTrue(weblinksStub.secondCall.calledWith({
-            commit: 'test-commit',
-            file: 'test-path',
-            options: {
-              weblinks: undefined,
-            },
-            repo: 'test-project',
-            type: Gerrit.Nav.WeblinkType.FILE}));
-          assert.deepEqual(element.filesWeblinks, {
-            meta_a: [{name: 'stubb', url: '#s'}],
-            meta_b: [{name: 'stubb', url: '#s'}],
-          });
-        });
+      test('page error on HTTP-409', () => {
+        element._handleGetDiffError({status: 409});
+        assert.isTrue(serverErrorStub.calledOnce);
+        assert.isFalse(pageErrorStub.called);
+        assert.isNotOk(element._errorMessage);
       });
 
-      test('_getDiff handles null diff responses', done => {
-        stub('gr-rest-api-interface', {
-          getDiff() { return Promise.resolve(null); },
-        });
-        element.changeNum = 123;
-        element.patchRange = {basePatchNum: 1, patchNum: 2};
-        element.path = 'file.txt';
-        element._getDiff().then(done);
+      test('server error on non-HTTP-409', () => {
+        element._handleGetDiffError({status: 500});
+        assert.isFalse(serverErrorStub.called);
+        assert.isTrue(pageErrorStub.calledOnce);
+        assert.isNotOk(element._errorMessage);
       });
 
-      test('reload resolves on error', () => {
-        const onErrStub = sandbox.stub(element, '_handleGetDiffError');
-        const error = {ok: false, status: 500};
-        sandbox.stub(element.$.restAPI, 'getDiff',
-            (changeNum, basePatchNum, patchNum, path, onErr) => {
-              onErr(error);
-            });
-        element.patchRange = {};
-        return element.reload().then(() => {
-          assert.isTrue(onErrStub.calledOnce);
-        });
+      test('error message if showLoadFailure', () => {
+        element.showLoadFailure = true;
+        element._handleGetDiffError({status: 500, statusText: 'Failure!'});
+        assert.isFalse(serverErrorStub.called);
+        assert.isFalse(pageErrorStub.called);
+        assert.equal(element._errorMessage,
+            'Encountered error when loading the diff: 500 Failure!');
+      });
+    });
+
+    suite('image diffs', () => {
+      let mockFile1;
+      let mockFile2;
+      setup(() => {
+        mockFile1 = {
+          body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+          'wsAAAAAAAAAAAAAAAAA/w==',
+          type: 'image/bmp',
+        };
+        mockFile2 = {
+          body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+          'wsAAAAAAAAAAAAA/////w==',
+          type: 'image/bmp',
+        };
+        sandbox.stub(element.$.restAPI,
+            'getB64FileContents',
+            (changeId, patchNum, path, opt_parentIndex) => Promise.resolve(
+                opt_parentIndex === 1 ? mockFile1 :
+                  mockFile2)
+        );
+
+        element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
+        element.comments = {
+          left: [],
+          right: [],
+          meta: {patchRange: element.patchRange},
+        };
       });
 
-      suite('_handleGetDiffError', () => {
-        let serverErrorStub;
-        let pageErrorStub;
+      test('renders image diffs with same file name', done => {
+        const mockDiff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'MODIFIED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index 2adc47d..f9c2f2c 100644',
+            '--- a/carrot.jpg',
+            '+++ b/carrot.jpg',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+        sandbox.stub(element.$.restAPI, 'getDiff')
+            .returns(Promise.resolve(mockDiff));
 
-        setup(() => {
-          serverErrorStub = sinon.stub();
-          element.addEventListener('server-error', serverErrorStub);
-          pageErrorStub = sinon.stub();
-          element.addEventListener('page-error', pageErrorStub);
-        });
+        const rendered = () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
 
-        test('page error on HTTP-409', () => {
-          element._handleGetDiffError({status: 409});
-          assert.isTrue(serverErrorStub.calledOnce);
-          assert.isFalse(pageErrorStub.called);
-          assert.isNotOk(element._errorMessage);
-        });
+          // Left image rendered with the parent commit's version of the file.
+          const leftImage =
+              element.$.diff.$.diffTable.querySelector('td.left img');
+          const leftLabel =
+              element.$.diff.$.diffTable.querySelector('td.left label');
+          const leftLabelContent = leftLabel.querySelector('.label');
+          const leftLabelName = leftLabel.querySelector('.name');
 
-        test('server error on non-HTTP-409', () => {
-          element._handleGetDiffError({status: 500});
-          assert.isFalse(serverErrorStub.called);
-          assert.isTrue(pageErrorStub.calledOnce);
-          assert.isNotOk(element._errorMessage);
-        });
+          const rightImage =
+              element.$.diff.$.diffTable.querySelector('td.right img');
+          const rightLabel = element.$.diff.$.diffTable.querySelector(
+              'td.right label');
+          const rightLabelContent = rightLabel.querySelector('.label');
+          const rightLabelName = rightLabel.querySelector('.name');
 
-        test('error message if showLoadFailure', () => {
-          element.showLoadFailure = true;
-          element._handleGetDiffError({status: 500, statusText: 'Failure!'});
-          assert.isFalse(serverErrorStub.called);
-          assert.isFalse(pageErrorStub.called);
-          assert.equal(element._errorMessage,
-              'Encountered error when loading the diff: 500 Failure!');
-        });
-      });
+          assert.isNotOk(rightLabelName);
+          assert.isNotOk(leftLabelName);
 
-      suite('image diffs', () => {
-        let mockFile1;
-        let mockFile2;
-        setup(() => {
-          mockFile1 = {
-            body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-            'wsAAAAAAAAAAAAAAAAA/w==',
-            type: 'image/bmp',
-          };
-          mockFile2 = {
-            body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-            'wsAAAAAAAAAAAAA/////w==',
-            type: 'image/bmp',
-          };
-          sandbox.stub(element.$.restAPI,
-              'getB64FileContents',
-              (changeId, patchNum, path, opt_parentIndex) => Promise.resolve(
-                  opt_parentIndex === 1 ? mockFile1 :
-                    mockFile2)
-          );
+          let leftLoaded = false;
+          let rightLoaded = false;
 
-          element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
-          element.comments = {
-            left: [],
-            right: [],
-            meta: {patchRange: element.patchRange},
-          };
-        });
-
-        test('renders image diffs with same file name', done => {
-          const mockDiff = {
-            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-            meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'MODIFIED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot.jpg',
-              'index 2adc47d..f9c2f2c 100644',
-              '--- a/carrot.jpg',
-              '+++ b/carrot.jpg',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-          sandbox.stub(element.$.restAPI, 'getDiff')
-              .returns(Promise.resolve(mockDiff));
-
-          const rendered = () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
-
-            // Left image rendered with the parent commit's version of the file.
-            const leftImage =
-                element.$.diff.$.diffTable.querySelector('td.left img');
-            const leftLabel =
-                element.$.diff.$.diffTable.querySelector('td.left label');
-            const leftLabelContent = leftLabel.querySelector('.label');
-            const leftLabelName = leftLabel.querySelector('.name');
-
-            const rightImage =
-                element.$.diff.$.diffTable.querySelector('td.right img');
-            const rightLabel = element.$.diff.$.diffTable.querySelector(
-                'td.right label');
-            const rightLabelContent = rightLabel.querySelector('.label');
-            const rightLabelName = rightLabel.querySelector('.name');
-
-            assert.isNotOk(rightLabelName);
-            assert.isNotOk(leftLabelName);
-
-            let leftLoaded = false;
-            let rightLoaded = false;
-
-            leftImage.addEventListener('load', () => {
-              assert.isOk(leftImage);
-              assert.equal(leftImage.getAttribute('src'),
-                  'data:image/bmp;base64, ' + mockFile1.body);
-              assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
-              leftLoaded = true;
-              if (rightLoaded) {
-                element.removeEventListener('render', rendered);
-                done();
-              }
-            });
-
-            rightImage.addEventListener('load', () => {
-              assert.isOk(rightImage);
-              assert.equal(rightImage.getAttribute('src'),
-                  'data:image/bmp;base64, ' + mockFile2.body);
-              assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
-
-              rightLoaded = true;
-              if (leftLoaded) {
-                element.removeEventListener('render', rendered);
-                done();
-              }
-            });
-          };
-
-          element.addEventListener('render', rendered);
-
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
-          });
-        });
-
-        test('renders image diffs with a different file name', done => {
-          const mockDiff = {
-            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-            meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'MODIFIED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot2.jpg',
-              'index 2adc47d..f9c2f2c 100644',
-              '--- a/carrot.jpg',
-              '+++ b/carrot2.jpg',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-          sandbox.stub(element.$.restAPI, 'getDiff')
-              .returns(Promise.resolve(mockDiff));
-
-          const rendered = () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
-
-            // Left image rendered with the parent commit's version of the file.
-            const leftImage =
-                element.$.diff.$.diffTable.querySelector('td.left img');
-            const leftLabel =
-                element.$.diff.$.diffTable.querySelector('td.left label');
-            const leftLabelContent = leftLabel.querySelector('.label');
-            const leftLabelName = leftLabel.querySelector('.name');
-
-            const rightImage =
-                element.$.diff.$.diffTable.querySelector('td.right img');
-            const rightLabel = element.$.diff.$.diffTable.querySelector(
-                'td.right label');
-            const rightLabelContent = rightLabel.querySelector('.label');
-            const rightLabelName = rightLabel.querySelector('.name');
-
-            assert.isOk(rightLabelName);
-            assert.isOk(leftLabelName);
-            assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
-            assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
-
-            let leftLoaded = false;
-            let rightLoaded = false;
-
-            leftImage.addEventListener('load', () => {
-              assert.isOk(leftImage);
-              assert.equal(leftImage.getAttribute('src'),
-                  'data:image/bmp;base64, ' + mockFile1.body);
-              assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
-              leftLoaded = true;
-              if (rightLoaded) {
-                element.removeEventListener('render', rendered);
-                done();
-              }
-            });
-
-            rightImage.addEventListener('load', () => {
-              assert.isOk(rightImage);
-              assert.equal(rightImage.getAttribute('src'),
-                  'data:image/bmp;base64, ' + mockFile2.body);
-              assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
-
-              rightLoaded = true;
-              if (leftLoaded) {
-                element.removeEventListener('render', rendered);
-                done();
-              }
-            });
-          };
-
-          element.addEventListener('render', rendered);
-
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
-          });
-        });
-
-        test('renders added image', done => {
-          const mockDiff = {
-            meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'ADDED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot.jpg',
-              'index 0000000..f9c2f2c 100644',
-              '--- /dev/null',
-              '+++ b/carrot.jpg',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-          sandbox.stub(element.$.restAPI, 'getDiff')
-              .returns(Promise.resolve(mockDiff));
-
-          element.addEventListener('render', () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
-
-            const leftImage =
-                element.$.diff.$.diffTable.querySelector('td.left img');
-            const rightImage =
-                element.$.diff.$.diffTable.querySelector('td.right img');
-
-            assert.isNotOk(leftImage);
-            assert.isOk(rightImage);
-            done();
-          });
-
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
-          });
-        });
-
-        test('renders removed image', done => {
-          const mockDiff = {
-            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'DELETED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot.jpg',
-              'index f9c2f2c..0000000 100644',
-              '--- a/carrot.jpg',
-              '+++ /dev/null',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-          sandbox.stub(element.$.restAPI, 'getDiff')
-              .returns(Promise.resolve(mockDiff));
-
-          element.addEventListener('render', () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
-
-            const leftImage =
-                element.$.diff.$.diffTable.querySelector('td.left img');
-            const rightImage =
-                element.$.diff.$.diffTable.querySelector('td.right img');
-
+          leftImage.addEventListener('load', () => {
             assert.isOk(leftImage);
-            assert.isNotOk(rightImage);
-            done();
+            assert.equal(leftImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile1.body);
+            assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
+            leftLoaded = true;
+            if (rightLoaded) {
+              element.removeEventListener('render', rendered);
+              done();
+            }
           });
 
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
+          rightImage.addEventListener('load', () => {
+            assert.isOk(rightImage);
+            assert.equal(rightImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile2.body);
+            assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
+
+            rightLoaded = true;
+            if (leftLoaded) {
+              element.removeEventListener('render', rendered);
+              done();
+            }
           });
-        });
+        };
 
-        test('does not render disallowed image type', done => {
-          const mockDiff = {
-            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'DELETED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot.jpg',
-              'index f9c2f2c..0000000 100644',
-              '--- a/carrot.jpg',
-              '+++ /dev/null',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-          mockFile1.type = 'image/jpeg-evil';
+        element.addEventListener('render', rendered);
 
-          sandbox.stub(element.$.restAPI, 'getDiff')
-              .returns(Promise.resolve(mockDiff));
-
-          element.addEventListener('render', () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
-            const leftImage =
-                element.$.diff.$.diffTable.querySelector('td.left img');
-            assert.isNotOk(leftImage);
-            done();
-          });
-
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
-          });
-        });
-      });
-    });
-
-    test('delegates cancel()', () => {
-      const stub = sandbox.stub(element.$.diff, 'cancel');
-      element.patchRange = {};
-      element.reload();
-      assert.isTrue(stub.calledOnce);
-      assert.equal(stub.lastCall.args.length, 0);
-    });
-
-    test('delegates getCursorStops()', () => {
-      const returnValue = [document.createElement('b')];
-      const stub = sandbox.stub(element.$.diff, 'getCursorStops')
-          .returns(returnValue);
-      assert.equal(element.getCursorStops(), returnValue);
-      assert.isTrue(stub.calledOnce);
-      assert.equal(stub.lastCall.args.length, 0);
-    });
-
-    test('delegates isRangeSelected()', () => {
-      const returnValue = true;
-      const stub = sandbox.stub(element.$.diff, 'isRangeSelected')
-          .returns(returnValue);
-      assert.equal(element.isRangeSelected(), returnValue);
-      assert.isTrue(stub.calledOnce);
-      assert.equal(stub.lastCall.args.length, 0);
-    });
-
-    test('delegates toggleLeftDiff()', () => {
-      const stub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
-      element.toggleLeftDiff();
-      assert.isTrue(stub.calledOnce);
-      assert.equal(stub.lastCall.args.length, 0);
-    });
-
-    suite('blame', () => {
-      setup(() => {
-        element = fixture('basic');
-      });
-
-      test('clearBlame', () => {
-        element._blame = [];
-        const setBlameSpy = sandbox.spy(element.$.diff.$.diffBuilder, 'setBlame');
-        element.clearBlame();
-        assert.isNull(element._blame);
-        assert.isTrue(setBlameSpy.calledWithExactly(null));
-        assert.equal(element.isBlameLoaded, false);
-      });
-
-      test('loadBlame', () => {
-        const mockBlame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
-        const showAlertStub = sinon.stub();
-        element.addEventListener('show-alert', showAlertStub);
-        const getBlameStub = sandbox.stub(element.$.restAPI, 'getBlame')
-            .returns(Promise.resolve(mockBlame));
-        element.changeNum = 42;
-        element.patchRange = {patchNum: 5, basePatchNum: 4};
-        element.path = 'foo/bar.baz';
-        return element.loadBlame().then(() => {
-          assert.isTrue(getBlameStub.calledWithExactly(
-              42, 5, 'foo/bar.baz', true));
-          assert.isFalse(showAlertStub.called);
-          assert.equal(element._blame, mockBlame);
-          assert.equal(element.isBlameLoaded, true);
+        element.$.restAPI.getDiffPreferences().then(prefs => {
+          element.prefs = prefs;
+          element.reload();
         });
       });
 
-      test('loadBlame empty', () => {
-        const mockBlame = [];
-        const showAlertStub = sinon.stub();
-        element.addEventListener('show-alert', showAlertStub);
-        sandbox.stub(element.$.restAPI, 'getBlame')
-            .returns(Promise.resolve(mockBlame));
-        element.changeNum = 42;
-        element.patchRange = {patchNum: 5, basePatchNum: 4};
-        element.path = 'foo/bar.baz';
-        return element.loadBlame()
-            .then(() => {
-              assert.isTrue(false, 'Promise should not resolve');
-            })
-            .catch(() => {
-              assert.isTrue(showAlertStub.calledOnce);
-              assert.isNull(element._blame);
-              assert.equal(element.isBlameLoaded, false);
-            });
-      });
-    });
-
-    test('getThreadEls() returns .comment-threads', () => {
-      const threadEl = document.createElement('div');
-      threadEl.className = 'comment-thread';
-      Polymer.dom(element.$.diff).appendChild(threadEl);
-      assert.deepEqual(element.getThreadEls(), [threadEl]);
-    });
-
-    test('delegates addDraftAtLine(el)', () => {
-      const param0 = document.createElement('b');
-      const stub = sandbox.stub(element.$.diff, 'addDraftAtLine');
-      element.addDraftAtLine(param0);
-      assert.isTrue(stub.calledOnce);
-      assert.equal(stub.lastCall.args.length, 1);
-      assert.equal(stub.lastCall.args[0], param0);
-    });
-
-    test('delegates clearDiffContent()', () => {
-      const stub = sandbox.stub(element.$.diff, 'clearDiffContent');
-      element.clearDiffContent();
-      assert.isTrue(stub.calledOnce);
-      assert.equal(stub.lastCall.args.length, 0);
-    });
-
-    test('delegates expandAllContext()', () => {
-      const stub = sandbox.stub(element.$.diff, 'expandAllContext');
-      element.expandAllContext();
-      assert.isTrue(stub.calledOnce);
-      assert.equal(stub.lastCall.args.length, 0);
-    });
-
-    test('passes in changeNum', () => {
-      const value = '12345';
-      element.changeNum = value;
-      assert.equal(element.$.diff.changeNum, value);
-    });
-
-    test('passes in noAutoRender', () => {
-      const value = true;
-      element.noAutoRender = value;
-      assert.equal(element.$.diff.noAutoRender, value);
-    });
-
-    test('passes in patchRange', () => {
-      const value = {patchNum: 'foo', basePatchNum: 'bar'};
-      element.patchRange = value;
-      assert.equal(element.$.diff.patchRange, value);
-    });
-
-    test('passes in path', () => {
-      const value = 'some/file/path';
-      element.path = value;
-      assert.equal(element.$.diff.path, value);
-    });
-
-    test('passes in prefs', () => {
-      const value = {};
-      element.prefs = value;
-      assert.equal(element.$.diff.prefs, value);
-    });
-
-    test('passes in changeNum', () => {
-      const value = '12345';
-      element.changeNum = value;
-      assert.equal(element.$.diff.changeNum, value);
-    });
-
-    test('passes in projectName', () => {
-      const value = 'Gerrit';
-      element.projectName = value;
-      assert.equal(element.$.diff.projectName, value);
-    });
-
-    test('passes in displayLine', () => {
-      const value = true;
-      element.displayLine = value;
-      assert.equal(element.$.diff.displayLine, value);
-    });
-
-    test('passes in commitRange', () => {
-      const value = {};
-      element.commitRange = value;
-      assert.equal(element.$.diff.commitRange, value);
-    });
-
-    test('passes in hidden', () => {
-      const value = true;
-      element.hidden = value;
-      assert.equal(element.$.diff.hidden, value);
-      assert.isNotNull(element.getAttribute('hidden'));
-    });
-
-    test('passes in noRenderOnPrefsChange', () => {
-      const value = true;
-      element.noRenderOnPrefsChange = value;
-      assert.equal(element.$.diff.noRenderOnPrefsChange, value);
-    });
-
-    test('passes in lineWrapping', () => {
-      const value = true;
-      element.lineWrapping = value;
-      assert.equal(element.$.diff.lineWrapping, value);
-    });
-
-    test('passes in viewMode', () => {
-      const value = 'SIDE_BY_SIDE';
-      element.viewMode = value;
-      assert.equal(element.$.diff.viewMode, value);
-    });
-
-    test('passes in lineOfInterest', () => {
-      const value = {number: 123, leftSide: true};
-      element.lineOfInterest = value;
-      assert.equal(element.$.diff.lineOfInterest, value);
-    });
-
-    suite('_reportDiff', () => {
-      let reportStub;
-
-      setup(() => {
-        element = fixture('basic');
-        element.patchRange = {basePatchNum: 1};
-        reportStub = sandbox.stub(element.$.reporting, 'reportInteraction');
-      });
-
-      test('null and content-less', () => {
-        element._reportDiff(null);
-        assert.isFalse(reportStub.called);
-
-        element._reportDiff({});
-        assert.isFalse(reportStub.called);
-      });
-
-      test('diff w/ no delta', () => {
-        const diff = {
-          content: [
-            {ab: ['foo', 'bar']},
-            {ab: ['baz', 'foo']},
+      test('renders image diffs with a different file name', done => {
+        const mockDiff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+          meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'MODIFIED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot2.jpg',
+            'index 2adc47d..f9c2f2c 100644',
+            '--- a/carrot.jpg',
+            '+++ b/carrot2.jpg',
+            'Binary files differ',
           ],
+          content: [{skip: 66}],
+          binary: true,
         };
-        element._reportDiff(diff);
-        assert.isTrue(reportStub.calledOnce);
-        assert.equal(reportStub.lastCall.args[0], 'rebase-percent-zero');
-        assert.isUndefined(reportStub.lastCall.args[1]);
+        sandbox.stub(element.$.restAPI, 'getDiff')
+            .returns(Promise.resolve(mockDiff));
+
+        const rendered = () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+
+          // Left image rendered with the parent commit's version of the file.
+          const leftImage =
+              element.$.diff.$.diffTable.querySelector('td.left img');
+          const leftLabel =
+              element.$.diff.$.diffTable.querySelector('td.left label');
+          const leftLabelContent = leftLabel.querySelector('.label');
+          const leftLabelName = leftLabel.querySelector('.name');
+
+          const rightImage =
+              element.$.diff.$.diffTable.querySelector('td.right img');
+          const rightLabel = element.$.diff.$.diffTable.querySelector(
+              'td.right label');
+          const rightLabelContent = rightLabel.querySelector('.label');
+          const rightLabelName = rightLabel.querySelector('.name');
+
+          assert.isOk(rightLabelName);
+          assert.isOk(leftLabelName);
+          assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
+          assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
+
+          let leftLoaded = false;
+          let rightLoaded = false;
+
+          leftImage.addEventListener('load', () => {
+            assert.isOk(leftImage);
+            assert.equal(leftImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile1.body);
+            assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
+            leftLoaded = true;
+            if (rightLoaded) {
+              element.removeEventListener('render', rendered);
+              done();
+            }
+          });
+
+          rightImage.addEventListener('load', () => {
+            assert.isOk(rightImage);
+            assert.equal(rightImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile2.body);
+            assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
+
+            rightLoaded = true;
+            if (leftLoaded) {
+              element.removeEventListener('render', rendered);
+              done();
+            }
+          });
+        };
+
+        element.addEventListener('render', rendered);
+
+        element.$.restAPI.getDiffPreferences().then(prefs => {
+          element.prefs = prefs;
+          element.reload();
+        });
       });
 
-      test('diff w/ no rebase delta', () => {
-        const diff = {
-          content: [
-            {ab: ['foo', 'bar']},
-            {a: ['baz', 'foo']},
-            {ab: ['foo', 'bar']},
-            {a: ['baz', 'foo'], b: ['bar', 'baz']},
-            {ab: ['foo', 'bar']},
-            {b: ['baz', 'foo']},
-            {ab: ['foo', 'bar']},
+      test('renders added image', done => {
+        const mockDiff = {
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'ADDED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index 0000000..f9c2f2c 100644',
+            '--- /dev/null',
+            '+++ b/carrot.jpg',
+            'Binary files differ',
           ],
+          content: [{skip: 66}],
+          binary: true,
         };
-        element._reportDiff(diff);
-        assert.isTrue(reportStub.calledOnce);
-        assert.equal(reportStub.lastCall.args[0], 'rebase-percent-zero');
-        assert.isUndefined(reportStub.lastCall.args[1]);
+        sandbox.stub(element.$.restAPI, 'getDiff')
+            .returns(Promise.resolve(mockDiff));
+
+        element.addEventListener('render', () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+
+          const leftImage =
+              element.$.diff.$.diffTable.querySelector('td.left img');
+          const rightImage =
+              element.$.diff.$.diffTable.querySelector('td.right img');
+
+          assert.isNotOk(leftImage);
+          assert.isOk(rightImage);
+          done();
+        });
+
+        element.$.restAPI.getDiffPreferences().then(prefs => {
+          element.prefs = prefs;
+          element.reload();
+        });
       });
 
-      test('diff w/ some rebase delta', () => {
-        const diff = {
-          content: [
-            {ab: ['foo', 'bar']},
-            {a: ['baz', 'foo'], due_to_rebase: true},
-            {ab: ['foo', 'bar']},
-            {a: ['baz', 'foo'], b: ['bar', 'baz']},
-            {ab: ['foo', 'bar']},
-            {b: ['baz', 'foo'], due_to_rebase: true},
-            {ab: ['foo', 'bar']},
-            {a: ['baz', 'foo']},
+      test('renders removed image', done => {
+        const mockDiff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'DELETED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index f9c2f2c..0000000 100644',
+            '--- a/carrot.jpg',
+            '+++ /dev/null',
+            'Binary files differ',
           ],
+          content: [{skip: 66}],
+          binary: true,
         };
-        element._reportDiff(diff);
-        assert.isTrue(reportStub.calledOnce);
-        assert.isTrue(reportStub.calledWith(
-            'rebase-percent-nonzero',
-            {percentRebaseDelta: 50}
-        ));
+        sandbox.stub(element.$.restAPI, 'getDiff')
+            .returns(Promise.resolve(mockDiff));
+
+        element.addEventListener('render', () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+
+          const leftImage =
+              element.$.diff.$.diffTable.querySelector('td.left img');
+          const rightImage =
+              element.$.diff.$.diffTable.querySelector('td.right img');
+
+          assert.isOk(leftImage);
+          assert.isNotOk(rightImage);
+          done();
+        });
+
+        element.$.restAPI.getDiffPreferences().then(prefs => {
+          element.prefs = prefs;
+          element.reload();
+        });
       });
 
-      test('diff w/ all rebase delta', () => {
-        const diff = {content: [{
-          a: ['foo', 'bar'],
-          b: ['baz', 'foo'],
-          due_to_rebase: true,
-        }]};
-        element._reportDiff(diff);
-        assert.isTrue(reportStub.calledOnce);
-        assert.isTrue(reportStub.calledWith(
-            'rebase-percent-nonzero',
-            {percentRebaseDelta: 100}
-        ));
-      });
+      test('does not render disallowed image type', done => {
+        const mockDiff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'DELETED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index f9c2f2c..0000000 100644',
+            '--- a/carrot.jpg',
+            '+++ /dev/null',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+        mockFile1.type = 'image/jpeg-evil';
 
-      test('diff against parent event', () => {
-        element.patchRange.basePatchNum = 'PARENT';
-        const diff = {content: [{
-          a: ['foo', 'bar'],
-          b: ['baz', 'foo'],
-        }]};
-        element._reportDiff(diff);
-        assert.isTrue(reportStub.calledOnce);
-        assert.equal(reportStub.lastCall.args[0], 'diff-against-parent');
-        assert.isUndefined(reportStub.lastCall.args[1]);
+        sandbox.stub(element.$.restAPI, 'getDiff')
+            .returns(Promise.resolve(mockDiff));
+
+        element.addEventListener('render', () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+          const leftImage =
+              element.$.diff.$.diffTable.querySelector('td.left img');
+          assert.isNotOk(leftImage);
+          done();
+        });
+
+        element.$.restAPI.getDiffPreferences().then(prefs => {
+          element.prefs = prefs;
+          element.reload();
+        });
+      });
+    });
+  });
+
+  test('delegates cancel()', () => {
+    const stub = sandbox.stub(element.$.diff, 'cancel');
+    element.patchRange = {};
+    element.reload();
+    assert.isTrue(stub.calledOnce);
+    assert.equal(stub.lastCall.args.length, 0);
+  });
+
+  test('delegates getCursorStops()', () => {
+    const returnValue = [document.createElement('b')];
+    const stub = sandbox.stub(element.$.diff, 'getCursorStops')
+        .returns(returnValue);
+    assert.equal(element.getCursorStops(), returnValue);
+    assert.isTrue(stub.calledOnce);
+    assert.equal(stub.lastCall.args.length, 0);
+  });
+
+  test('delegates isRangeSelected()', () => {
+    const returnValue = true;
+    const stub = sandbox.stub(element.$.diff, 'isRangeSelected')
+        .returns(returnValue);
+    assert.equal(element.isRangeSelected(), returnValue);
+    assert.isTrue(stub.calledOnce);
+    assert.equal(stub.lastCall.args.length, 0);
+  });
+
+  test('delegates toggleLeftDiff()', () => {
+    const stub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
+    element.toggleLeftDiff();
+    assert.isTrue(stub.calledOnce);
+    assert.equal(stub.lastCall.args.length, 0);
+  });
+
+  suite('blame', () => {
+    setup(() => {
+      element = fixture('basic');
+    });
+
+    test('clearBlame', () => {
+      element._blame = [];
+      const setBlameSpy = sandbox.spy(element.$.diff.$.diffBuilder, 'setBlame');
+      element.clearBlame();
+      assert.isNull(element._blame);
+      assert.isTrue(setBlameSpy.calledWithExactly(null));
+      assert.equal(element.isBlameLoaded, false);
+    });
+
+    test('loadBlame', () => {
+      const mockBlame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
+      const showAlertStub = sinon.stub();
+      element.addEventListener('show-alert', showAlertStub);
+      const getBlameStub = sandbox.stub(element.$.restAPI, 'getBlame')
+          .returns(Promise.resolve(mockBlame));
+      element.changeNum = 42;
+      element.patchRange = {patchNum: 5, basePatchNum: 4};
+      element.path = 'foo/bar.baz';
+      return element.loadBlame().then(() => {
+        assert.isTrue(getBlameStub.calledWithExactly(
+            42, 5, 'foo/bar.baz', true));
+        assert.isFalse(showAlertStub.called);
+        assert.equal(element._blame, mockBlame);
+        assert.equal(element.isBlameLoaded, true);
       });
     });
 
-    test('comments sorting', () => {
-      const comments = [
-        {
-          id: 'new_draft',
-          message: 'i do not like either of you',
-          __commentSide: 'left',
-          __draft: true,
-          updated: '2015-12-20 15:01:20.396000000',
-        },
-        {
-          id: 'sallys_confession',
-          message: 'i like you, jack',
-          updated: '2015-12-23 15:00:20.396000000',
-          line: 1,
-          __commentSide: 'left',
-        }, {
-          id: 'jacks_reply',
-          message: 'i like you, too',
-          updated: '2015-12-24 15:01:20.396000000',
-          __commentSide: 'left',
-          line: 1,
-          in_reply_to: 'sallys_confession',
-        },
-      ];
-      const sortedComments = element._sortComments(comments);
-      assert.equal(sortedComments[0], comments[1]);
-      assert.equal(sortedComments[1], comments[2]);
-      assert.equal(sortedComments[2], comments[0]);
+    test('loadBlame empty', () => {
+      const mockBlame = [];
+      const showAlertStub = sinon.stub();
+      element.addEventListener('show-alert', showAlertStub);
+      sandbox.stub(element.$.restAPI, 'getBlame')
+          .returns(Promise.resolve(mockBlame));
+      element.changeNum = 42;
+      element.patchRange = {patchNum: 5, basePatchNum: 4};
+      element.path = 'foo/bar.baz';
+      return element.loadBlame()
+          .then(() => {
+            assert.isTrue(false, 'Promise should not resolve');
+          })
+          .catch(() => {
+            assert.isTrue(showAlertStub.calledOnce);
+            assert.isNull(element._blame);
+            assert.equal(element.isBlameLoaded, false);
+          });
+    });
+  });
+
+  test('getThreadEls() returns .comment-threads', () => {
+    const threadEl = document.createElement('div');
+    threadEl.className = 'comment-thread';
+    dom(element.$.diff).appendChild(threadEl);
+    assert.deepEqual(element.getThreadEls(), [threadEl]);
+  });
+
+  test('delegates addDraftAtLine(el)', () => {
+    const param0 = document.createElement('b');
+    const stub = sandbox.stub(element.$.diff, 'addDraftAtLine');
+    element.addDraftAtLine(param0);
+    assert.isTrue(stub.calledOnce);
+    assert.equal(stub.lastCall.args.length, 1);
+    assert.equal(stub.lastCall.args[0], param0);
+  });
+
+  test('delegates clearDiffContent()', () => {
+    const stub = sandbox.stub(element.$.diff, 'clearDiffContent');
+    element.clearDiffContent();
+    assert.isTrue(stub.calledOnce);
+    assert.equal(stub.lastCall.args.length, 0);
+  });
+
+  test('delegates expandAllContext()', () => {
+    const stub = sandbox.stub(element.$.diff, 'expandAllContext');
+    element.expandAllContext();
+    assert.isTrue(stub.calledOnce);
+    assert.equal(stub.lastCall.args.length, 0);
+  });
+
+  test('passes in changeNum', () => {
+    const value = '12345';
+    element.changeNum = value;
+    assert.equal(element.$.diff.changeNum, value);
+  });
+
+  test('passes in noAutoRender', () => {
+    const value = true;
+    element.noAutoRender = value;
+    assert.equal(element.$.diff.noAutoRender, value);
+  });
+
+  test('passes in patchRange', () => {
+    const value = {patchNum: 'foo', basePatchNum: 'bar'};
+    element.patchRange = value;
+    assert.equal(element.$.diff.patchRange, value);
+  });
+
+  test('passes in path', () => {
+    const value = 'some/file/path';
+    element.path = value;
+    assert.equal(element.$.diff.path, value);
+  });
+
+  test('passes in prefs', () => {
+    const value = {};
+    element.prefs = value;
+    assert.equal(element.$.diff.prefs, value);
+  });
+
+  test('passes in changeNum', () => {
+    const value = '12345';
+    element.changeNum = value;
+    assert.equal(element.$.diff.changeNum, value);
+  });
+
+  test('passes in projectName', () => {
+    const value = 'Gerrit';
+    element.projectName = value;
+    assert.equal(element.$.diff.projectName, value);
+  });
+
+  test('passes in displayLine', () => {
+    const value = true;
+    element.displayLine = value;
+    assert.equal(element.$.diff.displayLine, value);
+  });
+
+  test('passes in commitRange', () => {
+    const value = {};
+    element.commitRange = value;
+    assert.equal(element.$.diff.commitRange, value);
+  });
+
+  test('passes in hidden', () => {
+    const value = true;
+    element.hidden = value;
+    assert.equal(element.$.diff.hidden, value);
+    assert.isNotNull(element.getAttribute('hidden'));
+  });
+
+  test('passes in noRenderOnPrefsChange', () => {
+    const value = true;
+    element.noRenderOnPrefsChange = value;
+    assert.equal(element.$.diff.noRenderOnPrefsChange, value);
+  });
+
+  test('passes in lineWrapping', () => {
+    const value = true;
+    element.lineWrapping = value;
+    assert.equal(element.$.diff.lineWrapping, value);
+  });
+
+  test('passes in viewMode', () => {
+    const value = 'SIDE_BY_SIDE';
+    element.viewMode = value;
+    assert.equal(element.$.diff.viewMode, value);
+  });
+
+  test('passes in lineOfInterest', () => {
+    const value = {number: 123, leftSide: true};
+    element.lineOfInterest = value;
+    assert.equal(element.$.diff.lineOfInterest, value);
+  });
+
+  suite('_reportDiff', () => {
+    let reportStub;
+
+    setup(() => {
+      element = fixture('basic');
+      element.patchRange = {basePatchNum: 1};
+      reportStub = sandbox.stub(element.$.reporting, 'reportInteraction');
     });
 
-    test('_createThreads', () => {
-      const comments = [
-        {
-          id: 'sallys_confession',
-          message: 'i like you, jack',
-          updated: '2015-12-23 15:00:20.396000000',
-          line: 1,
-          __commentSide: 'left',
-        }, {
-          id: 'jacks_reply',
-          message: 'i like you, too',
-          updated: '2015-12-24 15:01:20.396000000',
-          __commentSide: 'left',
-          line: 1,
-          in_reply_to: 'sallys_confession',
-        },
-        {
-          id: 'new_draft',
-          message: 'i do not like either of you',
-          __commentSide: 'left',
-          __draft: true,
-          updated: '2015-12-20 15:01:20.396000000',
-        },
-      ];
+    test('null and content-less', () => {
+      element._reportDiff(null);
+      assert.isFalse(reportStub.called);
 
-      const actualThreads = element._createThreads(comments);
-
-      assert.equal(actualThreads.length, 2);
-
-      assert.equal(
-          actualThreads[0].start_datetime, '2015-12-23 15:00:20.396000000');
-      assert.equal(actualThreads[0].commentSide, 'left');
-      assert.equal(actualThreads[0].comments.length, 2);
-      assert.deepEqual(actualThreads[0].comments[0], comments[0]);
-      assert.deepEqual(actualThreads[0].comments[1], comments[1]);
-      assert.equal(actualThreads[0].patchNum, undefined);
-      assert.equal(actualThreads[0].rootId, 'sallys_confession');
-      assert.equal(actualThreads[0].lineNum, 1);
-
-      assert.equal(
-          actualThreads[1].start_datetime, '2015-12-20 15:01:20.396000000');
-      assert.equal(actualThreads[1].commentSide, 'left');
-      assert.equal(actualThreads[1].comments.length, 1);
-      assert.deepEqual(actualThreads[1].comments[0], comments[2]);
-      assert.equal(actualThreads[1].patchNum, undefined);
-      assert.equal(actualThreads[1].rootId, 'new_draft');
-      assert.equal(actualThreads[1].lineNum, undefined);
+      element._reportDiff({});
+      assert.isFalse(reportStub.called);
     });
 
-    test('_createThreads inherits patchNum and range', () => {
-      const comments = [{
-        id: 'betsys_confession',
+    test('diff w/ no delta', () => {
+      const diff = {
+        content: [
+          {ab: ['foo', 'bar']},
+          {ab: ['baz', 'foo']},
+        ],
+      };
+      element._reportDiff(diff);
+      assert.isTrue(reportStub.calledOnce);
+      assert.equal(reportStub.lastCall.args[0], 'rebase-percent-zero');
+      assert.isUndefined(reportStub.lastCall.args[1]);
+    });
+
+    test('diff w/ no rebase delta', () => {
+      const diff = {
+        content: [
+          {ab: ['foo', 'bar']},
+          {a: ['baz', 'foo']},
+          {ab: ['foo', 'bar']},
+          {a: ['baz', 'foo'], b: ['bar', 'baz']},
+          {ab: ['foo', 'bar']},
+          {b: ['baz', 'foo']},
+          {ab: ['foo', 'bar']},
+        ],
+      };
+      element._reportDiff(diff);
+      assert.isTrue(reportStub.calledOnce);
+      assert.equal(reportStub.lastCall.args[0], 'rebase-percent-zero');
+      assert.isUndefined(reportStub.lastCall.args[1]);
+    });
+
+    test('diff w/ some rebase delta', () => {
+      const diff = {
+        content: [
+          {ab: ['foo', 'bar']},
+          {a: ['baz', 'foo'], due_to_rebase: true},
+          {ab: ['foo', 'bar']},
+          {a: ['baz', 'foo'], b: ['bar', 'baz']},
+          {ab: ['foo', 'bar']},
+          {b: ['baz', 'foo'], due_to_rebase: true},
+          {ab: ['foo', 'bar']},
+          {a: ['baz', 'foo']},
+        ],
+      };
+      element._reportDiff(diff);
+      assert.isTrue(reportStub.calledOnce);
+      assert.isTrue(reportStub.calledWith(
+          'rebase-percent-nonzero',
+          {percentRebaseDelta: 50}
+      ));
+    });
+
+    test('diff w/ all rebase delta', () => {
+      const diff = {content: [{
+        a: ['foo', 'bar'],
+        b: ['baz', 'foo'],
+        due_to_rebase: true,
+      }]};
+      element._reportDiff(diff);
+      assert.isTrue(reportStub.calledOnce);
+      assert.isTrue(reportStub.calledWith(
+          'rebase-percent-nonzero',
+          {percentRebaseDelta: 100}
+      ));
+    });
+
+    test('diff against parent event', () => {
+      element.patchRange.basePatchNum = 'PARENT';
+      const diff = {content: [{
+        a: ['foo', 'bar'],
+        b: ['baz', 'foo'],
+      }]};
+      element._reportDiff(diff);
+      assert.isTrue(reportStub.calledOnce);
+      assert.equal(reportStub.lastCall.args[0], 'diff-against-parent');
+      assert.isUndefined(reportStub.lastCall.args[1]);
+    });
+  });
+
+  test('comments sorting', () => {
+    const comments = [
+      {
+        id: 'new_draft',
+        message: 'i do not like either of you',
+        __commentSide: 'left',
+        __draft: true,
+        updated: '2015-12-20 15:01:20.396000000',
+      },
+      {
+        id: 'sallys_confession',
         message: 'i like you, jack',
-        updated: '2015-12-24 15:00:10.396000000',
-        range: {
-          start_line: 1,
-          start_character: 1,
-          end_line: 1,
-          end_character: 2,
-        },
-        patch_set: 5,
+        updated: '2015-12-23 15:00:20.396000000',
+        line: 1,
+        __commentSide: 'left',
+      }, {
+        id: 'jacks_reply',
+        message: 'i like you, too',
+        updated: '2015-12-24 15:01:20.396000000',
         __commentSide: 'left',
         line: 1,
-      }];
+        in_reply_to: 'sallys_confession',
+      },
+    ];
+    const sortedComments = element._sortComments(comments);
+    assert.equal(sortedComments[0], comments[1]);
+    assert.equal(sortedComments[1], comments[2]);
+    assert.equal(sortedComments[2], comments[0]);
+  });
 
-      expectedThreads = [
-        {
-          start_datetime: '2015-12-24 15:00:10.396000000',
-          commentSide: 'left',
-          comments: [{
-            id: 'betsys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-24 15:00:10.396000000',
-            range: {
-              start_line: 1,
-              start_character: 1,
-              end_line: 1,
-              end_character: 2,
-            },
-            patch_set: 5,
-            __commentSide: 'left',
-            line: 1,
-          }],
-          patchNum: 5,
-          rootId: 'betsys_confession',
+  test('_createThreads', () => {
+    const comments = [
+      {
+        id: 'sallys_confession',
+        message: 'i like you, jack',
+        updated: '2015-12-23 15:00:20.396000000',
+        line: 1,
+        __commentSide: 'left',
+      }, {
+        id: 'jacks_reply',
+        message: 'i like you, too',
+        updated: '2015-12-24 15:01:20.396000000',
+        __commentSide: 'left',
+        line: 1,
+        in_reply_to: 'sallys_confession',
+      },
+      {
+        id: 'new_draft',
+        message: 'i do not like either of you',
+        __commentSide: 'left',
+        __draft: true,
+        updated: '2015-12-20 15:01:20.396000000',
+      },
+    ];
+
+    const actualThreads = element._createThreads(comments);
+
+    assert.equal(actualThreads.length, 2);
+
+    assert.equal(
+        actualThreads[0].start_datetime, '2015-12-23 15:00:20.396000000');
+    assert.equal(actualThreads[0].commentSide, 'left');
+    assert.equal(actualThreads[0].comments.length, 2);
+    assert.deepEqual(actualThreads[0].comments[0], comments[0]);
+    assert.deepEqual(actualThreads[0].comments[1], comments[1]);
+    assert.equal(actualThreads[0].patchNum, undefined);
+    assert.equal(actualThreads[0].rootId, 'sallys_confession');
+    assert.equal(actualThreads[0].lineNum, 1);
+
+    assert.equal(
+        actualThreads[1].start_datetime, '2015-12-20 15:01:20.396000000');
+    assert.equal(actualThreads[1].commentSide, 'left');
+    assert.equal(actualThreads[1].comments.length, 1);
+    assert.deepEqual(actualThreads[1].comments[0], comments[2]);
+    assert.equal(actualThreads[1].patchNum, undefined);
+    assert.equal(actualThreads[1].rootId, 'new_draft');
+    assert.equal(actualThreads[1].lineNum, undefined);
+  });
+
+  test('_createThreads inherits patchNum and range', () => {
+    const comments = [{
+      id: 'betsys_confession',
+      message: 'i like you, jack',
+      updated: '2015-12-24 15:00:10.396000000',
+      range: {
+        start_line: 1,
+        start_character: 1,
+        end_line: 1,
+        end_character: 2,
+      },
+      patch_set: 5,
+      __commentSide: 'left',
+      line: 1,
+    }];
+
+    expectedThreads = [
+      {
+        start_datetime: '2015-12-24 15:00:10.396000000',
+        commentSide: 'left',
+        comments: [{
+          id: 'betsys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:10.396000000',
           range: {
             start_line: 1,
             start_character: 1,
             end_line: 1,
             end_character: 2,
           },
-          lineNum: 1,
-          isOnParent: false,
+          patch_set: 5,
+          __commentSide: 'left',
+          line: 1,
+        }],
+        patchNum: 5,
+        rootId: 'betsys_confession',
+        range: {
+          start_line: 1,
+          start_character: 1,
+          end_line: 1,
+          end_character: 2,
         },
-      ];
+        lineNum: 1,
+        isOnParent: false,
+      },
+    ];
 
-      assert.deepEqual(
-          element._createThreads(comments),
-          expectedThreads);
-    });
+    assert.deepEqual(
+        element._createThreads(comments),
+        expectedThreads);
+  });
 
-    test('_createThreads does not thread unrelated comments at same location',
-        () => {
-          const comments = [
-            {
-              id: 'sallys_confession',
-              message: 'i like you, jack',
-              updated: '2015-12-23 15:00:20.396000000',
-              __commentSide: 'left',
-            }, {
-              id: 'jacks_reply',
-              message: 'i like you, too',
-              updated: '2015-12-24 15:01:20.396000000',
-              __commentSide: 'left',
-            },
-          ];
-          assert.equal(element._createThreads(comments).length, 2);
-        });
-
-    test('_createThreads derives isOnParent using  side from first comment',
-        () => {
-          const comments = [
-            {
-              id: 'sallys_confession',
-              message: 'i like you, jack',
-              updated: '2015-12-23 15:00:20.396000000',
-              // line: 1,
-              // __commentSide: 'left',
-            }, {
-              id: 'jacks_reply',
-              message: 'i like you, too',
-              updated: '2015-12-24 15:01:20.396000000',
-              // __commentSide: 'left',
-              // line: 1,
-              in_reply_to: 'sallys_confession',
-            },
-          ];
-
-          assert.equal(element._createThreads(comments)[0].isOnParent, false);
-
-          comments[0].side = 'REVISION';
-          assert.equal(element._createThreads(comments)[0].isOnParent, false);
-
-          comments[0].side = 'PARENT';
-          assert.equal(element._createThreads(comments)[0].isOnParent, true);
-        });
-
-    test('_getOrCreateThread', () => {
-      const commentSide = 'left';
-
-      assert.isOk(element._getOrCreateThread('2', 3,
-          commentSide, undefined, false));
-
-      let threads = Polymer.dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
-
-      assert.equal(threads.length, 1);
-      assert.equal(threads[0].commentSide, commentSide);
-      assert.equal(threads[0].range, undefined);
-      assert.equal(threads[0].isOnParent, false);
-      assert.equal(threads[0].patchNum, 2);
-
-      // Try to fetch a thread with a different range.
-      range = {
-        start_line: 1,
-        start_character: 1,
-        end_line: 1,
-        end_character: 3,
-      };
-
-      assert.isOk(element._getOrCreateThread(
-          '3', 1, commentSide, range, true));
-
-      threads = Polymer.dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
-
-      assert.equal(threads.length, 2);
-      assert.equal(threads[1].commentSide, commentSide);
-      assert.equal(threads[1].range, range);
-      assert.equal(threads[1].isOnParent, true);
-      assert.equal(threads[1].patchNum, 3);
-    });
-
-    test('_filterThreadElsForLocation with no threads', () => {
-      const line = {beforeNumber: 3, afterNumber: 5};
-
-      const threads = [];
-      assert.deepEqual(element._filterThreadElsForLocation(threads, line), []);
-      assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-          Gerrit.DiffSide.LEFT), []);
-      assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-          Gerrit.DiffSide.RIGHT), []);
-    });
-
-    test('_filterThreadElsForLocation for line comments', () => {
-      const line = {beforeNumber: 3, afterNumber: 5};
-
-      const l3 = document.createElement('div');
-      l3.setAttribute('line-num', 3);
-      l3.setAttribute('comment-side', 'left');
-
-      const l5 = document.createElement('div');
-      l5.setAttribute('line-num', 5);
-      l5.setAttribute('comment-side', 'left');
-
-      const r3 = document.createElement('div');
-      r3.setAttribute('line-num', 3);
-      r3.setAttribute('comment-side', 'right');
-
-      const r5 = document.createElement('div');
-      r5.setAttribute('line-num', 5);
-      r5.setAttribute('comment-side', 'right');
-
-      const threadEls = [l3, l5, r3, r5];
-      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
-          [l3, r5]);
-      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-          Gerrit.DiffSide.LEFT), [l3]);
-      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-          Gerrit.DiffSide.RIGHT), [r5]);
-    });
-
-    test('_filterThreadElsForLocation for file comments', () => {
-      const line = {beforeNumber: 'FILE', afterNumber: 'FILE'};
-
-      const l = document.createElement('div');
-      l.setAttribute('comment-side', 'left');
-      l.setAttribute('line-num', 'FILE');
-
-      const r = document.createElement('div');
-      r.setAttribute('comment-side', 'right');
-      r.setAttribute('line-num', 'FILE');
-
-      const threadEls = [l, r];
-      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
-          [l, r]);
-      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-          Gerrit.DiffSide.BOTH), [l, r]);
-      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-          Gerrit.DiffSide.LEFT), [l]);
-      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-          Gerrit.DiffSide.RIGHT), [r]);
-    });
-
-    suite('syntax layer with syntax_highlighting on', () => {
-      setup(() => {
-        const prefs = {
-          line_length: 10,
-          show_tabs: true,
-          tab_size: 4,
-          context: -1,
-          syntax_highlighting: true,
-        };
-        element.patchRange = {};
-        element.prefs = prefs;
-      });
-
-      test('gr-diff-host provides syntax highlighting layer to gr-diff', () => {
-        element.reload();
-        assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
-      });
-
-      test('rendering normal-sized diff does not disable syntax', () => {
-        element.diff = {
-          content: [{
-            a: ['foo'],
-          }],
-        };
-        assert.isTrue(element.$.syntaxLayer.enabled);
-      });
-
-      test('rendering large diff disables syntax', () => {
-        // Before it renders, set the first diff line to 500 '*' characters.
-        element.diff = {
-          content: [{
-            a: [new Array(501).join('*')],
-          }],
-        };
-        assert.isFalse(element.$.syntaxLayer.enabled);
-      });
-
-      test('starts syntax layer processing on render event', done => {
-        sandbox.stub(element.$.syntaxLayer, 'process')
-            .returns(Promise.resolve());
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(
-            Promise.resolve({content: []}));
-        element.reload();
-        setTimeout(() => {
-          element.dispatchEvent(
-              new CustomEvent('render', {bubbles: true, composed: true}));
-          assert.isTrue(element.$.syntaxLayer.process.called);
-          done();
-        });
-      });
-    });
-
-    suite('syntax layer with syntax_highlgihting off', () => {
-      setup(() => {
-        const prefs = {
-          line_length: 10,
-          show_tabs: true,
-          tab_size: 4,
-          context: -1,
-        };
-        element.diff = {
-          content: [{
-            a: ['foo'],
-          }],
-        };
-        element.patchRange = {};
-        element.prefs = prefs;
-      });
-
-      test('gr-diff-host provides syntax highlighting layer', () => {
-        element.reload();
-        assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
-      });
-
-      test('syntax layer should be disabled', () => {
-        assert.isFalse(element.$.syntaxLayer.enabled);
-      });
-
-      test('still disabled for large diff', () => {
-        // Before it renders, set the first diff line to 500 '*' characters.
-        element.diff = {
-          content: [{
-            a: [new Array(501).join('*')],
-          }],
-        };
-        assert.isFalse(element.$.syntaxLayer.enabled);
-      });
-    });
-
-    suite('coverage layer', () => {
-      let notifyStub;
-      setup(() => {
-        notifyStub = sinon.stub();
-        stub('gr-js-api-interface', {
-          getCoverageAnnotationApi() {
-            return Promise.resolve({
-              notify: notifyStub,
-              getCoverageProvider() {
-                return () => Promise.resolve([
-                  {
-                    type: 'COVERED',
-                    side: 'right',
-                    code_range: {
-                      start_line: 1,
-                      end_line: 2,
-                    },
-                  },
-                  {
-                    type: 'NOT_COVERED',
-                    side: 'right',
-                    code_range: {
-                      start_line: 3,
-                      end_line: 4,
-                    },
-                  },
-                ]);
-              },
-            });
+  test('_createThreads does not thread unrelated comments at same location',
+      () => {
+        const comments = [
+          {
+            id: 'sallys_confession',
+            message: 'i like you, jack',
+            updated: '2015-12-23 15:00:20.396000000',
+            __commentSide: 'left',
+          }, {
+            id: 'jacks_reply',
+            message: 'i like you, too',
+            updated: '2015-12-24 15:01:20.396000000',
+            __commentSide: 'left',
           },
-        });
-        element = fixture('basic');
-        const prefs = {
-          line_length: 10,
-          show_tabs: true,
-          tab_size: 4,
-          context: -1,
-        };
-        element.diff = {
-          content: [{
-            a: ['foo'],
-          }],
-        };
-        element.patchRange = {};
-        element.prefs = prefs;
+        ];
+        assert.equal(element._createThreads(comments).length, 2);
       });
 
-      test('getCoverageAnnotationApi should be called', done => {
-        element.reload();
-        flush(() => {
-          assert.isTrue(element.$.jsAPI.getCoverageAnnotationApi.calledOnce);
-          done();
-        });
+  test('_createThreads derives isOnParent using  side from first comment',
+      () => {
+        const comments = [
+          {
+            id: 'sallys_confession',
+            message: 'i like you, jack',
+            updated: '2015-12-23 15:00:20.396000000',
+            // line: 1,
+            // __commentSide: 'left',
+          }, {
+            id: 'jacks_reply',
+            message: 'i like you, too',
+            updated: '2015-12-24 15:01:20.396000000',
+            // __commentSide: 'left',
+            // line: 1,
+            in_reply_to: 'sallys_confession',
+          },
+        ];
+
+        assert.equal(element._createThreads(comments)[0].isOnParent, false);
+
+        comments[0].side = 'REVISION';
+        assert.equal(element._createThreads(comments)[0].isOnParent, false);
+
+        comments[0].side = 'PARENT';
+        assert.equal(element._createThreads(comments)[0].isOnParent, true);
       });
 
-      test('coverageRangeChanged should be called', done => {
-        element.reload();
-        flush(() => {
-          assert.equal(notifyStub.callCount, 2);
-          done();
-        });
-      });
+  test('_getOrCreateThread', () => {
+    const commentSide = 'left';
+
+    assert.isOk(element._getOrCreateThread('2', 3,
+        commentSide, undefined, false));
+
+    let threads = dom(element.$.diff)
+        .queryDistributedElements('gr-comment-thread');
+
+    assert.equal(threads.length, 1);
+    assert.equal(threads[0].commentSide, commentSide);
+    assert.equal(threads[0].range, undefined);
+    assert.equal(threads[0].isOnParent, false);
+    assert.equal(threads[0].patchNum, 2);
+
+    // Try to fetch a thread with a different range.
+    range = {
+      start_line: 1,
+      start_character: 1,
+      end_line: 1,
+      end_character: 3,
+    };
+
+    assert.isOk(element._getOrCreateThread(
+        '3', 1, commentSide, range, true));
+
+    threads = dom(element.$.diff)
+        .queryDistributedElements('gr-comment-thread');
+
+    assert.equal(threads.length, 2);
+    assert.equal(threads[1].commentSide, commentSide);
+    assert.equal(threads[1].range, range);
+    assert.equal(threads[1].isOnParent, true);
+    assert.equal(threads[1].patchNum, 3);
+  });
+
+  test('_filterThreadElsForLocation with no threads', () => {
+    const line = {beforeNumber: 3, afterNumber: 5};
+
+    const threads = [];
+    assert.deepEqual(element._filterThreadElsForLocation(threads, line), []);
+    assert.deepEqual(element._filterThreadElsForLocation(threads, line,
+        Gerrit.DiffSide.LEFT), []);
+    assert.deepEqual(element._filterThreadElsForLocation(threads, line,
+        Gerrit.DiffSide.RIGHT), []);
+  });
+
+  test('_filterThreadElsForLocation for line comments', () => {
+    const line = {beforeNumber: 3, afterNumber: 5};
+
+    const l3 = document.createElement('div');
+    l3.setAttribute('line-num', 3);
+    l3.setAttribute('comment-side', 'left');
+
+    const l5 = document.createElement('div');
+    l5.setAttribute('line-num', 5);
+    l5.setAttribute('comment-side', 'left');
+
+    const r3 = document.createElement('div');
+    r3.setAttribute('line-num', 3);
+    r3.setAttribute('comment-side', 'right');
+
+    const r5 = document.createElement('div');
+    r5.setAttribute('line-num', 5);
+    r5.setAttribute('comment-side', 'right');
+
+    const threadEls = [l3, l5, r3, r5];
+    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
+        [l3, r5]);
+    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+        Gerrit.DiffSide.LEFT), [l3]);
+    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+        Gerrit.DiffSide.RIGHT), [r5]);
+  });
+
+  test('_filterThreadElsForLocation for file comments', () => {
+    const line = {beforeNumber: 'FILE', afterNumber: 'FILE'};
+
+    const l = document.createElement('div');
+    l.setAttribute('comment-side', 'left');
+    l.setAttribute('line-num', 'FILE');
+
+    const r = document.createElement('div');
+    r.setAttribute('comment-side', 'right');
+    r.setAttribute('line-num', 'FILE');
+
+    const threadEls = [l, r];
+    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
+        [l, r]);
+    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+        Gerrit.DiffSide.BOTH), [l, r]);
+    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+        Gerrit.DiffSide.LEFT), [l]);
+    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+        Gerrit.DiffSide.RIGHT), [r]);
+  });
+
+  suite('syntax layer with syntax_highlighting on', () => {
+    setup(() => {
+      const prefs = {
+        line_length: 10,
+        show_tabs: true,
+        tab_size: 4,
+        context: -1,
+        syntax_highlighting: true,
+      };
+      element.patchRange = {};
+      element.prefs = prefs;
     });
 
-    suite('trailing newlines', () => {
-      setup(() => {
-      });
+    test('gr-diff-host provides syntax highlighting layer to gr-diff', () => {
+      element.reload();
+      assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
+    });
 
-      suite('_lastChunkForSide', () => {
-        test('deltas', () => {
-          const diff = {content: [
-            {a: ['foo', 'bar'], b: ['baz']},
-            {ab: ['foo', 'bar', 'baz']},
-            {b: ['foo']},
-          ]};
-          assert.equal(element._lastChunkForSide(diff, false), diff.content[2]);
-          assert.equal(element._lastChunkForSide(diff, true), diff.content[1]);
+    test('rendering normal-sized diff does not disable syntax', () => {
+      element.diff = {
+        content: [{
+          a: ['foo'],
+        }],
+      };
+      assert.isTrue(element.$.syntaxLayer.enabled);
+    });
 
-          diff.content.push({a: ['foo'], b: ['bar']});
-          assert.equal(element._lastChunkForSide(diff, false), diff.content[3]);
-          assert.equal(element._lastChunkForSide(diff, true), diff.content[3]);
-        });
+    test('rendering large diff disables syntax', () => {
+      // Before it renders, set the first diff line to 500 '*' characters.
+      element.diff = {
+        content: [{
+          a: [new Array(501).join('*')],
+        }],
+      };
+      assert.isFalse(element.$.syntaxLayer.enabled);
+    });
 
-        test('addition with a undefined', () => {
-          const diff = {content: [
-            {b: ['foo', 'bar', 'baz']},
-          ]};
-          assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
-          assert.isNull(element._lastChunkForSide(diff, true));
-        });
-
-        test('addition with a empty', () => {
-          const diff = {content: [
-            {a: [], b: ['foo', 'bar', 'baz']},
-          ]};
-          assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
-          assert.isNull(element._lastChunkForSide(diff, true));
-        });
-
-        test('deletion with b undefined', () => {
-          const diff = {content: [
-            {a: ['foo', 'bar', 'baz']},
-          ]};
-          assert.isNull(element._lastChunkForSide(diff, false));
-          assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
-        });
-
-        test('deletion with b empty', () => {
-          const diff = {content: [
-            {a: ['foo', 'bar', 'baz'], b: []},
-          ]};
-          assert.isNull(element._lastChunkForSide(diff, false));
-          assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
-        });
-
-        test('empty', () => {
-          const diff = {content: []};
-          assert.isNull(element._lastChunkForSide(diff, false));
-          assert.isNull(element._lastChunkForSide(diff, true));
-        });
-      });
-
-      suite('_hasTrailingNewlines', () => {
-        test('shared no trailing', () => {
-          const diff = undefined;
-          sandbox.stub(element, '_lastChunkForSide')
-              .returns({ab: ['foo', 'bar']});
-          assert.isFalse(element._hasTrailingNewlines(diff, false));
-          assert.isFalse(element._hasTrailingNewlines(diff, true));
-        });
-
-        test('delta trailing in right', () => {
-          const diff = undefined;
-          sandbox.stub(element, '_lastChunkForSide')
-              .returns({a: ['foo', 'bar'], b: ['baz', '']});
-          assert.isTrue(element._hasTrailingNewlines(diff, false));
-          assert.isFalse(element._hasTrailingNewlines(diff, true));
-        });
-
-        test('addition', () => {
-          const diff = undefined;
-          sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
-            if (leftSide) { return null; }
-            return {b: ['foo', '']};
-          });
-          assert.isTrue(element._hasTrailingNewlines(diff, false));
-          assert.isNull(element._hasTrailingNewlines(diff, true));
-        });
-
-        test('deletion', () => {
-          const diff = undefined;
-          sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
-            if (!leftSide) { return null; }
-            return {a: ['foo']};
-          });
-          assert.isNull(element._hasTrailingNewlines(diff, false));
-          assert.isFalse(element._hasTrailingNewlines(diff, true));
-        });
+    test('starts syntax layer processing on render event', done => {
+      sandbox.stub(element.$.syntaxLayer, 'process')
+          .returns(Promise.resolve());
+      sandbox.stub(element.$.restAPI, 'getDiff').returns(
+          Promise.resolve({content: []}));
+      element.reload();
+      setTimeout(() => {
+        element.dispatchEvent(
+            new CustomEvent('render', {bubbles: true, composed: true}));
+        assert.isTrue(element.$.syntaxLayer.process.called);
+        done();
       });
     });
   });
+
+  suite('syntax layer with syntax_highlgihting off', () => {
+    setup(() => {
+      const prefs = {
+        line_length: 10,
+        show_tabs: true,
+        tab_size: 4,
+        context: -1,
+      };
+      element.diff = {
+        content: [{
+          a: ['foo'],
+        }],
+      };
+      element.patchRange = {};
+      element.prefs = prefs;
+    });
+
+    test('gr-diff-host provides syntax highlighting layer', () => {
+      element.reload();
+      assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
+    });
+
+    test('syntax layer should be disabled', () => {
+      assert.isFalse(element.$.syntaxLayer.enabled);
+    });
+
+    test('still disabled for large diff', () => {
+      // Before it renders, set the first diff line to 500 '*' characters.
+      element.diff = {
+        content: [{
+          a: [new Array(501).join('*')],
+        }],
+      };
+      assert.isFalse(element.$.syntaxLayer.enabled);
+    });
+  });
+
+  suite('coverage layer', () => {
+    let notifyStub;
+    setup(() => {
+      notifyStub = sinon.stub();
+      stub('gr-js-api-interface', {
+        getCoverageAnnotationApi() {
+          return Promise.resolve({
+            notify: notifyStub,
+            getCoverageProvider() {
+              return () => Promise.resolve([
+                {
+                  type: 'COVERED',
+                  side: 'right',
+                  code_range: {
+                    start_line: 1,
+                    end_line: 2,
+                  },
+                },
+                {
+                  type: 'NOT_COVERED',
+                  side: 'right',
+                  code_range: {
+                    start_line: 3,
+                    end_line: 4,
+                  },
+                },
+              ]);
+            },
+          });
+        },
+      });
+      element = fixture('basic');
+      const prefs = {
+        line_length: 10,
+        show_tabs: true,
+        tab_size: 4,
+        context: -1,
+      };
+      element.diff = {
+        content: [{
+          a: ['foo'],
+        }],
+      };
+      element.patchRange = {};
+      element.prefs = prefs;
+    });
+
+    test('getCoverageAnnotationApi should be called', done => {
+      element.reload();
+      flush(() => {
+        assert.isTrue(element.$.jsAPI.getCoverageAnnotationApi.calledOnce);
+        done();
+      });
+    });
+
+    test('coverageRangeChanged should be called', done => {
+      element.reload();
+      flush(() => {
+        assert.equal(notifyStub.callCount, 2);
+        done();
+      });
+    });
+  });
+
+  suite('trailing newlines', () => {
+    setup(() => {
+    });
+
+    suite('_lastChunkForSide', () => {
+      test('deltas', () => {
+        const diff = {content: [
+          {a: ['foo', 'bar'], b: ['baz']},
+          {ab: ['foo', 'bar', 'baz']},
+          {b: ['foo']},
+        ]};
+        assert.equal(element._lastChunkForSide(diff, false), diff.content[2]);
+        assert.equal(element._lastChunkForSide(diff, true), diff.content[1]);
+
+        diff.content.push({a: ['foo'], b: ['bar']});
+        assert.equal(element._lastChunkForSide(diff, false), diff.content[3]);
+        assert.equal(element._lastChunkForSide(diff, true), diff.content[3]);
+      });
+
+      test('addition with a undefined', () => {
+        const diff = {content: [
+          {b: ['foo', 'bar', 'baz']},
+        ]};
+        assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
+        assert.isNull(element._lastChunkForSide(diff, true));
+      });
+
+      test('addition with a empty', () => {
+        const diff = {content: [
+          {a: [], b: ['foo', 'bar', 'baz']},
+        ]};
+        assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
+        assert.isNull(element._lastChunkForSide(diff, true));
+      });
+
+      test('deletion with b undefined', () => {
+        const diff = {content: [
+          {a: ['foo', 'bar', 'baz']},
+        ]};
+        assert.isNull(element._lastChunkForSide(diff, false));
+        assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
+      });
+
+      test('deletion with b empty', () => {
+        const diff = {content: [
+          {a: ['foo', 'bar', 'baz'], b: []},
+        ]};
+        assert.isNull(element._lastChunkForSide(diff, false));
+        assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
+      });
+
+      test('empty', () => {
+        const diff = {content: []};
+        assert.isNull(element._lastChunkForSide(diff, false));
+        assert.isNull(element._lastChunkForSide(diff, true));
+      });
+    });
+
+    suite('_hasTrailingNewlines', () => {
+      test('shared no trailing', () => {
+        const diff = undefined;
+        sandbox.stub(element, '_lastChunkForSide')
+            .returns({ab: ['foo', 'bar']});
+        assert.isFalse(element._hasTrailingNewlines(diff, false));
+        assert.isFalse(element._hasTrailingNewlines(diff, true));
+      });
+
+      test('delta trailing in right', () => {
+        const diff = undefined;
+        sandbox.stub(element, '_lastChunkForSide')
+            .returns({a: ['foo', 'bar'], b: ['baz', '']});
+        assert.isTrue(element._hasTrailingNewlines(diff, false));
+        assert.isFalse(element._hasTrailingNewlines(diff, true));
+      });
+
+      test('addition', () => {
+        const diff = undefined;
+        sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+          if (leftSide) { return null; }
+          return {b: ['foo', '']};
+        });
+        assert.isTrue(element._hasTrailingNewlines(diff, false));
+        assert.isNull(element._hasTrailingNewlines(diff, true));
+      });
+
+      test('deletion', () => {
+        const diff = undefined;
+        sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+          if (!leftSide) { return null; }
+          return {a: ['foo']};
+        });
+        assert.isNull(element._hasTrailingNewlines(diff, false));
+        assert.isFalse(element._hasTrailingNewlines(diff, true));
+      });
+    });
+  });
+});
 </script>

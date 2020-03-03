@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-plugin-host</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-plugin-host.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-plugin-host.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-plugin-host.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,63 +40,66 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-plugin-host tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-plugin-host.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('gr-plugin-host tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(document.body, 'appendChild');
-      sandbox.stub(Polymer, 'importHref');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('load plugins should be called', () => {
-      sandbox.stub(Gerrit, '_loadPlugins');
-      element.config = {
-        plugin: {
-          html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
-          js_resource_paths: ['plugins/42'],
-        },
-      };
-      assert.isTrue(Gerrit._loadPlugins.calledOnce);
-      assert.isTrue(Gerrit._loadPlugins.calledWith([
-        'plugins/42', 'plugins/foo/bar', 'plugins/baz',
-      ], {}));
-    });
-
-    test('theme plugins should be loaded if enabled', () => {
-      sandbox.stub(Gerrit, '_loadPlugins');
-      element.config = {
-        default_theme: 'gerrit-theme.html',
-        plugin: {
-          html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
-          js_resource_paths: ['plugins/42'],
-        },
-      };
-      assert.isTrue(Gerrit._loadPlugins.calledOnce);
-      assert.isTrue(Gerrit._loadPlugins.calledWith([
-        'gerrit-theme.html', 'plugins/42', 'plugins/foo/bar', 'plugins/baz',
-      ], {'gerrit-theme.html': {sync: true}}));
-    });
-
-    test('skip theme if preloaded', () => {
-      sandbox.stub(Gerrit, '_isPluginPreloaded')
-          .withArgs('preloaded:gerrit-theme')
-          .returns(true);
-      sandbox.stub(Gerrit, '_loadPlugins');
-      element.config = {
-        default_theme: '/oof',
-        plugin: {},
-      };
-      assert.isTrue(Gerrit._loadPlugins.calledOnce);
-      assert.isTrue(Gerrit._loadPlugins.calledWith([], {}));
-    });
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(document.body, 'appendChild');
+    sandbox.stub(Polymer, 'importHref');
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('load plugins should be called', () => {
+    sandbox.stub(Gerrit, '_loadPlugins');
+    element.config = {
+      plugin: {
+        html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
+        js_resource_paths: ['plugins/42'],
+      },
+    };
+    assert.isTrue(Gerrit._loadPlugins.calledOnce);
+    assert.isTrue(Gerrit._loadPlugins.calledWith([
+      'plugins/42', 'plugins/foo/bar', 'plugins/baz',
+    ], {}));
+  });
+
+  test('theme plugins should be loaded if enabled', () => {
+    sandbox.stub(Gerrit, '_loadPlugins');
+    element.config = {
+      default_theme: 'gerrit-theme.html',
+      plugin: {
+        html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
+        js_resource_paths: ['plugins/42'],
+      },
+    };
+    assert.isTrue(Gerrit._loadPlugins.calledOnce);
+    assert.isTrue(Gerrit._loadPlugins.calledWith([
+      'gerrit-theme.html', 'plugins/42', 'plugins/foo/bar', 'plugins/baz',
+    ], {'gerrit-theme.html': {sync: true}}));
+  });
+
+  test('skip theme if preloaded', () => {
+    sandbox.stub(Gerrit, '_isPluginPreloaded')
+        .withArgs('preloaded:gerrit-theme')
+        .returns(true);
+    sandbox.stub(Gerrit, '_loadPlugins');
+    element.config = {
+      default_theme: '/oof',
+      plugin: {},
+    };
+    assert.isTrue(Gerrit._loadPlugins.calledOnce);
+    assert.isTrue(Gerrit._loadPlugins.calledWith([], {}));
+  });
+});
 </script>

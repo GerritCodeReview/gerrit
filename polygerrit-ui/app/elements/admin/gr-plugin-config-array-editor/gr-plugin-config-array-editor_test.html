@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-plugin-config-array-editor</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-plugin-config-array-editor.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-plugin-config-array-editor.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-plugin-config-array-editor.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,112 +40,115 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-plugin-config-array-editor tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let dispatchStub;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-plugin-config-array-editor.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-plugin-config-array-editor tests', () => {
+  let element;
+  let sandbox;
+  let dispatchStub;
 
-    const getAll = str => Polymer.dom(element.root).querySelectorAll(str);
+  const getAll = str => dom(element.root).querySelectorAll(str);
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    element.pluginOption = {
+      _key: 'test-key',
+      info: {
+        values: [],
+      },
+    };
+  });
+
+  teardown(() => sandbox.restore());
+
+  test('_computeShowInputRow', () => {
+    assert.equal(element._computeShowInputRow(true), 'hide');
+    assert.equal(element._computeShowInputRow(false), '');
+  });
+
+  test('_computeDisabled', () => {
+    assert.isTrue(element._computeDisabled({}));
+    assert.isTrue(element._computeDisabled({base: {}}));
+    assert.isTrue(element._computeDisabled({base: {info: {}}}));
+    assert.isTrue(
+        element._computeDisabled({base: {info: {editable: false}}}));
+    assert.isFalse(
+        element._computeDisabled({base: {info: {editable: true}}}));
+  });
+
+  suite('adding', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      element.pluginOption = {
-        _key: 'test-key',
-        info: {
-          values: [],
-        },
-      };
-    });
-
-    teardown(() => sandbox.restore());
-
-    test('_computeShowInputRow', () => {
-      assert.equal(element._computeShowInputRow(true), 'hide');
-      assert.equal(element._computeShowInputRow(false), '');
-    });
-
-    test('_computeDisabled', () => {
-      assert.isTrue(element._computeDisabled({}));
-      assert.isTrue(element._computeDisabled({base: {}}));
-      assert.isTrue(element._computeDisabled({base: {info: {}}}));
-      assert.isTrue(
-          element._computeDisabled({base: {info: {editable: false}}}));
-      assert.isFalse(
-          element._computeDisabled({base: {info: {editable: true}}}));
-    });
-
-    suite('adding', () => {
-      setup(() => {
-        dispatchStub = sandbox.stub(element, '_dispatchChanged');
-      });
-
-      test('with enter', () => {
-        element._newValue = '';
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
-        flushAsynchronousOperations();
-
-        assert.isFalse(dispatchStub.called);
-        element._newValue = 'test';
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
-        flushAsynchronousOperations();
-
-        assert.isTrue(dispatchStub.called);
-        assert.equal(dispatchStub.lastCall.args[0], 'test');
-        assert.equal(element._newValue, '');
-      });
-
-      test('with add btn', () => {
-        element._newValue = '';
-        MockInteractions.tap(element.$.addButton);
-        flushAsynchronousOperations();
-
-        assert.isFalse(dispatchStub.called);
-        element._newValue = 'test';
-        MockInteractions.tap(element.$.addButton);
-        flushAsynchronousOperations();
-
-        assert.isTrue(dispatchStub.called);
-        assert.equal(dispatchStub.lastCall.args[0], 'test');
-        assert.equal(element._newValue, '');
-      });
-    });
-
-    test('deleting', () => {
       dispatchStub = sandbox.stub(element, '_dispatchChanged');
-      element.pluginOption = {info: {values: ['test', 'test2']}};
-      flushAsynchronousOperations();
+    });
 
-      const rows = getAll('.existingItems .row');
-      assert.equal(rows.length, 2);
-      const button = rows[0].querySelector('gr-button');
-
-      MockInteractions.tap(button);
+    test('with enter', () => {
+      element._newValue = '';
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
       flushAsynchronousOperations();
 
       assert.isFalse(dispatchStub.called);
-      element.pluginOption.info.editable = true;
-      element.notifyPath('pluginOption.info.editable');
-      flushAsynchronousOperations();
-
-      MockInteractions.tap(button);
+      element._newValue = 'test';
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
       flushAsynchronousOperations();
 
       assert.isTrue(dispatchStub.called);
-      assert.deepEqual(dispatchStub.lastCall.args[0], ['test2']);
+      assert.equal(dispatchStub.lastCall.args[0], 'test');
+      assert.equal(element._newValue, '');
     });
 
-    test('_dispatchChanged', () => {
-      const eventStub = sandbox.stub(element, 'dispatchEvent');
-      element._dispatchChanged(['new-test-value']);
+    test('with add btn', () => {
+      element._newValue = '';
+      MockInteractions.tap(element.$.addButton);
+      flushAsynchronousOperations();
 
-      assert.isTrue(eventStub.called);
-      const {detail} = eventStub.lastCall.args[0];
-      assert.equal(detail._key, 'test-key');
-      assert.deepEqual(detail.info, {values: ['new-test-value']});
-      assert.equal(detail.notifyPath, 'test-key.values');
+      assert.isFalse(dispatchStub.called);
+      element._newValue = 'test';
+      MockInteractions.tap(element.$.addButton);
+      flushAsynchronousOperations();
+
+      assert.isTrue(dispatchStub.called);
+      assert.equal(dispatchStub.lastCall.args[0], 'test');
+      assert.equal(element._newValue, '');
     });
   });
+
+  test('deleting', () => {
+    dispatchStub = sandbox.stub(element, '_dispatchChanged');
+    element.pluginOption = {info: {values: ['test', 'test2']}};
+    flushAsynchronousOperations();
+
+    const rows = getAll('.existingItems .row');
+    assert.equal(rows.length, 2);
+    const button = rows[0].querySelector('gr-button');
+
+    MockInteractions.tap(button);
+    flushAsynchronousOperations();
+
+    assert.isFalse(dispatchStub.called);
+    element.pluginOption.info.editable = true;
+    element.notifyPath('pluginOption.info.editable');
+    flushAsynchronousOperations();
+
+    MockInteractions.tap(button);
+    flushAsynchronousOperations();
+
+    assert.isTrue(dispatchStub.called);
+    assert.deepEqual(dispatchStub.lastCall.args[0], ['test2']);
+  });
+
+  test('_dispatchChanged', () => {
+    const eventStub = sandbox.stub(element, 'dispatchEvent');
+    element._dispatchChanged(['new-test-value']);
+
+    assert.isTrue(eventStub.called);
+    const {detail} = eventStub.lastCall.args[0];
+    assert.equal(detail._key, 'test-key');
+    assert.deepEqual(detail.info, {values: ['new-test-value']});
+    assert.equal(detail.notifyPath, 'test-key.values');
+  });
+});
 </script>

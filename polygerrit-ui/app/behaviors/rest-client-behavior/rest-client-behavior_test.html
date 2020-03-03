@@ -19,19 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>keyboard-shortcut-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<script>
-  /** @type {string} */
-  window.CANONICAL_PATH = '/r';
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import '../base-url-behavior/base-url-behavior.js';
+import './rest-client-behavior.js';
+/** @type {string} */
+window.CANONICAL_PATH = '/r';
 </script>
 
-<link rel="import" href="../base-url-behavior/base-url-behavior.html">
-<link rel="import" href="rest-client-behavior.html">
+<script type="module" src="../base-url-behavior/base-url-behavior.js"></script>
+<script type="module" src="./rest-client-behavior.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -47,191 +51,195 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('rest-client-behavior tests', async () => {
-    await readyToTest();
-    let element;
-    // eslint-disable-next-line no-unused-vars
-    let overlay;
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import '../base-url-behavior/base-url-behavior.js';
+import './rest-client-behavior.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('rest-client-behavior tests', () => {
+  let element;
+  // eslint-disable-next-line no-unused-vars
+  let overlay;
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [
-          Gerrit.BaseUrlBehavior,
-          Gerrit.RESTClientBehavior,
-        ],
-      });
-    });
-
-    setup(() => {
-      element = fixture('basic');
-      overlay = fixture('within-overlay');
-    });
-
-    test('changeBaseURL', () => {
-      assert.deepEqual(
-          element.changeBaseURL('test/project', '1', '2'),
-          '/r/changes/test%2Fproject~1/revisions/2'
-      );
-    });
-
-    test('changePath', () => {
-      assert.deepEqual(element.changePath('1'), '/r/c/1');
-    });
-
-    test('Open status', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      let statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, []);
-      assert.equal(statusString, '');
-
-      change.submittable = false;
-      statuses = element.changeStatuses(change,
-          {includeDerived: true});
-      assert.deepEqual(statuses, ['Active']);
-
-      // With no missing labels but no submitEnabled option.
-      change.submittable = true;
-      statuses = element.changeStatuses(change,
-          {includeDerived: true});
-      assert.deepEqual(statuses, ['Active']);
-
-      // Without missing labels and enabled submit
-      statuses = element.changeStatuses(change,
-          {includeDerived: true, submitEnabled: true});
-      assert.deepEqual(statuses, ['Ready to submit']);
-
-      change.mergeable = false;
-      change.submittable = true;
-      statuses = element.changeStatuses(change,
-          {includeDerived: true});
-      assert.deepEqual(statuses, ['Merge Conflict']);
-
-      delete change.mergeable;
-      change.submittable = true;
-      statuses = element.changeStatuses(change,
-          {includeDerived: true, mergeable: true, submitEnabled: true});
-      assert.deepEqual(statuses, ['Ready to submit']);
-
-      change.submittable = true;
-      statuses = element.changeStatuses(change,
-          {includeDerived: true, mergeable: false});
-      assert.deepEqual(statuses, ['Merge Conflict']);
-    });
-
-    test('Merge conflict', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: false,
-      };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['Merge Conflict']);
-      assert.equal(statusString, 'Merge Conflict');
-    });
-
-    test('mergeable prop undefined', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-      };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, []);
-      assert.equal(statusString, '');
-    });
-
-    test('Merged status', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'MERGED',
-        labels: {},
-      };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['Merged']);
-      assert.equal(statusString, 'Merged');
-    });
-
-    test('Abandoned status', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'ABANDONED',
-        labels: {},
-      };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['Abandoned']);
-      assert.equal(statusString, 'Abandoned');
-    });
-
-    test('Open status with private and wip', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        is_private: true,
-        work_in_progress: true,
-        labels: {},
-        mergeable: true,
-      };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['WIP', 'Private']);
-      assert.equal(statusString, 'WIP, Private');
-    });
-
-    test('Merge conflict with private and wip', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        is_private: true,
-        work_in_progress: true,
-        labels: {},
-        mergeable: false,
-      };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
-      assert.equal(statusString, 'Merge Conflict, WIP, Private');
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'test-element',
+      behaviors: [
+        Gerrit.BaseUrlBehavior,
+        Gerrit.RESTClientBehavior,
+      ],
     });
   });
+
+  setup(() => {
+    element = fixture('basic');
+    overlay = fixture('within-overlay');
+  });
+
+  test('changeBaseURL', () => {
+    assert.deepEqual(
+        element.changeBaseURL('test/project', '1', '2'),
+        '/r/changes/test%2Fproject~1/revisions/2'
+    );
+  });
+
+  test('changePath', () => {
+    assert.deepEqual(element.changePath('1'), '/r/c/1');
+  });
+
+  test('Open status', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'NEW',
+      labels: {},
+      mergeable: true,
+    };
+    let statuses = element.changeStatuses(change);
+    const statusString = element.changeStatusString(change);
+    assert.deepEqual(statuses, []);
+    assert.equal(statusString, '');
+
+    change.submittable = false;
+    statuses = element.changeStatuses(change,
+        {includeDerived: true});
+    assert.deepEqual(statuses, ['Active']);
+
+    // With no missing labels but no submitEnabled option.
+    change.submittable = true;
+    statuses = element.changeStatuses(change,
+        {includeDerived: true});
+    assert.deepEqual(statuses, ['Active']);
+
+    // Without missing labels and enabled submit
+    statuses = element.changeStatuses(change,
+        {includeDerived: true, submitEnabled: true});
+    assert.deepEqual(statuses, ['Ready to submit']);
+
+    change.mergeable = false;
+    change.submittable = true;
+    statuses = element.changeStatuses(change,
+        {includeDerived: true});
+    assert.deepEqual(statuses, ['Merge Conflict']);
+
+    delete change.mergeable;
+    change.submittable = true;
+    statuses = element.changeStatuses(change,
+        {includeDerived: true, mergeable: true, submitEnabled: true});
+    assert.deepEqual(statuses, ['Ready to submit']);
+
+    change.submittable = true;
+    statuses = element.changeStatuses(change,
+        {includeDerived: true, mergeable: false});
+    assert.deepEqual(statuses, ['Merge Conflict']);
+  });
+
+  test('Merge conflict', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'NEW',
+      labels: {},
+      mergeable: false,
+    };
+    const statuses = element.changeStatuses(change);
+    const statusString = element.changeStatusString(change);
+    assert.deepEqual(statuses, ['Merge Conflict']);
+    assert.equal(statusString, 'Merge Conflict');
+  });
+
+  test('mergeable prop undefined', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'NEW',
+      labels: {},
+    };
+    const statuses = element.changeStatuses(change);
+    const statusString = element.changeStatusString(change);
+    assert.deepEqual(statuses, []);
+    assert.equal(statusString, '');
+  });
+
+  test('Merged status', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'MERGED',
+      labels: {},
+    };
+    const statuses = element.changeStatuses(change);
+    const statusString = element.changeStatusString(change);
+    assert.deepEqual(statuses, ['Merged']);
+    assert.equal(statusString, 'Merged');
+  });
+
+  test('Abandoned status', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'ABANDONED',
+      labels: {},
+    };
+    const statuses = element.changeStatuses(change);
+    const statusString = element.changeStatusString(change);
+    assert.deepEqual(statuses, ['Abandoned']);
+    assert.equal(statusString, 'Abandoned');
+  });
+
+  test('Open status with private and wip', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'NEW',
+      is_private: true,
+      work_in_progress: true,
+      labels: {},
+      mergeable: true,
+    };
+    const statuses = element.changeStatuses(change);
+    const statusString = element.changeStatusString(change);
+    assert.deepEqual(statuses, ['WIP', 'Private']);
+    assert.equal(statusString, 'WIP, Private');
+  });
+
+  test('Merge conflict with private and wip', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'NEW',
+      is_private: true,
+      work_in_progress: true,
+      labels: {},
+      mergeable: false,
+    };
+    const statuses = element.changeStatuses(change);
+    const statusString = element.changeStatusString(change);
+    assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
+    assert.equal(statusString, 'Merge Conflict, WIP, Private');
+  });
+});
 </script>

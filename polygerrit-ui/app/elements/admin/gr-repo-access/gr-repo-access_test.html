@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-repo-access</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-repo-access.html">
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-repo-access.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-access.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,392 +41,429 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-repo-access tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let repoStub;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-access.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-repo-access tests', () => {
+  let element;
+  let sandbox;
+  let repoStub;
 
-    const accessRes = {
-      local: {
-        'refs/*': {
-          permissions: {
-            owner: {
-              rules: {
-                234: {action: 'ALLOW'},
-                123: {action: 'DENY'},
-              },
+  const accessRes = {
+    local: {
+      'refs/*': {
+        permissions: {
+          owner: {
+            rules: {
+              234: {action: 'ALLOW'},
+              123: {action: 'DENY'},
             },
-            read: {
-              rules: {
-                234: {action: 'ALLOW'},
+          },
+          read: {
+            rules: {
+              234: {action: 'ALLOW'},
+            },
+          },
+        },
+      },
+    },
+    groups: {
+      Administrators: {
+        name: 'Administrators',
+      },
+      Maintainers: {
+        name: 'Maintainers',
+      },
+    },
+    config_web_links: [{
+      name: 'gitiles',
+      target: '_blank',
+      url: 'https://my/site/+log/123/project.config',
+    }],
+    can_upload: true,
+  };
+  const accessRes2 = {
+    local: {
+      GLOBAL_CAPABILITIES: {
+        permissions: {
+          accessDatabase: {
+            rules: {
+              group1: {
+                action: 'ALLOW',
               },
             },
           },
         },
       },
-      groups: {
-        Administrators: {
-          name: 'Administrators',
-        },
-        Maintainers: {
-          name: 'Maintainers',
-        },
-      },
-      config_web_links: [{
-        name: 'gitiles',
-        target: '_blank',
-        url: 'https://my/site/+log/123/project.config',
-      }],
-      can_upload: true,
-    };
-    const accessRes2 = {
-      local: {
-        GLOBAL_CAPABILITIES: {
-          permissions: {
-            accessDatabase: {
-              rules: {
-                group1: {
-                  action: 'ALLOW',
-                },
-              },
-            },
-          },
+    },
+  };
+  const repoRes = {
+    labels: {
+      'Code-Review': {
+        values: {
+          ' 0': 'No score',
+          '-1': 'I would prefer this is not merged as is',
+          '-2': 'This shall not be merged',
+          '+1': 'Looks good to me, but someone else must approve',
+          '+2': 'Looks good to me, approved',
         },
       },
-    };
-    const repoRes = {
-      labels: {
-        'Code-Review': {
-          values: {
-            ' 0': 'No score',
-            '-1': 'I would prefer this is not merged as is',
-            '-2': 'This shall not be merged',
-            '+1': 'Looks good to me, but someone else must approve',
-            '+2': 'Looks good to me, approved',
-          },
-        },
-      },
-    };
+    },
+  };
+  const capabilitiesRes = {
+    accessDatabase: {
+      id: 'accessDatabase',
+      name: 'Access Database',
+    },
+    createAccount: {
+      id: 'createAccount',
+      name: 'Create Account',
+    },
+  };
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    stub('gr-rest-api-interface', {
+      getAccount() { return Promise.resolve(null); },
+    });
+    repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
+        Promise.resolve(repoRes));
+    element._loading = false;
+    element._ownerOf = [];
+    element._canUpload = false;
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('_repoChanged called when repo name changes', () => {
+    sandbox.stub(element, '_repoChanged');
+    element.repo = 'New Repo';
+    assert.isTrue(element._repoChanged.called);
+  });
+
+  test('_repoChanged', done => {
+    const accessStub = sandbox.stub(element.$.restAPI,
+        'getRepoAccessRights');
+
+    accessStub.withArgs('New Repo').returns(
+        Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
+    accessStub.withArgs('Another New Repo')
+        .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
+    const capabilitiesStub = sandbox.stub(element.$.restAPI,
+        'getCapabilities');
+    capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
+
+    element._repoChanged('New Repo').then(() => {
+      assert.isTrue(accessStub.called);
+      assert.isTrue(capabilitiesStub.called);
+      assert.isTrue(repoStub.called);
+      assert.isNotOk(element._inheritsFrom);
+      assert.deepEqual(element._local, accessRes.local);
+      assert.deepEqual(element._sections,
+          element.toSortedArray(accessRes.local));
+      assert.deepEqual(element._labels, repoRes.labels);
+      assert.equal(getComputedStyle(element.$$('.weblinks')).display,
+          'block');
+      return element._repoChanged('Another New Repo');
+    })
+        .then(() => {
+          assert.deepEqual(element._sections,
+              element.toSortedArray(accessRes2.local));
+          assert.equal(getComputedStyle(element.$$('.weblinks')).display,
+              'none');
+          done();
+        });
+  });
+
+  test('_repoChanged when repo changes to undefined returns', done => {
     const capabilitiesRes = {
       accessDatabase: {
         id: 'accessDatabase',
         name: 'Access Database',
       },
-      createAccount: {
-        id: 'createAccount',
-        name: 'Create Account',
-      },
     };
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve(null); },
-      });
-      repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
-          Promise.resolve(repoRes));
-      element._loading = false;
-      element._ownerOf = [];
-      element._canUpload = false;
+    const accessStub = sandbox.stub(element.$.restAPI, 'getRepoAccessRights')
+        .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
+    const capabilitiesStub = sandbox.stub(element.$.restAPI,
+        'getCapabilities').returns(Promise.resolve(capabilitiesRes));
+
+    element._repoChanged().then(() => {
+      assert.isFalse(accessStub.called);
+      assert.isFalse(capabilitiesStub.called);
+      assert.isFalse(repoStub.called);
+      done();
+    });
+  });
+
+  test('_computeParentHref', () => {
+    const repoName = 'test-repo';
+    assert.equal(element._computeParentHref(repoName),
+        '/admin/repos/test-repo,access');
+  });
+
+  test('_computeMainClass', () => {
+    let ownerOf = ['refs/*'];
+    const editing = true;
+    const canUpload = false;
+    assert.equal(element._computeMainClass(ownerOf, canUpload), 'admin');
+    assert.equal(element._computeMainClass(ownerOf, canUpload, editing),
+        'admin editing');
+    ownerOf = [];
+    assert.equal(element._computeMainClass(ownerOf, canUpload), '');
+    assert.equal(element._computeMainClass(ownerOf, canUpload, editing),
+        'editing');
+  });
+
+  test('inherit section', () => {
+    element._local = {};
+    element._ownerOf = [];
+    sandbox.stub(element, '_computeParentHref');
+    // Nothing should appear when no inherit from and not in edit mode.
+    assert.equal(getComputedStyle(element.$.inheritsFrom).display, 'none');
+    // The autocomplete should be hidden, and the link should be  displayed.
+    assert.isFalse(element._computeParentHref.called);
+    // When it edit mode, the autocomplete should appear.
+    element._editing = true;
+    // When editing, the autocomplete should still not be shown.
+    assert.equal(getComputedStyle(element.$.inheritsFrom).display, 'none');
+    element._editing = false;
+    element._inheritsFrom = {
+      name: 'another-repo',
+    };
+    // When there is a parent project, the link should be displayed.
+    flushAsynchronousOperations();
+    assert.notEqual(getComputedStyle(element.$.inheritsFrom).display, 'none');
+    assert.notEqual(getComputedStyle(element.$.inheritFromName).display,
+        'none');
+    assert.equal(getComputedStyle(element.$.editInheritFromInput).display,
+        'none');
+    assert.isTrue(element._computeParentHref.called);
+    element._editing = true;
+    // When editing, the autocomplete should be shown.
+    assert.notEqual(getComputedStyle(element.$.inheritsFrom).display, 'none');
+    assert.equal(getComputedStyle(element.$.inheritFromName).display, 'none');
+    assert.notEqual(getComputedStyle(element.$.editInheritFromInput).display,
+        'none');
+  });
+
+  test('_handleUpdateInheritFrom', () => {
+    element._inheritFromFilter = 'foo bar baz';
+    element._handleUpdateInheritFrom({detail: {value: 'abc+123'}});
+    assert.isOk(element._inheritsFrom);
+    assert.equal(element._inheritsFrom.id, 'abc+123');
+    assert.equal(element._inheritsFrom.name, 'foo bar baz');
+  });
+
+  test('_computeLoadingClass', () => {
+    assert.equal(element._computeLoadingClass(true), 'loading');
+    assert.equal(element._computeLoadingClass(false), '');
+  });
+
+  test('fires page-error', done => {
+    const response = {status: 404};
+
+    sandbox.stub(
+        element.$.restAPI, 'getRepoAccessRights', (repoName, errFn) => {
+          errFn(response);
+        });
+
+    element.addEventListener('page-error', e => {
+      assert.deepEqual(e.detail.response, response);
+      done();
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+    element.repo = 'test';
+  });
 
-    test('_repoChanged called when repo name changes', () => {
-      sandbox.stub(element, '_repoChanged');
-      element.repo = 'New Repo';
-      assert.isTrue(element._repoChanged.called);
-    });
-
-    test('_repoChanged', done => {
-      const accessStub = sandbox.stub(element.$.restAPI,
-          'getRepoAccessRights');
-
-      accessStub.withArgs('New Repo').returns(
-          Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
-      accessStub.withArgs('Another New Repo')
-          .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
-      const capabilitiesStub = sandbox.stub(element.$.restAPI,
-          'getCapabilities');
-      capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
-
-      element._repoChanged('New Repo').then(() => {
-        assert.isTrue(accessStub.called);
-        assert.isTrue(capabilitiesStub.called);
-        assert.isTrue(repoStub.called);
-        assert.isNotOk(element._inheritsFrom);
-        assert.deepEqual(element._local, accessRes.local);
-        assert.deepEqual(element._sections,
-            element.toSortedArray(accessRes.local));
-        assert.deepEqual(element._labels, repoRes.labels);
-        assert.equal(getComputedStyle(element.$$('.weblinks')).display,
-            'block');
-        return element._repoChanged('Another New Repo');
-      })
-          .then(() => {
-            assert.deepEqual(element._sections,
-                element.toSortedArray(accessRes2.local));
-            assert.equal(getComputedStyle(element.$$('.weblinks')).display,
-                'none');
-            done();
-          });
-    });
-
-    test('_repoChanged when repo changes to undefined returns', done => {
-      const capabilitiesRes = {
-        accessDatabase: {
-          id: 'accessDatabase',
-          name: 'Access Database',
-        },
-      };
-      const accessStub = sandbox.stub(element.$.restAPI, 'getRepoAccessRights')
-          .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
-      const capabilitiesStub = sandbox.stub(element.$.restAPI,
-          'getCapabilities').returns(Promise.resolve(capabilitiesRes));
-
-      element._repoChanged().then(() => {
-        assert.isFalse(accessStub.called);
-        assert.isFalse(capabilitiesStub.called);
-        assert.isFalse(repoStub.called);
-        done();
-      });
-    });
-
-    test('_computeParentHref', () => {
-      const repoName = 'test-repo';
-      assert.equal(element._computeParentHref(repoName),
-          '/admin/repos/test-repo,access');
-    });
-
-    test('_computeMainClass', () => {
-      let ownerOf = ['refs/*'];
-      const editing = true;
-      const canUpload = false;
-      assert.equal(element._computeMainClass(ownerOf, canUpload), 'admin');
-      assert.equal(element._computeMainClass(ownerOf, canUpload, editing),
-          'admin editing');
-      ownerOf = [];
-      assert.equal(element._computeMainClass(ownerOf, canUpload), '');
-      assert.equal(element._computeMainClass(ownerOf, canUpload, editing),
-          'editing');
-    });
-
-    test('inherit section', () => {
-      element._local = {};
-      element._ownerOf = [];
-      sandbox.stub(element, '_computeParentHref');
-      // Nothing should appear when no inherit from and not in edit mode.
-      assert.equal(getComputedStyle(element.$.inheritsFrom).display, 'none');
-      // The autocomplete should be hidden, and the link should be  displayed.
-      assert.isFalse(element._computeParentHref.called);
-      // When it edit mode, the autocomplete should appear.
-      element._editing = true;
-      // When editing, the autocomplete should still not be shown.
-      assert.equal(getComputedStyle(element.$.inheritsFrom).display, 'none');
-      element._editing = false;
-      element._inheritsFrom = {
-        name: 'another-repo',
-      };
-      // When there is a parent project, the link should be displayed.
-      flushAsynchronousOperations();
-      assert.notEqual(getComputedStyle(element.$.inheritsFrom).display, 'none');
-      assert.notEqual(getComputedStyle(element.$.inheritFromName).display,
-          'none');
+  suite('with defined sections', () => {
+    const testEditSaveCancelBtns = (shouldShowSave, shouldShowSaveReview) => {
+      // Edit button is visible and Save button is hidden.
+      assert.equal(getComputedStyle(element.$.saveReviewBtn).display, 'none');
+      assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
+      assert.notEqual(getComputedStyle(element.$.editBtn).display, 'none');
+      assert.equal(element.$.editBtn.innerText, 'EDIT');
       assert.equal(getComputedStyle(element.$.editInheritFromInput).display,
           'none');
-      assert.isTrue(element._computeParentHref.called);
-      element._editing = true;
-      // When editing, the autocomplete should be shown.
-      assert.notEqual(getComputedStyle(element.$.inheritsFrom).display, 'none');
-      assert.equal(getComputedStyle(element.$.inheritFromName).display, 'none');
-      assert.notEqual(getComputedStyle(element.$.editInheritFromInput).display,
-          'none');
-    });
+      element._inheritsFrom = {
+        id: 'test-project',
+      };
+      flushAsynchronousOperations();
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('#editInheritFromInput'))
+          .display, 'none');
 
-    test('_handleUpdateInheritFrom', () => {
-      element._inheritFromFilter = 'foo bar baz';
-      element._handleUpdateInheritFrom({detail: {value: 'abc+123'}});
-      assert.isOk(element._inheritsFrom);
-      assert.equal(element._inheritsFrom.id, 'abc+123');
-      assert.equal(element._inheritsFrom.name, 'foo bar baz');
-    });
+      MockInteractions.tap(element.$.editBtn);
+      flushAsynchronousOperations();
 
-    test('_computeLoadingClass', () => {
-      assert.equal(element._computeLoadingClass(true), 'loading');
-      assert.equal(element._computeLoadingClass(false), '');
-    });
-
-    test('fires page-error', done => {
-      const response = {status: 404};
-
-      sandbox.stub(
-          element.$.restAPI, 'getRepoAccessRights', (repoName, errFn) => {
-            errFn(response);
-          });
-
-      element.addEventListener('page-error', e => {
-        assert.deepEqual(e.detail.response, response);
-        done();
-      });
-
-      element.repo = 'test';
-    });
-
-    suite('with defined sections', () => {
-      const testEditSaveCancelBtns = (shouldShowSave, shouldShowSaveReview) => {
-        // Edit button is visible and Save button is hidden.
-        assert.equal(getComputedStyle(element.$.saveReviewBtn).display, 'none');
-        assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
-        assert.notEqual(getComputedStyle(element.$.editBtn).display, 'none');
-        assert.equal(element.$.editBtn.innerText, 'EDIT');
-        assert.equal(getComputedStyle(element.$.editInheritFromInput).display,
+      // Edit button changes to Cancel button, and Save button is visible but
+      // disabled.
+      assert.equal(element.$.editBtn.innerText, 'CANCEL');
+      if (shouldShowSaveReview) {
+        assert.notEqual(getComputedStyle(element.$.saveReviewBtn).display,
             'none');
-        element._inheritsFrom = {
-          id: 'test-project',
-        };
-        flushAsynchronousOperations();
-        assert.equal(getComputedStyle(element.shadowRoot
-            .querySelector('#editInheritFromInput'))
-            .display, 'none');
+        assert.isTrue(element.$.saveReviewBtn.disabled);
+      }
+      if (shouldShowSave) {
+        assert.notEqual(getComputedStyle(element.$.saveBtn).display, 'none');
+        assert.isTrue(element.$.saveBtn.disabled);
+      }
+      assert.notEqual(getComputedStyle(element.shadowRoot
+          .querySelector('#editInheritFromInput'))
+          .display, 'none');
 
-        MockInteractions.tap(element.$.editBtn);
-        flushAsynchronousOperations();
+      // Save button should be enabled after access is modified
+      element.fire('access-modified');
+      if (shouldShowSaveReview) {
+        assert.isFalse(element.$.saveReviewBtn.disabled);
+      }
+      if (shouldShowSave) {
+        assert.isFalse(element.$.saveBtn.disabled);
+      }
+    };
 
-        // Edit button changes to Cancel button, and Save button is visible but
-        // disabled.
-        assert.equal(element.$.editBtn.innerText, 'CANCEL');
-        if (shouldShowSaveReview) {
-          assert.notEqual(getComputedStyle(element.$.saveReviewBtn).display,
-              'none');
-          assert.isTrue(element.$.saveReviewBtn.disabled);
-        }
-        if (shouldShowSave) {
-          assert.notEqual(getComputedStyle(element.$.saveBtn).display, 'none');
-          assert.isTrue(element.$.saveBtn.disabled);
-        }
-        assert.notEqual(getComputedStyle(element.shadowRoot
-            .querySelector('#editInheritFromInput'))
-            .display, 'none');
+    setup(() => {
+      // Create deep copies of these objects so the originals are not modified
+      // by any tests.
+      element._local = JSON.parse(JSON.stringify(accessRes.local));
+      element._ownerOf = [];
+      element._sections = element.toSortedArray(element._local);
+      element._groups = JSON.parse(JSON.stringify(accessRes.groups));
+      element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
+      element._labels = JSON.parse(JSON.stringify(repoRes.labels));
+      flushAsynchronousOperations();
+    });
 
-        // Save button should be enabled after access is modified
-        element.fire('access-modified');
-        if (shouldShowSaveReview) {
-          assert.isFalse(element.$.saveReviewBtn.disabled);
-        }
-        if (shouldShowSave) {
-          assert.isFalse(element.$.saveBtn.disabled);
-        }
+    test('removing an added section', () => {
+      element.editing = true;
+      assert.equal(element._sections.length, 1);
+      element.$$('gr-access-section').fire('added-section-removed');
+      flushAsynchronousOperations();
+      assert.equal(element._sections.length, 0);
+    });
+
+    test('button visibility for non ref owner', () => {
+      assert.equal(getComputedStyle(element.$.saveReviewBtn).display, 'none');
+      assert.equal(getComputedStyle(element.$.editBtn).display, 'none');
+    });
+
+    test('button visibility for non ref owner with upload privilege', () => {
+      element._canUpload = true;
+      testEditSaveCancelBtns(false, true);
+    });
+
+    test('button visibility for ref owner', () => {
+      element._ownerOf = ['refs/for/*'];
+      testEditSaveCancelBtns(true, false);
+    });
+
+    test('button visibility for ref owner and upload', () => {
+      element._ownerOf = ['refs/for/*'];
+      element._canUpload = true;
+      testEditSaveCancelBtns(true, false);
+    });
+
+    test('_handleAccessModified called with event fired', () => {
+      sandbox.spy(element, '_handleAccessModified');
+      element.fire('access-modified');
+      assert.isTrue(element._handleAccessModified.called);
+    });
+
+    test('_handleAccessModified called when parent changes', () => {
+      element._inheritsFrom = {
+        id: 'test-project',
+      };
+      flushAsynchronousOperations();
+      element.shadowRoot.querySelector('#editInheritFromInput').fire('commit');
+      sandbox.spy(element, '_handleAccessModified');
+      element.fire('access-modified');
+      assert.isTrue(element._handleAccessModified.called);
+    });
+
+    test('_handleSaveForReview', () => {
+      const saveStub =
+          sandbox.stub(element.$.restAPI, 'setRepoAccessRightsForReview');
+      sandbox.stub(element, '_computeAddAndRemove').returns({
+        add: {},
+        remove: {},
+      });
+      element._handleSaveForReview();
+      assert.isFalse(saveStub.called);
+    });
+
+    test('_recursivelyRemoveDeleted', () => {
+      const obj = {
+        'refs/*': {
+          permissions: {
+            owner: {
+              rules: {
+                234: {action: 'ALLOW'},
+                123: {action: 'DENY', deleted: true},
+              },
+            },
+            read: {
+              deleted: true,
+              rules: {
+                234: {action: 'ALLOW'},
+              },
+            },
+          },
+        },
+      };
+      const expectedResult = {
+        'refs/*': {
+          permissions: {
+            owner: {
+              rules: {
+                234: {action: 'ALLOW'},
+              },
+            },
+          },
+        },
+      };
+      element._recursivelyRemoveDeleted(obj);
+      assert.deepEqual(obj, expectedResult);
+    });
+
+    test('_recursivelyUpdateAddRemoveObj on new added section', () => {
+      const obj = {
+        'refs/for/*': {
+          permissions: {
+            'label-Code-Review': {
+              rules: {
+                e798fed07afbc9173a587f876ef8760c78d240c1: {
+                  min: -2,
+                  max: 2,
+                  action: 'ALLOW',
+                  added: true,
+                },
+              },
+              added: true,
+              label: 'Code-Review',
+            },
+            'labelAs-Code-Review': {
+              rules: {
+                'ldap:gerritcodereview-eng': {
+                  min: -2,
+                  max: 2,
+                  action: 'ALLOW',
+                  added: true,
+                  deleted: true,
+                },
+              },
+              added: true,
+              label: 'Code-Review',
+            },
+          },
+          added: true,
+        },
       };
 
-      setup(() => {
-        // Create deep copies of these objects so the originals are not modified
-        // by any tests.
-        element._local = JSON.parse(JSON.stringify(accessRes.local));
-        element._ownerOf = [];
-        element._sections = element.toSortedArray(element._local);
-        element._groups = JSON.parse(JSON.stringify(accessRes.groups));
-        element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
-        element._labels = JSON.parse(JSON.stringify(repoRes.labels));
-        flushAsynchronousOperations();
-      });
-
-      test('removing an added section', () => {
-        element.editing = true;
-        assert.equal(element._sections.length, 1);
-        element.$$('gr-access-section').fire('added-section-removed');
-        flushAsynchronousOperations();
-        assert.equal(element._sections.length, 0);
-      });
-
-      test('button visibility for non ref owner', () => {
-        assert.equal(getComputedStyle(element.$.saveReviewBtn).display, 'none');
-        assert.equal(getComputedStyle(element.$.editBtn).display, 'none');
-      });
-
-      test('button visibility for non ref owner with upload privilege', () => {
-        element._canUpload = true;
-        testEditSaveCancelBtns(false, true);
-      });
-
-      test('button visibility for ref owner', () => {
-        element._ownerOf = ['refs/for/*'];
-        testEditSaveCancelBtns(true, false);
-      });
-
-      test('button visibility for ref owner and upload', () => {
-        element._ownerOf = ['refs/for/*'];
-        element._canUpload = true;
-        testEditSaveCancelBtns(true, false);
-      });
-
-      test('_handleAccessModified called with event fired', () => {
-        sandbox.spy(element, '_handleAccessModified');
-        element.fire('access-modified');
-        assert.isTrue(element._handleAccessModified.called);
-      });
-
-      test('_handleAccessModified called when parent changes', () => {
-        element._inheritsFrom = {
-          id: 'test-project',
-        };
-        flushAsynchronousOperations();
-        element.shadowRoot.querySelector('#editInheritFromInput').fire('commit');
-        sandbox.spy(element, '_handleAccessModified');
-        element.fire('access-modified');
-        assert.isTrue(element._handleAccessModified.called);
-      });
-
-      test('_handleSaveForReview', () => {
-        const saveStub =
-            sandbox.stub(element.$.restAPI, 'setRepoAccessRightsForReview');
-        sandbox.stub(element, '_computeAddAndRemove').returns({
-          add: {},
-          remove: {},
-        });
-        element._handleSaveForReview();
-        assert.isFalse(saveStub.called);
-      });
-
-      test('_recursivelyRemoveDeleted', () => {
-        const obj = {
-          'refs/*': {
-            permissions: {
-              owner: {
-                rules: {
-                  234: {action: 'ALLOW'},
-                  123: {action: 'DENY', deleted: true},
-                },
-              },
-              read: {
-                deleted: true,
-                rules: {
-                  234: {action: 'ALLOW'},
-                },
-              },
-            },
-          },
-        };
-        const expectedResult = {
-          'refs/*': {
-            permissions: {
-              owner: {
-                rules: {
-                  234: {action: 'ALLOW'},
-                },
-              },
-            },
-          },
-        };
-        element._recursivelyRemoveDeleted(obj);
-        assert.deepEqual(obj, expectedResult);
-      });
-
-      test('_recursivelyUpdateAddRemoveObj on new added section', () => {
-        const obj = {
+      const expectedResult = {
+        add: {
           'refs/for/*': {
             permissions: {
               'label-Code-Review': {
@@ -437,738 +479,704 @@ limitations under the License.
                 label: 'Code-Review',
               },
               'labelAs-Code-Review': {
-                rules: {
-                  'ldap:gerritcodereview-eng': {
-                    min: -2,
-                    max: 2,
-                    action: 'ALLOW',
-                    added: true,
-                    deleted: true,
-                  },
-                },
+                rules: {},
                 added: true,
                 label: 'Code-Review',
               },
             },
             added: true,
           },
-        };
+        },
+        remove: {},
+      };
+      const updateObj = {add: {}, remove: {}};
+      element._recursivelyUpdateAddRemoveObj(obj, updateObj);
+      assert.deepEqual(updateObj, expectedResult);
+    });
 
-        const expectedResult = {
-          add: {
-            'refs/for/*': {
-              permissions: {
-                'label-Code-Review': {
-                  rules: {
-                    e798fed07afbc9173a587f876ef8760c78d240c1: {
-                      min: -2,
-                      max: 2,
-                      action: 'ALLOW',
-                      added: true,
-                    },
-                  },
-                  added: true,
-                  label: 'Code-Review',
-                },
-                'labelAs-Code-Review': {
-                  rules: {},
-                  added: true,
-                  label: 'Code-Review',
-                },
-              },
-              added: true,
-            },
-          },
-          remove: {},
-        };
-        const updateObj = {add: {}, remove: {}};
-        element._recursivelyUpdateAddRemoveObj(obj, updateObj);
-        assert.deepEqual(updateObj, expectedResult);
+    test('_handleSaveForReview with no changes', () => {
+      assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+    });
+
+    test('_handleSaveForReview parent change', () => {
+      element._inheritsFrom = {
+        id: 'test-project',
+      };
+      element._originalInheritsFrom = {
+        id: 'test-project-original',
+      };
+      assert.deepEqual(element._computeAddAndRemove(), {
+        parent: 'test-project', add: {}, remove: {},
       });
+    });
 
-      test('_handleSaveForReview with no changes', () => {
-        assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+    test('_handleSaveForReview new parent with spaces', () => {
+      element._inheritsFrom = {id: 'spaces+in+project+name'};
+      element._originalInheritsFrom = {id: 'old-project'};
+      assert.deepEqual(element._computeAddAndRemove(), {
+        parent: 'spaces in project name', add: {}, remove: {},
       });
+    });
 
-      test('_handleSaveForReview parent change', () => {
-        element._inheritsFrom = {
-          id: 'test-project',
-        };
-        element._originalInheritsFrom = {
-          id: 'test-project-original',
-        };
-        assert.deepEqual(element._computeAddAndRemove(), {
-          parent: 'test-project', add: {}, remove: {},
-        });
-      });
+    test('_handleSaveForReview rules', () => {
+      // Delete a rule.
+      element._local['refs/*'].permissions.owner.rules[123].deleted = true;
+      let expectedInput = {
+        add: {},
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  123: {},
+                },
+              },
+            },
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
-      test('_handleSaveForReview new parent with spaces', () => {
-        element._inheritsFrom = {id: 'spaces+in+project+name'};
-        element._originalInheritsFrom = {id: 'old-project'};
-        assert.deepEqual(element._computeAddAndRemove(), {
-          parent: 'spaces in project name', add: {}, remove: {},
-        });
-      });
+      // Undo deleting a rule.
+      delete element._local['refs/*'].permissions.owner.rules[123].deleted;
 
-      test('_handleSaveForReview rules', () => {
-        // Delete a rule.
-        element._local['refs/*'].permissions.owner.rules[123].deleted = true;
-        let expectedInput = {
-          add: {},
-          remove: {
-            'refs/*': {
-              permissions: {
-                owner: {
-                  rules: {
-                    123: {},
+      // Modify a rule.
+      element._local['refs/*'].permissions.owner.rules[123].modified = true;
+      expectedInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  123: {action: 'DENY', modified: true},
+                },
+              },
+            },
+          },
+        },
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  123: {},
+                },
+              },
+            },
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+    });
+
+    test('_computeAddAndRemove permissions', () => {
+      // Add a new rule to a permission.
+      let expectedInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  Maintainers: {
+                    action: 'ALLOW',
+                    added: true,
                   },
                 },
               },
             },
           },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+        },
+        remove: {},
+      };
 
-        // Undo deleting a rule.
-        delete element._local['refs/*'].permissions.owner.rules[123].deleted;
+      element.$$('gr-access-section').$$('gr-permission')
+          ._handleAddRuleItem(
+              {detail: {value: {id: 'Maintainers'}}});
 
-        // Modify a rule.
-        element._local['refs/*'].permissions.owner.rules[123].modified = true;
-        expectedInput = {
-          add: {
-            'refs/*': {
-              permissions: {
-                owner: {
-                  rules: {
-                    123: {action: 'DENY', modified: true},
+      flushAsynchronousOperations();
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+      // Remove the added rule.
+      delete element._local['refs/*'].permissions.owner.rules.Maintainers;
+
+      // Delete a permission.
+      element._local['refs/*'].permissions.owner.deleted = true;
+      expectedInput = {
+        add: {},
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {rules: {}},
+            },
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+      // Undo delete permission.
+      delete element._local['refs/*'].permissions.owner.deleted;
+
+      // Modify a permission.
+      element._local['refs/*'].permissions.owner.modified = true;
+      expectedInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                modified: true,
+                rules: {
+                  234: {action: 'ALLOW'},
+                  123: {action: 'DENY'},
+                },
+              },
+            },
+          },
+        },
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {rules: {}},
+            },
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+    });
+
+    test('_computeAddAndRemove sections', () => {
+      // Add a new permission to a section
+      expectedInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              'label-Code-Review': {
+                added: true,
+                rules: {},
+                label: 'Code-Review',
+              },
+            },
+          },
+        },
+        remove: {},
+      };
+      element.$$('gr-access-section')._handleAddPermission();
+      flushAsynchronousOperations();
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+      // Add a new rule to the new permission.
+      expectedInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              'label-Code-Review': {
+                added: true,
+                rules: {
+                  Maintainers: {
+                    min: -2,
+                    max: 2,
+                    action: 'ALLOW',
+                    added: true,
                   },
                 },
+                label: 'Code-Review',
               },
             },
           },
-          remove: {
-            'refs/*': {
-              permissions: {
-                owner: {
-                  rules: {
-                    123: {},
+        },
+        remove: {},
+      };
+      const newPermission =
+          dom(element.$$('gr-access-section').root).querySelectorAll(
+              'gr-permission')[2];
+      newPermission._handleAddRuleItem(
+          {detail: {value: {id: 'Maintainers'}}});
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+      // Modify a section reference.
+      element._local['refs/*'].updatedId = 'refs/for/bar';
+      element._local['refs/*'].modified = true;
+      expectedInput = {
+        add: {
+          'refs/for/bar': {
+            modified: true,
+            updatedId: 'refs/for/bar',
+            permissions: {
+              'owner': {
+                rules: {
+                  234: {action: 'ALLOW'},
+                  123: {action: 'DENY'},
+                },
+              },
+              'read': {
+                rules: {
+                  234: {action: 'ALLOW'},
+                },
+              },
+              'label-Code-Review': {
+                added: true,
+                rules: {
+                  Maintainers: {
+                    min: -2,
+                    max: 2,
+                    action: 'ALLOW',
+                    added: true,
                   },
                 },
+                label: 'Code-Review',
               },
             },
           },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-      });
+        },
+        remove: {
+          'refs/*': {
+            permissions: {},
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
-      test('_computeAddAndRemove permissions', () => {
-        // Add a new rule to a permission.
-        let expectedInput = {
-          add: {
-            'refs/*': {
-              permissions: {
-                owner: {
-                  rules: {
-                    Maintainers: {
-                      action: 'ALLOW',
-                      added: true,
-                    },
+      // Delete a section.
+      element._local['refs/*'].deleted = true;
+      expectedInput = {
+        add: {},
+        remove: {
+          'refs/*': {
+            permissions: {},
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+    });
+
+    test('_computeAddAndRemove new section', () => {
+      // Add a new permission to a section
+      expectedInput = {
+        add: {
+          'refs/for/*': {
+            added: true,
+            permissions: {},
+          },
+        },
+        remove: {},
+      };
+      MockInteractions.tap(element.$.addReferenceBtn);
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+      expectedInput = {
+        add: {
+          'refs/for/*': {
+            added: true,
+            permissions: {
+              'label-Code-Review': {
+                added: true,
+                rules: {},
+                label: 'Code-Review',
+              },
+            },
+          },
+        },
+        remove: {},
+      };
+      const newSection = dom(element.root)
+          .querySelectorAll('gr-access-section')[1];
+      newSection._handleAddPermission();
+      flushAsynchronousOperations();
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+      // Add rule to the new permission.
+      expectedInput = {
+        add: {
+          'refs/for/*': {
+            added: true,
+            permissions: {
+              'label-Code-Review': {
+                added: true,
+                rules: {
+                  Maintainers: {
+                    action: 'ALLOW',
+                    added: true,
+                    max: 2,
+                    min: -2,
                   },
                 },
+                label: 'Code-Review',
               },
             },
           },
-          remove: {},
-        };
+        },
+        remove: {},
+      };
 
-        element.$$('gr-access-section').$$('gr-permission')
-            ._handleAddRuleItem(
-                {detail: {value: {id: 'Maintainers'}}});
+      newSection.$$('gr-permission')._handleAddRuleItem(
+          {detail: {value: {id: 'Maintainers'}}});
 
-        flushAsynchronousOperations();
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+      flushAsynchronousOperations();
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
-        // Remove the added rule.
-        delete element._local['refs/*'].permissions.owner.rules.Maintainers;
-
-        // Delete a permission.
-        element._local['refs/*'].permissions.owner.deleted = true;
-        expectedInput = {
-          add: {},
-          remove: {
-            'refs/*': {
-              permissions: {
-                owner: {rules: {}},
-              },
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        // Undo delete permission.
-        delete element._local['refs/*'].permissions.owner.deleted;
-
-        // Modify a permission.
-        element._local['refs/*'].permissions.owner.modified = true;
-        expectedInput = {
-          add: {
-            'refs/*': {
-              permissions: {
-                owner: {
-                  modified: true,
-                  rules: {
-                    234: {action: 'ALLOW'},
-                    123: {action: 'DENY'},
+      // Modify a the reference from the default value.
+      element._local['refs/for/*'].updatedId = 'refs/for/new';
+      expectedInput = {
+        add: {
+          'refs/for/new': {
+            added: true,
+            updatedId: 'refs/for/new',
+            permissions: {
+              'label-Code-Review': {
+                added: true,
+                rules: {
+                  Maintainers: {
+                    action: 'ALLOW',
+                    added: true,
+                    max: 2,
+                    min: -2,
                   },
                 },
+                label: 'Code-Review',
               },
             },
           },
-          remove: {
-            'refs/*': {
-              permissions: {
-                owner: {rules: {}},
-              },
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-      });
+        },
+        remove: {},
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+    });
 
-      test('_computeAddAndRemove sections', () => {
-        // Add a new permission to a section
-        expectedInput = {
-          add: {
-            'refs/*': {
-              permissions: {
-                'label-Code-Review': {
-                  added: true,
-                  rules: {},
-                  label: 'Code-Review',
+    test('_computeAddAndRemove combinations', () => {
+      // Modify rule and delete permission that it is inside of.
+      element._local['refs/*'].permissions.owner.rules[123].modified = true;
+      element._local['refs/*'].permissions.owner.deleted = true;
+      let expectedInput = {
+        add: {},
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {rules: {}},
+            },
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+      // Delete rule and delete permission that it is inside of.
+      element._local['refs/*'].permissions.owner.rules[123].modified = false;
+      element._local['refs/*'].permissions.owner.rules[123].deleted = true;
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+      // Also modify a different rule inside of another permission.
+      element._local['refs/*'].permissions.read.modified = true;
+      expectedInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              read: {
+                modified: true,
+                rules: {
+                  234: {action: 'ALLOW'},
                 },
               },
             },
           },
-          remove: {},
-        };
-        element.$$('gr-access-section')._handleAddPermission();
-        flushAsynchronousOperations();
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        // Add a new rule to the new permission.
-        expectedInput = {
-          add: {
-            'refs/*': {
-              permissions: {
-                'label-Code-Review': {
-                  added: true,
-                  rules: {
-                    Maintainers: {
-                      min: -2,
-                      max: 2,
-                      action: 'ALLOW',
-                      added: true,
-                    },
-                  },
-                  label: 'Code-Review',
+        },
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {rules: {}},
+              read: {rules: {}},
+            },
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+      // Modify both permissions with an exclusive bit. Owner is still
+      // deleted.
+      element._local['refs/*'].permissions.owner.exclusive = true;
+      element._local['refs/*'].permissions.owner.modified = true;
+      element._local['refs/*'].permissions.read.exclusive = true;
+      element._local['refs/*'].permissions.read.modified = true;
+      expectedInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              read: {
+                exclusive: true,
+                modified: true,
+                rules: {
+                  234: {action: 'ALLOW'},
                 },
               },
             },
           },
-          remove: {},
-        };
-        const newPermission =
-            Polymer.dom(element.$$('gr-access-section').root).querySelectorAll(
-                'gr-permission')[2];
-        newPermission._handleAddRuleItem(
-            {detail: {value: {id: 'Maintainers'}}});
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+        },
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {rules: {}},
+              read: {rules: {}},
+            },
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
-        // Modify a section reference.
-        element._local['refs/*'].updatedId = 'refs/for/bar';
-        element._local['refs/*'].modified = true;
-        expectedInput = {
-          add: {
-            'refs/for/bar': {
-              modified: true,
-              updatedId: 'refs/for/bar',
-              permissions: {
-                'owner': {
-                  rules: {
-                    234: {action: 'ALLOW'},
-                    123: {action: 'DENY'},
-                  },
-                },
-                'read': {
-                  rules: {
-                    234: {action: 'ALLOW'},
-                  },
-                },
-                'label-Code-Review': {
-                  added: true,
-                  rules: {
-                    Maintainers: {
-                      min: -2,
-                      max: 2,
-                      action: 'ALLOW',
-                      added: true,
-                    },
-                  },
-                  label: 'Code-Review',
+      // Add a rule to the existing permission;
+      const readPermission =
+          dom(element.$$('gr-access-section').root).querySelectorAll(
+              'gr-permission')[1];
+      readPermission._handleAddRuleItem(
+          {detail: {value: {id: 'Maintainers'}}});
+
+      expectedInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              read: {
+                exclusive: true,
+                modified: true,
+                rules: {
+                  234: {action: 'ALLOW'},
+                  Maintainers: {action: 'ALLOW', added: true},
                 },
               },
             },
           },
-          remove: {
-            'refs/*': {
-              permissions: {},
+        },
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {rules: {}},
+              read: {rules: {}},
             },
           },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
-        // Delete a section.
-        element._local['refs/*'].deleted = true;
-        expectedInput = {
-          add: {},
-          remove: {
-            'refs/*': {
-              permissions: {},
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-      });
+      // Change one of the refs
+      element._local['refs/*'].updatedId = 'refs/for/bar';
+      element._local['refs/*'].modified = true;
 
-      test('_computeAddAndRemove new section', () => {
-        // Add a new permission to a section
-        expectedInput = {
-          add: {
-            'refs/for/*': {
-              added: true,
-              permissions: {},
-            },
-          },
-          remove: {},
-        };
-        MockInteractions.tap(element.$.addReferenceBtn);
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        expectedInput = {
-          add: {
-            'refs/for/*': {
-              added: true,
-              permissions: {
-                'label-Code-Review': {
-                  added: true,
-                  rules: {},
-                  label: 'Code-Review',
+      expectedInput = {
+        add: {
+          'refs/for/bar': {
+            modified: true,
+            updatedId: 'refs/for/bar',
+            permissions: {
+              read: {
+                exclusive: true,
+                modified: true,
+                rules: {
+                  234: {action: 'ALLOW'},
+                  Maintainers: {action: 'ALLOW', added: true},
                 },
               },
             },
           },
-          remove: {},
-        };
-        const newSection = Polymer.dom(element.root)
-            .querySelectorAll('gr-access-section')[1];
-        newSection._handleAddPermission();
-        flushAsynchronousOperations();
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        // Add rule to the new permission.
-        expectedInput = {
-          add: {
-            'refs/for/*': {
-              added: true,
-              permissions: {
-                'label-Code-Review': {
-                  added: true,
-                  rules: {
-                    Maintainers: {
-                      action: 'ALLOW',
-                      added: true,
-                      max: 2,
-                      min: -2,
-                    },
-                  },
-                  label: 'Code-Review',
-                },
-              },
-            },
+        },
+        remove: {
+          'refs/*': {
+            permissions: {},
           },
-          remove: {},
-        };
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
-        newSection.$$('gr-permission')._handleAddRuleItem(
-            {detail: {value: {id: 'Maintainers'}}});
-
-        flushAsynchronousOperations();
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        // Modify a the reference from the default value.
-        element._local['refs/for/*'].updatedId = 'refs/for/new';
-        expectedInput = {
-          add: {
-            'refs/for/new': {
-              added: true,
-              updatedId: 'refs/for/new',
-              permissions: {
-                'label-Code-Review': {
-                  added: true,
-                  rules: {
-                    Maintainers: {
-                      action: 'ALLOW',
-                      added: true,
-                      max: 2,
-                      min: -2,
-                    },
-                  },
-                  label: 'Code-Review',
-                },
-              },
-            },
+      expectedInput = {
+        add: {},
+        remove: {
+          'refs/*': {
+            permissions: {},
           },
-          remove: {},
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-      });
+        },
+      };
+      element._local['refs/*'].deleted = true;
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
-      test('_computeAddAndRemove combinations', () => {
-        // Modify rule and delete permission that it is inside of.
-        element._local['refs/*'].permissions.owner.rules[123].modified = true;
-        element._local['refs/*'].permissions.owner.deleted = true;
-        let expectedInput = {
-          add: {},
-          remove: {
-            'refs/*': {
-              permissions: {
-                owner: {rules: {}},
-              },
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-        // Delete rule and delete permission that it is inside of.
-        element._local['refs/*'].permissions.owner.rules[123].modified = false;
-        element._local['refs/*'].permissions.owner.rules[123].deleted = true;
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+      // Add a new section.
+      MockInteractions.tap(element.$.addReferenceBtn);
+      let newSection = dom(element.root)
+          .querySelectorAll('gr-access-section')[1];
+      newSection._handleAddPermission();
+      flushAsynchronousOperations();
+      newSection.$$('gr-permission')._handleAddRuleItem(
+          {detail: {value: {id: 'Maintainers'}}});
+      // Modify a the reference from the default value.
+      element._local['refs/for/*'].updatedId = 'refs/for/new';
 
-        // Also modify a different rule inside of another permission.
-        element._local['refs/*'].permissions.read.modified = true;
-        expectedInput = {
-          add: {
-            'refs/*': {
-              permissions: {
-                read: {
-                  modified: true,
-                  rules: {
-                    234: {action: 'ALLOW'},
+      expectedInput = {
+        add: {
+          'refs/for/new': {
+            added: true,
+            updatedId: 'refs/for/new',
+            permissions: {
+              'label-Code-Review': {
+                added: true,
+                rules: {
+                  Maintainers: {
+                    action: 'ALLOW',
+                    added: true,
+                    max: 2,
+                    min: -2,
                   },
                 },
+                label: 'Code-Review',
               },
             },
           },
-          remove: {
-            'refs/*': {
-              permissions: {
-                owner: {rules: {}},
-                read: {rules: {}},
-              },
-            },
+        },
+        remove: {
+          'refs/*': {
+            permissions: {},
           },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-        // Modify both permissions with an exclusive bit. Owner is still
-        // deleted.
-        element._local['refs/*'].permissions.owner.exclusive = true;
-        element._local['refs/*'].permissions.owner.modified = true;
-        element._local['refs/*'].permissions.read.exclusive = true;
-        element._local['refs/*'].permissions.read.modified = true;
-        expectedInput = {
-          add: {
-            'refs/*': {
-              permissions: {
-                read: {
-                  exclusive: true,
-                  modified: true,
-                  rules: {
-                    234: {action: 'ALLOW'},
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+      // Modify newly added rule inside new ref.
+      element._local['refs/for/*'].permissions['label-Code-Review'].
+          rules['Maintainers'].modified = true;
+      expectedInput = {
+        add: {
+          'refs/for/new': {
+            added: true,
+            updatedId: 'refs/for/new',
+            permissions: {
+              'label-Code-Review': {
+                added: true,
+                rules: {
+                  Maintainers: {
+                    action: 'ALLOW',
+                    added: true,
+                    modified: true,
+                    max: 2,
+                    min: -2,
                   },
+                },
+                label: 'Code-Review',
+              },
+            },
+          },
+        },
+        remove: {
+          'refs/*': {
+            permissions: {},
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+      // Add a second new section.
+      MockInteractions.tap(element.$.addReferenceBtn);
+      newSection = dom(element.root)
+          .querySelectorAll('gr-access-section')[2];
+      newSection._handleAddPermission();
+      flushAsynchronousOperations();
+      newSection.$$('gr-permission')._handleAddRuleItem(
+          {detail: {value: {id: 'Maintainers'}}});
+      // Modify a the reference from the default value.
+      element._local['refs/for/**'].updatedId = 'refs/for/new2';
+      expectedInput = {
+        add: {
+          'refs/for/new': {
+            added: true,
+            updatedId: 'refs/for/new',
+            permissions: {
+              'label-Code-Review': {
+                added: true,
+                rules: {
+                  Maintainers: {
+                    action: 'ALLOW',
+                    added: true,
+                    modified: true,
+                    max: 2,
+                    min: -2,
+                  },
+                },
+                label: 'Code-Review',
+              },
+            },
+          },
+          'refs/for/new2': {
+            added: true,
+            updatedId: 'refs/for/new2',
+            permissions: {
+              'label-Code-Review': {
+                added: true,
+                rules: {
+                  Maintainers: {
+                    action: 'ALLOW',
+                    added: true,
+                    max: 2,
+                    min: -2,
+                  },
+                },
+                label: 'Code-Review',
+              },
+            },
+          },
+        },
+        remove: {
+          'refs/*': {
+            permissions: {},
+          },
+        },
+      };
+      assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+    });
+
+    test('Unsaved added refs are discarded when edit cancelled', () => {
+      // Unsaved changes are discarded when editing is cancelled.
+      MockInteractions.tap(element.$.editBtn);
+      assert.equal(element._sections.length, 1);
+      assert.equal(Object.keys(element._local).length, 1);
+      MockInteractions.tap(element.$.addReferenceBtn);
+      assert.equal(element._sections.length, 2);
+      assert.equal(Object.keys(element._local).length, 2);
+      MockInteractions.tap(element.$.editBtn);
+      assert.equal(element._sections.length, 1);
+      assert.equal(Object.keys(element._local).length, 1);
+    });
+
+    test('_handleSaveForReview', done => {
+      const repoAccessInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  123: {action: 'DENY', modified: true},
                 },
               },
             },
           },
-          remove: {
-            'refs/*': {
-              permissions: {
-                owner: {rules: {}},
-                read: {rules: {}},
-              },
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        // Add a rule to the existing permission;
-        const readPermission =
-            Polymer.dom(element.$$('gr-access-section').root).querySelectorAll(
-                'gr-permission')[1];
-        readPermission._handleAddRuleItem(
-            {detail: {value: {id: 'Maintainers'}}});
-
-        expectedInput = {
-          add: {
-            'refs/*': {
-              permissions: {
-                read: {
-                  exclusive: true,
-                  modified: true,
-                  rules: {
-                    234: {action: 'ALLOW'},
-                    Maintainers: {action: 'ALLOW', added: true},
-                  },
+        },
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  123: {},
                 },
               },
             },
           },
-          remove: {
-            'refs/*': {
-              permissions: {
-                owner: {rules: {}},
-                read: {rules: {}},
-              },
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+        },
+      };
+      sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
+          Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
+      sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      const saveForReviewStub = sandbox.stub(element.$.restAPI,
+          'setRepoAccessRightsForReview')
+          .returns(Promise.resolve({_number: 1}));
 
-        // Change one of the refs
-        element._local['refs/*'].updatedId = 'refs/for/bar';
-        element._local['refs/*'].modified = true;
+      element.repo = 'test-repo';
+      sandbox.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
-        expectedInput = {
-          add: {
-            'refs/for/bar': {
-              modified: true,
-              updatedId: 'refs/for/bar',
-              permissions: {
-                read: {
-                  exclusive: true,
-                  modified: true,
-                  rules: {
-                    234: {action: 'ALLOW'},
-                    Maintainers: {action: 'ALLOW', added: true},
-                  },
-                },
-              },
-            },
-          },
-          remove: {
-            'refs/*': {
-              permissions: {},
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        expectedInput = {
-          add: {},
-          remove: {
-            'refs/*': {
-              permissions: {},
-            },
-          },
-        };
-        element._local['refs/*'].deleted = true;
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        // Add a new section.
-        MockInteractions.tap(element.$.addReferenceBtn);
-        let newSection = Polymer.dom(element.root)
-            .querySelectorAll('gr-access-section')[1];
-        newSection._handleAddPermission();
-        flushAsynchronousOperations();
-        newSection.$$('gr-permission')._handleAddRuleItem(
-            {detail: {value: {id: 'Maintainers'}}});
-        // Modify a the reference from the default value.
-        element._local['refs/for/*'].updatedId = 'refs/for/new';
-
-        expectedInput = {
-          add: {
-            'refs/for/new': {
-              added: true,
-              updatedId: 'refs/for/new',
-              permissions: {
-                'label-Code-Review': {
-                  added: true,
-                  rules: {
-                    Maintainers: {
-                      action: 'ALLOW',
-                      added: true,
-                      max: 2,
-                      min: -2,
-                    },
-                  },
-                  label: 'Code-Review',
-                },
-              },
-            },
-          },
-          remove: {
-            'refs/*': {
-              permissions: {},
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        // Modify newly added rule inside new ref.
-        element._local['refs/for/*'].permissions['label-Code-Review'].
-            rules['Maintainers'].modified = true;
-        expectedInput = {
-          add: {
-            'refs/for/new': {
-              added: true,
-              updatedId: 'refs/for/new',
-              permissions: {
-                'label-Code-Review': {
-                  added: true,
-                  rules: {
-                    Maintainers: {
-                      action: 'ALLOW',
-                      added: true,
-                      modified: true,
-                      max: 2,
-                      min: -2,
-                    },
-                  },
-                  label: 'Code-Review',
-                },
-              },
-            },
-          },
-          remove: {
-            'refs/*': {
-              permissions: {},
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-
-        // Add a second new section.
-        MockInteractions.tap(element.$.addReferenceBtn);
-        newSection = Polymer.dom(element.root)
-            .querySelectorAll('gr-access-section')[2];
-        newSection._handleAddPermission();
-        flushAsynchronousOperations();
-        newSection.$$('gr-permission')._handleAddRuleItem(
-            {detail: {value: {id: 'Maintainers'}}});
-        // Modify a the reference from the default value.
-        element._local['refs/for/**'].updatedId = 'refs/for/new2';
-        expectedInput = {
-          add: {
-            'refs/for/new': {
-              added: true,
-              updatedId: 'refs/for/new',
-              permissions: {
-                'label-Code-Review': {
-                  added: true,
-                  rules: {
-                    Maintainers: {
-                      action: 'ALLOW',
-                      added: true,
-                      modified: true,
-                      max: 2,
-                      min: -2,
-                    },
-                  },
-                  label: 'Code-Review',
-                },
-              },
-            },
-            'refs/for/new2': {
-              added: true,
-              updatedId: 'refs/for/new2',
-              permissions: {
-                'label-Code-Review': {
-                  added: true,
-                  rules: {
-                    Maintainers: {
-                      action: 'ALLOW',
-                      added: true,
-                      max: 2,
-                      min: -2,
-                    },
-                  },
-                  label: 'Code-Review',
-                },
-              },
-            },
-          },
-          remove: {
-            'refs/*': {
-              permissions: {},
-            },
-          },
-        };
-        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
-      });
-
-      test('Unsaved added refs are discarded when edit cancelled', () => {
-        // Unsaved changes are discarded when editing is cancelled.
-        MockInteractions.tap(element.$.editBtn);
-        assert.equal(element._sections.length, 1);
-        assert.equal(Object.keys(element._local).length, 1);
-        MockInteractions.tap(element.$.addReferenceBtn);
-        assert.equal(element._sections.length, 2);
-        assert.equal(Object.keys(element._local).length, 2);
-        MockInteractions.tap(element.$.editBtn);
-        assert.equal(element._sections.length, 1);
-        assert.equal(Object.keys(element._local).length, 1);
-      });
-
-      test('_handleSaveForReview', done => {
-        const repoAccessInput = {
-          add: {
-            'refs/*': {
-              permissions: {
-                owner: {
-                  rules: {
-                    123: {action: 'DENY', modified: true},
-                  },
-                },
-              },
-            },
-          },
-          remove: {
-            'refs/*': {
-              permissions: {
-                owner: {
-                  rules: {
-                    123: {},
-                  },
-                },
-              },
-            },
-          },
-        };
-        sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
-            Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
-        sandbox.stub(Gerrit.Nav, 'navigateToChange');
-        const saveForReviewStub = sandbox.stub(element.$.restAPI,
-            'setRepoAccessRightsForReview')
-            .returns(Promise.resolve({_number: 1}));
-
-        element.repo = 'test-repo';
-        sandbox.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
-
-        element._handleSaveForReview().then(() => {
-          assert.isTrue(saveForReviewStub.called);
-          assert.isTrue(Gerrit.Nav.navigateToChange
-              .lastCall.calledWithExactly({_number: 1}));
-          done();
-        });
+      element._handleSaveForReview().then(() => {
+        assert.isTrue(saveForReviewStub.called);
+        assert.isTrue(Gerrit.Nav.navigateToChange
+            .lastCall.calledWithExactly({_number: 1}));
+        done();
       });
     });
   });
+});
 </script>

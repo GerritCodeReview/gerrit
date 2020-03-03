@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-thread-list</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-thread-list.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-thread-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-thread-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,336 +40,339 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-thread-list tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let threadElements;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-thread-list.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-thread-list tests', () => {
+  let element;
+  let sandbox;
+  let threadElements;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      element.onlyShowRobotCommentsWithHumanReply = true;
-      element.threads = [
-        {
-          comments: [
-            {
-              __path: '/COMMIT_MSG',
-              author: {
-                _account_id: 1000000,
-                name: 'user',
-                username: 'user',
-              },
-              patch_set: 4,
-              id: 'ecf0b9fa_fe1a5f62',
-              line: 5,
-              updated: '2018-02-08 18:49:18.000000000',
-              message: 'test',
-              unresolved: true,
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    element.onlyShowRobotCommentsWithHumanReply = true;
+    element.threads = [
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
             },
-            {
-              id: '503008e2_0ab203ee',
-              path: '/COMMIT_MSG',
-              line: 5,
-              in_reply_to: 'ecf0b9fa_fe1a5f62',
-              updated: '2018-02-13 22:48:48.018000000',
-              message: 'draft',
-              unresolved: false,
-              __draft: true,
-              __draftID: '0.m683trwff68',
-              __editing: false,
-              patch_set: '2',
+            patch_set: 4,
+            id: 'ecf0b9fa_fe1a5f62',
+            line: 5,
+            updated: '2018-02-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+          },
+          {
+            id: '503008e2_0ab203ee',
+            path: '/COMMIT_MSG',
+            line: 5,
+            in_reply_to: 'ecf0b9fa_fe1a5f62',
+            updated: '2018-02-13 22:48:48.018000000',
+            message: 'draft',
+            unresolved: false,
+            __draft: true,
+            __draftID: '0.m683trwff68',
+            __editing: false,
+            patch_set: '2',
+          },
+        ],
+        patchNum: 4,
+        path: '/COMMIT_MSG',
+        line: 5,
+        rootId: 'ecf0b9fa_fe1a5f62',
+        start_datetime: '2018-02-08 18:49:18.000000000',
+      },
+      {
+        comments: [
+          {
+            __path: 'test.txt',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
             },
-          ],
-          patchNum: 4,
-          path: '/COMMIT_MSG',
-          line: 5,
-          rootId: 'ecf0b9fa_fe1a5f62',
-          start_datetime: '2018-02-08 18:49:18.000000000',
-        },
-        {
-          comments: [
-            {
-              __path: 'test.txt',
-              author: {
-                _account_id: 1000000,
-                name: 'user',
-                username: 'user',
-              },
-              patch_set: 3,
-              id: '09a9fb0a_1484e6cf',
-              side: 'PARENT',
-              updated: '2018-02-13 22:47:19.000000000',
-              message: 'Some comment on another patchset.',
-              unresolved: false,
+            patch_set: 3,
+            id: '09a9fb0a_1484e6cf',
+            side: 'PARENT',
+            updated: '2018-02-13 22:47:19.000000000',
+            message: 'Some comment on another patchset.',
+            unresolved: false,
+          },
+        ],
+        patchNum: 3,
+        path: 'test.txt',
+        rootId: '09a9fb0a_1484e6cf',
+        start_datetime: '2018-02-13 22:47:19.000000000',
+        commentSide: 'PARENT',
+      },
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
             },
-          ],
-          patchNum: 3,
-          path: 'test.txt',
-          rootId: '09a9fb0a_1484e6cf',
-          start_datetime: '2018-02-13 22:47:19.000000000',
-          commentSide: 'PARENT',
-        },
-        {
-          comments: [
-            {
-              __path: '/COMMIT_MSG',
-              author: {
-                _account_id: 1000000,
-                name: 'user',
-                username: 'user',
-              },
-              patch_set: 2,
-              id: '8caddf38_44770ec1',
-              line: 4,
-              updated: '2018-02-13 22:48:40.000000000',
-              message: 'Another unresolved comment',
-              unresolved: true,
+            patch_set: 2,
+            id: '8caddf38_44770ec1',
+            line: 4,
+            updated: '2018-02-13 22:48:40.000000000',
+            message: 'Another unresolved comment',
+            unresolved: true,
+          },
+        ],
+        patchNum: 2,
+        path: '/COMMIT_MSG',
+        line: 4,
+        rootId: '8caddf38_44770ec1',
+        start_datetime: '2018-02-13 22:48:40.000000000',
+      },
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
             },
-          ],
-          patchNum: 2,
-          path: '/COMMIT_MSG',
-          line: 4,
-          rootId: '8caddf38_44770ec1',
-          start_datetime: '2018-02-13 22:48:40.000000000',
-        },
-        {
-          comments: [
-            {
-              __path: '/COMMIT_MSG',
-              author: {
-                _account_id: 1000000,
-                name: 'user',
-                username: 'user',
-              },
-              patch_set: 2,
-              id: 'scaddf38_44770ec1',
-              line: 4,
-              updated: '2018-02-14 22:48:40.000000000',
-              message: 'Yet another unresolved comment',
-              unresolved: true,
+            patch_set: 2,
+            id: 'scaddf38_44770ec1',
+            line: 4,
+            updated: '2018-02-14 22:48:40.000000000',
+            message: 'Yet another unresolved comment',
+            unresolved: true,
+          },
+        ],
+        patchNum: 2,
+        path: '/COMMIT_MSG',
+        line: 4,
+        rootId: 'scaddf38_44770ec1',
+        start_datetime: '2018-02-14 22:48:40.000000000',
+      },
+      {
+        comments: [
+          {
+            id: 'zcf0b9fa_fe1a5f62',
+            path: '/COMMIT_MSG',
+            line: 6,
+            updated: '2018-02-15 22:48:48.018000000',
+            message: 'resolved draft',
+            unresolved: false,
+            __draft: true,
+            __draftID: '0.m683trwff68',
+            __editing: false,
+            patch_set: '2',
+          },
+        ],
+        patchNum: 4,
+        path: '/COMMIT_MSG',
+        line: 6,
+        rootId: 'zcf0b9fa_fe1a5f62',
+        start_datetime: '2018-02-09 18:49:18.000000000',
+      },
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
             },
-          ],
-          patchNum: 2,
-          path: '/COMMIT_MSG',
-          line: 4,
-          rootId: 'scaddf38_44770ec1',
-          start_datetime: '2018-02-14 22:48:40.000000000',
-        },
-        {
-          comments: [
-            {
-              id: 'zcf0b9fa_fe1a5f62',
-              path: '/COMMIT_MSG',
-              line: 6,
-              updated: '2018-02-15 22:48:48.018000000',
-              message: 'resolved draft',
-              unresolved: false,
-              __draft: true,
-              __draftID: '0.m683trwff68',
-              __editing: false,
-              patch_set: '2',
+            patch_set: 4,
+            id: 'rc1',
+            line: 5,
+            updated: '2019-02-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+            robot_id: 'rc1',
+          },
+        ],
+        patchNum: 4,
+        path: '/COMMIT_MSG',
+        line: 5,
+        rootId: 'rc1',
+        start_datetime: '2019-02-08 18:49:18.000000000',
+      },
+      {
+        comments: [
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
             },
-          ],
-          patchNum: 4,
-          path: '/COMMIT_MSG',
-          line: 6,
-          rootId: 'zcf0b9fa_fe1a5f62',
-          start_datetime: '2018-02-09 18:49:18.000000000',
-        },
-        {
-          comments: [
-            {
-              __path: '/COMMIT_MSG',
-              author: {
-                _account_id: 1000000,
-                name: 'user',
-                username: 'user',
-              },
-              patch_set: 4,
-              id: 'rc1',
-              line: 5,
-              updated: '2019-02-08 18:49:18.000000000',
-              message: 'test',
-              unresolved: true,
-              robot_id: 'rc1',
+            patch_set: 4,
+            id: 'rc2',
+            line: 5,
+            updated: '2019-03-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+            robot_id: 'rc2',
+          },
+          {
+            __path: '/COMMIT_MSG',
+            author: {
+              _account_id: 1000000,
+              name: 'user',
+              username: 'user',
             },
-          ],
-          patchNum: 4,
-          path: '/COMMIT_MSG',
-          line: 5,
-          rootId: 'rc1',
-          start_datetime: '2019-02-08 18:49:18.000000000',
-        },
-        {
-          comments: [
-            {
-              __path: '/COMMIT_MSG',
-              author: {
-                _account_id: 1000000,
-                name: 'user',
-                username: 'user',
-              },
-              patch_set: 4,
-              id: 'rc2',
-              line: 5,
-              updated: '2019-03-08 18:49:18.000000000',
-              message: 'test',
-              unresolved: true,
-              robot_id: 'rc2',
-            },
-            {
-              __path: '/COMMIT_MSG',
-              author: {
-                _account_id: 1000000,
-                name: 'user',
-                username: 'user',
-              },
-              patch_set: 4,
-              id: 'c2_1',
-              line: 5,
-              updated: '2019-03-08 18:49:18.000000000',
-              message: 'test',
-              unresolved: true,
-            },
-          ],
-          patchNum: 4,
-          path: '/COMMIT_MSG',
-          line: 5,
-          rootId: 'rc2',
-          start_datetime: '2019-03-08 18:49:18.000000000',
-        },
-      ];
-      flushAsynchronousOperations();
-      threadElements = Polymer.dom(element.root)
-          .querySelectorAll('gr-comment-thread');
-    });
+            patch_set: 4,
+            id: 'c2_1',
+            line: 5,
+            updated: '2019-03-08 18:49:18.000000000',
+            message: 'test',
+            unresolved: true,
+          },
+        ],
+        patchNum: 4,
+        path: '/COMMIT_MSG',
+        line: 5,
+        rootId: 'rc2',
+        start_datetime: '2019-03-08 18:49:18.000000000',
+      },
+    ];
+    flushAsynchronousOperations();
+    threadElements = dom(element.root)
+        .querySelectorAll('gr-comment-thread');
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('draft toggle only appears when logged in', () => {
-      assert.equal(getComputedStyle(element.$$('.draftToggle')).display,
-          'none');
-      element.loggedIn = true;
-      assert.notEqual(getComputedStyle(element.$$('.draftToggle')).display,
-          'none');
-    });
+  test('draft toggle only appears when logged in', () => {
+    assert.equal(getComputedStyle(element.$$('.draftToggle')).display,
+        'none');
+    element.loggedIn = true;
+    assert.notEqual(getComputedStyle(element.$$('.draftToggle')).display,
+        'none');
+  });
 
-    test('there are five threads by default', () => {
-      assert.equal(Polymer.dom(element.root)
-          .querySelectorAll('gr-comment-thread').length, 5);
-    });
+  test('there are five threads by default', () => {
+    assert.equal(dom(element.root)
+        .querySelectorAll('gr-comment-thread').length, 5);
+  });
 
-    test('_computeSortedThreads', () => {
-      assert.equal(element._sortedThreads.length, 7);
-      // Draft and unresolved
-      assert.equal(element._sortedThreads[0].thread.rootId,
-          'ecf0b9fa_fe1a5f62');
-      // Unresolved robot comment
-      assert.equal(element._sortedThreads[1].thread.rootId,
-          'rc2');
-      // Unresolved robot comment
-      assert.equal(element._sortedThreads[2].thread.rootId,
-          'rc1');
-      // unresolved
-      assert.equal(element._sortedThreads[3].thread.rootId,
-          'scaddf38_44770ec1');
-      // unresolved
-      assert.equal(element._sortedThreads[4].thread.rootId,
-          '8caddf38_44770ec1');
-      // resolved and draft
-      assert.equal(element._sortedThreads[5].thread.rootId,
-          'zcf0b9fa_fe1a5f62');
-      // resolved
-      assert.equal(element._sortedThreads[6].thread.rootId,
-          '09a9fb0a_1484e6cf');
-    });
+  test('_computeSortedThreads', () => {
+    assert.equal(element._sortedThreads.length, 7);
+    // Draft and unresolved
+    assert.equal(element._sortedThreads[0].thread.rootId,
+        'ecf0b9fa_fe1a5f62');
+    // Unresolved robot comment
+    assert.equal(element._sortedThreads[1].thread.rootId,
+        'rc2');
+    // Unresolved robot comment
+    assert.equal(element._sortedThreads[2].thread.rootId,
+        'rc1');
+    // unresolved
+    assert.equal(element._sortedThreads[3].thread.rootId,
+        'scaddf38_44770ec1');
+    // unresolved
+    assert.equal(element._sortedThreads[4].thread.rootId,
+        '8caddf38_44770ec1');
+    // resolved and draft
+    assert.equal(element._sortedThreads[5].thread.rootId,
+        'zcf0b9fa_fe1a5f62');
+    // resolved
+    assert.equal(element._sortedThreads[6].thread.rootId,
+        '09a9fb0a_1484e6cf');
+  });
 
-    test('filtered threads do not contain robot comments without reply', () => {
-      const thread = element.threads.find(thread => thread.rootId === 'rc1');
-      assert.equal(element._filteredThreads.includes(thread), false);
-    });
+  test('filtered threads do not contain robot comments without reply', () => {
+    const thread = element.threads.find(thread => thread.rootId === 'rc1');
+    assert.equal(element._filteredThreads.includes(thread), false);
+  });
 
-    test('filtered threads contains robot comments with reply', () => {
-      const thread = element.threads.find(thread => thread.rootId === 'rc2');
-      assert.equal(element._filteredThreads.includes(thread), true);
-    });
+  test('filtered threads contains robot comments with reply', () => {
+    const thread = element.threads.find(thread => thread.rootId === 'rc2');
+    assert.equal(element._filteredThreads.includes(thread), true);
+  });
 
-    test('thread removal', () => {
-      threadElements[1].fire('thread-discard', {rootId: 'rc2'});
-      flushAsynchronousOperations();
-      assert.equal(element._sortedThreads.length, 6);
-      assert.equal(element._sortedThreads[0].thread.rootId,
-          'ecf0b9fa_fe1a5f62');
-      // Unresolved robot comment
-      assert.equal(element._sortedThreads[1].thread.rootId,
-          'rc1');
-      // unresolved
-      assert.equal(element._sortedThreads[2].thread.rootId,
-          'scaddf38_44770ec1');
-      // unresolved
-      assert.equal(element._sortedThreads[3].thread.rootId,
-          '8caddf38_44770ec1');
-      // resolved and draft
-      assert.equal(element._sortedThreads[4].thread.rootId,
-          'zcf0b9fa_fe1a5f62');
-      // resolved
-      assert.equal(element._sortedThreads[5].thread.rootId,
-          '09a9fb0a_1484e6cf');
-    });
+  test('thread removal', () => {
+    threadElements[1].fire('thread-discard', {rootId: 'rc2'});
+    flushAsynchronousOperations();
+    assert.equal(element._sortedThreads.length, 6);
+    assert.equal(element._sortedThreads[0].thread.rootId,
+        'ecf0b9fa_fe1a5f62');
+    // Unresolved robot comment
+    assert.equal(element._sortedThreads[1].thread.rootId,
+        'rc1');
+    // unresolved
+    assert.equal(element._sortedThreads[2].thread.rootId,
+        'scaddf38_44770ec1');
+    // unresolved
+    assert.equal(element._sortedThreads[3].thread.rootId,
+        '8caddf38_44770ec1');
+    // resolved and draft
+    assert.equal(element._sortedThreads[4].thread.rootId,
+        'zcf0b9fa_fe1a5f62');
+    // resolved
+    assert.equal(element._sortedThreads[5].thread.rootId,
+        '09a9fb0a_1484e6cf');
+  });
 
-    test('toggle unresolved only shows unresolved comments', () => {
-      MockInteractions.tap(element.shadowRoot.querySelector(
-          '#unresolvedToggle'));
-      flushAsynchronousOperations();
-      assert.equal(Polymer.dom(element.root)
-          .querySelectorAll('gr-comment-thread').length, 5);
-    });
+  test('toggle unresolved only shows unresolved comments', () => {
+    MockInteractions.tap(element.shadowRoot.querySelector(
+        '#unresolvedToggle'));
+    flushAsynchronousOperations();
+    assert.equal(dom(element.root)
+        .querySelectorAll('gr-comment-thread').length, 5);
+  });
 
-    test('toggle drafts only shows threads with draft comments', () => {
-      MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
-      flushAsynchronousOperations();
-      assert.equal(Polymer.dom(element.root)
-          .querySelectorAll('gr-comment-thread').length, 2);
-    });
+  test('toggle drafts only shows threads with draft comments', () => {
+    MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
+    flushAsynchronousOperations();
+    assert.equal(dom(element.root)
+        .querySelectorAll('gr-comment-thread').length, 2);
+  });
 
-    test('toggle drafts and unresolved only shows threads with drafts and ' +
-        'publicly unresolved ', () => {
-      MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
-      MockInteractions.tap(element.shadowRoot.querySelector(
-          '#unresolvedToggle'));
-      flushAsynchronousOperations();
-      assert.equal(Polymer.dom(element.root)
-          .querySelectorAll('gr-comment-thread').length, 2);
-    });
+  test('toggle drafts and unresolved only shows threads with drafts and ' +
+      'publicly unresolved ', () => {
+    MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
+    MockInteractions.tap(element.shadowRoot.querySelector(
+        '#unresolvedToggle'));
+    flushAsynchronousOperations();
+    assert.equal(dom(element.root)
+        .querySelectorAll('gr-comment-thread').length, 2);
+  });
 
-    test('modification events are consumed and displatched', () => {
-      sandbox.spy(element, '_handleCommentsChanged');
-      const dispatchSpy = sandbox.stub();
-      element.addEventListener('thread-list-modified', dispatchSpy);
-      threadElements[0].fire('thread-changed', {
-        rootId: 'ecf0b9fa_fe1a5f62', path: '/COMMIT_MSG'});
-      assert.isTrue(element._handleCommentsChanged.called);
-      assert.isTrue(dispatchSpy.called);
-      assert.equal(dispatchSpy.lastCall.args[0].detail.rootId,
-          'ecf0b9fa_fe1a5f62');
-      assert.equal(dispatchSpy.lastCall.args[0].detail.path, '/COMMIT_MSG');
-    });
+  test('modification events are consumed and displatched', () => {
+    sandbox.spy(element, '_handleCommentsChanged');
+    const dispatchSpy = sandbox.stub();
+    element.addEventListener('thread-list-modified', dispatchSpy);
+    threadElements[0].fire('thread-changed', {
+      rootId: 'ecf0b9fa_fe1a5f62', path: '/COMMIT_MSG'});
+    assert.isTrue(element._handleCommentsChanged.called);
+    assert.isTrue(dispatchSpy.called);
+    assert.equal(dispatchSpy.lastCall.args[0].detail.rootId,
+        'ecf0b9fa_fe1a5f62');
+    assert.equal(dispatchSpy.lastCall.args[0].detail.path, '/COMMIT_MSG');
+  });
 
-    suite('findings tab', () => {
-      setup(done => {
-        element.hideToggleButtons = true;
-        flush(() => {
-          done();
-        });
+  suite('findings tab', () => {
+    setup(done => {
+      element.hideToggleButtons = true;
+      flush(() => {
+        done();
       });
-      test('toggle buttons are hidden', () => {
-        assert.equal(element.shadowRoot.querySelector('.header').style.display,
-            'none');
-      });
+    });
+    test('toggle buttons are hidden', () => {
+      assert.equal(element.shadowRoot.querySelector('.header').style.display,
+          'none');
     });
   });
+});
 </script>

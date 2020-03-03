@@ -1,31 +1,6 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
-<dom-module id="gr-identities">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
@@ -75,9 +50,7 @@ limitations under the License.
                 <td class="emailAddressColumn">[[item.email_address]]</td>
                 <td class="identityColumn">[[_computeIdentity(item.identity)]]</td>
                 <td class="deleteColumn">
-                  <gr-button
-                      class$="deleteButton [[_computeHideDeleteClass(item.can_delete)]]"
-                      on-click="_handleDeleteItem">
+                  <gr-button class\$="deleteButton [[_computeHideDeleteClass(item.can_delete)]]" on-click="_handleDeleteItem">
                     Delete
                   </gr-button>
                 </td>
@@ -88,21 +61,14 @@ limitations under the License.
       </fieldset>
       <template is="dom-if" if="[[_showLinkAnotherIdentity]]">
         <fieldset>
-          <a href$="[[_computeLinkAnotherIdentity()]]">
-            <gr-button id="linkAnotherIdentity" link>Link Another Identity</gr-button>
+          <a href\$="[[_computeLinkAnotherIdentity()]]">
+            <gr-button id="linkAnotherIdentity" link="">Link Another Identity</gr-button>
           </a>
         </fieldset>
       </template>
     </div>
-    <gr-overlay id="overlay" with-backdrop>
-      <gr-confirm-delete-item-dialog
-          class="confirmDialog"
-          on-confirm="_handleDeleteItemConfirm"
-          on-cancel="_handleConfirmDialogCancel"
-          item="[[_idName]]"
-          item-type="id"></gr-confirm-delete-item-dialog>
+    <gr-overlay id="overlay" with-backdrop="">
+      <gr-confirm-delete-item-dialog class="confirmDialog" on-confirm="_handleDeleteItemConfirm" on-cancel="_handleConfirmDialogCancel" item="[[_idName]]" item-type="id"></gr-confirm-delete-item-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-identities.js"></script>
-</dom-module>
+`;

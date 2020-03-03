@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff-highlight</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-diff-highlight.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-diff-highlight.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-diff-highlight.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -147,482 +152,484 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff-highlight', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-diff-highlight.js';
+suite('gr-diff-highlight', () => {
+  let element;
+  let sandbox;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic')[1];
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('comment events', () => {
+    let builder;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic')[1];
+      builder = {
+        getContentsByLineRange: sandbox.stub().returns([]),
+        getLineElByChild: sandbox.stub().returns({}),
+        getSideByLineEl: sandbox.stub().returns('other-side'),
+      };
+      element._cachedDiffBuilder = builder;
+    });
+
+    test('comment-thread-mouseenter from line comments is ignored', () => {
+      const threadEl = document.createElement('div');
+      threadEl.className = 'comment-thread';
+      threadEl.setAttribute('comment-side', 'right');
+      threadEl.setAttribute('line-num', 3);
+      element.appendChild(threadEl);
+      element.commentRanges = [{side: 'right'}];
+
+      sandbox.stub(element, 'set');
+      threadEl.dispatchEvent(new CustomEvent(
+          'comment-thread-mouseenter', {bubbles: true, composed: true}));
+      assert.isFalse(element.set.called);
+    });
+
+    test('comment-thread-mouseenter from ranged comment causes set', () => {
+      const threadEl = document.createElement('div');
+      threadEl.className = 'comment-thread';
+      threadEl.setAttribute('comment-side', 'right');
+      threadEl.setAttribute('line-num', 3);
+      threadEl.setAttribute('range', JSON.stringify({
+        start_line: 3,
+        start_character: 4,
+        end_line: 5,
+        end_character: 6,
+      }));
+      element.appendChild(threadEl);
+      element.commentRanges = [{side: 'right', range: {
+        start_line: 3,
+        start_character: 4,
+        end_line: 5,
+        end_character: 6,
+      }}];
+
+      sandbox.stub(element, 'set');
+      threadEl.dispatchEvent(new CustomEvent(
+          'comment-thread-mouseenter', {bubbles: true, composed: true}));
+      assert.isTrue(element.set.called);
+      const args = element.set.lastCall.args;
+      assert.deepEqual(args[0], ['commentRanges', 0, 'hovering']);
+      assert.deepEqual(args[1], true);
+    });
+
+    test('comment-thread-mouseleave from line comments is ignored', () => {
+      const threadEl = document.createElement('div');
+      threadEl.className = 'comment-thread';
+      threadEl.setAttribute('comment-side', 'right');
+      threadEl.setAttribute('line-num', 3);
+      element.appendChild(threadEl);
+      element.commentRanges = [{side: 'right'}];
+
+      sandbox.stub(element, 'set');
+      threadEl.dispatchEvent(new CustomEvent(
+          'comment-thread-mouseleave', {bubbles: true, composed: true}));
+      assert.isFalse(element.set.called);
+    });
+
+    test(`create-range-comment for range when create-comment-requested
+          is fired`, () => {
+      sandbox.stub(element, '_removeActionBox');
+      element.selectedRange = {
+        side: 'left',
+        range: {
+          start_line: 7,
+          start_character: 11,
+          end_line: 24,
+          end_character: 42,
+        },
+      };
+      const requestEvent = new CustomEvent('create-comment-requested');
+      let createRangeEvent;
+      element.addEventListener('create-range-comment', e => {
+        createRangeEvent = e;
+      });
+      element.dispatchEvent(requestEvent);
+      assert.deepEqual(element.selectedRange, createRangeEvent.detail);
+      assert.isTrue(element._removeActionBox.called);
+    });
+  });
+
+  suite('selection', () => {
+    let diff;
+    let builder;
+    let contentStubs;
+
+    const stubContent = (line, side, opt_child) => {
+      const contentTd = diff.querySelector(
+          `.${side}.lineNum[data-value="${line}"] ~ .content`);
+      const contentText = contentTd.querySelector('.contentText');
+      const lineEl = diff.querySelector(
+          `.${side}.lineNum[data-value="${line}"]`);
+      contentStubs.push({
+        lineEl,
+        contentTd,
+        contentText,
+      });
+      builder.getContentByLineEl.withArgs(lineEl).returns(contentText);
+      builder.getLineNumberByChild.withArgs(lineEl).returns(line);
+      builder.getContentByLine.withArgs(line, side).returns(contentText);
+      builder.getSideByLineEl.withArgs(lineEl).returns(side);
+      return contentText;
+    };
+
+    const emulateSelection = (startNode, startOffset, endNode, endOffset) => {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.setStart(startNode, startOffset);
+      range.setEnd(endNode, endOffset);
+      selection.addRange(range);
+      element._handleSelection(selection);
+    };
+
+    const getLineElByChild = node => {
+      const stubs = contentStubs.find(stub => stub.contentTd.contains(node));
+      return stubs && stubs.lineEl;
+    };
+
+    setup(() => {
+      contentStubs = [];
+      stub('gr-selection-action-box', {
+        placeAbove: sandbox.stub(),
+        placeBelow: sandbox.stub(),
+      });
+      diff = element.querySelector('#diffTable');
+      builder = {
+        getContentByLine: sandbox.stub(),
+        getContentByLineEl: sandbox.stub(),
+        getLineElByChild,
+        getLineNumberByChild: sandbox.stub(),
+        getSideByLineEl: sandbox.stub(),
+      };
+      element._cachedDiffBuilder = builder;
     });
 
     teardown(() => {
-      sandbox.restore();
+      contentStubs = null;
+      window.getSelection().removeAllRanges();
     });
 
-    suite('comment events', () => {
-      let builder;
+    test('single first line', () => {
+      const content = stubContent(1, 'right');
+      sandbox.spy(element, '_positionActionBox');
+      emulateSelection(content.firstChild, 5, content.firstChild, 12);
+      const actionBox = element.$$('gr-selection-action-box');
+      assert.isTrue(actionBox.positionBelow);
+    });
 
-      setup(() => {
-        builder = {
-          getContentsByLineRange: sandbox.stub().returns([]),
-          getLineElByChild: sandbox.stub().returns({}),
-          getSideByLineEl: sandbox.stub().returns('other-side'),
-        };
-        element._cachedDiffBuilder = builder;
+    test('multiline starting on first line', () => {
+      const startContent = stubContent(1, 'right');
+      const endContent = stubContent(2, 'right');
+      sandbox.spy(element, '_positionActionBox');
+      emulateSelection(
+          startContent.firstChild, 10, endContent.lastChild, 7);
+      const actionBox = element.$$('gr-selection-action-box');
+      assert.isTrue(actionBox.positionBelow);
+    });
+
+    test('single line', () => {
+      const content = stubContent(138, 'left');
+      sandbox.spy(element, '_positionActionBox');
+      emulateSelection(content.firstChild, 5, content.firstChild, 12);
+      const actionBox = element.$$('gr-selection-action-box');
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 138,
+        start_character: 5,
+        end_line: 138,
+        end_character: 12,
       });
+      assert.equal(side, 'left');
+      assert.notOk(actionBox.positionBelow);
+    });
 
-      test('comment-thread-mouseenter from line comments is ignored', () => {
-        const threadEl = document.createElement('div');
-        threadEl.className = 'comment-thread';
-        threadEl.setAttribute('comment-side', 'right');
-        threadEl.setAttribute('line-num', 3);
-        element.appendChild(threadEl);
-        element.commentRanges = [{side: 'right'}];
-
-        sandbox.stub(element, 'set');
-        threadEl.dispatchEvent(new CustomEvent(
-            'comment-thread-mouseenter', {bubbles: true, composed: true}));
-        assert.isFalse(element.set.called);
+    test('multiline', () => {
+      const startContent = stubContent(119, 'right');
+      const endContent = stubContent(120, 'right');
+      sandbox.spy(element, '_positionActionBox');
+      emulateSelection(
+          startContent.firstChild, 10, endContent.lastChild, 7);
+      const actionBox = element.$$('gr-selection-action-box');
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 119,
+        start_character: 10,
+        end_line: 120,
+        end_character: 36,
       });
+      assert.equal(side, 'right');
+      assert.notOk(actionBox.positionBelow);
+    });
 
-      test('comment-thread-mouseenter from ranged comment causes set', () => {
-        const threadEl = document.createElement('div');
-        threadEl.className = 'comment-thread';
-        threadEl.setAttribute('comment-side', 'right');
-        threadEl.setAttribute('line-num', 3);
-        threadEl.setAttribute('range', JSON.stringify({
-          start_line: 3,
-          start_character: 4,
-          end_line: 5,
-          end_character: 6,
-        }));
-        element.appendChild(threadEl);
-        element.commentRanges = [{side: 'right', range: {
-          start_line: 3,
-          start_character: 4,
-          end_line: 5,
-          end_character: 6,
-        }}];
+    test('multiple ranges aka firefox implementation', () => {
+      const startContent = stubContent(119, 'right');
+      const endContent = stubContent(120, 'right');
 
-        sandbox.stub(element, 'set');
-        threadEl.dispatchEvent(new CustomEvent(
-            'comment-thread-mouseenter', {bubbles: true, composed: true}));
-        assert.isTrue(element.set.called);
-        const args = element.set.lastCall.args;
-        assert.deepEqual(args[0], ['commentRanges', 0, 'hovering']);
-        assert.deepEqual(args[1], true);
-      });
+      const startRange = document.createRange();
+      startRange.setStart(startContent.firstChild, 10);
+      startRange.setEnd(startContent.firstChild, 11);
 
-      test('comment-thread-mouseleave from line comments is ignored', () => {
-        const threadEl = document.createElement('div');
-        threadEl.className = 'comment-thread';
-        threadEl.setAttribute('comment-side', 'right');
-        threadEl.setAttribute('line-num', 3);
-        element.appendChild(threadEl);
-        element.commentRanges = [{side: 'right'}];
+      const endRange = document.createRange();
+      endRange.setStart(endContent.lastChild, 6);
+      endRange.setEnd(endContent.lastChild, 7);
 
-        sandbox.stub(element, 'set');
-        threadEl.dispatchEvent(new CustomEvent(
-            'comment-thread-mouseleave', {bubbles: true, composed: true}));
-        assert.isFalse(element.set.called);
-      });
-
-      test(`create-range-comment for range when create-comment-requested
-            is fired`, () => {
-        sandbox.stub(element, '_removeActionBox');
-        element.selectedRange = {
-          side: 'left',
-          range: {
-            start_line: 7,
-            start_character: 11,
-            end_line: 24,
-            end_character: 42,
-          },
-        };
-        const requestEvent = new CustomEvent('create-comment-requested');
-        let createRangeEvent;
-        element.addEventListener('create-range-comment', e => {
-          createRangeEvent = e;
-        });
-        element.dispatchEvent(requestEvent);
-        assert.deepEqual(element.selectedRange, createRangeEvent.detail);
-        assert.isTrue(element._removeActionBox.called);
+      const getRangeAtStub = sandbox.stub();
+      getRangeAtStub
+          .onFirstCall().returns(startRange)
+          .onSecondCall()
+          .returns(endRange);
+      const selection = {
+        rangeCount: 2,
+        getRangeAt: getRangeAtStub,
+        removeAllRanges: sandbox.stub(),
+      };
+      element._handleSelection(selection);
+      const {range} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 119,
+        start_character: 10,
+        end_line: 120,
+        end_character: 36,
       });
     });
 
-    suite('selection', () => {
-      let diff;
-      let builder;
-      let contentStubs;
-
-      const stubContent = (line, side, opt_child) => {
-        const contentTd = diff.querySelector(
-            `.${side}.lineNum[data-value="${line}"] ~ .content`);
-        const contentText = contentTd.querySelector('.contentText');
-        const lineEl = diff.querySelector(
-            `.${side}.lineNum[data-value="${line}"]`);
-        contentStubs.push({
-          lineEl,
-          contentTd,
-          contentText,
-        });
-        builder.getContentByLineEl.withArgs(lineEl).returns(contentText);
-        builder.getLineNumberByChild.withArgs(lineEl).returns(line);
-        builder.getContentByLine.withArgs(line, side).returns(contentText);
-        builder.getSideByLineEl.withArgs(lineEl).returns(side);
-        return contentText;
-      };
-
-      const emulateSelection = (startNode, startOffset, endNode, endOffset) => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.setStart(startNode, startOffset);
-        range.setEnd(endNode, endOffset);
-        selection.addRange(range);
-        element._handleSelection(selection);
-      };
-
-      const getLineElByChild = node => {
-        const stubs = contentStubs.find(stub => stub.contentTd.contains(node));
-        return stubs && stubs.lineEl;
-      };
-
-      setup(() => {
-        contentStubs = [];
-        stub('gr-selection-action-box', {
-          placeAbove: sandbox.stub(),
-          placeBelow: sandbox.stub(),
-        });
-        diff = element.querySelector('#diffTable');
-        builder = {
-          getContentByLine: sandbox.stub(),
-          getContentByLineEl: sandbox.stub(),
-          getLineElByChild,
-          getLineNumberByChild: sandbox.stub(),
-          getSideByLineEl: sandbox.stub(),
-        };
-        element._cachedDiffBuilder = builder;
+    test('multiline grow end highlight over tabs', () => {
+      const startContent = stubContent(119, 'right');
+      const endContent = stubContent(120, 'right');
+      emulateSelection(startContent.firstChild, 10, endContent.firstChild, 2);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 119,
+        start_character: 10,
+        end_line: 120,
+        end_character: 2,
       });
+      assert.equal(side, 'right');
+    });
 
-      teardown(() => {
-        contentStubs = null;
-        window.getSelection().removeAllRanges();
+    test('collapsed', () => {
+      const content = stubContent(138, 'left');
+      emulateSelection(content.firstChild, 5, content.firstChild, 5);
+      assert.isOk(window.getSelection().getRangeAt(0).startContainer);
+      assert.isFalse(!!element.selectedRange);
+    });
+
+    test('starts inside hl', () => {
+      const content = stubContent(140, 'left');
+      const hl = content.querySelector('.foo');
+      emulateSelection(hl.firstChild, 2, hl.nextSibling, 7);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 140,
+        start_character: 8,
+        end_line: 140,
+        end_character: 23,
       });
+      assert.equal(side, 'left');
+    });
 
-      test('single first line', () => {
-        const content = stubContent(1, 'right');
-        sandbox.spy(element, '_positionActionBox');
-        emulateSelection(content.firstChild, 5, content.firstChild, 12);
-        const actionBox = element.$$('gr-selection-action-box');
-        assert.isTrue(actionBox.positionBelow);
+    test('ends inside hl', () => {
+      const content = stubContent(140, 'left');
+      const hl = content.querySelector('.bar');
+      emulateSelection(hl.previousSibling, 2, hl.firstChild, 3);
+      const {range} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 140,
+        start_character: 18,
+        end_line: 140,
+        end_character: 27,
       });
+    });
 
-      test('multiline starting on first line', () => {
-        const startContent = stubContent(1, 'right');
-        const endContent = stubContent(2, 'right');
-        sandbox.spy(element, '_positionActionBox');
-        emulateSelection(
-            startContent.firstChild, 10, endContent.lastChild, 7);
-        const actionBox = element.$$('gr-selection-action-box');
-        assert.isTrue(actionBox.positionBelow);
+    test('multiple hl', () => {
+      const content = stubContent(140, 'left');
+      const hl = content.querySelectorAll('hl')[4];
+      emulateSelection(content.firstChild, 2, hl.firstChild, 2);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 140,
+        start_character: 2,
+        end_line: 140,
+        end_character: 61,
       });
+      assert.equal(side, 'left');
+    });
 
-      test('single line', () => {
-        const content = stubContent(138, 'left');
-        sandbox.spy(element, '_positionActionBox');
-        emulateSelection(content.firstChild, 5, content.firstChild, 12);
-        const actionBox = element.$$('gr-selection-action-box');
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 138,
-          start_character: 5,
-          end_line: 138,
-          end_character: 12,
-        });
-        assert.equal(side, 'left');
-        assert.notOk(actionBox.positionBelow);
+    test('starts outside of diff', () => {
+      const contentText = stubContent(140, 'left');
+      const contentTd = contentText.parentElement;
+
+      emulateSelection(contentTd.previousElementSibling, 0,
+          contentText.firstChild, 2);
+      assert.isFalse(!!element.selectedRange);
+    });
+
+    test('ends outside of diff', () => {
+      const content = stubContent(140, 'left');
+      emulateSelection(content.nextElementSibling.firstChild, 2,
+          content.firstChild, 2);
+      assert.isFalse(!!element.selectedRange);
+    });
+
+    test('starts and ends on different sides', () => {
+      const startContent = stubContent(140, 'left');
+      const endContent = stubContent(130, 'right');
+      emulateSelection(startContent.firstChild, 2, endContent.firstChild, 2);
+      assert.isFalse(!!element.selectedRange);
+    });
+
+    test('starts in comment thread element', () => {
+      const startContent = stubContent(140, 'left');
+      const comment = startContent.parentElement.querySelector(
+          '.comment-thread');
+      const endContent = stubContent(141, 'left');
+      emulateSelection(comment.firstChild, 2, endContent.firstChild, 4);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 140,
+        start_character: 83,
+        end_line: 141,
+        end_character: 4,
       });
+      assert.equal(side, 'left');
+    });
 
-      test('multiline', () => {
-        const startContent = stubContent(119, 'right');
-        const endContent = stubContent(120, 'right');
-        sandbox.spy(element, '_positionActionBox');
-        emulateSelection(
-            startContent.firstChild, 10, endContent.lastChild, 7);
-        const actionBox = element.$$('gr-selection-action-box');
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 119,
-          start_character: 10,
-          end_line: 120,
-          end_character: 36,
-        });
-        assert.equal(side, 'right');
-        assert.notOk(actionBox.positionBelow);
+    test('ends in comment thread element', () => {
+      const content = stubContent(140, 'left');
+      const comment = content.parentElement.querySelector(
+          '.comment-thread');
+      emulateSelection(content.firstChild, 4, comment.firstChild, 1);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 140,
+        start_character: 4,
+        end_line: 140,
+        end_character: 83,
       });
+      assert.equal(side, 'left');
+    });
 
-      test('multiple ranges aka firefox implementation', () => {
-        const startContent = stubContent(119, 'right');
-        const endContent = stubContent(120, 'right');
+    test('starts in context element', () => {
+      const contextControl =
+          diff.querySelector('.contextControl').querySelector('gr-button');
+      const content = stubContent(146, 'right');
+      emulateSelection(contextControl, 0, content.firstChild, 7);
+      // TODO (viktard): Select nearest line.
+      assert.isFalse(!!element.selectedRange);
+    });
 
-        const startRange = document.createRange();
-        startRange.setStart(startContent.firstChild, 10);
-        startRange.setEnd(startContent.firstChild, 11);
+    test('ends in context element', () => {
+      const contextControl =
+          diff.querySelector('.contextControl').querySelector('gr-button');
+      const content = stubContent(141, 'left');
+      emulateSelection(content.firstChild, 2, contextControl, 1);
+      // TODO (viktard): Select nearest line.
+      assert.isFalse(!!element.selectedRange);
+    });
 
-        const endRange = document.createRange();
-        endRange.setStart(endContent.lastChild, 6);
-        endRange.setEnd(endContent.lastChild, 7);
-
-        const getRangeAtStub = sandbox.stub();
-        getRangeAtStub
-            .onFirstCall().returns(startRange)
-            .onSecondCall()
-            .returns(endRange);
-        const selection = {
-          rangeCount: 2,
-          getRangeAt: getRangeAtStub,
-          removeAllRanges: sandbox.stub(),
-        };
-        element._handleSelection(selection);
-        const {range} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 119,
-          start_character: 10,
-          end_line: 120,
-          end_character: 36,
-        });
+    test('selection containing context element', () => {
+      const startContent = stubContent(130, 'right');
+      const endContent = stubContent(146, 'right');
+      emulateSelection(startContent.firstChild, 3, endContent.firstChild, 14);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 130,
+        start_character: 3,
+        end_line: 146,
+        end_character: 14,
       });
+      assert.equal(side, 'right');
+    });
 
-      test('multiline grow end highlight over tabs', () => {
-        const startContent = stubContent(119, 'right');
-        const endContent = stubContent(120, 'right');
-        emulateSelection(startContent.firstChild, 10, endContent.firstChild, 2);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 119,
-          start_character: 10,
-          end_line: 120,
-          end_character: 2,
-        });
-        assert.equal(side, 'right');
+    test('ends at a tab', () => {
+      const content = stubContent(140, 'left');
+      emulateSelection(
+          content.firstChild, 1, content.querySelector('span'), 0);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 140,
+        start_character: 1,
+        end_line: 140,
+        end_character: 51,
       });
+      assert.equal(side, 'left');
+    });
 
-      test('collapsed', () => {
-        const content = stubContent(138, 'left');
-        emulateSelection(content.firstChild, 5, content.firstChild, 5);
-        assert.isOk(window.getSelection().getRangeAt(0).startContainer);
-        assert.isFalse(!!element.selectedRange);
+    test('starts at a tab', () => {
+      const content = stubContent(140, 'left');
+      emulateSelection(
+          content.querySelectorAll('hl')[3], 0,
+          content.querySelectorAll('span')[1].nextSibling, 1);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 140,
+        start_character: 51,
+        end_line: 140,
+        end_character: 71,
       });
+      assert.equal(side, 'left');
+    });
 
-      test('starts inside hl', () => {
-        const content = stubContent(140, 'left');
-        const hl = content.querySelector('.foo');
-        emulateSelection(hl.firstChild, 2, hl.nextSibling, 7);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 140,
-          start_character: 8,
-          end_line: 140,
-          end_character: 23,
-        });
-        assert.equal(side, 'left');
+    test('properly accounts for syntax highlighting', () => {
+      const content = stubContent(140, 'left');
+      const spy = sinon.spy(element, '_normalizeRange');
+      emulateSelection(
+          content.querySelectorAll('hl')[3], 0,
+          content.querySelectorAll('span')[1], 0);
+      const spyCall = spy.getCall(0);
+      const range = window.getSelection().getRangeAt(0);
+      assert.notDeepEqual(spyCall.returnValue, range);
+    });
+
+    test('GrRangeNormalizer._getTextOffset computes text offset', () => {
+      let content = stubContent(140, 'left');
+      let child = content.lastChild.lastChild;
+      let result = GrRangeNormalizer._getTextOffset(content, child);
+      assert.equal(result, 75);
+      content = stubContent(146, 'right');
+      child = content.lastChild;
+      result = GrRangeNormalizer._getTextOffset(content, child);
+      assert.equal(result, 0);
+    });
+
+    test('_fixTripleClickSelection', () => {
+      const startContent = stubContent(119, 'right');
+      const endContent = stubContent(120, 'right');
+      emulateSelection(startContent.firstChild, 0, endContent.firstChild, 0);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 119,
+        start_character: 0,
+        end_line: 119,
+        end_character: element._getLength(startContent),
       });
+      assert.equal(side, 'right');
+    });
 
-      test('ends inside hl', () => {
-        const content = stubContent(140, 'left');
-        const hl = content.querySelector('.bar');
-        emulateSelection(hl.previousSibling, 2, hl.firstChild, 3);
-        const {range} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 140,
-          start_character: 18,
-          end_line: 140,
-          end_character: 27,
-        });
+    test('_fixTripleClickSelection empty line', () => {
+      const startContent = stubContent(146, 'right');
+      const endContent = stubContent(165, 'left');
+      emulateSelection(startContent.firstChild, 0,
+          endContent.parentElement.previousElementSibling, 0);
+      const {range, side} = element.selectedRange;
+      assert.deepEqual(range, {
+        start_line: 146,
+        start_character: 0,
+        end_line: 146,
+        end_character: 84,
       });
-
-      test('multiple hl', () => {
-        const content = stubContent(140, 'left');
-        const hl = content.querySelectorAll('hl')[4];
-        emulateSelection(content.firstChild, 2, hl.firstChild, 2);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 140,
-          start_character: 2,
-          end_line: 140,
-          end_character: 61,
-        });
-        assert.equal(side, 'left');
-      });
-
-      test('starts outside of diff', () => {
-        const contentText = stubContent(140, 'left');
-        const contentTd = contentText.parentElement;
-
-        emulateSelection(contentTd.previousElementSibling, 0,
-            contentText.firstChild, 2);
-        assert.isFalse(!!element.selectedRange);
-      });
-
-      test('ends outside of diff', () => {
-        const content = stubContent(140, 'left');
-        emulateSelection(content.nextElementSibling.firstChild, 2,
-            content.firstChild, 2);
-        assert.isFalse(!!element.selectedRange);
-      });
-
-      test('starts and ends on different sides', () => {
-        const startContent = stubContent(140, 'left');
-        const endContent = stubContent(130, 'right');
-        emulateSelection(startContent.firstChild, 2, endContent.firstChild, 2);
-        assert.isFalse(!!element.selectedRange);
-      });
-
-      test('starts in comment thread element', () => {
-        const startContent = stubContent(140, 'left');
-        const comment = startContent.parentElement.querySelector(
-            '.comment-thread');
-        const endContent = stubContent(141, 'left');
-        emulateSelection(comment.firstChild, 2, endContent.firstChild, 4);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 140,
-          start_character: 83,
-          end_line: 141,
-          end_character: 4,
-        });
-        assert.equal(side, 'left');
-      });
-
-      test('ends in comment thread element', () => {
-        const content = stubContent(140, 'left');
-        const comment = content.parentElement.querySelector(
-            '.comment-thread');
-        emulateSelection(content.firstChild, 4, comment.firstChild, 1);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 140,
-          start_character: 4,
-          end_line: 140,
-          end_character: 83,
-        });
-        assert.equal(side, 'left');
-      });
-
-      test('starts in context element', () => {
-        const contextControl =
-            diff.querySelector('.contextControl').querySelector('gr-button');
-        const content = stubContent(146, 'right');
-        emulateSelection(contextControl, 0, content.firstChild, 7);
-        // TODO (viktard): Select nearest line.
-        assert.isFalse(!!element.selectedRange);
-      });
-
-      test('ends in context element', () => {
-        const contextControl =
-            diff.querySelector('.contextControl').querySelector('gr-button');
-        const content = stubContent(141, 'left');
-        emulateSelection(content.firstChild, 2, contextControl, 1);
-        // TODO (viktard): Select nearest line.
-        assert.isFalse(!!element.selectedRange);
-      });
-
-      test('selection containing context element', () => {
-        const startContent = stubContent(130, 'right');
-        const endContent = stubContent(146, 'right');
-        emulateSelection(startContent.firstChild, 3, endContent.firstChild, 14);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 130,
-          start_character: 3,
-          end_line: 146,
-          end_character: 14,
-        });
-        assert.equal(side, 'right');
-      });
-
-      test('ends at a tab', () => {
-        const content = stubContent(140, 'left');
-        emulateSelection(
-            content.firstChild, 1, content.querySelector('span'), 0);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 140,
-          start_character: 1,
-          end_line: 140,
-          end_character: 51,
-        });
-        assert.equal(side, 'left');
-      });
-
-      test('starts at a tab', () => {
-        const content = stubContent(140, 'left');
-        emulateSelection(
-            content.querySelectorAll('hl')[3], 0,
-            content.querySelectorAll('span')[1].nextSibling, 1);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 140,
-          start_character: 51,
-          end_line: 140,
-          end_character: 71,
-        });
-        assert.equal(side, 'left');
-      });
-
-      test('properly accounts for syntax highlighting', () => {
-        const content = stubContent(140, 'left');
-        const spy = sinon.spy(element, '_normalizeRange');
-        emulateSelection(
-            content.querySelectorAll('hl')[3], 0,
-            content.querySelectorAll('span')[1], 0);
-        const spyCall = spy.getCall(0);
-        const range = window.getSelection().getRangeAt(0);
-        assert.notDeepEqual(spyCall.returnValue, range);
-      });
-
-      test('GrRangeNormalizer._getTextOffset computes text offset', () => {
-        let content = stubContent(140, 'left');
-        let child = content.lastChild.lastChild;
-        let result = GrRangeNormalizer._getTextOffset(content, child);
-        assert.equal(result, 75);
-        content = stubContent(146, 'right');
-        child = content.lastChild;
-        result = GrRangeNormalizer._getTextOffset(content, child);
-        assert.equal(result, 0);
-      });
-
-      test('_fixTripleClickSelection', () => {
-        const startContent = stubContent(119, 'right');
-        const endContent = stubContent(120, 'right');
-        emulateSelection(startContent.firstChild, 0, endContent.firstChild, 0);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 119,
-          start_character: 0,
-          end_line: 119,
-          end_character: element._getLength(startContent),
-        });
-        assert.equal(side, 'right');
-      });
-
-      test('_fixTripleClickSelection empty line', () => {
-        const startContent = stubContent(146, 'right');
-        const endContent = stubContent(165, 'left');
-        emulateSelection(startContent.firstChild, 0,
-            endContent.parentElement.previousElementSibling, 0);
-        const {range, side} = element.selectedRange;
-        assert.deepEqual(range, {
-          start_line: 146,
-          start_character: 0,
-          end_line: 146,
-          end_character: 84,
-        });
-        assert.equal(side, 'right');
-      });
+      assert.equal(side, 'right');
     });
   });
+});
 </script>

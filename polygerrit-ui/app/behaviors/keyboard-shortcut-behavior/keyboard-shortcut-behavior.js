@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright (C) 2016 The Android Open Source Project
 
@@ -13,9 +13,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-
-<!--
+*/
+/*
 
 How to Add a Keyboard Shortcut
 ==============================
@@ -95,12 +94,17 @@ by gr-app, and actually implemented by gr-comment-thread.
 
 NOTE: doc-only shortcuts will not be customizable in the same way that other
 shortcuts are.
--->
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
-<script src="../../types/polymer-behaviors.js"></script>
+*/
+/*
+  FIXME(polymer-modulizer): the above comments were extracted
+  from HTML and may be out of place here. Review them and
+  then delete this comment!
+*/
+import "../../scripts/bundled-polymer.js";
 
-<script>
+import { IronA11yKeysBehavior } from '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior.js';
+import '../../types/polymer-behaviors.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 (function(window) {
   'use strict';
 
@@ -307,7 +311,7 @@ shortcuts are.
 
   /** @return {!(Event|PolymerDomApi|PolymerEventApi)} */
   const getKeyboardEvent = function(e) {
-    e = Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
+    e = dom(e.detail ? e.detail.keyboardEvent : e);
     // When e is a keyboardEvent, e.event is not null.
     if (e.event) { e = e.event; }
     return e;
@@ -482,7 +486,7 @@ shortcuts are.
 
   /** @polymerBehavior Gerrit.KeyboardShortcutBehavior*/
   Gerrit.KeyboardShortcutBehavior = [
-    Polymer.IronA11yKeysBehavior,
+    IronA11yKeysBehavior,
     {
       // Exports for convenience. Note: Closure compiler crashes when
       // object-shorthand syntax is used here.
@@ -518,7 +522,7 @@ shortcuts are.
 
       shouldSuppressKeyboardShortcut(e) {
         e = getKeyboardEvent(e);
-        const tagName = Polymer.dom(e).rootTarget.tagName;
+        const tagName = dom(e).rootTarget.tagName;
         if (tagName === 'INPUT' || tagName === 'TEXTAREA' ||
             (e.keyCode === 13 && tagName === 'A')) {
           // Suppress shortcuts if the key is 'enter' and target is an anchor.
@@ -542,7 +546,7 @@ shortcuts are.
       },
 
       getRootTarget(e) {
-        return Polymer.dom(getKeyboardEvent(e)).rootTarget;
+        return dom(getKeyboardEvent(e)).rootTarget;
       },
 
       bindShortcut(shortcut, ...bindings) {
@@ -671,4 +675,3 @@ shortcuts are.
       };
   }
 })(window);
-</script>

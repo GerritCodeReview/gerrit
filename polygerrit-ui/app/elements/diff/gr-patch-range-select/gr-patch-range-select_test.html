@@ -19,21 +19,30 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-patch-range-select</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="/bower_components/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="/node_modules/page/page.js"></script>
 
-<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
-<link rel="import" href="../../shared/revision-info/revision-info.html">
+<script type="module" src="../gr-comment-api/gr-comment-api.js"></script>
+<script type="module" src="../../shared/gr-rest-api-interface/mock-diff-response_test.js"></script>
+<script type="module" src="../../shared/revision-info/revision-info.js"></script>
 
-<link rel="import" href="gr-patch-range-select.html">
+<script type="module" src="./gr-patch-range-select.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../gr-comment-api/gr-comment-api.js';
+import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import '../../shared/revision-info/revision-info.js';
+import './gr-patch-range-select.js';
+import '../gr-comment-api/gr-comment-api-mock.js';
+void(0);
+</script>
 
 <dom-module id="comment-api-mock">
   <template>
@@ -41,7 +50,7 @@ limitations under the License.
         change-comments="[[_changeComments]]"></gr-patch-range-select>
     <gr-comment-api id="commentAPI"></gr-comment-api>
   </template>
-  <script src="../../diff/gr-comment-api/gr-comment-api-mock.js"></script>
+  <script type="module" src="../gr-comment-api/gr-comment-api-mock.js"></script>
 </dom-module>
 
 <test-fixture id="basic">
@@ -50,384 +59,391 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-patch-range-select tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let commentApiWrapper;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../gr-comment-api/gr-comment-api.js';
+import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import '../../shared/revision-info/revision-info.js';
+import './gr-patch-range-select.js';
+import '../gr-comment-api/gr-comment-api-mock.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-patch-range-select tests', () => {
+  let element;
+  let sandbox;
+  let commentApiWrapper;
 
-    function getInfo(revisions) {
-      const revisionObj = {};
-      for (let i = 0; i < revisions.length; i++) {
-        revisionObj[i] = revisions[i];
-      }
-      return new Gerrit.RevisionInfo({revisions: revisionObj});
+  function getInfo(revisions) {
+    const revisionObj = {};
+    for (let i = 0; i < revisions.length; i++) {
+      revisionObj[i] = revisions[i];
     }
+    return new Gerrit.RevisionInfo({revisions: revisionObj});
+  }
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+  setup(() => {
+    sandbox = sinon.sandbox.create();
 
-      stub('gr-rest-api-interface', {
-        getDiffComments() { return Promise.resolve({}); },
-        getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve({}); },
+    stub('gr-rest-api-interface', {
+      getDiffComments() { return Promise.resolve({}); },
+      getDiffRobotComments() { return Promise.resolve({}); },
+      getDiffDrafts() { return Promise.resolve({}); },
+    });
+
+    // Element must be wrapped in an element with direct access to the
+    // comment API.
+    commentApiWrapper = fixture('basic');
+    element = commentApiWrapper.$.patchRange;
+
+    // Stub methods on the changeComments object after changeComments has
+    // been initialized.
+    return commentApiWrapper.loadComments();
+  });
+
+  teardown(() => sandbox.restore());
+
+  test('enabled/disabled options', () => {
+    const patchRange = {
+      basePatchNum: 'PARENT',
+      patchNum: '3',
+    };
+    const sortedRevisions = [
+      {_number: 3},
+      {_number: element.EDIT_NAME, basePatchNum: 2},
+      {_number: 2},
+      {_number: 1},
+    ];
+    for (const patchNum of ['1', '2', '3']) {
+      assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum,
+          patchNum, sortedRevisions));
+    }
+    for (const basePatchNum of ['1', '2']) {
+      assert.isFalse(element._computeLeftDisabled(basePatchNum,
+          patchRange.patchNum, sortedRevisions));
+    }
+    assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum));
+
+    patchRange.basePatchNum = element.EDIT_NAME;
+    assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum,
+        sortedRevisions));
+    assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, '1',
+        sortedRevisions));
+    assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, '2',
+        sortedRevisions));
+    assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum, '3',
+        sortedRevisions));
+    assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum,
+        element.EDIT_NAME, sortedRevisions));
+  });
+
+  test('_computeBaseDropdownContent', () => {
+    const availablePatches = [
+      {num: 'edit', sha: '1'},
+      {num: 3, sha: '2'},
+      {num: 2, sha: '3'},
+      {num: 1, sha: '4'},
+    ];
+    const revisions = [
+      {
+        commit: {parents: []},
+        _number: 2,
+        description: 'description',
+      },
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+    ];
+    element.revisionInfo = getInfo(revisions);
+    const patchNum = 1;
+    const sortedRevisions = [
+      {_number: 3, created: 'Mon, 01 Jan 2001 00:00:00 GMT'},
+      {_number: element.EDIT_NAME, basePatchNum: 2},
+      {_number: 2, description: 'description'},
+      {_number: 1},
+    ];
+    const expectedResult = [
+      {
+        disabled: true,
+        triggerText: 'Patchset edit',
+        text: 'Patchset edit | 1',
+        mobileText: 'edit',
+        bottomText: '',
+        value: 'edit',
+      },
+      {
+        disabled: true,
+        triggerText: 'Patchset 3',
+        text: 'Patchset 3 | 2',
+        mobileText: '3',
+        bottomText: '',
+        value: 3,
+        date: 'Mon, 01 Jan 2001 00:00:00 GMT',
+      },
+      {
+        disabled: true,
+        triggerText: 'Patchset 2',
+        text: 'Patchset 2 | 3',
+        mobileText: '2 description',
+        bottomText: 'description',
+        value: 2,
+      },
+      {
+        disabled: true,
+        triggerText: 'Patchset 1',
+        text: 'Patchset 1 | 4',
+        mobileText: '1',
+        bottomText: '',
+        value: 1,
+      },
+      {
+        text: 'Base',
+        value: 'PARENT',
+      },
+    ];
+    assert.deepEqual(element._computeBaseDropdownContent(availablePatches,
+        patchNum, sortedRevisions, element.changeComments,
+        element.revisionInfo),
+    expectedResult);
+  });
+
+  test('_computeBaseDropdownContent called when patchNum updates', () => {
+    element.revisions = [
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+    ];
+    element.revisionInfo = getInfo(element.revisions);
+    element.availablePatches = [
+      {num: 1, sha: '1'},
+      {num: 2, sha: '2'},
+      {num: 3, sha: '3'},
+      {num: 'edit', sha: '4'},
+    ];
+    element.patchNum = 2;
+    element.basePatchNum = 'PARENT';
+    flushAsynchronousOperations();
+
+    sandbox.stub(element, '_computeBaseDropdownContent');
+
+    // Should be recomputed for each available patch
+    element.set('patchNum', 1);
+    assert.equal(element._computeBaseDropdownContent.callCount, 1);
+  });
+
+  test('_computeBaseDropdownContent called when changeComments update',
+      done => {
+        element.revisions = [
+          {commit: {parents: []}},
+          {commit: {parents: []}},
+          {commit: {parents: []}},
+          {commit: {parents: []}},
+        ];
+        element.revisionInfo = getInfo(element.revisions);
+        element.availablePatches = [
+          {num: 'edit', sha: '1'},
+          {num: 3, sha: '2'},
+          {num: 2, sha: '3'},
+          {num: 1, sha: '4'},
+        ];
+        element.patchNum = 2;
+        element.basePatchNum = 'PARENT';
+        flushAsynchronousOperations();
+
+        // Should be recomputed for each available patch
+        sandbox.stub(element, '_computeBaseDropdownContent');
+        assert.equal(element._computeBaseDropdownContent.callCount, 0);
+        commentApiWrapper.loadComments().then()
+            .then(() => {
+              assert.equal(element._computeBaseDropdownContent.callCount, 1);
+              done();
+            });
       });
 
-      // Element must be wrapped in an element with direct access to the
-      // comment API.
-      commentApiWrapper = fixture('basic');
-      element = commentApiWrapper.$.patchRange;
+  test('_computePatchDropdownContent called when basePatchNum updates', () => {
+    element.revisions = [
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+    ];
+    element.revisionInfo = getInfo(element.revisions);
+    element.availablePatches = [
+      {num: 1, sha: '1'},
+      {num: 2, sha: '2'},
+      {num: 3, sha: '3'},
+      {num: 'edit', sha: '4'},
+    ];
+    element.patchNum = 2;
+    element.basePatchNum = 'PARENT';
+    flushAsynchronousOperations();
 
-      // Stub methods on the changeComments object after changeComments has
-      // been initialized.
-      return commentApiWrapper.loadComments();
-    });
-
-    teardown(() => sandbox.restore());
-
-    test('enabled/disabled options', () => {
-      const patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '3',
-      };
-      const sortedRevisions = [
-        {_number: 3},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 2},
-        {_number: 1},
-      ];
-      for (const patchNum of ['1', '2', '3']) {
-        assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum,
-            patchNum, sortedRevisions));
-      }
-      for (const basePatchNum of ['1', '2']) {
-        assert.isFalse(element._computeLeftDisabled(basePatchNum,
-            patchRange.patchNum, sortedRevisions));
-      }
-      assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum));
-
-      patchRange.basePatchNum = element.EDIT_NAME;
-      assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum,
-          sortedRevisions));
-      assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, '1',
-          sortedRevisions));
-      assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, '2',
-          sortedRevisions));
-      assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum, '3',
-          sortedRevisions));
-      assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum,
-          element.EDIT_NAME, sortedRevisions));
-    });
-
-    test('_computeBaseDropdownContent', () => {
-      const availablePatches = [
-        {num: 'edit', sha: '1'},
-        {num: 3, sha: '2'},
-        {num: 2, sha: '3'},
-        {num: 1, sha: '4'},
-      ];
-      const revisions = [
-        {
-          commit: {parents: []},
-          _number: 2,
-          description: 'description',
-        },
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-      ];
-      element.revisionInfo = getInfo(revisions);
-      const patchNum = 1;
-      const sortedRevisions = [
-        {_number: 3, created: 'Mon, 01 Jan 2001 00:00:00 GMT'},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 2, description: 'description'},
-        {_number: 1},
-      ];
-      const expectedResult = [
-        {
-          disabled: true,
-          triggerText: 'Patchset edit',
-          text: 'Patchset edit | 1',
-          mobileText: 'edit',
-          bottomText: '',
-          value: 'edit',
-        },
-        {
-          disabled: true,
-          triggerText: 'Patchset 3',
-          text: 'Patchset 3 | 2',
-          mobileText: '3',
-          bottomText: '',
-          value: 3,
-          date: 'Mon, 01 Jan 2001 00:00:00 GMT',
-        },
-        {
-          disabled: true,
-          triggerText: 'Patchset 2',
-          text: 'Patchset 2 | 3',
-          mobileText: '2 description',
-          bottomText: 'description',
-          value: 2,
-        },
-        {
-          disabled: true,
-          triggerText: 'Patchset 1',
-          text: 'Patchset 1 | 4',
-          mobileText: '1',
-          bottomText: '',
-          value: 1,
-        },
-        {
-          text: 'Base',
-          value: 'PARENT',
-        },
-      ];
-      assert.deepEqual(element._computeBaseDropdownContent(availablePatches,
-          patchNum, sortedRevisions, element.changeComments,
-          element.revisionInfo),
-      expectedResult);
-    });
-
-    test('_computeBaseDropdownContent called when patchNum updates', () => {
-      element.revisions = [
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-      ];
-      element.revisionInfo = getInfo(element.revisions);
-      element.availablePatches = [
-        {num: 1, sha: '1'},
-        {num: 2, sha: '2'},
-        {num: 3, sha: '3'},
-        {num: 'edit', sha: '4'},
-      ];
-      element.patchNum = 2;
-      element.basePatchNum = 'PARENT';
-      flushAsynchronousOperations();
-
-      sandbox.stub(element, '_computeBaseDropdownContent');
-
-      // Should be recomputed for each available patch
-      element.set('patchNum', 1);
-      assert.equal(element._computeBaseDropdownContent.callCount, 1);
-    });
-
-    test('_computeBaseDropdownContent called when changeComments update',
-        done => {
-          element.revisions = [
-            {commit: {parents: []}},
-            {commit: {parents: []}},
-            {commit: {parents: []}},
-            {commit: {parents: []}},
-          ];
-          element.revisionInfo = getInfo(element.revisions);
-          element.availablePatches = [
-            {num: 'edit', sha: '1'},
-            {num: 3, sha: '2'},
-            {num: 2, sha: '3'},
-            {num: 1, sha: '4'},
-          ];
-          element.patchNum = 2;
-          element.basePatchNum = 'PARENT';
-          flushAsynchronousOperations();
-
-          // Should be recomputed for each available patch
-          sandbox.stub(element, '_computeBaseDropdownContent');
-          assert.equal(element._computeBaseDropdownContent.callCount, 0);
-          commentApiWrapper.loadComments().then()
-              .then(() => {
-                assert.equal(element._computeBaseDropdownContent.callCount, 1);
-                done();
-              });
-        });
-
-    test('_computePatchDropdownContent called when basePatchNum updates', () => {
-      element.revisions = [
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-      ];
-      element.revisionInfo = getInfo(element.revisions);
-      element.availablePatches = [
-        {num: 1, sha: '1'},
-        {num: 2, sha: '2'},
-        {num: 3, sha: '3'},
-        {num: 'edit', sha: '4'},
-      ];
-      element.patchNum = 2;
-      element.basePatchNum = 'PARENT';
-      flushAsynchronousOperations();
-
-      // Should be recomputed for each available patch
-      sandbox.stub(element, '_computePatchDropdownContent');
-      element.set('basePatchNum', 1);
-      assert.equal(element._computePatchDropdownContent.callCount, 1);
-    });
-
-    test('_computePatchDropdownContent called when comments update', done => {
-      element.revisions = [
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-        {commit: {parents: []}},
-      ];
-      element.revisionInfo = getInfo(element.revisions);
-      element.availablePatches = [
-        {num: 1, sha: '1'},
-        {num: 2, sha: '2'},
-        {num: 3, sha: '3'},
-        {num: 'edit', sha: '4'},
-      ];
-      element.patchNum = 2;
-      element.basePatchNum = 'PARENT';
-      flushAsynchronousOperations();
-
-      // Should be recomputed for each available patch
-      sandbox.stub(element, '_computePatchDropdownContent');
-      assert.equal(element._computePatchDropdownContent.callCount, 0);
-      commentApiWrapper.loadComments().then()
-          .then(() => {
-            done();
-          });
-    });
-
-    test('_computePatchDropdownContent', () => {
-      const availablePatches = [
-        {num: 'edit', sha: '1'},
-        {num: 3, sha: '2'},
-        {num: 2, sha: '3'},
-        {num: 1, sha: '4'},
-      ];
-      const basePatchNum = 1;
-      const sortedRevisions = [
-        {_number: 3, created: 'Mon, 01 Jan 2001 00:00:00 GMT'},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 2, description: 'description'},
-        {_number: 1},
-      ];
-
-      const expectedResult = [
-        {
-          disabled: false,
-          triggerText: 'edit',
-          text: 'edit | 1',
-          mobileText: 'edit',
-          bottomText: '',
-          value: 'edit',
-        },
-        {
-          disabled: false,
-          triggerText: 'Patchset 3',
-          text: 'Patchset 3 | 2',
-          mobileText: '3',
-          bottomText: '',
-          value: 3,
-          date: 'Mon, 01 Jan 2001 00:00:00 GMT',
-        },
-        {
-          disabled: false,
-          triggerText: 'Patchset 2',
-          text: 'Patchset 2 | 3',
-          mobileText: '2 description',
-          bottomText: 'description',
-          value: 2,
-        },
-        {
-          disabled: true,
-          triggerText: 'Patchset 1',
-          text: 'Patchset 1 | 4',
-          mobileText: '1',
-          bottomText: '',
-          value: 1,
-        },
-      ];
-
-      assert.deepEqual(element._computePatchDropdownContent(availablePatches,
-          basePatchNum, sortedRevisions, element.changeComments),
-      expectedResult);
-    });
-
-    test('filesWeblinks', () => {
-      element.filesWeblinks = {
-        meta_a: [
-          {
-            name: 'foo',
-            url: 'f.oo',
-          },
-        ],
-        meta_b: [
-          {
-            name: 'bar',
-            url: 'ba.r',
-          },
-        ],
-      };
-      flushAsynchronousOperations();
-      const domApi = Polymer.dom(element.root);
-      assert.equal(
-          domApi.querySelector('a[href="f.oo"]').textContent, 'foo');
-      assert.equal(
-          domApi.querySelector('a[href="ba.r"]').textContent, 'bar');
-    });
-
-    test('_computePatchSetCommentsString', () => {
-      // Test string with unresolved comments.
-      element.changeComments._comments = {
-        foo: [{
-          id: '27dcee4d_f7b77cfa',
-          message: 'test',
-          patch_set: 1,
-          unresolved: true,
-          updated: '2017-10-11 20:48:40.000000000',
-        }],
-        bar: [{
-          id: '27dcee4d_f7b77cfa',
-          message: 'test',
-          patch_set: 1,
-          updated: '2017-10-12 20:48:40.000000000',
-        },
-        {
-          id: '27dcee4d_f7b77cfa',
-          message: 'test',
-          patch_set: 1,
-          updated: '2017-10-13 20:48:40.000000000',
-        }],
-        abc: [],
-      };
-
-      assert.equal(element._computePatchSetCommentsString(
-          element.changeComments, 1), ' (3 comments, 1 unresolved)');
-
-      // Test string with no unresolved comments.
-      delete element.changeComments._comments['foo'];
-      assert.equal(element._computePatchSetCommentsString(
-          element.changeComments, 1), ' (2 comments)');
-
-      // Test string with no comments.
-      delete element.changeComments._comments['bar'];
-      assert.equal(element._computePatchSetCommentsString(
-          element.changeComments, 1), '');
-    });
-
-    test('patch-range-change fires', () => {
-      const handler = sandbox.stub();
-      element.basePatchNum = 1;
-      element.patchNum = 3;
-      element.addEventListener('patch-range-change', handler);
-
-      element.$.basePatchDropdown._handleValueChange(2, [{value: 2}]);
-      assert.isTrue(handler.calledOnce);
-      assert.deepEqual(handler.lastCall.args[0].detail,
-          {basePatchNum: 2, patchNum: 3});
-
-      // BasePatchNum should not have changed, due to one-way data binding.
-      element.$.patchNumDropdown._handleValueChange('edit', [{value: 'edit'}]);
-      assert.deepEqual(handler.lastCall.args[0].detail,
-          {basePatchNum: 1, patchNum: 'edit'});
-    });
+    // Should be recomputed for each available patch
+    sandbox.stub(element, '_computePatchDropdownContent');
+    element.set('basePatchNum', 1);
+    assert.equal(element._computePatchDropdownContent.callCount, 1);
   });
+
+  test('_computePatchDropdownContent called when comments update', done => {
+    element.revisions = [
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+      {commit: {parents: []}},
+    ];
+    element.revisionInfo = getInfo(element.revisions);
+    element.availablePatches = [
+      {num: 1, sha: '1'},
+      {num: 2, sha: '2'},
+      {num: 3, sha: '3'},
+      {num: 'edit', sha: '4'},
+    ];
+    element.patchNum = 2;
+    element.basePatchNum = 'PARENT';
+    flushAsynchronousOperations();
+
+    // Should be recomputed for each available patch
+    sandbox.stub(element, '_computePatchDropdownContent');
+    assert.equal(element._computePatchDropdownContent.callCount, 0);
+    commentApiWrapper.loadComments().then()
+        .then(() => {
+          done();
+        });
+  });
+
+  test('_computePatchDropdownContent', () => {
+    const availablePatches = [
+      {num: 'edit', sha: '1'},
+      {num: 3, sha: '2'},
+      {num: 2, sha: '3'},
+      {num: 1, sha: '4'},
+    ];
+    const basePatchNum = 1;
+    const sortedRevisions = [
+      {_number: 3, created: 'Mon, 01 Jan 2001 00:00:00 GMT'},
+      {_number: element.EDIT_NAME, basePatchNum: 2},
+      {_number: 2, description: 'description'},
+      {_number: 1},
+    ];
+
+    const expectedResult = [
+      {
+        disabled: false,
+        triggerText: 'edit',
+        text: 'edit | 1',
+        mobileText: 'edit',
+        bottomText: '',
+        value: 'edit',
+      },
+      {
+        disabled: false,
+        triggerText: 'Patchset 3',
+        text: 'Patchset 3 | 2',
+        mobileText: '3',
+        bottomText: '',
+        value: 3,
+        date: 'Mon, 01 Jan 2001 00:00:00 GMT',
+      },
+      {
+        disabled: false,
+        triggerText: 'Patchset 2',
+        text: 'Patchset 2 | 3',
+        mobileText: '2 description',
+        bottomText: 'description',
+        value: 2,
+      },
+      {
+        disabled: true,
+        triggerText: 'Patchset 1',
+        text: 'Patchset 1 | 4',
+        mobileText: '1',
+        bottomText: '',
+        value: 1,
+      },
+    ];
+
+    assert.deepEqual(element._computePatchDropdownContent(availablePatches,
+        basePatchNum, sortedRevisions, element.changeComments),
+    expectedResult);
+  });
+
+  test('filesWeblinks', () => {
+    element.filesWeblinks = {
+      meta_a: [
+        {
+          name: 'foo',
+          url: 'f.oo',
+        },
+      ],
+      meta_b: [
+        {
+          name: 'bar',
+          url: 'ba.r',
+        },
+      ],
+    };
+    flushAsynchronousOperations();
+    const domApi = dom(element.root);
+    assert.equal(
+        domApi.querySelector('a[href="f.oo"]').textContent, 'foo');
+    assert.equal(
+        domApi.querySelector('a[href="ba.r"]').textContent, 'bar');
+  });
+
+  test('_computePatchSetCommentsString', () => {
+    // Test string with unresolved comments.
+    element.changeComments._comments = {
+      foo: [{
+        id: '27dcee4d_f7b77cfa',
+        message: 'test',
+        patch_set: 1,
+        unresolved: true,
+        updated: '2017-10-11 20:48:40.000000000',
+      }],
+      bar: [{
+        id: '27dcee4d_f7b77cfa',
+        message: 'test',
+        patch_set: 1,
+        updated: '2017-10-12 20:48:40.000000000',
+      },
+      {
+        id: '27dcee4d_f7b77cfa',
+        message: 'test',
+        patch_set: 1,
+        updated: '2017-10-13 20:48:40.000000000',
+      }],
+      abc: [],
+    };
+
+    assert.equal(element._computePatchSetCommentsString(
+        element.changeComments, 1), ' (3 comments, 1 unresolved)');
+
+    // Test string with no unresolved comments.
+    delete element.changeComments._comments['foo'];
+    assert.equal(element._computePatchSetCommentsString(
+        element.changeComments, 1), ' (2 comments)');
+
+    // Test string with no comments.
+    delete element.changeComments._comments['bar'];
+    assert.equal(element._computePatchSetCommentsString(
+        element.changeComments, 1), '');
+  });
+
+  test('patch-range-change fires', () => {
+    const handler = sandbox.stub();
+    element.basePatchNum = 1;
+    element.patchNum = 3;
+    element.addEventListener('patch-range-change', handler);
+
+    element.$.basePatchDropdown._handleValueChange(2, [{value: 2}]);
+    assert.isTrue(handler.calledOnce);
+    assert.deepEqual(handler.lastCall.args[0].detail,
+        {basePatchNum: 2, patchNum: 3});
+
+    // BasePatchNum should not have changed, due to one-way data binding.
+    element.$.patchNumDropdown._handleValueChange('edit', [{value: 'edit'}]);
+    assert.deepEqual(handler.lastCall.args[0].detail,
+        {basePatchNum: 1, patchNum: 'edit'});
+  });
+});
 </script>

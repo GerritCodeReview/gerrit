@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright (C) 2016 The Android Open Source Project
 
@@ -13,9 +13,9 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-<script src="../../scripts/util.js"></script>
-<script>
+*/
+import '../../scripts/util.js';
+
 (function(window) {
   'use strict';
 
@@ -137,4 +137,3 @@ limitations under the License.
       };
   }
 })(window);
-</script>

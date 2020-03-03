@@ -19,13 +19,13 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>keyboard-shortcut-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="gr-access-behavior.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-access-behavior.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -33,41 +33,44 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-access-behavior tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './gr-access-behavior.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('gr-access-behavior tests', () => {
+  let element;
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [Gerrit.AccessBehavior],
-      });
-    });
-
-    setup(() => {
-      element = fixture('basic');
-    });
-
-    test('toSortedArray', () => {
-      const rules = {
-        'global:Project-Owners': {
-          action: 'ALLOW', force: false,
-        },
-        '4c97682e6ce6b7247f3381b6f1789356666de7f': {
-          action: 'ALLOW', force: false,
-        },
-      };
-      const expectedResult = [
-        {id: '4c97682e6ce6b7247f3381b6f1789356666de7f', value: {
-          action: 'ALLOW', force: false,
-        }},
-        {id: 'global:Project-Owners', value: {
-          action: 'ALLOW', force: false,
-        }},
-      ];
-      assert.deepEqual(element.toSortedArray(rules), expectedResult);
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'test-element',
+      behaviors: [Gerrit.AccessBehavior],
     });
   });
+
+  setup(() => {
+    element = fixture('basic');
+  });
+
+  test('toSortedArray', () => {
+    const rules = {
+      'global:Project-Owners': {
+        action: 'ALLOW', force: false,
+      },
+      '4c97682e6ce6b7247f3381b6f1789356666de7f': {
+        action: 'ALLOW', force: false,
+      },
+    };
+    const expectedResult = [
+      {id: '4c97682e6ce6b7247f3381b6f1789356666de7f', value: {
+        action: 'ALLOW', force: false,
+      }},
+      {id: 'global:Project-Owners', value: {
+        action: 'ALLOW', force: false,
+      }},
+    ];
+    assert.deepEqual(element.toSortedArray(rules), expectedResult);
+  });
+});
 </script>

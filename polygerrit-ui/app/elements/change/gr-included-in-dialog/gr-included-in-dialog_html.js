@@ -1,29 +1,6 @@
-<!--
-@license
-Copyright (C) 2018 The Android Open Source Project
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
-<dom-module id="gr-included-in-dialog">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         background-color: var(--dialog-background-color);
@@ -76,25 +53,14 @@ limitations under the License.
     <header>
       <h1 id="title">Included In:</h1>
       <span class="closeButtonContainer">
-        <gr-button id="closeButton"
-            link
-            on-click="_handleCloseTap">Close</gr-button>
+        <gr-button id="closeButton" link="" on-click="_handleCloseTap">Close</gr-button>
       </span>
-      <iron-input
-          placeholder="Filter"
-          on-bind-value-changed="_onFilterChanged">
-        <input
-            id="filterInput"
-            is="iron-input"
-            placeholder="Filter"
-            on-bind-value-changed="_onFilterChanged">
+      <iron-input placeholder="Filter" on-bind-value-changed="_onFilterChanged">
+        <input id="filterInput" is="iron-input" placeholder="Filter" on-bind-value-changed="_onFilterChanged">
       </iron-input>
     </header>
-    <div class$="[[_computeLoadingClass(_loaded)]]">Loading...</div>
-    <template
-        is="dom-repeat"
-        items="[[_computeGroups(_includedIn, _filterText)]]"
-        as="group">
+    <div class\$="[[_computeLoadingClass(_loaded)]]">Loading...</div>
+    <template is="dom-repeat" items="[[_computeGroups(_includedIn, _filterText)]]" as="group">
       <div>
         <span>[[group.title]]:</span>
         <ul>
@@ -105,6 +71,4 @@ limitations under the License.
       </div>
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-included-in-dialog.js"></script>
-</dom-module>
+`;

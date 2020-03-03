@@ -19,17 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-date-formatter</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="../../../scripts/util.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-date-formatter.html">
+<script type="module" src="./gr-date-formatter.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-date-formatter.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,415 +43,418 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-date-formatter tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-date-formatter.js';
+suite('gr-date-formatter tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  /**
+   * Parse server-formatter date and normalize into current timezone.
+   */
+  function normalizedDate(dateStr) {
+    const d = util.parseDate(dateStr);
+    d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+    return d;
+  }
+
+  function testDates(nowStr, dateStr, expected, expectedWithDateAndTime,
+      expectedTooltip, done) {
+    // Normalize and convert the date to mimic server response.
+    dateStr = normalizedDate(dateStr)
+        .toJSON()
+        .replace('T', ' ')
+        .slice(0, -1);
+    sandbox.useFakeTimers(normalizedDate(nowStr).getTime());
+    element.dateStr = dateStr;
+    flush(() => {
+      const span = element.$$('span');
+      assert.equal(span.textContent.trim(), expected);
+      assert.equal(element.title, expectedTooltip);
+      element.showDateAndTime = true;
+      flushAsynchronousOperations();
+      assert.equal(span.textContent.trim(), expectedWithDateAndTime);
+      done();
+    });
+  }
+
+  function stubRestAPI(preferences) {
+    const loggedInPromise = Promise.resolve(preferences !== null);
+    const preferencesPromise = Promise.resolve(preferences);
+    stub('gr-rest-api-interface', {
+      getLoggedIn: sinon.stub().returns(loggedInPromise),
+      getPreferences: sinon.stub().returns(preferencesPromise),
+    });
+    return Promise.all([loggedInPromise, preferencesPromise]);
+  }
+
+  suite('STD + 24 hours time format preference', () => {
+    setup(() => stubRestAPI({
+      time_format: 'HHMM_24',
+      date_format: 'STD',
+      relative_date_in_change_table: false,
+    }).then(() => {
+      element = fixture('basic');
+      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      return element._loadPreferences();
+    }));
+
+    test('invalid dates are quietly rejected', () => {
+      assert.notOk((new Date('foo')).valueOf());
+      assert.equal(element._computeDateStr('foo', 'h:mm A'), '');
     });
 
-    teardown(() => {
-      sandbox.restore();
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '15:34',
+          '15:34',
+          'Jul 29, 2015, 15:34:14', done);
     });
 
-    /**
-     * Parse server-formatter date and normalize into current timezone.
-     */
-    function normalizedDate(dateStr) {
-      const d = util.parseDate(dateStr);
-      d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
-      return d;
-    }
-
-    function testDates(nowStr, dateStr, expected, expectedWithDateAndTime,
-        expectedTooltip, done) {
-      // Normalize and convert the date to mimic server response.
-      dateStr = normalizedDate(dateStr)
-          .toJSON()
-          .replace('T', ' ')
-          .slice(0, -1);
-      sandbox.useFakeTimers(normalizedDate(nowStr).getTime());
-      element.dateStr = dateStr;
-      flush(() => {
-        const span = element.$$('span');
-        assert.equal(span.textContent.trim(), expected);
-        assert.equal(element.title, expectedTooltip);
-        element.showDateAndTime = true;
-        flushAsynchronousOperations();
-        assert.equal(span.textContent.trim(), expectedWithDateAndTime);
-        done();
-      });
-    }
-
-    function stubRestAPI(preferences) {
-      const loggedInPromise = Promise.resolve(preferences !== null);
-      const preferencesPromise = Promise.resolve(preferences);
-      stub('gr-rest-api-interface', {
-        getLoggedIn: sinon.stub().returns(loggedInPromise),
-        getPreferences: sinon.stub().returns(preferencesPromise),
-      });
-      return Promise.all([loggedInPromise, preferencesPromise]);
-    }
-
-    suite('STD + 24 hours time format preference', () => {
-      setup(() => stubRestAPI({
-        time_format: 'HHMM_24',
-        date_format: 'STD',
-        relative_date_in_change_table: false,
-      }).then(() => {
-        element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
-        return element._loadPreferences();
-      }));
-
-      test('invalid dates are quietly rejected', () => {
-        assert.notOk((new Date('foo')).valueOf());
-        assert.equal(element._computeDateStr('foo', 'h:mm A'), '');
-      });
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '15:34',
-            '15:34',
-            'Jul 29, 2015, 15:34:14', done);
-      });
-
-      test('Within 24 hours on different days', done => {
-        testDates('2015-07-29 03:34:14.985000000',
-            '2015-07-28 20:25:14.985000000',
-            'Jul 28',
-            'Jul 28 20:25',
-            'Jul 28, 2015, 20:25:14', done);
-      });
-
-      test('More than 24 hours but less than six months', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-06-15 03:25:14.985000000',
-            'Jun 15',
-            'Jun 15 03:25',
-            'Jun 15, 2015, 03:25:14', done);
-      });
-
-      test('More than six months', done => {
-        testDates('2015-09-15 20:34:00.000000000',
-            '2015-01-15 03:25:00.000000000',
-            'Jan 15, 2015',
-            'Jan 15, 2015 03:25',
-            'Jan 15, 2015, 03:25:00', done);
-      });
+    test('Within 24 hours on different days', done => {
+      testDates('2015-07-29 03:34:14.985000000',
+          '2015-07-28 20:25:14.985000000',
+          'Jul 28',
+          'Jul 28 20:25',
+          'Jul 28, 2015, 20:25:14', done);
     });
 
-    suite('US + 24 hours time format preference', () => {
-      setup(() => stubRestAPI({
-        time_format: 'HHMM_24',
-        date_format: 'US',
-        relative_date_in_change_table: false,
-      }).then(() => {
-        element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
-        return element._loadPreferences();
-      }));
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '15:34',
-            '15:34',
-            '07/29/15, 15:34:14', done);
-      });
-
-      test('Within 24 hours on different days', done => {
-        testDates('2015-07-29 03:34:14.985000000',
-            '2015-07-28 20:25:14.985000000',
-            '07/28',
-            '07/28 20:25',
-            '07/28/15, 20:25:14', done);
-      });
-
-      test('More than 24 hours but less than six months', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-06-15 03:25:14.985000000',
-            '06/15',
-            '06/15 03:25',
-            '06/15/15, 03:25:14', done);
-      });
+    test('More than 24 hours but less than six months', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-06-15 03:25:14.985000000',
+          'Jun 15',
+          'Jun 15 03:25',
+          'Jun 15, 2015, 03:25:14', done);
     });
 
-    suite('ISO + 24 hours time format preference', () => {
-      setup(() => stubRestAPI({
-        time_format: 'HHMM_24',
-        date_format: 'ISO',
-        relative_date_in_change_table: false,
-      }).then(() => {
-        element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
-        return element._loadPreferences();
-      }));
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '15:34',
-            '15:34',
-            '2015-07-29, 15:34:14', done);
-      });
-
-      test('Within 24 hours on different days', done => {
-        testDates('2015-07-29 03:34:14.985000000',
-            '2015-07-28 20:25:14.985000000',
-            '07-28',
-            '07-28 20:25',
-            '2015-07-28, 20:25:14', done);
-      });
-
-      test('More than 24 hours but less than six months', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-06-15 03:25:14.985000000',
-            '06-15',
-            '06-15 03:25',
-            '2015-06-15, 03:25:14', done);
-      });
-    });
-
-    suite('EURO + 24 hours time format preference', () => {
-      setup(() => stubRestAPI({
-        time_format: 'HHMM_24',
-        date_format: 'EURO',
-        relative_date_in_change_table: false,
-      }).then(() => {
-        element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
-        return element._loadPreferences();
-      }));
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '15:34',
-            '15:34',
-            '29.07.2015, 15:34:14', done);
-      });
-
-      test('Within 24 hours on different days', done => {
-        testDates('2015-07-29 03:34:14.985000000',
-            '2015-07-28 20:25:14.985000000',
-            '28. Jul',
-            '28. Jul 20:25',
-            '28.07.2015, 20:25:14', done);
-      });
-
-      test('More than 24 hours but less than six months', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-06-15 03:25:14.985000000',
-            '15. Jun',
-            '15. Jun 03:25',
-            '15.06.2015, 03:25:14', done);
-      });
-    });
-
-    suite('UK + 24 hours time format preference', () => {
-      setup(() => stubRestAPI({
-        time_format: 'HHMM_24',
-        date_format: 'UK',
-        relative_date_in_change_table: false,
-      }).then(() => {
-        element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
-        return element._loadPreferences();
-      }));
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '15:34',
-            '15:34',
-            '29/07/2015, 15:34:14', done);
-      });
-
-      test('Within 24 hours on different days', done => {
-        testDates('2015-07-29 03:34:14.985000000',
-            '2015-07-28 20:25:14.985000000',
-            '28/07',
-            '28/07 20:25',
-            '28/07/2015, 20:25:14', done);
-      });
-
-      test('More than 24 hours but less than six months', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-06-15 03:25:14.985000000',
-            '15/06',
-            '15/06 03:25',
-            '15/06/2015, 03:25:14', done);
-      });
-    });
-
-    suite('STD + 12 hours time format preference', () => {
-      setup(() =>
-        // relative_date_in_change_table is not set when false.
-        stubRestAPI(
-            {time_format: 'HHMM_12', date_format: 'STD'}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        })
-      );
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '3:34 PM',
-            '3:34 PM',
-            'Jul 29, 2015, 3:34:14 PM', done);
-      });
-    });
-
-    suite('US + 12 hours time format preference', () => {
-      setup(() =>
-        // relative_date_in_change_table is not set when false.
-        stubRestAPI(
-            {time_format: 'HHMM_12', date_format: 'US'}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        })
-      );
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '3:34 PM',
-            '3:34 PM',
-            '07/29/15, 3:34:14 PM', done);
-      });
-    });
-
-    suite('ISO + 12 hours time format preference', () => {
-      setup(() =>
-        // relative_date_in_change_table is not set when false.
-        stubRestAPI(
-            {time_format: 'HHMM_12', date_format: 'ISO'}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        })
-      );
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '3:34 PM',
-            '3:34 PM',
-            '2015-07-29, 3:34:14 PM', done);
-      });
-    });
-
-    suite('EURO + 12 hours time format preference', () => {
-      setup(() =>
-        // relative_date_in_change_table is not set when false.
-        stubRestAPI(
-            {time_format: 'HHMM_12', date_format: 'EURO'}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        })
-      );
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '3:34 PM',
-            '3:34 PM',
-            '29.07.2015, 3:34:14 PM', done);
-      });
-    });
-
-    suite('UK + 12 hours time format preference', () => {
-      setup(() =>
-        // relative_date_in_change_table is not set when false.
-        stubRestAPI(
-            {time_format: 'HHMM_12', date_format: 'UK'}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        })
-      );
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '3:34 PM',
-            '3:34 PM',
-            '29/07/2015, 3:34:14 PM', done);
-      });
-    });
-
-    suite('relative date preference', () => {
-      setup(() => stubRestAPI({
-        time_format: 'HHMM_12',
-        date_format: 'STD',
-        relative_date_in_change_table: true,
-      }).then(() => {
-        element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
-        return element._loadPreferences();
-      }));
-
-      test('Within 24 hours on same day', done => {
-        testDates('2015-07-29 20:34:14.985000000',
-            '2015-07-29 15:34:14.985000000',
-            '5 hours ago',
-            '5 hours ago',
-            'Jul 29, 2015, 3:34:14 PM', done);
-      });
-
-      test('More than six months', done => {
-        testDates('2015-09-15 20:34:00.000000000',
-            '2015-01-15 03:25:00.000000000',
-            '8 months ago',
-            '8 months ago',
-            'Jan 15, 2015, 3:25:00 AM', done);
-      });
-    });
-
-    suite('logged in', () => {
-      setup(() => stubRestAPI({
-        time_format: 'HHMM_12',
-        date_format: 'US',
-        relative_date_in_change_table: true,
-      }).then(() => {
-        element = fixture('basic');
-        return element._loadPreferences();
-      }));
-
-      test('Preferences are respected', () => {
-        assert.equal(element._timeFormat, 'h:mm A');
-        assert.equal(element._dateFormat.short, 'MM/DD');
-        assert.equal(element._dateFormat.full, 'MM/DD/YY');
-        assert.isTrue(element._relative);
-      });
-    });
-
-    suite('logged out', () => {
-      setup(() => stubRestAPI(null).then(() => {
-        element = fixture('basic');
-        return element._loadPreferences();
-      }));
-
-      test('Default preferences are respected', () => {
-        assert.equal(element._timeFormat, 'HH:mm');
-        assert.equal(element._dateFormat.short, 'MMM DD');
-        assert.equal(element._dateFormat.full, 'MMM DD, YYYY');
-        assert.isFalse(element._relative);
-      });
+    test('More than six months', done => {
+      testDates('2015-09-15 20:34:00.000000000',
+          '2015-01-15 03:25:00.000000000',
+          'Jan 15, 2015',
+          'Jan 15, 2015 03:25',
+          'Jan 15, 2015, 03:25:00', done);
     });
   });
+
+  suite('US + 24 hours time format preference', () => {
+    setup(() => stubRestAPI({
+      time_format: 'HHMM_24',
+      date_format: 'US',
+      relative_date_in_change_table: false,
+    }).then(() => {
+      element = fixture('basic');
+      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      return element._loadPreferences();
+    }));
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '15:34',
+          '15:34',
+          '07/29/15, 15:34:14', done);
+    });
+
+    test('Within 24 hours on different days', done => {
+      testDates('2015-07-29 03:34:14.985000000',
+          '2015-07-28 20:25:14.985000000',
+          '07/28',
+          '07/28 20:25',
+          '07/28/15, 20:25:14', done);
+    });
+
+    test('More than 24 hours but less than six months', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-06-15 03:25:14.985000000',
+          '06/15',
+          '06/15 03:25',
+          '06/15/15, 03:25:14', done);
+    });
+  });
+
+  suite('ISO + 24 hours time format preference', () => {
+    setup(() => stubRestAPI({
+      time_format: 'HHMM_24',
+      date_format: 'ISO',
+      relative_date_in_change_table: false,
+    }).then(() => {
+      element = fixture('basic');
+      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      return element._loadPreferences();
+    }));
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '15:34',
+          '15:34',
+          '2015-07-29, 15:34:14', done);
+    });
+
+    test('Within 24 hours on different days', done => {
+      testDates('2015-07-29 03:34:14.985000000',
+          '2015-07-28 20:25:14.985000000',
+          '07-28',
+          '07-28 20:25',
+          '2015-07-28, 20:25:14', done);
+    });
+
+    test('More than 24 hours but less than six months', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-06-15 03:25:14.985000000',
+          '06-15',
+          '06-15 03:25',
+          '2015-06-15, 03:25:14', done);
+    });
+  });
+
+  suite('EURO + 24 hours time format preference', () => {
+    setup(() => stubRestAPI({
+      time_format: 'HHMM_24',
+      date_format: 'EURO',
+      relative_date_in_change_table: false,
+    }).then(() => {
+      element = fixture('basic');
+      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      return element._loadPreferences();
+    }));
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '15:34',
+          '15:34',
+          '29.07.2015, 15:34:14', done);
+    });
+
+    test('Within 24 hours on different days', done => {
+      testDates('2015-07-29 03:34:14.985000000',
+          '2015-07-28 20:25:14.985000000',
+          '28. Jul',
+          '28. Jul 20:25',
+          '28.07.2015, 20:25:14', done);
+    });
+
+    test('More than 24 hours but less than six months', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-06-15 03:25:14.985000000',
+          '15. Jun',
+          '15. Jun 03:25',
+          '15.06.2015, 03:25:14', done);
+    });
+  });
+
+  suite('UK + 24 hours time format preference', () => {
+    setup(() => stubRestAPI({
+      time_format: 'HHMM_24',
+      date_format: 'UK',
+      relative_date_in_change_table: false,
+    }).then(() => {
+      element = fixture('basic');
+      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      return element._loadPreferences();
+    }));
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '15:34',
+          '15:34',
+          '29/07/2015, 15:34:14', done);
+    });
+
+    test('Within 24 hours on different days', done => {
+      testDates('2015-07-29 03:34:14.985000000',
+          '2015-07-28 20:25:14.985000000',
+          '28/07',
+          '28/07 20:25',
+          '28/07/2015, 20:25:14', done);
+    });
+
+    test('More than 24 hours but less than six months', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-06-15 03:25:14.985000000',
+          '15/06',
+          '15/06 03:25',
+          '15/06/2015, 03:25:14', done);
+    });
+  });
+
+  suite('STD + 12 hours time format preference', () => {
+    setup(() =>
+      // relative_date_in_change_table is not set when false.
+      stubRestAPI(
+          {time_format: 'HHMM_12', date_format: 'STD'}
+      ).then(() => {
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        return element._loadPreferences();
+      })
+    );
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '3:34 PM',
+          '3:34 PM',
+          'Jul 29, 2015, 3:34:14 PM', done);
+    });
+  });
+
+  suite('US + 12 hours time format preference', () => {
+    setup(() =>
+      // relative_date_in_change_table is not set when false.
+      stubRestAPI(
+          {time_format: 'HHMM_12', date_format: 'US'}
+      ).then(() => {
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        return element._loadPreferences();
+      })
+    );
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '3:34 PM',
+          '3:34 PM',
+          '07/29/15, 3:34:14 PM', done);
+    });
+  });
+
+  suite('ISO + 12 hours time format preference', () => {
+    setup(() =>
+      // relative_date_in_change_table is not set when false.
+      stubRestAPI(
+          {time_format: 'HHMM_12', date_format: 'ISO'}
+      ).then(() => {
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        return element._loadPreferences();
+      })
+    );
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '3:34 PM',
+          '3:34 PM',
+          '2015-07-29, 3:34:14 PM', done);
+    });
+  });
+
+  suite('EURO + 12 hours time format preference', () => {
+    setup(() =>
+      // relative_date_in_change_table is not set when false.
+      stubRestAPI(
+          {time_format: 'HHMM_12', date_format: 'EURO'}
+      ).then(() => {
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        return element._loadPreferences();
+      })
+    );
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '3:34 PM',
+          '3:34 PM',
+          '29.07.2015, 3:34:14 PM', done);
+    });
+  });
+
+  suite('UK + 12 hours time format preference', () => {
+    setup(() =>
+      // relative_date_in_change_table is not set when false.
+      stubRestAPI(
+          {time_format: 'HHMM_12', date_format: 'UK'}
+      ).then(() => {
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        return element._loadPreferences();
+      })
+    );
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '3:34 PM',
+          '3:34 PM',
+          '29/07/2015, 3:34:14 PM', done);
+    });
+  });
+
+  suite('relative date preference', () => {
+    setup(() => stubRestAPI({
+      time_format: 'HHMM_12',
+      date_format: 'STD',
+      relative_date_in_change_table: true,
+    }).then(() => {
+      element = fixture('basic');
+      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      return element._loadPreferences();
+    }));
+
+    test('Within 24 hours on same day', done => {
+      testDates('2015-07-29 20:34:14.985000000',
+          '2015-07-29 15:34:14.985000000',
+          '5 hours ago',
+          '5 hours ago',
+          'Jul 29, 2015, 3:34:14 PM', done);
+    });
+
+    test('More than six months', done => {
+      testDates('2015-09-15 20:34:00.000000000',
+          '2015-01-15 03:25:00.000000000',
+          '8 months ago',
+          '8 months ago',
+          'Jan 15, 2015, 3:25:00 AM', done);
+    });
+  });
+
+  suite('logged in', () => {
+    setup(() => stubRestAPI({
+      time_format: 'HHMM_12',
+      date_format: 'US',
+      relative_date_in_change_table: true,
+    }).then(() => {
+      element = fixture('basic');
+      return element._loadPreferences();
+    }));
+
+    test('Preferences are respected', () => {
+      assert.equal(element._timeFormat, 'h:mm A');
+      assert.equal(element._dateFormat.short, 'MM/DD');
+      assert.equal(element._dateFormat.full, 'MM/DD/YY');
+      assert.isTrue(element._relative);
+    });
+  });
+
+  suite('logged out', () => {
+    setup(() => stubRestAPI(null).then(() => {
+      element = fixture('basic');
+      return element._loadPreferences();
+    }));
+
+    test('Default preferences are respected', () => {
+      assert.equal(element._timeFormat, 'HH:mm');
+      assert.equal(element._dateFormat.short, 'MMM DD');
+      assert.equal(element._dateFormat.full, 'MMM DD, YYYY');
+      assert.isFalse(element._relative);
+    });
+  });
+});
 </script>

@@ -15,17 +15,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <!-- Polymer included for the html import polyfill. -->
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
 <title>docs-url-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<link rel="import" href="docs-url-behavior.html">
+<script type="module" src="./docs-url-behavior.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './docs-url-behavior.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -33,71 +38,74 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('docs-url-behavior tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './docs-url-behavior.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('docs-url-behavior tests', () => {
+  let element;
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'docs-url-behavior-element',
-        behaviors: [Gerrit.DocsUrlBehavior],
-      });
-    });
-
-    setup(() => {
-      element = fixture('basic');
-      element._clearDocsBaseUrlCache();
-    });
-
-    test('null config', () => {
-      const mockRestApi = {
-        probePath: sinon.stub().returns(Promise.resolve(true)),
-      };
-      return element.getDocsBaseUrl(null, mockRestApi)
-          .then(docsBaseUrl => {
-            assert.isTrue(
-                mockRestApi.probePath.calledWith('/Documentation/index.html'));
-            assert.equal(docsBaseUrl, '/Documentation');
-          });
-    });
-
-    test('no doc config', () => {
-      const mockRestApi = {
-        probePath: sinon.stub().returns(Promise.resolve(true)),
-      };
-      const config = {gerrit: {}};
-      return element.getDocsBaseUrl(config, mockRestApi)
-          .then(docsBaseUrl => {
-            assert.isTrue(
-                mockRestApi.probePath.calledWith('/Documentation/index.html'));
-            assert.equal(docsBaseUrl, '/Documentation');
-          });
-    });
-
-    test('has doc config', () => {
-      const mockRestApi = {
-        probePath: sinon.stub().returns(Promise.resolve(true)),
-      };
-      const config = {gerrit: {doc_url: 'foobar'}};
-      return element.getDocsBaseUrl(config, mockRestApi)
-          .then(docsBaseUrl => {
-            assert.isFalse(mockRestApi.probePath.called);
-            assert.equal(docsBaseUrl, 'foobar');
-          });
-    });
-
-    test('no probe', () => {
-      const mockRestApi = {
-        probePath: sinon.stub().returns(Promise.resolve(false)),
-      };
-      return element.getDocsBaseUrl(null, mockRestApi)
-          .then(docsBaseUrl => {
-            assert.isTrue(
-                mockRestApi.probePath.calledWith('/Documentation/index.html'));
-            assert.isNotOk(docsBaseUrl);
-          });
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'docs-url-behavior-element',
+      behaviors: [Gerrit.DocsUrlBehavior],
     });
   });
+
+  setup(() => {
+    element = fixture('basic');
+    element._clearDocsBaseUrlCache();
+  });
+
+  test('null config', () => {
+    const mockRestApi = {
+      probePath: sinon.stub().returns(Promise.resolve(true)),
+    };
+    return element.getDocsBaseUrl(null, mockRestApi)
+        .then(docsBaseUrl => {
+          assert.isTrue(
+              mockRestApi.probePath.calledWith('/Documentation/index.html'));
+          assert.equal(docsBaseUrl, '/Documentation');
+        });
+  });
+
+  test('no doc config', () => {
+    const mockRestApi = {
+      probePath: sinon.stub().returns(Promise.resolve(true)),
+    };
+    const config = {gerrit: {}};
+    return element.getDocsBaseUrl(config, mockRestApi)
+        .then(docsBaseUrl => {
+          assert.isTrue(
+              mockRestApi.probePath.calledWith('/Documentation/index.html'));
+          assert.equal(docsBaseUrl, '/Documentation');
+        });
+  });
+
+  test('has doc config', () => {
+    const mockRestApi = {
+      probePath: sinon.stub().returns(Promise.resolve(true)),
+    };
+    const config = {gerrit: {doc_url: 'foobar'}};
+    return element.getDocsBaseUrl(config, mockRestApi)
+        .then(docsBaseUrl => {
+          assert.isFalse(mockRestApi.probePath.called);
+          assert.equal(docsBaseUrl, 'foobar');
+        });
+  });
+
+  test('no probe', () => {
+    const mockRestApi = {
+      probePath: sinon.stub().returns(Promise.resolve(false)),
+    };
+    return element.getDocsBaseUrl(null, mockRestApi)
+        .then(docsBaseUrl => {
+          assert.isTrue(
+              mockRestApi.probePath.calledWith('/Documentation/index.html'));
+          assert.isNotOk(docsBaseUrl);
+        });
+  });
+});
 </script>

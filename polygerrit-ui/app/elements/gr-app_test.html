@@ -19,21 +19,27 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-app</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../test/test-pre-setup.js"></script>
-<link rel="import" href="../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../test/test-pre-setup.js"></script>
+<script type="module" src="../test/common-test-setup.js"></script>
 
-<script>
-  const link = document.createElement('link');
-  link.setAttribute('rel', 'import');
-  link.setAttribute('href', 'gr-app.html');
-  document.head.appendChild(link);
+<script type="module">
+import '../test/test-pre-setup.js';
+import '../test/common-test-setup.js';
+const link = document.createElement('link');
+link.setAttribute('rel', 'import');
+link.setAttribute('href', 'gr-app.html');
+document.head.appendChild(link);
 </script>
 
-<script>void(0);</script>
+<script type="module">
+import '../test/test-pre-setup.js';
+import '../test/common-test-setup.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -41,74 +47,75 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-app tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let element;
+<script type="module">
+import '../test/test-pre-setup.js';
+import '../test/common-test-setup.js';
+suite('gr-app tests', () => {
+  let sandbox;
+  let element;
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-reporting', {
-        appStarted: sandbox.stub(),
-      });
-      stub('gr-account-dropdown', {
-        _getTopContent: sinon.stub(),
-      });
-      stub('gr-router', {
-        start: sandbox.stub(),
-      });
-      stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve({}); },
-        getAccountCapabilities() { return Promise.resolve({}); },
-        getConfig() {
-          return Promise.resolve({
-            plugin: {},
-            auth: {
-              auth_type: undefined,
-            },
-          });
-        },
-        getPreferences() { return Promise.resolve({my: []}); },
-        getDiffPreferences() { return Promise.resolve({}); },
-        getEditPreferences() { return Promise.resolve({}); },
-        getVersion() { return Promise.resolve(42); },
-        probePath() { return Promise.resolve(42); },
-      });
-
-      element = fixture('basic');
-      flush(done);
+  setup(done => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-reporting', {
+      appStarted: sandbox.stub(),
+    });
+    stub('gr-account-dropdown', {
+      _getTopContent: sinon.stub(),
+    });
+    stub('gr-router', {
+      start: sandbox.stub(),
+    });
+    stub('gr-rest-api-interface', {
+      getAccount() { return Promise.resolve({}); },
+      getAccountCapabilities() { return Promise.resolve({}); },
+      getConfig() {
+        return Promise.resolve({
+          plugin: {},
+          auth: {
+            auth_type: undefined,
+          },
+        });
+      },
+      getPreferences() { return Promise.resolve({my: []}); },
+      getDiffPreferences() { return Promise.resolve({}); },
+      getEditPreferences() { return Promise.resolve({}); },
+      getVersion() { return Promise.resolve(42); },
+      probePath() { return Promise.resolve(42); },
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+    element = fixture('basic');
+    flush(done);
+  });
 
-    appElement = () => element.$['app-element'];
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('reporting', () => {
-      assert.isTrue(appElement().$.reporting.appStarted.calledOnce);
-    });
+  appElement = () => element.$['app-element'];
 
-    test('reporting called before router start', () => {
-      const element = appElement();
-      const appStartedStub = element.$.reporting.appStarted;
-      const routerStartStub = element.$.router.start;
-      sinon.assert.callOrder(appStartedStub, routerStartStub);
-    });
+  test('reporting', () => {
+    assert.isTrue(appElement().$.reporting.appStarted.calledOnce);
+  });
 
-    test('passes config to gr-plugin-host', () => {
-      const config = appElement().$.restAPI.getConfig;
-      return config.lastCall.returnValue.then(config => {
-        assert.deepEqual(appElement().$.plugins.config, config);
-      });
-    });
+  test('reporting called before router start', () => {
+    const element = appElement();
+    const appStartedStub = element.$.reporting.appStarted;
+    const routerStartStub = element.$.router.start;
+    sinon.assert.callOrder(appStartedStub, routerStartStub);
+  });
 
-    test('_paramsChanged sets search page', () => {
-      appElement()._paramsChanged({base: {view: Gerrit.Nav.View.CHANGE}});
-      assert.notOk(appElement()._lastSearchPage);
-      appElement()._paramsChanged({base: {view: Gerrit.Nav.View.SEARCH}});
-      assert.ok(appElement()._lastSearchPage);
+  test('passes config to gr-plugin-host', () => {
+    const config = appElement().$.restAPI.getConfig;
+    return config.lastCall.returnValue.then(config => {
+      assert.deepEqual(appElement().$.plugins.config, config);
     });
   });
+
+  test('_paramsChanged sets search page', () => {
+    appElement()._paramsChanged({base: {view: Gerrit.Nav.View.CHANGE}});
+    assert.notOk(appElement()._lastSearchPage);
+    appElement()._paramsChanged({base: {view: Gerrit.Nav.View.SEARCH}});
+    assert.ok(appElement()._lastSearchPage);
+  });
+});
 </script>

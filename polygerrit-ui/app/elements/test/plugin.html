@@ -1,12 +1,12 @@
 <dom-module id="my-plugin">
-  <script>
-    Gerrit.install(plugin => {
-      plugin.registerStyleModule('app-theme', 'myplugin-app-theme');
-      plugin.registerStyleModule('app-theme-light', 'myplugin-app-theme-light');
-      plugin.registerStyleModule('app-theme-dark', 'myplugin-app-theme-dark');
-    });
-  </script>
 </dom-module>
+<script>
+  Gerrit.install(plugin => {
+    plugin.registerStyleModule('app-theme', 'myplugin-app-theme');
+    plugin.registerStyleModule('app-theme-light', 'myplugin-app-theme-light');
+    plugin.registerStyleModule('app-theme-dark', 'myplugin-app-theme-dark');
+  });
+</script>
 
 <dom-module id="myplugin-app-theme">
   <template>

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "dcbe1f35_42bf8b36",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-04T17:36:20Z",
+      "side": 1,
+      "message": "It should be supported in both places, so confusion i would think is limited.",
+      "parentUuid": "b6d6ac63_2416750b",
+      "revId": "b4e8e590ab466b25755108641ced920f125a872b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "048194c0_06db04a6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 32
@@ -95,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "a2317b6c_f6ffb3cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-04T17:36:20Z",
+      "side": 1,
+      "message": "Fixed, thanks.",
+      "parentUuid": "048194c0_06db04a6",
+      "range": {
+        "startLine": 999,
+        "startChar": 22,
+        "endLine": 999,
+        "endChar": 28
+      },
+      "revId": "b4e8e590ab466b25755108641ced920f125a872b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d60f08cb_e7021674",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
         "patchSetId": 32
@@ -112,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "2e657c37_f12c1f71",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-04T17:36:20Z",
+      "side": 1,
+      "message": "Fixed this by doing similar to you in https://github.com/GerritCodeReview/gerrit/commit/32a9265505953757bcc00e4dacf05464f1585272#diff-6565f76373f9baccc403ba94d519ea72",
+      "parentUuid": "d60f08cb_e7021674",
+      "revId": "b4e8e590ab466b25755108641ced920f125a872b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91e327d7_7f323ef3",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
         "patchSetId": 32
@@ -123,6 +183,30 @@
       "writtenOn": "2020-03-02T13:23:44Z",
       "side": 1,
       "message": "this is way too long :) and you probably want to show this only for `author` as well",
+      "range": {
+        "startLine": 126,
+        "startChar": 35,
+        "endLine": 126,
+        "endChar": 54
+      },
+      "revId": "b4e8e590ab466b25755108641ced920f125a872b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0993bb1_60ff2cee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-04T17:36:20Z",
+      "side": 1,
+      "message": "Well, technically anyone can edit someones else\u0027s patches. So for the moment i think it\u0027s fine as. I carn\u0027t seem to be able to get from the rest api if the user has \"Add patchset\" right.",
+      "parentUuid": "91e327d7_7f323ef3",
       "range": {
         "startLine": 126,
         "startChar": 35,

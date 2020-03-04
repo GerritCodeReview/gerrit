@@ -94,6 +94,9 @@ link:cmd-set-project-parent.html[gerrit set-project-parent]::
 link:cmd-set-reviewers.html[gerrit set-reviewers]::
 	Add or remove reviewers on a change.
 
+link:cmd-set-topic.html[gerrit set-topic]::
+	Set the topic for a change.
+
 link:cmd-stream-events.html[gerrit stream-events]::
 	Monitor events occurring in real time.
 
@@ -179,7 +182,7 @@ link:cmd-set-account.html[gerrit set-account]::
 	Change an account's settings.
 
 link:cmd-sequence-show.html[gerrit sequence show]::
-        Display current sequence value.
+	Display current sequence value.
 
 link:cmd-set-members.html[gerrit set-members]::
 	Set group members.

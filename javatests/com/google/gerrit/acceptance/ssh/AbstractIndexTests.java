@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -35,6 +36,7 @@ import org.junit.Test;
 
 @NoHttpd
 @UseSsh
+@UseLocalDisk
 public abstract class AbstractIndexTests extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
 

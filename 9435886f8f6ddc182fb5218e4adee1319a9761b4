@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31b13b09_f5606377",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-04T12:54:57Z",
+      "side": 1,
+      "message": "remove this comment",
+      "revId": "9435886f8f6ddc182fb5218e4adee1319a9761b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

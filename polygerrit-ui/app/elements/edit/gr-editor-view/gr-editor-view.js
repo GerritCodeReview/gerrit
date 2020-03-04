@@ -48,6 +48,7 @@
         observer: '_paramsChanged',
       },
 
+<<<<<<< HEAD   (73ac69 Update git submodules)
       _change: Object,
       _changeEditDetail: Object,
       _changeNum: String,
@@ -71,6 +72,33 @@
       },
       _prefs: Object,
     },
+=======
+        _change: Object,
+        _changeEditDetail: Object,
+        _changeNum: String,
+        _patchNum: String,
+        _path: String,
+        _type: String,
+        _content: String,
+        _newContent: String,
+        _saving: {
+          type: Boolean,
+          value: false,
+        },
+        _successfulSave: {
+          type: Boolean,
+          value: false,
+        },
+        _saveDisabled: {
+          type: Boolean,
+          value: true,
+          computed: '_computeSaveDisabled(_content, _newContent, _saving)',
+        },
+        _prefs: Object,
+        _lineNum: Number,
+      };
+    }
+>>>>>>> CHANGE (5e45f0 Add support for going to linNum in inline editor)
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
@@ -108,6 +136,7 @@
       this._changeNum = value.changeNum;
       this._path = value.path;
       this._patchNum = value.patchNum || this.EDIT_NAME;
+      this._lineNum = value.lineNum;
 
       // NOTE: This may be called before attachment (e.g. while parentElement is
       // null). Fire title-change in an async so that, if attachment to the DOM

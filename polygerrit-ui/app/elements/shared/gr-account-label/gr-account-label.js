@@ -19,12 +19,10 @@
 
   /**
    * @appliesMixin Gerrit.DisplayNameMixin
-   * @appliesMixin Gerrit.TooltipMixin
    * @extends Polymer.Element
    */
   class GrAccountLabel extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
-    Gerrit.TooltipBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -36,17 +34,6 @@
          * @type {{ name: string, status: string }}
          */
         account: Object,
-        title: {
-          type: String,
-          reflectToAttribute: true,
-          computed: '_computeAccountTitle(account, additionalText)',
-        },
-        additionalText: String,
-        hasTooltip: {
-          type: Boolean,
-          reflectToAttribute: true,
-          computed: '_computeHasTooltip(account)',
-        },
         hideAvatar: {
           type: Boolean,
           value: false,
@@ -61,48 +48,12 @@
     /** @override */
     ready() {
       super.ready();
-      if (!this.additionalText) { this.additionalText = ''; }
       this.$.restAPI.getConfig()
           .then(config => { this._serverConfig = config; });
     }
 
     _computeName(account, config) {
       return this.getUserName(config, account, true);
-    }
-
-    _computeAccountTitle(account, tooltip) {
-      // Polymer 2: check for undefined
-      if ([
-        account,
-        tooltip,
-      ].some(arg => arg === undefined)) {
-        return undefined;
-      }
-
-      if (!account) { return; }
-      let result = '';
-      if (this._computeName(account, this._serverConfig)) {
-        result += this._computeName(account, this._serverConfig);
-      }
-      if (account.email) {
-        result += ` <${account.email}>`;
-      }
-      if (this.additionalText) {
-        result += ` ${this.additionalText}`;
-      }
-
-      // Show status in the label tooltip instead of
-      // in a separate tooltip on status
-      if (account.status) {
-        result += ` (${account.status})`;
-      }
-
-      return result;
-    }
-
-    _computeHasTooltip(account) {
-      // If an account has loaded to fire this method, then set to true.
-      return false;
     }
   }
 

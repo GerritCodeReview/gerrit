@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58b5f793_8c299253",
+        "filename": "polygerrit-ui/app/.eslintrc.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-04T08:49:07Z",
+      "side": 1,
+      "message": "why off for all htmls ?",
+      "range": {
+        "startLine": 138,
+        "startChar": 17,
+        "endLine": 138,
+        "endChar": 23
+      },
+      "revId": "c55db4aad1c376446f60a879d69cefa87273fad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -67,7 +67,7 @@
     }
 
     _computeName(account, config) {
-      return this.getUserName(config, account, false);
+      return this.getUserName(config, account, true);
     }
 
     _computeAccountTitle(account, tooltip) {
@@ -98,21 +98,6 @@
       }
 
       return result;
-    }
-
-    _computeShowEmailClass(account) {
-      if (!account || account.name || !account.email) { return ''; }
-      return 'showEmail';
-    }
-
-    _computeEmailStr(account) {
-      if (!account || !account.email) {
-        return '';
-      }
-      if (account.name) {
-        return '(' + account.email + ')';
-      }
-      return account.email;
     }
 
     _computeHasTooltip(account) {

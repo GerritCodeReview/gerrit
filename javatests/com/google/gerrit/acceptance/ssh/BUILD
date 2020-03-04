@@ -4,7 +4,9 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 java_library(
     name = "util",
     testonly = True,
-    srcs = ["AbstractIndexTests.java"],
+    srcs = glob(
+        ["*IndexTests.java"],
+    ),
     deps = ["//java/com/google/gerrit/acceptance:lib"],
 )
 

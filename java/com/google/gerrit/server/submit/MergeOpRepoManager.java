@@ -15,6 +15,7 @@
 package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Maps;
@@ -185,7 +186,7 @@ public class MergeOpRepoManager implements AutoCloseable {
       return openRepos.get(project);
     }
 
-    ProjectState projectState = projectCache.get(project);
+    ProjectState projectState = projectCache.get(project).orElseThrow(noSuchProject(project));
     if (projectState == null) {
       throw new NoSuchProjectException(project);
     }

@@ -41,6 +41,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -169,7 +170,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         notes,
         user,
         when,
-        projectCache.get(notes.getProjectName()).getLabelTypes().nameComparator(),
+        projectCache
+            .get(notes.getProjectName())
+            .orElseThrow(illegalState(notes.getProjectName()))
+            .getLabelTypes()
+            .nameComparator(),
         noteUtil);
   }
 

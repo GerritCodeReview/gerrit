@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
+
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -108,17 +110,13 @@ public class SubmitRuleEvaluator {
   public List<SubmitRecord> evaluate(ChangeData cd) {
     try (Timer0.Context ignored = submitRuleEvaluationLatency.start()) {
       Change change;
-      ProjectState projectState;
       try {
         change = cd.change();
         if (change == null) {
           throw new StorageException("Change not found");
         }
 
-        projectState = projectCache.get(cd.project());
-        if (projectState == null) {
-          throw new NoSuchProjectException(cd.project());
-        }
+        projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
       } catch (StorageException | NoSuchProjectException e) {
         return Collections.singletonList(ruleError("Error looking up change " + cd.getId(), e));
       }
@@ -154,10 +152,7 @@ public class SubmitRuleEvaluator {
     try (Timer0.Context ignored = submitTypeEvaluationLatency.start()) {
       ProjectState projectState;
       try {
-        projectState = projectCache.get(cd.project());
-        if (projectState == null) {
-          throw new NoSuchProjectException(cd.project());
-        }
+        projectState = projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
       } catch (NoSuchProjectException e) {
         return typeError("Error looking up change " + cd.getId(), e);
       }

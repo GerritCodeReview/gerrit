@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
@@ -362,7 +363,11 @@ public class SubmoduleOp {
     logger.atFine().log("Calculating possible superprojects for %s", srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey srcProject = srcBranch.project();
-    for (SubscribeSection s : projectCache.get(srcProject).getSubscribeSections(srcBranch)) {
+    for (SubscribeSection s :
+        projectCache
+            .get(srcProject)
+            .orElseThrow(illegalState(srcProject))
+            .getSubscribeSections(srcBranch)) {
       logger.atFine().log("Checking subscribe section %s", s);
       Collection<BranchNameKey> branches = getDestinationBranches(srcBranch, s);
       for (BranchNameKey targetBranch : branches) {

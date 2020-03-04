@@ -15,6 +15,7 @@
 package com.google.gerrit.server.submit;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableMap;
@@ -200,9 +201,7 @@ public abstract class SubmitStrategy {
       this.dryrun = dryrun;
 
       this.project =
-          requireNonNull(
-              projectCache.get(destBranch.project()),
-              () -> String.format("project not found: %s", destBranch.project()));
+          projectCache.get(destBranch.project()).orElseThrow(illegalState(destBranch.project()));
       this.mergeSorter =
           new MergeSorter(caller, rw, alreadyAccepted, canMergeFlag, queryProvider, incoming);
       this.rebaseSorter =

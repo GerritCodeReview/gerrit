@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.project;
 
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
@@ -78,7 +79,8 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
               () -> {
                 try {
                   projectCache.evict(name);
-                  index.replace(projectCache.get(name).toProjectData());
+                  index.replace(
+                      projectCache.get(name).orElseThrow(illegalState(name)).toProjectData());
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
                 } catch (Exception e) {

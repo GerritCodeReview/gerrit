@@ -91,9 +91,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
     // for more extensive coverage of the LabelTypeInfo.
     assertThat(p.labels).hasSize(1);
 
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertProjectInfo(projectState.get().getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
   }
 
@@ -167,9 +167,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertProjectInfo(projectState.get().getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
     assertThat(readProjectConfig(newProjectName))
         .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
@@ -180,9 +180,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName + ".git").get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertProjectInfo(projectState.get().getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
   }
 
@@ -191,9 +191,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName + "/").get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertProjectInfo(projectState.get().getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
   }
 
@@ -202,9 +202,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject/newProject");
     ProjectInfo p = gApi.projects().create(newProjectName).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertProjectInfo(projectState.get().getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
   }
 
@@ -221,7 +221,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.requireChangeId = InheritableBoolean.TRUE;
     ProjectInfo p = gApi.projects().create(in).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    Project project = projectCache.get(Project.nameKey(newProjectName)).getProject();
+    Project project = projectCache.get(Project.nameKey(newProjectName)).get().getProject();
     assertProjectInfo(project, p);
     assertThat(project.getDescription()).isEqualTo(in.description);
     assertThat(project.getConfiguredSubmitType()).isEqualTo(in.submitType);
@@ -247,7 +247,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.name = childName;
     in.parent = parentName;
     gApi.projects().create(in);
-    Project project = projectCache.get(Project.nameKey(childName)).getProject();
+    Project project = projectCache.get(Project.nameKey(childName)).get().getProject();
     assertThat(project.getParentName()).isEqualTo(in.parent);
   }
 
@@ -275,12 +275,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
                 .getId()
                 .get())); // by ID
     gApi.projects().create(in);
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
     expectedOwnerIds.add(SystemGroupBackend.ANONYMOUS_USERS);
     expectedOwnerIds.add(SystemGroupBackend.REGISTERED_USERS);
     expectedOwnerIds.add(groupUuid("Administrators"));
-    assertProjectOwners(expectedOwnerIds, projectState);
+    assertThat(projectState).isPresent();
+    assertProjectOwners(expectedOwnerIds, projectState.get());
   }
 
   @Test
@@ -367,7 +368,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createProjectWithCreateProjectCapabilityAndParentNotVisible() throws Exception {
-    Project parent = projectCache.get(allProjects).getProject();
+    Project parent = projectCache.get(allProjects).get().getProject();
     parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
     projectOperations
         .allProjectsForUpdate()

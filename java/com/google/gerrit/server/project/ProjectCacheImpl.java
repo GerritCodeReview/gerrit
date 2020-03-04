@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -48,6 +49,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
@@ -125,29 +127,18 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public ProjectState getAllProjects() {
-    ProjectState state = get(allProjectsName);
-    if (state == null) {
-      // This should never occur, the server must have this
-      // project to process anything.
-      throw new IllegalStateException("Missing project " + allProjectsName);
-    }
-    return state;
+    return get(allProjectsName).orElseThrow(illegalState(allProjectsName));
   }
 
   @Override
   public ProjectState getAllUsers() {
-    ProjectState state = get(allUsersName);
-    if (state == null) {
-      // This should never occur.
-      throw new IllegalStateException("Missing project " + allUsersName);
-    }
-    return state;
+    return get(allUsersName).orElseThrow(illegalState(allUsersName));
   }
 
   @Override
-  public ProjectState get(Project.NameKey projectName) {
+  public Optional<ProjectState> get(Project.NameKey projectName) {
     try {
-      return checkedGet(projectName);
+      return Optional.ofNullable(checkedGet(projectName));
     } catch (IOException e) {
       throw new StorageException("project state not available", e);
     }

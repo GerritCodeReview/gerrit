@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.rules;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.server.project.ProjectCache;
@@ -36,9 +38,10 @@ public class PrologRule implements SubmitRule {
 
   @Override
   public Optional<SubmitRecord> evaluate(ChangeData cd) {
-    ProjectState projectState = projectCache.get(cd.project());
+    ProjectState projectState =
+        projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
     // We only want to run the Prolog engine if we have at least one rules.pl file to use.
-    if ((projectState == null || !projectState.hasPrologRules())) {
+    if (!projectState.hasPrologRules()) {
       return Optional.empty();
     }
 

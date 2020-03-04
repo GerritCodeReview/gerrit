@@ -39,6 +39,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.SortedDocValuesField;
@@ -142,7 +143,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   @Override
   protected ProjectData fromDocument(Document doc) {
     Project.NameKey nameKey = Project.nameKey(doc.getField(NAME.getName()).stringValue());
-    ProjectState projectState = projectCache.get().get(nameKey);
-    return projectState == null ? null : projectState.toProjectData();
+    Optional<ProjectState> projectState = projectCache.get().get(nameKey);
+    return projectState.isPresent() ? projectState.get().toProjectData() : null;
   }
 }

@@ -156,10 +156,14 @@ public class SetParent
 
     newParent = Strings.emptyToNull(newParent);
     if (newParent != null) {
-      ProjectState parent = cache.get(Project.nameKey(newParent));
-      if (parent == null) {
-        throw new UnprocessableEntityException("parent project " + newParent + " not found");
-      }
+      Project.NameKey newParentNameKey = Project.nameKey(newParent);
+      ProjectState parent =
+          cache
+              .get(newParentNameKey)
+              .orElseThrow(
+                  () ->
+                      new UnprocessableEntityException(
+                          "parent project " + newParentNameKey + " not found"));
 
       if (parent.getName().equals(project.get())) {
         throw new ResourceConflictException("cannot set parent to self");

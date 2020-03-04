@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.index.project;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
@@ -57,7 +59,8 @@ public class StalenessChecker {
    * provided {@link com.google.gerrit.entities.Project.NameKey}.
    */
   public StalenessCheckResult check(Project.NameKey project) {
-    ProjectData projectData = projectCache.get(project).toProjectData();
+    ProjectData projectData =
+        projectCache.get(project).orElseThrow(illegalState(project)).toProjectData();
     ProjectIndex i = indexes.getSearchIndex();
     if (i == null) {
       return StalenessCheckResult

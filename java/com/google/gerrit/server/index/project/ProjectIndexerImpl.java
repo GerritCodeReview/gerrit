@@ -34,6 +34,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 /**
  * Implementation for indexing a Gerrit-managed repository (project). The project will be loaded
@@ -77,10 +78,10 @@ public class ProjectIndexerImpl implements ProjectIndexer {
 
   @Override
   public void index(Project.NameKey nameKey) {
-    ProjectState projectState = projectCache.get(nameKey);
-    if (projectState != null) {
+    Optional<ProjectState> projectState = projectCache.get(nameKey);
+    if (projectState.isPresent()) {
       logger.atFine().log("Replace project %s in index", nameKey.get());
-      ProjectData projectData = projectState.toProjectData();
+      ProjectData projectData = projectState.get().toProjectData();
       for (ProjectIndex i : getWriteIndexes()) {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(

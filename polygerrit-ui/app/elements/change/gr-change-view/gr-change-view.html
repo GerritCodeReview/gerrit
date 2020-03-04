@@ -535,24 +535,25 @@ limitations under the License.
         </div>
       </section>
 
+      <template is="dom-if" if="[[_showPrimaryTabs]]">
+        <paper-tabs id="primaryTabs" on-selected-changed="_handleFileTabChange">
+          <paper-tab>Files</paper-tab>
+          <template is="dom-repeat" items="[[_dynamicTabHeaderEndpoints]]"
+            as="tabHeader">
+            <paper-tab>
+                <gr-endpoint-decorator name$="[[tabHeader]]">
+                    <gr-endpoint-param name="change" value="[[_change]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                    </gr-endpoint-param>
+                </gr-endpoint-decorator>
+            </paper-tab>
+          </template>
+        </paper-tabs>
+      </template>
+
       <section class="patchInfo">
-        <template is="dom-if" if="[[_showPrimaryTabs]]">
-          <paper-tabs id="primaryTabs" on-selected-changed="_handleFileTabChange">
-            <paper-tab data-name$="[[_files_tab_name]]">Files</paper-tab>
-            <template is="dom-repeat" items="[[_dynamicTabHeaderEndpoints]]"
-              as="tabHeader">
-              <paper-tab data-name$="[[tabHeader]]">
-                  <gr-endpoint-decorator name$="[[tabHeader]]">
-                      <gr-endpoint-param name="change" value="[[_change]]">
-                      </gr-endpoint-param>
-                      <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
-                      </gr-endpoint-param>
-                  </gr-endpoint-decorator>
-              </paper-tab>
-            </template>
-          </paper-tabs>
-        </template>
-        <div hidden$="[[!_findIfTabMatches(_currentTabName, _files_tab_name)]]">
+        <div hidden$="[[!_showFileTabContent]]">
           <gr-file-list-header
             id="fileListHeader"
             account="[[_account]]"
@@ -603,13 +604,13 @@ limitations under the License.
             on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
         </div>
 
-        <template is="dom-if" if="[[_findIfTabMatches(_currentTabName, _selectedTabPluginHeader)]]">
-          <gr-endpoint-decorator name$="[[_selectedTabPluginEndpoint]]">
-            <gr-endpoint-param name="change" value="[[_change]]">
-            </gr-endpoint-param>
-            <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
-            </gr-endpoint-param>
-          </gr-endpoint-decorator>
+        <template is="dom-if" if="[[!_showFileTabContent]]">
+            <gr-endpoint-decorator name$="[[_selectedFilesTabPluginEndpoint]]">
+                <gr-endpoint-param name="change" value="[[_change]]">
+                </gr-endpoint-param>
+                <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                </gr-endpoint-param>
+            </gr-endpoint-decorator>
         </template>
       </section>
 

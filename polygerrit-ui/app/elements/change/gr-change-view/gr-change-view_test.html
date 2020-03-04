@@ -280,20 +280,6 @@ limitations under the License.
       element = fixture('basic');
       sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
       Gerrit._loadPlugins([]);
-      Gerrit.install(
-          plugin => {
-            plugin.registerDynamicCustomComponent(
-                'change-view-tab-header',
-                'gr-checks-change-view-tab-header-view'
-            );
-            plugin.registerDynamicCustomComponent(
-                'change-view-tab-content',
-                'gr-checks-view'
-            );
-          },
-          '0.1',
-          'http://some/plugins/url.html'
-      );
     });
 
     teardown(done => {
@@ -317,44 +303,6 @@ limitations under the License.
 
       assert.equal(getUrlStub.lastCall.args[4], '#message-a12345');
       assert.isTrue(replaceStateStub.called);
-    });
-
-    suite('plugins adding to file tab', () => {
-      setup(done => {
-        // Resolving it here instead of during setup() as other tests depend
-        // on flush() not being called during setup.
-        flush(() => done());
-      });
-
-      test('plugin added tab shows up as a dynamic endpoint', () => {
-        assert(element._dynamicTabHeaderEndpoints.includes(
-            'change-view-tab-header-url'));
-        const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
-        assert.equal(paperTabs.querySelectorAll('paper-tab').length, 2);
-        assert.equal(paperTabs.querySelectorAll('paper-tab')[1].dataset.name,
-            'change-view-tab-header-url');
-      });
-
-      test('handleShowTab switched tab correctly', done => {
-        const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
-        assert.equal(paperTabs.selected, 0);
-        element._handleShowTab({detail:
-            {tab: 'change-view-tab-header-url'}});
-        flush(() => {
-          assert.equal(paperTabs.selected, 1);
-          done();
-        });
-      });
-
-      test('switching tab sets _selectedTabPluginEndpoint', done => {
-        const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
-        MockInteractions.tap(paperTabs.querySelectorAll('paper-tab')[1]);
-        flush(() => {
-          assert.equal(element._selectedTabPluginEndpoint,
-              'change-view-tab-content-url');
-          done();
-        });
-      });
     });
 
     suite('keyboard shortcuts', () => {

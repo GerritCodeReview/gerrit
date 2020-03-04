@@ -36,10 +36,6 @@
        * @type {{ name: string, status: string }}
        */
         account: Object,
-        avatarImageSize: {
-          type: Number,
-          value: 32,
-        },
         title: {
           type: String,
           reflectToAttribute: true,

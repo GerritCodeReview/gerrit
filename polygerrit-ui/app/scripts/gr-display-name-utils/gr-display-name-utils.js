@@ -24,16 +24,12 @@
   const ANONYMOUS_NAME = 'Anonymous';
 
   class GrDisplayNameUtils {
-    /**
-     * enableEmail when true enables to fallback to using email if
-     * the account name is not avilable.
-     */
-    static getUserName(config, account, enableEmail) {
+    static getUserName(config, account) {
       if (account && account.name) {
         return account.name;
       } else if (account && account.username) {
         return account.username;
-      } else if (enableEmail && account && account.email) {
+      } else if (account && account.email) {
         return account.email;
       } else if (config && config.user &&
           config.user.anonymous_coward_name !== 'Anonymous Coward') {
@@ -43,8 +39,8 @@
       return ANONYMOUS_NAME;
     }
 
-    static getAccountDisplayName(config, account, enableEmail) {
-      const reviewerName = this.getUserName(config, account, !!enableEmail);
+    static getAccountDisplayName(config, account) {
+      const reviewerName = this.getUserName(config, account);
       const reviewerEmail = this._accountEmail(account.email);
       const reviewerStatus = account.status ? '(' + account.status + ')' : '';
       return [reviewerName, reviewerEmail, reviewerStatus]

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f784f0a_30d97479",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-04T15:49:41Z",
+      "side": 1,
+      "message": "can we also add this here as well:\n\n```\n   * @extends Polymer.Element\n```\n\nits for the closure checks (I have a change outgoing but blocked by the CI now)...",
+      "revId": "24424d5ac36798445703ac4d8ab65f03e5722e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

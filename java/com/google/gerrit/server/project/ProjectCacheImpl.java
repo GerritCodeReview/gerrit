@@ -26,6 +26,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
@@ -148,8 +149,7 @@ public class ProjectCacheImpl implements ProjectCache {
     try {
       return checkedGet(projectName);
     } catch (IOException e) {
-      logger.atWarning().withCause(e).log("Cannot read project %s", projectName);
-      return null;
+      throw new StorageException("project state not available", e);
     }
   }
 

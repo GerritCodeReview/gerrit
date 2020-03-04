@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import java.io.IOException;
 import java.util.Set;
 
@@ -33,11 +34,11 @@ public interface ProjectCache {
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.
-   * @return the cached data; null if no such project exists, projectName is null or an error
-   *     occurred.
+   * @return the cached data; null if no such project exists or the projectName is null
+   * @throws StorageException when there was an error.
    * @see #checkedGet(com.google.gerrit.entities.Project.NameKey)
    */
-  ProjectState get(@Nullable Project.NameKey projectName);
+  ProjectState get(@Nullable Project.NameKey projectName) throws StorageException;
 
   /**
    * Get the cached data for a project by its unique name.
@@ -45,7 +46,9 @@ public interface ProjectCache {
    * @param projectName name of the project.
    * @throws IOException when there was an error.
    * @return the cached data; null if no such project exists or projectName is null.
+   * @deprecated use {@link #get(Project.NameKey)} instead.
    */
+  @Deprecated
   ProjectState checkedGet(@Nullable Project.NameKey projectName) throws IOException;
 
   /**
@@ -56,7 +59,9 @@ public interface ProjectCache {
    * @throws Exception in case of any error (strict = true) or only for I/O or other internal
    *     errors.
    * @return the cached data or null when strict = false
+   * @deprecated use {@link #get(Project.NameKey)} instead.
    */
+  @Deprecated
   ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception;
 
   /**

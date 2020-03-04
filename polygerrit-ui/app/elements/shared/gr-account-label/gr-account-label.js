@@ -47,10 +47,6 @@
           reflectToAttribute: true,
           computed: '_computeHasTooltip(account)',
         },
-        hideAvatar: {
-          type: Boolean,
-          value: false,
-        },
         _serverConfig: {
           type: Object,
           value: null,

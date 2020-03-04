@@ -52,9 +52,7 @@ limitations under the License.
       }
     </style>
     <span>
-      <template is="dom-if" if="[[!hideAvatar]]">
-        <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
-      </template>
+      <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
       <span class$="text [[_computeShowEmailClass(account)]]">
         <span class="name">
           [[_computeName(account, _serverConfig)]]</span>

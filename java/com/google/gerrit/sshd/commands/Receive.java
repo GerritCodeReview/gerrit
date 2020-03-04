@@ -20,7 +20,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -29,7 +28,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,8 +48,6 @@ final class Receive extends AbstractGitCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject private AsyncReceiveCommits.Factory factory;
-  @Inject private IdentifiedUser currentUser;
-  @Inject private SshSession session;
   @Inject private PermissionBackend permissionBackend;
 
   private final SetMultimap<ReviewerStateInternal, Account.Id> reviewers =
@@ -79,7 +75,7 @@ final class Receive extends AbstractGitCommand {
   protected void runImpl() throws IOException, Failure {
     try {
       permissionBackend
-          .user(currentUser)
+          .user(session.getUser())
           .project(project.getNameKey())
           .check(ProjectPermission.RUN_RECEIVE_PACK);
     } catch (AuthException e) {
@@ -88,7 +84,8 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
-    AsyncReceiveCommits arc = factory.create(projectState, currentUser, repo, null);
+    AsyncReceiveCommits arc =
+        factory.create(projectState, session.getUser().asIdentifiedUser(), repo, null);
 
     try {
       Capable r = arc.canUpload();
@@ -111,9 +108,9 @@ final class Receive extends AbstractGitCommand {
         StringBuilder msg = new StringBuilder();
         msg.append("Receive error on project \"").append(projectState.getName()).append("\"");
         msg.append(" (user ");
-        msg.append(currentUser.getUserName().orElse(null));
+        msg.append(session.getUser().getUserName().orElse(null));
         msg.append(" account ");
-        msg.append(currentUser.getAccountId());
+        msg.append(session.getUser().getAccountId());
         msg.append("): ");
         msg.append(badStream.getCause().getMessage());
         logger.atInfo().log(msg.toString());

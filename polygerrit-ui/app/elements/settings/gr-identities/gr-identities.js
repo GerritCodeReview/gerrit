@@ -14,95 +14,108 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  const AUTH = [
-    'OPENID',
-    'OAUTH',
-  ];
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../../../styles/gr-form-styles.js';
+import '../../admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-overlay/gr-overlay.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-identities_html.js';
 
-  /**
-   * @appliesMixin Gerrit.BaseUrlMixin
-   * @extends Polymer.Element
-   */
-  class GrIdentities extends Polymer.mixinBehaviors( [
-    Gerrit.BaseUrlBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-identities'; }
+const AUTH = [
+  'OPENID',
+  'OAUTH',
+];
 
-    static get properties() {
-      return {
-        _identities: Object,
-        _idName: String,
-        serverConfig: Object,
-        _showLinkAnotherIdentity: {
-          type: Boolean,
-          computed: '_computeShowLinkAnotherIdentity(serverConfig)',
-        },
-      };
-    }
+/**
+ * @appliesMixin Gerrit.BaseUrlMixin
+ * @extends Polymer.Element
+ */
+class GrIdentities extends mixinBehaviors( [
+  Gerrit.BaseUrlBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
 
-    loadData() {
-      return this.$.restAPI.getExternalIds().then(id => {
-        this._identities = id;
-      });
-    }
+  static get is() { return 'gr-identities'; }
 
-    _computeIdentity(id) {
-      return id && id.startsWith('mailto:') ? '' : id;
-    }
-
-    _computeHideDeleteClass(canDelete) {
-      return canDelete ? 'show' : '';
-    }
-
-    _handleDeleteItemConfirm() {
-      this.$.overlay.close();
-      return this.$.restAPI.deleteAccountIdentity([this._idName])
-          .then(() => { this.loadData(); });
-    }
-
-    _handleConfirmDialogCancel() {
-      this.$.overlay.close();
-    }
-
-    _handleDeleteItem(e) {
-      const name = e.model.get('item.identity');
-      if (!name) { return; }
-      this._idName = name;
-      this.$.overlay.open();
-    }
-
-    _computeIsTrusted(item) {
-      return item ? '' : 'Untrusted';
-    }
-
-    filterIdentities(item) {
-      return !item.identity.startsWith('username:');
-    }
-
-    _computeShowLinkAnotherIdentity(config) {
-      if (config && config.auth &&
-          config.auth.git_basic_auth_policy) {
-        return AUTH.includes(
-            config.auth.git_basic_auth_policy.toUpperCase());
-      }
-
-      return false;
-    }
-
-    _computeLinkAnotherIdentity() {
-      const baseUrl = this.getBaseUrl() || '';
-      let pathname = window.location.pathname;
-      if (baseUrl) {
-        pathname = '/' + pathname.substring(baseUrl.length);
-      }
-      return baseUrl + '/login/' + encodeURIComponent(pathname) + '?link';
-    }
+  static get properties() {
+    return {
+      _identities: Object,
+      _idName: String,
+      serverConfig: Object,
+      _showLinkAnotherIdentity: {
+        type: Boolean,
+        computed: '_computeShowLinkAnotherIdentity(serverConfig)',
+      },
+    };
   }
 
-  customElements.define(GrIdentities.is, GrIdentities);
-})();
+  loadData() {
+    return this.$.restAPI.getExternalIds().then(id => {
+      this._identities = id;
+    });
+  }
+
+  _computeIdentity(id) {
+    return id && id.startsWith('mailto:') ? '' : id;
+  }
+
+  _computeHideDeleteClass(canDelete) {
+    return canDelete ? 'show' : '';
+  }
+
+  _handleDeleteItemConfirm() {
+    this.$.overlay.close();
+    return this.$.restAPI.deleteAccountIdentity([this._idName])
+        .then(() => { this.loadData(); });
+  }
+
+  _handleConfirmDialogCancel() {
+    this.$.overlay.close();
+  }
+
+  _handleDeleteItem(e) {
+    const name = e.model.get('item.identity');
+    if (!name) { return; }
+    this._idName = name;
+    this.$.overlay.open();
+  }
+
+  _computeIsTrusted(item) {
+    return item ? '' : 'Untrusted';
+  }
+
+  filterIdentities(item) {
+    return !item.identity.startsWith('username:');
+  }
+
+  _computeShowLinkAnotherIdentity(config) {
+    if (config && config.auth &&
+        config.auth.git_basic_auth_policy) {
+      return AUTH.includes(
+          config.auth.git_basic_auth_policy.toUpperCase());
+    }
+
+    return false;
+  }
+
+  _computeLinkAnotherIdentity() {
+    const baseUrl = this.getBaseUrl() || '';
+    let pathname = window.location.pathname;
+    if (baseUrl) {
+      pathname = '/' + pathname.substring(baseUrl.length);
+    }
+    return baseUrl + '/login/' + encodeURIComponent(pathname) + '?link';
+  }
+}
+
+customElements.define(GrIdentities.is, GrIdentities);

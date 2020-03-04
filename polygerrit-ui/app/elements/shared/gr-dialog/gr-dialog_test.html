@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,61 +40,63 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-dialog.js';
+suite('gr-dialog tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => { sandbox.restore(); });
-
-    test('events', done => {
-      let numEvents = 0;
-      function handler() { if (++numEvents == 2) { done(); } }
-
-      element.addEventListener('confirm', handler);
-      element.addEventListener('cancel', handler);
-
-      MockInteractions.tap(element.$$('gr-button[primary]'));
-      MockInteractions.tap(element.$$('gr-button:not([primary])'));
-    });
-
-    test('confirmOnEnter', () => {
-      element.confirmOnEnter = false;
-      const handleConfirmStub = sandbox.stub(element, '_handleConfirm');
-      const handleKeydownSpy = sandbox.spy(element, '_handleKeydown');
-      MockInteractions.pressAndReleaseKeyOn(element.$$('main'),
-          13, null, 'enter');
-      flushAsynchronousOperations();
-
-      assert.isTrue(handleKeydownSpy.called);
-      assert.isFalse(handleConfirmStub.called);
-
-      element.confirmOnEnter = true;
-      MockInteractions.pressAndReleaseKeyOn(element.$$('main'),
-          13, null, 'enter');
-      flushAsynchronousOperations();
-
-      assert.isTrue(handleConfirmStub.called);
-    });
-
-    test('resetFocus', () => {
-      const focusStub = sandbox.stub(element.$.confirm, 'focus');
-      element.resetFocus();
-      assert.isTrue(focusStub.calledOnce);
-    });
-
-    test('empty cancel label hides cancel btn', () => {
-      assert.isFalse(isHidden(element.$.cancel));
-      element.cancelLabel = '';
-      flushAsynchronousOperations();
-
-      assert.isTrue(isHidden(element.$.cancel));
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
   });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('events', done => {
+    let numEvents = 0;
+    function handler() { if (++numEvents == 2) { done(); } }
+
+    element.addEventListener('confirm', handler);
+    element.addEventListener('cancel', handler);
+
+    MockInteractions.tap(element.$$('gr-button[primary]'));
+    MockInteractions.tap(element.$$('gr-button:not([primary])'));
+  });
+
+  test('confirmOnEnter', () => {
+    element.confirmOnEnter = false;
+    const handleConfirmStub = sandbox.stub(element, '_handleConfirm');
+    const handleKeydownSpy = sandbox.spy(element, '_handleKeydown');
+    MockInteractions.pressAndReleaseKeyOn(element.$$('main'),
+        13, null, 'enter');
+    flushAsynchronousOperations();
+
+    assert.isTrue(handleKeydownSpy.called);
+    assert.isFalse(handleConfirmStub.called);
+
+    element.confirmOnEnter = true;
+    MockInteractions.pressAndReleaseKeyOn(element.$$('main'),
+        13, null, 'enter');
+    flushAsynchronousOperations();
+
+    assert.isTrue(handleConfirmStub.called);
+  });
+
+  test('resetFocus', () => {
+    const focusStub = sandbox.stub(element.$.confirm, 'focus');
+    element.resetFocus();
+    assert.isTrue(focusStub.calledOnce);
+  });
+
+  test('empty cancel label hides cancel btn', () => {
+    assert.isFalse(isHidden(element.$.cancel));
+    element.cancelLabel = '';
+    flushAsynchronousOperations();
+
+    assert.isTrue(isHidden(element.$.cancel));
+  });
+});
 </script>

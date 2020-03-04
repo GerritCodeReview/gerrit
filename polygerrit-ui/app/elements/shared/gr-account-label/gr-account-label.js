@@ -71,7 +71,7 @@
     }
 
     _computeName(account, config) {
-      return this.getUserName(config, account, false);
+      return this.getUserName(config, account);
     }
 
     _computeStatusTextLength(account, config) {

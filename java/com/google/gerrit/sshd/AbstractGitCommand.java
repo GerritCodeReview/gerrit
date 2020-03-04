@@ -36,11 +36,11 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   @Inject private GitRepositoryManager repoManager;
 
-  @Inject private SshSession session;
-
   @Inject private SshScope.Context context;
 
   @Inject private IdentifiedUser.GenericFactory userFactory;
+
+  @Inject protected SshSession session;
 
   protected Repository repo;
   protected Project.NameKey projectName;

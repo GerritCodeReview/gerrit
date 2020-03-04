@@ -19,13 +19,13 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>keyboard-shortcut-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="keyboard-shortcut-behavior.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="./keyboard-shortcut-behavior.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -41,403 +41,406 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('keyboard-shortcut-behavior tests', async () => {
-    await readyToTest();
-    const kb = window.Gerrit.KeyboardShortcutBinder;
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './keyboard-shortcut-behavior.js';
+import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('keyboard-shortcut-behavior tests', () => {
+  const kb = window.Gerrit.KeyboardShortcutBinder;
 
-    let element;
-    let overlay;
-    let sandbox;
+  let element;
+  let overlay;
+  let sandbox;
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [Gerrit.KeyboardShortcutBehavior],
-        keyBindings: {
-          k: '_handleKey',
-          enter: '_handleKey',
-        },
-        _handleKey() {},
-      });
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'test-element',
+      behaviors: [Gerrit.KeyboardShortcutBehavior],
+      keyBindings: {
+        k: '_handleKey',
+        enter: '_handleKey',
+      },
+      _handleKey() {},
+    });
+  });
+
+  setup(() => {
+    element = fixture('basic');
+    overlay = fixture('within-overlay');
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('ShortcutManager', () => {
+    test('bindings management', () => {
+      const mgr = new kb.ShortcutManager();
+      const {NEXT_FILE} = kb.Shortcut;
+
+      assert.isUndefined(mgr.getBindingsForShortcut(NEXT_FILE));
+      mgr.bindShortcut(NEXT_FILE, ']', '}', 'right');
+      assert.deepEqual(
+          mgr.getBindingsForShortcut(NEXT_FILE),
+          [']', '}', 'right']);
     });
 
-    setup(() => {
-      element = fixture('basic');
-      overlay = fixture('within-overlay');
-      sandbox = sinon.sandbox.create();
-    });
+    suite('binding descriptions', () => {
+      function mapToObject(m) {
+        const o = {};
+        m.forEach((v, k) => o[k] = v);
+        return o;
+      }
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    suite('ShortcutManager', () => {
-      test('bindings management', () => {
+      test('single combo description', () => {
         const mgr = new kb.ShortcutManager();
-        const {NEXT_FILE} = kb.Shortcut;
-
-        assert.isUndefined(mgr.getBindingsForShortcut(NEXT_FILE));
-        mgr.bindShortcut(NEXT_FILE, ']', '}', 'right');
+        assert.deepEqual(mgr.describeBinding('a'), ['a']);
+        assert.deepEqual(mgr.describeBinding('a:keyup'), ['a']);
+        assert.deepEqual(mgr.describeBinding('ctrl+a'), ['Ctrl', 'a']);
         assert.deepEqual(
-            mgr.getBindingsForShortcut(NEXT_FILE),
-            [']', '}', 'right']);
+            mgr.describeBinding('ctrl+shift+up:keyup'),
+            ['Ctrl', 'Shift', '↑']);
       });
 
-      suite('binding descriptions', () => {
-        function mapToObject(m) {
-          const o = {};
-          m.forEach((v, k) => o[k] = v);
-          return o;
-        }
+      test('combo set description', () => {
+        const {GO_KEY, DOC_ONLY, ShortcutManager} = kb;
+        const {GO_TO_OPENED_CHANGES, NEXT_FILE, PREV_FILE} = kb.Shortcut;
 
-        test('single combo description', () => {
-          const mgr = new kb.ShortcutManager();
-          assert.deepEqual(mgr.describeBinding('a'), ['a']);
-          assert.deepEqual(mgr.describeBinding('a:keyup'), ['a']);
-          assert.deepEqual(mgr.describeBinding('ctrl+a'), ['Ctrl', 'a']);
-          assert.deepEqual(
-              mgr.describeBinding('ctrl+shift+up:keyup'),
-              ['Ctrl', 'Shift', '↑']);
+        const mgr = new ShortcutManager();
+        assert.isNull(mgr.describeBindings(NEXT_FILE));
+
+        mgr.bindShortcut(GO_TO_OPENED_CHANGES, GO_KEY, 'o');
+        assert.deepEqual(
+            mgr.describeBindings(GO_TO_OPENED_CHANGES),
+            [['g', 'o']]);
+
+        mgr.bindShortcut(NEXT_FILE, DOC_ONLY, ']', 'ctrl+shift+right:keyup');
+        assert.deepEqual(
+            mgr.describeBindings(NEXT_FILE),
+            [[']'], ['Ctrl', 'Shift', '→']]);
+
+        mgr.bindShortcut(PREV_FILE, '[');
+        assert.deepEqual(mgr.describeBindings(PREV_FILE), [['[']]);
+      });
+
+      test('combo set description width', () => {
+        const mgr = new kb.ShortcutManager();
+        assert.strictEqual(mgr.comboSetDisplayWidth([['u']]), 1);
+        assert.strictEqual(mgr.comboSetDisplayWidth([['g', 'o']]), 2);
+        assert.strictEqual(mgr.comboSetDisplayWidth([['Shift', 'r']]), 6);
+        assert.strictEqual(mgr.comboSetDisplayWidth([['x'], ['y']]), 4);
+        assert.strictEqual(
+            mgr.comboSetDisplayWidth([['x'], ['y'], ['Shift', 'z']]),
+            12);
+      });
+
+      test('distribute shortcut help', () => {
+        const mgr = new kb.ShortcutManager();
+        assert.deepEqual(mgr.distributeBindingDesc([['o']]), [[['o']]]);
+        assert.deepEqual(
+            mgr.distributeBindingDesc([['g', 'o']]),
+            [[['g', 'o']]]);
+        assert.deepEqual(
+            mgr.distributeBindingDesc([['ctrl', 'shift', 'meta', 'enter']]),
+            [[['ctrl', 'shift', 'meta', 'enter']]]);
+        assert.deepEqual(
+            mgr.distributeBindingDesc([
+              ['ctrl', 'shift', 'meta', 'enter'],
+              ['o'],
+            ]),
+            [
+              [['ctrl', 'shift', 'meta', 'enter']],
+              [['o']],
+            ]);
+        assert.deepEqual(
+            mgr.distributeBindingDesc([
+              ['ctrl', 'enter'],
+              ['meta', 'enter'],
+              ['ctrl', 's'],
+              ['meta', 's'],
+            ]),
+            [
+              [['ctrl', 'enter'], ['meta', 'enter']],
+              [['ctrl', 's'], ['meta', 's']],
+            ]);
+      });
+
+      test('active shortcuts by section', () => {
+        const {NEXT_FILE, NEXT_LINE, GO_TO_OPENED_CHANGES, SEARCH} =
+            kb.Shortcut;
+        const {DIFFS, EVERYWHERE, NAVIGATION} = kb.ShortcutSection;
+
+        const mgr = new kb.ShortcutManager();
+        mgr.bindShortcut(NEXT_FILE, ']');
+        mgr.bindShortcut(NEXT_LINE, 'j');
+        mgr.bindShortcut(GO_TO_OPENED_CHANGES, 'g+o');
+        mgr.bindShortcut(SEARCH, '/');
+
+        assert.deepEqual(
+            mapToObject(mgr.activeShortcutsBySection()),
+            {});
+
+        mgr.attachHost({
+          keyboardShortcuts() {
+            return {
+              [NEXT_FILE]: null,
+            };
+          },
         });
+        assert.deepEqual(
+            mapToObject(mgr.activeShortcutsBySection()),
+            {
+              [NAVIGATION]: [
+                {shortcut: NEXT_FILE, text: 'Go to next file'},
+              ],
+            });
 
-        test('combo set description', () => {
-          const {GO_KEY, DOC_ONLY, ShortcutManager} = kb;
-          const {GO_TO_OPENED_CHANGES, NEXT_FILE, PREV_FILE} = kb.Shortcut;
-
-          const mgr = new ShortcutManager();
-          assert.isNull(mgr.describeBindings(NEXT_FILE));
-
-          mgr.bindShortcut(GO_TO_OPENED_CHANGES, GO_KEY, 'o');
-          assert.deepEqual(
-              mgr.describeBindings(GO_TO_OPENED_CHANGES),
-              [['g', 'o']]);
-
-          mgr.bindShortcut(NEXT_FILE, DOC_ONLY, ']', 'ctrl+shift+right:keyup');
-          assert.deepEqual(
-              mgr.describeBindings(NEXT_FILE),
-              [[']'], ['Ctrl', 'Shift', '→']]);
-
-          mgr.bindShortcut(PREV_FILE, '[');
-          assert.deepEqual(mgr.describeBindings(PREV_FILE), [['[']]);
+        mgr.attachHost({
+          keyboardShortcuts() {
+            return {
+              [NEXT_LINE]: null,
+            };
+          },
         });
+        assert.deepEqual(
+            mapToObject(mgr.activeShortcutsBySection()),
+            {
+              [DIFFS]: [
+                {shortcut: NEXT_LINE, text: 'Go to next line'},
+              ],
+              [NAVIGATION]: [
+                {shortcut: NEXT_FILE, text: 'Go to next file'},
+              ],
+            });
 
-        test('combo set description width', () => {
-          const mgr = new kb.ShortcutManager();
-          assert.strictEqual(mgr.comboSetDisplayWidth([['u']]), 1);
-          assert.strictEqual(mgr.comboSetDisplayWidth([['g', 'o']]), 2);
-          assert.strictEqual(mgr.comboSetDisplayWidth([['Shift', 'r']]), 6);
-          assert.strictEqual(mgr.comboSetDisplayWidth([['x'], ['y']]), 4);
-          assert.strictEqual(
-              mgr.comboSetDisplayWidth([['x'], ['y'], ['Shift', 'z']]),
-              12);
+        mgr.attachHost({
+          keyboardShortcuts() {
+            return {
+              [SEARCH]: null,
+              [GO_TO_OPENED_CHANGES]: null,
+            };
+          },
         });
+        assert.deepEqual(
+            mapToObject(mgr.activeShortcutsBySection()),
+            {
+              [DIFFS]: [
+                {shortcut: NEXT_LINE, text: 'Go to next line'},
+              ],
+              [EVERYWHERE]: [
+                {shortcut: SEARCH, text: 'Search'},
+                {
+                  shortcut: GO_TO_OPENED_CHANGES,
+                  text: 'Go to Opened Changes',
+                },
+              ],
+              [NAVIGATION]: [
+                {shortcut: NEXT_FILE, text: 'Go to next file'},
+              ],
+            });
+      });
 
-        test('distribute shortcut help', () => {
-          const mgr = new kb.ShortcutManager();
-          assert.deepEqual(mgr.distributeBindingDesc([['o']]), [[['o']]]);
-          assert.deepEqual(
-              mgr.distributeBindingDesc([['g', 'o']]),
-              [[['g', 'o']]]);
-          assert.deepEqual(
-              mgr.distributeBindingDesc([['ctrl', 'shift', 'meta', 'enter']]),
-              [[['ctrl', 'shift', 'meta', 'enter']]]);
-          assert.deepEqual(
-              mgr.distributeBindingDesc([
-                ['ctrl', 'shift', 'meta', 'enter'],
-                ['o'],
-              ]),
-              [
-                [['ctrl', 'shift', 'meta', 'enter']],
-                [['o']],
-              ]);
-          assert.deepEqual(
-              mgr.distributeBindingDesc([
-                ['ctrl', 'enter'],
-                ['meta', 'enter'],
-                ['ctrl', 's'],
-                ['meta', 's'],
-              ]),
-              [
-                [['ctrl', 'enter'], ['meta', 'enter']],
-                [['ctrl', 's'], ['meta', 's']],
-              ]);
+      test('directory view', () => {
+        const {
+          NEXT_FILE, NEXT_LINE, GO_TO_OPENED_CHANGES, SEARCH,
+          SAVE_COMMENT,
+        } = kb.Shortcut;
+        const {DIFFS, EVERYWHERE, NAVIGATION} = kb.ShortcutSection;
+        const {GO_KEY, ShortcutManager} = kb;
+
+        const mgr = new ShortcutManager();
+        mgr.bindShortcut(NEXT_FILE, ']');
+        mgr.bindShortcut(NEXT_LINE, 'j');
+        mgr.bindShortcut(GO_TO_OPENED_CHANGES, GO_KEY, 'o');
+        mgr.bindShortcut(SEARCH, '/');
+        mgr.bindShortcut(
+            SAVE_COMMENT, 'ctrl+enter', 'meta+enter', 'ctrl+s', 'meta+s');
+
+        assert.deepEqual(mapToObject(mgr.directoryView()), {});
+
+        mgr.attachHost({
+          keyboardShortcuts() {
+            return {
+              [GO_TO_OPENED_CHANGES]: null,
+              [NEXT_FILE]: null,
+              [NEXT_LINE]: null,
+              [SAVE_COMMENT]: null,
+              [SEARCH]: null,
+            };
+          },
         });
-
-        test('active shortcuts by section', () => {
-          const {NEXT_FILE, NEXT_LINE, GO_TO_OPENED_CHANGES, SEARCH} =
-              kb.Shortcut;
-          const {DIFFS, EVERYWHERE, NAVIGATION} = kb.ShortcutSection;
-
-          const mgr = new kb.ShortcutManager();
-          mgr.bindShortcut(NEXT_FILE, ']');
-          mgr.bindShortcut(NEXT_LINE, 'j');
-          mgr.bindShortcut(GO_TO_OPENED_CHANGES, 'g+o');
-          mgr.bindShortcut(SEARCH, '/');
-
-          assert.deepEqual(
-              mapToObject(mgr.activeShortcutsBySection()),
-              {});
-
-          mgr.attachHost({
-            keyboardShortcuts() {
-              return {
-                [NEXT_FILE]: null,
-              };
-            },
-          });
-          assert.deepEqual(
-              mapToObject(mgr.activeShortcutsBySection()),
-              {
-                [NAVIGATION]: [
-                  {shortcut: NEXT_FILE, text: 'Go to next file'},
-                ],
-              });
-
-          mgr.attachHost({
-            keyboardShortcuts() {
-              return {
-                [NEXT_LINE]: null,
-              };
-            },
-          });
-          assert.deepEqual(
-              mapToObject(mgr.activeShortcutsBySection()),
-              {
-                [DIFFS]: [
-                  {shortcut: NEXT_LINE, text: 'Go to next line'},
-                ],
-                [NAVIGATION]: [
-                  {shortcut: NEXT_FILE, text: 'Go to next file'},
-                ],
-              });
-
-          mgr.attachHost({
-            keyboardShortcuts() {
-              return {
-                [SEARCH]: null,
-                [GO_TO_OPENED_CHANGES]: null,
-              };
-            },
-          });
-          assert.deepEqual(
-              mapToObject(mgr.activeShortcutsBySection()),
-              {
-                [DIFFS]: [
-                  {shortcut: NEXT_LINE, text: 'Go to next line'},
-                ],
-                [EVERYWHERE]: [
-                  {shortcut: SEARCH, text: 'Search'},
-                  {
-                    shortcut: GO_TO_OPENED_CHANGES,
-                    text: 'Go to Opened Changes',
-                  },
-                ],
-                [NAVIGATION]: [
-                  {shortcut: NEXT_FILE, text: 'Go to next file'},
-                ],
-              });
-        });
-
-        test('directory view', () => {
-          const {
-            NEXT_FILE, NEXT_LINE, GO_TO_OPENED_CHANGES, SEARCH,
-            SAVE_COMMENT,
-          } = kb.Shortcut;
-          const {DIFFS, EVERYWHERE, NAVIGATION} = kb.ShortcutSection;
-          const {GO_KEY, ShortcutManager} = kb;
-
-          const mgr = new ShortcutManager();
-          mgr.bindShortcut(NEXT_FILE, ']');
-          mgr.bindShortcut(NEXT_LINE, 'j');
-          mgr.bindShortcut(GO_TO_OPENED_CHANGES, GO_KEY, 'o');
-          mgr.bindShortcut(SEARCH, '/');
-          mgr.bindShortcut(
-              SAVE_COMMENT, 'ctrl+enter', 'meta+enter', 'ctrl+s', 'meta+s');
-
-          assert.deepEqual(mapToObject(mgr.directoryView()), {});
-
-          mgr.attachHost({
-            keyboardShortcuts() {
-              return {
-                [GO_TO_OPENED_CHANGES]: null,
-                [NEXT_FILE]: null,
-                [NEXT_LINE]: null,
-                [SAVE_COMMENT]: null,
-                [SEARCH]: null,
-              };
-            },
-          });
-          assert.deepEqual(
-              mapToObject(mgr.directoryView()),
-              {
-                [DIFFS]: [
-                  {binding: [['j']], text: 'Go to next line'},
-                  {
-                    binding: [['Ctrl', 'Enter'], ['Meta', 'Enter']],
-                    text: 'Save comment',
-                  },
-                  {
-                    binding: [['Ctrl', 's'], ['Meta', 's']],
-                    text: 'Save comment',
-                  },
-                ],
-                [EVERYWHERE]: [
-                  {binding: [['/']], text: 'Search'},
-                  {binding: [['g', 'o']], text: 'Go to Opened Changes'},
-                ],
-                [NAVIGATION]: [
-                  {binding: [[']']], text: 'Go to next file'},
-                ],
-              });
-        });
-      });
-    });
-
-    test('doesn’t block kb shortcuts for non-whitelisted els', done => {
-      const divEl = document.createElement('div');
-      element.appendChild(divEl);
-      element._handleKey = e => {
-        assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
-        done();
-      };
-      MockInteractions.keyDownOn(divEl, 75, null, 'k');
-    });
-
-    test('blocks kb shortcuts for input els', done => {
-      const inputEl = document.createElement('input');
-      element.appendChild(inputEl);
-      element._handleKey = e => {
-        assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-        done();
-      };
-      MockInteractions.keyDownOn(inputEl, 75, null, 'k');
-    });
-
-    test('blocks kb shortcuts for textarea els', done => {
-      const textareaEl = document.createElement('textarea');
-      element.appendChild(textareaEl);
-      element._handleKey = e => {
-        assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-        done();
-      };
-      MockInteractions.keyDownOn(textareaEl, 75, null, 'k');
-    });
-
-    test('blocks kb shortcuts for anything in a gr-overlay', done => {
-      const divEl = document.createElement('div');
-      const element = overlay.querySelector('test-element');
-      element.appendChild(divEl);
-      element._handleKey = e => {
-        assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-        done();
-      };
-      MockInteractions.keyDownOn(divEl, 75, null, 'k');
-    });
-
-    test('blocks enter shortcut on an anchor', done => {
-      const anchorEl = document.createElement('a');
-      const element = overlay.querySelector('test-element');
-      element.appendChild(anchorEl);
-      element._handleKey = e => {
-        assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-        done();
-      };
-      MockInteractions.keyDownOn(anchorEl, 13, null, 'enter');
-    });
-
-    test('modifierPressed returns accurate values', () => {
-      const spy = sandbox.spy(element, 'modifierPressed');
-      element._handleKey = e => {
-        element.modifierPressed(e);
-      };
-      MockInteractions.keyDownOn(element, 75, 'shift', 'k');
-      assert.isTrue(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, null, 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, 'ctrl', 'k');
-      assert.isTrue(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, null, 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, 'meta', 'k');
-      assert.isTrue(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, null, 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, 'alt', 'k');
-      assert.isTrue(spy.lastCall.returnValue);
-    });
-
-    test('isModifierPressed returns accurate value', () => {
-      const spy = sandbox.spy(element, 'isModifierPressed');
-      element._handleKey = e => {
-        element.isModifierPressed(e, 'shiftKey');
-      };
-      MockInteractions.keyDownOn(element, 75, 'shift', 'k');
-      assert.isTrue(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, null, 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, 'ctrl', 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, null, 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, 'meta', 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, null, 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, 'alt', 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-    });
-
-    suite('GO_KEY timing', () => {
-      let handlerStub;
-
-      setup(() => {
-        element._shortcut_go_table.set('a', '_handleA');
-        handlerStub = element._handleA = sinon.stub();
-        sandbox.stub(Date, 'now').returns(10000);
-      });
-
-      test('success', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._shortcut_go_key_last_pressed = 9000;
-        element._handleGoAction(e);
-        assert.isTrue(handlerStub.calledOnce);
-        assert.strictEqual(handlerStub.lastCall.args[0], e);
-      });
-
-      test('go key not pressed', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._shortcut_go_key_last_pressed = null;
-        element._handleGoAction(e);
-        assert.isFalse(handlerStub.called);
-      });
-
-      test('go key pressed too long ago', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._shortcut_go_key_last_pressed = 3000;
-        element._handleGoAction(e);
-        assert.isFalse(handlerStub.called);
-      });
-
-      test('should suppress', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(true);
-        element._shortcut_go_key_last_pressed = 9000;
-        element._handleGoAction(e);
-        assert.isFalse(handlerStub.called);
-      });
-
-      test('unrecognized key', () => {
-        const e = {detail: {key: 'f'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._shortcut_go_key_last_pressed = 9000;
-        element._handleGoAction(e);
-        assert.isFalse(handlerStub.called);
+        assert.deepEqual(
+            mapToObject(mgr.directoryView()),
+            {
+              [DIFFS]: [
+                {binding: [['j']], text: 'Go to next line'},
+                {
+                  binding: [['Ctrl', 'Enter'], ['Meta', 'Enter']],
+                  text: 'Save comment',
+                },
+                {
+                  binding: [['Ctrl', 's'], ['Meta', 's']],
+                  text: 'Save comment',
+                },
+              ],
+              [EVERYWHERE]: [
+                {binding: [['/']], text: 'Search'},
+                {binding: [['g', 'o']], text: 'Go to Opened Changes'},
+              ],
+              [NAVIGATION]: [
+                {binding: [[']']], text: 'Go to next file'},
+              ],
+            });
       });
     });
   });
+
+  test('doesn’t block kb shortcuts for non-whitelisted els', done => {
+    const divEl = document.createElement('div');
+    element.appendChild(divEl);
+    element._handleKey = e => {
+      assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
+      done();
+    };
+    MockInteractions.keyDownOn(divEl, 75, null, 'k');
+  });
+
+  test('blocks kb shortcuts for input els', done => {
+    const inputEl = document.createElement('input');
+    element.appendChild(inputEl);
+    element._handleKey = e => {
+      assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
+      done();
+    };
+    MockInteractions.keyDownOn(inputEl, 75, null, 'k');
+  });
+
+  test('blocks kb shortcuts for textarea els', done => {
+    const textareaEl = document.createElement('textarea');
+    element.appendChild(textareaEl);
+    element._handleKey = e => {
+      assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
+      done();
+    };
+    MockInteractions.keyDownOn(textareaEl, 75, null, 'k');
+  });
+
+  test('blocks kb shortcuts for anything in a gr-overlay', done => {
+    const divEl = document.createElement('div');
+    const element = overlay.querySelector('test-element');
+    element.appendChild(divEl);
+    element._handleKey = e => {
+      assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
+      done();
+    };
+    MockInteractions.keyDownOn(divEl, 75, null, 'k');
+  });
+
+  test('blocks enter shortcut on an anchor', done => {
+    const anchorEl = document.createElement('a');
+    const element = overlay.querySelector('test-element');
+    element.appendChild(anchorEl);
+    element._handleKey = e => {
+      assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
+      done();
+    };
+    MockInteractions.keyDownOn(anchorEl, 13, null, 'enter');
+  });
+
+  test('modifierPressed returns accurate values', () => {
+    const spy = sandbox.spy(element, 'modifierPressed');
+    element._handleKey = e => {
+      element.modifierPressed(e);
+    };
+    MockInteractions.keyDownOn(element, 75, 'shift', 'k');
+    assert.isTrue(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, null, 'k');
+    assert.isFalse(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, 'ctrl', 'k');
+    assert.isTrue(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, null, 'k');
+    assert.isFalse(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, 'meta', 'k');
+    assert.isTrue(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, null, 'k');
+    assert.isFalse(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, 'alt', 'k');
+    assert.isTrue(spy.lastCall.returnValue);
+  });
+
+  test('isModifierPressed returns accurate value', () => {
+    const spy = sandbox.spy(element, 'isModifierPressed');
+    element._handleKey = e => {
+      element.isModifierPressed(e, 'shiftKey');
+    };
+    MockInteractions.keyDownOn(element, 75, 'shift', 'k');
+    assert.isTrue(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, null, 'k');
+    assert.isFalse(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, 'ctrl', 'k');
+    assert.isFalse(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, null, 'k');
+    assert.isFalse(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, 'meta', 'k');
+    assert.isFalse(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, null, 'k');
+    assert.isFalse(spy.lastCall.returnValue);
+    MockInteractions.keyDownOn(element, 75, 'alt', 'k');
+    assert.isFalse(spy.lastCall.returnValue);
+  });
+
+  suite('GO_KEY timing', () => {
+    let handlerStub;
+
+    setup(() => {
+      element._shortcut_go_table.set('a', '_handleA');
+      handlerStub = element._handleA = sinon.stub();
+      sandbox.stub(Date, 'now').returns(10000);
+    });
+
+    test('success', () => {
+      const e = {detail: {key: 'a'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      element._shortcut_go_key_last_pressed = 9000;
+      element._handleGoAction(e);
+      assert.isTrue(handlerStub.calledOnce);
+      assert.strictEqual(handlerStub.lastCall.args[0], e);
+    });
+
+    test('go key not pressed', () => {
+      const e = {detail: {key: 'a'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      element._shortcut_go_key_last_pressed = null;
+      element._handleGoAction(e);
+      assert.isFalse(handlerStub.called);
+    });
+
+    test('go key pressed too long ago', () => {
+      const e = {detail: {key: 'a'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      element._shortcut_go_key_last_pressed = 3000;
+      element._handleGoAction(e);
+      assert.isFalse(handlerStub.called);
+    });
+
+    test('should suppress', () => {
+      const e = {detail: {key: 'a'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(true);
+      element._shortcut_go_key_last_pressed = 9000;
+      element._handleGoAction(e);
+      assert.isFalse(handlerStub.called);
+    });
+
+    test('unrecognized key', () => {
+      const e = {detail: {key: 'f'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      element._shortcut_go_key_last_pressed = 9000;
+      element._handleGoAction(e);
+      assert.isFalse(handlerStub.called);
+    });
+  });
+});
 </script>

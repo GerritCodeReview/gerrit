@@ -18,15 +18,20 @@ limitations under the License.
 
 <title>safe-types-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="safe-types-behavior.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="./safe-types-behavior.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './safe-types-behavior.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -34,92 +39,95 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-tooltip-behavior tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './safe-types-behavior.js';
+import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('gr-tooltip-behavior tests', () => {
+  let element;
+  let sandbox;
 
-    suiteSetup(() => {
-      Polymer({
-        is: 'safe-types-element',
-        behaviors: [Gerrit.SafeTypes],
-      });
-    });
-
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('SafeUrl accepts valid urls', () => {
-      function accepts(url) {
-        const safeUrl = new element.SafeUrl(url);
-        assert.isOk(safeUrl);
-        assert.equal(url, safeUrl.asString());
-      }
-      accepts('http://www.google.com/');
-      accepts('https://www.google.com/');
-      accepts('HtTpS://www.google.com/');
-      accepts('//www.google.com/');
-      accepts('/c/1234/file/path.html@45');
-      accepts('#hash-url');
-      accepts('mailto:name@example.com');
-    });
-
-    test('SafeUrl rejects invalid urls', () => {
-      function rejects(url) {
-        assert.throws(() => { new element.SafeUrl(url); });
-      }
-      rejects('javascript://alert("evil");');
-      rejects('ftp:example.com');
-      rejects('data:text/html,scary business');
-    });
-
-    suite('safeTypesBridge', () => {
-      function acceptsString(value, type) {
-        assert.equal(Gerrit.SafeTypes.safeTypesBridge(value, type),
-            value);
-      }
-
-      function rejects(value, type) {
-        assert.throws(() => { Gerrit.SafeTypes.safeTypesBridge(value, type); });
-      }
-
-      test('accepts valid URL strings', () => {
-        acceptsString('/foo/bar', 'URL');
-        acceptsString('#baz', 'URL');
-      });
-
-      test('rejects invalid URL strings', () => {
-        rejects('javascript://void();', 'URL');
-      });
-
-      test('accepts SafeUrl values', () => {
-        const url = '/abc/123';
-        const safeUrl = new element.SafeUrl(url);
-        assert.equal(Gerrit.SafeTypes.safeTypesBridge(safeUrl, 'URL'), url);
-      });
-
-      test('rejects non-string or non-SafeUrl types', () => {
-        rejects(3.1415926, 'URL');
-      });
-
-      test('accepts any binding to STRING or CONSTANT', () => {
-        acceptsString('foo/bar/baz', 'STRING');
-        acceptsString('lorem ipsum dolor', 'CONSTANT');
-      });
-
-      test('rejects all other types', () => {
-        rejects('foo', 'JAVASCRIPT');
-        rejects('foo', 'HTML');
-        rejects('foo', 'RESOURCE_URL');
-        rejects('foo', 'STYLE');
-      });
+  suiteSetup(() => {
+    Polymer({
+      is: 'safe-types-element',
+      behaviors: [Gerrit.SafeTypes],
     });
   });
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('SafeUrl accepts valid urls', () => {
+    function accepts(url) {
+      const safeUrl = new element.SafeUrl(url);
+      assert.isOk(safeUrl);
+      assert.equal(url, safeUrl.asString());
+    }
+    accepts('http://www.google.com/');
+    accepts('https://www.google.com/');
+    accepts('HtTpS://www.google.com/');
+    accepts('//www.google.com/');
+    accepts('/c/1234/file/path.html@45');
+    accepts('#hash-url');
+    accepts('mailto:name@example.com');
+  });
+
+  test('SafeUrl rejects invalid urls', () => {
+    function rejects(url) {
+      assert.throws(() => { new element.SafeUrl(url); });
+    }
+    rejects('javascript://alert("evil");');
+    rejects('ftp:example.com');
+    rejects('data:text/html,scary business');
+  });
+
+  suite('safeTypesBridge', () => {
+    function acceptsString(value, type) {
+      assert.equal(Gerrit.SafeTypes.safeTypesBridge(value, type),
+          value);
+    }
+
+    function rejects(value, type) {
+      assert.throws(() => { Gerrit.SafeTypes.safeTypesBridge(value, type); });
+    }
+
+    test('accepts valid URL strings', () => {
+      acceptsString('/foo/bar', 'URL');
+      acceptsString('#baz', 'URL');
+    });
+
+    test('rejects invalid URL strings', () => {
+      rejects('javascript://void();', 'URL');
+    });
+
+    test('accepts SafeUrl values', () => {
+      const url = '/abc/123';
+      const safeUrl = new element.SafeUrl(url);
+      assert.equal(Gerrit.SafeTypes.safeTypesBridge(safeUrl, 'URL'), url);
+    });
+
+    test('rejects non-string or non-SafeUrl types', () => {
+      rejects(3.1415926, 'URL');
+    });
+
+    test('accepts any binding to STRING or CONSTANT', () => {
+      acceptsString('foo/bar/baz', 'STRING');
+      acceptsString('lorem ipsum dolor', 'CONSTANT');
+    });
+
+    test('rejects all other types', () => {
+      rejects('foo', 'JAVASCRIPT');
+      rejects('foo', 'HTML');
+      rejects('foo', 'RESOURCE_URL');
+      rejects('foo', 'STYLE');
+    });
+  });
+});
 </script>

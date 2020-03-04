@@ -14,26 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrShellCommand extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-shell-command'; }
+import '../../../styles/shared-styles.js';
+import '../gr-copy-clipboard/gr-copy-clipboard.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-shell-command_html.js';
 
-    static get properties() {
-      return {
-        command: String,
-        label: String,
-      };
-    }
+/** @extends Polymer.Element */
+class GrShellCommand extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-    focusOnCopy() {
-      this.$$('gr-copy-clipboard').focusOnCopy();
-    }
+  static get is() { return 'gr-shell-command'; }
+
+  static get properties() {
+    return {
+      command: String,
+      label: String,
+    };
   }
 
-  customElements.define(GrShellCommand.is, GrShellCommand);
-})();
+  focusOnCopy() {
+    this.$$('gr-copy-clipboard').focusOnCopy();
+  }
+}
+
+customElements.define(GrShellCommand.is, GrShellCommand);

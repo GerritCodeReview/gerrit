@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-smart-search</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-smart-search.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-smart-search.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-smart-search.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,125 +40,127 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-smart-search tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-smart-search.js';
+suite('gr-smart-search tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('Autocompletes accounts', () => {
-      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-        Promise.resolve([
-          {
-            name: 'fred',
-            email: 'fred@goog.co',
-          },
-        ])
-      );
-      return element._fetchAccounts('owner', 'fr').then(s => {
-        assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-      });
-    });
-
-    test('Inserts self as option when valid', () => {
-      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-        Promise.resolve([
-          {
-            name: 'fred',
-            email: 'fred@goog.co',
-          },
-        ])
-      );
-      element._fetchAccounts('owner', 's')
-          .then(s => {
-            assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-            assert.deepEqual(s[1], {text: 'owner:self'});
-          })
-          .then(() => element._fetchAccounts('owner', 'selfs'))
-          .then(s => {
-            assert.notEqual(s[0], {text: 'owner:self'});
-          });
-    });
-
-    test('Inserts me as option when valid', () => {
-      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-        Promise.resolve([
-          {
-            name: 'fred',
-            email: 'fred@goog.co',
-          },
-        ])
-      );
-      return element._fetchAccounts('owner', 'm')
-          .then(s => {
-            assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-            assert.deepEqual(s[1], {text: 'owner:me'});
-          })
-          .then(() => element._fetchAccounts('owner', 'meme'))
-          .then(s => {
-            assert.notEqual(s[0], {text: 'owner:me'});
-          });
-    });
-
-    test('Autocompletes groups', () => {
-      sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
-        Promise.resolve({
-          Polygerrit: 0,
-          gerrit: 0,
-          gerrittest: 0,
-        })
-      );
-      return element._fetchGroups('ownerin', 'pol').then(s => {
-        assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
-      });
-    });
-
-    test('Autocompletes projects', () => {
-      sandbox.stub(element.$.restAPI, 'getSuggestedProjects', () =>
-        Promise.resolve({Polygerrit: 0}));
-      return element._fetchProjects('project', 'pol').then(s => {
-        assert.deepEqual(s[0], {text: 'project:Polygerrit'});
-      });
-    });
-
-    test('Autocomplete doesnt override exact matches to input', () => {
-      sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
-        Promise.resolve({
-          Polygerrit: 0,
-          gerrit: 0,
-          gerrittest: 0,
-        })
-      );
-      return element._fetchGroups('ownerin', 'gerrit').then(s => {
-        assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
-        assert.deepEqual(s[1], {text: 'ownerin:gerrit'});
-        assert.deepEqual(s[2], {text: 'ownerin:gerrittest'});
-      });
-    });
-
-    test('Autocompletes accounts with no email', () => {
-      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-        Promise.resolve([{name: 'fred'}]));
-      return element._fetchAccounts('owner', 'fr').then(s => {
-        assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
-      });
-    });
-
-    test('Autocompletes accounts with email', () => {
-      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-        Promise.resolve([{email: 'fred@goog.co'}]));
-      return element._fetchAccounts('owner', 'fr').then(s => {
-        assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});
-      });
+  test('Autocompletes accounts', () => {
+    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+      Promise.resolve([
+        {
+          name: 'fred',
+          email: 'fred@goog.co',
+        },
+      ])
+    );
+    return element._fetchAccounts('owner', 'fr').then(s => {
+      assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
     });
   });
+
+  test('Inserts self as option when valid', () => {
+    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+      Promise.resolve([
+        {
+          name: 'fred',
+          email: 'fred@goog.co',
+        },
+      ])
+    );
+    element._fetchAccounts('owner', 's')
+        .then(s => {
+          assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
+          assert.deepEqual(s[1], {text: 'owner:self'});
+        })
+        .then(() => element._fetchAccounts('owner', 'selfs'))
+        .then(s => {
+          assert.notEqual(s[0], {text: 'owner:self'});
+        });
+  });
+
+  test('Inserts me as option when valid', () => {
+    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+      Promise.resolve([
+        {
+          name: 'fred',
+          email: 'fred@goog.co',
+        },
+      ])
+    );
+    return element._fetchAccounts('owner', 'm')
+        .then(s => {
+          assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
+          assert.deepEqual(s[1], {text: 'owner:me'});
+        })
+        .then(() => element._fetchAccounts('owner', 'meme'))
+        .then(s => {
+          assert.notEqual(s[0], {text: 'owner:me'});
+        });
+  });
+
+  test('Autocompletes groups', () => {
+    sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
+      Promise.resolve({
+        Polygerrit: 0,
+        gerrit: 0,
+        gerrittest: 0,
+      })
+    );
+    return element._fetchGroups('ownerin', 'pol').then(s => {
+      assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
+    });
+  });
+
+  test('Autocompletes projects', () => {
+    sandbox.stub(element.$.restAPI, 'getSuggestedProjects', () =>
+      Promise.resolve({Polygerrit: 0}));
+    return element._fetchProjects('project', 'pol').then(s => {
+      assert.deepEqual(s[0], {text: 'project:Polygerrit'});
+    });
+  });
+
+  test('Autocomplete doesnt override exact matches to input', () => {
+    sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
+      Promise.resolve({
+        Polygerrit: 0,
+        gerrit: 0,
+        gerrittest: 0,
+      })
+    );
+    return element._fetchGroups('ownerin', 'gerrit').then(s => {
+      assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
+      assert.deepEqual(s[1], {text: 'ownerin:gerrit'});
+      assert.deepEqual(s[2], {text: 'ownerin:gerrittest'});
+    });
+  });
+
+  test('Autocompletes accounts with no email', () => {
+    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+      Promise.resolve([{name: 'fred'}]));
+    return element._fetchAccounts('owner', 'fr').then(s => {
+      assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
+    });
+  });
+
+  test('Autocompletes accounts with email', () => {
+    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+      Promise.resolve([{email: 'fred@goog.co'}]));
+    return element._fetchAccounts('owner', 'fr').then(s => {
+      assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});
+    });
+  });
+});
 </script>

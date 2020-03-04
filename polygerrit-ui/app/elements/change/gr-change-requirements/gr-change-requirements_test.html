@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-requirements</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-change-requirements.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-change-requirements.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-change-requirements.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,192 +40,194 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-change-metadata tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-change-requirements.js';
+suite('gr-change-metadata tests', () => {
+  let element;
 
-    setup(() => {
-      element = fixture('basic');
-    });
-
-    test('requirements computed fields', () => {
-      assert.isTrue(element._computeShowWip({work_in_progress: true}));
-      assert.isFalse(element._computeShowWip({work_in_progress: false}));
-
-      assert.equal(element._computeRequirementClass(true), 'approved');
-      assert.equal(element._computeRequirementClass(false), '');
-
-      assert.equal(element._computeRequirementIcon(true), 'gr-icons:check');
-      assert.equal(element._computeRequirementIcon(false),
-          'gr-icons:hourglass');
-    });
-
-    test('label computed fields', () => {
-      assert.equal(element._computeLabelIcon({approved: []}), 'gr-icons:check');
-      assert.equal(element._computeLabelIcon({rejected: []}), 'gr-icons:close');
-      assert.equal(element._computeLabelIcon({}), 'gr-icons:hourglass');
-
-      assert.equal(element._computeLabelClass({approved: []}), 'approved');
-      assert.equal(element._computeLabelClass({rejected: []}), 'rejected');
-      assert.equal(element._computeLabelClass({}), '');
-      assert.equal(element._computeLabelClass({value: 0}), '');
-
-      assert.equal(element._computeLabelValue(1), '+1');
-      assert.equal(element._computeLabelValue(-1), '-1');
-      assert.equal(element._computeLabelValue(0), '0');
-    });
-
-    test('_computeLabels', () => {
-      assert.equal(element._optionalLabels.length, 0);
-      assert.equal(element._requiredLabels.length, 0);
-      element._computeLabels({base: {
-        test: {
-          all: [{_account_id: 1, name: 'bojack', value: 1}],
-          default_value: 0,
-          values: [],
-          value: 1,
-        },
-        opt_test: {
-          all: [{_account_id: 1, name: 'bojack', value: 1}],
-          default_value: 0,
-          values: [],
-          optional: true,
-        },
-      }});
-      assert.equal(element._optionalLabels.length, 1);
-      assert.equal(element._requiredLabels.length, 1);
-
-      assert.equal(element._optionalLabels[0].label, 'opt_test');
-      assert.equal(element._optionalLabels[0].icon, 'gr-icons:hourglass');
-      assert.equal(element._optionalLabels[0].style, '');
-      assert.ok(element._optionalLabels[0].labelInfo);
-    });
-
-    test('optional show/hide', () => {
-      element._optionalLabels = [{label: 'test'}];
-      flushAsynchronousOperations();
-
-      assert.ok(element.$$('section.optional'));
-      MockInteractions.tap(element.$$('.showHide'));
-      flushAsynchronousOperations();
-
-      assert.isFalse(element._showOptionalLabels);
-      assert.isTrue(isHidden(element.$$('section.optional')));
-    });
-
-    test('properly converts satisfied labels', () => {
-      element.change = {
-        status: 'NEW',
-        labels: {
-          Verified: {
-            approved: [],
-          },
-        },
-        requirements: [],
-      };
-      flushAsynchronousOperations();
-
-      assert.ok(element.$$('.approved'));
-      assert.ok(element.$$('.name'));
-      assert.equal(element.$$('.name').text, 'Verified');
-    });
-
-    test('properly converts unsatisfied labels', () => {
-      element.change = {
-        status: 'NEW',
-        labels: {
-          Verified: {
-            approved: false,
-          },
-        },
-      };
-      flushAsynchronousOperations();
-
-      const name = element.$$('.name');
-      assert.ok(name);
-      assert.isFalse(name.hasAttribute('hidden'));
-      assert.equal(name.text, 'Verified');
-    });
-
-    test('properly displays Work In Progress', () => {
-      element.change = {
-        status: 'NEW',
-        labels: {},
-        requirements: [],
-        work_in_progress: true,
-      };
-      flushAsynchronousOperations();
-
-      const changeIsWip = element.$$('.title');
-      assert.ok(changeIsWip);
-    });
-
-    test('properly displays a satisfied requirement', () => {
-      element.change = {
-        status: 'NEW',
-        labels: {},
-        requirements: [{
-          fallback_text: 'Resolve all comments',
-          status: 'OK',
-        }],
-      };
-      flushAsynchronousOperations();
-
-      const requirement = element.$$('.requirement');
-      assert.ok(requirement);
-      assert.isFalse(requirement.hasAttribute('hidden'));
-      assert.ok(requirement.querySelector('.approved'));
-      assert.equal(requirement.querySelector('.name').text,
-          'Resolve all comments');
-    });
-
-    test('satisfied class is applied with OK', () => {
-      element.change = {
-        status: 'NEW',
-        labels: {},
-        requirements: [{
-          fallback_text: 'Resolve all comments',
-          status: 'OK',
-        }],
-      };
-      flushAsynchronousOperations();
-
-      const requirement = element.$$('.requirement');
-      assert.ok(requirement);
-      assert.ok(requirement.querySelector('.approved'));
-    });
-
-    test('satisfied class is not applied with NOT_READY', () => {
-      element.change = {
-        status: 'NEW',
-        labels: {},
-        requirements: [{
-          fallback_text: 'Resolve all comments',
-          status: 'NOT_READY',
-        }],
-      };
-      flushAsynchronousOperations();
-
-      const requirement = element.$$('.requirement');
-      assert.ok(requirement);
-      assert.strictEqual(requirement.querySelector('.approved'), null);
-    });
-
-    test('satisfied class is not applied with RULE_ERROR', () => {
-      element.change = {
-        status: 'NEW',
-        labels: {},
-        requirements: [{
-          fallback_text: 'Resolve all comments',
-          status: 'RULE_ERROR',
-        }],
-      };
-      flushAsynchronousOperations();
-
-      const requirement = element.$$('.requirement');
-      assert.ok(requirement);
-      assert.strictEqual(requirement.querySelector('.approved'), null);
-    });
+  setup(() => {
+    element = fixture('basic');
   });
+
+  test('requirements computed fields', () => {
+    assert.isTrue(element._computeShowWip({work_in_progress: true}));
+    assert.isFalse(element._computeShowWip({work_in_progress: false}));
+
+    assert.equal(element._computeRequirementClass(true), 'approved');
+    assert.equal(element._computeRequirementClass(false), '');
+
+    assert.equal(element._computeRequirementIcon(true), 'gr-icons:check');
+    assert.equal(element._computeRequirementIcon(false),
+        'gr-icons:hourglass');
+  });
+
+  test('label computed fields', () => {
+    assert.equal(element._computeLabelIcon({approved: []}), 'gr-icons:check');
+    assert.equal(element._computeLabelIcon({rejected: []}), 'gr-icons:close');
+    assert.equal(element._computeLabelIcon({}), 'gr-icons:hourglass');
+
+    assert.equal(element._computeLabelClass({approved: []}), 'approved');
+    assert.equal(element._computeLabelClass({rejected: []}), 'rejected');
+    assert.equal(element._computeLabelClass({}), '');
+    assert.equal(element._computeLabelClass({value: 0}), '');
+
+    assert.equal(element._computeLabelValue(1), '+1');
+    assert.equal(element._computeLabelValue(-1), '-1');
+    assert.equal(element._computeLabelValue(0), '0');
+  });
+
+  test('_computeLabels', () => {
+    assert.equal(element._optionalLabels.length, 0);
+    assert.equal(element._requiredLabels.length, 0);
+    element._computeLabels({base: {
+      test: {
+        all: [{_account_id: 1, name: 'bojack', value: 1}],
+        default_value: 0,
+        values: [],
+        value: 1,
+      },
+      opt_test: {
+        all: [{_account_id: 1, name: 'bojack', value: 1}],
+        default_value: 0,
+        values: [],
+        optional: true,
+      },
+    }});
+    assert.equal(element._optionalLabels.length, 1);
+    assert.equal(element._requiredLabels.length, 1);
+
+    assert.equal(element._optionalLabels[0].label, 'opt_test');
+    assert.equal(element._optionalLabels[0].icon, 'gr-icons:hourglass');
+    assert.equal(element._optionalLabels[0].style, '');
+    assert.ok(element._optionalLabels[0].labelInfo);
+  });
+
+  test('optional show/hide', () => {
+    element._optionalLabels = [{label: 'test'}];
+    flushAsynchronousOperations();
+
+    assert.ok(element.$$('section.optional'));
+    MockInteractions.tap(element.$$('.showHide'));
+    flushAsynchronousOperations();
+
+    assert.isFalse(element._showOptionalLabels);
+    assert.isTrue(isHidden(element.$$('section.optional')));
+  });
+
+  test('properly converts satisfied labels', () => {
+    element.change = {
+      status: 'NEW',
+      labels: {
+        Verified: {
+          approved: [],
+        },
+      },
+      requirements: [],
+    };
+    flushAsynchronousOperations();
+
+    assert.ok(element.$$('.approved'));
+    assert.ok(element.$$('.name'));
+    assert.equal(element.$$('.name').text, 'Verified');
+  });
+
+  test('properly converts unsatisfied labels', () => {
+    element.change = {
+      status: 'NEW',
+      labels: {
+        Verified: {
+          approved: false,
+        },
+      },
+    };
+    flushAsynchronousOperations();
+
+    const name = element.$$('.name');
+    assert.ok(name);
+    assert.isFalse(name.hasAttribute('hidden'));
+    assert.equal(name.text, 'Verified');
+  });
+
+  test('properly displays Work In Progress', () => {
+    element.change = {
+      status: 'NEW',
+      labels: {},
+      requirements: [],
+      work_in_progress: true,
+    };
+    flushAsynchronousOperations();
+
+    const changeIsWip = element.$$('.title');
+    assert.ok(changeIsWip);
+  });
+
+  test('properly displays a satisfied requirement', () => {
+    element.change = {
+      status: 'NEW',
+      labels: {},
+      requirements: [{
+        fallback_text: 'Resolve all comments',
+        status: 'OK',
+      }],
+    };
+    flushAsynchronousOperations();
+
+    const requirement = element.$$('.requirement');
+    assert.ok(requirement);
+    assert.isFalse(requirement.hasAttribute('hidden'));
+    assert.ok(requirement.querySelector('.approved'));
+    assert.equal(requirement.querySelector('.name').text,
+        'Resolve all comments');
+  });
+
+  test('satisfied class is applied with OK', () => {
+    element.change = {
+      status: 'NEW',
+      labels: {},
+      requirements: [{
+        fallback_text: 'Resolve all comments',
+        status: 'OK',
+      }],
+    };
+    flushAsynchronousOperations();
+
+    const requirement = element.$$('.requirement');
+    assert.ok(requirement);
+    assert.ok(requirement.querySelector('.approved'));
+  });
+
+  test('satisfied class is not applied with NOT_READY', () => {
+    element.change = {
+      status: 'NEW',
+      labels: {},
+      requirements: [{
+        fallback_text: 'Resolve all comments',
+        status: 'NOT_READY',
+      }],
+    };
+    flushAsynchronousOperations();
+
+    const requirement = element.$$('.requirement');
+    assert.ok(requirement);
+    assert.strictEqual(requirement.querySelector('.approved'), null);
+  });
+
+  test('satisfied class is not applied with RULE_ERROR', () => {
+    element.change = {
+      status: 'NEW',
+      labels: {},
+      requirements: [{
+        fallback_text: 'Resolve all comments',
+        status: 'RULE_ERROR',
+      }],
+    };
+    flushAsynchronousOperations();
+
+    const requirement = element.$$('.requirement');
+    assert.ok(requirement);
+    assert.strictEqual(requirement.querySelector('.approved'), null);
+  });
+});
 </script>

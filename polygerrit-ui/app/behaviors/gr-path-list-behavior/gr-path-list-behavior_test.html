@@ -15,89 +15,91 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <!-- Polymer included for the html import polyfill. -->
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
 <title>gr-path-list-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<link rel="import" href="gr-path-list-behavior.html">
+<script type="module" src="./gr-path-list-behavior.js"></script>
 
-<script>
-  suite('gr-path-list-behavior tests', async () => {
-    await readyToTest();
-    test('special sort', () => {
-      const sort = Gerrit.PathListBehavior.specialFilePathCompare;
-      const testFiles = [
-        '/a.h',
-        '/MERGE_LIST',
-        '/a.cpp',
-        '/COMMIT_MSG',
-        '/asdasd',
-        '/mrPeanutbutter.py',
-      ];
-      assert.deepEqual(
-          testFiles.sort(sort),
-          [
-            '/COMMIT_MSG',
-            '/MERGE_LIST',
-            '/a.h',
-            '/a.cpp',
-            '/asdasd',
-            '/mrPeanutbutter.py',
-          ]);
-    });
-
-    test('file display name', () => {
-      const name = Gerrit.PathListBehavior.computeDisplayPath;
-      assert.equal(name('/foo/bar/baz'), '/foo/bar/baz');
-      assert.equal(name('/foobarbaz'), '/foobarbaz');
-      assert.equal(name('/COMMIT_MSG'), 'Commit message');
-      assert.equal(name('/MERGE_LIST'), 'Merge list');
-    });
-
-    test('isMagicPath', () => {
-      const isMagic = Gerrit.PathListBehavior.isMagicPath;
-      assert.isFalse(isMagic(undefined));
-      assert.isFalse(isMagic('/foo.cc'));
-      assert.isTrue(isMagic('/COMMIT_MSG'));
-      assert.isTrue(isMagic('/MERGE_LIST'));
-    });
-
-    test('truncatePath with long path should add ellipsis', () => {
-      const truncatePath = Gerrit.PathListBehavior.truncatePath;
-      let path = 'level1/level2/level3/level4/file.js';
-      let shortenedPath = truncatePath(path);
-      // The expected path is truncated with an ellipsis.
-      const expectedPath = '\u2026/file.js';
-      assert.equal(shortenedPath, expectedPath);
-
-      path = 'level2/file.js';
-      shortenedPath = truncatePath(path);
-      assert.equal(shortenedPath, expectedPath);
-    });
-
-    test('truncatePath with opt_threshold', () => {
-      const truncatePath = Gerrit.PathListBehavior.truncatePath;
-      let path = 'level1/level2/level3/level4/file.js';
-      let shortenedPath = truncatePath(path, 2);
-      // The expected path is truncated with an ellipsis.
-      const expectedPath = '\u2026/level4/file.js';
-      assert.equal(shortenedPath, expectedPath);
-
-      path = 'level2/file.js';
-      shortenedPath = truncatePath(path, 2);
-      assert.equal(shortenedPath, path);
-    });
-
-    test('truncatePath with short path should not add ellipsis', () => {
-      const truncatePath = Gerrit.PathListBehavior.truncatePath;
-      const path = 'file.js';
-      const expectedPath = 'file.js';
-      const shortenedPath = truncatePath(path);
-      assert.equal(shortenedPath, expectedPath);
-    });
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './gr-path-list-behavior.js';
+suite('gr-path-list-behavior tests', () => {
+  test('special sort', () => {
+    const sort = Gerrit.PathListBehavior.specialFilePathCompare;
+    const testFiles = [
+      '/a.h',
+      '/MERGE_LIST',
+      '/a.cpp',
+      '/COMMIT_MSG',
+      '/asdasd',
+      '/mrPeanutbutter.py',
+    ];
+    assert.deepEqual(
+        testFiles.sort(sort),
+        [
+          '/COMMIT_MSG',
+          '/MERGE_LIST',
+          '/a.h',
+          '/a.cpp',
+          '/asdasd',
+          '/mrPeanutbutter.py',
+        ]);
   });
+
+  test('file display name', () => {
+    const name = Gerrit.PathListBehavior.computeDisplayPath;
+    assert.equal(name('/foo/bar/baz'), '/foo/bar/baz');
+    assert.equal(name('/foobarbaz'), '/foobarbaz');
+    assert.equal(name('/COMMIT_MSG'), 'Commit message');
+    assert.equal(name('/MERGE_LIST'), 'Merge list');
+  });
+
+  test('isMagicPath', () => {
+    const isMagic = Gerrit.PathListBehavior.isMagicPath;
+    assert.isFalse(isMagic(undefined));
+    assert.isFalse(isMagic('/foo.cc'));
+    assert.isTrue(isMagic('/COMMIT_MSG'));
+    assert.isTrue(isMagic('/MERGE_LIST'));
+  });
+
+  test('truncatePath with long path should add ellipsis', () => {
+    const truncatePath = Gerrit.PathListBehavior.truncatePath;
+    let path = 'level1/level2/level3/level4/file.js';
+    let shortenedPath = truncatePath(path);
+    // The expected path is truncated with an ellipsis.
+    const expectedPath = '\u2026/file.js';
+    assert.equal(shortenedPath, expectedPath);
+
+    path = 'level2/file.js';
+    shortenedPath = truncatePath(path);
+    assert.equal(shortenedPath, expectedPath);
+  });
+
+  test('truncatePath with opt_threshold', () => {
+    const truncatePath = Gerrit.PathListBehavior.truncatePath;
+    let path = 'level1/level2/level3/level4/file.js';
+    let shortenedPath = truncatePath(path, 2);
+    // The expected path is truncated with an ellipsis.
+    const expectedPath = '\u2026/level4/file.js';
+    assert.equal(shortenedPath, expectedPath);
+
+    path = 'level2/file.js';
+    shortenedPath = truncatePath(path, 2);
+    assert.equal(shortenedPath, path);
+  });
+
+  test('truncatePath with short path should not add ellipsis', () => {
+    const truncatePath = Gerrit.PathListBehavior.truncatePath;
+    const path = 'file.js';
+    const expectedPath = 'file.js';
+    const shortenedPath = truncatePath(path);
+    assert.equal(shortenedPath, expectedPath);
+  });
+});
 </script>

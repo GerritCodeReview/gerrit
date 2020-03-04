@@ -14,62 +14,69 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 
-  /** @extends Polymer.Element */
-  class GrPageNav extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-page-nav'; }
+import '../../../scripts/bundled-polymer.js';
+import '../../../styles/shared-styles.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-page-nav_html.js';
 
-    static get properties() {
-      return {
-        _headerHeight: Number,
-      };
-    }
+/** @extends Polymer.Element */
+class GrPageNav extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-    /** @override */
-    attached() {
-      super.attached();
-      this.listen(window, 'scroll', '_handleBodyScroll');
-    }
+  static get is() { return 'gr-page-nav'; }
 
-    /** @override */
-    detached() {
-      super.detached();
-      this.unlisten(window, 'scroll', '_handleBodyScroll');
-    }
-
-    _handleBodyScroll() {
-      if (this._headerHeight === undefined) {
-        let top = this._getOffsetTop(this);
-        for (let offsetParent = this.offsetParent;
-          offsetParent;
-          offsetParent = this._getOffsetParent(offsetParent)) {
-          top += this._getOffsetTop(offsetParent);
-        }
-        this._headerHeight = top;
-      }
-
-      this.$.nav.classList.toggle('pinned',
-          this._getScrollY() >= this._headerHeight);
-    }
-
-    /* Functions used for test purposes */
-    _getOffsetParent(element) {
-      if (!element || !element.offsetParent) { return ''; }
-      return element.offsetParent;
-    }
-
-    _getOffsetTop(element) {
-      return element.offsetTop;
-    }
-
-    _getScrollY() {
-      return window.scrollY;
-    }
+  static get properties() {
+    return {
+      _headerHeight: Number,
+    };
   }
 
-  customElements.define(GrPageNav.is, GrPageNav);
-})();
+  /** @override */
+  attached() {
+    super.attached();
+    this.listen(window, 'scroll', '_handleBodyScroll');
+  }
+
+  /** @override */
+  detached() {
+    super.detached();
+    this.unlisten(window, 'scroll', '_handleBodyScroll');
+  }
+
+  _handleBodyScroll() {
+    if (this._headerHeight === undefined) {
+      let top = this._getOffsetTop(this);
+      for (let offsetParent = this.offsetParent;
+        offsetParent;
+        offsetParent = this._getOffsetParent(offsetParent)) {
+        top += this._getOffsetTop(offsetParent);
+      }
+      this._headerHeight = top;
+    }
+
+    this.$.nav.classList.toggle('pinned',
+        this._getScrollY() >= this._headerHeight);
+  }
+
+  /* Functions used for test purposes */
+  _getOffsetParent(element) {
+    if (!element || !element.offsetParent) { return ''; }
+    return element.offsetParent;
+  }
+
+  _getOffsetTop(element) {
+    return element.offsetTop;
+  }
+
+  _getScrollY() {
+    return window.scrollY;
+  }
+}
+
+customElements.define(GrPageNav.is, GrPageNav);

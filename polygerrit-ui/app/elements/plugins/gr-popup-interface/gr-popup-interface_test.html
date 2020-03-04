@@ -19,16 +19,22 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-popup-interface</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-popup-interface.html"/>
-<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-popup-interface.js"></script>
+<script type="module" src="../../shared/gr-js-api-interface/gr-js-api-interface.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-popup-interface.js';
+import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+void(0);
+</script>
 
 <test-fixture id="container">
   <template>
@@ -40,87 +46,93 @@ limitations under the License.
   <template>
     <div id="barfoo">some test module</div>
   </template>
-  <script>
-    readyToTest().then(() => {
-      Polymer({is: 'gr-user-test-popup'});
-    });
-  </script>
+  <script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-popup-interface.js';
+import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+Polymer({is: 'gr-user-test-popup'});
+</script>
 </dom-module>
 
-<script>
-  suite('gr-popup-interface tests', async () => {
-    await readyToTest();
-    let container;
-    let instance;
-    let plugin;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-popup-interface.js';
+import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-popup-interface tests', () => {
+  let container;
+  let instance;
+  let plugin;
+  let sandbox;
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
+    container = fixture('container');
+    sandbox.stub(plugin, 'hook').returns({
+      getLastAttached() {
+        return Promise.resolve(container);
+      },
+    });
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('manual', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      container = fixture('container');
-      sandbox.stub(plugin, 'hook').returns({
-        getLastAttached() {
-          return Promise.resolve(container);
-        },
+      instance = new GrPopupInterface(plugin);
+    });
+
+    test('open', done => {
+      instance.open().then(api => {
+        assert.strictEqual(api, instance);
+        const manual = document.createElement('div');
+        manual.id = 'foobar';
+        manual.innerHTML = 'manual content';
+        api._getElement().appendChild(manual);
+        flushAsynchronousOperations();
+        assert.equal(
+            container.querySelector('#foobar').textContent, 'manual content');
+        done();
       });
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    suite('manual', () => {
-      setup(() => {
-        instance = new GrPopupInterface(plugin);
-      });
-
-      test('open', done => {
-        instance.open().then(api => {
-          assert.strictEqual(api, instance);
-          const manual = document.createElement('div');
-          manual.id = 'foobar';
-          manual.innerHTML = 'manual content';
-          api._getElement().appendChild(manual);
-          flushAsynchronousOperations();
-          assert.equal(
-              container.querySelector('#foobar').textContent, 'manual content');
-          done();
-        });
-      });
-
-      test('close', done => {
-        instance.open().then(api => {
-          assert.isTrue(api._getElement().node.opened);
-          api.close();
-          assert.isFalse(api._getElement().node.opened);
-          done();
-        });
-      });
-    });
-
-    suite('components', () => {
-      setup(() => {
-        instance = new GrPopupInterface(plugin, 'gr-user-test-popup');
-      });
-
-      test('open', done => {
-        instance.open().then(api => {
-          assert.isNotNull(
-              Polymer.dom(container).querySelector('gr-user-test-popup'));
-          done();
-        });
-      });
-
-      test('close', done => {
-        instance.open().then(api => {
-          assert.isTrue(api._getElement().node.opened);
-          api.close();
-          assert.isFalse(api._getElement().node.opened);
-          done();
-        });
+    test('close', done => {
+      instance.open().then(api => {
+        assert.isTrue(api._getElement().node.opened);
+        api.close();
+        assert.isFalse(api._getElement().node.opened);
+        done();
       });
     });
   });
+
+  suite('components', () => {
+    setup(() => {
+      instance = new GrPopupInterface(plugin, 'gr-user-test-popup');
+    });
+
+    test('open', done => {
+      instance.open().then(api => {
+        assert.isNotNull(
+            dom(container).querySelector('gr-user-test-popup'));
+        done();
+      });
+    });
+
+    test('close', done => {
+      instance.open().then(api => {
+        assert.isTrue(api._getElement().node.opened);
+        api.close();
+        assert.isFalse(api._getElement().node.opened);
+        done();
+      });
+    });
+  });
+});
 </script>

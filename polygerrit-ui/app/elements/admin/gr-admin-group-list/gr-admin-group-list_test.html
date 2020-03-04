@@ -19,18 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-admin-group-list</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
 
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<link rel="import" href="gr-admin-group-list.html">
+<script type="module" src="./gr-admin-group-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-admin-group-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -38,152 +43,154 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  let counter = 0;
-  const groupGenerator = () => {
-    return {
-      name: `test${++counter}`,
-      id: '59b92f35489e62c80d1ab1bf0c2d17843038df8b',
-      url: '#/admin/groups/uuid-59b92f35489e62c80d1ab1bf0c2d17843038df8b',
-      options: {
-        visible_to_all: false,
-      },
-      description: 'Gerrit Site Administrators',
-      group_id: 1,
-      owner: 'Administrators',
-      owner_id: '7ca042f4d5847936fcb90ca91057673157fd06fc',
-    };
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-admin-group-list.js';
+let counter = 0;
+const groupGenerator = () => {
+  return {
+    name: `test${++counter}`,
+    id: '59b92f35489e62c80d1ab1bf0c2d17843038df8b',
+    url: '#/admin/groups/uuid-59b92f35489e62c80d1ab1bf0c2d17843038df8b',
+    options: {
+      visible_to_all: false,
+    },
+    description: 'Gerrit Site Administrators',
+    group_id: 1,
+    owner: 'Administrators',
+    owner_id: '7ca042f4d5847936fcb90ca91057673157fd06fc',
   };
+};
 
-  suite('gr-admin-group-list tests', async () => {
-    await readyToTest();
-    let element;
-    let groups;
-    let sandbox;
-    let value;
+suite('gr-admin-group-list tests', () => {
+  let element;
+  let groups;
+  let sandbox;
+  let value;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('list with groups', () => {
+    setup(done => {
+      groups = _.times(26, groupGenerator);
+
+      stub('gr-rest-api-interface', {
+        getGroups(num, offset) {
+          return Promise.resolve(groups);
+        },
+      });
+
+      element._paramsChanged(value).then(() => { flush(done); });
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    suite('list with groups', () => {
-      setup(done => {
-        groups = _.times(26, groupGenerator);
-
-        stub('gr-rest-api-interface', {
-          getGroups(num, offset) {
-            return Promise.resolve(groups);
-          },
-        });
-
-        element._paramsChanged(value).then(() => { flush(done); });
-      });
-
-      test('test for test group in the list', done => {
-        flush(() => {
-          assert.equal(element._groups[1].name, '1');
-          assert.equal(element._groups[1].options.visible_to_all, false);
-          done();
-        });
-      });
-
-      test('_shownGroups', () => {
-        assert.equal(element._shownGroups.length, 25);
-      });
-
-      test('_maybeOpenCreateOverlay', () => {
-        const overlayOpen = sandbox.stub(element.$.createOverlay, 'open');
-        element._maybeOpenCreateOverlay();
-        assert.isFalse(overlayOpen.called);
-        const params = {};
-        element._maybeOpenCreateOverlay(params);
-        assert.isFalse(overlayOpen.called);
-        params.openCreateModal = true;
-        element._maybeOpenCreateOverlay(params);
-        assert.isTrue(overlayOpen.called);
+    test('test for test group in the list', done => {
+      flush(() => {
+        assert.equal(element._groups[1].name, '1');
+        assert.equal(element._groups[1].options.visible_to_all, false);
+        done();
       });
     });
 
-    suite('test with less then 25 groups', () => {
-      setup(done => {
-        groups = _.times(25, groupGenerator);
-
-        stub('gr-rest-api-interface', {
-          getGroups(num, offset) {
-            return Promise.resolve(groups);
-          },
-        });
-
-        element._paramsChanged(value).then(() => { flush(done); });
-      });
-
-      test('_shownGroups', () => {
-        assert.equal(element._shownGroups.length, 25);
-      });
+    test('_shownGroups', () => {
+      assert.equal(element._shownGroups.length, 25);
     });
 
-    suite('filter', () => {
-      test('_paramsChanged', done => {
-        sandbox.stub(
-            element.$.restAPI,
-            'getGroups',
-            () => Promise.resolve(groups));
-        const value = {
-          filter: 'test',
-          offset: 25,
-        };
-        element._paramsChanged(value).then(() => {
-          assert.isTrue(element.$.restAPI.getGroups.lastCall
-              .calledWithExactly('test', 25, 25));
-          done();
-        });
+    test('_maybeOpenCreateOverlay', () => {
+      const overlayOpen = sandbox.stub(element.$.createOverlay, 'open');
+      element._maybeOpenCreateOverlay();
+      assert.isFalse(overlayOpen.called);
+      const params = {};
+      element._maybeOpenCreateOverlay(params);
+      assert.isFalse(overlayOpen.called);
+      params.openCreateModal = true;
+      element._maybeOpenCreateOverlay(params);
+      assert.isTrue(overlayOpen.called);
+    });
+  });
+
+  suite('test with less then 25 groups', () => {
+    setup(done => {
+      groups = _.times(25, groupGenerator);
+
+      stub('gr-rest-api-interface', {
+        getGroups(num, offset) {
+          return Promise.resolve(groups);
+        },
       });
+
+      element._paramsChanged(value).then(() => { flush(done); });
     });
 
-    suite('loading', () => {
-      test('correct contents are displayed', () => {
-        assert.isTrue(element._loading);
-        assert.equal(element.computeLoadingClass(element._loading), 'loading');
-        assert.equal(getComputedStyle(element.$.loading).display, 'block');
-
-        element._loading = false;
-        element._groups = _.times(25, groupGenerator);
-
-        flushAsynchronousOperations();
-        assert.equal(element.computeLoadingClass(element._loading), '');
-        assert.equal(getComputedStyle(element.$.loading).display, 'none');
-      });
+    test('_shownGroups', () => {
+      assert.equal(element._shownGroups.length, 25);
     });
+  });
 
-    suite('create new', () => {
-      test('_handleCreateClicked called when create-click fired', () => {
-        sandbox.stub(element, '_handleCreateClicked');
-        element.$$('gr-list-view').fire('create-clicked');
-        assert.isTrue(element._handleCreateClicked.called);
-      });
-
-      test('_handleCreateClicked opens modal', () => {
-        const openStub = sandbox.stub(element.$.createOverlay, 'open');
-        element._handleCreateClicked();
-        assert.isTrue(openStub.called);
-      });
-
-      test('_handleCreateGroup called when confirm fired', () => {
-        sandbox.stub(element, '_handleCreateGroup');
-        element.$.createDialog.fire('confirm');
-        assert.isTrue(element._handleCreateGroup.called);
-      });
-
-      test('_handleCloseCreate called when cancel fired', () => {
-        sandbox.stub(element, '_handleCloseCreate');
-        element.$.createDialog.fire('cancel');
-        assert.isTrue(element._handleCloseCreate.called);
+  suite('filter', () => {
+    test('_paramsChanged', done => {
+      sandbox.stub(
+          element.$.restAPI,
+          'getGroups',
+          () => Promise.resolve(groups));
+      const value = {
+        filter: 'test',
+        offset: 25,
+      };
+      element._paramsChanged(value).then(() => {
+        assert.isTrue(element.$.restAPI.getGroups.lastCall
+            .calledWithExactly('test', 25, 25));
+        done();
       });
     });
   });
+
+  suite('loading', () => {
+    test('correct contents are displayed', () => {
+      assert.isTrue(element._loading);
+      assert.equal(element.computeLoadingClass(element._loading), 'loading');
+      assert.equal(getComputedStyle(element.$.loading).display, 'block');
+
+      element._loading = false;
+      element._groups = _.times(25, groupGenerator);
+
+      flushAsynchronousOperations();
+      assert.equal(element.computeLoadingClass(element._loading), '');
+      assert.equal(getComputedStyle(element.$.loading).display, 'none');
+    });
+  });
+
+  suite('create new', () => {
+    test('_handleCreateClicked called when create-click fired', () => {
+      sandbox.stub(element, '_handleCreateClicked');
+      element.$$('gr-list-view').fire('create-clicked');
+      assert.isTrue(element._handleCreateClicked.called);
+    });
+
+    test('_handleCreateClicked opens modal', () => {
+      const openStub = sandbox.stub(element.$.createOverlay, 'open');
+      element._handleCreateClicked();
+      assert.isTrue(openStub.called);
+    });
+
+    test('_handleCreateGroup called when confirm fired', () => {
+      sandbox.stub(element, '_handleCreateGroup');
+      element.$.createDialog.fire('confirm');
+      assert.isTrue(element._handleCreateGroup.called);
+    });
+
+    test('_handleCloseCreate called when cancel fired', () => {
+      sandbox.stub(element, '_handleCloseCreate');
+      element.$.createDialog.fire('cancel');
+      assert.isTrue(element._handleCloseCreate.called);
+    });
+  });
+});
 </script>

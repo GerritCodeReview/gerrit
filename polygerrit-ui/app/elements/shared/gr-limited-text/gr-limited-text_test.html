@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-limited-text</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<link rel="import" href="gr-limited-text.html">
+<script type="module" src="./gr-limited-text.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-limited-text.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,72 +41,74 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-limited-text tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-limited-text.js';
+suite('gr-limited-text tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('_updateTitle', () => {
-      const updateSpy = sandbox.spy(element, '_updateTitle');
-      element.text = 'abc 123';
-      flushAsynchronousOperations();
-      assert.isTrue(updateSpy.calledOnce);
-      assert.isNotOk(element.getAttribute('title'));
-      assert.isFalse(element.hasTooltip);
-
-      element.limit = 10;
-      flushAsynchronousOperations();
-      assert.isTrue(updateSpy.calledTwice);
-      assert.isNotOk(element.getAttribute('title'));
-      assert.isFalse(element.hasTooltip);
-
-      element.limit = 3;
-      flushAsynchronousOperations();
-      assert.isTrue(updateSpy.calledThrice);
-      assert.equal(element.getAttribute('title'), 'abc 123');
-      assert.isTrue(element.hasTooltip);
-
-      element.tooltipLimit = 3;
-      flushAsynchronousOperations();
-      assert.equal(element.getAttribute('title'), 'abc');
-
-      element.tooltipLimit = 1024;
-      element.limit = 100;
-      flushAsynchronousOperations();
-      assert.equal(updateSpy.callCount, 6);
-      assert.isNotOk(element.getAttribute('title'));
-      assert.isFalse(element.hasTooltip);
-
-      element.limit = null;
-      flushAsynchronousOperations();
-      assert.equal(updateSpy.callCount, 7);
-      assert.isNotOk(element.getAttribute('title'));
-      assert.isFalse(element.hasTooltip);
-    });
-
-    test('_computeDisplayText', () => {
-      assert.equal(element._computeDisplayText('foo bar', 100), 'foo bar');
-      assert.equal(element._computeDisplayText('foo bar', 4), 'foo…');
-      assert.equal(element._computeDisplayText('foo bar', null), 'foo bar');
-    });
-
-    test('when disable tooltip', () => {
-      sandbox.spy(element, '_updateTitle');
-      element.text = 'abcdefghijklmn';
-      element.disableTooltip = true;
-      element.limit = 10;
-      flushAsynchronousOperations();
-      assert.equal(element.getAttribute('title'), null);
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('_updateTitle', () => {
+    const updateSpy = sandbox.spy(element, '_updateTitle');
+    element.text = 'abc 123';
+    flushAsynchronousOperations();
+    assert.isTrue(updateSpy.calledOnce);
+    assert.isNotOk(element.getAttribute('title'));
+    assert.isFalse(element.hasTooltip);
+
+    element.limit = 10;
+    flushAsynchronousOperations();
+    assert.isTrue(updateSpy.calledTwice);
+    assert.isNotOk(element.getAttribute('title'));
+    assert.isFalse(element.hasTooltip);
+
+    element.limit = 3;
+    flushAsynchronousOperations();
+    assert.isTrue(updateSpy.calledThrice);
+    assert.equal(element.getAttribute('title'), 'abc 123');
+    assert.isTrue(element.hasTooltip);
+
+    element.tooltipLimit = 3;
+    flushAsynchronousOperations();
+    assert.equal(element.getAttribute('title'), 'abc');
+
+    element.tooltipLimit = 1024;
+    element.limit = 100;
+    flushAsynchronousOperations();
+    assert.equal(updateSpy.callCount, 6);
+    assert.isNotOk(element.getAttribute('title'));
+    assert.isFalse(element.hasTooltip);
+
+    element.limit = null;
+    flushAsynchronousOperations();
+    assert.equal(updateSpy.callCount, 7);
+    assert.isNotOk(element.getAttribute('title'));
+    assert.isFalse(element.hasTooltip);
+  });
+
+  test('_computeDisplayText', () => {
+    assert.equal(element._computeDisplayText('foo bar', 100), 'foo bar');
+    assert.equal(element._computeDisplayText('foo bar', 4), 'foo…');
+    assert.equal(element._computeDisplayText('foo bar', null), 'foo bar');
+  });
+
+  test('when disable tooltip', () => {
+    sandbox.spy(element, '_updateTitle');
+    element.text = 'abcdefghijklmn';
+    element.disableTooltip = true;
+    element.limit = 10;
+    flushAsynchronousOperations();
+    assert.equal(element.getAttribute('title'), null);
+  });
+});
 </script>

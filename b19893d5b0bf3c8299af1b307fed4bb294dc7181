@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b63ea530_3d320f03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-04T11:26:07Z",
+      "side": 1,
+      "message": "Maybe add the issue here?",
+      "revId": "b19893d5b0bf3c8299af1b307fed4bb294dc7181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7efc08e1_80da3882",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-04T11:26:07Z",
+      "side": 1,
+      "message": "Why not set background color here?",
+      "revId": "b19893d5b0bf3c8299af1b307fed4bb294dc7181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

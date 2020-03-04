@@ -29,6 +29,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import java.io.IOException;
+import java.util.Optional;
 
 public class EqualsLabelPredicate extends ChangeIndexPredicate {
   protected final ProjectCache projectCache;
@@ -60,14 +61,14 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return false;
     }
 
-    ProjectState project = projectCache.get(c.getDest().project());
-    if (project == null) {
+    Optional<ProjectState> project = projectCache.get(c.getDest().project());
+    if (!project.isPresent()) {
       // The project has disappeared.
       //
       return false;
     }
 
-    LabelType labelType = type(project.getLabelTypes(), label);
+    LabelType labelType = type(project.get().getLabelTypes(), label);
     if (labelType == null) {
       return false; // Label is not defined by this project.
     }

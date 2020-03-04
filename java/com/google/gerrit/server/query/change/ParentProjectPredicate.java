@@ -26,6 +26,7 @@ import com.google.gerrit.server.project.ProjectState;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class ParentProjectPredicate extends OrPredicate<ChangeData> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -40,15 +41,15 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
 
   protected static List<Predicate<ChangeData>> predicates(
       ProjectCache projectCache, ChildProjects childProjects, String value) {
-    ProjectState projectState = projectCache.get(Project.nameKey(value));
-    if (projectState == null) {
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(value));
+    if (!projectState.isPresent()) {
       return Collections.emptyList();
     }
 
     List<Predicate<ChangeData>> r = new ArrayList<>();
-    r.add(new ProjectPredicate(projectState.getName()));
+    r.add(new ProjectPredicate(projectState.get().getName()));
     try {
-      for (ProjectInfo p : childProjects.list(projectState.getNameKey())) {
+      for (ProjectInfo p : childProjects.list(projectState.get().getNameKey())) {
         r.add(new ProjectPredicate(p.name));
       }
     } catch (PermissionBackendException e) {

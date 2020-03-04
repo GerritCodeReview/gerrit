@@ -15,11 +15,13 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.project.ProjectState;
+import java.util.Optional;
 import org.junit.Test;
 
 @UseSsh
@@ -33,8 +35,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     adminSshSession.exec(
         "gerrit create-project --branch master --owner " + newGroupName + " " + newProjectName);
     adminSshSession.assertSuccess();
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
-    assertThat(projectState).isNotNull();
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
   }
 
   @Test
@@ -46,8 +48,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     adminSshSession.exec(
         "gerrit create-project --branch master --owner " + wrongGroupName + " " + newProjectName);
     adminSshSession.assertFailure();
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
-    assertThat(projectState).isNull();
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isEmpty();
   }
 
   @Test
@@ -62,9 +64,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
             + newProjectName
             + ".git");
     adminSshSession.assertSuccess();
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertThat(projectState.getName()).isEqualTo(newProjectName);
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertThat(projectState.get().getName()).isEqualTo(newProjectName);
   }
 
   @Test
@@ -79,8 +81,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
             + newProjectName
             + "/");
     adminSshSession.assertSuccess();
-    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertThat(projectState.getName()).isEqualTo(newProjectName);
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertThat(projectState.get().getName()).isEqualTo(newProjectName);
   }
 }

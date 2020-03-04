@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
@@ -245,8 +245,8 @@ public class UploadArchive extends AbstractGitCommand {
   }
 
   private boolean canRead(ObjectId revId) throws IOException, PermissionBackendException {
-    ProjectState projectState = projectCache.get(projectName);
-    requireNonNull(projectState, () -> String.format("Failed to load project %s", projectName));
+    ProjectState projectState =
+        projectCache.get(projectName).orElseThrow(illegalState(projectName));
 
     if (!projectState.statePermitsRead()) {
       return false;

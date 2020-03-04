@@ -65,7 +65,16 @@ public class ChildProjects {
   private Map<Project.NameKey, Project> readAllReadableProjects() {
     Map<Project.NameKey, Project> projects = new HashMap<>();
     for (Project.NameKey name : projectCache.all()) {
-      ProjectState c = projectCache.get(name);
+
+      ProjectState c =
+          projectCache
+              .get(name)
+              .orElseThrow(
+                  () ->
+                      new IllegalStateException(
+                          "race while traversing projects. got "
+                              + name
+                              + " when loading all projects, but can't load it now"));
       if (c != null && c.statePermitsRead()) {
         projects.put(c.getNameKey(), c.getProject());
       }

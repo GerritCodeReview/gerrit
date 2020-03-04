@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Optional;
 
 /** Distributes Events to listeners if they are allowed to see them */
 @Singleton
@@ -146,8 +147,8 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
     try {
-      ProjectState state = projectCache.get(project);
-      if (state == null || !state.statePermitsRead()) {
+      Optional<ProjectState> state = projectCache.get(project);
+      if (!state.isPresent() || !state.get().statePermitsRead()) {
         return false;
       }
 
@@ -162,8 +163,8 @@ public class EventBroker implements EventDispatcher {
     if (change == null) {
       return false;
     }
-    ProjectState pe = projectCache.get(change.getProject());
-    if (pe == null || !pe.statePermitsRead()) {
+    Optional<ProjectState> pe = projectCache.get(change.getProject());
+    if (!pe.isPresent() || !pe.get().statePermitsRead()) {
       return false;
     }
     try {
@@ -179,8 +180,8 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(BranchNameKey branchName, CurrentUser user)
       throws PermissionBackendException {
-    ProjectState pe = projectCache.get(branchName.project());
-    if (pe == null || !pe.statePermitsRead()) {
+    Optional<ProjectState> pe = projectCache.get(branchName.project());
+    if (!pe.isPresent() || !pe.get().statePermitsRead()) {
       return false;
     }
 

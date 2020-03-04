@@ -14,6 +14,8 @@
 
 package com.google.gerrit.gpg;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BooleanProjectConfig;
@@ -87,7 +89,7 @@ class SignedPushModule extends AbstractModule {
 
     @Override
     public void init(Project.NameKey project, ReceivePack rp) {
-      ProjectState ps = projectCache.get(project);
+      ProjectState ps = projectCache.get(project).orElseThrow(illegalState(project));
       if (!ps.is(BooleanProjectConfig.ENABLE_SIGNED_PUSH)) {
         rp.setSignedPushConfig(null);
         return;

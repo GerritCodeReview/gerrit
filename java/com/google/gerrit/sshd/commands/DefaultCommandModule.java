@@ -109,6 +109,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, ReviewCommand.class);
     command(gerrit, SetProjectCommand.class);
     command(gerrit, SetReviewersCommand.class);
+	command(gerrit, SetTopicCommand.class);
 
     command(gerrit, SetMembersCommand.class);
     command(gerrit, CreateBranchCommand.class);

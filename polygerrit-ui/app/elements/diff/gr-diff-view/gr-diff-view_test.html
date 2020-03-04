@@ -472,7 +472,7 @@ limitations under the License.
       });
 
       test('_computeCommentString', done => {
-        loadCommentSpy = sandbox.spy(element.$.commentAPI, 'loadAll');
+        const loadCommentSpy = sandbox.spy(element.$.commentAPI, 'loadAll');
         const path = '/test';
         element.$.commentAPI.loadAll().then(comments => {
           const commentCountStub =
@@ -1365,6 +1365,8 @@ limitations under the License.
     });
 
     suite('gr-diff-view tests unmodified files with comments', () => {
+      let sandbox;
+      let element;
       setup(() => {
         sandbox = sinon.sandbox.create();
         const changedFiles = {

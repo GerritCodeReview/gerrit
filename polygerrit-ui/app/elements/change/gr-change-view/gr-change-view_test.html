@@ -334,7 +334,7 @@ limitations under the License.
       });
     });
 
-    getCustomCssValue = cssParam => util.getComputedStyleValue(cssParam, element);
+    const getCustomCssValue = cssParam => util.getComputedStyleValue(cssParam, element);
 
     test('_handleMessageAnchorTap', () => {
       element._changeNum = '1';
@@ -875,7 +875,7 @@ limitations under the License.
         },
       };
       element._mergeable = true;
-      expectedStatuses = ['Merged', 'WIP'];
+      const expectedStatuses = ['Merged', 'WIP'];
       assert.deepEqual(element._changeStatuses, expectedStatuses);
       assert.equal(element._changeStatus, expectedStatuses.join(', '));
       flushAsynchronousOperations();

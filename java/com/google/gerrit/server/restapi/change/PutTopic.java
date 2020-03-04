@@ -20,19 +20,13 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.TopicEdited;
-import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdateOp;
-import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
@@ -71,58 +65,13 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput,
       sanitizedInput.topic = sanitizedInput.topic.trim();
     }
 
-    Op op = new Op(sanitizedInput);
+    SetTopicOp op = new SetTopicOp(sanitizedInput, topicEdited, cmUtil);
     try (BatchUpdate u =
         updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op);
       u.execute();
     }
     return Strings.isNullOrEmpty(op.newTopicName) ? Response.none() : Response.ok(op.newTopicName);
-  }
-
-  private class Op implements BatchUpdateOp {
-    private final TopicInput input;
-
-    private Change change;
-    private String oldTopicName;
-    private String newTopicName;
-
-    Op(TopicInput input) {
-      this.input = input;
-    }
-
-    @Override
-    public boolean updateChange(ChangeContext ctx) {
-      change = ctx.getChange();
-      ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
-      newTopicName = Strings.nullToEmpty(input.topic);
-      oldTopicName = Strings.nullToEmpty(change.getTopic());
-      if (oldTopicName.equals(newTopicName)) {
-        return false;
-      }
-      String summary;
-      if (oldTopicName.isEmpty()) {
-        summary = "Topic set to " + newTopicName;
-      } else if (newTopicName.isEmpty()) {
-        summary = "Topic " + oldTopicName + " removed";
-      } else {
-        summary = String.format("Topic changed from %s to %s", oldTopicName, newTopicName);
-      }
-      change.setTopic(Strings.emptyToNull(newTopicName));
-      update.setTopic(change.getTopic());
-
-      ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(ctx, summary, ChangeMessagesUtil.TAG_SET_TOPIC);
-      cmUtil.addChangeMessage(update, cmsg);
-      return true;
-    }
-
-    @Override
-    public void postUpdate(Context ctx) {
-      if (change != null) {
-        topicEdited.fire(change, ctx.getAccount(), oldTopicName, ctx.getWhen());
-      }
-    }
   }
 
   @Override

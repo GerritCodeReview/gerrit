@@ -22,7 +22,6 @@ limitations under the License.
 <link rel="import" href="../gr-avatar/gr-avatar.html">
 <link rel="import" href="../gr-hovercard/gr-hovercard.html">
 <link rel="import" href="../gr-hovercard-account/gr-hovercard-account.html">
-<link rel="import" href="../gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-account-label">
@@ -59,13 +58,6 @@ limitations under the License.
         <span class="email">
           [[_computeEmailStr(account)]]
         </span>
-        <template is="dom-if" if="[[account.status]]">
-          (<gr-limited-text
-            disable-tooltip="true"
-            limit="[[_computeStatusTextLength(account, _serverConfig)]]"
-            text="[[account.status]]">
-          </gr-limited-text>)
-        </template>
       </span>
     </span>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

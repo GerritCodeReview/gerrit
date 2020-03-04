@@ -53,7 +53,6 @@ limitations under the License.
       <template is="dom-repeat" items="[[_displayedReviewers]]" as="reviewer">
         <gr-account-chip class="reviewer" account="[[reviewer]]"
             on-remove="_handleRemove"
-            additional-text="[[_computeReviewerTooltip(reviewer, change)]]"
             removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
         </gr-account-chip>
       </template>

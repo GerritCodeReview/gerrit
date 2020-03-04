@@ -52,12 +52,9 @@ limitations under the License.
       <template is="dom-if" if="[[!hideAvatar]]">
         <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
       </template>
-      <span class$="text [[_computeShowEmailClass(account)]]">
+      <span class$="text">
         <span class="name">
           [[_computeName(account, _serverConfig)]]</span>
-        <span class="email">
-          [[_computeEmailStr(account)]]
-        </span>
       </span>
     </span>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

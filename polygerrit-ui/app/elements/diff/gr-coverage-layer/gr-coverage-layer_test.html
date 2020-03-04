@@ -85,7 +85,7 @@ limitations under the License.
 
     suite('annotate', () => {
       function createLine(lineNumber) {
-        lineEl = document.createElement('div');
+        const lineEl = document.createElement('div');
         lineEl.setAttribute('data-side', 'right');
         lineEl.setAttribute('data-value', lineNumber);
         lineEl.className = 'right';

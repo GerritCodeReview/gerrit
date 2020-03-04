@@ -15,8 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -27,13 +25,9 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.TopicEdited;
-import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdateOp;
-import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -45,12 +39,18 @@ public class PutTopic
   private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final TopicEdited topicEdited;
+  private final SetTopicOp.Factory topicOpFactory;
 
   @Inject
-  PutTopic(BatchUpdate.Factory updateFactory, ChangeMessagesUtil cmUtil, TopicEdited topicEdited) {
+  PutTopic(
+      BatchUpdate.Factory updateFactory,
+      ChangeMessagesUtil cmUtil,
+      TopicEdited topicEdited,
+      SetTopicOp.Factory topicOpFactory) {
     this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
     this.topicEdited = topicEdited;
+    this.topicOpFactory = topicOpFactory;
   }
 
   @Override
@@ -70,58 +70,13 @@ public class PutTopic
       sanitizedInput.topic = sanitizedInput.topic.trim();
     }
 
-    Op op = new Op(sanitizedInput);
+    SetTopicOp op = topicOpFactory.create(sanitizedInput);
     try (BatchUpdate u =
         updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op);
       u.execute();
     }
-    return Strings.isNullOrEmpty(op.newTopicName) ? Response.none() : Response.ok(op.newTopicName);
-  }
-
-  private class Op implements BatchUpdateOp {
-    private final TopicInput input;
-
-    private Change change;
-    private String oldTopicName;
-    private String newTopicName;
-
-    Op(TopicInput input) {
-      this.input = input;
-    }
-
-    @Override
-    public boolean updateChange(ChangeContext ctx) {
-      change = ctx.getChange();
-      ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
-      newTopicName = Strings.nullToEmpty(input.topic);
-      oldTopicName = Strings.nullToEmpty(change.getTopic());
-      if (oldTopicName.equals(newTopicName)) {
-        return false;
-      }
-      String summary;
-      if (oldTopicName.isEmpty()) {
-        summary = "Topic set to " + newTopicName;
-      } else if (newTopicName.isEmpty()) {
-        summary = "Topic " + oldTopicName + " removed";
-      } else {
-        summary = String.format("Topic changed from %s to %s", oldTopicName, newTopicName);
-      }
-      change.setTopic(Strings.emptyToNull(newTopicName));
-      update.setTopic(change.getTopic());
-
-      ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(ctx, summary, ChangeMessagesUtil.TAG_SET_TOPIC);
-      cmUtil.addChangeMessage(update, cmsg);
-      return true;
-    }
-
-    @Override
-    public void postUpdate(Context ctx) {
-      if (change != null) {
-        topicEdited.fire(change, ctx.getAccount(), oldTopicName, ctx.getWhen());
-      }
-    }
+    return Strings.isNullOrEmpty(input.topic) ? Response.none() : Response.ok(input.topic);
   }
 
   @Override

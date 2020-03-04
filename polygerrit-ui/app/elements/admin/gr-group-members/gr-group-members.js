@@ -14,280 +14,300 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
-  const SUGGESTIONS_LIMIT = 15;
-  const SAVING_ERROR_TEXT = 'Group may not exist, or you may not have '+
-      'permission to add it';
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import '../../../scripts/bundled-polymer.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
+import '../../../styles/gr-form-styles.js';
+import '../../../styles/gr-subpage-styles.js';
+import '../../../styles/gr-table-styles.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-account-link/gr-account-link.js';
+import '../../shared/gr-autocomplete/gr-autocomplete.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-overlay/gr-overlay.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-group-members_html.js';
 
-  const URL_REGEX = '^(?:[a-z]+:)?//';
+const SUGGESTIONS_LIMIT = 15;
+const SAVING_ERROR_TEXT = 'Group may not exist, or you may not have '+
+    'permission to add it';
 
-  /**
-   * @appliesMixin Gerrit.BaseUrlMixin
-   * @appliesMixin Gerrit.FireMixin
-   * @appliesMixin Gerrit.URLEncodingMixin
-   * @extends Polymer.Element
-   */
-  class GrGroupMembers extends Polymer.mixinBehaviors( [
-    Gerrit.BaseUrlBehavior,
-    Gerrit.FireBehavior,
-    Gerrit.URLEncodingBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-group-members'; }
+const URL_REGEX = '^(?:[a-z]+:)?//';
 
-    static get properties() {
-      return {
-        groupId: Number,
-        _groupMemberSearchId: String,
-        _groupMemberSearchName: String,
-        _includedGroupSearchId: String,
-        _includedGroupSearchName: String,
-        _loading: {
-          type: Boolean,
-          value: true,
+/**
+ * @appliesMixin Gerrit.BaseUrlMixin
+ * @appliesMixin Gerrit.FireMixin
+ * @appliesMixin Gerrit.URLEncodingMixin
+ * @extends Polymer.Element
+ */
+class GrGroupMembers extends mixinBehaviors( [
+  Gerrit.BaseUrlBehavior,
+  Gerrit.FireBehavior,
+  Gerrit.URLEncodingBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-group-members'; }
+
+  static get properties() {
+    return {
+      groupId: Number,
+      _groupMemberSearchId: String,
+      _groupMemberSearchName: String,
+      _includedGroupSearchId: String,
+      _includedGroupSearchName: String,
+      _loading: {
+        type: Boolean,
+        value: true,
+      },
+      _groupName: String,
+      _groupMembers: Object,
+      _includedGroups: Object,
+      _itemName: String,
+      _itemType: String,
+      _queryMembers: {
+        type: Function,
+        value() {
+          return this._getAccountSuggestions.bind(this);
         },
-        _groupName: String,
-        _groupMembers: Object,
-        _includedGroups: Object,
-        _itemName: String,
-        _itemType: String,
-        _queryMembers: {
-          type: Function,
-          value() {
-            return this._getAccountSuggestions.bind(this);
-          },
+      },
+      _queryIncludedGroup: {
+        type: Function,
+        value() {
+          return this._getGroupSuggestions.bind(this);
         },
-        _queryIncludedGroup: {
-          type: Function,
-          value() {
-            return this._getGroupSuggestions.bind(this);
-          },
-        },
-        _groupOwner: {
-          type: Boolean,
-          value: false,
-        },
-        _isAdmin: {
-          type: Boolean,
-          value: false,
-        },
-      };
-    }
+      },
+      _groupOwner: {
+        type: Boolean,
+        value: false,
+      },
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
+    };
+  }
 
-    /** @override */
-    attached() {
-      super.attached();
-      this._loadGroupDetails();
+  /** @override */
+  attached() {
+    super.attached();
+    this._loadGroupDetails();
 
-      this.fire('title-change', {title: 'Members'});
-    }
+    this.fire('title-change', {title: 'Members'});
+  }
 
-    _loadGroupDetails() {
-      if (!this.groupId) { return; }
+  _loadGroupDetails() {
+    if (!this.groupId) { return; }
 
-      const promises = [];
+    const promises = [];
 
-      const errFn = response => {
-        this.fire('page-error', {response});
-      };
+    const errFn = response => {
+      this.fire('page-error', {response});
+    };
 
-      return this.$.restAPI.getGroupConfig(this.groupId, errFn)
-          .then(config => {
-            if (!config || !config.name) { return Promise.resolve(); }
+    return this.$.restAPI.getGroupConfig(this.groupId, errFn)
+        .then(config => {
+          if (!config || !config.name) { return Promise.resolve(); }
 
-            this._groupName = config.name;
+          this._groupName = config.name;
 
-            promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-              this._isAdmin = isAdmin ? true : false;
-            }));
+          promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
+            this._isAdmin = isAdmin ? true : false;
+          }));
 
-            promises.push(this.$.restAPI.getIsGroupOwner(config.name)
-                .then(isOwner => {
-                  this._groupOwner = isOwner ? true : false;
-                }));
-
-            promises.push(this.$.restAPI.getGroupMembers(config.name).then(
-                members => {
-                  this._groupMembers = members;
-                }));
-
-            promises.push(this.$.restAPI.getIncludedGroup(config.name)
-                .then(includedGroup => {
-                  this._includedGroups = includedGroup;
-                }));
-
-            return Promise.all(promises).then(() => {
-              this._loading = false;
-            });
-          });
-    }
-
-    _computeLoadingClass(loading) {
-      return loading ? 'loading' : '';
-    }
-
-    _isLoading() {
-      return this._loading || this._loading === undefined;
-    }
-
-    _computeGroupUrl(url) {
-      if (!url) { return; }
-
-      const r = new RegExp(URL_REGEX, 'i');
-      if (r.test(url)) {
-        return url;
-      }
-
-      // For GWT compatibility
-      if (url.startsWith('#')) {
-        return this.getBaseUrl() + url.slice(1);
-      }
-      return this.getBaseUrl() + url;
-    }
-
-    _handleSavingGroupMember() {
-      return this.$.restAPI.saveGroupMembers(this._groupName,
-          this._groupMemberSearchId).then(config => {
-        if (!config) {
-          return;
-        }
-        this.$.restAPI.getGroupMembers(this._groupName).then(members => {
-          this._groupMembers = members;
-        });
-        this._groupMemberSearchName = '';
-        this._groupMemberSearchId = '';
-      });
-    }
-
-    _handleDeleteConfirm() {
-      this.$.overlay.close();
-      if (this._itemType === 'member') {
-        return this.$.restAPI.deleteGroupMembers(this._groupName,
-            this._itemId)
-            .then(itemDeleted => {
-              if (itemDeleted.status === 204) {
-                this.$.restAPI.getGroupMembers(this._groupName)
-                    .then(members => {
-                      this._groupMembers = members;
-                    });
-              }
-            });
-      } else if (this._itemType === 'includedGroup') {
-        return this.$.restAPI.deleteIncludedGroup(this._groupName,
-            this._itemId)
-            .then(itemDeleted => {
-              if (itemDeleted.status === 204 || itemDeleted.status === 205) {
-                this.$.restAPI.getIncludedGroup(this._groupName)
-                    .then(includedGroup => {
-                      this._includedGroups = includedGroup;
-                    });
-              }
-            });
-      }
-    }
-
-    _handleConfirmDialogCancel() {
-      this.$.overlay.close();
-    }
-
-    _handleDeleteMember(e) {
-      const id = e.model.get('item._account_id');
-      const name = e.model.get('item.name');
-      const username = e.model.get('item.username');
-      const email = e.model.get('item.email');
-      const item = username || name || email || id;
-      if (!item) {
-        return '';
-      }
-      this._itemName = item;
-      this._itemId = id;
-      this._itemType = 'member';
-      this.$.overlay.open();
-    }
-
-    _handleSavingIncludedGroups() {
-      return this.$.restAPI.saveIncludedGroup(this._groupName,
-          this._includedGroupSearchId.replace(/\+/g, ' '), err => {
-            if (err.status === 404) {
-              this.dispatchEvent(new CustomEvent('show-alert', {
-                detail: {message: SAVING_ERROR_TEXT},
-                bubbles: true,
-                composed: true,
+          promises.push(this.$.restAPI.getIsGroupOwner(config.name)
+              .then(isOwner => {
+                this._groupOwner = isOwner ? true : false;
               }));
-              return err;
-            }
-            throw Error(err.statusText);
-          })
-          .then(config => {
-            if (!config) {
-              return;
-            }
-            this.$.restAPI.getIncludedGroup(this._groupName)
-                .then(includedGroup => {
-                  this._includedGroups = includedGroup;
-                });
-            this._includedGroupSearchName = '';
-            this._includedGroupSearchId = '';
+
+          promises.push(this.$.restAPI.getGroupMembers(config.name).then(
+              members => {
+                this._groupMembers = members;
+              }));
+
+          promises.push(this.$.restAPI.getIncludedGroup(config.name)
+              .then(includedGroup => {
+                this._includedGroups = includedGroup;
+              }));
+
+          return Promise.all(promises).then(() => {
+            this._loading = false;
           });
+        });
+  }
+
+  _computeLoadingClass(loading) {
+    return loading ? 'loading' : '';
+  }
+
+  _isLoading() {
+    return this._loading || this._loading === undefined;
+  }
+
+  _computeGroupUrl(url) {
+    if (!url) { return; }
+
+    const r = new RegExp(URL_REGEX, 'i');
+    if (r.test(url)) {
+      return url;
     }
 
-    _handleDeleteIncludedGroup(e) {
-      const id = decodeURIComponent(e.model.get('item.id')).replace(/\+/g, ' ');
-      const name = e.model.get('item.name');
-      const item = name || id;
-      if (!item) { return ''; }
-      this._itemName = item;
-      this._itemId = id;
-      this._itemType = 'includedGroup';
-      this.$.overlay.open();
+    // For GWT compatibility
+    if (url.startsWith('#')) {
+      return this.getBaseUrl() + url.slice(1);
     }
+    return this.getBaseUrl() + url;
+  }
 
-    _getAccountSuggestions(input) {
-      if (input.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedAccounts(
-          input, SUGGESTIONS_LIMIT).then(accounts => {
-        const accountSuggestions = [];
-        let nameAndEmail;
-        if (!accounts) { return []; }
-        for (const key in accounts) {
-          if (!accounts.hasOwnProperty(key)) { continue; }
-          if (accounts[key].email !== undefined) {
-            nameAndEmail = accounts[key].name +
-                  ' <' + accounts[key].email + '>';
-          } else {
-            nameAndEmail = accounts[key].name;
-          }
-          accountSuggestions.push({
-            name: nameAndEmail,
-            value: accounts[key]._account_id,
-          });
-        }
-        return accountSuggestions;
+  _handleSavingGroupMember() {
+    return this.$.restAPI.saveGroupMembers(this._groupName,
+        this._groupMemberSearchId).then(config => {
+      if (!config) {
+        return;
+      }
+      this.$.restAPI.getGroupMembers(this._groupName).then(members => {
+        this._groupMembers = members;
       });
-    }
+      this._groupMemberSearchName = '';
+      this._groupMemberSearchId = '';
+    });
+  }
 
-    _getGroupSuggestions(input) {
-      return this.$.restAPI.getSuggestedGroups(input)
-          .then(response => {
-            const groups = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              groups.push({
-                name: key,
-                value: decodeURIComponent(response[key].id),
-              });
+  _handleDeleteConfirm() {
+    this.$.overlay.close();
+    if (this._itemType === 'member') {
+      return this.$.restAPI.deleteGroupMembers(this._groupName,
+          this._itemId)
+          .then(itemDeleted => {
+            if (itemDeleted.status === 204) {
+              this.$.restAPI.getGroupMembers(this._groupName)
+                  .then(members => {
+                    this._groupMembers = members;
+                  });
             }
-            return groups;
           });
-    }
-
-    _computeHideItemClass(owner, admin) {
-      return admin || owner ? '' : 'canModify';
+    } else if (this._itemType === 'includedGroup') {
+      return this.$.restAPI.deleteIncludedGroup(this._groupName,
+          this._itemId)
+          .then(itemDeleted => {
+            if (itemDeleted.status === 204 || itemDeleted.status === 205) {
+              this.$.restAPI.getIncludedGroup(this._groupName)
+                  .then(includedGroup => {
+                    this._includedGroups = includedGroup;
+                  });
+            }
+          });
     }
   }
 
-  customElements.define(GrGroupMembers.is, GrGroupMembers);
-})();
+  _handleConfirmDialogCancel() {
+    this.$.overlay.close();
+  }
+
+  _handleDeleteMember(e) {
+    const id = e.model.get('item._account_id');
+    const name = e.model.get('item.name');
+    const username = e.model.get('item.username');
+    const email = e.model.get('item.email');
+    const item = username || name || email || id;
+    if (!item) {
+      return '';
+    }
+    this._itemName = item;
+    this._itemId = id;
+    this._itemType = 'member';
+    this.$.overlay.open();
+  }
+
+  _handleSavingIncludedGroups() {
+    return this.$.restAPI.saveIncludedGroup(this._groupName,
+        this._includedGroupSearchId.replace(/\+/g, ' '), err => {
+          if (err.status === 404) {
+            this.dispatchEvent(new CustomEvent('show-alert', {
+              detail: {message: SAVING_ERROR_TEXT},
+              bubbles: true,
+              composed: true,
+            }));
+            return err;
+          }
+          throw Error(err.statusText);
+        })
+        .then(config => {
+          if (!config) {
+            return;
+          }
+          this.$.restAPI.getIncludedGroup(this._groupName)
+              .then(includedGroup => {
+                this._includedGroups = includedGroup;
+              });
+          this._includedGroupSearchName = '';
+          this._includedGroupSearchId = '';
+        });
+  }
+
+  _handleDeleteIncludedGroup(e) {
+    const id = decodeURIComponent(e.model.get('item.id')).replace(/\+/g, ' ');
+    const name = e.model.get('item.name');
+    const item = name || id;
+    if (!item) { return ''; }
+    this._itemName = item;
+    this._itemId = id;
+    this._itemType = 'includedGroup';
+    this.$.overlay.open();
+  }
+
+  _getAccountSuggestions(input) {
+    if (input.length === 0) { return Promise.resolve([]); }
+    return this.$.restAPI.getSuggestedAccounts(
+        input, SUGGESTIONS_LIMIT).then(accounts => {
+      const accountSuggestions = [];
+      let nameAndEmail;
+      if (!accounts) { return []; }
+      for (const key in accounts) {
+        if (!accounts.hasOwnProperty(key)) { continue; }
+        if (accounts[key].email !== undefined) {
+          nameAndEmail = accounts[key].name +
+                ' <' + accounts[key].email + '>';
+        } else {
+          nameAndEmail = accounts[key].name;
+        }
+        accountSuggestions.push({
+          name: nameAndEmail,
+          value: accounts[key]._account_id,
+        });
+      }
+      return accountSuggestions;
+    });
+  }
+
+  _getGroupSuggestions(input) {
+    return this.$.restAPI.getSuggestedGroups(input)
+        .then(response => {
+          const groups = [];
+          for (const key in response) {
+            if (!response.hasOwnProperty(key)) { continue; }
+            groups.push({
+              name: key,
+              value: decodeURIComponent(response[key].id),
+            });
+          }
+          return groups;
+        });
+  }
+
+  _computeHideItemClass(owner, admin) {
+    return admin || owner ? '' : 'canModify';
+  }
+}
+
+customElements.define(GrGroupMembers.is, GrGroupMembers);

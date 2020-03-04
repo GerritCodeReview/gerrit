@@ -19,17 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-coverage-layer</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../gr-diff/gr-diff-line.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../gr-diff/gr-diff-line.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<link rel="import" href="gr-coverage-layer.html">
+<script type="module" src="./gr-coverage-layer.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../gr-diff/gr-diff-line.js';
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-coverage-layer.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,106 +43,109 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-coverage-layer', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../gr-diff/gr-diff-line.js';
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-coverage-layer.js';
+suite('gr-coverage-layer', () => {
+  let element;
 
-    setup(() => {
-      const initialCoverageRanges = [
-        {
-          type: 'COVERED',
-          side: 'right',
-          code_range: {
-            start_line: 1,
-            end_line: 2,
-          },
+  setup(() => {
+    const initialCoverageRanges = [
+      {
+        type: 'COVERED',
+        side: 'right',
+        code_range: {
+          start_line: 1,
+          end_line: 2,
         },
-        {
-          type: 'NOT_COVERED',
-          side: 'right',
-          code_range: {
-            start_line: 3,
-            end_line: 4,
-          },
+      },
+      {
+        type: 'NOT_COVERED',
+        side: 'right',
+        code_range: {
+          start_line: 3,
+          end_line: 4,
         },
-        {
-          type: 'PARTIALLY_COVERED',
-          side: 'right',
-          code_range: {
-            start_line: 5,
-            end_line: 6,
-          },
+      },
+      {
+        type: 'PARTIALLY_COVERED',
+        side: 'right',
+        code_range: {
+          start_line: 5,
+          end_line: 6,
         },
-        {
-          type: 'NOT_INSTRUMENTED',
-          side: 'right',
-          code_range: {
-            start_line: 8,
-            end_line: 9,
-          },
+      },
+      {
+        type: 'NOT_INSTRUMENTED',
+        side: 'right',
+        code_range: {
+          start_line: 8,
+          end_line: 9,
         },
-      ];
+      },
+    ];
 
-      element = fixture('basic');
-      element.coverageRanges = initialCoverageRanges;
-      element.side = 'right';
+    element = fixture('basic');
+    element.coverageRanges = initialCoverageRanges;
+    element.side = 'right';
+  });
+
+  suite('annotate', () => {
+    function createLine(lineNumber) {
+      const lineEl = document.createElement('div');
+      lineEl.setAttribute('data-side', 'right');
+      lineEl.setAttribute('data-value', lineNumber);
+      lineEl.className = 'right';
+      return lineEl;
+    }
+
+    function checkLine(lineNumber, className, opt_negated) {
+      const line = createLine(lineNumber);
+      element.annotate(undefined, line, undefined);
+      let contains = line.classList.contains(className);
+      if (opt_negated) contains = !contains;
+      assert.isTrue(contains);
+    }
+
+    test('line 1-2 are covered', () => {
+      checkLine(1, 'COVERED');
+      checkLine(2, 'COVERED');
     });
 
-    suite('annotate', () => {
-      function createLine(lineNumber) {
-        const lineEl = document.createElement('div');
-        lineEl.setAttribute('data-side', 'right');
-        lineEl.setAttribute('data-value', lineNumber);
-        lineEl.className = 'right';
-        return lineEl;
-      }
+    test('line 3-4 are not covered', () => {
+      checkLine(3, 'NOT_COVERED');
+      checkLine(4, 'NOT_COVERED');
+    });
 
-      function checkLine(lineNumber, className, opt_negated) {
-        const line = createLine(lineNumber);
-        element.annotate(undefined, line, undefined);
-        let contains = line.classList.contains(className);
-        if (opt_negated) contains = !contains;
-        assert.isTrue(contains);
-      }
+    test('line 5-6 are partially covered', () => {
+      checkLine(5, 'PARTIALLY_COVERED');
+      checkLine(6, 'PARTIALLY_COVERED');
+    });
 
-      test('line 1-2 are covered', () => {
-        checkLine(1, 'COVERED');
-        checkLine(2, 'COVERED');
-      });
+    test('line 7 is implicitly not instrumented', () => {
+      checkLine(7, 'COVERED', true);
+      checkLine(7, 'NOT_COVERED', true);
+      checkLine(7, 'PARTIALLY_COVERED', true);
+      checkLine(7, 'NOT_INSTRUMENTED', true);
+    });
 
-      test('line 3-4 are not covered', () => {
-        checkLine(3, 'NOT_COVERED');
-        checkLine(4, 'NOT_COVERED');
-      });
+    test('line 8-9 are not instrumented', () => {
+      checkLine(8, 'NOT_INSTRUMENTED');
+      checkLine(9, 'NOT_INSTRUMENTED');
+    });
 
-      test('line 5-6 are partially covered', () => {
-        checkLine(5, 'PARTIALLY_COVERED');
-        checkLine(6, 'PARTIALLY_COVERED');
-      });
-
-      test('line 7 is implicitly not instrumented', () => {
-        checkLine(7, 'COVERED', true);
-        checkLine(7, 'NOT_COVERED', true);
-        checkLine(7, 'PARTIALLY_COVERED', true);
-        checkLine(7, 'NOT_INSTRUMENTED', true);
-      });
-
-      test('line 8-9 are not instrumented', () => {
-        checkLine(8, 'NOT_INSTRUMENTED');
-        checkLine(9, 'NOT_INSTRUMENTED');
-      });
-
-      test('coverage correct, if annotate is called out of order', () => {
-        checkLine(8, 'NOT_INSTRUMENTED');
-        checkLine(1, 'COVERED');
-        checkLine(5, 'PARTIALLY_COVERED');
-        checkLine(3, 'NOT_COVERED');
-        checkLine(6, 'PARTIALLY_COVERED');
-        checkLine(4, 'NOT_COVERED');
-        checkLine(9, 'NOT_INSTRUMENTED');
-        checkLine(2, 'COVERED');
-      });
+    test('coverage correct, if annotate is called out of order', () => {
+      checkLine(8, 'NOT_INSTRUMENTED');
+      checkLine(1, 'COVERED');
+      checkLine(5, 'PARTIALLY_COVERED');
+      checkLine(3, 'NOT_COVERED');
+      checkLine(6, 'PARTIALLY_COVERED');
+      checkLine(4, 'NOT_COVERED');
+      checkLine(9, 'NOT_INSTRUMENTED');
+      checkLine(2, 'COVERED');
     });
   });
+});
 </script>

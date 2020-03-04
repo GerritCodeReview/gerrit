@@ -14,193 +14,207 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  const AWAIT_MAX_ITERS = 10;
-  const AWAIT_STEP = 5;
+import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {IronOverlayBehaviorImpl} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
+import '@polymer/iron-dropdown/iron-dropdown.js';
+import '@polymer/paper-input/paper-input.js';
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../gr-button/gr-button.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-editable-label_html.js';
+
+const AWAIT_MAX_ITERS = 10;
+const AWAIT_STEP = 5;
+
+/**
+ * @appliesMixin Gerrit.FireMixin
+ * @appliesMixin Gerrit.KeyboardShortcutMixin
+ * @extends Polymer.Element
+ */
+class GrEditableLabel extends mixinBehaviors( [
+  Gerrit.FireBehavior,
+  Gerrit.KeyboardShortcutBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-editable-label'; }
+  /**
+   * Fired when the value is changed.
+   *
+   * @event changed
+   */
+
+  static get properties() {
+    return {
+      labelText: String,
+      editing: {
+        type: Boolean,
+        value: false,
+      },
+      value: {
+        type: String,
+        notify: true,
+        value: '',
+        observer: '_updateTitle',
+      },
+      placeholder: {
+        type: String,
+        value: '',
+      },
+      readOnly: {
+        type: Boolean,
+        value: false,
+      },
+      uppercase: {
+        type: Boolean,
+        reflectToAttribute: true,
+        value: false,
+      },
+      maxLength: Number,
+      _inputText: String,
+      // This is used to push the iron-input element up on the page, so
+      // the input is placed in approximately the same position as the
+      // trigger.
+      _verticalOffset: {
+        type: Number,
+        readOnly: true,
+        value: -30,
+      },
+    };
+  }
+
+  /** @override */
+  ready() {
+    super.ready();
+    this._ensureAttribute('tabindex', '0');
+  }
+
+  get keyBindings() {
+    return {
+      enter: '_handleEnter',
+      esc: '_handleEsc',
+    };
+  }
+
+  _usePlaceholder(value, placeholder) {
+    return (!value || !value.length) && placeholder;
+  }
+
+  _computeLabel(value, placeholder) {
+    if (this._usePlaceholder(value, placeholder)) {
+      return placeholder;
+    }
+    return value;
+  }
+
+  _showDropdown() {
+    if (this.readOnly || this.editing) { return; }
+    return this._open().then(() => {
+      this._nativeInput.focus();
+      if (!this.$.input.value) { return; }
+      this._nativeInput.setSelectionRange(0, this.$.input.value.length);
+    });
+  }
+
+  open() {
+    return this._open().then(() => {
+      this._nativeInput.focus();
+    });
+  }
+
+  _open(...args) {
+    this.$.dropdown.open();
+    this._inputText = this.value;
+    this.editing = true;
+
+    return new Promise(resolve => {
+      IronOverlayBehaviorImpl.open.apply(this.$.dropdown, args);
+      this._awaitOpen(resolve);
+    });
+  }
 
   /**
-   * @appliesMixin Gerrit.FireMixin
-   * @appliesMixin Gerrit.KeyboardShortcutMixin
-   * @extends Polymer.Element
+   * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
+   * opening. Eventually replace with a direct way to listen to the overlay.
    */
-  class GrEditableLabel extends Polymer.mixinBehaviors( [
-    Gerrit.FireBehavior,
-    Gerrit.KeyboardShortcutBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-editable-label'; }
-    /**
-     * Fired when the value is changed.
-     *
-     * @event changed
-     */
+  _awaitOpen(fn) {
+    let iters = 0;
+    const step = () => {
+      this.async(() => {
+        if (this.$.dropdown.style.display !== 'none') {
+          fn.call(this);
+        } else if (iters++ < AWAIT_MAX_ITERS) {
+          step.call(this);
+        }
+      }, AWAIT_STEP);
+    };
+    step.call(this);
+  }
 
-    static get properties() {
-      return {
-        labelText: String,
-        editing: {
-          type: Boolean,
-          value: false,
-        },
-        value: {
-          type: String,
-          notify: true,
-          value: '',
-          observer: '_updateTitle',
-        },
-        placeholder: {
-          type: String,
-          value: '',
-        },
-        readOnly: {
-          type: Boolean,
-          value: false,
-        },
-        uppercase: {
-          type: Boolean,
-          reflectToAttribute: true,
-          value: false,
-        },
-        maxLength: Number,
-        _inputText: String,
-        // This is used to push the iron-input element up on the page, so
-        // the input is placed in approximately the same position as the
-        // trigger.
-        _verticalOffset: {
-          type: Number,
-          readOnly: true,
-          value: -30,
-        },
-      };
-    }
+  _id() {
+    return this.getAttribute('id') || 'global';
+  }
 
-    /** @override */
-    ready() {
-      super.ready();
-      this._ensureAttribute('tabindex', '0');
-    }
+  _save() {
+    if (!this.editing) { return; }
+    this.$.dropdown.close();
+    this.value = this._inputText;
+    this.editing = false;
+    this.fire('changed', this.value);
+  }
 
-    get keyBindings() {
-      return {
-        enter: '_handleEnter',
-        esc: '_handleEsc',
-      };
-    }
+  _cancel() {
+    if (!this.editing) { return; }
+    this.$.dropdown.close();
+    this.editing = false;
+    this._inputText = this.value;
+  }
 
-    _usePlaceholder(value, placeholder) {
-      return (!value || !value.length) && placeholder;
-    }
+  get _nativeInput() {
+    // In Polymer 2, the namespace of nativeInput
+    // changed from input to nativeInput
+    return this.$.input.$.nativeInput || this.$.input.$.input;
+  }
 
-    _computeLabel(value, placeholder) {
-      if (this._usePlaceholder(value, placeholder)) {
-        return placeholder;
-      }
-      return value;
-    }
-
-    _showDropdown() {
-      if (this.readOnly || this.editing) { return; }
-      return this._open().then(() => {
-        this._nativeInput.focus();
-        if (!this.$.input.value) { return; }
-        this._nativeInput.setSelectionRange(0, this.$.input.value.length);
-      });
-    }
-
-    open() {
-      return this._open().then(() => {
-        this._nativeInput.focus();
-      });
-    }
-
-    _open(...args) {
-      this.$.dropdown.open();
-      this._inputText = this.value;
-      this.editing = true;
-
-      return new Promise(resolve => {
-        Polymer.IronOverlayBehaviorImpl.open.apply(this.$.dropdown, args);
-        this._awaitOpen(resolve);
-      });
-    }
-
-    /**
-     * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
-     * opening. Eventually replace with a direct way to listen to the overlay.
-     */
-    _awaitOpen(fn) {
-      let iters = 0;
-      const step = () => {
-        this.async(() => {
-          if (this.$.dropdown.style.display !== 'none') {
-            fn.call(this);
-          } else if (iters++ < AWAIT_MAX_ITERS) {
-            step.call(this);
-          }
-        }, AWAIT_STEP);
-      };
-      step.call(this);
-    }
-
-    _id() {
-      return this.getAttribute('id') || 'global';
-    }
-
-    _save() {
-      if (!this.editing) { return; }
-      this.$.dropdown.close();
-      this.value = this._inputText;
-      this.editing = false;
-      this.fire('changed', this.value);
-    }
-
-    _cancel() {
-      if (!this.editing) { return; }
-      this.$.dropdown.close();
-      this.editing = false;
-      this._inputText = this.value;
-    }
-
-    get _nativeInput() {
-      // In Polymer 2, the namespace of nativeInput
-      // changed from input to nativeInput
-      return this.$.input.$.nativeInput || this.$.input.$.input;
-    }
-
-    _handleEnter(e) {
-      e = this.getKeyboardEvent(e);
-      const target = Polymer.dom(e).rootTarget;
-      if (target === this._nativeInput) {
-        e.preventDefault();
-        this._save();
-      }
-    }
-
-    _handleEsc(e) {
-      e = this.getKeyboardEvent(e);
-      const target = Polymer.dom(e).rootTarget;
-      if (target === this._nativeInput) {
-        e.preventDefault();
-        this._cancel();
-      }
-    }
-
-    _computeLabelClass(readOnly, value, placeholder) {
-      const classes = [];
-      if (!readOnly) { classes.push('editable'); }
-      if (this._usePlaceholder(value, placeholder)) {
-        classes.push('placeholder');
-      }
-      return classes.join(' ');
-    }
-
-    _updateTitle(value) {
-      this.setAttribute('title', this._computeLabel(value, this.placeholder));
+  _handleEnter(e) {
+    e = this.getKeyboardEvent(e);
+    const target = dom(e).rootTarget;
+    if (target === this._nativeInput) {
+      e.preventDefault();
+      this._save();
     }
   }
 
-  customElements.define(GrEditableLabel.is, GrEditableLabel);
-})();
+  _handleEsc(e) {
+    e = this.getKeyboardEvent(e);
+    const target = dom(e).rootTarget;
+    if (target === this._nativeInput) {
+      e.preventDefault();
+      this._cancel();
+    }
+  }
+
+  _computeLabelClass(readOnly, value, placeholder) {
+    const classes = [];
+    if (!readOnly) { classes.push('editable'); }
+    if (this._usePlaceholder(value, placeholder)) {
+      classes.push('placeholder');
+    }
+    return classes.join(' ');
+  }
+
+  _updateTitle(value) {
+    this.setAttribute('title', this._computeLabel(value, this.placeholder));
+  }
+}
+
+customElements.define(GrEditableLabel.is, GrEditableLabel);

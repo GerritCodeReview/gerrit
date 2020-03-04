@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-error-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-error-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-error-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-error-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,18 +40,20 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-error-dialog tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-error-dialog.js';
+suite('gr-error-dialog tests', () => {
+  let element;
 
-    setup(() => {
-      element = fixture('basic');
-    });
-
-    test('dismiss tap fires event', done => {
-      element.addEventListener('dismiss', () => { done(); });
-      MockInteractions.tap(element.$.dialog.$.confirm);
-    });
+  setup(() => {
+    element = fixture('basic');
   });
+
+  test('dismiss tap fires event', done => {
+    element.addEventListener('dismiss', () => { done(); });
+    MockInteractions.tap(element.$.dialog.$.confirm);
+  });
+});
 </script>

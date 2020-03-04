@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-api-interface</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-js-api-interface.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-js-api-interface.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,523 +40,525 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-js-api-interface tests', async () => {
-    await readyToTest();
-    const {PLUGIN_LOADING_TIMEOUT_MS} = window._apiUtils;
-    let element;
-    let plugin;
-    let errorStub;
-    let sandbox;
-    let getResponseObjectStub;
-    let sendStub;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+suite('gr-js-api-interface tests', () => {
+  const {PLUGIN_LOADING_TIMEOUT_MS} = window._apiUtils;
+  let element;
+  let plugin;
+  let errorStub;
+  let sandbox;
+  let getResponseObjectStub;
+  let sendStub;
 
-    const throwErrFn = function() {
-      throw Error('Unfortunately, this handler has stopped');
+  const throwErrFn = function() {
+    throw Error('Unfortunately, this handler has stopped');
+  };
+
+  setup(() => {
+    window.clock = sinon.useFakeTimers();
+    sandbox = sinon.sandbox.create();
+    getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
+    sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
+    stub('gr-rest-api-interface', {
+      getAccount() {
+        return Promise.resolve({name: 'Judy Hopps'});
+      },
+      getResponseObject: getResponseObjectStub,
+      send(...args) {
+        return sendStub(...args);
+      },
+    });
+    element = fixture('basic');
+    errorStub = sandbox.stub(console, 'error');
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
+    Gerrit._loadPlugins([]);
+  });
+
+  teardown(() => {
+    window.clock.restore();
+    sandbox.restore();
+    element._removeEventCallbacks();
+    plugin = null;
+  });
+
+  test('url', () => {
+    assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
+    assert.equal(plugin.url('/static/test.js'),
+        'http://test.com/plugins/testplugin/static/test.js');
+  });
+
+  test('url for preloaded plugin without ASSETS_PATH', () => {
+    let plugin;
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'preloaded:testpluginB');
+    assert.equal(plugin.url(),
+        `${window.location.origin}/plugins/testpluginB/`);
+    assert.equal(plugin.url('/static/test.js'),
+        `${window.location.origin}/plugins/testpluginB/static/test.js`);
+  });
+
+  test('url for preloaded plugin without ASSETS_PATH', () => {
+    const oldAssetsPath = window.ASSETS_PATH;
+    window.ASSETS_PATH = 'http://test.com';
+    let plugin;
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'preloaded:testpluginC');
+    assert.equal(plugin.url(), `${window.ASSETS_PATH}/plugins/testpluginC/`);
+    assert.equal(plugin.url('/static/test.js'),
+        `${window.ASSETS_PATH}/plugins/testpluginC/static/test.js`);
+    window.ASSETS_PATH = oldAssetsPath;
+  });
+
+  test('_send on failure rejects with response text', () => {
+    sendStub.returns(Promise.resolve(
+        {status: 400, text() { return Promise.resolve('text'); }}));
+    return plugin._send().catch(r => {
+      assert.equal(r.message, 'text');
+    });
+  });
+
+  test('_send on failure without text rejects with code', () => {
+    sendStub.returns(Promise.resolve(
+        {status: 400, text() { return Promise.resolve(null); }}));
+    return plugin._send().catch(r => {
+      assert.equal(r.message, '400');
+    });
+  });
+
+  test('get', () => {
+    const response = {foo: 'foo'};
+    getResponseObjectStub.returns(Promise.resolve(response));
+    return plugin.get('/url', r => {
+      assert.isTrue(sendStub.calledWith(
+          'GET', 'http://test.com/plugins/testplugin/url'));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('get using Promise', () => {
+    const response = {foo: 'foo'};
+    getResponseObjectStub.returns(Promise.resolve(response));
+    return plugin.get('/url', r => 'rubbish').then(r => {
+      assert.isTrue(sendStub.calledWith(
+          'GET', 'http://test.com/plugins/testplugin/url'));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('post', () => {
+    const payload = {foo: 'foo'};
+    const response = {bar: 'bar'};
+    getResponseObjectStub.returns(Promise.resolve(response));
+    return plugin.post('/url', payload, r => {
+      assert.isTrue(sendStub.calledWith(
+          'POST', 'http://test.com/plugins/testplugin/url', payload));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('put', () => {
+    const payload = {foo: 'foo'};
+    const response = {bar: 'bar'};
+    getResponseObjectStub.returns(Promise.resolve(response));
+    return plugin.put('/url', payload, r => {
+      assert.isTrue(sendStub.calledWith(
+          'PUT', 'http://test.com/plugins/testplugin/url', payload));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('delete works', () => {
+    const response = {status: 204};
+    sendStub.returns(Promise.resolve(response));
+    return plugin.delete('/url', r => {
+      assert.isTrue(sendStub.calledWithExactly(
+          'DELETE', 'http://test.com/plugins/testplugin/url'));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('delete fails', () => {
+    sendStub.returns(Promise.resolve(
+        {status: 400, text() { return Promise.resolve('text'); }}));
+    return plugin.delete('/url', r => {
+      throw new Error('Should not resolve');
+    }).catch(err => {
+      assert.isTrue(sendStub.calledWith(
+          'DELETE', 'http://test.com/plugins/testplugin/url'));
+      assert.equal('text', err.message);
+    });
+  });
+
+  test('history event', done => {
+    plugin.on(element.EventType.HISTORY, throwErrFn);
+    plugin.on(element.EventType.HISTORY, path => {
+      assert.equal(path, '/path/to/awesomesauce');
+      assert.isTrue(errorStub.calledOnce);
+      done();
+    });
+    element.handleEvent(element.EventType.HISTORY,
+        {path: '/path/to/awesomesauce'});
+  });
+
+  test('showchange event', done => {
+    const testChange = {
+      _number: 42,
+      revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
+    const expectedChange = Object.assign({mergeable: false}, testChange);
+    plugin.on(element.EventType.SHOW_CHANGE, throwErrFn);
+    plugin.on(element.EventType.SHOW_CHANGE, (change, revision, info) => {
+      assert.deepEqual(change, expectedChange);
+      assert.deepEqual(revision, testChange.revisions.abc);
+      assert.deepEqual(info, {mergeable: false});
+      assert.isTrue(errorStub.calledOnce);
+      done();
+    });
+    element.handleEvent(element.EventType.SHOW_CHANGE,
+        {change: testChange, patchNum: 1, info: {mergeable: false}});
+  });
+
+  test('handleEvent awaits plugins load', done => {
+    const testChange = {
+      _number: 42,
+      revisions: {def: {_number: 2}, abc: {_number: 1}},
+    };
+    const spy = sandbox.spy();
+    Gerrit._loadPlugins(['plugins/test.html']);
+    plugin.on(element.EventType.SHOW_CHANGE, spy);
+    element.handleEvent(element.EventType.SHOW_CHANGE,
+        {change: testChange, patchNum: 1});
+    assert.isFalse(spy.called);
+
+    // Timeout on loading plugins
+    window.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
+
+    flush(() => {
+      assert.isTrue(spy.called);
+      done();
+    });
+  });
+
+  test('comment event', done => {
+    const testCommentNode = {foo: 'bar'};
+    plugin.on(element.EventType.COMMENT, throwErrFn);
+    plugin.on(element.EventType.COMMENT, commentNode => {
+      assert.deepEqual(commentNode, testCommentNode);
+      assert.isTrue(errorStub.calledOnce);
+      done();
+    });
+    element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
+  });
+
+  test('revert event', () => {
+    function appendToRevertMsg(c, revertMsg, originalMsg) {
+      return revertMsg + '\n' + originalMsg.replace(/^/gm, '> ') + '\ninfo';
+    }
+
+    assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'), 'test');
+    assert.equal(errorStub.callCount, 0);
+
+    plugin.on(element.EventType.REVERT, throwErrFn);
+    plugin.on(element.EventType.REVERT, appendToRevertMsg);
+    assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
+        'test\n> origTest\ninfo');
+    assert.isTrue(errorStub.calledOnce);
+
+    plugin.on(element.EventType.REVERT, appendToRevertMsg);
+    assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
+        'test\n> origTest\ninfo\n> origTest\ninfo');
+    assert.isTrue(errorStub.calledTwice);
+  });
+
+  test('postrevert event', () => {
+    function getLabels(c) {
+      return {'Code-Review': 1};
+    }
+
+    assert.deepEqual(element.getLabelValuesPostRevert(null), {});
+    assert.equal(errorStub.callCount, 0);
+
+    plugin.on(element.EventType.POST_REVERT, throwErrFn);
+    plugin.on(element.EventType.POST_REVERT, getLabels);
+    assert.deepEqual(
+        element.getLabelValuesPostRevert(null), {'Code-Review': 1});
+    assert.isTrue(errorStub.calledOnce);
+  });
+
+  test('commitmsgedit event', done => {
+    const testMsg = 'Test CL commit message';
+    plugin.on(element.EventType.COMMIT_MSG_EDIT, throwErrFn);
+    plugin.on(element.EventType.COMMIT_MSG_EDIT, (change, msg) => {
+      assert.deepEqual(msg, testMsg);
+      assert.isTrue(errorStub.calledOnce);
+      done();
+    });
+    element.handleCommitMessage(null, testMsg);
+  });
+
+  test('labelchange event', done => {
+    const testChange = {_number: 42};
+    plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);
+    plugin.on(element.EventType.LABEL_CHANGE, change => {
+      assert.deepEqual(change, testChange);
+      assert.isTrue(errorStub.calledOnce);
+      done();
+    });
+    element.handleEvent(element.EventType.LABEL_CHANGE, {change: testChange});
+  });
+
+  test('submitchange', () => {
+    plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
+    plugin.on(element.EventType.SUBMIT_CHANGE, () => true);
+    assert.isTrue(element.canSubmitChange());
+    assert.isTrue(errorStub.calledOnce);
+    plugin.on(element.EventType.SUBMIT_CHANGE, () => false);
+    plugin.on(element.EventType.SUBMIT_CHANGE, () => true);
+    assert.isFalse(element.canSubmitChange());
+    assert.isTrue(errorStub.calledTwice);
+  });
+
+  test('highlightjs-loaded event', done => {
+    const testHljs = {_number: 42};
+    plugin.on(element.EventType.HIGHLIGHTJS_LOADED, throwErrFn);
+    plugin.on(element.EventType.HIGHLIGHTJS_LOADED, hljs => {
+      assert.deepEqual(hljs, testHljs);
+      assert.isTrue(errorStub.calledOnce);
+      done();
+    });
+    element.handleEvent(element.EventType.HIGHLIGHTJS_LOADED, {hljs: testHljs});
+  });
+
+  test('getLoggedIn', done => {
+    // fake fetch for authCheck
+    sandbox.stub(window, 'fetch', () => Promise.resolve({status: 204}));
+    plugin.restApi().getLoggedIn()
+        .then(loggedIn => {
+          assert.isTrue(loggedIn);
+          done();
+        });
+  });
+
+  test('attributeHelper', () => {
+    assert.isOk(plugin.attributeHelper());
+  });
+
+  test('deprecated.install', () => {
+    plugin.deprecated.install();
+    assert.strictEqual(plugin.popup, plugin.deprecated.popup);
+    assert.strictEqual(plugin.onAction, plugin.deprecated.onAction);
+    assert.notStrictEqual(plugin.install, plugin.deprecated.install);
+  });
+
+  test('getAdminMenuLinks', () => {
+    const links = [{text: 'a', url: 'b'}, {text: 'c', url: 'd'}];
+    const getCallbacksStub = sandbox.stub(element, '_getEventCallbacks')
+        .returns([
+          {getMenuLinks: () => [links[0]]},
+          {getMenuLinks: () => [links[1]]},
+        ]);
+    const result = element.getAdminMenuLinks();
+    assert.deepEqual(result, links);
+    assert.isTrue(getCallbacksStub.calledOnce);
+    assert.equal(getCallbacksStub.lastCall.args[0],
+        element.EventType.ADMIN_MENU_LINKS);
+  });
+
+  suite('test plugin with base url', () => {
+    let baseUrlPlugin;
 
     setup(() => {
-      window.clock = sinon.useFakeTimers();
-      sandbox = sinon.sandbox.create();
-      getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
-      sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
-      stub('gr-rest-api-interface', {
-        getAccount() {
-          return Promise.resolve({name: 'Judy Hopps'});
-        },
-        getResponseObject: getResponseObjectStub,
-        send(...args) {
-          return sendStub(...args);
-        },
-      });
-      element = fixture('basic');
-      errorStub = sandbox.stub(console, 'error');
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      Gerrit._loadPlugins([]);
-    });
+      sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');
 
-    teardown(() => {
-      window.clock.restore();
-      sandbox.restore();
-      element._removeEventCallbacks();
-      plugin = null;
+      Gerrit.install(p => { baseUrlPlugin = p; }, '0.1',
+          'http://test.com/r/plugins/baseurlplugin/static/test.js');
     });
 
     test('url', () => {
-      assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
-      assert.equal(plugin.url('/static/test.js'),
-          'http://test.com/plugins/testplugin/static/test.js');
+      assert.notEqual(baseUrlPlugin.url(),
+          'http://test.com/plugins/baseurlplugin/');
+      assert.equal(baseUrlPlugin.url(),
+          'http://test.com/r/plugins/baseurlplugin/');
+      assert.equal(baseUrlPlugin.url('/static/test.js'),
+          'http://test.com/r/plugins/baseurlplugin/static/test.js');
+    });
+  });
+
+  suite('popup', () => {
+    test('popup(element) is deprecated', () => {
+      plugin.popup(document.createElement('div'));
+      assert.isTrue(console.error.calledOnce);
     });
 
-    test('url for preloaded plugin without ASSETS_PATH', () => {
-      let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'preloaded:testpluginB');
-      assert.equal(plugin.url(),
-          `${window.location.origin}/plugins/testpluginB/`);
-      assert.equal(plugin.url('/static/test.js'),
-          `${window.location.origin}/plugins/testpluginB/static/test.js`);
-    });
-
-    test('url for preloaded plugin without ASSETS_PATH', () => {
-      const oldAssetsPath = window.ASSETS_PATH;
-      window.ASSETS_PATH = 'http://test.com';
-      let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'preloaded:testpluginC');
-      assert.equal(plugin.url(), `${window.ASSETS_PATH}/plugins/testpluginC/`);
-      assert.equal(plugin.url('/static/test.js'),
-          `${window.ASSETS_PATH}/plugins/testpluginC/static/test.js`);
-      window.ASSETS_PATH = oldAssetsPath;
-    });
-
-    test('_send on failure rejects with response text', () => {
-      sendStub.returns(Promise.resolve(
-          {status: 400, text() { return Promise.resolve('text'); }}));
-      return plugin._send().catch(r => {
-        assert.equal(r.message, 'text');
+    test('popup(moduleName) creates popup with component', () => {
+      const openStub = sandbox.stub();
+      sandbox.stub(window, 'GrPopupInterface').returns({
+        open: openStub,
       });
+      plugin.popup('some-name');
+      assert.isTrue(openStub.calledOnce);
+      assert.isTrue(GrPopupInterface.calledWith(plugin, 'some-name'));
     });
 
-    test('_send on failure without text rejects with code', () => {
-      sendStub.returns(Promise.resolve(
-          {status: 400, text() { return Promise.resolve(null); }}));
-      return plugin._send().catch(r => {
-        assert.equal(r.message, '400');
-      });
+    test('deprecated.popup(element) creates popup with element', () => {
+      const el = document.createElement('div');
+      el.textContent = 'some text here';
+      const openStub = sandbox.stub(GrPopupInterface.prototype, 'open');
+      openStub.returns(Promise.resolve({
+        _getElement() {
+          return document.createElement('div');
+        }}));
+      plugin.deprecated.popup(el);
+      assert.isTrue(openStub.calledOnce);
     });
+  });
 
-    test('get', () => {
-      const response = {foo: 'foo'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return plugin.get('/url', r => {
-        assert.isTrue(sendStub.calledWith(
-            'GET', 'http://test.com/plugins/testplugin/url'));
-        assert.strictEqual(r, response);
-      });
-    });
+  suite('onAction', () => {
+    let change;
+    let revision;
+    let actionDetails;
 
-    test('get using Promise', () => {
-      const response = {foo: 'foo'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return plugin.get('/url', r => 'rubbish').then(r => {
-        assert.isTrue(sendStub.calledWith(
-            'GET', 'http://test.com/plugins/testplugin/url'));
-        assert.strictEqual(r, response);
+    setup(() => {
+      change = {};
+      revision = {};
+      actionDetails = {__key: 'some'};
+      sandbox.stub(plugin, 'on').callsArgWith(1, change, revision);
+      sandbox.stub(plugin, 'changeActions').returns({
+        addTapListener: sandbox.stub().callsArg(1),
+        getActionDetails: () => actionDetails,
       });
     });
 
-    test('post', () => {
-      const payload = {foo: 'foo'};
-      const response = {bar: 'bar'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return plugin.post('/url', payload, r => {
-        assert.isTrue(sendStub.calledWith(
-            'POST', 'http://test.com/plugins/testplugin/url', payload));
-        assert.strictEqual(r, response);
+    test('returns GrPluginActionContext', () => {
+      const stub = sandbox.stub();
+      plugin.deprecated.onAction('change', 'foo', ctx => {
+        assert.isTrue(ctx instanceof GrPluginActionContext);
+        assert.strictEqual(ctx.change, change);
+        assert.strictEqual(ctx.revision, revision);
+        assert.strictEqual(ctx.action, actionDetails);
+        assert.strictEqual(ctx.plugin, plugin);
+        stub();
       });
+      assert.isTrue(stub.called);
     });
 
-    test('put', () => {
-      const payload = {foo: 'foo'};
-      const response = {bar: 'bar'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return plugin.put('/url', payload, r => {
-        assert.isTrue(sendStub.calledWith(
-            'PUT', 'http://test.com/plugins/testplugin/url', payload));
-        assert.strictEqual(r, response);
-      });
+    test('other actions', () => {
+      const stub = sandbox.stub();
+      plugin.deprecated.onAction('project', 'foo', stub);
+      plugin.deprecated.onAction('edit', 'foo', stub);
+      plugin.deprecated.onAction('branch', 'foo', stub);
+      assert.isFalse(stub.called);
+    });
+  });
+
+  suite('screen', () => {
+    test('screenUrl()', () => {
+      sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/base');
+      assert.equal(plugin.screenUrl(), 'http://test.com/base/x/testplugin');
+      assert.equal(
+          plugin.screenUrl('foo'), 'http://test.com/base/x/testplugin/foo');
     });
 
-    test('delete works', () => {
-      const response = {status: 204};
-      sendStub.returns(Promise.resolve(response));
-      return plugin.delete('/url', r => {
-        assert.isTrue(sendStub.calledWithExactly(
-            'DELETE', 'http://test.com/plugins/testplugin/url'));
-        assert.strictEqual(r, response);
-      });
+    test('deprecated works', () => {
+      const stub = sandbox.stub();
+      const hookStub = {onAttached: sandbox.stub()};
+      sandbox.stub(plugin, 'hook').returns(hookStub);
+      plugin.deprecated.screen('foo', stub);
+      assert.isTrue(plugin.hook.calledWith('testplugin-screen-foo'));
+      const fakeEl = {style: {display: ''}};
+      hookStub.onAttached.callArgWith(0, fakeEl);
+      assert.isTrue(stub.called);
+      assert.equal(fakeEl.style.display, 'none');
     });
 
-    test('delete fails', () => {
-      sendStub.returns(Promise.resolve(
-          {status: 400, text() { return Promise.resolve('text'); }}));
-      return plugin.delete('/url', r => {
-        throw new Error('Should not resolve');
-      }).catch(err => {
-        assert.isTrue(sendStub.calledWith(
-            'DELETE', 'http://test.com/plugins/testplugin/url'));
-        assert.equal('text', err.message);
-      });
+    test('works', () => {
+      sandbox.stub(plugin, 'registerCustomComponent');
+      plugin.screen('foo', 'some-module');
+      assert.isTrue(plugin.registerCustomComponent.calledWith(
+          'testplugin-screen-foo', 'some-module'));
+    });
+  });
+
+  suite('panel', () => {
+    let fakeEl;
+    let emulateAttached;
+
+    setup(()=> {
+      fakeEl = {change: {}, revision: {}};
+      const hookStub = {onAttached: sandbox.stub()};
+      sandbox.stub(plugin, 'hook').returns(hookStub);
+      emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
     });
 
-    test('history event', done => {
-      plugin.on(element.EventType.HISTORY, throwErrFn);
-      plugin.on(element.EventType.HISTORY, path => {
-        assert.equal(path, '/path/to/awesomesauce');
-        assert.isTrue(errorStub.calledOnce);
-        done();
-      });
-      element.handleEvent(element.EventType.HISTORY,
-          {path: '/path/to/awesomesauce'});
+    test('plugin.panel is deprecated', () => {
+      plugin.panel('rubbish');
+      assert.isTrue(console.error.called);
     });
 
-    test('showchange event', done => {
-      const testChange = {
-        _number: 42,
-        revisions: {def: {_number: 2}, abc: {_number: 1}},
-      };
-      const expectedChange = Object.assign({mergeable: false}, testChange);
-      plugin.on(element.EventType.SHOW_CHANGE, throwErrFn);
-      plugin.on(element.EventType.SHOW_CHANGE, (change, revision, info) => {
-        assert.deepEqual(change, expectedChange);
-        assert.deepEqual(revision, testChange.revisions.abc);
-        assert.deepEqual(info, {mergeable: false});
-        assert.isTrue(errorStub.calledOnce);
-        done();
-      });
-      element.handleEvent(element.EventType.SHOW_CHANGE,
-          {change: testChange, patchNum: 1, info: {mergeable: false}});
-    });
-
-    test('handleEvent awaits plugins load', done => {
-      const testChange = {
-        _number: 42,
-        revisions: {def: {_number: 2}, abc: {_number: 1}},
-      };
-      const spy = sandbox.spy();
-      Gerrit._loadPlugins(['plugins/test.html']);
-      plugin.on(element.EventType.SHOW_CHANGE, spy);
-      element.handleEvent(element.EventType.SHOW_CHANGE,
-          {change: testChange, patchNum: 1});
-      assert.isFalse(spy.called);
-
-      // Timeout on loading plugins
-      window.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
-
-      flush(() => {
-        assert.isTrue(spy.called);
-        done();
-      });
-    });
-
-    test('comment event', done => {
-      const testCommentNode = {foo: 'bar'};
-      plugin.on(element.EventType.COMMENT, throwErrFn);
-      plugin.on(element.EventType.COMMENT, commentNode => {
-        assert.deepEqual(commentNode, testCommentNode);
-        assert.isTrue(errorStub.calledOnce);
-        done();
-      });
-      element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
-    });
-
-    test('revert event', () => {
-      function appendToRevertMsg(c, revertMsg, originalMsg) {
-        return revertMsg + '\n' + originalMsg.replace(/^/gm, '> ') + '\ninfo';
-      }
-
-      assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'), 'test');
-      assert.equal(errorStub.callCount, 0);
-
-      plugin.on(element.EventType.REVERT, throwErrFn);
-      plugin.on(element.EventType.REVERT, appendToRevertMsg);
-      assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
-          'test\n> origTest\ninfo');
-      assert.isTrue(errorStub.calledOnce);
-
-      plugin.on(element.EventType.REVERT, appendToRevertMsg);
-      assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
-          'test\n> origTest\ninfo\n> origTest\ninfo');
-      assert.isTrue(errorStub.calledTwice);
-    });
-
-    test('postrevert event', () => {
-      function getLabels(c) {
-        return {'Code-Review': 1};
-      }
-
-      assert.deepEqual(element.getLabelValuesPostRevert(null), {});
-      assert.equal(errorStub.callCount, 0);
-
-      plugin.on(element.EventType.POST_REVERT, throwErrFn);
-      plugin.on(element.EventType.POST_REVERT, getLabels);
-      assert.deepEqual(
-          element.getLabelValuesPostRevert(null), {'Code-Review': 1});
-      assert.isTrue(errorStub.calledOnce);
-    });
-
-    test('commitmsgedit event', done => {
-      const testMsg = 'Test CL commit message';
-      plugin.on(element.EventType.COMMIT_MSG_EDIT, throwErrFn);
-      plugin.on(element.EventType.COMMIT_MSG_EDIT, (change, msg) => {
-        assert.deepEqual(msg, testMsg);
-        assert.isTrue(errorStub.calledOnce);
-        done();
-      });
-      element.handleCommitMessage(null, testMsg);
-    });
-
-    test('labelchange event', done => {
-      const testChange = {_number: 42};
-      plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);
-      plugin.on(element.EventType.LABEL_CHANGE, change => {
-        assert.deepEqual(change, testChange);
-        assert.isTrue(errorStub.calledOnce);
-        done();
-      });
-      element.handleEvent(element.EventType.LABEL_CHANGE, {change: testChange});
-    });
-
-    test('submitchange', () => {
-      plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
-      plugin.on(element.EventType.SUBMIT_CHANGE, () => true);
-      assert.isTrue(element.canSubmitChange());
-      assert.isTrue(errorStub.calledOnce);
-      plugin.on(element.EventType.SUBMIT_CHANGE, () => false);
-      plugin.on(element.EventType.SUBMIT_CHANGE, () => true);
-      assert.isFalse(element.canSubmitChange());
-      assert.isTrue(errorStub.calledTwice);
-    });
-
-    test('highlightjs-loaded event', done => {
-      const testHljs = {_number: 42};
-      plugin.on(element.EventType.HIGHLIGHTJS_LOADED, throwErrFn);
-      plugin.on(element.EventType.HIGHLIGHTJS_LOADED, hljs => {
-        assert.deepEqual(hljs, testHljs);
-        assert.isTrue(errorStub.calledOnce);
-        done();
-      });
-      element.handleEvent(element.EventType.HIGHLIGHTJS_LOADED, {hljs: testHljs});
-    });
-
-    test('getLoggedIn', done => {
-      // fake fetch for authCheck
-      sandbox.stub(window, 'fetch', () => Promise.resolve({status: 204}));
-      plugin.restApi().getLoggedIn()
-          .then(loggedIn => {
-            assert.isTrue(loggedIn);
-            done();
-          });
-    });
-
-    test('attributeHelper', () => {
-      assert.isOk(plugin.attributeHelper());
-    });
-
-    test('deprecated.install', () => {
-      plugin.deprecated.install();
-      assert.strictEqual(plugin.popup, plugin.deprecated.popup);
-      assert.strictEqual(plugin.onAction, plugin.deprecated.onAction);
-      assert.notStrictEqual(plugin.install, plugin.deprecated.install);
-    });
-
-    test('getAdminMenuLinks', () => {
-      const links = [{text: 'a', url: 'b'}, {text: 'c', url: 'd'}];
-      const getCallbacksStub = sandbox.stub(element, '_getEventCallbacks')
-          .returns([
-            {getMenuLinks: () => [links[0]]},
-            {getMenuLinks: () => [links[1]]},
-          ]);
-      const result = element.getAdminMenuLinks();
-      assert.deepEqual(result, links);
-      assert.isTrue(getCallbacksStub.calledOnce);
-      assert.equal(getCallbacksStub.lastCall.args[0],
-          element.EventType.ADMIN_MENU_LINKS);
-    });
-
-    suite('test plugin with base url', () => {
-      let baseUrlPlugin;
-
-      setup(() => {
-        sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');
-
-        Gerrit.install(p => { baseUrlPlugin = p; }, '0.1',
-            'http://test.com/r/plugins/baseurlplugin/static/test.js');
-      });
-
-      test('url', () => {
-        assert.notEqual(baseUrlPlugin.url(),
-            'http://test.com/plugins/baseurlplugin/');
-        assert.equal(baseUrlPlugin.url(),
-            'http://test.com/r/plugins/baseurlplugin/');
-        assert.equal(baseUrlPlugin.url('/static/test.js'),
-            'http://test.com/r/plugins/baseurlplugin/static/test.js');
-      });
-    });
-
-    suite('popup', () => {
-      test('popup(element) is deprecated', () => {
-        plugin.popup(document.createElement('div'));
-        assert.isTrue(console.error.calledOnce);
-      });
-
-      test('popup(moduleName) creates popup with component', () => {
-        const openStub = sandbox.stub();
-        sandbox.stub(window, 'GrPopupInterface').returns({
-          open: openStub,
-        });
-        plugin.popup('some-name');
-        assert.isTrue(openStub.calledOnce);
-        assert.isTrue(GrPopupInterface.calledWith(plugin, 'some-name'));
-      });
-
-      test('deprecated.popup(element) creates popup with element', () => {
-        const el = document.createElement('div');
-        el.textContent = 'some text here';
-        const openStub = sandbox.stub(GrPopupInterface.prototype, 'open');
-        openStub.returns(Promise.resolve({
-          _getElement() {
-            return document.createElement('div');
-          }}));
-        plugin.deprecated.popup(el);
-        assert.isTrue(openStub.calledOnce);
-      });
-    });
-
-    suite('onAction', () => {
-      let change;
-      let revision;
-      let actionDetails;
-
-      setup(() => {
-        change = {};
-        revision = {};
-        actionDetails = {__key: 'some'};
-        sandbox.stub(plugin, 'on').callsArgWith(1, change, revision);
-        sandbox.stub(plugin, 'changeActions').returns({
-          addTapListener: sandbox.stub().callsArg(1),
-          getActionDetails: () => actionDetails,
-        });
-      });
-
-      test('returns GrPluginActionContext', () => {
-        const stub = sandbox.stub();
-        plugin.deprecated.onAction('change', 'foo', ctx => {
-          assert.isTrue(ctx instanceof GrPluginActionContext);
-          assert.strictEqual(ctx.change, change);
-          assert.strictEqual(ctx.revision, revision);
-          assert.strictEqual(ctx.action, actionDetails);
-          assert.strictEqual(ctx.plugin, plugin);
-          stub();
-        });
-        assert.isTrue(stub.called);
-      });
-
-      test('other actions', () => {
-        const stub = sandbox.stub();
-        plugin.deprecated.onAction('project', 'foo', stub);
-        plugin.deprecated.onAction('edit', 'foo', stub);
-        plugin.deprecated.onAction('branch', 'foo', stub);
-        assert.isFalse(stub.called);
-      });
-    });
-
-    suite('screen', () => {
-      test('screenUrl()', () => {
-        sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/base');
-        assert.equal(plugin.screenUrl(), 'http://test.com/base/x/testplugin');
-        assert.equal(
-            plugin.screenUrl('foo'), 'http://test.com/base/x/testplugin/foo');
-      });
-
-      test('deprecated works', () => {
-        const stub = sandbox.stub();
-        const hookStub = {onAttached: sandbox.stub()};
-        sandbox.stub(plugin, 'hook').returns(hookStub);
-        plugin.deprecated.screen('foo', stub);
-        assert.isTrue(plugin.hook.calledWith('testplugin-screen-foo'));
-        const fakeEl = {style: {display: ''}};
-        hookStub.onAttached.callArgWith(0, fakeEl);
-        assert.isTrue(stub.called);
-        assert.equal(fakeEl.style.display, 'none');
-      });
-
-      test('works', () => {
-        sandbox.stub(plugin, 'registerCustomComponent');
-        plugin.screen('foo', 'some-module');
-        assert.isTrue(plugin.registerCustomComponent.calledWith(
-            'testplugin-screen-foo', 'some-module'));
-      });
-    });
-
-    suite('panel', () => {
-      let fakeEl;
-      let emulateAttached;
-
-      setup(()=> {
-        fakeEl = {change: {}, revision: {}};
-        const hookStub = {onAttached: sandbox.stub()};
-        sandbox.stub(plugin, 'hook').returns(hookStub);
-        emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
-      });
-
-      test('plugin.panel is deprecated', () => {
-        plugin.panel('rubbish');
-        assert.isTrue(console.error.called);
-      });
-
-      [
-        ['CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK', 'change-view-integration'],
-        ['CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK', 'change-metadata-item'],
-      ].forEach(([panelName, endpointName]) => {
-        test(`deprecated.panel works for ${panelName}`, () => {
-          const callback = sandbox.stub();
-          plugin.deprecated.panel(panelName, callback);
-          assert.isTrue(plugin.hook.calledWith(endpointName));
-          emulateAttached();
-          assert.isTrue(callback.called);
-          const args = callback.args[0][0];
-          assert.strictEqual(args.body, fakeEl);
-          assert.strictEqual(args.p.CHANGE_INFO, fakeEl.change);
-          assert.strictEqual(args.p.REVISION_INFO, fakeEl.revision);
-        });
-      });
-    });
-
-    suite('settingsScreen', () => {
-      test('plugin.settingsScreen is deprecated', () => {
-        plugin.settingsScreen('rubbish');
-        assert.isTrue(console.error.called);
-      });
-
-      test('plugin.settings() returns GrSettingsApi', () => {
-        assert.isOk(plugin.settings());
-        assert.isTrue(plugin.settings() instanceof GrSettingsApi);
-      });
-
-      test('plugin.deprecated.settingsScreen() works', () => {
-        const hookStub = {onAttached: sandbox.stub()};
-        sandbox.stub(plugin, 'hook').returns(hookStub);
-        const fakeSettings = {};
-        fakeSettings.title = sandbox.stub().returns(fakeSettings);
-        fakeSettings.token = sandbox.stub().returns(fakeSettings);
-        fakeSettings.module = sandbox.stub().returns(fakeSettings);
-        fakeSettings.build = sandbox.stub().returns(hookStub);
-        sandbox.stub(plugin, 'settings').returns(fakeSettings);
+    [
+      ['CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK', 'change-view-integration'],
+      ['CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK', 'change-metadata-item'],
+    ].forEach(([panelName, endpointName]) => {
+      test(`deprecated.panel works for ${panelName}`, () => {
         const callback = sandbox.stub();
-
-        plugin.deprecated.settingsScreen('path', 'menu', callback);
-        assert.isTrue(fakeSettings.title.calledWith('menu'));
-        assert.isTrue(fakeSettings.token.calledWith('path'));
-        assert.isTrue(fakeSettings.module.calledWith('div'));
-        assert.equal(fakeSettings.build.callCount, 1);
-
-        const fakeBody = {};
-        const fakeEl = {
-          style: {
-            display: '',
-          },
-          querySelector: sandbox.stub().returns(fakeBody),
-        };
-        // Emulate settings screen attached
-        hookStub.onAttached.callArgWith(0, fakeEl);
+        plugin.deprecated.panel(panelName, callback);
+        assert.isTrue(plugin.hook.calledWith(endpointName));
+        emulateAttached();
         assert.isTrue(callback.called);
         const args = callback.args[0][0];
-        assert.strictEqual(args.body, fakeBody);
-        assert.equal(fakeEl.style.display, 'none');
+        assert.strictEqual(args.body, fakeEl);
+        assert.strictEqual(args.p.CHANGE_INFO, fakeEl.change);
+        assert.strictEqual(args.p.REVISION_INFO, fakeEl.revision);
       });
     });
   });
+
+  suite('settingsScreen', () => {
+    test('plugin.settingsScreen is deprecated', () => {
+      plugin.settingsScreen('rubbish');
+      assert.isTrue(console.error.called);
+    });
+
+    test('plugin.settings() returns GrSettingsApi', () => {
+      assert.isOk(plugin.settings());
+      assert.isTrue(plugin.settings() instanceof GrSettingsApi);
+    });
+
+    test('plugin.deprecated.settingsScreen() works', () => {
+      const hookStub = {onAttached: sandbox.stub()};
+      sandbox.stub(plugin, 'hook').returns(hookStub);
+      const fakeSettings = {};
+      fakeSettings.title = sandbox.stub().returns(fakeSettings);
+      fakeSettings.token = sandbox.stub().returns(fakeSettings);
+      fakeSettings.module = sandbox.stub().returns(fakeSettings);
+      fakeSettings.build = sandbox.stub().returns(hookStub);
+      sandbox.stub(plugin, 'settings').returns(fakeSettings);
+      const callback = sandbox.stub();
+
+      plugin.deprecated.settingsScreen('path', 'menu', callback);
+      assert.isTrue(fakeSettings.title.calledWith('menu'));
+      assert.isTrue(fakeSettings.token.calledWith('path'));
+      assert.isTrue(fakeSettings.module.calledWith('div'));
+      assert.equal(fakeSettings.build.callCount, 1);
+
+      const fakeBody = {};
+      const fakeEl = {
+        style: {
+          display: '',
+        },
+        querySelector: sandbox.stub().returns(fakeBody),
+      };
+      // Emulate settings screen attached
+      hookStub.onAttached.callArgWith(0, fakeEl);
+      assert.isTrue(callback.called);
+      const args = callback.args[0][0];
+      assert.strictEqual(args.body, fakeBody);
+      assert.equal(fakeEl.style.display, 'none');
+    });
+  });
+});
 </script>

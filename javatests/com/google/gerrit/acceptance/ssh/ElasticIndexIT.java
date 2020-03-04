@@ -24,7 +24,7 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 
 /** Tests for every supported {@link IndexType#isElasticsearch()} most recent index version. */
-public class ElasticIndexIT extends AbstractIndexTests {
+public class ElasticIndexIT extends AbstractOnDiskIndexTests {
 
   @ConfigSuite.Default
   public static Config elasticsearchV6() {

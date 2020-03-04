@@ -32,9 +32,9 @@
 
     static get properties() {
       return {
-      /**
-       * @type {{ name: string, status: string }}
-       */
+        /**
+         * @type {{ name: string, status: string }}
+         */
         account: Object,
         title: {
           type: String,
@@ -68,11 +68,6 @@
 
     _computeName(account, config) {
       return this.getUserName(config, account, false);
-    }
-
-    _computeStatusTextLength(account, config) {
-      // 35 as the max length of the name + status
-      return Math.max(10, 35 - this._computeName(account, config).length);
     }
 
     _computeAccountTitle(account, tooltip) {

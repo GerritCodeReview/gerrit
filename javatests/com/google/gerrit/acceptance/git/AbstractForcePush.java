@@ -21,7 +21,6 @@ import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.OK;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -31,8 +30,7 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
-@NoHttpd
-public class ForcePushIT extends AbstractDaemonTest {
+public abstract class AbstractForcePush extends AbstractDaemonTest {
 
   @Test
   public void forcePushNotAllowed() throws Exception {

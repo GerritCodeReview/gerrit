@@ -73,6 +73,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "set-project",
           "set-project-parent",
           "set-reviewers",
+          "set-topic",
           "stream-events",
           "test-submit");
 

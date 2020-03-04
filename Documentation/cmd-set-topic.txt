@@ -1,0 +1,50 @@
+= gerrit set-topic
+
+== NAME
+gerrit set-topic - Set the topic for a change.
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit set-topic_
+  <TOPIC>
+  <PROJECT>
+  <BRANCH>
+  <CHANGE-ID>
+--
+
+== DESCRIPTION
+Sets the topic for the specified change.
+
+== ACCESS
+Caller must have the rights to modify the topic of the specified change.
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+== OPTIONS
+<TOPIC>::
+	Required; new topic name.
+
+<PROJECT>::
+	Required; project to find the change in.
+
+<BRANCH>::
+        Required; project branch to find the change in.
+
+<CHANGE-ID>::
+        Required; Change-Id to set topic for.
+
+== EXAMPLES
+Set the topic of the change "I6686e64a788365bd252df69ae5b3ec9d65aaf068" in "MyProject" on branch "master" to "MyTopic".
+
+----
+$ ssh -p 29418 user@review.example.com gerrit set-topic MyTopic MyProject master I6686e64a788365bd252df69ae5b3ec9d65aaf068
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

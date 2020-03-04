@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "60054680_3f9ff092",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-03-04T15:51:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3d3f3b3_52ad241b",
+      "revId": "f1aa886f57cd2fffc871b78b3bf82c0be7e24576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7612989_060dd809",
         "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "f1aa886f57cd2fffc871b78b3bf82c0be7e24576",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12428b7d_81dc64de",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-03-04T15:51:27Z",
+      "side": 1,
+      "message": "Done.\n\nLet me also do that for the other JsonLayouts in separate changes beginning from stable-2.16.",
+      "parentUuid": "a7612989_060dd809",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 5
+      },
+      "revId": "f1aa886f57cd2fffc871b78b3bf82c0be7e24576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

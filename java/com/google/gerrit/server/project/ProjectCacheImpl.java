@@ -164,11 +164,6 @@ public class ProjectCacheImpl implements ProjectCache {
     }
   }
 
-  @Override
-  public ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception {
-    return strict ? strictCheckedGet(projectName) : checkedGet(projectName);
-  }
-
   private ProjectState strictCheckedGet(Project.NameKey projectName) throws Exception {
     ProjectState state = byName.get(projectName.get());
     if (state != null && state.needsRefresh(clock.read())) {

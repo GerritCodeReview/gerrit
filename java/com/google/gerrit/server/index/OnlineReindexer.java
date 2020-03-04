@@ -98,10 +98,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
 
   private void reindex() {
     listeners.runEach(listener -> listener.onStart(name, oldVersion, newVersion));
-    index =
-        requireNonNull(
-            indexes.getWriteIndex(newVersion),
-            () -> String.format("not an active write schema version: %s %s", name, newVersion));
+    setIndex();
     logger.atInfo().log(
         "Starting online reindex of %s from schema version %s to %s",
         name, version(indexes.getSearchIndex()), version(index));
@@ -141,5 +138,15 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
       i.markReady(false);
       indexes.removeWriteIndex(version(i));
     }
+  }
+
+  /**
+   * Initializes the index.
+   */
+  public void setIndex() {
+    index =
+        requireNonNull(
+            indexes.getWriteIndex(newVersion),
+            () -> String.format("not an active write schema version: %s %s", name, newVersion));
   }
 }

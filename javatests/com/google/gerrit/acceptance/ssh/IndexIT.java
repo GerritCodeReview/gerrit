@@ -17,4 +17,4 @@ package com.google.gerrit.acceptance.ssh;
 import com.google.gerrit.index.IndexType;
 
 /** Tests for the default {@link IndexType#isLucene()} index configuration. */
-public class IndexIT extends AbstractIndexTests {}
+public class IndexIT extends AbstractOnDiskIndexTests {}

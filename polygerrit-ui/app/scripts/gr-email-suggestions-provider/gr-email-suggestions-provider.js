@@ -36,7 +36,7 @@
 
     makeSuggestionItem(account) {
       return {
-        name: GrDisplayNameUtils.getAccountDisplayName(null, account, true),
+        name: GrDisplayNameUtils.getAccountDisplayName(null, account),
         value: {account, count: 1},
       };
     }

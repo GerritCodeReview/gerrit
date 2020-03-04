@@ -87,7 +87,7 @@
         // Reviewer is an account suggestion from getChangeSuggestedReviewers.
         return {
           name: GrDisplayNameUtils.getAccountDisplayName(this._config,
-              suggestion.account, false),
+              suggestion.account),
           value: suggestion,
         };
       }
@@ -104,7 +104,7 @@
         // Reviewer is an account suggestion from getSuggestedAccounts.
         return {
           name: GrDisplayNameUtils.getAccountDisplayName(this._config,
-              suggestion, false),
+              suggestion),
           value: {account: suggestion, count: 1},
         };
       }

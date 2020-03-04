@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-download-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-download-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-download-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-download-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -41,183 +46,186 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  function getChangeObject() {
-    return {
-      current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
-      revisions: {
-        '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
-          _number: 1,
-          commit: {
-            parents: [],
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-download-dialog.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+function getChangeObject() {
+  return {
+    current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
+    revisions: {
+      '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
+        _number: 1,
+        commit: {
+          parents: [],
+        },
+        fetch: {
+          repo: {
+            commands: {
+              repo: 'repo download test-project 5/1',
+            },
           },
-          fetch: {
-            repo: {
-              commands: {
-                repo: 'repo download test-project 5/1',
-              },
+          ssh: {
+            commands: {
+              'Checkout':
+                'git fetch ' +
+                'ssh://andybons@localhost:29418/test-project ' +
+                'refs/changes/05/5/1 && git checkout FETCH_HEAD',
+              'Cherry Pick':
+                'git fetch ' +
+                'ssh://andybons@localhost:29418/test-project ' +
+                'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
+              'Format Patch':
+                'git fetch ' +
+                'ssh://andybons@localhost:29418/test-project ' +
+                'refs/changes/05/5/1 ' +
+                '&& git format-patch -1 --stdout FETCH_HEAD',
+              'Pull':
+                'git pull ' +
+                'ssh://andybons@localhost:29418/test-project ' +
+                'refs/changes/05/5/1',
             },
-            ssh: {
-              commands: {
-                'Checkout':
-                  'git fetch ' +
-                  'ssh://andybons@localhost:29418/test-project ' +
-                  'refs/changes/05/5/1 && git checkout FETCH_HEAD',
-                'Cherry Pick':
-                  'git fetch ' +
-                  'ssh://andybons@localhost:29418/test-project ' +
-                  'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
-                'Format Patch':
-                  'git fetch ' +
-                  'ssh://andybons@localhost:29418/test-project ' +
-                  'refs/changes/05/5/1 ' +
-                  '&& git format-patch -1 --stdout FETCH_HEAD',
-                'Pull':
-                  'git pull ' +
-                  'ssh://andybons@localhost:29418/test-project ' +
-                  'refs/changes/05/5/1',
-              },
-            },
-            http: {
-              commands: {
-                'Checkout':
-                  'git fetch ' +
-                  'http://andybons@localhost:8080/a/test-project ' +
-                  'refs/changes/05/5/1 && git checkout FETCH_HEAD',
-                'Cherry Pick':
-                  'git fetch ' +
-                  'http://andybons@localhost:8080/a/test-project ' +
-                  'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
-                'Format Patch':
-                  'git fetch ' +
-                  'http://andybons@localhost:8080/a/test-project ' +
-                  'refs/changes/05/5/1 && ' +
-                  'git format-patch -1 --stdout FETCH_HEAD',
-                'Pull':
-                  'git pull ' +
-                  'http://andybons@localhost:8080/a/test-project ' +
-                  'refs/changes/05/5/1',
-              },
+          },
+          http: {
+            commands: {
+              'Checkout':
+                'git fetch ' +
+                'http://andybons@localhost:8080/a/test-project ' +
+                'refs/changes/05/5/1 && git checkout FETCH_HEAD',
+              'Cherry Pick':
+                'git fetch ' +
+                'http://andybons@localhost:8080/a/test-project ' +
+                'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
+              'Format Patch':
+                'git fetch ' +
+                'http://andybons@localhost:8080/a/test-project ' +
+                'refs/changes/05/5/1 && ' +
+                'git format-patch -1 --stdout FETCH_HEAD',
+              'Pull':
+                'git pull ' +
+                'http://andybons@localhost:8080/a/test-project ' +
+                'refs/changes/05/5/1',
             },
           },
         },
       },
-    };
-  }
+    },
+  };
+}
 
-  function getChangeObjectNoFetch() {
-    return {
-      current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
-      revisions: {
-        '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
-          _number: 1,
-          commit: {
-            parents: [],
-          },
-          fetch: {},
+function getChangeObjectNoFetch() {
+  return {
+    current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
+    revisions: {
+      '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
+        _number: 1,
+        commit: {
+          parents: [],
         },
+        fetch: {},
       },
+    },
+  };
+}
+
+suite('gr-download-dialog', () => {
+  let element;
+  let sandbox;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+
+    element = fixture('basic');
+    element.patchNum = '1';
+    element.config = {
+      schemes: {
+        'anonymous http': {},
+        'http': {},
+        'repo': {},
+        'ssh': {},
+      },
+      archives: ['tgz', 'tar', 'tbz2', 'txz'],
     };
-  }
 
-  suite('gr-download-dialog', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+    flushAsynchronousOperations();
+  });
 
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('anchors use download attribute', () => {
+    const anchors = Array.from(
+        dom(element.root).querySelectorAll('a'));
+    assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
+  });
+
+  suite('gr-download-dialog tests with no fetch options', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
-
-      element = fixture('basic');
-      element.patchNum = '1';
-      element.config = {
-        schemes: {
-          'anonymous http': {},
-          'http': {},
-          'repo': {},
-          'ssh': {},
-        },
-        archives: ['tgz', 'tar', 'tbz2', 'txz'],
-      };
-
+      element.change = getChangeObjectNoFetch();
       flushAsynchronousOperations();
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('anchors use download attribute', () => {
-      const anchors = Array.from(
-          Polymer.dom(element.root).querySelectorAll('a'));
-      assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
-    });
-
-    suite('gr-download-dialog tests with no fetch options', () => {
-      setup(() => {
-        element.change = getChangeObjectNoFetch();
-        flushAsynchronousOperations();
-      });
-
-      test('focuses on first download link if no copy links', () => {
-        const focusStub = sandbox.stub(element.$.download, 'focus');
-        element.focus();
-        assert.isTrue(focusStub.called);
-        focusStub.restore();
-      });
-    });
-
-    suite('gr-download-dialog with fetch options', () => {
-      setup(() => {
-        element.change = getChangeObject();
-        flushAsynchronousOperations();
-      });
-
-      test('focuses on first copy link', () => {
-        const focusStub = sinon.stub(element.$.downloadCommands, 'focusOnCopy');
-        element.focus();
-        flushAsynchronousOperations();
-        assert.isTrue(focusStub.called);
-        focusStub.restore();
-      });
-
-      test('computed fields', () => {
-        assert.equal(element._computeArchiveDownloadLink(
-            {project: 'test/project', _number: 123}, 2, 'tgz'),
-        '/changes/test%2Fproject~123/revisions/2/archive?format=tgz');
-      });
-
-      test('close event', done => {
-        element.addEventListener('close', () => {
-          done();
-        });
-        MockInteractions.tap(element.$$('.closeButtonContainer gr-button'));
-      });
-    });
-
-    test('_computeShowDownloadCommands', () => {
-      assert.equal(element._computeShowDownloadCommands([]), 'hidden');
-      assert.equal(element._computeShowDownloadCommands(['test']), '');
-    });
-
-    test('_computeHidePatchFile', () => {
-      const patchNum = '1';
-
-      const change1 = {
-        revisions: {
-          r1: {_number: 1, commit: {parents: []}},
-        },
-      };
-      assert.isTrue(element._computeHidePatchFile(change1, patchNum));
-
-      const change2 = {
-        revisions: {
-          r1: {_number: 1, commit: {parents: [
-            {commit: 'p1'},
-          ]}},
-        },
-      };
-      assert.isFalse(element._computeHidePatchFile(change2, patchNum));
+    test('focuses on first download link if no copy links', () => {
+      const focusStub = sandbox.stub(element.$.download, 'focus');
+      element.focus();
+      assert.isTrue(focusStub.called);
+      focusStub.restore();
     });
   });
+
+  suite('gr-download-dialog with fetch options', () => {
+    setup(() => {
+      element.change = getChangeObject();
+      flushAsynchronousOperations();
+    });
+
+    test('focuses on first copy link', () => {
+      const focusStub = sinon.stub(element.$.downloadCommands, 'focusOnCopy');
+      element.focus();
+      flushAsynchronousOperations();
+      assert.isTrue(focusStub.called);
+      focusStub.restore();
+    });
+
+    test('computed fields', () => {
+      assert.equal(element._computeArchiveDownloadLink(
+          {project: 'test/project', _number: 123}, 2, 'tgz'),
+      '/changes/test%2Fproject~123/revisions/2/archive?format=tgz');
+    });
+
+    test('close event', done => {
+      element.addEventListener('close', () => {
+        done();
+      });
+      MockInteractions.tap(element.$$('.closeButtonContainer gr-button'));
+    });
+  });
+
+  test('_computeShowDownloadCommands', () => {
+    assert.equal(element._computeShowDownloadCommands([]), 'hidden');
+    assert.equal(element._computeShowDownloadCommands(['test']), '');
+  });
+
+  test('_computeHidePatchFile', () => {
+    const patchNum = '1';
+
+    const change1 = {
+      revisions: {
+        r1: {_number: 1, commit: {parents: []}},
+      },
+    };
+    assert.isTrue(element._computeHidePatchFile(change1, patchNum));
+
+    const change2 = {
+      revisions: {
+        r1: {_number: 1, commit: {parents: [
+          {commit: 'p1'},
+        ]}},
+      },
+    };
+    assert.isFalse(element._computeHidePatchFile(change2, patchNum));
+  });
+});
 </script>

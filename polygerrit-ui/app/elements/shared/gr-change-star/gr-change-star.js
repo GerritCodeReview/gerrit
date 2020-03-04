@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2015 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,49 +14,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrChangeStar extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-change-star'; }
-    /**
-     * Fired when star state is toggled.
-     *
-     * @event toggle-star
-     */
+import '../gr-icons/gr-icons.js';
+import '../../../styles/shared-styles.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-change-star_html.js';
 
-    static get properties() {
-      return {
-      /** @type {?} */
-        change: {
-          type: Object,
-          notify: true,
-        },
-      };
-    }
+/** @extends Polymer.Element */
+class GrChangeStar extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-    _computeStarClass(starred) {
-      return starred ? 'active' : '';
-    }
+  static get is() { return 'gr-change-star'; }
+  /**
+   * Fired when star state is toggled.
+   *
+   * @event toggle-star
+   */
 
-    _computeStarIcon(starred) {
-      // Hollow star is used to indicate inactive state.
-      return `gr-icons:star${starred ? '' : '-border'}`;
-    }
-
-    toggleStar() {
-      const newVal = !this.change.starred;
-      this.set('change.starred', newVal);
-      this.dispatchEvent(new CustomEvent('toggle-star', {
-        bubbles: true,
-        composed: true,
-        detail: {change: this.change, starred: newVal},
-      }));
-    }
+  static get properties() {
+    return {
+    /** @type {?} */
+      change: {
+        type: Object,
+        notify: true,
+      },
+    };
   }
 
-  customElements.define(GrChangeStar.is, GrChangeStar);
-})();
+  _computeStarClass(starred) {
+    return starred ? 'active' : '';
+  }
+
+  _computeStarIcon(starred) {
+    // Hollow star is used to indicate inactive state.
+    return `gr-icons:star${starred ? '' : '-border'}`;
+  }
+
+  toggleStar() {
+    const newVal = !this.change.starred;
+    this.set('change.starred', newVal);
+    this.dispatchEvent(new CustomEvent('toggle-star', {
+      bubbles: true,
+      composed: true,
+      detail: {change: this.change, starred: newVal},
+    }));
+  }
+}
+
+customElements.define(GrChangeStar.is, GrChangeStar);

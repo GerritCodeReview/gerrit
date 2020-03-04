@@ -14,94 +14,102 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrAlert extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-alert'; }
-    /**
-     * Fired when the action button is pressed.
-     *
-     * @event action
-     */
+import '../gr-button/gr-button.js';
+import '../../../styles/shared-styles.js';
+import '../../../scripts/rootElement.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-alert_html.js';
 
-    static get properties() {
-      return {
-        text: String,
-        actionText: String,
-        /** @type {?string} */
-        type: String,
-        shown: {
-          type: Boolean,
-          value: true,
-          readOnly: true,
-          reflectToAttribute: true,
-        },
-        toast: {
-          type: Boolean,
-          value: true,
-          reflectToAttribute: true,
-        },
+/** @extends Polymer.Element */
+class GrAlert extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-        _hideActionButton: Boolean,
-        _boundTransitionEndHandler: {
-          type: Function,
-          value() { return this._handleTransitionEnd.bind(this); },
-        },
-        _actionCallback: Function,
-      };
-    }
+  static get is() { return 'gr-alert'; }
+  /**
+   * Fired when the action button is pressed.
+   *
+   * @event action
+   */
 
-    /** @override */
-    attached() {
-      super.attached();
-      this.addEventListener('transitionend', this._boundTransitionEndHandler);
-    }
+  static get properties() {
+    return {
+      text: String,
+      actionText: String,
+      /** @type {?string} */
+      type: String,
+      shown: {
+        type: Boolean,
+        value: true,
+        readOnly: true,
+        reflectToAttribute: true,
+      },
+      toast: {
+        type: Boolean,
+        value: true,
+        reflectToAttribute: true,
+      },
 
-    /** @override */
-    detached() {
-      super.detached();
-      this.removeEventListener('transitionend',
-          this._boundTransitionEndHandler);
-    }
+      _hideActionButton: Boolean,
+      _boundTransitionEndHandler: {
+        type: Function,
+        value() { return this._handleTransitionEnd.bind(this); },
+      },
+      _actionCallback: Function,
+    };
+  }
 
-    show(text, opt_actionText, opt_actionCallback) {
-      this.text = text;
-      this.actionText = opt_actionText;
-      this._hideActionButton = !opt_actionText;
-      this._actionCallback = opt_actionCallback;
-      Gerrit.getRootElement().appendChild(this);
-      this._setShown(true);
-    }
+  /** @override */
+  attached() {
+    super.attached();
+    this.addEventListener('transitionend', this._boundTransitionEndHandler);
+  }
 
-    hide() {
-      this._setShown(false);
-      if (this._hasZeroTransitionDuration()) {
-        Gerrit.getRootElement().removeChild(this);
-      }
-    }
+  /** @override */
+  detached() {
+    super.detached();
+    this.removeEventListener('transitionend',
+        this._boundTransitionEndHandler);
+  }
 
-    _hasZeroTransitionDuration() {
-      const style = window.getComputedStyle(this);
-      // transitionDuration is always given in seconds.
-      const duration = Math.round(parseFloat(style.transitionDuration) * 100);
-      return duration === 0;
-    }
+  show(text, opt_actionText, opt_actionCallback) {
+    this.text = text;
+    this.actionText = opt_actionText;
+    this._hideActionButton = !opt_actionText;
+    this._actionCallback = opt_actionCallback;
+    Gerrit.getRootElement().appendChild(this);
+    this._setShown(true);
+  }
 
-    _handleTransitionEnd(e) {
-      if (this.shown) { return; }
-
+  hide() {
+    this._setShown(false);
+    if (this._hasZeroTransitionDuration()) {
       Gerrit.getRootElement().removeChild(this);
-    }
-
-    _handleActionTap(e) {
-      e.preventDefault();
-      if (this._actionCallback) { this._actionCallback(); }
     }
   }
 
-  customElements.define(GrAlert.is, GrAlert);
-})();
+  _hasZeroTransitionDuration() {
+    const style = window.getComputedStyle(this);
+    // transitionDuration is always given in seconds.
+    const duration = Math.round(parseFloat(style.transitionDuration) * 100);
+    return duration === 0;
+  }
+
+  _handleTransitionEnd(e) {
+    if (this.shown) { return; }
+
+    Gerrit.getRootElement().removeChild(this);
+  }
+
+  _handleActionTap(e) {
+    e.preventDefault();
+    if (this._actionCallback) { this._actionCallback(); }
+  }
+}
+
+customElements.define(GrAlert.is, GrAlert);

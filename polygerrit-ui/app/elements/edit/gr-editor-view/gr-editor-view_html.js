@@ -1,39 +1,22 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
-<link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-storage/gr-storage.html">
-<link rel="import" href="../gr-default-editor/gr-default-editor.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-editor-view">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         background-color: var(--view-background-color);
@@ -93,28 +76,16 @@ limitations under the License.
         }
       }
     </style>
-    <gr-fixed-panel keep-on-scroll>
+    <gr-fixed-panel keep-on-scroll="">
       <header>
         <span class="controlGroup">
           <span>Edit mode</span>
           <span class="separator"></span>
-          <gr-editable-label
-              label-text="File path"
-              value="[[_path]]"
-              placeholder="File path..."
-              on-changed="_handlePathChanged"></gr-editable-label>
+          <gr-editable-label label-text="File path" value="[[_path]]" placeholder="File path..." on-changed="_handlePathChanged"></gr-editable-label>
         </span>
         <span class="controlGroup rightControls">
-          <gr-button
-              id="close"
-              link
-              on-click="_handleCloseTap">Close</gr-button>
-          <gr-button
-              id="save"
-              disabled$="[[_saveDisabled]]"
-              primary
-              link
-              on-click="_saveEdit">Save</gr-button>
+          <gr-button id="close" link="" on-click="_handleCloseTap">Close</gr-button>
+          <gr-button id="save" disabled\$="[[_saveDisabled]]" primary="" link="" on-click="_saveEdit">Save</gr-button>
         </span>
       </header>
     </gr-fixed-panel>
@@ -128,6 +99,4 @@ limitations under the License.
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
-  </template>
-  <script src="gr-editor-view.js"></script>
-</dom-module>
+`;

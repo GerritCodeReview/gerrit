@@ -1,31 +1,22 @@
-<!--
-@license
-Copyright (C) 2018 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
-<dom-module id="gr-cla-view">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       h1 {
         margin-bottom: var(--spacing-m);
@@ -74,36 +65,26 @@ limitations under the License.
       <h3>Select an agreement type:</h3>
       <template is="dom-repeat" items="[[_serverConfig.auth.contributor_agreements]]">
         <span class="contributorAgreementButton">
-          <input id$="claNewAgreementsInput[[item.name]]"
-              name="claNewAgreementsRadio"
-              type="radio"
-              data-name$="[[item.name]]"
-              data-url$="[[item.url]]"
-              on-click="_handleShowAgreement"
-              disabled$="[[_disableAgreements(item, _groups, _signedAgreements)]]">
+          <input id\$="claNewAgreementsInput[[item.name]]" name="claNewAgreementsRadio" type="radio" data-name\$="[[item.name]]" data-url\$="[[item.url]]" on-click="_handleShowAgreement" disabled\$="[[_disableAgreements(item, _groups, _signedAgreements)]]">
           <label id="claNewAgreementsLabel">[[item.name]]</label>
         </span>
-        <div class$="alreadySubmittedText [[_hideAgreements(item, _groups, _signedAgreements)]]">
+        <div class\$="alreadySubmittedText [[_hideAgreements(item, _groups, _signedAgreements)]]">
           Agreement already submitted.
         </div>
         <div class="agreementsUrl">
           [[item.description]]
         </div>
       </template>
-      <div id="claNewAgreement" class$="[[_computeShowAgreementsClass(_showAgreements)]]">
+      <div id="claNewAgreement" class\$="[[_computeShowAgreementsClass(_showAgreements)]]">
         <h3 class="smallHeading">Review the agreement:</h3>
         <div id="agreementsUrl" class="agreementsUrl">
-          <a href$="[[_agreementsUrl]]" target="blank" rel="noopener">
+          <a href\$="[[_agreementsUrl]]" target="blank" rel="noopener">
             Please review the agreement.</a>
         </div>
-        <div class$="agreementsTextBox [[_computeHideAgreementClass(_agreementName, _serverConfig.auth.contributor_agreements)]]">
+        <div class\$="agreementsTextBox [[_computeHideAgreementClass(_agreementName, _serverConfig.auth.contributor_agreements)]]">
           <h3 class="smallHeading">Complete the agreement:</h3>
-          <iron-input bind-value="{{_agreementsText}}"
-                      placeholder="Enter 'I agree' here">
-            <input id="input-agreements"
-                   is="iron-input"
-                   bind-value="{{_agreementsText}}"
-                   placeholder="Enter 'I agree' here">
+          <iron-input bind-value="{{_agreementsText}}" placeholder="Enter 'I agree' here">
+            <input id="input-agreements" is="iron-input" bind-value="{{_agreementsText}}" placeholder="Enter 'I agree' here">
           </iron-input>
           <gr-button on-click="_handleSaveAgreements" disabled="[[_disableAgreementsText(_agreementsText)]]">
             Submit
@@ -112,6 +93,4 @@ limitations under the License.
       </div>
     </main>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-cla-view.js"></script>
-</dom-module>
+`;

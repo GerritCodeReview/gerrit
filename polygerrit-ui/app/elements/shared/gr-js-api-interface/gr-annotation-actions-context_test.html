@@ -19,17 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-annotation-actions-context</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../diff/gr-diff-highlight/gr-annotation.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../diff/gr-diff-highlight/gr-annotation.js"></script>
 
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-js-api-interface.html"/>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-js-api-interface.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../diff/gr-diff-highlight/gr-annotation.js';
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,68 +43,71 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-annotation-actions-context tests', async () => {
-    await readyToTest();
-    let instance;
-    let sandbox;
-    let el;
-    let lineNumberEl;
-    let plugin;
+<script type="module">
+import '../../diff/gr-diff-highlight/gr-annotation.js';
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+suite('gr-annotation-actions-context tests', () => {
+  let instance;
+  let sandbox;
+  let el;
+  let lineNumberEl;
+  let plugin;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
 
-      const str = 'lorem ipsum blah blah';
-      const line = {text: str};
-      el = document.createElement('div');
-      el.textContent = str;
-      el.setAttribute('data-side', 'right');
-      lineNumberEl = document.createElement('td');
-      lineNumberEl.classList.add('right');
-      document.body.appendChild(el);
-      instance = new GrAnnotationActionsContext(
-          el, lineNumberEl, line, 'dummy/path', '123', '1');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('test annotateRange', () => {
-      const annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
-      const start = 0;
-      const end = 100;
-      const cssStyleObject = plugin.styles().css('background-color: #000000');
-
-      // Assert annotateElement is not called when side is different.
-      instance.annotateRange(start, end, cssStyleObject, 'left');
-      assert.equal(annotateElementSpy.callCount, 0);
-
-      // Assert annotateElement is called once when side is the same.
-      instance.annotateRange(start, end, cssStyleObject, 'right');
-      assert.equal(annotateElementSpy.callCount, 1);
-      const args = annotateElementSpy.getCalls()[0].args;
-      assert.equal(args[0], el);
-      assert.equal(args[1], start);
-      assert.equal(args[2], end);
-      assert.equal(args[3], cssStyleObject.getClassName(el));
-    });
-
-    test('test annotateLineNumber', () => {
-      const cssStyleObject = plugin.styles().css('background-color: #000000');
-
-      const className = cssStyleObject.getClassName(lineNumberEl);
-
-      // Assert that css class is *not* applied when side is different.
-      instance.annotateLineNumber(cssStyleObject, 'left');
-      assert.isFalse(lineNumberEl.classList.contains(className));
-
-      // Assert that css class is applied when side is the same.
-      instance.annotateLineNumber(cssStyleObject, 'right');
-      assert.isTrue(lineNumberEl.classList.contains(className));
-    });
+    const str = 'lorem ipsum blah blah';
+    const line = {text: str};
+    el = document.createElement('div');
+    el.textContent = str;
+    el.setAttribute('data-side', 'right');
+    lineNumberEl = document.createElement('td');
+    lineNumberEl.classList.add('right');
+    document.body.appendChild(el);
+    instance = new GrAnnotationActionsContext(
+        el, lineNumberEl, line, 'dummy/path', '123', '1');
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('test annotateRange', () => {
+    const annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+    const start = 0;
+    const end = 100;
+    const cssStyleObject = plugin.styles().css('background-color: #000000');
+
+    // Assert annotateElement is not called when side is different.
+    instance.annotateRange(start, end, cssStyleObject, 'left');
+    assert.equal(annotateElementSpy.callCount, 0);
+
+    // Assert annotateElement is called once when side is the same.
+    instance.annotateRange(start, end, cssStyleObject, 'right');
+    assert.equal(annotateElementSpy.callCount, 1);
+    const args = annotateElementSpy.getCalls()[0].args;
+    assert.equal(args[0], el);
+    assert.equal(args[1], start);
+    assert.equal(args[2], end);
+    assert.equal(args[3], cssStyleObject.getClassName(el));
+  });
+
+  test('test annotateLineNumber', () => {
+    const cssStyleObject = plugin.styles().css('background-color: #000000');
+
+    const className = cssStyleObject.getClassName(lineNumberEl);
+
+    // Assert that css class is *not* applied when side is different.
+    instance.annotateLineNumber(cssStyleObject, 'left');
+    assert.isFalse(lineNumberEl.classList.contains(className));
+
+    // Assert that css class is applied when side is the same.
+    instance.annotateLineNumber(cssStyleObject, 'right');
+    assert.isTrue(lineNumberEl.classList.contains(className));
+  });
+});
 </script>

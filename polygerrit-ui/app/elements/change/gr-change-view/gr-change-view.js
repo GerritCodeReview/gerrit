@@ -539,7 +539,7 @@
       this._currentTabName = tabs[selectedIndex] &&
         tabs[selectedIndex].dataset.name;
       const source = e && e.type ? e.type : '';
-      const pluginIndex = this._dynamicTabHeaderEndpoints.indexOf(
+      const pluginIndex = (this._dynamicTabHeaderEndpoints || []).indexOf(
           this._currentTabName);
       if (pluginIndex !== -1) {
         this._selectedTabPluginEndpoint = this._dynamicTabContentEndpoints[

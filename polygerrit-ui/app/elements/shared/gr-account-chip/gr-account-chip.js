@@ -43,7 +43,6 @@
     static get properties() {
       return {
         account: Object,
-        additionalText: String,
         disabled: {
           type: Boolean,
           value: false,

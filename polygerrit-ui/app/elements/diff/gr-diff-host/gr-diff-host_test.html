@@ -1199,7 +1199,7 @@ limitations under the License.
         line: 1,
       }];
 
-      expectedThreads = [
+      const expectedThreads = [
         {
           start_datetime: '2015-12-24 15:00:10.396000000',
           commentSide: 'left',
@@ -1297,7 +1297,7 @@ limitations under the License.
       assert.equal(threads[0].patchNum, 2);
 
       // Try to fetch a thread with a different range.
-      range = {
+      const range = {
         start_line: 1,
         start_character: 1,
         end_line: 1,

@@ -380,6 +380,13 @@
       this._createReplyComment(comment, response, false, true);
     }
 
+    _handleGoToLineEditor(e) {
+      const editUrl = Gerrit.Nav.getEditUrlForDiffById(
+          this.changeNum, this.projectName, this.path,
+          this.patchNum, this.lineNum);
+      return Gerrit.Nav.navigateToRelativeUrl(editUrl);
+    }
+
     _commentElWithDraftID(id) {
       const els = Polymer.dom(this.root).querySelectorAll('gr-comment');
       for (const el of els) {

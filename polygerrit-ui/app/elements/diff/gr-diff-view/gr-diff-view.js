@@ -216,6 +216,8 @@
           type: Number,
           value: 0,
         },
+
+        _lineNum: Number,
       };
     }
 
@@ -607,7 +609,7 @@
     _goToEditFile() {
       // TODO(taoalpha): add a shortcut for editing
       const editUrl = Gerrit.Nav.getEditUrlForDiff(
-          this._change, this._path, this._patchRange.patchNum);
+          this._change, this._path, this._patchRange.patchNum, this._lineNum);
       return Gerrit.Nav.navigateToRelativeUrl(editUrl);
     }
 
@@ -989,11 +991,12 @@
       this.$.cursor.moveToLineNumber(detail.number, detail.side);
       if (!this._change) { return; }
       const cursorAddress = this.$.cursor.getAddress();
-      const number = cursorAddress ? cursorAddress.number : undefined;
+      const lineNum = cursorAddress ? cursorAddress.number : undefined;
       const leftSide = cursorAddress ? cursorAddress.leftSide : undefined;
       const url = Gerrit.Nav.getUrlForDiffById(this._changeNum,
           this._change.project, this._path, this._patchRange.patchNum,
-          this._patchRange.basePatchNum, number, leftSide);
+          this._patchRange.basePatchNum, lineNum, leftSide);
+      this._lineNum = lineNum;
       history.replaceState(null, '', url);
     }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc0780fa_80139b4a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 1582,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-04T15:38:38Z",
+      "side": 1,
+      "message": "It does :),\n\ni think `assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);` does this?\n\nAnd also `assert.deepEqual(setParamsStub.lastCall.args[0], appParams);`",
+      "parentUuid": "6c8395e6_603e0dc8",
+      "revId": "b4e8e590ab466b25755108641ced920f125a872b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6d6ac63_2416750b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 32

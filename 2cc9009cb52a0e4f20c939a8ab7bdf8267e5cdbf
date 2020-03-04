@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53c2d112_31d3a930",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-04T16:45:17Z",
+      "side": 1,
+      "message": "there is also an entry for this in the editor plugin, do you need to update that as well ?",
+      "revId": "2cc9009cb52a0e4f20c939a8ab7bdf8267e5cdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

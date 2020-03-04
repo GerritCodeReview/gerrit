@@ -206,5 +206,6 @@ public class Module extends RestApiModule {
     factory(SetHashtagsOp.Factory.class);
     factory(SetPrivateOp.Factory.class);
     factory(WorkInProgressOp.Factory.class);
+    factory(SetTopicOp.Factory.class);
   }
 }

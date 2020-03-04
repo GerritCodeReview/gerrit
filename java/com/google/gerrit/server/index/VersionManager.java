@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -148,6 +149,17 @@ public abstract class VersionManager implements LifecycleListener {
     return defs.get(name) != null;
   }
 
+  /**
+   * Initializes given index.
+   *
+   * @param name index name
+   */
+  @VisibleForTesting
+  public synchronized void setIndex(String name) {
+    OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
+    reindexer.setIndex();
+  }
+
   protected <K, V, I extends Index<K, V>> void initIndex(
       IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
     TreeMap<Integer, Version<V>> versions = scanVersions(def, cfg);
@@ -224,6 +236,27 @@ public abstract class VersionManager implements LifecycleListener {
         reindexer.start();
       }
     }
+  }
+
+  /**
+   * Set the index to the lowest available version, made for testing schema upgrades from lowest
+   * available version to the most recently available one.
+   *
+   * @param name index name
+   */
+  @VisibleForTesting
+  public void setLowestIndex(String name) {
+    setLowestIndexVersion(defs.get(name));
+  }
+
+  @VisibleForTesting
+  private synchronized <K, V, I extends Index<K, V>> void setLowestIndexVersion(
+      IndexDefinition<K, V, I> def) {
+    IndexFactory<K, V, I> factory = def.getIndexFactory();
+    Schema<V> schema = def.getSchemas().descendingMap().lastEntry().getValue();
+    I index = factory.create(schema);
+    def.getIndexCollection().setSearchIndex(index);
+    def.getIndexCollection().addWriteIndex(index);
   }
 
   protected GerritIndexStatus createIndexStatus() {

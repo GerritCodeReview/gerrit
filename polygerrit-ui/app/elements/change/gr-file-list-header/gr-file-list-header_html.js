@@ -1,39 +1,22 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../diff/gr-diff-mode-selector/gr-diff-mode-selector.html">
-<link rel="import" href="../../diff/gr-patch-range-select/gr-patch-range-select.html">
-<link rel="import" href="../../edit/gr-edit-controls/gr-edit-controls.html">
-<link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
-<link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../gr-file-list-constants.html">
-<link rel="import" href="../gr-commit-info/gr-commit-info.html">
-
-<dom-module id="gr-file-list-header">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       .prefsButton {
         float: right;
@@ -152,96 +135,49 @@ limitations under the License.
         }
       }
     </style>
-    <div class$="patchInfo-header [[_computeEditModeClass(editMode)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]">
+    <div class\$="patchInfo-header [[_computeEditModeClass(editMode)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]">
       <div class="patchInfo-left">
         <div class="patchInfoContent">
-          <gr-patch-range-select
-              id="rangeSelect"
-              change-comments="[[changeComments]]"
-              change-num="[[changeNum]]"
-              patch-num="[[patchNum]]"
-              base-patch-num="[[basePatchNum]]"
-              available-patches="[[allPatchSets]]"
-              revisions="[[change.revisions]]"
-              revision-info="[[revisionInfo]]"
-              on-patch-range-change="_handlePatchChange">
+          <gr-patch-range-select id="rangeSelect" change-comments="[[changeComments]]" change-num="[[changeNum]]" patch-num="[[patchNum]]" base-patch-num="[[basePatchNum]]" available-patches="[[allPatchSets]]" revisions="[[change.revisions]]" revision-info="[[revisionInfo]]" on-patch-range-change="_handlePatchChange">
           </gr-patch-range-select>
           <span class="separator"></span>
-          <gr-commit-info
-              change="[[change]]"
-              server-config="[[serverConfig]]"
-              commit-info="[[commitInfo]]"></gr-commit-info>
+          <gr-commit-info change="[[change]]" server-config="[[serverConfig]]" commit-info="[[commitInfo]]"></gr-commit-info>
           <span class="container latestPatchContainer">
             <span class="separator"></span>
-            <a href$="[[changeUrl]]">Go to latest patch set</a>
+            <a href\$="[[changeUrl]]">Go to latest patch set</a>
           </span>
           <span class="container descriptionContainer hideOnEdit">
             <span class="separator"></span>
-            <template
-                is="dom-if"
-                if="[[_patchsetDescription]]">
-              <gr-linked-chip
-                  id="descriptionChip"
-                  text="[[_patchsetDescription]]"
-                  removable="[[!_descriptionReadOnly]]"
-                  on-remove="_handleDescriptionRemoved"></gr-linked-chip>
+            <template is="dom-if" if="[[_patchsetDescription]]">
+              <gr-linked-chip id="descriptionChip" text="[[_patchsetDescription]]" removable="[[!_descriptionReadOnly]]" on-remove="_handleDescriptionRemoved"></gr-linked-chip>
             </template>
-            <template
-                is="dom-if"
-                if="[[!_patchsetDescription]]">
-              <gr-editable-label
-                  id="descriptionLabel"
-                  uppercase
-                  class="descriptionLabel"
-                  label-text="Add patchset description"
-                  value="[[_patchsetDescription]]"
-                  placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
-                  read-only="[[_descriptionReadOnly]]"
-                  on-changed="_handleDescriptionChanged"></gr-editable-label>
+            <template is="dom-if" if="[[!_patchsetDescription]]">
+              <gr-editable-label id="descriptionLabel" uppercase="" class="descriptionLabel" label-text="Add patchset description" value="[[_patchsetDescription]]" placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]" read-only="[[_descriptionReadOnly]]" on-changed="_handleDescriptionChanged"></gr-editable-label>
             </template>
           </span>
         </div>
       </div>
-      <div class$="rightControls [[_computeExpandedClass(filesExpanded)]]">
+      <div class\$="rightControls [[_computeExpandedClass(filesExpanded)]]">
         <span class="showOnEdit flexContainer">
-          <gr-edit-controls
-              id="editControls"
-              patch-num="[[patchNum]]"
-              change="[[change]]"></gr-edit-controls>
+          <gr-edit-controls id="editControls" patch-num="[[patchNum]]" change="[[change]]"></gr-edit-controls>
           <span class="separator"></span>
         </span>
-        <span class$="[[_computeUploadHelpContainerClass(change, account)]]">
-          <gr-button link
-              class="upload"
-              on-click="_handleUploadTap">Update Change</gr-button>
+        <span class\$="[[_computeUploadHelpContainerClass(change, account)]]">
+          <gr-button link="" class="upload" on-click="_handleUploadTap">Update Change</gr-button>
         </span>
         <span class="downloadContainer desktop">
-          <gr-button link
-              class="download"
-              title="[[createTitle(Shortcut.OPEN_DOWNLOAD_DIALOG,
-                ShortcutSection.ACTIONS)]]"
-              on-click="_handleDownloadTap">Download</gr-button>
+          <gr-button link="" class="download" title="[[createTitle(Shortcut.OPEN_DOWNLOAD_DIALOG,
+                ShortcutSection.ACTIONS)]]" on-click="_handleDownloadTap">Download</gr-button>
         </span>
-        <span class$="includedInContainer [[_hideIncludedIn(change)]] desktop">
-          <gr-button link
-              class="includedIn"
-              on-click="_handleIncludedInTap">Included In</gr-button>
+        <span class\$="includedInContainer [[_hideIncludedIn(change)]] desktop">
+          <gr-button link="" class="includedIn" on-click="_handleIncludedInTap">Included In</gr-button>
         </span>
-        <template is="dom-if"
-            if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
-          <gr-button
-              id="expandBtn"
-              link
-              title="[[createTitle(Shortcut.EXPAND_ALL_DIFF_CONTEXT,
-                ShortcutSection.DIFFS)]]"
-              on-click="_expandAllDiffs">Expand All</gr-button>
-          <gr-button
-              id="collapseBtn"
-              link
-              on-click="_collapseAllDiffs">Collapse All</gr-button>
+        <template is="dom-if" if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
+          <gr-button id="expandBtn" link="" title="[[createTitle(Shortcut.EXPAND_ALL_DIFF_CONTEXT,
+                ShortcutSection.DIFFS)]]" on-click="_expandAllDiffs">Expand All</gr-button>
+          <gr-button id="collapseBtn" link="" on-click="_collapseAllDiffs">Collapse All</gr-button>
         </template>
-        <template is="dom-if"
-            if="[[!_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
+        <template is="dom-if" if="[[!_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
           <div class="warning">
             Bulk actions disabled because there are too many files.
           </div>
@@ -249,25 +185,12 @@ limitations under the License.
         <div class="fileViewActions">
           <span class="separator"></span>
           <span class="fileViewActionsLabel">Diff view:</span>
-          <gr-diff-mode-selector
-              id="modeSelect"
-              mode="{{diffViewMode}}"
-              save-on-change="[[!diffPrefsDisabled]]"></gr-diff-mode-selector>
-          <span id="diffPrefsContainer"
-              class="hideOnEdit"
-              hidden$="[[_computePrefsButtonHidden(diffPrefs, diffPrefsDisabled)]]"
-              hidden>
-            <gr-button
-                link
-                has-tooltip
-                title="Diff preferences"
-                class="prefsButton desktop"
-                on-click="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
+          <gr-diff-mode-selector id="modeSelect" mode="{{diffViewMode}}" save-on-change="[[!diffPrefsDisabled]]"></gr-diff-mode-selector>
+          <span id="diffPrefsContainer" class="hideOnEdit" hidden\$="[[_computePrefsButtonHidden(diffPrefs, diffPrefsDisabled)]]" hidden="">
+            <gr-button link="" has-tooltip="" title="Diff preferences" class="prefsButton desktop" on-click="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
           </span>
         </div>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-file-list-header.js"></script>
-</dom-module>
+`;

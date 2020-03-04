@@ -19,17 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-list-item</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="../../../scripts/util.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-change-list-item.html">
+<script type="module" src="./gr-change-list-item.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-change-list-item.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,236 +43,239 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-change-list-item tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-change-list-item.js';
+suite('gr-change-list-item tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getLoggedIn() { return Promise.resolve(false); },
-      });
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+      getLoggedIn() { return Promise.resolve(false); },
     });
+    element = fixture('basic');
+  });
 
-    teardown(() => { sandbox.restore(); });
+  teardown(() => { sandbox.restore(); });
 
-    test('computed fields', () => {
-      assert.equal(element._computeLabelClass({labels: {}}),
-          'cell label u-gray-background');
-      assert.equal(element._computeLabelClass(
-          {labels: {}}, 'Verified'), 'cell label u-gray-background');
-      assert.equal(element._computeLabelClass(
-          {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
-      'cell label u-green u-monospace');
-      assert.equal(element._computeLabelClass(
-          {labels: {Verified: {rejected: true, value: -1}}}, 'Verified'),
-      'cell label u-monospace u-red');
-      assert.equal(element._computeLabelClass(
-          {labels: {'Code-Review': {value: 1}}}, 'Code-Review'),
-      'cell label u-green u-monospace');
-      assert.equal(element._computeLabelClass(
-          {labels: {'Code-Review': {value: -1}}}, 'Code-Review'),
-      'cell label u-monospace u-red');
-      assert.equal(element._computeLabelClass(
-          {labels: {'Code-Review': {value: -1}}}, 'Verified'),
-      'cell label u-gray-background');
+  test('computed fields', () => {
+    assert.equal(element._computeLabelClass({labels: {}}),
+        'cell label u-gray-background');
+    assert.equal(element._computeLabelClass(
+        {labels: {}}, 'Verified'), 'cell label u-gray-background');
+    assert.equal(element._computeLabelClass(
+        {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
+    'cell label u-green u-monospace');
+    assert.equal(element._computeLabelClass(
+        {labels: {Verified: {rejected: true, value: -1}}}, 'Verified'),
+    'cell label u-monospace u-red');
+    assert.equal(element._computeLabelClass(
+        {labels: {'Code-Review': {value: 1}}}, 'Code-Review'),
+    'cell label u-green u-monospace');
+    assert.equal(element._computeLabelClass(
+        {labels: {'Code-Review': {value: -1}}}, 'Code-Review'),
+    'cell label u-monospace u-red');
+    assert.equal(element._computeLabelClass(
+        {labels: {'Code-Review': {value: -1}}}, 'Verified'),
+    'cell label u-gray-background');
 
-      assert.equal(element._computeLabelTitle({labels: {}}, 'Verified'),
-          'Label not applicable');
-      assert.equal(element._computeLabelTitle(
-          {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Verified'),
-      'Verified\nby Diffy');
-      assert.equal(element._computeLabelTitle(
-          {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Code-Review'),
-      'Label not applicable');
-      assert.equal(element._computeLabelTitle(
-          {labels: {Verified: {rejected: {name: 'Diffy'}}}}, 'Verified'),
-      'Verified\nby Diffy');
-      assert.equal(element._computeLabelTitle(
-          {labels: {'Code-Review': {disliked: {name: 'Diffy'}, value: -1}}},
-          'Code-Review'), 'Code-Review\nby Diffy');
-      assert.equal(element._computeLabelTitle(
-          {labels: {'Code-Review': {recommended: {name: 'Diffy'}, value: 1}}},
-          'Code-Review'), 'Code-Review\nby Diffy');
-      assert.equal(element._computeLabelTitle(
-          {labels: {'Code-Review': {recommended: {name: 'Diffy'},
-            rejected: {name: 'Admin'}}}}, 'Code-Review'),
-      'Code-Review\nby Admin');
-      assert.equal(element._computeLabelTitle(
-          {labels: {'Code-Review': {approved: {name: 'Diffy'},
-            rejected: {name: 'Admin'}}}}, 'Code-Review'),
-      'Code-Review\nby Admin');
-      assert.equal(element._computeLabelTitle(
-          {labels: {'Code-Review': {recommended: {name: 'Diffy'},
-            disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
-      'Code-Review\nby Admin');
-      assert.equal(element._computeLabelTitle(
-          {labels: {'Code-Review': {approved: {name: 'Diffy'},
-            disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
-      'Code-Review\nby Diffy');
+    assert.equal(element._computeLabelTitle({labels: {}}, 'Verified'),
+        'Label not applicable');
+    assert.equal(element._computeLabelTitle(
+        {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Verified'),
+    'Verified\nby Diffy');
+    assert.equal(element._computeLabelTitle(
+        {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Code-Review'),
+    'Label not applicable');
+    assert.equal(element._computeLabelTitle(
+        {labels: {Verified: {rejected: {name: 'Diffy'}}}}, 'Verified'),
+    'Verified\nby Diffy');
+    assert.equal(element._computeLabelTitle(
+        {labels: {'Code-Review': {disliked: {name: 'Diffy'}, value: -1}}},
+        'Code-Review'), 'Code-Review\nby Diffy');
+    assert.equal(element._computeLabelTitle(
+        {labels: {'Code-Review': {recommended: {name: 'Diffy'}, value: 1}}},
+        'Code-Review'), 'Code-Review\nby Diffy');
+    assert.equal(element._computeLabelTitle(
+        {labels: {'Code-Review': {recommended: {name: 'Diffy'},
+          rejected: {name: 'Admin'}}}}, 'Code-Review'),
+    'Code-Review\nby Admin');
+    assert.equal(element._computeLabelTitle(
+        {labels: {'Code-Review': {approved: {name: 'Diffy'},
+          rejected: {name: 'Admin'}}}}, 'Code-Review'),
+    'Code-Review\nby Admin');
+    assert.equal(element._computeLabelTitle(
+        {labels: {'Code-Review': {recommended: {name: 'Diffy'},
+          disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
+    'Code-Review\nby Admin');
+    assert.equal(element._computeLabelTitle(
+        {labels: {'Code-Review': {approved: {name: 'Diffy'},
+          disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
+    'Code-Review\nby Diffy');
 
-      assert.equal(element._computeLabelValue({labels: {}}), '');
-      assert.equal(element._computeLabelValue({labels: {}}, 'Verified'), '');
-      assert.equal(element._computeLabelValue(
-          {labels: {Verified: {approved: true, value: 1}}}, 'Verified'), '✓');
-      assert.equal(element._computeLabelValue(
-          {labels: {Verified: {value: 1}}}, 'Verified'), '+1');
-      assert.equal(element._computeLabelValue(
-          {labels: {Verified: {value: -1}}}, 'Verified'), '-1');
-      assert.equal(element._computeLabelValue(
-          {labels: {Verified: {approved: true}}}, 'Verified'), '✓');
-      assert.equal(element._computeLabelValue(
-          {labels: {Verified: {rejected: true}}}, 'Verified'), '✕');
-    });
+    assert.equal(element._computeLabelValue({labels: {}}), '');
+    assert.equal(element._computeLabelValue({labels: {}}, 'Verified'), '');
+    assert.equal(element._computeLabelValue(
+        {labels: {Verified: {approved: true, value: 1}}}, 'Verified'), '✓');
+    assert.equal(element._computeLabelValue(
+        {labels: {Verified: {value: 1}}}, 'Verified'), '+1');
+    assert.equal(element._computeLabelValue(
+        {labels: {Verified: {value: -1}}}, 'Verified'), '-1');
+    assert.equal(element._computeLabelValue(
+        {labels: {Verified: {approved: true}}}, 'Verified'), '✓');
+    assert.equal(element._computeLabelValue(
+        {labels: {Verified: {rejected: true}}}, 'Verified'), '✕');
+  });
 
-    test('no hidden columns', () => {
-      element.visibleChangeTableColumns = [
-        'Subject',
-        'Status',
-        'Owner',
-        'Assignee',
-        'Repo',
-        'Branch',
-        'Updated',
-        'Size',
-      ];
+  test('no hidden columns', () => {
+    element.visibleChangeTableColumns = [
+      'Subject',
+      'Status',
+      'Owner',
+      'Assignee',
+      'Repo',
+      'Branch',
+      'Updated',
+      'Size',
+    ];
 
-      flushAsynchronousOperations();
+    flushAsynchronousOperations();
 
-      for (const column of element.columnNames) {
-        const elementClass = '.' + column.toLowerCase();
-        assert.isOk(element.$$(elementClass),
-            `Expect ${elementClass} element to be found`);
+    for (const column of element.columnNames) {
+      const elementClass = '.' + column.toLowerCase();
+      assert.isOk(element.$$(elementClass),
+          `Expect ${elementClass} element to be found`);
+      assert.isFalse(element.$$(elementClass).hidden);
+    }
+  });
+
+  test('repo column hidden', () => {
+    element.visibleChangeTableColumns = [
+      'Subject',
+      'Status',
+      'Owner',
+      'Assignee',
+      'Branch',
+      'Updated',
+      'Size',
+    ];
+
+    flushAsynchronousOperations();
+
+    for (const column of element.columnNames) {
+      const elementClass = '.' + column.toLowerCase();
+      if (column === 'Repo') {
+        assert.isTrue(element.$$(elementClass).hidden);
+      } else {
         assert.isFalse(element.$$(elementClass).hidden);
       }
-    });
-
-    test('repo column hidden', () => {
-      element.visibleChangeTableColumns = [
-        'Subject',
-        'Status',
-        'Owner',
-        'Assignee',
-        'Branch',
-        'Updated',
-        'Size',
-      ];
-
-      flushAsynchronousOperations();
-
-      for (const column of element.columnNames) {
-        const elementClass = '.' + column.toLowerCase();
-        if (column === 'Repo') {
-          assert.isTrue(element.$$(elementClass).hidden);
-        } else {
-          assert.isFalse(element.$$(elementClass).hidden);
-        }
-      }
-    });
-
-    test('random column does not exist', () => {
-      element.visibleChangeTableColumns = [
-        'Bad',
-      ];
-
-      flushAsynchronousOperations();
-      const elementClass = '.bad';
-      assert.isNotOk(element.$$(elementClass));
-    });
-
-    test('assignee only displayed if there is one', () => {
-      element.change = {};
-      flushAsynchronousOperations();
-      assert.isNotOk(element.$$('.assignee gr-account-link'));
-      assert.equal(element.$$('.assignee').textContent.trim(), '--');
-      element.change = {
-        assignee: {
-          name: 'test',
-          status: 'test',
-        },
-      };
-      flushAsynchronousOperations();
-      assert.isOk(element.$$('.assignee gr-account-link'));
-    });
-
-    test('TShirt sizing tooltip', () => {
-      assert.equal(element._computeSizeTooltip({
-        insertions: 'foo',
-        deletions: 'bar',
-      }), 'Size unknown');
-      assert.equal(element._computeSizeTooltip({
-        insertions: 0,
-        deletions: 0,
-      }), 'Size unknown');
-      assert.equal(element._computeSizeTooltip({
-        insertions: 1,
-        deletions: 2,
-      }), '+1, -2');
-    });
-
-    test('TShirt sizing', () => {
-      assert.equal(element._computeChangeSize({
-        insertions: 'foo',
-        deletions: 'bar',
-      }), null);
-      assert.equal(element._computeChangeSize({
-        insertions: 1,
-        deletions: 1,
-      }), 'XS');
-      assert.equal(element._computeChangeSize({
-        insertions: 9,
-        deletions: 1,
-      }), 'S');
-      assert.equal(element._computeChangeSize({
-        insertions: 10,
-        deletions: 200,
-      }), 'M');
-      assert.equal(element._computeChangeSize({
-        insertions: 99,
-        deletions: 900,
-      }), 'L');
-      assert.equal(element._computeChangeSize({
-        insertions: 99,
-        deletions: 999,
-      }), 'XL');
-    });
-
-    test('change params passed to gr-navigation', () => {
-      sandbox.stub(Gerrit.Nav);
-      const change = {
-        internalHost: 'test-host',
-        project: 'test-repo',
-        topic: 'test-topic',
-        branch: 'test-branch',
-      };
-      element.change = change;
-      flushAsynchronousOperations();
-
-      assert.deepEqual(Gerrit.Nav.getUrlForChange.lastCall.args, [change]);
-      assert.deepEqual(Gerrit.Nav.getUrlForProjectChanges.lastCall.args,
-          [change.project, true, change.internalHost]);
-      assert.deepEqual(Gerrit.Nav.getUrlForBranch.lastCall.args,
-          [change.branch, change.project, null, change.internalHost]);
-      assert.deepEqual(Gerrit.Nav.getUrlForTopic.lastCall.args,
-          [change.topic, change.internalHost]);
-    });
-
-    test('_computeRepoDisplay', () => {
-      const change = {
-        project: 'a/test/repo',
-        internalHost: 'host',
-      };
-      assert.equal(element._computeRepoDisplay(change), 'host/a/test/repo');
-      assert.equal(element._computeRepoDisplay(change, true),
-          'host/…/test/repo');
-      delete change.internalHost;
-      assert.equal(element._computeRepoDisplay(change), 'a/test/repo');
-      assert.equal(element._computeRepoDisplay(change, true),
-          '…/test/repo');
-    });
+    }
   });
+
+  test('random column does not exist', () => {
+    element.visibleChangeTableColumns = [
+      'Bad',
+    ];
+
+    flushAsynchronousOperations();
+    const elementClass = '.bad';
+    assert.isNotOk(element.$$(elementClass));
+  });
+
+  test('assignee only displayed if there is one', () => {
+    element.change = {};
+    flushAsynchronousOperations();
+    assert.isNotOk(element.$$('.assignee gr-account-link'));
+    assert.equal(element.$$('.assignee').textContent.trim(), '--');
+    element.change = {
+      assignee: {
+        name: 'test',
+        status: 'test',
+      },
+    };
+    flushAsynchronousOperations();
+    assert.isOk(element.$$('.assignee gr-account-link'));
+  });
+
+  test('TShirt sizing tooltip', () => {
+    assert.equal(element._computeSizeTooltip({
+      insertions: 'foo',
+      deletions: 'bar',
+    }), 'Size unknown');
+    assert.equal(element._computeSizeTooltip({
+      insertions: 0,
+      deletions: 0,
+    }), 'Size unknown');
+    assert.equal(element._computeSizeTooltip({
+      insertions: 1,
+      deletions: 2,
+    }), '+1, -2');
+  });
+
+  test('TShirt sizing', () => {
+    assert.equal(element._computeChangeSize({
+      insertions: 'foo',
+      deletions: 'bar',
+    }), null);
+    assert.equal(element._computeChangeSize({
+      insertions: 1,
+      deletions: 1,
+    }), 'XS');
+    assert.equal(element._computeChangeSize({
+      insertions: 9,
+      deletions: 1,
+    }), 'S');
+    assert.equal(element._computeChangeSize({
+      insertions: 10,
+      deletions: 200,
+    }), 'M');
+    assert.equal(element._computeChangeSize({
+      insertions: 99,
+      deletions: 900,
+    }), 'L');
+    assert.equal(element._computeChangeSize({
+      insertions: 99,
+      deletions: 999,
+    }), 'XL');
+  });
+
+  test('change params passed to gr-navigation', () => {
+    sandbox.stub(Gerrit.Nav);
+    const change = {
+      internalHost: 'test-host',
+      project: 'test-repo',
+      topic: 'test-topic',
+      branch: 'test-branch',
+    };
+    element.change = change;
+    flushAsynchronousOperations();
+
+    assert.deepEqual(Gerrit.Nav.getUrlForChange.lastCall.args, [change]);
+    assert.deepEqual(Gerrit.Nav.getUrlForProjectChanges.lastCall.args,
+        [change.project, true, change.internalHost]);
+    assert.deepEqual(Gerrit.Nav.getUrlForBranch.lastCall.args,
+        [change.branch, change.project, null, change.internalHost]);
+    assert.deepEqual(Gerrit.Nav.getUrlForTopic.lastCall.args,
+        [change.topic, change.internalHost]);
+  });
+
+  test('_computeRepoDisplay', () => {
+    const change = {
+      project: 'a/test/repo',
+      internalHost: 'host',
+    };
+    assert.equal(element._computeRepoDisplay(change), 'host/a/test/repo');
+    assert.equal(element._computeRepoDisplay(change, true),
+        'host/…/test/repo');
+    delete change.internalHost;
+    assert.equal(element._computeRepoDisplay(change), 'a/test/repo');
+    assert.equal(element._computeRepoDisplay(change, true),
+        '…/test/repo');
+  });
+});
 </script>

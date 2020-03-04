@@ -1,34 +1,22 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-change-list/gr-change-list.html">
-<link rel="import" href="../gr-repo-header/gr-repo-header.html">
-<link rel="import" href="../gr-user-header/gr-user-header.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-change-list-view">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -70,39 +58,20 @@ limitations under the License.
         }
       }
     </style>
-    <div class="loading" hidden$="[[!_loading]]" hidden>Loading...</div>
-    <div hidden$="[[_loading]]" hidden>
-      <gr-repo-header
-          repo="[[_repo]]"
-          class$="[[_computeHeaderClass(_repo)]]"></gr-repo-header>
-      <gr-user-header
-          user-id="[[_userId]]"
-          show-dashboard-link
-          logged-in="[[_loggedIn]]"
-          class$="[[_computeHeaderClass(_userId)]]"></gr-user-header>
-      <gr-change-list
-          account="[[account]]"
-          changes="{{_changes}}"
-          preferences="[[preferences]]"
-          selected-index="{{viewState.selectedChangeIndex}}"
-          show-star="[[_loggedIn]]"
-          on-toggle-star="_handleToggleStar"
-          on-toggle-reviewed="_handleToggleReviewed"></gr-change-list>
-      <nav class$="[[_computeNavClass(_loading)]]">
+    <div class="loading" hidden\$="[[!_loading]]" hidden="">Loading...</div>
+    <div hidden\$="[[_loading]]" hidden="">
+      <gr-repo-header repo="[[_repo]]" class\$="[[_computeHeaderClass(_repo)]]"></gr-repo-header>
+      <gr-user-header user-id="[[_userId]]" show-dashboard-link="" logged-in="[[_loggedIn]]" class\$="[[_computeHeaderClass(_userId)]]"></gr-user-header>
+      <gr-change-list account="[[account]]" changes="{{_changes}}" preferences="[[preferences]]" selected-index="{{viewState.selectedChangeIndex}}" show-star="[[_loggedIn]]" on-toggle-star="_handleToggleStar" on-toggle-reviewed="_handleToggleReviewed"></gr-change-list>
+      <nav class\$="[[_computeNavClass(_loading)]]">
           Page [[_computePage(_offset, _changesPerPage)]]
-          <a id="prevArrow"
-              href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
-              class$="[[_computePrevArrowClass(_offset)]]">
+          <a id="prevArrow" href\$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]" class\$="[[_computePrevArrowClass(_offset)]]">
             <iron-icon icon="gr-icons:chevron-left"></iron-icon>
           </a>
-          <a id="nextArrow"
-              href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]"
-              class$="[[_computeNextArrowClass(_changes)]]">
+          <a id="nextArrow" href\$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]" class\$="[[_computeNextArrowClass(_changes)]]">
             <iron-icon icon="gr-icons:chevron-right"></iron-icon>
           </a>
       </nav>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-change-list-view.js"></script>
-</dom-module>
+`;

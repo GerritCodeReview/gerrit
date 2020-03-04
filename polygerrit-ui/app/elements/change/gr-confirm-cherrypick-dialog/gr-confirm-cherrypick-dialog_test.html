@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-confirm-cherrypick-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-confirm-cherrypick-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-confirm-cherrypick-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-confirm-cherrypick-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,85 +40,87 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-confirm-cherrypick-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-confirm-cherrypick-dialog.js';
+suite('gr-confirm-cherrypick-dialog tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getRepoBranches(input) {
-          if (input.startsWith('test')) {
-            return Promise.resolve([
-              {
-                ref: 'refs/heads/test-branch',
-                revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
-                can_delete: true,
-              },
-            ]);
-          } else {
-            return Promise.resolve({});
-          }
-        },
-      });
-      element = fixture('basic');
-      element.project = 'test-project';
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getRepoBranches(input) {
+        if (input.startsWith('test')) {
+          return Promise.resolve([
+            {
+              ref: 'refs/heads/test-branch',
+              revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
+              can_delete: true,
+            },
+          ]);
+        } else {
+          return Promise.resolve({});
+        }
+      },
     });
+    element = fixture('basic');
+    element.project = 'test-project';
+  });
 
-    teardown(() => { sandbox.restore(); });
+  teardown(() => { sandbox.restore(); });
 
-    test('with merged change', () => {
-      element.changeStatus = 'MERGED';
-      element.commitMessage = 'message\n';
-      element.commitNum = '123';
-      element.branch = 'master';
-      flushAsynchronousOperations();
-      const expectedMessage = 'message\n(cherry picked from commit 123)';
-      assert.equal(element.message, expectedMessage);
-    });
+  test('with merged change', () => {
+    element.changeStatus = 'MERGED';
+    element.commitMessage = 'message\n';
+    element.commitNum = '123';
+    element.branch = 'master';
+    flushAsynchronousOperations();
+    const expectedMessage = 'message\n(cherry picked from commit 123)';
+    assert.equal(element.message, expectedMessage);
+  });
 
-    test('with unmerged change', () => {
-      element.changeStatus = 'OPEN';
-      element.commitMessage = 'message\n';
-      element.commitNum = '123';
-      element.branch = 'master';
-      flushAsynchronousOperations();
-      const expectedMessage = 'message\n';
-      assert.equal(element.message, expectedMessage);
-    });
+  test('with unmerged change', () => {
+    element.changeStatus = 'OPEN';
+    element.commitMessage = 'message\n';
+    element.commitNum = '123';
+    element.branch = 'master';
+    flushAsynchronousOperations();
+    const expectedMessage = 'message\n';
+    assert.equal(element.message, expectedMessage);
+  });
 
-    test('with updated commit message', () => {
-      element.changeStatus = 'OPEN';
-      element.commitMessage = 'message\n';
-      element.commitNum = '123';
-      element.branch = 'master';
-      const myNewMessage = 'updated commit message';
-      element.message = myNewMessage;
-      flushAsynchronousOperations();
-      assert.equal(element.message, myNewMessage);
-    });
+  test('with updated commit message', () => {
+    element.changeStatus = 'OPEN';
+    element.commitMessage = 'message\n';
+    element.commitNum = '123';
+    element.branch = 'master';
+    const myNewMessage = 'updated commit message';
+    element.message = myNewMessage;
+    flushAsynchronousOperations();
+    assert.equal(element.message, myNewMessage);
+  });
 
-    test('_getProjectBranchesSuggestions empty', done => {
-      element._getProjectBranchesSuggestions('nonexistent').then(branches => {
-        assert.equal(branches.length, 0);
-        done();
-      });
-    });
-
-    test('resetFocus', () => {
-      const focusStub = sandbox.stub(element.$.branchInput, 'focus');
-      element.resetFocus();
-      assert.isTrue(focusStub.called);
-    });
-
-    test('_getProjectBranchesSuggestions non-empty', done => {
-      element._getProjectBranchesSuggestions('test-branch').then(branches => {
-        assert.equal(branches.length, 1);
-        assert.equal(branches[0].name, 'test-branch');
-        done();
-      });
+  test('_getProjectBranchesSuggestions empty', done => {
+    element._getProjectBranchesSuggestions('nonexistent').then(branches => {
+      assert.equal(branches.length, 0);
+      done();
     });
   });
+
+  test('resetFocus', () => {
+    const focusStub = sandbox.stub(element.$.branchInput, 'focus');
+    element.resetFocus();
+    assert.isTrue(focusStub.called);
+  });
+
+  test('_getProjectBranchesSuggestions non-empty', done => {
+    element._getProjectBranchesSuggestions('test-branch').then(branches => {
+      assert.equal(branches.length, 1);
+      assert.equal(branches[0].name, 'test-branch');
+      done();
+    });
+  });
+});
 </script>

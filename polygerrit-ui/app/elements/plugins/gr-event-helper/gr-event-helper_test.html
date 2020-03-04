@@ -19,35 +19,44 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-event-helper</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-event-helper.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-event-helper.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-event-helper.js';
+void(0);
+</script>
 
 <dom-element id="some-element">
-  <script>
-    readyToTest().then(() => {
-      Polymer({
-        is: 'some-element',
+  <script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-event-helper.js';
+import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+readyToTest().then(() => {
+  Polymer({
+    is: 'some-element',
 
-        properties: {
-          fooBar: {
-            type: Object,
-            notify: true,
-          },
-        },
+    properties: {
+      fooBar: {
+        type: Object,
+        notify: true,
+      },
+    },
 
-        behaviors: [
-          Gerrit.FireBehavior,
-        ],
-      });
-    });
-  </script>
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+  });
+});
+</script>
 
 </dom-element>
 
@@ -57,85 +66,88 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-event-helper tests', async () => {
-    await readyToTest();
-    let element;
-    let instance;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-event-helper.js';
+import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
+suite('gr-event-helper tests', () => {
+  let element;
+  let instance;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      instance = new GrEventHelper(element);
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('onTap()', done => {
-      instance.onTap(() => {
-        done();
-      });
-      MockInteractions.tap(element);
-    });
-
-    test('onTap() cancel', () => {
-      const tapStub = sandbox.stub();
-      Polymer.Gestures.addListener(element.parentElement, 'tap', tapStub);
-      instance.onTap(() => false);
-      MockInteractions.tap(element);
-      flushAsynchronousOperations();
-      assert.isFalse(tapStub.called);
-    });
-
-    test('onClick() cancel', () => {
-      const tapStub = sandbox.stub();
-      element.parentElement.addEventListener('click', tapStub);
-      instance.onTap(() => false);
-      MockInteractions.tap(element);
-      flushAsynchronousOperations();
-      assert.isFalse(tapStub.called);
-    });
-
-    test('captureTap()', done => {
-      instance.captureTap(() => {
-        done();
-      });
-      MockInteractions.tap(element);
-    });
-
-    test('captureClick()', done => {
-      instance.captureClick(() => {
-        done();
-      });
-      MockInteractions.tap(element);
-    });
-
-    test('captureTap() cancels tap()', () => {
-      const tapStub = sandbox.stub();
-      Polymer.Gestures.addListener(element.parentElement, 'tap', tapStub);
-      instance.captureTap(() => false);
-      MockInteractions.tap(element);
-      flushAsynchronousOperations();
-      assert.isFalse(tapStub.called);
-    });
-
-    test('captureClick() cancels click()', () => {
-      const tapStub = sandbox.stub();
-      element.addEventListener('click', tapStub);
-      instance.captureTap(() => false);
-      MockInteractions.tap(element);
-      flushAsynchronousOperations();
-      assert.isFalse(tapStub.called);
-    });
-
-    test('on()', done => {
-      instance.on('foo', () => {
-        done();
-      });
-      element.fire('foo');
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    instance = new GrEventHelper(element);
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('onTap()', done => {
+    instance.onTap(() => {
+      done();
+    });
+    MockInteractions.tap(element);
+  });
+
+  test('onTap() cancel', () => {
+    const tapStub = sandbox.stub();
+    addListener(element.parentElement, 'tap', tapStub);
+    instance.onTap(() => false);
+    MockInteractions.tap(element);
+    flushAsynchronousOperations();
+    assert.isFalse(tapStub.called);
+  });
+
+  test('onClick() cancel', () => {
+    const tapStub = sandbox.stub();
+    element.parentElement.addEventListener('click', tapStub);
+    instance.onTap(() => false);
+    MockInteractions.tap(element);
+    flushAsynchronousOperations();
+    assert.isFalse(tapStub.called);
+  });
+
+  test('captureTap()', done => {
+    instance.captureTap(() => {
+      done();
+    });
+    MockInteractions.tap(element);
+  });
+
+  test('captureClick()', done => {
+    instance.captureClick(() => {
+      done();
+    });
+    MockInteractions.tap(element);
+  });
+
+  test('captureTap() cancels tap()', () => {
+    const tapStub = sandbox.stub();
+    addListener(element.parentElement, 'tap', tapStub);
+    instance.captureTap(() => false);
+    MockInteractions.tap(element);
+    flushAsynchronousOperations();
+    assert.isFalse(tapStub.called);
+  });
+
+  test('captureClick() cancels click()', () => {
+    const tapStub = sandbox.stub();
+    element.addEventListener('click', tapStub);
+    instance.captureTap(() => false);
+    MockInteractions.tap(element);
+    flushAsynchronousOperations();
+    assert.isFalse(tapStub.called);
+  });
+
+  test('on()', done => {
+    instance.on('foo', () => {
+      done();
+    });
+    element.fire('foo');
+  });
+});
 </script>

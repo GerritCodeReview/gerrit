@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-account-link</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-account-link.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-account-link.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-account-link.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,48 +40,50 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-account-link tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-account-link.js';
+suite('gr-account-link tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-      });
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
+  setup(() => {
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
     });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('computed fields', () => {
-      const url = 'test/url';
-      const urlStub = sandbox.stub(Gerrit.Nav, 'getUrlForOwner').returns(url);
-      const account = {
-        email: 'email',
-        username: 'username',
-        name: 'name',
-        _account_id: '_account_id',
-      };
-      assert.isNotOk(element._computeOwnerLink());
-      assert.equal(element._computeOwnerLink(account), url);
-      assert.isTrue(urlStub.lastCall.calledWithExactly('email'));
-
-      delete account.email;
-      assert.equal(element._computeOwnerLink(account), url);
-      assert.isTrue(urlStub.lastCall.calledWithExactly('username'));
-
-      delete account.username;
-      assert.equal(element._computeOwnerLink(account), url);
-      assert.isTrue(urlStub.lastCall.calledWithExactly('name'));
-
-      delete account.name;
-      assert.equal(element._computeOwnerLink(account), url);
-      assert.isTrue(urlStub.lastCall.calledWithExactly('_account_id'));
-    });
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('computed fields', () => {
+    const url = 'test/url';
+    const urlStub = sandbox.stub(Gerrit.Nav, 'getUrlForOwner').returns(url);
+    const account = {
+      email: 'email',
+      username: 'username',
+      name: 'name',
+      _account_id: '_account_id',
+    };
+    assert.isNotOk(element._computeOwnerLink());
+    assert.equal(element._computeOwnerLink(account), url);
+    assert.isTrue(urlStub.lastCall.calledWithExactly('email'));
+
+    delete account.email;
+    assert.equal(element._computeOwnerLink(account), url);
+    assert.isTrue(urlStub.lastCall.calledWithExactly('username'));
+
+    delete account.username;
+    assert.equal(element._computeOwnerLink(account), url);
+    assert.isTrue(urlStub.lastCall.calledWithExactly('name'));
+
+    delete account.name;
+    assert.equal(element._computeOwnerLink(account), url);
+    assert.isTrue(urlStub.lastCall.calledWithExactly('_account_id'));
+  });
+});
 </script>

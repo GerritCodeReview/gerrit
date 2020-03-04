@@ -1,28 +1,22 @@
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-email-editor">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
@@ -65,29 +59,12 @@ limitations under the License.
             <tr>
               <td class="emailColumn">[[item.email]]</td>
               <td class="preferredControl" on-click="_handlePreferredControlClick">
-                <iron-input
-                    class="preferredRadio"
-                    type="radio"
-                    on-change="_handlePreferredChange"
-                    name="preferred"
-                    bind-value="[[item.email]]"
-                    checked$="[[item.preferred]]">
-                  <input
-                      is="iron-input"
-                      class="preferredRadio"
-                      type="radio"
-                      on-change="_handlePreferredChange"
-                      name="preferred"
-                      value="[[item.email]]"
-                      checked$="[[item.preferred]]">
+                <iron-input class="preferredRadio" type="radio" on-change="_handlePreferredChange" name="preferred" bind-value="[[item.email]]" checked\$="[[item.preferred]]">
+                  <input is="iron-input" class="preferredRadio" type="radio" on-change="_handlePreferredChange" name="preferred" value="[[item.email]]" checked\$="[[item.preferred]]">
                 </iron-input>
               </td>
               <td>
-                <gr-button
-                    data-index$="[[index]]"
-                    on-click="_handleDeleteButton"
-                    disabled="[[item.preferred]]"
-                    class="remove-button">Delete</gr-button>
+                <gr-button data-index\$="[[index]]" on-click="_handleDeleteButton" disabled="[[item.preferred]]" class="remove-button">Delete</gr-button>
               </td>
             </tr>
           </template>
@@ -95,6 +72,4 @@ limitations under the License.
       </table>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-email-editor.js"></script>
-</dom-module>
+`;

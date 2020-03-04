@@ -14,123 +14,135 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
+import '@polymer/iron-dropdown/iron-dropdown.js';
+import '@polymer/paper-item/paper-item.js';
+import '@polymer/paper-listbox/paper-listbox.js';
+import '../../../styles/shared-styles.js';
+import '../gr-button/gr-button.js';
+import '../gr-date-formatter/gr-date-formatter.js';
+import '../gr-select/gr-select.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-dropdown-list_html.js';
+
+/**
+ * fired when the selected value of the dropdown changes
+ *
+ * @event {change}
+ */
+
+const Defs = {};
+
+/**
+ * Requred values are text and value. mobileText and triggerText will
+ * fall back to text if not provided.
+ *
+ * If bottomText is not provided, nothing will display on the second
+ * line.
+ *
+ * If date is not provided, nothing will be displayed in its place.
+ *
+ * @typedef {{
+ *    text: string,
+ *    value: (string|number),
+ *    bottomText: (string|undefined),
+ *    triggerText: (string|undefined),
+ *    mobileText: (string|undefined),
+ *    date: (!Date|undefined),
+ * }}
+ */
+Defs.item;
+
+/** @extends Polymer.Element */
+class GrDropdownList extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-dropdown-list'; }
   /**
-   * fired when the selected value of the dropdown changes
+   * Fired when the selected value changes
    *
-   * @event {change}
+   * @event value-change
+   *
+   * @property {string|number} value
    */
 
-  const Defs = {};
-
-  /**
-   * Requred values are text and value. mobileText and triggerText will
-   * fall back to text if not provided.
-   *
-   * If bottomText is not provided, nothing will display on the second
-   * line.
-   *
-   * If date is not provided, nothing will be displayed in its place.
-   *
-   * @typedef {{
-   *    text: string,
-   *    value: (string|number),
-   *    bottomText: (string|undefined),
-   *    triggerText: (string|undefined),
-   *    mobileText: (string|undefined),
-   *    date: (!Date|undefined),
-   * }}
-   */
-  Defs.item;
-
-  /** @extends Polymer.Element */
-  class GrDropdownList extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-dropdown-list'; }
-    /**
-     * Fired when the selected value changes
-     *
-     * @event value-change
-     *
-     * @property {string|number} value
-     */
-
-    static get properties() {
-      return {
-        initialCount: Number,
-        /** @type {!Array<!Defs.item>} */
-        items: Object,
-        text: String,
-        disabled: {
-          type: Boolean,
-          value: false,
-        },
-        value: {
-          type: String,
-          notify: true,
-        },
-      };
-    }
-
-    static get observers() {
-      return [
-        '_handleValueChange(value, items)',
-      ];
-    }
-
-    /**
-     * Handle a click on the iron-dropdown element.
-     *
-     * @param {!Event} e
-     */
-    _handleDropdownClick(e) {
-      // async is needed so that that the click event is fired before the
-      // dropdown closes (This was a bug for touch devices).
-      this.async(() => {
-        this.$.dropdown.close();
-      }, 1);
-    }
-
-    /**
-     * Handle a click on the button to open the dropdown.
-     *
-     * @param {!Event} e
-     */
-    _showDropdownTapHandler(e) {
-      this._open();
-    }
-
-    /**
-     * Open the dropdown.
-     */
-    _open() {
-      this.$.dropdown.open();
-    }
-
-    _computeMobileText(item) {
-      return item.mobileText ? item.mobileText : item.text;
-    }
-
-    _handleValueChange(value, items) {
-      // Polymer 2: check for undefined
-      if ([value, items].some(arg => arg === undefined)) {
-        return;
-      }
-
-      if (!value) { return; }
-      const selectedObj = items.find(item => item.value + '' === value + '');
-      if (!selectedObj) { return; }
-      this.text = selectedObj.triggerText? selectedObj.triggerText :
-        selectedObj.text;
-      this.dispatchEvent(new CustomEvent('value-change', {
-        detail: {value},
-        bubbles: false,
-      }));
-    }
+  static get properties() {
+    return {
+      initialCount: Number,
+      /** @type {!Array<!Defs.item>} */
+      items: Object,
+      text: String,
+      disabled: {
+        type: Boolean,
+        value: false,
+      },
+      value: {
+        type: String,
+        notify: true,
+      },
+    };
   }
 
-  customElements.define(GrDropdownList.is, GrDropdownList);
-})();
+  static get observers() {
+    return [
+      '_handleValueChange(value, items)',
+    ];
+  }
+
+  /**
+   * Handle a click on the iron-dropdown element.
+   *
+   * @param {!Event} e
+   */
+  _handleDropdownClick(e) {
+    // async is needed so that that the click event is fired before the
+    // dropdown closes (This was a bug for touch devices).
+    this.async(() => {
+      this.$.dropdown.close();
+    }, 1);
+  }
+
+  /**
+   * Handle a click on the button to open the dropdown.
+   *
+   * @param {!Event} e
+   */
+  _showDropdownTapHandler(e) {
+    this._open();
+  }
+
+  /**
+   * Open the dropdown.
+   */
+  _open() {
+    this.$.dropdown.open();
+  }
+
+  _computeMobileText(item) {
+    return item.mobileText ? item.mobileText : item.text;
+  }
+
+  _handleValueChange(value, items) {
+    // Polymer 2: check for undefined
+    if ([value, items].some(arg => arg === undefined)) {
+      return;
+    }
+
+    if (!value) { return; }
+    const selectedObj = items.find(item => item.value + '' === value + '');
+    if (!selectedObj) { return; }
+    this.text = selectedObj.triggerText? selectedObj.triggerText :
+      selectedObj.text;
+    this.dispatchEvent(new CustomEvent('value-change', {
+      detail: {value},
+      bubbles: false,
+    }));
+  }
+}
+
+customElements.define(GrDropdownList.is, GrDropdownList);

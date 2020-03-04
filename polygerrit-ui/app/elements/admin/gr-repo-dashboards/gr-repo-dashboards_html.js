@@ -1,0 +1,65 @@
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+export const htmlTemplate = html`
+    <style include="shared-styles">
+      :host {
+        display: block;
+        margin-bottom: var(--spacing-xxl);
+      }
+      .loading #dashboards,
+      #loadingContainer {
+        display: none;
+      }
+      .loading #loadingContainer {
+        display: block;
+      }
+    </style>
+    <style include="gr-table-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
+    <table id="list" class\$="genericList [[_computeLoadingClass(_loading)]]">
+      <tbody><tr class="headerRow">
+        <th class="topHeader">Dashboard name</th>
+        <th class="topHeader">Dashboard title</th>
+        <th class="topHeader">Dashboard description</th>
+        <th class="topHeader">Inherited from</th>
+        <th class="topHeader">Default</th>
+      </tr>
+      <tr id="loadingContainer">
+        <td>Loading...</td>
+      </tr>
+      </tbody><tbody id="dashboards">
+        <template is="dom-repeat" items="[[_dashboards]]">
+          <tr class="groupHeader">
+            <td colspan="5">[[item.section]]</td>
+          </tr>
+          <template is="dom-repeat" items="[[item.dashboards]]">
+            <tr class="table">
+              <td class="name"><a href\$="[[_getUrl(item.project, item.id)]]">[[item.path]]</a></td>
+              <td class="title">[[item.title]]</td>
+              <td class="desc">[[item.description]]</td>
+              <td class="inherited">[[_computeInheritedFrom(item.project, item.defining_project)]]</td>
+              <td class="default">[[_computeIsDefault(item.is_default)]]</td>
+            </tr>
+          </template>
+        </template>
+      </tbody>
+    </table>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+`;

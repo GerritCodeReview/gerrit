@@ -14,27 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrCreateChangeHelp extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-create-change-help'; }
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-icons/gr-icons.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-create-change-help_html.js';
 
-    /**
-     * Fired when the "Create change" button is tapped.
-     *
-     * @event create-tap
-     */
+/** @extends Polymer.Element */
+class GrCreateChangeHelp extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-    _handleCreateTap(e) {
-      e.preventDefault();
-      this.dispatchEvent(
-          new CustomEvent('create-tap', {bubbles: true, composed: true}));
-    }
+  static get is() { return 'gr-create-change-help'; }
+
+  /**
+   * Fired when the "Create change" button is tapped.
+   *
+   * @event create-tap
+   */
+
+  _handleCreateTap(e) {
+    e.preventDefault();
+    this.dispatchEvent(
+        new CustomEvent('create-tap', {bubbles: true, composed: true}));
   }
+}
 
-  customElements.define(GrCreateChangeHelp.is, GrCreateChangeHelp);
-})();
+customElements.define(GrCreateChangeHelp.is, GrCreateChangeHelp);

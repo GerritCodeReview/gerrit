@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-button</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-button.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-button.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-button.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -41,146 +46,149 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-button tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-button.js';
+import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
+suite('gr-button tests', () => {
+  let element;
+  let sandbox;
 
-    const addSpyOn = function(eventName) {
-      const spy = sandbox.spy();
-      if (eventName == 'tap') {
-        Polymer.Gestures.addListener(element, eventName, spy);
-      } else {
-        element.addEventListener(eventName, spy);
-      }
-      return spy;
-    };
+  const addSpyOn = function(eventName) {
+    const spy = sandbox.spy();
+    if (eventName == 'tap') {
+      addListener(element, eventName, spy);
+    } else {
+      element.addEventListener(eventName, spy);
+    }
+    return spy;
+  };
 
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('disabled is set by disabled', () => {
+    const paperBtn = element.shadowRoot.querySelector('paper-button');
+    assert.isFalse(paperBtn.disabled);
+    element.disabled = true;
+    assert.isTrue(paperBtn.disabled);
+    element.disabled = false;
+    assert.isFalse(paperBtn.disabled);
+  });
+
+  test('loading set from listener', done => {
+    let resolve;
+    element.addEventListener('click', e => {
+      e.target.loading = true;
+      resolve = () => e.target.loading = false;
+    });
+    const paperBtn = element.shadowRoot.querySelector('paper-button');
+    assert.isFalse(paperBtn.disabled);
+    MockInteractions.tap(element);
+    assert.isTrue(paperBtn.disabled);
+    assert.isTrue(element.hasAttribute('loading'));
+    resolve();
+    flush(() => {
+      assert.isFalse(paperBtn.disabled);
+      assert.isFalse(element.hasAttribute('loading'));
+      done();
+    });
+  });
+
+  test('tabindex should be -1 if disabled', () => {
+    element.disabled = true;
+    assert.isTrue(element.getAttribute('tabindex') === '-1');
+  });
+
+  // Regression tests for Issue: 11969
+  test('tabindex should be reset to 0 if enabled', () => {
+    element.disabled = false;
+    assert.equal(element.getAttribute('tabindex'), '0');
+    element.disabled = true;
+    assert.equal(element.getAttribute('tabindex'), '-1');
+    element.disabled = false;
+    assert.equal(element.getAttribute('tabindex'), '0');
+  });
+
+  test('tabindex should be preserved', () => {
+    element = fixture('tabindex');
+    element.disabled = false;
+    assert.equal(element.getAttribute('tabindex'), '3');
+    element.disabled = true;
+    assert.equal(element.getAttribute('tabindex'), '-1');
+    element.disabled = false;
+    assert.equal(element.getAttribute('tabindex'), '3');
+  });
+
+  // 'tap' event is tested so we don't loose backward compatibility with older
+  // plugins who didn't move to on-click which is faster and well supported.
+  test('dispatches click event', () => {
+    const spy = addSpyOn('click');
+    MockInteractions.click(element);
+    assert.isTrue(spy.calledOnce);
+  });
+
+  test('dispatches tap event', () => {
+    const spy = addSpyOn('tap');
+    MockInteractions.tap(element);
+    assert.isTrue(spy.calledOnce);
+  });
+
+  test('dispatches click from tap event', () => {
+    const spy = addSpyOn('click');
+    MockInteractions.tap(element);
+    assert.isTrue(spy.calledOnce);
+  });
+
+  // Keycodes: 32 for Space, 13 for Enter.
+  for (const key of [32, 13]) {
+    test('dispatches click event on keycode ' + key, () => {
+      const tapSpy = sandbox.spy();
+      element.addEventListener('click', tapSpy);
+      MockInteractions.pressAndReleaseKeyOn(element, key);
+      assert.isTrue(tapSpy.calledOnce);
+    });
+
+    test('dispatches no click event with modifier on keycode ' + key, () => {
+      const tapSpy = sandbox.spy();
+      element.addEventListener('click', tapSpy);
+      MockInteractions.pressAndReleaseKeyOn(element, key, 'shift');
+      MockInteractions.pressAndReleaseKeyOn(element, key, 'ctrl');
+      MockInteractions.pressAndReleaseKeyOn(element, key, 'meta');
+      MockInteractions.pressAndReleaseKeyOn(element, key, 'alt');
+      assert.isFalse(tapSpy.calledOnce);
+    });
+  }
+
+  suite('disabled', () => {
     setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('disabled is set by disabled', () => {
-      const paperBtn = element.shadowRoot.querySelector('paper-button');
-      assert.isFalse(paperBtn.disabled);
       element.disabled = true;
-      assert.isTrue(paperBtn.disabled);
-      element.disabled = false;
-      assert.isFalse(paperBtn.disabled);
     });
 
-    test('loading set from listener', done => {
-      let resolve;
-      element.addEventListener('click', e => {
-        e.target.loading = true;
-        resolve = () => e.target.loading = false;
-      });
-      const paperBtn = element.shadowRoot.querySelector('paper-button');
-      assert.isFalse(paperBtn.disabled);
-      MockInteractions.tap(element);
-      assert.isTrue(paperBtn.disabled);
-      assert.isTrue(element.hasAttribute('loading'));
-      resolve();
-      flush(() => {
-        assert.isFalse(paperBtn.disabled);
-        assert.isFalse(element.hasAttribute('loading'));
-        done();
-      });
-    });
-
-    test('tabindex should be -1 if disabled', () => {
-      element.disabled = true;
-      assert.isTrue(element.getAttribute('tabindex') === '-1');
-    });
-
-    // Regression tests for Issue: 11969
-    test('tabindex should be reset to 0 if enabled', () => {
-      element.disabled = false;
-      assert.equal(element.getAttribute('tabindex'), '0');
-      element.disabled = true;
-      assert.equal(element.getAttribute('tabindex'), '-1');
-      element.disabled = false;
-      assert.equal(element.getAttribute('tabindex'), '0');
-    });
-
-    test('tabindex should be preserved', () => {
-      element = fixture('tabindex');
-      element.disabled = false;
-      assert.equal(element.getAttribute('tabindex'), '3');
-      element.disabled = true;
-      assert.equal(element.getAttribute('tabindex'), '-1');
-      element.disabled = false;
-      assert.equal(element.getAttribute('tabindex'), '3');
-    });
-
-    // 'tap' event is tested so we don't loose backward compatibility with older
-    // plugins who didn't move to on-click which is faster and well supported.
-    test('dispatches click event', () => {
-      const spy = addSpyOn('click');
-      MockInteractions.click(element);
-      assert.isTrue(spy.calledOnce);
-    });
-
-    test('dispatches tap event', () => {
-      const spy = addSpyOn('tap');
-      MockInteractions.tap(element);
-      assert.isTrue(spy.calledOnce);
-    });
-
-    test('dispatches click from tap event', () => {
-      const spy = addSpyOn('click');
-      MockInteractions.tap(element);
-      assert.isTrue(spy.calledOnce);
-    });
-
-    // Keycodes: 32 for Space, 13 for Enter.
-    for (const key of [32, 13]) {
-      test('dispatches click event on keycode ' + key, () => {
-        const tapSpy = sandbox.spy();
-        element.addEventListener('click', tapSpy);
-        MockInteractions.pressAndReleaseKeyOn(element, key);
-        assert.isTrue(tapSpy.calledOnce);
-      });
-
-      test('dispatches no click event with modifier on keycode ' + key, () => {
-        const tapSpy = sandbox.spy();
-        element.addEventListener('click', tapSpy);
-        MockInteractions.pressAndReleaseKeyOn(element, key, 'shift');
-        MockInteractions.pressAndReleaseKeyOn(element, key, 'ctrl');
-        MockInteractions.pressAndReleaseKeyOn(element, key, 'meta');
-        MockInteractions.pressAndReleaseKeyOn(element, key, 'alt');
-        assert.isFalse(tapSpy.calledOnce);
+    for (const eventName of ['tap', 'click']) {
+      test('stops ' + eventName + ' event', () => {
+        const spy = addSpyOn(eventName);
+        MockInteractions.tap(element);
+        assert.isFalse(spy.called);
       });
     }
 
-    suite('disabled', () => {
-      setup(() => {
-        element.disabled = true;
+    // Keycodes: 32 for Space, 13 for Enter.
+    for (const key of [32, 13]) {
+      test('stops click event on keycode ' + key, () => {
+        const tapSpy = sandbox.spy();
+        element.addEventListener('click', tapSpy);
+        MockInteractions.pressAndReleaseKeyOn(element, key);
+        assert.isFalse(tapSpy.called);
       });
-
-      for (const eventName of ['tap', 'click']) {
-        test('stops ' + eventName + ' event', () => {
-          const spy = addSpyOn(eventName);
-          MockInteractions.tap(element);
-          assert.isFalse(spy.called);
-        });
-      }
-
-      // Keycodes: 32 for Space, 13 for Enter.
-      for (const key of [32, 13]) {
-        test('stops click event on keycode ' + key, () => {
-          const tapSpy = sandbox.spy();
-          element.addEventListener('click', tapSpy);
-          MockInteractions.pressAndReleaseKeyOn(element, key);
-          assert.isFalse(tapSpy.called);
-        });
-      }
-    });
+    }
   });
+});
 </script>

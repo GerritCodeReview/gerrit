@@ -14,6 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../../../scripts/bundled-polymer.js';
+
+import './gr-plugin-popup.js';
+import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<dom-module id="gr-popup-interface">
+  
+</dom-module>`;
+
+document.head.appendChild($_documentContainer.content);
+
 (function(window) {
   'use strict';
 
@@ -35,7 +47,7 @@
   }
 
   GrPopupInterface.prototype._getElement = function() {
-    return Polymer.dom(this._popup);
+    return dom(this._popup);
   };
 
   /**
@@ -52,12 +64,12 @@
               .then(hookEl => {
                 const popup = document.createElement('gr-plugin-popup');
                 if (this._moduleName) {
-                  const el = Polymer.dom(popup).appendChild(
+                  const el = dom(popup).appendChild(
                       document.createElement(this._moduleName));
                   el.plugin = this.plugin;
                 }
-                this._popup = Polymer.dom(hookEl).appendChild(popup);
-                Polymer.dom.flush();
+                this._popup = dom(hookEl).appendChild(popup);
+                flush();
                 return this._popup.open().then(() => this);
               });
     }

@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-annotation</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="gr-annotation.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-annotation.js"></script>
 
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-annotation.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,266 +41,269 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('annotation', async () => {
-    await readyToTest();
-    let str;
-    let parent;
-    let textNode;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-annotation.js';
+import {sanitizeDOMValue, setSanitizeDOMValue} from '@polymer/polymer/lib/utils/settings.js';
+suite('annotation', () => {
+  let str;
+  let parent;
+  let textNode;
+  let sandbox;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    parent = fixture('basic');
+    textNode = parent.childNodes[0];
+    str = textNode.textContent;
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('_annotateText Case 1', () => {
+    GrAnnotation._annotateText(textNode, 0, str.length, 'foobar');
+
+    assert.equal(parent.childNodes.length, 1);
+    assert.instanceOf(parent.childNodes[0], HTMLElement);
+    assert.equal(parent.childNodes[0].className, 'foobar');
+    assert.instanceOf(parent.childNodes[0].childNodes[0], Text);
+    assert.equal(parent.childNodes[0].childNodes[0].textContent, str);
+  });
+
+  test('_annotateText Case 2', () => {
+    const length = 12;
+    const substr = str.substr(0, length);
+    const remainder = str.substr(length);
+
+    GrAnnotation._annotateText(textNode, 0, length, 'foobar');
+
+    assert.equal(parent.childNodes.length, 2);
+
+    assert.instanceOf(parent.childNodes[0], HTMLElement);
+    assert.equal(parent.childNodes[0].className, 'foobar');
+    assert.instanceOf(parent.childNodes[0].childNodes[0], Text);
+    assert.equal(parent.childNodes[0].childNodes[0].textContent, substr);
+
+    assert.instanceOf(parent.childNodes[1], Text);
+    assert.equal(parent.childNodes[1].textContent, remainder);
+  });
+
+  test('_annotateText Case 3', () => {
+    const index = 12;
+    const length = str.length - index;
+    const remainder = str.substr(0, index);
+    const substr = str.substr(index);
+
+    GrAnnotation._annotateText(textNode, index, length, 'foobar');
+
+    assert.equal(parent.childNodes.length, 2);
+
+    assert.instanceOf(parent.childNodes[0], Text);
+    assert.equal(parent.childNodes[0].textContent, remainder);
+
+    assert.instanceOf(parent.childNodes[1], HTMLElement);
+    assert.equal(parent.childNodes[1].className, 'foobar');
+    assert.instanceOf(parent.childNodes[1].childNodes[0], Text);
+    assert.equal(parent.childNodes[1].childNodes[0].textContent, substr);
+  });
+
+  test('_annotateText Case 4', () => {
+    const index = str.indexOf('dolor');
+    const length = 'dolor '.length;
+
+    const remainderPre = str.substr(0, index);
+    const substr = str.substr(index, length);
+    const remainderPost = str.substr(index + length);
+
+    GrAnnotation._annotateText(textNode, index, length, 'foobar');
+
+    assert.equal(parent.childNodes.length, 3);
+
+    assert.instanceOf(parent.childNodes[0], Text);
+    assert.equal(parent.childNodes[0].textContent, remainderPre);
+
+    assert.instanceOf(parent.childNodes[1], HTMLElement);
+    assert.equal(parent.childNodes[1].className, 'foobar');
+    assert.instanceOf(parent.childNodes[1].childNodes[0], Text);
+    assert.equal(parent.childNodes[1].childNodes[0].textContent, substr);
+
+    assert.instanceOf(parent.childNodes[2], Text);
+    assert.equal(parent.childNodes[2].textContent, remainderPost);
+  });
+
+  test('_annotateElement design doc example', () => {
+    const layers = [
+      'amet, ',
+      'inceptos ',
+      'amet, ',
+      'et, suspendisse ince',
+    ];
+
+    // Apply the layers successively.
+    layers.forEach((layer, i) => {
+      GrAnnotation.annotateElement(
+          parent, str.indexOf(layer), layer.length, `layer-${i + 1}`);
+    });
+
+    assert.equal(parent.textContent, str);
+
+    // Layer 1:
+    const layer1 = parent.querySelectorAll('.layer-1');
+    assert.equal(layer1.length, 1);
+    assert.equal(layer1[0].textContent, layers[0]);
+    assert.equal(layer1[0].parentElement, parent);
+
+    // Layer 2:
+    const layer2 = parent.querySelectorAll('.layer-2');
+    assert.equal(layer2.length, 1);
+    assert.equal(layer2[0].textContent, layers[1]);
+    assert.equal(layer2[0].parentElement, parent);
+
+    // Layer 3:
+    const layer3 = parent.querySelectorAll('.layer-3');
+    assert.equal(layer3.length, 1);
+    assert.equal(layer3[0].textContent, layers[2]);
+    assert.equal(layer3[0].parentElement, layer1[0]);
+
+    // Layer 4:
+    const layer4 = parent.querySelectorAll('.layer-4');
+    assert.equal(layer4.length, 3);
+
+    assert.equal(layer4[0].textContent, 'et, ');
+    assert.equal(layer4[0].parentElement, layer3[0]);
+
+    assert.equal(layer4[1].textContent, 'suspendisse ');
+    assert.equal(layer4[1].parentElement, parent);
+
+    assert.equal(layer4[2].textContent, 'ince');
+    assert.equal(layer4[2].parentElement, layer2[0]);
+
+    assert.equal(layer4[0].textContent +
+        layer4[1].textContent +
+        layer4[2].textContent,
+    layers[3]);
+  });
+
+  test('splitTextNode', () => {
+    const helloString = 'hello';
+    const asciiString = 'ASCII';
+    const unicodeString = 'Unic💢de';
+
+    let node;
+    let tail;
+
+    // Non-unicode path:
+    node = document.createTextNode(helloString + asciiString);
+    tail = GrAnnotation.splitTextNode(node, helloString.length);
+    assert(node.textContent, helloString);
+    assert(tail.textContent, asciiString);
+
+    // Unicdoe path:
+    node = document.createTextNode(helloString + unicodeString);
+    tail = GrAnnotation.splitTextNode(node, helloString.length);
+    assert(node.textContent, helloString);
+    assert(tail.textContent, unicodeString);
+  });
+
+  suite('annotateWithElement', () => {
+    const fullText = '01234567890123456789';
+    let mockSanitize;
+    let originalSanitizeDOMValue;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      parent = fixture('basic');
-      textNode = parent.childNodes[0];
-      str = textNode.textContent;
+      originalSanitizeDOMValue = sanitizeDOMValue;
+      assert.isDefined(originalSanitizeDOMValue);
+      mockSanitize = sandbox.spy(originalSanitizeDOMValue);
+      setSanitizeDOMValue(mockSanitize);
     });
 
     teardown(() => {
-      sandbox.restore();
+      setSanitizeDOMValue(originalSanitizeDOMValue);
     });
 
-    test('_annotateText Case 1', () => {
-      GrAnnotation._annotateText(textNode, 0, str.length, 'foobar');
+    test('annotates when fully contained', () => {
+      const length = 10;
+      const container = document.createElement('div');
+      container.textContent = fullText;
+      GrAnnotation.annotateWithElement(
+          container, 1, length, {tagName: 'test-wrapper'});
 
-      assert.equal(parent.childNodes.length, 1);
-      assert.instanceOf(parent.childNodes[0], HTMLElement);
-      assert.equal(parent.childNodes[0].className, 'foobar');
-      assert.instanceOf(parent.childNodes[0].childNodes[0], Text);
-      assert.equal(parent.childNodes[0].childNodes[0].textContent, str);
+      assert.equal(
+          container.innerHTML,
+          '0<test-wrapper>1234567890</test-wrapper>123456789');
     });
 
-    test('_annotateText Case 2', () => {
-      const length = 12;
-      const substr = str.substr(0, length);
-      const remainder = str.substr(length);
+    test('annotates when spanning multiple nodes', () => {
+      const length = 10;
+      const container = document.createElement('div');
+      container.textContent = fullText;
+      GrAnnotation.annotateElement(container, 5, length, 'testclass');
+      GrAnnotation.annotateWithElement(
+          container, 1, length, {tagName: 'test-wrapper'});
 
-      GrAnnotation._annotateText(textNode, 0, length, 'foobar');
-
-      assert.equal(parent.childNodes.length, 2);
-
-      assert.instanceOf(parent.childNodes[0], HTMLElement);
-      assert.equal(parent.childNodes[0].className, 'foobar');
-      assert.instanceOf(parent.childNodes[0].childNodes[0], Text);
-      assert.equal(parent.childNodes[0].childNodes[0].textContent, substr);
-
-      assert.instanceOf(parent.childNodes[1], Text);
-      assert.equal(parent.childNodes[1].textContent, remainder);
+      assert.equal(
+          container.innerHTML,
+          '0' +
+          '<test-wrapper>' +
+          '1234' +
+          '<hl class="testclass">567890</hl>' +
+          '</test-wrapper>' +
+          '<hl class="testclass">1234</hl>' +
+          '56789');
     });
 
-    test('_annotateText Case 3', () => {
-      const index = 12;
-      const length = str.length - index;
-      const remainder = str.substr(0, index);
-      const substr = str.substr(index);
+    test('annotates text node', () => {
+      const length = 10;
+      const container = document.createElement('div');
+      container.textContent = fullText;
+      GrAnnotation.annotateWithElement(
+          container.childNodes[0], 1, length, {tagName: 'test-wrapper'});
 
-      GrAnnotation._annotateText(textNode, index, length, 'foobar');
-
-      assert.equal(parent.childNodes.length, 2);
-
-      assert.instanceOf(parent.childNodes[0], Text);
-      assert.equal(parent.childNodes[0].textContent, remainder);
-
-      assert.instanceOf(parent.childNodes[1], HTMLElement);
-      assert.equal(parent.childNodes[1].className, 'foobar');
-      assert.instanceOf(parent.childNodes[1].childNodes[0], Text);
-      assert.equal(parent.childNodes[1].childNodes[0].textContent, substr);
+      assert.equal(
+          container.innerHTML,
+          '0<test-wrapper>1234567890</test-wrapper>123456789');
     });
 
-    test('_annotateText Case 4', () => {
-      const index = str.indexOf('dolor');
-      const length = 'dolor '.length;
+    test('handles zero-length nodes', () => {
+      const container = document.createElement('div');
+      container.appendChild(document.createTextNode('0123456789'));
+      container.appendChild(document.createElement('span'));
+      container.appendChild(document.createTextNode('0123456789'));
+      GrAnnotation.annotateWithElement(
+          container, 1, 10, {tagName: 'test-wrapper'});
 
-      const remainderPre = str.substr(0, index);
-      const substr = str.substr(index, length);
-      const remainderPost = str.substr(index + length);
-
-      GrAnnotation._annotateText(textNode, index, length, 'foobar');
-
-      assert.equal(parent.childNodes.length, 3);
-
-      assert.instanceOf(parent.childNodes[0], Text);
-      assert.equal(parent.childNodes[0].textContent, remainderPre);
-
-      assert.instanceOf(parent.childNodes[1], HTMLElement);
-      assert.equal(parent.childNodes[1].className, 'foobar');
-      assert.instanceOf(parent.childNodes[1].childNodes[0], Text);
-      assert.equal(parent.childNodes[1].childNodes[0].textContent, substr);
-
-      assert.instanceOf(parent.childNodes[2], Text);
-      assert.equal(parent.childNodes[2].textContent, remainderPost);
+      assert.equal(
+          container.innerHTML,
+          '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789');
     });
 
-    test('_annotateElement design doc example', () => {
-      const layers = [
-        'amet, ',
-        'inceptos ',
-        'amet, ',
-        'et, suspendisse ince',
-      ];
-
-      // Apply the layers successively.
-      layers.forEach((layer, i) => {
-        GrAnnotation.annotateElement(
-            parent, str.indexOf(layer), layer.length, `layer-${i + 1}`);
-      });
-
-      assert.equal(parent.textContent, str);
-
-      // Layer 1:
-      const layer1 = parent.querySelectorAll('.layer-1');
-      assert.equal(layer1.length, 1);
-      assert.equal(layer1[0].textContent, layers[0]);
-      assert.equal(layer1[0].parentElement, parent);
-
-      // Layer 2:
-      const layer2 = parent.querySelectorAll('.layer-2');
-      assert.equal(layer2.length, 1);
-      assert.equal(layer2[0].textContent, layers[1]);
-      assert.equal(layer2[0].parentElement, parent);
-
-      // Layer 3:
-      const layer3 = parent.querySelectorAll('.layer-3');
-      assert.equal(layer3.length, 1);
-      assert.equal(layer3[0].textContent, layers[2]);
-      assert.equal(layer3[0].parentElement, layer1[0]);
-
-      // Layer 4:
-      const layer4 = parent.querySelectorAll('.layer-4');
-      assert.equal(layer4.length, 3);
-
-      assert.equal(layer4[0].textContent, 'et, ');
-      assert.equal(layer4[0].parentElement, layer3[0]);
-
-      assert.equal(layer4[1].textContent, 'suspendisse ');
-      assert.equal(layer4[1].parentElement, parent);
-
-      assert.equal(layer4[2].textContent, 'ince');
-      assert.equal(layer4[2].parentElement, layer2[0]);
-
-      assert.equal(layer4[0].textContent +
-          layer4[1].textContent +
-          layer4[2].textContent,
-      layers[3]);
-    });
-
-    test('splitTextNode', () => {
-      const helloString = 'hello';
-      const asciiString = 'ASCII';
-      const unicodeString = 'Unic💢de';
-
-      let node;
-      let tail;
-
-      // Non-unicode path:
-      node = document.createTextNode(helloString + asciiString);
-      tail = GrAnnotation.splitTextNode(node, helloString.length);
-      assert(node.textContent, helloString);
-      assert(tail.textContent, asciiString);
-
-      // Unicdoe path:
-      node = document.createTextNode(helloString + unicodeString);
-      tail = GrAnnotation.splitTextNode(node, helloString.length);
-      assert(node.textContent, helloString);
-      assert(tail.textContent, unicodeString);
-    });
-
-    suite('annotateWithElement', () => {
-      const fullText = '01234567890123456789';
-      let mockSanitize;
-      let originalSanitizeDOMValue;
-
-      setup(() => {
-        originalSanitizeDOMValue = window.Polymer.sanitizeDOMValue;
-        assert.isDefined(originalSanitizeDOMValue);
-        mockSanitize = sandbox.spy(originalSanitizeDOMValue);
-        window.Polymer.sanitizeDOMValue = mockSanitize;
-      });
-
-      teardown(() => {
-        window.Polymer.sanitizeDOMValue = originalSanitizeDOMValue;
-      });
-
-      test('annotates when fully contained', () => {
-        const length = 10;
-        const container = document.createElement('div');
-        container.textContent = fullText;
-        GrAnnotation.annotateWithElement(
-            container, 1, length, {tagName: 'test-wrapper'});
-
-        assert.equal(
-            container.innerHTML,
-            '0<test-wrapper>1234567890</test-wrapper>123456789');
-      });
-
-      test('annotates when spanning multiple nodes', () => {
-        const length = 10;
-        const container = document.createElement('div');
-        container.textContent = fullText;
-        GrAnnotation.annotateElement(container, 5, length, 'testclass');
-        GrAnnotation.annotateWithElement(
-            container, 1, length, {tagName: 'test-wrapper'});
-
-        assert.equal(
-            container.innerHTML,
-            '0' +
-            '<test-wrapper>' +
-            '1234' +
-            '<hl class="testclass">567890</hl>' +
-            '</test-wrapper>' +
-            '<hl class="testclass">1234</hl>' +
-            '56789');
-      });
-
-      test('annotates text node', () => {
-        const length = 10;
-        const container = document.createElement('div');
-        container.textContent = fullText;
-        GrAnnotation.annotateWithElement(
-            container.childNodes[0], 1, length, {tagName: 'test-wrapper'});
-
-        assert.equal(
-            container.innerHTML,
-            '0<test-wrapper>1234567890</test-wrapper>123456789');
-      });
-
-      test('handles zero-length nodes', () => {
-        const container = document.createElement('div');
-        container.appendChild(document.createTextNode('0123456789'));
-        container.appendChild(document.createElement('span'));
-        container.appendChild(document.createTextNode('0123456789'));
-        GrAnnotation.annotateWithElement(
-            container, 1, 10, {tagName: 'test-wrapper'});
-
-        assert.equal(
-            container.innerHTML,
-            '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789');
-      });
-
-      test('sets sanitized attributes', () => {
-        const container = document.createElement('div');
-        container.textContent = fullText;
-        const attributes = {
-          'href': 'foo',
-          'data-foo': 'bar',
-          'class': 'hello world',
-        };
-        GrAnnotation.annotateWithElement(
-            container, 1, length, {tagName: 'test-wrapper', attributes});
-        assert(mockSanitize.calledWith(
-            'foo', 'href', 'attribute', sinon.match.instanceOf(Element)));
-        assert(mockSanitize.calledWith(
-            'bar', 'data-foo', 'attribute', sinon.match.instanceOf(Element)));
-        assert(mockSanitize.calledWith(
-            'hello world',
-            'class',
-            'attribute',
-            sinon.match.instanceOf(Element)));
-        const el = container.querySelector('test-wrapper');
-        assert.equal(el.getAttribute('href'), 'foo');
-        assert.equal(el.getAttribute('data-foo'), 'bar');
-        assert.equal(el.getAttribute('class'), 'hello world');
-      });
+    test('sets sanitized attributes', () => {
+      const container = document.createElement('div');
+      container.textContent = fullText;
+      const attributes = {
+        'href': 'foo',
+        'data-foo': 'bar',
+        'class': 'hello world',
+      };
+      GrAnnotation.annotateWithElement(
+          container, 1, length, {tagName: 'test-wrapper', attributes});
+      assert(mockSanitize.calledWith(
+          'foo', 'href', 'attribute', sinon.match.instanceOf(Element)));
+      assert(mockSanitize.calledWith(
+          'bar', 'data-foo', 'attribute', sinon.match.instanceOf(Element)));
+      assert(mockSanitize.calledWith(
+          'hello world',
+          'class',
+          'attribute',
+          sinon.match.instanceOf(Element)));
+      const el = container.querySelector('test-wrapper');
+      assert.equal(el.getAttribute('href'), 'foo');
+      assert.equal(el.getAttribute('data-foo'), 'bar');
+      assert.equal(el.getAttribute('class'), 'hello world');
     });
   });
+});
 </script>

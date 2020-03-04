@@ -1,0 +1,74 @@
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+(function(window) {
+  'use strict';
+
+  window.Gerrit = window.Gerrit || {};
+
+  /** @polymerBehavior Gerrit.URLEncodingBehavior */
+  Gerrit.URLEncodingBehavior = {
+    /**
+     * Pretty-encodes a URL. Double-encodes the string, and then replaces
+     *   benevolent characters for legibility.
+     *
+     * @param {string} url
+     * @param {boolean=} replaceSlashes
+     * @return {string}
+     */
+    encodeURL(url, replaceSlashes) {
+      // @see Issue 4255 regarding double-encoding.
+      let output = encodeURIComponent(encodeURIComponent(url));
+      // @see Issue 4577 regarding more readable URLs.
+      output = output.replace(/%253A/g, ':');
+      output = output.replace(/%2520/g, '+');
+      if (replaceSlashes) {
+        output = output.replace(/%252F/g, '/');
+      }
+      return output;
+    },
+
+    /**
+     * Single decode for URL components. Will decode plus signs ('+') to spaces.
+     * Note: because this function decodes once, it is not the inverse of
+     * encodeURL.
+     *
+     * @param {string} url
+     * @return {string}
+     */
+    singleDecodeURL(url) {
+      const withoutPlus = url.replace(/\+/g, '%20');
+      return decodeURIComponent(withoutPlus);
+    },
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  function defineEmptyMixin() {
+    // This is a temporary function.
+    // Polymer linter doesn't process correctly the following code:
+    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
+    // To workaround this issue, the mock mixin is declared in this method.
+    // In the following changes, legacy behaviors will be converted to mixins.
+
+    /**
+     * @polymer
+     * @mixinFunction
+     */
+    Gerrit.URLEncodingMixin = base =>
+      class extends base {
+      };
+  }
+})(window);

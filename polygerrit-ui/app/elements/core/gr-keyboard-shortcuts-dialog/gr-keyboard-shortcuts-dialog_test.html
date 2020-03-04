@@ -18,15 +18,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-key-binding-display</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-keyboard-shortcuts-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-keyboard-shortcuts-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-keyboard-shortcuts-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -34,150 +39,152 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-keyboard-shortcuts-dialog tests', async () => {
-    await readyToTest();
-    const kb = window.Gerrit.KeyboardShortcutBinder;
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-keyboard-shortcuts-dialog.js';
+suite('gr-keyboard-shortcuts-dialog tests', () => {
+  const kb = window.Gerrit.KeyboardShortcutBinder;
+  let element;
 
-    setup(() => {
-      element = fixture('basic');
+  setup(() => {
+    element = fixture('basic');
+  });
+
+  function update(directory) {
+    element._onDirectoryUpdated(directory);
+    flushAsynchronousOperations();
+  }
+
+  suite('_left and _right contents', () => {
+    test('empty dialog', () => {
+      assert.strictEqual(element._left.length, 0);
+      assert.strictEqual(element._right.length, 0);
     });
 
-    function update(directory) {
-      element._onDirectoryUpdated(directory);
-      flushAsynchronousOperations();
-    }
+    test('everywhere goes on left', () => {
+      update(new Map([
+        [kb.ShortcutSection.EVERYWHERE, ['everywhere shortcuts']],
+      ]));
+      assert.deepEqual(
+          element._left,
+          [
+            {
+              section: kb.ShortcutSection.EVERYWHERE,
+              shortcuts: ['everywhere shortcuts'],
+            },
+          ]);
+      assert.strictEqual(element._right.length, 0);
+    });
 
-    suite('_left and _right contents', () => {
-      test('empty dialog', () => {
-        assert.strictEqual(element._left.length, 0);
-        assert.strictEqual(element._right.length, 0);
-      });
+    test('navigation goes on left', () => {
+      update(new Map([
+        [kb.ShortcutSection.NAVIGATION, ['navigation shortcuts']],
+      ]));
+      assert.deepEqual(
+          element._left,
+          [
+            {
+              section: kb.ShortcutSection.NAVIGATION,
+              shortcuts: ['navigation shortcuts'],
+            },
+          ]);
+      assert.strictEqual(element._right.length, 0);
+    });
 
-      test('everywhere goes on left', () => {
-        update(new Map([
-          [kb.ShortcutSection.EVERYWHERE, ['everywhere shortcuts']],
-        ]));
-        assert.deepEqual(
-            element._left,
-            [
-              {
-                section: kb.ShortcutSection.EVERYWHERE,
-                shortcuts: ['everywhere shortcuts'],
-              },
-            ]);
-        assert.strictEqual(element._right.length, 0);
-      });
+    test('actions go on right', () => {
+      update(new Map([
+        [kb.ShortcutSection.ACTIONS, ['actions shortcuts']],
+      ]));
+      assert.deepEqual(
+          element._right,
+          [
+            {
+              section: kb.ShortcutSection.ACTIONS,
+              shortcuts: ['actions shortcuts'],
+            },
+          ]);
+      assert.strictEqual(element._left.length, 0);
+    });
 
-      test('navigation goes on left', () => {
-        update(new Map([
-          [kb.ShortcutSection.NAVIGATION, ['navigation shortcuts']],
-        ]));
-        assert.deepEqual(
-            element._left,
-            [
-              {
-                section: kb.ShortcutSection.NAVIGATION,
-                shortcuts: ['navigation shortcuts'],
-              },
-            ]);
-        assert.strictEqual(element._right.length, 0);
-      });
+    test('reply dialog goes on right', () => {
+      update(new Map([
+        [kb.ShortcutSection.REPLY_DIALOG, ['reply dialog shortcuts']],
+      ]));
+      assert.deepEqual(
+          element._right,
+          [
+            {
+              section: kb.ShortcutSection.REPLY_DIALOG,
+              shortcuts: ['reply dialog shortcuts'],
+            },
+          ]);
+      assert.strictEqual(element._left.length, 0);
+    });
 
-      test('actions go on right', () => {
-        update(new Map([
-          [kb.ShortcutSection.ACTIONS, ['actions shortcuts']],
-        ]));
-        assert.deepEqual(
-            element._right,
-            [
-              {
-                section: kb.ShortcutSection.ACTIONS,
-                shortcuts: ['actions shortcuts'],
-              },
-            ]);
-        assert.strictEqual(element._left.length, 0);
-      });
+    test('file list goes on right', () => {
+      update(new Map([
+        [kb.ShortcutSection.FILE_LIST, ['file list shortcuts']],
+      ]));
+      assert.deepEqual(
+          element._right,
+          [
+            {
+              section: kb.ShortcutSection.FILE_LIST,
+              shortcuts: ['file list shortcuts'],
+            },
+          ]);
+      assert.strictEqual(element._left.length, 0);
+    });
 
-      test('reply dialog goes on right', () => {
-        update(new Map([
-          [kb.ShortcutSection.REPLY_DIALOG, ['reply dialog shortcuts']],
-        ]));
-        assert.deepEqual(
-            element._right,
-            [
-              {
-                section: kb.ShortcutSection.REPLY_DIALOG,
-                shortcuts: ['reply dialog shortcuts'],
-              },
-            ]);
-        assert.strictEqual(element._left.length, 0);
-      });
+    test('diffs go on right', () => {
+      update(new Map([
+        [kb.ShortcutSection.DIFFS, ['diffs shortcuts']],
+      ]));
+      assert.deepEqual(
+          element._right,
+          [
+            {
+              section: kb.ShortcutSection.DIFFS,
+              shortcuts: ['diffs shortcuts'],
+            },
+          ]);
+      assert.strictEqual(element._left.length, 0);
+    });
 
-      test('file list goes on right', () => {
-        update(new Map([
-          [kb.ShortcutSection.FILE_LIST, ['file list shortcuts']],
-        ]));
-        assert.deepEqual(
-            element._right,
-            [
-              {
-                section: kb.ShortcutSection.FILE_LIST,
-                shortcuts: ['file list shortcuts'],
-              },
-            ]);
-        assert.strictEqual(element._left.length, 0);
-      });
-
-      test('diffs go on right', () => {
-        update(new Map([
-          [kb.ShortcutSection.DIFFS, ['diffs shortcuts']],
-        ]));
-        assert.deepEqual(
-            element._right,
-            [
-              {
-                section: kb.ShortcutSection.DIFFS,
-                shortcuts: ['diffs shortcuts'],
-              },
-            ]);
-        assert.strictEqual(element._left.length, 0);
-      });
-
-      test('multiple sections on each side', () => {
-        update(new Map([
-          [kb.ShortcutSection.ACTIONS, ['actions shortcuts']],
-          [kb.ShortcutSection.DIFFS, ['diffs shortcuts']],
-          [kb.ShortcutSection.EVERYWHERE, ['everywhere shortcuts']],
-          [kb.ShortcutSection.NAVIGATION, ['navigation shortcuts']],
-        ]));
-        assert.deepEqual(
-            element._left,
-            [
-              {
-                section: kb.ShortcutSection.EVERYWHERE,
-                shortcuts: ['everywhere shortcuts'],
-              },
-              {
-                section: kb.ShortcutSection.NAVIGATION,
-                shortcuts: ['navigation shortcuts'],
-              },
-            ]);
-        assert.deepEqual(
-            element._right,
-            [
-              {
-                section: kb.ShortcutSection.ACTIONS,
-                shortcuts: ['actions shortcuts'],
-              },
-              {
-                section: kb.ShortcutSection.DIFFS,
-                shortcuts: ['diffs shortcuts'],
-              },
-            ]);
-      });
+    test('multiple sections on each side', () => {
+      update(new Map([
+        [kb.ShortcutSection.ACTIONS, ['actions shortcuts']],
+        [kb.ShortcutSection.DIFFS, ['diffs shortcuts']],
+        [kb.ShortcutSection.EVERYWHERE, ['everywhere shortcuts']],
+        [kb.ShortcutSection.NAVIGATION, ['navigation shortcuts']],
+      ]));
+      assert.deepEqual(
+          element._left,
+          [
+            {
+              section: kb.ShortcutSection.EVERYWHERE,
+              shortcuts: ['everywhere shortcuts'],
+            },
+            {
+              section: kb.ShortcutSection.NAVIGATION,
+              shortcuts: ['navigation shortcuts'],
+            },
+          ]);
+      assert.deepEqual(
+          element._right,
+          [
+            {
+              section: kb.ShortcutSection.ACTIONS,
+              shortcuts: ['actions shortcuts'],
+            },
+            {
+              section: kb.ShortcutSection.DIFFS,
+              shortcuts: ['diffs shortcuts'],
+            },
+          ]);
     });
   });
+});
 </script>
 

@@ -14,98 +14,109 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
+import '@polymer/iron-input/iron-input.js';
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-included-in-dialog_html.js';
+
+/**
+ * @appliesMixin Gerrit.FireMixin
+ * @extends Polymer.Element
+ */
+class GrIncludedInDialog extends mixinBehaviors( [
+  Gerrit.FireBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-included-in-dialog'; }
   /**
-   * @appliesMixin Gerrit.FireMixin
-   * @extends Polymer.Element
+   * Fired when the user presses the close button.
+   *
+   * @event close
    */
-  class GrIncludedInDialog extends Polymer.mixinBehaviors( [
-    Gerrit.FireBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-included-in-dialog'; }
-    /**
-     * Fired when the user presses the close button.
-     *
-     * @event close
-     */
 
-    static get properties() {
-      return {
+  static get properties() {
+    return {
+    /** @type {?} */
+      changeNum: {
+        type: Object,
+        observer: '_resetData',
+      },
       /** @type {?} */
-        changeNum: {
-          type: Object,
-          observer: '_resetData',
-        },
-        /** @type {?} */
-        _includedIn: Object,
-        _loaded: {
-          type: Boolean,
-          value: false,
-        },
-        _filterText: {
-          type: String,
-          value: '',
-        },
-      };
-    }
-
-    loadData() {
-      if (!this.changeNum) { return; }
-      this._filterText = '';
-      return this.$.restAPI.getChangeIncludedIn(this.changeNum).then(
-          configs => {
-            if (!configs) { return; }
-            this._includedIn = configs;
-            this._loaded = true;
-          });
-    }
-
-    _resetData() {
-      this._includedIn = null;
-      this._loaded = false;
-    }
-
-    _computeGroups(includedIn, filterText) {
-      if (!includedIn) { return []; }
-
-      const filter = item => !filterText.length ||
-          item.toLowerCase().indexOf(filterText.toLowerCase()) !== -1;
-
-      const groups = [
-        {title: 'Branches', items: includedIn.branches.filter(filter)},
-        {title: 'Tags', items: includedIn.tags.filter(filter)},
-      ];
-      if (includedIn.external) {
-        for (const externalKey of Object.keys(includedIn.external)) {
-          groups.push({
-            title: externalKey,
-            items: includedIn.external[externalKey].filter(filter),
-          });
-        }
-      }
-      return groups.filter(g => g.items.length);
-    }
-
-    _handleCloseTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.fire('close', null, {bubbles: false});
-    }
-
-    _computeLoadingClass(loaded) {
-      return loaded ? 'loading loaded' : 'loading';
-    }
-
-    _onFilterChanged() {
-      this.debounce('filter-change', () => {
-        this._filterText = this.$.filterInput.bindValue;
-      }, 100);
-    }
+      _includedIn: Object,
+      _loaded: {
+        type: Boolean,
+        value: false,
+      },
+      _filterText: {
+        type: String,
+        value: '',
+      },
+    };
   }
 
-  customElements.define(GrIncludedInDialog.is, GrIncludedInDialog);
-})();
+  loadData() {
+    if (!this.changeNum) { return; }
+    this._filterText = '';
+    return this.$.restAPI.getChangeIncludedIn(this.changeNum).then(
+        configs => {
+          if (!configs) { return; }
+          this._includedIn = configs;
+          this._loaded = true;
+        });
+  }
+
+  _resetData() {
+    this._includedIn = null;
+    this._loaded = false;
+  }
+
+  _computeGroups(includedIn, filterText) {
+    if (!includedIn) { return []; }
+
+    const filter = item => !filterText.length ||
+        item.toLowerCase().indexOf(filterText.toLowerCase()) !== -1;
+
+    const groups = [
+      {title: 'Branches', items: includedIn.branches.filter(filter)},
+      {title: 'Tags', items: includedIn.tags.filter(filter)},
+    ];
+    if (includedIn.external) {
+      for (const externalKey of Object.keys(includedIn.external)) {
+        groups.push({
+          title: externalKey,
+          items: includedIn.external[externalKey].filter(filter),
+        });
+      }
+    }
+    return groups.filter(g => g.items.length);
+  }
+
+  _handleCloseTap(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.fire('close', null, {bubbles: false});
+  }
+
+  _computeLoadingClass(loaded) {
+    return loaded ? 'loading loaded' : 'loading';
+  }
+
+  _onFilterChanged() {
+    this.debounce('filter-change', () => {
+      this._filterText = this.$.filterInput.bindValue;
+    }, 100);
+  }
+}
+
+customElements.define(GrIncludedInDialog.is, GrIncludedInDialog);

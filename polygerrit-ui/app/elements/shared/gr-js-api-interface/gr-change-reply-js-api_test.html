@@ -19,19 +19,24 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-reply-js-api</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 <!--
 This must refer to the element this interface is wrapping around. Otherwise
 breaking changes to gr-reply-dialog won’t be noticed.
 -->
-<link rel="import" href="../../change/gr-reply-dialog/gr-reply-dialog.html">
+<script type="module" src="../../change/gr-reply-dialog/gr-reply-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../change/gr-reply-dialog/gr-reply-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -39,86 +44,88 @@ breaking changes to gr-reply-dialog won’t be noticed.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-change-reply-js-api tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let changeReply;
-    let plugin;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../change/gr-reply-dialog/gr-reply-dialog.js';
+suite('gr-change-reply-js-api tests', () => {
+  let element;
+  let sandbox;
+  let changeReply;
+  let plugin;
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+      getAccount() { return Promise.resolve(null); },
+    });
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('early init', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getAccount() { return Promise.resolve(null); },
-      });
+      Gerrit.install(p => { plugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin/static/test.js');
+      changeReply = plugin.changeReply();
+      element = fixture('basic');
     });
 
     teardown(() => {
-      sandbox.restore();
+      changeReply = null;
     });
 
-    suite('early init', () => {
-      setup(() => {
-        Gerrit.install(p => { plugin = p; }, '0.1',
-            'http://test.com/plugins/testplugin/static/test.js');
-        changeReply = plugin.changeReply();
-        element = fixture('basic');
-      });
+    test('works', () => {
+      sandbox.stub(element, 'getLabelValue').returns('+123');
+      assert.equal(changeReply.getLabelValue('My-Label'), '+123');
 
-      teardown(() => {
-        changeReply = null;
-      });
+      sandbox.stub(element, 'setLabelValue');
+      changeReply.setLabelValue('My-Label', '+1337');
+      assert.isTrue(
+          element.setLabelValue.calledWithExactly('My-Label', '+1337'));
 
-      test('works', () => {
-        sandbox.stub(element, 'getLabelValue').returns('+123');
-        assert.equal(changeReply.getLabelValue('My-Label'), '+123');
+      sandbox.stub(element, 'send');
+      changeReply.send(false);
+      assert.isTrue(element.send.calledWithExactly(false));
 
-        sandbox.stub(element, 'setLabelValue');
-        changeReply.setLabelValue('My-Label', '+1337');
-        assert.isTrue(
-            element.setLabelValue.calledWithExactly('My-Label', '+1337'));
-
-        sandbox.stub(element, 'send');
-        changeReply.send(false);
-        assert.isTrue(element.send.calledWithExactly(false));
-
-        sandbox.stub(element, 'setPluginMessage');
-        changeReply.showMessage('foobar');
-        assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
-      });
-    });
-
-    suite('normal init', () => {
-      setup(() => {
-        element = fixture('basic');
-        Gerrit.install(p => { plugin = p; }, '0.1',
-            'http://test.com/plugins/testplugin/static/test.js');
-        changeReply = plugin.changeReply();
-      });
-
-      teardown(() => {
-        changeReply = null;
-      });
-
-      test('works', () => {
-        sandbox.stub(element, 'getLabelValue').returns('+123');
-        assert.equal(changeReply.getLabelValue('My-Label'), '+123');
-
-        sandbox.stub(element, 'setLabelValue');
-        changeReply.setLabelValue('My-Label', '+1337');
-        assert.isTrue(
-            element.setLabelValue.calledWithExactly('My-Label', '+1337'));
-
-        sandbox.stub(element, 'send');
-        changeReply.send(false);
-        assert.isTrue(element.send.calledWithExactly(false));
-
-        sandbox.stub(element, 'setPluginMessage');
-        changeReply.showMessage('foobar');
-        assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
-      });
+      sandbox.stub(element, 'setPluginMessage');
+      changeReply.showMessage('foobar');
+      assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
     });
   });
+
+  suite('normal init', () => {
+    setup(() => {
+      element = fixture('basic');
+      Gerrit.install(p => { plugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin/static/test.js');
+      changeReply = plugin.changeReply();
+    });
+
+    teardown(() => {
+      changeReply = null;
+    });
+
+    test('works', () => {
+      sandbox.stub(element, 'getLabelValue').returns('+123');
+      assert.equal(changeReply.getLabelValue('My-Label'), '+123');
+
+      sandbox.stub(element, 'setLabelValue');
+      changeReply.setLabelValue('My-Label', '+1337');
+      assert.isTrue(
+          element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+
+      sandbox.stub(element, 'send');
+      changeReply.send(false);
+      assert.isTrue(element.send.calledWithExactly(false));
+
+      sandbox.stub(element, 'setPluginMessage');
+      changeReply.showMessage('foobar');
+      assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
+    });
+  });
+});
 </script>

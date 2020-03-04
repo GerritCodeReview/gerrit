@@ -19,158 +19,169 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-rest-api-helper</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../../test/common-test-setup.html"/>
-<script src="../../../../scripts/util.js"></script>
-<script src="../gr-auth.js"></script>
-<script src="gr-rest-api-helper.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../../test/common-test-setup.js"></script>
+<script type="module" src="../../../../scripts/util.js"></script>
+<script type="module" src="../gr-auth.js"></script>
+<script type="module" src="./gr-rest-api-helper.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../../test/test-pre-setup.js';
+import '../../../../test/common-test-setup.js';
+import '../../../../scripts/util.js';
+import '../gr-auth.js';
+import './gr-rest-api-helper.js';
+void(0);
+</script>
 
-<script>
-  suite('gr-rest-api-helper tests', async () => {
-    await readyToTest();
-    let helper;
-    let sandbox;
-    let cache;
-    let fetchPromisesCache;
+<script type="module">
+import '../../../../test/test-pre-setup.js';
+import '../../../../test/common-test-setup.js';
+import '../../../../scripts/util.js';
+import '../gr-auth.js';
+import './gr-rest-api-helper.js';
+suite('gr-rest-api-helper tests', () => {
+  let helper;
+  let sandbox;
+  let cache;
+  let fetchPromisesCache;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      cache = new SiteBasedCache();
-      fetchPromisesCache = new FetchPromisesCache();
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    cache = new SiteBasedCache();
+    fetchPromisesCache = new FetchPromisesCache();
 
-      window.CANONICAL_PATH = 'testhelper';
+    window.CANONICAL_PATH = 'testhelper';
 
-      const mockRestApiInterface = {
-        getBaseUrl: sinon.stub().returns(window.CANONICAL_PATH),
-        fire: sinon.stub(),
-      };
+    const mockRestApiInterface = {
+      getBaseUrl: sinon.stub().returns(window.CANONICAL_PATH),
+      fire: sinon.stub(),
+    };
 
-      const testJSON = ')]}\'\n{"hello": "bonjour"}';
-      sandbox.stub(window, 'fetch').returns(Promise.resolve({
-        ok: true,
-        text() {
-          return Promise.resolve(testJSON);
-        },
-      }));
+    const testJSON = ')]}\'\n{"hello": "bonjour"}';
+    sandbox.stub(window, 'fetch').returns(Promise.resolve({
+      ok: true,
+      text() {
+        return Promise.resolve(testJSON);
+      },
+    }));
 
-      helper = new GrRestApiHelper(cache, Gerrit.Auth, fetchPromisesCache,
-          mockRestApiInterface);
+    helper = new GrRestApiHelper(cache, Gerrit.Auth, fetchPromisesCache,
+        mockRestApiInterface);
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('fetchJSON()', () => {
+    test('Sets header to accept application/json', () => {
+      const authFetchStub = sandbox.stub(helper._auth, 'fetch')
+          .returns(Promise.resolve());
+      helper.fetchJSON({url: '/dummy/url'});
+      assert.isTrue(authFetchStub.called);
+      assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
+          'application/json');
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    suite('fetchJSON()', () => {
-      test('Sets header to accept application/json', () => {
-        const authFetchStub = sandbox.stub(helper._auth, 'fetch')
-            .returns(Promise.resolve());
-        helper.fetchJSON({url: '/dummy/url'});
-        assert.isTrue(authFetchStub.called);
-        assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
-            'application/json');
-      });
-
-      test('Use header option accept when provided', () => {
-        const authFetchStub = sandbox.stub(helper._auth, 'fetch')
-            .returns(Promise.resolve());
-        const headers = new Headers();
-        headers.append('Accept', '*/*');
-        const fetchOptions = {headers};
-        helper.fetchJSON({url: '/dummy/url', fetchOptions});
-        assert.isTrue(authFetchStub.called);
-        assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
-            '*/*');
-      });
-    });
-
-    test('JSON prefix is properly removed', done => {
-      helper.fetchJSON({url: '/dummy/url'}).then(obj => {
-        assert.deepEqual(obj, {hello: 'bonjour'});
-        done();
-      });
-    });
-
-    test('cached results', done => {
-      let n = 0;
-      sandbox.stub(helper, 'fetchJSON', () => Promise.resolve(++n));
-      const promises = [];
-      promises.push(helper.fetchCacheURL('/foo'));
-      promises.push(helper.fetchCacheURL('/foo'));
-      promises.push(helper.fetchCacheURL('/foo'));
-
-      Promise.all(promises).then(results => {
-        assert.deepEqual(results, [1, 1, 1]);
-        helper.fetchCacheURL('/foo').then(foo => {
-          assert.equal(foo, 1);
-          done();
-        });
-      });
-    });
-
-    test('cached promise', done => {
-      const promise = Promise.reject(new Error('foo'));
-      cache.set('/foo', promise);
-      helper.fetchCacheURL({url: '/foo'}).catch(p => {
-        assert.equal(p.message, 'foo');
-        done();
-      });
-    });
-
-    test('cache invalidation', () => {
-      cache.set('/foo/bar', 1);
-      cache.set('/bar', 2);
-      fetchPromisesCache.set('/foo/bar', 3);
-      fetchPromisesCache.set('/bar', 4);
-      helper.invalidateFetchPromisesPrefix('/foo/');
-      assert.isFalse(cache.has('/foo/bar'));
-      assert.isTrue(cache.has('/bar'));
-      assert.isUndefined(fetchPromisesCache.get('/foo/bar'));
-      assert.strictEqual(4, fetchPromisesCache.get('/bar'));
-    });
-
-    test('params are properly encoded', () => {
-      let url = helper.urlWithParams('/path/', {
-        sp: 'hola',
-        gr: 'guten tag',
-        noval: null,
-      });
-      assert.equal(url,
-          window.CANONICAL_PATH + '/path/?sp=hola&gr=guten%20tag&noval');
-
-      url = helper.urlWithParams('/path/', {
-        sp: 'hola',
-        en: ['hey', 'hi'],
-      });
-      assert.equal(url, window.CANONICAL_PATH + '/path/?sp=hola&en=hey&en=hi');
-
-      // Order must be maintained with array params.
-      url = helper.urlWithParams('/path/', {
-        l: ['c', 'b', 'a'],
-      });
-      assert.equal(url, window.CANONICAL_PATH + '/path/?l=c&l=b&l=a');
-    });
-
-    test('request callbacks can be canceled', done => {
-      let cancelCalled = false;
-      window.fetch.returns(Promise.resolve({
-        body: {
-          cancel() { cancelCalled = true; },
-        },
-      }));
-      const cancelCondition = () => true;
-      helper.fetchJSON({url: '/dummy/url', cancelCondition}).then(
-          obj => {
-            assert.isUndefined(obj);
-            assert.isTrue(cancelCalled);
-            done();
-          });
+    test('Use header option accept when provided', () => {
+      const authFetchStub = sandbox.stub(helper._auth, 'fetch')
+          .returns(Promise.resolve());
+      const headers = new Headers();
+      headers.append('Accept', '*/*');
+      const fetchOptions = {headers};
+      helper.fetchJSON({url: '/dummy/url', fetchOptions});
+      assert.isTrue(authFetchStub.called);
+      assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
+          '*/*');
     });
   });
+
+  test('JSON prefix is properly removed', done => {
+    helper.fetchJSON({url: '/dummy/url'}).then(obj => {
+      assert.deepEqual(obj, {hello: 'bonjour'});
+      done();
+    });
+  });
+
+  test('cached results', done => {
+    let n = 0;
+    sandbox.stub(helper, 'fetchJSON', () => Promise.resolve(++n));
+    const promises = [];
+    promises.push(helper.fetchCacheURL('/foo'));
+    promises.push(helper.fetchCacheURL('/foo'));
+    promises.push(helper.fetchCacheURL('/foo'));
+
+    Promise.all(promises).then(results => {
+      assert.deepEqual(results, [1, 1, 1]);
+      helper.fetchCacheURL('/foo').then(foo => {
+        assert.equal(foo, 1);
+        done();
+      });
+    });
+  });
+
+  test('cached promise', done => {
+    const promise = Promise.reject(new Error('foo'));
+    cache.set('/foo', promise);
+    helper.fetchCacheURL({url: '/foo'}).catch(p => {
+      assert.equal(p.message, 'foo');
+      done();
+    });
+  });
+
+  test('cache invalidation', () => {
+    cache.set('/foo/bar', 1);
+    cache.set('/bar', 2);
+    fetchPromisesCache.set('/foo/bar', 3);
+    fetchPromisesCache.set('/bar', 4);
+    helper.invalidateFetchPromisesPrefix('/foo/');
+    assert.isFalse(cache.has('/foo/bar'));
+    assert.isTrue(cache.has('/bar'));
+    assert.isUndefined(fetchPromisesCache.get('/foo/bar'));
+    assert.strictEqual(4, fetchPromisesCache.get('/bar'));
+  });
+
+  test('params are properly encoded', () => {
+    let url = helper.urlWithParams('/path/', {
+      sp: 'hola',
+      gr: 'guten tag',
+      noval: null,
+    });
+    assert.equal(url,
+        window.CANONICAL_PATH + '/path/?sp=hola&gr=guten%20tag&noval');
+
+    url = helper.urlWithParams('/path/', {
+      sp: 'hola',
+      en: ['hey', 'hi'],
+    });
+    assert.equal(url, window.CANONICAL_PATH + '/path/?sp=hola&en=hey&en=hi');
+
+    // Order must be maintained with array params.
+    url = helper.urlWithParams('/path/', {
+      l: ['c', 'b', 'a'],
+    });
+    assert.equal(url, window.CANONICAL_PATH + '/path/?l=c&l=b&l=a');
+  });
+
+  test('request callbacks can be canceled', done => {
+    let cancelCalled = false;
+    window.fetch.returns(Promise.resolve({
+      body: {
+        cancel() { cancelCalled = true; },
+      },
+    }));
+    const cancelCondition = () => true;
+    helper.fetchJSON({url: '/dummy/url', cancelCondition}).then(
+        obj => {
+          assert.isUndefined(obj);
+          assert.isTrue(cancelCalled);
+          done();
+        });
+  });
+});
 </script>

@@ -32,6 +32,7 @@ This command is intended to be used in scripts.
     * changes
     * accounts
     * groups
+    * projects
 
 == EXAMPLES
 Activate the latest change index:

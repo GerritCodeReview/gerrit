@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29df554e_f352f7fd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-04T15:47:45Z",
+      "side": 1,
+      "message": "check undefined for all",
+      "revId": "feee8219065d5102f912b4222d882d7ad5b86aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44e97d27_f8733a9c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-04T15:47:45Z",
+      "side": 1,
+      "message": "this is not a property on gr-button right ? if its native, maybe use \"title$\"",
+      "range": {
+        "startLine": 79,
+        "startChar": 95,
+        "endLine": 79,
+        "endChar": 100
+      },
+      "revId": "feee8219065d5102f912b4222d882d7ad5b86aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

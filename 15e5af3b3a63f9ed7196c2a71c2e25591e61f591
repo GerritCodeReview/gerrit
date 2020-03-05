@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57a1b9a0_c63575dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-05T15:28:39Z",
+      "side": 1,
+      "message": "if its not used, should we still have the spy on it ?",
+      "revId": "15e5af3b3a63f9ed7196c2a71c2e25591e61f591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

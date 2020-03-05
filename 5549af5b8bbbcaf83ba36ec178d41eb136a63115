@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09793d08_e617d560",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-05T08:19:33Z",
+      "side": 1,
+      "message": "do you have a screenshot for this ? I think it won\u0027t pretty :) \n\nAnd the issue with this showing on comment is that the comment on older patchset may give you outdated link if we don\u0027t support edit on an older patchset (and I believe we don\u0027t, at least not yet)\n\nbased on this, maybe we should show this edit in somewhere else, maybe similar to gwt ui, having it appear at the end of the line when you hover on it ? for latest patchset",
+      "revId": "5549af5b8bbbcaf83ba36ec178d41eb136a63115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

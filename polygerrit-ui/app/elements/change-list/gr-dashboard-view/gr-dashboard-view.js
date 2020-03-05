@@ -90,6 +90,7 @@
     get options() {
       return this.listChangesOptionsToHex(
           this.ListChangesOption.LABELS,
+          this.ListChangesOption.DETAILED_LABELS,
           this.ListChangesOption.DETAILED_ACCOUNTS,
           this.ListChangesOption.REVIEWED
       );

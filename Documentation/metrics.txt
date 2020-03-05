@@ -142,6 +142,7 @@ topic submissions that concluded successfully.
 * `jgit/block_cache/cache_used`: Bytes of memory retained in JGit block cache.
 * `jgit/block_cache/open_files`: File handles held open by JGit block cache.
 * `avg_load_time` Average time to load a cache entry for JGit block cache.
+* `total_load_time` Total time to load cache entries for JGit block cache.
 * `eviction_count` : Cache evictions for JGit block cache.
 * `eviction_ratio` : Cache eviction ratio for JGit block cache.
 * `hit_count` : Cache hits for JGit block cache.

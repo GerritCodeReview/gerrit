@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0650511c_5df4535d",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2020-03-05T07:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e459c5e_baa585a6",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "f9678fecb99a92bb91aff372ee5c8bbe8cefbbe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8584b14f_3ead56d2",
         "filename": "java/com/google/gerrit/server/restapi/change/SetTopicOp.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "f9678fecb99a92bb91aff372ee5c8bbe8cefbbe1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5994a458_36721ec8",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetTopicOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2020-03-05T07:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8584b14f_3ead56d2",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "f9678fecb99a92bb91aff372ee5c8bbe8cefbbe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

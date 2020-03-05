@@ -70,6 +70,30 @@
       "revId": "e8814e5a19564f7c104fd8ece1109031ab010627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84e59206_a0b08be6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-03-05T08:03:20Z",
+      "side": 1,
+      "message": "Sorry, changed it below but not in this place. Done now.",
+      "parentUuid": "83e770ec_04d27fff",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "e8814e5a19564f7c104fd8ece1109031ab010627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

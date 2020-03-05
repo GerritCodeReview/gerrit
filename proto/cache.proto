@@ -272,3 +272,10 @@ message PureRevertKeyProto {
   bytes claimed_original = 2;
   bytes claimed_revert = 3;
 }
+
+// Key for com.google.gerrit.server.account.ProjectWatches.ProjectWatcheKey.
+// Next ID: 3
+message ProjectWatchKeyProto {
+  string project = 1;
+  string filter = 2;
+}

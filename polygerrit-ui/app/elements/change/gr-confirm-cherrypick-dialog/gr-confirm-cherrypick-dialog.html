@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -53,6 +54,13 @@ limitations under the License.
         line-height: var(--line-height-mono);
         width: 73ch; /* Add a char to account for the border. */
       }
+      .icon {
+        width: var(--spacing-m);
+        height: var(--spacing-m);
+      }
+      .branch-selected {
+        margin: var(--spacing-m);
+      }
     </style>
     <gr-dialog
         confirm-label="Cherry Pick"
@@ -63,12 +71,23 @@ limitations under the License.
         <label for="branchInput">
           Cherry Pick to branch
         </label>
-        <gr-autocomplete
-            id="branchInput"
-            text="{{branch}}"
-            query="[[_query]]"
-            placeholder="Destination branch">
-        </gr-autocomplete>
+        <div class="branch-input-container" hidden$="[[_isBranchSelected]]">
+          <gr-autocomplete
+              id="branchInput"
+              text="{{branch}}"
+              query="[[_query]]"
+              on-commit="_handleBranchSelected"
+              placeholder="Destination branch">
+          </gr-autocomplete>
+        </div>
+        <div class="branch-selected" hidden$="[[!_isBranchSelected]]">
+          <gr-linked-chip
+            text="[[branch]]"
+            on-remove="_handleBranchRemoved"
+            removable
+          >
+          </gr-linked-chip>
+        </div>
         <label for="baseInput">
           Provide base commit sha1 for cherry-pick
         </label>

@@ -466,6 +466,14 @@ limitations under the License.
                       primary
                       disabled="[[_replyDisabled]]"
                       on-click="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+                  <gr-button
+                      id="startReviewBtn"
+                      class="startReview"
+                      title="Start Review"
+                      hidden="[[!_canStartReview]]"
+                      primary
+                      disabled="[[!_canStartReview]]"
+                      on-click="_handleReadyTap">[[_readyButtonLabel]]</gr-button>
                 </div>
                 <div
                     id="commitMessage"

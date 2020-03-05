@@ -250,6 +250,10 @@
           value: 'Reply',
           computed: '_computeReplyButtonLabel(_diffDrafts.*, _canStartReview)',
         },
+        _readyButtonLabel: {
+          type: String,
+          value: 'Start Review',
+        },
         _selectedPatchSet: String,
         _shownFileCount: Number,
         _initialLoadComplete: {
@@ -813,6 +817,14 @@
       this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
     }
 
+    _handleReadyTap(e) {
+      e.preventDefault();
+      this.$.restAPI.startReview(this._changeNum).then(result => {
+        this.$.replyBtn.setAttribute('primary', '');
+        this._reload(result);
+      });
+    }
+
     _handleOpenDiffPrefs() {
       this.$.fileList.openDiffPrefs();
     }
@@ -1245,16 +1257,11 @@
       return result;
     }
 
-    _computeReplyButtonLabel(changeRecord, canStartReview) {
+    _computeReplyButtonLabel(changeRecord) {
       // Polymer 2: check for undefined
-      if ([changeRecord, canStartReview].some(arg => arg === undefined)) {
+      if ([changeRecord].some(arg => arg === undefined)) {
         return 'Reply';
       }
-
-      if (canStartReview) {
-        return 'Start review';
-      }
-
       const drafts = (changeRecord && changeRecord.base) || {};
       const draftCount = Object.keys(drafts)
           .reduce((count, file) => count + drafts[file].length, 0);
@@ -1748,8 +1755,12 @@
     }
 
     _computeCanStartReview(change) {
-      return !!(change.actions && change.actions.ready &&
-          change.actions.ready.enabled);
+      const canStartReview = !!(change.actions && change.actions.ready &&
+        change.actions.ready.enabled);
+      if (canStartReview) {
+        this.$.replyBtn.removeAttribute('primary');
+      }
+      return !!canStartReview;
     }
 
     _computeReplyDisabled() { return false; }

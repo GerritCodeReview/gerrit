@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bc26cb12_faa4f5ac",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetTopicOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-05T00:29:51Z",
+      "side": 1,
+      "message": "I overlooked that. As far as I can see, only newTopicName is being accessed. I would still make it private and add a get method. Also for oldTopicName if that is being referenced and I\u0027ve missed it.",
+      "parentUuid": "372415bc_9d61bf57",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 29
+      },
+      "revId": "c93a878a432f3507e94c266650cbd2c462f6c69b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "189c1374_aab898c1",
         "filename": "java/com/google/gerrit/server/restapi/change/SetTopicOp.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "This works for topicEdited and cmUtil but not input. Is there a good pattern to use where the members are mixed like this?",
       "parentUuid": "189c1374_aab898c1",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "c93a878a432f3507e94c266650cbd2c462f6c69b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67696cc7_56c2c518",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetTopicOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-05T00:29:51Z",
+      "side": 1,
+      "message": "You can still use the Factory pattern, but use @AssistedInject for the TopicInput",
+      "parentUuid": "cf4dc133_85bae3fd",
       "range": {
         "startLine": 38,
         "startChar": 2,

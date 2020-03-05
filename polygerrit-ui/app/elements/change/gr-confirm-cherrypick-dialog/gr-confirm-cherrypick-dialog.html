@@ -53,6 +53,13 @@ limitations under the License.
         line-height: var(--line-height-mono);
         width: 73ch; /* Add a char to account for the border. */
       }
+      .icon {
+        width: var(--spacing-m);
+        height: var(--spacing-m);
+      }
+      .branch-selected {
+        margin: var(--spacing-m);
+      }
     </style>
     <gr-dialog
         confirm-label="Cherry Pick"
@@ -63,12 +70,23 @@ limitations under the License.
         <label for="branchInput">
           Cherry Pick to branch
         </label>
-        <gr-autocomplete
-            id="branchInput"
-            text="{{branch}}"
-            query="[[_query]]"
-            placeholder="Destination branch">
-        </gr-autocomplete>
+        <div hidden$="[[_isBranchSelected]]">
+          <gr-autocomplete
+              id="branchInput"
+              text="{{branch}}"
+              query="[[_query]]"
+              on-commit="_handleBranchSelected"
+              placeholder="Destination branch">
+          </gr-autocomplete>
+        </div>
+        <div class="branch-selected" hidden$="[[!_isBranchSelected]]">
+          <span> [[branch]] </span>
+          <gr-button
+            aria-label="Remove"
+            on-click="_handleRemoveSelectedBranch">
+            <iron-icon class="icon" icon="gr-icons:close"></iron-icon>
+          </gr-button>
+        </div>
         <label for="baseInput">
           Provide base commit sha1 for cherry-pick
         </label>

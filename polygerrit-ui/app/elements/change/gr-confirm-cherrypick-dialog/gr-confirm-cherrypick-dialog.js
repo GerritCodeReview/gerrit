@@ -50,6 +50,10 @@
         commitNum: String,
         message: String,
         project: String,
+        _isBranchSelected: {
+          type: Boolean,
+          value: false,
+        },
         _query: {
           type: Function,
           value() {
@@ -84,12 +88,14 @@
     }
 
     _handleConfirmTap(e) {
+      this._isBranchSelected = false;
       e.preventDefault();
       e.stopPropagation();
       this.fire('confirm', null, {bubbles: false});
     }
 
     _handleCancelTap(e) {
+      this._isBranchSelected = false;
       e.preventDefault();
       e.stopPropagation();
       this.fire('cancel', null, {bubbles: false});
@@ -97,6 +103,14 @@
 
     resetFocus() {
       this.$.branchInput.focus();
+    }
+
+    _handleBranchSelected() {
+      this._isBranchSelected = true;
+    }
+
+    _handleRemoveSelectedBranch() {
+      this._isBranchSelected = false;
     }
 
     _getProjectBranchesSuggestions(input) {

@@ -37,8 +37,7 @@ limitations under the License.
   });
 </script>
 <script>
-  /* eslint-disable no-unused-vars */
-  const mockPromise = () => {
+  self.mockPromise = () => {
     let res;
     const promise = new Promise(resolve => {
       res = resolve;
@@ -46,8 +45,7 @@ limitations under the License.
     promise.resolve = res;
     return promise;
   };
-  const isHidden = el => getComputedStyle(el).display === 'none';
-  /* eslint-enable no-unused-vars */
+  self.isHidden = el => getComputedStyle(el).display === 'none';
 </script>
 <script>
   (function() {

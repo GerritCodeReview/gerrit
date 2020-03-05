@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e459c5e_baa585a6",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-05T03:39:53Z",
+      "side": 1,
+      "message": "These are not used any more and can be removed.",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "f9678fecb99a92bb91aff372ee5c8bbe8cefbbe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8584b14f_3ead56d2",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetTopicOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-05T03:39:53Z",
+      "side": 1,
+      "message": "nit: usually we put the assisted parameters last.",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "f9678fecb99a92bb91aff372ee5c8bbe8cefbbe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -164,11 +164,11 @@ public class SignedToken {
   }
 
   private static byte[] decodeBase64(final String s) {
-    return BaseEncoding.base64().decode(s);
+    return BaseEncoding.base64Url().decode(s);
   }
 
   private static String encodeBase64(final byte[] buf) {
-    return BaseEncoding.base64().encode(buf);
+    return BaseEncoding.base64Url().encode(buf);
   }
 
   private static void encodeInt(final byte[] buf, final int o, final int v) {

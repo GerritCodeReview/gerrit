@@ -115,5 +115,21 @@ limitations under the License.
         done();
       });
     });
+
+    test('autocomplete disappears on selecting a branch', done => {
+      assert.isFalse(element.shadowRoot
+          .querySelector('.branch-input-container').hidden);
+      assert.isTrue(element.shadowRoot
+          .querySelector('.branch-selected').hidden);
+      element.branch = 'test-branch';
+      element._handleBranchSelected();
+      flush(() => {
+        assert.isTrue(element.shadowRoot
+            .querySelector('.branch-input-container').hidden);
+        assert.isFalse(element.shadowRoot
+            .querySelector('.branch-selected').hidden);
+        done();
+      });
+    });
   });
 </script>

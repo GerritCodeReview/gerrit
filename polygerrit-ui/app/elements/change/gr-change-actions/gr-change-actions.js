@@ -1397,7 +1397,7 @@
     }
 
     _handleCherrypickTap() {
-      this.$.confirmCherrypick.branch = '';
+      this.$.confirmCherrypick.reset();
       this._showActionDialog(this.$.confirmCherrypick);
     }
 

@@ -440,6 +440,10 @@
       } else {
         if (!this.clearOnCommit && this._selected) {
           this.setText(this._suggestions[this._selected.dataset.index].name);
+        } else if (this.allowNonSuggestedValues && !this._selected &&
+          this.text) {
+          // Commit non-suggested value that the user typed but didn't select
+          this.setText(this.text);
         } else {
           this.clear();
         }

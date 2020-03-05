@@ -31,6 +31,14 @@
     static get properties() {
       return {
         account: Object,
+        hideAvatar: {
+          type: Boolean,
+          value: false,
+        },
+        hideStatus: {
+          type: Boolean,
+          value: false,
+        },
       };
     }
 

@@ -88,7 +88,9 @@ public class SignedToken {
   }
 
   /**
-   * Validate a returned token.
+   * Validate a returned token. If the token is valid then return a {@link ValidToken}, else will
+   * throw {@link XsrfException} when it's an unexpected token overflow or {@link
+   * CheckTokenException} when it's an illegal token string format.
    *
    * @param tokenString a token string previously created by this class.
    * @param text text that must have been used during {@link #newToken(String)} in order for the
@@ -97,15 +99,20 @@ public class SignedToken {
    *     does not match the text supplied, or is a forged token.
    * @throws XsrfException the JVM doesn't support the necessary algorithms to generate a token.
    *     XSRF services are simply not available.
+   * @throws CheckTokenException throws when token is null, the empty string, has expired, does not
+   *     match the text supplied, or is a forged token.
    */
-  ValidToken checkToken(final String tokenString, final String text) throws XsrfException {
+  public ValidToken checkToken(final String tokenString, final String text)
+      throws XsrfException, CheckTokenException {
+
     if (tokenString == null || tokenString.length() == 0) {
-      return null;
+      throw new CheckTokenException("Invalid token string! Input token is blank!");
     }
 
     final int s = tokenString.indexOf('$');
     if (s <= 0) {
-      return null;
+      throw new CheckTokenException(
+          "Invalid token string! Input token string does not contain character '$' !");
     }
 
     final String recvText = tokenString.substring(s + 1);
@@ -113,24 +120,25 @@ public class SignedToken {
     try {
       in = decodeBase64(tokenString.substring(0, s));
     } catch (RuntimeException e) {
-      return null;
+      throw new CheckTokenException("Invalid token string! Decode token key with BASE64 fails!", e);
     }
+
     if (in.length != tokenLength) {
-      return null;
+      throw new CheckTokenException("Invalid token string! Token key length not match!");
     }
 
     final int q = decodeInt(in, 0);
     final int c = decodeInt(in, INT_SZ) ^ q;
     final int n = now();
     if (maxAge > 0 && Math.abs(c - n) > maxAge) {
-      return null;
+      throw new CheckTokenException("Invalid token string! Token is expired!");
     }
 
     final byte[] gen = new byte[tokenLength];
     System.arraycopy(in, 0, gen, 0, 2 * INT_SZ);
     computeToken(gen, text != null ? text : recvText);
     if (!Arrays.equals(gen, in)) {
-      return null;
+      throw new CheckTokenException("Invalid token string! Text of token string not match!");
     }
 
     return new ValidToken(maxAge > 0 && c + (maxAge >> 1) <= n, recvText);
@@ -164,11 +172,11 @@ public class SignedToken {
   }
 
   private static byte[] decodeBase64(final String s) {
-    return BaseEncoding.base64().decode(s);
+    return BaseEncoding.base64Url().decode(s);
   }
 
   private static String encodeBase64(final byte[] buf) {
-    return BaseEncoding.base64().encode(buf);
+    return BaseEncoding.base64Url().encode(buf);
   }
 
   private static void encodeInt(final byte[] buf, final int o, final int v) {

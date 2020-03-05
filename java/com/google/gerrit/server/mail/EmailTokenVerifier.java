@@ -47,8 +47,16 @@ public interface EmailTokenVerifier {
       super("Invalid token");
     }
 
+    public InvalidTokenException(String message) {
+      super("Invalid token! " + message);
+    }
+
     public InvalidTokenException(Throwable cause) {
       super("Invalid token", cause);
+    }
+
+    public InvalidTokenException(String message, Throwable cause) {
+      super("Invalid token! " + message, cause);
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01948055_5587c5c7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-05T15:27:04Z",
+      "side": 1,
+      "message": ":( how could this not caught by eslint...",
+      "revId": "352cb33079eb2d1ec17baec9ed4cb30cfa9044ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

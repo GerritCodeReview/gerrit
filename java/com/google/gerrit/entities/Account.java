@@ -22,7 +22,11 @@ import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.AccountProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -117,6 +121,50 @@ public abstract class Account {
     @Override
     public final String toString() {
       return Integer.toString(get());
+    }
+  }
+
+  enum Serializer implements CacheSerializer<Account> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(Account account) {
+      AccountProto.Builder proto =
+          AccountProto.newBuilder()
+              .setId(account.id().get())
+              .setRegisteredOn(account.registeredOn().toInstant().toEpochMilli())
+              .setInactive(account.inactive());
+      if (account.fullName() != null) {
+        proto.setFullName(account.fullName());
+      }
+      if (account.displayName() != null) {
+        proto.setDisplayName(account.displayName());
+      }
+      if (account.preferredEmail() != null) {
+        proto.setPreferredEmail(account.preferredEmail());
+      }
+      if (account.status() != null) {
+        proto.setStatus(account.status());
+      }
+      if (account.metaId() != null) {
+        proto.setMetaId(account.metaId());
+      }
+      return Protos.toByteArray(proto.build());
+    }
+
+    @Override
+    public Account deserialize(byte[] in) {
+      AccountProto proto = Protos.parseUnchecked(AccountProto.parser(), in);
+      return Account.builder(
+              Account.id(proto.getId()),
+              Timestamp.from(Instant.ofEpochMilli(proto.getRegisteredOn())))
+          .setFullName(proto.getFullName())
+          .setDisplayName(proto.getDisplayName())
+          .setPreferredEmail(proto.getPreferredEmail())
+          .setInactive(proto.getInactive())
+          .setStatus(proto.getStatus())
+          .setMetaId(proto.getMetaId())
+          .build();
     }
   }
 

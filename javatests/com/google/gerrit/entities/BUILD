@@ -9,5 +9,6 @@ junit_tests(
         "//lib:guava",
         "//lib:jgit",
         "//lib/truth",
+        "//proto:cache_java_proto",
     ],
 )

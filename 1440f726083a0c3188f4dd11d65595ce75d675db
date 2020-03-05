@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cf99e90_f6077797",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/SignedTokenEmailTokenVerifierIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-05T11:04:28Z",
+      "side": 1,
+      "message": "Copyright should be the Android Open Source Project",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 70
+      },
+      "revId": "1440f726083a0c3188f4dd11d65595ce75d675db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "603546dd_34031380",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/SignedTokenEmailTokenVerifierIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-05T11:04:28Z",
+      "side": 1,
+      "message": "nit: in core gerrit we use the truth library\u0027s assertThat method",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "1440f726083a0c3188f4dd11d65595ce75d675db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76323022_b609f5a1",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/SignedTokenEmailTokenVerifierIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-05T11:04:28Z",
+      "side": 1,
+      "message": "Use:\n\n assertThat(testDecoded.substring(0, pos)).isEqualTo(user.id().toString());",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 70
+      },
+      "revId": "1440f726083a0c3188f4dd11d65595ce75d675db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91f83b82_dad5d1b1",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/SignedTokenEmailTokenVerifierIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-05T11:04:28Z",
+      "side": 1,
+      "message": "Use the assertThrows helper",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 66
+      },
+      "revId": "1440f726083a0c3188f4dd11d65595ce75d675db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

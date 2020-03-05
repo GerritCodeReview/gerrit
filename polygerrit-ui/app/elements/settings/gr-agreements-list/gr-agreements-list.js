@@ -14,46 +14,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
-  /**
-   * @appliesMixin Gerrit.BaseUrlMixin
-   * @extends Polymer.Element
-   */
-  class GrAgreementsList extends Polymer.mixinBehaviors( [
-    Gerrit.BaseUrlBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-agreements-list'; }
+import '../../../scripts/bundled-polymer.js';
+import '../../../styles/gr-form-styles.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-agreements-list_html.js';
 
-    static get properties() {
-      return {
-        _agreements: Array,
-      };
-    }
+/**
+ * @appliesMixin Gerrit.BaseUrlMixin
+ * @extends Polymer.Element
+ */
+class GrAgreementsList extends mixinBehaviors( [
+  Gerrit.BaseUrlBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
 
-    /** @override */
-    attached() {
-      super.attached();
-      this.loadData();
-    }
+  static get is() { return 'gr-agreements-list'; }
 
-    loadData() {
-      return this.$.restAPI.getAccountAgreements().then(agreements => {
-        this._agreements = agreements;
-      });
-    }
-
-    getUrl() {
-      return this.getBaseUrl() + '/settings/new-agreement';
-    }
-
-    getUrlBase(item) {
-      return this.getBaseUrl() + '/' + item;
-    }
+  static get properties() {
+    return {
+      _agreements: Array,
+    };
   }
 
-  customElements.define(GrAgreementsList.is, GrAgreementsList);
-})();
+  /** @override */
+  attached() {
+    super.attached();
+    this.loadData();
+  }
+
+  loadData() {
+    return this.$.restAPI.getAccountAgreements().then(agreements => {
+      this._agreements = agreements;
+    });
+  }
+
+  getUrl() {
+    return this.getBaseUrl() + '/settings/new-agreement';
+  }
+
+  getUrlBase(item) {
+    return this.getBaseUrl() + '/' + item;
+  }
+}
+
+customElements.define(GrAgreementsList.is, GrAgreementsList);

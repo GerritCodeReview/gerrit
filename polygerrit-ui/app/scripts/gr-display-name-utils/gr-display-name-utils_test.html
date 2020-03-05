@@ -19,123 +19,125 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-display-name-utils</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<script src="gr-display-name-utils.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-display-name-utils.js"></script>
 
-<script>
-  suite('gr-display-name-utils tests', async () => {
-    await readyToTest();
-    // eslint-disable-next-line no-unused-vars
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './gr-display-name-utils.js';
+suite('gr-display-name-utils tests', () => {
+  // eslint-disable-next-line no-unused-vars
+  const config = {
+    user: {
+      anonymous_coward_name: 'Anonymous Coward',
+    },
+  };
+
+  test('getUserName name only', () => {
+    const account = {
+      name: 'test-name',
+    };
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, account, true),
+        'test-name');
+  });
+
+  test('getUserName username only', () => {
+    const account = {
+      username: 'test-user',
+    };
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, account, true),
+        'test-user');
+  });
+
+  test('getUserName email only', () => {
+    const account = {
+      email: 'test-user@test-url.com',
+    };
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, account, true),
+        'test-user@test-url.com');
+  });
+
+  test('getUserName returns not Anonymous Coward as the anon name', () => {
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, null, true),
+        'Anonymous');
+  });
+
+  test('getUserName for the config returning the anon name', () => {
     const config = {
       user: {
-        anonymous_coward_name: 'Anonymous Coward',
+        anonymous_coward_name: 'Test Anon',
       },
     };
-
-    test('getUserName name only', () => {
-      const account = {
-        name: 'test-name',
-      };
-      assert.deepEqual(GrDisplayNameUtils.getUserName(config, account, true),
-          'test-name');
-    });
-
-    test('getUserName username only', () => {
-      const account = {
-        username: 'test-user',
-      };
-      assert.deepEqual(GrDisplayNameUtils.getUserName(config, account, true),
-          'test-user');
-    });
-
-    test('getUserName email only', () => {
-      const account = {
-        email: 'test-user@test-url.com',
-      };
-      assert.deepEqual(GrDisplayNameUtils.getUserName(config, account, true),
-          'test-user@test-url.com');
-    });
-
-    test('getUserName returns not Anonymous Coward as the anon name', () => {
-      assert.deepEqual(GrDisplayNameUtils.getUserName(config, null, true),
-          'Anonymous');
-    });
-
-    test('getUserName for the config returning the anon name', () => {
-      const config = {
-        user: {
-          anonymous_coward_name: 'Test Anon',
-        },
-      };
-      assert.deepEqual(GrDisplayNameUtils.getUserName(config, null, true),
-          'Test Anon');
-    });
-
-    test('getAccountDisplayName - account with name only', () => {
-      assert.equal(
-          GrDisplayNameUtils.getAccountDisplayName(config,
-              {name: 'Some user name'}),
-          'Some user name');
-    });
-
-    test('getAccountDisplayName - account with email only', () => {
-      assert.equal(
-          GrDisplayNameUtils.getAccountDisplayName(config,
-              {email: 'my@example.com'}),
-          'Anonymous <my@example.com>');
-    });
-
-    test('getAccountDisplayName - account with email only - allowEmail', () => {
-      assert.equal(
-          GrDisplayNameUtils.getAccountDisplayName(config,
-              {email: 'my@example.com'}, true),
-          'my@example.com <my@example.com>');
-    });
-
-    test('getAccountDisplayName - account with name and status', () => {
-      assert.equal(
-          GrDisplayNameUtils.getAccountDisplayName(config, {
-            name: 'Some name',
-            status: 'OOO',
-          }),
-          'Some name (OOO)');
-    });
-
-    test('getAccountDisplayName - account with name and email', () => {
-      assert.equal(
-          GrDisplayNameUtils.getAccountDisplayName(config, {
-            name: 'Some name',
-            email: 'my@example.com',
-          }),
-          'Some name <my@example.com>');
-    });
-
-    test('getAccountDisplayName - account with name, email and status', () => {
-      assert.equal(
-          GrDisplayNameUtils.getAccountDisplayName(config, {
-            name: 'Some name',
-            email: 'my@example.com',
-            status: 'OOO',
-          }),
-          'Some name <my@example.com> (OOO)');
-    });
-
-    test('getGroupDisplayName', () => {
-      assert.equal(
-          GrDisplayNameUtils.getGroupDisplayName({name: 'Some user name'}),
-          'Some user name (group)');
-    });
-
-    test('_accountEmail', () => {
-      assert.equal(
-          GrDisplayNameUtils._accountEmail('email@gerritreview.com'),
-          '<email@gerritreview.com>');
-      assert.equal(GrDisplayNameUtils._accountEmail(undefined), '');
-    });
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, null, true),
+        'Test Anon');
   });
+
+  test('getAccountDisplayName - account with name only', () => {
+    assert.equal(
+        GrDisplayNameUtils.getAccountDisplayName(config,
+            {name: 'Some user name'}),
+        'Some user name');
+  });
+
+  test('getAccountDisplayName - account with email only', () => {
+    assert.equal(
+        GrDisplayNameUtils.getAccountDisplayName(config,
+            {email: 'my@example.com'}),
+        'Anonymous <my@example.com>');
+  });
+
+  test('getAccountDisplayName - account with email only - allowEmail', () => {
+    assert.equal(
+        GrDisplayNameUtils.getAccountDisplayName(config,
+            {email: 'my@example.com'}, true),
+        'my@example.com <my@example.com>');
+  });
+
+  test('getAccountDisplayName - account with name and status', () => {
+    assert.equal(
+        GrDisplayNameUtils.getAccountDisplayName(config, {
+          name: 'Some name',
+          status: 'OOO',
+        }),
+        'Some name (OOO)');
+  });
+
+  test('getAccountDisplayName - account with name and email', () => {
+    assert.equal(
+        GrDisplayNameUtils.getAccountDisplayName(config, {
+          name: 'Some name',
+          email: 'my@example.com',
+        }),
+        'Some name <my@example.com>');
+  });
+
+  test('getAccountDisplayName - account with name, email and status', () => {
+    assert.equal(
+        GrDisplayNameUtils.getAccountDisplayName(config, {
+          name: 'Some name',
+          email: 'my@example.com',
+          status: 'OOO',
+        }),
+        'Some name <my@example.com> (OOO)');
+  });
+
+  test('getGroupDisplayName', () => {
+    assert.equal(
+        GrDisplayNameUtils.getGroupDisplayName({name: 'Some user name'}),
+        'Some user name (group)');
+  });
+
+  test('_accountEmail', () => {
+    assert.equal(
+        GrDisplayNameUtils._accountEmail('email@gerritreview.com'),
+        '<email@gerritreview.com>');
+    assert.equal(GrDisplayNameUtils._accountEmail(undefined), '');
+  });
+});
 </script>

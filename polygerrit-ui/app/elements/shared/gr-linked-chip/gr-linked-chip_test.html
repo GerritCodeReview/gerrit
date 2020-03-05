@@ -19,17 +19,22 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-linked-chip</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="/bower_components/iron-test-helpers/mock-interactions.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="/node_modules/@polymer/iron-test-helpers/mock-interactions.js" type="module"></script>
 
-<link rel="import" href="gr-linked-chip.html">
+<script type="module" src="./gr-linked-chip.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-linked-chip.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,27 +42,29 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-linked-chip tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-linked-chip.js';
+suite('gr-linked-chip tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('remove fired', () => {
-      const spy = sandbox.spy();
-      element.addEventListener('remove', spy);
-      flushAsynchronousOperations();
-      MockInteractions.tap(element.$.remove);
-      assert.isTrue(spy.called);
-    });
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('remove fired', () => {
+    const spy = sandbox.spy();
+    element.addEventListener('remove', spy);
+    flushAsynchronousOperations();
+    MockInteractions.tap(element.$.remove);
+    assert.isTrue(spy.called);
+  });
+});
 </script>

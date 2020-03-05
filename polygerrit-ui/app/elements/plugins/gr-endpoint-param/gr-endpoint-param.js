@@ -14,41 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrEndpointParam extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-endpoint-param'; }
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 
-    static get properties() {
-      return {
-        name: String,
-        value: {
-          type: Object,
-          notify: true,
-          observer: '_valueChanged',
-        },
-      };
-    }
+/** @extends Polymer.Element */
+class GrEndpointParam extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get is() { return 'gr-endpoint-param'; }
 
-    _valueChanged(newValue, oldValue) {
-      /* In polymer 2 the following change was made:
-      "Property change notifications (property-changed events) aren't fired when
-      the value changes as a result of a binding from the host"
-      (see https://polymer-library.polymer-project.org/2.0/docs/about_20).
-      To workaround this problem, we fire the event from the observer.
-      In some cases this fire the event twice, but our code is
-      ready for it.
-      */
-      const detail = {
-        value: newValue,
-      };
-      this.dispatchEvent(new CustomEvent('value-changed', {detail}));
-    }
+  static get properties() {
+    return {
+      name: String,
+      value: {
+        type: Object,
+        notify: true,
+        observer: '_valueChanged',
+      },
+    };
   }
 
-  customElements.define(GrEndpointParam.is, GrEndpointParam);
-})();
+  _valueChanged(newValue, oldValue) {
+    /* In polymer 2 the following change was made:
+    "Property change notifications (property-changed events) aren't fired when
+    the value changes as a result of a binding from the host"
+    (see https://polymer-library.polymer-project.org/2.0/docs/about_20).
+    To workaround this problem, we fire the event from the observer.
+    In some cases this fire the event twice, but our code is
+    ready for it.
+    */
+    const detail = {
+      value: newValue,
+    };
+    this.dispatchEvent(new CustomEvent('value-changed', {detail}));
+  }
+}
+
+customElements.define(GrEndpointParam.is, GrEndpointParam);

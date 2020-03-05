@@ -19,17 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>base-url-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<script>
-  /** @type {string} */
-  window.CANONICAL_PATH = '/r';
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './base-url-behavior.js';
+/** @type {string} */
+window.CANONICAL_PATH = '/r';
 </script>
-<link rel="import" href="base-url-behavior.html">
+<script type="module" src="./base-url-behavior.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -45,30 +48,33 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('base-url-behavior tests', async () => {
-    await readyToTest();
-    let element;
-    // eslint-disable-next-line no-unused-vars
-    let overlay;
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './base-url-behavior.js';
+import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('base-url-behavior tests', () => {
+  let element;
+  // eslint-disable-next-line no-unused-vars
+  let overlay;
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [
-          Gerrit.BaseUrlBehavior,
-        ],
-      });
-    });
-
-    setup(() => {
-      element = fixture('basic');
-      overlay = fixture('within-overlay');
-    });
-
-    test('getBaseUrl', () => {
-      assert.deepEqual(element.getBaseUrl(), '/r');
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'test-element',
+      behaviors: [
+        Gerrit.BaseUrlBehavior,
+      ],
     });
   });
+
+  setup(() => {
+    element = fixture('basic');
+    overlay = fixture('within-overlay');
+  });
+
+  test('getBaseUrl', () => {
+    assert.deepEqual(element.getBaseUrl(), '/r');
+  });
+});
 </script>

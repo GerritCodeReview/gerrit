@@ -53,7 +53,7 @@
     }
 
     _computeName(account, config) {
-      return this.getUserName(config, account);
+      return this.getDisplayName(config, account);
     }
   }
 

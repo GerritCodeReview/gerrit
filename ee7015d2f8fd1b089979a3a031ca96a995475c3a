@@ -16,6 +16,24 @@
       "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0b98023_a5bcc3c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-06T09:37:01Z",
+      "side": 1,
+      "message": "You are only allowed to cherry-pick into one destination branch.\nIt may seem confusing that after adding one destination branch, you can add another one. Especially confusing once we implement cherry-picking topics, which would be even more confusing for users intending to cherry-pick changes into multiple branches.",
+      "parentUuid": "1cd1cba1_93ca209f",
+      "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

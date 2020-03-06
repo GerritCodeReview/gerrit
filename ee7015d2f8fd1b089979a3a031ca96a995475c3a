@@ -34,6 +34,24 @@
       "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d6ab04b_27d0b454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-06T09:44:47Z",
+      "side": 1,
+      "message": "I still don\u0027t understand. In the current UI I was not able to choose two branches.",
+      "parentUuid": "a0b98023_a5bcc3c7",
+      "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

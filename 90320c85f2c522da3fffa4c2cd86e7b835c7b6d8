@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c131795c_f9f916ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-06T13:56:11Z",
+      "side": 1,
+      "message": "a potential issue with the `on-commit` is that when user directly typing something instead of picking from suggestions (I am not sure if its possible or not for branches, but I guess for chromium with \u003e1m branches, it will be impossible to list all branches in autocomplete, so some users may already get used to type the branch name directly without clicking from the autocomplete), the UX will be inconsistent for those.\n\nand technically the value should still be valid if its not picked from the dropdown as clicking on the suggestions are optional to this flow",
+      "revId": "90320c85f2c522da3fffa4c2cd86e7b835c7b6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

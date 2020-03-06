@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f417e895_9513f9a4",
+        "filename": "java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-06T09:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1e15357_74fd800b",
+      "range": {
+        "startLine": 78,
+        "startChar": 16,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "1e899cdcb94d18f15addf92a49d9bd8a78775d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb4d0ad4_a63f46dc",
         "filename": "javatests/com/google/gerrit/acceptance/git/HttpForcePushIT.java",
         "patchSetId": 3
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "734c73d3_e79d3657",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpForcePushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-06T09:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e1ae459_309174d0",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 27
+      },
+      "revId": "1e899cdcb94d18f15addf92a49d9bd8a78775d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "588b4863_7809794f",
         "filename": "javatests/com/google/gerrit/acceptance/git/SshForcePushIT.java",
         "patchSetId": 3
@@ -140,6 +188,30 @@
       "revId": "1e899cdcb94d18f15addf92a49d9bd8a78775d3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "487ff8aa_d2e687d9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SshForcePushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-06T09:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d21ed9b_7ad4009e",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "1e899cdcb94d18f15addf92a49d9bd8a78775d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -72,7 +72,13 @@ public class HashedPassword {
 
   private static byte[] hashPassword(String password, byte[] salt, int cost) {
     byte[] pwBytes = password.getBytes(StandardCharsets.UTF_8);
-
+    if (pwBytes.length > 0) {
+      if (pwBytes[pwBytes.length - 1] != 0) {
+        pwBytes = Arrays.append(pwBytes, (byte) 0);
+      }
+    } else {
+      pwBytes = new byte[] {0};
+    }
     return BCrypt.generate(pwBytes, salt, cost);
   }
 

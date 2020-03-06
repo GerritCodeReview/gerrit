@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5c49767_7d492656",
+        "filename": "java/com/google/gerrit/sshd/commands/ChangeIdParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-06T21:08:58Z",
+      "side": 1,
+      "message": "Define the singleton annotation ad bind time, in the SSH module.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 10
+      },
+      "revId": "44118ebbc8eaa2c3cad30e2f38abb02cc718b777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d96f426_3d5babbd",
+        "filename": "java/com/google/gerrit/sshd/commands/ChangeIdParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-06T21:08:58Z",
+      "side": 1,
+      "message": "Why don\u0027t you reuse the same pattern of the IndexChangesCommand?\n\n  @Inject private ChangeArgumentParser changeArgumentParser;\n\n  @Argument(\n      index \u003d 0,\n      required \u003d true,\n      multiValued \u003d true,\n      metaVar \u003d \"CHANGE\",\n      usage \u003d \"changes to index\")\n  void addChange(String token) {\n    try {\n      changeArgumentParser.addChange(token, changes, null, false);\n    } catch (UnloggedFailure | StorageException | PermissionBackendException | IOException e) {\n      writeError(\"warning\", e.getMessage());\n    }\n  }",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "revId": "44118ebbc8eaa2c3cad30e2f38abb02cc718b777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

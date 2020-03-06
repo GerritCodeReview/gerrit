@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-group</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-group.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-group.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-group.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,222 +40,224 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-group tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let groupStub;
-    const group = {
-      id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
-      url: '#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389',
-      options: {},
-      description: 'Gerrit Site Administrators',
-      group_id: 1,
-      owner: 'Administrators',
-      owner_id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
-      name: 'Administrators',
-    };
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-group.js';
+suite('gr-group tests', () => {
+  let element;
+  let sandbox;
+  let groupStub;
+  const group = {
+    id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
+    url: '#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389',
+    options: {},
+    description: 'Gerrit Site Administrators',
+    group_id: 1,
+    owner: 'Administrators',
+    owner_id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
+    name: 'Administrators',
+  };
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-      });
-      element = fixture('basic');
-      groupStub = sandbox.stub(
-          element.$.restAPI,
-          'getGroupConfig',
-          () => Promise.resolve(group)
-      );
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(true); },
     });
+    element = fixture('basic');
+    groupStub = sandbox.stub(
+        element.$.restAPI,
+        'getGroupConfig',
+        () => Promise.resolve(group)
+    );
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('loading displays before group config is loaded', () => {
-      assert.isTrue(element.$.loading.classList.contains('loading'));
-      assert.isFalse(getComputedStyle(element.$.loading).display === 'none');
-      assert.isTrue(element.$.loadedContent.classList.contains('loading'));
-      assert.isTrue(getComputedStyle(element.$.loadedContent)
-          .display === 'none');
-    });
+  test('loading displays before group config is loaded', () => {
+    assert.isTrue(element.$.loading.classList.contains('loading'));
+    assert.isFalse(getComputedStyle(element.$.loading).display === 'none');
+    assert.isTrue(element.$.loadedContent.classList.contains('loading'));
+    assert.isTrue(getComputedStyle(element.$.loadedContent)
+        .display === 'none');
+  });
 
-    test('default values are populated with internal group', done => {
-      sandbox.stub(
-          element.$.restAPI,
-          'getIsGroupOwner',
-          () => Promise.resolve(true));
-      element.groupId = 1;
-      element._loadGroup().then(() => {
-        assert.isTrue(element._groupIsInternal);
-        assert.isFalse(element.$.visibleToAll.bindValue);
-        done();
-      });
-    });
-
-    test('default values with external group', done => {
-      const groupExternal = Object.assign({}, group);
-      groupExternal.id = 'external-group-id';
-      groupStub.restore();
-      groupStub = sandbox.stub(
-          element.$.restAPI,
-          'getGroupConfig',
-          () => Promise.resolve(groupExternal));
-      sandbox.stub(
-          element.$.restAPI,
-          'getIsGroupOwner',
-          () => Promise.resolve(true));
-      element.groupId = 1;
-      element._loadGroup().then(() => {
-        assert.isFalse(element._groupIsInternal);
-        assert.isFalse(element.$.visibleToAll.bindValue);
-        done();
-      });
-    });
-
-    test('rename group', done => {
-      const groupName = 'test-group';
-      const groupName2 = 'test-group2';
-      element.groupId = 1;
-      element._groupConfig = {
-        name: groupName,
-      };
-      element._groupConfigOwner = 'testId';
-      element._groupName = groupName;
-      element._groupOwner = true;
-
-      sandbox.stub(
-          element.$.restAPI,
-          'getIsGroupOwner',
-          () => Promise.resolve(true));
-
-      sandbox.stub(
-          element.$.restAPI,
-          'saveGroupName',
-          () => Promise.resolve({status: 200}));
-
-      const button = element.$.inputUpdateNameBtn;
-
-      element._loadGroup().then(() => {
-        assert.isTrue(button.hasAttribute('disabled'));
-        assert.isFalse(element.$.Title.classList.contains('edited'));
-
-        element.$.groupNameInput.text = groupName2;
-
-        element.$.groupOwnerInput.text = 'testId2';
-
-        assert.isFalse(button.hasAttribute('disabled'));
-        assert.isTrue(element.$.groupName.classList.contains('edited'));
-
-        element._handleSaveName().then(() => {
-          assert.isTrue(button.hasAttribute('disabled'));
-          assert.isFalse(element.$.Title.classList.contains('edited'));
-          assert.equal(element._groupName, groupName2);
-          done();
-        });
-
-        element._handleSaveOwner().then(() => {
-          assert.isTrue(button.hasAttribute('disabled'));
-          assert.isFalse(element.$.Title.classList.contains('edited'));
-          assert.equal(element._groupConfigOwner, 'testId2');
-          done();
-        });
-      });
-    });
-
-    test('test for undefined group name', done => {
-      groupStub.restore();
-
-      sandbox.stub(
-          element.$.restAPI,
-          'getGroupConfig',
-          () => Promise.resolve({}));
-
-      assert.isUndefined(element.groupId);
-
-      element.groupId = 1;
-
-      assert.isDefined(element.groupId);
-
-      // Test that loading shows instead of filling
-      // in group details
-      element._loadGroup().then(() => {
-        assert.isTrue(element.$.loading.classList.contains('loading'));
-
-        assert.isTrue(element._loading);
-
-        done();
-      });
-    });
-
-    test('test fire event', done => {
-      element._groupConfig = {
-        name: 'test-group',
-      };
-
-      sandbox.stub(element.$.restAPI, 'saveGroupName')
-          .returns(Promise.resolve({status: 200}));
-
-      const showStub = sandbox.stub(element, 'fire');
-      element._handleSaveName()
-          .then(() => {
-            assert.isTrue(showStub.called);
-            done();
-          });
-    });
-
-    test('_computeGroupDisabled', () => {
-      let admin = true;
-      let owner = false;
-      let groupIsInternal = true;
-      assert.equal(element._computeGroupDisabled(owner, admin,
-          groupIsInternal), false);
-
-      admin = false;
-      assert.equal(element._computeGroupDisabled(owner, admin,
-          groupIsInternal), true);
-
-      owner = true;
-      assert.equal(element._computeGroupDisabled(owner, admin,
-          groupIsInternal), false);
-
-      owner = false;
-      assert.equal(element._computeGroupDisabled(owner, admin,
-          groupIsInternal), true);
-
-      groupIsInternal = false;
-      assert.equal(element._computeGroupDisabled(owner, admin,
-          groupIsInternal), true);
-
-      admin = true;
-      assert.equal(element._computeGroupDisabled(owner, admin,
-          groupIsInternal), true);
-    });
-
-    test('_computeLoadingClass', () => {
-      assert.equal(element._computeLoadingClass(true), 'loading');
-      assert.equal(element._computeLoadingClass(false), '');
-    });
-
-    test('fires page-error', done => {
-      groupStub.restore();
-
-      element.groupId = 1;
-
-      const response = {status: 404};
-      sandbox.stub(
-          element.$.restAPI, 'getGroupConfig', (group, errFn) => {
-            errFn(response);
-          });
-
-      element.addEventListener('page-error', e => {
-        assert.deepEqual(e.detail.response, response);
-        done();
-      });
-
-      element._loadGroup();
+  test('default values are populated with internal group', done => {
+    sandbox.stub(
+        element.$.restAPI,
+        'getIsGroupOwner',
+        () => Promise.resolve(true));
+    element.groupId = 1;
+    element._loadGroup().then(() => {
+      assert.isTrue(element._groupIsInternal);
+      assert.isFalse(element.$.visibleToAll.bindValue);
+      done();
     });
   });
+
+  test('default values with external group', done => {
+    const groupExternal = Object.assign({}, group);
+    groupExternal.id = 'external-group-id';
+    groupStub.restore();
+    groupStub = sandbox.stub(
+        element.$.restAPI,
+        'getGroupConfig',
+        () => Promise.resolve(groupExternal));
+    sandbox.stub(
+        element.$.restAPI,
+        'getIsGroupOwner',
+        () => Promise.resolve(true));
+    element.groupId = 1;
+    element._loadGroup().then(() => {
+      assert.isFalse(element._groupIsInternal);
+      assert.isFalse(element.$.visibleToAll.bindValue);
+      done();
+    });
+  });
+
+  test('rename group', done => {
+    const groupName = 'test-group';
+    const groupName2 = 'test-group2';
+    element.groupId = 1;
+    element._groupConfig = {
+      name: groupName,
+    };
+    element._groupConfigOwner = 'testId';
+    element._groupName = groupName;
+    element._groupOwner = true;
+
+    sandbox.stub(
+        element.$.restAPI,
+        'getIsGroupOwner',
+        () => Promise.resolve(true));
+
+    sandbox.stub(
+        element.$.restAPI,
+        'saveGroupName',
+        () => Promise.resolve({status: 200}));
+
+    const button = element.$.inputUpdateNameBtn;
+
+    element._loadGroup().then(() => {
+      assert.isTrue(button.hasAttribute('disabled'));
+      assert.isFalse(element.$.Title.classList.contains('edited'));
+
+      element.$.groupNameInput.text = groupName2;
+
+      element.$.groupOwnerInput.text = 'testId2';
+
+      assert.isFalse(button.hasAttribute('disabled'));
+      assert.isTrue(element.$.groupName.classList.contains('edited'));
+
+      element._handleSaveName().then(() => {
+        assert.isTrue(button.hasAttribute('disabled'));
+        assert.isFalse(element.$.Title.classList.contains('edited'));
+        assert.equal(element._groupName, groupName2);
+        done();
+      });
+
+      element._handleSaveOwner().then(() => {
+        assert.isTrue(button.hasAttribute('disabled'));
+        assert.isFalse(element.$.Title.classList.contains('edited'));
+        assert.equal(element._groupConfigOwner, 'testId2');
+        done();
+      });
+    });
+  });
+
+  test('test for undefined group name', done => {
+    groupStub.restore();
+
+    sandbox.stub(
+        element.$.restAPI,
+        'getGroupConfig',
+        () => Promise.resolve({}));
+
+    assert.isUndefined(element.groupId);
+
+    element.groupId = 1;
+
+    assert.isDefined(element.groupId);
+
+    // Test that loading shows instead of filling
+    // in group details
+    element._loadGroup().then(() => {
+      assert.isTrue(element.$.loading.classList.contains('loading'));
+
+      assert.isTrue(element._loading);
+
+      done();
+    });
+  });
+
+  test('test fire event', done => {
+    element._groupConfig = {
+      name: 'test-group',
+    };
+
+    sandbox.stub(element.$.restAPI, 'saveGroupName')
+        .returns(Promise.resolve({status: 200}));
+
+    const showStub = sandbox.stub(element, 'fire');
+    element._handleSaveName()
+        .then(() => {
+          assert.isTrue(showStub.called);
+          done();
+        });
+  });
+
+  test('_computeGroupDisabled', () => {
+    let admin = true;
+    let owner = false;
+    let groupIsInternal = true;
+    assert.equal(element._computeGroupDisabled(owner, admin,
+        groupIsInternal), false);
+
+    admin = false;
+    assert.equal(element._computeGroupDisabled(owner, admin,
+        groupIsInternal), true);
+
+    owner = true;
+    assert.equal(element._computeGroupDisabled(owner, admin,
+        groupIsInternal), false);
+
+    owner = false;
+    assert.equal(element._computeGroupDisabled(owner, admin,
+        groupIsInternal), true);
+
+    groupIsInternal = false;
+    assert.equal(element._computeGroupDisabled(owner, admin,
+        groupIsInternal), true);
+
+    admin = true;
+    assert.equal(element._computeGroupDisabled(owner, admin,
+        groupIsInternal), true);
+  });
+
+  test('_computeLoadingClass', () => {
+    assert.equal(element._computeLoadingClass(true), 'loading');
+    assert.equal(element._computeLoadingClass(false), '');
+  });
+
+  test('fires page-error', done => {
+    groupStub.restore();
+
+    element.groupId = 1;
+
+    const response = {status: 404};
+    sandbox.stub(
+        element.$.restAPI, 'getGroupConfig', (group, errFn) => {
+          errFn(response);
+        });
+
+    element.addEventListener('page-error', e => {
+      assert.deepEqual(e.detail.response, response);
+      done();
+    });
+
+    element._loadGroup();
+  });
+});
 </script>

@@ -1,32 +1,22 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
-<link rel="import" href="/bower_components/iron-fit-behavior/iron-fit-behavior.html">
-<link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
-<script src="../../../scripts/rootElement.js"></script>
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-autocomplete-dropdown">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         z-index: 100;
@@ -76,33 +66,15 @@ limitations under the License.
         display: none;
       }
     </style>
-    <div
-        class="dropdown-content"
-        slot="dropdown-content"
-        id="suggestions"
-        role="listbox">
+    <div class="dropdown-content" slot="dropdown-content" id="suggestions" role="listbox">
       <ul>
         <template is="dom-repeat" items="[[suggestions]]">
-          <li data-index$="[[index]]"
-              data-value$="[[item.dataValue]]"
-              tabindex="-1"
-              aria-label$="[[item.name]]"
-              class="autocompleteOption"
-              role="option"
-              on-click="_handleClickItem">
+          <li data-index\$="[[index]]" data-value\$="[[item.dataValue]]" tabindex="-1" aria-label\$="[[item.name]]" class="autocompleteOption" role="option" on-click="_handleClickItem">
             <span>[[item.text]]</span>
-            <span class$="label [[_computeLabelClass(item)]]">[[item.label]]</span>
+            <span class\$="label [[_computeLabelClass(item)]]">[[item.label]]</span>
           </li>
         </template>
       </ul>
     </div>
-    <gr-cursor-manager
-        id="cursor"
-        index="{{index}}"
-        cursor-target-class="selected"
-        scroll-behavior="never"
-        focus-on-move
-        stops="[[_suggestionEls]]"></gr-cursor-manager>
-  </template>
-  <script src="gr-autocomplete-dropdown.js"></script>
-</dom-module>
+    <gr-cursor-manager id="cursor" index="{{index}}" cursor-target-class="selected" scroll-behavior="never" focus-on-move="" stops="[[_suggestionEls]]"></gr-cursor-manager>
+`;

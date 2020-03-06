@@ -1,36 +1,22 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../styles/gr-change-list-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
-<link rel="import" href="../gr-change-list-item/gr-change-list-item.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-
-<dom-module id="gr-change-list">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
@@ -57,16 +43,14 @@ limitations under the License.
       }
     </style>
     <table id="changeList">
-      <template is="dom-repeat" items="[[sections]]" as="changeSection"
-          index-as="sectionIndex">
+      <template is="dom-repeat" items="[[sections]]" as="changeSection" index-as="sectionIndex">
         <template is="dom-if" if="[[changeSection.name]]">
           <tbody>
             <tr class="groupHeader">
               <td class="leftPadding"></td>
-              <td class="star" hidden$="[[!showStar]]" hidden></td>
-              <td class="cell"
-                  colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
-                <a href$="[[_sectionHref(changeSection.query)]]" class="section-title">
+              <td class="star" hidden\$="[[!showStar]]" hidden=""></td>
+              <td class="cell" colspan\$="[[_computeColspan(changeTableColumns, labelNames)]]">
+                <a href\$="[[_sectionHref(changeSection.query)]]" class="section-title">
                   <span class="section-name">[[changeSection.name]]</span>
                   <span class="section-count-label">[[changeSection.countLabel]]</span>
                 </a>
@@ -78,9 +62,8 @@ limitations under the License.
           <template is="dom-if" if="[[_isEmpty(changeSection)]]">
             <tr class="noChanges">
               <td class="leftPadding"></td>
-              <td class="star" hidden$="[[!showStar]]" hidden></td>
-              <td class="cell"
-                  colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
+              <td class="star" hidden\$="[[!showStar]]" hidden=""></td>
+              <td class="cell" colspan\$="[[_computeColspan(changeTableColumns, labelNames)]]">
                 <template is="dom-if" if="[[_isOutgoing(changeSection)]]">
                   <slot name="empty-outgoing"></slot>
                 </template>
@@ -93,48 +76,31 @@ limitations under the License.
           <template is="dom-if" if="[[!_isEmpty(changeSection)]]">
             <tr class="groupTitle">
               <td class="leftPadding"></td>
-              <td class="star" hidden$="[[!showStar]]" hidden></td>
-              <td class="number" hidden$="[[!showNumber]]" hidden>#</td>
+              <td class="star" hidden\$="[[!showStar]]" hidden=""></td>
+              <td class="number" hidden\$="[[!showNumber]]" hidden="">#</td>
               <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
-                <td class$="[[_lowerCase(item)]]"
-                    hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
+                <td class\$="[[_lowerCase(item)]]" hidden\$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
                   [[item]]
                 </td>
               </template>
               <template is="dom-repeat" items="[[labelNames]]" as="labelName">
-                <td class="label" title$="[[labelName]]">
+                <td class="label" title\$="[[labelName]]">
                   [[_computeLabelShortcut(labelName)]]
                 </td>
               </template>
-              <template is="dom-repeat" items="[[_dynamicHeaderEndpoints]]"
-                        as="pluginHeader">
+              <template is="dom-repeat" items="[[_dynamicHeaderEndpoints]]" as="pluginHeader">
                 <td class="endpoint">
-                  <gr-endpoint-decorator name$="[[pluginHeader]]">
+                  <gr-endpoint-decorator name\$="[[pluginHeader]]">
                   </gr-endpoint-decorator>
                 </td>
               </template>
             </tr>
           </template>
           <template is="dom-repeat" items="[[changeSection.results]]" as="change">
-            <gr-change-list-item
-                selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
-                highlight$="[[_computeItemHighlight(account, change)]]"
-                needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
-                change="[[change]]"
-                visible-change-table-columns="[[visibleChangeTableColumns]]"
-                show-number="[[showNumber]]"
-                show-star="[[showStar]]"
-                tabindex="0"
-                label-names="[[labelNames]]"></gr-change-list-item>
+            <gr-change-list-item selected\$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]" highlight\$="[[_computeItemHighlight(account, change)]]" needs-review\$="[[_computeItemNeedsReview(account, change, showReviewedState)]]" change="[[change]]" visible-change-table-columns="[[visibleChangeTableColumns]]" show-number="[[showNumber]]" show-star="[[showStar]]" tabindex="0" label-names="[[labelNames]]"></gr-change-list-item>
           </template>
         </tbody>
       </template>
     </table>
-    <gr-cursor-manager
-        id="cursor"
-        index="{{selectedIndex}}"
-        scroll-behavior="keep-visible"
-        focus-on-move></gr-cursor-manager>
-  </template>
-  <script src="gr-change-list.js"></script>
-</dom-module>
+    <gr-cursor-manager id="cursor" index="{{selectedIndex}}" scroll-behavior="keep-visible" focus-on-move=""></gr-cursor-manager>
+`;

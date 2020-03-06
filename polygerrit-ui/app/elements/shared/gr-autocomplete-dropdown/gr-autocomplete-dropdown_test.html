@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-autocomplete-dropdown</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-autocomplete-dropdown.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-autocomplete-dropdown.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-autocomplete-dropdown.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,124 +40,125 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-autocomplete-dropdown', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-autocomplete-dropdown.js';
+suite('gr-autocomplete-dropdown', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      element.open();
-      element.suggestions = [
-        {dataValue: 'test value 1', name: 'test name 1', text: 1, label: 'hi'},
-        {dataValue: 'test value 2', name: 'test name 2', text: 2}];
-      flushAsynchronousOperations();
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    element.open();
+    element.suggestions = [
+      {dataValue: 'test value 1', name: 'test name 1', text: 1, label: 'hi'},
+      {dataValue: 'test value 2', name: 'test name 2', text: 2}];
+    flushAsynchronousOperations();
+  });
 
-    teardown(() => {
-      sandbox.restore();
-      if (element.isOpen) element.close();
-    });
+  teardown(() => {
+    sandbox.restore();
+    if (element.isOpen) element.close();
+  });
 
-    test('shows labels', () => {
-      const els = element.$.suggestions.querySelectorAll('li');
-      assert.equal(els[0].innerText.trim(), '1\nhi');
-      assert.equal(els[1].innerText.trim(), '2');
-    });
+  test('shows labels', () => {
+    const els = element.$.suggestions.querySelectorAll('li');
+    assert.equal(els[0].innerText.trim(), '1\nhi');
+    assert.equal(els[1].innerText.trim(), '2');
+  });
 
-    test('escape key', done => {
-      const closeSpy = sandbox.spy(element, 'close');
-      MockInteractions.pressAndReleaseKeyOn(element, 27);
-      flushAsynchronousOperations();
-      assert.isTrue(closeSpy.called);
-      done();
-    });
+  test('escape key', done => {
+    const closeSpy = sandbox.spy(element, 'close');
+    MockInteractions.pressAndReleaseKeyOn(element, 27);
+    flushAsynchronousOperations();
+    assert.isTrue(closeSpy.called);
+    done();
+  });
 
-    test('tab key', () => {
-      const handleTabSpy = sandbox.spy(element, '_handleTab');
-      const itemSelectedStub = sandbox.stub();
-      element.addEventListener('item-selected', itemSelectedStub);
-      MockInteractions.pressAndReleaseKeyOn(element, 9);
-      assert.isTrue(handleTabSpy.called);
-      assert.equal(element.$.cursor.index, 0);
-      assert.isTrue(itemSelectedStub.called);
-      assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
-        trigger: 'tab',
-        selected: element.getCursorTarget(),
-      });
-    });
-
-    test('enter key', () => {
-      const handleEnterSpy = sandbox.spy(element, '_handleEnter');
-      const itemSelectedStub = sandbox.stub();
-      element.addEventListener('item-selected', itemSelectedStub);
-      MockInteractions.pressAndReleaseKeyOn(element, 13);
-      assert.isTrue(handleEnterSpy.called);
-      assert.equal(element.$.cursor.index, 0);
-      assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
-        trigger: 'enter',
-        selected: element.getCursorTarget(),
-      });
-    });
-
-    test('down key', () => {
-      element.isHidden = true;
-      const nextSpy = sandbox.spy(element.$.cursor, 'next');
-      MockInteractions.pressAndReleaseKeyOn(element, 40);
-      assert.isFalse(nextSpy.called);
-      assert.equal(element.$.cursor.index, 0);
-      element.isHidden = false;
-      MockInteractions.pressAndReleaseKeyOn(element, 40);
-      assert.isTrue(nextSpy.called);
-      assert.equal(element.$.cursor.index, 1);
-    });
-
-    test('up key', () => {
-      element.isHidden = true;
-      const prevSpy = sandbox.spy(element.$.cursor, 'previous');
-      MockInteractions.pressAndReleaseKeyOn(element, 38);
-      assert.isFalse(prevSpy.called);
-      assert.equal(element.$.cursor.index, 0);
-      element.isHidden = false;
-      element.$.cursor.setCursorAtIndex(1);
-      assert.equal(element.$.cursor.index, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 38);
-      assert.isTrue(prevSpy.called);
-      assert.equal(element.$.cursor.index, 0);
-    });
-
-    test('tapping selects item', () => {
-      const itemSelectedStub = sandbox.stub();
-      element.addEventListener('item-selected', itemSelectedStub);
-
-      MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[1]);
-      flushAsynchronousOperations();
-      assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
-        trigger: 'click',
-        selected: element.$.suggestions.querySelectorAll('li')[1],
-      });
-    });
-
-    test('tapping child still selects item', () => {
-      const itemSelectedStub = sandbox.stub();
-      element.addEventListener('item-selected', itemSelectedStub);
-
-      MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[0]
-          .lastElementChild);
-      flushAsynchronousOperations();
-      assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
-        trigger: 'click',
-        selected: element.$.suggestions.querySelectorAll('li')[0],
-      });
-    });
-
-    test('updated suggestions resets cursor stops', () => {
-      const resetStopsSpy = sandbox.spy(element, '_resetCursorStops');
-      element.suggestions = [];
-      assert.isTrue(resetStopsSpy.called);
+  test('tab key', () => {
+    const handleTabSpy = sandbox.spy(element, '_handleTab');
+    const itemSelectedStub = sandbox.stub();
+    element.addEventListener('item-selected', itemSelectedStub);
+    MockInteractions.pressAndReleaseKeyOn(element, 9);
+    assert.isTrue(handleTabSpy.called);
+    assert.equal(element.$.cursor.index, 0);
+    assert.isTrue(itemSelectedStub.called);
+    assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
+      trigger: 'tab',
+      selected: element.getCursorTarget(),
     });
   });
 
+  test('enter key', () => {
+    const handleEnterSpy = sandbox.spy(element, '_handleEnter');
+    const itemSelectedStub = sandbox.stub();
+    element.addEventListener('item-selected', itemSelectedStub);
+    MockInteractions.pressAndReleaseKeyOn(element, 13);
+    assert.isTrue(handleEnterSpy.called);
+    assert.equal(element.$.cursor.index, 0);
+    assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
+      trigger: 'enter',
+      selected: element.getCursorTarget(),
+    });
+  });
+
+  test('down key', () => {
+    element.isHidden = true;
+    const nextSpy = sandbox.spy(element.$.cursor, 'next');
+    MockInteractions.pressAndReleaseKeyOn(element, 40);
+    assert.isFalse(nextSpy.called);
+    assert.equal(element.$.cursor.index, 0);
+    element.isHidden = false;
+    MockInteractions.pressAndReleaseKeyOn(element, 40);
+    assert.isTrue(nextSpy.called);
+    assert.equal(element.$.cursor.index, 1);
+  });
+
+  test('up key', () => {
+    element.isHidden = true;
+    const prevSpy = sandbox.spy(element.$.cursor, 'previous');
+    MockInteractions.pressAndReleaseKeyOn(element, 38);
+    assert.isFalse(prevSpy.called);
+    assert.equal(element.$.cursor.index, 0);
+    element.isHidden = false;
+    element.$.cursor.setCursorAtIndex(1);
+    assert.equal(element.$.cursor.index, 1);
+    MockInteractions.pressAndReleaseKeyOn(element, 38);
+    assert.isTrue(prevSpy.called);
+    assert.equal(element.$.cursor.index, 0);
+  });
+
+  test('tapping selects item', () => {
+    const itemSelectedStub = sandbox.stub();
+    element.addEventListener('item-selected', itemSelectedStub);
+
+    MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[1]);
+    flushAsynchronousOperations();
+    assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
+      trigger: 'click',
+      selected: element.$.suggestions.querySelectorAll('li')[1],
+    });
+  });
+
+  test('tapping child still selects item', () => {
+    const itemSelectedStub = sandbox.stub();
+    element.addEventListener('item-selected', itemSelectedStub);
+
+    MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[0]
+        .lastElementChild);
+    flushAsynchronousOperations();
+    assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
+      trigger: 'click',
+      selected: element.$.suggestions.querySelectorAll('li')[0],
+    });
+  });
+
+  test('updated suggestions resets cursor stops', () => {
+    const resetStopsSpy = sandbox.spy(element, '_resetCursorStops');
+    element.suggestions = [];
+    assert.isTrue(resetStopsSpy.called);
+  });
+});
 </script>

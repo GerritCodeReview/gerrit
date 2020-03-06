@@ -19,16 +19,22 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-settings-api</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="../gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="gr-settings-api.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../gr-endpoint-decorator/gr-endpoint-decorator.js"></script>
+<script type="module" src="./gr-settings-api.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../gr-endpoint-decorator/gr-endpoint-decorator.js';
+import './gr-settings-api.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -39,49 +45,52 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-settings-api tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let settingsApi;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../gr-endpoint-decorator/gr-endpoint-decorator.js';
+import './gr-settings-api.js';
+suite('gr-settings-api tests', () => {
+  let sandbox;
+  let settingsApi;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      Gerrit._loadPlugins([]);
-      settingsApi = plugin.settings();
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    let plugin;
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
+    Gerrit._loadPlugins([]);
+    settingsApi = plugin.settings();
+  });
 
-    teardown(() => {
-      settingsApi = null;
-      sandbox.restore();
-    });
+  teardown(() => {
+    settingsApi = null;
+    sandbox.restore();
+  });
 
-    test('exists', () => {
-      assert.isOk(settingsApi);
-    });
+  test('exists', () => {
+    assert.isOk(settingsApi);
+  });
 
-    test('works', done => {
-      settingsApi
-          .title('foo')
-          .token('bar')
-          .module('some-settings-screen')
-          .build();
-      const element = fixture('basic');
-      flush(() => {
-        const [menuItemEl, itemEl] = element;
-        const menuItem = menuItemEl.$$('gr-settings-menu-item');
-        assert.isOk(menuItem);
-        assert.equal(menuItem.title, 'foo');
-        assert.equal(menuItem.href, '#x/testplugin/bar');
-        const item = itemEl.$$('gr-settings-item');
-        assert.isOk(item);
-        assert.equal(item.title, 'foo');
-        assert.equal(item.anchor, 'x/testplugin/bar');
-        done();
-      });
+  test('works', done => {
+    settingsApi
+        .title('foo')
+        .token('bar')
+        .module('some-settings-screen')
+        .build();
+    const element = fixture('basic');
+    flush(() => {
+      const [menuItemEl, itemEl] = element;
+      const menuItem = menuItemEl.$$('gr-settings-menu-item');
+      assert.isOk(menuItem);
+      assert.equal(menuItem.title, 'foo');
+      assert.equal(menuItem.href, '#x/testplugin/bar');
+      const item = itemEl.$$('gr-settings-item');
+      assert.isOk(item);
+      assert.equal(item.title, 'foo');
+      assert.equal(item.anchor, 'x/testplugin/bar');
+      done();
     });
   });
+});
 </script>

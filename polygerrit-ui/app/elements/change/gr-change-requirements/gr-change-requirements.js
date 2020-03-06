@@ -14,147 +14,160 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /**
-   * @appliesMixin Gerrit.RESTClientMixin
-   * @extends Polymer.Element
-   */
-  class GrChangeRequirements extends Polymer.mixinBehaviors( [
-    Gerrit.RESTClientBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-change-requirements'; }
+import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-icons/gr-icons.js';
+import '../../shared/gr-label/gr-label.js';
+import '../../shared/gr-label-info/gr-label-info.js';
+import '../../shared/gr-limited-text/gr-limited-text.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-change-requirements_html.js';
 
-    static get properties() {
-      return {
-      /** @type {?} */
-        change: Object,
-        account: Object,
-        mutable: Boolean,
-        _requirements: {
-          type: Array,
-          computed: '_computeRequirements(change)',
-        },
-        _requiredLabels: {
-          type: Array,
-          value: () => [],
-        },
-        _optionalLabels: {
-          type: Array,
-          value: () => [],
-        },
-        _showWip: {
-          type: Boolean,
-          computed: '_computeShowWip(change)',
-        },
-        _showOptionalLabels: {
-          type: Boolean,
-          value: true,
-        },
-      };
-    }
+/**
+ * @appliesMixin Gerrit.RESTClientMixin
+ * @extends Polymer.Element
+ */
+class GrChangeRequirements extends mixinBehaviors( [
+  Gerrit.RESTClientBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
 
-    static get observers() {
-      return [
-        '_computeLabels(change.labels.*)',
-      ];
-    }
+  static get is() { return 'gr-change-requirements'; }
 
-    _computeShowWip(change) {
-      return change.work_in_progress;
-    }
+  static get properties() {
+    return {
+    /** @type {?} */
+      change: Object,
+      account: Object,
+      mutable: Boolean,
+      _requirements: {
+        type: Array,
+        computed: '_computeRequirements(change)',
+      },
+      _requiredLabels: {
+        type: Array,
+        value: () => [],
+      },
+      _optionalLabels: {
+        type: Array,
+        value: () => [],
+      },
+      _showWip: {
+        type: Boolean,
+        computed: '_computeShowWip(change)',
+      },
+      _showOptionalLabels: {
+        type: Boolean,
+        value: true,
+      },
+    };
+  }
 
-    _computeRequirements(change) {
-      const _requirements = [];
+  static get observers() {
+    return [
+      '_computeLabels(change.labels.*)',
+    ];
+  }
 
-      if (change.requirements) {
-        for (const requirement of change.requirements) {
-          requirement.satisfied = requirement.status === 'OK';
-          requirement.style =
-              this._computeRequirementClass(requirement.satisfied);
-          _requirements.push(requirement);
-        }
-      }
-      if (change.work_in_progress) {
-        _requirements.push({
-          fallback_text: 'Work-in-progress',
-          tooltip: 'Change must not be in \'Work in Progress\' state.',
-        });
-      }
+  _computeShowWip(change) {
+    return change.work_in_progress;
+  }
 
-      return _requirements;
-    }
+  _computeRequirements(change) {
+    const _requirements = [];
 
-    _computeRequirementClass(requirementStatus) {
-      return requirementStatus ? 'approved' : '';
-    }
-
-    _computeRequirementIcon(requirementStatus) {
-      return requirementStatus ? 'gr-icons:check' : 'gr-icons:hourglass';
-    }
-
-    _computeLabels(labelsRecord) {
-      const labels = labelsRecord.base;
-      this._optionalLabels = [];
-      this._requiredLabels = [];
-
-      for (const label in labels) {
-        if (!labels.hasOwnProperty(label)) { continue; }
-
-        const labelInfo = labels[label];
-        const icon = this._computeLabelIcon(labelInfo);
-        const style = this._computeLabelClass(labelInfo);
-        const path = labelInfo.optional ? '_optionalLabels' : '_requiredLabels';
-
-        this.push(path, {label, icon, style, labelInfo});
+    if (change.requirements) {
+      for (const requirement of change.requirements) {
+        requirement.satisfied = requirement.status === 'OK';
+        requirement.style =
+            this._computeRequirementClass(requirement.satisfied);
+        _requirements.push(requirement);
       }
     }
-
-    /**
-     * @param {Object} labelInfo
-     * @return {string} The icon name, or undefined if no icon should
-     *     be used.
-     */
-    _computeLabelIcon(labelInfo) {
-      if (labelInfo.approved) { return 'gr-icons:check'; }
-      if (labelInfo.rejected) { return 'gr-icons:close'; }
-      return 'gr-icons:hourglass';
+    if (change.work_in_progress) {
+      _requirements.push({
+        fallback_text: 'Work-in-progress',
+        tooltip: 'Change must not be in \'Work in Progress\' state.',
+      });
     }
 
-    /**
-     * @param {Object} labelInfo
-     */
-    _computeLabelClass(labelInfo) {
-      if (labelInfo.approved) { return 'approved'; }
-      if (labelInfo.rejected) { return 'rejected'; }
-      return '';
-    }
+    return _requirements;
+  }
 
-    _computeShowOptional(optionalFieldsRecord) {
-      return optionalFieldsRecord.base.length ? '' : 'hidden';
-    }
+  _computeRequirementClass(requirementStatus) {
+    return requirementStatus ? 'approved' : '';
+  }
 
-    _computeLabelValue(value) {
-      return (value > 0 ? '+' : '') + value;
-    }
+  _computeRequirementIcon(requirementStatus) {
+    return requirementStatus ? 'gr-icons:check' : 'gr-icons:hourglass';
+  }
 
-    _computeShowHideIcon(showOptionalLabels) {
-      return showOptionalLabels ?
-        'gr-icons:expand-less' :
-        'gr-icons:expand-more';
-    }
+  _computeLabels(labelsRecord) {
+    const labels = labelsRecord.base;
+    this._optionalLabels = [];
+    this._requiredLabels = [];
 
-    _computeSectionClass(show) {
-      return show ? '' : 'hidden';
-    }
+    for (const label in labels) {
+      if (!labels.hasOwnProperty(label)) { continue; }
 
-    _handleShowHide(e) {
-      this._showOptionalLabels = !this._showOptionalLabels;
+      const labelInfo = labels[label];
+      const icon = this._computeLabelIcon(labelInfo);
+      const style = this._computeLabelClass(labelInfo);
+      const path = labelInfo.optional ? '_optionalLabels' : '_requiredLabels';
+
+      this.push(path, {label, icon, style, labelInfo});
     }
   }
 
-  customElements.define(GrChangeRequirements.is, GrChangeRequirements);
-})();
+  /**
+   * @param {Object} labelInfo
+   * @return {string} The icon name, or undefined if no icon should
+   *     be used.
+   */
+  _computeLabelIcon(labelInfo) {
+    if (labelInfo.approved) { return 'gr-icons:check'; }
+    if (labelInfo.rejected) { return 'gr-icons:close'; }
+    return 'gr-icons:hourglass';
+  }
+
+  /**
+   * @param {Object} labelInfo
+   */
+  _computeLabelClass(labelInfo) {
+    if (labelInfo.approved) { return 'approved'; }
+    if (labelInfo.rejected) { return 'rejected'; }
+    return '';
+  }
+
+  _computeShowOptional(optionalFieldsRecord) {
+    return optionalFieldsRecord.base.length ? '' : 'hidden';
+  }
+
+  _computeLabelValue(value) {
+    return (value > 0 ? '+' : '') + value;
+  }
+
+  _computeShowHideIcon(showOptionalLabels) {
+    return showOptionalLabels ?
+      'gr-icons:expand-less' :
+      'gr-icons:expand-more';
+  }
+
+  _computeSectionClass(show) {
+    return show ? '' : 'hidden';
+  }
+
+  _handleShowHide(e) {
+    this._showOptionalLabels = !this._showOptionalLabels;
+  }
+}
+
+customElements.define(GrChangeRequirements.is, GrChangeRequirements);

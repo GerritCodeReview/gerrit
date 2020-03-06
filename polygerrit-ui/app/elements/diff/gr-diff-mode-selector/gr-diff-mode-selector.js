@@ -14,65 +14,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrDiffModeSelector extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-diff-mode-selector'; }
+import '@polymer/iron-icon/iron-icon.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-diff-mode-selector_html.js';
 
-    static get properties() {
-      return {
-        mode: {
-          type: String,
-          notify: true,
+/** @extends Polymer.Element */
+class GrDiffModeSelector extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-diff-mode-selector'; }
+
+  static get properties() {
+    return {
+      mode: {
+        type: String,
+        notify: true,
+      },
+
+      /**
+       * If set to true, the user's preference will be updated every time a
+       * button is tapped. Don't set to true if there is no user.
+       */
+      saveOnChange: {
+        type: Boolean,
+        value: false,
+      },
+
+      /** @type {?} */
+      _VIEW_MODES: {
+        type: Object,
+        readOnly: true,
+        value: {
+          SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+          UNIFIED: 'UNIFIED_DIFF',
         },
-
-        /**
-         * If set to true, the user's preference will be updated every time a
-         * button is tapped. Don't set to true if there is no user.
-         */
-        saveOnChange: {
-          type: Boolean,
-          value: false,
-        },
-
-        /** @type {?} */
-        _VIEW_MODES: {
-          type: Object,
-          readOnly: true,
-          value: {
-            SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-            UNIFIED: 'UNIFIED_DIFF',
-          },
-        },
-      };
-    }
-
-    /**
-     * Set the mode. If save on change is enabled also update the preference.
-     */
-    setMode(newMode) {
-      if (this.saveOnChange && this.mode && this.mode !== newMode) {
-        this.$.restAPI.savePreferences({diff_view: newMode});
-      }
-      this.mode = newMode;
-    }
-
-    _computeSelectedClass(diffViewMode, buttonViewMode) {
-      return buttonViewMode === diffViewMode ? 'selected' : '';
-    }
-
-    _handleSideBySideTap() {
-      this.setMode(this._VIEW_MODES.SIDE_BY_SIDE);
-    }
-
-    _handleUnifiedTap() {
-      this.setMode(this._VIEW_MODES.UNIFIED);
-    }
+      },
+    };
   }
 
-  customElements.define(GrDiffModeSelector.is, GrDiffModeSelector);
-})();
+  /**
+   * Set the mode. If save on change is enabled also update the preference.
+   */
+  setMode(newMode) {
+    if (this.saveOnChange && this.mode && this.mode !== newMode) {
+      this.$.restAPI.savePreferences({diff_view: newMode});
+    }
+    this.mode = newMode;
+  }
+
+  _computeSelectedClass(diffViewMode, buttonViewMode) {
+    return buttonViewMode === diffViewMode ? 'selected' : '';
+  }
+
+  _handleSideBySideTap() {
+    this.setMode(this._VIEW_MODES.SIDE_BY_SIDE);
+  }
+
+  _handleUnifiedTap() {
+    this.setMode(this._VIEW_MODES.UNIFIED);
+  }
+}
+
+customElements.define(GrDiffModeSelector.is, GrDiffModeSelector);

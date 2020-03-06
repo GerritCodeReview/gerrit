@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-settings-view</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-settings-view.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-settings-view.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-settings-view.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -41,488 +46,491 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-settings-view tests', async () => {
-    await readyToTest();
-    let element;
-    let account;
-    let preferences;
-    let config;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-settings-view.js';
+import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-settings-view tests', () => {
+  let element;
+  let account;
+  let preferences;
+  let config;
+  let sandbox;
 
-    function valueOf(title, fieldsetid) {
-      const sections = element.$[fieldsetid].querySelectorAll('section');
-      let titleEl;
-      for (let i = 0; i < sections.length; i++) {
-        titleEl = sections[i].querySelector('.title');
-        if (titleEl.textContent.trim() === title) {
-          return sections[i].querySelector('.value');
-        }
+  function valueOf(title, fieldsetid) {
+    const sections = element.$[fieldsetid].querySelectorAll('section');
+    let titleEl;
+    for (let i = 0; i < sections.length; i++) {
+      titleEl = sections[i].querySelector('.title');
+      if (titleEl.textContent.trim() === title) {
+        return sections[i].querySelector('.value');
       }
     }
+  }
 
-    // Because deepEqual isn't behaving in Safari.
-    function assertMenusEqual(actual, expected) {
-      assert.equal(actual.length, expected.length);
-      for (let i = 0; i < actual.length; i++) {
-        assert.equal(actual[i].name, expected[i].name);
-        assert.equal(actual[i].url, expected[i].url);
-      }
+  // Because deepEqual isn't behaving in Safari.
+  function assertMenusEqual(actual, expected) {
+    assert.equal(actual.length, expected.length);
+    for (let i = 0; i < actual.length; i++) {
+      assert.equal(actual[i].name, expected[i].name);
+      assert.equal(actual[i].url, expected[i].url);
     }
+  }
 
-    function stubAddAccountEmail(statusCode) {
-      return sandbox.stub(element.$.restAPI, 'addAccountEmail',
-          () => Promise.resolve({status: statusCode}));
-    }
+  function stubAddAccountEmail(statusCode) {
+    return sandbox.stub(element.$.restAPI, 'addAccountEmail',
+        () => Promise.resolve({status: statusCode}));
+  }
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
-      account = {
-        _account_id: 123,
-        name: 'user name',
-        email: 'user@email',
-        username: 'user username',
-        registered: '2000-01-01 00:00:00.000000000',
-      };
-      preferences = {
-        changes_per_page: 25,
-        date_format: 'UK',
-        time_format: 'HHMM_12',
-        diff_view: 'UNIFIED_DIFF',
-        email_strategy: 'ENABLED',
-        email_format: 'HTML_PLAINTEXT',
-        default_base_for_merges: 'FIRST_PARENT',
-        relative_date_in_change_table: false,
-        size_bar_in_change_table: true,
+  setup(done => {
+    sandbox = sinon.sandbox.create();
+    account = {
+      _account_id: 123,
+      name: 'user name',
+      email: 'user@email',
+      username: 'user username',
+      registered: '2000-01-01 00:00:00.000000000',
+    };
+    preferences = {
+      changes_per_page: 25,
+      date_format: 'UK',
+      time_format: 'HHMM_12',
+      diff_view: 'UNIFIED_DIFF',
+      email_strategy: 'ENABLED',
+      email_format: 'HTML_PLAINTEXT',
+      default_base_for_merges: 'FIRST_PARENT',
+      relative_date_in_change_table: false,
+      size_bar_in_change_table: true,
 
-        my: [
-          {url: '/first/url', name: 'first name', target: '_blank'},
-          {url: '/second/url', name: 'second name', target: '_blank'},
-        ],
-        change_table: [],
-      };
-      config = {auth: {editable_account_fields: []}};
+      my: [
+        {url: '/first/url', name: 'first name', target: '_blank'},
+        {url: '/second/url', name: 'second name', target: '_blank'},
+      ],
+      change_table: [],
+    };
+    config = {auth: {editable_account_fields: []}};
 
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getAccount() { return Promise.resolve(account); },
-        getPreferences() { return Promise.resolve(preferences); },
-        getWatchedProjects() {
-          return Promise.resolve([]);
-        },
-        getAccountEmails() { return Promise.resolve(); },
-        getConfig() { return Promise.resolve(config); },
-        getAccountGroups() { return Promise.resolve([]); },
-      });
-      element = fixture('basic');
-
-      // Allow the element to render.
-      element._loadingPromise.then(done);
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(true); },
+      getAccount() { return Promise.resolve(account); },
+      getPreferences() { return Promise.resolve(preferences); },
+      getWatchedProjects() {
+        return Promise.resolve([]);
+      },
+      getAccountEmails() { return Promise.resolve(); },
+      getConfig() { return Promise.resolve(config); },
+      getAccountGroups() { return Promise.resolve([]); },
     });
+    element = fixture('basic');
 
-    teardown(() => {
-      sandbox.restore();
-    });
+    // Allow the element to render.
+    element._loadingPromise.then(done);
+  });
 
-    test('calls the title-change event', () => {
-      const titleChangedStub = sandbox.stub();
+  teardown(() => {
+    sandbox.restore();
+  });
 
-      // Create a new view.
-      const newElement = document.createElement('gr-settings-view');
-      newElement.addEventListener('title-change', titleChangedStub);
+  test('calls the title-change event', () => {
+    const titleChangedStub = sandbox.stub();
 
-      // Attach it to the fixture.
-      const blank = fixture('blank');
-      blank.appendChild(newElement);
+    // Create a new view.
+    const newElement = document.createElement('gr-settings-view');
+    newElement.addEventListener('title-change', titleChangedStub);
 
-      Polymer.dom.flush();
+    // Attach it to the fixture.
+    const blank = fixture('blank');
+    blank.appendChild(newElement);
 
-      assert.isTrue(titleChangedStub.called);
-      assert.equal(titleChangedStub.getCall(0).args[0].detail.title,
-          'Settings');
-    });
+    flush();
 
-    test('user preferences', done => {
-      // Rendered with the expected preferences selected.
-      assert.equal(valueOf('Changes per page', 'preferences')
-          .firstElementChild.bindValue, preferences.changes_per_page);
-      assert.equal(valueOf('Date/time format', 'preferences')
-          .firstElementChild.bindValue, preferences.date_format);
-      assert.equal(valueOf('Date/time format', 'preferences')
-          .lastElementChild.bindValue, preferences.time_format);
-      assert.equal(valueOf('Email notifications', 'preferences')
-          .firstElementChild.bindValue, preferences.email_strategy);
-      assert.equal(valueOf('Email format', 'preferences')
-          .firstElementChild.bindValue, preferences.email_format);
-      assert.equal(valueOf('Default Base For Merges', 'preferences')
-          .firstElementChild.bindValue, preferences.default_base_for_merges);
-      assert.equal(
-          valueOf('Show Relative Dates In Changes Table', 'preferences')
-              .firstElementChild.checked, false);
-      assert.equal(valueOf('Diff view', 'preferences')
-          .firstElementChild.bindValue, preferences.diff_view);
-      assert.equal(valueOf('Show size bars in file list', 'preferences')
-          .firstElementChild.checked, true);
-      assert.equal(valueOf('Publish comments on push', 'preferences')
-          .firstElementChild.checked, false);
-      assert.equal(valueOf(
-          'Set new changes to "work in progress" by default', 'preferences')
-          .firstElementChild.checked, false);
-      assert.equal(valueOf(
-          'Insert Signed-off-by Footer For Inline Edit Changes', 'preferences')
-          .firstElementChild.checked, false);
+    assert.isTrue(titleChangedStub.called);
+    assert.equal(titleChangedStub.getCall(0).args[0].detail.title,
+        'Settings');
+  });
 
-      assert.isFalse(element._prefsChanged);
-      assert.isFalse(element._menuChanged);
+  test('user preferences', done => {
+    // Rendered with the expected preferences selected.
+    assert.equal(valueOf('Changes per page', 'preferences')
+        .firstElementChild.bindValue, preferences.changes_per_page);
+    assert.equal(valueOf('Date/time format', 'preferences')
+        .firstElementChild.bindValue, preferences.date_format);
+    assert.equal(valueOf('Date/time format', 'preferences')
+        .lastElementChild.bindValue, preferences.time_format);
+    assert.equal(valueOf('Email notifications', 'preferences')
+        .firstElementChild.bindValue, preferences.email_strategy);
+    assert.equal(valueOf('Email format', 'preferences')
+        .firstElementChild.bindValue, preferences.email_format);
+    assert.equal(valueOf('Default Base For Merges', 'preferences')
+        .firstElementChild.bindValue, preferences.default_base_for_merges);
+    assert.equal(
+        valueOf('Show Relative Dates In Changes Table', 'preferences')
+            .firstElementChild.checked, false);
+    assert.equal(valueOf('Diff view', 'preferences')
+        .firstElementChild.bindValue, preferences.diff_view);
+    assert.equal(valueOf('Show size bars in file list', 'preferences')
+        .firstElementChild.checked, true);
+    assert.equal(valueOf('Publish comments on push', 'preferences')
+        .firstElementChild.checked, false);
+    assert.equal(valueOf(
+        'Set new changes to "work in progress" by default', 'preferences')
+        .firstElementChild.checked, false);
+    assert.equal(valueOf(
+        'Insert Signed-off-by Footer For Inline Edit Changes', 'preferences')
+        .firstElementChild.checked, false);
 
-      // Change the diff view element.
-      const diffSelect = valueOf('Diff view', 'preferences').firstElementChild;
-      diffSelect.bindValue = 'SIDE_BY_SIDE';
+    assert.isFalse(element._prefsChanged);
+    assert.isFalse(element._menuChanged);
 
-      const publishOnPush =
-          valueOf('Publish comments on push', 'preferences').firstElementChild;
-      diffSelect.fire('change');
+    // Change the diff view element.
+    const diffSelect = valueOf('Diff view', 'preferences').firstElementChild;
+    diffSelect.bindValue = 'SIDE_BY_SIDE';
 
-      MockInteractions.tap(publishOnPush);
-
-      assert.isTrue(element._prefsChanged);
-      assert.isFalse(element._menuChanged);
-
-      stub('gr-rest-api-interface', {
-        savePreferences(prefs) {
-          assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
-          assertMenusEqual(prefs.my, preferences.my);
-          assert.equal(prefs.publish_comments_on_push, true);
-          return Promise.resolve();
-        },
-      });
-
-      // Save the change.
-      element._handleSavePreferences().then(() => {
-        assert.isFalse(element._prefsChanged);
-        assert.isFalse(element._menuChanged);
-        done();
-      });
-    });
-
-    test('publish comments on push', done => {
-      const publishCommentsOnPush =
+    const publishOnPush =
         valueOf('Publish comments on push', 'preferences').firstElementChild;
-      MockInteractions.tap(publishCommentsOnPush);
+    diffSelect.fire('change');
 
-      assert.isFalse(element._menuChanged);
-      assert.isTrue(element._prefsChanged);
+    MockInteractions.tap(publishOnPush);
 
-      stub('gr-rest-api-interface', {
-        savePreferences(prefs) {
-          assert.equal(prefs.publish_comments_on_push, true);
-          return Promise.resolve();
-        },
-      });
+    assert.isTrue(element._prefsChanged);
+    assert.isFalse(element._menuChanged);
 
-      // Save the change.
-      element._handleSavePreferences().then(() => {
-        assert.isFalse(element._prefsChanged);
-        assert.isFalse(element._menuChanged);
-        done();
-      });
+    stub('gr-rest-api-interface', {
+      savePreferences(prefs) {
+        assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
+        assertMenusEqual(prefs.my, preferences.my);
+        assert.equal(prefs.publish_comments_on_push, true);
+        return Promise.resolve();
+      },
     });
 
-    test('set new changes work-in-progress', done => {
-      const newChangesWorkInProgress =
-        valueOf('Set new changes to "work in progress" by default',
-            'preferences').firstElementChild;
-      MockInteractions.tap(newChangesWorkInProgress);
-
+    // Save the change.
+    element._handleSavePreferences().then(() => {
+      assert.isFalse(element._prefsChanged);
       assert.isFalse(element._menuChanged);
-      assert.isTrue(element._prefsChanged);
+      done();
+    });
+  });
 
-      stub('gr-rest-api-interface', {
-        savePreferences(prefs) {
-          assert.equal(prefs.work_in_progress_by_default, true);
-          return Promise.resolve();
-        },
-      });
+  test('publish comments on push', done => {
+    const publishCommentsOnPush =
+      valueOf('Publish comments on push', 'preferences').firstElementChild;
+    MockInteractions.tap(publishCommentsOnPush);
 
-      // Save the change.
-      element._handleSavePreferences().then(() => {
-        assert.isFalse(element._prefsChanged);
-        assert.isFalse(element._menuChanged);
-        done();
-      });
+    assert.isFalse(element._menuChanged);
+    assert.isTrue(element._prefsChanged);
+
+    stub('gr-rest-api-interface', {
+      savePreferences(prefs) {
+        assert.equal(prefs.publish_comments_on_push, true);
+        return Promise.resolve();
+      },
     });
 
-    test('menu', done => {
+    // Save the change.
+    element._handleSavePreferences().then(() => {
+      assert.isFalse(element._prefsChanged);
+      assert.isFalse(element._menuChanged);
+      done();
+    });
+  });
+
+  test('set new changes work-in-progress', done => {
+    const newChangesWorkInProgress =
+      valueOf('Set new changes to "work in progress" by default',
+          'preferences').firstElementChild;
+    MockInteractions.tap(newChangesWorkInProgress);
+
+    assert.isFalse(element._menuChanged);
+    assert.isTrue(element._prefsChanged);
+
+    stub('gr-rest-api-interface', {
+      savePreferences(prefs) {
+        assert.equal(prefs.work_in_progress_by_default, true);
+        return Promise.resolve();
+      },
+    });
+
+    // Save the change.
+    element._handleSavePreferences().then(() => {
+      assert.isFalse(element._prefsChanged);
+      assert.isFalse(element._menuChanged);
+      done();
+    });
+  });
+
+  test('menu', done => {
+    assert.isFalse(element._menuChanged);
+    assert.isFalse(element._prefsChanged);
+
+    assertMenusEqual(element._localMenu, preferences.my);
+
+    const menu = element.$.menu.firstElementChild;
+    let tableRows = dom(menu.root).querySelectorAll('tbody tr');
+    assert.equal(tableRows.length, preferences.my.length);
+
+    // Add a menu item:
+    element.splice('_localMenu', 1, 0, {name: 'foo', url: 'bar', target: ''});
+    flush();
+
+    tableRows = dom(menu.root).querySelectorAll('tbody tr');
+    assert.equal(tableRows.length, preferences.my.length + 1);
+
+    assert.isTrue(element._menuChanged);
+    assert.isFalse(element._prefsChanged);
+
+    stub('gr-rest-api-interface', {
+      savePreferences(prefs) {
+        assertMenusEqual(prefs.my, element._localMenu);
+        return Promise.resolve();
+      },
+    });
+
+    element._handleSaveMenu().then(() => {
       assert.isFalse(element._menuChanged);
       assert.isFalse(element._prefsChanged);
-
-      assertMenusEqual(element._localMenu, preferences.my);
-
-      const menu = element.$.menu.firstElementChild;
-      let tableRows = Polymer.dom(menu.root).querySelectorAll('tbody tr');
-      assert.equal(tableRows.length, preferences.my.length);
-
-      // Add a menu item:
-      element.splice('_localMenu', 1, 0, {name: 'foo', url: 'bar', target: ''});
-      Polymer.dom.flush();
-
-      tableRows = Polymer.dom(menu.root).querySelectorAll('tbody tr');
-      assert.equal(tableRows.length, preferences.my.length + 1);
-
-      assert.isTrue(element._menuChanged);
-      assert.isFalse(element._prefsChanged);
-
-      stub('gr-rest-api-interface', {
-        savePreferences(prefs) {
-          assertMenusEqual(prefs.my, element._localMenu);
-          return Promise.resolve();
-        },
-      });
-
-      element._handleSaveMenu().then(() => {
-        assert.isFalse(element._menuChanged);
-        assert.isFalse(element._prefsChanged);
-        assertMenusEqual(element.prefs.my, element._localMenu);
-        done();
-      });
+      assertMenusEqual(element.prefs.my, element._localMenu);
+      done();
     });
+  });
 
-    test('add email validation', () => {
-      assert.isFalse(element._isNewEmailValid('invalid email'));
-      assert.isTrue(element._isNewEmailValid('vaguely@valid.email'));
+  test('add email validation', () => {
+    assert.isFalse(element._isNewEmailValid('invalid email'));
+    assert.isTrue(element._isNewEmailValid('vaguely@valid.email'));
 
-      assert.isFalse(
-          element._computeAddEmailButtonEnabled('invalid email'), true);
-      assert.isFalse(
-          element._computeAddEmailButtonEnabled('vaguely@valid.email', true));
-      assert.isTrue(
-          element._computeAddEmailButtonEnabled('vaguely@valid.email', false));
+    assert.isFalse(
+        element._computeAddEmailButtonEnabled('invalid email'), true);
+    assert.isFalse(
+        element._computeAddEmailButtonEnabled('vaguely@valid.email', true));
+    assert.isTrue(
+        element._computeAddEmailButtonEnabled('vaguely@valid.email', false));
+  });
+
+  test('add email does not save invalid', () => {
+    const addEmailStub = stubAddAccountEmail(201);
+
+    assert.isFalse(element._addingEmail);
+    assert.isNotOk(element._lastSentVerificationEmail);
+    element._newEmail = 'invalid email';
+
+    element._handleAddEmailButton();
+
+    assert.isFalse(element._addingEmail);
+    assert.isFalse(addEmailStub.called);
+    assert.isNotOk(element._lastSentVerificationEmail);
+
+    assert.isFalse(addEmailStub.called);
+  });
+
+  test('add email does save valid', done => {
+    const addEmailStub = stubAddAccountEmail(201);
+
+    assert.isFalse(element._addingEmail);
+    assert.isNotOk(element._lastSentVerificationEmail);
+    element._newEmail = 'valid@email.com';
+
+    element._handleAddEmailButton();
+
+    assert.isTrue(element._addingEmail);
+    assert.isTrue(addEmailStub.called);
+
+    assert.isTrue(addEmailStub.called);
+    addEmailStub.lastCall.returnValue.then(() => {
+      assert.isOk(element._lastSentVerificationEmail);
+      done();
     });
+  });
 
-    test('add email does not save invalid', () => {
-      const addEmailStub = stubAddAccountEmail(201);
+  test('add email does not set last-email if error', done => {
+    const addEmailStub = stubAddAccountEmail(500);
 
-      assert.isFalse(element._addingEmail);
+    assert.isNotOk(element._lastSentVerificationEmail);
+    element._newEmail = 'valid@email.com';
+
+    element._handleAddEmailButton();
+
+    assert.isTrue(addEmailStub.called);
+    addEmailStub.lastCall.returnValue.then(() => {
       assert.isNotOk(element._lastSentVerificationEmail);
-      element._newEmail = 'invalid email';
-
-      element._handleAddEmailButton();
-
-      assert.isFalse(element._addingEmail);
-      assert.isFalse(addEmailStub.called);
-      assert.isNotOk(element._lastSentVerificationEmail);
-
-      assert.isFalse(addEmailStub.called);
+      done();
     });
+  });
 
-    test('add email does save valid', done => {
-      const addEmailStub = stubAddAccountEmail(201);
+  test('emails are loaded without emailToken', () => {
+    sandbox.stub(element.$.emailEditor, 'loadData');
+    element.params = {};
+    element.attached();
+    assert.isTrue(element.$.emailEditor.loadData.calledOnce);
+  });
 
-      assert.isFalse(element._addingEmail);
-      assert.isNotOk(element._lastSentVerificationEmail);
-      element._newEmail = 'valid@email.com';
+  test('_handleSaveChangeTable', () => {
+    let newColumns = ['Owner', 'Project', 'Branch'];
+    element._localChangeTableColumns = newColumns.slice(0);
+    element._showNumber = false;
+    const cloneStub = sandbox.stub(element, '_cloneChangeTableColumns');
+    element._handleSaveChangeTable();
+    assert.isTrue(cloneStub.calledOnce);
+    assert.deepEqual(element.prefs.change_table, newColumns);
+    assert.isNotOk(element.prefs.legacycid_in_change_table);
 
-      element._handleAddEmailButton();
+    newColumns = ['Size'];
+    element._localChangeTableColumns = newColumns;
+    element._showNumber = true;
+    element._handleSaveChangeTable();
+    assert.isTrue(cloneStub.calledTwice);
+    assert.deepEqual(element.prefs.change_table, newColumns);
+    assert.isTrue(element.prefs.legacycid_in_change_table);
+  });
 
-      assert.isTrue(element._addingEmail);
-      assert.isTrue(addEmailStub.called);
-
-      assert.isTrue(addEmailStub.called);
-      addEmailStub.lastCall.returnValue.then(() => {
-        assert.isOk(element._lastSentVerificationEmail);
-        done();
-      });
-    });
-
-    test('add email does not set last-email if error', done => {
-      const addEmailStub = stubAddAccountEmail(500);
-
-      assert.isNotOk(element._lastSentVerificationEmail);
-      element._newEmail = 'valid@email.com';
-
-      element._handleAddEmailButton();
-
-      assert.isTrue(addEmailStub.called);
-      addEmailStub.lastCall.returnValue.then(() => {
-        assert.isNotOk(element._lastSentVerificationEmail);
-        done();
-      });
-    });
-
-    test('emails are loaded without emailToken', () => {
-      sandbox.stub(element.$.emailEditor, 'loadData');
-      element.params = {};
-      element.attached();
-      assert.isTrue(element.$.emailEditor.loadData.calledOnce);
-    });
-
-    test('_handleSaveChangeTable', () => {
-      let newColumns = ['Owner', 'Project', 'Branch'];
-      element._localChangeTableColumns = newColumns.slice(0);
-      element._showNumber = false;
-      const cloneStub = sandbox.stub(element, '_cloneChangeTableColumns');
-      element._handleSaveChangeTable();
-      assert.isTrue(cloneStub.calledOnce);
-      assert.deepEqual(element.prefs.change_table, newColumns);
-      assert.isNotOk(element.prefs.legacycid_in_change_table);
-
-      newColumns = ['Size'];
-      element._localChangeTableColumns = newColumns;
-      element._showNumber = true;
-      element._handleSaveChangeTable();
-      assert.isTrue(cloneStub.calledTwice);
-      assert.deepEqual(element.prefs.change_table, newColumns);
-      assert.isTrue(element.prefs.legacycid_in_change_table);
-    });
-
-    test('reset menu item back to default', done => {
-      const originalMenu = {
-        my: [
-          {url: '/first/url', name: 'first name', target: '_blank'},
-          {url: '/second/url', name: 'second name', target: '_blank'},
-          {url: '/third/url', name: 'third name', target: '_blank'},
-        ],
-      };
-
-      stub('gr-rest-api-interface', {
-        getDefaultPreferences() { return Promise.resolve(originalMenu); },
-      });
-
-      const updatedMenu = [
+  test('reset menu item back to default', done => {
+    const originalMenu = {
+      my: [
         {url: '/first/url', name: 'first name', target: '_blank'},
         {url: '/second/url', name: 'second name', target: '_blank'},
         {url: '/third/url', name: 'third name', target: '_blank'},
-        {url: '/fourth/url', name: 'fourth name', target: '_blank'},
-      ];
+      ],
+    };
 
-      element.set('_localMenu', updatedMenu);
-
-      element._handleResetMenuButton().then(() => {
-        assertMenusEqual(element._localMenu, originalMenu.my);
-        done();
-      });
+    stub('gr-rest-api-interface', {
+      getDefaultPreferences() { return Promise.resolve(originalMenu); },
     });
 
-    test('test that reset button is called', () => {
-      const overlayOpen = sandbox.stub(element, '_handleResetMenuButton');
+    const updatedMenu = [
+      {url: '/first/url', name: 'first name', target: '_blank'},
+      {url: '/second/url', name: 'second name', target: '_blank'},
+      {url: '/third/url', name: 'third name', target: '_blank'},
+      {url: '/fourth/url', name: 'fourth name', target: '_blank'},
+    ];
 
-      MockInteractions.tap(element.$.resetMenu);
+    element.set('_localMenu', updatedMenu);
 
-      assert.isTrue(overlayOpen.called);
-    });
-
-    test('_showHttpAuth', () => {
-      let serverConfig;
-
-      serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'HTTP',
-        },
-      };
-
-      assert.isTrue(element._showHttpAuth(serverConfig));
-
-      serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'HTTP_LDAP',
-        },
-      };
-
-      assert.isTrue(element._showHttpAuth(serverConfig));
-
-      serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'LDAP',
-        },
-      };
-
-      assert.isFalse(element._showHttpAuth(serverConfig));
-
-      serverConfig = {
-        auth: {
-          git_basic_auth_policy: 'OAUTH',
-        },
-      };
-
-      assert.isFalse(element._showHttpAuth(serverConfig));
-
-      serverConfig = {};
-
-      assert.isFalse(element._showHttpAuth(serverConfig));
-    });
-
-    suite('_getFilterDocsLink', () => {
-      test('with http: docs base URL', () => {
-        const base = 'http://example.com/';
-        const result = element._getFilterDocsLink(base);
-        assert.equal(result, 'http://example.com/user-notify.html');
-      });
-
-      test('with http: docs base URL without slash', () => {
-        const base = 'http://example.com';
-        const result = element._getFilterDocsLink(base);
-        assert.equal(result, 'http://example.com/user-notify.html');
-      });
-
-      test('with https: docs base URL', () => {
-        const base = 'https://example.com/';
-        const result = element._getFilterDocsLink(base);
-        assert.equal(result, 'https://example.com/user-notify.html');
-      });
-
-      test('without docs base URL', () => {
-        const result = element._getFilterDocsLink(null);
-        assert.equal(result, 'https://gerrit-review.googlesource.com/' +
-            'Documentation/user-notify.html');
-      });
-
-      test('ignores non HTTP links', () => {
-        const base = 'javascript://alert("evil");';
-        const result = element._getFilterDocsLink(base);
-        assert.equal(result, 'https://gerrit-review.googlesource.com/' +
-            'Documentation/user-notify.html');
-      });
-    });
-
-    suite('when email verification token is provided', () => {
-      let resolveConfirm;
-
-      setup(() => {
-        sandbox.stub(element.$.emailEditor, 'loadData');
-        sandbox.stub(
-            element.$.restAPI,
-            'confirmEmail',
-            () => new Promise(resolve => { resolveConfirm = resolve; }));
-        element.params = {emailToken: 'foo'};
-        element.attached();
-      });
-
-      test('it is used to confirm email via rest API', () => {
-        assert.isTrue(element.$.restAPI.confirmEmail.calledOnce);
-        assert.isTrue(element.$.restAPI.confirmEmail.calledWith('foo'));
-      });
-
-      test('emails are not loaded initially', () => {
-        assert.isFalse(element.$.emailEditor.loadData.called);
-      });
-
-      test('user emails are loaded after email confirmed', done => {
-        element._loadingPromise.then(() => {
-          assert.isTrue(element.$.emailEditor.loadData.calledOnce);
-          done();
-        });
-        resolveConfirm();
-      });
-
-      test('show-alert is fired when email is confirmed', done => {
-        sandbox.spy(element, 'fire');
-        element._loadingPromise.then(() => {
-          assert.isTrue(
-              element.fire.calledWith('show-alert', {message: 'bar'}));
-          done();
-        });
-        resolveConfirm('bar');
-      });
+    element._handleResetMenuButton().then(() => {
+      assertMenusEqual(element._localMenu, originalMenu.my);
+      done();
     });
   });
+
+  test('test that reset button is called', () => {
+    const overlayOpen = sandbox.stub(element, '_handleResetMenuButton');
+
+    MockInteractions.tap(element.$.resetMenu);
+
+    assert.isTrue(overlayOpen.called);
+  });
+
+  test('_showHttpAuth', () => {
+    let serverConfig;
+
+    serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'HTTP',
+      },
+    };
+
+    assert.isTrue(element._showHttpAuth(serverConfig));
+
+    serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'HTTP_LDAP',
+      },
+    };
+
+    assert.isTrue(element._showHttpAuth(serverConfig));
+
+    serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'LDAP',
+      },
+    };
+
+    assert.isFalse(element._showHttpAuth(serverConfig));
+
+    serverConfig = {
+      auth: {
+        git_basic_auth_policy: 'OAUTH',
+      },
+    };
+
+    assert.isFalse(element._showHttpAuth(serverConfig));
+
+    serverConfig = {};
+
+    assert.isFalse(element._showHttpAuth(serverConfig));
+  });
+
+  suite('_getFilterDocsLink', () => {
+    test('with http: docs base URL', () => {
+      const base = 'http://example.com/';
+      const result = element._getFilterDocsLink(base);
+      assert.equal(result, 'http://example.com/user-notify.html');
+    });
+
+    test('with http: docs base URL without slash', () => {
+      const base = 'http://example.com';
+      const result = element._getFilterDocsLink(base);
+      assert.equal(result, 'http://example.com/user-notify.html');
+    });
+
+    test('with https: docs base URL', () => {
+      const base = 'https://example.com/';
+      const result = element._getFilterDocsLink(base);
+      assert.equal(result, 'https://example.com/user-notify.html');
+    });
+
+    test('without docs base URL', () => {
+      const result = element._getFilterDocsLink(null);
+      assert.equal(result, 'https://gerrit-review.googlesource.com/' +
+          'Documentation/user-notify.html');
+    });
+
+    test('ignores non HTTP links', () => {
+      const base = 'javascript://alert("evil");';
+      const result = element._getFilterDocsLink(base);
+      assert.equal(result, 'https://gerrit-review.googlesource.com/' +
+          'Documentation/user-notify.html');
+    });
+  });
+
+  suite('when email verification token is provided', () => {
+    let resolveConfirm;
+
+    setup(() => {
+      sandbox.stub(element.$.emailEditor, 'loadData');
+      sandbox.stub(
+          element.$.restAPI,
+          'confirmEmail',
+          () => new Promise(resolve => { resolveConfirm = resolve; }));
+      element.params = {emailToken: 'foo'};
+      element.attached();
+    });
+
+    test('it is used to confirm email via rest API', () => {
+      assert.isTrue(element.$.restAPI.confirmEmail.calledOnce);
+      assert.isTrue(element.$.restAPI.confirmEmail.calledWith('foo'));
+    });
+
+    test('emails are not loaded initially', () => {
+      assert.isFalse(element.$.emailEditor.loadData.called);
+    });
+
+    test('user emails are loaded after email confirmed', done => {
+      element._loadingPromise.then(() => {
+        assert.isTrue(element.$.emailEditor.loadData.calledOnce);
+        done();
+      });
+      resolveConfirm();
+    });
+
+    test('show-alert is fired when email is confirmed', done => {
+      sandbox.spy(element, 'fire');
+      element._loadingPromise.then(() => {
+        assert.isTrue(
+            element.fire.calledWith('show-alert', {message: 'bar'}));
+        done();
+      });
+      resolveConfirm('bar');
+    });
+  });
+});
 </script>

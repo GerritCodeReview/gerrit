@@ -19,139 +19,141 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-plugin-rest-api</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-js-api-interface.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-js-api-interface.js"></script>
 
-<script>
-  suite('gr-plugin-rest-api tests', async () => {
-    await readyToTest();
-    let instance;
-    let sandbox;
-    let getResponseObjectStub;
-    let sendStub;
-    let restApiStub;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+suite('gr-plugin-rest-api tests', () => {
+  let instance;
+  let sandbox;
+  let getResponseObjectStub;
+  let sendStub;
+  let restApiStub;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
-      sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
-      restApiStub = {
-        getAccount: () => Promise.resolve({name: 'Judy Hopps'}),
-        getResponseObject: getResponseObjectStub,
-        send: sendStub,
-        getLoggedIn: sandbox.stub(),
-        getVersion: sandbox.stub(),
-        getConfig: sandbox.stub(),
-      };
-      stub('gr-rest-api-interface', Object.keys(restApiStub).reduce((a, k) => {
-        a[k] = (...args) => restApiStub[k](...args);
-        return a;
-      }, {}));
-      Gerrit.install(p => {}, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      instance = new GrPluginRestApi();
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
+    sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
+    restApiStub = {
+      getAccount: () => Promise.resolve({name: 'Judy Hopps'}),
+      getResponseObject: getResponseObjectStub,
+      send: sendStub,
+      getLoggedIn: sandbox.stub(),
+      getVersion: sandbox.stub(),
+      getConfig: sandbox.stub(),
+    };
+    stub('gr-rest-api-interface', Object.keys(restApiStub).reduce((a, k) => {
+      a[k] = (...args) => restApiStub[k](...args);
+      return a;
+    }, {}));
+    Gerrit.install(p => {}, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
+    instance = new GrPluginRestApi();
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('fetch', () => {
-      const payload = {foo: 'foo'};
-      return instance.fetch('HTTP_METHOD', '/url', payload).then(r => {
-        assert.isTrue(sendStub.calledWith('HTTP_METHOD', '/url', payload));
-        assert.equal(r.status, 200);
-        assert.isFalse(getResponseObjectStub.called);
-      });
-    });
-
-    test('send', () => {
-      const payload = {foo: 'foo'};
-      const response = {bar: 'bar'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return instance.send('HTTP_METHOD', '/url', payload).then(r => {
-        assert.isTrue(sendStub.calledWith('HTTP_METHOD', '/url', payload));
-        assert.strictEqual(r, response);
-      });
-    });
-
-    test('get', () => {
-      const response = {foo: 'foo'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return instance.get('/url').then(r => {
-        assert.isTrue(sendStub.calledWith('GET', '/url'));
-        assert.strictEqual(r, response);
-      });
-    });
-
-    test('post', () => {
-      const payload = {foo: 'foo'};
-      const response = {bar: 'bar'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return instance.post('/url', payload).then(r => {
-        assert.isTrue(sendStub.calledWith('POST', '/url', payload));
-        assert.strictEqual(r, response);
-      });
-    });
-
-    test('put', () => {
-      const payload = {foo: 'foo'};
-      const response = {bar: 'bar'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return instance.put('/url', payload).then(r => {
-        assert.isTrue(sendStub.calledWith('PUT', '/url', payload));
-        assert.strictEqual(r, response);
-      });
-    });
-
-    test('delete works', () => {
-      const response = {status: 204};
-      sendStub.returns(Promise.resolve(response));
-      return instance.delete('/url').then(r => {
-        assert.isTrue(sendStub.calledWith('DELETE', '/url'));
-        assert.strictEqual(r, response);
-      });
-    });
-
-    test('delete fails', () => {
-      sendStub.returns(Promise.resolve(
-          {status: 400, text() { return Promise.resolve('text'); }}));
-      return instance.delete('/url').then(r => {
-        throw new Error('Should not resolve');
-      })
-          .catch(err => {
-            assert.isTrue(sendStub.calledWith('DELETE', '/url'));
-            assert.equal('text', err.message);
-          });
-    });
-
-    test('getLoggedIn', () => {
-      restApiStub.getLoggedIn.returns(Promise.resolve(true));
-      return instance.getLoggedIn().then(result => {
-        assert.isTrue(restApiStub.getLoggedIn.calledOnce);
-        assert.isTrue(result);
-      });
-    });
-
-    test('getVersion', () => {
-      restApiStub.getVersion.returns(Promise.resolve('foo bar'));
-      return instance.getVersion().then(result => {
-        assert.isTrue(restApiStub.getVersion.calledOnce);
-        assert.equal(result, 'foo bar');
-      });
-    });
-
-    test('getConfig', () => {
-      restApiStub.getConfig.returns(Promise.resolve('foo bar'));
-      return instance.getConfig().then(result => {
-        assert.isTrue(restApiStub.getConfig.calledOnce);
-        assert.equal(result, 'foo bar');
-      });
+  test('fetch', () => {
+    const payload = {foo: 'foo'};
+    return instance.fetch('HTTP_METHOD', '/url', payload).then(r => {
+      assert.isTrue(sendStub.calledWith('HTTP_METHOD', '/url', payload));
+      assert.equal(r.status, 200);
+      assert.isFalse(getResponseObjectStub.called);
     });
   });
+
+  test('send', () => {
+    const payload = {foo: 'foo'};
+    const response = {bar: 'bar'};
+    getResponseObjectStub.returns(Promise.resolve(response));
+    return instance.send('HTTP_METHOD', '/url', payload).then(r => {
+      assert.isTrue(sendStub.calledWith('HTTP_METHOD', '/url', payload));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('get', () => {
+    const response = {foo: 'foo'};
+    getResponseObjectStub.returns(Promise.resolve(response));
+    return instance.get('/url').then(r => {
+      assert.isTrue(sendStub.calledWith('GET', '/url'));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('post', () => {
+    const payload = {foo: 'foo'};
+    const response = {bar: 'bar'};
+    getResponseObjectStub.returns(Promise.resolve(response));
+    return instance.post('/url', payload).then(r => {
+      assert.isTrue(sendStub.calledWith('POST', '/url', payload));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('put', () => {
+    const payload = {foo: 'foo'};
+    const response = {bar: 'bar'};
+    getResponseObjectStub.returns(Promise.resolve(response));
+    return instance.put('/url', payload).then(r => {
+      assert.isTrue(sendStub.calledWith('PUT', '/url', payload));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('delete works', () => {
+    const response = {status: 204};
+    sendStub.returns(Promise.resolve(response));
+    return instance.delete('/url').then(r => {
+      assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+      assert.strictEqual(r, response);
+    });
+  });
+
+  test('delete fails', () => {
+    sendStub.returns(Promise.resolve(
+        {status: 400, text() { return Promise.resolve('text'); }}));
+    return instance.delete('/url').then(r => {
+      throw new Error('Should not resolve');
+    })
+        .catch(err => {
+          assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+          assert.equal('text', err.message);
+        });
+  });
+
+  test('getLoggedIn', () => {
+    restApiStub.getLoggedIn.returns(Promise.resolve(true));
+    return instance.getLoggedIn().then(result => {
+      assert.isTrue(restApiStub.getLoggedIn.calledOnce);
+      assert.isTrue(result);
+    });
+  });
+
+  test('getVersion', () => {
+    restApiStub.getVersion.returns(Promise.resolve('foo bar'));
+    return instance.getVersion().then(result => {
+      assert.isTrue(restApiStub.getVersion.calledOnce);
+      assert.equal(result, 'foo bar');
+    });
+  });
+
+  test('getConfig', () => {
+    restApiStub.getConfig.returns(Promise.resolve('foo bar'));
+    return instance.getConfig().then(result => {
+      assert.isTrue(restApiStub.getConfig.calledOnce);
+      assert.equal(result, 'foo bar');
+    });
+  });
+});
 </script>

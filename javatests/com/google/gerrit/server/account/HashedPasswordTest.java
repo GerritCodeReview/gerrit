@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.base.Strings;
 import org.apache.commons.codec.DecoderException;
@@ -37,6 +38,7 @@ public class HashedPasswordTest {
     HashedPassword roundtrip = HashedPassword.decode(hashed.encode());
     assertThat(hashed.encode()).isEqualTo(roundtrip.encode());
     assertThat(roundtrip.checkPassword(password)).isTrue();
+    assertThat(roundtrip.checkPassword(password + password)).isFalse();
     assertThat(roundtrip.checkPassword("not the password")).isFalse();
   }
 
@@ -47,10 +49,27 @@ public class HashedPasswordTest {
 
   @Test
   public void lengthLimit() throws Exception {
-    String password = Strings.repeat("1", 72);
+    String password = "";
+    HashedPassword hashed = HashedPassword.fromPassword(password);
+    assertThat(hashed.encode().length()).isLessThan(255);
 
-    // make sure it fits in varchar(255).
-    assertThat(HashedPassword.fromPassword(password).encode().length()).isLessThan(255);
+    assertThat(hashed.checkPassword("\0")).isTrue();
+    assertThat(hashed.checkPassword("a\0")).isFalse();
+
+    password = Strings.repeat("1", 71);
+    hashed = HashedPassword.fromPassword(password);
+
+    String passwordTrailingZero = password + "\0";
+    assertThat(hashed.checkPassword(passwordTrailingZero)).isTrue();
+    assertThat(hashed.encode().length()).isLessThan(255);
+
+    try {
+      password = Strings.repeat("1", 72);
+      hashed = HashedPassword.fromPassword(password);
+      assert_().fail("expected exception");
+    } catch (java.lang.IllegalArgumentException expected) {
+      assertThat(expected).hasMessageThat().contains("BCrypt password must be <= 72 bytes");
+    }
   }
 
   @Test

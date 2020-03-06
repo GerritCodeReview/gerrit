@@ -18,6 +18,10 @@
   'use strict';
 
   const SUGGESTIONS_LIMIT = 15;
+  const CHERRY_PICK_TYPES = {
+    SINGLE_CHANGE: 1,
+    TOPIC: 2,
+  };
 
   /**
    * @appliesMixin Gerrit.FireMixin
@@ -50,11 +54,21 @@
         commitNum: String,
         message: String,
         project: String,
+        changes: Array,
         _query: {
           type: Function,
           value() {
             return this._getProjectBranchesSuggestions.bind(this);
           },
+        },
+        _showCherryPickTopic: {
+          type: Boolean,
+          value: false,
+        },
+        _changesCount: Number,
+        _cherryPickType: {
+          type: Number,
+          value: CHERRY_PICK_TYPES.SINGLE_CHANGE,
         },
       };
     }
@@ -63,6 +77,28 @@
       return [
         '_computeMessage(changeStatus, commitNum, commitMessage)',
       ];
+    }
+
+    updateChanges(changes) {
+      this.changes = changes;
+      this._changesCount = changes.length;
+      this._showCherryPickTopic = changes.length > 1;
+    }
+
+    _computeIfSinglecherryPick(cherryPickType) {
+      return cherryPickType === CHERRY_PICK_TYPES.SINGLE_CHANGE;
+    }
+
+    _computeIfCherryPickTopic(cherryPickType) {
+      return cherryPickType === CHERRY_PICK_TYPES.TOPIC;
+    }
+
+    _handlecherryPickSingleChangeClicked(e) {
+      this._cherryPickType = CHERRY_PICK_TYPES.SINGLE_CHANGE;
+    }
+
+    _handlecherryPickTopicClicked(e) {
+      this._cherryPickType = CHERRY_PICK_TYPES.TOPIC;
     }
 
     _computeMessage(changeStatus, commitNum, commitMessage) {
@@ -86,7 +122,8 @@
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
-      this.fire('confirm', null, {bubbles: false});
+      this.fire('confirm', {type: this._cherryPickType, branch: this.branch},
+          {bubbles: false});
     }
 
     _handleCancelTap(e) {

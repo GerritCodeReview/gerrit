@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -88,7 +91,10 @@ public class Restore
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().check(ChangePermission.RESTORE);
-    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
+    projectCache
+        .get(rsrc.getProject())
+        .orElseThrow(illegalState(rsrc.getProject()))
+        .checkStatePermitsWrite();
 
     Op op = new Op(input);
     try (BatchUpdate u =
@@ -166,10 +172,10 @@ public class Restore
     }
 
     try {
-      if (!projectCache.checkedGet(rsrc.getProject()).statePermitsWrite()) {
+      if (!projectCache.get(rsrc.getProject()).map(ProjectState::statePermitsRead).orElse(false)) {
         return description;
       }
-    } catch (IOException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if project state permits write: %s", rsrc.getProject());
       return description;

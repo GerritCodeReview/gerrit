@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
@@ -106,11 +107,7 @@ public class GroupMembers {
       return Collections.emptySet();
     }
 
-    ProjectState projectState = projectCache.checkedGet(project);
-    if (projectState == null) {
-      throw new NoSuchProjectException(project);
-    }
-
+    ProjectState projectState = projectCache.get(project).orElseThrow(noSuchProject(project));
     final HashSet<Account> projectOwners = new HashSet<>();
     for (AccountGroup.UUID ownerGroup : projectState.getAllOwners()) {
       if (!seen.contains(ownerGroup)) {

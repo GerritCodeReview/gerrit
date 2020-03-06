@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
@@ -175,7 +176,10 @@ public class AddReviewersOp implements BatchUpdateOp {
             approvalsUtil.addReviewers(
                 ctx.getNotes(),
                 ctx.getUpdate(change.currentPatchSetId()),
-                projectCache.checkedGet(change.getProject()).getLabelTypes(change.getDest()),
+                projectCache
+                    .get(change.getProject())
+                    .orElseThrow(illegalState(change.getProject()))
+                    .getLabelTypes(change.getDest()),
                 change,
                 accountIds);
       }

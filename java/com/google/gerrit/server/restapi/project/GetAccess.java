@@ -20,6 +20,7 @@ import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_TAG_
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.permissions.RefPermission.READ;
 import static com.google.gerrit.server.permissions.RefPermission.WRITE_CONFIG;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableBiMap;
@@ -118,10 +119,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
   }
 
   public ProjectAccessInfo apply(Project.NameKey nameKey) throws Exception {
-    ProjectState state = projectCache.checkedGet(nameKey);
-    if (state == null) {
-      throw new ResourceNotFoundException(nameKey.get());
-    }
+    ProjectState state =
+        projectCache.get(nameKey).orElseThrow(() -> new ResourceNotFoundException(nameKey.get()));
     return apply(new ProjectResource(state, user.get())).value();
   }
 
@@ -135,7 +134,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
     Project.NameKey projectName = rsrc.getNameKey();
     ProjectAccessInfo info = new ProjectAccessInfo();
-    ProjectState projectState = projectCache.checkedGet(projectName);
+    ProjectState projectState =
+        projectCache.get(projectName).orElseThrow(illegalState(projectName));
     PermissionBackend.ForProject perm = permissionBackend.currentUser().project(projectName);
 
     ProjectConfig config;
@@ -154,12 +154,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
         md.setMessage("Update group names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
-        projectState = projectCache.checkedGet(projectName);
+        projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);
       } else if (config.getRevision() != null
           && !config.getRevision().equals(projectState.getConfig().getRevision())) {
         projectCache.evict(config.getProject());
-        projectState = projectCache.checkedGet(projectName);
+        projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);
       }
     } catch (ConfigInvalidException e) {

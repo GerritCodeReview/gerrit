@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
@@ -67,10 +69,8 @@ public class CreateRefControl {
       Provider<? extends CurrentUser> user, Repository repo, BranchNameKey branch, RevObject object)
       throws AuthException, PermissionBackendException, NoSuchProjectException, IOException,
           ResourceConflictException {
-    ProjectState ps = projectCache.checkedGet(branch.project());
-    if (ps == null) {
-      throw new NoSuchProjectException(branch.project());
-    }
+    ProjectState ps =
+        projectCache.get(branch.project()).orElseThrow(noSuchProject(branch.project()));
     ps.checkStatePermitsWrite();
 
     PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(branch);

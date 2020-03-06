@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
@@ -118,7 +120,11 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     currChange = ctx.getChange();
     currPs = psUtil.current(ctx.getNotes());
 
-    LabelTypes labelTypes = projectCache.checkedGet(ctx.getProject()).getLabelTypes(ctx.getNotes());
+    LabelTypes labelTypes =
+        projectCache
+            .get(ctx.getProject())
+            .orElseThrow(illegalState(ctx.getProject()))
+            .getLabelTypes(ctx.getNotes());
     // removing a reviewer will remove all her votes
     for (LabelType lt : labelTypes.getLabelTypes()) {
       newApprovals.put(lt.getName(), (short) 0);

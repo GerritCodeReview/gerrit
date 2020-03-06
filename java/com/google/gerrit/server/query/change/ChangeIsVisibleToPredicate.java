@@ -30,7 +30,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
@@ -68,19 +68,14 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     }
 
     ChangeNotes notes = notesFactory.createFromIndexedChange(change);
-
-    try {
-      ProjectState projectState = projectCache.checkedGet(cd.project());
-      if (projectState == null) {
-        logger.atFine().log("Filter out change %s of non-existing project %s", cd, cd.project());
-        return false;
-      }
-      if (!projectState.statePermitsRead()) {
-        logger.atFine().log("Filter out change %s of non-reabable project %s", cd, cd.project());
-        return false;
-      }
-    } catch (IOException e) {
-      throw new StorageException("unable to read project state", e);
+    Optional<ProjectState> projectState = projectCache.get(cd.project());
+    if (!projectState.isPresent()) {
+      logger.atFine().log("Filter out change %s of non-existing project %s", cd, cd.project());
+      return false;
+    }
+    if (!projectState.get().statePermitsRead()) {
+      logger.atFine().log("Filter out change %s of non-reabable project %s", cd, cd.project());
+      return false;
     }
 
     PermissionBackend.WithUser withUser =

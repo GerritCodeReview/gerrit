@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
@@ -203,7 +204,8 @@ public class ReviewerAdder {
     boolean confirmed = input.confirmed();
     boolean allowByEmail =
         projectCache
-            .checkedGet(notes.getProjectName())
+            .get(notes.getProjectName())
+            .orElseThrow(illegalState(notes.getProjectName()))
             .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
 
     ReviewerAddition byAccountId = addByAccountId(input, notes, user);

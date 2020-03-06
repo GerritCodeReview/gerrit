@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.server.git.receive.LazyPostReceiveHookChain.affectsSize;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 
 import com.google.common.collect.ImmutableList;
@@ -241,15 +242,8 @@ class InProcessProtocol extends TestProtocol<Context> {
         throw new RuntimeException(e);
       }
 
-      ProjectState projectState;
-      try {
-        projectState = projectCache.checkedGet(req.project);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-      if (projectState == null) {
-        throw new RuntimeException("can't load project state for " + req.project.get());
-      }
+      ProjectState projectState =
+          projectCache.get(req.project).orElseThrow(illegalState(req.project));
       Repository permissionAwareRepository = PermissionAwareRepositoryManager.wrap(repo, perm);
       UploadPack up = new UploadPack(permissionAwareRepository);
       up.setPackConfig(transferConfig.getPackConfig());
@@ -320,10 +314,11 @@ class InProcessProtocol extends TestProtocol<Context> {
       }
       try {
         IdentifiedUser identifiedUser = userProvider.get().asIdentifiedUser();
-        ProjectState projectState = projectCache.checkedGet(req.project);
-        if (projectState == null) {
-          throw new RuntimeException(String.format("project %s not found", req.project));
-        }
+        ProjectState projectState =
+            projectCache
+                .get(req.project)
+                .orElseThrow(
+                    () -> new RuntimeException(String.format("project %s not found", req.project)));
 
         AsyncReceiveCommits arc = factory.create(projectState, identifiedUser, db, null);
         if (arc.canUpload() != Capable.OK) {

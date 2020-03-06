@@ -18,13 +18,13 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -136,41 +136,25 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public Optional<ProjectState> get(Project.NameKey projectName) {
+  public Optional<ProjectState> get(@Nullable Project.NameKey projectName) {
+    if (projectName == null) {
+      return Optional.empty();
+    }
+
     try {
-      return Optional.ofNullable(checkedGet(projectName));
-    } catch (IOException e) {
+      ProjectState state = byName.get(projectName.get());
+      if (state != null && state.needsRefresh(clock.read())) {
+        byName.invalidate(projectName.get());
+        state = byName.get(projectName.get());
+      }
+      return Optional.of(state);
+    } catch (Exception e) {
+      if ((e.getCause() instanceof RepositoryNotFoundException)) {
+        logger.atFine().log("Cannot find project %s", projectName.get());
+        return Optional.empty();
+      }
       throw new StorageException("project state not available", e);
     }
-  }
-
-  @Override
-  public ProjectState checkedGet(Project.NameKey projectName) throws IOException {
-    if (projectName == null) {
-      return null;
-    }
-    try {
-      return strictCheckedGet(projectName);
-    } catch (Exception e) {
-      if (!(e.getCause() instanceof RepositoryNotFoundException)) {
-        logger.atWarning().withCause(e).log("Cannot read project %s", projectName.get());
-        if (e.getCause() != null) {
-          Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
-        }
-        throw new IOException(e);
-      }
-      logger.atFine().log("Cannot find project %s", projectName.get());
-      return null;
-    }
-  }
-
-  private ProjectState strictCheckedGet(Project.NameKey projectName) throws Exception {
-    ProjectState state = byName.get(projectName.get());
-    if (state != null && state.needsRefresh(clock.read())) {
-      byName.invalidate(projectName.get());
-      state = byName.get(projectName.get());
-    }
-    return state;
   }
 
   @Override

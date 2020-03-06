@@ -20,6 +20,7 @@ import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.server.util.git.DelegateSystemReader;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.function.LongSupplier;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -41,6 +42,15 @@ public class TimeUtil {
 
   public static Timestamp nowTs() {
     return new Timestamp(nowMs());
+  }
+
+  /**
+   * return the real days of current year
+   *
+   * @return 365 if a normal year or 366 if a leap year
+   */
+  public static int daysOfYear() {
+    return LocalDate.now().isLeapYear() ? 366 : 365;
   }
 
   /**

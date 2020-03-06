@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
+import static com.google.gerrit.server.util.time.TimeUtil.daysOfYear;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
@@ -76,7 +78,7 @@ class OpenIdServiceImpl {
   private static final String P_TOKEN = "gerrit.token";
   private static final String P_REMEMBER = "gerrit.remember";
   private static final String P_CLAIMED = "gerrit.claimed";
-  private static final int LASTID_AGE = 365 * 24 * 60 * 60; // seconds
+  private static final int LASTID_AGE = daysOfYear() * 24 * 60 * 60; // seconds
 
   private static final String OPENID_MODE = "openid.mode";
   private static final String OMODE_CANCEL = "cancel";

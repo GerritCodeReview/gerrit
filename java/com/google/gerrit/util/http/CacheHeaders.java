@@ -14,6 +14,8 @@
 
 package com.google.gerrit.util.http;
 
+
+import static com.google.gerrit.server.util.time.TimeUtil.daysOfYear;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -23,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Utilities to manage HTTP caching directives in responses. */
 public class CacheHeaders {
-  private static final long MAX_CACHE_DURATION = DAYS.toSeconds(365);
+  private static final long MAX_CACHE_DURATION = DAYS.toSeconds(daysOfYear());
 
   /**
    * Do not cache the response, anywhere.

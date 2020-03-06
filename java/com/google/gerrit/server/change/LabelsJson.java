@@ -131,7 +131,7 @@ public class LabelsJson {
 
     Map<String, Short> labels = null;
     Set<LabelPermission.WithValue> can =
-        permissionBackendForChange(filterApprovalsBy, cd).testLabels(toCheck.values());
+        permissionBackend.absentUser(filterApprovalsBy).change(cd).testLabels(toCheck.values());
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
@@ -452,7 +452,7 @@ public class LabelsJson {
 
     LabelTypes labelTypes = cd.getLabelTypes();
     for (Account.Id accountId : allUsers) {
-      PermissionBackend.ForChange perm = permissionBackendForChange(accountId, cd);
+      PermissionBackend.ForChange perm = permissionBackend.absentUser(accountId).change(cd);
       Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = labelTypes.byLabel(e.getKey());
@@ -490,18 +490,6 @@ public class LabelsJson {
             approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, date));
       }
     }
-  }
-
-  /**
-   * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
-   *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
-   *     lazyload}.
-   */
-  private PermissionBackend.ForChange permissionBackendForChange(Account.Id user, ChangeData cd) {
-    PermissionBackend.WithUser withUser = permissionBackend.absentUser(user);
-    return lazyLoad
-        ? withUser.change(cd)
-        : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) {

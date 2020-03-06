@@ -60,7 +60,6 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -107,8 +106,6 @@ public class RevisionJson {
   private final AnonymousUser anonymous;
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
-  private final ChangeNotes.Factory notesFactory;
-  private final boolean lazyLoad;
 
   @Inject
   RevisionJson(
@@ -128,7 +125,6 @@ public class RevisionJson {
       ChangeKindCache changeKindCache,
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      ChangeNotes.Factory notesFactory,
       @Assisted Iterable<ListChangesOption> options) {
     this.userProvider = userProvider;
     this.anonymous = anonymous;
@@ -145,10 +141,8 @@ public class RevisionJson {
     this.changeResourceFactory = changeResourceFactory;
     this.changeKindCache = changeKindCache;
     this.permissionBackend = permissionBackend;
-    this.notesFactory = notesFactory;
     this.repoManager = repoManager;
     this.options = ImmutableSet.copyOf(options);
-    this.lazyLoad = containsAnyOf(this.options, ChangeJson.REQUIRE_LAZY_LOAD);
   }
 
   /**
@@ -346,22 +340,9 @@ public class RevisionJson {
     return options.contains(option);
   }
 
-  /**
-   * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
-   *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
-   *     lazyload}.
-   */
-  private PermissionBackend.ForChange permissionBackendForChange(
-      PermissionBackend.WithUser withUser, ChangeData cd) {
-    return lazyLoad
-        ? withUser.change(cd)
-        : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
-  }
-
   private boolean isWorldReadable(ChangeData cd) throws PermissionBackendException {
     try {
-      permissionBackendForChange(permissionBackend.user(anonymous), cd)
-          .check(ChangePermission.READ);
+      permissionBackend.user(anonymous).change(cd).check(ChangePermission.READ);
     } catch (AuthException ae) {
       return false;
     }

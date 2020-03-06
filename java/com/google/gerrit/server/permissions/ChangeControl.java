@@ -24,12 +24,10 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -44,32 +42,26 @@ class ChangeControl {
   @Singleton
   static class Factory {
     private final ChangeData.Factory changeDataFactory;
-    private final ChangeNotes.Factory notesFactory;
 
     @Inject
-    Factory(ChangeData.Factory changeDataFactory, ChangeNotes.Factory notesFactory) {
+    Factory(ChangeData.Factory changeDataFactory) {
       this.changeDataFactory = changeDataFactory;
-      this.notesFactory = notesFactory;
     }
 
-    ChangeControl create(RefControl refControl, Project.NameKey project, Change.Id changeId) {
-      return create(refControl, notesFactory.create(project, changeId));
-    }
-
-    ChangeControl create(RefControl refControl, ChangeNotes notes) {
-      return new ChangeControl(changeDataFactory, refControl, notes);
+    ChangeControl create(RefControl refControl, Change change) {
+      return new ChangeControl(changeDataFactory, refControl, change);
     }
   }
 
   private final ChangeData.Factory changeDataFactory;
   private final RefControl refControl;
-  private final ChangeNotes notes;
+  private final Change change;
 
   private ChangeControl(
-      ChangeData.Factory changeDataFactory, RefControl refControl, ChangeNotes notes) {
+      ChangeData.Factory changeDataFactory, RefControl refControl, Change change) {
     this.changeDataFactory = changeDataFactory;
     this.refControl = refControl;
-    this.notes = notes;
+    this.change = change;
   }
 
   ForChange asForChange(@Nullable ChangeData cd) {
@@ -85,7 +77,7 @@ class ChangeControl {
   }
 
   private Change getChange() {
-    return notes.getChange();
+    return change;
   }
 
   /** Can this user see this change? */
@@ -228,7 +220,9 @@ class ChangeControl {
 
     private ChangeData changeData() {
       if (cd == null) {
-        cd = changeDataFactory.create(notes);
+        cd =
+            changeDataFactory.create(
+                refControl.getProjectControl().getProject().getNameKey(), change.getId());
       }
       return cd;
     }

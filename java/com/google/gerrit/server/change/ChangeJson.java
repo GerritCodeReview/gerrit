@@ -705,7 +705,10 @@ public class ChangeJson {
     // testRemoveReviewer check for a specific reviewer in the loop saving potentially many
     // permission checks.
     boolean canRemoveAnyReviewer =
-        permissionBackendForChange(userProvider.get(), cd).test(ChangePermission.REMOVE_REVIEWER);
+        permissionBackend
+            .user(userProvider.get())
+            .change(cd)
+            .test(ChangePermission.REMOVE_REVIEWER);
     for (LabelInfo label : labels) {
       if (label.all == null) {
         continue;
@@ -799,17 +802,5 @@ public class ChangeJson {
       map.put(patchSet.id(), patchSet);
     }
     return map;
-  }
-
-  /**
-   * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
-   *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
-   *     lazyload}.
-   */
-  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd) {
-    PermissionBackend.WithUser withUser = permissionBackend.user(user);
-    return lazyLoad
-        ? withUser.change(cd)
-        : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
   }
 }

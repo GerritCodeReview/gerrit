@@ -52,6 +52,24 @@
       "revId": "90320c85f2c522da3fffa4c2cd86e7b835c7b6d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b2f441c_5d6a782c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-06T15:03:20Z",
+      "side": 1,
+      "message": "makes sense. nice suggestion.\nupdated gr-autocomplete to commit values on pressing enter if they allow non-suggested values.",
+      "parentUuid": "3eada810_c17d82c0",
+      "revId": "90320c85f2c522da3fffa4c2cd86e7b835c7b6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

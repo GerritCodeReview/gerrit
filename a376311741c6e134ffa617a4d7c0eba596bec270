@@ -45,6 +45,30 @@
       "revId": "a376311741c6e134ffa617a4d7c0eba596bec270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa67d8d6_fd7b8538",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-06T11:59:00Z",
+      "side": 1,
+      "message": "ya I hate that we did not follow any convention before, but its a good time to establish some. Let me collect a few more feedback before we decide which one we should follow",
+      "parentUuid": "107a1669_949240d9",
+      "range": {
+        "startLine": 25,
+        "startChar": 28,
+        "endLine": 25,
+        "endChar": 49
+      },
+      "revId": "a376311741c6e134ffa617a4d7c0eba596bec270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

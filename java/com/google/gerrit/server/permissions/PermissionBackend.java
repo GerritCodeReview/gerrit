@@ -173,15 +173,6 @@ public abstract class PermissionBackend {
       return ref(notes.getChange().getDest()).change(notes);
     }
 
-    /**
-     * Returns an instance scoped for the change loaded from index, and its destination ref and
-     * project. This method should only be used when database access is harmful and potentially
-     * stale data from the index is acceptable.
-     */
-    public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
-      return ref(notes.getChange().getDest()).indexedChange(cd, notes);
-    }
-
     /** Verify scoped user can {@code perm}, throwing if denied. */
     public abstract void check(GlobalOrPluginPermission perm)
         throws AuthException, PermissionBackendException;
@@ -289,15 +280,6 @@ public abstract class PermissionBackend {
       return ref(notes.getChange().getDest().branch()).change(notes);
     }
 
-    /**
-     * Returns an instance scoped for the change loaded from index, and its destination ref and
-     * project. This method should only be used when database access is harmful and potentially
-     * stale data from the index is acceptable.
-     */
-    public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
-      return ref(notes.getChange().getDest().branch()).indexedChange(cd, notes);
-    }
-
     /** Verify scoped user can {@code perm}, throwing if denied. */
     public abstract void check(CoreOrPluginProjectPermission perm)
         throws AuthException, PermissionBackendException;
@@ -385,12 +367,6 @@ public abstract class PermissionBackend {
 
     /** Returns an instance scoped to change. */
     public abstract ForChange change(ChangeNotes notes);
-
-    /**
-     * @return instance scoped to change loaded from index. This method should only be used when
-     *     database access is harmful and potentially stale data from the index is acceptable.
-     */
-    public abstract ForChange indexedChange(ChangeData cd, ChangeNotes notes);
 
     /** Verify scoped user can {@code perm}, throwing if denied. */
     public abstract void check(RefPermission perm) throws AuthException, PermissionBackendException;

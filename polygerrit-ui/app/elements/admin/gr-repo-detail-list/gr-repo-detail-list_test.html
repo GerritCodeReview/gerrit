@@ -197,7 +197,7 @@ limitations under the License.
             assert.equal(getComputedStyle(editBtn).display, 'none');
 
             // The input, cancel, and save buttons are not visible.
-            for (item of hiddenElements) {
+            for (const item of hiddenElements) {
               assert.notEqual(getComputedStyle(item).display, 'none');
             }
 

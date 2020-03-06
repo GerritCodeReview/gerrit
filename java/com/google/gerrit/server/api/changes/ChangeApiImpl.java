@@ -23,7 +23,9 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
+import com.google.gerrit.extensions.api.changes.AttentionSetApi;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.ChangeMessageApi;
@@ -66,11 +68,14 @@ import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.restapi.change.Abandon;
+import com.google.gerrit.server.restapi.change.AddToAttentionSet;
+import com.google.gerrit.server.restapi.change.AttentionSet;
 import com.google.gerrit.server.restapi.change.ChangeIncludedIn;
 import com.google.gerrit.server.restapi.change.ChangeMessages;
 import com.google.gerrit.server.restapi.change.Check;
 import com.google.gerrit.server.restapi.change.CreateMergePatchSet;
 import com.google.gerrit.server.restapi.change.DeleteAssignee;
+import com.google.gerrit.server.restapi.change.RemoveFromAttentionSet;
 import com.google.gerrit.server.restapi.change.DeleteChange;
 import com.google.gerrit.server.restapi.change.DeletePrivate;
 import com.google.gerrit.server.restapi.change.GetAssignee;
@@ -147,6 +152,10 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<GetChange> getChangeProvider;
   private final PostHashtags postHashtags;
   private final GetHashtags getHashtags;
+  private final AttentionSet attentionSet;
+  private final AttentionSetApiImpl.Factory attentionSetApi;
+  private final AddToAttentionSet addToAttentionSet;
+  private final RemoveFromAttentionSet removeFromAttentionSet;
   private final PutAssignee putAssignee;
   private final GetAssignee getAssignee;
   private final GetPastAssignees getPastAssignees;
@@ -197,6 +206,10 @@ class ChangeApiImpl implements ChangeApi {
       Provider<GetChange> getChangeProvider,
       PostHashtags postHashtags,
       GetHashtags getHashtags,
+      AttentionSet attentionSet,
+      AttentionSetApiImpl.Factory attentionSetApi,
+      AddToAttentionSet addToAttentionSet,
+      RemoveFromAttentionSet removeFromAttentionSet,
       PutAssignee putAssignee,
       GetAssignee getAssignee,
       GetPastAssignees getPastAssignees,
@@ -245,6 +258,10 @@ class ChangeApiImpl implements ChangeApi {
     this.getChangeProvider = getChangeProvider;
     this.postHashtags = postHashtags;
     this.getHashtags = getHashtags;
+    this.attentionSet = attentionSet;
+    this.attentionSetApi = attentionSetApi;
+    this.addToAttentionSet = addToAttentionSet;
+    this.removeFromAttentionSet = removeFromAttentionSet;
     this.putAssignee = putAssignee;
     this.getAssignee = getAssignee;
     this.getPastAssignees = getPastAssignees;
@@ -526,6 +543,25 @@ class ChangeApiImpl implements ChangeApi {
       return getHashtags.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get hashtags", e);
+    }
+  }
+
+  @Override
+  public AccountInfo addToAttentionSet(AddToAttentionSetInput input) throws RestApiException {
+    try {
+      return addToAttentionSet.apply(change, input).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot add to attention set", e);
+    }
+  }
+
+  @Override
+  public AttentionSetApi attention(String id) throws RestApiException {
+    try {
+      // ö Duplicate "change"
+      return attentionSetApi.create(change, attentionSet.parse(change, IdString.fromDecoded(id)));
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse ? account id ?", e); // ö proper msg
     }
   }
 

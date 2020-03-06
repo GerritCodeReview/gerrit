@@ -22,13 +22,28 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Representation of a change used in the API. Internally {@link
+ * com.google.gerrit.server.query.change.ChangeData} and {@link com.google.gerrit.entities.Change}
+ * are used.
+ *
+ * <p>Many fields are actually nullable.
+ */
 public class ChangeInfo {
   // ActionJson#copy(List, ChangeInfo) must be adapted if new fields are added that are not
   // protected by any ListChangesOption.
+
   public String id;
   public String project;
   public String branch;
   public String topic;
+  /**
+   * The <a href="https://www.gerritcodereview.com/design-docs/attention-set.html">attention set</a>
+   * for this change. Keyed by account ID. We don't use {@link
+   * com.google.gerrit.entities.Account.Id} to avoid a circular dependency.
+   */
+  public Map<Integer, AttentionSetEntry> attentionSet;
+
   public AccountInfo assignee;
   public Collection<String> hashtags;
   public String changeId;

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deafd1b0_8816dba2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-03-06T11:35:31Z",
+      "side": 1,
+      "message": "waiting",
+      "range": {
+        "startLine": 10,
+        "startChar": 68,
+        "endLine": 10,
+        "endChar": 72
+      },
+      "revId": "a376311741c6e134ffa617a4d7c0eba596bec270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "107a1669_949240d9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-03-06T11:35:31Z",
+      "side": 1,
+      "message": "I personally prefer dashes. I see below that there are admin-menu-links and highlightjs-loaded with dashes, but revert_submission with underscore.",
+      "range": {
+        "startLine": 25,
+        "startChar": 28,
+        "endLine": 25,
+        "endChar": 49
+      },
+      "revId": "a376311741c6e134ffa617a4d7c0eba596bec270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

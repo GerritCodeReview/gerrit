@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-account-info</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-account-info.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-account-info.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-account-info.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,310 +40,313 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-account-info tests', async () => {
-    await readyToTest();
-    let element;
-    let account;
-    let config;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-account-info.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-account-info tests', () => {
+  let element;
+  let account;
+  let config;
+  let sandbox;
 
-    function valueOf(title) {
-      const sections = Polymer.dom(element.root).querySelectorAll('section');
-      let titleEl;
-      for (let i = 0; i < sections.length; i++) {
-        titleEl = sections[i].querySelector('.title');
-        if (titleEl.textContent === title) {
-          return sections[i].querySelector('.value');
-        }
+  function valueOf(title) {
+    const sections = dom(element.root).querySelectorAll('section');
+    let titleEl;
+    for (let i = 0; i < sections.length; i++) {
+      titleEl = sections[i].querySelector('.title');
+      if (titleEl.textContent === title) {
+        return sections[i].querySelector('.value');
       }
     }
+  }
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
-      account = {
-        _account_id: 123,
-        name: 'user name',
-        email: 'user@email',
-        username: 'user username',
-        registered: '2000-01-01 00:00:00.000000000',
-      };
-      config = {auth: {editable_account_fields: []}};
+  setup(done => {
+    sandbox = sinon.sandbox.create();
+    account = {
+      _account_id: 123,
+      name: 'user name',
+      email: 'user@email',
+      username: 'user username',
+      registered: '2000-01-01 00:00:00.000000000',
+    };
+    config = {auth: {editable_account_fields: []}};
 
-      stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve(account); },
-        getConfig() { return Promise.resolve(config); },
-        getPreferences() {
-          return Promise.resolve({time_format: 'HHMM_12'});
-        },
-      });
-      element = fixture('basic');
-      // Allow the element to render.
-      element.loadData().then(() => { flush(done); });
+    stub('gr-rest-api-interface', {
+      getAccount() { return Promise.resolve(account); },
+      getConfig() { return Promise.resolve(config); },
+      getPreferences() {
+        return Promise.resolve({time_format: 'HHMM_12'});
+      },
     });
+    element = fixture('basic');
+    // Allow the element to render.
+    element.loadData().then(() => { flush(done); });
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('basic account info render', () => {
-      assert.isFalse(element._loading);
+  test('basic account info render', () => {
+    assert.isFalse(element._loading);
 
-      assert.equal(valueOf('ID').textContent, account._account_id);
-      assert.equal(valueOf('Email').textContent, account.email);
-      assert.equal(valueOf('Username').textContent, account.username);
-    });
+    assert.equal(valueOf('ID').textContent, account._account_id);
+    assert.equal(valueOf('Email').textContent, account.email);
+    assert.equal(valueOf('Username').textContent, account.username);
+  });
 
-    test('full name render (immutable)', () => {
-      const section = element.$.nameSection;
-      const displaySpan = section.querySelectorAll('.value')[0];
-      const inputSpan = section.querySelectorAll('.value')[1];
+  test('full name render (immutable)', () => {
+    const section = element.$.nameSection;
+    const displaySpan = section.querySelectorAll('.value')[0];
+    const inputSpan = section.querySelectorAll('.value')[1];
 
-      assert.isFalse(element.nameMutable);
-      assert.isFalse(displaySpan.hasAttribute('hidden'));
-      assert.equal(displaySpan.textContent, account.name);
-      assert.isTrue(inputSpan.hasAttribute('hidden'));
-    });
+    assert.isFalse(element.nameMutable);
+    assert.isFalse(displaySpan.hasAttribute('hidden'));
+    assert.equal(displaySpan.textContent, account.name);
+    assert.isTrue(inputSpan.hasAttribute('hidden'));
+  });
 
-    test('full name render (mutable)', () => {
+  test('full name render (mutable)', () => {
+    element.set('_serverConfig',
+        {auth: {editable_account_fields: ['FULL_NAME']}});
+
+    const section = element.$.nameSection;
+    const displaySpan = section.querySelectorAll('.value')[0];
+    const inputSpan = section.querySelectorAll('.value')[1];
+
+    assert.isTrue(element.nameMutable);
+    assert.isTrue(displaySpan.hasAttribute('hidden'));
+    assert.equal(element.$.nameInput.bindValue, account.name);
+    assert.isFalse(inputSpan.hasAttribute('hidden'));
+  });
+
+  test('username render (immutable)', () => {
+    const section = element.$.usernameSection;
+    const displaySpan = section.querySelectorAll('.value')[0];
+    const inputSpan = section.querySelectorAll('.value')[1];
+
+    assert.isFalse(element.usernameMutable);
+    assert.isFalse(displaySpan.hasAttribute('hidden'));
+    assert.equal(displaySpan.textContent, account.username);
+    assert.isTrue(inputSpan.hasAttribute('hidden'));
+  });
+
+  test('username render (mutable)', () => {
+    element.set('_serverConfig',
+        {auth: {editable_account_fields: ['USER_NAME']}});
+    element.set('_account.username', '');
+    element.set('_username', '');
+
+    const section = element.$.usernameSection;
+    const displaySpan = section.querySelectorAll('.value')[0];
+    const inputSpan = section.querySelectorAll('.value')[1];
+
+    assert.isTrue(element.usernameMutable);
+    assert.isTrue(displaySpan.hasAttribute('hidden'));
+    assert.equal(element.$.usernameInput.bindValue, account.username);
+    assert.isFalse(inputSpan.hasAttribute('hidden'));
+  });
+
+  suite('account info edit', () => {
+    let nameChangedSpy;
+    let usernameChangedSpy;
+    let statusChangedSpy;
+    let nameStub;
+    let usernameStub;
+    let statusStub;
+
+    setup(() => {
+      nameChangedSpy = sandbox.spy(element, '_nameChanged');
+      usernameChangedSpy = sandbox.spy(element, '_usernameChanged');
+      statusChangedSpy = sandbox.spy(element, '_statusChanged');
       element.set('_serverConfig',
-          {auth: {editable_account_fields: ['FULL_NAME']}});
+          {auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']}});
 
-      const section = element.$.nameSection;
-      const displaySpan = section.querySelectorAll('.value')[0];
-      const inputSpan = section.querySelectorAll('.value')[1];
+      nameStub = sandbox.stub(element.$.restAPI, 'setAccountName',
+          name => Promise.resolve());
+      usernameStub = sandbox.stub(element.$.restAPI, 'setAccountUsername',
+          username => Promise.resolve());
+      statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+          status => Promise.resolve());
+    });
 
+    test('name', done => {
       assert.isTrue(element.nameMutable);
-      assert.isTrue(displaySpan.hasAttribute('hidden'));
-      assert.equal(element.$.nameInput.bindValue, account.name);
-      assert.isFalse(inputSpan.hasAttribute('hidden'));
-    });
+      assert.isFalse(element.hasUnsavedChanges);
 
-    test('username render (immutable)', () => {
-      const section = element.$.usernameSection;
-      const displaySpan = section.querySelectorAll('.value')[0];
-      const inputSpan = section.querySelectorAll('.value')[1];
+      element.set('_account.name', 'new name');
 
-      assert.isFalse(element.usernameMutable);
-      assert.isFalse(displaySpan.hasAttribute('hidden'));
-      assert.equal(displaySpan.textContent, account.username);
-      assert.isTrue(inputSpan.hasAttribute('hidden'));
-    });
+      assert.isTrue(nameChangedSpy.called);
+      assert.isFalse(statusChangedSpy.called);
+      assert.isTrue(element.hasUnsavedChanges);
 
-    test('username render (mutable)', () => {
-      element.set('_serverConfig',
-          {auth: {editable_account_fields: ['USER_NAME']}});
-      element.set('_account.username', '');
-      element.set('_username', '');
-
-      const section = element.$.usernameSection;
-      const displaySpan = section.querySelectorAll('.value')[0];
-      const inputSpan = section.querySelectorAll('.value')[1];
-
-      assert.isTrue(element.usernameMutable);
-      assert.isTrue(displaySpan.hasAttribute('hidden'));
-      assert.equal(element.$.usernameInput.bindValue, account.username);
-      assert.isFalse(inputSpan.hasAttribute('hidden'));
-    });
-
-    suite('account info edit', () => {
-      let nameChangedSpy;
-      let usernameChangedSpy;
-      let statusChangedSpy;
-      let nameStub;
-      let usernameStub;
-      let statusStub;
-
-      setup(() => {
-        nameChangedSpy = sandbox.spy(element, '_nameChanged');
-        usernameChangedSpy = sandbox.spy(element, '_usernameChanged');
-        statusChangedSpy = sandbox.spy(element, '_statusChanged');
-        element.set('_serverConfig',
-            {auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']}});
-
-        nameStub = sandbox.stub(element.$.restAPI, 'setAccountName',
-            name => Promise.resolve());
-        usernameStub = sandbox.stub(element.$.restAPI, 'setAccountUsername',
-            username => Promise.resolve());
-        statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
-            status => Promise.resolve());
-      });
-
-      test('name', done => {
-        assert.isTrue(element.nameMutable);
-        assert.isFalse(element.hasUnsavedChanges);
-
-        element.set('_account.name', 'new name');
-
-        assert.isTrue(nameChangedSpy.called);
-        assert.isFalse(statusChangedSpy.called);
-        assert.isTrue(element.hasUnsavedChanges);
-
-        element.save().then(() => {
-          assert.isFalse(usernameStub.called);
-          assert.isTrue(nameStub.called);
-          assert.isFalse(statusStub.called);
-          nameStub.lastCall.returnValue.then(() => {
-            assert.equal(nameStub.lastCall.args[0], 'new name');
-            done();
-          });
-        });
-      });
-
-      test('username', done => {
-        element.set('_account.username', '');
-        element._hasUsernameChange = false;
-        assert.isTrue(element.usernameMutable);
-
-        element.set('_username', 'new username');
-
-        assert.isTrue(usernameChangedSpy.called);
-        assert.isFalse(statusChangedSpy.called);
-        assert.isTrue(element.hasUnsavedChanges);
-
-        element.save().then(() => {
-          assert.isTrue(usernameStub.called);
-          assert.isFalse(nameStub.called);
-          assert.isFalse(statusStub.called);
-          usernameStub.lastCall.returnValue.then(() => {
-            assert.equal(usernameStub.lastCall.args[0], 'new username');
-            done();
-          });
-        });
-      });
-
-      test('status', done => {
-        assert.isFalse(element.hasUnsavedChanges);
-
-        element.set('_account.status', 'new status');
-
-        assert.isFalse(nameChangedSpy.called);
-        assert.isTrue(statusChangedSpy.called);
-        assert.isTrue(element.hasUnsavedChanges);
-
-        element.save().then(() => {
-          assert.isFalse(usernameStub.called);
-          assert.isTrue(statusStub.called);
-          assert.isFalse(nameStub.called);
-          statusStub.lastCall.returnValue.then(() => {
-            assert.equal(statusStub.lastCall.args[0], 'new status');
-            done();
-          });
-        });
-      });
-    });
-
-    suite('edit name and status', () => {
-      let nameChangedSpy;
-      let statusChangedSpy;
-      let nameStub;
-      let statusStub;
-
-      setup(() => {
-        nameChangedSpy = sandbox.spy(element, '_nameChanged');
-        statusChangedSpy = sandbox.spy(element, '_statusChanged');
-        element.set('_serverConfig',
-            {auth: {editable_account_fields: ['FULL_NAME']}});
-
-        nameStub = sandbox.stub(element.$.restAPI, 'setAccountName',
-            name => Promise.resolve());
-        statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
-            status => Promise.resolve());
-        sandbox.stub(element.$.restAPI, 'setAccountUsername',
-            username => Promise.resolve());
-      });
-
-      test('set name and status', done => {
-        assert.isTrue(element.nameMutable);
-        assert.isFalse(element.hasUnsavedChanges);
-
-        element.set('_account.name', 'new name');
-
-        assert.isTrue(nameChangedSpy.called);
-
-        element.set('_account.status', 'new status');
-
-        assert.isTrue(statusChangedSpy.called);
-
-        assert.isTrue(element.hasUnsavedChanges);
-
-        element.save().then(() => {
-          assert.isTrue(statusStub.called);
-          assert.isTrue(nameStub.called);
-
+      element.save().then(() => {
+        assert.isFalse(usernameStub.called);
+        assert.isTrue(nameStub.called);
+        assert.isFalse(statusStub.called);
+        nameStub.lastCall.returnValue.then(() => {
           assert.equal(nameStub.lastCall.args[0], 'new name');
-
-          assert.equal(statusStub.lastCall.args[0], 'new status');
-
           done();
         });
       });
     });
 
-    suite('set status but read name', () => {
-      let statusChangedSpy;
-      let statusStub;
+    test('username', done => {
+      element.set('_account.username', '');
+      element._hasUsernameChange = false;
+      assert.isTrue(element.usernameMutable);
 
-      setup(() => {
-        statusChangedSpy = sandbox.spy(element, '_statusChanged');
-        element.set('_serverConfig',
-            {auth: {editable_account_fields: []}});
+      element.set('_username', 'new username');
 
-        statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
-            status => Promise.resolve());
-      });
+      assert.isTrue(usernameChangedSpy.called);
+      assert.isFalse(statusChangedSpy.called);
+      assert.isTrue(element.hasUnsavedChanges);
 
-      test('read full name but set status', done => {
-        const section = element.$.nameSection;
-        const displaySpan = section.querySelectorAll('.value')[0];
-        const inputSpan = section.querySelectorAll('.value')[1];
-
-        assert.isFalse(element.nameMutable);
-
-        assert.isFalse(element.hasUnsavedChanges);
-
-        assert.isFalse(displaySpan.hasAttribute('hidden'));
-        assert.equal(displaySpan.textContent, account.name);
-        assert.isTrue(inputSpan.hasAttribute('hidden'));
-
-        element.set('_account.status', 'new status');
-
-        assert.isTrue(statusChangedSpy.called);
-
-        assert.isTrue(element.hasUnsavedChanges);
-
-        element.save().then(() => {
-          assert.isTrue(statusStub.called);
-          statusStub.lastCall.returnValue.then(() => {
-            assert.equal(statusStub.lastCall.args[0], 'new status');
-            done();
-          });
+      element.save().then(() => {
+        assert.isTrue(usernameStub.called);
+        assert.isFalse(nameStub.called);
+        assert.isFalse(statusStub.called);
+        usernameStub.lastCall.returnValue.then(() => {
+          assert.equal(usernameStub.lastCall.args[0], 'new username');
+          done();
         });
       });
     });
 
-    test('_usernameChanged compares usernames with loose equality', () => {
-      element._account = {};
-      element._username = '';
-      element._hasUsernameChange = false;
-      element._loading = false;
-      // _usernameChanged is an observer, but call it here after setting
-      // _hasUsernameChange in the test to force recomputation.
-      element._usernameChanged();
-      flushAsynchronousOperations();
+    test('status', done => {
+      assert.isFalse(element.hasUnsavedChanges);
 
-      assert.isFalse(element._hasUsernameChange);
+      element.set('_account.status', 'new status');
 
-      element.set('_username', 'test');
-      flushAsynchronousOperations();
+      assert.isFalse(nameChangedSpy.called);
+      assert.isTrue(statusChangedSpy.called);
+      assert.isTrue(element.hasUnsavedChanges);
 
-      assert.isTrue(element._hasUsernameChange);
-    });
-
-    test('_hideAvatarChangeUrl', () => {
-      assert.equal(element._hideAvatarChangeUrl(''), 'hide');
-
-      assert.equal(element._hideAvatarChangeUrl('https://example.com'), '');
+      element.save().then(() => {
+        assert.isFalse(usernameStub.called);
+        assert.isTrue(statusStub.called);
+        assert.isFalse(nameStub.called);
+        statusStub.lastCall.returnValue.then(() => {
+          assert.equal(statusStub.lastCall.args[0], 'new status');
+          done();
+        });
+      });
     });
   });
+
+  suite('edit name and status', () => {
+    let nameChangedSpy;
+    let statusChangedSpy;
+    let nameStub;
+    let statusStub;
+
+    setup(() => {
+      nameChangedSpy = sandbox.spy(element, '_nameChanged');
+      statusChangedSpy = sandbox.spy(element, '_statusChanged');
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: ['FULL_NAME']}});
+
+      nameStub = sandbox.stub(element.$.restAPI, 'setAccountName',
+          name => Promise.resolve());
+      statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+          status => Promise.resolve());
+      sandbox.stub(element.$.restAPI, 'setAccountUsername',
+          username => Promise.resolve());
+    });
+
+    test('set name and status', done => {
+      assert.isTrue(element.nameMutable);
+      assert.isFalse(element.hasUnsavedChanges);
+
+      element.set('_account.name', 'new name');
+
+      assert.isTrue(nameChangedSpy.called);
+
+      element.set('_account.status', 'new status');
+
+      assert.isTrue(statusChangedSpy.called);
+
+      assert.isTrue(element.hasUnsavedChanges);
+
+      element.save().then(() => {
+        assert.isTrue(statusStub.called);
+        assert.isTrue(nameStub.called);
+
+        assert.equal(nameStub.lastCall.args[0], 'new name');
+
+        assert.equal(statusStub.lastCall.args[0], 'new status');
+
+        done();
+      });
+    });
+  });
+
+  suite('set status but read name', () => {
+    let statusChangedSpy;
+    let statusStub;
+
+    setup(() => {
+      statusChangedSpy = sandbox.spy(element, '_statusChanged');
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: []}});
+
+      statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+          status => Promise.resolve());
+    });
+
+    test('read full name but set status', done => {
+      const section = element.$.nameSection;
+      const displaySpan = section.querySelectorAll('.value')[0];
+      const inputSpan = section.querySelectorAll('.value')[1];
+
+      assert.isFalse(element.nameMutable);
+
+      assert.isFalse(element.hasUnsavedChanges);
+
+      assert.isFalse(displaySpan.hasAttribute('hidden'));
+      assert.equal(displaySpan.textContent, account.name);
+      assert.isTrue(inputSpan.hasAttribute('hidden'));
+
+      element.set('_account.status', 'new status');
+
+      assert.isTrue(statusChangedSpy.called);
+
+      assert.isTrue(element.hasUnsavedChanges);
+
+      element.save().then(() => {
+        assert.isTrue(statusStub.called);
+        statusStub.lastCall.returnValue.then(() => {
+          assert.equal(statusStub.lastCall.args[0], 'new status');
+          done();
+        });
+      });
+    });
+  });
+
+  test('_usernameChanged compares usernames with loose equality', () => {
+    element._account = {};
+    element._username = '';
+    element._hasUsernameChange = false;
+    element._loading = false;
+    // _usernameChanged is an observer, but call it here after setting
+    // _hasUsernameChange in the test to force recomputation.
+    element._usernameChanged();
+    flushAsynchronousOperations();
+
+    assert.isFalse(element._hasUsernameChange);
+
+    element.set('_username', 'test');
+    flushAsynchronousOperations();
+
+    assert.isTrue(element._hasUsernameChange);
+  });
+
+  test('_hideAvatarChangeUrl', () => {
+    assert.equal(element._hideAvatarChangeUrl(''), 'hide');
+
+    assert.equal(element._hideAvatarChangeUrl('https://example.com'), '');
+  });
+});
 </script>

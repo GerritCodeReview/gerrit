@@ -1,46 +1,22 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/async-foreach-behavior/async-foreach-behavior.html">
-<link rel="import" href="../../../behaviors/dom-util-behavior/dom-util-behavior.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../diff/gr-diff-cursor/gr-diff-cursor.html">
-<link rel="import" href="../../diff/gr-diff-host/gr-diff-host.html">
-<link rel="import" href="../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.html">
-<link rel="import" href="../../edit/gr-edit-file-controls/gr-edit-file-controls.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
-<link rel="import" href="../../shared/gr-count-string-formatter/gr-count-string-formatter.html">
-<link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
-<link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
-<link rel="import" href="../gr-file-list-constants.html">
-
-<dom-module id="gr-file-list">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -298,9 +274,7 @@ limitations under the License.
         }
       }
     </style>
-    <div
-        id="container"
-        on-click="_handleFileListClick">
+    <div id="container" on-click="_handleFileListClick">
       <div class="header-row row">
         <div class="status"></div>
         <div class="path">File</div>
@@ -309,54 +283,37 @@ limitations under the License.
         <div class="header-stats">Delta</div>
         <template is="dom-if" if="[[_showDynamicColumns]]">
           <template is="dom-repeat" items="[[_dynamicHeaderEndpoints]]" as="headerEndpoint">
-            <gr-endpoint-decorator name$="[[headerEndpoint]]">
+            <gr-endpoint-decorator name\$="[[headerEndpoint]]">
             </gr-endpoint-decorator>
           </template>
         </template>
         <!-- Empty div here exists to keep spacing in sync with file rows. -->
-        <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]"></div>
+        <div class="reviewed hideOnEdit" hidden\$="[[!_loggedIn]]"></div>
         <div class="editFileControls showOnEdit"></div>
         <div class="show-hide"></div>
       </div>
 
-      <template is="dom-repeat"
-          items="[[_shownFiles]]"
-          id="files"
-          as="file"
-          initial-count="[[fileListIncrement]]"
-          target-framerate="1">
+      <template is="dom-repeat" items="[[_shownFiles]]" id="files" as="file" initial-count="[[fileListIncrement]]" target-framerate="1">
         [[_reportRenderedRow(index)]]
         <div class="stickyArea">
-          <div class$="file-row row [[_computePathClass(file.__path, _expandedFilePaths.*)]]"
-              data-path$="[[file.__path]]" tabindex="-1">
-              <div class$="[[_computeClass('status', file.__path)]]"
-                  tabindex="0"
-                  title$="[[_computeFileStatusLabel(file.status)]]"
-                  aria-label$="[[_computeFileStatusLabel(file.status)]]">
+          <div class\$="file-row row [[_computePathClass(file.__path, _expandedFilePaths.*)]]" data-path\$="[[file.__path]]" tabindex="-1">
+              <div class\$="[[_computeClass('status', file.__path)]]" tabindex="0" title\$="[[_computeFileStatusLabel(file.status)]]" aria-label\$="[[_computeFileStatusLabel(file.status)]]">
               [[_computeFileStatus(file.status)]]
             </div>
-            <span
-                data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]"
-                class="path">
-              <a class="pathLink" href$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]">
-                <span title$="[[computeDisplayPath(file.__path)]]"
-                    class="fullFileName">
+            <span data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]" class="path">
+              <a class="pathLink" href\$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]">
+                <span title\$="[[computeDisplayPath(file.__path)]]" class="fullFileName">
                   [[computeDisplayPath(file.__path)]]
                 </span>
-                <span title$="[[computeDisplayPath(file.__path)]]"
-                    class="truncatedFileName">
+                <span title\$="[[computeDisplayPath(file.__path)]]" class="truncatedFileName">
                   [[computeTruncatedPath(file.__path)]]
                 </span>
-                <gr-copy-clipboard
-                  hide-input
-                  text="[[file.__path]]"></gr-copy-clipboard>
+                <gr-copy-clipboard hide-input="" text="[[file.__path]]"></gr-copy-clipboard>
               </a>
               <template is="dom-if" if="[[file.old_path]]">
-                <div class="oldPath" title$="[[file.old_path]]">
+                <div class="oldPath" title\$="[[file.old_path]]">
                   [[file.old_path]]
-                  <gr-copy-clipboard
-                    hide-input
-                    text="[[file.old_path]]"></gr-copy-clipboard>
+                  <gr-copy-clipboard hide-input="" text="[[file.old_path]]"></gr-copy-clipboard>
                 </div>
               </template>
             </span>
@@ -374,46 +331,27 @@ limitations under the License.
               [[_computeCommentsStringMobile(changeComments, patchRange,
                   file.__path)]]
             </div>
-            <div class$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]">
+            <div class\$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]">
               <svg width="61" height="8">
-                <rect
-                    x$="[[_computeBarAdditionX(file, _sizeBarLayout)]]"
-                    y="0"
-                    height="8"
-                    fill="#388E3C"
-                    width$="[[_computeBarAdditionWidth(file, _sizeBarLayout)]]" />
-                <rect
-                    x$="[[_computeBarDeletionX(_sizeBarLayout)]]"
-                    y="0"
-                    height="8"
-                    fill="#D32F2F"
-                    width$="[[_computeBarDeletionWidth(file, _sizeBarLayout)]]" />
+                <rect x\$="[[_computeBarAdditionX(file, _sizeBarLayout)]]" y="0" height="8" fill="#388E3C" width\$="[[_computeBarAdditionWidth(file, _sizeBarLayout)]]"></rect>
+                <rect x\$="[[_computeBarDeletionX(_sizeBarLayout)]]" y="0" height="8" fill="#D32F2F" width\$="[[_computeBarDeletionWidth(file, _sizeBarLayout)]]"></rect>
               </svg>
             </div>
-            <div class$="[[_computeClass('stats', file.__path)]]">
-              <span
-                  class="added"
-                  tabindex="0"
-                  aria-label$="[[file.lines_inserted]] lines added"
-                  hidden$=[[file.binary]]>
+            <div class\$="[[_computeClass('stats', file.__path)]]">
+              <span class="added" tabindex="0" aria-label\$="[[file.lines_inserted]] lines added" hidden\$="[[file.binary]]">
                 +[[file.lines_inserted]]
               </span>
-              <span
-                  class="removed"
-                  tabindex="0"
-                  aria-label$="[[file.lines_deleted]] lines removed"
-                  hidden$=[[file.binary]]>
+              <span class="removed" tabindex="0" aria-label\$="[[file.lines_deleted]] lines removed" hidden\$="[[file.binary]]">
                 -[[file.lines_deleted]]
               </span>
-              <span class$="[[_computeBinaryClass(file.size_delta)]]"
-                  hidden$=[[!file.binary]]>
+              <span class\$="[[_computeBinaryClass(file.size_delta)]]" hidden\$="[[!file.binary]]">
                 [[_formatBytes(file.size_delta)]]
                 [[_formatPercentage(file.size, file.size_delta)]]
               </span>
             </div>
             <template is="dom-if" if="[[_showDynamicColumns]]">
               <template is="dom-repeat" items="[[_dynamicContentEndpoints]]" as="contentEndpoint">
-                <div class$="[[_computeClass('', file.__path)]]">
+                <div class\$="[[_computeClass('', file.__path)]]">
                   <gr-endpoint-decorator name="[[contentEndpoint]]">
                     <gr-endpoint-param name="changeNum" value="[[changeNum]]">
                     </gr-endpoint-param>
@@ -425,66 +363,38 @@ limitations under the License.
                 </div>
               </template>
             </template>
-            <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
-              <span class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
+            <div class="reviewed hideOnEdit" hidden\$="[[!_loggedIn]]" hidden="">
+              <span class\$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
               <label>
                 <input class="reviewed" type="checkbox" checked="[[file.isReviewed]]">
-                <span class="markReviewed" title$="[[_reviewedTitle(file.isReviewed)]]">[[_computeReviewedText(file.isReviewed)]]</span>
+                <span class="markReviewed" title\$="[[_reviewedTitle(file.isReviewed)]]">[[_computeReviewedText(file.isReviewed)]]</span>
               </label>
             </div>
             <div class="editFileControls showOnEdit">
               <template is="dom-if" if="[[editMode]]">
-                <gr-edit-file-controls
-                    class$="[[_computeClass('', file.__path)]]"
-                    file-path="[[file.__path]]"></gr-edit-file-controls>
+                <gr-edit-file-controls class\$="[[_computeClass('', file.__path)]]" file-path="[[file.__path]]"></gr-edit-file-controls>
               </template>
             </div>
             <div class="show-hide">
-              <label class="show-hide" data-path$="[[file.__path]]"
-                  data-expand=true>
-                <input type="checkbox" class="show-hide"
-                    checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
-                    data-path$="[[file.__path]]" data-expand=true>
-                  <iron-icon
-                      id="icon"
-                      icon="[[_computeShowHideIcon(file.__path, _expandedFilePaths.*)]]">
+              <label class="show-hide" data-path\$="[[file.__path]]" data-expand="true">
+                <input type="checkbox" class="show-hide" checked\$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]" data-path\$="[[file.__path]]" data-expand="true">
+                  <iron-icon id="icon" icon="[[_computeShowHideIcon(file.__path, _expandedFilePaths.*)]]">
                   </iron-icon>
               </label>
             </div>
           </div>
-          <template is="dom-if"
-              if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
-            <gr-diff-host
-                no-auto-render
-                show-load-failure
-                display-line="[[_displayLine]]"
-                hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
-                change-num="[[changeNum]]"
-                patch-range="[[patchRange]]"
-                path="[[file.__path]]"
-                prefs="[[diffPrefs]]"
-                project-name="[[change.project]]"
-                on-line-selected="_onLineSelected"
-                no-render-on-prefs-change
-                view-mode="[[diffViewMode]]"></gr-diff-host>
+          <template is="dom-if" if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
+            <gr-diff-host no-auto-render="" show-load-failure="" display-line="[[_displayLine]]" hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]" change-num="[[changeNum]]" patch-range="[[patchRange]]" path="[[file.__path]]" prefs="[[diffPrefs]]" project-name="[[change.project]]" on-line-selected="_onLineSelected" no-render-on-prefs-change="" view-mode="[[diffViewMode]]"></gr-diff-host>
           </template>
         </div>
       </template>
     </div>
-    <div
-        class="row totalChanges"
-        hidden$="[[_hideChangeTotals]]">
+    <div class="row totalChanges" hidden\$="[[_hideChangeTotals]]">
       <div class="total-stats">
-        <span
-            class="added"
-            tabindex="0"
-            aria-label$="[[_patchChange.inserted]] lines added">
+        <span class="added" tabindex="0" aria-label\$="[[_patchChange.inserted]] lines added">
           +[[_patchChange.inserted]]
         </span>
-        <span
-            class="removed"
-            tabindex="0"
-            aria-label$="[[_patchChange.deleted]] lines removed">
+        <span class="removed" tabindex="0" aria-label\$="[[_patchChange.deleted]] lines removed">
           -[[_patchChange.deleted]]
         </span>
       </div>
@@ -495,13 +405,11 @@ limitations under the License.
         </template>
       </template>
       <!-- Empty div here exists to keep spacing in sync with file rows. -->
-      <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]"></div>
+      <div class="reviewed hideOnEdit" hidden\$="[[!_loggedIn]]"></div>
       <div class="editFileControls showOnEdit"></div>
       <div class="show-hide"></div>
     </div>
-    <div
-        class="row totalChanges"
-        hidden$="[[_hideBinaryChangeTotals]]">
+    <div class="row totalChanges" hidden\$="[[_hideBinaryChangeTotals]]">
       <div class="total-stats">
         <span class="added" aria-label="Total lines added">
           [[_formatBytes(_patchChange.size_delta_inserted)]]
@@ -515,39 +423,21 @@ limitations under the License.
         </span>
       </div>
     </div>
-    <div class$="row controlRow [[_computeFileListControlClass(numFilesShown, _files)]]">
-      <gr-button
-          class="fileListButton"
-          id="incrementButton"
-          link on-click="_incrementNumFilesShown">
+    <div class\$="row controlRow [[_computeFileListControlClass(numFilesShown, _files)]]">
+      <gr-button class="fileListButton" id="incrementButton" link="" on-click="_incrementNumFilesShown">
         [[_computeIncrementText(numFilesShown, _files)]]
       </gr-button>
-      <gr-tooltip-content
-          has-tooltip="[[_computeWarnShowAll(_files)]]"
-          show-icon="[[_computeWarnShowAll(_files)]]"
-          title$="[[_computeShowAllWarning(_files)]]">
-        <gr-button
-            class="fileListButton"
-            id="showAllButton"
-            link on-click="_showAllFiles">
+      <gr-tooltip-content has-tooltip="[[_computeWarnShowAll(_files)]]" show-icon="[[_computeWarnShowAll(_files)]]" title\$="[[_computeShowAllWarning(_files)]]">
+        <gr-button class="fileListButton" id="showAllButton" link="" on-click="_showAllFiles">
           [[_computeShowAllText(_files)]]
         </gr-button><!--
   --></gr-tooltip-content>
     </div>
-    <gr-diff-preferences-dialog
-        id="diffPreferencesDialog"
-        diff-prefs="{{diffPrefs}}"
-        on-reload-diff-preference="_handleReloadingDiffPreference">
+    <gr-diff-preferences-dialog id="diffPreferencesDialog" diff-prefs="{{diffPrefs}}" on-reload-diff-preference="_handleReloadingDiffPreference">
     </gr-diff-preferences-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="diffCursor"></gr-diff-cursor>
-    <gr-cursor-manager
-        id="fileCursor"
-        scroll-behavior="keep-visible"
-        focus-on-move
-        cursor-target-class="selected"></gr-cursor-manager>
+    <gr-cursor-manager id="fileCursor" scroll-behavior="keep-visible" focus-on-move="" cursor-target-class="selected"></gr-cursor-manager>
     <gr-reporting id="reporting"></gr-reporting>
-  </template>
-  <script src="gr-file-list.js"></script>
-</dom-module>
+`;

@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-copy-clipboard</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-copy-clipboard.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-copy-clipboard.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-copy-clipboard.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,71 +40,74 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-copy-clipboard tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-copy-clipboard.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-copy-clipboard tests', () => {
+  let element;
+  let sandbox;
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      element.text = `git fetch http://gerrit@localhost:8080/a/test-project
-          refs/changes/05/5/1 && git checkout FETCH_HEAD`;
-      flushAsynchronousOperations();
-      flush(done);
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('copy to clipboard', () => {
-      const clipboardSpy = sandbox.spy(element, '_copyToClipboard');
-      const copyBtn = element.$$('.copyToClipboard');
-      MockInteractions.tap(copyBtn);
-      assert.isTrue(clipboardSpy.called);
-    });
-
-    test('focusOnCopy', () => {
-      element.focusOnCopy();
-      assert.deepEqual(Polymer.dom(element.root).activeElement,
-          element.$$('.copyToClipboard'));
-    });
-
-    test('_handleInputClick', () => {
-      // iron-input as parent should never be hidden as copy won't work
-      // on nested hidden elements
-      const ironInputElement = element.shadowRoot.querySelector('iron-input');
-      assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
-
-      const inputElement = element.shadowRoot.querySelector('input');
-      MockInteractions.tap(inputElement);
-      assert.equal(inputElement.selectionStart, 0);
-      assert.equal(inputElement.selectionEnd, element.text.length - 1);
-    });
-
-    test('hideInput', () => {
-      // iron-input as parent should never be hidden as copy won't work
-      // on nested hidden elements
-      const ironInputElement = element.shadowRoot.querySelector('iron-input');
-      assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
-
-      assert.notEqual(getComputedStyle(element.$.input).display, 'none');
-      element.hideInput = true;
-      flushAsynchronousOperations();
-      assert.equal(getComputedStyle(element.$.input).display, 'none');
-    });
-
-    test('stop events propagation', () => {
-      const divParent = document.createElement('div');
-      divParent.appendChild(element);
-      const clickStub = sinon.stub();
-      divParent.addEventListener('click', clickStub);
-      element.stopPropagation = true;
-      const copyBtn = element.shadowRoot.querySelector('.copyToClipboard');
-      MockInteractions.tap(copyBtn);
-      assert.isFalse(clickStub.called);
-    });
+  setup(done => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    element.text = `git fetch http://gerrit@localhost:8080/a/test-project
+        refs/changes/05/5/1 && git checkout FETCH_HEAD`;
+    flushAsynchronousOperations();
+    flush(done);
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('copy to clipboard', () => {
+    const clipboardSpy = sandbox.spy(element, '_copyToClipboard');
+    const copyBtn = element.$$('.copyToClipboard');
+    MockInteractions.tap(copyBtn);
+    assert.isTrue(clipboardSpy.called);
+  });
+
+  test('focusOnCopy', () => {
+    element.focusOnCopy();
+    assert.deepEqual(dom(element.root).activeElement,
+        element.$$('.copyToClipboard'));
+  });
+
+  test('_handleInputClick', () => {
+    // iron-input as parent should never be hidden as copy won't work
+    // on nested hidden elements
+    const ironInputElement = element.shadowRoot.querySelector('iron-input');
+    assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
+
+    const inputElement = element.shadowRoot.querySelector('input');
+    MockInteractions.tap(inputElement);
+    assert.equal(inputElement.selectionStart, 0);
+    assert.equal(inputElement.selectionEnd, element.text.length - 1);
+  });
+
+  test('hideInput', () => {
+    // iron-input as parent should never be hidden as copy won't work
+    // on nested hidden elements
+    const ironInputElement = element.shadowRoot.querySelector('iron-input');
+    assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
+
+    assert.notEqual(getComputedStyle(element.$.input).display, 'none');
+    element.hideInput = true;
+    flushAsynchronousOperations();
+    assert.equal(getComputedStyle(element.$.input).display, 'none');
+  });
+
+  test('stop events propagation', () => {
+    const divParent = document.createElement('div');
+    divParent.appendChild(element);
+    const clickStub = sinon.stub();
+    divParent.addEventListener('click', clickStub);
+    element.stopPropagation = true;
+    const copyBtn = element.shadowRoot.querySelector('.copyToClipboard');
+    MockInteractions.tap(copyBtn);
+    assert.isFalse(clickStub.called);
+  });
+});
 </script>

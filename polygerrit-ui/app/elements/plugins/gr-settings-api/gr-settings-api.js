@@ -14,6 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../../../scripts/bundled-polymer.js';
+
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import '../../settings/gr-settings-view/gr-settings-item.js';
+import '../../settings/gr-settings-view/gr-settings-menu-item.js';
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<dom-module id="gr-settings-api">
+  
+</dom-module>`;
+
+document.head.appendChild($_documentContainer.content);
+
 (function(window) {
   'use strict';
 

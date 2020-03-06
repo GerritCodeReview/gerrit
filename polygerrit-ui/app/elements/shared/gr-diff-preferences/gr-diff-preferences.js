@@ -14,72 +14,82 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrDiffPreferences extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-diff-preferences'; }
+import '@polymer/iron-input/iron-input.js';
+import '../../../styles/shared-styles.js';
+import '../gr-button/gr-button.js';
+import '../gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-select/gr-select.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-diff-preferences_html.js';
 
-    static get properties() {
-      return {
-        hasUnsavedChanges: {
-          type: Boolean,
-          notify: true,
-          value: false,
-        },
+/** @extends Polymer.Element */
+class GrDiffPreferences extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-        /** @type {?} */
-        diffPrefs: Object,
-      };
-    }
+  static get is() { return 'gr-diff-preferences'; }
 
-    loadData() {
-      return this.$.restAPI.getDiffPreferences().then(prefs => {
-        this.diffPrefs = prefs;
-      });
-    }
+  static get properties() {
+    return {
+      hasUnsavedChanges: {
+        type: Boolean,
+        notify: true,
+        value: false,
+      },
 
-    _handleDiffPrefsChanged() {
-      this.hasUnsavedChanges = true;
-    }
-
-    _handleLineWrappingTap() {
-      this.set('diffPrefs.line_wrapping', this.$.lineWrappingInput.checked);
-      this._handleDiffPrefsChanged();
-    }
-
-    _handleShowTabsTap() {
-      this.set('diffPrefs.show_tabs', this.$.showTabsInput.checked);
-      this._handleDiffPrefsChanged();
-    }
-
-    _handleShowTrailingWhitespaceTap() {
-      this.set('diffPrefs.show_whitespace_errors',
-          this.$.showTrailingWhitespaceInput.checked);
-      this._handleDiffPrefsChanged();
-    }
-
-    _handleSyntaxHighlightTap() {
-      this.set('diffPrefs.syntax_highlighting',
-          this.$.syntaxHighlightInput.checked);
-      this._handleDiffPrefsChanged();
-    }
-
-    _handleAutomaticReviewTap() {
-      this.set('diffPrefs.manual_review',
-          !this.$.automaticReviewInput.checked);
-      this._handleDiffPrefsChanged();
-    }
-
-    save() {
-      return this.$.restAPI.saveDiffPreferences(this.diffPrefs).then(res => {
-        this.hasUnsavedChanges = false;
-      });
-    }
+      /** @type {?} */
+      diffPrefs: Object,
+    };
   }
 
-  customElements.define(GrDiffPreferences.is, GrDiffPreferences);
-})();
+  loadData() {
+    return this.$.restAPI.getDiffPreferences().then(prefs => {
+      this.diffPrefs = prefs;
+    });
+  }
+
+  _handleDiffPrefsChanged() {
+    this.hasUnsavedChanges = true;
+  }
+
+  _handleLineWrappingTap() {
+    this.set('diffPrefs.line_wrapping', this.$.lineWrappingInput.checked);
+    this._handleDiffPrefsChanged();
+  }
+
+  _handleShowTabsTap() {
+    this.set('diffPrefs.show_tabs', this.$.showTabsInput.checked);
+    this._handleDiffPrefsChanged();
+  }
+
+  _handleShowTrailingWhitespaceTap() {
+    this.set('diffPrefs.show_whitespace_errors',
+        this.$.showTrailingWhitespaceInput.checked);
+    this._handleDiffPrefsChanged();
+  }
+
+  _handleSyntaxHighlightTap() {
+    this.set('diffPrefs.syntax_highlighting',
+        this.$.syntaxHighlightInput.checked);
+    this._handleDiffPrefsChanged();
+  }
+
+  _handleAutomaticReviewTap() {
+    this.set('diffPrefs.manual_review',
+        !this.$.automaticReviewInput.checked);
+    this._handleDiffPrefsChanged();
+  }
+
+  save() {
+    return this.$.restAPI.saveDiffPreferences(this.diffPrefs).then(res => {
+      this.hasUnsavedChanges = false;
+    });
+  }
+}
+
+customElements.define(GrDiffPreferences.is, GrDiffPreferences);

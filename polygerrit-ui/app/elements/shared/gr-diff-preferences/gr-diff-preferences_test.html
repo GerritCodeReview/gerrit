@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff-preferences</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-diff-preferences.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-diff-preferences.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-diff-preferences.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,93 +40,95 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff-preferences tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let diffPreferences;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-diff-preferences.js';
+suite('gr-diff-preferences tests', () => {
+  let element;
+  let sandbox;
+  let diffPreferences;
 
-    function valueOf(title, fieldsetid) {
-      const sections = element.$[fieldsetid].querySelectorAll('section');
-      let titleEl;
-      for (let i = 0; i < sections.length; i++) {
-        titleEl = sections[i].querySelector('.title');
-        if (titleEl.textContent.trim() === title) {
-          return sections[i].querySelector('.value');
-        }
+  function valueOf(title, fieldsetid) {
+    const sections = element.$[fieldsetid].querySelectorAll('section');
+    let titleEl;
+    for (let i = 0; i < sections.length; i++) {
+      titleEl = sections[i].querySelector('.title');
+      if (titleEl.textContent.trim() === title) {
+        return sections[i].querySelector('.value');
       }
     }
+  }
 
-    setup(() => {
-      diffPreferences = {
-        context: 10,
-        line_wrapping: false,
-        line_length: 100,
-        tab_size: 8,
-        font_size: 12,
-        show_tabs: true,
-        show_whitespace_errors: true,
-        syntax_highlighting: true,
-        manual_review: false,
-        ignore_whitespace: 'IGNORE_NONE',
-      };
+  setup(() => {
+    diffPreferences = {
+      context: 10,
+      line_wrapping: false,
+      line_length: 100,
+      tab_size: 8,
+      font_size: 12,
+      show_tabs: true,
+      show_whitespace_errors: true,
+      syntax_highlighting: true,
+      manual_review: false,
+      ignore_whitespace: 'IGNORE_NONE',
+    };
 
-      stub('gr-rest-api-interface', {
-        getDiffPreferences() {
-          return Promise.resolve(diffPreferences);
-        },
-      });
-
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      return element.loadData();
+    stub('gr-rest-api-interface', {
+      getDiffPreferences() {
+        return Promise.resolve(diffPreferences);
+      },
     });
 
-    teardown(() => { sandbox.restore(); });
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    return element.loadData();
+  });
 
-    test('renders', () => {
-      // Rendered with the expected preferences selected.
-      assert.equal(valueOf('Context', 'diffPreferences')
-          .firstElementChild.bindValue, diffPreferences.context);
-      assert.equal(valueOf('Fit to screen', 'diffPreferences')
-          .firstElementChild.checked, diffPreferences.line_wrapping);
-      assert.equal(valueOf('Diff width', 'diffPreferences')
-          .firstElementChild.bindValue, diffPreferences.line_length);
-      assert.equal(valueOf('Tab width', 'diffPreferences')
-          .firstElementChild.bindValue, diffPreferences.tab_size);
-      assert.equal(valueOf('Font size', 'diffPreferences')
-          .firstElementChild.bindValue, diffPreferences.font_size);
-      assert.equal(valueOf('Show tabs', 'diffPreferences')
-          .firstElementChild.checked, diffPreferences.show_tabs);
-      assert.equal(valueOf('Show trailing whitespace', 'diffPreferences')
-          .firstElementChild.checked, diffPreferences.show_whitespace_errors);
-      assert.equal(valueOf('Syntax highlighting', 'diffPreferences')
-          .firstElementChild.checked, diffPreferences.syntax_highlighting);
-      assert.equal(
-          valueOf('Automatically mark viewed files reviewed', 'diffPreferences')
-              .firstElementChild.checked, !diffPreferences.manual_review);
-      assert.equal(valueOf('Ignore Whitespace', 'diffPreferences')
-          .firstElementChild.bindValue, diffPreferences.ignore_whitespace);
+  teardown(() => { sandbox.restore(); });
 
+  test('renders', () => {
+    // Rendered with the expected preferences selected.
+    assert.equal(valueOf('Context', 'diffPreferences')
+        .firstElementChild.bindValue, diffPreferences.context);
+    assert.equal(valueOf('Fit to screen', 'diffPreferences')
+        .firstElementChild.checked, diffPreferences.line_wrapping);
+    assert.equal(valueOf('Diff width', 'diffPreferences')
+        .firstElementChild.bindValue, diffPreferences.line_length);
+    assert.equal(valueOf('Tab width', 'diffPreferences')
+        .firstElementChild.bindValue, diffPreferences.tab_size);
+    assert.equal(valueOf('Font size', 'diffPreferences')
+        .firstElementChild.bindValue, diffPreferences.font_size);
+    assert.equal(valueOf('Show tabs', 'diffPreferences')
+        .firstElementChild.checked, diffPreferences.show_tabs);
+    assert.equal(valueOf('Show trailing whitespace', 'diffPreferences')
+        .firstElementChild.checked, diffPreferences.show_whitespace_errors);
+    assert.equal(valueOf('Syntax highlighting', 'diffPreferences')
+        .firstElementChild.checked, diffPreferences.syntax_highlighting);
+    assert.equal(
+        valueOf('Automatically mark viewed files reviewed', 'diffPreferences')
+            .firstElementChild.checked, !diffPreferences.manual_review);
+    assert.equal(valueOf('Ignore Whitespace', 'diffPreferences')
+        .firstElementChild.bindValue, diffPreferences.ignore_whitespace);
+
+    assert.isFalse(element.hasUnsavedChanges);
+  });
+
+  test('save changes', () => {
+    sandbox.stub(element.$.restAPI, 'saveDiffPreferences')
+        .returns(Promise.resolve());
+    const showTrailingWhitespaceCheckbox =
+        valueOf('Show trailing whitespace', 'diffPreferences')
+            .firstElementChild;
+    showTrailingWhitespaceCheckbox.checked = false;
+    element._handleShowTrailingWhitespaceTap();
+
+    assert.isTrue(element.hasUnsavedChanges);
+
+    // Save the change.
+    return element.save().then(() => {
       assert.isFalse(element.hasUnsavedChanges);
     });
-
-    test('save changes', () => {
-      sandbox.stub(element.$.restAPI, 'saveDiffPreferences')
-          .returns(Promise.resolve());
-      const showTrailingWhitespaceCheckbox =
-          valueOf('Show trailing whitespace', 'diffPreferences')
-              .firstElementChild;
-      showTrailingWhitespaceCheckbox.checked = false;
-      element._handleShowTrailingWhitespaceTap();
-
-      assert.isTrue(element.hasUnsavedChanges);
-
-      // Save the change.
-      return element.save().then(() => {
-        assert.isFalse(element.hasUnsavedChanges);
-      });
-    });
   });
+});
 </script>

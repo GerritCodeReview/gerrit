@@ -19,13 +19,13 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-annotation-actions-js-api-js-api</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="../../change/gr-change-actions/gr-change-actions.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../change/gr-change-actions/gr-change-actions.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -38,153 +38,155 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-annotation-actions-js-api tests', async () => {
-    await readyToTest();
-    let annotationActions;
-    let sandbox;
-    let plugin;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../change/gr-change-actions/gr-change-actions.js';
+suite('gr-annotation-actions-js-api tests', () => {
+  let annotationActions;
+  let sandbox;
+  let plugin;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      annotationActions = plugin.annotationApi();
-    });
-
-    teardown(() => {
-      annotationActions = null;
-      sandbox.restore();
-    });
-
-    test('add/get layer', () => {
-      const str = 'lorem ipsum blah blah';
-      const line = {text: str};
-      const el = document.createElement('div');
-      el.textContent = str;
-      const changeNum = 1234;
-      const patchNum = 2;
-      let testLayerFuncCalled = false;
-
-      const testLayerFunc = context => {
-        testLayerFuncCalled = true;
-        assert.equal(context.line, line);
-        assert.equal(context.changeNum, changeNum);
-        assert.equal(context.patchNum, 2);
-      };
-      annotationActions.addLayer(testLayerFunc);
-
-      const annotationLayer = annotationActions.getLayer(
-          '/dummy/path', changeNum, patchNum);
-
-      const lineNumberEl = document.createElement('td');
-      annotationLayer.annotate(el, lineNumberEl, line);
-      assert.isTrue(testLayerFuncCalled);
-    });
-
-    test('add notifier', () => {
-      const path1 = '/dummy/path1';
-      const path2 = '/dummy/path2';
-      const annotationLayer1 = annotationActions.getLayer(path1, 1, 2);
-      const annotationLayer2 = annotationActions.getLayer(path2, 1, 2);
-      const layer1Spy = sandbox.spy(annotationLayer1, 'notifyListeners');
-      const layer2Spy = sandbox.spy(annotationLayer2, 'notifyListeners');
-
-      let notify;
-      let notifyFuncCalled;
-      const notifyFunc = n => {
-        notifyFuncCalled = true;
-        notify = n;
-      };
-      annotationActions.addNotifier(notifyFunc);
-      assert.isTrue(notifyFuncCalled);
-
-      // Assert that no layers are invoked with a different path.
-      notify('/dummy/path3', 0, 10, 'right');
-      assert.isFalse(layer1Spy.called);
-      assert.isFalse(layer2Spy.called);
-
-      // Assert that only the 1st layer is invoked with path1.
-      notify(path1, 0, 10, 'right');
-      assert.isTrue(layer1Spy.called);
-      assert.isFalse(layer2Spy.called);
-
-      // Reset spies.
-      layer1Spy.reset();
-      layer2Spy.reset();
-
-      // Assert that only the 2nd layer is invoked with path2.
-      notify(path2, 0, 20, 'left');
-      assert.isFalse(layer1Spy.called);
-      assert.isTrue(layer2Spy.called);
-    });
-
-    test('toggle checkbox', () => {
-      const fakeEl = {content: fixture('basic')};
-      const hookStub = {onAttached: sandbox.stub()};
-      sandbox.stub(plugin, 'hook').returns(hookStub);
-
-      let checkbox;
-      let onAttachedFuncCalled = false;
-      const onAttachedFunc = c => {
-        checkbox = c;
-        onAttachedFuncCalled = true;
-      };
-      annotationActions.enableToggleCheckbox('test label', onAttachedFunc);
-      const emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
-      emulateAttached();
-
-      // Assert that onAttachedFunc is called and HTML elements have the
-      // expected state.
-      assert.isTrue(onAttachedFuncCalled);
-      assert.equal(checkbox.id, 'annotation-checkbox');
-      assert.isTrue(checkbox.disabled);
-      assert.equal(document.getElementById('annotation-label').textContent,
-          'test label');
-      assert.isFalse(document.getElementById('annotation-span').hidden);
-
-      // Assert that error is shown if we try to enable checkbox again.
-      onAttachedFuncCalled = false;
-      annotationActions.enableToggleCheckbox('test label2', onAttachedFunc);
-      const errorStub = sandbox.stub(
-          console, 'error', (msg, err) => undefined);
-      emulateAttached();
-      assert.isTrue(
-          errorStub.calledWith(
-              'annotation-span is already enabled. Cannot re-enable.'));
-      // Assert that onAttachedFunc is not called and the label has not changed.
-      assert.isFalse(onAttachedFuncCalled);
-      assert.equal(document.getElementById('annotation-label').textContent,
-          'test label');
-    });
-
-    test('layer notify listeners', () => {
-      const annotationLayer = annotationActions.getLayer(
-          '/dummy/path', 1, 2);
-      let listenerCalledTimes = 0;
-      const startRange = 10;
-      const endRange = 20;
-      const side = 'right';
-      const listener = (st, end, s) => {
-        listenerCalledTimes++;
-        assert.equal(st, startRange);
-        assert.equal(end, endRange);
-        assert.equal(s, side);
-      };
-
-      // Notify with 0 listeners added.
-      annotationLayer.notifyListeners(startRange, endRange, side);
-      assert.equal(listenerCalledTimes, 0);
-
-      // Add 1 listener.
-      annotationLayer.addListener(listener);
-      annotationLayer.notifyListeners(startRange, endRange, side);
-      assert.equal(listenerCalledTimes, 1);
-
-      // Add 1 more listener. Total 2 listeners.
-      annotationLayer.addListener(listener);
-      annotationLayer.notifyListeners(startRange, endRange, side);
-      assert.equal(listenerCalledTimes, 3);
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
+    annotationActions = plugin.annotationApi();
   });
+
+  teardown(() => {
+    annotationActions = null;
+    sandbox.restore();
+  });
+
+  test('add/get layer', () => {
+    const str = 'lorem ipsum blah blah';
+    const line = {text: str};
+    const el = document.createElement('div');
+    el.textContent = str;
+    const changeNum = 1234;
+    const patchNum = 2;
+    let testLayerFuncCalled = false;
+
+    const testLayerFunc = context => {
+      testLayerFuncCalled = true;
+      assert.equal(context.line, line);
+      assert.equal(context.changeNum, changeNum);
+      assert.equal(context.patchNum, 2);
+    };
+    annotationActions.addLayer(testLayerFunc);
+
+    const annotationLayer = annotationActions.getLayer(
+        '/dummy/path', changeNum, patchNum);
+
+    const lineNumberEl = document.createElement('td');
+    annotationLayer.annotate(el, lineNumberEl, line);
+    assert.isTrue(testLayerFuncCalled);
+  });
+
+  test('add notifier', () => {
+    const path1 = '/dummy/path1';
+    const path2 = '/dummy/path2';
+    const annotationLayer1 = annotationActions.getLayer(path1, 1, 2);
+    const annotationLayer2 = annotationActions.getLayer(path2, 1, 2);
+    const layer1Spy = sandbox.spy(annotationLayer1, 'notifyListeners');
+    const layer2Spy = sandbox.spy(annotationLayer2, 'notifyListeners');
+
+    let notify;
+    let notifyFuncCalled;
+    const notifyFunc = n => {
+      notifyFuncCalled = true;
+      notify = n;
+    };
+    annotationActions.addNotifier(notifyFunc);
+    assert.isTrue(notifyFuncCalled);
+
+    // Assert that no layers are invoked with a different path.
+    notify('/dummy/path3', 0, 10, 'right');
+    assert.isFalse(layer1Spy.called);
+    assert.isFalse(layer2Spy.called);
+
+    // Assert that only the 1st layer is invoked with path1.
+    notify(path1, 0, 10, 'right');
+    assert.isTrue(layer1Spy.called);
+    assert.isFalse(layer2Spy.called);
+
+    // Reset spies.
+    layer1Spy.reset();
+    layer2Spy.reset();
+
+    // Assert that only the 2nd layer is invoked with path2.
+    notify(path2, 0, 20, 'left');
+    assert.isFalse(layer1Spy.called);
+    assert.isTrue(layer2Spy.called);
+  });
+
+  test('toggle checkbox', () => {
+    const fakeEl = {content: fixture('basic')};
+    const hookStub = {onAttached: sandbox.stub()};
+    sandbox.stub(plugin, 'hook').returns(hookStub);
+
+    let checkbox;
+    let onAttachedFuncCalled = false;
+    const onAttachedFunc = c => {
+      checkbox = c;
+      onAttachedFuncCalled = true;
+    };
+    annotationActions.enableToggleCheckbox('test label', onAttachedFunc);
+    const emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
+    emulateAttached();
+
+    // Assert that onAttachedFunc is called and HTML elements have the
+    // expected state.
+    assert.isTrue(onAttachedFuncCalled);
+    assert.equal(checkbox.id, 'annotation-checkbox');
+    assert.isTrue(checkbox.disabled);
+    assert.equal(document.getElementById('annotation-label').textContent,
+        'test label');
+    assert.isFalse(document.getElementById('annotation-span').hidden);
+
+    // Assert that error is shown if we try to enable checkbox again.
+    onAttachedFuncCalled = false;
+    annotationActions.enableToggleCheckbox('test label2', onAttachedFunc);
+    const errorStub = sandbox.stub(
+        console, 'error', (msg, err) => undefined);
+    emulateAttached();
+    assert.isTrue(
+        errorStub.calledWith(
+            'annotation-span is already enabled. Cannot re-enable.'));
+    // Assert that onAttachedFunc is not called and the label has not changed.
+    assert.isFalse(onAttachedFuncCalled);
+    assert.equal(document.getElementById('annotation-label').textContent,
+        'test label');
+  });
+
+  test('layer notify listeners', () => {
+    const annotationLayer = annotationActions.getLayer(
+        '/dummy/path', 1, 2);
+    let listenerCalledTimes = 0;
+    const startRange = 10;
+    const endRange = 20;
+    const side = 'right';
+    const listener = (st, end, s) => {
+      listenerCalledTimes++;
+      assert.equal(st, startRange);
+      assert.equal(end, endRange);
+      assert.equal(s, side);
+    };
+
+    // Notify with 0 listeners added.
+    annotationLayer.notifyListeners(startRange, endRange, side);
+    assert.equal(listenerCalledTimes, 0);
+
+    // Add 1 listener.
+    annotationLayer.addListener(listener);
+    annotationLayer.notifyListeners(startRange, endRange, side);
+    assert.equal(listenerCalledTimes, 1);
+
+    // Add 1 more listener. Total 2 listeners.
+    annotationLayer.addListener(listener);
+    annotationLayer.notifyListeners(startRange, endRange, side);
+    assert.equal(listenerCalledTimes, 3);
+  });
+});
 </script>

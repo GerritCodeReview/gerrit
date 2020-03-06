@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-dashboard-view</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-dashboard-view.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-dashboard-view.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-dashboard-view.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,346 +40,348 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-dashboard-view tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let paramsChangedPromise;
-    let getChangesStub;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-dashboard-view.js';
+suite('gr-dashboard-view tests', () => {
+  let element;
+  let sandbox;
+  let paramsChangedPromise;
+  let getChangesStub;
 
-    setup(() => {
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-        getAccountDetails() { return Promise.resolve({}); },
-        getAccountStatus() { return Promise.resolve(false); },
-      });
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
-          (_, qs) => Promise.resolve(qs.map(() => [])));
+  setup(() => {
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(false); },
+      getAccountDetails() { return Promise.resolve({}); },
+      getAccountStatus() { return Promise.resolve(false); },
+    });
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
+        (_, qs) => Promise.resolve(qs.map(() => [])));
 
-      let resolver;
-      paramsChangedPromise = new Promise(resolve => {
-        resolver = resolve;
+    let resolver;
+    paramsChangedPromise = new Promise(resolve => {
+      resolver = resolve;
+    });
+    const paramsChanged = element._paramsChanged.bind(element);
+    sandbox.stub(element, '_paramsChanged', params => {
+      paramsChanged(params).then(() => resolver());
+    });
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('drafts banner functionality', () => {
+    suite('_maybeShowDraftsBanner', () => {
+      test('not dashboard/self', () => {
+        element.params = {user: 'notself'};
+        element._maybeShowDraftsBanner();
+        assert.isFalse(element._showDraftsBanner);
       });
-      const paramsChanged = element._paramsChanged.bind(element);
-      sandbox.stub(element, '_paramsChanged', params => {
-        paramsChanged(params).then(() => resolver());
+
+      test('no drafts at all', () => {
+        element.params = {user: 'self'};
+        element._results = [];
+        element._maybeShowDraftsBanner();
+        assert.isFalse(element._showDraftsBanner);
+      });
+
+      test('no drafts on open changes', () => {
+        element.params = {user: 'self'};
+        element._results = [{query: 'has:draft', results: [{status: '_'}]}];
+        sandbox.stub(element, 'changeIsOpen').returns(true);
+        element._maybeShowDraftsBanner();
+        assert.isFalse(element._showDraftsBanner);
+      });
+
+      test('no drafts on open changes', () => {
+        element.params = {user: 'self'};
+        element._results = [{query: 'has:draft', results: [{status: '_'}]}];
+        sandbox.stub(element, 'changeIsOpen').returns(false);
+        element._maybeShowDraftsBanner();
+        assert.isTrue(element._showDraftsBanner);
       });
     });
 
-    teardown(() => {
-      sandbox.restore();
+    test('_showDraftsBanner', () => {
+      element._showDraftsBanner = false;
+      flushAsynchronousOperations();
+      assert.isTrue(isHidden(element.$$('.banner')));
+
+      element._showDraftsBanner = true;
+      flushAsynchronousOperations();
+      assert.isFalse(isHidden(element.$$('.banner')));
     });
 
-    suite('drafts banner functionality', () => {
-      suite('_maybeShowDraftsBanner', () => {
-        test('not dashboard/self', () => {
-          element.params = {user: 'notself'};
-          element._maybeShowDraftsBanner();
-          assert.isFalse(element._showDraftsBanner);
-        });
+    test('delete tap opens dialog', () => {
+      sandbox.stub(element, '_handleOpenDeleteDialog');
+      element._showDraftsBanner = true;
+      flushAsynchronousOperations();
 
-        test('no drafts at all', () => {
-          element.params = {user: 'self'};
-          element._results = [];
-          element._maybeShowDraftsBanner();
-          assert.isFalse(element._showDraftsBanner);
-        });
-
-        test('no drafts on open changes', () => {
-          element.params = {user: 'self'};
-          element._results = [{query: 'has:draft', results: [{status: '_'}]}];
-          sandbox.stub(element, 'changeIsOpen').returns(true);
-          element._maybeShowDraftsBanner();
-          assert.isFalse(element._showDraftsBanner);
-        });
-
-        test('no drafts on open changes', () => {
-          element.params = {user: 'self'};
-          element._results = [{query: 'has:draft', results: [{status: '_'}]}];
-          sandbox.stub(element, 'changeIsOpen').returns(false);
-          element._maybeShowDraftsBanner();
-          assert.isTrue(element._showDraftsBanner);
-        });
-      });
-
-      test('_showDraftsBanner', () => {
-        element._showDraftsBanner = false;
-        flushAsynchronousOperations();
-        assert.isTrue(isHidden(element.$$('.banner')));
-
-        element._showDraftsBanner = true;
-        flushAsynchronousOperations();
-        assert.isFalse(isHidden(element.$$('.banner')));
-      });
-
-      test('delete tap opens dialog', () => {
-        sandbox.stub(element, '_handleOpenDeleteDialog');
-        element._showDraftsBanner = true;
-        flushAsynchronousOperations();
-
-        MockInteractions.tap(element.$$('.banner .delete'));
-        assert.isTrue(element._handleOpenDeleteDialog.called);
-      });
-
-      test('delete comments flow', async () => {
-        sandbox.spy(element, '_handleConfirmDelete');
-        sandbox.stub(element, '_reload');
-
-        // Set up control over timing of when RPC resolves.
-        let deleteDraftCommentsPromiseResolver;
-        const deleteDraftCommentsPromise = new Promise(resolve => {
-          deleteDraftCommentsPromiseResolver = resolve;
-        });
-        sandbox.stub(element.$.restAPI, 'deleteDraftComments')
-            .returns(deleteDraftCommentsPromise);
-
-        // Open confirmation dialog and tap confirm button.
-        await element.$.confirmDeleteOverlay.open();
-        MockInteractions.tap(element.$.confirmDeleteDialog.$.confirm);
-        flushAsynchronousOperations();
-        assert.isTrue(element.$.restAPI.deleteDraftComments
-            .calledWithExactly('-is:open'));
-        assert.isTrue(element.$.confirmDeleteDialog.disabled);
-        assert.equal(element._reload.callCount, 0);
-
-        // Verify state after RPC resolves.
-        deleteDraftCommentsPromiseResolver([]);
-        await deleteDraftCommentsPromise;
-        assert.equal(element._reload.callCount, 1);
-      });
+      MockInteractions.tap(element.$$('.banner .delete'));
+      assert.isTrue(element._handleOpenDeleteDialog.called);
     });
 
-    test('_computeTitle', () => {
-      assert.equal(element._computeTitle('self'), 'My Reviews');
-      assert.equal(element._computeTitle('not self'), 'Dashboard for not self');
+    test('delete comments flow', async () => {
+      sandbox.spy(element, '_handleConfirmDelete');
+      sandbox.stub(element, '_reload');
+
+      // Set up control over timing of when RPC resolves.
+      let deleteDraftCommentsPromiseResolver;
+      const deleteDraftCommentsPromise = new Promise(resolve => {
+        deleteDraftCommentsPromiseResolver = resolve;
+      });
+      sandbox.stub(element.$.restAPI, 'deleteDraftComments')
+          .returns(deleteDraftCommentsPromise);
+
+      // Open confirmation dialog and tap confirm button.
+      await element.$.confirmDeleteOverlay.open();
+      MockInteractions.tap(element.$.confirmDeleteDialog.$.confirm);
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.restAPI.deleteDraftComments
+          .calledWithExactly('-is:open'));
+      assert.isTrue(element.$.confirmDeleteDialog.disabled);
+      assert.equal(element._reload.callCount, 0);
+
+      // Verify state after RPC resolves.
+      deleteDraftCommentsPromiseResolver([]);
+      await deleteDraftCommentsPromise;
+      assert.equal(element._reload.callCount, 1);
+    });
+  });
+
+  test('_computeTitle', () => {
+    assert.equal(element._computeTitle('self'), 'My Reviews');
+    assert.equal(element._computeTitle('not self'), 'Dashboard for not self');
+  });
+
+  suite('_computeSectionCountLabel', () => {
+    test('empty changes dont count label', () => {
+      assert.equal('', element._computeSectionCountLabel([]));
     });
 
-    suite('_computeSectionCountLabel', () => {
-      test('empty changes dont count label', () => {
-        assert.equal('', element._computeSectionCountLabel([]));
-      });
-
-      test('1 change', () => {
-        assert.equal('(1)',
-            element._computeSectionCountLabel(['1']));
-      });
-
-      test('2 changes', () => {
-        assert.equal('(2)',
-            element._computeSectionCountLabel(['1', '2']));
-      });
-
-      test('1 change and more', () => {
-        assert.equal('(1 and more)',
-            element._computeSectionCountLabel([{_more_changes: true}]));
-      });
+    test('1 change', () => {
+      assert.equal('(1)',
+          element._computeSectionCountLabel(['1']));
     });
 
-    suite('_isViewActive', () => {
-      test('nothing happens when user param is falsy', () => {
-        element.params = {};
-        flushAsynchronousOperations();
-        assert.equal(getChangesStub.callCount, 0);
-
-        element.params = {user: ''};
-        flushAsynchronousOperations();
-        assert.equal(getChangesStub.callCount, 0);
-      });
-
-      test('content is refreshed when user param is updated', () => {
-        element.params = {
-          view: Gerrit.Nav.View.DASHBOARD,
-          user: 'self',
-        };
-        return paramsChangedPromise.then(() => {
-          assert.equal(getChangesStub.callCount, 1);
-        });
-      });
+    test('2 changes', () => {
+      assert.equal('(2)',
+          element._computeSectionCountLabel(['1', '2']));
     });
 
-    suite('selfOnly sections', () => {
-      test('viewing self dashboard includes selfOnly sections', () => {
-        element.params = {
-          view: Gerrit.Nav.View.DASHBOARD,
-          sections: [
-            {query: '1'},
-            {query: '2', selfOnly: true},
-          ],
-          user: 'self',
-        };
-        return paramsChangedPromise.then(() => {
-          assert.isTrue(
-              getChangesStub.calledWith(
-                  null, ['1', '2', 'owner:self limit:1'], null, element.options));
-        });
-      });
+    test('1 change and more', () => {
+      assert.equal('(1 and more)',
+          element._computeSectionCountLabel([{_more_changes: true}]));
+    });
+  });
 
-      test('viewing another user\'s dashboard omits selfOnly sections', () => {
-        element.params = {
-          view: Gerrit.Nav.View.DASHBOARD,
-          sections: [
-            {query: '1'},
-            {query: '2', selfOnly: true},
-          ],
-          user: 'user',
-        };
-        return paramsChangedPromise.then(() => {
-          assert.isTrue(
-              getChangesStub.calledWith(
-                  null, ['1'], null, element.options));
-        });
-      });
+  suite('_isViewActive', () => {
+    test('nothing happens when user param is falsy', () => {
+      element.params = {};
+      flushAsynchronousOperations();
+      assert.equal(getChangesStub.callCount, 0);
+
+      element.params = {user: ''};
+      flushAsynchronousOperations();
+      assert.equal(getChangesStub.callCount, 0);
     });
 
-    test('suffixForDashboard is included in getChanges query', () => {
+    test('content is refreshed when user param is updated', () => {
+      element.params = {
+        view: Gerrit.Nav.View.DASHBOARD,
+        user: 'self',
+      };
+      return paramsChangedPromise.then(() => {
+        assert.equal(getChangesStub.callCount, 1);
+      });
+    });
+  });
+
+  suite('selfOnly sections', () => {
+    test('viewing self dashboard includes selfOnly sections', () => {
       element.params = {
         view: Gerrit.Nav.View.DASHBOARD,
         sections: [
           {query: '1'},
-          {query: '2', suffixForDashboard: 'suffix'},
+          {query: '2', selfOnly: true},
         ],
+        user: 'self',
       };
       return paramsChangedPromise.then(() => {
-        assert.isTrue(getChangesStub.calledOnce);
-        assert.deepEqual(
-            getChangesStub.firstCall.args,
-            [null, ['1', '2 suffix'], null, element.options]);
+        assert.isTrue(
+            getChangesStub.calledWith(
+                null, ['1', '2', 'owner:self limit:1'], null, element.options));
       });
     });
 
-    suite('_getProjectDashboard', () => {
-      test('dashboard with foreach', () => {
-        sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
-          title: 'title',
-          foreach: 'foreach for ${project}',
-          sections: [
-            {name: 'section 1', query: 'query 1'},
-            {name: 'section 2', query: '${project} query 2'},
-          ],
-        }));
-        return element._getProjectDashboard('project', '').then(dashboard => {
-          assert.deepEqual(
-              dashboard,
-              {
-                title: 'title',
-                sections: [
-                  {name: 'section 1', query: 'query 1 foreach for project'},
-                  {
-                    name: 'section 2',
-                    query: 'project query 2 foreach for project',
-                  },
-                ],
-              });
-        });
-      });
-
-      test('dashboard without foreach', () => {
-        sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
-          title: 'title',
-          sections: [
-            {name: 'section 1', query: 'query 1'},
-            {name: 'section 2', query: '${project} query 2'},
-          ],
-        }));
-        return element._getProjectDashboard('project', '').then(dashboard => {
-          assert.deepEqual(
-              dashboard,
-              {
-                title: 'title',
-                sections: [
-                  {name: 'section 1', query: 'query 1'},
-                  {name: 'section 2', query: 'project query 2'},
-                ],
-              });
-        });
-      });
-    });
-
-    test('hideIfEmpty sections', () => {
-      const sections = [
-        {name: 'test1', query: 'test1', hideIfEmpty: true},
-        {name: 'test2', query: 'test2', hideIfEmpty: true},
-      ];
-      getChangesStub.restore();
-      sandbox.stub(element.$.restAPI, 'getChanges')
-          .returns(Promise.resolve([[], ['nonempty']]));
-
-      return element._fetchDashboardChanges({sections}, false).then(() => {
-        assert.equal(element._results.length, 1);
-        assert.equal(element._results[0].name, 'test2');
-      });
-    });
-
-    test('preserve isOutgoing sections', () => {
-      const sections = [
-        {name: 'test1', query: 'test1', isOutgoing: true},
-        {name: 'test2', query: 'test2'},
-      ];
-      getChangesStub.restore();
-      sandbox.stub(element.$.restAPI, 'getChanges')
-          .returns(Promise.resolve([[], []]));
-
-      return element._fetchDashboardChanges({sections}, false).then(() => {
-        assert.equal(element._results.length, 2);
-        assert.isTrue(element._results[0].isOutgoing);
-        assert.isNotOk(element._results[1].isOutgoing);
-      });
-    });
-
-    test('_showNewUserHelp', () => {
-      element._loading = false;
-      element._showNewUserHelp = false;
-      flushAsynchronousOperations();
-
-      assert.equal(element.$.emptyOutgoing.textContent.trim(), 'No changes');
-      assert.isNotOk(element.$$('gr-create-change-help'));
-      element._showNewUserHelp = true;
-      flushAsynchronousOperations();
-
-      assert.notEqual(element.$.emptyOutgoing.textContent.trim(), 'No changes');
-      assert.isOk(element.$$('gr-create-change-help'));
-    });
-
-    test('_computeUserHeaderClass', () => {
-      assert.equal(element._computeUserHeaderClass(undefined), 'hide');
-      assert.equal(element._computeUserHeaderClass({}), 'hide');
-      assert.equal(element._computeUserHeaderClass({user: 'self'}), 'hide');
-      assert.equal(element._computeUserHeaderClass({user: 'user'}), '');
-      assert.equal(
-          element._computeUserHeaderClass({project: 'p', user: 'user'}),
-          'hide');
-    });
-
-    test('404 page', done => {
-      const response = {status: 404};
-      sandbox.stub(element.$.restAPI, 'getDashboard',
-          async (project, dashboard, errFn) => {
-            errFn(response);
-          });
-      element.addEventListener('page-error', e => {
-        assert.strictEqual(e.detail.response, response);
-        done();
-      });
+    test('viewing another user\'s dashboard omits selfOnly sections', () => {
       element.params = {
         view: Gerrit.Nav.View.DASHBOARD,
-        project: 'project',
-        dashboard: 'dashboard',
-      };
-    });
-
-    test('params change triggers dashboardDisplayed()', () => {
-      sandbox.stub(element.$.reporting, 'dashboardDisplayed');
-      element.params = {
-        view: Gerrit.Nav.View.DASHBOARD,
-        project: 'project',
-        dashboard: 'dashboard',
+        sections: [
+          {query: '1'},
+          {query: '2', selfOnly: true},
+        ],
+        user: 'user',
       };
       return paramsChangedPromise.then(() => {
-        assert.isTrue(element.$.reporting.dashboardDisplayed.calledOnce);
+        assert.isTrue(
+            getChangesStub.calledWith(
+                null, ['1'], null, element.options));
       });
     });
   });
+
+  test('suffixForDashboard is included in getChanges query', () => {
+    element.params = {
+      view: Gerrit.Nav.View.DASHBOARD,
+      sections: [
+        {query: '1'},
+        {query: '2', suffixForDashboard: 'suffix'},
+      ],
+    };
+    return paramsChangedPromise.then(() => {
+      assert.isTrue(getChangesStub.calledOnce);
+      assert.deepEqual(
+          getChangesStub.firstCall.args,
+          [null, ['1', '2 suffix'], null, element.options]);
+    });
+  });
+
+  suite('_getProjectDashboard', () => {
+    test('dashboard with foreach', () => {
+      sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
+        title: 'title',
+        foreach: 'foreach for ${project}',
+        sections: [
+          {name: 'section 1', query: 'query 1'},
+          {name: 'section 2', query: '${project} query 2'},
+        ],
+      }));
+      return element._getProjectDashboard('project', '').then(dashboard => {
+        assert.deepEqual(
+            dashboard,
+            {
+              title: 'title',
+              sections: [
+                {name: 'section 1', query: 'query 1 foreach for project'},
+                {
+                  name: 'section 2',
+                  query: 'project query 2 foreach for project',
+                },
+              ],
+            });
+      });
+    });
+
+    test('dashboard without foreach', () => {
+      sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
+        title: 'title',
+        sections: [
+          {name: 'section 1', query: 'query 1'},
+          {name: 'section 2', query: '${project} query 2'},
+        ],
+      }));
+      return element._getProjectDashboard('project', '').then(dashboard => {
+        assert.deepEqual(
+            dashboard,
+            {
+              title: 'title',
+              sections: [
+                {name: 'section 1', query: 'query 1'},
+                {name: 'section 2', query: 'project query 2'},
+              ],
+            });
+      });
+    });
+  });
+
+  test('hideIfEmpty sections', () => {
+    const sections = [
+      {name: 'test1', query: 'test1', hideIfEmpty: true},
+      {name: 'test2', query: 'test2', hideIfEmpty: true},
+    ];
+    getChangesStub.restore();
+    sandbox.stub(element.$.restAPI, 'getChanges')
+        .returns(Promise.resolve([[], ['nonempty']]));
+
+    return element._fetchDashboardChanges({sections}, false).then(() => {
+      assert.equal(element._results.length, 1);
+      assert.equal(element._results[0].name, 'test2');
+    });
+  });
+
+  test('preserve isOutgoing sections', () => {
+    const sections = [
+      {name: 'test1', query: 'test1', isOutgoing: true},
+      {name: 'test2', query: 'test2'},
+    ];
+    getChangesStub.restore();
+    sandbox.stub(element.$.restAPI, 'getChanges')
+        .returns(Promise.resolve([[], []]));
+
+    return element._fetchDashboardChanges({sections}, false).then(() => {
+      assert.equal(element._results.length, 2);
+      assert.isTrue(element._results[0].isOutgoing);
+      assert.isNotOk(element._results[1].isOutgoing);
+    });
+  });
+
+  test('_showNewUserHelp', () => {
+    element._loading = false;
+    element._showNewUserHelp = false;
+    flushAsynchronousOperations();
+
+    assert.equal(element.$.emptyOutgoing.textContent.trim(), 'No changes');
+    assert.isNotOk(element.$$('gr-create-change-help'));
+    element._showNewUserHelp = true;
+    flushAsynchronousOperations();
+
+    assert.notEqual(element.$.emptyOutgoing.textContent.trim(), 'No changes');
+    assert.isOk(element.$$('gr-create-change-help'));
+  });
+
+  test('_computeUserHeaderClass', () => {
+    assert.equal(element._computeUserHeaderClass(undefined), 'hide');
+    assert.equal(element._computeUserHeaderClass({}), 'hide');
+    assert.equal(element._computeUserHeaderClass({user: 'self'}), 'hide');
+    assert.equal(element._computeUserHeaderClass({user: 'user'}), '');
+    assert.equal(
+        element._computeUserHeaderClass({project: 'p', user: 'user'}),
+        'hide');
+  });
+
+  test('404 page', done => {
+    const response = {status: 404};
+    sandbox.stub(element.$.restAPI, 'getDashboard',
+        async (project, dashboard, errFn) => {
+          errFn(response);
+        });
+    element.addEventListener('page-error', e => {
+      assert.strictEqual(e.detail.response, response);
+      done();
+    });
+    element.params = {
+      view: Gerrit.Nav.View.DASHBOARD,
+      project: 'project',
+      dashboard: 'dashboard',
+    };
+  });
+
+  test('params change triggers dashboardDisplayed()', () => {
+    sandbox.stub(element.$.reporting, 'dashboardDisplayed');
+    element.params = {
+      view: Gerrit.Nav.View.DASHBOARD,
+      project: 'project',
+      dashboard: 'dashboard',
+    };
+    return paramsChangedPromise.then(() => {
+      assert.isTrue(element.$.reporting.dashboardDisplayed.calledOnce);
+    });
+  });
+});
 </script>

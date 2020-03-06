@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-documentation-search</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-documentation-search.html">
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-documentation-search.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-documentation-search.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,90 +41,92 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  let counter;
-  const documentationGenerator = () => {
-    return {
-      title: `Gerrit Code Review - REST API Developers Notes${++counter}`,
-      url: 'Documentation/dev-rest-api.html',
-    };
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-documentation-search.js';
+let counter;
+const documentationGenerator = () => {
+  return {
+    title: `Gerrit Code Review - REST API Developers Notes${++counter}`,
+    url: 'Documentation/dev-rest-api.html',
   };
+};
 
-  suite('gr-documentation-search tests', async () => {
-    await readyToTest();
-    let element;
-    let documentationSearches;
-    let sandbox;
-    let value;
+suite('gr-documentation-search tests', () => {
+  let element;
+  let documentationSearches;
+  let sandbox;
+  let value;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(page, 'show');
-      element = fixture('basic');
-      counter = 0;
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(page, 'show');
+    element = fixture('basic');
+    counter = 0;
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('list with searches for documentation', () => {
+    setup(done => {
+      documentationSearches = _.times(26, documentationGenerator);
+      stub('gr-rest-api-interface', {
+        getDocumentationSearches() {
+          return Promise.resolve(documentationSearches);
+        },
+      });
+      element._paramsChanged(value).then(() => { flush(done); });
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    suite('list with searches for documentation', () => {
-      setup(done => {
-        documentationSearches = _.times(26, documentationGenerator);
-        stub('gr-rest-api-interface', {
-          getDocumentationSearches() {
-            return Promise.resolve(documentationSearches);
-          },
-        });
-        element._paramsChanged(value).then(() => { flush(done); });
-      });
-
-      test('test for test repo in the list', done => {
-        flush(() => {
-          assert.equal(element._documentationSearches[0].title,
-              'Gerrit Code Review - REST API Developers Notes1');
-          assert.equal(element._documentationSearches[0].url,
-              'Documentation/dev-rest-api.html');
-          done();
-        });
-      });
-    });
-
-    suite('filter', () => {
-      setup(() => {
-        documentationSearches = _.times(25, documentationGenerator);
-        _.times(1, documentationSearches);
-      });
-
-      test('_paramsChanged', done => {
-        sandbox.stub(
-            element.$.restAPI,
-            'getDocumentationSearches',
-            () => Promise.resolve(documentationSearches));
-        const value = {
-          filter: 'test',
-        };
-        element._paramsChanged(value).then(() => {
-          assert.isTrue(element.$.restAPI.getDocumentationSearches.lastCall
-              .calledWithExactly('test'));
-          done();
-        });
-      });
-    });
-
-    suite('loading', () => {
-      test('correct contents are displayed', () => {
-        assert.isTrue(element._loading);
-        assert.equal(element.computeLoadingClass(element._loading), 'loading');
-        assert.equal(getComputedStyle(element.$.loading).display, 'block');
-
-        element._loading = false;
-        element._repos = _.times(25, documentationGenerator);
-
-        flushAsynchronousOperations();
-        assert.equal(element.computeLoadingClass(element._loading), '');
-        assert.equal(getComputedStyle(element.$.loading).display, 'none');
+    test('test for test repo in the list', done => {
+      flush(() => {
+        assert.equal(element._documentationSearches[0].title,
+            'Gerrit Code Review - REST API Developers Notes1');
+        assert.equal(element._documentationSearches[0].url,
+            'Documentation/dev-rest-api.html');
+        done();
       });
     });
   });
+
+  suite('filter', () => {
+    setup(() => {
+      documentationSearches = _.times(25, documentationGenerator);
+      _.times(1, documentationSearches);
+    });
+
+    test('_paramsChanged', done => {
+      sandbox.stub(
+          element.$.restAPI,
+          'getDocumentationSearches',
+          () => Promise.resolve(documentationSearches));
+      const value = {
+        filter: 'test',
+      };
+      element._paramsChanged(value).then(() => {
+        assert.isTrue(element.$.restAPI.getDocumentationSearches.lastCall
+            .calledWithExactly('test'));
+        done();
+      });
+    });
+  });
+
+  suite('loading', () => {
+    test('correct contents are displayed', () => {
+      assert.isTrue(element._loading);
+      assert.equal(element.computeLoadingClass(element._loading), 'loading');
+      assert.equal(getComputedStyle(element.$.loading).display, 'block');
+
+      element._loading = false;
+      element._repos = _.times(25, documentationGenerator);
+
+      flushAsynchronousOperations();
+      assert.equal(element.computeLoadingClass(element._loading), '');
+      assert.equal(getComputedStyle(element.$.loading).display, 'none');
+    });
+  });
+});
 </script>

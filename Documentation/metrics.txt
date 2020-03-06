@@ -45,6 +45,9 @@ objects needing finalization.
 * `proc/jvm/gc/count`: Number of GCs.
 * `proc/jvm/gc/time`: Approximate accumulated GC elapsed time.
 * `proc/jvm/thread/num_live`: Current live thread count.
+* `proc/jvm/thread/num_daemon_live`: Current live daemon threads count.
+* `proc/jvm/thread/num_peak_live`: Peak live thread count since the Java virtual machine started or peak was reset.
+* `proc/jvm/thread/num_total_started`: Total number of threads created and also started since the Java virtual machine started.
 
 === Caches
 

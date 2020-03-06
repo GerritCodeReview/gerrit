@@ -195,5 +195,20 @@ public class ProcMetricModule extends MetricModule {
         Integer.class,
         new Description("Current live thread count").setGauge().setUnit("threads"),
         thread::getThreadCount);
+    metrics.newCallbackMetric(
+        "proc/jvm/thread/num_daemon_live",
+        Integer.class,
+        new Description("Current live daemon threads count").setGauge().setUnit("threads"),
+        thread::getDaemonThreadCount);
+    metrics.newCallbackMetric(
+        "proc/jvm/thread/num_peak_live",
+        Integer.class,
+        new Description("Peak live thread count since the Java virtual machine started or peak was reset").setGauge().setUnit("threads"),
+        thread::getPeakThreadCount);
+    metrics.newCallbackMetric(
+        "proc/jvm/thread/num_total_started",
+        Long.class,
+        new Description("Total number of threads created and also started since the Java virtual machine started").setGauge().setUnit("threads"),
+        thread::getTotalStartedThreadCount);
   }
 }

@@ -22,6 +22,7 @@
     LABEL_CHANGE: 'labelchange',
     SHOW_CHANGE: 'showchange',
     SUBMIT_CHANGE: 'submitchange',
+    SHOW_REVISION_ACTIONS: 'show_revision_actions',
     COMMIT_MSG_EDIT: 'commitmsgedit',
     COMMENT: 'comment',
     REVERT: 'revert',
@@ -81,6 +82,9 @@
             break;
           case EventType.LABEL_CHANGE:
             this._handleLabelChange(detail);
+            break;
+          case EventType.SHOW_REVISION_ACTIONS:
+            this._handleShowRevisionActions(detail);
             break;
           case EventType.HIGHLIGHTJS_LOADED:
             this._handleHighlightjsLoaded(detail);
@@ -171,6 +175,22 @@
       for (const cb of this._getEventCallbacks(EventType.SHOW_CHANGE)) {
         try {
           cb(change, revision, info);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    /**
+     * @param {!{change: !Object, revisionActions: !Object}} detail
+     */
+    _handleShowRevisionActions(detail) {
+      const registeredCallbacks = this._getEventCallbacks(
+          EventType.SHOW_REVISION_ACTIONS
+      );
+      for (const cb of registeredCallbacks) {
+        try {
+          cb(detail.revisionActions, detail.change);
         } catch (err) {
           console.error(err);
         }

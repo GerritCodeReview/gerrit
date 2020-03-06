@@ -43,6 +43,7 @@ import java.util.Set;
 class RefControl {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final ChangeData.Factory changeDataFactory;
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -58,7 +59,12 @@ class RefControl {
   private Boolean canForgeCommitter;
   private Boolean isVisible;
 
-  RefControl(ProjectControl projectControl, String ref, PermissionCollection relevant) {
+  RefControl(
+      ChangeData.Factory changeDataFactory,
+      ProjectControl projectControl,
+      String ref,
+      PermissionCollection relevant) {
+    this.changeDataFactory = changeDataFactory;
     this.projectControl = projectControl;
     this.refName = ref;
     this.relevant = relevant;
@@ -440,7 +446,7 @@ class RefControl {
     @Override
     public ForChange change(ChangeData cd) {
       try {
-        return getProjectControl().controlFor(cd.notes()).asForChange(cd);
+        return getProjectControl().controlFor(cd).asForChange();
       } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }
@@ -455,12 +461,9 @@ class RefControl {
           "expected change in project %s, not %s",
           project,
           change.getProject());
-      return getProjectControl().controlFor(notes).asForChange(null);
-    }
-
-    @Override
-    public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
-      return getProjectControl().controlFor(notes).asForChange(cd);
+      // Having ChangeNotes means it's OK to load values from NoteDb if needed.
+      // ChangeData.Factory will allow lazyLoading
+      return getProjectControl().controlFor(changeDataFactory.create(notes)).asForChange();
     }
 
     @Override

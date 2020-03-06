@@ -197,6 +197,11 @@
     REVERT_SUBMISSION: 2,
   };
 
+  const CHERRY_PICK_TYPES = {
+    SINGLE_CHANGE: 1,
+    TOPIC: 2,
+  };
+
   /* Revert submission is skipped as the normal revert dialog will now show
   the user a choice between reverting single change or an entire submission.
   Hence, a second button is not needed.
@@ -432,7 +437,8 @@
           type: Boolean,
           value: true,
         },
-        _revertChanges: Array,
+        _cherryPickChanges: Array,
+        _cherryPickingTopicPendingCount: Number,
       };
     }
 
@@ -1115,8 +1121,39 @@
       this._fireAction('/rebase', this.revisionActions.rebase, true, payload);
     }
 
-    _handleCherrypickConfirm() {
-      this._handleCherryPickRestApi(false);
+    _generateCherryPickTopicCommitMessage(change) {
+      const randomString = Math.random().toString(36)
+          .substr(2, 10);
+      const message = `cherrypick-${change.topic}-${randomString}`;
+      console.log(message);
+    }
+
+    _handleCherrypickConfirm(e) {
+      const type = e.detail.type;
+      const branch = e.detail.branch;
+      if (type === CHERRY_PICK_TYPES.SINGLE_CHANGE) {
+        this._handleCherryPickRestApi(false);
+      } else {
+        const message = this._generateCherryPickTopicCommitMessage(
+            this._cherryPickChanges[0]);
+        this._cherryPickingTopicPendingCount = this._cherryPickChanges.length;
+        this._cherryPickChanges.forEach(change => {
+          this.$.confirmCherrypick.updateStatus(change,
+              {status: 'RUNNING'});
+          this._fireAction(
+              '/cherrypick',
+              this.revisionActions.cherrypick,
+              true,
+              {
+                destination: branch,
+                base: null,
+                message,
+                allow_conflicts: true,
+              },
+              change
+          );
+        });
+      }
     }
 
     _handleCherrypickConflictConfirm() {
@@ -1271,12 +1308,12 @@
      * @param {boolean} revAction
      * @param {!Object|string=} opt_payload
      */
-    _fireAction(endpoint, action, revAction, opt_payload) {
+    _fireAction(endpoint, action, revAction, opt_payload, change) {
       const cleanupFn =
           this._setLoadingOnButtonWithKey(action.__type, action.__key);
 
       this._send(action.method, opt_payload, endpoint, revAction, cleanupFn,
-          action).then(this._handleResponse.bind(this, action));
+          action, change).then(this._handleResponse.bind(this, action));
     }
 
     _showActionDialog(dialog) {
@@ -1310,6 +1347,16 @@
                 });
             break;
           case RevisionActions.CHERRYPICK:
+            if (this._cherryPickingTopicPendingCount > 0) {
+              this._cherryPickingTopicPendingCount -= 1;
+              this.$.confirmCherrypick.updateStatus(obj,
+                  {status: 'SUCCESS'});
+              if (this._cherryPickingTopicPendingCount === 0) {
+                Gerrit.Nav.navigateToSearchQuery('topic: ' +
+                  obj.topic);
+              }
+              return;
+            }
             this._waitForChangeReachable(obj._number).then(() => {
               Gerrit.Nav.navigateToChange(obj);
             });
@@ -1344,8 +1391,15 @@
       this._hideAllDialogs();
     }
 
-    _handleResponseError(action, response, body) {
+    _handleResponseError(action, response, body, change) {
       if (action && action.__key === RevisionActions.CHERRYPICK) {
+        if (this._cherryPickingTopicPendingCount) {
+          return response.text().then(errText => {
+            this._cherryPickingTopicPendingCount -= 1;
+            this.$.confirmCherrypick.updateStatus(change,
+                {status: 'FAILED', msg: errText});
+          });
+        }
         if (response && response.status === 409 &&
             body && !body.allow_conflicts) {
           return this._showActionDialog(
@@ -1369,13 +1423,14 @@
      * @param {?Function} cleanupFn
      * @param {!Object|undefined} action
      */
-    _send(method, payload, actionEndpoint, revisionAction, cleanupFn, action) {
+    _send(method, payload, actionEndpoint, revisionAction, cleanupFn, action,
+        change) {
       const handleError = response => {
         cleanupFn.call(this);
-        this._handleResponseError(action, response, payload);
+        this._handleResponseError(action, response, payload, change);
       };
-
-      return this.fetchChangeUpdates(this.change, this.$.restAPI)
+      change = change || this.change;
+      return this.fetchChangeUpdates(change, this.$.restAPI)
           .then(result => {
             if (!result.isLatest) {
               this.fire('show-alert', {
@@ -1384,7 +1439,7 @@
                 action: 'Reload',
                 callback: () => {
                   // Load the current change without any patch range.
-                  Gerrit.Nav.navigateToChange(this.change);
+                  Gerrit.Nav.navigateToChange(change);
                 },
               });
 
@@ -1394,8 +1449,11 @@
 
               return Promise.resolve();
             }
-            const patchNum = revisionAction ? this.latestPatchNum : null;
-            return this.$.restAPI.executeChangeAction(this.changeNum, method,
+            const latestPatchNum = this.computeLatestPatchNum(
+                this.computeAllPatchSets(change));
+            const patchNum = revisionAction ? latestPatchNum : null;
+            const changeNum = change._number;
+            return this.$.restAPI.executeChangeAction(changeNum, method,
                 actionEndpoint, patchNum, payload, handleError)
                 .then(response => {
                   cleanupFn.call(this);
@@ -1410,7 +1468,17 @@
 
     _handleCherrypickTap() {
       this.$.confirmCherrypick.branch = '';
-      this._showActionDialog(this.$.confirmCherrypick);
+      this._cherryPickingTopic = false;
+      const query = 'topic:' + this.change.topic;
+      const options =
+        this.listChangesOptionsToHex(this.ListChangesOption.MESSAGES,
+            this.ListChangesOption.ALL_REVISIONS);
+      this.$.restAPI.getChanges('', query, undefined, options)
+          .then(changes => {
+            this._cherryPickChanges = changes;
+            this.$.confirmCherrypick.updateChanges(changes);
+            this._showActionDialog(this.$.confirmCherrypick);
+          });
     }
 
     _handleMoveTap() {

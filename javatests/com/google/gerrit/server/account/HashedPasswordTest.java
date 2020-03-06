@@ -37,6 +37,7 @@ public class HashedPasswordTest {
     HashedPassword roundtrip = HashedPassword.decode(hashed.encode());
     assertThat(hashed.encode()).isEqualTo(roundtrip.encode());
     assertThat(roundtrip.checkPassword(password)).isTrue();
+    assertThat(roundtrip.checkPassword(password+password)).isFalse();
     assertThat(roundtrip.checkPassword("not the password")).isFalse();
   }
 

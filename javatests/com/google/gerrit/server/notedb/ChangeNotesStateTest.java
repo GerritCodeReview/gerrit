@@ -28,7 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionStatus;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -45,7 +45,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AssigneeStatusUpdateProto;
-import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AttentionStatusProto;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AttentionSetUpdateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeColumnsProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerSetEntryProto;
@@ -600,31 +600,31 @@ public class ChangeNotesStateTest {
   }
 
   @Test
-  public void serializeAttentionUpdates() throws Exception {
+  public void serializeAttentionSetUpdates() throws Exception {
     assertRoundTrip(
         newBuilder()
-            .attentionUpdates(
+            .attentionSet(
                 ImmutableList.of(
-                    AttentionStatus.createFromRead(
+                    AttentionSetUpdate.createFromRead(
                         Instant.EPOCH.plusSeconds(23),
                         Account.id(1000),
-                        AttentionStatus.Operation.ADD,
+                        AttentionSetUpdate.Operation.ADD,
                         "reason 1"),
-                    AttentionStatus.createFromRead(
+                    AttentionSetUpdate.createFromRead(
                         Instant.EPOCH.plusSeconds(42),
                         Account.id(2000),
-                        AttentionStatus.Operation.REMOVE,
+                        AttentionSetUpdate.Operation.REMOVE,
                         "reason 2")))
             .build(),
         newProtoBuilder()
-            .addAttentionStatus(
-                AttentionStatusProto.newBuilder()
+            .addAttentionSetUpdate(
+                AttentionSetUpdateProto.newBuilder()
                     .setTimestampMillis(23_000) // epoch millis
                     .setAccount(1000)
                     .setOperation("ADD")
                     .setReason("reason 1"))
-            .addAttentionStatus(
-                AttentionStatusProto.newBuilder()
+            .addAttentionSetUpdate(
+                AttentionSetUpdateProto.newBuilder()
                     .setTimestampMillis(42_000) // epoch millis
                     .setAccount(2000)
                     .setOperation("REMOVE")
@@ -789,8 +789,8 @@ public class ChangeNotesStateTest {
                     "reviewerUpdates",
                     new TypeLiteral<ImmutableList<ReviewerStatusUpdate>>() {}.getType())
                 .put(
-                    "attentionUpdates",
-                    new TypeLiteral<ImmutableList<AttentionStatus>>() {}.getType())
+                    "attentionSet",
+                    new TypeLiteral<ImmutableList<AttentionSetUpdate>>() {}.getType())
                 .put(
                     "assigneeUpdates",
                     new TypeLiteral<ImmutableList<AssigneeStatusUpdate>>() {}.getType())

@@ -38,8 +38,8 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionStatus;
-import com.google.gerrit.entities.AttentionStatus.Operation;
+import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
@@ -694,51 +694,51 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void defaultAttentionSetIsEmpty() throws Exception {
     Change c = newChange();
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getAttentionUpdates()).isEmpty();
+    assertThat(notes.getAttentionSet()).isEmpty();
   }
 
   @Test
   public void addAttentionStatus() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    AttentionStatus attentionStatus =
-        AttentionStatus.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
-    update.setAttentionUpdates(ImmutableList.of(attentionStatus));
+    AttentionSetUpdate attentionSetUpdate =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
+    update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getAttentionUpdates()).containsExactly(addTimestamp(attentionStatus, c));
+    assertThat(notes.getAttentionSet()).containsExactly(addTimestamp(attentionSetUpdate, c));
   }
 
   @Test
   public void filterLatestAttentionStatus() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    AttentionStatus attentionStatus =
-        AttentionStatus.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
-    update.setAttentionUpdates(ImmutableList.of(attentionStatus));
+    AttentionSetUpdate attentionSetUpdate =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
+    update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate));
     update.commit();
     update = newUpdate(c, changeOwner);
-    attentionStatus =
-        AttentionStatus.createForWrite(changeOwner.getAccountId(), Operation.REMOVE, "test");
-    update.setAttentionUpdates(ImmutableList.of(attentionStatus));
+    attentionSetUpdate =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.REMOVE, "test");
+    update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getAttentionUpdates()).containsExactly(addTimestamp(attentionStatus, c));
+    assertThat(notes.getAttentionSet()).containsExactly(addTimestamp(attentionSetUpdate, c));
   }
 
   @Test
   public void addAttentionStatus_rejectTimestamp() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    AttentionStatus attentionStatus =
-        AttentionStatus.createFromRead(
+    AttentionSetUpdate attentionSetUpdate =
+        AttentionSetUpdate.createFromRead(
             Instant.now(), changeOwner.getAccountId(), Operation.ADD, "test");
     IllegalArgumentException thrown =
         assertThrows(
             IllegalArgumentException.class,
-            () -> update.setAttentionUpdates(ImmutableList.of(attentionStatus)));
+            () -> update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate)));
     assertThat(thrown).hasMessageThat().contains("must not specify timestamp for write");
   }
 
@@ -746,14 +746,16 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void addAttentionStatus_rejectMultiplePerUser() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    AttentionStatus attentionStatus0 =
-        AttentionStatus.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test 0");
-    AttentionStatus attentionStatus1 =
-        AttentionStatus.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test 1");
+    AttentionSetUpdate attentionSetUpdate0 =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test 0");
+    AttentionSetUpdate attentionSetUpdate1 =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test 1");
     IllegalArgumentException thrown =
         assertThrows(
             IllegalArgumentException.class,
-            () -> update.setAttentionUpdates(ImmutableList.of(attentionStatus0, attentionStatus1)));
+            () ->
+                update.setAttentionSetUpdates(
+                    ImmutableList.of(attentionSetUpdate0, attentionSetUpdate1)));
     assertThat(thrown)
         .hasMessageThat()
         .contains("must not specify multiple updates for single user");
@@ -763,17 +765,18 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void addAttentionStatusForMultipleUsers() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    AttentionStatus attentionStatus0 =
-        AttentionStatus.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
-    AttentionStatus attentionStatus1 =
-        AttentionStatus.createForWrite(otherUser.getAccountId(), Operation.ADD, "test");
+    AttentionSetUpdate attentionSetUpdate0 =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
+    AttentionSetUpdate attentionSetUpdate1 =
+        AttentionSetUpdate.createForWrite(otherUser.getAccountId(), Operation.ADD, "test");
 
-    update.setAttentionUpdates(ImmutableList.of(attentionStatus0, attentionStatus1));
+    update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate0, attentionSetUpdate1));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getAttentionUpdates())
-        .containsExactly(addTimestamp(attentionStatus0, c), addTimestamp(attentionStatus1, c));
+    assertThat(notes.getAttentionSet())
+        .containsExactly(
+            addTimestamp(attentionSetUpdate0, c), addTimestamp(attentionSetUpdate1, c));
   }
 
   @Test
@@ -3230,12 +3233,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     return tr.parseBody(commit);
   }
 
-  private AttentionStatus addTimestamp(AttentionStatus attentionStatus, Change c) {
+  private AttentionSetUpdate addTimestamp(AttentionSetUpdate attentionSetUpdate, Change c) {
     Timestamp timestamp = newNotes(c).getChange().getLastUpdatedOn();
-    return AttentionStatus.createFromRead(
+    return AttentionSetUpdate.createFromRead(
         timestamp.toInstant(),
-        attentionStatus.account(),
-        attentionStatus.operation(),
-        attentionStatus.reason());
+        attentionSetUpdate.account(),
+        attentionSetUpdate.operation(),
+        attentionSetUpdate.reason());
   }
 }

@@ -27,6 +27,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -332,7 +333,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
   public void customLabel_withBranch() throws Exception {
     label.setRefPatterns(Arrays.asList("master"));
     saveLabelConfig();
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    ProjectConfig cfg = projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
     assertThat(cfg.getLabelSections().get(label.getName()).getRefPatterns()).contains("master");
   }
 

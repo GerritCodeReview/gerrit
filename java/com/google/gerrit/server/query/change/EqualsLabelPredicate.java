@@ -28,7 +28,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import java.io.IOException;
 import java.util.Optional;
 
 public class EqualsLabelPredicate extends ChangeIndexPredicate {
@@ -120,14 +119,13 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     // Check the user has 'READ' permission.
     try {
       PermissionBackend.ForChange perm = permissionBackend.absentUser(approver).change(cd);
-      ProjectState projectState = projectCache.checkedGet(cd.project());
-      if (projectState == null || !projectState.statePermitsRead()) {
+      if (!projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false)) {
         return false;
       }
 
       perm.check(ChangePermission.READ);
       return true;
-    } catch (PermissionBackendException | IOException | AuthException e) {
+    } catch (PermissionBackendException | AuthException e) {
       return false;
     }
   }

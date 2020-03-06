@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -127,7 +129,8 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
 
     rsrc.permissions().check(ChangePermission.ADD_PATCH_SET);
 
-    ProjectState projectState = projectCache.checkedGet(rsrc.getProject());
+    ProjectState projectState =
+        projectCache.get(rsrc.getProject()).orElseThrow(illegalState(rsrc.getProject()));
     projectState.checkStatePermitsWrite();
 
     MergeInput merge = in.merge;

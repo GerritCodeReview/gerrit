@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -233,8 +234,9 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return rebasedPatchSet;
   }
 
-  private MergeUtil newMergeUtil() throws IOException {
-    ProjectState project = projectCache.checkedGet(notes.getProjectName());
+  private MergeUtil newMergeUtil() {
+    ProjectState project =
+        projectCache.get(notes.getProjectName()).orElseThrow(illegalState(notes.getProjectName()));
     return forceContentMerge
         ? mergeUtilFactory.create(project, true)
         : mergeUtilFactory.create(project);

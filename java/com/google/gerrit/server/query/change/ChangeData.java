@@ -473,12 +473,7 @@ public class ChangeData {
 
   public LabelTypes getLabelTypes() {
     if (labelTypes == null) {
-      ProjectState state;
-      try {
-        state = projectCache.checkedGet(project());
-      } catch (IOException e) {
-        throw new StorageException("project state not available", e);
-      }
+      ProjectState state = projectCache.get(project()).orElseThrow(illegalState(project()));
       labelTypes = state.getLabelTypes(change().getDest());
     }
     return labelTypes;

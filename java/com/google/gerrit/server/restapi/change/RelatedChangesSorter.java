@@ -235,15 +235,14 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private boolean isVisible(PatchSetData psd) throws PermissionBackendException, IOException {
+  private boolean isVisible(PatchSetData psd) throws PermissionBackendException {
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
     try {
       perm.change(psd.data()).check(ChangePermission.READ);
     } catch (AuthException e) {
       return false;
     }
-    ProjectState state = projectCache.checkedGet(psd.data().project());
-    return state != null && state.statePermitsRead();
+    return projectCache.get(psd.data().project()).map(ProjectState::statePermitsRead).orElse(false);
   }
 
   @AutoValue

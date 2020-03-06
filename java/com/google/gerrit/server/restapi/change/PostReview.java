@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
@@ -235,7 +236,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (revision.getEdit().isPresent()) {
       throw new ResourceConflictException("cannot post review on edit");
     }
-    ProjectState projectState = projectCache.checkedGet(revision.getProject());
+    ProjectState projectState =
+        projectCache.get(revision.getProject()).orElseThrow(illegalState(revision.getProject()));
     LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes());
 
     logger.atFine().log("strict label checking is %s", (strictLabels ? "enabled" : "disabled"));

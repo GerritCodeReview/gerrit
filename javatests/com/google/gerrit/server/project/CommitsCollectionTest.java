@@ -215,7 +215,7 @@ public class CommitsCollectionTest {
     // Anonymous user group has ALLOW READ permission in refs/*.
     // This method is idempotent, so is safe to call on every test setup.
     TestProjectUpdate.Builder u = projectOperations.allProjectsForUpdate();
-    projectCache.checkedGet(allProjects).getConfig().getAccessSectionNames().stream()
+    projectCache.getAllProjects().getConfig().getAccessSectionNames().stream()
         .filter(sec -> sec.startsWith(R_REFS))
         .forEach(sec -> u.remove(permissionKey(Permission.READ).ref(sec)));
     getAdmins().forEach(admin -> u.add(allow(Permission.READ).ref("refs/*").group(admin)));

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -123,7 +125,10 @@ public class CatServlet extends HttpServlet {
     try {
       ChangeNotes notes = changeNotesFactory.createChecked(changeId);
       permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
-      projectCache.checkedGet(notes.getProjectName()).checkStatePermitsRead();
+      projectCache
+          .get(notes.getProjectName())
+          .orElseThrow(illegalState(notes.getProjectName()))
+          .checkStatePermitsRead();
       if (patchKey.patchSetId().get() == 0) {
         // change edit
         Optional<ChangeEdit> edit = changeEditUtil.byChange(notes);

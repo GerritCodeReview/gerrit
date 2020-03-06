@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
@@ -129,7 +130,9 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       bu.addOp(
           change.getId(),
           new Op(
-              projectCache.checkedGet(r.getChange().getProject()),
+              projectCache
+                  .get(r.getChange().getProject())
+                  .orElseThrow(illegalState(r.getChange().getProject())),
               r.getReviewerUser().state(),
               rsrc.getLabel(),
               input));

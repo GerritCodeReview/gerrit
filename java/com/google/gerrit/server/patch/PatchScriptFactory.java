@@ -47,6 +47,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -196,7 +197,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       throw new NoSuchChangeException(changeId, e);
     }
 
-    if (!projectCache.checkedGet(notes.getProjectName()).statePermitsRead()) {
+    if (!projectCache
+        .get(notes.getProjectName())
+        .map(ProjectState::statePermitsRead)
+        .orElse(false)) {
       throw new NoSuchChangeException(changeId);
     }
 

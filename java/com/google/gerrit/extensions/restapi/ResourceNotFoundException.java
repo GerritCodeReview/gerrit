@@ -32,10 +32,12 @@ public class ResourceNotFoundException extends RestApiException {
   /** @param id portion of the resource URI that does not exist. */
   public ResourceNotFoundException(IdString id) {
     super("Not found: " + id.get());
+    new Throwable().printStackTrace();
   }
 
   public ResourceNotFoundException(IdString id, Throwable cause) {
     super("Not found: " + id.get(), cause);
+    new Throwable().printStackTrace();
   }
 
   public ResourceNotFoundException caching(CacheControl c) {

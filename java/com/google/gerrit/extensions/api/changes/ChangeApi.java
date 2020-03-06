@@ -312,6 +312,12 @@ public interface ChangeApi {
    */
   Set<String> getHashtags() throws RestApiException;
 
+  /** Adds a user to the attention set. */
+  AccountInfo addToAttentionSet(AttentionSetInput attentionSetInput) throws RestApiException;
+
+  /** Removes a user to the attention set. */
+  AccountInfo removeFromAttentionSet(AttentionSetInput attentionSetInput) throws RestApiException;
+
   /** Set the assignee of a change. */
   AccountInfo setAssignee(AssigneeInput input) throws RestApiException;
 
@@ -577,6 +583,18 @@ public interface ChangeApi {
 
     @Override
     public Set<String> getHashtags() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountInfo addToAttentionSet(AttentionSetInput attentionSetInput)
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountInfo removeFromAttentionSet(AttentionSetInput attentionSetInput)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

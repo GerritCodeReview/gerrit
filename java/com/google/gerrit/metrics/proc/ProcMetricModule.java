@@ -14,6 +14,14 @@
 
 package com.google.gerrit.metrics.proc;
 
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.ThreadMXBean;
+import java.util.concurrent.TimeUnit;
+
 import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableSet;
@@ -25,12 +33,6 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
-import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-import java.lang.management.MemoryUsage;
-import java.lang.management.ThreadMXBean;
-import java.util.concurrent.TimeUnit;
 
 public class ProcMetricModule extends MetricModule {
   @Override
@@ -38,6 +40,7 @@ public class ProcMetricModule extends MetricModule {
     buildLabel(metrics);
     procUptime(metrics);
     procCpuUsage(metrics);
+    procCpuLoad(metrics);
     procJvmGc(metrics);
     procJvmMemory(metrics);
     procJvmThread(metrics);
@@ -97,6 +100,18 @@ public class ProcMetricModule extends MetricModule {
         Runtime.getRuntime()::availableProcessors);
   }
 
+  private void procCpuLoad(MetricMaker metrics) {
+    OperatingSystemMXBean provider = ManagementFactory.getPlatformMXBean(
+        OperatingSystemMXBean.class);
+    if (provider.getSystemLoadAverage() != -1) {
+      metrics.newCallbackMetric(
+          "proc/cpu/system_load",
+          Double.class,
+          new Description("System load average for the last minute").setGauge(),
+          provider::getSystemLoadAverage);
+    }
+  }
+  
   private void procJvmMemory(MetricMaker metrics) {
     CallbackMetric0<Long> heapCommitted =
         metrics.newCallbackMetric(

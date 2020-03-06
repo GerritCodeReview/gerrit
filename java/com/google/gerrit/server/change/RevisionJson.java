@@ -27,6 +27,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COM
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -306,7 +307,7 @@ public class RevisionJson {
         }
         out.commitWithFooters =
             mergeUtilFactory
-                .create(projectCache.get(project))
+                .create(projectCache.get(project).orElseThrow(illegalState(project)))
                 .createCommitMessageOnSubmit(commit, mergeTip, cd.notes(), in.id());
       }
     }

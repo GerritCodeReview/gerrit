@@ -23,6 +23,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -65,16 +66,16 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
   private ProjectState computeNext(ProjectState n) {
     Project.NameKey parentName = n.getProject().getParent();
     if (parentName != null && visit(parentName)) {
-      ProjectState p = cache.get(parentName);
-      if (p != null) {
-        return p;
+      Optional<ProjectState> p = cache.get(parentName);
+      if (p.isPresent()) {
+        return p.get();
       }
     }
 
     // Parent does not exist or was already visited.
     // Fall back to visit All-Projects exactly once.
     if (seen.add(allProjectsName)) {
-      return cache.get(allProjectsName);
+      return cache.getAllProjects();
     }
     return null;
   }

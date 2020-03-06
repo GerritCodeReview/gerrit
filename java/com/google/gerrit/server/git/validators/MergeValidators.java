@@ -216,7 +216,7 @@ public class MergeValidators {
                     String.format(
                         " %s must inherit from %s", allUsersName.get(), allProjectsName.get()));
               }
-              if (projectCache.get(newParent) == null) {
+              if (!projectCache.get(newParent).isPresent()) {
                 throw new MergeValidationException(PARENT_NOT_FOUND);
               }
             }

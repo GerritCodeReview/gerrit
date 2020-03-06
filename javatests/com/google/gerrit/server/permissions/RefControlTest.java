@@ -33,6 +33,7 @@ import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.Lists;
@@ -1165,7 +1166,7 @@ public class RefControlTest {
   }
 
   private ProjectState getProjectState(Project.NameKey nameKey) throws Exception {
-    return projectCache.checkedGet(nameKey, true);
+    return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
   }
 
   private ProjectControl user(Project.NameKey localKey, AccountGroup.UUID... memberOf)

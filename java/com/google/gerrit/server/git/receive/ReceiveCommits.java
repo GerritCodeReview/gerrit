@@ -30,6 +30,7 @@ import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_
 import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -1204,7 +1205,7 @@ class ReceiveCommits {
                 }
               }
 
-              if (projectCache.get(newParent) == null) {
+              if (!projectCache.get(newParent).isPresent()) {
                 reject(cmd, "invalid project configuration: parent does not exist");
                 return;
               }
@@ -1810,7 +1811,10 @@ class ReceiveCommits {
       }
 
       boolean privateByDefault =
-          projectCache.get(project.getNameKey()).is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
+          projectCache
+              .get(project.getNameKey())
+              .orElseThrow(illegalState(project.getNameKey()))
+              .is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
       setChangeAsPrivate =
           magicBranch.isPrivate || (privateByDefault && !magicBranch.removePrivate);
 
@@ -2088,6 +2092,7 @@ class ReceiveCommits {
             start.getParentCount() == 1
                 && projectCache
                     .get(project.getNameKey())
+                    .orElseThrow(illegalState(project.getNameKey()))
                     .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES)
                 // Don't worry about implicit merges when creating changes for
                 // already-merged commits; they're already in history, so it's too
@@ -3091,7 +3096,8 @@ class ReceiveCommits {
           logger.atWarning().withCause(e).log(
               "Cannot evict from project cache, name key: %s", project.getName());
         }
-        ProjectState ps = projectCache.get(project.getNameKey());
+        ProjectState ps =
+            projectCache.get(project.getNameKey()).orElseThrow(illegalState(project.getNameKey()));
         try {
           logger.atFine().log("Updating project description");
           repo.setGitwebDescription(ps.getProject().getDescription());

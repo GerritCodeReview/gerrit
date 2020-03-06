@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Singleton
@@ -51,9 +52,9 @@ public class SuggestParentCandidates {
   private Set<Project.NameKey> readableParents() {
     Set<Project.NameKey> parents = new HashSet<>();
     for (Project.NameKey p : projectCache.all()) {
-      ProjectState ps = projectCache.get(p);
-      if (ps != null && ps.statePermitsRead()) {
-        Project.NameKey parent = ps.getProject().getParent();
+      Optional<ProjectState> ps = projectCache.get(p);
+      if (ps.isPresent() && ps.get().statePermitsRead()) {
+        Project.NameKey parent = ps.get().getProject().getParent();
         if (parent != null) {
           parents.add(parent);
         }

@@ -207,7 +207,7 @@ public class CommitsCollectionTest {
   }
 
   private ProjectState readProjectState() throws Exception {
-    return projectCache.get(project);
+    return projectCache.get(project).get();
   }
 
   private void setUpPermissions() throws Exception {

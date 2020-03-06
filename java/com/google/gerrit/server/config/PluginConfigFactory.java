@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.plugins.Plugin;
@@ -129,10 +131,8 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public PluginConfig getFromProjectConfig(Project.NameKey projectName, String pluginName)
       throws NoSuchProjectException {
-    ProjectState projectState = projectCache.get(projectName);
-    if (projectState == null) {
-      throw new NoSuchProjectException(projectName);
-    }
+    ProjectState projectState =
+        projectCache.get(projectName).orElseThrow(noSuchProject(projectName));
     return getFromProjectConfig(projectState, pluginName);
   }
 
@@ -363,10 +363,8 @@ public class PluginConfigFactory implements ReloadPluginListener {
 
   private ProjectLevelConfig getPluginConfig(Project.NameKey projectName, String pluginName)
       throws NoSuchProjectException {
-    ProjectState projectState = projectCache.get(projectName);
-    if (projectState == null) {
-      throw new NoSuchProjectException(projectName);
-    }
+    ProjectState projectState =
+        projectCache.get(projectName).orElseThrow(noSuchProject(projectName));
     return projectState.getConfig(pluginName + EXTENSION);
   }
 

@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
@@ -85,8 +86,8 @@ public class ListTasks implements RestReadView<ConfigResource> {
         Boolean visible = visibilityCache.get(task.projectName);
         if (visible == null) {
           Project.NameKey nameKey = Project.nameKey(task.projectName);
-          ProjectState state = projectCache.get(nameKey);
-          if (state == null || !state.statePermitsRead()) {
+          Optional<ProjectState> state = projectCache.get(nameKey);
+          if (!state.isPresent() || !state.get().statePermitsRead()) {
             visible = false;
           } else {
             try {

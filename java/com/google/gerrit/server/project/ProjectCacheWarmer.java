@@ -53,7 +53,16 @@ public class ProjectCacheWarmer implements LifecycleListener {
           new Thread(
               () -> {
                 for (Project.NameKey name : cache.all()) {
-                  pool.execute(() -> cache.get(name));
+                  pool.execute(
+                      () ->
+                          cache
+                              .get(name)
+                              .orElseThrow(
+                                  () ->
+                                      new IllegalStateException(
+                                          "race while traversing projects. got "
+                                              + name
+                                              + " when loading all projects, but can't load it now")));
                 }
                 pool.shutdown();
                 try {

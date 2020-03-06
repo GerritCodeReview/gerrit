@@ -15,6 +15,7 @@
 package com.google.gerrit.server.rules;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.project.SubmitRuleEvaluator.createRuleError;
 import static com.google.gerrit.server.project.SubmitRuleEvaluator.defaultRuleError;
 import static com.google.gerrit.server.project.SubmitRuleEvaluator.defaultTypeError;
@@ -115,7 +116,7 @@ public class PrologRuleEvaluator {
     this.cd = cd;
     this.opts = options;
 
-    this.projectState = projectCache.get(cd.project());
+    this.projectState = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
   }
 
   private static Term toListTerm(List<Term> terms) {

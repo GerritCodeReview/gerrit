@@ -142,7 +142,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   @Override
   protected void init() throws EmailException {
     if (args.projectCache != null) {
-      projectState = args.projectCache.get(change.getProject());
+      projectState = args.projectCache.get(change.getProject()).orElse(null);
     } else {
       projectState = null;
     }

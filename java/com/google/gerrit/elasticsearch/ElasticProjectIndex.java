@@ -32,12 +32,14 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Optional;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.elasticsearch.client.Response;
@@ -119,6 +121,10 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
 
     Project.NameKey nameKey =
         Project.nameKey(source.getAsJsonObject().get(ProjectField.NAME.getName()).getAsString());
-    return projectCache.get().get(nameKey).toProjectData();
+    Optional<ProjectState> state = projectCache.get().get(nameKey);
+    if (!state.isPresent()) {
+      return null;
+    }
+    return state.get().toProjectData();
   }
 }

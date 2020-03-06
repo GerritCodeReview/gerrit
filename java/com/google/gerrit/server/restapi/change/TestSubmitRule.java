@@ -75,10 +75,10 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
-    ProjectState projectState = projectCache.get(rsrc.getProject());
-    if (projectState == null) {
-      throw new BadRequestException("project not found");
-    }
+    ProjectState projectState =
+        projectCache
+            .get(rsrc.getProject())
+            .orElseThrow(() -> new BadRequestException("project not found " + rsrc.getProject()));
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     SubmitRecord record =
         prologRule.evaluate(

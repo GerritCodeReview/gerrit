@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.AccessSection;
@@ -124,7 +126,7 @@ public class ProjectCreator {
 
         fire(nameKey, head);
 
-        return projectCache.get(nameKey);
+        return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
       }
     } catch (RepositoryCaseMismatchException e) {
       throw new ResourceConflictException(

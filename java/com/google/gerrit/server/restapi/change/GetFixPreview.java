@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.google.common.base.MoreObjects;
@@ -78,7 +79,8 @@ public class GetFixPreview implements RestReadView<FixResource> {
     PatchSet patchSet = resource.getRevisionResource().getPatchSet();
     ChangeNotes notes = resource.getRevisionResource().getNotes();
     Change change = notes.getChange();
-    ProjectState state = projectCache.get(change.getProject());
+    ProjectState state =
+        projectCache.get(change.getProject()).orElseThrow(illegalState(change.getProject()));
     Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
         resource.getFixReplacements().stream()
             .collect(groupingBy(fixReplacement -> fixReplacement.path));

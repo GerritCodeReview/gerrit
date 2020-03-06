@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.events;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
@@ -24,6 +26,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -215,7 +218,9 @@ public class StreamEventsApiListener
     final Map<String, Short> approvals = convertApprovalsMap(newApprovals);
     return Suppliers.memoize(
         () -> {
-          LabelTypes labelTypes = projectCache.get(change.getProject()).getLabelTypes();
+          Project.NameKey nameKey = change.getProject();
+          LabelTypes labelTypes =
+              projectCache.get(nameKey).orElseThrow(illegalState(nameKey)).getLabelTypes();
           if (approvals.size() > 0) {
             ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
             int i = 0;

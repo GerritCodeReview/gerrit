@@ -15,6 +15,7 @@
 package com.google.gerrit.server.rules;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelFunction;
@@ -63,11 +64,12 @@ public final class DefaultSubmitRule implements SubmitRule {
 
   @Override
   public Optional<SubmitRecord> evaluate(ChangeData cd) {
-    ProjectState projectState = projectCache.get(cd.project());
+    ProjectState projectState =
+        projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
 
     // In case at least one project has a rules.pl file, we let Prolog handle it.
     // The Prolog rules engine will also handle the labels for us.
-    if (projectState == null || projectState.hasPrologRules()) {
+    if (projectState.hasPrologRules()) {
       return Optional.empty();
     }
 

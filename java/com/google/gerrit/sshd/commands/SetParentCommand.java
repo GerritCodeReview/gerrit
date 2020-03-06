@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.entities.Project;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -117,7 +119,7 @@ final class SetParentCommand extends SshCommand {
 
     for (Project.NameKey nameKey : childProjects) {
       final String name = nameKey.get();
-      ProjectState project = projectCache.get(nameKey);
+      ProjectState project = projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
       try {
         setParent.apply(new ProjectResource(project, user), parentInput(newParentKey.get()));
       } catch (AuthException e) {
@@ -177,10 +179,10 @@ final class SetParentCommand extends SshCommand {
   }
 
   private Set<Project.NameKey> getAllParents(Project.NameKey projectName) {
-    ProjectState ps = projectCache.get(projectName);
-    if (ps == null) {
+    Optional<ProjectState> ps = projectCache.get(projectName);
+    if (!ps.isPresent()) {
       return Collections.emptySet();
     }
-    return ps.parents().transform(ProjectState::getNameKey).toSet();
+    return ps.get().parents().transform(ProjectState::getNameKey).toSet();
   }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.submit;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
@@ -486,7 +487,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       // per project even if multiple changes to refs/meta/config are submitted.
       if (RefNames.REFS_CONFIG.equals(getDest().branch())) {
         args.projectCache.evict(getProject());
-        ProjectState p = args.projectCache.get(getProject());
+        ProjectState p =
+            args.projectCache.get(getProject()).orElseThrow(illegalState(getProject()));
         try (Repository git = args.repoManager.openRepository(getProject())) {
           git.setGitwebDescription(p.getProject().getDescription());
         } catch (IOException e) {

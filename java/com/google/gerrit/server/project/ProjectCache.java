@@ -20,10 +20,28 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /** Cache of project information, including access rights. */
 public interface ProjectCache {
+  /**
+   * Returns a supplier to be used as a short-hand when unwrapping an {@link Optional} returned from
+   * this cache.
+   */
+  static Supplier<IllegalStateException> illegalState(Project.NameKey nameKey) {
+    return () -> new IllegalStateException("unable to find project " + nameKey);
+  }
+
+  /**
+   * Returns a supplier to be used as a short-hand when unwrapping an {@link Optional} returned from
+   * this cache.
+   */
+  static Supplier<NoSuchProjectException> noSuchProject(Project.NameKey nameKey) {
+    return () -> new NoSuchProjectException(nameKey);
+  }
+
   /** @return the parent state for all projects on this server. */
   ProjectState getAllProjects();
 
@@ -34,11 +52,12 @@ public interface ProjectCache {
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.
-   * @return the cached data; null if no such project exists or the projectName is null
+   * @return an {@link Optional} wrapping the the cached data; {@code absent} if no such project
+   *     exists or the projectName is null
    * @throws StorageException when there was an error.
    * @see #checkedGet(com.google.gerrit.entities.Project.NameKey)
    */
-  ProjectState get(@Nullable Project.NameKey projectName) throws StorageException;
+  Optional<ProjectState> get(@Nullable Project.NameKey projectName) throws StorageException;
 
   /**
    * Get the cached data for a project by its unique name.
@@ -50,19 +69,6 @@ public interface ProjectCache {
    */
   @Deprecated
   ProjectState checkedGet(@Nullable Project.NameKey projectName) throws IOException;
-
-  /**
-   * Get the cached data for a project by its unique name.
-   *
-   * @param projectName name of the project.
-   * @param strict true when any error generates an exception
-   * @throws Exception in case of any error (strict = true) or only for I/O or other internal
-   *     errors.
-   * @return the cached data or null when strict = false
-   * @deprecated use {@link #get(Project.NameKey)} instead.
-   */
-  @Deprecated
-  ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception;
 
   /**
    * Invalidate the cached information about the given project, and triggers reindexing for it

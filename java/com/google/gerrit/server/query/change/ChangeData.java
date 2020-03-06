@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -915,7 +916,9 @@ public class ChangeData {
             return false;
           }
           String mergeStrategy =
-              mergeUtilFactory.create(projectCache.get(project())).mergeStrategyName();
+              mergeUtilFactory
+                  .create(projectCache.get(project()).orElseThrow(illegalState(project())))
+                  .mergeStrategyName();
           mergeable =
               mergeabilityCache.get(ps.commitId(), ref, str.type, mergeStrategy, c.getDest(), repo);
         } catch (IOException e) {

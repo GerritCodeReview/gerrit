@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.flogger.LazyArgs.lazy;
+import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.flogger.FluentLogger;
@@ -218,10 +219,7 @@ public class ConflictsPredicate {
 
     ProjectState getProjectState() throws NoSuchProjectException {
       if (projectState == null) {
-        projectState = projectCache.get(cd.project());
-        if (projectState == null) {
-          throw new NoSuchProjectException(cd.project());
-        }
+        projectState = projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
       }
       return projectState;
     }

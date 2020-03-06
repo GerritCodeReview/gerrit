@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -105,7 +107,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
     try (Repository git = gitManager.openRepository(change.getProject())) {
       ObjectId commit = ps.commitId();
       Ref ref = git.getRefDatabase().exactRef(change.getDest().branch());
-      ProjectState projectState = projectCache.get(change.getProject());
+      ProjectState projectState =
+          projectCache.get(change.getProject()).orElseThrow(illegalState(change.getProject()));
       String strategy = mergeUtilFactory.create(projectState).mergeStrategyName();
       result.strategy = strategy;
       result.mergeable = isMergable(git, change, commit, ref, result.submitType, strategy);

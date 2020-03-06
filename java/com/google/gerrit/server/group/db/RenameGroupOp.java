@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group.db;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
@@ -85,7 +87,8 @@ class RenameGroupOp extends DefaultQueueOp {
   public void run() {
     Iterable<Project.NameKey> names = tryingAgain ? retryOn : projectCache.all();
     for (Project.NameKey projectName : names) {
-      ProjectConfig config = projectCache.get(projectName).getConfig();
+      ProjectConfig config =
+          projectCache.get(projectName).orElseThrow(illegalState(projectName)).getConfig();
       GroupReference ref = config.getGroup(uuid);
       if (ref == null || newName.equals(ref.getName())) {
         continue;

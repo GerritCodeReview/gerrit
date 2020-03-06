@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableSet;
@@ -156,10 +157,6 @@ public class SubmitDryRun {
   }
 
   private ProjectState getProject(BranchNameKey branch) throws NoSuchProjectException {
-    ProjectState p = projectCache.get(branch.project());
-    if (p == null) {
-      throw new NoSuchProjectException(branch.project());
-    }
-    return p;
+    return projectCache.get(branch.project()).orElseThrow(noSuchProject(branch.project()));
   }
 }

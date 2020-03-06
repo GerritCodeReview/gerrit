@@ -50,13 +50,13 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
             admin.newIdent(), testRepo, "Create Project Level Config", configName, cfg.toText());
     push.to(RefNames.REFS_CONFIG);
 
-    ProjectState state = projectCache.get(project);
+    ProjectState state = projectCache.get(project).get();
     assertThat(state.getConfig(configName).get().toText()).isEqualTo(cfg.toText());
   }
 
   @Test
   public void nonExistingConfig() {
-    ProjectState state = projectCache.get(project);
+    ProjectState state = projectCache.get(project).get();
     assertThat(state.getConfig("test.config").get().toText()).isEqualTo("");
   }
 
@@ -99,7 +99,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
         .to(RefNames.REFS_CONFIG)
         .assertOkStatus();
 
-    ProjectState state = projectCache.get(childProject);
+    ProjectState state = projectCache.get(childProject).get();
 
     Config expectedCfg = new Config();
     expectedCfg.setString("s1", null, "k1", "childValue1");
@@ -158,7 +158,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
         .to(RefNames.REFS_CONFIG)
         .assertOkStatus();
 
-    ProjectState state = projectCache.get(childProject);
+    ProjectState state = projectCache.get(childProject).get();
 
     Config expectedCfg = new Config();
     expectedCfg.setStringList("s1", null, "k1", Arrays.asList("childValue1", "parentValue1"));

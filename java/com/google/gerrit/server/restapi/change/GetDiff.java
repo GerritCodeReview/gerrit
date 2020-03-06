@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.common.base.MoreObjects;
@@ -146,7 +147,7 @@ public class GetDiff implements RestReadView<FileResource> {
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
       Project.NameKey projectName = resource.getRevision().getChange().getProject();
-      ProjectState state = projectCache.get(projectName);
+      ProjectState state = projectCache.get(projectName).orElseThrow(illegalState(projectName));
       DiffSide sideA =
           DiffSide.create(
               ps.getFileInfoA(),

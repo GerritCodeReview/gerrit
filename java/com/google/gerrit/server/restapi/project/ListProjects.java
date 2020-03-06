@@ -75,7 +75,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -610,7 +609,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private Stream<ProjectState> filter(PermissionBackend.WithUser perm) throws BadRequestException {
     return StreamSupport.stream(scan().spliterator(), false)
         .map(projectCache::get)
-        .filter(Objects::nonNull)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
         .filter(p -> permissionCheck(p, perm));
   }
 

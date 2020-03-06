@@ -103,12 +103,11 @@ class ProjectControl {
   }
 
   ChangeControl controlFor(Change change) {
-    return changeControlFactory.create(
-        controlForRef(change.getDest()), change.getProject(), change.getId());
+    return changeControlFactory.create(controlForRef(change.getDest()), change);
   }
 
   ChangeControl controlFor(ChangeNotes notes) {
-    return changeControlFactory.create(controlForRef(notes.getChange().getDest()), notes);
+    return controlFor(notes.getChange());
   }
 
   RefControl controlForRef(BranchNameKey ref) {

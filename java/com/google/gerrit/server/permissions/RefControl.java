@@ -440,7 +440,7 @@ class RefControl {
     @Override
     public ForChange change(ChangeData cd) {
       try {
-        return getProjectControl().controlFor(cd.notes()).asForChange(cd);
+        return getProjectControl().controlFor(cd.change()).asForChange(cd);
       } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }
@@ -456,11 +456,6 @@ class RefControl {
           project,
           change.getProject());
       return getProjectControl().controlFor(notes).asForChange(null);
-    }
-
-    @Override
-    public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
-      return getProjectControl().controlFor(notes).asForChange(cd);
     }
 
     @Override

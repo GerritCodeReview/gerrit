@@ -33,6 +33,7 @@ split up by update type (create+replace, and autoclose)
 
 * `proc/birth_timestamp`: Time at which the Gerrit process started.
 * `proc/uptime`: Uptime of the Gerrit process.
+* `proc/cpu/num_cores`: Number of processors available to the Java virtual machine.
 * `proc/cpu/usage`: CPU time used by the Gerrit process.
 * `proc/num_open_fds`: Number of open file descriptors.
 * `proc/jvm/memory/heap_committed`: Amount of memory guaranteed for user objects.

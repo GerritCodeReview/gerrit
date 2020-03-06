@@ -376,8 +376,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.reviewerUpdates();
   }
 
+  /** The most recent update (i.e. status) per user. ö call it ...Status() then? */
   public ImmutableList<AttentionStatus> getAttentionUpdates() {
-    return state.attentionUpdates();
+    return state.attentionUpdates(); // ö Should this be called attentionStatus()?
   }
 
   /**

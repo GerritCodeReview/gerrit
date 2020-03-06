@@ -37,6 +37,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
@@ -49,6 +50,7 @@ import com.google.gerrit.common.data.SubmitRecord.Status;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionStatus;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
@@ -60,6 +62,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
+import com.google.gerrit.extensions.common.AttentionSetEntry;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -102,6 +105,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -110,6 +114,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -624,6 +629,26 @@ public class ChangeJson {
           set.entries().stream()
               .map(e -> new TrackingIdInfo(e.getKey(), e.getValue()))
               .collect(toList());
+    }
+
+    // ö location?
+    ImmutableList<AttentionStatus> attentionStatusList = cd.attentionStatus();  // ö name?
+    if (!attentionStatusList.isEmpty()) {
+      out.attentionSet =
+          attentionStatusList.stream()
+              .filter(a -> a.operation() == AttentionStatus.Operation.ADD)
+              .collect(
+                  ImmutableMap.toImmutableMap(
+                      attentionStatus -> attentionStatus.account().get(),
+                      attentionStatus -> {
+                        AttentionSetEntry attentionSetEntry = new AttentionSetEntry();
+                        attentionSetEntry.accountInfo =
+                            accountLoader.get(attentionStatus.account());
+                        attentionSetEntry.lastUpdateMillis =
+                            attentionStatus.timestamp().toEpochMilli();
+                        attentionSetEntry.reason = attentionStatus.reason();
+                        return attentionSetEntry;
+                      }));
     }
 
     return out;

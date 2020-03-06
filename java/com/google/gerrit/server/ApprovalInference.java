@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
@@ -83,7 +84,10 @@ public class ApprovalInference {
                 .changeId(notes.load().getChangeId().get())
                 .patchSetId(psId.get())
                 .build())) {
-      project = projectCache.checkedGet(notes.getProjectName());
+      project =
+          projectCache
+              .get(notes.getProjectName())
+              .orElseThrow(illegalState(notes.getProjectName()));
       Collection<PatchSetApproval> approvals =
           getForPatchSetWithoutNormalization(notes, project, psId, rw, repoConfig);
       return labelNormalizer.normalize(notes, approvals).getNormalized();

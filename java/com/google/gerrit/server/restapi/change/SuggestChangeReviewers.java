@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -96,7 +98,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
             reviewerState,
             rsrc.getNotes(),
             this,
-            projectCache.checkedGet(rsrc.getProject()),
+            projectCache.get(rsrc.getProject()).orElseThrow(illegalState(rsrc.getProject())),
             getVisibility(rsrc),
             excludeGroups));
   }

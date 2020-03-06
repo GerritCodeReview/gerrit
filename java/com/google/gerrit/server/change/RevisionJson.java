@@ -365,11 +365,8 @@ public class RevisionJson {
     } catch (AuthException ae) {
       return false;
     }
-    ProjectState projectState = projectCache.checkedGet(cd.project());
-    if (projectState == null) {
-      logger.atSevere().log("project state for project %s is null", cd.project());
-      return false;
-    }
+    ProjectState projectState =
+        projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
     return projectState.statePermitsRead();
   }
 

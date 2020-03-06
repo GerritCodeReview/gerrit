@@ -36,6 +36,7 @@ import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -260,7 +261,7 @@ public class AccountIT extends AbstractDaemonTest {
       int min,
       int max)
       throws IOException {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    ProjectConfig cfg = projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
     AccessSection accessSection = cfg.getAccessSection(ref);
     assertThat(accessSection).isNotNull();
 

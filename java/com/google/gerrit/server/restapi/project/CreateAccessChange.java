@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.entities.Change;
@@ -105,7 +107,10 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
         throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG, denied);
       }
     }
-    projectCache.checkedGet(rsrc.getNameKey()).checkStatePermitsWrite();
+    projectCache
+        .get(rsrc.getNameKey())
+        .orElseThrow(illegalState(rsrc.getNameKey()))
+        .checkStatePermitsWrite();
 
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
     List<AccessSection> removals = setAccess.getAccessSections(input.remove);

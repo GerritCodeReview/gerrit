@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
@@ -311,10 +312,8 @@ public class CherryPickChange {
       String commitMessage = ChangeIdUtil.insertId(message, generatedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
-      ProjectState projectState = projectCache.checkedGet(dest.project());
-      if (projectState == null) {
-        throw new NoSuchProjectException(dest.project());
-      }
+      ProjectState projectState =
+          projectCache.get(dest.project()).orElseThrow(noSuchProject(dest.project()));
       try {
         MergeUtil mergeUtil;
         if (input.allowConflicts) {

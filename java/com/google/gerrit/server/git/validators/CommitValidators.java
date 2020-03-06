@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.entities.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -144,7 +145,8 @@ public class CommitValidators {
         boolean skipValidation)
         throws IOException {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
-      ProjectState projectState = projectCache.checkedGet(branch.project());
+      ProjectState projectState =
+          projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
@@ -173,7 +175,8 @@ public class CommitValidators {
         @Nullable Change change)
         throws IOException {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
-      ProjectState projectState = projectCache.checkedGet(branch.project());
+      ProjectState projectState =
+          projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
@@ -181,7 +184,7 @@ public class CommitValidators {
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, urlFormatter.get()),
               new FileCountValidator(patchListCache, config),
-              new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.project())),
+              new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
                   projectState, user, urlFormatter.get(), config, sshInfo, change),
               new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
@@ -208,10 +211,12 @@ public class CommitValidators {
       //  - Plugin validators may do things like require certain commit message
       //    formats, so we play it safe and exclude them.
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
+      ProjectState projectState =
+          projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
-              new ProjectStateValidationListener(projectCache.checkedGet(branch.project())),
+              new ProjectStateValidationListener(projectState),
               new AuthorUploaderValidator(user, perm, urlFormatter.get()),
               new CommitterUploaderValidator(user, perm, urlFormatter.get())));
     }

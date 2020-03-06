@@ -110,9 +110,7 @@ public class MergeSuperSet {
       ChangeData cd = changeDataFactory.create(change.getProject(), change.getId());
       boolean visible = false;
       if (cd != null) {
-        ProjectState projectState = projectCache.checkedGet(cd.project());
-
-        if (projectState.statePermitsRead()) {
+        if (projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false)) {
           try {
             permissionBackend.user(user).change(cd).check(ChangePermission.READ);
             visible = true;
@@ -210,10 +208,8 @@ public class MergeSuperSet {
     return queryProvider.get().byTopicOpen(topic);
   }
 
-  private boolean canRead(CurrentUser user, ChangeData cd)
-      throws PermissionBackendException, IOException {
-    ProjectState projectState = projectCache.checkedGet(cd.project());
-    if (projectState == null || !projectState.statePermitsRead()) {
+  private boolean canRead(CurrentUser user, ChangeData cd) throws PermissionBackendException {
+    if (projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false)) {
       return false;
     }
 

@@ -28,7 +28,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
+import java.util.Optional;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -74,10 +74,10 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
     String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
     Project.NameKey nameKey = Project.nameKey(nameWithoutSuffix);
 
-    ProjectState state;
+    Optional<ProjectState> state;
     try {
-      state = projectCache.checkedGet(nameKey);
-      if (state == null) {
+      state = projectCache.get(nameKey);
+      if (!state.isPresent()) {
         throw new CmdLineException(owner, localizable("project %s not found"), nameWithoutSuffix);
       }
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.
@@ -85,18 +85,18 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
       // be allowed for other users). Allowing project owners to access here will help them to view
       // and update the config of hidden projects easily.
       ProjectPermission permissionToCheck =
-          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+          state.get().statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
       permissionBackend.currentUser().project(nameKey).check(permissionToCheck);
     } catch (AuthException e) {
       throw new CmdLineException(
           owner, localizable(new NoSuchProjectException(nameKey, e).getMessage()));
-    } catch (PermissionBackendException | IOException e) {
+    } catch (PermissionBackendException e) {
       logger.atWarning().withCause(e).log("Cannot load project %s", nameWithoutSuffix);
       throw new CmdLineException(
           owner, localizable(new NoSuchProjectException(nameKey).getMessage()));
     }
 
-    setter.addValue(state);
+    setter.addValue(state.get());
     return 1;
   }
 

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -104,7 +106,10 @@ public class Rebase
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().check(ChangePermission.REBASE);
-    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
+    projectCache
+        .get(rsrc.getProject())
+        .orElseThrow(illegalState(rsrc.getProject()))
+        .checkStatePermitsWrite();
 
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
@@ -217,10 +222,13 @@ public class Rebase
     }
 
     try {
-      if (!projectCache.checkedGet(rsrc.getProject()).statePermitsWrite()) {
+      if (!projectCache
+          .get(rsrc.getProject())
+          .orElseThrow(illegalState(rsrc.getProject()))
+          .statePermitsWrite()) {
         return description;
       }
-    } catch (IOException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if project state permits write: %s", rsrc.getProject());
       return description;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c2f4a5e_66421329",
+        "filename": "javatests/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-06T12:19:44Z",
+      "side": 1,
+      "message": "This is failing with:\n\n java.lang.IllegalArgumentException: BCrypt password must be \u003c\u003d 72 bytes",
+      "revId": "8f96d4489427817f189070f9b5133776bb591d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

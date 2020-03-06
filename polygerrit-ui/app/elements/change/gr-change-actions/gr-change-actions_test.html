@@ -38,6 +38,10 @@ limitations under the License.
 </test-fixture>
 
 <script>
+  const CHERRY_PICK_TYPES = {
+    SINGLE_CHANGE: 1,
+    TOPIC: 2,
+  };
   // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
   suite('gr-change-actions tests', async () => {
     await readyToTest();
@@ -421,12 +425,14 @@ limitations under the License.
           MockInteractions.tap(rebaseButton);
           flushAsynchronousOperations();
           assert.isFalse(element.$.confirmRebase.hidden);
-
+          sandbox.stub(element.$.restAPI, 'getChanges')
+              .returns(Promise.resolve([]));
           element._handleCherrypickTap();
-          flushAsynchronousOperations();
-          assert.isTrue(element.$.confirmRebase.hidden);
-          assert.isFalse(element.$.confirmCherrypick.hidden);
-          done();
+          flush(() => {
+            assert.isTrue(element.$.confirmRebase.hidden);
+            assert.isFalse(element.$.confirmCherrypick.hidden);
+            done();
+          });
         });
       });
 
@@ -596,11 +602,21 @@ limitations under the License.
             title: 'Cherry pick change to a different branch',
           };
 
-          element._handleCherrypickConfirm();
+          element._handleCherrypickConfirm({
+            detail: {
+              branch: '',
+              type: CHERRY_PICK_TYPES.SINGLE_CHANGE,
+            },
+          });
           assert.equal(fireActionStub.callCount, 0);
 
           element.$.confirmCherrypick.branch = 'master';
-          element._handleCherrypickConfirm();
+          element._handleCherrypickConfirm({
+            detail: {
+              branch: 'master',
+              type: CHERRY_PICK_TYPES.SINGLE_CHANGE,
+            },
+          });
           assert.equal(fireActionStub.callCount, 0); // Still needs a message.
 
           // Add attributes that are used to determine the message.
@@ -608,10 +624,15 @@ limitations under the License.
           element.$.confirmCherrypick.changeStatus = 'OPEN';
           element.$.confirmCherrypick.commitNum = '123';
 
-          element._handleCherrypickConfirm();
+          element._handleCherrypickConfirm({
+            detail: {
+              branch: 'master',
+              type: CHERRY_PICK_TYPES.SINGLE_CHANGE,
+            },
+          });
 
-          assert.equal(element.$.confirmCherrypick.$.messageInput.value,
-              'foo message');
+          assert.equal(element.$.confirmCherrypick.shadowRoot.
+              querySelector('#messageInput').value, 'foo message');
 
           assert.deepEqual(fireActionStub.lastCall.args, [
             '/cherrypick', action, true, {
@@ -1595,6 +1616,7 @@ limitations under the License.
         setup(() => {
           cleanup = sinon.stub();
           element.changeNum = 42;
+          element.change._number = 42;
           element.latestPatchNum = 12;
           payload = {foo: 'bar'};
 
@@ -1615,6 +1637,8 @@ limitations under the License.
                 'getResponseObject');
             sandbox.stub(Gerrit.Nav,
                 'navigateToChange').returns(Promise.resolve(true));
+            sandbox.stub(element, 'computeLatestPatchNum')
+                .returns(element.latestPatchNum);
           });
 
           test('change action', done => {

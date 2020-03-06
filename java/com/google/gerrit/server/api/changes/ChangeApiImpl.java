@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.ChangeMessageApi;
@@ -71,6 +72,7 @@ import com.google.gerrit.server.restapi.change.ChangeMessages;
 import com.google.gerrit.server.restapi.change.Check;
 import com.google.gerrit.server.restapi.change.CreateMergePatchSet;
 import com.google.gerrit.server.restapi.change.DeleteAssignee;
+import com.google.gerrit.server.restapi.change.DeleteAttentionSet;
 import com.google.gerrit.server.restapi.change.DeleteChange;
 import com.google.gerrit.server.restapi.change.DeletePrivate;
 import com.google.gerrit.server.restapi.change.GetAssignee;
@@ -92,6 +94,7 @@ import com.google.gerrit.server.restapi.change.PostHashtags;
 import com.google.gerrit.server.restapi.change.PostPrivate;
 import com.google.gerrit.server.restapi.change.PostReviewers;
 import com.google.gerrit.server.restapi.change.PutAssignee;
+import com.google.gerrit.server.restapi.change.PutAttentionSet;
 import com.google.gerrit.server.restapi.change.PutMessage;
 import com.google.gerrit.server.restapi.change.PutTopic;
 import com.google.gerrit.server.restapi.change.Rebase;
@@ -147,6 +150,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<GetChange> getChangeProvider;
   private final PostHashtags postHashtags;
   private final GetHashtags getHashtags;
+  private final PutAttentionSet putAttentionSet;
+  private final DeleteAttentionSet deleteAttentionSet;
   private final PutAssignee putAssignee;
   private final GetAssignee getAssignee;
   private final GetPastAssignees getPastAssignees;
@@ -197,6 +202,8 @@ class ChangeApiImpl implements ChangeApi {
       Provider<GetChange> getChangeProvider,
       PostHashtags postHashtags,
       GetHashtags getHashtags,
+      PutAttentionSet putAttentionSet,
+      DeleteAttentionSet deleteAttentionSet,
       PutAssignee putAssignee,
       GetAssignee getAssignee,
       GetPastAssignees getPastAssignees,
@@ -245,6 +252,8 @@ class ChangeApiImpl implements ChangeApi {
     this.getChangeProvider = getChangeProvider;
     this.postHashtags = postHashtags;
     this.getHashtags = getHashtags;
+    this.putAttentionSet = putAttentionSet;
+    this.deleteAttentionSet = deleteAttentionSet;
     this.putAssignee = putAssignee;
     this.getAssignee = getAssignee;
     this.getPastAssignees = getPastAssignees;
@@ -526,6 +535,26 @@ class ChangeApiImpl implements ChangeApi {
       return getHashtags.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get hashtags", e);
+    }
+  }
+
+  @Override
+  public AccountInfo addToAttentionSet(AttentionSetInput attentionSetInput)
+      throws RestApiException {
+    try {
+      return putAttentionSet.apply(change, attentionSetInput).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot add to attention set", e);
+    }
+  }
+
+  @Override
+  public AccountInfo removeFromAttentionSet(AttentionSetInput attentionSetInput)
+      throws RestApiException {
+    try {
+      return deleteAttentionSet.apply(change, attentionSetInput).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot remove from attention set", e);
     }
   }
 

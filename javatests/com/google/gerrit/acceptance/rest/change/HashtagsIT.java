@@ -226,7 +226,7 @@ public class HashtagsIT extends AbstractDaemonTest {
     HashtagsInput input = new HashtagsInput();
     input.add = Sets.newHashSet("tag3", "tag4");
     input.remove = Sets.newHashSet("tag1");
-    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
+    change(r).setHashtags(input);
     assertThatGet(r).containsExactly("tag2", "tag3", "tag4");
     assertMessage(r, "Hashtags added: tag3, tag4\nHashtag removed: tag1");
 
@@ -235,7 +235,7 @@ public class HashtagsIT extends AbstractDaemonTest {
     input = new HashtagsInput();
     input.add = Sets.newHashSet("tag3", "tag4");
     input.remove = Sets.newHashSet("tag3");
-    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
+    change(r).setHashtags(input);
     assertThatGet(r).containsExactly("tag1", "tag2", "tag4");
     assertMessage(r, "Hashtag removed: tag3");
   }
@@ -271,19 +271,19 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   private IterableSubject assertThatGet(PushOneCommit.Result r) throws Exception {
-    return assertThat(gApi.changes().id(r.getChange().getId().get()).getHashtags());
+    return assertThat(change(r).getHashtags());
   }
 
   private void addHashtags(PushOneCommit.Result r, String... toAdd) throws Exception {
     HashtagsInput input = new HashtagsInput();
     input.add = Sets.newHashSet(toAdd);
-    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
+    change(r).setHashtags(input);
   }
 
   private void removeHashtags(PushOneCommit.Result r, String... toRemove) throws Exception {
     HashtagsInput input = new HashtagsInput();
     input.remove = Sets.newHashSet(toRemove);
-    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
+    change(r).setHashtags(input);
   }
 
   private void assertMessage(PushOneCommit.Result r, String expectedMessage) throws Exception {
@@ -299,8 +299,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   private ChangeMessageInfo getLastMessage(PushOneCommit.Result r) throws Exception {
-    ChangeMessageInfo lastMessage =
-        Iterables.getLast(gApi.changes().id(r.getChange().getId().get()).get().messages, null);
+    ChangeMessageInfo lastMessage = Iterables.getLast(change(r).get().messages, null);
     assertWithMessage(lastMessage.message).that(lastMessage).isNotNull();
     return lastMessage;
   }

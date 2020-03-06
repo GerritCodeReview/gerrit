@@ -70,9 +70,9 @@ class ProjectControl {
   private final PermissionBackend permissionBackend;
   private final CurrentUser user;
   private final ProjectState state;
-  private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
   private final DefaultRefFilter.Factory refFilterFactory;
+  private final ChangeData.Factory changeDataFactory;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -83,17 +83,17 @@ class ProjectControl {
       @GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       PermissionCollection.Factory permissionFilter,
-      ChangeControl.Factory changeControlFactory,
       PermissionBackend permissionBackend,
       DefaultRefFilter.Factory refFilterFactory,
+      ChangeData.Factory changeDataFactory,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
-    this.changeControlFactory = changeControlFactory;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
     this.permissionBackend = permissionBackend;
     this.refFilterFactory = refFilterFactory;
+    this.changeDataFactory = changeDataFactory;
     user = who;
     state = ps;
   }
@@ -102,13 +102,8 @@ class ProjectControl {
     return new ForProjectImpl();
   }
 
-  ChangeControl controlFor(Change change) {
-    return changeControlFactory.create(
-        controlForRef(change.getDest()), change.getProject(), change.getId());
-  }
-
-  ChangeControl controlFor(ChangeNotes notes) {
-    return changeControlFactory.create(controlForRef(notes.getChange().getDest()), notes);
+  ChangeControl controlFor(ChangeData cd) {
+    return new ChangeControl(controlForRef(cd.change().getDest()), cd);
   }
 
   RefControl controlForRef(BranchNameKey ref) {
@@ -122,7 +117,7 @@ class ProjectControl {
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
       PermissionCollection relevant = permissionFilter.filter(access(), refName, user);
-      ctl = new RefControl(this, refName, relevant);
+      ctl = new RefControl(changeDataFactory, this, refName, relevant);
       refControls.put(refName, ctl);
     }
     return ctl;

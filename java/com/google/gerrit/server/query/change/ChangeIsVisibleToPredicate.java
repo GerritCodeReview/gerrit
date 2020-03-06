@@ -67,7 +67,6 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       return false;
     }
 
-    ChangeNotes notes = notesFactory.createFromIndexedChange(change);
     Optional<ProjectState> projectState = projectCache.get(cd.project());
     if (!projectState.isPresent()) {
       logger.atFine().log("Filter out change %s of non-existing project %s", cd, cd.project());
@@ -83,7 +82,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
             ? permissionBackend.absentUser(user.getAccountId())
             : permissionBackend.user(anonymousUserProvider.get());
     try {
-      withUser.indexedChange(cd, notes).check(ChangePermission.READ);
+      withUser.change(cd).check(ChangePermission.READ);
     } catch (PermissionBackendException e) {
       Throwable cause = e.getCause();
       if (cause instanceof RepositoryNotFoundException) {

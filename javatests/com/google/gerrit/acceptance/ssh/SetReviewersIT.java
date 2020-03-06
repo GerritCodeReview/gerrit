@@ -65,7 +65,7 @@ public class SetReviewersIT extends AbstractDaemonTest {
     session.exec(
         String.format("gerrit set-reviewers -%s %s %s", add ? "a" : "r", user.email(), id));
     session.assertSuccess();
-    ImmutableSet<Account.Id> reviewers = change.getChange().getReviewers().all();
+    ImmutableSet<Account.Id> reviewers = change.getChange().reviewers().all();
     if (add) {
       assertThat(reviewers).contains(user.id());
     } else {

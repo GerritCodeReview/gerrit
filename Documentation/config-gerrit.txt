@@ -4381,6 +4381,19 @@ email address, that one address is added to the white list.
 If set to a domain name, any address at that domain can receive
 email from Gerrit.
 +
+If allowrcpt is configured, The set of allowed recipients is:
+`allowrcpt - denyrcpt`.
++
+By default, unset, permitting delivery to any email address.
+
+[[sendemail.denyrcpt]]sendemail.denyrcpt::
++
+If present, each value adds one entry to the blacklist of email
+addresses that Gerrit can send email to.  If set to a complete
+email address, that one address is added to the blacklist.
+If set to a domain name, any address at that domain can *not* receive
+email from Gerrit.
++
 By default, unset, permitting delivery to any email address.
 
 [[sendemail.includeDiff]]sendemail.includeDiff::

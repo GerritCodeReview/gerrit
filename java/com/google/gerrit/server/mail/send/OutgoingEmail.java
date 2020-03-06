@@ -504,9 +504,7 @@ public abstract class OutgoingEmail {
     if (addr != null && addr.getEmail() != null && addr.getEmail().length() > 0) {
       if (!args.validator.isValid(addr.getEmail())) {
         logger.atWarning().log("Not emailing %s (invalid email address)", addr.getEmail());
-      } else if (!args.emailSender.canEmail(addr.getEmail())) {
-        logger.atWarning().log("Not emailing %s (prohibited by allowrcpt)", addr.getEmail());
-      } else {
+      } else if (args.emailSender.canEmail(addr.getEmail())) {
         if (!smtpRcptTo.add(addr)) {
           if (!override) {
             return;

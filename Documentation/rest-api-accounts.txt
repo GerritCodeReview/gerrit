@@ -639,6 +639,9 @@ link:#email-input[EmailInput].
 If link:config-gerrit.html#sendemail.allowrcpt[sendemail.allowrcpt] is
 configured, the added email address must belong to a domain that is
 allowed, unless `no_confirmation` is set.
+If link:config-gerrit.html#sendemail.denyrcpt[sendemail.denyrcpt]
+is configured, make sure that the added email address is *not* disallowed or
+belongs to a domain that is disallowed.
 
 The link:#email-input[EmailInput] object in the request body may
 contain additional options for the email address.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cd1cba1_93ca209f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-06T09:28:29Z",
+      "side": 1,
+      "message": "Can explain more why you are changing this? To me the status quo does not have any issue.",
+      "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

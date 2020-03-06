@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d39a42e0_aaf8118a",
+        "filename": "plugins/metrics-reporter-jmx",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-06T13:34:45Z",
+      "side": 1,
+      "message": "Accidentally added submodule?",
+      "revId": "3e475a962f194a85c423902ef3b31eae7e8ca5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

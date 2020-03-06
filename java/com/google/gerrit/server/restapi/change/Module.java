@@ -29,6 +29,7 @@ import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.change.DeleteReviewerOp;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.change.SetCherryPickOp;
@@ -79,6 +81,9 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "detail").to(GetDetail.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     get(CHANGE_KIND, "in").to(ChangeIncludedIn.class);
+    // ö "attention_set"? "attentionset"?
+    put(CHANGE_KIND, "attention").to(PutAttentionSet.class);
+    delete(CHANGE_KIND, "attention").to(DeleteAttentionSet.class);
     get(CHANGE_KIND, "assignee").to(GetAssignee.class);
     get(CHANGE_KIND, "past_assignees").to(GetPastAssignees.class);
     put(CHANGE_KIND, "assignee").to(PutAssignee.class);
@@ -206,5 +211,7 @@ public class Module extends RestApiModule {
     factory(SetHashtagsOp.Factory.class);
     factory(SetPrivateOp.Factory.class);
     factory(WorkInProgressOp.Factory.class);
+    factory(AddToAttentionSetOp.Factory.class);
+    factory(RemoveFromAttentionSetOp.Factory.class);
   }
 }

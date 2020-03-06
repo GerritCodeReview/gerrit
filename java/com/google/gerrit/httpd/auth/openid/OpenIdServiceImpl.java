@@ -66,6 +66,8 @@ import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
 import org.openid4java.util.HttpClientFactory;
 
+import static com.google.gerrit.server.util.time.TimeUtil.daysOfYear;
+
 @Singleton
 class OpenIdServiceImpl {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -76,7 +78,7 @@ class OpenIdServiceImpl {
   private static final String P_TOKEN = "gerrit.token";
   private static final String P_REMEMBER = "gerrit.remember";
   private static final String P_CLAIMED = "gerrit.claimed";
-  private static final int LASTID_AGE = 365 * 24 * 60 * 60; // seconds
+  private static final int LASTID_AGE = daysOfYear() * 24 * 60 * 60; // seconds
 
   private static final String OPENID_MODE = "openid.mode";
   private static final String OMODE_CANCEL = "cancel";

@@ -29,6 +29,7 @@ import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
@@ -190,6 +191,9 @@ public class Module extends RestApiModule {
     delete(CHANGE_MESSAGE_KIND).to(DeleteChangeMessage.DefaultDeleteChangeMessage.class);
     post(CHANGE_MESSAGE_KIND, "delete").to(DeleteChangeMessage.class);
 
+    //ö location
+    put(CHANGE_KIND, "attention").to(PutAttentionSet.class);
+
     factory(AccountLoader.Factory.class);
     factory(ChangeInserter.Factory.class);
     factory(ChangeResource.Factory.class);
@@ -206,5 +210,8 @@ public class Module extends RestApiModule {
     factory(SetHashtagsOp.Factory.class);
     factory(SetPrivateOp.Factory.class);
     factory(WorkInProgressOp.Factory.class);
+
+    // ö
+    factory(AddToAttentionSetOp.Factory.class);
   }
 }

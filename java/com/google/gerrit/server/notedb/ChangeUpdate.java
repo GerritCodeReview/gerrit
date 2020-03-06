@@ -375,7 +375,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * All updates must have a timestamp of null since we use the commit's timestamp. There also must
    * not be multiple updates for a single user.
    */
-  void setAttentionUpdates(List<AttentionStatus> attentionUpdates) {
+  public void setAttentionUpdates(List<AttentionStatus> attentionUpdates) {
     checkArgument(
         attentionUpdates.stream().noneMatch(x -> x.timestamp() != null),
         "must not specify timestamp for write");

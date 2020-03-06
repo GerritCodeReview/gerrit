@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
@@ -49,6 +50,7 @@ import com.google.gerrit.common.data.SubmitRecord.Status;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
@@ -60,6 +62,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
+import com.google.gerrit.extensions.common.AttentionSetEntry;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -102,6 +105,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -504,6 +508,20 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().shortName();
     out.topic = in.getTopic();
+    if (!cd.attentionSet().isEmpty()) {
+      out.attentionSet =
+          cd.attentionSet().stream()
+              // This filtering should match GetAttentionSet.
+              .filter(a -> a.operation() == AttentionSetUpdate.Operation.ADD)
+              .collect(
+                  toImmutableMap(
+                      a -> a.account().get(),
+                      a ->
+                          new AttentionSetEntry(
+                              accountLoader.get(a.account()),
+                              Timestamp.from(a.timestamp()),
+                              a.reason())));
+    }
     out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();

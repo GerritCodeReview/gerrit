@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "d0ec83c4_2c35c943",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-06T13:08:14Z",
+      "side": 1,
+      "message": "Updated commit message.\nhttps://screenshot.googleplex.com/WCfDw3DOy3g",
+      "parentUuid": "02ecd0c0_3c8b3221",
+      "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd4b5212_77426b84",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
         "patchSetId": 3
@@ -104,6 +122,24 @@
       "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aad991c1_e54e089f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-06T13:08:14Z",
+      "side": 1,
+      "message": "Used gr-linked-chip.\nNice suggestion.",
+      "parentUuid": "bd4b5212_77426b84",
+      "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,14 +21,13 @@ import java.time.Instant;
 /**
  * A single update to the attention set. To reconstruct the attention set these instances are parsed
  * in reverse chronological order. Since each update contains all required information and
- * invalidates all previous state (hence the name -Status rather than -Update), only the most recent
- * record is relevant for each user.
+ * invalidates all previous state, only the most recent record is relevant for each user.
  *
- * <p>See <a href="https://www.gerritcodereview.com/design-docs/attention-set.html">here</a> for
- * details.
+ * <p>See {@link com.google.gerrit.extensions.api.changes.AttentionSetInput} for the representation
+ * in the API.
  */
 @AutoValue
-public abstract class AttentionStatus {
+public abstract class AttentionSetUpdate {
 
   /** Users can be added to or removed from the attention set. */
   public enum Operation {
@@ -56,17 +55,17 @@ public abstract class AttentionStatus {
    * Create an instance from data read from NoteDB. This includes the timestamp taken from the
    * commit.
    */
-  public static AttentionStatus createFromRead(
+  public static AttentionSetUpdate createFromRead(
       Instant timestamp, Account.Id account, Operation operation, String reason) {
-    return new AutoValue_AttentionStatus(timestamp, account, operation, reason);
+    return new AutoValue_AttentionSetUpdate(timestamp, account, operation, reason);
   }
 
   /**
    * Create an instance to be written to NoteDB. This has no timestamp because the timestamp of the
    * commit will be used.
    */
-  public static AttentionStatus createForWrite(
+  public static AttentionSetUpdate createForWrite(
       Account.Id account, Operation operation, String reason) {
-    return new AutoValue_AttentionStatus(null, account, operation, reason);
+    return new AutoValue_AttentionSetUpdate(null, account, operation, reason);
   }
 }

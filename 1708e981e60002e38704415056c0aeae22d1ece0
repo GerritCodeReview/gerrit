@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da59c698_c21ac3dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-06T13:09:35Z",
+      "side": 1,
+      "message": "use imgur instead",
+      "revId": "1708e981e60002e38704415056c0aeae22d1ece0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

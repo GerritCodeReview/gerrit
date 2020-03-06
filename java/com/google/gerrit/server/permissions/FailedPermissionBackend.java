@@ -173,11 +173,6 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
-      return new FailedChange(message, cause);
-    }
-
-    @Override
     public void check(RefPermission perm) throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }

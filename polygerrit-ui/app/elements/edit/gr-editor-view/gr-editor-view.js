@@ -70,6 +70,7 @@
         computed: '_computeSaveDisabled(_content, _newContent, _saving)',
       },
       _prefs: Object,
+      _lineNum: Number,
     },
 
     behaviors: [
@@ -108,6 +109,7 @@
       this._changeNum = value.changeNum;
       this._path = value.path;
       this._patchNum = value.patchNum || this.EDIT_NAME;
+      this._lineNum = value.lineNum;
 
       // NOTE: This may be called before attachment (e.g. while parentElement is
       // null). Fire title-change in an async so that, if attachment to the DOM

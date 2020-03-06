@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "1754dd3b_0f0cc615",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-03-06T15:22:57Z",
+      "side": 1,
+      "message": "Since the current behaviour was also used in the previously used dependency, I would leave it as is in this change. I will prepare a change to take the gerrit.enableReverseDnsLookup into account.",
+      "parentUuid": "3a4f310f_a10d6f4a",
+      "range": {
+        "startLine": 78,
+        "startChar": 42,
+        "endLine": 78,
+        "endChar": 53
+      },
+      "revId": "d46b9c3ee1b503a6deb854ea1fc9bb639c10539e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1207096_fc8526ed",
         "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
         "patchSetId": 4

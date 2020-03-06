@@ -6066,8 +6066,14 @@ The `ChangeInput` entity contains information about creating a new change.
 The name of the target branch. +
 The `refs/heads/` prefix is omitted.
 |`subject`            ||
-The commit message of the change. Comment lines (beginning with `#`) will
-be removed.
+The commit message of the change. Comment lines (beginning with `#`)
+will be removed. If the commit message contains a Change-Id (as a
+"Change-Id: I..." footer) that Change-Id will be used for the newly
+created changed. If a change with this Change-Id already exists for
+same repository and branch, the request is rejected since Change-Ids
+must be unique per repository and branch. If the commit message doesn't
+contain a Change-Id, a newly generated Change-Id is automatically
+inserted into the commit message.
 |`topic`              |optional|The topic to which this change belongs.
 |`status`             |optional, default to `NEW`|
 The status of the change (only `NEW` accepted here).

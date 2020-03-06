@@ -89,14 +89,12 @@ public class ActionJson {
     return Lists.newArrayList(visitorSet);
   }
 
-  public ChangeInfo addChangeActions(ChangeInfo to, ChangeNotes notes) {
+  void addChangeActions(ChangeInfo to, ChangeNotes notes) {
     List<ActionVisitor> visitors = visitors();
     to.actions = toActionMap(notes, visitors, copy(visitors, to));
-    return to;
   }
 
-  public RevisionInfo addRevisionActions(
-      @Nullable ChangeInfo changeInfo, RevisionInfo to, RevisionResource rsrc) {
+  void addRevisionActions(@Nullable ChangeInfo changeInfo, RevisionInfo to, RevisionResource rsrc) {
     List<ActionVisitor> visitors = visitors();
     if (!visitors.isEmpty()) {
       if (changeInfo != null) {
@@ -106,7 +104,6 @@ public class ActionJson {
       }
     }
     to.actions = toActionMap(rsrc, visitors, changeInfo, copy(visitors, to));
-    return to;
   }
 
   private ChangeInfo copy(List<ActionVisitor> visitors, ChangeInfo changeInfo) {
@@ -119,6 +116,8 @@ public class ActionJson {
     copy.project = changeInfo.project;
     copy.branch = changeInfo.branch;
     copy.topic = changeInfo.topic;
+    copy.attentionSet =
+        changeInfo.attentionSet == null ? null : ImmutableMap.copyOf(changeInfo.attentionSet);
     copy.assignee = changeInfo.assignee;
     copy.hashtags = changeInfo.hashtags;
     copy.changeId = changeInfo.changeId;

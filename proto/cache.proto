@@ -208,17 +208,17 @@ message ChangeNotesStateProto {
   }
   repeated AssigneeStatusUpdateProto assignee_update = 22;
 
-  // An update to the attention set of the change. See class AttentionStatus for
-  // context.
-  message AttentionStatusProto {
+  // An update to the attention set of the change. See class AttentionSetUpdate
+  // for context.
+  message AttentionSetUpdateProto {
     // Epoch millis.
     int64 timestamp_millis = 1;
     int32 account = 2;
-    // Maps to enum AttentionStatus.Operation
+    // Maps to enum AttentionSetUpdate.Operation
     string operation = 3;
     string reason = 4;
   }
-  repeated AttentionStatusProto attention_status = 23;
+  repeated AttentionSetUpdateProto attention_set_update = 23;
 }
 
 // Serialized form of com.google.gerrit.server.query.change.ConflictKey

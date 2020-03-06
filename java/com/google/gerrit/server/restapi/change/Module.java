@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.change.AttentionSetEntryResource.ATTENTION_SET_ENTRY_KIND;
 import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_KIND;
 import static com.google.gerrit.server.change.ChangeMessageResource.CHANGE_MESSAGE_KIND;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
@@ -30,6 +31,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.AddReviewersOp;
+import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteChangeOp;
@@ -38,6 +40,7 @@ import com.google.gerrit.server.change.DeleteReviewerOp;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.change.SetCherryPickOp;
@@ -72,6 +75,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), CHANGE_EDIT_KIND);
     DynamicMap.mapOf(binder(), VOTE_KIND);
     DynamicMap.mapOf(binder(), CHANGE_MESSAGE_KIND);
+    DynamicMap.mapOf(binder(), ATTENTION_SET_ENTRY_KIND);
 
     postOnCollection(CHANGE_KIND).to(CreateChange.class);
     get(CHANGE_KIND).to(GetChange.class);
@@ -79,6 +83,10 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "detail").to(GetDetail.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     get(CHANGE_KIND, "in").to(ChangeIncludedIn.class);
+    child(CHANGE_KIND, "attention").to(AttentionSet.class);
+    delete(ATTENTION_SET_ENTRY_KIND).to(RemoveFromAttentionSet.class);
+    post(ATTENTION_SET_ENTRY_KIND, "delete").to(RemoveFromAttentionSet.class);
+    postOnCollection(ATTENTION_SET_ENTRY_KIND).to(AddToAttentionSet.class);
     get(CHANGE_KIND, "assignee").to(GetAssignee.class);
     get(CHANGE_KIND, "past_assignees").to(GetPastAssignees.class);
     put(CHANGE_KIND, "assignee").to(PutAssignee.class);
@@ -206,5 +214,7 @@ public class Module extends RestApiModule {
     factory(SetHashtagsOp.Factory.class);
     factory(SetPrivateOp.Factory.class);
     factory(WorkInProgressOp.Factory.class);
+    factory(AddToAttentionSetOp.Factory.class);
+    factory(RemoveFromAttentionSetOp.Factory.class);
   }
 }

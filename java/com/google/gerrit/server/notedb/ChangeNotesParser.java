@@ -59,7 +59,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionStatus;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -118,7 +118,7 @@ class ChangeNotesParser {
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   /** Holds only the most recent update per user. Older updates are discarded. */
-  private final Map<Account.Id, AttentionStatus> latestAttentionStatus;
+  private final Map<Account.Id, AttentionSetUpdate> latestAttentionStatus;
 
   private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
@@ -367,7 +367,7 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
-    parseAttentionUpdates(commit);
+    parseAttentionSetUpdates(commit);
     parseAssigneeUpdates(ts, commit);
 
     if (submissionId == null) {
@@ -578,11 +578,11 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseAttentionUpdates(ChangeNotesCommit commit) throws ConfigInvalidException {
+  private void parseAttentionSetUpdates(ChangeNotesCommit commit) throws ConfigInvalidException {
     List<String> attentionStrings = commit.getFooterLineValues(FOOTER_ATTENTION);
     for (String attentionString : attentionStrings) {
 
-      Optional<AttentionStatus> attentionStatus =
+      Optional<AttentionSetUpdate> attentionStatus =
           ChangeNoteUtil.attentionStatusFromJson(
               Instant.ofEpochSecond(commit.getCommitTime()), attentionString);
       if (!attentionStatus.isPresent()) {

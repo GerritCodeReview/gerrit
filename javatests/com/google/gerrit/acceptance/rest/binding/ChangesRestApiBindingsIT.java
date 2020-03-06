@@ -63,6 +63,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/changes/%s/comments"),
           RestCall.get("/changes/%s/robotcomments"),
           RestCall.get("/changes/%s/drafts"),
+          RestCall.get("/changes/%s/attention"),
+          RestCall.post("/changes/%s/attention"),
           RestCall.get("/changes/%s/assignee"),
           RestCall.get("/changes/%s/past_assignees"),
           RestCall.put("/changes/%s/assignee"),
@@ -266,6 +268,11 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
 
           // Delete content of a file in an existing change edit.
           RestCall.delete("/changes/%s/edit/%s"));
+
+  private static final ImmutableList<RestCall> ATTENTION_SET_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.post("/changes/%s/attention/%s/delete"),
+          RestCall.delete("/changes/%s/attention/%s"));
 
   private static final String FILENAME = "test.txt";
 
@@ -475,6 +482,14 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
     gApi.changes().id(changeId).edit().create();
     RestApiCallHelper.execute(adminRestSession, CHANGE_EDIT_ENDPOINTS, changeId, FILENAME);
+  }
+
+  @Test
+  public void attentionSetEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).edit().create();
+    RestApiCallHelper.execute(
+        adminRestSession, ATTENTION_SET_ENDPOINTS, changeId, user.id().toString());
   }
 
   private static Comment.Range createRange(

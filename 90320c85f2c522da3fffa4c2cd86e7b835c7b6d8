@@ -34,6 +34,24 @@
       "revId": "90320c85f2c522da3fffa4c2cd86e7b835c7b6d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eada810_c17d82c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-06T14:02:36Z",
+      "side": 1,
+      "message": "yes, the question is with the change to the chips, it may give user a feeling that `chip` is the confirmed status, and before that, its all `drafts`, I am not sure how bad this is, ideally, the `gr-autocomplete` should support `enter` to commit a value, and its very likely it already supported.",
+      "parentUuid": "bd8b3685_63d3ed31",
+      "revId": "90320c85f2c522da3fffa4c2cd86e7b835c7b6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

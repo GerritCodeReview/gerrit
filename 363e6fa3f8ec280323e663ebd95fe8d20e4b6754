@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "856c3d28_f33b0337",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-06T00:15:09Z",
+      "side": 1,
+      "message": "How does this fix the issue?\n\nPlease explain it in the commit message.",
+      "revId": "363e6fa3f8ec280323e663ebd95fe8d20e4b6754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -37,6 +37,7 @@ public class HashedPasswordTest {
     HashedPassword roundtrip = HashedPassword.decode(hashed.encode());
     assertThat(hashed.encode()).isEqualTo(roundtrip.encode());
     assertThat(roundtrip.checkPassword(password)).isTrue();
+    assertThat(roundtrip.checkPassword(password + password)).isFalse();
     assertThat(roundtrip.checkPassword("not the password")).isFalse();
   }
 
@@ -47,7 +48,8 @@ public class HashedPasswordTest {
 
   @Test
   public void lengthLimit() throws Exception {
-    String password = Strings.repeat("1", 72);
+    // up to 72 bytes: 71 caracters + trailing 0
+    String password = Strings.repeat("1", 71);
 
     // make sure it fits in varchar(255).
     assertThat(HashedPassword.fromPassword(password).encode().length()).isLessThan(255);

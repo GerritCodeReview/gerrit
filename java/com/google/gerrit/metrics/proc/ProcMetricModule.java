@@ -90,6 +90,11 @@ public class ProcMetricModule extends MetricModule {
           new Description("Number of open file descriptors").setGauge().setUnit("fds"),
           provider::getOpenFileDescriptorCount);
     }
+    metrics.newCallbackMetric(
+        "proc/cpu/num_cores",
+        Integer.class,
+        new Description("Number of processors available to the Java virtual machine").setGauge(),
+        Runtime.getRuntime()::availableProcessors);
   }
 
   private void procJvmMemory(MetricMaker metrics) {

@@ -53,13 +53,51 @@ limitations under the License.
         line-height: var(--line-height-mono);
         width: 73ch; /* Add a char to account for the border. */
       }
+      .cherryPickTopicLayout {
+        display: flex;
+      }
+      .cherryPickSingleChange, .cherryPickTopic {
+        margin-left: var(--spacing-m);
+        margin-bottom: var(--spacing-m);
+      }
+      .cherry-pick-topic-message {
+        margin-top: var(--spacing-m);
+      }
+      label[for='messageInput'] {
+        margin-top: var(--spacing-m);
+      }
     </style>
     <gr-dialog
         confirm-label="Cherry Pick"
+        disabled$="[[_computeDisableCherryPick(_cherryPickType, _duplicateProjectChanges)]]"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
       <div class="header" slot="header">Cherry Pick Change to Another Branch</div>
       <div class="main" slot="main">
+
+        <template is="dom-if" if="[[_showCherryPickTopic]]">
+          <div class="cherryPickTopicLayout">
+            <input
+              name="cherryPickOptions"
+              type="radio"
+              id="cherryPickSingleChange"
+              on-change="_handlecherryPickSingleChangeClicked"
+              checked>
+            <label for="cherryPickSingleChange" class="label cherryPickSingleChange">
+              Cherry Pick single change
+            </label>
+          </div>
+          <div class="cherryPickTopicLayout">
+            <input
+              name="cherryPickOptions"
+              type="radio"
+              id="cherryPickTopic"
+              on-change="_handlecherryPickTopicClicked">
+            <label for="cherryPickTopic" class="label cherryPickTopic">
+              Cherry Pick entire topic ([[_changesCount]] Changes)
+            </label>
+        </template>
+
         <label for="branchInput">
           Cherry Pick to branch
         </label>
@@ -69,30 +107,37 @@ limitations under the License.
             query="[[_query]]"
             placeholder="Destination branch">
         </gr-autocomplete>
-        <label for="baseInput">
-          Provide base commit sha1 for cherry-pick
-        </label>
-        <iron-input
-            maxlength="40"
-            placeholder="(optional)"
-            bind-value="{{baseCommit}}">
-          <input
-              is="iron-input"
-              id="baseCommitInput"
+        <template is="dom-if" if="[[_computeIfSinglecherryPick(_cherryPickType)]]">
+          <label for="baseInput">
+            Provide base commit sha1 for cherry-pick
+          </label>
+          <iron-input
               maxlength="40"
               placeholder="(optional)"
               bind-value="{{baseCommit}}">
-        </iron-input>
+            <input
+                is="iron-input"
+                id="baseCommitInput"
+                maxlength="40"
+                placeholder="(optional)"
+                bind-value="{{baseCommit}}">
+          </iron-input>
+        </template>
         <label for="messageInput">
           Cherry Pick Commit Message
         </label>
-        <iron-autogrow-textarea
+        <template is="dom-if" if="[[_computeIfSinglecherryPick(_cherryPickType)]]">
+          <iron-autogrow-textarea
             id="messageInput"
             class="message"
             autocomplete="on"
             rows="4"
             max-rows="15"
             bind-value="{{message}}"></iron-autogrow-textarea>
+        </template>
+        <template is="dom-if" if="[[_computeIfCherryPickTopic(_cherryPickType)]]">
+          <span class="cherry-pick-topic-message"> Commit Message will be auto generated </span>
+        </template>
       </div>
     </gr-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

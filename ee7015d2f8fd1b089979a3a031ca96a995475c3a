@@ -52,6 +52,24 @@
       "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b581a8e_e56a21fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-06T10:26:24Z",
+      "side": 1,
+      "message": "The current UI did not make it clear that we can select only one branch since the autocomplete dropdown did not disappear after selecting a branch and the user could type more things.\nThis change makes it extremely clear by removing the user interaction with the autocomplete once the branch is selected.",
+      "parentUuid": "8d6ab04b_27d0b454",
+      "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

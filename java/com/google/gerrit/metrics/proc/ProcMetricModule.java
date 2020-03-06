@@ -29,6 +29,7 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
+import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.ThreadMXBean;
 import java.util.concurrent.TimeUnit;
 
@@ -38,6 +39,7 @@ public class ProcMetricModule extends MetricModule {
     buildLabel(metrics);
     procUptime(metrics);
     procCpuUsage(metrics);
+    procCpuLoad(metrics);
     procJvmGc(metrics);
     procJvmMemory(metrics);
     procJvmThread(metrics);
@@ -95,6 +97,18 @@ public class ProcMetricModule extends MetricModule {
         Integer.class,
         new Description("Number of processors available to the Java virtual machine").setGauge(),
         Runtime.getRuntime()::availableProcessors);
+  }
+
+  private void procCpuLoad(MetricMaker metrics) {
+    OperatingSystemMXBean provider =
+        ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+    if (provider.getSystemLoadAverage() != -1) {
+      metrics.newCallbackMetric(
+          "proc/cpu/system_load",
+          Double.class,
+          new Description("System load average for the last minute").setGauge(),
+          provider::getSystemLoadAverage);
+    }
   }
 
   private void procJvmMemory(MetricMaker metrics) {

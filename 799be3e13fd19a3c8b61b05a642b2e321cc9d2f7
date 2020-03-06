@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "622481d1_aabd69ac",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticProjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-06T10:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2219366f_5b66ab8e",
+      "range": {
+        "startLine": 128,
+        "startChar": 11,
+        "endLine": 128,
+        "endChar": 42
+      },
+      "revId": "799be3e13fd19a3c8b61b05a642b2e321cc9d2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac6eea35_f1880db5",
         "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "799be3e13fd19a3c8b61b05a642b2e321cc9d2f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b62aa2f_6358d2f7",
+        "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-06T10:01:16Z",
+      "side": 1,
+      "message": "Nice! Done.",
+      "parentUuid": "ac6eea35_f1880db5",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 80
+      },
+      "revId": "799be3e13fd19a3c8b61b05a642b2e321cc9d2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4f0c9724_06c6a82a",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-06T10:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee088052_4af962f7",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 28
+      },
+      "revId": "799be3e13fd19a3c8b61b05a642b2e321cc9d2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a6c8b75_795b0a07",
         "filename": "java/com/google/gerrit/server/submit/MergeOpRepoManager.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d096b352_fbb2d681",
+        "filename": "java/com/google/gerrit/server/submit/MergeOpRepoManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-06T10:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a6c8b75_795b0a07",
+      "range": {
+        "startLine": 190,
+        "startChar": 3,
+        "endLine": 192,
+        "endChar": 5
+      },
+      "revId": "799be3e13fd19a3c8b61b05a642b2e321cc9d2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec3d5ecb_fb435877",
         "filename": "java/com/google/gerrit/server/submit/SubmitDryRun.java",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "799be3e13fd19a3c8b61b05a642b2e321cc9d2f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed46e553_652fd7d0",
+        "filename": "java/com/google/gerrit/server/submit/SubmitDryRun.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-06T10:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec3d5ecb_fb435877",
+      "range": {
+        "startLine": 160,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 13
+      },
+      "revId": "799be3e13fd19a3c8b61b05a642b2e321cc9d2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

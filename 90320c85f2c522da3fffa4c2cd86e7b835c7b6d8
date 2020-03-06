@@ -16,6 +16,24 @@
       "revId": "90320c85f2c522da3fffa4c2cd86e7b835c7b6d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd8b3685_63d3ed31",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-06T13:58:07Z",
+      "side": 1,
+      "message": "yes, it will be. \nThe value will be stored in {{branch}}, so even if the user types and then cherry picks, the branch will be correctly set.\nI always thought this was intended behaviour.",
+      "parentUuid": "c131795c_f9f916ca",
+      "revId": "90320c85f2c522da3fffa4c2cd86e7b835c7b6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

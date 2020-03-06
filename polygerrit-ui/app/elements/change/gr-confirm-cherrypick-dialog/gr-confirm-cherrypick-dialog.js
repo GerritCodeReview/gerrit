@@ -50,6 +50,7 @@
         commitNum: String,
         message: String,
         project: String,
+        changes: Array,
         _query: {
           type: Function,
           value() {

@@ -39,6 +39,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class ChangesCollection implements RestCollection<TopLevelResource, ChangeResource> {
@@ -128,19 +129,18 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
     } catch (AuthException e) {
       return false;
     }
-    ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
-    if (projectState == null) {
+    Optional<ProjectState> projectState = projectCache.get(notes.getProjectName());
+    if (!projectState.isPresent()) {
       return false;
     }
-    return projectState.statePermitsRead();
+    return projectState.get().statePermitsRead();
   }
 
   private void checkProjectStatePermitsRead(Project.NameKey project)
-      throws IOException, ResourceNotFoundException, ResourceConflictException {
-    ProjectState projectState = projectCache.checkedGet(project);
-    if (projectState == null) {
-      throw new ResourceNotFoundException("project not found: " + project.get());
-    }
-    projectState.checkStatePermitsRead();
+      throws ResourceNotFoundException, ResourceConflictException {
+    projectCache
+        .get(project)
+        .orElseThrow(() -> new ResourceNotFoundException("project not found: " + project.get()))
+        .checkStatePermitsRead();
   }
 }

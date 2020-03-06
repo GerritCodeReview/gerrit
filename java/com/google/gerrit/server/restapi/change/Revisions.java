@@ -34,6 +34,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -111,7 +112,10 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
           .user(change.getUser())
           .change(change.getNotes())
           .check(ChangePermission.READ);
-      return projectCache.checkedGet(change.getProject()).statePermitsRead();
+      return projectCache
+          .get(change.getProject())
+          .map(ProjectState::statePermitsRead)
+          .orElse(false);
     } catch (AuthException e) {
       return false;
     }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
@@ -365,9 +367,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     public Response<BinaryResult> apply(ChangeEditResource rsrc) throws IOException {
       try {
         ChangeEdit edit = rsrc.getChangeEdit();
+        Project.NameKey project = rsrc.getChangeResource().getProject();
         return Response.ok(
             fileContentUtil.getContent(
-                projectCache.checkedGet(rsrc.getChangeResource().getProject()),
+                projectCache.get(project).orElseThrow(illegalState(project)),
                 base ? edit.getBasePatchSet().commitId() : edit.getEditCommit(),
                 rsrc.getPath(),
                 null));

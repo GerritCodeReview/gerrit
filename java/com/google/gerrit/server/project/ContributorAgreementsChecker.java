@@ -78,11 +78,8 @@ public class ContributorAgreementsChecker {
   public void check(Project.NameKey project, CurrentUser user) throws IOException, AuthException {
     metrics.claCheckCount.increment();
 
-    ProjectState projectState = projectCache.checkedGet(project);
-    if (projectState == null) {
-      throw new IOException("Can't load All-Projects");
-    }
-
+    ProjectState projectState =
+        projectCache.get(project).orElseThrow(() -> new IOException("Can't load " + project));
     if (!projectState.is(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS)) {
       return;
     }

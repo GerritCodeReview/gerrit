@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -70,7 +72,7 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
           ResourceNotFoundException, PermissionBackendException {
     RevisionResource revisionResource = fixResource.getRevisionResource();
     Project.NameKey project = revisionResource.getProject();
-    ProjectState projectState = projectCache.checkedGet(project);
+    ProjectState projectState = projectCache.get(project).orElseThrow(illegalState(project));
     PatchSet patchSet = revisionResource.getPatchSet();
 
     try (Repository repository = gitRepositoryManager.openRepository(project)) {

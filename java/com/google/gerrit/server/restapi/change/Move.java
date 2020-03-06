@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.ChangePermission.ABANDON;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
@@ -149,7 +150,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     } catch (AuthException denied) {
       throw new AuthException("move not permitted", denied);
     }
-    projectCache.checkedGet(project).checkStatePermitsWrite();
+    projectCache.get(project).orElseThrow(illegalState(project)).checkStatePermitsWrite();
 
     Op op = new Op(input);
     try (BatchUpdate u = updateFactory.create(project, caller, TimeUtil.nowTs())) {
@@ -259,7 +260,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       for (PatchSetApproval psa :
           approvalsUtil.byPatchSet(
               ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
-        ProjectState projectState = projectCache.checkedGet(project);
+        ProjectState projectState = projectCache.get(project).orElseThrow(illegalState(project));
         LabelType type = projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.labelId());
         // Only keep veto votes, defined as votes where:
         // 1- the label function allows minimum values to block submission.
@@ -294,10 +295,13 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     }
 
     try {
-      if (!projectCache.checkedGet(rsrc.getProject()).statePermitsWrite()) {
+      if (!projectCache
+          .get(rsrc.getProject())
+          .orElseThrow(illegalState(rsrc.getProject()))
+          .statePermitsWrite()) {
         return description;
       }
-    } catch (IOException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if project state permits write: %s", rsrc.getProject());
       return description;

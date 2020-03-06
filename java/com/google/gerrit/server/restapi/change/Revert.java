@@ -16,10 +16,12 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -87,7 +90,10 @@ public class Revert
 
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
     permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
-    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
+    projectCache
+        .get(rsrc.getProject())
+        .orElseThrow(illegalState(rsrc.getProject()))
+        .checkStatePermitsWrite();
     ChangeNotes notes = rsrc.getNotes();
     Change.Id changeIdToRevert = notes.getChangeId();
     PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();
@@ -108,8 +114,9 @@ public class Revert
     Change change = rsrc.getChange();
     boolean projectStatePermitsWrite = false;
     try {
-      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
-    } catch (IOException e) {
+      projectStatePermitsWrite =
+          projectCache.get(rsrc.getProject()).map(ProjectState::statePermitsWrite).orElse(false);
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if project state permits write: %s", rsrc.getProject());
     }

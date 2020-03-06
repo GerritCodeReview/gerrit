@@ -55,20 +55,8 @@ public interface ProjectCache {
    * @return an {@link Optional} wrapping the the cached data; {@code absent} if no such project
    *     exists or the projectName is null
    * @throws StorageException when there was an error.
-   * @see #checkedGet(com.google.gerrit.entities.Project.NameKey)
    */
   Optional<ProjectState> get(@Nullable Project.NameKey projectName) throws StorageException;
-
-  /**
-   * Get the cached data for a project by its unique name.
-   *
-   * @param projectName name of the project.
-   * @throws IOException when there was an error.
-   * @return the cached data; null if no such project exists or projectName is null.
-   * @deprecated use {@link #get(Project.NameKey)} instead.
-   */
-  @Deprecated
-  ProjectState checkedGet(@Nullable Project.NameKey projectName) throws IOException;
 
   /**
    * Invalidate the cached information about the given project, and triggers reindexing for it

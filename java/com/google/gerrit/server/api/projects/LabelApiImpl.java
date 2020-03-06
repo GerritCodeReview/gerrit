@@ -15,6 +15,7 @@
 package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.LabelApi;
@@ -78,7 +79,11 @@ public class LabelApiImpl implements LabelApi {
       // recreate project resource because project state was updated by creating the new label and
       // needs to be reloaded
       project =
-          new ProjectResource(projectCache.checkedGet(project.getNameKey()), project.getUser());
+          new ProjectResource(
+              projectCache
+                  .get(project.getNameKey())
+                  .orElseThrow(illegalState(project.getNameKey())),
+              project.getUser());
       return this;
     } catch (Exception e) {
       throw asRestApiException("Cannot create branch", e);

@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -49,7 +50,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -220,14 +220,17 @@ public class ApprovalsUtil {
 
   private boolean canSee(ChangeNotes notes, Account.Id accountId) {
     try {
-      if (!projectCache.checkedGet(notes.getProjectName()).statePermitsRead()) {
+      if (!projectCache
+          .get(notes.getProjectName())
+          .orElseThrow(illegalState(notes.getProjectName()))
+          .statePermitsRead()) {
         return false;
       }
       permissionBackend.absentUser(accountId).change(notes).check(ChangePermission.READ);
       return true;
     } catch (AuthException e) {
       return false;
-    } catch (IOException | PermissionBackendException e) {
+    } catch (PermissionBackendException e) {
       logger.atWarning().withCause(e).log(
           "Failed to check if account %d can see change %d",
           accountId.get(), notes.getChangeId().get());

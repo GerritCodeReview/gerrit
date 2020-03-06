@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -79,7 +81,9 @@ public class GetContent implements RestReadView<FileResource> {
     }
     return Response.ok(
         fileContentUtil.getContent(
-            projectCache.checkedGet(rsrc.getRevision().getProject()),
+            projectCache
+                .get(rsrc.getRevision().getProject())
+                .orElseThrow(illegalState(rsrc.getRevision().getProject())),
             rsrc.getRevision().getPatchSet().commitId(),
             path,
             parent));

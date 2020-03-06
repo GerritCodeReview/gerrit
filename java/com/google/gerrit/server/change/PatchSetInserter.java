@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
@@ -297,7 +298,10 @@ public class PatchSetInserter implements BatchUpdateOp {
     if (checkAddPatchSetPermission) {
       permissionBackend.user(ctx.getUser()).change(origNotes).check(ChangePermission.ADD_PATCH_SET);
     }
-    projectCache.checkedGet(ctx.getProject()).checkStatePermitsWrite();
+    projectCache
+        .get(ctx.getProject())
+        .orElseThrow(illegalState(ctx.getProject()))
+        .checkStatePermitsWrite();
     if (!validate) {
       return;
     }
@@ -309,7 +313,10 @@ public class PatchSetInserter implements BatchUpdateOp {
                 ObjectId.zeroId(),
                 commitId,
                 refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
-            projectCache.checkedGet(origNotes.getProjectName()).getProject(),
+            projectCache
+                .get(origNotes.getProjectName())
+                .orElseThrow(illegalState(origNotes.getProjectName()))
+                .getProject(),
             origNotes.getChange().getDest().branch(),
             ctx.getRevWalk().getObjectReader(),
             commitId,

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.MoreObjects;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.ChangeSet;
@@ -181,7 +183,10 @@ public class Submit
       rsrc.permissions().check(ChangePermission.SUBMIT);
       submitter = rsrc.getUser().asIdentifiedUser();
     }
-    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
+    projectCache
+        .get(rsrc.getProject())
+        .orElseThrow(illegalState(rsrc.getProject()))
+        .checkStatePermitsWrite();
 
     return mergeChange(rsrc, submitter, input);
   }
@@ -291,10 +296,13 @@ public class Submit
     }
 
     try {
-      if (!projectCache.checkedGet(resource.getProject()).statePermitsWrite()) {
+      if (!projectCache
+          .get(resource.getProject())
+          .map(ProjectState::statePermitsWrite)
+          .orElse(false)) {
         return null; // submit not visible
       }
-    } catch (IOException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
       throw new StorageException("Could not determine problems for the change", e);
     }

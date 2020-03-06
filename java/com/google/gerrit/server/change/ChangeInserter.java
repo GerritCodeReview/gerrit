@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.Change.INITIAL_PATCH_SET_ID;
 import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
@@ -359,7 +360,7 @@ public class ChangeInserter implements InsertChangeOp {
   @Override
   public void updateRepo(RepoContext ctx) throws ResourceConflictException, IOException {
     cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, psId.toRefName());
-    projectState = projectCache.checkedGet(ctx.getProject());
+    projectState = projectCache.get(ctx.getProject()).orElseThrow(illegalState(ctx.getProject()));
     validate(ctx);
     if (!updateRef) {
       return;

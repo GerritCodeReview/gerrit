@@ -21,6 +21,7 @@ import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputF
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.base.Strings;
@@ -549,7 +550,11 @@ public class ReplaceOp implements BatchUpdateOp {
      * show a transition from an oldValue of 0 to the new value.
      */
     List<LabelType> labels =
-        projectCache.checkedGet(ctx.getProject()).getLabelTypes(notes).getLabelTypes();
+        projectCache
+            .get(ctx.getProject())
+            .orElseThrow(illegalState(ctx.getProject()))
+            .getLabelTypes(notes)
+            .getLabelTypes();
     Map<String, Short> allApprovals = new HashMap<>();
     Map<String, Short> oldApprovals = new HashMap<>();
     for (LabelType lt : labels) {

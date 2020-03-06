@@ -397,7 +397,10 @@ public class RevertIT extends AbstractDaemonTest {
         .revision(result.getCommit().name())
         .review(ReviewInput.approve());
     gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
-    projectCache.checkedGet(project).getProject().setState(ProjectState.READ_ONLY);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getProject().setState(ProjectState.READ_ONLY);
+      u.save();
+    }
 
     String expected = "project state " + ProjectState.READ_ONLY + " does not permit write";
     ResourceConflictException thrown =
@@ -461,7 +464,10 @@ public class RevertIT extends AbstractDaemonTest {
     gApi.changes().id(change1).current().submit();
 
     // revoke write permissions for the first repository.
-    projectCache.checkedGet(project).getProject().setState(ProjectState.READ_ONLY);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getProject().setState(ProjectState.READ_ONLY);
+      u.save();
+    }
 
     String expected = "project state " + ProjectState.READ_ONLY + " does not permit write";
 

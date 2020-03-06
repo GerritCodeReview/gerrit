@@ -43,6 +43,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 
 @Singleton
 public class ProjectsCollection
@@ -139,19 +140,19 @@ public class ProjectsCollection
     id = ProjectUtil.sanitizeProjectName(id);
 
     Project.NameKey nameKey = Project.nameKey(id);
-    ProjectState state = projectCache.checkedGet(nameKey);
-    if (state == null) {
+    Optional<ProjectState> state = projectCache.get(nameKey);
+    if (!state.isPresent()) {
       return null;
     }
 
-    logger.atFine().log("Project %s has state %s", nameKey, state.getProject().getState());
+    logger.atFine().log("Project %s has state %s", nameKey, state.get().getProject().getState());
 
     if (checkAccess) {
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.
       // WRITE_CONFIG is checked here because it's only allowed to project owners (ACCESS may also
       // be allowed for other users). Allowing project owners to access here will help them to view
       // and update the config of hidden projects easily.
-      if (state.statePermitsRead()) {
+      if (state.get().statePermitsRead()) {
         try {
           permissionBackend.currentUser().project(nameKey).check(ProjectPermission.ACCESS);
         } catch (AuthException e) {
@@ -161,11 +162,11 @@ public class ProjectsCollection
         try {
           permissionBackend.currentUser().project(nameKey).check(ProjectPermission.WRITE_CONFIG);
         } catch (AuthException e) {
-          state.checkStatePermitsRead();
+          state.get().checkStatePermitsRead();
         }
       }
     }
-    return new ProjectResource(state, user.get());
+    return new ProjectResource(state.get(), user.get());
   }
 
   @Override

@@ -28,7 +28,6 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologOptions;
 import com.google.gerrit.server.rules.PrologRule;
@@ -75,10 +74,9 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
-    ProjectState projectState =
-        projectCache
-            .get(rsrc.getProject())
-            .orElseThrow(() -> new BadRequestException("project not found " + rsrc.getProject()));
+    projectCache
+        .get(rsrc.getProject())
+        .orElseThrow(() -> new BadRequestException("project not found " + rsrc.getProject()));
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     SubmitRecord record =
         prologRule.evaluate(

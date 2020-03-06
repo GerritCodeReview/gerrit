@@ -24,8 +24,8 @@ import java.time.Instant;
  * invalidates all previous state (hence the name -Status rather than -Update), only the most recent
  * record is relevant for each user.
  *
- * <p>See <a href="https://www.gerritcodereview.com/design-docs/attention-set.html">here</a> for
- * details.
+ * <p>See {@link com.google.gerrit.extensions.api.changes.AttentionSetInput} for the representation
+ * in the API.
  */
 @AutoValue
 public abstract class AttentionStatus {

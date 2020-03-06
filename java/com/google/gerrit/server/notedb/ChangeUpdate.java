@@ -53,7 +53,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionStatus;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Project;
@@ -127,7 +127,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
-  private List<AttentionStatus> attentionUpdates;
+  private List<AttentionSetUpdate> attentionUpdates;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -375,12 +375,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * All updates must have a timestamp of null since we use the commit's timestamp. There also must
    * not be multiple updates for a single user.
    */
-  void setAttentionUpdates(List<AttentionStatus> attentionUpdates) {
+  public void setAttentionUpdates(List<AttentionSetUpdate> attentionUpdates) {
     checkArgument(
         attentionUpdates.stream().noneMatch(x -> x.timestamp() != null),
         "must not specify timestamp for write");
     checkArgument(
-        attentionUpdates.stream().map(AttentionStatus::account).distinct().count()
+        attentionUpdates.stream().map(AttentionSetUpdate::account).distinct().count()
             == attentionUpdates.size(),
         "must not specify multiple updates for single user");
     this.attentionUpdates = attentionUpdates;
@@ -597,7 +597,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (attentionUpdates != null) {
-      for (AttentionStatus attentionUpdate : attentionUpdates) {
+      for (AttentionSetUpdate attentionUpdate : attentionUpdates) {
         addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionStatusToJson(attentionUpdate));
       }
     }

@@ -28,7 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionStatus;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -605,15 +605,15 @@ public class ChangeNotesStateTest {
         newBuilder()
             .attentionUpdates(
                 ImmutableList.of(
-                    AttentionStatus.createFromRead(
+                    AttentionSetUpdate.createFromRead(
                         Instant.EPOCH.plusSeconds(23),
                         Account.id(1000),
-                        AttentionStatus.Operation.ADD,
+                        AttentionSetUpdate.Operation.ADD,
                         "reason 1"),
-                    AttentionStatus.createFromRead(
+                    AttentionSetUpdate.createFromRead(
                         Instant.EPOCH.plusSeconds(42),
                         Account.id(2000),
-                        AttentionStatus.Operation.REMOVE,
+                        AttentionSetUpdate.Operation.REMOVE,
                         "reason 2")))
             .build(),
         newProtoBuilder()
@@ -790,7 +790,7 @@ public class ChangeNotesStateTest {
                     new TypeLiteral<ImmutableList<ReviewerStatusUpdate>>() {}.getType())
                 .put(
                     "attentionUpdates",
-                    new TypeLiteral<ImmutableList<AttentionStatus>>() {}.getType())
+                    new TypeLiteral<ImmutableList<AttentionSetUpdate>>() {}.getType())
                 .put(
                     "assigneeUpdates",
                     new TypeLiteral<ImmutableList<AssigneeStatusUpdate>>() {}.getType())

@@ -36,6 +36,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -292,6 +293,8 @@ public class ChangeData {
   private ReviewerSet reviewers;
   private ReviewerByEmailSet reviewersByEmail;
   private ReviewerSet pendingReviewers;
+  //ö location?
+  private ImmutableList<AttentionSetUpdate> attentionSet;
   private ReviewerByEmailSet pendingReviewersByEmail;
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
@@ -680,6 +683,25 @@ public class ChangeData {
 
   public ReviewerByEmailSet getReviewersByEmail() {
     return reviewersByEmail;
+  }
+
+  // ö location of all 3...
+
+  // ö Mention that this returns the latest status per user?
+  public ImmutableList<AttentionSetUpdate> attentionStatus() {
+    if (attentionSet == null) {
+      if (!lazyLoad) {
+        return ImmutableList.of();
+      }
+      attentionSet = notes().getAttentionSetUpdates();
+    }
+    return attentionSet;
+  }
+
+  // ö setAttentionStatus(...)?
+
+  public ImmutableList<AttentionSetUpdate> getAttentionStatus() {  // ö unused?
+    return attentionSet;
   }
 
   public void setPendingReviewers(ReviewerSet pendingReviewers) {

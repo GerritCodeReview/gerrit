@@ -437,7 +437,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertErrorStatus("change " + url + " closed");
 
     // Check change message that was added on auto-close
-    ChangeInfo change = gApi.changes().id(r.getChange().getId().get()).get();
+    ChangeInfo change = change(r).get();
     assertThat(Iterables.getLast(change.messages).message)
         .isEqualTo("Change has been successfully pushed.");
   }
@@ -477,7 +477,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertErrorStatus("change " + url + " closed");
 
     // Check that new commit was added as patch set
-    ChangeInfo change = gApi.changes().id(r.getChange().getId().get()).get();
+    ChangeInfo change = change(r).get();
     assertThat(change.revisions).hasSize(2);
     assertThat(change.currentRevision).isEqualTo(c.name());
   }

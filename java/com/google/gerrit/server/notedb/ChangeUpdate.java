@@ -53,7 +53,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionStatus;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Project;
@@ -127,7 +127,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
-  private List<AttentionStatus> attentionUpdates;
+  private List<AttentionSetUpdate> attentionSetUpdates;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -375,15 +375,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * All updates must have a timestamp of null since we use the commit's timestamp. There also must
    * not be multiple updates for a single user.
    */
-  void setAttentionUpdates(List<AttentionStatus> attentionUpdates) {
+  public void setAttentionSetUpdates(List<AttentionSetUpdate> attentionSetUpdates) {
     checkArgument(
-        attentionUpdates.stream().noneMatch(x -> x.timestamp() != null),
+        attentionSetUpdates.stream().noneMatch(a -> a.timestamp() != null),
         "must not specify timestamp for write");
     checkArgument(
-        attentionUpdates.stream().map(AttentionStatus::account).distinct().count()
-            == attentionUpdates.size(),
+        attentionSetUpdates.stream().map(AttentionSetUpdate::account).distinct().count()
+            == attentionSetUpdates.size(),
         "must not specify multiple updates for single user");
-    this.attentionUpdates = attentionUpdates;
+    this.attentionSetUpdates = attentionSetUpdates;
   }
 
   public void setAssignee(Account.Id assignee) {
@@ -596,9 +596,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_COMMIT, commit);
     }
 
-    if (attentionUpdates != null) {
-      for (AttentionStatus attentionUpdate : attentionUpdates) {
-        addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionStatusToJson(attentionUpdate));
+    if (attentionSetUpdates != null) {
+      for (AttentionSetUpdate attentionSetUpdate : attentionSetUpdates) {
+        addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
       }
     }
 
@@ -737,7 +737,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && status == null
         && submissionId == null
         && submitRecords == null
-        && attentionUpdates == null
+        && attentionSetUpdates == null
         && assignee == null
         && hashtags == null
         && topic == null

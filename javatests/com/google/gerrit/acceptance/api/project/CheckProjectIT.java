@@ -53,14 +53,14 @@ public class CheckProjectIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange("refs/for/master");
     String branch = r.getChange().change().getDest().branch();
 
-    ChangeInfo info = gApi.changes().id(r.getChange().getId().get()).info();
+    ChangeInfo info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
     CheckProjectResultInfo checkResult =
         gApi.projects().name(project.get()).check(checkProjectInputForAutoCloseableCheck(branch));
     assertThat(checkResult.autoCloseableChangesCheckResult.autoCloseableChanges).isEmpty();
 
-    info = gApi.changes().id(r.getChange().getId().get()).info();
+    info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
   }
 
@@ -121,7 +121,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     RevCommit amendedCommit = serverSideTestRepo.amend(r.getCommit()).create();
     serverSideTestRepo.branch(branch).update(amendedCommit);
 
-    ChangeInfo info = gApi.changes().id(r.getChange().getId().get()).info();
+    ChangeInfo info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
     CheckProjectResultInfo checkResult =
@@ -132,7 +132,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
                 .collect(toSet()))
         .containsExactly(r.getChange().getId().get());
 
-    info = gApi.changes().id(r.getChange().getId().get()).info();
+    info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
   }
 
@@ -144,7 +144,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     RevCommit amendedCommit = serverSideTestRepo.amend(r.getCommit()).create();
     serverSideTestRepo.branch(branch).update(amendedCommit);
 
-    ChangeInfo info = gApi.changes().id(r.getChange().getId().get()).info();
+    ChangeInfo info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
     CheckProjectInput input = checkProjectInputForAutoCloseableCheck(branch);
@@ -156,7 +156,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
                 .collect(toSet()))
         .containsExactly(r.getChange().getId().get());
 
-    info = gApi.changes().id(r.getChange().getId().get()).info();
+    info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 
@@ -170,7 +170,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
 
     serverSideTestRepo.commit(amendedCommit);
 
-    ChangeInfo info = gApi.changes().id(r.getChange().getId().get()).info();
+    ChangeInfo info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
     CheckProjectInput input = checkProjectInputForAutoCloseableCheck(branch);
@@ -179,7 +179,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     CheckProjectResultInfo checkResult = gApi.projects().name(project.get()).check(input);
     assertThat(checkResult.autoCloseableChangesCheckResult.autoCloseableChanges).isEmpty();
 
-    info = gApi.changes().id(r.getChange().getId().get()).info();
+    info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
     input.autoCloseableChangesCheck.maxCommits = 2;
@@ -190,7 +190,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
                 .collect(toSet()))
         .containsExactly(r.getChange().getId().get());
 
-    info = gApi.changes().id(r.getChange().getId().get()).info();
+    info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 
@@ -204,7 +204,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
 
     serverSideTestRepo.commit(amendedCommit);
 
-    ChangeInfo info = gApi.changes().id(r.getChange().getId().get()).info();
+    ChangeInfo info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
     CheckProjectInput input = checkProjectInputForAutoCloseableCheck(branch);
@@ -213,7 +213,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     CheckProjectResultInfo checkResult = gApi.projects().name(project.get()).check(input);
     assertThat(checkResult.autoCloseableChangesCheckResult.autoCloseableChanges).isEmpty();
 
-    info = gApi.changes().id(r.getChange().getId().get()).info();
+    info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
     input.autoCloseableChangesCheck.skipCommits = 1;
@@ -224,7 +224,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
                 .collect(toSet()))
         .containsExactly(r.getChange().getId().get());
 
-    info = gApi.changes().id(r.getChange().getId().get()).info();
+    info = change(r).info();
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 

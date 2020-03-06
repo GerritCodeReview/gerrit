@@ -36,6 +36,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -296,6 +297,7 @@ public class ChangeData {
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
+  private ImmutableList<AttentionSetUpdate> attentionSet;
   private int parentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
@@ -599,6 +601,17 @@ public class ChangeData {
           e);
     }
     return true;
+  }
+
+  /** Returns the most recent update (i.e. status) per user. */
+  public ImmutableList<AttentionSetUpdate> attentionSet() {
+    if (attentionSet == null) {
+      if (!lazyLoad) {
+        return ImmutableList.of();
+      }
+      attentionSet = notes().getAttentionSet();
+    }
+    return attentionSet;
   }
 
   /** @return patches for the change, in patch set ID order. */

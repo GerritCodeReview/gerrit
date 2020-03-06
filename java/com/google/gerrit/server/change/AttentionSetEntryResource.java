@@ -1,0 +1,58 @@
+// Copyright (C) 2017 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.change;
+
+import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.mail.Address;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
+public class AttentionSetEntryResource implements RestResource {
+  public static final TypeLiteral<RestView<AttentionSetEntryResource>> ATTENTION_SET_ENTRY_KIND =
+      new TypeLiteral<RestView<AttentionSetEntryResource>>() {};
+
+  public interface Factory {
+    AttentionSetEntryResource create(ChangeResource change, Account.Id id);
+  }
+
+  private final Account.Id accountId;
+  private final String reason;
+  private final boolean included;
+
+  // @AssistedInject
+  // AttentionSetEntryResource(
+  //     IdentifiedUser.GenericFactory userFactory,
+  //     @Assisted ChangeResource change,
+  //     @Assisted Account.Id id) {
+  //   System.out.println("##### Injected: " + id);
+  //   this.change = change;
+  //   this.user = userFactory.create(id);
+  //   this.revision = null;
+  // }
+
+  public AttentionSetEntryResource(Account.Id accountId, String reason, boolean included) {
+    this.accountId = accountId;
+    this.reason = reason;
+    this.included = included;
+  }
+}

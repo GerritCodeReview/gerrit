@@ -188,11 +188,11 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   private AccountInfo getAssignee(PushOneCommit.Result r) throws Exception {
-    return gApi.changes().id(r.getChange().getId().get()).getAssignee();
+    return change(r).getAssignee();
   }
 
   private List<AccountInfo> getPastAssignees(PushOneCommit.Result r) throws Exception {
-    return gApi.changes().id(r.getChange().getId().get()).getPastAssignees();
+    return change(r).getPastAssignees();
   }
 
   private Iterable<AccountInfo> getReviewers(PushOneCommit.Result r, ReviewerState state)
@@ -203,10 +203,10 @@ public class AssigneeIT extends AbstractDaemonTest {
   private AccountInfo setAssignee(PushOneCommit.Result r, String identifieer) throws Exception {
     AssigneeInput input = new AssigneeInput();
     input.assignee = identifieer;
-    return gApi.changes().id(r.getChange().getId().get()).setAssignee(input);
+    return change(r).setAssignee(input);
   }
 
   private AccountInfo deleteAssignee(PushOneCommit.Result r) throws Exception {
-    return gApi.changes().id(r.getChange().getId().get()).deleteAssignee();
+    return change(r).deleteAssignee();
   }
 }

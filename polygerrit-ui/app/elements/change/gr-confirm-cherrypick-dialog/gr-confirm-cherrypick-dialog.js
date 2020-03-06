@@ -18,6 +18,11 @@
   'use strict';
 
   const SUGGESTIONS_LIMIT = 15;
+  const CHANGE_SUBJECT_LIMIT = 50;
+  const CHERRY_PICK_TYPES = {
+    SINGLE_CHANGE: 1,
+    TOPIC: 2,
+  };
 
   /**
    * @appliesMixin Gerrit.FireMixin
@@ -50,12 +55,31 @@
         commitNum: String,
         message: String,
         project: String,
+        changes: Array,
         _query: {
           type: Function,
           value() {
             return this._getProjectBranchesSuggestions.bind(this);
           },
         },
+        _showCherryPickTopic: {
+          type: Boolean,
+          value: false,
+        },
+        _changesCount: Number,
+        _cherryPickType: {
+          type: Number,
+          value: CHERRY_PICK_TYPES.SINGLE_CHANGE,
+        },
+        _duplicateProjectChanges: {
+          type: Boolean,
+          value: false,
+        },
+        statusCherryPick: {
+          type: Object,
+        },
+        _statuses: Object,
+        _nonVisibleChangesCount: Number,
       };
     }
 
@@ -63,6 +87,63 @@
       return [
         '_computeMessage(changeStatus, commitNum, commitMessage)',
       ];
+    }
+
+    updateChanges(changes, nonVisibleChangesCount) {
+      this.changes = changes;
+      this._statuses = {};
+      const projects = {};
+      this._duplicateProjectChanges = false;
+      this._nonVisibleChangesCount = nonVisibleChangesCount;
+      changes.forEach(change => {
+        if (projects[change.project]) {
+          this._duplicateProjectChanges = true;
+        }
+        projects[change.project] = true;
+      });
+      this._changesCount = changes.length;
+      this._showCherryPickTopic = changes.length > 1;
+    }
+
+    updateStatus(change, status) {
+      this._statuses = Object.assign({}, this._statuses, {[change.id]: status});
+    }
+
+    _computeStatus(change, statuses) {
+      if (!statuses || !statuses[change.id]) return '';
+      return statuses[change.id].status;
+    }
+
+    _getChangeId(change) {
+      return change.change_id.substring(0, 10);
+    }
+
+    _getTrimmedChangeSubject(subject) {
+      if (!subject) return '';
+      if (subject.length < CHANGE_SUBJECT_LIMIT) return subject;
+      return subject.substring(0, CHANGE_SUBJECT_LIMIT) + '...';
+    }
+
+    _computeDisableCherryPick(cherryPickType, duplicateProjectChanges,
+        nonVisibleChangesCount) {
+      return cherryPickType === CHERRY_PICK_TYPES.TOPIC &&
+        (duplicateProjectChanges || nonVisibleChangesCount);
+    }
+
+    _computeIfSinglecherryPick(cherryPickType) {
+      return cherryPickType === CHERRY_PICK_TYPES.SINGLE_CHANGE;
+    }
+
+    _computeIfCherryPickTopic(cherryPickType) {
+      return cherryPickType === CHERRY_PICK_TYPES.TOPIC;
+    }
+
+    _handlecherryPickSingleChangeClicked(e) {
+      this._cherryPickType = CHERRY_PICK_TYPES.SINGLE_CHANGE;
+    }
+
+    _handlecherryPickTopicClicked(e) {
+      this._cherryPickType = CHERRY_PICK_TYPES.TOPIC;
     }
 
     _computeMessage(changeStatus, commitNum, commitMessage) {
@@ -86,7 +167,8 @@
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
-      this.fire('confirm', null, {bubbles: false});
+      this.fire('confirm', {type: this._cherryPickType, branch: this.branch},
+          {bubbles: false});
     }
 
     _handleCancelTap(e) {

@@ -38,6 +38,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -76,7 +77,6 @@ class OpenIdServiceImpl {
   private static final String P_TOKEN = "gerrit.token";
   private static final String P_REMEMBER = "gerrit.remember";
   private static final String P_CLAIMED = "gerrit.claimed";
-  private static final int LASTID_AGE = 365 * 24 * 60 * 60; // seconds
 
   private static final String OPENID_MODE = "openid.mode";
   private static final String OMODE_CANCEL = "cancel";
@@ -417,7 +417,7 @@ class OpenIdServiceImpl {
           lastId.setPath(req.getContextPath() + "/login/");
           if (remember) {
             lastId.setValue(rediscoverIdentifier);
-            lastId.setMaxAge(LASTID_AGE);
+            lastId.setMaxAge(LocalDate.now().lengthOfYear() * 24 * 60 * 60);
           } else {
             lastId.setMaxAge(0);
           }

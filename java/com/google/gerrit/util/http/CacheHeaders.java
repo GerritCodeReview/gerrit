@@ -17,14 +17,13 @@ package com.google.gerrit.util.http;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Utilities to manage HTTP caching directives in responses. */
 public class CacheHeaders {
-  private static final long MAX_CACHE_DURATION = DAYS.toSeconds(365);
-
   /**
    * Do not cache the response, anywhere.
    *
@@ -141,7 +140,7 @@ public class CacheHeaders {
   }
 
   private static long maxAgeSeconds(long age, TimeUnit unit) {
-    return Math.min(unit.toSeconds(age), MAX_CACHE_DURATION);
+    return Math.min(unit.toSeconds(age), DAYS.toSeconds(LocalDate.now().lengthOfYear()));
   }
 
   private CacheHeaders() {}

@@ -305,6 +305,7 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableList<ReviewerStatusUpdate> reviewerUpdates();
 
+  /** The most recent update (i.e. status) per user. */
   abstract ImmutableList<AttentionStatus> attentionUpdates();
 
   abstract ImmutableList<AssigneeStatusUpdate> assigneeUpdates();
@@ -351,6 +352,7 @@ public abstract class ChangeNotesState {
     change.setTopic(Strings.emptyToNull(c.topic()));
     change.setLastUpdatedOn(c.lastUpdatedOn());
     change.setSubmissionId(c.submissionId());
+    // change.setAttentionSet()
     if (!assigneeUpdates().isEmpty()) {
       change.setAssignee(assigneeUpdates().get(0).currentAssignee().orElse(null));
     }

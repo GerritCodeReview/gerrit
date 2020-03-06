@@ -36,6 +36,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionStatus;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -45,6 +46,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.common.AttentionSetEntry;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -89,6 +91,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -98,6 +101,10 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * ö Internal representation of data "around" a change. At API level {@link
+ * com.google.gerrit.extensions.common.ChangeInfo} is used.
+ */
 public class ChangeData {
   public static List<Change> asChanges(List<ChangeData> changeDatas) {
     List<Change> result = new ArrayList<>(changeDatas.size());
@@ -292,6 +299,8 @@ public class ChangeData {
   private ReviewerSet reviewers;
   private ReviewerByEmailSet reviewersByEmail;
   private ReviewerSet pendingReviewers;
+  //ö location?
+  private ImmutableList<AttentionStatus> attentionSet;
   private ReviewerByEmailSet pendingReviewersByEmail;
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
@@ -680,6 +689,25 @@ public class ChangeData {
 
   public ReviewerByEmailSet getReviewersByEmail() {
     return reviewersByEmail;
+  }
+
+  // ö location of all 3...
+
+  // ö Mention that this returns the latest status per user?
+  public ImmutableList<AttentionStatus> attentionStatus() {
+    if (attentionSet == null) {
+      if (!lazyLoad) {
+        return ImmutableList.of();
+      }
+      attentionSet = notes().getAttentionUpdates();
+    }
+    return attentionSet;
+  }
+
+  // ö setAttentionStatus(...)?
+
+  public ImmutableList<AttentionStatus> getAttentionStatus() {  // ö unused?
+    return attentionSet;
   }
 
   public void setPendingReviewers(ReviewerSet pendingReviewers) {

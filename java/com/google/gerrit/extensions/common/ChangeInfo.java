@@ -22,14 +22,24 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Representation of a change used at API level, for events etc. Internally {@link
+ * com.google.gerrit.server.query.change.ChangeData} is used.
+ */
 public class ChangeInfo {
   // ActionJson#copy(List, ChangeInfo) must be adapted if new fields are added that are not
-  // protected by any ListChangesOption.
+  // protected by any ListChangesOption. ö Do this.
   public String id;
   public String project;
   public String branch;
   public String topic;
   public AccountInfo assignee;
+  /**
+   * The <a href="https://www.gerritcodereview.com/design-docs/attention-set.html">attention set</a>
+   * for this change. ö @Nullable? Explain key.
+   */
+  public Map<Integer, AttentionSetEntry> attentionSet;
+
   public Collection<String> hashtags;
   public String changeId;
   public String subject;

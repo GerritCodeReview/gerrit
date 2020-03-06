@@ -21,8 +21,10 @@ import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.AttentionSetEntry;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -487,6 +489,9 @@ public final class Change {
    */
   @Nullable protected String submissionId;
 
+  // ö Is this ordered (proto?)?
+  // ö @Nullable protected Map<Account.Id, AttentionSetEntry> attentionSet;
+
   /** Allows assigning a change to a user. */
   @Nullable protected Account.Id assignee;
 
@@ -523,6 +528,7 @@ public final class Change {
   }
 
   public Change(Change other) {
+    // ö copy here
     assignee = other.assignee;
     changeId = other.changeId;
     changeKey = other.changeKey;

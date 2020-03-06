@@ -70,6 +70,40 @@
       "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02ecd0c0_3c8b3221",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-06T10:38:19Z",
+      "side": 1,
+      "message": "I agree with ben that you need to rephrase this to describe this issue you are trying to solve in a better way :)\n\nand attach some screenshots if you changed styling or UI , it will make it a lot easier for reviewers :)",
+      "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd4b5212_77426b84",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-06T10:38:19Z",
+      "side": 1,
+      "message": "interesting, i like this idea and I think this exists in so many places as `chips`. I would totally move this into a new component instead:\nhttps://material.angular.io/components/chips/overview\n\nI can see this being used in a lot places, like search query box etc",
+      "revId": "ee7015d2f8fd1b089979a3a031ca96a995475c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

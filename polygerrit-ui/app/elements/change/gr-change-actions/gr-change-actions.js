@@ -494,6 +494,10 @@
             if (!revisionActions) { return; }
 
             this.revisionActions = this._updateRebaseAction(revisionActions);
+            this._sendShowRevisionActions({
+              change: this.change,
+              revisionActions,
+            });
             this._handleLoadingComplete();
           })
           .catch(err => {
@@ -505,6 +509,13 @@
 
     _handleLoadingComplete() {
       Gerrit.awaitPluginsLoaded().then(() => this._loading = false);
+    }
+
+    _sendShowRevisionActions(detail) {
+      this.$.jsAPI.handleEvent(
+          this.$.jsAPI.EventType.SHOW_REVISION_ACTIONS,
+          detail
+      );
     }
 
     _updateRebaseAction(revisionActions) {

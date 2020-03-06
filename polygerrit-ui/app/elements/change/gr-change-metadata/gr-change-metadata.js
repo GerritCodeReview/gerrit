@@ -119,6 +119,10 @@
           type: Boolean,
           value: false,
         },
+        atticons: {
+          type: Array,
+          value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+        },
 
         _currentParents: {
           type: Array,
@@ -199,6 +203,10 @@
 
     _computeLabelNames(labels) {
       return Object.keys(labels).sort();
+    }
+
+    _computeAtticon(index) {
+      return `gr-icons:attention${this.atticons[index]}`;
     }
 
     _handleTopicChanged(e, topic) {

@@ -42,6 +42,10 @@
           type: Boolean,
           value: false,
         },
+        atticon: {
+          type: String,
+          value: 'gr-icons:attention',
+        },
         _serverConfig: {
           type: Object,
           value: null,

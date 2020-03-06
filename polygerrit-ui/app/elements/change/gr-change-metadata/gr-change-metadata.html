@@ -136,6 +136,14 @@ limitations under the License.
               date-str="[[change.updated]]"></gr-date-formatter>
         </span>
       </section>
+      <template is="dom-repeat" items="[[atticons]]" as="atticon">
+        <section>
+          <span class="title">Owner [[index]]</span>
+          <span class="value">
+            <gr-account-link account="[[change.owner]]" atticon="[[_computeAtticon(index)]]"></gr-account-link>
+          </span>
+        </section>
+      </template>
       <section>
         <span class="title">Owner</span>
         <span class="value">

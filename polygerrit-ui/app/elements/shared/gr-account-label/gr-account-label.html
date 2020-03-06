@@ -44,7 +44,10 @@ limitations under the License.
       .text:hover {
         @apply --gr-account-label-text-hover-style;
       }
-      iron-icon {
+      iron-icon.attention {
+        vertical-align: top;
+      }
+      .text iron-icon {
         width: 14px;
         height: 14px;
         vertical-align: top;
@@ -56,6 +59,7 @@ limitations under the License.
       <gr-hovercard>
         <gr-hovercard-account account="[[account]]"></gr-hovercard-account>
       </gr-hovercard>
+      <iron-icon class="attention" icon="[[atticon]]"></iron-icon>
       <template is="dom-if" if="[[!hideAvatar]]">
         <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
       </template>

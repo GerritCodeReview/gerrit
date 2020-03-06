@@ -54,13 +54,12 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
-      throws IntegrationException {
+  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted;
     try {
       sorted = args.rebaseSorter.sort(toMerge);
     } catch (IOException | StorageException e) {
-      throw new IntegrationException("Commit sorting failed", e);
+      throw new StorageException("Commit sorting failed", e);
     }
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
@@ -118,7 +117,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
     @Override
     public void updateRepoImpl(RepoContext ctx)
-        throws IntegrationException, InvalidChangeOperationException, RestApiException, IOException,
+        throws InvalidChangeOperationException, RestApiException, IOException,
             PermissionBackendException {
       if (args.mergeUtil.canFastForward(
           args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
@@ -193,7 +192,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
           rebaseOp.updateRepo(ctx);
         } catch (MergeConflictException | NoSuchChangeException e) {
           toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
-          throw new IntegrationException(
+          throw new IntegrationConflictException(
               "Cannot rebase " + toMerge.name() + ": " + e.getMessage(), e);
         }
         newCommit = args.rw.parseCommit(rebaseOp.getRebasedCommit());
@@ -260,7 +259,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     }
 
     @Override
-    public void updateRepoImpl(RepoContext ctx) throws IntegrationException, IOException {
+    public void updateRepoImpl(RepoContext ctx) throws IntegrationConflictException, IOException {
       // There are multiple parents, so this is a merge commit. We don't want
       // to rebase the merge as clients can't easily rebase their history with
       // that merge present and replaced by an equivalent merge with a different
@@ -306,8 +305,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       SubmitDryRun.Arguments args,
       Repository repo,
       CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge)
-      throws IntegrationException {
+      CodeReviewCommit toMerge) {
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
     return args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);

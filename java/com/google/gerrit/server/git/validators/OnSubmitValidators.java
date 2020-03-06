@@ -17,7 +17,7 @@ package com.google.gerrit.server.git.validators;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener.Arguments;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import com.google.gerrit.server.submit.IntegrationException;
+import com.google.gerrit.server.submit.IntegrationConflictException;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -38,12 +38,12 @@ public class OnSubmitValidators {
 
   public void validate(
       Project.NameKey project, ObjectReader objectReader, ChainedReceiveCommands commands)
-      throws IntegrationException {
+      throws IntegrationConflictException {
     try (RevWalk rw = new RevWalk(objectReader)) {
       Arguments args = new Arguments(project, rw, commands);
       listeners.runEach(l -> l.preBranchUpdate(args), ValidationException.class);
     } catch (ValidationException e) {
-      throw new IntegrationException(e.getMessage(), e);
+      throw new IntegrationConflictException(e.getMessage(), e);
     }
   }
 }

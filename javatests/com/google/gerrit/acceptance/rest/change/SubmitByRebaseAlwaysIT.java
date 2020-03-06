@@ -27,11 +27,11 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -129,8 +129,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
     try (Registration registration =
         extensionRegistry.newRegistration().add(modifier1).add(modifier2)) {
-      ResourceConflictException thrown =
-          assertThrows(ResourceConflictException.class, () -> submitWithRebase());
+      StorageException thrown = assertThrows(StorageException.class, () -> submitWithRebase());
       Throwable cause = Throwables.getRootCause(thrown);
       assertThat(cause).isInstanceOf(RuntimeException.class);
       assertThat(cause).hasMessageThat().isEqualTo("boom");
@@ -146,8 +145,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
             .newRegistration()
             .add(modifier1, "modifier-1")
             .add(modifier2, "modifier-2")) {
-      ResourceConflictException thrown =
-          assertThrows(ResourceConflictException.class, () -> submitWithRebase());
+      StorageException thrown = assertThrows(StorageException.class, () -> submitWithRebase());
       Throwable cause = Throwables.getRootCause(thrown);
       assertThat(cause).isInstanceOf(RuntimeException.class);
       assertThat(cause)

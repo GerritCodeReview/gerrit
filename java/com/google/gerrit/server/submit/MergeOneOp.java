@@ -28,7 +28,7 @@ class MergeOneOp extends SubmitStrategyOp {
   }
 
   @Override
-  public void updateRepoImpl(RepoContext ctx) throws IntegrationException, IOException {
+  public void updateRepoImpl(RepoContext ctx) throws IntegrationConflictException, IOException {
     PersonIdent caller =
         ctx.getIdentifiedUser()
             .newCommitterIdent(args.serverIdent.getWhen(), args.serverIdent.getTimeZone());

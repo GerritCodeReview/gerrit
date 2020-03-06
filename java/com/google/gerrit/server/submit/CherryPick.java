@@ -45,8 +45,7 @@ public class CherryPick extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
-      throws IntegrationException {
+  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
@@ -90,7 +89,7 @@ public class CherryPick extends SubmitStrategy {
 
     @Override
     protected void updateRepoImpl(RepoContext ctx)
-        throws IntegrationException, IOException, MethodNotAllowedException {
+        throws IntegrationConflictException, IOException, MethodNotAllowedException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.
@@ -181,7 +180,7 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    public void updateRepoImpl(RepoContext ctx) throws IntegrationException, IOException {
+    public void updateRepoImpl(RepoContext ctx) throws IntegrationConflictException, IOException {
       if (args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)) {
         // One or more dependencies were not met. The status was already marked
         // on the commit so we have nothing further to perform at this time.
@@ -217,8 +216,7 @@ public class CherryPick extends SubmitStrategy {
   }
 
   static boolean dryRun(
-      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
-      throws IntegrationException {
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
     return args.mergeUtil.canCherryPick(args.mergeSorter, args.repo, mergeTip, args.rw, toMerge);
   }
 }

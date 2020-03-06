@@ -35,7 +35,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
-import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.SubmitDryRun;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -163,7 +162,7 @@ public class ConflictsPredicate {
           args.conflictsCache.put(conflictsKey, conflicts);
           return conflicts;
         }
-      } catch (IntegrationException | NoSuchProjectException | StorageException | IOException e) {
+      } catch (NoSuchProjectException | StorageException | IOException e) {
         ObjectId finalOther = other;
         warnWithOccasionalStackTrace(
             e,
@@ -181,8 +180,7 @@ public class ConflictsPredicate {
       return 5;
     }
 
-    private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw)
-        throws IntegrationException {
+    private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) {
       try {
         Set<RevCommit> accepted = new HashSet<>();
         SubmitDryRun.addCommits(changeDataCache.getAlreadyAccepted(repo), rw, accepted);
@@ -192,7 +190,7 @@ public class ConflictsPredicate {
         }
         return accepted;
       } catch (StorageException | IOException e) {
-        throw new IntegrationException("Failed to determine already accepted commits.", e);
+        throw new StorageException("Failed to determine already accepted commits.", e);
       }
     }
   }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.submit;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.SubmissionId;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.IdentifiedUser;
@@ -55,8 +56,7 @@ public class SubmitStrategyFactory {
       SubmissionId submissionId,
       SubmitInput submitInput,
       SubmoduleOp submoduleOp,
-      boolean dryrun)
-      throws IntegrationException {
+      boolean dryrun) {
     SubmitStrategy.Arguments args =
         argsFactory.create(
             submitType,
@@ -89,7 +89,7 @@ public class SubmitStrategyFactory {
       default:
         String errorMsg = "No submit strategy for: " + submitType;
         logger.atSevere().log(errorMsg);
-        throw new IntegrationException(errorMsg);
+        throw new StorageException(errorMsg);
     }
   }
 }

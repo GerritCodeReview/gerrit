@@ -56,7 +56,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.server.submit.CommitMergeStatus;
-import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.submit.MergeSorter;
 import com.google.inject.assistedinject.Assisted;
@@ -185,8 +184,7 @@ public class MergeUtil {
   }
 
   public CodeReviewCommit getFirstFastForward(
-      CodeReviewCommit mergeTip, RevWalk rw, List<CodeReviewCommit> toMerge)
-      throws IntegrationException {
+      CodeReviewCommit mergeTip, RevWalk rw, List<CodeReviewCommit> toMerge) {
     for (Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext(); ) {
       try {
         final CodeReviewCommit n = i.next();
@@ -195,19 +193,19 @@ public class MergeUtil {
           return n;
         }
       } catch (IOException e) {
-        throw new IntegrationException("Cannot fast-forward test during merge", e);
+        throw new StorageException("Cannot fast-forward test during merge", e);
       }
     }
     return mergeTip;
   }
 
   public List<CodeReviewCommit> reduceToMinimalMerge(
-      MergeSorter mergeSorter, Collection<CodeReviewCommit> toSort) throws IntegrationException {
+      MergeSorter mergeSorter, Collection<CodeReviewCommit> toSort) {
     List<CodeReviewCommit> result = new ArrayList<>();
     try {
       result.addAll(mergeSorter.sort(toSort));
     } catch (IOException | StorageException e) {
-      throw new IntegrationException("Branch head sorting failed", e);
+      throw new StorageException("Branch head sorting failed", e);
     }
     result.sort(CodeReviewCommit.ORDER);
     return result;
@@ -673,8 +671,10 @@ public class MergeUtil {
   }
 
   public boolean canMerge(
-      MergeSorter mergeSorter, Repository repo, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
-      throws IntegrationException {
+      MergeSorter mergeSorter,
+      Repository repo,
+      CodeReviewCommit mergeTip,
+      CodeReviewCommit toMerge) {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
       return false;
     }
@@ -687,7 +687,7 @@ public class MergeUtil {
     } catch (NoMergeBaseException e) {
       return false;
     } catch (IOException e) {
-      throw new IntegrationException("Cannot merge " + toMerge.name(), e);
+      throw new StorageException("Cannot merge " + toMerge.name(), e);
     }
   }
 
@@ -695,8 +695,7 @@ public class MergeUtil {
       MergeSorter mergeSorter,
       CodeReviewCommit mergeTip,
       CodeReviewRevWalk rw,
-      CodeReviewCommit toMerge)
-      throws IntegrationException {
+      CodeReviewCommit toMerge) {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
       return false;
     }
@@ -706,7 +705,7 @@ public class MergeUtil {
           || rw.isMergedInto(mergeTip, toMerge)
           || rw.isMergedInto(toMerge, mergeTip);
     } catch (IOException e) {
-      throw new IntegrationException("Cannot fast-forward test during merge", e);
+      throw new StorageException("Cannot fast-forward test during merge", e);
     }
   }
 
@@ -715,8 +714,7 @@ public class MergeUtil {
       Repository repo,
       CodeReviewCommit mergeTip,
       CodeReviewRevWalk rw,
-      CodeReviewCommit toMerge)
-      throws IntegrationException {
+      CodeReviewCommit toMerge) {
     if (mergeTip == null) {
       // The branch is unborn. Fast-forward is possible.
       //
@@ -740,7 +738,7 @@ public class MergeUtil {
         m.setBase(toMerge.getParent(0));
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
-        throw new IntegrationException(
+        throw new StorageException(
             String.format(
                 "Cannot merge commit %s with mergetip %s", toMerge.name(), mergeTip.name()),
             e);
@@ -757,12 +755,11 @@ public class MergeUtil {
         || canMerge(mergeSorter, repo, mergeTip, toMerge);
   }
 
-  public boolean hasMissingDependencies(MergeSorter mergeSorter, CodeReviewCommit toMerge)
-      throws IntegrationException {
+  public boolean hasMissingDependencies(MergeSorter mergeSorter, CodeReviewCommit toMerge) {
     try {
       return !mergeSorter.sort(Collections.singleton(toMerge)).contains(toMerge);
     } catch (IOException | StorageException e) {
-      throw new IntegrationException("Branch head sorting failed", e);
+      throw new StorageException("Branch head sorting failed", e);
     }
   }
 
@@ -775,7 +772,7 @@ public class MergeUtil {
       BranchNameKey destBranch,
       CodeReviewCommit mergeTip,
       CodeReviewCommit n)
-      throws IntegrationException, InvalidMergeStrategyException {
+      throws InvalidMergeStrategyException {
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     try {
       if (m.merge(mergeTip, n)) {
@@ -788,10 +785,10 @@ public class MergeUtil {
         failed(rw, mergeTip, n, getCommitMergeStatus(e.getReason()));
       } catch (IOException e2) {
         logger.atSevere().withCause(e2).log("Failed to set merge failure status for " + n.name());
-        throw new IntegrationException("Cannot merge " + n.name(), e);
+        throw new StorageException("Cannot merge " + n.name(), e);
       }
     } catch (IOException e) {
-      throw new IntegrationException("Cannot merge " + n.name(), e);
+      throw new StorageException("Cannot merge " + n.name(), e);
     }
     return mergeTip;
   }
@@ -964,8 +961,7 @@ public class MergeUtil {
   }
 
   public void markCleanMerges(
-      RevWalk rw, RevFlag canMergeFlag, CodeReviewCommit mergeTip, Set<RevCommit> alreadyAccepted)
-      throws IntegrationException {
+      RevWalk rw, RevFlag canMergeFlag, CodeReviewCommit mergeTip, Set<RevCommit> alreadyAccepted) {
     if (mergeTip == null) {
       // If mergeTip is null here, branchTip was null, indicating a new branch
       // at the start of the merge process. We also elected to merge nothing,
@@ -993,7 +989,7 @@ public class MergeUtil {
         }
       }
     } catch (IOException e) {
-      throw new IntegrationException("Cannot mark clean merges", e);
+      throw new StorageException("Cannot mark clean merges", e);
     }
   }
 
@@ -1003,8 +999,7 @@ public class MergeUtil {
       RevFlag canMergeFlag,
       CodeReviewCommit oldTip,
       CodeReviewCommit mergeTip,
-      Iterable<Change.Id> alreadyMerged)
-      throws IntegrationException {
+      Iterable<Change.Id> alreadyMerged) {
     if (mergeTip == null) {
       return expected;
     }
@@ -1035,7 +1030,7 @@ public class MergeUtil {
       }
       return Sets.difference(expected, found);
     } catch (IOException e) {
-      throw new IntegrationException("Cannot check if changes were merged", e);
+      throw new StorageException("Cannot check if changes were merged", e);
     }
   }
 

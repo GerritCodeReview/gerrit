@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,23 @@
 
 package com.google.gerrit.server.submit;
 
-/** Indicates an integration operation (see {@link MergeOp}) failed. */
-public class IntegrationException extends Exception {
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+
+/**
+ * Exception to be thrown if integrating (aka merging) a change into the destination branch is not
+ * possible due to conflicts.
+ *
+ * <p>Throwing this exception results in a {@code 409 Conflict} response to the calling user. The
+ * exception message is returned as error message to the user.
+ */
+public class IntegrationConflictException extends ResourceConflictException {
   private static final long serialVersionUID = 1L;
 
-  public IntegrationException(String msg) {
+  public IntegrationConflictException(String msg) {
     super(msg);
   }
 
-  public IntegrationException(Throwable why) {
-    super(why);
-  }
-
-  public IntegrationException(String msg, Throwable why) {
+  public IntegrationConflictException(String msg, Throwable why) {
     super(msg, why);
   }
 }

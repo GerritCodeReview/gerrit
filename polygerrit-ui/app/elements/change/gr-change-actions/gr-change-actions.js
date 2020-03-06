@@ -432,7 +432,7 @@
           type: Boolean,
           value: true,
         },
-        _revertChanges: Array,
+        _cherryPickChanges: Array,
       };
     }
 
@@ -1398,7 +1398,13 @@
 
     _handleCherrypickTap() {
       this.$.confirmCherrypick.branch = '';
-      this._showActionDialog(this.$.confirmCherrypick);
+      const query = 'topic:' + this.change.topic;
+      this.$.restAPI.getChanges('', query)
+          .then(changes => {
+            // this._cherryPickChanges = changes;
+            this.$.confirmCherrypick.updateChanges(changes);
+            this._showActionDialog(this.$.confirmCherrypick);
+          });
     }
 
     _handleMoveTap() {

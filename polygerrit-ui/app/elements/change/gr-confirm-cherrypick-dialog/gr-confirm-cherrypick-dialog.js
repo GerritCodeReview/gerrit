@@ -50,11 +50,16 @@
         commitNum: String,
         message: String,
         project: String,
+        changes: Array,
         _query: {
           type: Function,
           value() {
             return this._getProjectBranchesSuggestions.bind(this);
           },
+        },
+        _showCherryPickTopic: {
+          type: Boolean,
+          value: false,
         },
       };
     }
@@ -63,6 +68,11 @@
       return [
         '_computeMessage(changeStatus, commitNum, commitMessage)',
       ];
+    }
+
+    updateChanges(changes) {
+      this.changes = changes;
+      this._showCherryPickTopic = changes.length > 1;
     }
 
     _computeMessage(changeStatus, commitNum, commitMessage) {

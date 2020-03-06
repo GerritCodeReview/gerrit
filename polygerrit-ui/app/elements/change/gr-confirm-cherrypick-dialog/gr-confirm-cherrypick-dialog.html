@@ -53,6 +53,13 @@ limitations under the License.
         line-height: var(--line-height-mono);
         width: 73ch; /* Add a char to account for the border. */
       }
+      .cherryPickSubmissionLayout {
+        display: flex;
+      }
+      .cherryPickSingleChange, .cherryPickSubmission {
+        margin-left: var(--spacing-m);
+        margin-bottom: var(--spacing-m);
+      }
     </style>
     <gr-dialog
         confirm-label="Cherry Pick"
@@ -60,6 +67,31 @@ limitations under the License.
         on-cancel="_handleCancelTap">
       <div class="header" slot="header">Cherry Pick Change to Another Branch</div>
       <div class="main" slot="main">
+
+          <template is="dom-if" if="[[_showCherryPickTopic]]">
+            <div class="cherryPickSubmissionLayout">
+              <input
+                name="cherryPickOptions"
+                type="radio"
+                id="cherryPickSingleChange"
+                on-change="_handlecherryPickSingleChangeClicked"
+                checked="[[_computeIfSinglecherryPick(_cherryPickType)]]">
+              <label for="cherryPickSingleChange" class="label cherryPickSingleChange">
+                Cherry Pick single change
+              </label>
+            </div>
+            <div class="cherryPickSubmissionLayout">
+              <input
+                name="cherryPickOptions"
+                type="radio"
+                id="cherryPickSubmission"
+                on-change="_handlecherryPickSubmissionClicked"
+                checked="[[_computeIfcherryPickSubmission(_cherryPickType)]]">
+              <label for="cherryPickSubmission" class="label cherryPickSubmission">
+                Cherry Pick entire submission ([[_changesCount]] Changes)
+              </label>
+          </template>
+
         <label for="branchInput">
           Cherry Pick to branch
         </label>

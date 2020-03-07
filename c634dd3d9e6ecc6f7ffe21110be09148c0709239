@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f7c8d0c_8a6c1801",
+        "filename": "javatests/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-07T13:13:06Z",
+      "side": 1,
+      "message": "Use assertThrows",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 5
+      },
+      "revId": "c634dd3d9e6ecc6f7ffe21110be09148c0709239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

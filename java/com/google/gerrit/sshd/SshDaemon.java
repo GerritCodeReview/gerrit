@@ -79,7 +79,7 @@ import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
-import org.apache.sshd.common.kex.KeyExchange;
+import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.Random;
@@ -92,7 +92,7 @@ import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.server.ServerBuilder;
 import org.apache.sshd.server.SshServer;
-import org.apache.sshd.server.auth.UserAuth;
+import org.apache.sshd.server.auth.UserAuthFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
@@ -438,11 +438,67 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return r.toString();
   }
 
-  @SuppressWarnings("unchecked")
   private void initKeyExchanges(Config cfg) {
-    List<NamedFactory<KeyExchange>> a = ServerBuilder.setUpDefaultKeyExchanges(true);
-    setKeyExchangeFactories(
-        filter(cfg, "kex", (NamedFactory<KeyExchange>[]) a.toArray(new NamedFactory<?>[a.size()])));
+    List<KeyExchangeFactory> a = ServerBuilder.setUpDefaultKeyExchanges(true);
+    setKeyExchangeFactories(filterKeyExchangeFactories(cfg, "kex", a));
+  }
+
+  private static List<KeyExchangeFactory> filterKeyExchangeFactories(
+      Config cfg, String key, List<KeyExchangeFactory> avail) {
+    List<KeyExchangeFactory> def = new ArrayList<>(avail);
+    String[] want = cfg.getStringList("sshd", null, key);
+    if (want == null || want.length == 0) {
+      return def;
+    }
+
+    boolean didClear = false;
+    for (String setting : want) {
+      String name = setting.trim();
+      boolean add = true;
+      if (name.startsWith("-")) {
+        add = false;
+        name = name.substring(1).trim();
+      } else if (name.startsWith("+")) {
+        name = name.substring(1).trim();
+      } else if (!didClear) {
+        didClear = true;
+        def.clear();
+      }
+
+      KeyExchangeFactory n = findKeyExchangeFactory(name, avail);
+      if (n == null) {
+        StringBuilder msg = new StringBuilder();
+        msg.append("sshd.").append(key).append(" = ").append(name).append(" unsupported; only ");
+        for (int i = 0; i < avail.size(); i++) {
+          if (avail.get(i) == null) {
+            continue;
+          }
+          if (i > 0) {
+            msg.append(", ");
+          }
+          msg.append(avail.get(i).getName());
+        }
+        msg.append(" is supported");
+        logger.atSevere().log(msg.toString());
+      } else if (add) {
+        if (!def.contains(n)) {
+          def.add(n);
+        }
+      } else {
+        def.remove(n);
+      }
+    }
+    return def;
+  }
+
+  private static KeyExchangeFactory findKeyExchangeFactory(
+      String name, List<KeyExchangeFactory> avail) {
+    for (KeyExchangeFactory n : avail) {
+      if (n != null && name.equals(n.getName())) {
+        return n;
+      }
+    }
+    return null;
   }
 
   private void initProviderBouncyCastle(Config cfg) {
@@ -621,8 +677,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initSignatures() {
-    setSignatureFactories(
-        NamedFactory.setUpBuiltinFactories(false, ServerBuilder.DEFAULT_SIGNATURE_PREFERENCE));
+    setSignatureFactories(ServerBuilder.setUpDefaultSignatureFactories(false));
   }
 
   private void initCompression(boolean enableCompression) {
@@ -669,7 +724,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       final GSSAuthenticator kerberosAuthenticator,
       String kerberosKeytab,
       String kerberosPrincipal) {
-    List<NamedFactory<UserAuth>> authFactories = new ArrayList<>();
+    List<UserAuthFactory> authFactories = new ArrayList<>();
     if (kerberosKeytab != null) {
       authFactories.add(UserAuthGSSFactory.INSTANCE);
       logger.atInfo().log("Enabling kerberos with keytab %s", kerberosKeytab);

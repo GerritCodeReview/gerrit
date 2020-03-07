@@ -67,6 +67,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.common.BaseBuilder;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.compression.Compression;
@@ -79,7 +80,7 @@ import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
-import org.apache.sshd.common.kex.KeyExchange;
+import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.Random;
@@ -92,7 +93,7 @@ import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.server.ServerBuilder;
 import org.apache.sshd.server.SshServer;
-import org.apache.sshd.server.auth.UserAuth;
+import org.apache.sshd.server.auth.UserAuthFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
@@ -438,11 +439,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return r.toString();
   }
 
-  @SuppressWarnings("unchecked")
   private void initKeyExchanges(Config cfg) {
-    List<NamedFactory<KeyExchange>> a = ServerBuilder.setUpDefaultKeyExchanges(true);
-    setKeyExchangeFactories(
-        filter(cfg, "kex", (NamedFactory<KeyExchange>[]) a.toArray(new NamedFactory<?>[a.size()])));
+    List<KeyExchangeFactory> a = ServerBuilder.setUpDefaultKeyExchanges(true);
+    setKeyExchangeFactories(filter(cfg, "kex", a.toArray(new KeyExchangeFactory[a.size()])));
   }
 
   private void initProviderBouncyCastle(Config cfg) {
@@ -554,17 +553,16 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SafeVarargs
-  private static <T> List<NamedFactory<T>> filter(
-      final Config cfg, String key, NamedFactory<T>... avail) {
-    final ArrayList<NamedFactory<T>> def = new ArrayList<>();
-    for (NamedFactory<T> n : avail) {
+  private static <T extends NamedResource> List<T> filter(Config cfg, String key, T... avail) {
+    List<T> def = new ArrayList<>();
+    for (T n : avail) {
       if (n == null) {
         break;
       }
       def.add(n);
     }
 
-    final String[] want = cfg.getStringList("sshd", null, key);
+    String[] want = cfg.getStringList("sshd", null, key);
     if (want == null || want.length == 0) {
       return def;
     }
@@ -583,9 +581,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         def.clear();
       }
 
-      final NamedFactory<T> n = find(name, avail);
+      T n = find(name, avail);
       if (n == null) {
-        final StringBuilder msg = new StringBuilder();
+        StringBuilder msg = new StringBuilder();
         msg.append("sshd.").append(key).append(" = ").append(name).append(" unsupported; only ");
         for (int i = 0; i < avail.length; i++) {
           if (avail[i] == null) {
@@ -611,8 +609,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SafeVarargs
-  private static <T> NamedFactory<T> find(String name, NamedFactory<T>... avail) {
-    for (NamedFactory<T> n : avail) {
+  private static <T extends NamedResource> T find(String name, T... avail) {
+    for (T n : avail) {
       if (n != null && name.equals(n.getName())) {
         return n;
       }
@@ -621,8 +619,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initSignatures() {
-    setSignatureFactories(
-        NamedFactory.setUpBuiltinFactories(false, ServerBuilder.DEFAULT_SIGNATURE_PREFERENCE));
+    setSignatureFactories(ServerBuilder.setUpDefaultSignatureFactories(false));
   }
 
   private void initCompression(boolean enableCompression) {
@@ -669,7 +666,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       final GSSAuthenticator kerberosAuthenticator,
       String kerberosKeytab,
       String kerberosPrincipal) {
-    List<NamedFactory<UserAuth>> authFactories = new ArrayList<>();
+    List<UserAuthFactory> authFactories = new ArrayList<>();
     if (kerberosKeytab != null) {
       authFactories.add(UserAuthGSSFactory.INSTANCE);
       logger.atInfo().log("Enabling kerberos with keytab %s", kerberosKeytab);

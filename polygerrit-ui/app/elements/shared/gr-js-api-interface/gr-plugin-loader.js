@@ -359,6 +359,10 @@
       const el = document.createElement('script');
       el.defer = true;
       el.setAttribute('src', url);
+      // no credentials to send when fetch plugin js
+      // and this will help provide more meaningful error than
+      // 'Script error.'
+      el.setAttribute('crossorigin', 'anonymous');
       el.onerror = onerror;
       return document.body.appendChild(el);
     }

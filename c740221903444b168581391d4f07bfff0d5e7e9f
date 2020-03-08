@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71064c44_0ff6f2f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-03-08T07:02:27Z",
+      "side": 1,
+      "message": "Can you mention this deadlock issue, you reported upstream: [1]? It would be also great, if you could file new gerrit issue: [2] and provide steps how to reproduce it.\n\n[1] https://issues.apache.org/jira/browse/SSHD-966\n[2] https://bugs.chromium.org/p/gerrit/issues/entry",
+      "revId": "c740221903444b168581391d4f07bfff0d5e7e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c08c2b97_7c16f8a3",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-03-08T07:02:27Z",
+      "side": 1,
+      "message": "Not needed any more. Eclipse issues warning that is not needed.",
+      "range": {
+        "startLine": 451,
+        "startChar": 2,
+        "endLine": 451,
+        "endChar": 32
+      },
+      "revId": "c740221903444b168581391d4f07bfff0d5e7e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8dfeb54_e1e84f08",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-03-08T07:02:27Z",
+      "side": 1,
+      "message": "Unnecessary cast.",
+      "range": {
+        "startLine": 455,
+        "startChar": 27,
+        "endLine": 455,
+        "endChar": 49
+      },
+      "revId": "c740221903444b168581391d4f07bfff0d5e7e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "337aca14_a9b14cc3",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-03-08T07:02:27Z",
+      "side": 1,
+      "message": "This change is skipping the upgrade to intermediate SSHD releases. E.g. upgrade to 2.3.0 was done in this change: [1]. What you probably want instead, is to cherry-pick that change to stable-2.16 branch. I also did a similar upgrade on master: [2].\n\nGiven that your change was done first, I will probably abandon my change and we merge yours.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/207752\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/258152",
+      "range": {
+        "startLine": 32,
+        "startChar": 46,
+        "endLine": 32,
+        "endChar": 51
+      },
+      "revId": "c740221903444b168581391d4f07bfff0d5e7e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

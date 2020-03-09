@@ -28,7 +28,7 @@ import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto.ExternalId
 import com.google.inject.TypeLiteral;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
+import org.junit.Test;java/com/google/gerrit/server/extensions/webui/UiActions.java
 
 public class AllExternalIdsTest {
   @Test

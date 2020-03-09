@@ -26,6 +26,12 @@ import org.apache.log4j.spi.ThrowableInformation;
 
 /** Layout for formatting error log events in the JSON format. */
 public class ErrorLogJsonLayout extends JsonLayout {
+  private final Boolean enableReverseDnsLookup;
+
+  public ErrorLogJsonLayout(Boolean enableDnsReverseLookup) {
+    super();
+    this.enableReverseDnsLookup = enableDnsReverseLookup;
+  }
 
   @Override
   public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
@@ -80,7 +86,7 @@ public class ErrorLogJsonLayout extends JsonLayout {
 
     public ErrorJsonLogEntry(LoggingEvent event) {
       this.timestamp = timestampFormatter.format(event.getTimeStamp());
-      this.sourceHost = getSourceHost();
+      this.sourceHost = getSourceHost(enableReverseDnsLookup);
       this.message = event.getRenderedMessage();
       this.file = event.getLocationInformation().getFileName();
       this.lineNumber = event.getLocationInformation().getLineNumber();
@@ -96,9 +102,14 @@ public class ErrorLogJsonLayout extends JsonLayout {
       }
     }
 
-    private String getSourceHost() {
+    private String getSourceHost(Boolean enableReverseDnsLookup) {
+      InetAddress in;
       try {
-        return InetAddress.getLocalHost().getHostName();
+        in = InetAddress.getLocalHost();
+        if (Boolean.TRUE.equals(enableReverseDnsLookup)) {
+          return in.getCanonicalHostName();
+        }
+        return in.getHostAddress();
       } catch (UnknownHostException e) {
         return "unknown-host";
       }

@@ -35,6 +35,7 @@ class ElasticSetting {
       properties.analysis = fields.build();
       properties.numberOfShards = config.getNumberOfShards(adapter);
       properties.numberOfReplicas = config.numberOfReplicas;
+      properties.maxResultWindow = config.maxResultWindow;
       return properties;
     }
 
@@ -75,6 +76,7 @@ class ElasticSetting {
     Map<String, FieldProperties> analysis;
     Integer numberOfShards;
     Integer numberOfReplicas;
+    Integer maxResultWindow;
   }
 
   static class FieldProperties {

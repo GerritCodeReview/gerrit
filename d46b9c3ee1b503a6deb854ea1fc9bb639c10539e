@@ -226,6 +226,30 @@
     },
     {
       "key": {
+        "uuid": "ab928465_ce1f0cb5",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-03-09T10:37:10Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/258259",
+      "parentUuid": "1754dd3b_0f0cc615",
+      "range": {
+        "startLine": 78,
+        "startChar": 42,
+        "endLine": 78,
+        "endChar": 53
+      },
+      "revId": "d46b9c3ee1b503a6deb854ea1fc9bb639c10539e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1207096_fc8526ed",
         "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
         "patchSetId": 4

@@ -622,7 +622,7 @@ public class MergeOp implements AutoCloseable {
       throw new ResourceNotFoundException(e.getMessage());
     } catch (IOException e) {
       throw new StorageException(e);
-    } catch (SubmoduleException e) {
+    } catch (SubmoduleConflictException e) {
       throw new IntegrationConflictException(e.getMessage(), e);
     } catch (UpdateException e) {
       if (e.getCause() instanceof LockFailureException) {

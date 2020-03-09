@@ -143,14 +143,11 @@ public class UiActions {
     }
 
     String name = e.getExportName().substring(d + 1);
-    UiAction.Description dsc = null;
+    UiAction.Description dsc;
     try (Timer1.Context<String> ignored = uiActionLatency.start(name)) {
       dsc = ((UiAction<R>) view).getDescription(resource);
     } catch (Exception ex) {
-      logger.atSevere().withCause(ex).log("Unable to render UIAction. Will omit from actions");
-    }
-    if (dsc == null) {
-      return null;
+      throw new IllegalStateException("Unable to render UI action", ex);
     }
 
     Set<GlobalOrPluginPermission> globalRequired;

@@ -26,6 +26,6 @@ public class SubmoduleConflictException extends ResourceConflictException {
   private static final long serialVersionUID = 1L;
 
   public SubmoduleConflictException(String msg) {
-  super(msg);
+    super(msg);
   }
 }

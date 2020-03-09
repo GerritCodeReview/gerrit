@@ -528,7 +528,7 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
                 cmd = "cp $(SRCS) $(@D)",
                 output_to_bindir = True,
             )
-            static_files += [":" + name + "_copy_assets"]
+            static_files.append(":" + name + "_copy_assets")
 
     native.filegroup(
         name = name,

@@ -100,8 +100,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "jackson-core",
-        artifact = "com.fasterxml.jackson.core:jackson-core:2.10.2",
-        sha1 = "73d4322a6bda684f676a2b5fe918361c4e5c7cca",
+        artifact = "com.fasterxml.jackson.core:jackson-core:2.10.3",
+        sha1 = "f7ee7b55c7d292ac72fbaa7648c089f069c938d2",
     )
 
     # Test-only dependencies below.

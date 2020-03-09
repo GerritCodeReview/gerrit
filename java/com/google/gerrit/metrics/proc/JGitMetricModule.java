@@ -66,6 +66,17 @@ public class JGitMetricModule extends MetricModule {
         });
 
     metrics.newCallbackMetric(
+        "jgit/block_cache/total_load_time",
+        Long.class,
+        new Description("Total time to load cache entries for JGit block cache.").setGauge(),
+        new Supplier<Long>() {
+          @Override
+          public Long get() {
+            return WindowCacheStats.getStats().getTotalLoadTime();
+          }
+        });
+
+    metrics.newCallbackMetric(
         "jgit/block_cache/eviction_count",
         Long.class,
         new Description("Cache evictions for JGit block cache.").setGauge(),

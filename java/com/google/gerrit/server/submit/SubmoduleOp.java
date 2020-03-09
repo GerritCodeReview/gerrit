@@ -28,6 +28,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmoduleSubscription;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -116,7 +117,7 @@ public class SubmoduleOp {
     }
 
     public SubmoduleOp create(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
-        throws SubmoduleException {
+        throws SubmoduleConflictException {
       return new SubmoduleOp(
           gitmodulesFactory, serverIdent.get(), cfg, projectCache, updatedBranches, orm);
     }
@@ -166,7 +167,7 @@ public class SubmoduleOp {
       ProjectCache projectCache,
       Set<BranchNameKey> updatedBranches,
       MergeOpRepoManager orm)
-      throws SubmoduleException {
+      throws SubmoduleConflictException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
     this.projectCache = projectCache;
@@ -199,7 +200,6 @@ public class SubmoduleOp {
    * </ul>
    *
    * @return the ordered set to be stored in {@link #sortedBranches}.
-   * @throws SubmoduleException if an error occurred walking projects.
    */
   // TODO(dborowitz): This setup process is hard to follow, in large part due to the accumulation of
   // mutable maps, which makes this whole class difficult to understand.
@@ -215,7 +215,8 @@ public class SubmoduleOp {
   //
   // In addition to improving readability, this approach has the advantage of making (1) and (2)
   // testable using small tests.
-  private ImmutableSet<BranchNameKey> calculateSubscriptionMaps() throws SubmoduleException {
+  private ImmutableSet<BranchNameKey> calculateSubscriptionMaps()
+      throws SubmoduleConflictException {
     if (!enableSuperProjectSubscriptions) {
       logger.atFine().log("Updating superprojects disabled");
       return null;
@@ -244,11 +245,11 @@ public class SubmoduleOp {
       BranchNameKey current,
       LinkedHashSet<BranchNameKey> currentVisited,
       LinkedHashSet<BranchNameKey> allVisited)
-      throws SubmoduleException {
+      throws SubmoduleConflictException {
     logger.atFine().log("Now processing %s", current);
 
     if (currentVisited.contains(current)) {
-      throw new SubmoduleException(
+      throw new SubmoduleConflictException(
           "Branch level circular subscriptions detected:  "
               + printCircularPath(currentVisited, current));
     }
@@ -270,7 +271,7 @@ public class SubmoduleOp {
         affectedBranches.add(sub.getSubmodule());
       }
     } catch (IOException e) {
-      throw new SubmoduleException("Cannot find superprojects for " + current, e);
+      throw new StorageException("Cannot find superprojects for " + current, e);
     }
     currentVisited.remove(current);
     allVisited.add(current);
@@ -396,7 +397,7 @@ public class SubmoduleOp {
     return ret;
   }
 
-  public void updateSuperProjects() throws SubmoduleException {
+  public void updateSuperProjects() throws RestApiException {
     ImmutableSet<Project.NameKey> projects = getProjectsInOrder();
     if (projects == null) {
       return;
@@ -416,19 +417,19 @@ public class SubmoduleOp {
         }
       }
       BatchUpdate.execute(orm.batchUpdates(superProjects), BatchUpdateListener.NONE, false);
-    } catch (RestApiException | UpdateException | IOException | NoSuchProjectException e) {
-      throw new SubmoduleException("Cannot update gitlinks", e);
+    } catch (UpdateException | IOException | NoSuchProjectException e) {
+      throw new StorageException("Cannot update gitlinks", e);
     }
   }
 
   /** Create a separate gitlink commit */
   private CodeReviewCommit composeGitlinksCommit(BranchNameKey subscriber)
-      throws IOException, SubmoduleException {
+      throws IOException, SubmoduleConflictException {
     OpenRepo or;
     try {
       or = orm.getRepo(subscriber.project());
     } catch (NoSuchProjectException | IOException e) {
-      throw new SubmoduleException("Cannot access superproject", e);
+      throw new StorageException("Cannot access superproject", e);
     }
 
     CodeReviewCommit currentCommit;
@@ -437,7 +438,7 @@ public class SubmoduleOp {
     } else {
       Ref r = or.repo.exactRef(subscriber.branch());
       if (r == null) {
-        throw new SubmoduleException(
+        throw new SubmoduleConflictException(
             "The branch was probably deleted from the subscriber repository");
       }
       currentCommit = or.rw.parseCommit(r.getObjectId());
@@ -493,12 +494,12 @@ public class SubmoduleOp {
 
   /** Amend an existing commit with gitlink updates */
   CodeReviewCommit composeGitlinksCommit(BranchNameKey subscriber, CodeReviewCommit currentCommit)
-      throws IOException, SubmoduleException {
+      throws IOException, SubmoduleConflictException {
     OpenRepo or;
     try {
       or = orm.getRepo(subscriber.project());
     } catch (NoSuchProjectException | IOException e) {
-      throw new SubmoduleException("Cannot access superproject", e);
+      throw new StorageException("Cannot access superproject", e);
     }
 
     StringBuilder msgbuf = new StringBuilder();
@@ -534,13 +535,13 @@ public class SubmoduleOp {
 
   private RevCommit updateSubmodule(
       DirCache dc, DirCacheEditor ed, StringBuilder msgbuf, SubmoduleSubscription s)
-      throws SubmoduleException, IOException {
+      throws SubmoduleConflictException, IOException {
     logger.atFine().log("Updating gitlink for %s", s);
     OpenRepo subOr;
     try {
       subOr = orm.getRepo(s.getSubmodule().project());
     } catch (NoSuchProjectException | IOException e) {
-      throw new SubmoduleException("Cannot access submodule", e);
+      throw new StorageException("Cannot access submodule", e);
     }
 
     DirCacheEntry dce = dc.getEntry(s.getPath());
@@ -554,7 +555,7 @@ public class SubmoduleOp {
                 + s.getSubmodule().project().get()
                 + " but entry "
                 + "doesn't have gitlink file mode.";
-        throw new SubmoduleException(errMsg);
+        throw new SubmoduleConflictException(errMsg);
       }
       // Parse the current gitlink entry commit in the subproject repo. This is used to add a
       // shortlog for this submodule to the commit message in the superproject.
@@ -617,8 +618,7 @@ public class SubmoduleOp {
       SubmoduleSubscription s,
       OpenRepo subOr,
       RevCommit newCommit,
-      RevCommit oldCommit)
-      throws SubmoduleException {
+      RevCommit oldCommit) {
     msgbuf.append("* Update ");
     msgbuf.append(s.getPath());
     msgbuf.append(" from branch '");
@@ -659,7 +659,7 @@ public class SubmoduleOp {
         msgbuf.append(message);
       }
     } catch (IOException e) {
-      throw new SubmoduleException(
+      throw new StorageException(
           "Could not perform a revwalk to create superproject commit message", e);
     }
   }
@@ -676,7 +676,7 @@ public class SubmoduleOp {
     return dc;
   }
 
-  ImmutableSet<Project.NameKey> getProjectsInOrder() throws SubmoduleException {
+  ImmutableSet<Project.NameKey> getProjectsInOrder() throws SubmoduleConflictException {
     LinkedHashSet<Project.NameKey> projects = new LinkedHashSet<>();
     for (Project.NameKey project : branchesByProject.keySet()) {
       addAllSubmoduleProjects(project, new LinkedHashSet<>(), projects);
@@ -692,9 +692,9 @@ public class SubmoduleOp {
       Project.NameKey project,
       LinkedHashSet<Project.NameKey> current,
       LinkedHashSet<Project.NameKey> projects)
-      throws SubmoduleException {
+      throws SubmoduleConflictException {
     if (current.contains(project)) {
-      throw new SubmoduleException(
+      throw new SubmoduleConflictException(
           "Project level circular subscriptions detected:  " + printCircularPath(current, project));
     }
 

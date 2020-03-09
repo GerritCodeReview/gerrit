@@ -191,9 +191,7 @@
   };
 
   Plugin.prototype.changeReply = function() {
-    return new GrChangeReplyInterface(this,
-        Plugin._sharedAPIElement.getElement(
-            Plugin._sharedAPIElement.Element.REPLY_DIALOG));
+    return new GrChangeReplyInterface(this);
   };
 
   Plugin.prototype.changeView = function() {

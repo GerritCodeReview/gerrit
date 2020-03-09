@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6159672_16a2adfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-03-09T15:11:35Z",
+      "side": 1,
+      "message": "Can you explain this just a tiny bit more? Why does the query fail in this case? (it\u0027s probably something obvious, but I\u0027m not sure ElasticSearch yet, so it\u0027s not clear to me)",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3164271_b853a179",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

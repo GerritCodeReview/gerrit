@@ -37,7 +37,8 @@ public enum RefPermission implements GerritPermission {
   FORGE_AUTHOR,
   FORGE_COMMITTER,
   FORGE_SERVER,
-  MERGE,
+  MERGE_REVIEW,
+  MERGE_REGULAR,
   /**
    * Before checking this permission, the caller should verify {@code USE_SIGNED_OFF_BY} is false.
    * If it's true, the request should be rejected directly without further check this permission.

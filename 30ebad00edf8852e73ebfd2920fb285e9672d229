@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0dc7557_f2440963",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-09T08:24:07Z",
+      "side": 1,
+      "message": "Why is this downgraded to warning?",
+      "range": {
+        "startLine": 766,
+        "startChar": 17,
+        "endLine": 766,
+        "endChar": 26
+      },
+      "revId": "30ebad00edf8852e73ebfd2920fb285e9672d229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

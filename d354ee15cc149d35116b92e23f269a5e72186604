@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3131a3ad_83f1c309",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-09T08:47:42Z",
+      "side": 1,
+      "message": "not needed right ?",
+      "revId": "d354ee15cc149d35116b92e23f269a5e72186604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0c3855c_05697cca",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-09T08:47:42Z",
+      "side": 1,
+      "message": "why you need this ? will it reuse the value if you cancel it and re-open the dialog ?\n\nif so, then a bigger issue here is, will it reuse the `value` as well ? then even if you set this to false, you will still have the value as before, and if user don\u0027t pick anything here and just click the `confirm`, it may cause issue.",
+      "revId": "d354ee15cc149d35116b92e23f269a5e72186604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

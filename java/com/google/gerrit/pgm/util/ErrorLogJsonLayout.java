@@ -14,9 +14,11 @@
 
 package com.google.gerrit.pgm.util;
 
+import com.google.gerrit.server.config.EnableReverseDnsLookup;
 import com.google.gerrit.util.logging.JsonLayout;
 import com.google.gerrit.util.logging.JsonLogEntry;
 import com.google.gson.annotations.SerializedName;
+import com.google.inject.Inject;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -78,9 +80,11 @@ public class ErrorLogJsonLayout extends JsonLayout {
      */
     public Map<String, String> exception;
 
-    public ErrorJsonLogEntry(LoggingEvent event) {
+    @Inject
+    public ErrorJsonLogEntry(
+        LoggingEvent event, @EnableReverseDnsLookup Boolean enableReverseDnsLookup) {
       this.timestamp = timestampFormatter.format(event.getTimeStamp());
-      this.sourceHost = getSourceHost();
+      this.sourceHost = getSourceHost(enableReverseDnsLookup);
       this.message = event.getRenderedMessage();
       this.file = event.getLocationInformation().getFileName();
       this.lineNumber = event.getLocationInformation().getLineNumber();
@@ -96,9 +100,14 @@ public class ErrorLogJsonLayout extends JsonLayout {
       }
     }
 
-    private String getSourceHost() {
+    private String getSourceHost(Boolean enableReverseDnsLookup) {
+      InetAddress in;
       try {
-        return InetAddress.getLocalHost().getHostName();
+        in = InetAddress.getLocalHost();
+        if (Boolean.TRUE.equals(enableReverseDnsLookup)) {
+          return in.getCanonicalHostName();
+        }
+        return in.getHostAddress();
       } catch (UnknownHostException e) {
         return "unknown-host";
       }

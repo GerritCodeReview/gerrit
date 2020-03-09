@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d59f9327_07e47060",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-09T09:30:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3131a3ad_83f1c309",
+      "revId": "d354ee15cc149d35116b92e23f269a5e72186604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0c3855c_05697cca",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "d354ee15cc149d35116b92e23f269a5e72186604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4595400a_9eedc529",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-09T09:30:36Z",
+      "side": 1,
+      "message": "added a reset function.",
+      "parentUuid": "e0c3855c_05697cca",
+      "revId": "d354ee15cc149d35116b92e23f269a5e72186604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

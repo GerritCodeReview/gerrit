@@ -16,7 +16,9 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.git.testing.PushResultSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
@@ -44,6 +46,7 @@ import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
@@ -79,6 +82,39 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .add(allow(Permission.FORGE_AUTHOR).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.FORGE_COMMITTER).ref("refs/*").group(REGISTERED_USERS))
         .update();
+  }
+
+  @Test
+  public void pushMergeRegular() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    RevCommit c1 = testRepo.branch("HEAD").commit().create();
+    RevCommit c2 = testRepo.commit().parent(c1).create();
+    RevCommit c3 = testRepo.commit().parent(c1).parent(c2).create();
+
+    testRepo.reset(c2);
+    PushResult r = pushHead(testRepo, "refs/heads/master");
+    assertThat(r.getRemoteUpdate("refs/heads/master").getStatus()).isEqualTo(Status.OK);
+
+    testRepo.reset(c3);
+    r = pushHead(testRepo, "refs/heads/master");
+    String msg =
+        String.format("commit %s: you are not allowed to upload merges", abbreviateName(c3));
+    assertThat(r.getRemoteUpdate("refs/heads/master").getStatus()).isNotEqualTo(Status.OK);
+    assertThat(r.getRemoteUpdate("refs/heads/master").getMessage()).isEqualTo(msg);
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+    r = pushHead(testRepo, "refs/heads/master");
+    assertThat(r.getRemoteUpdate("refs/heads/master").getStatus()).isEqualTo(Status.OK);
   }
 
   @Test

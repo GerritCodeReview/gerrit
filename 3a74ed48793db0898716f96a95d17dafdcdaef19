@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cffded9b_2676b236",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-09T09:15:59Z",
+      "side": 1,
+      "message": "Do you mean a schema migration? If so, is that part of this change?\n\nIn case you mean providing the extra function with the old signature next to the new signature, just remove this sentence.",
+      "range": {
+        "startLine": 19,
+        "startChar": 27,
+        "endLine": 19,
+        "endChar": 64
+      },
+      "revId": "3a74ed48793db0898716f96a95d17dafdcdaef19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c25eee_58bc74db",
+        "filename": "java/com/google/gerrit/server/permissions/FailedPermissionBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-09T09:15:59Z",
+      "side": 1,
+      "message": "This is the wrong way to approach the problem: Permission backend is \u0027dumb\u0027 in that it should only care about permissions on resources, not the intended use of the permission. You can think of it like a plain Map\u003cKey\u003cResource, Permission\u003e, Boolean.\n\nSo we can\u0027t pass in an event (that would be too rich of an argument anyway).\n\nWe could fix this by splitting RefPermission.MERGE into two: MERGE_FOR_REVIEW and MERGE_DIRECT.",
+      "range": {
+        "startLine": 194,
+        "startChar": 42,
+        "endLine": 194,
+        "endChar": 74
+      },
+      "revId": "3a74ed48793db0898716f96a95d17dafdcdaef19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

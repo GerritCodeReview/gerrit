@@ -1,40 +1,22 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../../styles/gr-table-styles.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
-<link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
-<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-create-pointer-dialog/gr-create-pointer-dialog.html">
-<link rel="import" href="../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.html">
-
-<dom-module id="gr-repo-detail-list">
-  <template>
+export const htmlTemplate = html`
     <style include="gr-form-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
@@ -88,100 +70,68 @@ limitations under the License.
     <style include="gr-table-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
-    <gr-list-view
-        create-new="[[_loggedIn]]"
-        filter="[[_filter]]"
-        items-per-page="[[_itemsPerPage]]"
-        items="[[_items]]"
-        loading="[[_loading]]"
-        offset="[[_offset]]"
-        on-create-clicked="_handleCreateClicked"
-        path="[[_getPath(_repo, detailType)]]">
+    <gr-list-view create-new="[[_loggedIn]]" filter="[[_filter]]" items-per-page="[[_itemsPerPage]]" items="[[_items]]" loading="[[_loading]]" offset="[[_offset]]" on-create-clicked="_handleCreateClicked" path="[[_getPath(_repo, detailType)]]">
       <table id="list" class="genericList gr-form-styles">
-        <tr class="headerRow">
+        <tbody><tr class="headerRow">
           <th class="name topHeader">Name</th>
           <th class="revision topHeader">Revision</th>
-          <th class$="message topHeader [[_hideIfBranch(detailType)]]">
+          <th class\$="message topHeader [[_hideIfBranch(detailType)]]">
             Message</th>
-          <th class$="tagger topHeader [[_hideIfBranch(detailType)]]">
+          <th class\$="tagger topHeader [[_hideIfBranch(detailType)]]">
             Tagger</th>
           <th class="repositoryBrowser topHeader">
             Repository Browser</th>
           <th class="delete topHeader"></th>
         </tr>
-        <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
+        <tr id="loading" class\$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <tbody class$="[[computeLoadingClass(_loading)]]">
+        </tbody><tbody class\$="[[computeLoadingClass(_loading)]]">
           <template is="dom-repeat" items="[[_shownItems]]">
             <tr class="table">
-              <td class$="[[detailType]] name">[[_stripRefs(item.ref, detailType)]]</td>
-              <td class$="[[detailType]] revision [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
+              <td class\$="[[detailType]] name">[[_stripRefs(item.ref, detailType)]]</td>
+              <td class\$="[[detailType]] revision [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
                 <span class="revisionNoEditing">
                   [[item.revision]]
                 </span>
-                <span class$="revisionEdit [[_computeEditingClass(_isEditing)]]">
+                <span class\$="revisionEdit [[_computeEditingClass(_isEditing)]]">
                   <span class="revisionWithEditing">
                     [[item.revision]]
                   </span>
-                  <gr-button
-                      link
-                      on-click="_handleEditRevision"
-                      class="editBtn">
+                  <gr-button link="" on-click="_handleEditRevision" class="editBtn">
                     edit
                   </gr-button>
-                  <iron-input
-                      bind-value="{{_revisedRef}}"
-                      class="editItem">
-                    <input
-                        is="iron-input"
-                        bind-value="{{_revisedRef}}">
+                  <iron-input bind-value="{{_revisedRef}}" class="editItem">
+                    <input is="iron-input" bind-value="{{_revisedRef}}">
                   </iron-input>
-                  <gr-button
-                      link
-                      on-click="_handleCancelRevision"
-                      class="cancelBtn editItem">
+                  <gr-button link="" on-click="_handleCancelRevision" class="cancelBtn editItem">
                     Cancel
                   </gr-button>
-                  <gr-button
-                      link
-                      on-click="_handleSaveRevision"
-                      class="saveBtn editItem"
-                      disabled="[[!_revisedRef]]">
+                  <gr-button link="" on-click="_handleSaveRevision" class="saveBtn editItem" disabled="[[!_revisedRef]]">
                     Save
                   </gr-button>
                 </span>
               </td>
-              <td class$="message [[_hideIfBranch(detailType)]]">
+              <td class\$="message [[_hideIfBranch(detailType)]]">
                 [[_computeMessage(item.message)]]
               </td>
-              <td class$="tagger [[_hideIfBranch(detailType)]]">
-                <div class$="tagger [[_computeHideTagger(item.tagger)]]">
-                  <gr-account-link
-                      account="[[item.tagger]]">
+              <td class\$="tagger [[_hideIfBranch(detailType)]]">
+                <div class\$="tagger [[_computeHideTagger(item.tagger)]]">
+                  <gr-account-link account="[[item.tagger]]">
                   </gr-account-link>
-                  (<gr-date-formatter
-                      has-tooltip
-                      date-str="[[item.tagger.date]]">
+                  (<gr-date-formatter has-tooltip="" date-str="[[item.tagger.date]]">
                   </gr-date-formatter>)
                 </div>
               </td>
               <td class="repositoryBrowser">
-                <template is="dom-repeat"
-                    items="[[_computeWeblink(item)]]" as="link">
-                  <a href$="[[link.url]]"
-                      class="webLink"
-                      rel="noopener"
-                      target="_blank">
+                <template is="dom-repeat" items="[[_computeWeblink(item)]]" as="link">
+                  <a href\$="[[link.url]]" class="webLink" rel="noopener" target="_blank">
                     ([[link.name]])
                   </a>
                 </template>
               </td>
               <td class="delete">
-                <gr-button
-                    link
-                    class$="deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]"
-                    on-click="_handleDeleteItem">
+                <gr-button link="" class\$="deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]" on-click="_handleDeleteItem">
                   Delete
                 </gr-button>
               </td>
@@ -189,36 +139,19 @@ limitations under the License.
           </template>
         </tbody>
       </table>
-      <gr-overlay id="overlay" with-backdrop>
-        <gr-confirm-delete-item-dialog
-            class="confirmDialog"
-            on-confirm="_handleDeleteItemConfirm"
-            on-cancel="_handleConfirmDialogCancel"
-            item="[[_refName]]"
-            item-type="[[detailType]]"></gr-confirm-delete-item-dialog>
+      <gr-overlay id="overlay" with-backdrop="">
+        <gr-confirm-delete-item-dialog class="confirmDialog" on-confirm="_handleDeleteItemConfirm" on-cancel="_handleConfirmDialogCancel" item="[[_refName]]" item-type="[[detailType]]"></gr-confirm-delete-item-dialog>
       </gr-overlay>
     </gr-list-view>
-    <gr-overlay id="createOverlay" with-backdrop>
-      <gr-dialog
-          id="createDialog"
-          disabled="[[!_hasNewItemName]]"
-          confirm-label="Create"
-          on-confirm="_handleCreateItem"
-          on-cancel="_handleCloseCreate">
+    <gr-overlay id="createOverlay" with-backdrop="">
+      <gr-dialog id="createDialog" disabled="[[!_hasNewItemName]]" confirm-label="Create" on-confirm="_handleCreateItem" on-cancel="_handleCloseCreate">
         <div class="header" slot="header">
           Create [[_computeItemName(detailType)]]
         </div>
         <div class="main" slot="main">
-          <gr-create-pointer-dialog
-              id="createNewModal"
-              detail-type="[[_computeItemName(detailType)]]"
-              has-new-item-name="{{_hasNewItemName}}"
-              item-detail="[[detailType]]"
-              repo-name="[[_repo]]"></gr-create-pointer-dialog>
+          <gr-create-pointer-dialog id="createNewModal" detail-type="[[_computeItemName(detailType)]]" has-new-item-name="{{_hasNewItemName}}" item-detail="[[detailType]]" repo-name="[[_repo]]"></gr-create-pointer-dialog>
         </div>
       </gr-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-repo-detail-list.js"></script>
-</dom-module>
+`;

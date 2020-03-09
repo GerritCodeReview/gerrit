@@ -1,32 +1,22 @@
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-dropdown">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: inline-block;
@@ -97,72 +87,32 @@ limitations under the License.
         font-weight: var(--font-weight-bold);
       }
     </style>
-    <gr-button
-        link="[[link]]"
-        class="dropdown-trigger" id="trigger"
-        down-arrow="[[downArrow]]"
-        on-click="_dropdownTriggerTapHandler">
+    <gr-button link="[[link]]" class="dropdown-trigger" id="trigger" down-arrow="[[downArrow]]" on-click="_dropdownTriggerTapHandler">
       <slot></slot>
     </gr-button>
-    <iron-dropdown id="dropdown"
-        vertical-align="top"
-        vertical-offset="[[verticalOffset]]"
-        allow-outside-scroll="true"
-        horizontal-align="[[horizontalAlign]]"
-        on-click="_handleDropdownClick">
+    <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="[[verticalOffset]]" allow-outside-scroll="true" horizontal-align="[[horizontalAlign]]" on-click="_handleDropdownClick">
       <div class="dropdown-content" slot="dropdown-content">
         <ul>
           <template is="dom-if" if="[[topContent]]">
             <div class="topContent">
-              <template
-                  is="dom-repeat"
-                  items="[[topContent]]"
-                  as="item"
-                  initial-count="75">
-                <div
-                    class$="[[_getClassIfBold(item.bold)]] top-item"
-                    tabindex="-1">
+              <template is="dom-repeat" items="[[topContent]]" as="item" initial-count="75">
+                <div class\$="[[_getClassIfBold(item.bold)]] top-item" tabindex="-1">
                   [[item.text]]
                 </div>
               </template>
             </div>
           </template>
-          <template
-              is="dom-repeat"
-              items="[[items]]"
-              as="link"
-              initial-count="75">
+          <template is="dom-repeat" items="[[items]]" as="link" initial-count="75">
             <li tabindex="-1">
-              <gr-tooltip-content
-                  has-tooltip="[[_computeHasTooltip(link.tooltip)]]"
-                  title$="[[link.tooltip]]">
-                <span
-                    class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
-                    data-id$="[[link.id]]"
-                    on-click="_handleItemTap"
-                    hidden$="[[link.url]]"
-                    tabindex="-1">[[link.name]]</span>
-                <a
-                    class="itemAction"
-                    href$="[[_computeLinkURL(link)]]"
-                    download$="[[_computeIsDownload(link)]]"
-                    rel$="[[_computeLinkRel(link)]]"
-                    target$="[[link.target]]"
-                    hidden$="[[!link.url]]"
-                    tabindex="-1">[[link.name]]</a>
+              <gr-tooltip-content has-tooltip="[[_computeHasTooltip(link.tooltip)]]" title\$="[[link.tooltip]]">
+                <span class\$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]" data-id\$="[[link.id]]" on-click="_handleItemTap" hidden\$="[[link.url]]" tabindex="-1">[[link.name]]</span>
+                <a class="itemAction" href\$="[[_computeLinkURL(link)]]" download\$="[[_computeIsDownload(link)]]" rel\$="[[_computeLinkRel(link)]]" target\$="[[link.target]]" hidden\$="[[!link.url]]" tabindex="-1">[[link.name]]</a>
               </gr-tooltip-content>
             </li>
           </template>
         </ul>
       </div>
     </iron-dropdown>
-    <gr-cursor-manager
-        id="cursor"
-        cursor-target-class="selected"
-        scroll-behavior="never"
-        focus-on-move
-        stops="[[_listElements]]"></gr-cursor-manager>
+    <gr-cursor-manager id="cursor" cursor-target-class="selected" scroll-behavior="never" focus-on-move="" stops="[[_listElements]]"></gr-cursor-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-dropdown.js"></script>
-</dom-module>
+`;

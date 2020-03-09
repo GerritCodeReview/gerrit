@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-repo-commands</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-repo-commands.html">
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-repo-commands.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-commands.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,109 +41,111 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-repo-commands tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let repoStub;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-commands.js';
+suite('gr-repo-commands tests', () => {
+  let element;
+  let sandbox;
+  let repoStub;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    repoStub = sandbox.stub(
+        element.$.restAPI,
+        'getProjectConfig',
+        () => Promise.resolve({}));
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('create new change dialog', () => {
+    test('_createNewChange opens modal', () => {
+      const openStub = sandbox.stub(element.$.createChangeOverlay, 'open');
+      element._createNewChange();
+      assert.isTrue(openStub.called);
+    });
+
+    test('_handleCreateChange called when confirm fired', () => {
+      sandbox.stub(element, '_handleCreateChange');
+      element.$.createChangeDialog.fire('confirm');
+      assert.isTrue(element._handleCreateChange.called);
+    });
+
+    test('_handleCloseCreateChange called when cancel fired', () => {
+      sandbox.stub(element, '_handleCloseCreateChange');
+      element.$.createChangeDialog.fire('cancel');
+      assert.isTrue(element._handleCloseCreateChange.called);
+    });
+  });
+
+  suite('edit repo config', () => {
+    let createChangeStub;
+    let urlStub;
+    let handleSpy;
+    let alertStub;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      repoStub = sandbox.stub(
-          element.$.restAPI,
-          'getProjectConfig',
-          () => Promise.resolve({}));
+      createChangeStub = sandbox.stub(element.$.restAPI, 'createChange');
+      urlStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
+      sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+      handleSpy = sandbox.spy(element, '_handleEditRepoConfig');
+      alertStub = sandbox.stub();
+      element.addEventListener('show-alert', alertStub);
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+    test('successful creation of change', () => {
+      const change = {_number: '1'};
+      createChangeStub.returns(Promise.resolve(change));
+      MockInteractions.tap(element.$.editRepoConfig.$$('gr-button'));
+      return handleSpy.lastCall.returnValue.then(() => {
+        flushAsynchronousOperations();
 
-    suite('create new change dialog', () => {
-      test('_createNewChange opens modal', () => {
-        const openStub = sandbox.stub(element.$.createChangeOverlay, 'open');
-        element._createNewChange();
-        assert.isTrue(openStub.called);
-      });
-
-      test('_handleCreateChange called when confirm fired', () => {
-        sandbox.stub(element, '_handleCreateChange');
-        element.$.createChangeDialog.fire('confirm');
-        assert.isTrue(element._handleCreateChange.called);
-      });
-
-      test('_handleCloseCreateChange called when cancel fired', () => {
-        sandbox.stub(element, '_handleCloseCreateChange');
-        element.$.createChangeDialog.fire('cancel');
-        assert.isTrue(element._handleCloseCreateChange.called);
+        assert.isTrue(alertStub.called);
+        assert.equal(alertStub.lastCall.args[0].detail.message,
+            'Navigating to change');
+        assert.isTrue(urlStub.called);
+        assert.deepEqual(urlStub.lastCall.args,
+            [change, 'project.config', 1]);
       });
     });
 
-    suite('edit repo config', () => {
-      let createChangeStub;
-      let urlStub;
-      let handleSpy;
-      let alertStub;
+    test('unsuccessful creation of change', () => {
+      createChangeStub.returns(Promise.resolve(null));
+      MockInteractions.tap(element.$.editRepoConfig.$$('gr-button'));
+      return handleSpy.lastCall.returnValue.then(() => {
+        flushAsynchronousOperations();
 
-      setup(() => {
-        createChangeStub = sandbox.stub(element.$.restAPI, 'createChange');
-        urlStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
-        sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
-        handleSpy = sandbox.spy(element, '_handleEditRepoConfig');
-        alertStub = sandbox.stub();
-        element.addEventListener('show-alert', alertStub);
-      });
-
-      test('successful creation of change', () => {
-        const change = {_number: '1'};
-        createChangeStub.returns(Promise.resolve(change));
-        MockInteractions.tap(element.$.editRepoConfig.$$('gr-button'));
-        return handleSpy.lastCall.returnValue.then(() => {
-          flushAsynchronousOperations();
-
-          assert.isTrue(alertStub.called);
-          assert.equal(alertStub.lastCall.args[0].detail.message,
-              'Navigating to change');
-          assert.isTrue(urlStub.called);
-          assert.deepEqual(urlStub.lastCall.args,
-              [change, 'project.config', 1]);
-        });
-      });
-
-      test('unsuccessful creation of change', () => {
-        createChangeStub.returns(Promise.resolve(null));
-        MockInteractions.tap(element.$.editRepoConfig.$$('gr-button'));
-        return handleSpy.lastCall.returnValue.then(() => {
-          flushAsynchronousOperations();
-
-          assert.isTrue(alertStub.called);
-          assert.equal(alertStub.lastCall.args[0].detail.message,
-              'Failed to create change.');
-          assert.isFalse(urlStub.called);
-        });
-      });
-    });
-
-    suite('404', () => {
-      test('fires page-error', done => {
-        repoStub.restore();
-
-        element.repo = 'test';
-
-        const response = {status: 404};
-        sandbox.stub(
-            element.$.restAPI, 'getProjectConfig', (repo, errFn) => {
-              errFn(response);
-            });
-        element.addEventListener('page-error', e => {
-          assert.deepEqual(e.detail.response, response);
-          done();
-        });
-
-        element._loadRepo();
+        assert.isTrue(alertStub.called);
+        assert.equal(alertStub.lastCall.args[0].detail.message,
+            'Failed to create change.');
+        assert.isFalse(urlStub.called);
       });
     });
   });
+
+  suite('404', () => {
+    test('fires page-error', done => {
+      repoStub.restore();
+
+      element.repo = 'test';
+
+      const response = {status: 404};
+      sandbox.stub(
+          element.$.restAPI, 'getProjectConfig', (repo, errFn) => {
+            errFn(response);
+          });
+      element.addEventListener('page-error', e => {
+        assert.deepEqual(e.detail.response, response);
+        done();
+      });
+
+      element._loadRepo();
+    });
+  });
+});
 </script>

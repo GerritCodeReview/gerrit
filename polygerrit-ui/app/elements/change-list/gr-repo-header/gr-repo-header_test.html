@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-repo-header</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-repo-header.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-repo-header.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-header.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,26 +40,28 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-repo-header tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-header.js';
+suite('gr-repo-header tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => { sandbox.restore(); });
-
-    test('repoUrl reset once repo changed', () => {
-      sandbox.stub(Gerrit.Nav, 'getUrlForRepo',
-          repoName => `http://test.com/${repoName}`
-      );
-      assert.equal(element._repoUrl, undefined);
-      element.repo = 'test';
-      assert.equal(element._repoUrl, 'http://test.com/test');
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
   });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('repoUrl reset once repo changed', () => {
+    sandbox.stub(Gerrit.Nav, 'getUrlForRepo',
+        repoName => `http://test.com/${repoName}`
+    );
+    assert.equal(element._repoUrl, undefined);
+    element.repo = 'test';
+    assert.equal(element._repoUrl, 'http://test.com/test');
+  });
+});
 </script>

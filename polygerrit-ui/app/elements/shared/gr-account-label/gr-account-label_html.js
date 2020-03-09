@@ -1,31 +1,22 @@
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.html">
-<link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../gr-avatar/gr-avatar.html">
-<link rel="import" href="../gr-limited-text/gr-limited-text.html">
-<link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
-<script src="../../../scripts/util.js"></script>
-
-<dom-module id="gr-account-label">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: inline;
@@ -54,25 +45,19 @@ limitations under the License.
     </style>
     <span>
       <template is="dom-if" if="[[!hideAvatar]]">
-        <gr-avatar account="[[account]]"
-            image-size="[[avatarImageSize]]"></gr-avatar>
+        <gr-avatar account="[[account]]" image-size="[[avatarImageSize]]"></gr-avatar>
       </template>
-      <span class$="text [[_computeShowEmailClass(account)]]">
+      <span class\$="text [[_computeShowEmailClass(account)]]">
         <span class="name">
           [[_computeName(account, _serverConfig)]]</span>
         <span class="email">
           [[_computeEmailStr(account)]]
         </span>
         <template is="dom-if" if="[[account.status]]">
-          (<gr-limited-text
-            disable-tooltip="true"
-            limit="[[_computeStatusTextLength(account, _serverConfig)]]"
-            text="[[account.status]]">
+          (<gr-limited-text disable-tooltip="true" limit="[[_computeStatusTextLength(account, _serverConfig)]]" text="[[account.status]]">
           </gr-limited-text>)
         </template>
       </span>
     </span>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-account-label.js"></script>
-</dom-module>
+`;

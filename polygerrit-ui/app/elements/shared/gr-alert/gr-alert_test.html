@@ -19,42 +19,44 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-alert</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-alert.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-alert.js"></script>
 
-<script>
-  suite('gr-alert tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-alert.js';
+suite('gr-alert tests', () => {
+  let element;
 
-    setup(() => {
-      element = document.createElement('gr-alert');
-    });
-
-    teardown(() => {
-      if (element.parentNode) {
-        element.parentNode.removeChild(element);
-      }
-    });
-
-    test('show/hide', () => {
-      assert.isNull(element.parentNode);
-      element.show();
-      assert.equal(element.parentNode, document.body);
-      element.updateStyles({'--gr-alert-transition-duration': '0ms'});
-      element.hide();
-      assert.isNull(element.parentNode);
-    });
-
-    test('action event', done => {
-      element.show();
-      element._actionCallback = done;
-      MockInteractions.tap(element.$$('.action'));
-    });
+  setup(() => {
+    element = document.createElement('gr-alert');
   });
+
+  teardown(() => {
+    if (element.parentNode) {
+      element.parentNode.removeChild(element);
+    }
+  });
+
+  test('show/hide', () => {
+    assert.isNull(element.parentNode);
+    element.show();
+    assert.equal(element.parentNode, document.body);
+    element.updateStyles({'--gr-alert-transition-duration': '0ms'});
+    element.hide();
+    assert.isNull(element.parentNode);
+  });
+
+  test('action event', done => {
+    element.show();
+    element._actionCallback = done;
+    MockInteractions.tap(element.$$('.action'));
+  });
+});
 </script>

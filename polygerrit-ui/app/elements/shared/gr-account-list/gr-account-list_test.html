@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-account-list</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-account-list.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-account-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-account-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,505 +40,509 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  class MockSuggestionsProvider {
-    getSuggestions(input) {
-      return Promise.resolve([]);
-    }
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-account-list.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
-    makeSuggestionItem(item) {
-      return item;
-    }
+class MockSuggestionsProvider {
+  getSuggestions(input) {
+    return Promise.resolve([]);
   }
 
-  suite('gr-account-list tests', async () => {
-    await readyToTest();
-    let _nextAccountId = 0;
-    const makeAccount = function() {
-      const accountId = ++_nextAccountId;
-      return {
-        _account_id: accountId,
-      };
+  makeSuggestionItem(item) {
+    return item;
+  }
+}
+
+suite('gr-account-list tests', () => {
+  let _nextAccountId = 0;
+  const makeAccount = function() {
+    const accountId = ++_nextAccountId;
+    return {
+      _account_id: accountId,
     };
-    const makeGroup = function() {
-      const groupId = 'group' + (++_nextAccountId);
-      return {
-        id: groupId,
-        _group: true,
-      };
+  };
+  const makeGroup = function() {
+    const groupId = 'group' + (++_nextAccountId);
+    return {
+      id: groupId,
+      _group: true,
     };
+  };
 
-    let existingAccount1;
-    let existingAccount2;
-    let sandbox;
-    let element;
-    let suggestionsProvider;
+  let existingAccount1;
+  let existingAccount2;
+  let sandbox;
+  let element;
+  let suggestionsProvider;
 
-    function getChips() {
-      return Polymer.dom(element.root).querySelectorAll('gr-account-chip');
-    }
+  function getChips() {
+    return dom(element.root).querySelectorAll('gr-account-chip');
+  }
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    existingAccount1 = makeAccount();
+    existingAccount2 = makeAccount();
+
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+    });
+    element = fixture('basic');
+    element.accounts = [existingAccount1, existingAccount2];
+    suggestionsProvider = new MockSuggestionsProvider();
+    element.suggestionsProvider = suggestionsProvider;
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('account entry only appears when editable', () => {
+    element.readonly = false;
+    assert.isFalse(element.$.entry.hasAttribute('hidden'));
+    element.readonly = true;
+    assert.isTrue(element.$.entry.hasAttribute('hidden'));
+  });
+
+  test('addition and removal of account/group chips', () => {
+    flushAsynchronousOperations();
+    sandbox.stub(element, '_computeRemovable').returns(true);
+    // Existing accounts are listed.
+    let chips = getChips();
+    assert.equal(chips.length, 2);
+    assert.isFalse(chips[0].classList.contains('pendingAdd'));
+    assert.isFalse(chips[1].classList.contains('pendingAdd'));
+
+    // New accounts are added to end with pendingAdd class.
+    const newAccount = makeAccount();
+    element._handleAdd({
+      detail: {
+        value: {
+          account: newAccount,
+        },
+      },
+    });
+    flushAsynchronousOperations();
+    chips = getChips();
+    assert.equal(chips.length, 3);
+    assert.isFalse(chips[0].classList.contains('pendingAdd'));
+    assert.isFalse(chips[1].classList.contains('pendingAdd'));
+    assert.isTrue(chips[2].classList.contains('pendingAdd'));
+
+    // Removed accounts are taken out of the list.
+    element.fire('remove', {account: existingAccount1});
+    flushAsynchronousOperations();
+    chips = getChips();
+    assert.equal(chips.length, 2);
+    assert.isFalse(chips[0].classList.contains('pendingAdd'));
+    assert.isTrue(chips[1].classList.contains('pendingAdd'));
+
+    // Invalid remove is ignored.
+    element.fire('remove', {account: existingAccount1});
+    element.fire('remove', {account: newAccount});
+    flushAsynchronousOperations();
+    chips = getChips();
+    assert.equal(chips.length, 1);
+    assert.isFalse(chips[0].classList.contains('pendingAdd'));
+
+    // New groups are added to end with pendingAdd and group classes.
+    const newGroup = makeGroup();
+    element._handleAdd({
+      detail: {
+        value: {
+          group: newGroup,
+        },
+      },
+    });
+    flushAsynchronousOperations();
+    chips = getChips();
+    assert.equal(chips.length, 2);
+    assert.isTrue(chips[1].classList.contains('group'));
+    assert.isTrue(chips[1].classList.contains('pendingAdd'));
+
+    // Removed groups are taken out of the list.
+    element.fire('remove', {account: newGroup});
+    flushAsynchronousOperations();
+    chips = getChips();
+    assert.equal(chips.length, 1);
+    assert.isFalse(chips[0].classList.contains('pendingAdd'));
+  });
+
+  test('_getSuggestions uses filter correctly', done => {
+    const originalSuggestions = [
+      {
+        email: 'abc@example.com',
+        text: 'abcd',
+        _account_id: 3,
+      },
+      {
+        email: 'qwe@example.com',
+        text: 'qwer',
+        _account_id: 1,
+      },
+      {
+        email: 'xyz@example.com',
+        text: 'aaaaa',
+        _account_id: 25,
+      },
+    ];
+    sandbox.stub(suggestionsProvider, 'getSuggestions')
+        .returns(Promise.resolve(originalSuggestions));
+    sandbox.stub(suggestionsProvider, 'makeSuggestionItem', suggestion => {
+      return {
+        name: suggestion.email,
+        value: suggestion._account_id,
+      };
+    });
+
+    element._getSuggestions().then(suggestions => {
+      // Default is no filtering.
+      assert.equal(suggestions.length, 3);
+
+      // Set up filter that only accepts suggestion1.
+      const accountId = originalSuggestions[0]._account_id;
+      element.filter = function(suggestion) {
+        return suggestion._account_id === accountId;
+      };
+
+      element._getSuggestions()
+          .then(suggestions => {
+            assert.deepEqual(suggestions,
+                [{name: originalSuggestions[0].email,
+                  value: originalSuggestions[0]._account_id}]);
+          })
+          .then(done);
+    });
+  });
+
+  test('_computeChipClass', () => {
+    const account = makeAccount();
+    assert.equal(element._computeChipClass(account), '');
+    account._pendingAdd = true;
+    assert.equal(element._computeChipClass(account), 'pendingAdd');
+    account._group = true;
+    assert.equal(element._computeChipClass(account), 'group pendingAdd');
+    account._pendingAdd = false;
+    assert.equal(element._computeChipClass(account), 'group');
+  });
+
+  test('_computeRemovable', () => {
+    const newAccount = makeAccount();
+    newAccount._pendingAdd = true;
+    element.readonly = false;
+    element.removableValues = [];
+    assert.isFalse(element._computeRemovable(existingAccount1, false));
+    assert.isTrue(element._computeRemovable(newAccount, false));
+
+    element.removableValues = [existingAccount1];
+    assert.isTrue(element._computeRemovable(existingAccount1, false));
+    assert.isTrue(element._computeRemovable(newAccount, false));
+    assert.isFalse(element._computeRemovable(existingAccount2, false));
+
+    element.readonly = true;
+    assert.isFalse(element._computeRemovable(existingAccount1, true));
+    assert.isFalse(element._computeRemovable(newAccount, true));
+  });
+
+  test('submitEntryText', () => {
+    element.allowAnyInput = true;
+    flushAsynchronousOperations();
+
+    const getTextStub = sandbox.stub(element.$.entry, 'getText');
+    getTextStub.onFirstCall().returns('');
+    getTextStub.onSecondCall().returns('test');
+    getTextStub.onThirdCall().returns('test@test');
+
+    // When entry is empty, return true.
+    const clearStub = sandbox.stub(element.$.entry, 'clear');
+    assert.isTrue(element.submitEntryText());
+    assert.isFalse(clearStub.called);
+
+    // When entry is invalid, return false.
+    assert.isFalse(element.submitEntryText());
+    assert.isFalse(clearStub.called);
+
+    // When entry is valid, return true and clear text.
+    assert.isTrue(element.submitEntryText());
+    assert.isTrue(clearStub.called);
+    assert.equal(element.additions()[0].account.email, 'test@test');
+  });
+
+  test('additions returns sanitized new accounts and groups', () => {
+    assert.equal(element.additions().length, 0);
+
+    const newAccount = makeAccount();
+    element._handleAdd({
+      detail: {
+        value: {
+          account: newAccount,
+        },
+      },
+    });
+    const newGroup = makeGroup();
+    element._handleAdd({
+      detail: {
+        value: {
+          group: newGroup,
+        },
+      },
+    });
+
+    assert.deepEqual(element.additions(), [
+      {
+        account: {
+          _account_id: newAccount._account_id,
+          _pendingAdd: true,
+        },
+      },
+      {
+        group: {
+          id: newGroup.id,
+          _group: true,
+          _pendingAdd: true,
+        },
+      },
+    ]);
+  });
+
+  test('large group confirmations', () => {
+    assert.isNull(element.pendingConfirmation);
+    assert.deepEqual(element.additions(), []);
+
+    const group = makeGroup();
+    const reviewer = {
+      group,
+      count: 10,
+      confirm: true,
+    };
+    element._handleAdd({
+      detail: {
+        value: reviewer,
+      },
+    });
+
+    assert.deepEqual(element.pendingConfirmation, reviewer);
+    assert.deepEqual(element.additions(), []);
+
+    element.confirmGroup(group);
+    assert.isNull(element.pendingConfirmation);
+    assert.deepEqual(element.additions(), [
+      {
+        group: {
+          id: group.id,
+          _group: true,
+          _pendingAdd: true,
+          confirmed: true,
+        },
+      },
+    ]);
+  });
+
+  test('removeAccount fails if account is not removable', () => {
+    element.readonly = true;
+    const acct = makeAccount();
+    element.accounts = [acct];
+    element._removeAccount(acct);
+    assert.equal(element.accounts.length, 1);
+  });
+
+  test('max-count', () => {
+    element.maxCount = 1;
+    const acct = makeAccount();
+    element._handleAdd({
+      detail: {
+        value: {
+          account: acct,
+        },
+      },
+    });
+    flushAsynchronousOperations();
+    assert.isTrue(element.$.entry.hasAttribute('hidden'));
+  });
+
+  test('enter text calls suggestions provider', done => {
+    const suggestions = [
+      {
+        email: 'abc@example.com',
+        text: 'abcd',
+      },
+      {
+        email: 'qwe@example.com',
+        text: 'qwer',
+      },
+    ];
+    const getSuggestionsStub =
+        sandbox.stub(suggestionsProvider, 'getSuggestions')
+            .returns(Promise.resolve(suggestions));
+
+    const makeSuggestionItemStub =
+        sandbox.stub(suggestionsProvider, 'makeSuggestionItem', item => item);
+
+    const input = element.$.entry.$.input;
+
+    input.text = 'newTest';
+    MockInteractions.focus(input.$.input);
+    input.noDebounce = true;
+    flushAsynchronousOperations();
+    flush(() => {
+      assert.isTrue(getSuggestionsStub.calledOnce);
+      assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
+      assert.equal(makeSuggestionItemStub.getCalls().length, 2);
+      done();
+    });
+  });
+
+  test('suggestion on empty', done => {
+    element.skipSuggestOnEmpty = false;
+    const suggestions = [
+      {
+        email: 'abc@example.com',
+        text: 'abcd',
+      },
+      {
+        email: 'qwe@example.com',
+        text: 'qwer',
+      },
+    ];
+    const getSuggestionsStub =
+        sandbox.stub(suggestionsProvider, 'getSuggestions')
+            .returns(Promise.resolve(suggestions));
+
+    const makeSuggestionItemStub =
+        sandbox.stub(suggestionsProvider, 'makeSuggestionItem', item => item);
+
+    const input = element.$.entry.$.input;
+
+    input.text = '';
+    MockInteractions.focus(input.$.input);
+    input.noDebounce = true;
+    flushAsynchronousOperations();
+    flush(() => {
+      assert.isTrue(getSuggestionsStub.calledOnce);
+      assert.equal(getSuggestionsStub.lastCall.args[0], '');
+      assert.equal(makeSuggestionItemStub.getCalls().length, 2);
+      done();
+    });
+  });
+
+  test('skip suggestion on empty', done => {
+    element.skipSuggestOnEmpty = true;
+    const getSuggestionsStub =
+        sandbox.stub(suggestionsProvider, 'getSuggestions')
+            .returns(Promise.resolve([]));
+
+    const input = element.$.entry.$.input;
+
+    input.text = '';
+    MockInteractions.focus(input.$.input);
+    input.noDebounce = true;
+    flushAsynchronousOperations();
+    flush(() => {
+      assert.isTrue(getSuggestionsStub.notCalled);
+      done();
+    });
+  });
+
+  suite('allowAnyInput', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      existingAccount1 = makeAccount();
-      existingAccount2 = makeAccount();
-
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-      });
-      element = fixture('basic');
-      element.accounts = [existingAccount1, existingAccount2];
-      suggestionsProvider = new MockSuggestionsProvider();
-      element.suggestionsProvider = suggestionsProvider;
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('account entry only appears when editable', () => {
-      element.readonly = false;
-      assert.isFalse(element.$.entry.hasAttribute('hidden'));
-      element.readonly = true;
-      assert.isTrue(element.$.entry.hasAttribute('hidden'));
-    });
-
-    test('addition and removal of account/group chips', () => {
-      flushAsynchronousOperations();
-      sandbox.stub(element, '_computeRemovable').returns(true);
-      // Existing accounts are listed.
-      let chips = getChips();
-      assert.equal(chips.length, 2);
-      assert.isFalse(chips[0].classList.contains('pendingAdd'));
-      assert.isFalse(chips[1].classList.contains('pendingAdd'));
-
-      // New accounts are added to end with pendingAdd class.
-      const newAccount = makeAccount();
-      element._handleAdd({
-        detail: {
-          value: {
-            account: newAccount,
-          },
-        },
-      });
-      flushAsynchronousOperations();
-      chips = getChips();
-      assert.equal(chips.length, 3);
-      assert.isFalse(chips[0].classList.contains('pendingAdd'));
-      assert.isFalse(chips[1].classList.contains('pendingAdd'));
-      assert.isTrue(chips[2].classList.contains('pendingAdd'));
-
-      // Removed accounts are taken out of the list.
-      element.fire('remove', {account: existingAccount1});
-      flushAsynchronousOperations();
-      chips = getChips();
-      assert.equal(chips.length, 2);
-      assert.isFalse(chips[0].classList.contains('pendingAdd'));
-      assert.isTrue(chips[1].classList.contains('pendingAdd'));
-
-      // Invalid remove is ignored.
-      element.fire('remove', {account: existingAccount1});
-      element.fire('remove', {account: newAccount});
-      flushAsynchronousOperations();
-      chips = getChips();
-      assert.equal(chips.length, 1);
-      assert.isFalse(chips[0].classList.contains('pendingAdd'));
-
-      // New groups are added to end with pendingAdd and group classes.
-      const newGroup = makeGroup();
-      element._handleAdd({
-        detail: {
-          value: {
-            group: newGroup,
-          },
-        },
-      });
-      flushAsynchronousOperations();
-      chips = getChips();
-      assert.equal(chips.length, 2);
-      assert.isTrue(chips[1].classList.contains('group'));
-      assert.isTrue(chips[1].classList.contains('pendingAdd'));
-
-      // Removed groups are taken out of the list.
-      element.fire('remove', {account: newGroup});
-      flushAsynchronousOperations();
-      chips = getChips();
-      assert.equal(chips.length, 1);
-      assert.isFalse(chips[0].classList.contains('pendingAdd'));
-    });
-
-    test('_getSuggestions uses filter correctly', done => {
-      const originalSuggestions = [
-        {
-          email: 'abc@example.com',
-          text: 'abcd',
-          _account_id: 3,
-        },
-        {
-          email: 'qwe@example.com',
-          text: 'qwer',
-          _account_id: 1,
-        },
-        {
-          email: 'xyz@example.com',
-          text: 'aaaaa',
-          _account_id: 25,
-        },
-      ];
-      sandbox.stub(suggestionsProvider, 'getSuggestions')
-          .returns(Promise.resolve(originalSuggestions));
-      sandbox.stub(suggestionsProvider, 'makeSuggestionItem', suggestion => {
-        return {
-          name: suggestion.email,
-          value: suggestion._account_id,
-        };
-      });
-
-      element._getSuggestions().then(suggestions => {
-        // Default is no filtering.
-        assert.equal(suggestions.length, 3);
-
-        // Set up filter that only accepts suggestion1.
-        const accountId = originalSuggestions[0]._account_id;
-        element.filter = function(suggestion) {
-          return suggestion._account_id === accountId;
-        };
-
-        element._getSuggestions()
-            .then(suggestions => {
-              assert.deepEqual(suggestions,
-                  [{name: originalSuggestions[0].email,
-                    value: originalSuggestions[0]._account_id}]);
-            })
-            .then(done);
-      });
-    });
-
-    test('_computeChipClass', () => {
-      const account = makeAccount();
-      assert.equal(element._computeChipClass(account), '');
-      account._pendingAdd = true;
-      assert.equal(element._computeChipClass(account), 'pendingAdd');
-      account._group = true;
-      assert.equal(element._computeChipClass(account), 'group pendingAdd');
-      account._pendingAdd = false;
-      assert.equal(element._computeChipClass(account), 'group');
-    });
-
-    test('_computeRemovable', () => {
-      const newAccount = makeAccount();
-      newAccount._pendingAdd = true;
-      element.readonly = false;
-      element.removableValues = [];
-      assert.isFalse(element._computeRemovable(existingAccount1, false));
-      assert.isTrue(element._computeRemovable(newAccount, false));
-
-      element.removableValues = [existingAccount1];
-      assert.isTrue(element._computeRemovable(existingAccount1, false));
-      assert.isTrue(element._computeRemovable(newAccount, false));
-      assert.isFalse(element._computeRemovable(existingAccount2, false));
-
-      element.readonly = true;
-      assert.isFalse(element._computeRemovable(existingAccount1, true));
-      assert.isFalse(element._computeRemovable(newAccount, true));
-    });
-
-    test('submitEntryText', () => {
       element.allowAnyInput = true;
-      flushAsynchronousOperations();
-
-      const getTextStub = sandbox.stub(element.$.entry, 'getText');
-      getTextStub.onFirstCall().returns('');
-      getTextStub.onSecondCall().returns('test');
-      getTextStub.onThirdCall().returns('test@test');
-
-      // When entry is empty, return true.
-      const clearStub = sandbox.stub(element.$.entry, 'clear');
-      assert.isTrue(element.submitEntryText());
-      assert.isFalse(clearStub.called);
-
-      // When entry is invalid, return false.
-      assert.isFalse(element.submitEntryText());
-      assert.isFalse(clearStub.called);
-
-      // When entry is valid, return true and clear text.
-      assert.isTrue(element.submitEntryText());
-      assert.isTrue(clearStub.called);
-      assert.equal(element.additions()[0].account.email, 'test@test');
     });
 
-    test('additions returns sanitized new accounts and groups', () => {
-      assert.equal(element.additions().length, 0);
-
-      const newAccount = makeAccount();
-      element._handleAdd({
-        detail: {
-          value: {
-            account: newAccount,
-          },
-        },
-      });
-      const newGroup = makeGroup();
-      element._handleAdd({
-        detail: {
-          value: {
-            group: newGroup,
-          },
-        },
-      });
-
-      assert.deepEqual(element.additions(), [
-        {
-          account: {
-            _account_id: newAccount._account_id,
-            _pendingAdd: true,
-          },
-        },
-        {
-          group: {
-            id: newGroup.id,
-            _group: true,
-            _pendingAdd: true,
-          },
-        },
-      ]);
+    test('adds emails', () => {
+      const accountLen = element.accounts.length;
+      element._handleAdd({detail: {value: 'test@test'}});
+      assert.equal(element.accounts.length, accountLen + 1);
+      assert.equal(element.accounts[accountLen].email, 'test@test');
     });
 
-    test('large group confirmations', () => {
-      assert.isNull(element.pendingConfirmation);
-      assert.deepEqual(element.additions(), []);
-
-      const group = makeGroup();
-      const reviewer = {
-        group,
-        count: 10,
-        confirm: true,
-      };
-      element._handleAdd({
-        detail: {
-          value: reviewer,
-        },
-      });
-
-      assert.deepEqual(element.pendingConfirmation, reviewer);
-      assert.deepEqual(element.additions(), []);
-
-      element.confirmGroup(group);
-      assert.isNull(element.pendingConfirmation);
-      assert.deepEqual(element.additions(), [
-        {
-          group: {
-            id: group.id,
-            _group: true,
-            _pendingAdd: true,
-            confirmed: true,
-          },
-        },
-      ]);
+    test('toasts on invalid email', () => {
+      const toastHandler = sandbox.stub();
+      element.addEventListener('show-alert', toastHandler);
+      element._handleAdd({detail: {value: 'test'}});
+      assert.isTrue(toastHandler.called);
     });
+  });
 
-    test('removeAccount fails if account is not removable', () => {
-      element.readonly = true;
-      const acct = makeAccount();
-      element.accounts = [acct];
-      element._removeAccount(acct);
-      assert.equal(element.accounts.length, 1);
-    });
+  test('_accountMatches', () => {
+    const acct = makeAccount();
 
-    test('max-count', () => {
-      element.maxCount = 1;
-      const acct = makeAccount();
-      element._handleAdd({
-        detail: {
-          value: {
-            account: acct,
-          },
-        },
-      });
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.entry.hasAttribute('hidden'));
-    });
+    assert.isTrue(element._accountMatches(acct, acct));
+    acct.email = 'test';
+    assert.isTrue(element._accountMatches(acct, acct));
+    assert.isTrue(element._accountMatches({email: 'test'}, acct));
 
-    test('enter text calls suggestions provider', done => {
-      const suggestions = [
-        {
-          email: 'abc@example.com',
-          text: 'abcd',
-        },
-        {
-          email: 'qwe@example.com',
-          text: 'qwer',
-        },
-      ];
-      const getSuggestionsStub =
-          sandbox.stub(suggestionsProvider, 'getSuggestions')
-              .returns(Promise.resolve(suggestions));
+    assert.isFalse(element._accountMatches({}, acct));
+    assert.isFalse(element._accountMatches({email: 'test2'}, acct));
+    assert.isFalse(element._accountMatches({_account_id: -1}, acct));
+  });
 
-      const makeSuggestionItemStub =
-          sandbox.stub(suggestionsProvider, 'makeSuggestionItem', item => item);
-
+  suite('keyboard interactions', () => {
+    test('backspace at text input start removes last account', done => {
       const input = element.$.entry.$.input;
-
-      input.text = 'newTest';
-      MockInteractions.focus(input.$.input);
-      input.noDebounce = true;
-      flushAsynchronousOperations();
+      sandbox.stub(input, '_updateSuggestions');
+      sandbox.stub(element, '_computeRemovable').returns(true);
       flush(() => {
-        assert.isTrue(getSuggestionsStub.calledOnce);
-        assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
-        assert.equal(makeSuggestionItemStub.getCalls().length, 2);
-        done();
-      });
-    });
-
-    test('suggestion on empty', done => {
-      element.skipSuggestOnEmpty = false;
-      const suggestions = [
-        {
-          email: 'abc@example.com',
-          text: 'abcd',
-        },
-        {
-          email: 'qwe@example.com',
-          text: 'qwer',
-        },
-      ];
-      const getSuggestionsStub =
-          sandbox.stub(suggestionsProvider, 'getSuggestions')
-              .returns(Promise.resolve(suggestions));
-
-      const makeSuggestionItemStub =
-          sandbox.stub(suggestionsProvider, 'makeSuggestionItem', item => item);
-
-      const input = element.$.entry.$.input;
-
-      input.text = '';
-      MockInteractions.focus(input.$.input);
-      input.noDebounce = true;
-      flushAsynchronousOperations();
-      flush(() => {
-        assert.isTrue(getSuggestionsStub.calledOnce);
-        assert.equal(getSuggestionsStub.lastCall.args[0], '');
-        assert.equal(makeSuggestionItemStub.getCalls().length, 2);
-        done();
-      });
-    });
-
-    test('skip suggestion on empty', done => {
-      element.skipSuggestOnEmpty = true;
-      const getSuggestionsStub =
-          sandbox.stub(suggestionsProvider, 'getSuggestions')
-              .returns(Promise.resolve([]));
-
-      const input = element.$.entry.$.input;
-
-      input.text = '';
-      MockInteractions.focus(input.$.input);
-      input.noDebounce = true;
-      flushAsynchronousOperations();
-      flush(() => {
-        assert.isTrue(getSuggestionsStub.notCalled);
-        done();
-      });
-    });
-
-    suite('allowAnyInput', () => {
-      setup(() => {
-        element.allowAnyInput = true;
-      });
-
-      test('adds emails', () => {
-        const accountLen = element.accounts.length;
-        element._handleAdd({detail: {value: 'test@test'}});
-        assert.equal(element.accounts.length, accountLen + 1);
-        assert.equal(element.accounts[accountLen].email, 'test@test');
-      });
-
-      test('toasts on invalid email', () => {
-        const toastHandler = sandbox.stub();
-        element.addEventListener('show-alert', toastHandler);
-        element._handleAdd({detail: {value: 'test'}});
-        assert.isTrue(toastHandler.called);
-      });
-    });
-
-    test('_accountMatches', () => {
-      const acct = makeAccount();
-
-      assert.isTrue(element._accountMatches(acct, acct));
-      acct.email = 'test';
-      assert.isTrue(element._accountMatches(acct, acct));
-      assert.isTrue(element._accountMatches({email: 'test'}, acct));
-
-      assert.isFalse(element._accountMatches({}, acct));
-      assert.isFalse(element._accountMatches({email: 'test2'}, acct));
-      assert.isFalse(element._accountMatches({_account_id: -1}, acct));
-    });
-
-    suite('keyboard interactions', () => {
-      test('backspace at text input start removes last account', done => {
-        const input = element.$.entry.$.input;
-        sandbox.stub(input, '_updateSuggestions');
-        sandbox.stub(element, '_computeRemovable').returns(true);
-        flush(() => {
-          // Next line is a workaround for Firefix not moving cursor
-          // on input field update
-          assert.equal(
-              element._getNativeInput(input.$.input).selectionStart, 0);
-          input.text = 'test';
-          MockInteractions.focus(input.$.input);
-          flushAsynchronousOperations();
-          assert.equal(element.accounts.length, 2);
-          MockInteractions.pressAndReleaseKeyOn(
-              element._getNativeInput(input.$.input), 8); // Backspace
-          assert.equal(element.accounts.length, 2);
-          input.text = '';
-          MockInteractions.pressAndReleaseKeyOn(
-              element._getNativeInput(input.$.input), 8); // Backspace
-          flushAsynchronousOperations();
-          assert.equal(element.accounts.length, 1);
-          done();
-        });
-      });
-
-      test('arrow key navigation', done => {
-        const input = element.$.entry.$.input;
+        // Next line is a workaround for Firefix not moving cursor
+        // on input field update
+        assert.equal(
+            element._getNativeInput(input.$.input).selectionStart, 0);
+        input.text = 'test';
+        MockInteractions.focus(input.$.input);
+        flushAsynchronousOperations();
+        assert.equal(element.accounts.length, 2);
+        MockInteractions.pressAndReleaseKeyOn(
+            element._getNativeInput(input.$.input), 8); // Backspace
+        assert.equal(element.accounts.length, 2);
         input.text = '';
-        element.accounts = [makeAccount(), makeAccount()];
-        flush(() => {
-          MockInteractions.focus(input.$.input);
-          flushAsynchronousOperations();
-          const chips = element.accountChips;
-          const chipsOneSpy = sandbox.spy(chips[1], 'focus');
-          MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
-          assert.isTrue(chipsOneSpy.called);
-          const chipsZeroSpy = sandbox.spy(chips[0], 'focus');
-          MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
-          assert.isTrue(chipsZeroSpy.called);
-          MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
-          assert.isTrue(chipsZeroSpy.calledOnce);
-          MockInteractions.pressAndReleaseKeyOn(chips[0], 39); // Right
-          assert.isTrue(chipsOneSpy.calledTwice);
-          done();
-        });
+        MockInteractions.pressAndReleaseKeyOn(
+            element._getNativeInput(input.$.input), 8); // Backspace
+        flushAsynchronousOperations();
+        assert.equal(element.accounts.length, 1);
+        done();
       });
+    });
 
-      test('delete', done => {
-        element.accounts = [makeAccount(), makeAccount()];
-        flush(() => {
-          const focusSpy = sandbox.spy(element.accountChips[1], 'focus');
-          const removeSpy = sandbox.spy(element, '_removeAccount');
-          MockInteractions.pressAndReleaseKeyOn(
-              element.accountChips[0], 8); // Backspace
-          assert.isTrue(focusSpy.called);
-          assert.isTrue(removeSpy.calledOnce);
+    test('arrow key navigation', done => {
+      const input = element.$.entry.$.input;
+      input.text = '';
+      element.accounts = [makeAccount(), makeAccount()];
+      flush(() => {
+        MockInteractions.focus(input.$.input);
+        flushAsynchronousOperations();
+        const chips = element.accountChips;
+        const chipsOneSpy = sandbox.spy(chips[1], 'focus');
+        MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+        assert.isTrue(chipsOneSpy.called);
+        const chipsZeroSpy = sandbox.spy(chips[0], 'focus');
+        MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
+        assert.isTrue(chipsZeroSpy.called);
+        MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
+        assert.isTrue(chipsZeroSpy.calledOnce);
+        MockInteractions.pressAndReleaseKeyOn(chips[0], 39); // Right
+        assert.isTrue(chipsOneSpy.calledTwice);
+        done();
+      });
+    });
 
-          MockInteractions.pressAndReleaseKeyOn(
-              element.accountChips[1], 46); // Delete
-          assert.isTrue(removeSpy.calledTwice);
-          done();
-        });
+    test('delete', done => {
+      element.accounts = [makeAccount(), makeAccount()];
+      flush(() => {
+        const focusSpy = sandbox.spy(element.accountChips[1], 'focus');
+        const removeSpy = sandbox.spy(element, '_removeAccount');
+        MockInteractions.pressAndReleaseKeyOn(
+            element.accountChips[0], 8); // Backspace
+        assert.isTrue(focusSpy.called);
+        assert.isTrue(removeSpy.calledOnce);
+
+        MockInteractions.pressAndReleaseKeyOn(
+            element.accountChips[1], 46); // Delete
+        assert.isTrue(removeSpy.calledTwice);
+        done();
       });
     });
   });
+});
 </script>

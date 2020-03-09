@@ -147,7 +147,7 @@ public class UiActions {
     try (Timer1.Context<String> ignored = uiActionLatency.start(name)) {
       dsc = ((UiAction<R>) view).getDescription(resource);
     } catch (Exception ex) {
-      logger.atSevere().withCause(ex).log("Unable to render UIAction. Will omit from actions");
+      throw new RuntimeException("Unable to render UI action", ex);
     }
     if (dsc == null) {
       return null;

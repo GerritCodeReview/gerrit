@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -129,7 +128,7 @@ public class Abandon
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource rsrc) {
+  public UiAction.Description getDescription(ChangeResource rsrc) throws IOException {
     UiAction.Description description =
         new UiAction.Description()
             .setLabel("Abandon")
@@ -140,17 +139,9 @@ public class Abandon
     if (!change.isNew()) {
       return description;
     }
-
-    try {
-      if (patchSetUtil.isPatchSetLocked(rsrc.getNotes())) {
-        return description;
-      }
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to check if the current patch set of change %s is locked", change.getId());
+    if (patchSetUtil.isPatchSetLocked(rsrc.getNotes())) {
       return description;
     }
-
     return description.setVisible(rsrc.permissions().testOrFalse(ChangePermission.ABANDON));
   }
 }

@@ -22,7 +22,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -170,7 +169,7 @@ public class Restore
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource rsrc) {
+  public UiAction.Description getDescription(ChangeResource rsrc) throws IOException {
     UiAction.Description description =
         new UiAction.Description()
             .setLabel("Restore")
@@ -181,27 +180,12 @@ public class Restore
     if (!change.isAbandoned()) {
       return description;
     }
-
-    try {
-      if (!projectCache.get(rsrc.getProject()).map(ProjectState::statePermitsRead).orElse(false)) {
-        return description;
-      }
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to check if project state permits write: %s", rsrc.getProject());
+    if (!projectCache.get(rsrc.getProject()).map(ProjectState::statePermitsRead).orElse(false)) {
       return description;
     }
-
-    try {
-      if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
-        return description;
-      }
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to check if the current patch set of change %s is locked", change.getId());
+    if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
       return description;
     }
-
     boolean visible = rsrc.permissions().testOrFalse(ChangePermission.RESTORE);
     return description.setVisible(visible);
   }

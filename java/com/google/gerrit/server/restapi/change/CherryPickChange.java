@@ -56,7 +56,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.submit.IntegrationException;
+import com.google.gerrit.server.submit.IntegrationConflictException;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
@@ -155,15 +155,14 @@ public class CherryPickChange {
    * @throws IOException Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
    *     key exist in the branch.
-   * @throws IntegrationException Merge conflict or trees are identical after cherry pick.
    * @throws UpdateException Problem updating the database using batchUpdateFactory.
    * @throws RestApiException Error such as invalid SHA1
    * @throws ConfigInvalidException Can't find account to notify.
    * @throws NoSuchProjectException Can't find project state.
    */
   public Result cherryPick(Change change, PatchSet patch, CherryPickInput input, BranchNameKey dest)
-      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
-          RestApiException, ConfigInvalidException, NoSuchProjectException {
+      throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
+          ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
         change,
         change.getProject(),
@@ -193,7 +192,6 @@ public class CherryPickChange {
    * @throws IOException Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
    *     key exist in the branch.
-   * @throws IntegrationException Merge conflict or trees are identical after cherry pick.
    * @throws UpdateException Problem updating the database using batchUpdateFactory.
    * @throws RestApiException Error such as invalid SHA1
    * @throws ConfigInvalidException Can't find account to notify.
@@ -205,8 +203,8 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       BranchNameKey dest)
-      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
-          RestApiException, ConfigInvalidException, NoSuchProjectException {
+      throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
+          ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
         sourceChange,
         project,
@@ -251,7 +249,6 @@ public class CherryPickChange {
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
    *     key exist in the branch. Also thrown when idForNewChange is not null but cherry-pick only
    *     creates a new patchset rather than a new change.
-   * @throws IntegrationException Merge conflict or trees are identical after cherry pick.
    * @throws UpdateException Problem updating the database using batchUpdateFactory.
    * @throws RestApiException Error such as invalid SHA1
    * @throws ConfigInvalidException Can't find account to notify.
@@ -270,8 +267,8 @@ public class CherryPickChange {
       @Nullable ObjectId changeIdForNewChange,
       @Nullable Change.Id idForNewChange,
       @Nullable String groupName)
-      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
-          RestApiException, ConfigInvalidException, NoSuchProjectException {
+      throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
+          ConfigInvalidException, NoSuchProjectException {
 
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
@@ -408,7 +405,7 @@ public class CherryPickChange {
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
         }
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
-        throw new IntegrationException("Cherry pick failed: " + e.getMessage());
+        throw new IntegrationConflictException("Cherry pick failed: " + e.getMessage());
       }
     }
   }

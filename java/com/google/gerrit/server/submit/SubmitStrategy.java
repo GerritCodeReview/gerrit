@@ -249,12 +249,8 @@ public abstract class SubmitStrategy {
    * @param toMerge the set of submitted commits that should be merged using this submit strategy.
    *     Implementations are responsible for ordering of commits, and will not modify the input in
    *     place.
-   * @throws IntegrationException if an error occurred initializing the operations (as opposed to an
-   *     error during execution, which will be reported only when the batch update executes the
-   *     operations).
    */
-  public final void addOps(BatchUpdate bu, Set<CodeReviewCommit> toMerge)
-      throws IntegrationException {
+  public final void addOps(BatchUpdate bu, Set<CodeReviewCommit> toMerge) {
     List<SubmitStrategyOp> ops = buildOps(toMerge);
     Set<CodeReviewCommit> added = Sets.newHashSetWithExpectedSize(ops.size());
 
@@ -289,6 +285,5 @@ public abstract class SubmitStrategy {
     }
   }
 
-  protected abstract List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
-      throws IntegrationException;
+  protected abstract List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge);
 }

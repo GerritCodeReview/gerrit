@@ -138,8 +138,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     args.submoduleOp.addBranchTip(getDest(), tipAfter);
   }
 
-  private void checkProjectConfig(RepoContext ctx, CodeReviewCommit commit)
-      throws IntegrationException {
+  private void checkProjectConfig(RepoContext ctx, CodeReviewCommit commit) {
     String refName = getDest().branch();
     if (RefNames.REFS_CONFIG.equals(refName)) {
       logger.atFine().log("Loading new configuration from %s", RefNames.REFS_CONFIG);
@@ -147,7 +146,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         ProjectConfig cfg = args.projectConfigFactory.create(getProject());
         cfg.load(ctx.getRevWalk(), commit);
       } catch (Exception e) {
-        throw new IntegrationException(
+        throw new StorageException(
             "Submit would store invalid"
                 + " project configuration "
                 + commit.name()
@@ -542,7 +541,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
    *
    * @param commit
    */
-  protected CodeReviewCommit amendGitlink(CodeReviewCommit commit) throws IntegrationException {
+  protected CodeReviewCommit amendGitlink(CodeReviewCommit commit)
+      throws IntegrationConflictException {
     if (!args.submoduleOp.hasSubscription(args.destBranch)) {
       return commit;
     }
@@ -550,8 +550,11 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // Modify the commit with gitlink update
     try {
       return args.submoduleOp.composeGitlinksCommit(args.destBranch, commit);
-    } catch (SubmoduleException | IOException e) {
-      throw new IntegrationException(
+    } catch (IOException e) {
+      throw new StorageException(
+          "cannot update gitlink for the commit at branch: " + args.destBranch, e);
+    } catch (SubmoduleException e) {
+      throw new IntegrationConflictException(
           "cannot update gitlink for the commit at branch: " + args.destBranch, e);
     }
   }

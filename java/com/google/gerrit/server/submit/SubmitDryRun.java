@@ -22,6 +22,7 @@ import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -117,7 +118,7 @@ public class SubmitDryRun {
       ObjectId tip,
       ObjectId toMerge,
       Set<RevCommit> alreadyAccepted)
-      throws IntegrationException, NoSuchProjectException, IOException {
+      throws NoSuchProjectException, IOException {
     CodeReviewCommit tipCommit = rw.parseCommit(tip);
     CodeReviewCommit toMergeCommit = rw.parseCommit(toMerge);
     RevFlag canMerge = rw.newFlag("CAN_MERGE");
@@ -152,7 +153,7 @@ public class SubmitDryRun {
       default:
         String errorMsg = "No submit strategy for: " + submitType;
         logger.atSevere().log(errorMsg);
-        throw new IntegrationException(errorMsg);
+        throw new StorageException(errorMsg);
     }
   }
 

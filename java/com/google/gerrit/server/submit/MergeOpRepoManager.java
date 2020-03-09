@@ -22,6 +22,7 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -84,7 +85,7 @@ public class MergeOpRepoManager implements AutoCloseable {
       branches = Maps.newHashMapWithExpectedSize(1);
     }
 
-    OpenBranch getBranch(BranchNameKey branch) throws IntegrationException {
+    OpenBranch getBranch(BranchNameKey branch) throws IntegrationConflictException {
       OpenBranch ob = branches.get(branch);
       if (ob == null) {
         ob = new OpenBranch(this, branch);
@@ -133,7 +134,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     final CodeReviewCommit oldTip;
     MergeTip mergeTip;
 
-    OpenBranch(OpenRepo or, BranchNameKey name) throws IntegrationException {
+    OpenBranch(OpenRepo or, BranchNameKey name) throws IntegrationConflictException {
       try {
         Ref ref = or.getRepo().exactRef(name.branch());
         if (ref != null) {
@@ -142,11 +143,11 @@ public class MergeOpRepoManager implements AutoCloseable {
             || Objects.equals(RefNames.REFS_CONFIG, name.branch())) {
           oldTip = null;
         } else {
-          throw new IntegrationException(
+          throw new IntegrationConflictException(
               "The destination branch " + name + " does not exist anymore.");
         }
       } catch (IOException e) {
-        throw new IntegrationException("Cannot open branch " + name, e);
+        throw new StorageException("Cannot open branch " + name, e);
       }
     }
   }

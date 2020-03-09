@@ -26,7 +26,7 @@ class FastForwardOp extends SubmitStrategyOp {
   }
 
   @Override
-  protected void updateRepoImpl(RepoContext ctx) throws IntegrationException {
+  protected void updateRepoImpl(RepoContext ctx) {
     if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
         && toMerge.getParentCount() > 0
         && toMerge.getTree().equals(toMerge.getParent(0).getTree())) {

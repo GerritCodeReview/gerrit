@@ -50,13 +50,9 @@ public class SubmitStrategyListener implements BatchUpdateListener {
 
   @Override
   public void afterUpdateRepos() throws ResourceConflictException {
-    try {
-      markCleanMerges();
-      List<Change.Id> alreadyMerged = checkCommitStatus();
-      findUnmergedChanges(alreadyMerged);
-    } catch (IntegrationException e) {
-      throw new ResourceConflictException(e.getMessage(), e);
-    }
+    markCleanMerges();
+    List<Change.Id> alreadyMerged = checkCommitStatus();
+    findUnmergedChanges(alreadyMerged);
   }
 
   @Override
@@ -66,8 +62,7 @@ public class SubmitStrategyListener implements BatchUpdateListener {
     }
   }
 
-  private void findUnmergedChanges(List<Change.Id> alreadyMerged)
-      throws ResourceConflictException, IntegrationException {
+  private void findUnmergedChanges(List<Change.Id> alreadyMerged) throws ResourceConflictException {
     for (SubmitStrategy strategy : strategies) {
       if (strategy instanceof CherryPick) {
         // Can't do this sanity check for CherryPick since:
@@ -91,7 +86,7 @@ public class SubmitStrategyListener implements BatchUpdateListener {
     commitStatus.maybeFailVerbose();
   }
 
-  private void markCleanMerges() throws IntegrationException {
+  private void markCleanMerges() {
     for (SubmitStrategy strategy : strategies) {
       SubmitStrategy.Arguments args = strategy.args;
       RevCommit initialTip = args.mergeTip.getInitialTip();

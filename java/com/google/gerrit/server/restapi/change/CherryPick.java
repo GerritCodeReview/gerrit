@@ -38,7 +38,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -103,7 +102,7 @@ public class CherryPick
       return Response.ok(changeInfo);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
-    } catch (IntegrationException | NoSuchChangeException e) {
+    } catch (NoSuchChangeException e) {
       throw new ResourceConflictException(e.getMessage());
     }
   }

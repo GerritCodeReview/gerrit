@@ -506,12 +506,7 @@ public class MergeOp implements AutoCloseable {
                     logger.atFine().log("Bypassing submit rules");
                     bypassSubmitRules(cs, isRetry);
                   }
-                  try {
-                    integrateIntoHistory(cs);
-                  } catch (IntegrationException e) {
-                    logger.atWarning().withCause(e).log("Error from integrateIntoHistory");
-                    throw new ResourceConflictException(e.getMessage(), e);
-                  }
+                  integrateIntoHistory(cs);
                   return null;
                 })
             .listener(retryTracker)
@@ -585,8 +580,7 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void integrateIntoHistory(ChangeSet cs)
-      throws IntegrationException, RestApiException, UpdateException {
+  private void integrateIntoHistory(ChangeSet cs) throws RestApiException, UpdateException {
     checkArgument(!cs.furtherHiddenChanges(), "cannot integrate hidden changes into history");
     logger.atFine().log("Beginning merge attempt on %s", cs);
     Map<BranchNameKey, BranchBatch> toSubmit = new HashMap<>();
@@ -595,7 +589,7 @@ public class MergeOp implements AutoCloseable {
     try {
       cbb = cs.changesByBranch();
     } catch (StorageException e) {
-      throw new IntegrationException("Error reading changes to submit", e);
+      throw new StorageException("Error reading changes to submit", e);
     }
     Set<BranchNameKey> branches = cbb.keySet();
 
@@ -626,8 +620,10 @@ public class MergeOp implements AutoCloseable {
       }
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(e.getMessage());
-    } catch (IOException | SubmoduleException e) {
-      throw new IntegrationException(e);
+    } catch (IOException e) {
+      throw new StorageException(e);
+    } catch (SubmoduleException e) {
+      throw new IntegrationConflictException(e.getMessage(), e);
     } catch (UpdateException e) {
       if (e.getCause() instanceof LockFailureException) {
         // Lock failures are a special case: RetryHelper depends on this specific causal chain in
@@ -645,13 +641,10 @@ public class MergeOp implements AutoCloseable {
       //
       // If you happen across one of these, the correct fix is to convert the
       // inner IntegrationException to a ResourceConflictException.
-      String msg;
-      if (e.getCause() instanceof IntegrationException) {
-        msg = e.getCause().getMessage();
-      } else {
-        msg = genericMergeError(cs);
+      if (e.getCause() instanceof IntegrationConflictException) {
+        throw (IntegrationConflictException) e.getCause();
       }
-      throw new IntegrationException(msg, e);
+      throw new StorageException(genericMergeError(cs), e);
     }
   }
 
@@ -665,7 +658,7 @@ public class MergeOp implements AutoCloseable {
 
   private List<SubmitStrategy> getSubmitStrategies(
       Map<BranchNameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp, boolean dryrun)
-      throws IntegrationException, NoSuchProjectException, IOException {
+      throws IntegrationConflictException, NoSuchProjectException, IOException {
     List<SubmitStrategy> strategies = new ArrayList<>();
     Set<BranchNameKey> allBranches = submoduleOp.getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
@@ -711,8 +704,7 @@ public class MergeOp implements AutoCloseable {
     return strategies;
   }
 
-  private Set<RevCommit> getAlreadyAccepted(OpenRepo or, CodeReviewCommit branchTip)
-      throws IntegrationException {
+  private Set<RevCommit> getAlreadyAccepted(OpenRepo or, CodeReviewCommit branchTip) {
     Set<RevCommit> alreadyAccepted = new HashSet<>();
 
     if (branchTip != null) {
@@ -731,7 +723,7 @@ public class MergeOp implements AutoCloseable {
         }
       }
     } catch (IOException e) {
-      throw new IntegrationException("Failed to determine already accepted commits.", e);
+      throw new StorageException("Failed to determine already accepted commits.", e);
     }
 
     logger.atFine().log("Found %d existing heads: %s", alreadyAccepted.size(), alreadyAccepted);
@@ -746,8 +738,7 @@ public class MergeOp implements AutoCloseable {
     abstract Set<CodeReviewCommit> commits();
   }
 
-  private BranchBatch validateChangeList(OpenRepo or, Collection<ChangeData> submitted)
-      throws IntegrationException {
+  private BranchBatch validateChangeList(OpenRepo or, Collection<ChangeData> submitted) {
     logger.atFine().log("Validating %d changes", submitted.size());
     Set<CodeReviewCommit> toSubmit = new LinkedHashSet<>(submitted.size());
     SetMultimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted);
@@ -862,8 +853,7 @@ public class MergeOp implements AutoCloseable {
     return new AutoValue_MergeOp_BranchBatch(submitType, toSubmit);
   }
 
-  private SetMultimap<ObjectId, PatchSet.Id> getRevisions(OpenRepo or, Collection<ChangeData> cds)
-      throws IntegrationException {
+  private SetMultimap<ObjectId, PatchSet.Id> getRevisions(OpenRepo or, Collection<ChangeData> cds) {
     try {
       List<String> refNames = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
@@ -883,7 +873,7 @@ public class MergeOp implements AutoCloseable {
       }
       return revisions;
     } catch (IOException | StorageException e) {
-      throw new IntegrationException("Failed to validate changes", e);
+      throw new StorageException("Failed to validate changes", e);
     }
   }
 
@@ -892,14 +882,14 @@ public class MergeOp implements AutoCloseable {
     return str.isOk() ? str.type : null;
   }
 
-  private OpenRepo openRepo(Project.NameKey project) throws IntegrationException {
+  private OpenRepo openRepo(Project.NameKey project) {
     try {
       return orm.getRepo(project);
     } catch (NoSuchProjectException e) {
       logger.atWarning().log("Project %s no longer exists, abandoning open changes.", project);
       abandonAllOpenChangeForDeletedProject(project);
     } catch (IOException e) {
-      throw new IntegrationException("Error opening project " + project, e);
+      throw new StorageException("Error opening project " + project, e);
     }
     return null;
   }

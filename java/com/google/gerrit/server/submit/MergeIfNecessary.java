@@ -25,8 +25,7 @@ public class MergeIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
-      throws IntegrationException {
+  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
 
@@ -48,8 +47,7 @@ public class MergeIfNecessary extends SubmitStrategy {
   }
 
   static boolean dryRun(
-      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
-      throws IntegrationException {
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
     return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge)
         || args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
   }

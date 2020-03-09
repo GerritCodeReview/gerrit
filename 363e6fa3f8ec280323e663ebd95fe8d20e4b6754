@@ -16,6 +16,24 @@
       "revId": "363e6fa3f8ec280323e663ebd95fe8d20e4b6754",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d49ecfe3_cbfb00ca",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-09T19:47:09Z",
+      "side": 1,
+      "message": "\u003e How does this fix the issue?\n\u003e \n\u003e Please explain it in the commit message.\n\n@Hamza, was your trailing reply meant to answer this? If so, the information should be part of the commit message instead; as above.",
+      "parentUuid": "856c3d28_f33b0337",
+      "revId": "363e6fa3f8ec280323e663ebd95fe8d20e4b6754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

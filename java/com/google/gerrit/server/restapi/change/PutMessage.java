@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
@@ -112,7 +114,8 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     sanitizedCommitMessage =
         ensureChangeIdIsCorrect(
             projectCache
-                .checkedGet(resource.getProject())
+                .get(resource.getProject())
+                .orElseThrow(illegalState(resource.getProject()))
                 .is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
             resource.getChange().getKey().get(),
             sanitizedCommitMessage);
@@ -188,7 +191,10 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
           .user(userProvider.get())
           .change(changeNotes)
           .check(ChangePermission.ADD_PATCH_SET);
-      projectCache.checkedGet(changeNotes.getProjectName()).checkStatePermitsWrite();
+      projectCache
+          .get(changeNotes.getProjectName())
+          .orElseThrow(illegalState(changeNotes.getProjectName()))
+          .checkStatePermitsWrite();
     } catch (AuthException denied) {
       throw new AuthException("modifying commit message not permitted", denied);
     }

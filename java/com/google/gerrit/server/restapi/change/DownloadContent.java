@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -47,6 +49,9 @@ public class DownloadContent implements RestReadView<FileResource> {
     RevisionResource rev = rsrc.getRevision();
     return Response.ok(
         fileContentUtil.downloadContent(
-            projectCache.checkedGet(rev.getProject()), rev.getPatchSet().commitId(), path, parent));
+            projectCache.get(rev.getProject()).orElseThrow(illegalState(rev.getProject())),
+            rev.getPatchSet().commitId(),
+            path,
+            parent));
   }
 }

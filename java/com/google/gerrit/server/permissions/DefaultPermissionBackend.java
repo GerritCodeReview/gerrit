@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
@@ -103,7 +104,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
     @Override
     public ForProject project(Project.NameKey project) {
       try {
-        ProjectState state = projectCache.checkedGet(project);
+        ProjectState state = projectCache.get(project).orElseThrow(illegalState(project));
         ProjectControl control =
             PerThreadCache.getOrCompute(
                 PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey()),

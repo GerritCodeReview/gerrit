@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.edit;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -426,7 +428,10 @@ public class ChangeEditModifier {
     patchSetUtil.checkPatchSetNotLocked(notes);
     try {
       permissionBackend.currentUser().change(notes).check(ChangePermission.ADD_PATCH_SET);
-      projectCache.checkedGet(notes.getProjectName()).checkStatePermitsWrite();
+      projectCache
+          .get(notes.getProjectName())
+          .orElseThrow(illegalState(notes.getProjectName()))
+          .checkStatePermitsWrite();
     } catch (AuthException denied) {
       throw new AuthException("edit not permitted", denied);
     }

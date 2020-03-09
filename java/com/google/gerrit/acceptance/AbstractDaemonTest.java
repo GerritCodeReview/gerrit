@@ -23,6 +23,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -1185,9 +1186,8 @@ public abstract class AbstractDaemonTest {
       GroupReference groupReference,
       String ref,
       boolean exclusive,
-      String... permissionNames)
-      throws IOException {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+      String... permissionNames) {
+    ProjectConfig cfg = projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
     AccessSection accessSection = cfg.getAccessSection(ref);
     assertThat(accessSection).isNotNull();
     for (String permissionName : permissionNames) {

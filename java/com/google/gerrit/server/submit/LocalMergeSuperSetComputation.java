@@ -179,12 +179,10 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private boolean isVisible(ChangeSet changeSet, ChangeData cd, CurrentUser user)
-      throws PermissionBackendException, IOException {
-    ProjectState projectState = projectCache.checkedGet(cd.project());
-    boolean visible =
-        changeSet.ids().contains(cd.getId())
-            && (projectState != null)
-            && projectState.statePermitsRead();
+      throws PermissionBackendException {
+    boolean statePermitsRead =
+        projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false);
+    boolean visible = statePermitsRead && changeSet.ids().contains(cd.getId());
     if (!visible) {
       return false;
     }

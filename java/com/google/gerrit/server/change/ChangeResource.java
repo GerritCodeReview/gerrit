@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -47,7 +47,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -189,14 +188,8 @@ public class ChangeResource implements RestResource, HasETag {
     // TODO(dborowitz): Include more NoteDb and other related refs, e.g. drafts
     // and edits.
 
-    Iterable<ProjectState> projectStateTree;
-    try {
-      projectStateTree = projectCache.checkedGet(getProject()).tree();
-    } catch (IOException e) {
-      logger.atSevere().log("could not load project %s while computing etag", getProject());
-      projectStateTree = ImmutableList.of();
-    }
-
+    Iterable<ProjectState> projectStateTree =
+        projectCache.get(getProject()).orElseThrow(illegalState(getProject())).tree();
     for (ProjectState p : projectStateTree) {
       hashObjectId(h, p.getConfig().getRevision(), buf);
     }

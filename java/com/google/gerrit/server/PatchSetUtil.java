@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableCollection;
@@ -145,9 +146,8 @@ public class PatchSetUtil {
       return false;
     }
 
-    ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
-    requireNonNull(
-        projectState, () -> String.format("Failed to load project %s", notes.getProjectName()));
+    ProjectState projectState =
+        projectCache.get(notes.getProjectName()).orElseThrow(illegalState(notes.getProjectName()));
 
     ApprovalsUtil approvalsUtil = approvalsUtilProvider.get();
     for (PatchSetApproval ap :

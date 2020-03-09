@@ -413,15 +413,15 @@ class GitwebServlet extends HttpServlet {
     }
 
     Project.NameKey nameKey = Project.nameKey(name);
-    ProjectState projectState;
+    Optional<ProjectState> projectState;
     try {
-      projectState = projectCache.checkedGet(nameKey);
-      if (projectState == null) {
+      projectState = projectCache.get(nameKey);
+      if (!projectState.isPresent()) {
         sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
         return;
       }
 
-      projectState.checkStatePermitsRead();
+      projectState.get().checkStatePermitsRead();
       permissionBackend.user(userProvider.get()).project(nameKey).check(ProjectPermission.READ);
     } catch (AuthException e) {
       sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
@@ -437,7 +437,7 @@ class GitwebServlet extends HttpServlet {
 
     try (Repository repo = repoManager.openRepository(nameKey)) {
       CacheHeaders.setNotCacheable(rsp);
-      exec(req, rsp, projectState);
+      exec(req, rsp, projectState.get());
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

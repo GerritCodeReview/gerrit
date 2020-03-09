@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
@@ -178,7 +180,7 @@ public class PureRevertCache {
           // Rebase claimed revert onto claimed original
           ThreeWayMerger merger =
               mergeUtilFactory
-                  .create(projectCache.checkedGet(project))
+                  .create(projectCache.get(project).orElseThrow(illegalState(project)))
                   .newThreeWayMerger(oi, repo.getConfig());
           merger.setBase(claimedRevertCommit.getParent(0));
           boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);

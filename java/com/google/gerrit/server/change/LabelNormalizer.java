@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -86,7 +87,11 @@ public class LabelNormalizer {
     List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> updated = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());
-    LabelTypes labelTypes = projectCache.checkedGet(notes.getProjectName()).getLabelTypes(notes);
+    LabelTypes labelTypes =
+        projectCache
+            .get(notes.getProjectName())
+            .orElseThrow(illegalState(notes.getProjectName()))
+            .getLabelTypes(notes);
     for (PatchSetApproval psa : approvals) {
       Change.Id changeId = psa.key().patchSetId().changeId();
       checkArgument(

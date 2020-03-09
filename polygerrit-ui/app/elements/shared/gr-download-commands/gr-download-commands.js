@@ -14,82 +14,93 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /**
-   * @appliesMixin Gerrit.RESTClientMixin
-   * @extends Polymer.Element
-   */
-  class GrDownloadCommands extends Polymer.mixinBehaviors( [
-    Gerrit.RESTClientBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-download-commands'; }
+import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import '@polymer/paper-tabs/paper-tabs.js';
+import '../gr-shell-command/gr-shell-command.js';
+import '../gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../../styles/shared-styles.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-download-commands_html.js';
 
-    static get properties() {
-      return {
-        commands: Array,
-        _loggedIn: {
-          type: Boolean,
-          value: false,
-          observer: '_loggedInChanged',
-        },
-        schemes: Array,
-        selectedScheme: {
-          type: String,
-          notify: true,
-        },
-      };
-    }
+/**
+ * @appliesMixin Gerrit.RESTClientMixin
+ * @extends Polymer.Element
+ */
+class GrDownloadCommands extends mixinBehaviors( [
+  Gerrit.RESTClientBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
 
-    /** @override */
-    attached() {
-      super.attached();
-      this._getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-      });
-    }
+  static get is() { return 'gr-download-commands'; }
 
-    focusOnCopy() {
-      this.$$('gr-shell-command').focusOnCopy();
-    }
+  static get properties() {
+    return {
+      commands: Array,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
+      schemes: Array,
+      selectedScheme: {
+        type: String,
+        notify: true,
+      },
+    };
+  }
 
-    _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
-    }
+  /** @override */
+  attached() {
+    super.attached();
+    this._getLoggedIn().then(loggedIn => {
+      this._loggedIn = loggedIn;
+    });
+  }
 
-    _loggedInChanged(loggedIn) {
-      if (!loggedIn) { return; }
-      return this.$.restAPI.getPreferences().then(prefs => {
-        if (prefs.download_scheme) {
-          // Note (issue 5180): normalize the download scheme with lower-case.
-          this.selectedScheme = prefs.download_scheme.toLowerCase();
-        }
-      });
-    }
+  focusOnCopy() {
+    this.$$('gr-shell-command').focusOnCopy();
+  }
 
-    _handleTabChange(e) {
-      const scheme = this.schemes[e.detail.value];
-      if (scheme && scheme !== this.selectedScheme) {
-        this.set('selectedScheme', scheme);
-        if (this._loggedIn) {
-          this.$.restAPI.savePreferences(
-              {download_scheme: this.selectedScheme});
-        }
+  _getLoggedIn() {
+    return this.$.restAPI.getLoggedIn();
+  }
+
+  _loggedInChanged(loggedIn) {
+    if (!loggedIn) { return; }
+    return this.$.restAPI.getPreferences().then(prefs => {
+      if (prefs.download_scheme) {
+        // Note (issue 5180): normalize the download scheme with lower-case.
+        this.selectedScheme = prefs.download_scheme.toLowerCase();
       }
-    }
+    });
+  }
 
-    _computeSelected(schemes, selectedScheme) {
-      return (schemes.findIndex(scheme => scheme === selectedScheme) || 0) +
-          '';
-    }
-
-    _computeShowTabs(schemes) {
-      return schemes.length > 1 ? '' : 'hidden';
+  _handleTabChange(e) {
+    const scheme = this.schemes[e.detail.value];
+    if (scheme && scheme !== this.selectedScheme) {
+      this.set('selectedScheme', scheme);
+      if (this._loggedIn) {
+        this.$.restAPI.savePreferences(
+            {download_scheme: this.selectedScheme});
+      }
     }
   }
 
-  customElements.define(GrDownloadCommands.is, GrDownloadCommands);
-})();
+  _computeSelected(schemes, selectedScheme) {
+    return (schemes.findIndex(scheme => scheme === selectedScheme) || 0) +
+        '';
+  }
+
+  _computeShowTabs(schemes) {
+    return schemes.length > 1 ? '' : 'hidden';
+  }
+}
+
+customElements.define(GrDownloadCommands.is, GrDownloadCommands);

@@ -19,70 +19,71 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-navigation</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<script>
-  suite('gr-navigation tests', async () => {
-    await readyToTest();
-    test('invalid patch ranges throw exceptions', () => {
-      assert.throw(() => Gerrit.Nav.getUrlForChange('123', undefined, 12));
-      assert.throw(() => Gerrit.Nav.getUrlForDiff('123', 'x.c', undefined, 12));
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+suite('gr-navigation tests', () => {
+  test('invalid patch ranges throw exceptions', () => {
+    assert.throw(() => Gerrit.Nav.getUrlForChange('123', undefined, 12));
+    assert.throw(() => Gerrit.Nav.getUrlForDiff('123', 'x.c', undefined, 12));
+  });
+
+  suite('_getUserDashboard', () => {
+    const sections = [
+      {name: 'section 1', query: 'query 1'},
+      {name: 'section 2', query: 'query 2 for ${user}'},
+      {name: 'section 3', query: 'self only query', selfOnly: true},
+      {name: 'section 4', query: 'query 4', suffixForDashboard: 'suffix'},
+    ];
+
+    test('dashboard for self', () => {
+      const dashboard =
+          Gerrit.Nav.getUserDashboard('self', sections, 'title');
+      assert.deepEqual(
+          dashboard,
+          {
+            title: 'title',
+            sections: [
+              {name: 'section 1', query: 'query 1'},
+              {name: 'section 2', query: 'query 2 for self'},
+              {
+                name: 'section 3',
+                query: 'self only query',
+                selfOnly: true,
+              }, {
+                name: 'section 4',
+                query: 'query 4',
+                suffixForDashboard: 'suffix',
+              },
+            ],
+          });
     });
 
-    suite('_getUserDashboard', () => {
-      const sections = [
-        {name: 'section 1', query: 'query 1'},
-        {name: 'section 2', query: 'query 2 for ${user}'},
-        {name: 'section 3', query: 'self only query', selfOnly: true},
-        {name: 'section 4', query: 'query 4', suffixForDashboard: 'suffix'},
-      ];
-
-      test('dashboard for self', () => {
-        const dashboard =
-            Gerrit.Nav.getUserDashboard('self', sections, 'title');
-        assert.deepEqual(
-            dashboard,
-            {
-              title: 'title',
-              sections: [
-                {name: 'section 1', query: 'query 1'},
-                {name: 'section 2', query: 'query 2 for self'},
-                {
-                  name: 'section 3',
-                  query: 'self only query',
-                  selfOnly: true,
-                }, {
-                  name: 'section 4',
-                  query: 'query 4',
-                  suffixForDashboard: 'suffix',
-                },
-              ],
-            });
-      });
-
-      test('dashboard for other user', () => {
-        const dashboard =
-            Gerrit.Nav.getUserDashboard('user', sections, 'title');
-        assert.deepEqual(
-            dashboard,
-            {
-              title: 'title',
-              sections: [
-                {name: 'section 1', query: 'query 1'},
-                {name: 'section 2', query: 'query 2 for user'},
-                {
-                  name: 'section 4',
-                  query: 'query 4',
-                  suffixForDashboard: 'suffix',
-                },
-              ],
-            });
-      });
+    test('dashboard for other user', () => {
+      const dashboard =
+          Gerrit.Nav.getUserDashboard('user', sections, 'title');
+      assert.deepEqual(
+          dashboard,
+          {
+            title: 'title',
+            sections: [
+              {name: 'section 1', query: 'query 1'},
+              {name: 'section 2', query: 'query 2 for user'},
+              {
+                name: 'section 4',
+                query: 'query 4',
+                suffixForDashboard: 'suffix',
+              },
+            ],
+          });
     });
   });
+});
 </script>

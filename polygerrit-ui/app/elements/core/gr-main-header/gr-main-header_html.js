@@ -1,35 +1,22 @@
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-<link rel="import" href="/bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html">
-<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
-<link rel="import" href="../gr-smart-search/gr-smart-search.html">
-
-<dom-module id="gr-main-header">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -183,19 +170,15 @@ limitations under the License.
       }
     </style>
     <nav>
-      <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">
+      <a href\$="[[_computeRelativeURL('/')]]" class="bigTitle">
         <gr-endpoint-decorator name="header-title">
           <span class="titleText"></span>
         </gr-endpoint-decorator>
       </a>
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
-          <li class$="[[_computeLinkGroupClass(linkGroup)]]">
-            <gr-dropdown
-                link
-                down-arrow
-                items = [[linkGroup.links]]
-                horizontal-align="left">
+          <li class\$="[[_computeLinkGroupClass(linkGroup)]]">
+            <gr-dropdown link="" down-arrow="" items="[[linkGroup.links]]" horizontal-align="left">
               <span class="linksTitle" id="[[linkGroup.title]]">
                 [[linkGroup.title]]
               </span>
@@ -204,29 +187,18 @@ limitations under the License.
         </template>
       </ul>
       <div class="rightItems">
-        <gr-endpoint-decorator
-            class="hideOnMobile"
-            name="header-small-banner"></gr-endpoint-decorator>
-        <gr-smart-search
-            id="search"
-            search-query="{{searchQuery}}"></gr-smart-search>
-        <gr-endpoint-decorator
-            class="hideOnMobile"
-            name="header-browse-source"></gr-endpoint-decorator>
+        <gr-endpoint-decorator class="hideOnMobile" name="header-small-banner"></gr-endpoint-decorator>
+        <gr-smart-search id="search" search-query="{{searchQuery}}"></gr-smart-search>
+        <gr-endpoint-decorator class="hideOnMobile" name="header-browse-source"></gr-endpoint-decorator>
         <div class="accountContainer" id="accountContainer">
-          <iron-icon id="mobileSearch" icon="gr-icons:search" on-tap='_onMobileSearchTap'></iron-icon>
-          <div class$="[[_computeIsInvisible(_registerURL)]]">
-            <a
-                class="registerButton"
-                href$="[[_registerURL]]">
+          <iron-icon id="mobileSearch" icon="gr-icons:search" on-tap="_onMobileSearchTap"></iron-icon>
+          <div class\$="[[_computeIsInvisible(_registerURL)]]">
+            <a class="registerButton" href\$="[[_registerURL]]">
               [[_registerText]]
             </a>
           </div>
-          <a class="loginButton" href$="[[loginUrl]]">Sign in</a>
-          <a
-              class="settingsButton"
-              href$="[[_generateSettingsLink()]]"
-              title="Settings">
+          <a class="loginButton" href\$="[[loginUrl]]">Sign in</a>
+          <a class="settingsButton" href\$="[[_generateSettingsLink()]]" title="Settings">
             <iron-icon icon="gr-icons:settings"></iron-icon>
           </a>
           <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
@@ -235,6 +207,4 @@ limitations under the License.
     </nav>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-main-header.js"></script>
-</dom-module>
+`;

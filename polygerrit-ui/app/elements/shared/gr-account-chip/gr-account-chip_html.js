@@ -1,30 +1,22 @@
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../gr-account-link/gr-account-link.html">
-<link rel="import" href="../gr-button/gr-button.html">
-<link rel="import" href="../gr-icons/gr-icons.html">
-<link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-account-chip">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -88,23 +80,12 @@ limitations under the License.
         width: 1.2rem;
       }
     </style>
-    <div class$="container [[_getBackgroundClass(transparentBackground)]]">
-      <gr-account-link account="[[account]]"
-          additional-text="[[additionalText]]">
+    <div class\$="container [[_getBackgroundClass(transparentBackground)]]">
+      <gr-account-link account="[[account]]" additional-text="[[additionalText]]">
       </gr-account-link>
-      <gr-button
-          id="remove"
-          link
-          hidden$="[[!removable]]"
-          hidden
-          tabindex="-1"
-          aria-label="Remove"
-          class$="remove [[_getBackgroundClass(transparentBackground)]]"
-          on-click="_handleRemoveTap">
+      <gr-button id="remove" link="" hidden\$="[[!removable]]" hidden="" tabindex="-1" aria-label="Remove" class\$="remove [[_getBackgroundClass(transparentBackground)]]" on-click="_handleRemoveTap">
         <iron-icon icon="gr-icons:close"></iron-icon>
       </gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-account-chip.js"></script>
-</dom-module>
+`;

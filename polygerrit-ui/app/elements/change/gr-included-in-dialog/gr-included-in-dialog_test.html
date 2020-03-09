@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-included-in-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-included-in-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-included-in-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-included-in-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,54 +40,56 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-included-in-dialog', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-included-in-dialog.js';
+suite('gr-included-in-dialog', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => { sandbox.restore(); });
-
-    test('_computeGroups', () => {
-      const includedIn = {branches: [], tags: []};
-      let filterText = '';
-      assert.deepEqual(element._computeGroups(includedIn, filterText), []);
-
-      includedIn.branches.push('master', 'development', 'stable-2.0');
-      includedIn.tags.push('v1.9', 'v2.0', 'v2.1');
-      assert.deepEqual(element._computeGroups(includedIn, filterText), [
-        {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
-        {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
-      ]);
-
-      includedIn.external = {};
-      assert.deepEqual(element._computeGroups(includedIn, filterText), [
-        {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
-        {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
-      ]);
-
-      includedIn.external.foo = ['abc', 'def', 'ghi'];
-      assert.deepEqual(element._computeGroups(includedIn, filterText), [
-        {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
-        {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
-        {title: 'foo', items: ['abc', 'def', 'ghi']},
-      ]);
-
-      filterText = 'v2';
-      assert.deepEqual(element._computeGroups(includedIn, filterText), [
-        {title: 'Tags', items: ['v2.0', 'v2.1']},
-      ]);
-
-      // Filtering is case-insensitive.
-      filterText = 'V2';
-      assert.deepEqual(element._computeGroups(includedIn, filterText), [
-        {title: 'Tags', items: ['v2.0', 'v2.1']},
-      ]);
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
   });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('_computeGroups', () => {
+    const includedIn = {branches: [], tags: []};
+    let filterText = '';
+    assert.deepEqual(element._computeGroups(includedIn, filterText), []);
+
+    includedIn.branches.push('master', 'development', 'stable-2.0');
+    includedIn.tags.push('v1.9', 'v2.0', 'v2.1');
+    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+      {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
+      {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
+    ]);
+
+    includedIn.external = {};
+    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+      {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
+      {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
+    ]);
+
+    includedIn.external.foo = ['abc', 'def', 'ghi'];
+    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+      {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
+      {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
+      {title: 'foo', items: ['abc', 'def', 'ghi']},
+    ]);
+
+    filterText = 'v2';
+    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+      {title: 'Tags', items: ['v2.0', 'v2.1']},
+    ]);
+
+    // Filtering is case-insensitive.
+    filterText = 'V2';
+    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+      {title: 'Tags', items: ['v2.0', 'v2.1']},
+    ]);
+  });
+});
 </script>

@@ -19,83 +19,84 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-etag-decorator</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<script src="gr-etag-decorator.js"></script>
+<script src="./gr-etag-decorator.js"></script>
 
-<script>
-  suite('gr-etag-decorator', async () => {
-    await readyToTest();
-    let etag;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+suite('gr-etag-decorator', () => {
+  let etag;
+  let sandbox;
 
-    const fakeRequest = (opt_etag, opt_status) => {
-      const headers = new Headers();
-      if (opt_etag) {
-        headers.set('etag', opt_etag);
-      }
-      const status = opt_status || 200;
-      return {ok: true, status, headers};
-    };
+  const fakeRequest = (opt_etag, opt_status) => {
+    const headers = new Headers();
+    if (opt_etag) {
+      headers.set('etag', opt_etag);
+    }
+    const status = opt_status || 200;
+    return {ok: true, status, headers};
+  };
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      etag = new GrEtagDecorator();
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('exists', () => {
-      assert.isOk(etag);
-    });
-
-    test('works', () => {
-      etag.collect('/foo', fakeRequest('bar'));
-      const options = etag.getOptions('/foo');
-      assert.strictEqual(options.headers.get('If-None-Match'), 'bar');
-    });
-
-    test('updates etags', () => {
-      etag.collect('/foo', fakeRequest('bar'));
-      etag.collect('/foo', fakeRequest('baz'));
-      const options = etag.getOptions('/foo');
-      assert.strictEqual(options.headers.get('If-None-Match'), 'baz');
-    });
-
-    test('discards empty etags', () => {
-      etag.collect('/foo', fakeRequest('bar'));
-      etag.collect('/foo', fakeRequest());
-      const options = etag.getOptions('/foo', {headers: new Headers()});
-      assert.isNull(options.headers.get('If-None-Match'));
-    });
-
-    test('discards etags in order used', () => {
-      etag.collect('/foo', fakeRequest('bar'));
-      _.times(29, i => {
-        etag.collect('/qaz/' + i, fakeRequest('qaz'));
-      });
-      let options = etag.getOptions('/foo');
-      assert.strictEqual(options.headers.get('If-None-Match'), 'bar');
-      etag.collect('/zaq', fakeRequest('zaq'));
-      options = etag.getOptions('/foo', {headers: new Headers()});
-      assert.isNull(options.headers.get('If-None-Match'));
-    });
-
-    test('getCachedPayload', () => {
-      const payload = 'payload';
-      etag.collect('/foo', fakeRequest('bar'), payload);
-      assert.strictEqual(etag.getCachedPayload('/foo'), payload);
-      etag.collect('/foo', fakeRequest('bar', 304), 'garbage');
-      assert.strictEqual(etag.getCachedPayload('/foo'), payload);
-      etag.collect('/foo', fakeRequest('bar', 200), 'new payload');
-      assert.strictEqual(etag.getCachedPayload('/foo'), 'new payload');
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    etag = new GrEtagDecorator();
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('exists', () => {
+    assert.isOk(etag);
+  });
+
+  test('works', () => {
+    etag.collect('/foo', fakeRequest('bar'));
+    const options = etag.getOptions('/foo');
+    assert.strictEqual(options.headers.get('If-None-Match'), 'bar');
+  });
+
+  test('updates etags', () => {
+    etag.collect('/foo', fakeRequest('bar'));
+    etag.collect('/foo', fakeRequest('baz'));
+    const options = etag.getOptions('/foo');
+    assert.strictEqual(options.headers.get('If-None-Match'), 'baz');
+  });
+
+  test('discards empty etags', () => {
+    etag.collect('/foo', fakeRequest('bar'));
+    etag.collect('/foo', fakeRequest());
+    const options = etag.getOptions('/foo', {headers: new Headers()});
+    assert.isNull(options.headers.get('If-None-Match'));
+  });
+
+  test('discards etags in order used', () => {
+    etag.collect('/foo', fakeRequest('bar'));
+    _.times(29, i => {
+      etag.collect('/qaz/' + i, fakeRequest('qaz'));
+    });
+    let options = etag.getOptions('/foo');
+    assert.strictEqual(options.headers.get('If-None-Match'), 'bar');
+    etag.collect('/zaq', fakeRequest('zaq'));
+    options = etag.getOptions('/foo', {headers: new Headers()});
+    assert.isNull(options.headers.get('If-None-Match'));
+  });
+
+  test('getCachedPayload', () => {
+    const payload = 'payload';
+    etag.collect('/foo', fakeRequest('bar'), payload);
+    assert.strictEqual(etag.getCachedPayload('/foo'), payload);
+    etag.collect('/foo', fakeRequest('bar', 304), 'garbage');
+    assert.strictEqual(etag.getCachedPayload('/foo'), payload);
+    etag.collect('/foo', fakeRequest('bar', 200), 'new payload');
+    assert.strictEqual(etag.getCachedPayload('/foo'), 'new payload');
+  });
+});
 </script>

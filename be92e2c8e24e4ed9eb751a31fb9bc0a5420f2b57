@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c5beb8a_a7d8a953",
+        "filename": "java/com/google/gerrit/server/util/time/TimeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-09T01:32:28Z",
+      "side": 1,
+      "message": "This can be simplified to:\n\n LocalDate.now().lengthOfYear()\n\nand it can probably be inlined in the places where it\u0027s needed rather than being a method here.",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 52
+      },
+      "revId": "be92e2c8e24e4ed9eb751a31fb9bc0a5420f2b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36b3ca6f_86805a7b",
+        "filename": "java/com/google/gerrit/util/http/CacheHeaders.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-09T01:32:28Z",
+      "side": 1,
+      "message": "This package is not visible here.\n\nIt will be better to just inline the call to LocalDate.now().lengthOfYear() below",
+      "revId": "be92e2c8e24e4ed9eb751a31fb9bc0a5420f2b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

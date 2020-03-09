@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aeb31d2f_1ba78f7f",
+        "filename": "java/com/google/gerrit/server/util/time/TimeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-09T01:52:43Z",
+      "side": 1,
+      "message": "Also note that callers are using this to initialize static final values, which get initialized at server start. This means the values will be invalid if the server is up during a year change from leap year to non-leap year or vice versa.",
+      "parentUuid": "6c5beb8a_a7d8a953",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 52
+      },
+      "revId": "be92e2c8e24e4ed9eb751a31fb9bc0a5420f2b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36b3ca6f_86805a7b",
         "filename": "java/com/google/gerrit/util/http/CacheHeaders.java",
         "patchSetId": 2

@@ -32,7 +32,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.sshd.AbstractGitCommand;
-import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
@@ -52,7 +51,6 @@ final class Upload extends AbstractGitCommand {
   @Inject private DynamicSet<UploadPackInitializer> uploadPackInitializers;
   @Inject private PluginSetContext<RequestListener> requestListeners;
   @Inject private UploadValidators.Factory uploadValidatorsFactory;
-  @Inject private SshSession session;
   @Inject private PermissionBackend permissionBackend;
 
   private PackStatistics stats;

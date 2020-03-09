@@ -46,6 +46,7 @@
     'text/x-elm': 'elm',
     'text/x-erlang': 'erlang',
     'text/x-fortran': 'fortran',
+    'text/x-fsharp': 'fsharp',
     'text/x-go': 'go',
     'text/x-groovy': 'groovy',
     'text/x-haml': 'haml',

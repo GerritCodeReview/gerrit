@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "001185ac_18f3ad8b",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleConflictException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-09T11:46:53Z",
+      "side": 1,
+      "message": "How did this pass the style check?\n\nWhen I reformat it locally, this gets indented - which is correct.",
+      "revId": "2cf3dd9c750e14c69da26126d6e3dab5fd28bb01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

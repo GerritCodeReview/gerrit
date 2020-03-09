@@ -16,6 +16,24 @@
       "revId": "1a20a270bed3e5b4d542c7e7f3c793d3b0992649",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "022fb4da_4975487b",
+        "filename": "java/com/google/gerrit/extensions/common/AttentionSetEntry.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-09T08:24:46Z",
+      "side": 1,
+      "message": "Yes, I recall this from the design doc (and/or our discussions?). Initially this class had an enum for that purpose, but then I decided to simplify for V1 so I removed it. We could also use a boolean instead. Do you see any issues with either of those?",
+      "parentUuid": "9a93376a_8ac8f8d4",
+      "revId": "1a20a270bed3e5b4d542c7e7f3c793d3b0992649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

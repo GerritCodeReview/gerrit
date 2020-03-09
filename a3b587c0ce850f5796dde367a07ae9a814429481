@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a280e786_8db95cb2",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-09T03:23:42Z",
+      "side": 1,
+      "message": "Unrelated to this change, but shouldn\u0027t this be a ResourceNotFoundException?",
+      "range": {
+        "startLine": 81,
+        "startChar": 35,
+        "endLine": 81,
+        "endChar": 54
+      },
+      "revId": "a3b587c0ce850f5796dde367a07ae9a814429481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

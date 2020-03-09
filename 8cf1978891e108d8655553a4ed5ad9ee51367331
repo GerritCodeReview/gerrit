@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "586842e9_23a93969",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-03-09T08:28:44Z",
+      "side": 1,
+      "message": "should fire, or should be fired",
+      "range": {
+        "startLine": 127,
+        "startChar": 47,
+        "endLine": 127,
+        "endChar": 54
+      },
+      "revId": "8cf1978891e108d8655553a4ed5ad9ee51367331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

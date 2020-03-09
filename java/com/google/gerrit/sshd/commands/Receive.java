@@ -20,7 +20,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -28,7 +28,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
@@ -45,8 +44,6 @@ final class Receive extends AbstractGitCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject private AsyncReceiveCommits.Factory factory;
-  @Inject private IdentifiedUser currentUser;
-  @Inject private SshSession session;
   @Inject private PermissionBackend permissionBackend;
 
   private final SetMultimap<ReviewerStateInternal, Account.Id> reviewers =
@@ -72,6 +69,7 @@ final class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
+    CurrentUser currentUser = session.getUser();
     try {
       permissionBackend
           .user(currentUser)
@@ -83,7 +81,8 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
-    AsyncReceiveCommits arc = factory.create(projectState, currentUser, repo, null);
+    AsyncReceiveCommits arc =
+        factory.create(projectState, currentUser.asIdentifiedUser(), repo, null);
 
     try {
       Capable r = arc.canUpload();

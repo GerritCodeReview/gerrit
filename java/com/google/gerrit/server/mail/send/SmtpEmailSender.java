@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
@@ -56,6 +57,8 @@ public class SmtpEmailSender implements EmailSender {
   /** The socket's connect timeout (0 = infinite timeout) */
   private static final int DEFAULT_CONNECT_TIMEOUT = 0;
 
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static class Module extends AbstractModule {
     @Override
     protected void configure() {
@@ -73,6 +76,7 @@ public class SmtpEmailSender implements EmailSender {
   private Encryption smtpEncryption;
   private boolean sslVerify;
   private Set<String> allowrcpt;
+  private Set<String> denyrcpt;
   private String importance;
   private int expiryDays;
 
@@ -117,6 +121,9 @@ public class SmtpEmailSender implements EmailSender {
     Set<String> rcpt = new HashSet<>();
     Collections.addAll(rcpt, cfg.getStringList("sendemail", null, "allowrcpt"));
     allowrcpt = Collections.unmodifiableSet(rcpt);
+    Set<String> rcptdeny = new HashSet<>();
+    Collections.addAll(rcptdeny, cfg.getStringList("sendemail", null, "denyrcpt"));
+    denyrcpt = Collections.unmodifiableSet(rcptdeny);
     importance = cfg.getString("sendemail", null, "importance");
     expiryDays = cfg.getInt("sendemail", null, "expiryDays", 0);
   }
@@ -129,22 +136,47 @@ public class SmtpEmailSender implements EmailSender {
   @Override
   public boolean canEmail(String address) {
     if (!isEnabled()) {
+      logger.atWarning().log("Not emailing %s (email is disabled)", address);
       return false;
     }
+
+    String domain = address.substring(address.lastIndexOf('@') + 1);
+    if (isDenied(address, domain)) {
+      return false;
+    }
+
+    return isAllowed(address, domain);
+  }
+
+  private boolean isDenied(String address, String domain) {
+
+    if (denyrcpt.isEmpty()) {
+      return false;
+    }
+
+    if (denyrcpt.contains(address)
+        || denyrcpt.contains(domain)
+        || denyrcpt.contains("@" + domain)) {
+      logger.atWarning().log("Not emailing %s (prohibited by sendemail.denyrcpt)", address);
+      return true;
+    }
+
+    return false;
+  }
+
+  private boolean isAllowed(String address, String domain) {
 
     if (allowrcpt.isEmpty()) {
       return true;
     }
 
-    if (allowrcpt.contains(address)) {
+    if (allowrcpt.contains(address)
+        || allowrcpt.contains(domain)
+        || allowrcpt.contains("@" + domain)) {
       return true;
     }
 
-    String domain = address.substring(address.lastIndexOf('@') + 1);
-    if (allowrcpt.contains(domain) || allowrcpt.contains("@" + domain)) {
-      return true;
-    }
-
+    logger.atWarning().log("Not emailing %s (prohibited by sendemail.allowrcpt)", address);
     return false;
   }
 

@@ -19,132 +19,139 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-plugin-endpoints</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-js-api-interface.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-js-api-interface.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+void(0);
+</script>
 
-<script>
-  suite('gr-plugin-endpoints tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let instance;
-    let pluginFoo;
-    let pluginBar;
-    let domHook;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+suite('gr-plugin-endpoints tests', () => {
+  let sandbox;
+  let instance;
+  let pluginFoo;
+  let pluginBar;
+  let domHook;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      domHook = {};
-      instance = new GrPluginEndpoints();
-      Gerrit.install(p => { pluginFoo = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/foo.html');
-      instance.registerModule(
-          pluginFoo, 'a-place', 'decorate', 'foo-module', domHook);
-      Gerrit.install(p => { pluginBar = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/bar.html');
-      instance.registerModule(
-          pluginBar, 'a-place', 'style', 'bar-module', domHook);
-      sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    domHook = {};
+    instance = new GrPluginEndpoints();
+    Gerrit.install(p => { pluginFoo = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/foo.html');
+    instance.registerModule(
+        pluginFoo, 'a-place', 'decorate', 'foo-module', domHook);
+    Gerrit.install(p => { pluginBar = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/bar.html');
+    instance.registerModule(
+        pluginBar, 'a-place', 'style', 'bar-module', domHook);
+    sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('getDetails all', () => {
-      assert.deepEqual(instance.getDetails('a-place'), [
-        {
-          moduleName: 'foo-module',
-          plugin: pluginFoo,
-          pluginUrl: pluginFoo._url,
-          type: 'decorate',
-          domHook,
-        },
-        {
-          moduleName: 'bar-module',
-          plugin: pluginBar,
-          pluginUrl: pluginBar._url,
-          type: 'style',
-          domHook,
-        },
-      ]);
-    });
-
-    test('getDetails by type', () => {
-      assert.deepEqual(instance.getDetails('a-place', {type: 'style'}), [
-        {
-          moduleName: 'bar-module',
-          plugin: pluginBar,
-          pluginUrl: pluginBar._url,
-          type: 'style',
-          domHook,
-        },
-      ]);
-    });
-
-    test('getDetails by module', () => {
-      assert.deepEqual(
-          instance.getDetails('a-place', {moduleName: 'foo-module'}),
-          [
-            {
-              moduleName: 'foo-module',
-              plugin: pluginFoo,
-              pluginUrl: pluginFoo._url,
-              type: 'decorate',
-              domHook,
-            },
-          ]);
-    });
-
-    test('getModules', () => {
-      assert.deepEqual(
-          instance.getModules('a-place'), ['foo-module', 'bar-module']);
-    });
-
-    test('getPlugins', () => {
-      assert.deepEqual(
-          instance.getPlugins('a-place'), [pluginFoo._url]);
-    });
-
-    test('onNewEndpoint', () => {
-      const newModuleStub = sandbox.stub();
-      instance.onNewEndpoint('a-place', newModuleStub);
-      instance.registerModule(
-          pluginFoo, 'a-place', 'replace', 'zaz-module', domHook);
-      assert.deepEqual(newModuleStub.lastCall.args[0], {
-        moduleName: 'zaz-module',
+  test('getDetails all', () => {
+    assert.deepEqual(instance.getDetails('a-place'), [
+      {
+        moduleName: 'foo-module',
         plugin: pluginFoo,
         pluginUrl: pluginFoo._url,
-        type: 'replace',
+        type: 'decorate',
         domHook,
-      });
-    });
+      },
+      {
+        moduleName: 'bar-module',
+        plugin: pluginBar,
+        pluginUrl: pluginBar._url,
+        type: 'style',
+        domHook,
+      },
+    ]);
+  });
 
-    test('reuse dom hooks', () => {
-      instance.registerModule(
-          pluginFoo, 'a-place', 'decorate', 'foo-module', domHook);
-      assert.deepEqual(instance.getDetails('a-place'), [
-        {
-          moduleName: 'foo-module',
-          plugin: pluginFoo,
-          pluginUrl: pluginFoo._url,
-          type: 'decorate',
-          domHook,
-        },
-        {
-          moduleName: 'bar-module',
-          plugin: pluginBar,
-          pluginUrl: pluginBar._url,
-          type: 'style',
-          domHook,
-        },
-      ]);
+  test('getDetails by type', () => {
+    assert.deepEqual(instance.getDetails('a-place', {type: 'style'}), [
+      {
+        moduleName: 'bar-module',
+        plugin: pluginBar,
+        pluginUrl: pluginBar._url,
+        type: 'style',
+        domHook,
+      },
+    ]);
+  });
+
+  test('getDetails by module', () => {
+    assert.deepEqual(
+        instance.getDetails('a-place', {moduleName: 'foo-module'}),
+        [
+          {
+            moduleName: 'foo-module',
+            plugin: pluginFoo,
+            pluginUrl: pluginFoo._url,
+            type: 'decorate',
+            domHook,
+          },
+        ]);
+  });
+
+  test('getModules', () => {
+    assert.deepEqual(
+        instance.getModules('a-place'), ['foo-module', 'bar-module']);
+  });
+
+  test('getPlugins', () => {
+    assert.deepEqual(
+        instance.getPlugins('a-place'), [pluginFoo._url]);
+  });
+
+  test('onNewEndpoint', () => {
+    const newModuleStub = sandbox.stub();
+    instance.onNewEndpoint('a-place', newModuleStub);
+    instance.registerModule(
+        pluginFoo, 'a-place', 'replace', 'zaz-module', domHook);
+    assert.deepEqual(newModuleStub.lastCall.args[0], {
+      moduleName: 'zaz-module',
+      plugin: pluginFoo,
+      pluginUrl: pluginFoo._url,
+      type: 'replace',
+      domHook,
     });
   });
+
+  test('reuse dom hooks', () => {
+    instance.registerModule(
+        pluginFoo, 'a-place', 'decorate', 'foo-module', domHook);
+    assert.deepEqual(instance.getDetails('a-place'), [
+      {
+        moduleName: 'foo-module',
+        plugin: pluginFoo,
+        pluginUrl: pluginFoo._url,
+        type: 'decorate',
+        domHook,
+      },
+      {
+        moduleName: 'bar-module',
+        plugin: pluginBar,
+        pluginUrl: pluginBar._url,
+        type: 'style',
+        domHook,
+      },
+    ]);
+  });
+});
 </script>

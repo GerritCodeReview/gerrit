@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff-selection</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-diff-selection.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-diff-selection.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-diff-selection.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -107,298 +112,300 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff-selection', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-diff-selection.js';
+suite('gr-diff-selection', () => {
+  let element;
+  let sandbox;
 
-    const emulateCopyOn = function(target) {
-      const fakeEvent = {
-        target,
-        preventDefault: sandbox.stub(),
-        clipboardData: {
-          setData: sandbox.stub(),
+  const emulateCopyOn = function(target) {
+    const fakeEvent = {
+      target,
+      preventDefault: sandbox.stub(),
+      clipboardData: {
+        setData: sandbox.stub(),
+      },
+    };
+    element._getCopyEventTarget.returns(target);
+    element._handleCopy(fakeEvent);
+    return fakeEvent;
+  };
+
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(element, '_getCopyEventTarget');
+    element._cachedDiffBuilder = {
+      getLineElByChild: sandbox.stub().returns({}),
+      getSideByLineEl: sandbox.stub(),
+      diffElement: element.querySelector('#diffTable'),
+    };
+    element.diff = {
+      content: [
+        {
+          a: ['ba ba'],
+          b: ['some other text'],
         },
-      };
-      element._getCopyEventTarget.returns(target);
-      element._handleCopy(fakeEvent);
-      return fakeEvent;
+        {
+          a: ['zin'],
+          b: ['more more more'],
+        },
+        {
+          a: ['ga ga'],
+          b: ['some other text'],
+        },
+      ],
+    };
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('applies selected-left on left side click', () => {
+    element.classList.add('selected-right');
+    element._cachedDiffBuilder.getSideByLineEl.returns('left');
+    MockInteractions.down(element);
+    assert.isTrue(
+        element.classList.contains('selected-left'), 'adds selected-left');
+    assert.isFalse(
+        element.classList.contains('selected-right'),
+        'removes selected-right');
+  });
+
+  test('applies selected-right on right side click', () => {
+    element.classList.add('selected-left');
+    element._cachedDiffBuilder.getSideByLineEl.returns('right');
+    MockInteractions.down(element);
+    assert.isTrue(
+        element.classList.contains('selected-right'), 'adds selected-right');
+    assert.isFalse(
+        element.classList.contains('selected-left'), 'removes selected-left');
+  });
+
+  test('applies selected-blame on blame click', () => {
+    element.classList.add('selected-left');
+    element.diffBuilder.getLineElByChild.returns(null);
+    sandbox.stub(element, '_elementDescendedFromClass',
+        (el, className) => className === 'blame');
+    MockInteractions.down(element);
+    assert.isTrue(
+        element.classList.contains('selected-blame'), 'adds selected-right');
+    assert.isFalse(
+        element.classList.contains('selected-left'), 'removes selected-left');
+  });
+
+  test('ignores copy for non-content Element', () => {
+    sandbox.stub(element, '_getSelectedText');
+    emulateCopyOn(element.querySelector('.not-diff-row'));
+    assert.isFalse(element._getSelectedText.called);
+  });
+
+  test('asks for text for left side Elements', () => {
+    element._cachedDiffBuilder.getSideByLineEl.returns('left');
+    sandbox.stub(element, '_getSelectedText');
+    emulateCopyOn(element.querySelector('div.contentText'));
+    assert.deepEqual(['left', false], element._getSelectedText.lastCall.args);
+  });
+
+  test('reacts to copy for content Elements', () => {
+    sandbox.stub(element, '_getSelectedText');
+    emulateCopyOn(element.querySelector('div.contentText'));
+    assert.isTrue(element._getSelectedText.called);
+  });
+
+  test('copy event is prevented for content Elements', () => {
+    sandbox.stub(element, '_getSelectedText');
+    element._cachedDiffBuilder.getSideByLineEl.returns('left');
+    element._getSelectedText.returns('test');
+    const event = emulateCopyOn(element.querySelector('div.contentText'));
+    assert.isTrue(event.preventDefault.called);
+  });
+
+  test('inserts text into clipboard on copy', () => {
+    sandbox.stub(element, '_getSelectedText').returns('the text');
+    const event = emulateCopyOn(element.querySelector('div.contentText'));
+    assert.deepEqual(
+        ['Text', 'the text'], event.clipboardData.setData.lastCall.args);
+  });
+
+  test('_setClasses adds given SelectionClass values, removes others', () => {
+    element.classList.add('selected-right');
+    element._setClasses(['selected-comment', 'selected-left']);
+    assert.isTrue(element.classList.contains('selected-comment'));
+    assert.isTrue(element.classList.contains('selected-left'));
+    assert.isFalse(element.classList.contains('selected-right'));
+    assert.isFalse(element.classList.contains('selected-blame'));
+
+    element._setClasses(['selected-blame']);
+    assert.isFalse(element.classList.contains('selected-comment'));
+    assert.isFalse(element.classList.contains('selected-left'));
+    assert.isFalse(element.classList.contains('selected-right'));
+    assert.isTrue(element.classList.contains('selected-blame'));
+  });
+
+  test('_setClasses removes before it ads', () => {
+    element.classList.add('selected-right');
+    const addStub = sandbox.stub(element.classList, 'add');
+    const removeStub = sandbox.stub(element.classList, 'remove', () => {
+      assert.isFalse(addStub.called);
+    });
+    element._setClasses(['selected-comment', 'selected-left']);
+    assert.isTrue(addStub.called);
+    assert.isTrue(removeStub.called);
+  });
+
+  test('copies content correctly', () => {
+    // Fetch the line number.
+    element._cachedDiffBuilder.getLineElByChild = function(child) {
+      while (!child.classList.contains('content') && child.parentElement) {
+        child = child.parentElement;
+      }
+      return child.previousElementSibling;
     };
 
+    element.classList.add('selected-left');
+    element.classList.remove('selected-right');
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    const range = document.createRange();
+    range.setStart(element.querySelector('div.contentText').firstChild, 3);
+    range.setEnd(
+        element.querySelectorAll('div.contentText')[4].firstChild, 2);
+    selection.addRange(range);
+    assert.equal(element._getSelectedText('left'), 'ba\nzin\nga');
+  });
+
+  test('copies comments', () => {
+    element.classList.add('selected-left');
+    element.classList.add('selected-comment');
+    element.classList.remove('selected-right');
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    const range = document.createRange();
+    range.setStart(
+        element.querySelector('.gr-formatted-text *').firstChild, 3);
+    range.setEnd(
+        element.querySelectorAll('.gr-formatted-text *')[2].childNodes[2], 7);
+    selection.addRange(range);
+    assert.equal('s is a comment\nThis is a differ',
+        element._getSelectedText('left', true));
+  });
+
+  test('respects astral chars in comments', () => {
+    element.classList.add('selected-left');
+    element.classList.add('selected-comment');
+    element.classList.remove('selected-right');
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    const range = document.createRange();
+    const nodes = element.querySelectorAll('.gr-formatted-text *');
+    range.setStart(nodes[2].childNodes[2], 13);
+    range.setEnd(nodes[2].childNodes[2], 23);
+    selection.addRange(range);
+    assert.equal('mment 💩 u',
+        element._getSelectedText('left', true));
+  });
+
+  test('defers to default behavior for textarea', () => {
+    element.classList.add('selected-left');
+    element.classList.remove('selected-right');
+    const selectedTextSpy = sandbox.spy(element, '_getSelectedText');
+    emulateCopyOn(element.querySelector('textarea'));
+    assert.isFalse(selectedTextSpy.called);
+  });
+
+  test('regression test for 4794', () => {
+    element._cachedDiffBuilder.getLineElByChild = function(child) {
+      while (!child.classList.contains('content') && child.parentElement) {
+        child = child.parentElement;
+      }
+      return child.previousElementSibling;
+    };
+
+    element.classList.add('selected-right');
+    element.classList.remove('selected-left');
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    const range = document.createRange();
+    range.setStart(
+        element.querySelectorAll('div.contentText')[1].firstChild, 4);
+    range.setEnd(
+        element.querySelectorAll('div.contentText')[1].firstChild, 10);
+    selection.addRange(range);
+    assert.equal(element._getSelectedText('right'), ' other');
+  });
+
+  test('copies to end of side (issue 7895)', () => {
+    element._cachedDiffBuilder.getLineElByChild = function(child) {
+      // Return null for the end container.
+      if (child.textContent === 'ga ga') { return null; }
+      while (!child.classList.contains('content') && child.parentElement) {
+        child = child.parentElement;
+      }
+      return child.previousElementSibling;
+    };
+    element.classList.add('selected-left');
+    element.classList.remove('selected-right');
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    const range = document.createRange();
+    range.setStart(element.querySelector('div.contentText').firstChild, 3);
+    range.setEnd(
+        element.querySelectorAll('div.contentText')[4].firstChild, 2);
+    selection.addRange(range);
+    assert.equal(element._getSelectedText('left'), 'ba\nzin\nga');
+  });
+
+  suite('_getTextContentForRange', () => {
+    let selection;
+    let range;
+    let nodes;
+
     setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(element, '_getCopyEventTarget');
-      element._cachedDiffBuilder = {
-        getLineElByChild: sandbox.stub().returns({}),
-        getSideByLineEl: sandbox.stub(),
-        diffElement: element.querySelector('#diffTable'),
-      };
-      element.diff = {
-        content: [
-          {
-            a: ['ba ba'],
-            b: ['some other text'],
-          },
-          {
-            a: ['zin'],
-            b: ['more more more'],
-          },
-          {
-            a: ['ga ga'],
-            b: ['some other text'],
-          },
-        ],
-      };
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('applies selected-left on left side click', () => {
-      element.classList.add('selected-right');
-      element._cachedDiffBuilder.getSideByLineEl.returns('left');
-      MockInteractions.down(element);
-      assert.isTrue(
-          element.classList.contains('selected-left'), 'adds selected-left');
-      assert.isFalse(
-          element.classList.contains('selected-right'),
-          'removes selected-right');
-    });
-
-    test('applies selected-right on right side click', () => {
-      element.classList.add('selected-left');
-      element._cachedDiffBuilder.getSideByLineEl.returns('right');
-      MockInteractions.down(element);
-      assert.isTrue(
-          element.classList.contains('selected-right'), 'adds selected-right');
-      assert.isFalse(
-          element.classList.contains('selected-left'), 'removes selected-left');
-    });
-
-    test('applies selected-blame on blame click', () => {
-      element.classList.add('selected-left');
-      element.diffBuilder.getLineElByChild.returns(null);
-      sandbox.stub(element, '_elementDescendedFromClass',
-          (el, className) => className === 'blame');
-      MockInteractions.down(element);
-      assert.isTrue(
-          element.classList.contains('selected-blame'), 'adds selected-right');
-      assert.isFalse(
-          element.classList.contains('selected-left'), 'removes selected-left');
-    });
-
-    test('ignores copy for non-content Element', () => {
-      sandbox.stub(element, '_getSelectedText');
-      emulateCopyOn(element.querySelector('.not-diff-row'));
-      assert.isFalse(element._getSelectedText.called);
-    });
-
-    test('asks for text for left side Elements', () => {
-      element._cachedDiffBuilder.getSideByLineEl.returns('left');
-      sandbox.stub(element, '_getSelectedText');
-      emulateCopyOn(element.querySelector('div.contentText'));
-      assert.deepEqual(['left', false], element._getSelectedText.lastCall.args);
-    });
-
-    test('reacts to copy for content Elements', () => {
-      sandbox.stub(element, '_getSelectedText');
-      emulateCopyOn(element.querySelector('div.contentText'));
-      assert.isTrue(element._getSelectedText.called);
-    });
-
-    test('copy event is prevented for content Elements', () => {
-      sandbox.stub(element, '_getSelectedText');
-      element._cachedDiffBuilder.getSideByLineEl.returns('left');
-      element._getSelectedText.returns('test');
-      const event = emulateCopyOn(element.querySelector('div.contentText'));
-      assert.isTrue(event.preventDefault.called);
-    });
-
-    test('inserts text into clipboard on copy', () => {
-      sandbox.stub(element, '_getSelectedText').returns('the text');
-      const event = emulateCopyOn(element.querySelector('div.contentText'));
-      assert.deepEqual(
-          ['Text', 'the text'], event.clipboardData.setData.lastCall.args);
-    });
-
-    test('_setClasses adds given SelectionClass values, removes others', () => {
-      element.classList.add('selected-right');
-      element._setClasses(['selected-comment', 'selected-left']);
-      assert.isTrue(element.classList.contains('selected-comment'));
-      assert.isTrue(element.classList.contains('selected-left'));
-      assert.isFalse(element.classList.contains('selected-right'));
-      assert.isFalse(element.classList.contains('selected-blame'));
-
-      element._setClasses(['selected-blame']);
-      assert.isFalse(element.classList.contains('selected-comment'));
-      assert.isFalse(element.classList.contains('selected-left'));
-      assert.isFalse(element.classList.contains('selected-right'));
-      assert.isTrue(element.classList.contains('selected-blame'));
-    });
-
-    test('_setClasses removes before it ads', () => {
-      element.classList.add('selected-right');
-      const addStub = sandbox.stub(element.classList, 'add');
-      const removeStub = sandbox.stub(element.classList, 'remove', () => {
-        assert.isFalse(addStub.called);
-      });
-      element._setClasses(['selected-comment', 'selected-left']);
-      assert.isTrue(addStub.called);
-      assert.isTrue(removeStub.called);
-    });
-
-    test('copies content correctly', () => {
-      // Fetch the line number.
-      element._cachedDiffBuilder.getLineElByChild = function(child) {
-        while (!child.classList.contains('content') && child.parentElement) {
-          child = child.parentElement;
-        }
-        return child.previousElementSibling;
-      };
-
-      element.classList.add('selected-left');
-      element.classList.remove('selected-right');
-
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      const range = document.createRange();
-      range.setStart(element.querySelector('div.contentText').firstChild, 3);
-      range.setEnd(
-          element.querySelectorAll('div.contentText')[4].firstChild, 2);
-      selection.addRange(range);
-      assert.equal(element._getSelectedText('left'), 'ba\nzin\nga');
-    });
-
-    test('copies comments', () => {
       element.classList.add('selected-left');
       element.classList.add('selected-comment');
       element.classList.remove('selected-right');
-      const selection = window.getSelection();
+      selection = window.getSelection();
       selection.removeAllRanges();
-      const range = document.createRange();
-      range.setStart(
-          element.querySelector('.gr-formatted-text *').firstChild, 3);
-      range.setEnd(
-          element.querySelectorAll('.gr-formatted-text *')[2].childNodes[2], 7);
+      range = document.createRange();
+      nodes = element.querySelectorAll('.gr-formatted-text *');
+    });
+
+    test('multi level element contained in range', () => {
+      range.setStart(nodes[2].childNodes[0], 1);
+      range.setEnd(nodes[2].childNodes[2], 7);
       selection.addRange(range);
-      assert.equal('s is a comment\nThis is a differ',
-          element._getSelectedText('left', true));
+      assert.equal(element._getTextContentForRange(element, selection, range),
+          'his is a differ');
     });
 
-    test('respects astral chars in comments', () => {
-      element.classList.add('selected-left');
-      element.classList.add('selected-comment');
-      element.classList.remove('selected-right');
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      const range = document.createRange();
-      const nodes = element.querySelectorAll('.gr-formatted-text *');
-      range.setStart(nodes[2].childNodes[2], 13);
-      range.setEnd(nodes[2].childNodes[2], 23);
+    test('multi level element as startContainer of range', () => {
+      range.setStart(nodes[2].childNodes[1], 0);
+      range.setEnd(nodes[2].childNodes[2], 7);
       selection.addRange(range);
-      assert.equal('mment 💩 u',
-          element._getSelectedText('left', true));
+      assert.equal(element._getTextContentForRange(element, selection, range),
+          'a differ');
     });
 
-    test('defers to default behavior for textarea', () => {
-      element.classList.add('selected-left');
-      element.classList.remove('selected-right');
-      const selectedTextSpy = sandbox.spy(element, '_getSelectedText');
-      emulateCopyOn(element.querySelector('textarea'));
-      assert.isFalse(selectedTextSpy.called);
-    });
-
-    test('regression test for 4794', () => {
-      element._cachedDiffBuilder.getLineElByChild = function(child) {
-        while (!child.classList.contains('content') && child.parentElement) {
-          child = child.parentElement;
-        }
-        return child.previousElementSibling;
-      };
-
-      element.classList.add('selected-right');
-      element.classList.remove('selected-left');
-
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      const range = document.createRange();
-      range.setStart(
-          element.querySelectorAll('div.contentText')[1].firstChild, 4);
-      range.setEnd(
-          element.querySelectorAll('div.contentText')[1].firstChild, 10);
+    test('startContainer === endContainer', () => {
+      range.setStart(nodes[0].firstChild, 2);
+      range.setEnd(nodes[0].firstChild, 12);
       selection.addRange(range);
-      assert.equal(element._getSelectedText('right'), ' other');
-    });
-
-    test('copies to end of side (issue 7895)', () => {
-      element._cachedDiffBuilder.getLineElByChild = function(child) {
-        // Return null for the end container.
-        if (child.textContent === 'ga ga') { return null; }
-        while (!child.classList.contains('content') && child.parentElement) {
-          child = child.parentElement;
-        }
-        return child.previousElementSibling;
-      };
-      element.classList.add('selected-left');
-      element.classList.remove('selected-right');
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      const range = document.createRange();
-      range.setStart(element.querySelector('div.contentText').firstChild, 3);
-      range.setEnd(
-          element.querySelectorAll('div.contentText')[4].firstChild, 2);
-      selection.addRange(range);
-      assert.equal(element._getSelectedText('left'), 'ba\nzin\nga');
-    });
-
-    suite('_getTextContentForRange', () => {
-      let selection;
-      let range;
-      let nodes;
-
-      setup(() => {
-        element.classList.add('selected-left');
-        element.classList.add('selected-comment');
-        element.classList.remove('selected-right');
-        selection = window.getSelection();
-        selection.removeAllRanges();
-        range = document.createRange();
-        nodes = element.querySelectorAll('.gr-formatted-text *');
-      });
-
-      test('multi level element contained in range', () => {
-        range.setStart(nodes[2].childNodes[0], 1);
-        range.setEnd(nodes[2].childNodes[2], 7);
-        selection.addRange(range);
-        assert.equal(element._getTextContentForRange(element, selection, range),
-            'his is a differ');
-      });
-
-      test('multi level element as startContainer of range', () => {
-        range.setStart(nodes[2].childNodes[1], 0);
-        range.setEnd(nodes[2].childNodes[2], 7);
-        selection.addRange(range);
-        assert.equal(element._getTextContentForRange(element, selection, range),
-            'a differ');
-      });
-
-      test('startContainer === endContainer', () => {
-        range.setStart(nodes[0].firstChild, 2);
-        range.setEnd(nodes[0].firstChild, 12);
-        selection.addRange(range);
-        assert.equal(element._getTextContentForRange(element, selection, range),
-            'is is a co');
-      });
-    });
-
-    test('cache is reset when diff changes', () => {
-      element._linesCache = {left: 'test', right: 'test'};
-      element.diff = {};
-      flushAsynchronousOperations();
-      assert.deepEqual(element._linesCache, {left: null, right: null});
+      assert.equal(element._getTextContentForRange(element, selection, range),
+          'is is a co');
     });
   });
+
+  test('cache is reset when diff changes', () => {
+    element._linesCache = {left: 'test', right: 'test'};
+    element.diff = {};
+    flushAsynchronousOperations();
+    assert.deepEqual(element._linesCache, {left: null, right: null});
+  });
+});
 </script>

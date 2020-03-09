@@ -14,157 +14,166 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrConfirmRebaseDialog extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-confirm-rebase-dialog'; }
-    /**
-     * Fired when the confirm button is pressed.
-     *
-     * @event confirm
-     */
+import '../../shared/gr-autocomplete/gr-autocomplete.js';
+import '../../shared/gr-dialog/gr-dialog.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../../styles/shared-styles.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-confirm-rebase-dialog_html.js';
 
-    /**
-     * Fired when the cancel button is pressed.
-     *
-     * @event cancel
-     */
+/** @extends Polymer.Element */
+class GrConfirmRebaseDialog extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-    static get properties() {
-      return {
-        branch: String,
-        changeNumber: Number,
-        hasParent: Boolean,
-        rebaseOnCurrent: Boolean,
-        _text: String,
-        _query: {
-          type: Function,
-          value() {
-            return this._getChangeSuggestions.bind(this);
-          },
+  static get is() { return 'gr-confirm-rebase-dialog'; }
+  /**
+   * Fired when the confirm button is pressed.
+   *
+   * @event confirm
+   */
+
+  /**
+   * Fired when the cancel button is pressed.
+   *
+   * @event cancel
+   */
+
+  static get properties() {
+    return {
+      branch: String,
+      changeNumber: Number,
+      hasParent: Boolean,
+      rebaseOnCurrent: Boolean,
+      _text: String,
+      _query: {
+        type: Function,
+        value() {
+          return this._getChangeSuggestions.bind(this);
         },
-        _recentChanges: Array,
-      };
-    }
-
-    static get observers() {
-      return [
-        '_updateSelectedOption(rebaseOnCurrent, hasParent)',
-      ];
-    }
-
-    // This is called by gr-change-actions every time the rebase dialog is
-    // re-opened. Unlike other autocompletes that make a request with each
-    // updated input, this one gets all recent changes once and then filters
-    // them by the input. The query is re-run each time the dialog is opened
-    // in case there are new/updated changes in the generic query since the
-    // last time it was run.
-    fetchRecentChanges() {
-      return this.$.restAPI.getChanges(null, `is:open -age:90d`)
-          .then(response => {
-            const changes = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              changes.push({
-                name: `${response[key]._number}: ${response[key].subject}`,
-                value: response[key]._number,
-              });
-            }
-            this._recentChanges = changes;
-            return this._recentChanges;
-          });
-    }
-
-    _getRecentChanges() {
-      if (this._recentChanges) {
-        return Promise.resolve(this._recentChanges);
-      }
-      return this.fetchRecentChanges();
-    }
-
-    _getChangeSuggestions(input) {
-      return this._getRecentChanges().then(changes =>
-        this._filterChanges(input, changes));
-    }
-
-    _filterChanges(input, changes) {
-      return changes.filter(change => change.name.includes(input) &&
-          change.value !== this.changeNumber);
-    }
-
-    _displayParentOption(rebaseOnCurrent, hasParent) {
-      return hasParent && rebaseOnCurrent;
-    }
-
-    _displayParentUpToDateMsg(rebaseOnCurrent, hasParent) {
-      return hasParent && !rebaseOnCurrent;
-    }
-
-    _displayTipOption(rebaseOnCurrent, hasParent) {
-      return !(!rebaseOnCurrent && !hasParent);
-    }
-
-    /**
-     * There is a subtle but important difference between setting the base to an
-     * empty string and omitting it entirely from the payload. An empty string
-     * implies that the parent should be cleared and the change should be
-     * rebased on top of the target branch. Leaving out the base implies that it
-     * should be rebased on top of its current parent.
-     */
-    _getSelectedBase() {
-      if (this.$.rebaseOnParentInput.checked) { return null; }
-      if (this.$.rebaseOnTipInput.checked) { return ''; }
-      // Change numbers will have their description appended by the
-      // autocomplete.
-      return this._text.split(':')[0];
-    }
-
-    _handleConfirmTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.dispatchEvent(new CustomEvent('confirm',
-          {detail: {base: this._getSelectedBase()}}));
-      this._text = '';
-    }
-
-    _handleCancelTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.dispatchEvent(new CustomEvent('cancel'));
-      this._text = '';
-    }
-
-    _handleRebaseOnOther() {
-      this.$.parentInput.focus();
-    }
-
-    _handleEnterChangeNumberClick() {
-      this.$.rebaseOnOtherInput.checked = true;
-    }
-
-    /**
-     * Sets the default radio button based on the state of the app and
-     * the corresponding value to be submitted.
-     */
-    _updateSelectedOption(rebaseOnCurrent, hasParent) {
-      // Polymer 2: check for undefined
-      if ([rebaseOnCurrent, hasParent].some(arg => arg === undefined)) {
-        return;
-      }
-
-      if (this._displayParentOption(rebaseOnCurrent, hasParent)) {
-        this.$.rebaseOnParentInput.checked = true;
-      } else if (this._displayTipOption(rebaseOnCurrent, hasParent)) {
-        this.$.rebaseOnTipInput.checked = true;
-      } else {
-        this.$.rebaseOnOtherInput.checked = true;
-      }
-    }
+      },
+      _recentChanges: Array,
+    };
   }
 
-  customElements.define(GrConfirmRebaseDialog.is, GrConfirmRebaseDialog);
-})();
+  static get observers() {
+    return [
+      '_updateSelectedOption(rebaseOnCurrent, hasParent)',
+    ];
+  }
+
+  // This is called by gr-change-actions every time the rebase dialog is
+  // re-opened. Unlike other autocompletes that make a request with each
+  // updated input, this one gets all recent changes once and then filters
+  // them by the input. The query is re-run each time the dialog is opened
+  // in case there are new/updated changes in the generic query since the
+  // last time it was run.
+  fetchRecentChanges() {
+    return this.$.restAPI.getChanges(null, `is:open -age:90d`)
+        .then(response => {
+          const changes = [];
+          for (const key in response) {
+            if (!response.hasOwnProperty(key)) { continue; }
+            changes.push({
+              name: `${response[key]._number}: ${response[key].subject}`,
+              value: response[key]._number,
+            });
+          }
+          this._recentChanges = changes;
+          return this._recentChanges;
+        });
+  }
+
+  _getRecentChanges() {
+    if (this._recentChanges) {
+      return Promise.resolve(this._recentChanges);
+    }
+    return this.fetchRecentChanges();
+  }
+
+  _getChangeSuggestions(input) {
+    return this._getRecentChanges().then(changes =>
+      this._filterChanges(input, changes));
+  }
+
+  _filterChanges(input, changes) {
+    return changes.filter(change => change.name.includes(input) &&
+        change.value !== this.changeNumber);
+  }
+
+  _displayParentOption(rebaseOnCurrent, hasParent) {
+    return hasParent && rebaseOnCurrent;
+  }
+
+  _displayParentUpToDateMsg(rebaseOnCurrent, hasParent) {
+    return hasParent && !rebaseOnCurrent;
+  }
+
+  _displayTipOption(rebaseOnCurrent, hasParent) {
+    return !(!rebaseOnCurrent && !hasParent);
+  }
+
+  /**
+   * There is a subtle but important difference between setting the base to an
+   * empty string and omitting it entirely from the payload. An empty string
+   * implies that the parent should be cleared and the change should be
+   * rebased on top of the target branch. Leaving out the base implies that it
+   * should be rebased on top of its current parent.
+   */
+  _getSelectedBase() {
+    if (this.$.rebaseOnParentInput.checked) { return null; }
+    if (this.$.rebaseOnTipInput.checked) { return ''; }
+    // Change numbers will have their description appended by the
+    // autocomplete.
+    return this._text.split(':')[0];
+  }
+
+  _handleConfirmTap(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.dispatchEvent(new CustomEvent('confirm',
+        {detail: {base: this._getSelectedBase()}}));
+    this._text = '';
+  }
+
+  _handleCancelTap(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.dispatchEvent(new CustomEvent('cancel'));
+    this._text = '';
+  }
+
+  _handleRebaseOnOther() {
+    this.$.parentInput.focus();
+  }
+
+  _handleEnterChangeNumberClick() {
+    this.$.rebaseOnOtherInput.checked = true;
+  }
+
+  /**
+   * Sets the default radio button based on the state of the app and
+   * the corresponding value to be submitted.
+   */
+  _updateSelectedOption(rebaseOnCurrent, hasParent) {
+    // Polymer 2: check for undefined
+    if ([rebaseOnCurrent, hasParent].some(arg => arg === undefined)) {
+      return;
+    }
+
+    if (this._displayParentOption(rebaseOnCurrent, hasParent)) {
+      this.$.rebaseOnParentInput.checked = true;
+    } else if (this._displayTipOption(rebaseOnCurrent, hasParent)) {
+      this.$.rebaseOnTipInput.checked = true;
+    } else {
+      this.$.rebaseOnOtherInput.checked = true;
+    }
+  }
+}
+
+customElements.define(GrConfirmRebaseDialog.is, GrConfirmRebaseDialog);

@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-label-score-row</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
 
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-label-score-row.html">
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-label-score-row.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-label-score-row.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,338 +41,341 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-label-row-score tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-label-score-row.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-label-row-score tests', () => {
+  let element;
+  let sandbox;
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      element.labels = {
-        'Code-Review': {
-          values: {
-            '0': 'No score',
-            '+1': 'good',
-            '+2': 'excellent',
-            '-1': 'bad',
-            '-2': 'terrible',
-          },
-          default_value: 0,
-          value: 1,
-          all: [{
-            _account_id: 123,
-            value: 1,
-          }],
+  setup(done => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    element.labels = {
+      'Code-Review': {
+        values: {
+          '0': 'No score',
+          '+1': 'good',
+          '+2': 'excellent',
+          '-1': 'bad',
+          '-2': 'terrible',
         },
-        'Verified': {
-          values: {
-            '0': 'No score',
-            '+1': 'good',
-            '+2': 'excellent',
-            '-1': 'bad',
-            '-2': 'terrible',
-          },
-          default_value: 0,
+        default_value: 0,
+        value: 1,
+        all: [{
+          _account_id: 123,
           value: 1,
-          all: [{
-            _account_id: 123,
-            value: 1,
-          }],
+        }],
+      },
+      'Verified': {
+        values: {
+          '0': 'No score',
+          '+1': 'good',
+          '+2': 'excellent',
+          '-1': 'bad',
+          '-2': 'terrible',
         },
-      };
+        default_value: 0,
+        value: 1,
+        all: [{
+          _account_id: 123,
+          value: 1,
+        }],
+      },
+    };
+
+    element.permittedLabels = {
+      'Code-Review': [
+        '-2',
+        '-1',
+        ' 0',
+        '+1',
+        '+2',
+      ],
+      'Verified': [
+        '-1',
+        ' 0',
+        '+1',
+      ],
+    };
+
+    element.labelValues = {'0': 2, '1': 3, '2': 4, '-2': 0, '-1': 1};
+
+    element.label = {
+      name: 'Verified',
+      value: '+1',
+    };
+
+    flush(done);
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('label picker', () => {
+    const labelsChangedHandler = sandbox.stub();
+    element.addEventListener('labels-changed', labelsChangedHandler);
+    assert.ok(element.$.labelSelector);
+    MockInteractions.tap(element.$$(
+        'gr-button[data-value="-1"]'));
+    flushAsynchronousOperations();
+    assert.strictEqual(element.selectedValue, '-1');
+    assert.strictEqual(element.selectedItem
+        .textContent.trim(), '-1');
+    assert.strictEqual(
+        element.$.selectedValueLabel.textContent.trim(), 'bad');
+    const detail = labelsChangedHandler.args[0][0].detail;
+    assert.equal(detail.name, 'Verified');
+    assert.equal(detail.value, '-1');
+  });
+
+  test('_computeVoteAttribute', () => {
+    let value = 1;
+    let index = 0;
+    const totalItems = 5;
+    // positive and first position
+    assert.equal(element._computeVoteAttribute(value, index,
+        totalItems), 'positive');
+    // negative and first position
+    value = -1;
+    assert.equal(element._computeVoteAttribute(value, index,
+        totalItems), 'min');
+    // negative but not first position
+    index = 1;
+    assert.equal(element._computeVoteAttribute(value, index,
+        totalItems), 'negative');
+    // neutral
+    value = 0;
+    assert.equal(element._computeVoteAttribute(value, index,
+        totalItems), 'neutral');
+    // positive but not last position
+    value = 1;
+    assert.equal(element._computeVoteAttribute(value, index,
+        totalItems), 'positive');
+    // positive and last position
+    index = 4;
+    assert.equal(element._computeVoteAttribute(value, index,
+        totalItems), 'max');
+    // negative and last position
+    value = -1;
+    assert.equal(element._computeVoteAttribute(value, index,
+        totalItems), 'negative');
+  });
+
+  test('correct item is selected', () => {
+    // 1 should be the value of the selected item
+    assert.strictEqual(element.$.labelSelector.selected, '+1');
+    assert.strictEqual(
+        element.$.labelSelector.selectedItem
+            .textContent.trim(), '+1');
+    assert.strictEqual(
+        element.$.selectedValueLabel.textContent.trim(), 'good');
+  });
+
+  test('do not display tooltips on touch devices', () => {
+    const verifiedBtn = element.$$(
+        'iron-selector > gr-button[data-value="-1"]');
+
+    // On touch devices, tooltips should not be shown.
+    verifiedBtn._isTouchDevice = true;
+    verifiedBtn._handleShowTooltip();
+    assert.isNotOk(verifiedBtn._tooltip);
+    verifiedBtn._handleHideTooltip();
+    assert.isNotOk(verifiedBtn._tooltip);
+
+    // On other devices, tooltips should be shown.
+    verifiedBtn._isTouchDevice = false;
+    verifiedBtn._handleShowTooltip();
+    assert.isOk(verifiedBtn._tooltip);
+    verifiedBtn._handleHideTooltip();
+    assert.isNotOk(verifiedBtn._tooltip);
+  });
+
+  test('_computeLabelValue', () => {
+    assert.strictEqual(element._computeLabelValue(element.labels,
+        element.permittedLabels,
+        element.label), '+1');
+  });
+
+  test('_computeBlankItems', () => {
+    element.labelValues = {
+      '-2': 0,
+      '-1': 1,
+      '0': 2,
+      '1': 3,
+      '2': 4,
+    };
+
+    assert.strictEqual(element._computeBlankItems(element.permittedLabels,
+        'Code-Review').length, 0);
+
+    assert.strictEqual(element._computeBlankItems(element.permittedLabels,
+        'Verified').length, 1);
+  });
+
+  test('labelValues returns no keys', () => {
+    element.labelValues = {};
+
+    assert.deepEqual(element._computeBlankItems(element.permittedLabels,
+        'Code-Review'), []);
+  });
+
+  test('changes in label score are reflected in the DOM', () => {
+    element.labels = {
+      'Code-Review': {
+        values: {
+          '0': 'No score',
+          '+1': 'good',
+          '+2': 'excellent',
+          '-1': 'bad',
+          '-2': 'terrible',
+        },
+        default_value: 0,
+      },
+      'Verified': {
+        values: {
+          ' 0': 'No score',
+          '+1': 'good',
+          '+2': 'excellent',
+          '-1': 'bad',
+          '-2': 'terrible',
+        },
+        default_value: 0,
+      },
+    };
+    const selector = element.$.labelSelector;
+    element.set('label', {name: 'Verified', value: ' 0'});
+    flushAsynchronousOperations();
+    assert.strictEqual(selector.selected, ' 0');
+    assert.strictEqual(
+        element.$.selectedValueLabel.textContent.trim(), 'No score');
+  });
+
+  test('without permitted labels', () => {
+    element.permittedLabels = {
+      Verified: [
+        '-1',
+        ' 0',
+        '+1',
+      ],
+    };
+    flushAsynchronousOperations();
+    assert.isOk(element.$.labelSelector);
+    assert.isFalse(element.$.labelSelector.hidden);
+
+    element.permittedLabels = {};
+    flushAsynchronousOperations();
+    assert.isOk(element.$.labelSelector);
+    assert.isTrue(element.$.labelSelector.hidden);
+
+    element.permittedLabels = {Verified: []};
+    flushAsynchronousOperations();
+    assert.isOk(element.$.labelSelector);
+    assert.isTrue(element.$.labelSelector.hidden);
+  });
+
+  test('asymetrical labels', done => {
+    element.permittedLabels = {
+      'Code-Review': [
+        '-2',
+        '-1',
+        ' 0',
+        '+1',
+        '+2',
+      ],
+      'Verified': [
+        ' 0',
+        '+1',
+      ],
+    };
+    flush(() => {
+      assert.strictEqual(element.$.labelSelector
+          .items.length, 2);
+      assert.strictEqual(
+          dom(element.root).querySelectorAll('.placeholder').length,
+          3);
 
       element.permittedLabels = {
         'Code-Review': [
+          ' 0',
+          '+1',
+        ],
+        'Verified': [
           '-2',
           '-1',
           ' 0',
           '+1',
           '+2',
-        ],
-        'Verified': [
-          '-1',
-          ' 0',
-          '+1',
-        ],
-      };
-
-      element.labelValues = {'0': 2, '1': 3, '2': 4, '-2': 0, '-1': 1};
-
-      element.label = {
-        name: 'Verified',
-        value: '+1',
-      };
-
-      flush(done);
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('label picker', () => {
-      const labelsChangedHandler = sandbox.stub();
-      element.addEventListener('labels-changed', labelsChangedHandler);
-      assert.ok(element.$.labelSelector);
-      MockInteractions.tap(element.$$(
-          'gr-button[data-value="-1"]'));
-      flushAsynchronousOperations();
-      assert.strictEqual(element.selectedValue, '-1');
-      assert.strictEqual(element.selectedItem
-          .textContent.trim(), '-1');
-      assert.strictEqual(
-          element.$.selectedValueLabel.textContent.trim(), 'bad');
-      const detail = labelsChangedHandler.args[0][0].detail;
-      assert.equal(detail.name, 'Verified');
-      assert.equal(detail.value, '-1');
-    });
-
-    test('_computeVoteAttribute', () => {
-      let value = 1;
-      let index = 0;
-      const totalItems = 5;
-      // positive and first position
-      assert.equal(element._computeVoteAttribute(value, index,
-          totalItems), 'positive');
-      // negative and first position
-      value = -1;
-      assert.equal(element._computeVoteAttribute(value, index,
-          totalItems), 'min');
-      // negative but not first position
-      index = 1;
-      assert.equal(element._computeVoteAttribute(value, index,
-          totalItems), 'negative');
-      // neutral
-      value = 0;
-      assert.equal(element._computeVoteAttribute(value, index,
-          totalItems), 'neutral');
-      // positive but not last position
-      value = 1;
-      assert.equal(element._computeVoteAttribute(value, index,
-          totalItems), 'positive');
-      // positive and last position
-      index = 4;
-      assert.equal(element._computeVoteAttribute(value, index,
-          totalItems), 'max');
-      // negative and last position
-      value = -1;
-      assert.equal(element._computeVoteAttribute(value, index,
-          totalItems), 'negative');
-    });
-
-    test('correct item is selected', () => {
-      // 1 should be the value of the selected item
-      assert.strictEqual(element.$.labelSelector.selected, '+1');
-      assert.strictEqual(
-          element.$.labelSelector.selectedItem
-              .textContent.trim(), '+1');
-      assert.strictEqual(
-          element.$.selectedValueLabel.textContent.trim(), 'good');
-    });
-
-    test('do not display tooltips on touch devices', () => {
-      const verifiedBtn = element.$$(
-          'iron-selector > gr-button[data-value="-1"]');
-
-      // On touch devices, tooltips should not be shown.
-      verifiedBtn._isTouchDevice = true;
-      verifiedBtn._handleShowTooltip();
-      assert.isNotOk(verifiedBtn._tooltip);
-      verifiedBtn._handleHideTooltip();
-      assert.isNotOk(verifiedBtn._tooltip);
-
-      // On other devices, tooltips should be shown.
-      verifiedBtn._isTouchDevice = false;
-      verifiedBtn._handleShowTooltip();
-      assert.isOk(verifiedBtn._tooltip);
-      verifiedBtn._handleHideTooltip();
-      assert.isNotOk(verifiedBtn._tooltip);
-    });
-
-    test('_computeLabelValue', () => {
-      assert.strictEqual(element._computeLabelValue(element.labels,
-          element.permittedLabels,
-          element.label), '+1');
-    });
-
-    test('_computeBlankItems', () => {
-      element.labelValues = {
-        '-2': 0,
-        '-1': 1,
-        '0': 2,
-        '1': 3,
-        '2': 4,
-      };
-
-      assert.strictEqual(element._computeBlankItems(element.permittedLabels,
-          'Code-Review').length, 0);
-
-      assert.strictEqual(element._computeBlankItems(element.permittedLabels,
-          'Verified').length, 1);
-    });
-
-    test('labelValues returns no keys', () => {
-      element.labelValues = {};
-
-      assert.deepEqual(element._computeBlankItems(element.permittedLabels,
-          'Code-Review'), []);
-    });
-
-    test('changes in label score are reflected in the DOM', () => {
-      element.labels = {
-        'Code-Review': {
-          values: {
-            '0': 'No score',
-            '+1': 'good',
-            '+2': 'excellent',
-            '-1': 'bad',
-            '-2': 'terrible',
-          },
-          default_value: 0,
-        },
-        'Verified': {
-          values: {
-            ' 0': 'No score',
-            '+1': 'good',
-            '+2': 'excellent',
-            '-1': 'bad',
-            '-2': 'terrible',
-          },
-          default_value: 0,
-        },
-      };
-      const selector = element.$.labelSelector;
-      element.set('label', {name: 'Verified', value: ' 0'});
-      flushAsynchronousOperations();
-      assert.strictEqual(selector.selected, ' 0');
-      assert.strictEqual(
-          element.$.selectedValueLabel.textContent.trim(), 'No score');
-    });
-
-    test('without permitted labels', () => {
-      element.permittedLabels = {
-        Verified: [
-          '-1',
-          ' 0',
-          '+1',
-        ],
-      };
-      flushAsynchronousOperations();
-      assert.isOk(element.$.labelSelector);
-      assert.isFalse(element.$.labelSelector.hidden);
-
-      element.permittedLabels = {};
-      flushAsynchronousOperations();
-      assert.isOk(element.$.labelSelector);
-      assert.isTrue(element.$.labelSelector.hidden);
-
-      element.permittedLabels = {Verified: []};
-      flushAsynchronousOperations();
-      assert.isOk(element.$.labelSelector);
-      assert.isTrue(element.$.labelSelector.hidden);
-    });
-
-    test('asymetrical labels', done => {
-      element.permittedLabels = {
-        'Code-Review': [
-          '-2',
-          '-1',
-          ' 0',
-          '+1',
-          '+2',
-        ],
-        'Verified': [
-          ' 0',
-          '+1',
         ],
       };
       flush(() => {
         assert.strictEqual(element.$.labelSelector
-            .items.length, 2);
+            .items.length, 5);
         assert.strictEqual(
-            Polymer.dom(element.root).querySelectorAll('.placeholder').length,
-            3);
-
-        element.permittedLabels = {
-          'Code-Review': [
-            ' 0',
-            '+1',
-          ],
-          'Verified': [
-            '-2',
-            '-1',
-            ' 0',
-            '+1',
-            '+2',
-          ],
-        };
-        flush(() => {
-          assert.strictEqual(element.$.labelSelector
-              .items.length, 5);
-          assert.strictEqual(
-              Polymer.dom(element.root).querySelectorAll('.placeholder').length,
-              0);
-          done();
-        });
+            dom(element.root).querySelectorAll('.placeholder').length,
+            0);
+        done();
       });
     });
-
-    test('default_value', () => {
-      element.permittedLabels = {
-        Verified: [
-          '-1',
-          ' 0',
-          '+1',
-        ],
-      };
-      element.labels = {
-        Verified: {
-          values: {
-            '0': 'No score',
-            '+1': 'good',
-            '+2': 'excellent',
-            '-1': 'bad',
-            '-2': 'terrible',
-          },
-          default_value: -1,
-        },
-      };
-      element.label = {
-        name: 'Verified',
-        value: null,
-      };
-      flushAsynchronousOperations();
-      assert.strictEqual(element.selectedValue, '-1');
-    });
-
-    test('default_value is null if not permitted', () => {
-      element.permittedLabels = {
-        Verified: [
-          '-1',
-          ' 0',
-          '+1',
-        ],
-      };
-      element.labels = {
-        'Code-Review': {
-          values: {
-            '0': 'No score',
-            '+1': 'good',
-            '+2': 'excellent',
-            '-1': 'bad',
-            '-2': 'terrible',
-          },
-          default_value: -1,
-        },
-      };
-      element.label = {
-        name: 'Code-Review',
-        value: null,
-      };
-      flushAsynchronousOperations();
-      assert.isNull(element.selectedValue);
-    });
   });
+
+  test('default_value', () => {
+    element.permittedLabels = {
+      Verified: [
+        '-1',
+        ' 0',
+        '+1',
+      ],
+    };
+    element.labels = {
+      Verified: {
+        values: {
+          '0': 'No score',
+          '+1': 'good',
+          '+2': 'excellent',
+          '-1': 'bad',
+          '-2': 'terrible',
+        },
+        default_value: -1,
+      },
+    };
+    element.label = {
+      name: 'Verified',
+      value: null,
+    };
+    flushAsynchronousOperations();
+    assert.strictEqual(element.selectedValue, '-1');
+  });
+
+  test('default_value is null if not permitted', () => {
+    element.permittedLabels = {
+      Verified: [
+        '-1',
+        ' 0',
+        '+1',
+      ],
+    };
+    element.labels = {
+      'Code-Review': {
+        values: {
+          '0': 'No score',
+          '+1': 'good',
+          '+2': 'excellent',
+          '-1': 'bad',
+          '-2': 'terrible',
+        },
+        default_value: -1,
+      },
+    };
+    element.label = {
+      name: 'Code-Review',
+      value: null,
+    };
+    flushAsynchronousOperations();
+    assert.isNull(element.selectedValue);
+  });
+});
 </script>

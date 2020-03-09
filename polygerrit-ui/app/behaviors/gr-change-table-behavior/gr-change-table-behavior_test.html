@@ -19,13 +19,13 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>keyboard-shortcut-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="gr-change-table-behavior.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-change-table-behavior.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -41,87 +41,90 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-change-table-behavior tests', async () => {
-    await readyToTest();
-    let element;
-    // eslint-disable-next-line no-unused-vars
-    let overlay;
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './gr-change-table-behavior.js';
+import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('gr-change-table-behavior tests', () => {
+  let element;
+  // eslint-disable-next-line no-unused-vars
+  let overlay;
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [Gerrit.ChangeTableBehavior],
-      });
-    });
-
-    setup(() => {
-      element = fixture('basic');
-      overlay = fixture('within-overlay');
-    });
-
-    test('getComplementColumns', () => {
-      let columns = [
-        'Subject',
-        'Status',
-        'Owner',
-        'Assignee',
-        'Repo',
-        'Branch',
-        'Updated',
-        'Size',
-      ];
-      assert.deepEqual(element.getComplementColumns(columns), []);
-
-      columns = [
-        'Subject',
-        'Status',
-        'Assignee',
-        'Repo',
-        'Branch',
-        'Size',
-      ];
-      assert.deepEqual(element.getComplementColumns(columns),
-          ['Owner', 'Updated']);
-    });
-
-    test('isColumnHidden', () => {
-      const columnToCheck = 'Repo';
-      let columnsToDisplay = [
-        'Subject',
-        'Status',
-        'Owner',
-        'Assignee',
-        'Repo',
-        'Branch',
-        'Updated',
-        'Size',
-      ];
-      assert.isFalse(element.isColumnHidden(columnToCheck, columnsToDisplay));
-
-      columnsToDisplay = [
-        'Subject',
-        'Status',
-        'Owner',
-        'Assignee',
-        'Branch',
-        'Updated',
-        'Size',
-      ];
-      assert.isTrue(element.isColumnHidden(columnToCheck, columnsToDisplay));
-    });
-
-    test('getVisibleColumns maps Project to Repo', () => {
-      const columns = [
-        'Subject',
-        'Status',
-        'Owner',
-      ];
-      assert.deepEqual(element.getVisibleColumns(columns), columns.slice(0));
-      assert.deepEqual(
-          element.getVisibleColumns(columns.concat(['Project'])),
-          columns.slice(0).concat(['Repo']));
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'test-element',
+      behaviors: [Gerrit.ChangeTableBehavior],
     });
   });
+
+  setup(() => {
+    element = fixture('basic');
+    overlay = fixture('within-overlay');
+  });
+
+  test('getComplementColumns', () => {
+    let columns = [
+      'Subject',
+      'Status',
+      'Owner',
+      'Assignee',
+      'Repo',
+      'Branch',
+      'Updated',
+      'Size',
+    ];
+    assert.deepEqual(element.getComplementColumns(columns), []);
+
+    columns = [
+      'Subject',
+      'Status',
+      'Assignee',
+      'Repo',
+      'Branch',
+      'Size',
+    ];
+    assert.deepEqual(element.getComplementColumns(columns),
+        ['Owner', 'Updated']);
+  });
+
+  test('isColumnHidden', () => {
+    const columnToCheck = 'Repo';
+    let columnsToDisplay = [
+      'Subject',
+      'Status',
+      'Owner',
+      'Assignee',
+      'Repo',
+      'Branch',
+      'Updated',
+      'Size',
+    ];
+    assert.isFalse(element.isColumnHidden(columnToCheck, columnsToDisplay));
+
+    columnsToDisplay = [
+      'Subject',
+      'Status',
+      'Owner',
+      'Assignee',
+      'Branch',
+      'Updated',
+      'Size',
+    ];
+    assert.isTrue(element.isColumnHidden(columnToCheck, columnsToDisplay));
+  });
+
+  test('getVisibleColumns maps Project to Repo', () => {
+    const columns = [
+      'Subject',
+      'Status',
+      'Owner',
+    ];
+    assert.deepEqual(element.getVisibleColumns(columns), columns.slice(0));
+    assert.deepEqual(
+        element.getVisibleColumns(columns.concat(['Project'])),
+        columns.slice(0).concat(['Repo']));
+  });
+});
 </script>

@@ -18,15 +18,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-storage</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-tooltip.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-tooltip.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-tooltip.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,31 +40,33 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-tooltip tests', async () => {
-    await readyToTest();
-    let element;
-    setup(() => {
-      element = fixture('basic');
-    });
-
-    test('max-width is respected if set', () => {
-      element.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
-          ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
-      element.maxWidth = '50px';
-      assert.equal(getComputedStyle(element).width, '50px');
-    });
-
-    test('the correct arrow is displayed', () => {
-      assert.equal(getComputedStyle(element.$$('.arrowPositionBelow')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('.arrowPositionAbove'))
-          .display, 'none');
-      element.positionBelow = true;
-      assert.notEqual(getComputedStyle(element.$$('.arrowPositionBelow'))
-          .display, 'none');
-      assert.equal(getComputedStyle(element.$$('.arrowPositionAbove'))
-          .display, 'none');
-    });
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-tooltip.js';
+suite('gr-tooltip tests', () => {
+  let element;
+  setup(() => {
+    element = fixture('basic');
   });
+
+  test('max-width is respected if set', () => {
+    element.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
+        ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
+    element.maxWidth = '50px';
+    assert.equal(getComputedStyle(element).width, '50px');
+  });
+
+  test('the correct arrow is displayed', () => {
+    assert.equal(getComputedStyle(element.$$('.arrowPositionBelow')).display,
+        'none');
+    assert.notEqual(getComputedStyle(element.$$('.arrowPositionAbove'))
+        .display, 'none');
+    element.positionBelow = true;
+    assert.notEqual(getComputedStyle(element.$$('.arrowPositionBelow'))
+        .display, 'none');
+    assert.equal(getComputedStyle(element.$$('.arrowPositionAbove'))
+        .display, 'none');
+  });
+});
 </script>

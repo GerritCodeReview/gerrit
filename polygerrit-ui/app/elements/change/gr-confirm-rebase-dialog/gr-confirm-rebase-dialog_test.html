@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-confirm-rebase-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-confirm-rebase-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-confirm-rebase-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-confirm-rebase-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,167 +40,169 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-confirm-rebase-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-confirm-rebase-dialog.js';
+suite('gr-confirm-rebase-dialog tests', () => {
+  let element;
+  let sandbox;
 
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('controls with parent and rebase on current available', () => {
+    element.rebaseOnCurrent = true;
+    element.hasParent = true;
+    flushAsynchronousOperations();
+    assert.isTrue(element.$.rebaseOnParentInput.checked);
+    assert.isFalse(element.$.rebaseOnParent.hasAttribute('hidden'));
+    assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
+    assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
+    assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
+  });
+
+  test('controls with parent rebase on current not available', () => {
+    element.rebaseOnCurrent = false;
+    element.hasParent = true;
+    flushAsynchronousOperations();
+    assert.isTrue(element.$.rebaseOnTipInput.checked);
+    assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
+    assert.isFalse(element.$.parentUpToDateMsg.hasAttribute('hidden'));
+    assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
+    assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
+  });
+
+  test('controls without parent and rebase on current available', () => {
+    element.rebaseOnCurrent = true;
+    element.hasParent = false;
+    flushAsynchronousOperations();
+    assert.isTrue(element.$.rebaseOnTipInput.checked);
+    assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
+    assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
+    assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
+    assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
+  });
+
+  test('controls without parent rebase on current not available', () => {
+    element.rebaseOnCurrent = false;
+    element.hasParent = false;
+    flushAsynchronousOperations();
+    assert.isTrue(element.$.rebaseOnOtherInput.checked);
+    assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
+    assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
+    assert.isTrue(element.$.rebaseOnTip.hasAttribute('hidden'));
+    assert.isFalse(element.$.tipUpToDateMsg.hasAttribute('hidden'));
+  });
+
+  test('input cleared on cancel or submit', () => {
+    element._text = '123';
+    element.$.confirmDialog.fire('confirm');
+    assert.equal(element._text, '');
+
+    element._text = '123';
+    element.$.confirmDialog.fire('cancel');
+    assert.equal(element._text, '');
+  });
+
+  test('_getSelectedBase', () => {
+    element._text = '5fab321c';
+    element.$.rebaseOnParentInput.checked = true;
+    assert.equal(element._getSelectedBase(), null);
+    element.$.rebaseOnParentInput.checked = false;
+    element.$.rebaseOnTipInput.checked = true;
+    assert.equal(element._getSelectedBase(), '');
+    element.$.rebaseOnTipInput.checked = false;
+    assert.equal(element._getSelectedBase(), element._text);
+    element._text = '101: Test';
+    assert.equal(element._getSelectedBase(), '101');
+  });
+
+  suite('parent suggestions', () => {
+    let recentChanges;
     setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
+      recentChanges = [
+        {
+          name: '123: my first awesome change',
+          value: 123,
+        },
+        {
+          name: '124: my second awesome change',
+          value: 124,
+        },
+        {
+          name: '245: my third awesome change',
+          value: 245,
+        },
+      ];
+
+      sandbox.stub(element.$.restAPI, 'getChanges').returns(Promise.resolve(
+          [
+            {
+              _number: 123,
+              subject: 'my first awesome change',
+            },
+            {
+              _number: 124,
+              subject: 'my second awesome change',
+            },
+            {
+              _number: 245,
+              subject: 'my third awesome change',
+            },
+          ]
+      ));
     });
 
-    teardown(() => {
-      sandbox.restore();
+    test('_getRecentChanges', () => {
+      sandbox.spy(element, '_getRecentChanges');
+      return element._getRecentChanges()
+          .then(() => {
+            assert.deepEqual(element._recentChanges, recentChanges);
+            assert.equal(element.$.restAPI.getChanges.callCount, 1);
+            // When called a second time, should not re-request recent changes.
+            element._getRecentChanges();
+          })
+          .then(() => {
+            assert.equal(element._getRecentChanges.callCount, 2);
+            assert.equal(element.$.restAPI.getChanges.callCount, 1);
+          });
     });
 
-    test('controls with parent and rebase on current available', () => {
-      element.rebaseOnCurrent = true;
-      element.hasParent = true;
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.rebaseOnParentInput.checked);
-      assert.isFalse(element.$.rebaseOnParent.hasAttribute('hidden'));
-      assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
-      assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
-      assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
+    test('_filterChanges', () => {
+      assert.equal(element._filterChanges('123', recentChanges).length, 1);
+      assert.equal(element._filterChanges('12', recentChanges).length, 2);
+      assert.equal(element._filterChanges('awesome', recentChanges).length,
+          3);
+      assert.equal(element._filterChanges('third', recentChanges).length,
+          1);
+
+      element.changeNumber = 123;
+      assert.equal(element._filterChanges('123', recentChanges).length, 0);
+      assert.equal(element._filterChanges('124', recentChanges).length, 1);
+      assert.equal(element._filterChanges('awesome', recentChanges).length,
+          2);
     });
 
-    test('controls with parent rebase on current not available', () => {
-      element.rebaseOnCurrent = false;
-      element.hasParent = true;
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.rebaseOnTipInput.checked);
-      assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
-      assert.isFalse(element.$.parentUpToDateMsg.hasAttribute('hidden'));
-      assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
-      assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
-    });
-
-    test('controls without parent and rebase on current available', () => {
-      element.rebaseOnCurrent = true;
-      element.hasParent = false;
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.rebaseOnTipInput.checked);
-      assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
-      assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
-      assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
-      assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
-    });
-
-    test('controls without parent rebase on current not available', () => {
-      element.rebaseOnCurrent = false;
-      element.hasParent = false;
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.rebaseOnOtherInput.checked);
-      assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
-      assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
-      assert.isTrue(element.$.rebaseOnTip.hasAttribute('hidden'));
-      assert.isFalse(element.$.tipUpToDateMsg.hasAttribute('hidden'));
-    });
-
-    test('input cleared on cancel or submit', () => {
-      element._text = '123';
-      element.$.confirmDialog.fire('confirm');
-      assert.equal(element._text, '');
-
-      element._text = '123';
-      element.$.confirmDialog.fire('cancel');
-      assert.equal(element._text, '');
-    });
-
-    test('_getSelectedBase', () => {
-      element._text = '5fab321c';
-      element.$.rebaseOnParentInput.checked = true;
-      assert.equal(element._getSelectedBase(), null);
-      element.$.rebaseOnParentInput.checked = false;
-      element.$.rebaseOnTipInput.checked = true;
-      assert.equal(element._getSelectedBase(), '');
-      element.$.rebaseOnTipInput.checked = false;
-      assert.equal(element._getSelectedBase(), element._text);
-      element._text = '101: Test';
-      assert.equal(element._getSelectedBase(), '101');
-    });
-
-    suite('parent suggestions', () => {
-      let recentChanges;
-      setup(() => {
-        recentChanges = [
-          {
-            name: '123: my first awesome change',
-            value: 123,
-          },
-          {
-            name: '124: my second awesome change',
-            value: 124,
-          },
-          {
-            name: '245: my third awesome change',
-            value: 245,
-          },
-        ];
-
-        sandbox.stub(element.$.restAPI, 'getChanges').returns(Promise.resolve(
-            [
-              {
-                _number: 123,
-                subject: 'my first awesome change',
-              },
-              {
-                _number: 124,
-                subject: 'my second awesome change',
-              },
-              {
-                _number: 245,
-                subject: 'my third awesome change',
-              },
-            ]
-        ));
-      });
-
-      test('_getRecentChanges', () => {
-        sandbox.spy(element, '_getRecentChanges');
-        return element._getRecentChanges()
-            .then(() => {
-              assert.deepEqual(element._recentChanges, recentChanges);
-              assert.equal(element.$.restAPI.getChanges.callCount, 1);
-              // When called a second time, should not re-request recent changes.
-              element._getRecentChanges();
-            })
-            .then(() => {
-              assert.equal(element._getRecentChanges.callCount, 2);
-              assert.equal(element.$.restAPI.getChanges.callCount, 1);
-            });
-      });
-
-      test('_filterChanges', () => {
-        assert.equal(element._filterChanges('123', recentChanges).length, 1);
-        assert.equal(element._filterChanges('12', recentChanges).length, 2);
-        assert.equal(element._filterChanges('awesome', recentChanges).length,
-            3);
-        assert.equal(element._filterChanges('third', recentChanges).length,
-            1);
-
-        element.changeNumber = 123;
-        assert.equal(element._filterChanges('123', recentChanges).length, 0);
-        assert.equal(element._filterChanges('124', recentChanges).length, 1);
-        assert.equal(element._filterChanges('awesome', recentChanges).length,
-            2);
-      });
-
-      test('input text change triggers function', () => {
-        sandbox.spy(element, '_getRecentChanges');
-        element.$.parentInput.noDebounce = true;
-        MockInteractions.pressAndReleaseKeyOn(
-            element.$.parentInput.$.input,
-            13,
-            null,
-            'enter');
-        element._text = '1';
-        assert.isTrue(element._getRecentChanges.calledOnce);
-        element._text = '12';
-        assert.isTrue(element._getRecentChanges.calledTwice);
-      });
+    test('input text change triggers function', () => {
+      sandbox.spy(element, '_getRecentChanges');
+      element.$.parentInput.noDebounce = true;
+      MockInteractions.pressAndReleaseKeyOn(
+          element.$.parentInput.$.input,
+          13,
+          null,
+          'enter');
+      element._text = '1';
+      assert.isTrue(element._getRecentChanges.calledOnce);
+      element._text = '12';
+      assert.isTrue(element._getRecentChanges.calledTwice);
     });
   });
+});
 </script>

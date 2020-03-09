@@ -14,476 +14,494 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  const Defs = {};
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
+import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import '../../../styles/gr-menu-page-styles.js';
+import '../../../styles/gr-subpage-styles.js';
+import '../../../styles/shared-styles.js';
+import '../../core/gr-navigation/gr-navigation.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-access-section/gr-access-section.js';
+import '../../../scripts/util.js';
+import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-repo-access_html.js';
 
-  const NOTHING_TO_SAVE = 'No changes to save.';
+const Defs = {};
 
-  const MAX_AUTOCOMPLETE_RESULTS = 50;
+const NOTHING_TO_SAVE = 'No changes to save.';
 
-  /**
-   * Fired when save is a no-op
-   *
-   * @event show-alert
-   */
+const MAX_AUTOCOMPLETE_RESULTS = 50;
 
-  /**
-   * @typedef {{
-   *    value: !Object,
-   * }}
-   */
-  Defs.rule;
+/**
+ * Fired when save is a no-op
+ *
+ * @event show-alert
+ */
 
-  /**
-   * @typedef {{
-   *    rules: !Object<string, Defs.rule>
-   * }}
-   */
-  Defs.permission;
+/**
+ * @typedef {{
+ *    value: !Object,
+ * }}
+ */
+Defs.rule;
 
-  /**
-   * Can be an empty object or consist of permissions.
-   *
-   * @typedef {{
-   *    permissions: !Object<string, Defs.permission>
-   * }}
-   */
-  Defs.permissions;
+/**
+ * @typedef {{
+ *    rules: !Object<string, Defs.rule>
+ * }}
+ */
+Defs.permission;
 
-  /**
-   * Can be an empty object or consist of permissions.
-   *
-   * @typedef {!Object<string, Defs.permissions>}
-   */
-  Defs.sections;
+/**
+ * Can be an empty object or consist of permissions.
+ *
+ * @typedef {{
+ *    permissions: !Object<string, Defs.permission>
+ * }}
+ */
+Defs.permissions;
 
-  /**
-   * @typedef {{
-   *    remove: !Defs.sections,
-   *    add: !Defs.sections,
-   * }}
-   */
-  Defs.projectAccessInput;
+/**
+ * Can be an empty object or consist of permissions.
+ *
+ * @typedef {!Object<string, Defs.permissions>}
+ */
+Defs.sections;
 
-  /**
-   * @appliesMixin Gerrit.AccessMixin
-   * @appliesMixin Gerrit.BaseUrlMixin
-   * @appliesMixin Gerrit.FireMixin
-   * @appliesMixin Gerrit.URLEncodingMixin
-   * @extends Polymer.Element
-   */
-  class GrRepoAccess extends Polymer.mixinBehaviors( [
-    Gerrit.AccessBehavior,
-    Gerrit.BaseUrlBehavior,
-    Gerrit.FireBehavior,
-    Gerrit.URLEncodingBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-repo-access'; }
+/**
+ * @typedef {{
+ *    remove: !Defs.sections,
+ *    add: !Defs.sections,
+ * }}
+ */
+Defs.projectAccessInput;
 
-    static get properties() {
-      return {
-        repo: {
-          type: String,
-          observer: '_repoChanged',
+/**
+ * @appliesMixin Gerrit.AccessMixin
+ * @appliesMixin Gerrit.BaseUrlMixin
+ * @appliesMixin Gerrit.FireMixin
+ * @appliesMixin Gerrit.URLEncodingMixin
+ * @extends Polymer.Element
+ */
+class GrRepoAccess extends mixinBehaviors( [
+  Gerrit.AccessBehavior,
+  Gerrit.BaseUrlBehavior,
+  Gerrit.FireBehavior,
+  Gerrit.URLEncodingBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-repo-access'; }
+
+  static get properties() {
+    return {
+      repo: {
+        type: String,
+        observer: '_repoChanged',
+      },
+      // The current path
+      path: String,
+
+      _canUpload: {
+        type: Boolean,
+        value: false,
+      },
+      _inheritFromFilter: String,
+      _query: {
+        type: Function,
+        value() {
+          return this._getInheritFromSuggestions.bind(this);
         },
-        // The current path
-        path: String,
+      },
+      _ownerOf: Array,
+      _capabilities: Object,
+      _groups: Object,
+      /** @type {?} */
+      _inheritsFrom: Object,
+      _labels: Object,
+      _local: Object,
+      _editing: {
+        type: Boolean,
+        value: false,
+        observer: '_handleEditingChanged',
+      },
+      _modified: {
+        type: Boolean,
+        value: false,
+      },
+      _sections: Array,
+      _weblinks: Array,
+      _loading: {
+        type: Boolean,
+        value: true,
+      },
+    };
+  }
 
-        _canUpload: {
-          type: Boolean,
-          value: false,
-        },
-        _inheritFromFilter: String,
-        _query: {
-          type: Function,
-          value() {
-            return this._getInheritFromSuggestions.bind(this);
-          },
-        },
-        _ownerOf: Array,
-        _capabilities: Object,
-        _groups: Object,
-        /** @type {?} */
-        _inheritsFrom: Object,
-        _labels: Object,
-        _local: Object,
-        _editing: {
-          type: Boolean,
-          value: false,
-          observer: '_handleEditingChanged',
-        },
-        _modified: {
-          type: Boolean,
-          value: false,
-        },
-        _sections: Array,
-        _weblinks: Array,
-        _loading: {
-          type: Boolean,
-          value: true,
-        },
-      };
-    }
+  /** @override */
+  created() {
+    super.created();
+    this.addEventListener('access-modified',
+        () =>
+          this._handleAccessModified());
+  }
 
-    /** @override */
-    created() {
-      super.created();
-      this.addEventListener('access-modified',
-          () =>
-            this._handleAccessModified());
-    }
+  _handleAccessModified() {
+    this._modified = true;
+  }
 
-    _handleAccessModified() {
-      this._modified = true;
-    }
+  /**
+   * @param {string} repo
+   * @return {!Promise}
+   */
+  _repoChanged(repo) {
+    this._loading = true;
 
-    /**
-     * @param {string} repo
-     * @return {!Promise}
-     */
-    _repoChanged(repo) {
-      this._loading = true;
+    if (!repo) { return Promise.resolve(); }
 
-      if (!repo) { return Promise.resolve(); }
+    return this._reload(repo);
+  }
 
-      return this._reload(repo);
-    }
+  _reload(repo) {
+    const promises = [];
 
-    _reload(repo) {
-      const promises = [];
+    const errFn = response => {
+      this.fire('page-error', {response});
+    };
 
-      const errFn = response => {
-        this.fire('page-error', {response});
-      };
+    this._editing = false;
 
-      this._editing = false;
+    // Always reset sections when a project changes.
+    this._sections = [];
+    promises.push(this.$.restAPI.getRepoAccessRights(repo, errFn)
+        .then(res => {
+          if (!res) { return Promise.resolve(); }
 
-      // Always reset sections when a project changes.
-      this._sections = [];
-      promises.push(this.$.restAPI.getRepoAccessRights(repo, errFn)
-          .then(res => {
-            if (!res) { return Promise.resolve(); }
-
-            // Keep a copy of the original inherit from values separate from
-            // the ones data bound to gr-autocomplete, so the original value
-            // can be restored if the user cancels.
-            this._inheritsFrom = res.inherits_from ? Object.assign({},
-                res.inherits_from) : null;
-            this._originalInheritsFrom = res.inherits_from ? Object.assign({},
-                res.inherits_from) : null;
-            // Initialize the filter value so when the user clicks edit, the
-            // current value appears. If there is no parent repo, it is
-            // initialized as an empty string.
-            this._inheritFromFilter = res.inherits_from ?
-              this._inheritsFrom.name : '';
-            this._local = res.local;
-            this._groups = res.groups;
-            this._weblinks = res.config_web_links || [];
-            this._canUpload = res.can_upload;
-            this._ownerOf = res.owner_of || [];
-            return this.toSortedArray(this._local);
-          }));
-
-      promises.push(this.$.restAPI.getCapabilities(errFn)
-          .then(res => {
-            if (!res) { return Promise.resolve(); }
-
-            return res;
-          }));
-
-      promises.push(this.$.restAPI.getRepo(repo, errFn)
-          .then(res => {
-            if (!res) { return Promise.resolve(); }
-
-            return res.labels;
-          }));
-
-      return Promise.all(promises).then(([sections, capabilities, labels]) => {
-        this._capabilities = capabilities;
-        this._labels = labels;
-        this._sections = sections;
-        this._loading = false;
-      });
-    }
-
-    _handleUpdateInheritFrom(e) {
-      if (!this._inheritsFrom) {
-        this._inheritsFrom = {};
-      }
-      this._inheritsFrom.id = e.detail.value;
-      this._inheritsFrom.name = this._inheritFromFilter;
-      this._handleAccessModified();
-    }
-
-    _getInheritFromSuggestions() {
-      return this.$.restAPI.getRepos(
-          this._inheritFromFilter,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(response => {
-            const projects = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              projects.push({
-                name: response[key].name,
-                value: response[key].id,
-              });
-            }
-            return projects;
-          });
-    }
-
-    _computeLoadingClass(loading) {
-      return loading ? 'loading' : '';
-    }
-
-    _handleEdit() {
-      this._editing = !this._editing;
-    }
-
-    _editOrCancel(editing) {
-      return editing ? 'Cancel' : 'Edit';
-    }
-
-    _computeWebLinkClass(weblinks) {
-      return weblinks && weblinks.length ? 'show' : '';
-    }
-
-    _computeShowInherit(inheritsFrom) {
-      return inheritsFrom ? 'show' : '';
-    }
-
-    _handleAddedSectionRemoved(e) {
-      const index = e.model.index;
-      this._sections = this._sections.slice(0, index)
-          .concat(this._sections.slice(index + 1, this._sections.length));
-    }
-
-    _handleEditingChanged(editing, editingOld) {
-      // Ignore when editing gets set initially.
-      if (!editingOld || editing) { return; }
-      // Remove any unsaved but added refs.
-      if (this._sections) {
-        this._sections = this._sections.filter(p => !p.value.added);
-      }
-      // Restore inheritFrom.
-      if (this._inheritsFrom) {
-        this._inheritsFrom = Object.assign({}, this._originalInheritsFrom);
-        this._inheritFromFilter = this._inheritsFrom.name;
-      }
-      for (const key of Object.keys(this._local)) {
-        if (this._local[key].added) {
-          delete this._local[key];
-        }
-      }
-    }
-
-    /**
-     * @param {!Defs.projectAccessInput} addRemoveObj
-     * @param {!Array} path
-     * @param {string} type add or remove
-     * @param {!Object=} opt_value value to add if the type is 'add'
-     * @return {!Defs.projectAccessInput}
-     */
-    _updateAddRemoveObj(addRemoveObj, path, type, opt_value) {
-      let curPos = addRemoveObj[type];
-      for (const item of path) {
-        if (!curPos[item]) {
-          if (item === path[path.length - 1] && type === 'remove') {
-            if (path[path.length - 2] === 'permissions') {
-              curPos[item] = {rules: {}};
-            } else if (path.length === 1) {
-              curPos[item] = {permissions: {}};
-            } else {
-              curPos[item] = {};
-            }
-          } else if (item === path[path.length - 1] && type === 'add') {
-            curPos[item] = opt_value;
-          } else {
-            curPos[item] = {};
-          }
-        }
-        curPos = curPos[item];
-      }
-      return addRemoveObj;
-    }
-
-    /**
-     * Used to recursively remove any objects with a 'deleted' bit.
-     */
-    _recursivelyRemoveDeleted(obj) {
-      for (const k in obj) {
-        if (!obj.hasOwnProperty(k)) { continue; }
-
-        if (typeof obj[k] == 'object') {
-          if (obj[k].deleted) {
-            delete obj[k];
-            return;
-          }
-          this._recursivelyRemoveDeleted(obj[k]);
-        }
-      }
-    }
-
-    _recursivelyUpdateAddRemoveObj(obj, addRemoveObj, path = []) {
-      for (const k in obj) {
-        if (!obj.hasOwnProperty(k)) { continue; }
-        if (typeof obj[k] == 'object') {
-          const updatedId = obj[k].updatedId;
-          const ref = updatedId ? updatedId : k;
-          if (obj[k].deleted) {
-            this._updateAddRemoveObj(addRemoveObj,
-                path.concat(k), 'remove');
-            continue;
-          } else if (obj[k].modified) {
-            this._updateAddRemoveObj(addRemoveObj,
-                path.concat(k), 'remove');
-            this._updateAddRemoveObj(addRemoveObj, path.concat(ref), 'add',
-                obj[k]);
-            /* Special case for ref changes because they need to be added and
-             removed in a different way. The new ref needs to include all
-             changes but also the initial state. To do this, instead of
-             continuing with the same recursion, just remove anything that is
-             deleted in the current state. */
-            if (updatedId && updatedId !== k) {
-              this._recursivelyRemoveDeleted(addRemoveObj.add[updatedId]);
-            }
-            continue;
-          } else if (obj[k].added) {
-            this._updateAddRemoveObj(addRemoveObj,
-                path.concat(ref), 'add', obj[k]);
-            /**
-             * As add / delete both can happen in the new section,
-             * so here to make sure it will remove the deleted ones.
-             *
-             * @see Issue 11339
-             */
-            this._recursivelyRemoveDeleted(addRemoveObj.add[k]);
-            continue;
-          }
-          this._recursivelyUpdateAddRemoveObj(obj[k], addRemoveObj,
-              path.concat(k));
-        }
-      }
-    }
-
-    /**
-     * Returns an object formatted for saving or submitting access changes for
-     * review
-     *
-     * @return {!Defs.projectAccessInput}
-     */
-    _computeAddAndRemove() {
-      const addRemoveObj = {
-        add: {},
-        remove: {},
-      };
-
-      const originalInheritsFromId = this._originalInheritsFrom ?
-        this.singleDecodeURL(this._originalInheritsFrom.id) :
-        null;
-      const inheritsFromId = this._inheritsFrom ?
-        this.singleDecodeURL(this._inheritsFrom.id) :
-        null;
-
-      const inheritFromChanged =
-          // Inherit from changed
-          (originalInheritsFromId &&
-              originalInheritsFromId !== inheritsFromId) ||
-          // Inherit from added (did not have one initially);
-          (!originalInheritsFromId && inheritsFromId);
-
-      this._recursivelyUpdateAddRemoveObj(this._local, addRemoveObj);
-
-      if (inheritFromChanged) {
-        addRemoveObj.parent = inheritsFromId;
-      }
-      return addRemoveObj;
-    }
-
-    _handleCreateSection() {
-      let newRef = 'refs/for/*';
-      // Avoid using an already used key for the placeholder, since it
-      // immediately gets added to an object.
-      while (this._local[newRef]) {
-        newRef = `${newRef}*`;
-      }
-      const section = {permissions: {}, added: true};
-      this.push('_sections', {id: newRef, value: section});
-      this.set(['_local', newRef], section);
-      Polymer.dom.flush();
-      Polymer.dom(this.root).querySelector('gr-access-section:last-of-type')
-          .editReference();
-    }
-
-    _getObjforSave() {
-      const addRemoveObj = this._computeAddAndRemove();
-      // If there are no changes, don't actually save.
-      if (!Object.keys(addRemoveObj.add).length &&
-          !Object.keys(addRemoveObj.remove).length &&
-          !addRemoveObj.parent) {
-        this.dispatchEvent(new CustomEvent('show-alert', {
-          detail: {message: NOTHING_TO_SAVE},
-          bubbles: true,
-          composed: true,
+          // Keep a copy of the original inherit from values separate from
+          // the ones data bound to gr-autocomplete, so the original value
+          // can be restored if the user cancels.
+          this._inheritsFrom = res.inherits_from ? Object.assign({},
+              res.inherits_from) : null;
+          this._originalInheritsFrom = res.inherits_from ? Object.assign({},
+              res.inherits_from) : null;
+          // Initialize the filter value so when the user clicks edit, the
+          // current value appears. If there is no parent repo, it is
+          // initialized as an empty string.
+          this._inheritFromFilter = res.inherits_from ?
+            this._inheritsFrom.name : '';
+          this._local = res.local;
+          this._groups = res.groups;
+          this._weblinks = res.config_web_links || [];
+          this._canUpload = res.can_upload;
+          this._ownerOf = res.owner_of || [];
+          return this.toSortedArray(this._local);
         }));
-        return;
+
+    promises.push(this.$.restAPI.getCapabilities(errFn)
+        .then(res => {
+          if (!res) { return Promise.resolve(); }
+
+          return res;
+        }));
+
+    promises.push(this.$.restAPI.getRepo(repo, errFn)
+        .then(res => {
+          if (!res) { return Promise.resolve(); }
+
+          return res.labels;
+        }));
+
+    return Promise.all(promises).then(([sections, capabilities, labels]) => {
+      this._capabilities = capabilities;
+      this._labels = labels;
+      this._sections = sections;
+      this._loading = false;
+    });
+  }
+
+  _handleUpdateInheritFrom(e) {
+    if (!this._inheritsFrom) {
+      this._inheritsFrom = {};
+    }
+    this._inheritsFrom.id = e.detail.value;
+    this._inheritsFrom.name = this._inheritFromFilter;
+    this._handleAccessModified();
+  }
+
+  _getInheritFromSuggestions() {
+    return this.$.restAPI.getRepos(
+        this._inheritFromFilter,
+        MAX_AUTOCOMPLETE_RESULTS)
+        .then(response => {
+          const projects = [];
+          for (const key in response) {
+            if (!response.hasOwnProperty(key)) { continue; }
+            projects.push({
+              name: response[key].name,
+              value: response[key].id,
+            });
+          }
+          return projects;
+        });
+  }
+
+  _computeLoadingClass(loading) {
+    return loading ? 'loading' : '';
+  }
+
+  _handleEdit() {
+    this._editing = !this._editing;
+  }
+
+  _editOrCancel(editing) {
+    return editing ? 'Cancel' : 'Edit';
+  }
+
+  _computeWebLinkClass(weblinks) {
+    return weblinks && weblinks.length ? 'show' : '';
+  }
+
+  _computeShowInherit(inheritsFrom) {
+    return inheritsFrom ? 'show' : '';
+  }
+
+  _handleAddedSectionRemoved(e) {
+    const index = e.model.index;
+    this._sections = this._sections.slice(0, index)
+        .concat(this._sections.slice(index + 1, this._sections.length));
+  }
+
+  _handleEditingChanged(editing, editingOld) {
+    // Ignore when editing gets set initially.
+    if (!editingOld || editing) { return; }
+    // Remove any unsaved but added refs.
+    if (this._sections) {
+      this._sections = this._sections.filter(p => !p.value.added);
+    }
+    // Restore inheritFrom.
+    if (this._inheritsFrom) {
+      this._inheritsFrom = Object.assign({}, this._originalInheritsFrom);
+      this._inheritFromFilter = this._inheritsFrom.name;
+    }
+    for (const key of Object.keys(this._local)) {
+      if (this._local[key].added) {
+        delete this._local[key];
       }
-      const obj = {
-        add: addRemoveObj.add,
-        remove: addRemoveObj.remove,
-      };
-      if (addRemoveObj.parent) {
-        obj.parent = addRemoveObj.parent;
-      }
-      return obj;
-    }
-
-    _handleSave() {
-      const obj = this._getObjforSave();
-      if (!obj) { return; }
-      return this.$.restAPI.setRepoAccessRights(this.repo, obj)
-          .then(() => {
-            this._reload(this.repo);
-          });
-    }
-
-    _handleSaveForReview() {
-      const obj = this._getObjforSave();
-      if (!obj) { return; }
-      return this.$.restAPI.setRepoAccessRightsForReview(this.repo, obj)
-          .then(change => {
-            Gerrit.Nav.navigateToChange(change);
-          });
-    }
-
-    _computeSaveReviewBtnClass(canUpload) {
-      return !canUpload ? 'invisible' : '';
-    }
-
-    _computeSaveBtnClass(ownerOf) {
-      return ownerOf && ownerOf.length === 0 ? 'invisible' : '';
-    }
-
-    _computeMainClass(ownerOf, canUpload, editing) {
-      const classList = [];
-      if (ownerOf && ownerOf.length > 0 || canUpload) {
-        classList.push('admin');
-      }
-      if (editing) {
-        classList.push('editing');
-      }
-      return classList.join(' ');
-    }
-
-    _computeParentHref(repoName) {
-      return this.getBaseUrl() +
-          `/admin/repos/${this.encodeURL(repoName, true)},access`;
     }
   }
 
-  customElements.define(GrRepoAccess.is, GrRepoAccess);
-})();
+  /**
+   * @param {!Defs.projectAccessInput} addRemoveObj
+   * @param {!Array} path
+   * @param {string} type add or remove
+   * @param {!Object=} opt_value value to add if the type is 'add'
+   * @return {!Defs.projectAccessInput}
+   */
+  _updateAddRemoveObj(addRemoveObj, path, type, opt_value) {
+    let curPos = addRemoveObj[type];
+    for (const item of path) {
+      if (!curPos[item]) {
+        if (item === path[path.length - 1] && type === 'remove') {
+          if (path[path.length - 2] === 'permissions') {
+            curPos[item] = {rules: {}};
+          } else if (path.length === 1) {
+            curPos[item] = {permissions: {}};
+          } else {
+            curPos[item] = {};
+          }
+        } else if (item === path[path.length - 1] && type === 'add') {
+          curPos[item] = opt_value;
+        } else {
+          curPos[item] = {};
+        }
+      }
+      curPos = curPos[item];
+    }
+    return addRemoveObj;
+  }
+
+  /**
+   * Used to recursively remove any objects with a 'deleted' bit.
+   */
+  _recursivelyRemoveDeleted(obj) {
+    for (const k in obj) {
+      if (!obj.hasOwnProperty(k)) { continue; }
+
+      if (typeof obj[k] == 'object') {
+        if (obj[k].deleted) {
+          delete obj[k];
+          return;
+        }
+        this._recursivelyRemoveDeleted(obj[k]);
+      }
+    }
+  }
+
+  _recursivelyUpdateAddRemoveObj(obj, addRemoveObj, path = []) {
+    for (const k in obj) {
+      if (!obj.hasOwnProperty(k)) { continue; }
+      if (typeof obj[k] == 'object') {
+        const updatedId = obj[k].updatedId;
+        const ref = updatedId ? updatedId : k;
+        if (obj[k].deleted) {
+          this._updateAddRemoveObj(addRemoveObj,
+              path.concat(k), 'remove');
+          continue;
+        } else if (obj[k].modified) {
+          this._updateAddRemoveObj(addRemoveObj,
+              path.concat(k), 'remove');
+          this._updateAddRemoveObj(addRemoveObj, path.concat(ref), 'add',
+              obj[k]);
+          /* Special case for ref changes because they need to be added and
+           removed in a different way. The new ref needs to include all
+           changes but also the initial state. To do this, instead of
+           continuing with the same recursion, just remove anything that is
+           deleted in the current state. */
+          if (updatedId && updatedId !== k) {
+            this._recursivelyRemoveDeleted(addRemoveObj.add[updatedId]);
+          }
+          continue;
+        } else if (obj[k].added) {
+          this._updateAddRemoveObj(addRemoveObj,
+              path.concat(ref), 'add', obj[k]);
+          /**
+           * As add / delete both can happen in the new section,
+           * so here to make sure it will remove the deleted ones.
+           *
+           * @see Issue 11339
+           */
+          this._recursivelyRemoveDeleted(addRemoveObj.add[k]);
+          continue;
+        }
+        this._recursivelyUpdateAddRemoveObj(obj[k], addRemoveObj,
+            path.concat(k));
+      }
+    }
+  }
+
+  /**
+   * Returns an object formatted for saving or submitting access changes for
+   * review
+   *
+   * @return {!Defs.projectAccessInput}
+   */
+  _computeAddAndRemove() {
+    const addRemoveObj = {
+      add: {},
+      remove: {},
+    };
+
+    const originalInheritsFromId = this._originalInheritsFrom ?
+      this.singleDecodeURL(this._originalInheritsFrom.id) :
+      null;
+    const inheritsFromId = this._inheritsFrom ?
+      this.singleDecodeURL(this._inheritsFrom.id) :
+      null;
+
+    const inheritFromChanged =
+        // Inherit from changed
+        (originalInheritsFromId &&
+            originalInheritsFromId !== inheritsFromId) ||
+        // Inherit from added (did not have one initially);
+        (!originalInheritsFromId && inheritsFromId);
+
+    this._recursivelyUpdateAddRemoveObj(this._local, addRemoveObj);
+
+    if (inheritFromChanged) {
+      addRemoveObj.parent = inheritsFromId;
+    }
+    return addRemoveObj;
+  }
+
+  _handleCreateSection() {
+    let newRef = 'refs/for/*';
+    // Avoid using an already used key for the placeholder, since it
+    // immediately gets added to an object.
+    while (this._local[newRef]) {
+      newRef = `${newRef}*`;
+    }
+    const section = {permissions: {}, added: true};
+    this.push('_sections', {id: newRef, value: section});
+    this.set(['_local', newRef], section);
+    flush();
+    dom(this.root).querySelector('gr-access-section:last-of-type')
+        .editReference();
+  }
+
+  _getObjforSave() {
+    const addRemoveObj = this._computeAddAndRemove();
+    // If there are no changes, don't actually save.
+    if (!Object.keys(addRemoveObj.add).length &&
+        !Object.keys(addRemoveObj.remove).length &&
+        !addRemoveObj.parent) {
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: NOTHING_TO_SAVE},
+        bubbles: true,
+        composed: true,
+      }));
+      return;
+    }
+    const obj = {
+      add: addRemoveObj.add,
+      remove: addRemoveObj.remove,
+    };
+    if (addRemoveObj.parent) {
+      obj.parent = addRemoveObj.parent;
+    }
+    return obj;
+  }
+
+  _handleSave() {
+    const obj = this._getObjforSave();
+    if (!obj) { return; }
+    return this.$.restAPI.setRepoAccessRights(this.repo, obj)
+        .then(() => {
+          this._reload(this.repo);
+        });
+  }
+
+  _handleSaveForReview() {
+    const obj = this._getObjforSave();
+    if (!obj) { return; }
+    return this.$.restAPI.setRepoAccessRightsForReview(this.repo, obj)
+        .then(change => {
+          Gerrit.Nav.navigateToChange(change);
+        });
+  }
+
+  _computeSaveReviewBtnClass(canUpload) {
+    return !canUpload ? 'invisible' : '';
+  }
+
+  _computeSaveBtnClass(ownerOf) {
+    return ownerOf && ownerOf.length === 0 ? 'invisible' : '';
+  }
+
+  _computeMainClass(ownerOf, canUpload, editing) {
+    const classList = [];
+    if (ownerOf && ownerOf.length > 0 || canUpload) {
+      classList.push('admin');
+    }
+    if (editing) {
+      classList.push('editing');
+    }
+    return classList.join(' ');
+  }
+
+  _computeParentHref(repoName) {
+    return this.getBaseUrl() +
+        `/admin/repos/${this.encodeURL(repoName, true)},access`;
+  }
+}
+
+customElements.define(GrRepoAccess.is, GrRepoAccess);

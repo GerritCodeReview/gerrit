@@ -34,6 +34,24 @@
       "revId": "2cf3dd9c750e14c69da26126d6e3dab5fd28bb01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ebd4867_0b148a38",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleConflictException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-09T11:54:58Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/258264",
+      "parentUuid": "d1ddff72_3514b198",
+      "revId": "2cf3dd9c750e14c69da26126d6e3dab5fd28bb01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

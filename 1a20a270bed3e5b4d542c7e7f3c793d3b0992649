@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a93376a_8ac8f8d4",
+        "filename": "java/com/google/gerrit/extensions/common/AttentionSetEntry.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-09T07:12:49Z",
+      "side": 1,
+      "message": "You are not including the operation here, so you only represent users currently *in* the attention set. Note that it could be potentially interesting to know why you are *not* in the attention set anymore and since when. I think we don\u0027t have to include this in the first iteration, but it would be good if including it would not cause major disruption in the data model or require to migrate callers to a new API. If we start with AttentionSetEntry are just users that are *in* the attention set, then we are probably stuck with this concept API wise.",
+      "revId": "1a20a270bed3e5b4d542c7e7f3c793d3b0992649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

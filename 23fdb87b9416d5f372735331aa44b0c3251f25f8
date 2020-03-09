@@ -63,6 +63,24 @@
       "revId": "23fdb87b9416d5f372735331aa44b0c3251f25f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd5262f6_1d132504",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-09T09:53:40Z",
+      "side": 1,
+      "message": "Done (in multiple follow ups).",
+      "parentUuid": "5eb06c97_ca022c4d",
+      "revId": "23fdb87b9416d5f372735331aa44b0c3251f25f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

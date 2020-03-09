@@ -293,22 +293,17 @@ public class Submit
   }
 
   @Override
-  public UiAction.Description getDescription(RevisionResource resource) {
+  public UiAction.Description getDescription(RevisionResource resource)
+      throws IOException, PermissionBackendException {
     Change change = resource.getChange();
     if (!change.isNew() || !resource.isCurrent()) {
       return null; // submit not visible
     }
-
-    try {
-      if (!projectCache
-          .get(resource.getProject())
-          .map(ProjectState::statePermitsWrite)
-          .orElse(false)) {
-        return null; // submit not visible
-      }
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new StorageException("Could not determine problems for the change", e);
+    if (!projectCache
+        .get(resource.getProject())
+        .map(ProjectState::statePermitsWrite)
+        .orElse(false)) {
+      return null; // submit not visible
     }
 
     ChangeData cd = resource.getChangeResource().getChangeData();
@@ -318,13 +313,7 @@ public class Submit
       return null; // submit not visible
     }
 
-    ChangeSet cs;
-    try {
-      cs = mergeSuperSet.get().completeChangeSet(cd.change(), resource.getUser());
-    } catch (IOException | PermissionBackendException e) {
-      throw new StorageException("Could not determine complete set of changes to be submitted", e);
-    }
-
+    ChangeSet cs = mergeSuperSet.get().completeChangeSet(cd.change(), resource.getUser());
     String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {

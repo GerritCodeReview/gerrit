@@ -22,7 +22,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -215,7 +214,7 @@ public class Rebase
   }
 
   @Override
-  public UiAction.Description getDescription(RevisionResource rsrc) {
+  public UiAction.Description getDescription(RevisionResource rsrc) throws IOException {
     UiAction.Description description =
         new UiAction.Description()
             .setLabel("Rebase")
@@ -226,27 +225,13 @@ public class Rebase
     if (!(change.isNew() && rsrc.isCurrent())) {
       return description;
     }
-
-    try {
-      if (!projectCache
-          .get(rsrc.getProject())
-          .orElseThrow(illegalState(rsrc.getProject()))
-          .statePermitsWrite()) {
-        return description;
-      }
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to check if project state permits write: %s", rsrc.getProject());
+    if (!projectCache
+        .get(rsrc.getProject())
+        .orElseThrow(illegalState(rsrc.getProject()))
+        .statePermitsWrite()) {
       return description;
     }
-
-    try {
-      if (patchSetUtil.isPatchSetLocked(rsrc.getNotes())) {
-        return description;
-      }
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to check if the current patch set of change %s is locked", change.getId());
+    if (patchSetUtil.isPatchSetLocked(rsrc.getNotes())) {
       return description;
     }
 
@@ -256,14 +241,6 @@ public class Rebase
       if (hasOneParent(rw, rsrc.getPatchSet())) {
         enabled = rebaseUtil.canRebase(rsrc.getPatchSet(), change.getDest(), repo, rw);
       }
-    } catch (Exception e) {
-      // Be generous here with the exceptions that we log and swallow. RebaseUtil#canRebase uses the
-      // change index and this UI action is on the critical path of rendering a change details page.
-      // If the index is broken, we log and disable the UI action, but still show the page to the
-      // user.
-      logger.atSevere().withCause(e).log(
-          "Failed to check if patch set can be rebased: %s", rsrc.getPatchSet());
-      return description;
     }
 
     if (rsrc.permissions().testOrFalse(ChangePermission.REBASE)) {

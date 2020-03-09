@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-cla-view</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-cla-view.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-cla-view.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-cla-view.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,162 +40,165 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-cla-view tests', async () => {
-    await readyToTest();
-    let element;
-    const signedAgreements = [{
-      name: 'CLA',
-      description: 'Contributor License Agreement',
-      url: 'static/cla.html',
-    }];
-    const auth = {
-      name: 'Individual',
-      description: 'test-description',
-      url: 'static/cla_individual.html',
-      auto_verify_group: {
-        url: '#/admin/groups/uuid-e9aaddc47f305be7661ad4db9b66f9b707bd19a0',
-        options: {
-          visible_to_all: true,
-        },
-        group_id: 20,
-        owner: 'CLA Accepted - Individual',
-        owner_id: 'e9aaddc47f305be7661ad4db9b66f9b707bd19a0',
-        created_on: '2017-07-31 15:11:04.000000000',
-        id: 'e9aaddc47f305be7661ad4db9b66f9b707bd19a0',
-        name: 'CLA Accepted - Individual',
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-cla-view.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-cla-view tests', () => {
+  let element;
+  const signedAgreements = [{
+    name: 'CLA',
+    description: 'Contributor License Agreement',
+    url: 'static/cla.html',
+  }];
+  const auth = {
+    name: 'Individual',
+    description: 'test-description',
+    url: 'static/cla_individual.html',
+    auto_verify_group: {
+      url: '#/admin/groups/uuid-e9aaddc47f305be7661ad4db9b66f9b707bd19a0',
+      options: {
+        visible_to_all: true,
       },
-    };
-
-    const auth2 = {
-      name: 'Individual2',
-      description: 'test-description2',
-      url: 'static/cla_individual2.html',
-      auto_verify_group: {
-        url: '#/admin/groups/uuid-bc53f2738ef8ad0b3a4f53846ff59b05822caecb',
-        options: {},
-        group_id: 21,
-        owner: 'CLA Accepted - Individual2',
-        owner_id: 'bc53f2738ef8ad0b3a4f53846ff59b05822caecb',
-        created_on: '2017-07-31 15:25:42.000000000',
-        id: 'bc53f2738ef8ad0b3a4f53846ff59b05822caecb',
-        name: 'CLA Accepted - Individual2',
-      },
-    };
-
-    const auth3 = {
-      name: 'CLA',
-      description: 'Contributor License Agreement',
-      url: 'static/cla_individual.html',
-    };
-
-    const config = {
-      auth: {
-        use_contributor_agreements: true,
-        contributor_agreements: [
-          {
-            name: 'Individual',
-            description: 'test-description',
-            url: 'static/cla_individual.html',
-          },
-          {
-            name: 'CLA',
-            description: 'Contributor License Agreement',
-            url: 'static/cla.html',
-          }],
-      },
-    };
-    const config2 = {
-      auth: {
-        use_contributor_agreements: true,
-        contributor_agreements: [
-          {
-            name: 'Individual2',
-            description: 'test-description2',
-            url: 'static/cla_individual2.html',
-          },
-        ],
-      },
-    };
-    const groups = [{
-      options: {visible_to_all: true},
+      group_id: 20,
+      owner: 'CLA Accepted - Individual',
+      owner_id: 'e9aaddc47f305be7661ad4db9b66f9b707bd19a0',
+      created_on: '2017-07-31 15:11:04.000000000',
       id: 'e9aaddc47f305be7661ad4db9b66f9b707bd19a0',
-      group_id: 3,
       name: 'CLA Accepted - Individual',
     },
-    ];
+  };
 
-    setup(done => {
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve(config); },
-        getAccountGroups() { return Promise.resolve(groups); },
-        getAccountAgreements() { return Promise.resolve(signedAgreements); },
-      });
-      element = fixture('basic');
-      element.loadData().then(() => { flush(done); });
-    });
+  const auth2 = {
+    name: 'Individual2',
+    description: 'test-description2',
+    url: 'static/cla_individual2.html',
+    auto_verify_group: {
+      url: '#/admin/groups/uuid-bc53f2738ef8ad0b3a4f53846ff59b05822caecb',
+      options: {},
+      group_id: 21,
+      owner: 'CLA Accepted - Individual2',
+      owner_id: 'bc53f2738ef8ad0b3a4f53846ff59b05822caecb',
+      created_on: '2017-07-31 15:25:42.000000000',
+      id: 'bc53f2738ef8ad0b3a4f53846ff59b05822caecb',
+      name: 'CLA Accepted - Individual2',
+    },
+  };
 
-    test('renders as expected with signed agreement', () => {
-      const agreementSections = Polymer.dom(element.root)
-          .querySelectorAll('.contributorAgreementButton');
-      const agreementSubmittedTexts = Polymer.dom(element.root)
-          .querySelectorAll('.alreadySubmittedText');
-      assert.equal(agreementSections.length, 2);
-      assert.isFalse(agreementSections[0].querySelector('input').disabled);
-      assert.equal(getComputedStyle(agreementSubmittedTexts[0]).display,
-          'none');
-      assert.isTrue(agreementSections[1].querySelector('input').disabled);
-      assert.notEqual(getComputedStyle(agreementSubmittedTexts[1]).display,
-          'none');
-    });
+  const auth3 = {
+    name: 'CLA',
+    description: 'Contributor License Agreement',
+    url: 'static/cla_individual.html',
+  };
 
-    test('_disableAgreements', () => {
-      // In the auto verify group and have not yet signed agreement
-      assert.isTrue(
-          element._disableAgreements(auth, groups, signedAgreements));
-      // Not in the auto verify group and have not yet signed agreement
-      assert.isFalse(
-          element._disableAgreements(auth2, groups, signedAgreements));
-      // Not in the auto verify group, have signed agreement
-      assert.isTrue(
-          element._disableAgreements(auth3, groups, signedAgreements));
-      // Make sure the undefined check works
-      assert.isFalse(
-          element._disableAgreements(auth, undefined, signedAgreements));
-    });
+  const config = {
+    auth: {
+      use_contributor_agreements: true,
+      contributor_agreements: [
+        {
+          name: 'Individual',
+          description: 'test-description',
+          url: 'static/cla_individual.html',
+        },
+        {
+          name: 'CLA',
+          description: 'Contributor License Agreement',
+          url: 'static/cla.html',
+        }],
+    },
+  };
+  const config2 = {
+    auth: {
+      use_contributor_agreements: true,
+      contributor_agreements: [
+        {
+          name: 'Individual2',
+          description: 'test-description2',
+          url: 'static/cla_individual2.html',
+        },
+      ],
+    },
+  };
+  const groups = [{
+    options: {visible_to_all: true},
+    id: 'e9aaddc47f305be7661ad4db9b66f9b707bd19a0',
+    group_id: 3,
+    name: 'CLA Accepted - Individual',
+  },
+  ];
 
-    test('_hideAgreements', () => {
-      // Not in the auto verify group and have not yet signed agreement
-      assert.equal(
-          element._hideAgreements(auth, groups, signedAgreements), '');
-      // In the auto verify group
-      assert.equal(
-          element._hideAgreements(auth2, groups, signedAgreements), 'hide');
-      // Not in the auto verify group, have signed agreement
-      assert.equal(
-          element._hideAgreements(auth3, groups, signedAgreements), '');
+  setup(done => {
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve(config); },
+      getAccountGroups() { return Promise.resolve(groups); },
+      getAccountAgreements() { return Promise.resolve(signedAgreements); },
     });
-
-    test('_disableAgreementsText', () => {
-      assert.isFalse(element._disableAgreementsText('I AGREE'));
-      assert.isTrue(element._disableAgreementsText('I DO NOT AGREE'));
-    });
-
-    test('_computeHideAgreementClass', () => {
-      assert.equal(
-          element._computeHideAgreementClass(
-              auth.name, config.auth.contributor_agreements),
-          'hideAgreementsTextBox');
-      assert.isUndefined(
-          element._computeHideAgreementClass(
-              auth.name, config2.auth.contributor_agreements));
-    });
-
-    test('_getAgreementsUrl', () => {
-      assert.equal(element._getAgreementsUrl(
-          'http://test.org/test.html'), 'http://test.org/test.html');
-      assert.equal(element._getAgreementsUrl(
-          'test_cla.html'), '/test_cla.html');
-    });
+    element = fixture('basic');
+    element.loadData().then(() => { flush(done); });
   });
+
+  test('renders as expected with signed agreement', () => {
+    const agreementSections = dom(element.root)
+        .querySelectorAll('.contributorAgreementButton');
+    const agreementSubmittedTexts = dom(element.root)
+        .querySelectorAll('.alreadySubmittedText');
+    assert.equal(agreementSections.length, 2);
+    assert.isFalse(agreementSections[0].querySelector('input').disabled);
+    assert.equal(getComputedStyle(agreementSubmittedTexts[0]).display,
+        'none');
+    assert.isTrue(agreementSections[1].querySelector('input').disabled);
+    assert.notEqual(getComputedStyle(agreementSubmittedTexts[1]).display,
+        'none');
+  });
+
+  test('_disableAgreements', () => {
+    // In the auto verify group and have not yet signed agreement
+    assert.isTrue(
+        element._disableAgreements(auth, groups, signedAgreements));
+    // Not in the auto verify group and have not yet signed agreement
+    assert.isFalse(
+        element._disableAgreements(auth2, groups, signedAgreements));
+    // Not in the auto verify group, have signed agreement
+    assert.isTrue(
+        element._disableAgreements(auth3, groups, signedAgreements));
+    // Make sure the undefined check works
+    assert.isFalse(
+        element._disableAgreements(auth, undefined, signedAgreements));
+  });
+
+  test('_hideAgreements', () => {
+    // Not in the auto verify group and have not yet signed agreement
+    assert.equal(
+        element._hideAgreements(auth, groups, signedAgreements), '');
+    // In the auto verify group
+    assert.equal(
+        element._hideAgreements(auth2, groups, signedAgreements), 'hide');
+    // Not in the auto verify group, have signed agreement
+    assert.equal(
+        element._hideAgreements(auth3, groups, signedAgreements), '');
+  });
+
+  test('_disableAgreementsText', () => {
+    assert.isFalse(element._disableAgreementsText('I AGREE'));
+    assert.isTrue(element._disableAgreementsText('I DO NOT AGREE'));
+  });
+
+  test('_computeHideAgreementClass', () => {
+    assert.equal(
+        element._computeHideAgreementClass(
+            auth.name, config.auth.contributor_agreements),
+        'hideAgreementsTextBox');
+    assert.isUndefined(
+        element._computeHideAgreementClass(
+            auth.name, config2.auth.contributor_agreements));
+  });
+
+  test('_getAgreementsUrl', () => {
+    assert.equal(element._getAgreementsUrl(
+        'http://test.org/test.html'), 'http://test.org/test.html');
+    assert.equal(element._getAgreementsUrl(
+        'test_cla.html'), '/test_cla.html');
+  });
+});
 </script>

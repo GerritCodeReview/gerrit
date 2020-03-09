@@ -14,34 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrRepoCommand extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-repo-command'; }
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-button/gr-button.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-repo-command_html.js';
 
-    static get properties() {
-      return {
-        title: String,
-        disabled: Boolean,
-        tooltip: String,
-      };
-    }
+/** @extends Polymer.Element */
+class GrRepoCommand extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-    /**
-     * Fired when command button is tapped.
-     *
-     * @event command-tap
-     */
+  static get is() { return 'gr-repo-command'; }
 
-    _onCommandTap() {
-      this.dispatchEvent(
-          new CustomEvent('command-tap', {bubbles: true, composed: true}));
-    }
+  static get properties() {
+    return {
+      title: String,
+      disabled: Boolean,
+      tooltip: String,
+    };
   }
 
-  customElements.define(GrRepoCommand.is, GrRepoCommand);
-})();
+  /**
+   * Fired when command button is tapped.
+   *
+   * @event command-tap
+   */
+
+  _onCommandTap() {
+    this.dispatchEvent(
+        new CustomEvent('command-tap', {bubbles: true, composed: true}));
+  }
+}
+
+customElements.define(GrRepoCommand.is, GrRepoCommand);

@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-email-editor</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-email-editor.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-email-editor.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-email-editor.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,117 +40,119 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-email-editor tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-email-editor.js';
+suite('gr-email-editor tests', () => {
+  let element;
 
-    setup(done => {
-      const emails = [
-        {email: 'email@one.com'},
-        {email: 'email@two.com', preferred: true},
-        {email: 'email@three.com'},
-      ];
+  setup(done => {
+    const emails = [
+      {email: 'email@one.com'},
+      {email: 'email@two.com', preferred: true},
+      {email: 'email@three.com'},
+    ];
 
-      stub('gr-rest-api-interface', {
-        getAccountEmails() { return Promise.resolve(emails); },
-      });
-
-      element = fixture('basic');
-
-      element.loadData().then(flush(done));
+    stub('gr-rest-api-interface', {
+      getAccountEmails() { return Promise.resolve(emails); },
     });
 
-    test('renders', () => {
-      const rows = element.$$('table').querySelectorAll('tbody tr');
+    element = fixture('basic');
 
-      assert.equal(rows.length, 3);
+    element.loadData().then(flush(done));
+  });
 
-      assert.isFalse(rows[0].querySelector('input[type=radio]').checked);
-      assert.isNotOk(rows[0].querySelector('gr-button').disabled);
+  test('renders', () => {
+    const rows = element.$$('table').querySelectorAll('tbody tr');
 
-      assert.isTrue(rows[1].querySelector('input[type=radio]').checked);
-      assert.isOk(rows[1].querySelector('gr-button').disabled);
+    assert.equal(rows.length, 3);
 
-      assert.isFalse(rows[2].querySelector('input[type=radio]').checked);
-      assert.isNotOk(rows[2].querySelector('gr-button').disabled);
+    assert.isFalse(rows[0].querySelector('input[type=radio]').checked);
+    assert.isNotOk(rows[0].querySelector('gr-button').disabled);
 
-      assert.isFalse(element.hasUnsavedChanges);
-    });
+    assert.isTrue(rows[1].querySelector('input[type=radio]').checked);
+    assert.isOk(rows[1].querySelector('gr-button').disabled);
 
-    test('edit preferred', () => {
-      const preferredChangedSpy = sinon.spy(element, '_handlePreferredChange');
-      const radios = element.$$('table').querySelectorAll('input[type=radio]');
+    assert.isFalse(rows[2].querySelector('input[type=radio]').checked);
+    assert.isNotOk(rows[2].querySelector('gr-button').disabled);
 
-      assert.isFalse(element.hasUnsavedChanges);
-      assert.isNotOk(element._newPreferred);
-      assert.equal(element._emailsToRemove.length, 0);
-      assert.equal(element._emails.length, 3);
-      assert.isNotOk(radios[0].checked);
-      assert.isOk(radios[1].checked);
-      assert.isFalse(preferredChangedSpy.called);
+    assert.isFalse(element.hasUnsavedChanges);
+  });
 
-      radios[0].click();
+  test('edit preferred', () => {
+    const preferredChangedSpy = sinon.spy(element, '_handlePreferredChange');
+    const radios = element.$$('table').querySelectorAll('input[type=radio]');
 
-      assert.isTrue(element.hasUnsavedChanges);
-      assert.isOk(element._newPreferred);
-      assert.equal(element._emailsToRemove.length, 0);
-      assert.equal(element._emails.length, 3);
-      assert.isOk(radios[0].checked);
-      assert.isNotOk(radios[1].checked);
-      assert.isTrue(preferredChangedSpy.called);
-    });
+    assert.isFalse(element.hasUnsavedChanges);
+    assert.isNotOk(element._newPreferred);
+    assert.equal(element._emailsToRemove.length, 0);
+    assert.equal(element._emails.length, 3);
+    assert.isNotOk(radios[0].checked);
+    assert.isOk(radios[1].checked);
+    assert.isFalse(preferredChangedSpy.called);
 
-    test('delete email', () => {
-      const buttons = element.$$('table').querySelectorAll('gr-button');
+    radios[0].click();
 
-      assert.isFalse(element.hasUnsavedChanges);
-      assert.isNotOk(element._newPreferred);
-      assert.equal(element._emailsToRemove.length, 0);
-      assert.equal(element._emails.length, 3);
+    assert.isTrue(element.hasUnsavedChanges);
+    assert.isOk(element._newPreferred);
+    assert.equal(element._emailsToRemove.length, 0);
+    assert.equal(element._emails.length, 3);
+    assert.isOk(radios[0].checked);
+    assert.isNotOk(radios[1].checked);
+    assert.isTrue(preferredChangedSpy.called);
+  });
 
-      buttons[2].click();
+  test('delete email', () => {
+    const buttons = element.$$('table').querySelectorAll('gr-button');
 
-      assert.isTrue(element.hasUnsavedChanges);
-      assert.isNotOk(element._newPreferred);
-      assert.equal(element._emailsToRemove.length, 1);
-      assert.equal(element._emails.length, 2);
+    assert.isFalse(element.hasUnsavedChanges);
+    assert.isNotOk(element._newPreferred);
+    assert.equal(element._emailsToRemove.length, 0);
+    assert.equal(element._emails.length, 3);
 
-      assert.equal(element._emailsToRemove[0].email, 'email@three.com');
-    });
+    buttons[2].click();
 
-    test('save changes', done => {
-      const deleteEmailStub =
-          sinon.stub(element.$.restAPI, 'deleteAccountEmail');
-      const setPreferredStub = sinon.stub(element.$.restAPI,
-          'setPreferredAccountEmail');
-      const rows = element.$$('table').querySelectorAll('tbody tr');
+    assert.isTrue(element.hasUnsavedChanges);
+    assert.isNotOk(element._newPreferred);
+    assert.equal(element._emailsToRemove.length, 1);
+    assert.equal(element._emails.length, 2);
 
-      assert.isFalse(element.hasUnsavedChanges);
-      assert.isNotOk(element._newPreferred);
-      assert.equal(element._emailsToRemove.length, 0);
-      assert.equal(element._emails.length, 3);
+    assert.equal(element._emailsToRemove[0].email, 'email@three.com');
+  });
 
-      // Delete the first email and set the last as preferred.
-      rows[0].querySelector('gr-button').click();
-      rows[2].querySelector('input[type=radio]').click();
+  test('save changes', done => {
+    const deleteEmailStub =
+        sinon.stub(element.$.restAPI, 'deleteAccountEmail');
+    const setPreferredStub = sinon.stub(element.$.restAPI,
+        'setPreferredAccountEmail');
+    const rows = element.$$('table').querySelectorAll('tbody tr');
 
-      assert.isTrue(element.hasUnsavedChanges);
-      assert.equal(element._newPreferred, 'email@three.com');
-      assert.equal(element._emailsToRemove.length, 1);
-      assert.equal(element._emailsToRemove[0].email, 'email@one.com');
-      assert.equal(element._emails.length, 2);
+    assert.isFalse(element.hasUnsavedChanges);
+    assert.isNotOk(element._newPreferred);
+    assert.equal(element._emailsToRemove.length, 0);
+    assert.equal(element._emails.length, 3);
 
-      // Save the changes.
-      element.save().then(() => {
-        assert.equal(deleteEmailStub.callCount, 1);
-        assert.equal(deleteEmailStub.getCall(0).args[0], 'email@one.com');
+    // Delete the first email and set the last as preferred.
+    rows[0].querySelector('gr-button').click();
+    rows[2].querySelector('input[type=radio]').click();
 
-        assert.isTrue(setPreferredStub.called);
-        assert.equal(setPreferredStub.getCall(0).args[0], 'email@three.com');
+    assert.isTrue(element.hasUnsavedChanges);
+    assert.equal(element._newPreferred, 'email@three.com');
+    assert.equal(element._emailsToRemove.length, 1);
+    assert.equal(element._emailsToRemove[0].email, 'email@one.com');
+    assert.equal(element._emails.length, 2);
 
-        done();
-      });
+    // Save the changes.
+    element.save().then(() => {
+      assert.equal(deleteEmailStub.callCount, 1);
+      assert.equal(deleteEmailStub.getCall(0).args[0], 'email@one.com');
+
+      assert.isTrue(setPreferredStub.called);
+      assert.equal(setPreferredStub.getCall(0).args[0], 'email@three.com');
+
+      done();
     });
   });
+});
 </script>

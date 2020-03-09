@@ -14,169 +14,181 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  const NOTIFICATION_TYPES = [
-    {name: 'Changes', key: 'notify_new_changes'},
-    {name: 'Patches', key: 'notify_new_patch_sets'},
-    {name: 'Comments', key: 'notify_all_comments'},
-    {name: 'Submits', key: 'notify_submitted_changes'},
-    {name: 'Abandons', key: 'notify_abandoned_changes'},
-  ];
+import '@polymer/iron-input/iron-input.js';
+import '../../shared/gr-autocomplete/gr-autocomplete.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../../styles/gr-form-styles.js';
+import '../../../styles/shared-styles.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-watched-projects-editor_html.js';
 
-  /** @extends Polymer.Element */
-  class GrWatchedProjectsEditor extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-watched-projects-editor'; }
+const NOTIFICATION_TYPES = [
+  {name: 'Changes', key: 'notify_new_changes'},
+  {name: 'Patches', key: 'notify_new_patch_sets'},
+  {name: 'Comments', key: 'notify_all_comments'},
+  {name: 'Submits', key: 'notify_submitted_changes'},
+  {name: 'Abandons', key: 'notify_abandoned_changes'},
+];
 
-    static get properties() {
-      return {
-        hasUnsavedChanges: {
-          type: Boolean,
-          value: false,
-          notify: true,
+/** @extends Polymer.Element */
+class GrWatchedProjectsEditor extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-watched-projects-editor'; }
+
+  static get properties() {
+    return {
+      hasUnsavedChanges: {
+        type: Boolean,
+        value: false,
+        notify: true,
+      },
+
+      _projects: Array,
+      _projectsToRemove: {
+        type: Array,
+        value() { return []; },
+      },
+      _query: {
+        type: Function,
+        value() {
+          return this._getProjectSuggestions.bind(this);
         },
-
-        _projects: Array,
-        _projectsToRemove: {
-          type: Array,
-          value() { return []; },
-        },
-        _query: {
-          type: Function,
-          value() {
-            return this._getProjectSuggestions.bind(this);
-          },
-        },
-      };
-    }
-
-    loadData() {
-      return this.$.restAPI.getWatchedProjects().then(projs => {
-        this._projects = projs;
-      });
-    }
-
-    save() {
-      let deletePromise;
-      if (this._projectsToRemove.length) {
-        deletePromise = this.$.restAPI.deleteWatchedProjects(
-            this._projectsToRemove);
-      } else {
-        deletePromise = Promise.resolve();
-      }
-
-      return deletePromise
-          .then(() => this.$.restAPI.saveWatchedProjects(this._projects))
-          .then(projects => {
-            this._projects = projects;
-            this._projectsToRemove = [];
-            this.hasUnsavedChanges = false;
-          });
-    }
-
-    _getTypes() {
-      return NOTIFICATION_TYPES;
-    }
-
-    _getTypeCount() {
-      return this._getTypes().length;
-    }
-
-    _computeCheckboxChecked(project, key) {
-      return project.hasOwnProperty(key);
-    }
-
-    _getProjectSuggestions(input) {
-      return this.$.restAPI.getSuggestedProjects(input)
-          .then(response => {
-            const projects = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              projects.push({
-                name: key,
-                value: response[key],
-              });
-            }
-            return projects;
-          });
-    }
-
-    _handleRemoveProject(e) {
-      const el = Polymer.dom(e).localTarget;
-      const index = parseInt(el.getAttribute('data-index'), 10);
-      const project = this._projects[index];
-      this.splice('_projects', index, 1);
-      this.push('_projectsToRemove', project);
-      this.hasUnsavedChanges = true;
-    }
-
-    _canAddProject(project, text, filter) {
-      if ((!project || !project.id) && !text) { return false; }
-
-      // This will only be used if not using the auto complete
-      if (!project && text) { return true; }
-
-      // Check if the project with filter is already in the list. Compare
-      // filters using == to coalesce null and undefined.
-      for (let i = 0; i < this._projects.length; i++) {
-        if (this._projects[i].project === project.id &&
-            this._projects[i].filter == filter) {
-          return false;
-        }
-      }
-
-      return true;
-    }
-
-    _getNewProjectIndex(name, filter) {
-      let i;
-      for (i = 0; i < this._projects.length; i++) {
-        if (this._projects[i].project > name ||
-            (this._projects[i].project === name &&
-                this._projects[i].filter > filter)) {
-          break;
-        }
-      }
-      return i;
-    }
-
-    _handleAddProject() {
-      const newProject = this.$.newProject.value;
-      const newProjectName = this.$.newProject.text;
-      const filter = this.$.newFilter.value || null;
-
-      if (!this._canAddProject(newProject, newProjectName, filter)) { return; }
-
-      const insertIndex = this._getNewProjectIndex(newProjectName, filter);
-
-      this.splice('_projects', insertIndex, 0, {
-        project: newProjectName,
-        filter,
-        _is_local: true,
-      });
-
-      this.$.newProject.clear();
-      this.$.newFilter.bindValue = '';
-      this.hasUnsavedChanges = true;
-    }
-
-    _handleCheckboxChange(e) {
-      const el = Polymer.dom(e).localTarget;
-      const index = parseInt(el.getAttribute('data-index'), 10);
-      const key = el.getAttribute('data-key');
-      const checked = el.checked;
-      this.set(['_projects', index, key], !!checked);
-      this.hasUnsavedChanges = true;
-    }
-
-    _handleNotifCellClick(e) {
-      const checkbox = Polymer.dom(e.target).querySelector('input');
-      if (checkbox) { checkbox.click(); }
-    }
+      },
+    };
   }
 
-  customElements.define(GrWatchedProjectsEditor.is, GrWatchedProjectsEditor);
-})();
+  loadData() {
+    return this.$.restAPI.getWatchedProjects().then(projs => {
+      this._projects = projs;
+    });
+  }
+
+  save() {
+    let deletePromise;
+    if (this._projectsToRemove.length) {
+      deletePromise = this.$.restAPI.deleteWatchedProjects(
+          this._projectsToRemove);
+    } else {
+      deletePromise = Promise.resolve();
+    }
+
+    return deletePromise
+        .then(() => this.$.restAPI.saveWatchedProjects(this._projects))
+        .then(projects => {
+          this._projects = projects;
+          this._projectsToRemove = [];
+          this.hasUnsavedChanges = false;
+        });
+  }
+
+  _getTypes() {
+    return NOTIFICATION_TYPES;
+  }
+
+  _getTypeCount() {
+    return this._getTypes().length;
+  }
+
+  _computeCheckboxChecked(project, key) {
+    return project.hasOwnProperty(key);
+  }
+
+  _getProjectSuggestions(input) {
+    return this.$.restAPI.getSuggestedProjects(input)
+        .then(response => {
+          const projects = [];
+          for (const key in response) {
+            if (!response.hasOwnProperty(key)) { continue; }
+            projects.push({
+              name: key,
+              value: response[key],
+            });
+          }
+          return projects;
+        });
+  }
+
+  _handleRemoveProject(e) {
+    const el = dom(e).localTarget;
+    const index = parseInt(el.getAttribute('data-index'), 10);
+    const project = this._projects[index];
+    this.splice('_projects', index, 1);
+    this.push('_projectsToRemove', project);
+    this.hasUnsavedChanges = true;
+  }
+
+  _canAddProject(project, text, filter) {
+    if ((!project || !project.id) && !text) { return false; }
+
+    // This will only be used if not using the auto complete
+    if (!project && text) { return true; }
+
+    // Check if the project with filter is already in the list. Compare
+    // filters using == to coalesce null and undefined.
+    for (let i = 0; i < this._projects.length; i++) {
+      if (this._projects[i].project === project.id &&
+          this._projects[i].filter == filter) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  _getNewProjectIndex(name, filter) {
+    let i;
+    for (i = 0; i < this._projects.length; i++) {
+      if (this._projects[i].project > name ||
+          (this._projects[i].project === name &&
+              this._projects[i].filter > filter)) {
+        break;
+      }
+    }
+    return i;
+  }
+
+  _handleAddProject() {
+    const newProject = this.$.newProject.value;
+    const newProjectName = this.$.newProject.text;
+    const filter = this.$.newFilter.value || null;
+
+    if (!this._canAddProject(newProject, newProjectName, filter)) { return; }
+
+    const insertIndex = this._getNewProjectIndex(newProjectName, filter);
+
+    this.splice('_projects', insertIndex, 0, {
+      project: newProjectName,
+      filter,
+      _is_local: true,
+    });
+
+    this.$.newProject.clear();
+    this.$.newFilter.bindValue = '';
+    this.hasUnsavedChanges = true;
+  }
+
+  _handleCheckboxChange(e) {
+    const el = dom(e).localTarget;
+    const index = parseInt(el.getAttribute('data-index'), 10);
+    const key = el.getAttribute('data-key');
+    const checked = el.checked;
+    this.set(['_projects', index, key], !!checked);
+    this.hasUnsavedChanges = true;
+  }
+
+  _handleNotifCellClick(e) {
+    const checkbox = dom(e.target).querySelector('input');
+    if (checkbox) { checkbox.click(); }
+  }
+}
+
+customElements.define(GrWatchedProjectsEditor.is, GrWatchedProjectsEditor);

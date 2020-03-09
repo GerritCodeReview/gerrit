@@ -1,37 +1,22 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../change-list/gr-change-list/gr-change-list.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
-<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-create-commands-dialog/gr-create-commands-dialog.html">
-<link rel="import" href="../gr-create-change-help/gr-create-change-help.html">
-<link rel="import" href="../gr-create-destination-dialog/gr-create-destination-dialog.html">
-<link rel="import" href="../gr-user-header/gr-user-header.html">
-
-<dom-module id="gr-dashboard-view">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -71,32 +56,19 @@ limitations under the License.
         }
       }
     </style>
-    <div class$="banner [[_computeBannerClass(_showDraftsBanner)]]">
+    <div class\$="banner [[_computeBannerClass(_showDraftsBanner)]]">
       <div>
         You have draft comments on closed changes.
-        <a href$="[[_computeDraftsLink(_showDraftsBanner)]]" target="_blank">(view all)</a>
+        <a href\$="[[_computeDraftsLink(_showDraftsBanner)]]" target="_blank">(view all)</a>
       </div>
       <div>
-        <gr-button
-            class="delete"
-            link
-            on-click="_handleOpenDeleteDialog">Delete All</gr-button>
+        <gr-button class="delete" link="" on-click="_handleOpenDeleteDialog">Delete All</gr-button>
       </div>
     </div>
-    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
-    <div hidden$="[[_loading]]" hidden>
-      <gr-user-header
-          user-id="[[params.user]]"
-          class$="[[_computeUserHeaderClass(params)]]"></gr-user-header>
-      <gr-change-list
-          show-star
-          show-reviewed-state
-          account="[[account]]"
-          preferences="[[preferences]]"
-          selected-index="{{viewState.selectedChangeIndex}}"
-          sections="[[_results]]"
-          on-toggle-star="_handleToggleStar"
-          on-toggle-reviewed="_handleToggleReviewed">
+    <div class="loading" hidden\$="[[!_loading]]">Loading...</div>
+    <div hidden\$="[[_loading]]" hidden="">
+      <gr-user-header user-id="[[params.user]]" class\$="[[_computeUserHeaderClass(params)]]"></gr-user-header>
+      <gr-change-list show-star="" show-reviewed-state="" account="[[account]]" preferences="[[preferences]]" selected-index="{{viewState.selectedChangeIndex}}" sections="[[_results]]" on-toggle-star="_handleToggleStar" on-toggle-reviewed="_handleToggleReviewed">
         <div id="emptyOutgoing" slot="empty-outgoing">
           <template is="dom-if" if="[[_showNewUserHelp]]">
             <gr-create-change-help on-create-tap="createChangeTap"></gr-create-change-help>
@@ -107,12 +79,8 @@ limitations under the License.
         </div>
       </gr-change-list>
     </div>
-    <gr-overlay id="confirmDeleteOverlay" with-backdrop>
-      <gr-dialog
-          id="confirmDeleteDialog"
-          confirm-label="Delete"
-          on-confirm="_handleConfirmDelete"
-          on-cancel="_closeConfirmDeleteOverlay">
+    <gr-overlay id="confirmDeleteOverlay" with-backdrop="">
+      <gr-dialog id="confirmDeleteDialog" confirm-label="Delete" on-confirm="_handleConfirmDelete" on-cancel="_closeConfirmDeleteOverlay">
         <div class="header" slot="header">
           Delete comments
         </div>
@@ -122,12 +90,8 @@ limitations under the License.
         </div>
       </gr-dialog>
     </gr-overlay>
-    <gr-create-destination-dialog
-        id="destinationDialog"
-        on-confirm="_handleDestinationConfirm"></gr-create-destination-dialog>
+    <gr-create-destination-dialog id="destinationDialog" on-confirm="_handleDestinationConfirm"></gr-create-destination-dialog>
     <gr-create-commands-dialog id="commandsDialog"></gr-create-commands-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>
-  </template>
-  <script src="gr-dashboard-view.js"></script>
-</dom-module>
+`;

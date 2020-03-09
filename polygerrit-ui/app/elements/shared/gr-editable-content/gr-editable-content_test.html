@@ -19,17 +19,22 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-editable-content</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="/bower_components/iron-test-helpers/mock-interactions.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="/node_modules/@polymer/iron-test-helpers/mock-interactions.js" type="module"></script>
 
-<link rel="import" href="gr-editable-content.html">
+<script type="module" src="./gr-editable-content.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-editable-content.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,124 +42,126 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-editable-content tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-editable-content.js';
+suite('gr-editable-content tests', () => {
+  let element;
+  let sandbox;
 
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('save event', done => {
+    element.content = '';
+    element._newContent = 'foo';
+    element.addEventListener('editable-content-save', e => {
+      assert.equal(e.detail.content, 'foo');
+      done();
+    });
+    MockInteractions.tap(element.$$('gr-button[primary]'));
+  });
+
+  test('cancel event', done => {
+    element.addEventListener('editable-content-cancel', () => {
+      done();
+    });
+    MockInteractions.tap(element.$$('gr-button:not([primary])'));
+  });
+
+  test('enabling editing keeps old content', () => {
+    element.content = 'current content';
+    element._newContent = 'old content';
+    element.editing = true;
+    assert.equal(element._newContent, 'old content');
+  });
+
+  test('disabling editing does not update edit field contents', () => {
+    element.content = 'current content';
+    element.editing = true;
+    element._newContent = 'stale content';
+    element.editing = false;
+    assert.equal(element._newContent, 'stale content');
+  });
+
+  test('zero width spaces are removed properly', () => {
+    element.removeZeroWidthSpace = true;
+    element.content = 'R=\u200Btest@google.com';
+    element.editing = true;
+    assert.equal(element._newContent, 'R=test@google.com');
+  });
+
+  suite('editing', () => {
     setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-    });
-
-    teardown(() => { sandbox.restore(); });
-
-    test('save event', done => {
-      element.content = '';
-      element._newContent = 'foo';
-      element.addEventListener('editable-content-save', e => {
-        assert.equal(e.detail.content, 'foo');
-        done();
-      });
-      MockInteractions.tap(element.$$('gr-button[primary]'));
-    });
-
-    test('cancel event', done => {
-      element.addEventListener('editable-content-cancel', () => {
-        done();
-      });
-      MockInteractions.tap(element.$$('gr-button:not([primary])'));
-    });
-
-    test('enabling editing keeps old content', () => {
-      element.content = 'current content';
-      element._newContent = 'old content';
-      element.editing = true;
-      assert.equal(element._newContent, 'old content');
-    });
-
-    test('disabling editing does not update edit field contents', () => {
       element.content = 'current content';
       element.editing = true;
-      element._newContent = 'stale content';
-      element.editing = false;
-      assert.equal(element._newContent, 'stale content');
     });
 
-    test('zero width spaces are removed properly', () => {
-      element.removeZeroWidthSpace = true;
-      element.content = 'R=\u200Btest@google.com';
-      element.editing = true;
-      assert.equal(element._newContent, 'R=test@google.com');
+    test('save button is disabled initially', () => {
+      assert.isTrue(element.$$('gr-button[primary]').disabled);
     });
 
-    suite('editing', () => {
-      setup(() => {
-        element.content = 'current content';
-        element.editing = true;
-      });
-
-      test('save button is disabled initially', () => {
-        assert.isTrue(element.$$('gr-button[primary]').disabled);
-      });
-
-      test('save button is enabled when content changes', () => {
-        element._newContent = 'new content';
-        assert.isFalse(element.$$('gr-button[primary]').disabled);
-      });
-    });
-
-    suite('storageKey and related behavior', () => {
-      let dispatchSpy;
-      setup(() => {
-        element.content = 'current content';
-        element.storageKey = 'test';
-        dispatchSpy = sandbox.spy(element, 'dispatchEvent');
-      });
-
-      test('editing toggled to true, has stored data', () => {
-        sandbox.stub(element.$.storage, 'getEditableContentItem')
-            .returns({message: 'stored content'});
-        element.editing = true;
-
-        assert.equal(element._newContent, 'stored content');
-        assert.isTrue(dispatchSpy.called);
-        assert.equal(dispatchSpy.lastCall.args[0].type, 'show-alert');
-      });
-
-      test('editing toggled to true, has no stored data', () => {
-        sandbox.stub(element.$.storage, 'getEditableContentItem')
-            .returns({});
-        element.editing = true;
-
-        assert.equal(element._newContent, 'current content');
-        assert.isFalse(dispatchSpy.called);
-      });
-
-      test('edits are cached', () => {
-        const storeStub =
-            sandbox.stub(element.$.storage, 'setEditableContentItem');
-        const eraseStub =
-            sandbox.stub(element.$.storage, 'eraseEditableContentItem');
-        element.editing = true;
-
-        element._newContent = 'new content';
-        flushAsynchronousOperations();
-        element.flushDebouncer('store');
-
-        assert.isTrue(storeStub.called);
-        assert.deepEqual(
-            [element.storageKey, element._newContent],
-            storeStub.lastCall.args);
-
-        element._newContent = '';
-        flushAsynchronousOperations();
-        element.flushDebouncer('store');
-
-        assert.isTrue(eraseStub.called);
-        assert.deepEqual([element.storageKey], eraseStub.lastCall.args);
-      });
+    test('save button is enabled when content changes', () => {
+      element._newContent = 'new content';
+      assert.isFalse(element.$$('gr-button[primary]').disabled);
     });
   });
+
+  suite('storageKey and related behavior', () => {
+    let dispatchSpy;
+    setup(() => {
+      element.content = 'current content';
+      element.storageKey = 'test';
+      dispatchSpy = sandbox.spy(element, 'dispatchEvent');
+    });
+
+    test('editing toggled to true, has stored data', () => {
+      sandbox.stub(element.$.storage, 'getEditableContentItem')
+          .returns({message: 'stored content'});
+      element.editing = true;
+
+      assert.equal(element._newContent, 'stored content');
+      assert.isTrue(dispatchSpy.called);
+      assert.equal(dispatchSpy.lastCall.args[0].type, 'show-alert');
+    });
+
+    test('editing toggled to true, has no stored data', () => {
+      sandbox.stub(element.$.storage, 'getEditableContentItem')
+          .returns({});
+      element.editing = true;
+
+      assert.equal(element._newContent, 'current content');
+      assert.isFalse(dispatchSpy.called);
+    });
+
+    test('edits are cached', () => {
+      const storeStub =
+          sandbox.stub(element.$.storage, 'setEditableContentItem');
+      const eraseStub =
+          sandbox.stub(element.$.storage, 'eraseEditableContentItem');
+      element.editing = true;
+
+      element._newContent = 'new content';
+      flushAsynchronousOperations();
+      element.flushDebouncer('store');
+
+      assert.isTrue(storeStub.called);
+      assert.deepEqual(
+          [element.storageKey, element._newContent],
+          storeStub.lastCall.args);
+
+      element._newContent = '';
+      flushAsynchronousOperations();
+      element.flushDebouncer('store');
+
+      assert.isTrue(eraseStub.called);
+      assert.deepEqual([element.storageKey], eraseStub.lastCall.args);
+    });
+  });
+});
 </script>

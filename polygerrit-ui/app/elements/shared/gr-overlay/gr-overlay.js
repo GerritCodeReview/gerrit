@@ -14,108 +14,117 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  const AWAIT_MAX_ITERS = 10;
-  const AWAIT_STEP = 5;
-  const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
+import {IronOverlayBehaviorImpl, IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../styles/shared-styles.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-overlay_html.js';
+
+const AWAIT_MAX_ITERS = 10;
+const AWAIT_STEP = 5;
+const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
+
+/**
+ * @appliesMixin Gerrit.FireMixin
+ * @extends Polymer.Element
+ */
+class GrOverlay extends mixinBehaviors( [
+  Gerrit.FireBehavior,
+  IronOverlayBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-overlay'; }
+  /**
+   * Fired when a fullscreen overlay is closed
+   *
+   * @event fullscreen-overlay-closed
+   */
 
   /**
-   * @appliesMixin Gerrit.FireMixin
-   * @extends Polymer.Element
+   * Fired when an overlay is opened in full screen mode
+   *
+   * @event fullscreen-overlay-opened
    */
-  class GrOverlay extends Polymer.mixinBehaviors( [
-    Gerrit.FireBehavior,
-    Polymer.IronOverlayBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-overlay'; }
-    /**
-     * Fired when a fullscreen overlay is closed
-     *
-     * @event fullscreen-overlay-closed
-     */
 
-    /**
-     * Fired when an overlay is opened in full screen mode
-     *
-     * @event fullscreen-overlay-opened
-     */
+  static get properties() {
+    return {
+      _fullScreenOpen: {
+        type: Boolean,
+        value: false,
+      },
+    };
+  }
 
-    static get properties() {
-      return {
-        _fullScreenOpen: {
-          type: Boolean,
-          value: false,
-        },
-      };
-    }
+  /** @override */
+  created() {
+    super.created();
+    this.addEventListener('iron-overlay-closed',
+        () => this._close());
+    this.addEventListener('iron-overlay-cancelled',
+        () => this._close());
+  }
 
-    /** @override */
-    created() {
-      super.created();
-      this.addEventListener('iron-overlay-closed',
-          () => this._close());
-      this.addEventListener('iron-overlay-cancelled',
-          () => this._close());
-    }
-
-    open(...args) {
-      return new Promise((resolve, reject) => {
-        Polymer.IronOverlayBehaviorImpl.open.apply(this, args);
-        if (this._isMobile()) {
-          this.fire('fullscreen-overlay-opened');
-          this._fullScreenOpen = true;
-        }
-        this._awaitOpen(resolve, reject);
-      });
-    }
-
-    _isMobile() {
-      return window.matchMedia(`(max-width: ${BREAKPOINT_FULLSCREEN_OVERLAY})`);
-    }
-
-    _close() {
-      if (this._fullScreenOpen) {
-        this.fire('fullscreen-overlay-closed');
-        this._fullScreenOpen = false;
+  open(...args) {
+    return new Promise((resolve, reject) => {
+      IronOverlayBehaviorImpl.open.apply(this, args);
+      if (this._isMobile()) {
+        this.fire('fullscreen-overlay-opened');
+        this._fullScreenOpen = true;
       }
-    }
+      this._awaitOpen(resolve, reject);
+    });
+  }
 
-    /**
-     * Override the focus stops that iron-overlay-behavior tries to find.
-     */
-    setFocusStops(stops) {
-      this.__firstFocusableNode = stops.start;
-      this.__lastFocusableNode = stops.end;
-    }
+  _isMobile() {
+    return window.matchMedia(`(max-width: ${BREAKPOINT_FULLSCREEN_OVERLAY})`);
+  }
 
-    /**
-     * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
-     * opening. Eventually replace with a direct way to listen to the overlay.
-     */
-    _awaitOpen(fn, reject) {
-      let iters = 0;
-      const step = () => {
-        this.async(() => {
-          if (this.style.display !== 'none') {
-            fn.call(this);
-          } else if (iters++ < AWAIT_MAX_ITERS) {
-            step.call(this);
-          } else {
-            reject(new Error('gr-overlay _awaitOpen failed to resolve'));
-          }
-        }, AWAIT_STEP);
-      };
-      step.call(this);
-    }
-
-    _id() {
-      return this.getAttribute('id') || 'global';
+  _close() {
+    if (this._fullScreenOpen) {
+      this.fire('fullscreen-overlay-closed');
+      this._fullScreenOpen = false;
     }
   }
 
-  customElements.define(GrOverlay.is, GrOverlay);
-})();
+  /**
+   * Override the focus stops that iron-overlay-behavior tries to find.
+   */
+  setFocusStops(stops) {
+    this.__firstFocusableNode = stops.start;
+    this.__lastFocusableNode = stops.end;
+  }
+
+  /**
+   * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
+   * opening. Eventually replace with a direct way to listen to the overlay.
+   */
+  _awaitOpen(fn, reject) {
+    let iters = 0;
+    const step = () => {
+      this.async(() => {
+        if (this.style.display !== 'none') {
+          fn.call(this);
+        } else if (iters++ < AWAIT_MAX_ITERS) {
+          step.call(this);
+        } else {
+          reject(new Error('gr-overlay _awaitOpen failed to resolve'));
+        }
+      }, AWAIT_STEP);
+    };
+    step.call(this);
+  }
+
+  _id() {
+    return this.getAttribute('id') || 'global';
+  }
+}
+
+customElements.define(GrOverlay.is, GrOverlay);

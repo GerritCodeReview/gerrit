@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-registration-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-registration-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-registration-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-registration-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -41,149 +46,151 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-registration-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let account;
-    let sandbox;
-    let _listeners;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-registration-dialog.js';
+suite('gr-registration-dialog tests', () => {
+  let element;
+  let account;
+  let sandbox;
+  let _listeners;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      _listeners = {};
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    _listeners = {};
 
-      account = {
-        name: 'name',
-        username: null,
-        email: 'email',
-        secondary_emails: [
-          'email2',
-          'email3',
-        ],
-      };
+    account = {
+      name: 'name',
+      username: null,
+      email: 'email',
+      secondary_emails: [
+        'email2',
+        'email3',
+      ],
+    };
 
-      stub('gr-rest-api-interface', {
-        getAccount() {
-          return Promise.resolve(account);
-        },
-        setAccountName(name) {
-          account.name = name;
-          return Promise.resolve();
-        },
-        setAccountUsername(username) {
-          account.username = username;
-          return Promise.resolve();
-        },
-        setPreferredAccountEmail(email) {
-          account.email = email;
-          return Promise.resolve();
-        },
-        getConfig() {
-          return Promise.resolve(
-              {auth: {editable_account_fields: ['USER_NAME']}});
-        },
-      });
-
-      element = fixture('basic');
-
-      return element.loadData();
+    stub('gr-rest-api-interface', {
+      getAccount() {
+        return Promise.resolve(account);
+      },
+      setAccountName(name) {
+        account.name = name;
+        return Promise.resolve();
+      },
+      setAccountUsername(username) {
+        account.username = username;
+        return Promise.resolve();
+      },
+      setPreferredAccountEmail(email) {
+        account.email = email;
+        return Promise.resolve();
+      },
+      getConfig() {
+        return Promise.resolve(
+            {auth: {editable_account_fields: ['USER_NAME']}});
+      },
     });
 
-    teardown(() => {
-      sandbox.restore();
-      for (const eventType in _listeners) {
-        if (_listeners.hasOwnProperty(eventType)) {
-          element.removeEventListener(eventType, _listeners[eventType]);
-        }
+    element = fixture('basic');
+
+    return element.loadData();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+    for (const eventType in _listeners) {
+      if (_listeners.hasOwnProperty(eventType)) {
+        element.removeEventListener(eventType, _listeners[eventType]);
       }
-    });
-
-    function listen(eventType) {
-      return new Promise(resolve => {
-        _listeners[eventType] = function() { resolve(); };
-        element.addEventListener(eventType, _listeners[eventType]);
-      });
     }
+  });
 
-    function save(opt_action) {
-      const promise = listen('account-detail-update');
-      if (opt_action) {
-        opt_action();
-      } else {
-        MockInteractions.tap(element.$.saveButton);
-      }
-      return promise;
+  function listen(eventType) {
+    return new Promise(resolve => {
+      _listeners[eventType] = function() { resolve(); };
+      element.addEventListener(eventType, _listeners[eventType]);
+    });
+  }
+
+  function save(opt_action) {
+    const promise = listen('account-detail-update');
+    if (opt_action) {
+      opt_action();
+    } else {
+      MockInteractions.tap(element.$.saveButton);
     }
+    return promise;
+  }
 
-    function close(opt_action) {
-      const promise = listen('close');
-      if (opt_action) {
-        opt_action();
-      } else {
-        MockInteractions.tap(element.$.closeButton);
-      }
-      return promise;
+  function close(opt_action) {
+    const promise = listen('close');
+    if (opt_action) {
+      opt_action();
+    } else {
+      MockInteractions.tap(element.$.closeButton);
     }
+    return promise;
+  }
 
-    test('fires the close event on close', done => {
-      close().then(done);
-    });
+  test('fires the close event on close', done => {
+    close().then(done);
+  });
 
-    test('fires the close event on save', done => {
-      close(() => {
-        MockInteractions.tap(element.$.saveButton);
-      }).then(done);
-    });
+  test('fires the close event on save', done => {
+    close(() => {
+      MockInteractions.tap(element.$.saveButton);
+    }).then(done);
+  });
 
-    test('saves account details', done => {
-      flush(() => {
-        element.$.name.value = 'new name';
-        element.$.username.value = 'new username';
-        element.$.email.value = 'email3';
+  test('saves account details', done => {
+    flush(() => {
+      element.$.name.value = 'new name';
+      element.$.username.value = 'new username';
+      element.$.email.value = 'email3';
 
-        // Nothing should be committed yet.
-        assert.equal(account.name, 'name');
-        assert.isNotOk(account.username);
-        assert.equal(account.email, 'email');
+      // Nothing should be committed yet.
+      assert.equal(account.name, 'name');
+      assert.isNotOk(account.username);
+      assert.equal(account.email, 'email');
 
-        // Save and verify new values are committed.
-        save()
-            .then(() => {
-              assert.equal(account.name, 'new name');
-              assert.equal(account.username, 'new username');
-              assert.equal(account.email, 'email3');
-            })
-            .then(done);
-      });
-    });
-
-    test('email select properly populated', done => {
-      element._account = {email: 'foo', secondary_emails: ['bar', 'baz']};
-      flush(() => {
-        assert.equal(element.$.email.value, 'foo');
-        done();
-      });
-    });
-
-    test('save btn disabled', () => {
-      const compute = element._computeSaveDisabled;
-      assert.isTrue(compute('', '', false));
-      assert.isTrue(compute('', 'test', false));
-      assert.isTrue(compute('test', '', false));
-      assert.isTrue(compute('test', 'test', true));
-      assert.isFalse(compute('test', 'test', false));
-    });
-
-    test('_computeUsernameMutable', () => {
-      assert.isTrue(element._computeUsernameMutable(
-          {auth: {editable_account_fields: ['USER_NAME']}}, null));
-      assert.isFalse(element._computeUsernameMutable(
-          {auth: {editable_account_fields: ['USER_NAME']}}, 'abc'));
-      assert.isFalse(element._computeUsernameMutable(
-          {auth: {editable_account_fields: []}}, null));
-      assert.isFalse(element._computeUsernameMutable(
-          {auth: {editable_account_fields: []}}, 'abc'));
+      // Save and verify new values are committed.
+      save()
+          .then(() => {
+            assert.equal(account.name, 'new name');
+            assert.equal(account.username, 'new username');
+            assert.equal(account.email, 'email3');
+          })
+          .then(done);
     });
   });
+
+  test('email select properly populated', done => {
+    element._account = {email: 'foo', secondary_emails: ['bar', 'baz']};
+    flush(() => {
+      assert.equal(element.$.email.value, 'foo');
+      done();
+    });
+  });
+
+  test('save btn disabled', () => {
+    const compute = element._computeSaveDisabled;
+    assert.isTrue(compute('', '', false));
+    assert.isTrue(compute('', 'test', false));
+    assert.isTrue(compute('test', '', false));
+    assert.isTrue(compute('test', 'test', true));
+    assert.isFalse(compute('test', 'test', false));
+  });
+
+  test('_computeUsernameMutable', () => {
+    assert.isTrue(element._computeUsernameMutable(
+        {auth: {editable_account_fields: ['USER_NAME']}}, null));
+    assert.isFalse(element._computeUsernameMutable(
+        {auth: {editable_account_fields: ['USER_NAME']}}, 'abc'));
+    assert.isFalse(element._computeUsernameMutable(
+        {auth: {editable_account_fields: []}}, null));
+    assert.isFalse(element._computeUsernameMutable(
+        {auth: {editable_account_fields: []}}, 'abc'));
+  });
+});
 </script>

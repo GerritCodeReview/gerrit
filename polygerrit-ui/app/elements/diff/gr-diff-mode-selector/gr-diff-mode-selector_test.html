@@ -19,18 +19,24 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff-mode-selector</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="/bower_components/page/page.js"></script>
-<script src="../../../scripts/util.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="/node_modules/page/page.js"></script>
+<script type="module" src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-diff-mode-selector.html">
+<script type="module" src="./gr-diff-mode-selector.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-diff-mode-selector.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -38,52 +44,55 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff-mode-selector tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-diff-mode-selector.js';
+suite('gr-diff-mode-selector tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('_computeSelectedClass', () => {
-      assert.equal(
-          element._computeSelectedClass('SIDE_BY_SIDE', 'SIDE_BY_SIDE'),
-          'selected');
-      assert.equal(
-          element._computeSelectedClass('SIDE_BY_SIDE', 'UNIFIED_DIFF'), '');
-    });
-
-    test('setMode', () => {
-      const saveStub = sandbox.stub(element.$.restAPI, 'savePreferences');
-
-      // Setting the mode initially does not save prefs.
-      element.saveOnChange = true;
-      element.setMode('SIDE_BY_SIDE');
-      assert.isFalse(saveStub.called);
-
-      // Setting the mode to itself does not save prefs.
-      element.setMode('SIDE_BY_SIDE');
-      assert.isFalse(saveStub.called);
-
-      // Setting the mode to something else does not save prefs if saveOnChange
-      // is false.
-      element.saveOnChange = false;
-      element.setMode('UNIFIED_DIFF');
-      assert.isFalse(saveStub.called);
-
-      // Setting the mode to something else does not save prefs if saveOnChange
-      // is false.
-      element.saveOnChange = true;
-      element.setMode('SIDE_BY_SIDE');
-      assert.isTrue(saveStub.calledOnce);
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('_computeSelectedClass', () => {
+    assert.equal(
+        element._computeSelectedClass('SIDE_BY_SIDE', 'SIDE_BY_SIDE'),
+        'selected');
+    assert.equal(
+        element._computeSelectedClass('SIDE_BY_SIDE', 'UNIFIED_DIFF'), '');
+  });
+
+  test('setMode', () => {
+    const saveStub = sandbox.stub(element.$.restAPI, 'savePreferences');
+
+    // Setting the mode initially does not save prefs.
+    element.saveOnChange = true;
+    element.setMode('SIDE_BY_SIDE');
+    assert.isFalse(saveStub.called);
+
+    // Setting the mode to itself does not save prefs.
+    element.setMode('SIDE_BY_SIDE');
+    assert.isFalse(saveStub.called);
+
+    // Setting the mode to something else does not save prefs if saveOnChange
+    // is false.
+    element.saveOnChange = false;
+    element.setMode('UNIFIED_DIFF');
+    assert.isFalse(saveStub.called);
+
+    // Setting the mode to something else does not save prefs if saveOnChange
+    // is false.
+    element.saveOnChange = true;
+    element.setMode('SIDE_BY_SIDE');
+    assert.isTrue(saveStub.calledOnce);
+  });
+});
 </script>

@@ -34,6 +34,24 @@
       "revId": "1a20a270bed3e5b4d542c7e7f3c793d3b0992649",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d4ffa12_541cce1a",
+        "filename": "java/com/google/gerrit/extensions/common/AttentionSetEntry.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-09T10:08:45Z",
+      "side": 1,
+      "message": "No, I think boolean or enum is fine. But would probably be good to have that in V1, so API users won\u0027t be surprised later when REMOVED entries appear.",
+      "parentUuid": "022fb4da_4975487b",
+      "revId": "1a20a270bed3e5b4d542c7e7f3c793d3b0992649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

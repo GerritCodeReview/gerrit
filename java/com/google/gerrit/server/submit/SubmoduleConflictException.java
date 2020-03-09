@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,18 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+
 /**
- * Indicates the gitlink's update cannot be processed at this time.
+ * Exception to be thrown if any submodule operation is not possible due to conflicts.
  *
- * <p>Message should be considered user-visible.
+ * <p>Throwing this exception results in a {@code 409 Conflict} response to the calling user. The
+ * exception message is returned as error message to the user.
  */
-public class SubmoduleException extends Exception {
+public class SubmoduleConflictException extends ResourceConflictException {
   private static final long serialVersionUID = 1L;
 
-  SubmoduleException(String msg) {
-    super(msg, null);
-  }
-
-  SubmoduleException(String msg, Throwable why) {
-    super(msg, why);
+  public SubmoduleConflictException(String msg) {
+  super(msg);
   }
 }

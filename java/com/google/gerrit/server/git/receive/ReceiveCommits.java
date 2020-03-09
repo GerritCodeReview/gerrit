@@ -163,7 +163,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
-import com.google.gerrit.server.submit.SubmoduleException;
 import com.google.gerrit.server.submit.SubmoduleOp;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -763,8 +762,8 @@ class ReceiveCommits {
           orm.setContext(TimeUtil.nowTs(), user, NotifyResolver.Result.none());
           SubmoduleOp op = subOpFactory.create(branches, orm);
           op.updateSuperProjects();
-        } catch (SubmoduleException e) {
-          logger.atSevere().withCause(e).log("Can't update the superprojects");
+        } catch (RestApiException e) {
+          logger.atWarning().withCause(e).log("Can't update the superprojects");
         }
       }
     }

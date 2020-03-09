@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "71283479_c412fdb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-03-09T15:16:24Z",
+      "side": 1,
+      "message": "This is from comments from Issue 1072, it\u0027s a migration in the configuration of existing gerrit instances.\n\nThe first fix Ib76d72a3d6435429b14f696f2833ca5cd847ba63 was reverted by Id2a25551d8e9953cd1e678086d491133f5f2d987 which states that a migration should occur.\n\nAfter that If5c94d1e02c4772e765d596c79956b3808291675 was proposed.\nI copied the commit message as it is.\n\nChecking \"canUploadMergesRegular() || canUploadMergesForReview()\" instead of \"canUploadMergesRegular()\" should only be temporary.",
+      "parentUuid": "cffded9b_2676b236",
+      "range": {
+        "startLine": 19,
+        "startChar": 27,
+        "endLine": 19,
+        "endChar": 64
+      },
+      "revId": "3a74ed48793db0898716f96a95d17dafdcdaef19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85c25eee_58bc74db",
         "filename": "java/com/google/gerrit/server/permissions/FailedPermissionBackend.java",
         "patchSetId": 3

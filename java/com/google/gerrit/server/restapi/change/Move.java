@@ -32,7 +32,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -282,7 +281,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource rsrc) {
+  public UiAction.Description getDescription(ChangeResource rsrc) throws IOException {
     UiAction.Description description =
         new UiAction.Description()
             .setLabel("Move Change")
@@ -293,30 +292,15 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     if (!change.isNew()) {
       return description;
     }
-
-    try {
-      if (!projectCache
-          .get(rsrc.getProject())
-          .orElseThrow(illegalState(rsrc.getProject()))
-          .statePermitsWrite()) {
-        return description;
-      }
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to check if project state permits write: %s", rsrc.getProject());
+    if (!projectCache
+        .get(rsrc.getProject())
+        .orElseThrow(illegalState(rsrc.getProject()))
+        .statePermitsWrite()) {
       return description;
     }
-
-    try {
-      if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
-        return description;
-      }
-    } catch (StorageException | IOException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to check if the current patch set of change %s is locked", change.getId());
+    if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
       return description;
     }
-
     return description.setVisible(
         and(
             permissionBackend.user(rsrc.getUser()).ref(change.getDest()).testCond(CREATE_CHANGE),

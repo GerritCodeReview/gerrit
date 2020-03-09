@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "700809ae_b04c4f27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-09T10:02:44Z",
+      "side": 1,
+      "message": "Personally I find it clear enough. :-)",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "4ac4cdc30ef65cf2ef6feb9316b468997c23ae82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c08db98_a45668d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-09T10:02:44Z",
+      "side": 1,
+      "message": "I could not reproduce this. For me the dropdown does disappear.",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "4ac4cdc30ef65cf2ef6feb9316b468997c23ae82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fbb8078_53f9180c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-09T10:02:44Z",
+      "side": 1,
+      "message": "I find using chips rather emphasizes that there could be multiple chips. Did you ask Delphine for feedback on this?",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "4ac4cdc30ef65cf2ef6feb9316b468997c23ae82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

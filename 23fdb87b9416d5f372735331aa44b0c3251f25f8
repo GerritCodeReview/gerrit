@@ -46,6 +46,23 @@
       "revId": "23fdb87b9416d5f372735331aa44b0c3251f25f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb06c97_ca022c4d",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-09T09:31:46Z",
+      "side": 1,
+      "message": "Why do we catch StorageException here, but not in CherryPick#getDescription at [1]?\nCan we the behaviour consistent in all getDescription methods?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/258074/2/java/com/google/gerrit/server/restapi/change/CherryPick.java",
+      "revId": "23fdb87b9416d5f372735331aa44b0c3251f25f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

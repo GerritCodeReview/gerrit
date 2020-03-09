@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-comment-list</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-comment-list.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-comment-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-comment-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,98 +40,101 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-comment-list tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-comment-list.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-comment-list tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(Gerrit.Nav, 'mapCommentlinks', x => x);
-    });
-
-    teardown(() => { sandbox.restore(); });
-
-    test('_computeFilesFromComments w/ special file path sorting', () => {
-      const comments = {
-        'file_b.html': [],
-        'file_c.css': [],
-        'file_a.js': [],
-        'test.cc': [],
-        'test.h': [],
-      };
-      const expected = [
-        'file_a.js',
-        'file_b.html',
-        'file_c.css',
-        'test.h',
-        'test.cc',
-      ];
-      const actual = element._computeFilesFromComments(comments);
-      assert.deepEqual(actual, expected);
-
-      assert.deepEqual(element._computeFilesFromComments(null), []);
-    });
-
-    test('_computePatchDisplayName', () => {
-      const comment = {line: 123, side: 'REVISION', patch_set: 10};
-
-      element.patchNum = 10;
-      assert.equal(element._computePatchDisplayName(comment), '');
-
-      element.patchNum = 9;
-      assert.equal(element._computePatchDisplayName(comment), 'PS10, ');
-
-      comment.side = 'PARENT';
-      assert.equal(element._computePatchDisplayName(comment), 'Base, ');
-    });
-
-    test('config commentlinks propagate to formatted text', () => {
-      element.comments = {
-        'test.h': [{
-          author: {name: 'foo'},
-          patch_set: 4,
-          line: 10,
-          updated: '2017-10-30 20:48:40.000000000',
-          message: 'Ideadbeefdeadbeef',
-          unresolved: true,
-        }],
-      };
-      element.projectConfig = {
-        commentlinks: {foo: {link: '#/q/$1', match: '(I[0-9a-f]{8,40})'}},
-      };
-      flushAsynchronousOperations();
-      const formattedText = Polymer.dom(element.root).querySelector(
-          'gr-formatted-text.message');
-      assert.isOk(formattedText.config);
-      assert.deepEqual(formattedText.config,
-          element.projectConfig.commentlinks);
-    });
-
-    test('_computeDiffLineURL', () => {
-      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
-      element.projectName = 'proj';
-      element.changeNum = 123;
-
-      const comment = {line: 456};
-      element._computeDiffLineURL('foo.cc', 123, 4, comment);
-      assert.isTrue(getUrlStub.calledOnce);
-      assert.deepEqual(getUrlStub.lastCall.args,
-          [123, 'proj', 'foo.cc', 4, null, 456, false]);
-
-      comment.side = 'PARENT';
-      element._computeDiffLineURL('foo.cc', 123, 4, comment);
-      assert.isTrue(getUrlStub.calledTwice);
-      assert.deepEqual(getUrlStub.lastCall.args,
-          [123, 'proj', 'foo.cc', 4, null, 456, true]);
-
-      comment.parent = 12;
-      element._computeDiffLineURL('foo.cc', 123, 4, comment);
-      assert.isTrue(getUrlStub.calledThrice);
-      assert.deepEqual(getUrlStub.lastCall.args,
-          [123, 'proj', 'foo.cc', 4, -12, 456, true]);
-    });
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(Gerrit.Nav, 'mapCommentlinks', x => x);
   });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('_computeFilesFromComments w/ special file path sorting', () => {
+    const comments = {
+      'file_b.html': [],
+      'file_c.css': [],
+      'file_a.js': [],
+      'test.cc': [],
+      'test.h': [],
+    };
+    const expected = [
+      'file_a.js',
+      'file_b.html',
+      'file_c.css',
+      'test.h',
+      'test.cc',
+    ];
+    const actual = element._computeFilesFromComments(comments);
+    assert.deepEqual(actual, expected);
+
+    assert.deepEqual(element._computeFilesFromComments(null), []);
+  });
+
+  test('_computePatchDisplayName', () => {
+    const comment = {line: 123, side: 'REVISION', patch_set: 10};
+
+    element.patchNum = 10;
+    assert.equal(element._computePatchDisplayName(comment), '');
+
+    element.patchNum = 9;
+    assert.equal(element._computePatchDisplayName(comment), 'PS10, ');
+
+    comment.side = 'PARENT';
+    assert.equal(element._computePatchDisplayName(comment), 'Base, ');
+  });
+
+  test('config commentlinks propagate to formatted text', () => {
+    element.comments = {
+      'test.h': [{
+        author: {name: 'foo'},
+        patch_set: 4,
+        line: 10,
+        updated: '2017-10-30 20:48:40.000000000',
+        message: 'Ideadbeefdeadbeef',
+        unresolved: true,
+      }],
+    };
+    element.projectConfig = {
+      commentlinks: {foo: {link: '#/q/$1', match: '(I[0-9a-f]{8,40})'}},
+    };
+    flushAsynchronousOperations();
+    const formattedText = dom(element.root).querySelector(
+        'gr-formatted-text.message');
+    assert.isOk(formattedText.config);
+    assert.deepEqual(formattedText.config,
+        element.projectConfig.commentlinks);
+  });
+
+  test('_computeDiffLineURL', () => {
+    const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
+    element.projectName = 'proj';
+    element.changeNum = 123;
+
+    const comment = {line: 456};
+    element._computeDiffLineURL('foo.cc', 123, 4, comment);
+    assert.isTrue(getUrlStub.calledOnce);
+    assert.deepEqual(getUrlStub.lastCall.args,
+        [123, 'proj', 'foo.cc', 4, null, 456, false]);
+
+    comment.side = 'PARENT';
+    element._computeDiffLineURL('foo.cc', 123, 4, comment);
+    assert.isTrue(getUrlStub.calledTwice);
+    assert.deepEqual(getUrlStub.lastCall.args,
+        [123, 'proj', 'foo.cc', 4, null, 456, true]);
+
+    comment.parent = 12;
+    element._computeDiffLineURL('foo.cc', 123, 4, comment);
+    assert.isTrue(getUrlStub.calledThrice);
+    assert.deepEqual(getUrlStub.lastCall.args,
+        [123, 'proj', 'foo.cc', 4, -12, 456, true]);
+  });
+});
 </script>

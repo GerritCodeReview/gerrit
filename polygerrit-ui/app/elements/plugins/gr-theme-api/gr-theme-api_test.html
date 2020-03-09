@@ -19,16 +19,22 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-theme-api</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="../gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="gr-theme-api.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../gr-endpoint-decorator/gr-endpoint-decorator.js"></script>
+<script type="module" src="./gr-theme-api.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../gr-endpoint-decorator/gr-endpoint-decorator.js';
+import './gr-theme-api.js';
+void(0);
+</script>
 
 <test-fixture id="header-title">
   <template>
@@ -38,50 +44,53 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-theme-api tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let theme;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../gr-endpoint-decorator/gr-endpoint-decorator.js';
+import './gr-theme-api.js';
+suite('gr-theme-api tests', () => {
+  let sandbox;
+  let theme;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    let plugin;
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
+    theme = plugin.theme();
+  });
+
+  teardown(() => {
+    theme = null;
+    sandbox.restore();
+  });
+
+  test('exists', () => {
+    assert.isOk(theme);
+  });
+
+  suite('header-title', () => {
+    let customHeader;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      theme = plugin.theme();
-    });
-
-    teardown(() => {
-      theme = null;
-      sandbox.restore();
-    });
-
-    test('exists', () => {
-      assert.isOk(theme);
-    });
-
-    suite('header-title', () => {
-      let customHeader;
-
-      setup(() => {
-        fixture('header-title');
-        stub('gr-custom-plugin-header', {
-          /** @override */
-          ready() { customHeader = this; },
-        });
-        Gerrit._loadPlugins([]);
+      fixture('header-title');
+      stub('gr-custom-plugin-header', {
+        /** @override */
+        ready() { customHeader = this; },
       });
+      Gerrit._loadPlugins([]);
+    });
 
-      test('sets logo and title', done => {
-        theme.setHeaderLogoAndTitle('foo.jpg', 'bar');
-        flush(() => {
-          assert.isNotNull(customHeader);
-          assert.equal(customHeader.logoUrl, 'foo.jpg');
-          assert.equal(customHeader.title, 'bar');
-          done();
-        });
+    test('sets logo and title', done => {
+      theme.setHeaderLogoAndTitle('foo.jpg', 'bar');
+      flush(() => {
+        assert.isNotNull(customHeader);
+        assert.equal(customHeader.logoUrl, 'foo.jpg');
+        assert.equal(customHeader.title, 'bar');
+        done();
       });
     });
   });
+});
 </script>

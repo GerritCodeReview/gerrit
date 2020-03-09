@@ -19,18 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-overlay</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
 
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<link rel="import" href="gr-overlay.html">
+<script type="module" src="./gr-overlay.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-overlay.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -40,57 +45,59 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-overlay tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-overlay.js';
+suite('gr-overlay tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('events are fired on fullscreen view', done => {
-      sandbox.stub(element, '_isMobile').returns(true);
-      const openHandler = sandbox.stub();
-      const closeHandler = sandbox.stub();
-      element.addEventListener('fullscreen-overlay-opened', openHandler);
-      element.addEventListener('fullscreen-overlay-closed', closeHandler);
+  test('events are fired on fullscreen view', done => {
+    sandbox.stub(element, '_isMobile').returns(true);
+    const openHandler = sandbox.stub();
+    const closeHandler = sandbox.stub();
+    element.addEventListener('fullscreen-overlay-opened', openHandler);
+    element.addEventListener('fullscreen-overlay-closed', closeHandler);
 
-      element.open().then(() => {
-        assert.isTrue(element._isMobile.called);
-        assert.isTrue(element._fullScreenOpen);
-        assert.isTrue(openHandler.called);
+    element.open().then(() => {
+      assert.isTrue(element._isMobile.called);
+      assert.isTrue(element._fullScreenOpen);
+      assert.isTrue(openHandler.called);
 
-        element._close();
-        assert.isFalse(element._fullScreenOpen);
-        assert.isTrue(closeHandler.called);
-        done();
-      });
-    });
-
-    test('events are not fired on desktop view', done => {
-      sandbox.stub(element, '_isMobile').returns(false);
-      const openHandler = sandbox.stub();
-      const closeHandler = sandbox.stub();
-      element.addEventListener('fullscreen-overlay-opened', openHandler);
-      element.addEventListener('fullscreen-overlay-closed', closeHandler);
-
-      element.open().then(() => {
-        assert.isTrue(element._isMobile.called);
-        assert.isFalse(element._fullScreenOpen);
-        assert.isFalse(openHandler.called);
-
-        element._close();
-        assert.isFalse(element._fullScreenOpen);
-        assert.isFalse(closeHandler.called);
-        done();
-      });
+      element._close();
+      assert.isFalse(element._fullScreenOpen);
+      assert.isTrue(closeHandler.called);
+      done();
     });
   });
+
+  test('events are not fired on desktop view', done => {
+    sandbox.stub(element, '_isMobile').returns(false);
+    const openHandler = sandbox.stub();
+    const closeHandler = sandbox.stub();
+    element.addEventListener('fullscreen-overlay-opened', openHandler);
+    element.addEventListener('fullscreen-overlay-closed', closeHandler);
+
+    element.open().then(() => {
+      assert.isTrue(element._isMobile.called);
+      assert.isFalse(element._fullScreenOpen);
+      assert.isFalse(openHandler.called);
+
+      element._close();
+      assert.isFalse(element._fullScreenOpen);
+      assert.isFalse(closeHandler.called);
+      done();
+    });
+  });
+});
 </script>

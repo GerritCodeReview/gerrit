@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faf2081e_f374b548",
+        "filename": "java/gerrit/PRED_commit_parent_count_1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-09T15:44:34Z",
+      "side": 1,
+      "message": "wrong year",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "e9dc6d4f517002965d391770d154bcd4c2464859",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

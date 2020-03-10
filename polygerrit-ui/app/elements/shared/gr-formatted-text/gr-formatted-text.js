@@ -19,6 +19,7 @@
 
   // eslint-disable-next-line no-unused-vars
   const QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
+  const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 
   /** @extends Polymer.Element */
   class GrFormattedText extends Polymer.GestureEventListeners(
@@ -54,19 +55,6 @@
       }
     }
 
-    /**
-     * Get the plain text as it appears in the generated DOM.
-     *
-     * This differs from the `content` property in that it will not include
-     * formatting markers such as > characters to make quotes or * and - markers
-     * to make list items.
-     *
-     * @return {string}
-     */
-    getTextContent() {
-      return this._blocksToText(this._computeBlocks(this.content));
-    }
-
     _contentChanged(content) {
       // In the case where the config may not be set (perhaps due to the
       // request for it still being in flight), set the content anyway to
@@ -99,9 +87,10 @@
      * * 'quote' (Block quote.)
      * * 'pre' (Pre-formatted text.)
      * * 'list' (Unordered list.)
+     * * 'code' (code blocks.)
      *
-     * For blocks of type 'paragraph' and 'pre' there is a `text` property that
-     * maps to a string of the block's content.
+     * For blocks of type 'paragraph', 'pre' and 'code' there is a `text`
+     * property that maps to a string of the block's content.
      *
      * For blocks of type 'list', there is an `items` property that maps to a
      * list of strings representing the list items.
@@ -118,123 +107,134 @@
       if (!content) { return []; }
 
       const result = [];
-      const split = content.split('\n\n');
-      let p;
+      const lines = content.replace(/[\s\n\r\t]+$/g, '').split('\n');
 
-      for (let i = 0; i < split.length; i++) {
-        p = split[i];
-        if (!p.length) { continue; }
+      for (let i = 0; i < lines.length; i++) {
+        if (!lines[i].length) {
+          continue;
+        }
 
-        if (this._isQuote(p)) {
-          result.push(this._makeQuote(p));
-        } else if (this._isPreFormat(p)) {
-          result.push({type: 'pre', text: p});
-        } else if (this._isList(p)) {
-          this._makeList(p, result);
+        if (this._isCodeMarkLine(lines[i])) {
+          // handle multi-line code
+          let nextI = i+1;
+          while (!this._isCodeMarkLine(lines[nextI]) && nextI < lines.length) {
+            nextI++;
+          }
+
+          if (this._isCodeMarkLine(lines[nextI])) {
+            result.push({
+              type: 'code',
+              text: lines.slice(i+1, nextI).join('\n'),
+            });
+            i = nextI;
+            continue;
+          }
+
+          // otherwise treat it as regular line and continue
+          // check for other cases
+        }
+
+        if (this._isSingleLineCode(lines[i])) {
+          // no guard check as _isSingleLineCode tested on the pattern
+          const codeContent = lines[i].match(CODE_MARKER_PATTERN)[2];
+          result.push({type: 'code', text: codeContent});
+        } else if (this._isList(lines[i])) {
+          let nextI = i + 1;
+          while (this._isList(lines[nextI])) {
+            nextI++;
+          }
+          result.push(this._makeList(lines.slice(i, nextI)));
+          i = nextI - 1;
+        } else if (this._isQuote(lines[i])) {
+          let nextI = i + 1;
+          while (this._isQuote(lines[nextI])) {
+            nextI++;
+          }
+          const blockLines = lines.slice(i, nextI)
+              .map(l => l.replace(/^[ ]?>[ ]?/, ''));
+          result.push({
+            type: 'quote',
+            blocks: this._computeBlocks(blockLines.join('\n')),
+          });
+          i = nextI - 1;
+        } else if (this._isPreFormat(lines[i])) {
+          let nextI = i + 1;
+          // include pre or all regular lines but stop at next new line
+          while (this._isPreFormat(lines[nextI])
+           || (this._isRegularLine(lines[nextI]) && lines[nextI].length)) {
+            nextI++;
+          }
+          result.push({
+            type: 'pre',
+            text: lines.slice(i, nextI).join('\n'),
+          });
+          i = nextI - 1;
         } else {
-          result.push({type: 'paragraph', text: p});
+          let nextI = i + 1;
+          while (this._isRegularLine(lines[nextI])) {
+            nextI++;
+          }
+          result.push({
+            type: 'paragraph',
+            text: lines.slice(i, nextI).join('\n'),
+          });
+          i = nextI - 1;
         }
       }
+
       return result;
     }
 
     /**
-     * Take a block of comment text that contains a list and potentially
-     * a paragraph (but does not contain blank lines), generate appropriate
+     * Take a block of comment text that contains a list, generate appropriate
      * block objects and append them to the output list.
      *
-     * In simple cases, this will generate a single list block. For example, on
-     * the following input.
+     * * Item one.
+     * * Item two.
+     * * item three.
      *
-     *    * Item one.
-     *    * Item two.
-     *    * item three.
+     * TODO(taoalpha): maybe we should also support nested list
      *
-     * However, if the list starts with a paragraph, it will need to also
-     * generate that paragraph. Consider the following input.
-     *
-     *    A bit of text describing the context of the list:
-     *    * List item one.
-     *    * List item two.
-     *    * Et cetera.
-     *
-     * In this case, `_makeList` generates a paragraph block object
-     * containing the non-bullet-prefixed text, followed by a list block.
-     *
-     * @param {!string} p The block containing the list (as well as a
-     *   potential paragraph).
-     * @param {!Array<!Object>} out The list of blocks to append to.
+     * @param {!Array<string>} lines The block containing the list.
      */
-    _makeList(p, out) {
-      let block = null;
-      let inList = false;
-      let inParagraph = false;
-      const lines = p.split('\n');
+    _makeList(lines) {
+      const block = {type: 'list', items: []};
       let line;
 
       for (let i = 0; i < lines.length; i++) {
         line = lines[i];
-
-        if (line[0] === '-' || line[0] === '*') {
-          // The next line looks like a list item. If not building a list
-          // already, then create one. Remove the list item marker (* or -) from
-          // the line.
-          if (!inList) {
-            if (inParagraph) {
-              // Add the finished paragraph block to the result.
-              inParagraph = false;
-              if (block !== null) {
-                out.push(block);
-              }
-            }
-            inList = true;
-            block = {type: 'list', items: []};
-          }
-          line = line.substring(1).trim();
-        } else if (!inList) {
-          // Otherwise, if a list has not yet been started, but the next line
-          // does not look like a list item, then add the line to a paragraph
-          // block. If a paragraph block has not yet been started, then create
-          // one.
-          if (!inParagraph) {
-            inParagraph = true;
-            block = {type: 'paragraph', text: ''};
-          } else {
-            block.text += ' ';
-          }
-          block.text += line;
-          continue;
-        }
+        line = line.substring(1).trim();
         block.items.push(line);
       }
-      if (block !== null) {
-        out.push(block);
-      }
+      return block;
     }
 
-    _makeQuote(p) {
-      const quotedLines = p
-          .split('\n')
-          .map(l => l.replace(/^[ ]?>[ ]?/, ''))
-          .join('\n');
-      return {
-        type: 'quote',
-        blocks: this._computeBlocks(quotedLines),
-      };
+    _isRegularLine(line) {
+      // line can not be recognized by existing patterns
+      if (line === undefined) return false;
+      return !this._isQuote(line) && !this._isCodeMarkLine(line)
+      && !this._isSingleLineCode(line) && !this._isList(line) &&
+      !this._isPreFormat(line);
     }
 
-    _isQuote(p) {
-      return p.startsWith('> ') || p.startsWith(' > ');
+    _isQuote(line) {
+      return line && (line.startsWith('> ') || line.startsWith(' > '));
     }
 
-    _isPreFormat(p) {
-      return p.includes('\n ') || p.includes('\n\t') ||
-          p.startsWith(' ') || p.startsWith('\t');
+    _isCodeMarkLine(line) {
+      return line && line.trim() === '```';
     }
 
-    _isList(p) {
-      return p.includes('\n- ') || p.includes('\n* ') ||
-          p.startsWith('- ') || p.startsWith('* ');
+    _isSingleLineCode(line) {
+      return line && CODE_MARKER_PATTERN.test(line);
+    }
+
+    _isPreFormat(line) {
+      return line && /^[ \t]/.test(line);
+    }
+
+    _isList(line) {
+      return line && /^[-*] /.test(line);
     }
 
     /**
@@ -274,6 +274,12 @@
           return bq;
         }
 
+        if (block.type === 'code') {
+          const code = document.createElement('code');
+          code.textContent = block.text;
+          return code;
+        }
+
         if (block.type === 'pre') {
           return this._makeLinkedText(block.text, true);
         }
@@ -288,20 +294,6 @@
           return ul;
         }
       });
-    }
-
-    _blocksToText(blocks) {
-      return blocks.map(block => {
-        if (block.type === 'paragraph' || block.type === 'pre') {
-          return block.text;
-        }
-        if (block.type === 'quote') {
-          return this._blocksToText(block.blocks);
-        }
-        if (block.type === 'list') {
-          return block.items.join('\n');
-        }
-      }).join('\n\n');
     }
   }
 

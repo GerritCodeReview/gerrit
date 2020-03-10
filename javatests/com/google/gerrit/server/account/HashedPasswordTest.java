@@ -47,10 +47,16 @@ public class HashedPasswordTest {
 
   @Test
   public void lengthLimit() throws Exception {
-    String password = Strings.repeat("1", 72);
+    String password = Strings.repeat("1", 71);
 
     // make sure it fits in varchar(255).
     assertThat(HashedPassword.fromPassword(password).encode().length()).isLessThan(255);
+    
+    String passwordTooLong = Strings.repeat("1", 72);
+    IllegalArgumentException thrown =
+        assertThrows(
+            IllegalArgumentException.class, () -> HashedPassword.fromPassword(passwordTooLong));
+    assertThat(thrown).hasMessageThat().contains("BCrypt password must be <= 72 bytes");
   }
 
   @Test
@@ -60,5 +66,23 @@ public class HashedPasswordTest {
 
     assertThat(hashed.checkPassword("false")).isFalse();
     assertThat(hashed.checkPassword(password)).isTrue();
+  }
+
+  @Test
+  public void repeatedPasswordFail() throws Exception {
+    String password = "secret";
+    HashedPassword hashed = HashedPassword.fromPassword(password);
+
+    assertThat(hashed.checkPassword(password + password)).isFalse();
+    assertThat(hashed.checkPassword(password)).isTrue();
+  }
+
+  @Test
+  public void cyclicPasswordTest() throws Exception {
+    String encoded = "bcrypt:4:/KgSxlmbopLXb1eDm35DBA==:98n3gu2pKW9D5mCoZ5kNn9v4HcVFPPJy";
+    HashedPassword hashedPassword = HashedPassword.decode(encoded);
+    String password = "abcdef";
+    assertThat(hashedPassword.checkPassword(password)).isTrue();
+    assertThat(hashedPassword.checkPassword(password + password)).isTrue();
   }
 }

@@ -32,6 +32,7 @@ import org.bouncycastle.util.Arrays;
  */
 public class HashedPassword {
   private static final String ALGORITHM_PREFIX = "bcrypt:";
+  private static final String ALGORITHM_PREFIX_0 = "bcrypt0:";
   private static final SecureRandom secureRandom = new SecureRandom();
   private static final BaseEncoding codec = BaseEncoding.base64();
 
@@ -45,7 +46,7 @@ public class HashedPassword {
    * @throws DecoderException if input is malformed.
    */
   public static HashedPassword decode(String encoded) throws DecoderException {
-    if (!encoded.startsWith(ALGORITHM_PREFIX)) {
+    if (!encoded.startsWith(ALGORITHM_PREFIX) && !encoded.startsWith(ALGORITHM_PREFIX_0)) {
       throw new DecoderException("unrecognized algorithm");
     }
 
@@ -67,19 +68,24 @@ public class HashedPassword {
     if (salt.length != 16) {
       throw new DecoderException("salt should be 16 bytes, got " + salt.length);
     }
-    return new HashedPassword(codec.decode(fields.get(3)), salt, cost);
+    return new HashedPassword(
+        codec.decode(fields.get(3)), salt, cost, encoded.startsWith(ALGORITHM_PREFIX_0));
   }
 
-  private static byte[] hashPassword(String password, byte[] salt, int cost) {
+  private static byte[] hashPassword(
+      String password, byte[] salt, int cost, boolean nullTerminate) {
     byte[] pwBytes = password.getBytes(StandardCharsets.UTF_8);
-
+    if (nullTerminate && !password.endsWith("\0")) {
+      pwBytes = Arrays.append(pwBytes, (byte) 0);
+    }
     return BCrypt.generate(pwBytes, salt, cost);
   }
 
   public static HashedPassword fromPassword(String password) {
     byte[] salt = newSalt();
 
-    return new HashedPassword(hashPassword(password, salt, DEFAULT_COST), salt, DEFAULT_COST);
+    return new HashedPassword(
+        hashPassword(password, salt, DEFAULT_COST, true), salt, DEFAULT_COST, true);
   }
 
   private static byte[] newSalt() {
@@ -91,11 +97,15 @@ public class HashedPassword {
   private byte[] salt;
   private byte[] hashed;
   private int cost;
+  // Raw bcrypt repeats the password, so "ABC" works for "ABCABC" too. To prevent this, add
+  // the terminating null char to the password.
+  boolean nullTerminate;
 
-  private HashedPassword(byte[] hashed, byte[] salt, int cost) {
+  private HashedPassword(byte[] hashed, byte[] salt, int cost, boolean nullTerminate) {
     this.salt = salt;
     this.hashed = hashed;
     this.cost = cost;
+    this.nullTerminate = nullTerminate;
 
     checkState(cost >= 4 && cost < 32);
 
@@ -109,11 +119,16 @@ public class HashedPassword {
    * @return one-line string encoding the hash and salt.
    */
   public String encode() {
-    return ALGORITHM_PREFIX + cost + ":" + codec.encode(salt) + ":" + codec.encode(hashed);
+    return (nullTerminate ? ALGORITHM_PREFIX_0 : ALGORITHM_PREFIX)
+        + cost
+        + ":"
+        + codec.encode(salt)
+        + ":"
+        + codec.encode(hashed);
   }
 
   public boolean checkPassword(String password) {
     // Constant-time comparison, because we're paranoid.
-    return Arrays.areEqual(hashPassword(password, salt, cost), hashed);
+    return Arrays.areEqual(hashPassword(password, salt, cost, nullTerminate), hashed);
   }
 }

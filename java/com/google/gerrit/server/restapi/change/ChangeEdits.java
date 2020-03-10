@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Strings;
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -36,6 +39,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.WebLinks;
@@ -120,7 +124,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     @Override
     public Response<?> apply(ChangeResource resource, IdString id, Put.Input input)
         throws AuthException, ResourceConflictException, IOException, OrmException,
-            PermissionBackendException {
+            PermissionBackendException, BadRequestException {
       putEdit.apply(resource, id.get(), input.content);
       return Response.none();
     }
@@ -277,23 +281,34 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     private final ChangeEditModifier editModifier;
     private final GitRepositoryManager repositoryManager;
+    private final EditMessage editMessage;
 
     @Inject
-    Put(ChangeEditModifier editModifier, GitRepositoryManager repositoryManager) {
+    Put(
+        ChangeEditModifier editModifier,
+        GitRepositoryManager repositoryManager,
+        EditMessage editMessage) {
       this.editModifier = editModifier;
       this.repositoryManager = repositoryManager;
+      this.editMessage = editMessage;
     }
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc, Input input)
         throws AuthException, ResourceConflictException, IOException, OrmException,
-            PermissionBackendException {
+            PermissionBackendException, BadRequestException {
       return apply(rsrc.getChangeResource(), rsrc.getPath(), input.content);
     }
 
     public Response<?> apply(ChangeResource rsrc, String path, RawInput newContent)
         throws ResourceConflictException, AuthException, IOException, OrmException,
-            PermissionBackendException {
+            PermissionBackendException, BadRequestException {
+      if (Patch.COMMIT_MSG.equals(path)) {
+        EditMessage.Input editCommitMessageInput = new EditMessage.Input();
+        editCommitMessageInput.message =
+            new String(ByteStreams.toByteArray(newContent.getInputStream()), UTF_8);
+        return Response.ok(editMessage.apply(rsrc, editCommitMessageInput));
+      }
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
@@ -347,6 +362,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
   public static class Get implements RestReadView<ChangeEditResource> {
     private final FileContentUtil fileContentUtil;
     private final ProjectCache projectCache;
+    private final GetMessage getMessage;
 
     @Option(
         name = "--base",
@@ -355,14 +371,20 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     private boolean base;
 
     @Inject
-    Get(FileContentUtil fileContentUtil, ProjectCache projectCache) {
+    Get(FileContentUtil fileContentUtil, ProjectCache projectCache, GetMessage getMessage) {
       this.fileContentUtil = fileContentUtil;
       this.projectCache = projectCache;
+      this.getMessage = getMessage;
     }
 
     @Override
-    public Response<BinaryResult> apply(ChangeEditResource rsrc) throws IOException {
+    public Response<BinaryResult> apply(ChangeEditResource rsrc)
+        throws AuthException, IOException, OrmException {
       try {
+        if (Patch.COMMIT_MSG.equals(rsrc.getPath())) {
+          return Response.ok(getMessage.apply(rsrc.getChangeResource()));
+        }
+
         ChangeEdit edit = rsrc.getChangeEdit();
         return Response.ok(
             fileContentUtil.getContent(

@@ -37,7 +37,9 @@ split up by update type (create+replace, autoclose, normal)
 
 * `proc/birth_timestamp`: Time at which the Gerrit process started.
 * `proc/uptime`: Uptime of the Gerrit process.
+* `proc/cpu/num_cores`: Number of processors available to the Java virtual machine.
 * `proc/cpu/usage`: CPU time used by the Gerrit process.
+* `proc/cpu/system_load`: System load average for the last minute.
 * `proc/num_open_fds`: Number of open file descriptors.
 * `proc/jvm/memory/heap_committed`: Amount of memory guaranteed for user objects.
 * `proc/jvm/memory/heap_used`: Amount of memory holding user objects.
@@ -49,6 +51,9 @@ objects needing finalization.
 * `proc/jvm/gc/count`: Number of GCs.
 * `proc/jvm/gc/time`: Approximate accumulated GC elapsed time.
 * `proc/jvm/thread/num_live`: Current live thread count.
+* `proc/jvm/thread/num_daemon_live`: Current live daemon threads count.
+* `proc/jvm/thread/num_peak_live`: Peak live thread count since the Java virtual machine started or peak was reset.
+* `proc/jvm/thread/num_total_started`: Total number of threads created and also started since the Java virtual machine started.
 
 === Caches
 

@@ -28,6 +28,7 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
+import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.ThreadMXBean;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +38,7 @@ public class ProcMetricModule extends MetricModule {
     buildLabel(metrics);
     procUptime(metrics);
     procCpuUsage(metrics);
+    procCpuLoad(metrics);
     procJvmGc(metrics);
     procJvmMemory(metrics);
     procJvmThread(metrics);
@@ -83,6 +85,23 @@ public class ProcMetricModule extends MetricModule {
           Long.class,
           new Description("Number of open file descriptors").setGauge().setUnit("fds"),
           provider::getOpenFileDescriptorCount);
+    }
+    metrics.newCallbackMetric(
+        "proc/cpu/num_cores",
+        Integer.class,
+        new Description("Number of processors available to the Java virtual machine").setGauge(),
+        Runtime.getRuntime()::availableProcessors);
+  }
+
+  private void procCpuLoad(MetricMaker metrics) {
+    OperatingSystemMXBean provider =
+        ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+    if (provider.getSystemLoadAverage() != -1) {
+      metrics.newCallbackMetric(
+          "proc/cpu/system_load",
+          Double.class,
+          new Description("System load average for the last minute").setGauge(),
+          provider::getSystemLoadAverage);
     }
   }
 
@@ -194,5 +213,26 @@ public class ProcMetricModule extends MetricModule {
         Integer.class,
         new Description("Current live thread count").setGauge().setUnit("threads"),
         thread::getThreadCount);
+    metrics.newCallbackMetric(
+        "proc/jvm/thread/num_daemon_live",
+        Integer.class,
+        new Description("Current live daemon threads count").setGauge().setUnit("threads"),
+        thread::getDaemonThreadCount);
+    metrics.newCallbackMetric(
+        "proc/jvm/thread/num_peak_live",
+        Integer.class,
+        new Description(
+                "Peak live thread count since the Java virtual machine started or peak was reset")
+            .setGauge()
+            .setUnit("threads"),
+        thread::getPeakThreadCount);
+    metrics.newCallbackMetric(
+        "proc/jvm/thread/num_total_started",
+        Long.class,
+        new Description(
+                "Total number of threads created and also started since the Java virtual machine started")
+            .setGauge()
+            .setUnit("threads"),
+        thread::getTotalStartedThreadCount);
   }
 }

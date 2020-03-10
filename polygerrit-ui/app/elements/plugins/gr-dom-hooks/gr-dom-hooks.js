@@ -44,7 +44,8 @@
   /** @constructor */
   function GrDomHook(hookName, opt_moduleName) {
     this._instances = [];
-    this._callbacks = [];
+    this._attachCallbacks = [];
+    this._detachCallbacks = [];
     if (opt_moduleName) {
       this._moduleName = opt_moduleName;
     } else {
@@ -68,11 +69,12 @@
     if (index !== -1) {
       this._instances.splice(index, 1);
     }
+    this._detachCallbacks.forEach(callback => callback(instance));
   };
 
   GrDomHook.prototype.handleInstanceAttached = function(instance) {
     this._instances.push(instance);
-    this._callbacks.forEach(callback => callback(instance));
+    this._attachCallbacks.forEach(callback => callback(instance));
   };
 
   /**
@@ -88,12 +90,12 @@
     if (!this._lastAttachedPromise) {
       let resolve;
       const promise = new Promise(r => resolve = r);
-      this._callbacks.push(resolve);
+      this._attachCallbacks.push(resolve);
       this._lastAttachedPromise = promise.then(element => {
         this._lastAttachedPromise = null;
-        const index = this._callbacks.indexOf(resolve);
+        const index = this._attachCallbacks.indexOf(resolve);
         if (index !== -1) {
-          this._callbacks.splice(index, 1);
+          this._attachCallbacks.splice(index, 1);
         }
         return element;
       });
@@ -115,7 +117,18 @@
    * @param {function(Element)} callback
    */
   GrDomHook.prototype.onAttached = function(callback) {
-    this._callbacks.push(callback);
+    this._attachCallbacks.push(callback);
+    return this;
+  };
+
+  /**
+   * Install a new callback to invoke when an instance of DOM hook element
+   * is detached.
+   *
+   * @param {function(Element)} callback
+   */
+  GrDomHook.prototype.onDetached = function(callback) {
+    this._detachCallbacks.push(callback);
     return this;
   };
 
@@ -129,7 +142,11 @@
   GrDomHook.prototype.getPublicAPI = function() {
     const result = {};
     const exposedMethods = [
-      'onAttached', 'getLastAttached', 'getAllAttached', 'getModuleName',
+      'onAttached',
+      'onDetached',
+      'getLastAttached',
+      'getAllAttached',
+      'getModuleName',
     ];
     for (const p of exposedMethods) {
       result[p] = this[p].bind(this);

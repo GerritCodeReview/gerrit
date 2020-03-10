@@ -39,8 +39,13 @@ limitations under the License.
 <script>
   suite('gr-dom-hooks tests', async () => {
     await readyToTest();
-    const PUBLIC_METHODS =
-        ['onAttached', 'getLastAttached', 'getAllAttached', 'getModuleName'];
+    const PUBLIC_METHODS =[
+      'onAttached',
+      'onDetached',
+      'getLastAttached',
+      'getAllAttached',
+      'getModuleName',
+    ];
 
     let instance;
     let sandbox;
@@ -109,6 +114,19 @@ limitations under the License.
         hookInternal.handleInstanceAttached(el2);
         assert.isTrue(onAttachedSpy.firstCall.calledWithExactly(el1));
         assert.isTrue(onAttachedSpy.secondCall.calledWithExactly(el2));
+      });
+
+      test('onDetached', () => {
+        const onDetachedSpy = sandbox.spy();
+        hook.onDetached(onDetachedSpy);
+        const [el1, el2] = [
+          document.createElement(hook.getModuleName()),
+          document.createElement(hook.getModuleName()),
+        ];
+        hookInternal.handleInstanceDetached(el1);
+        assert.isTrue(onDetachedSpy.firstCall.calledWithExactly(el1));
+        hookInternal.handleInstanceDetached(el2);
+        assert.isTrue(onDetachedSpy.secondCall.calledWithExactly(el2));
       });
 
       test('getAllAttached', () => {

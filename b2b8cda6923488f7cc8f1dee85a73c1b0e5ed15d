@@ -1,0 +1,313 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "860330cd_ce695915",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AttentionSetInput.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "@Nullable?\n\nSince you marked user as @DefaultInput I assume that we don\u0027t always require a reason to be provided.",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fe817f4_f3e11bf0",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "If we decide to go with my proposal of a child collection as per the comment in the Module, this would the Java equivalent of that.",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57db571b_7dec8870",
+        "filename": "java/com/google/gerrit/extensions/common/AttentionSetEntry.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "I think the rest of the API surface uses Timestamp. Should we use this here, too?",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "959a3258_1b57f822",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "nit: import statically",
+      "range": {
+        "startLine": 514,
+        "startChar": 18,
+        "endLine": 514,
+        "endChar": 30
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77ba44a8_9d980be8",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "Please use Account.Id instead. Identified user is meant to be used for the current user and is a pretty rich object. For example, it carries all groups the user is in inside the object.",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34bc6e2e_57f19098",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "nit: use toImmutableMap and import it statically",
+      "range": {
+        "startLine": 65,
+        "startChar": 21,
+        "endLine": 65,
+        "endChar": 37
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e16dd70d_ba0af487",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "We can\u0027t use the user\u0027s email for privacy reasons (wipeout policy). Please use their account ID instead.",
+      "range": {
+        "startLine": 81,
+        "startChar": 54,
+        "endLine": 81,
+        "endChar": 82
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "137a9376_f660e72e",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteAttentionSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "nit: Use nullToEmpty here as well?",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 20
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6925e3b6_3c0d395e",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteAttentionSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "If you require a reason, please remove @DefaultInput from the input definition (that makes it so that you can omit all JSON keys and just provide a single string that is mapped to the field annotated with @DefaultInput. In case you require other fields to be populated, the annotation is misleading).",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6412e87f_b846ee09",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteAttentionSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "asUnique().getId()",
+      "range": {
+        "startLine": 67,
+        "startChar": 71,
+        "endLine": 67,
+        "endChar": 83
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1080fb7_005c2dc2",
+        "filename": "java/com/google/gerrit/server/restapi/change/Module.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "Instead of directly allowing modifications on the changes detail layer, I think we want to use a child collection.\n\nWhat you currently have is:\n\nPUT /changes/1/assignee (with body)\nDELETE /changes/1/assignee (with body)\n\nWhat reviewers (and many other features that are basically a list of nested entities) do is:\n\nPOST /changes/1/assignee/ (with body)\nDELETE /changes/1/assignee/\u003cuserid\u003e (without body)",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 66
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c5b040a_d4f2f194",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutAttentionSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "nit: @Singleton (everything that doesn\u0027t hold reference to per-request state - so just factories and other singletons or providers we make a singleton to reduce java object overhead)",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9317e52d_3edc34e7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "nit: Try using the account it one of these inputs to check that this also works?",
+      "range": {
+        "startLine": 98,
+        "startChar": 58,
+        "endLine": 98,
+        "endChar": 71
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "accc1b33_2dc6cba3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "Should this be a bad request exception instead or do you want to requests to be idempotent?",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5380309f_1b2434c6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-10T09:07:35Z",
+      "side": 1,
+      "message": "nit: should we put this in AbstractDaemonTest? Seems like it\u0027s generally applicable",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

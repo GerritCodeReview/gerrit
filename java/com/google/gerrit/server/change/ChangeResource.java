@@ -18,7 +18,6 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.entities.Account;
@@ -53,8 +52,6 @@ import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class ChangeResource implements RestResource, HasETag {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   /**
    * JSON format version number for ETag computations.
    *

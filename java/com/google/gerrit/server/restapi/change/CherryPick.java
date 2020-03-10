@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -49,8 +48,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CherryPick
     implements RestModifyView<RevisionResource, CherryPickInput>, UiAction<RevisionResource> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final PermissionBackend permissionBackend;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;

@@ -61,4 +61,22 @@ public class HashedPasswordTest {
     assertThat(hashed.checkPassword("false")).isFalse();
     assertThat(hashed.checkPassword(password)).isTrue();
   }
+
+  @Test
+  public void repeatedPasswordFail() throws Exception {
+    String password = "secret";
+    HashedPassword hashed = HashedPassword.fromPassword(password);
+
+    assertThat(hashed.checkPassword(password + password)).isFalse();
+    assertThat(hashed.checkPassword(password)).isTrue();
+  }
+
+  @Test
+  public void cyclicPasswordTest() throws Exception {
+    String encoded = "bcrypt:4:/KgSxlmbopLXb1eDm35DBA==:98n3gu2pKW9D5mCoZ5kNn9v4HcVFPPJy";
+    HashedPassword hashedPassword = HashedPassword.decode(encoded);
+    String password = "abcdef";
+    assertThat(hashedPassword.checkPassword(password)).isTrue();
+    assertThat(hashedPassword.checkPassword(password + password)).isTrue();
+  }
 }

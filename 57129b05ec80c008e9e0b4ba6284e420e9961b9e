@@ -22,6 +22,30 @@
       "revId": "57129b05ec80c008e9e0b4ba6284e420e9961b9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5146745_26f5246e",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2020-03-10T14:20:37Z",
+      "side": 0,
+      "message": "Sorry, shouldn\u0027t have been.  This was an error pulling in the change from the stable-3.0 branch where I originally created it.",
+      "parentUuid": "1e4fef92_33bab285",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 0
+      },
+      "revId": "57129b05ec80c008e9e0b4ba6284e420e9961b9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

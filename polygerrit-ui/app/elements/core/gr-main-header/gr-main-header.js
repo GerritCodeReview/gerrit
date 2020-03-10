@@ -14,332 +14,349 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  const DEFAULT_LINKS = [{
-    title: 'Changes',
-    links: [
-      {
-        url: '/q/status:open',
-        name: 'Open',
+import '../../../behaviors/docs-url-behavior/docs-url-behavior.js';
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
+import '../../shared/gr-dropdown/gr-dropdown.js';
+import '../../shared/gr-icons/gr-icons.js';
+import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-account-dropdown/gr-account-dropdown.js';
+import '../gr-smart-search/gr-smart-search.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-main-header_html.js';
+
+const DEFAULT_LINKS = [{
+  title: 'Changes',
+  links: [
+    {
+      url: '/q/status:open',
+      name: 'Open',
+    },
+    {
+      url: '/q/status:merged',
+      name: 'Merged',
+    },
+    {
+      url: '/q/status:abandoned',
+      name: 'Abandoned',
+    },
+  ],
+}];
+
+const DOCUMENTATION_LINKS = [
+  {
+    url: '/index.html',
+    name: 'Table of Contents',
+  },
+  {
+    url: '/user-search.html',
+    name: 'Searching',
+  },
+  {
+    url: '/user-upload.html',
+    name: 'Uploading',
+  },
+  {
+    url: '/access-control.html',
+    name: 'Access Control',
+  },
+  {
+    url: '/rest-api.html',
+    name: 'REST API',
+  },
+  {
+    url: '/intro-project-owner.html',
+    name: 'Project Owner Guide',
+  },
+];
+
+// Set of authentication methods that can provide custom registration page.
+const AUTH_TYPES_WITH_REGISTER_URL = new Set([
+  'LDAP',
+  'LDAP_BIND',
+  'CUSTOM_EXTENSION',
+]);
+
+/**
+ * @appliesMixin Gerrit.AdminNavMixin
+ * @appliesMixin Gerrit.BaseUrlMixin
+ * @appliesMixin Gerrit.DocsUrlMixin
+ * @appliesMixin Gerrit.FireMixin
+ * @extends Polymer.Element
+ */
+class GrMainHeader extends mixinBehaviors( [
+  Gerrit.AdminNavBehavior,
+  Gerrit.BaseUrlBehavior,
+  Gerrit.DocsUrlBehavior,
+  Gerrit.FireBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-main-header'; }
+
+  static get properties() {
+    return {
+      searchQuery: {
+        type: String,
+        notify: true,
       },
-      {
-        url: '/q/status:merged',
-        name: 'Merged',
+      loggedIn: {
+        type: Boolean,
+        reflectToAttribute: true,
       },
-      {
-        url: '/q/status:abandoned',
-        name: 'Abandoned',
+      loading: {
+        type: Boolean,
+        reflectToAttribute: true,
       },
-    ],
-  }];
 
-  const DOCUMENTATION_LINKS = [
-    {
-      url: '/index.html',
-      name: 'Table of Contents',
-    },
-    {
-      url: '/user-search.html',
-      name: 'Searching',
-    },
-    {
-      url: '/user-upload.html',
-      name: 'Uploading',
-    },
-    {
-      url: '/access-control.html',
-      name: 'Access Control',
-    },
-    {
-      url: '/rest-api.html',
-      name: 'REST API',
-    },
-    {
-      url: '/intro-project-owner.html',
-      name: 'Project Owner Guide',
-    },
-  ];
+      /** @type {?Object} */
+      _account: Object,
+      _adminLinks: {
+        type: Array,
+        value() { return []; },
+      },
+      _defaultLinks: {
+        type: Array,
+        value() {
+          return DEFAULT_LINKS;
+        },
+      },
+      _docBaseUrl: {
+        type: String,
+        value: null,
+      },
+      _links: {
+        type: Array,
+        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
+          '_topMenus, _docBaseUrl)',
+      },
+      loginUrl: {
+        type: String,
+        value: '/login',
+      },
+      _userLinks: {
+        type: Array,
+        value() { return []; },
+      },
+      _topMenus: {
+        type: Array,
+        value() { return []; },
+      },
+      _registerText: {
+        type: String,
+        value: 'Sign up',
+      },
+      _registerURL: {
+        type: String,
+        value: null,
+      },
+    };
+  }
 
-  // Set of authentication methods that can provide custom registration page.
-  const AUTH_TYPES_WITH_REGISTER_URL = new Set([
-    'LDAP',
-    'LDAP_BIND',
-    'CUSTOM_EXTENSION',
-  ]);
+  static get observers() {
+    return [
+      '_accountLoaded(_account)',
+    ];
+  }
 
-  /**
-   * @appliesMixin Gerrit.AdminNavMixin
-   * @appliesMixin Gerrit.BaseUrlMixin
-   * @appliesMixin Gerrit.DocsUrlMixin
-   * @appliesMixin Gerrit.FireMixin
-   * @extends Polymer.Element
-   */
-  class GrMainHeader extends Polymer.mixinBehaviors( [
-    Gerrit.AdminNavBehavior,
-    Gerrit.BaseUrlBehavior,
-    Gerrit.DocsUrlBehavior,
-    Gerrit.FireBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-main-header'; }
+  /** @override */
+  ready() {
+    super.ready();
+    this._ensureAttribute('role', 'banner');
+  }
 
-    static get properties() {
+  /** @override */
+  attached() {
+    super.attached();
+    this._loadAccount();
+    this._loadConfig();
+  }
+
+  /** @override */
+  detached() {
+    super.detached();
+  }
+
+  reload() {
+    this._loadAccount();
+  }
+
+  _computeRelativeURL(path) {
+    return '//' + window.location.host + this.getBaseUrl() + path;
+  }
+
+  _computeLinks(defaultLinks, userLinks, adminLinks, topMenus, docBaseUrl) {
+    // Polymer 2: check for undefined
+    if ([
+      defaultLinks,
+      userLinks,
+      adminLinks,
+      topMenus,
+      docBaseUrl,
+    ].some(arg => arg === undefined)) {
+      return undefined;
+    }
+
+    const links = defaultLinks.map(menu => {
       return {
-        searchQuery: {
-          type: String,
-          notify: true,
-        },
-        loggedIn: {
-          type: Boolean,
-          reflectToAttribute: true,
-        },
-        loading: {
-          type: Boolean,
-          reflectToAttribute: true,
-        },
-
-        /** @type {?Object} */
-        _account: Object,
-        _adminLinks: {
-          type: Array,
-          value() { return []; },
-        },
-        _defaultLinks: {
-          type: Array,
-          value() {
-            return DEFAULT_LINKS;
-          },
-        },
-        _docBaseUrl: {
-          type: String,
-          value: null,
-        },
-        _links: {
-          type: Array,
-          computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
-            '_topMenus, _docBaseUrl)',
-        },
-        loginUrl: {
-          type: String,
-          value: '/login',
-        },
-        _userLinks: {
-          type: Array,
-          value() { return []; },
-        },
-        _topMenus: {
-          type: Array,
-          value() { return []; },
-        },
-        _registerText: {
-          type: String,
-          value: 'Sign up',
-        },
-        _registerURL: {
-          type: String,
-          value: null,
-        },
+        title: menu.title,
+        links: menu.links.slice(),
       };
-    }
-
-    static get observers() {
-      return [
-        '_accountLoaded(_account)',
-      ];
-    }
-
-    /** @override */
-    ready() {
-      super.ready();
-      this._ensureAttribute('role', 'banner');
-    }
-
-    /** @override */
-    attached() {
-      super.attached();
-      this._loadAccount();
-      this._loadConfig();
-    }
-
-    /** @override */
-    detached() {
-      super.detached();
-    }
-
-    reload() {
-      this._loadAccount();
-    }
-
-    _computeRelativeURL(path) {
-      return '//' + window.location.host + this.getBaseUrl() + path;
-    }
-
-    _computeLinks(defaultLinks, userLinks, adminLinks, topMenus, docBaseUrl) {
-      // Polymer 2: check for undefined
-      if ([
-        defaultLinks,
-        userLinks,
-        adminLinks,
-        topMenus,
-        docBaseUrl,
-      ].some(arg => arg === undefined)) {
-        return undefined;
-      }
-
-      const links = defaultLinks.map(menu => {
-        return {
-          title: menu.title,
-          links: menu.links.slice(),
-        };
-      });
-      if (userLinks && userLinks.length > 0) {
-        links.push({
-          title: 'Your',
-          links: userLinks.slice(),
-        });
-      }
-      const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
-      if (docLinks.length) {
-        links.push({
-          title: 'Documentation',
-          links: docLinks,
-          class: 'hideOnMobile',
-        });
-      }
+    });
+    if (userLinks && userLinks.length > 0) {
       links.push({
-        title: 'Browse',
-        links: adminLinks.slice(),
+        title: 'Your',
+        links: userLinks.slice(),
       });
-      const topMenuLinks = [];
-      links.forEach(link => { topMenuLinks[link.title] = link.links; });
-      for (const m of topMenus) {
-        const items = m.items.map(this._fixCustomMenuItem).filter(link =>
-          // Ignore GWT project links
-          !link.url.includes('${projectName}')
-        );
-        if (m.name in topMenuLinks) {
-          items.forEach(link => { topMenuLinks[m.name].push(link); });
-        } else {
-          links.push({
-            title: m.name,
-            links: topMenuLinks[m.name] = items,
+    }
+    const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
+    if (docLinks.length) {
+      links.push({
+        title: 'Documentation',
+        links: docLinks,
+        class: 'hideOnMobile',
+      });
+    }
+    links.push({
+      title: 'Browse',
+      links: adminLinks.slice(),
+    });
+    const topMenuLinks = [];
+    links.forEach(link => { topMenuLinks[link.title] = link.links; });
+    for (const m of topMenus) {
+      const items = m.items.map(this._fixCustomMenuItem).filter(link =>
+        // Ignore GWT project links
+        !link.url.includes('${projectName}')
+      );
+      if (m.name in topMenuLinks) {
+        items.forEach(link => { topMenuLinks[m.name].push(link); });
+      } else {
+        links.push({
+          title: m.name,
+          links: topMenuLinks[m.name] = items,
+        });
+      }
+    }
+    return links;
+  }
+
+  _getDocLinks(docBaseUrl, docLinks) {
+    if (!docBaseUrl || !docLinks) {
+      return [];
+    }
+    return docLinks.map(link => {
+      let url = docBaseUrl;
+      if (url && url[url.length - 1] === '/') {
+        url = url.substring(0, url.length - 1);
+      }
+      return {
+        url: url + link.url,
+        name: link.name,
+        target: '_blank',
+      };
+    });
+  }
+
+  _loadAccount() {
+    this.loading = true;
+    const promises = [
+      this.$.restAPI.getAccount(),
+      this.$.restAPI.getTopMenus(),
+      Gerrit.awaitPluginsLoaded(),
+    ];
+
+    return Promise.all(promises).then(result => {
+      const account = result[0];
+      this._account = account;
+      this.loggedIn = !!account;
+      this.loading = false;
+      this._topMenus = result[1];
+
+      return this.getAdminLinks(account,
+          this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
+          this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI))
+          .then(res => {
+            this._adminLinks = res.links;
           });
-        }
+    });
+  }
+
+  _loadConfig() {
+    this.$.restAPI.getConfig()
+        .then(config => {
+          this._retrieveRegisterURL(config);
+          return this.getDocsBaseUrl(config, this.$.restAPI);
+        })
+        .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
+  }
+
+  _accountLoaded(account) {
+    if (!account) { return; }
+
+    this.$.restAPI.getPreferences().then(prefs => {
+      this._userLinks = prefs && prefs.my ?
+        prefs.my.map(this._fixCustomMenuItem) : [];
+    });
+  }
+
+  _retrieveRegisterURL(config) {
+    if (AUTH_TYPES_WITH_REGISTER_URL.has(config.auth.auth_type)) {
+      this._registerURL = config.auth.register_url;
+      if (config.auth.register_text) {
+        this._registerText = config.auth.register_text;
       }
-      return links;
-    }
-
-    _getDocLinks(docBaseUrl, docLinks) {
-      if (!docBaseUrl || !docLinks) {
-        return [];
-      }
-      return docLinks.map(link => {
-        let url = docBaseUrl;
-        if (url && url[url.length - 1] === '/') {
-          url = url.substring(0, url.length - 1);
-        }
-        return {
-          url: url + link.url,
-          name: link.name,
-          target: '_blank',
-        };
-      });
-    }
-
-    _loadAccount() {
-      this.loading = true;
-      const promises = [
-        this.$.restAPI.getAccount(),
-        this.$.restAPI.getTopMenus(),
-        Gerrit.awaitPluginsLoaded(),
-      ];
-
-      return Promise.all(promises).then(result => {
-        const account = result[0];
-        this._account = account;
-        this.loggedIn = !!account;
-        this.loading = false;
-        this._topMenus = result[1];
-
-        return this.getAdminLinks(account,
-            this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
-            this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI))
-            .then(res => {
-              this._adminLinks = res.links;
-            });
-      });
-    }
-
-    _loadConfig() {
-      this.$.restAPI.getConfig()
-          .then(config => {
-            this._retrieveRegisterURL(config);
-            return this.getDocsBaseUrl(config, this.$.restAPI);
-          })
-          .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
-    }
-
-    _accountLoaded(account) {
-      if (!account) { return; }
-
-      this.$.restAPI.getPreferences().then(prefs => {
-        this._userLinks = prefs && prefs.my ?
-          prefs.my.map(this._fixCustomMenuItem) : [];
-      });
-    }
-
-    _retrieveRegisterURL(config) {
-      if (AUTH_TYPES_WITH_REGISTER_URL.has(config.auth.auth_type)) {
-        this._registerURL = config.auth.register_url;
-        if (config.auth.register_text) {
-          this._registerText = config.auth.register_text;
-        }
-      }
-    }
-
-    _computeIsInvisible(registerURL) {
-      return registerURL ? '' : 'invisible';
-    }
-
-    _fixCustomMenuItem(linkObj) {
-      // Normalize all urls to PolyGerrit style.
-      if (linkObj.url.startsWith('#')) {
-        linkObj.url = linkObj.url.slice(1);
-      }
-
-      // Delete target property due to complications of
-      // https://bugs.chromium.org/p/gerrit/issues/detail?id=5888
-      //
-      // The server tries to guess whether URL is a view within the UI.
-      // If not, it sets target='_blank' on the menu item. The server
-      // makes assumptions that work for the GWT UI, but not PolyGerrit,
-      // so we'll just disable it altogether for now.
-      delete linkObj.target;
-
-      return linkObj;
-    }
-
-    _generateSettingsLink() {
-      return this.getBaseUrl() + '/settings/';
-    }
-
-    _onMobileSearchTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.fire('mobile-search', null, {bubbles: false});
-    }
-
-    _computeLinkGroupClass(linkGroup) {
-      if (linkGroup && linkGroup.class) {
-        return linkGroup.class;
-      }
-
-      return '';
     }
   }
 
-  customElements.define(GrMainHeader.is, GrMainHeader);
-})();
+  _computeIsInvisible(registerURL) {
+    return registerURL ? '' : 'invisible';
+  }
+
+  _fixCustomMenuItem(linkObj) {
+    // Normalize all urls to PolyGerrit style.
+    if (linkObj.url.startsWith('#')) {
+      linkObj.url = linkObj.url.slice(1);
+    }
+
+    // Delete target property due to complications of
+    // https://bugs.chromium.org/p/gerrit/issues/detail?id=5888
+    //
+    // The server tries to guess whether URL is a view within the UI.
+    // If not, it sets target='_blank' on the menu item. The server
+    // makes assumptions that work for the GWT UI, but not PolyGerrit,
+    // so we'll just disable it altogether for now.
+    delete linkObj.target;
+
+    return linkObj;
+  }
+
+  _generateSettingsLink() {
+    return this.getBaseUrl() + '/settings/';
+  }
+
+  _onMobileSearchTap(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.fire('mobile-search', null, {bubbles: false});
+  }
+
+  _computeLinkGroupClass(linkGroup) {
+    if (linkGroup && linkGroup.class) {
+      return linkGroup.class;
+    }
+
+    return '';
+  }
+}
+
+customElements.define(GrMainHeader.is, GrMainHeader);

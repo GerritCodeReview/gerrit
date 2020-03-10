@@ -19,17 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-account-entry</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="../../../scripts/util.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-account-entry.html">
+<script type="module" src="./gr-account-entry.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-account-entry.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,78 +43,81 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-account-entry tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../../scripts/util.js';
+import './gr-account-entry.js';
+suite('gr-account-entry tests', () => {
+  let sandbox;
+  let element;
 
-    const suggestion1 = {
-      email: 'email1@example.com',
-      _account_id: 1,
-      some_property: 'value',
-    };
-    const suggestion2 = {
-      email: 'email2@example.com',
-      _account_id: 2,
-    };
-    const suggestion3 = {
-      email: 'email25@example.com',
-      _account_id: 25,
-      some_other_property: 'other value',
-    };
+  const suggestion1 = {
+    email: 'email1@example.com',
+    _account_id: 1,
+    some_property: 'value',
+  };
+  const suggestion2 = {
+    email: 'email2@example.com',
+    _account_id: 2,
+  };
+  const suggestion3 = {
+    email: 'email25@example.com',
+    _account_id: 25,
+    some_other_property: 'other value',
+  };
 
-    setup(done => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      return flush(done);
-    });
+  setup(done => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    return flush(done);
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    suite('stubbed values for querySuggestions', () => {
-      setup(() => {
-        element.querySuggestions = input => Promise.resolve([
-          suggestion1,
-          suggestion2,
-          suggestion3,
-        ]);
-      });
-    });
-
-    test('account-text-changed fired when input text changed and allowAnyInput',
-        () => {
-          // Spy on query, as that is called when _updateSuggestions proceeds.
-          const changeStub = sandbox.stub();
-          element.allowAnyInput = true;
-          element.querySuggestions = input => Promise.resolve([]);
-          element.addEventListener('account-text-changed', changeStub);
-          element.$.input.text = 'a';
-          assert.isTrue(changeStub.calledOnce);
-          element.$.input.text = 'ab';
-          assert.isTrue(changeStub.calledTwice);
-        });
-
-    test('account-text-changed not fired when input text changed without ' +
-        'allowAnyInput', () => {
-      // Spy on query, as that is called when _updateSuggestions proceeds.
-      const changeStub = sandbox.stub();
-      element.querySuggestions = input => Promise.resolve([]);
-      element.addEventListener('account-text-changed', changeStub);
-      element.$.input.text = 'a';
-      assert.isFalse(changeStub.called);
-    });
-
-    test('setText', () => {
-      // Spy on query, as that is called when _updateSuggestions proceeds.
-      const suggestSpy = sandbox.spy(element.$.input, 'query');
-      element.setText('test text');
-      flushAsynchronousOperations();
-
-      assert.equal(element.$.input.$.input.value, 'test text');
-      assert.isFalse(suggestSpy.called);
+  suite('stubbed values for querySuggestions', () => {
+    setup(() => {
+      element.querySuggestions = input => Promise.resolve([
+        suggestion1,
+        suggestion2,
+        suggestion3,
+      ]);
     });
   });
+
+  test('account-text-changed fired when input text changed and allowAnyInput',
+      () => {
+        // Spy on query, as that is called when _updateSuggestions proceeds.
+        const changeStub = sandbox.stub();
+        element.allowAnyInput = true;
+        element.querySuggestions = input => Promise.resolve([]);
+        element.addEventListener('account-text-changed', changeStub);
+        element.$.input.text = 'a';
+        assert.isTrue(changeStub.calledOnce);
+        element.$.input.text = 'ab';
+        assert.isTrue(changeStub.calledTwice);
+      });
+
+  test('account-text-changed not fired when input text changed without ' +
+      'allowAnyInput', () => {
+    // Spy on query, as that is called when _updateSuggestions proceeds.
+    const changeStub = sandbox.stub();
+    element.querySuggestions = input => Promise.resolve([]);
+    element.addEventListener('account-text-changed', changeStub);
+    element.$.input.text = 'a';
+    assert.isFalse(changeStub.called);
+  });
+
+  test('setText', () => {
+    // Spy on query, as that is called when _updateSuggestions proceeds.
+    const suggestSpy = sandbox.spy(element.$.input, 'query');
+    element.setText('test text');
+    flushAsynchronousOperations();
+
+    assert.equal(element.$.input.$.input.value, 'test text');
+    assert.isFalse(suggestSpy.called);
+  });
+});
 </script>

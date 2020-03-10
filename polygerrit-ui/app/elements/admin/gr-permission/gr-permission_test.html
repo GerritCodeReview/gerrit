@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-permission</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-permission.html">
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-permission.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-permission.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,398 +41,400 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-permission tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-permission.js';
+suite('gr-permission tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      sandbox.stub(element.$.restAPI, 'getSuggestedGroups').returns(
-          Promise.resolve({
-            'Administrators': {
-              id: '4c97682e6ce61b7247f3381b6f1789356666de7f',
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    sandbox.stub(element.$.restAPI, 'getSuggestedGroups').returns(
+        Promise.resolve({
+          'Administrators': {
+            id: '4c97682e6ce61b7247f3381b6f1789356666de7f',
+          },
+          'Anonymous Users': {
+            id: 'global%3AAnonymous-Users',
+          },
+        }));
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('unit tests', () => {
+    test('_sortPermission', () => {
+      const permission = {
+        id: 'submit',
+        value: {
+          rules: {
+            'global:Project-Owners': {
+              action: 'ALLOW',
+              force: false,
             },
-            'Anonymous Users': {
-              id: 'global%3AAnonymous-Users',
+            '4c97682e6ce6b7247f3381b6f1789356666de7f': {
+              action: 'ALLOW',
+              force: false,
             },
-          }));
+          },
+        },
+      };
+
+      const expectedRules = [
+        {
+          id: '4c97682e6ce6b7247f3381b6f1789356666de7f',
+          value: {action: 'ALLOW', force: false},
+        },
+        {
+          id: 'global:Project-Owners',
+          value: {action: 'ALLOW', force: false},
+        },
+      ];
+
+      element._sortPermission(permission);
+      assert.deepEqual(element._rules, expectedRules);
     });
 
-    teardown(() => {
-      sandbox.restore();
+    test('_computeLabel and _computeLabelValues', () => {
+      const labels = {
+        'Code-Review': {
+          default_value: 0,
+          values: {
+            ' 0': 'No score',
+            '-1': 'I would prefer this is not merged as is',
+            '-2': 'This shall not be merged',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved',
+          },
+        },
+      };
+      let permission = {
+        id: 'label-Code-Review',
+        value: {
+          label: 'Code-Review',
+          rules: {
+            'global:Project-Owners': {
+              action: 'ALLOW',
+              force: false,
+              min: -2,
+              max: 2,
+            },
+            '4c97682e6ce6b7247f3381b6f1789356666de7f': {
+              action: 'ALLOW',
+              force: false,
+              min: -2,
+              max: 2,
+            },
+          },
+        },
+      };
+
+      const expectedLabelValues = [
+        {value: -2, text: 'This shall not be merged'},
+        {value: -1, text: 'I would prefer this is not merged as is'},
+        {value: 0, text: 'No score'},
+        {value: 1, text: 'Looks good to me, but someone else must approve'},
+        {value: 2, text: 'Looks good to me, approved'},
+      ];
+
+      const expectedLabel = {
+        name: 'Code-Review',
+        values: expectedLabelValues,
+      };
+
+      assert.deepEqual(element._computeLabelValues(
+          labels['Code-Review'].values), expectedLabelValues);
+
+      assert.deepEqual(element._computeLabel(permission, labels),
+          expectedLabel);
+
+      permission = {
+        id: 'label-reviewDB',
+        value: {
+          label: 'reviewDB',
+          rules: {
+            'global:Project-Owners': {
+              action: 'ALLOW',
+              force: false,
+            },
+            '4c97682e6ce6b7247f3381b6f1789356666de7f': {
+              action: 'ALLOW',
+              force: false,
+            },
+          },
+        },
+      };
+
+      assert.isNotOk(element._computeLabel(permission, labels));
     });
 
-    suite('unit tests', () => {
-      test('_sortPermission', () => {
-        const permission = {
-          id: 'submit',
-          value: {
-            rules: {
-              'global:Project-Owners': {
-                action: 'ALLOW',
-                force: false,
-              },
-              '4c97682e6ce6b7247f3381b6f1789356666de7f': {
-                action: 'ALLOW',
-                force: false,
-              },
-            },
-          },
-        };
+    test('_computeSectionClass', () => {
+      let deleted = true;
+      let editing = false;
+      assert.equal(element._computeSectionClass(editing, deleted), 'deleted');
 
-        const expectedRules = [
+      deleted = false;
+      assert.equal(element._computeSectionClass(editing, deleted), '');
+
+      editing = true;
+      assert.equal(element._computeSectionClass(editing, deleted), 'editing');
+
+      deleted = true;
+      assert.equal(element._computeSectionClass(editing, deleted),
+          'editing deleted');
+    });
+
+    test('_computeGroupName', () => {
+      const groups = {
+        abc123: {name: 'test group'},
+        bcd234: {},
+      };
+      assert.equal(element._computeGroupName(groups, 'abc123'), 'test group');
+      assert.equal(element._computeGroupName(groups, 'bcd234'), 'bcd234');
+    });
+
+    test('_computeGroupsWithRules', () => {
+      const rules = [
+        {
+          id: '4c97682e6ce6b7247f3381b6f1789356666de7f',
+          value: {action: 'ALLOW', force: false},
+        },
+        {
+          id: 'global:Project-Owners',
+          value: {action: 'ALLOW', force: false},
+        },
+      ];
+      const groupsWithRules = {
+        '4c97682e6ce6b7247f3381b6f1789356666de7f': true,
+        'global:Project-Owners': true,
+      };
+      assert.deepEqual(element._computeGroupsWithRules(rules),
+          groupsWithRules);
+    });
+
+    test('_getGroupSuggestions without existing rules', done => {
+      element._groupsWithRules = {};
+
+      element._getGroupSuggestions().then(groups => {
+        assert.deepEqual(groups, [
           {
-            id: '4c97682e6ce6b7247f3381b6f1789356666de7f',
-            value: {action: 'ALLOW', force: false},
-          },
-          {
-            id: 'global:Project-Owners',
-            value: {action: 'ALLOW', force: false},
-          },
-        ];
-
-        element._sortPermission(permission);
-        assert.deepEqual(element._rules, expectedRules);
-      });
-
-      test('_computeLabel and _computeLabelValues', () => {
-        const labels = {
-          'Code-Review': {
-            default_value: 0,
-            values: {
-              ' 0': 'No score',
-              '-1': 'I would prefer this is not merged as is',
-              '-2': 'This shall not be merged',
-              '+1': 'Looks good to me, but someone else must approve',
-              '+2': 'Looks good to me, approved',
-            },
-          },
-        };
-        let permission = {
-          id: 'label-Code-Review',
-          value: {
-            label: 'Code-Review',
-            rules: {
-              'global:Project-Owners': {
-                action: 'ALLOW',
-                force: false,
-                min: -2,
-                max: 2,
-              },
-              '4c97682e6ce6b7247f3381b6f1789356666de7f': {
-                action: 'ALLOW',
-                force: false,
-                min: -2,
-                max: 2,
-              },
-            },
-          },
-        };
-
-        const expectedLabelValues = [
-          {value: -2, text: 'This shall not be merged'},
-          {value: -1, text: 'I would prefer this is not merged as is'},
-          {value: 0, text: 'No score'},
-          {value: 1, text: 'Looks good to me, but someone else must approve'},
-          {value: 2, text: 'Looks good to me, approved'},
-        ];
-
-        const expectedLabel = {
-          name: 'Code-Review',
-          values: expectedLabelValues,
-        };
-
-        assert.deepEqual(element._computeLabelValues(
-            labels['Code-Review'].values), expectedLabelValues);
-
-        assert.deepEqual(element._computeLabel(permission, labels),
-            expectedLabel);
-
-        permission = {
-          id: 'label-reviewDB',
-          value: {
-            label: 'reviewDB',
-            rules: {
-              'global:Project-Owners': {
-                action: 'ALLOW',
-                force: false,
-              },
-              '4c97682e6ce6b7247f3381b6f1789356666de7f': {
-                action: 'ALLOW',
-                force: false,
-              },
-            },
-          },
-        };
-
-        assert.isNotOk(element._computeLabel(permission, labels));
-      });
-
-      test('_computeSectionClass', () => {
-        let deleted = true;
-        let editing = false;
-        assert.equal(element._computeSectionClass(editing, deleted), 'deleted');
-
-        deleted = false;
-        assert.equal(element._computeSectionClass(editing, deleted), '');
-
-        editing = true;
-        assert.equal(element._computeSectionClass(editing, deleted), 'editing');
-
-        deleted = true;
-        assert.equal(element._computeSectionClass(editing, deleted),
-            'editing deleted');
-      });
-
-      test('_computeGroupName', () => {
-        const groups = {
-          abc123: {name: 'test group'},
-          bcd234: {},
-        };
-        assert.equal(element._computeGroupName(groups, 'abc123'), 'test group');
-        assert.equal(element._computeGroupName(groups, 'bcd234'), 'bcd234');
-      });
-
-      test('_computeGroupsWithRules', () => {
-        const rules = [
-          {
-            id: '4c97682e6ce6b7247f3381b6f1789356666de7f',
-            value: {action: 'ALLOW', force: false},
-          },
-          {
-            id: 'global:Project-Owners',
-            value: {action: 'ALLOW', force: false},
-          },
-        ];
-        const groupsWithRules = {
-          '4c97682e6ce6b7247f3381b6f1789356666de7f': true,
-          'global:Project-Owners': true,
-        };
-        assert.deepEqual(element._computeGroupsWithRules(rules),
-            groupsWithRules);
-      });
-
-      test('_getGroupSuggestions without existing rules', done => {
-        element._groupsWithRules = {};
-
-        element._getGroupSuggestions().then(groups => {
-          assert.deepEqual(groups, [
-            {
-              name: 'Administrators',
-              value: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f'},
-            }, {
-              name: 'Anonymous Users',
-              value: {id: 'global%3AAnonymous-Users'},
-            },
-          ]);
-          done();
-        });
-      });
-
-      test('_getGroupSuggestions with existing rules filters them', done => {
-        element._groupsWithRules = {
-          '4c97682e6ce61b7247f3381b6f1789356666de7f': true,
-        };
-
-        element._getGroupSuggestions().then(groups => {
-          assert.deepEqual(groups, [{
+            name: 'Administrators',
+            value: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f'},
+          }, {
             name: 'Anonymous Users',
             value: {id: 'global%3AAnonymous-Users'},
-          }]);
-          done();
-        });
-      });
-
-      test('_handleRemovePermission', () => {
-        element.editing = true;
-        element.permission = {value: {rules: {}}};
-        element._handleRemovePermission();
-        assert.isTrue(element._deleted);
-        assert.isTrue(element.permission.value.deleted);
-
-        element.editing = false;
-        assert.isFalse(element._deleted);
-        assert.isNotOk(element.permission.value.deleted);
-      });
-
-      test('_handleUndoRemove', () => {
-        element.permission = {value: {deleted: true, rules: {}}};
-        element._handleUndoRemove();
-        assert.isFalse(element._deleted);
-        assert.isNotOk(element.permission.value.deleted);
-      });
-
-      test('_computeHasRange', () => {
-        assert.isTrue(element._computeHasRange('Query Limit'));
-
-        assert.isTrue(element._computeHasRange('Batch Changes Limit'));
-
-        assert.isFalse(element._computeHasRange('test'));
+          },
+        ]);
+        done();
       });
     });
 
-    suite('interactions', () => {
-      setup(() => {
-        sandbox.spy(element, '_computeLabel');
-        element.name = 'Priority';
-        element.section = 'refs/*';
-        element.labels = {
-          'Code-Review': {
-            values: {
-              ' 0': 'No score',
-              '-1': 'I would prefer this is not merged as is',
-              '-2': 'This shall not be merged',
-              '+1': 'Looks good to me, but someone else must approve',
-              '+2': 'Looks good to me, approved',
-            },
-            default_value: 0,
-          },
-        };
-        element.permission = {
-          id: 'label-Code-Review',
-          value: {
-            label: 'Code-Review',
-            rules: {
-              'global:Project-Owners': {
-                action: 'ALLOW',
-                force: false,
-                min: -2,
-                max: 2,
-              },
-              '4c97682e6ce6b7247f3381b6f1789356666de7f': {
-                action: 'ALLOW',
-                force: false,
-                min: -2,
-                max: 2,
-              },
-            },
-          },
-        };
-        element._setupValues();
-        flushAsynchronousOperations();
+    test('_getGroupSuggestions with existing rules filters them', done => {
+      element._groupsWithRules = {
+        '4c97682e6ce61b7247f3381b6f1789356666de7f': true,
+      };
+
+      element._getGroupSuggestions().then(groups => {
+        assert.deepEqual(groups, [{
+          name: 'Anonymous Users',
+          value: {id: 'global%3AAnonymous-Users'},
+        }]);
+        done();
       });
+    });
 
-      test('adding a rule', () => {
-        element.name = 'Priority';
-        element.section = 'refs/*';
-        element.groups = {};
-        element.$.groupAutocomplete.text = 'ldap/tests te.st';
-        const e = {
-          detail: {
-            value: {
-              id: 'ldap:CN=test+te.st',
-            },
-          },
-        };
-        element.editing = true;
-        assert.equal(element._rules.length, 2);
-        assert.equal(Object.keys(element._groupsWithRules).length, 2);
-        element._handleAddRuleItem(e);
-        flushAsynchronousOperations();
-        assert.deepEqual(element.groups, {'ldap:CN=test te.st': {
-          name: 'ldap/tests te.st'}});
-        assert.equal(element._rules.length, 3);
-        assert.equal(Object.keys(element._groupsWithRules).length, 3);
-        assert.deepEqual(element.permission.value.rules['ldap:CN=test te.st'],
-            {action: 'ALLOW', min: -2, max: 2, added: true});
-        // New rule should be removed if cancel from editing.
-        element.editing = false;
-        assert.equal(element._rules.length, 2);
-        assert.equal(Object.keys(element.permission.value.rules).length, 2);
-      });
+    test('_handleRemovePermission', () => {
+      element.editing = true;
+      element.permission = {value: {rules: {}}};
+      element._handleRemovePermission();
+      assert.isTrue(element._deleted);
+      assert.isTrue(element.permission.value.deleted);
 
-      test('removing an added rule', () => {
-        element.name = 'Priority';
-        element.section = 'refs/*';
-        element.groups = {};
-        element.$.groupAutocomplete.text = 'new group name';
-        assert.equal(element._rules.length, 2);
-        element.$$('gr-rule-editor').fire('added-rule-removed');
-        flushAsynchronousOperations();
-        assert.equal(element._rules.length, 1);
-      });
+      element.editing = false;
+      assert.isFalse(element._deleted);
+      assert.isNotOk(element.permission.value.deleted);
+    });
 
-      test('removing an added permission', () => {
-        const removeStub = sandbox.stub();
-        element.addEventListener('added-permission-removed', removeStub);
-        element.editing = true;
-        element.name = 'Priority';
-        element.section = 'refs/*';
-        element.permission.value.added = true;
-        MockInteractions.tap(element.$.removeBtn);
-        assert.isTrue(removeStub.called);
-      });
+    test('_handleUndoRemove', () => {
+      element.permission = {value: {deleted: true, rules: {}}};
+      element._handleUndoRemove();
+      assert.isFalse(element._deleted);
+      assert.isNotOk(element.permission.value.deleted);
+    });
 
-      test('removing the permission', () => {
-        element.editing = true;
-        element.name = 'Priority';
-        element.section = 'refs/*';
+    test('_computeHasRange', () => {
+      assert.isTrue(element._computeHasRange('Query Limit'));
 
-        const removeStub = sandbox.stub();
-        element.addEventListener('added-permission-removed', removeStub);
+      assert.isTrue(element._computeHasRange('Batch Changes Limit'));
 
-        assert.isFalse(element.$.permission.classList.contains('deleted'));
-        assert.isFalse(element._deleted);
-        MockInteractions.tap(element.$.removeBtn);
-        assert.isTrue(element.$.permission.classList.contains('deleted'));
-        assert.isTrue(element._deleted);
-        MockInteractions.tap(element.$.undoRemoveBtn);
-        assert.isFalse(element.$.permission.classList.contains('deleted'));
-        assert.isFalse(element._deleted);
-        assert.isFalse(removeStub.called);
-      });
-
-      test('modify a permission', () => {
-        element.editing = true;
-        element.name = 'Priority';
-        element.section = 'refs/*';
-
-        assert.isFalse(element._originalExclusiveValue);
-        assert.isNotOk(element.permission.value.modified);
-        MockInteractions.tap(element.shadowRoot
-            .querySelector('#exclusiveToggle'));
-        flushAsynchronousOperations();
-        assert.isTrue(element.permission.value.exclusive);
-        assert.isTrue(element.permission.value.modified);
-        assert.isFalse(element._originalExclusiveValue);
-        element.editing = false;
-        assert.isFalse(element.permission.value.exclusive);
-      });
-
-      test('_handleValueChange', () => {
-        const modifiedHandler = sandbox.stub();
-        element.permission = {value: {rules: {}}};
-        element.addEventListener('access-modified', modifiedHandler);
-        assert.isNotOk(element.permission.value.modified);
-        element._handleValueChange();
-        assert.isTrue(element.permission.value.modified);
-        assert.isTrue(modifiedHandler.called);
-      });
-
-      test('Exclusive hidden for owner permission', () => {
-        assert.equal(getComputedStyle(element.shadowRoot
-            .querySelector('#exclusiveToggle')).display,
-        'flex');
-        element.set(['permission', 'id'], 'owner');
-        flushAsynchronousOperations();
-        assert.equal(getComputedStyle(element.shadowRoot
-            .querySelector('#exclusiveToggle')).display,
-        'none');
-      });
-
-      test('Exclusive hidden for any global permissions', () => {
-        assert.equal(getComputedStyle(element.shadowRoot
-            .querySelector('#exclusiveToggle')).display,
-        'flex');
-        element.section = 'GLOBAL_CAPABILITIES';
-        flushAsynchronousOperations();
-        assert.equal(getComputedStyle(element.shadowRoot
-            .querySelector('#exclusiveToggle')).display,
-        'none');
-      });
+      assert.isFalse(element._computeHasRange('test'));
     });
   });
+
+  suite('interactions', () => {
+    setup(() => {
+      sandbox.spy(element, '_computeLabel');
+      element.name = 'Priority';
+      element.section = 'refs/*';
+      element.labels = {
+        'Code-Review': {
+          values: {
+            ' 0': 'No score',
+            '-1': 'I would prefer this is not merged as is',
+            '-2': 'This shall not be merged',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved',
+          },
+          default_value: 0,
+        },
+      };
+      element.permission = {
+        id: 'label-Code-Review',
+        value: {
+          label: 'Code-Review',
+          rules: {
+            'global:Project-Owners': {
+              action: 'ALLOW',
+              force: false,
+              min: -2,
+              max: 2,
+            },
+            '4c97682e6ce6b7247f3381b6f1789356666de7f': {
+              action: 'ALLOW',
+              force: false,
+              min: -2,
+              max: 2,
+            },
+          },
+        },
+      };
+      element._setupValues();
+      flushAsynchronousOperations();
+    });
+
+    test('adding a rule', () => {
+      element.name = 'Priority';
+      element.section = 'refs/*';
+      element.groups = {};
+      element.$.groupAutocomplete.text = 'ldap/tests te.st';
+      const e = {
+        detail: {
+          value: {
+            id: 'ldap:CN=test+te.st',
+          },
+        },
+      };
+      element.editing = true;
+      assert.equal(element._rules.length, 2);
+      assert.equal(Object.keys(element._groupsWithRules).length, 2);
+      element._handleAddRuleItem(e);
+      flushAsynchronousOperations();
+      assert.deepEqual(element.groups, {'ldap:CN=test te.st': {
+        name: 'ldap/tests te.st'}});
+      assert.equal(element._rules.length, 3);
+      assert.equal(Object.keys(element._groupsWithRules).length, 3);
+      assert.deepEqual(element.permission.value.rules['ldap:CN=test te.st'],
+          {action: 'ALLOW', min: -2, max: 2, added: true});
+      // New rule should be removed if cancel from editing.
+      element.editing = false;
+      assert.equal(element._rules.length, 2);
+      assert.equal(Object.keys(element.permission.value.rules).length, 2);
+    });
+
+    test('removing an added rule', () => {
+      element.name = 'Priority';
+      element.section = 'refs/*';
+      element.groups = {};
+      element.$.groupAutocomplete.text = 'new group name';
+      assert.equal(element._rules.length, 2);
+      element.$$('gr-rule-editor').fire('added-rule-removed');
+      flushAsynchronousOperations();
+      assert.equal(element._rules.length, 1);
+    });
+
+    test('removing an added permission', () => {
+      const removeStub = sandbox.stub();
+      element.addEventListener('added-permission-removed', removeStub);
+      element.editing = true;
+      element.name = 'Priority';
+      element.section = 'refs/*';
+      element.permission.value.added = true;
+      MockInteractions.tap(element.$.removeBtn);
+      assert.isTrue(removeStub.called);
+    });
+
+    test('removing the permission', () => {
+      element.editing = true;
+      element.name = 'Priority';
+      element.section = 'refs/*';
+
+      const removeStub = sandbox.stub();
+      element.addEventListener('added-permission-removed', removeStub);
+
+      assert.isFalse(element.$.permission.classList.contains('deleted'));
+      assert.isFalse(element._deleted);
+      MockInteractions.tap(element.$.removeBtn);
+      assert.isTrue(element.$.permission.classList.contains('deleted'));
+      assert.isTrue(element._deleted);
+      MockInteractions.tap(element.$.undoRemoveBtn);
+      assert.isFalse(element.$.permission.classList.contains('deleted'));
+      assert.isFalse(element._deleted);
+      assert.isFalse(removeStub.called);
+    });
+
+    test('modify a permission', () => {
+      element.editing = true;
+      element.name = 'Priority';
+      element.section = 'refs/*';
+
+      assert.isFalse(element._originalExclusiveValue);
+      assert.isNotOk(element.permission.value.modified);
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('#exclusiveToggle'));
+      flushAsynchronousOperations();
+      assert.isTrue(element.permission.value.exclusive);
+      assert.isTrue(element.permission.value.modified);
+      assert.isFalse(element._originalExclusiveValue);
+      element.editing = false;
+      assert.isFalse(element.permission.value.exclusive);
+    });
+
+    test('_handleValueChange', () => {
+      const modifiedHandler = sandbox.stub();
+      element.permission = {value: {rules: {}}};
+      element.addEventListener('access-modified', modifiedHandler);
+      assert.isNotOk(element.permission.value.modified);
+      element._handleValueChange();
+      assert.isTrue(element.permission.value.modified);
+      assert.isTrue(modifiedHandler.called);
+    });
+
+    test('Exclusive hidden for owner permission', () => {
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('#exclusiveToggle')).display,
+      'flex');
+      element.set(['permission', 'id'], 'owner');
+      flushAsynchronousOperations();
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('#exclusiveToggle')).display,
+      'none');
+    });
+
+    test('Exclusive hidden for any global permissions', () => {
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('#exclusiveToggle')).display,
+      'flex');
+      element.section = 'GLOBAL_CAPABILITIES';
+      flushAsynchronousOperations();
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('#exclusiveToggle')).display,
+      'none');
+    });
+  });
+});
 </script>

@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-star</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-change-star.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-change-star.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-change-star.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,47 +40,49 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-change-star tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-change-star.js';
+suite('gr-change-star tests', () => {
+  let element;
 
-    setup(() => {
-      element = fixture('basic');
-      element.change = {
-        _number: 2,
-        starred: true,
-      };
-    });
-
-    test('star visibility states', () => {
-      element.set('change.starred', true);
-      let icon = element.$$('iron-icon');
-      assert.isTrue(icon.classList.contains('active'));
-      assert.equal(icon.icon, 'gr-icons:star');
-
-      element.set('change.starred', false);
-      icon = element.$$('iron-icon');
-      assert.isFalse(icon.classList.contains('active'));
-      assert.equal(icon.icon, 'gr-icons:star-border');
-    });
-
-    test('starring', done => {
-      element.addEventListener('toggle-star', () => {
-        assert.equal(element.change.starred, true);
-        done();
-      });
-      element.set('change.starred', false);
-      MockInteractions.tap(element.$$('button'));
-    });
-
-    test('unstarring', done => {
-      element.addEventListener('toggle-star', () => {
-        assert.equal(element.change.starred, false);
-        done();
-      });
-      element.set('change.starred', true);
-      MockInteractions.tap(element.$$('button'));
-    });
+  setup(() => {
+    element = fixture('basic');
+    element.change = {
+      _number: 2,
+      starred: true,
+    };
   });
+
+  test('star visibility states', () => {
+    element.set('change.starred', true);
+    let icon = element.$$('iron-icon');
+    assert.isTrue(icon.classList.contains('active'));
+    assert.equal(icon.icon, 'gr-icons:star');
+
+    element.set('change.starred', false);
+    icon = element.$$('iron-icon');
+    assert.isFalse(icon.classList.contains('active'));
+    assert.equal(icon.icon, 'gr-icons:star-border');
+  });
+
+  test('starring', done => {
+    element.addEventListener('toggle-star', () => {
+      assert.equal(element.change.starred, true);
+      done();
+    });
+    element.set('change.starred', false);
+    MockInteractions.tap(element.$$('button'));
+  });
+
+  test('unstarring', done => {
+    element.addEventListener('toggle-star', () => {
+      assert.equal(element.change.starred, false);
+      done();
+    });
+    element.set('change.starred', true);
+    MockInteractions.tap(element.$$('button'));
+  });
+});
 </script>

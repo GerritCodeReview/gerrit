@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-select</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-select.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-select.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-select.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -50,71 +55,73 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-select tests', async () => {
-    await readyToTest();
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-select.js';
+suite('gr-select tests', () => {
+  let element;
+
+  setup(() => {
+    element = fixture('basic');
+  });
+
+  test('bindValue must be set to the first option value', () => {
+    assert.equal(element.bindValue, '1');
+  });
+
+  test('value of 0 should still trigger value updates', () => {
+    element.bindValue = 0;
+    assert.equal(element.nativeSelect.value, 0);
+  });
+
+  test('bidirectional binding property-to-attribute', () => {
+    const changeStub = sinon.stub();
+    element.addEventListener('bind-value-changed', changeStub);
+
+    // The selected element should be the first one by default.
+    assert.equal(element.nativeSelect.value, '1');
+    assert.equal(element.bindValue, '1');
+    assert.isFalse(changeStub.called);
+
+    // Now change the value.
+    element.bindValue = '2';
+
+    // It should be updated.
+    assert.equal(element.nativeSelect.value, '2');
+    assert.equal(element.bindValue, '2');
+    assert.isTrue(changeStub.called);
+  });
+
+  test('bidirectional binding attribute-to-property', () => {
+    const changeStub = sinon.stub();
+    element.addEventListener('bind-value-changed', changeStub);
+
+    // The selected element should be the first one by default.
+    assert.equal(element.nativeSelect.value, '1');
+    assert.equal(element.bindValue, '1');
+    assert.isFalse(changeStub.called);
+
+    // Now change the value.
+    element.nativeSelect.value = '3';
+    element.fire('change');
+
+    // It should be updated.
+    assert.equal(element.nativeSelect.value, '3');
+    assert.equal(element.bindValue, '3');
+    assert.isTrue(changeStub.called);
+  });
+
+  suite('gr-select no options tests', () => {
     let element;
 
     setup(() => {
-      element = fixture('basic');
+      element = fixture('noOptions');
     });
 
-    test('bindValue must be set to the first option value', () => {
-      assert.equal(element.bindValue, '1');
-    });
-
-    test('value of 0 should still trigger value updates', () => {
-      element.bindValue = 0;
-      assert.equal(element.nativeSelect.value, 0);
-    });
-
-    test('bidirectional binding property-to-attribute', () => {
-      const changeStub = sinon.stub();
-      element.addEventListener('bind-value-changed', changeStub);
-
-      // The selected element should be the first one by default.
-      assert.equal(element.nativeSelect.value, '1');
-      assert.equal(element.bindValue, '1');
-      assert.isFalse(changeStub.called);
-
-      // Now change the value.
-      element.bindValue = '2';
-
-      // It should be updated.
-      assert.equal(element.nativeSelect.value, '2');
-      assert.equal(element.bindValue, '2');
-      assert.isTrue(changeStub.called);
-    });
-
-    test('bidirectional binding attribute-to-property', () => {
-      const changeStub = sinon.stub();
-      element.addEventListener('bind-value-changed', changeStub);
-
-      // The selected element should be the first one by default.
-      assert.equal(element.nativeSelect.value, '1');
-      assert.equal(element.bindValue, '1');
-      assert.isFalse(changeStub.called);
-
-      // Now change the value.
-      element.nativeSelect.value = '3';
-      element.fire('change');
-
-      // It should be updated.
-      assert.equal(element.nativeSelect.value, '3');
-      assert.equal(element.bindValue, '3');
-      assert.isTrue(changeStub.called);
-    });
-
-    suite('gr-select no options tests', () => {
-      let element;
-
-      setup(() => {
-        element = fixture('noOptions');
-      });
-
-      test('bindValue must not be changed', () => {
-        assert.isUndefined(element.bindValue);
-      });
+    test('bindValue must not be changed', () => {
+      assert.isUndefined(element.bindValue);
     });
   });
+});
 </script>

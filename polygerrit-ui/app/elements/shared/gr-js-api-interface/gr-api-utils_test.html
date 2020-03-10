@@ -19,70 +19,77 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-api-interface</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-js-api-interface.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-js-api-interface.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+void(0);
+</script>
 
-<script>
-  const PRELOADED_PROTOCOL = 'preloaded:';
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+const PRELOADED_PROTOCOL = 'preloaded:';
 
-  suite('gr-api-utils tests', async () => {
-    await readyToTest();
-    suite('test getPluginNameFromUrl', () => {
-      const {getPluginNameFromUrl} = window._apiUtils;
+suite('gr-api-utils tests', () => {
+  suite('test getPluginNameFromUrl', () => {
+    const {getPluginNameFromUrl} = window._apiUtils;
 
-      test('with empty string', () => {
-        assert.equal(getPluginNameFromUrl(''), null);
-      });
+    test('with empty string', () => {
+      assert.equal(getPluginNameFromUrl(''), null);
+    });
 
-      test('with invalid url', () => {
-        assert.equal(getPluginNameFromUrl('test'), null);
-      });
+    test('with invalid url', () => {
+      assert.equal(getPluginNameFromUrl('test'), null);
+    });
 
-      test('with random invalid url', () => {
-        assert.equal(getPluginNameFromUrl('http://example.com'), null);
-        assert.equal(
-            getPluginNameFromUrl('http://example.com/static/a.html'),
-            null
-        );
-      });
+    test('with random invalid url', () => {
+      assert.equal(getPluginNameFromUrl('http://example.com'), null);
+      assert.equal(
+          getPluginNameFromUrl('http://example.com/static/a.html'),
+          null
+      );
+    });
 
-      test('with valid urls', () => {
-        assert.equal(
-            getPluginNameFromUrl('http://example.com/plugins/a.html'),
-            'a'
-        );
-        assert.equal(
-            getPluginNameFromUrl('http://example.com/plugins/a/static/t.html'),
-            'a'
-        );
-      });
+    test('with valid urls', () => {
+      assert.equal(
+          getPluginNameFromUrl('http://example.com/plugins/a.html'),
+          'a'
+      );
+      assert.equal(
+          getPluginNameFromUrl('http://example.com/plugins/a/static/t.html'),
+          'a'
+      );
+    });
 
-      test('with preloaded urls', () => {
-        assert.equal(getPluginNameFromUrl(`${PRELOADED_PROTOCOL}a`), 'a');
-      });
+    test('with preloaded urls', () => {
+      assert.equal(getPluginNameFromUrl(`${PRELOADED_PROTOCOL}a`), 'a');
+    });
 
-      test('with gerrit-theme override', () => {
-        assert.equal(
-            getPluginNameFromUrl('http://example.com/static/gerrit-theme.html'),
-            'gerrit-theme'
-        );
-      });
+    test('with gerrit-theme override', () => {
+      assert.equal(
+          getPluginNameFromUrl('http://example.com/static/gerrit-theme.html'),
+          'gerrit-theme'
+      );
+    });
 
-      test('with ASSETS_PATH', () => {
-        window.ASSETS_PATH = 'http://cdn.com/2';
-        assert.equal(
-            getPluginNameFromUrl(`${window.ASSETS_PATH}/plugins/a.html`),
-            'a'
-        );
-        window.ASSETS_PATH = undefined;
-      });
+    test('with ASSETS_PATH', () => {
+      window.ASSETS_PATH = 'http://cdn.com/2';
+      assert.equal(
+          getPluginNameFromUrl(`${window.ASSETS_PATH}/plugins/a.html`),
+          'a'
+      );
+      window.ASSETS_PATH = undefined;
     });
   });
+});
 </script>

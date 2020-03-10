@@ -14,6 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../../../scripts/bundled-polymer.js';
+
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<dom-module id="gr-event-helper">
+  
+</dom-module>`;
+
+document.head.appendChild($_documentContainer.content);
+
 (function(window) {
   'use strict';
 

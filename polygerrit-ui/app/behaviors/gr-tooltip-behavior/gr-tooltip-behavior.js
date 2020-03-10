@@ -51,19 +51,21 @@
 
     /** @override */
     detached() {
+      // NOTE: if you define your own `detached` in your component
+      // then this won't take affect (as its not a class yet)
       this._handleHideTooltip();
       this.removeEventListener('mouseenter', this._mouseenterHandler);
     },
 
-    /** @override */
-    attached() {
-      this._mouseenterHandler = this._handleShowTooltip.bind(this);
-    },
-
     _setupTooltipListeners() {
+      if (!this._mouseenterHandler) {
+        this._mouseenterHandler = this._handleShowTooltip.bind(this);
+      }
+
       if (!this.hasTooltip) {
-        // if attribute set to false, remvoe the listener
+        // if attribute set to false, remove the listener
         this.removeEventListener('mouseenter', this._mouseenterHandler);
+        this._hasSetupTooltipListeners = false;
         return;
       }
 

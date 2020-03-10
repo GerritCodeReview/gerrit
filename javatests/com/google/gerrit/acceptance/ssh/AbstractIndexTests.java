@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -29,9 +31,11 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import java.nio.file.Path;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -42,6 +46,7 @@ import org.junit.Test;
 @UseLocalDisk
 public abstract class AbstractIndexTests extends AbstractDaemonTest {
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
+  @Inject private VersionManager versionManager;
 
   private ChangeIndexedCounter changeIndexedCounter;
   private RegistrationHandle changeIndexedCounterHandle;
@@ -118,6 +123,69 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     changeIndexedCounter.assertReindexOf(changeInfo, 1);
 
     assertChangeQuery(change.getChange(), true);
+  }
+
+  @Test
+  public void indexStart() throws Exception {
+    configureIndex(server.getTestInjector());
+
+    String[] indexes = {"groups", "accounts", "changes", "projects"};
+    for (String index : indexes) {
+      String cmd = Joiner.on(" ").join("gerrit", "index", "start", index);
+      adminSshSession.exec(cmd);
+      adminSshSession.assertSuccess();
+
+      versionManager.setLowestIndexForTest(index);
+      Path sitePath = server.getSitePath();
+      String result = adminSshSession.exec(cmd);
+      adminSshSession.assertSuccess();
+
+      assertEquals(sitePath, server.getSitePath());
+      assertEquals("Reindexer started", result.trim());
+
+      boolean reindexing = true;
+      while (reindexing) {
+        adminSshSession.exec(cmd);
+        if (adminSshSession.getError() != null) {
+          assertTrue(
+              adminSshSession
+                  .getError()
+                  .trim()
+                  .equals("fatal: Failed to start reindexer: Reindexer is already running."));
+        } else {
+          reindexing = false;
+        }
+      }
+      adminSshSession.assertSuccess();
+
+      result = adminSshSession.exec(cmd);
+      adminSshSession.assertSuccess();
+      assertEquals("Nothing to reindex, index is already the latest version", result.trim());
+
+      adminSshSession.exec(cmd + "random");
+      adminSshSession.assertFailure();
+    }
+  }
+
+  @Test
+  public void indexActivate() throws Exception {
+    configureIndex(server.getTestInjector());
+
+    String[] indexes = {"groups", "accounts", "changes"};
+    for (String index : indexes) {
+      String cmd = Joiner.on(" ").join("gerrit", "index", "activate", index);
+      adminSshSession.exec(cmd);
+      adminSshSession.assertSuccess();
+
+      adminSshSession.exec(cmd + "random");
+      adminSshSession.assertFailure();
+
+      versionManager.setLowestIndexForTest(index);
+      versionManager.startIndexForTest(index);
+      String result = adminSshSession.exec(cmd);
+      adminSshSession.assertSuccess();
+      assertTrue(result.trim().contains("Activated latest index"));
+    }
   }
 
   private void assertChangeQuery(ChangeData change, boolean assertTrue) throws Exception {

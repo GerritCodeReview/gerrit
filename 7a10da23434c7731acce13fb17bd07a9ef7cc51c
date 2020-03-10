@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "92ddcf5a_50bfebfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2020-03-10T15:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78931d5c_6a40a09e",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3164271_b853a179",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -228,6 +252,30 @@
       "side": 1,
       "message": "As I known, ES 5.6 is a very stable and widely used release until now. \n\nI think it\u0027s stable to keep support for 5.6 in historical release for a period of time rather than drop it directly.",
       "parentUuid": "e0795b7a_b249efbc",
+      "range": {
+        "startLine": 57,
+        "startChar": 20,
+        "endLine": 58,
+        "endChar": 51
+      },
+      "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6741c56d_38096d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2020-03-10T15:20:15Z",
+      "side": 1,
+      "message": "Should I upload another change for stable-2.16 or just keep this one is OK?",
+      "parentUuid": "edb7984d_7f290b2b",
       "range": {
         "startLine": 57,
         "startChar": 20,

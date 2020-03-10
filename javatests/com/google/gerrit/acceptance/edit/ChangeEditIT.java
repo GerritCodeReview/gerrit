@@ -42,6 +42,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -294,6 +295,17 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(getEdit(changeId)).isPresent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
+  }
+
+  @Test
+  public void updateCommitMessageByEditingMagicCommitMsgFile() throws Exception {
+    createEmptyEditFor(changeId);
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyFile(Patch.COMMIT_MSG, RawInputUtil.create("Foo Bar".getBytes(UTF_8)));
+    assertThat(getEdit(changeId)).isPresent();
+    ensureSameBytes(getFileContentOfEdit(changeId, Patch.COMMIT_MSG), "Foo Bar\n".getBytes(UTF_8));
   }
 
   @Test

@@ -147,4 +147,11 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
       }
     }
   }
+
+  public void startIndexForTest() {
+    index =
+        requireNonNull(
+            indexes.getWriteIndex(newVersion),
+            () -> String.format("not an active write schema version: %s %s", name, newVersion));
+  }
 }

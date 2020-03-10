@@ -147,6 +147,15 @@ public abstract class VersionManager implements LifecycleListener {
     return defs.get(name) != null;
   }
 
+  public boolean getReindexerRunning(String name) {
+    return reindexers.get(name).isRunning();
+  }
+
+  public synchronized void startIndexForTest(String name) {
+    OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
+    reindexer.startIndexForTest();
+  }
+
   protected <K, V, I extends Index<K, V>> void initIndex(
       IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
     TreeMap<Integer, Version<V>> versions = scanVersions(def, cfg);
@@ -223,6 +232,19 @@ public abstract class VersionManager implements LifecycleListener {
         reindexer.start();
       }
     }
+  }
+
+  public synchronized void setLowestIndexForTest(String name) {
+    setLowestIndexVersion(defs.get(name));
+  }
+
+  private synchronized <K, V, I extends Index<K, V>> void setLowestIndexVersion(
+      IndexDefinition<K, V, I> def) {
+    IndexFactory<K, V, I> factory = def.getIndexFactory();
+    Schema<V> schema = def.getSchemas().descendingMap().lastEntry().getValue();
+    I index = factory.create(schema);
+    def.getIndexCollection().setSearchIndex(index);
+    def.getIndexCollection().addWriteIndex(index);
   }
 
   protected GerritIndexStatus createIndexStatus() {

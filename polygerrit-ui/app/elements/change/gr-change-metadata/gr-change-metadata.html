@@ -176,7 +176,7 @@ limitations under the License.
               ></gr-account-link>
         </span>
       </section>
-      <section class="assignee">
+      <section hidden$="[[!_isAssigneeEnabled(serverConfig)]]" class="assignee">
         <span class="title">Assignee</span>
         <span class="value">
           <gr-account-list

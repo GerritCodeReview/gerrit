@@ -69,6 +69,30 @@
       "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0795b7a_b249efbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-10T01:48:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we should drop support for those older versions on stable-2.16 though.  Let\u0027s move this change as-is to stable-2.16 and then follow up later regarding dropping older versions.",
+      "parentUuid": "fd616ae2_20b3a153",
+      "range": {
+        "startLine": 57,
+        "startChar": 20,
+        "endLine": 58,
+        "endChar": 51
+      },
+      "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

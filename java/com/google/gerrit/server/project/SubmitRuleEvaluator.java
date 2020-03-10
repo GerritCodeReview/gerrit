@@ -150,9 +150,8 @@ public class SubmitRuleEvaluator {
    */
   public SubmitTypeRecord getSubmitType(ChangeData cd) {
     try (Timer0.Context ignored = submitTypeEvaluationLatency.start()) {
-      ProjectState projectState;
       try {
-        projectState = projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
+        projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
       } catch (NoSuchProjectException e) {
         return typeError("Error looking up change " + cd.getId(), e);
       }

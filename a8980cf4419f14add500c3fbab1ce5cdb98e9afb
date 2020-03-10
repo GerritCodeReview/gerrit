@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf426db7_1f0694a1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T14:39:15Z",
+      "side": 1,
+      "message": "Now the statement is wrong for this part of the sentence. This is still resulting in a \"409 Conflict\".",
+      "range": {
+        "startLine": 1478,
+        "startChar": 0,
+        "endLine": 1479,
+        "endChar": 26
+      },
+      "revId": "a8980cf4419f14add500c3fbab1ce5cdb98e9afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd5e60a7_5605d446",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T14:39:15Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 1587,
+        "startChar": 0,
+        "endLine": 1589,
+        "endChar": 26
+      },
+      "revId": "a8980cf4419f14add500c3fbab1ce5cdb98e9afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

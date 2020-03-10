@@ -120,6 +120,35 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     assertChangeQuery(change.getChange(), true);
   }
 
+  @Test
+  @GerritConfig(name = "index.onlineUpgrade", value = "false")
+  public void indexStart() throws Exception {
+    configureIndex(server.getTestInjector());
+
+    String[] indexes = {"groups", "accounts", "changes", "projects"};
+    for (String index : indexes) {
+  	  String cmd = Joiner.on(" ").join("gerrit", "index", "start", index);
+  	  adminSshSession.exec(cmd);
+  	  adminSshSession.assertSuccess();
+  	  adminSshSession.exec(cmd + "random");
+  	  adminSshSession.assertFailure();
+    }
+  }
+
+  @Test
+  public void indexActivate() throws Exception {
+	  configureIndex(server.getTestInjector());
+
+	  String[] indexes = {"groups", "accounts", "changes"};
+	  for (String index : indexes) {
+	  String cmd = Joiner.on(" ").join("gerrit", "index", "activate", index);
+	  adminSshSession.exec(cmd);
+	  adminSshSession.assertSuccess();
+	  adminSshSession.exec(cmd + "random");
+	  adminSshSession.assertFailure();
+	  }
+  }
+
   private void assertChangeQuery(ChangeData change, boolean assertTrue) throws Exception {
     List<Integer> ids = query("message:second").stream().map(c -> c._number).collect(toList());
     if (assertTrue) {

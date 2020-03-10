@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6cef72d0_7a29a2c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-03-10T14:02:21Z",
+      "side": 1,
+      "message": "That helps, but it doesn\u0027t tell me how Gerrit encounters that issue. This ties into the line above with \"some relative functions such as the front pages and APIs will become unusable\". Are those pages triggering execution of an ES query with a requested result count \u003e max_result_window? If yes, why?",
+      "parentUuid": "fde90fbf_3407186e",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3164271_b853a179",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

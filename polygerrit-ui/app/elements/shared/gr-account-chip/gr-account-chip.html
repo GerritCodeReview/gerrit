@@ -89,7 +89,10 @@ limitations under the License.
       }
     </style>
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
-      <gr-account-link account="[[account]]"></gr-account-link>
+      <gr-account-link
+          account="[[account]]"
+          show-attention="[[showAttention]]">
+      </gr-account-link>
       <gr-button
           id="remove"
           link

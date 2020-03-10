@@ -111,6 +111,23 @@
     },
     {
       "key": {
+        "uuid": "c99b0542_c0c034d1",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T14:02:00Z",
+      "side": 1,
+      "message": "From our offline discussion, we also need a schema migration that adds this permission for existing hosts on upgrade.",
+      "revId": "7638ffbb8a63d2bc29cbdf636330b722c4889135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c5fcb23_c41935f5",
         "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 5

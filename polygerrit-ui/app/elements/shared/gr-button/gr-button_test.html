@@ -35,8 +35,14 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="tabindex">
+  <template>
+    <gr-button tabindex="3"></gr-button>
+  </template>
+</test-fixture>
+
 <script>
-  suite('gr-select tests', async () => {
+  suite('gr-button tests', async () => {
     await readyToTest();
     let element;
     let sandbox;
@@ -60,14 +66,43 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('disabled is set by disabled or loading', () => {
-      assert.isFalse(element.$$('paper-button').disabled);
+    test('disabled is set by disabled', () => {
+      const paperBtn = element.shadowRoot.querySelector('paper-button');
+      assert.isFalse(paperBtn.disabled);
       element.disabled = true;
-      assert.isTrue(element.$$('paper-button').disabled);
+      assert.isTrue(paperBtn.disabled);
       element.disabled = false;
-      assert.isFalse(element.$$('paper-button').disabled);
-      element.loading = true;
-      assert.isTrue(element.$$('paper-button').disabled);
+      assert.isFalse(paperBtn.disabled);
+    });
+
+    test('disabled depends by ongoing promise', done => {
+      const paperBtn = element.shadowRoot.querySelector('paper-button');
+      assert.isFalse(paperBtn.disabled);
+      let resolve;
+      element.promise = new Promise(r => resolve = r);
+      assert.isTrue(paperBtn.disabled);
+      assert.isTrue(element.hasAttribute('loading'));
+      resolve();
+      flush(() => {
+        assert.isFalse(paperBtn.disabled);
+        assert.isFalse(element.hasAttribute('loading'));
+        done();
+      });
+    });
+
+    test('disabled resolved for failed promise', done => {
+      const paperBtn = element.shadowRoot.querySelector('paper-button');
+      assert.isFalse(paperBtn.disabled);
+      let reject;
+      element.promise = new Promise((_, r) => reject = r);
+      assert.isTrue(paperBtn.disabled);
+      assert.isTrue(element.hasAttribute('loading'));
+      reject(new Error('error'));
+      flush(() => {
+        assert.isFalse(paperBtn.disabled);
+        assert.isFalse(element.hasAttribute('loading'));
+        done();
+      });
     });
 
     test('tabindex should be -1 if disabled', () => {
@@ -78,11 +113,22 @@ limitations under the License.
     // Regression tests for Issue: 11969
     test('tabindex should be reset to 0 if enabled', () => {
       element.disabled = false;
-      assert.isTrue(element.getAttribute('tabindex') === '0');
+      assert.equal(element.getAttribute('tabindex'), '0');
       element.disabled = true;
-      assert.isTrue(element.getAttribute('tabindex') === '-1');
+      assert.equal(element.getAttribute('tabindex'), '-1');
       element.disabled = false;
-      assert.isTrue(element.getAttribute('tabindex') === '0');
+      assert.equal(element.getAttribute('tabindex'), '0');
+    });
+
+    test('tabindex should be preserved', () => {
+      element = fixture('tabindex');
+      sandbox = sinon.sandbox.create();
+      element.disabled = false;
+      assert.equal(element.getAttribute('tabindex'), '3');
+      element.disabled = true;
+      assert.equal(element.getAttribute('tabindex'), '-1');
+      element.disabled = false;
+      assert.equal(element.getAttribute('tabindex'), '3');
     });
 
     // 'tap' event is tested so we don't loose backward compatibility with older

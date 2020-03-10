@@ -42,11 +42,6 @@
           value: false,
           reflectToAttribute: true,
         },
-        loading: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true,
-        },
         disabled: {
           type: Boolean,
           observer: '_disabledChanged',
@@ -56,7 +51,24 @@
           type: Boolean,
           value: false,
         },
-        _enabledTabindex: {
+
+        /** Set if you want to show a loading before this promise resolved */
+        promise: {
+          type: Object,
+          value: null,
+        },
+        loading: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+
+        _disabled: {
+          type: Boolean,
+          computed: '_computeDisabled(disabled, loading)',
+        },
+
+        _initialTabindex: {
           type: String,
           value: '0',
         },
@@ -65,13 +77,14 @@
 
     static get observers() {
       return [
-        '_computeDisabled(disabled, loading)',
+        '_computeLoading(promise)',
       ];
     }
 
     /** @override */
     created() {
       super.created();
+      this._initialTabindex = this.getAttribute('tabindex') || '0';
       this.addEventListener('click',
           e => this._handleAction(e));
       this.addEventListener('keydown',
@@ -86,7 +99,7 @@
     }
 
     _handleAction(e) {
-      if (this.disabled) {
+      if (this._disabled) {
         e.preventDefault();
         e.stopImmediatePropagation();
       }
@@ -106,15 +119,20 @@
     }
 
     _disabledChanged(disabled) {
-      if (disabled) {
-        this._enabledTabindex = this.getAttribute('tabindex') || '0';
-      }
-      this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
+      this.setAttribute('tabindex', disabled ? '-1' : this._initialTabindex);
       this.updateStyles();
     }
 
     _computeDisabled(disabled, loading) {
       return disabled || loading;
+    }
+
+    _computeLoading(promise) {
+      if (!promise || !promise.finally) return;
+      this.loading = true;
+      promise.finally(() => {
+        this.loading = false;
+      });
     }
 
     _handleKeydown(e) {

@@ -126,6 +126,10 @@
           type: Boolean,
           value: true,
         },
+
+        /** Internal promises */
+        _savePromise: Object,
+        _saveForReviewPromise: Object,
       };
     }
 
@@ -445,19 +449,24 @@
     _handleSave() {
       const obj = this._getObjforSave();
       if (!obj) { return; }
-      return this.$.restAPI.setRepoAccessRights(this.repo, obj)
+      this._savePromise = this.$.restAPI.setRepoAccessRights(this.repo, obj)
           .then(() => {
             this._reload(this.repo);
+            this._modified = false;
           });
+      return this._savePromise;
     }
 
     _handleSaveForReview() {
       const obj = this._getObjforSave();
       if (!obj) { return; }
-      return this.$.restAPI.setRepoAccessRightsForReview(this.repo, obj)
+      this._saveForReviewPromise = this.$.restAPI
+          .setRepoAccessRightsForReview(this.repo, obj)
           .then(change => {
             Gerrit.Nav.navigateToChange(change);
+            this._modified = false;
           });
+      return this._saveForReviewPromise;
     }
 
     _computeSaveReviewBtnClass(canUpload) {

@@ -137,7 +137,7 @@ limitations under the License.
 
       /* Keep below color definition for primary so that this takes precedence
         when disabled. */
-      :host([disabled]) {
+      :host([disabled]), :host([loading]) {
         --background-color: var(--disabled-button-background-color);
         --text-color: var(--deemphasized-text-color);
         cursor: default;
@@ -149,7 +149,8 @@ limitations under the License.
         --margin: 0;
         --padding: 5px 4px;
       }
-      :host([disabled][link]) {
+      :host([disabled][link]),
+      :host([loading][link]) {
         --background-color: transparent;
         --text-color: var(--deemphasized-text-color);
         cursor: default;
@@ -170,11 +171,29 @@ limitations under the License.
       :host([down-arrow]) paper-button:hover .downArrow {
         border-top-color: var(--deemphasized-text-color);
       }
+
+      i.loadingSpin {
+        border: 2px solid var(--disabled-button-background-color);
+        border-top: 2px solid var(--primary-button-background-color);
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        animation: spin 2s linear infinite;
+        margin-right: var(--spacing-s);
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
     </style>
     <paper-button
         raised="[[!link]]"
-        disabled="[[_computeDisabled(disabled, loading)]]"
+        disabled="[[_disabled]]"
         tabindex="-1">
+      <template is="dom-if" if="[[loading]]">
+        <i class="loadingSpin"></i>
+      </template>
       <slot></slot>
       <i class="downArrow"></i>
     </paper-button>

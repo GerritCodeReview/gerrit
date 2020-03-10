@@ -65,7 +65,7 @@ public class OAuthTokenCache {
               .setToken(object.getToken())
               .setSecret(object.getSecret())
               .setRaw(object.getRaw())
-              .setExpiresAt(object.getExpiresAt())
+              .setExpiresAtMillis(object.getExpiresAt())
               .setProviderId(Strings.nullToEmpty(object.getProviderId()))
               .build());
     }
@@ -77,7 +77,7 @@ public class OAuthTokenCache {
           proto.getToken(),
           proto.getSecret(),
           proto.getRaw(),
-          proto.getExpiresAt(),
+          proto.getExpiresAtMillis(),
           Strings.emptyToNull(proto.getProviderId()));
     }
   }

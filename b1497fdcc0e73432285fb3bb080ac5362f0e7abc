@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fa8a194_e3f7aa45",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-10T10:15:42Z",
+      "side": 1,
+      "message": "Note that this causes a warning from Sonar Lint: \"The return value of orElseThrow should be checked\" but since we already do the same in other places I think we can ignore that for now.",
+      "revId": "b1497fdcc0e73432285fb3bb080ac5362f0e7abc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

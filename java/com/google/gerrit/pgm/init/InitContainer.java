@@ -75,7 +75,11 @@ class InitContainer implements InitStep {
       final boolean copy;
       final Path siteWar = site.gerrit_war;
       if (Files.exists(siteWar)) {
-        copy = ui.yesno(true, "Upgrade %s", siteWar);
+        if (Files.isSameFile(siteWar, myWar)) {
+          copy = false;
+        } else {
+          copy = ui.yesno(true, "Upgrade %s", siteWar);
+        }
       } else {
         copy = ui.yesno(true, "Copy %s to %s", myWar.getFileName(), siteWar);
         if (copy) {

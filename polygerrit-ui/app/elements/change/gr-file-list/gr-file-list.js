@@ -805,8 +805,7 @@
         return;
       }
       // TODO(kaspern): Fix editing for commit messages and merge lists.
-      if (editMode && path !== this.COMMIT_MESSAGE_PATH &&
-          path !== this.MERGE_LIST_PATH) {
+      if (editMode && path !== this.MERGE_LIST_PATH) {
         return Gerrit.Nav.getEditUrlForDiff(change, path, patchNum,
             basePatchNum);
       }

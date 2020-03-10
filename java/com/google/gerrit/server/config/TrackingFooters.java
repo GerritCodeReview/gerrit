@@ -37,9 +37,6 @@ public class TrackingFooters {
 
   public ListMultimap<String, String> extract(List<FooterLine> lines) {
     ListMultimap<String, String> r = MultimapBuilder.hashKeys().arrayListValues().build();
-    if (lines == null) {
-      return r;
-    }
 
     for (FooterLine footer : lines) {
       for (TrackingFooter config : trackingFooters) {

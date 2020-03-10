@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41db3225_640a92e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-10T13:11:20Z",
+      "side": 1,
+      "message": "nextI at this point can be equal to lines.length\nso you are accessing lines[lines.length]\nnot sure if this is intentional.",
+      "revId": "33b4482c4414df7be94473ff18d81d3278e9ba92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

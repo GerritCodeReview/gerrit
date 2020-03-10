@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac4b93f0_f362c3da",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T13:48:57Z",
+      "side": 1,
+      "message": "Add this?\n\nUsers without this access right who are able to upload changes can\nstill do the revert locally and upload the revert commit as a new change.",
+      "revId": "7638ffbb8a63d2bc29cbdf636330b722c4889135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dfa11b9_abdf465e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1480,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T13:48:57Z",
+      "side": 1,
+      "message": "Is this correct? If the user has insufficient permissions the response is expected to be \"403 Forbidden\".",
+      "range": {
+        "startLine": 1479,
+        "startChar": 31,
+        "endLine": 1480,
+        "endChar": 80
+      },
+      "revId": "7638ffbb8a63d2bc29cbdf636330b722c4889135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0036680_c6766790",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1590,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T13:48:57Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 1589,
+        "startChar": 28,
+        "endLine": 1590,
+        "endChar": 80
+      },
+      "revId": "7638ffbb8a63d2bc29cbdf636330b722c4889135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9734feb5_b9e66019",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T13:48:57Z",
+      "side": 1,
+      "message": "Just \"changeData\" as in the line right below?",
+      "range": {
+        "startLine": 217,
+        "startChar": 45,
+        "endLine": 217,
+        "endChar": 63
+      },
+      "revId": "7638ffbb8a63d2bc29cbdf636330b722c4889135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7738bce_2a72515d",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T13:48:57Z",
+      "side": 1,
+      "message": "Is this correct? Should this rather be \"heads\"?",
+      "range": {
+        "startLine": 183,
+        "startChar": 18,
+        "endLine": 183,
+        "endChar": 23
+      },
+      "revId": "7638ffbb8a63d2bc29cbdf636330b722c4889135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c5fcb23_c41935f5",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T13:48:57Z",
+      "side": 1,
+      "message": "If it\u0027s already allowed for all registered users, we don\u0027t need this here, right?\nE.g. other permissions like \"FORGE_AUTHOR\" are also not assigned here again.",
+      "revId": "7638ffbb8a63d2bc29cbdf636330b722c4889135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17736578_8a557d6a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-10T13:48:57Z",
+      "side": 1,
+      "message": "I think it would be better to add this permission only in those tests that really need it.",
+      "revId": "7638ffbb8a63d2bc29cbdf636330b722c4889135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

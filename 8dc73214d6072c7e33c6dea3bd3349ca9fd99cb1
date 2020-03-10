@@ -118,6 +118,30 @@
       "revId": "8dc73214d6072c7e33c6dea3bd3349ca9fd99cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e467e59a_52fafb5a",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-10T11:22:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "66eac971_4cff88f5",
+      "range": {
+        "startLine": 215,
+        "startChar": 10,
+        "endLine": 215,
+        "endChar": 21
+      },
+      "revId": "8dc73214d6072c7e33c6dea3bd3349ca9fd99cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

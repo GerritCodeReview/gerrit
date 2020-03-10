@@ -157,6 +157,7 @@
          * @type {{ commentlinks: Array }}
          */
         projectConfig: Object,
+        serverConfig: Object,
         knownLatestState: String,
         underReview: {
           type: Boolean,
@@ -221,6 +222,14 @@
           type: String,
           value: '',
         },
+        _attentionModified: {
+          type: Boolean,
+          value: false,
+        },
+        _newAttention: {
+          type: Array,
+          value: [],
+        },
         _sendDisabled: {
           type: Boolean,
           computed: '_computeSendButtonDisabled(_sendButtonLabel, ' +
@@ -247,6 +256,7 @@
         '_changeUpdated(change.reviewers.*, change.owner)',
         '_ccsChanged(_ccs.splices)',
         '_reviewersChanged(_reviewers.splices)',
+        '_computeNewAttention(_account, _owner, _reviewers, change)',
       ];
     }
 
@@ -534,6 +544,13 @@
       return FocusTarget.BODY;
     }
 
+    _isOwner(account, change) {
+      if (!account) return false;
+      if (!change) return false;
+      if (!change.owner) return false;
+      return account._account_id === change.owner._account_id;
+    }
+
     _handle400Error(response) {
       // A call to _saveReview could fail with a server error if erroneous
       // reviewers were requested. This is signalled with a 400 Bad Request
@@ -599,6 +616,7 @@
         return;
       }
 
+      this._attentionModified = false;
       this._rebuildReviewerArrays(changeRecord.base, owner);
     }
 
@@ -632,6 +650,57 @@
 
       this._ccs = ccs;
       this._reviewers = reviewers;
+    }
+
+    _handleAttentionModify() {
+      this._attentionModified = true;
+    }
+
+    _showAttentionSummary(serverConfig, attentionModified) {
+      return this._isAttentionSetEnabled(serverConfig) && !attentionModified;
+    }
+
+    _showAttentionDetails(serverConfig, attentionModified) {
+      return this._isAttentionSetEnabled(serverConfig) && attentionModified;
+    }
+
+    _isAttentionSetEnabled(serverConfig) {
+      return serverConfig && serverConfig.change
+          && !!serverConfig.change.enable_attention_set;
+    }
+
+    _handleAttentionClick(e) {
+      const id = e.target.account._account_id;
+      if (!id) return;
+      if (this._newAttention.includes(id)) {
+        this._newAttention = this._newAttention.filter(e => e != id);
+      } else {
+        this._newAttention = [...this._newAttention, id];
+      }
+    }
+
+    _computeHasNewAttention(account, newAttention) {
+      return newAttention && account && newAttention.includes(
+          account._account_id);
+    }
+
+    _computeNewAttention(user, owner, reviewers, change) {
+      if ([user, owner, reviewers, change].some(arg => arg === undefined)) {
+        return;
+      }
+      this._attentionModified = false;
+      const isOwner = this._isOwner(user, change);
+      // TODO(brohlfs): Derive old attention set from change object.
+      // const oldAttention = [];
+      if (isOwner) {
+        this._newAttention = reviewers.map(reviewer => reviewer._account_id);
+      } else {
+        this._newAttention = [owner._account_id];
+      }
+    }
+
+    hasNewAttention(account) {
+      return account.name == 'Ben Rohlfs';
     }
 
     _accountOrGroupKey(entry) {

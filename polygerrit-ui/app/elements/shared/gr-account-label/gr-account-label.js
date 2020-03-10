@@ -34,7 +34,16 @@
          * @type {{ name: string, status: string }}
          */
         account: Object,
+        blurred: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
         showAttention: {
+          type: Boolean,
+          value: false,
+        },
+        hideHovercard: {
           type: Boolean,
           value: false,
         },

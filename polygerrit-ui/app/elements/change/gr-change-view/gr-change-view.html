@@ -292,6 +292,17 @@ limitations under the License.
           padding-right: 0;
         }
       }
+      .badge {
+        font-size: var(--font-size-small);
+        padding: 0 var(--spacing-s);
+        border-radius: var(--border-radius);
+        display: inline-block;
+        text-align: center;
+      }
+      .unresolvedCommentBadge {
+        vertical-align: text-top;
+        background-color: var(--unresolved-comment-background-color);
+      }
       /* NOTE: If you update this breakpoint, also update the
       BREAKPOINT_RELATED_SMALL in the JS */
       @media screen and (max-width: 50em) {
@@ -659,7 +670,11 @@ limitations under the License.
           <gr-tooltip-content
               has-tooltip
               title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]">
-            <span>Comment Threads</span></gr-tooltip-content>
+            <span>Comment Threads</span>
+            <span class="badge unresolvedCommentBadge" hidden$="[[!_change.unresolved_comment_count]]">
+              [[_change.unresolved_comment_count]]
+            </span>
+          </gr-tooltip-content>
         </paper-tab>
       </paper-tabs>
       <section class="changeLog">

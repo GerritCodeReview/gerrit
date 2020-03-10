@@ -114,6 +114,15 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('show-revision-actions event should fire', done => {
+      const spy = sinon.spy(element, '_sendShowRevisionActions');
+      element.reload();
+      flush(() => {
+        assert.isTrue(spy.called);
+        done();
+      });
+    });
+
     test('primary and secondary actions split properly', () => {
       // Submit should be the only primary action.
       assert.equal(element._topLevelPrimaryActions.length, 1);

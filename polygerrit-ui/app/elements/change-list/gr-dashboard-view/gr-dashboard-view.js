@@ -168,10 +168,14 @@
       const {project, dashboard, title, user, sections} = this.params;
       const dashboardPromise = project ?
         this._getProjectDashboard(project, dashboard) :
-        Promise.resolve(Gerrit.Nav.getUserDashboard(
-            user,
-            sections,
-            title || this._computeTitle(user)));
+        this.$.restAPI.getConfig().then(
+            config => Promise.resolve(Gerrit.Nav.getUserDashboard(
+                user,
+                sections,
+                title || this._computeTitle(user),
+                config
+            ))
+        );
 
       const checkForNewUser = !project && user === 'self';
       return dashboardPromise

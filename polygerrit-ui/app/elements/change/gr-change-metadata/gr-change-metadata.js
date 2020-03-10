@@ -156,7 +156,9 @@
     }
 
     _assigneeChanged(assigneeRecord) {
-      if (!this.change) { return; }
+      if (!this.change || !this._isAssigneeEnabled(this.serverConfig)) {
+        return;
+      }
       const assignee = assigneeRecord.base;
       if (assignee.length) {
         const acct = assignee[0];
@@ -191,6 +193,11 @@
             config: serverConfig,
           });
       return weblinks.length ? weblinks : null;
+    }
+
+    _isAssigneeEnabled(serverConfig) {
+      return serverConfig && serverConfig.change
+          && !!serverConfig.change.enable_assignee;
     }
 
     _computeStrategy(change) {

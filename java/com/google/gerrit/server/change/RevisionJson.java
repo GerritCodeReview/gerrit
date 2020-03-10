@@ -238,7 +238,7 @@ public class RevisionJson {
   }
 
   private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
-      throws PermissionBackendException, IOException {
+      throws PermissionBackendException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
     for (Extension<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
@@ -358,7 +358,7 @@ public class RevisionJson {
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
   }
 
-  private boolean isWorldReadable(ChangeData cd) throws PermissionBackendException, IOException {
+  private boolean isWorldReadable(ChangeData cd) throws PermissionBackendException {
     try {
       permissionBackendForChange(permissionBackend.user(anonymous), cd)
           .check(ChangePermission.READ);

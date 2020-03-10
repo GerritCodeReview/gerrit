@@ -540,7 +540,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private void fireApprovalsEvent(Context ctx) throws IOException {
+  private void fireApprovalsEvent(Context ctx) {
     if (approvals.isEmpty()) {
       return;
     }

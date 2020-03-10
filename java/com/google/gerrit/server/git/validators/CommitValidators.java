@@ -142,8 +142,7 @@ public class CommitValidators {
         NoteMap rejectCommits,
         RevWalk rw,
         @Nullable Change change,
-        boolean skipValidation)
-        throws IOException {
+        boolean skipValidation) {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
@@ -172,8 +171,7 @@ public class CommitValidators {
         IdentifiedUser user,
         SshInfo sshInfo,
         RevWalk rw,
-        @Nullable Change change)
-        throws IOException {
+        @Nullable Change change) {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
@@ -195,8 +193,7 @@ public class CommitValidators {
     }
 
     public CommitValidators forMergedCommits(
-        PermissionBackend.ForProject forProject, BranchNameKey branch, IdentifiedUser user)
-        throws IOException {
+        PermissionBackend.ForProject forProject, BranchNameKey branch, IdentifiedUser user) {
       // Generally only include validators that are based on permissions of the
       // user creating a change for a merged commit; generally exclude
       // validators that would require amending the change in order to correct.

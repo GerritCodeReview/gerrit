@@ -146,7 +146,7 @@ class RelatedChangesSorter {
 
   private Collection<PatchSetData> walkAncestors(
       ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
-      throws PermissionBackendException, IOException {
+      throws PermissionBackendException {
     LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();
     Deque<PatchSetData> pending = new ArrayDeque<>();
     pending.add(start);
@@ -166,7 +166,7 @@ class RelatedChangesSorter {
       PatchSetData start,
       List<PatchSetData> otherPatchSetsOfStart,
       Iterable<PatchSetData> ancestors)
-      throws PermissionBackendException, IOException {
+      throws PermissionBackendException {
     Set<Change.Id> alreadyEmittedChanges = new HashSet<>();
     addAllChangeIds(alreadyEmittedChanges, ancestors);
 
@@ -193,7 +193,7 @@ class RelatedChangesSorter {
       Set<Change.Id> alreadyEmittedChanges,
       ListMultimap<PatchSetData, PatchSetData> children,
       List<PatchSetData> start)
-      throws PermissionBackendException, IOException {
+      throws PermissionBackendException {
     if (start.isEmpty()) {
       return ImmutableList.of();
     }

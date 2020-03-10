@@ -149,7 +149,7 @@ public class MergeSuperSet {
    */
   private ChangeSet topicClosure(
       ChangeSet changeSet, CurrentUser user, Set<String> topicsSeen, Set<String> visibleTopicsSeen)
-      throws PermissionBackendException, IOException {
+      throws PermissionBackendException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 

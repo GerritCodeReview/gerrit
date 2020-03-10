@@ -24,7 +24,6 @@ import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.kohsuke.args4j.Argument;
@@ -44,7 +43,7 @@ final class IndexChangesCommand extends SshCommand {
   void addChange(String token) {
     try {
       changeArgumentParser.addChange(token, changes, null, false);
-    } catch (UnloggedFailure | StorageException | PermissionBackendException | IOException e) {
+    } catch (UnloggedFailure | StorageException | PermissionBackendException e) {
       writeError("warning", e.getMessage());
     }
   }

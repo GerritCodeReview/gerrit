@@ -259,8 +259,7 @@ public class AccountIT extends AbstractDaemonTest {
       boolean exclusive,
       String labelName,
       int min,
-      int max)
-      throws IOException {
+      int max) {
     ProjectConfig cfg = projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
     AccessSection accessSection = cfg.getAccessSection(ref);
     assertThat(accessSection).isNotNull();

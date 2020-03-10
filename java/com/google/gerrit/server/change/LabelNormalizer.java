@@ -31,7 +31,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -82,8 +81,7 @@ public class LabelNormalizer {
    * @return copies of approvals normalized to the defined ranges for the label type. Approvals for
    *     unknown labels are not included in the output.
    */
-  public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals)
-      throws IOException {
+  public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals) {
     List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> updated = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());

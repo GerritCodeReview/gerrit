@@ -136,7 +136,7 @@ public class ProjectsCollection
 
   @Nullable
   private ProjectResource _parse(String id, boolean checkAccess)
-      throws IOException, PermissionBackendException, ResourceConflictException {
+      throws PermissionBackendException, ResourceConflictException {
     id = ProjectUtil.sanitizeProjectName(id);
 
     Project.NameKey nameKey = Project.nameKey(id);

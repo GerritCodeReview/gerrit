@@ -27,7 +27,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
@@ -39,7 +38,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -91,8 +89,6 @@ public class ApprovalInference {
       Collection<PatchSetApproval> approvals =
           getForPatchSetWithoutNormalization(notes, project, psId, rw, repoConfig);
       return labelNormalizer.normalize(notes, approvals).getNormalized();
-    } catch (IOException e) {
-      throw new StorageException(e);
     }
   }
 

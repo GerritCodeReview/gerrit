@@ -179,7 +179,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
   }
 
   private void ensureCanEditCommitMessage(ChangeNotes changeNotes)
-      throws AuthException, PermissionBackendException, IOException, ResourceConflictException {
+      throws AuthException, PermissionBackendException, ResourceConflictException {
     if (!userProvider.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

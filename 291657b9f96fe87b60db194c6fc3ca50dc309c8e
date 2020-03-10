@@ -22,6 +22,23 @@
       "revId": "291657b9f96fe87b60db194c6fc3ca50dc309c8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e96c9ec1_7d182182",
+        "filename": ".zuul.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1087826
+      },
+      "writtenOn": "2020-03-10T14:37:12Z",
+      "side": 1,
+      "message": "One of the unique aspects of Zuul is that it is designed for tight integration with git repositories.  In order for the Depends-On feature to work, it needs to be responsible for checking them out.  It has no interaction with submodules, so here we need to separately tell it which repos are going to be submodules.  At the start of the job, there is an Ansible role which will put them into place.\n\nAt some point in the future, we may be able to add some support to Zuul for automatically identifying submodules as required projects, but that doesn\u0027t exist at the moment.  The main reason this part of the job is in this repo is so that the list of submodules is matched with the appropriate branch.",
+      "revId": "291657b9f96fe87b60db194c6fc3ca50dc309c8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

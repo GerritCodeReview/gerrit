@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -224,6 +225,21 @@ public abstract class VersionManager implements LifecycleListener {
       }
     }
   }
+
+  @VisibleForTesting
+  public void setIndexForTest(String name) {
+	  setIndexVersion(defs.get(name));
+  }
+
+  private <K, V, I extends Index<K, V>> void setIndexVersion(
+		  IndexDefinition<K, V, I> def) {
+
+	  IndexFactory<K, V, I> factory = def.getIndexFactory();
+	  Schema<V> schema = def.getSchemas().descendingMap().lastEntry().getValue();
+	  I index = factory.create(schema);
+	  def.getIndexCollection().setSearchIndex(index);
+
+	  }
 
   protected GerritIndexStatus createIndexStatus() {
     try {

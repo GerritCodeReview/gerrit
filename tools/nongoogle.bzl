@@ -102,8 +102,8 @@ def declare_nongoogle_deps():
     # and httpasyncclient as necessary.
     maven_jar(
         name = "elasticsearch-rest-client",
-        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.6.0",
-        sha1 = "3d56c1fca22af1aab5a1b23698ae9ec6f71db1a2",
+        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.6.1",
+        sha1 = "6fb9f72e9d86a8c503f26f28fa7271f4ac065709",
     )
 
     maven_jar(
@@ -126,18 +126,18 @@ def declare_nongoogle_deps():
         sha1 = "dc13ae4faca6df981fc7aeb5a522d9db446d5d50",
     )
 
-    TESTCONTAINERS_VERSION = "1.12.5"
+    TESTCONTAINERS_VERSION = "1.13.0"
 
     maven_jar(
         name = "testcontainers",
         artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-        sha1 = "ca8a8dfbd3b194fb6c541e3bad858898865ce069",
+        sha1 = "c92d1094d2b227e881f66bf09872c46d91ce9ac5",
     )
 
     maven_jar(
         name = "testcontainers-elasticsearch",
         artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-        sha1 = "d88f79c83e7057edd23d33621c36d6267b9c4e96",
+        sha1 = "09353bd960b3f0d26ba7652ae57bb4ac46d043a2",
     )
 
     maven_jar(

@@ -16,6 +16,24 @@
       "revId": "33b4482c4414df7be94473ff18d81d3278e9ba92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d92ab22_a38af044",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-10T13:12:52Z",
+      "side": 1,
+      "message": "ya thats why those `_isX` check is returning false for undefined line, so I did not do a special check here and other places",
+      "parentUuid": "41db3225_640a92e2",
+      "revId": "33b4482c4414df7be94473ff18d81d3278e9ba92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

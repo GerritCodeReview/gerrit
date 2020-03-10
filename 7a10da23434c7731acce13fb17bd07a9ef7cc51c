@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "78931d5c_6a40a09e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2020-03-10T15:11:20Z",
+      "side": 1,
+      "message": "Sure!\n\nThanks for your suggestion.",
+      "parentUuid": "4510bf3c_713e34d7",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3164271_b853a179",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

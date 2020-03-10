@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "4510bf3c_713e34d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-03-10T14:35:43Z",
+      "side": 1,
+      "message": "\u003e Gerrit has 4 types of index : accounts,projects,changes,groups.\n\u003e \n\u003e If the index.type is set to elasticsearch, Gerrit will use elasticsearch to index the 4 types documents.\n\u003e \n\u003e When gerrit execute a query on the index(Such as the user is searching on the  Gerrit front pages, The front is make an request to the  Gerrit backend API), then Gerrit will execute an HTTP request to the ElasticSearch API to query the relative data and return the data back to the front user to view the data they want. \n\u003e \n\u003e But the result set exists in the index is greater than default value 10000, Gerrit will encounter this issue because the default of ElasticSearch max_result_window is 10000, if the search result is too big on the relative index, ElasticSearch API will return an error response to tip the invoker that the result window is exceeded with the query.\n\u003e \n\u003e  \n\nThanks! Can you include some of this text (the part I quoted above) in the commit message please?",
+      "parentUuid": "78516b45_d909db84",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3164271_b853a179",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

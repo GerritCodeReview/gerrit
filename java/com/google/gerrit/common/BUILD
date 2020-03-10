@@ -49,6 +49,7 @@ java_library(
         "//lib:servlet-api-3_1",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],

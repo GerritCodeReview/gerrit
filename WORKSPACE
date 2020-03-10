@@ -227,6 +227,12 @@ maven_jar(
     sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
 )
 
+maven_jar(
+    name = "error-prone-annotations",
+    artifact = "com.google.errorprone:error_prone_annotations:2.3.3",
+    sha1 = "42aa5155a54a87d70af32d4b0d06bf43779de0e2",
+)
+
 FLOGGER_VERS = "0.4"
 
 maven_jar(

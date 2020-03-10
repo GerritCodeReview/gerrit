@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d26d842a_508f994c",
+        "filename": "java/gerrit/PRED_commit_parent_count_1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-03-10T09:09:37Z",
+      "side": 1,
+      "message": "By checking other PRED_* classes I see that the purpose of this part\nof javadoc is to document the +Input and -Output parameters. In this case\nwe have an output parameter and this line should be:\n\n  \u0027commit_parent_count\u0027(-Count)",
+      "revId": "7bc55ce341d2af9a0c4d0cf66d713f8e922bbe83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

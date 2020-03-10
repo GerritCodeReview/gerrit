@@ -14,72 +14,85 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 
-  /**
-   * @appliesMixin Gerrit.ChangeTableMixin
-   * @extends Polymer.Element
-   */
-  class GrChangeTableEditor extends Polymer.mixinBehaviors( [
-    Gerrit.ChangeTableBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-change-table-editor'; }
+import '../../../scripts/bundled-polymer.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-date-formatter/gr-date-formatter.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../../styles/shared-styles.js';
+import '../../../styles/gr-form-styles.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-change-table-editor_html.js';
 
-    static get properties() {
-      return {
-        displayedColumns: {
-          type: Array,
-          notify: true,
-        },
-        showNumber: {
-          type: Boolean,
-          notify: true,
-        },
-      };
-    }
+/**
+ * @appliesMixin Gerrit.ChangeTableMixin
+ * @extends Polymer.Element
+ */
+class GrChangeTableEditor extends mixinBehaviors( [
+  Gerrit.ChangeTableBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
 
-    /**
-     * Get the list of enabled column names from whichever checkboxes are
-     * checked (excluding the number checkbox).
-     *
-     * @return {!Array<string>}
-     */
-    _getDisplayedColumns() {
-      return Array.from(Polymer.dom(this.root)
-          .querySelectorAll('.checkboxContainer input:not([name=number])'))
-          .filter(checkbox => checkbox.checked)
-          .map(checkbox => checkbox.name);
-    }
+  static get is() { return 'gr-change-table-editor'; }
 
-    /**
-     * Handle a click on a checkbox container and relay the click to the checkbox it
-     * contains.
-     */
-    _handleCheckboxContainerClick(e) {
-      const checkbox = Polymer.dom(e.target).querySelector('input');
-      if (!checkbox) { return; }
-      checkbox.click();
-    }
-
-    /**
-     * Handle a click on the number checkbox and update the showNumber property
-     * accordingly.
-     */
-    _handleNumberCheckboxClick(e) {
-      this.showNumber = Polymer.dom(e).rootTarget.checked;
-    }
-
-    /**
-     * Handle a click on a displayed column checkboxes (excluding number) and
-     * update the displayedColumns property accordingly.
-     */
-    _handleTargetClick(e) {
-      this.set('displayedColumns', this._getDisplayedColumns());
-    }
+  static get properties() {
+    return {
+      displayedColumns: {
+        type: Array,
+        notify: true,
+      },
+      showNumber: {
+        type: Boolean,
+        notify: true,
+      },
+    };
   }
 
-  customElements.define(GrChangeTableEditor.is, GrChangeTableEditor);
-})();
+  /**
+   * Get the list of enabled column names from whichever checkboxes are
+   * checked (excluding the number checkbox).
+   *
+   * @return {!Array<string>}
+   */
+  _getDisplayedColumns() {
+    return Array.from(dom(this.root)
+        .querySelectorAll('.checkboxContainer input:not([name=number])'))
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.name);
+  }
+
+  /**
+   * Handle a click on a checkbox container and relay the click to the checkbox it
+   * contains.
+   */
+  _handleCheckboxContainerClick(e) {
+    const checkbox = dom(e.target).querySelector('input');
+    if (!checkbox) { return; }
+    checkbox.click();
+  }
+
+  /**
+   * Handle a click on the number checkbox and update the showNumber property
+   * accordingly.
+   */
+  _handleNumberCheckboxClick(e) {
+    this.showNumber = dom(e).rootTarget.checked;
+  }
+
+  /**
+   * Handle a click on a displayed column checkboxes (excluding number) and
+   * update the displayedColumns property accordingly.
+   */
+  _handleTargetClick(e) {
+    this.set('displayedColumns', this._getDisplayedColumns());
+  }
+}
+
+customElements.define(GrChangeTableEditor.is, GrChangeTableEditor);

@@ -1,28 +1,22 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-
-<dom-module id="gr-copy-clipboard">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       .text {
         align-items: center;
@@ -61,30 +55,11 @@ limitations under the License.
       }
     </style>
     <div class="text">
-      <iron-input
-          class="copyText"
-          type="text"
-          bind-value="[[text]]"
-          on-tap="_handleInputClick"
-          readonly>
-        <input
-            id="input"
-            is="iron-input"
-            class$="[[_computeInputClass(hideInput)]]"
-            type="text"
-            bind-value="[[text]]"
-            on-click="_handleInputClick"
-            readonly>
+      <iron-input class="copyText" type="text" bind-value="[[text]]" on-tap="_handleInputClick" readonly="">
+        <input id="input" is="iron-input" class\$="[[_computeInputClass(hideInput)]]" type="text" bind-value="[[text]]" on-click="_handleInputClick" readonly="">
       </iron-input>
-      <gr-button id="button"
-          link
-          has-tooltip="[[hasTooltip]]"
-          class="copyToClipboard"
-          title="[[buttonTitle]]"
-          on-click="_copyToClipboard">
+      <gr-button id="button" link="" has-tooltip="[[hasTooltip]]" class="copyToClipboard" title="[[buttonTitle]]" on-click="_copyToClipboard">
         <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
       </gr-button>
     </div>
-  </template>
-  <script src="gr-copy-clipboard.js"></script>
-</dom-module>
+`;

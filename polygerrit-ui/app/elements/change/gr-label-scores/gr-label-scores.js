@@ -14,134 +14,142 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrLabelScores extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-label-scores'; }
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-label-score-row/gr-label-score-row.js';
+import '../../../styles/shared-styles.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-label-scores_html.js';
 
-    static get properties() {
-      return {
-        _labels: {
-          type: Array,
-          computed: '_computeLabels(change.labels.*, account)',
-        },
-        permittedLabels: {
-          type: Object,
-          observer: '_computeColumns',
-        },
-        /** @type {?} */
-        change: Object,
-        /** @type {?} */
-        account: Object,
+/** @extends Polymer.Element */
+class GrLabelScores extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-        _labelValues: Object,
-      };
-    }
+  static get is() { return 'gr-label-scores'; }
 
-    getLabelValues() {
-      const labels = {};
-      for (const label in this.permittedLabels) {
-        if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
+  static get properties() {
+    return {
+      _labels: {
+        type: Array,
+        computed: '_computeLabels(change.labels.*, account)',
+      },
+      permittedLabels: {
+        type: Object,
+        observer: '_computeColumns',
+      },
+      /** @type {?} */
+      change: Object,
+      /** @type {?} */
+      account: Object,
 
-        const selectorEl = this.$$(`gr-label-score-row[name="${label}"]`);
-        if (!selectorEl) { continue; }
-
-        // The user may have not voted on this label.
-        if (!selectorEl.selectedItem) { continue; }
-
-        const selectedVal = parseInt(selectorEl.selectedValue, 10);
-
-        // Only send the selection if the user changed it.
-        let prevVal = this._getVoteForAccount(this.change.labels, label,
-            this.account);
-        if (prevVal !== null) {
-          prevVal = parseInt(prevVal, 10);
-        }
-        if (selectedVal !== prevVal) {
-          labels[label] = selectedVal;
-        }
-      }
-      return labels;
-    }
-
-    _getStringLabelValue(labels, labelName, numberValue) {
-      for (const k in labels[labelName].values) {
-        if (parseInt(k, 10) === numberValue) {
-          return k;
-        }
-      }
-      return numberValue;
-    }
-
-    _getVoteForAccount(labels, labelName, account) {
-      const votes = labels[labelName];
-      if (votes.all && votes.all.length > 0) {
-        for (let i = 0; i < votes.all.length; i++) {
-          if (votes.all[i]._account_id == account._account_id) {
-            return this._getStringLabelValue(
-                labels, labelName, votes.all[i].value);
-          }
-        }
-      }
-      return null;
-    }
-
-    _computeLabels(labelRecord, account) {
-      // Polymer 2: check for undefined
-      if ([labelRecord, account].some(arg => arg === undefined)) {
-        return undefined;
-      }
-
-      const labelsObj = labelRecord.base;
-      if (!labelsObj) { return []; }
-      return Object.keys(labelsObj).sort()
-          .map(key => {
-            return {
-              name: key,
-              value: this._getVoteForAccount(labelsObj, key, this.account),
-            };
-          });
-    }
-
-    _computeColumns(permittedLabels) {
-      const labels = Object.keys(permittedLabels);
-      const values = {};
-      for (const label of labels) {
-        for (const value of permittedLabels[label]) {
-          values[parseInt(value, 10)] = true;
-        }
-      }
-
-      const orderedValues = Object.keys(values).sort((a, b) => a - b);
-
-      for (let i = 0; i < orderedValues.length; i++) {
-        values[orderedValues[i]] = i;
-      }
-      this._labelValues = values;
-    }
-
-    _changeIsMerged(changeStatus) {
-      return changeStatus === 'MERGED';
-    }
-
-    /**
-     * @param {string|undefined} label
-     * @param {Object|undefined} permittedLabels
-     * @return {string}
-     */
-    _computeLabelAccessClass(label, permittedLabels) {
-      if (label == null || permittedLabels == null) {
-        return '';
-      }
-
-      return permittedLabels.hasOwnProperty(label) &&
-        permittedLabels[label].length ? 'access' : 'no-access';
-    }
+      _labelValues: Object,
+    };
   }
 
-  customElements.define(GrLabelScores.is, GrLabelScores);
-})();
+  getLabelValues() {
+    const labels = {};
+    for (const label in this.permittedLabels) {
+      if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
+
+      const selectorEl = this.$$(`gr-label-score-row[name="${label}"]`);
+      if (!selectorEl) { continue; }
+
+      // The user may have not voted on this label.
+      if (!selectorEl.selectedItem) { continue; }
+
+      const selectedVal = parseInt(selectorEl.selectedValue, 10);
+
+      // Only send the selection if the user changed it.
+      let prevVal = this._getVoteForAccount(this.change.labels, label,
+          this.account);
+      if (prevVal !== null) {
+        prevVal = parseInt(prevVal, 10);
+      }
+      if (selectedVal !== prevVal) {
+        labels[label] = selectedVal;
+      }
+    }
+    return labels;
+  }
+
+  _getStringLabelValue(labels, labelName, numberValue) {
+    for (const k in labels[labelName].values) {
+      if (parseInt(k, 10) === numberValue) {
+        return k;
+      }
+    }
+    return numberValue;
+  }
+
+  _getVoteForAccount(labels, labelName, account) {
+    const votes = labels[labelName];
+    if (votes.all && votes.all.length > 0) {
+      for (let i = 0; i < votes.all.length; i++) {
+        if (votes.all[i]._account_id == account._account_id) {
+          return this._getStringLabelValue(
+              labels, labelName, votes.all[i].value);
+        }
+      }
+    }
+    return null;
+  }
+
+  _computeLabels(labelRecord, account) {
+    // Polymer 2: check for undefined
+    if ([labelRecord, account].some(arg => arg === undefined)) {
+      return undefined;
+    }
+
+    const labelsObj = labelRecord.base;
+    if (!labelsObj) { return []; }
+    return Object.keys(labelsObj).sort()
+        .map(key => {
+          return {
+            name: key,
+            value: this._getVoteForAccount(labelsObj, key, this.account),
+          };
+        });
+  }
+
+  _computeColumns(permittedLabels) {
+    const labels = Object.keys(permittedLabels);
+    const values = {};
+    for (const label of labels) {
+      for (const value of permittedLabels[label]) {
+        values[parseInt(value, 10)] = true;
+      }
+    }
+
+    const orderedValues = Object.keys(values).sort((a, b) => a - b);
+
+    for (let i = 0; i < orderedValues.length; i++) {
+      values[orderedValues[i]] = i;
+    }
+    this._labelValues = values;
+  }
+
+  _changeIsMerged(changeStatus) {
+    return changeStatus === 'MERGED';
+  }
+
+  /**
+   * @param {string|undefined} label
+   * @param {Object|undefined} permittedLabels
+   * @return {string}
+   */
+  _computeLabelAccessClass(label, permittedLabels) {
+    if (label == null || permittedLabels == null) {
+      return '';
+    }
+
+    return permittedLabels.hasOwnProperty(label) &&
+      permittedLabels[label].length ? 'access' : 'no-access';
+  }
+}
+
+customElements.define(GrLabelScores.is, GrLabelScores);

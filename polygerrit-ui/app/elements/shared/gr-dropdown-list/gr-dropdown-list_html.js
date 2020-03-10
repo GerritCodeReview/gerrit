@@ -1,33 +1,22 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-<link rel="import" href="/bower_components/polymer/polymer.html">
-
-<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
-<link rel="import" href="/bower_components/paper-item/paper-item.html">
-<link rel="import" href="/bower_components/paper-listbox/paper-listbox.html">
-
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
-
-
-<dom-module id="gr-dropdown-list">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: inline-block;
@@ -128,38 +117,17 @@ limitations under the License.
         }
       }
     </style>
-    <gr-button
-        disabled="[[disabled]]"
-        down-arrow
-        link
-        id="trigger"
-        class="dropdown-trigger"
-        on-click="_showDropdownTapHandler"
-        slot="dropdown-trigger">
+    <gr-button disabled="[[disabled]]" down-arrow="" link="" id="trigger" class="dropdown-trigger" on-click="_showDropdownTapHandler" slot="dropdown-trigger">
       <span id="triggerText">[[text]]</span>
     </gr-button>
-    <iron-dropdown
-        id="dropdown"
-        vertical-align="top"
-        allow-outside-scroll="true"
-        on-click="_handleDropdownClick">
-      <paper-listbox
-          class="dropdown-content"
-          slot="dropdown-content"
-          attr-for-selected="data-value"
-          selected="{{value}}"
-          on-tap="_handleDropdownTap">
-        <template is="dom-repeat"
-            items="[[items]]"
-            initial-count="[[initialCount]]">
-          <paper-item
-              disabled="[[item.disabled]]"
-              data-value$="[[item.value]]">
+    <iron-dropdown id="dropdown" vertical-align="top" allow-outside-scroll="true" on-click="_handleDropdownClick">
+      <paper-listbox class="dropdown-content" slot="dropdown-content" attr-for-selected="data-value" selected="{{value}}" on-tap="_handleDropdownTap">
+        <template is="dom-repeat" items="[[items]]" initial-count="[[initialCount]]">
+          <paper-item disabled="[[item.disabled]]" data-value\$="[[item.value]]">
             <div class="topContent">
               <div>[[item.text]]</div>
               <template is="dom-if" if="[[item.date]]">
-                  <gr-date-formatter
-                      date-str="[[item.date]]"></gr-date-formatter>
+                  <gr-date-formatter date-str="[[item.date]]"></gr-date-formatter>
               </template>
             </div>
             <template is="dom-if" if="[[item.bottomText]]">
@@ -174,14 +142,10 @@ limitations under the License.
     <gr-select bind-value="{{value}}">
       <select>
         <template is="dom-repeat" items="[[items]]">
-          <option
-              disabled$="[[item.disabled]]"
-              value="[[item.value]]">
+          <option disabled\$="[[item.disabled]]" value="[[item.value]]">
             [[_computeMobileText(item)]]
           </option>
         </template>
       </select>
     </gr-select>
-  </template>
-  <script src="gr-dropdown-list.js"></script>
-</dom-module>
+`;

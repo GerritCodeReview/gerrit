@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-plugin-list</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-plugin-list.html">
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-plugin-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-plugin-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,151 +41,154 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  let counter;
-  const pluginGenerator = () => {
-    const plugin = {
-      id: `test${++counter}`,
-      version: '3.0-SNAPSHOT',
-      disabled: false,
-    };
-
-    if (counter !== 2) {
-      plugin.index_url = `plugins/test${counter}/`;
-    }
-    return plugin;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-plugin-list.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+let counter;
+const pluginGenerator = () => {
+  const plugin = {
+    id: `test${++counter}`,
+    version: '3.0-SNAPSHOT',
+    disabled: false,
   };
 
-  suite('gr-plugin-list tests', async () => {
-    await readyToTest();
-    let element;
-    let plugins;
-    let sandbox;
-    let value;
+  if (counter !== 2) {
+    plugin.index_url = `plugins/test${counter}/`;
+  }
+  return plugin;
+};
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      counter = 0;
+suite('gr-plugin-list tests', () => {
+  let element;
+  let plugins;
+  let sandbox;
+  let value;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    counter = 0;
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('list with plugins', () => {
+    setup(done => {
+      plugins = _.times(26, pluginGenerator);
+
+      stub('gr-rest-api-interface', {
+        getPlugins(num, offset) {
+          return Promise.resolve(plugins);
+        },
+      });
+
+      element._paramsChanged(value).then(() => { flush(done); });
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    suite('list with plugins', () => {
-      setup(done => {
-        plugins = _.times(26, pluginGenerator);
-
-        stub('gr-rest-api-interface', {
-          getPlugins(num, offset) {
-            return Promise.resolve(plugins);
-          },
-        });
-
-        element._paramsChanged(value).then(() => { flush(done); });
-      });
-
-      test('plugin in the list is formatted correctly', done => {
-        flush(() => {
-          assert.equal(element._plugins[2].id, 'test3');
-          assert.equal(element._plugins[2].index_url, 'plugins/test3/');
-          assert.equal(element._plugins[2].version, '3.0-SNAPSHOT');
-          assert.equal(element._plugins[2].disabled, false);
-          done();
-        });
-      });
-
-      test('with and without urls', done => {
-        flush(() => {
-          const names = Polymer.dom(element.root).querySelectorAll('.name');
-          assert.isOk(names[1].querySelector('a'));
-          assert.equal(names[1].querySelector('a').innerText, 'test1');
-          assert.isNotOk(names[2].querySelector('a'));
-          assert.equal(names[2].innerText, 'test2');
-          done();
-        });
-      });
-
-      test('_shownPlugins', () => {
-        assert.equal(element._shownPlugins.length, 25);
+    test('plugin in the list is formatted correctly', done => {
+      flush(() => {
+        assert.equal(element._plugins[2].id, 'test3');
+        assert.equal(element._plugins[2].index_url, 'plugins/test3/');
+        assert.equal(element._plugins[2].version, '3.0-SNAPSHOT');
+        assert.equal(element._plugins[2].disabled, false);
+        done();
       });
     });
 
-    suite('list with less then 26 plugins', () => {
-      setup(done => {
-        plugins = _.times(25, pluginGenerator);
-
-        stub('gr-rest-api-interface', {
-          getPlugins(num, offset) {
-            return Promise.resolve(plugins);
-          },
-        });
-
-        element._paramsChanged(value).then(() => { flush(done); });
-      });
-
-      test('_shownPlugins', () => {
-        assert.equal(element._shownPlugins.length, 25);
+    test('with and without urls', done => {
+      flush(() => {
+        const names = dom(element.root).querySelectorAll('.name');
+        assert.isOk(names[1].querySelector('a'));
+        assert.equal(names[1].querySelector('a').innerText, 'test1');
+        assert.isNotOk(names[2].querySelector('a'));
+        assert.equal(names[2].innerText, 'test2');
+        done();
       });
     });
 
-    suite('filter', () => {
-      test('_paramsChanged', done => {
-        sandbox.stub(
-            element.$.restAPI,
-            'getPlugins',
-            () => Promise.resolve(plugins));
-        const value = {
-          filter: 'test',
-          offset: 25,
-        };
-        element._paramsChanged(value).then(() => {
-          assert.equal(element.$.restAPI.getPlugins.lastCall.args[0],
-              'test');
-          assert.equal(element.$.restAPI.getPlugins.lastCall.args[1],
-              25);
-          assert.equal(element.$.restAPI.getPlugins.lastCall.args[2],
-              25);
-          done();
-        });
+    test('_shownPlugins', () => {
+      assert.equal(element._shownPlugins.length, 25);
+    });
+  });
+
+  suite('list with less then 26 plugins', () => {
+    setup(done => {
+      plugins = _.times(25, pluginGenerator);
+
+      stub('gr-rest-api-interface', {
+        getPlugins(num, offset) {
+          return Promise.resolve(plugins);
+        },
       });
+
+      element._paramsChanged(value).then(() => { flush(done); });
     });
 
-    suite('loading', () => {
-      test('correct contents are displayed', () => {
-        assert.isTrue(element._loading);
-        assert.equal(element.computeLoadingClass(element._loading), 'loading');
-        assert.equal(getComputedStyle(element.$.loading).display, 'block');
-
-        element._loading = false;
-        element._plugins = _.times(25, pluginGenerator);
-
-        flushAsynchronousOperations();
-        assert.equal(element.computeLoadingClass(element._loading), '');
-        assert.equal(getComputedStyle(element.$.loading).display, 'none');
-      });
+    test('_shownPlugins', () => {
+      assert.equal(element._shownPlugins.length, 25);
     });
+  });
 
-    suite('404', () => {
-      test('fires page-error', done => {
-        const response = {status: 404};
-        sandbox.stub(element.$.restAPI, 'getPlugins',
-            (filter, pluginsPerPage, opt_offset, errFn) => {
-              errFn(response);
-            });
-
-        element.addEventListener('page-error', e => {
-          assert.deepEqual(e.detail.response, response);
-          done();
-        });
-
-        const value = {
-          filter: 'test',
-          offset: 25,
-        };
-        element._paramsChanged(value);
+  suite('filter', () => {
+    test('_paramsChanged', done => {
+      sandbox.stub(
+          element.$.restAPI,
+          'getPlugins',
+          () => Promise.resolve(plugins));
+      const value = {
+        filter: 'test',
+        offset: 25,
+      };
+      element._paramsChanged(value).then(() => {
+        assert.equal(element.$.restAPI.getPlugins.lastCall.args[0],
+            'test');
+        assert.equal(element.$.restAPI.getPlugins.lastCall.args[1],
+            25);
+        assert.equal(element.$.restAPI.getPlugins.lastCall.args[2],
+            25);
+        done();
       });
     });
   });
+
+  suite('loading', () => {
+    test('correct contents are displayed', () => {
+      assert.isTrue(element._loading);
+      assert.equal(element.computeLoadingClass(element._loading), 'loading');
+      assert.equal(getComputedStyle(element.$.loading).display, 'block');
+
+      element._loading = false;
+      element._plugins = _.times(25, pluginGenerator);
+
+      flushAsynchronousOperations();
+      assert.equal(element.computeLoadingClass(element._loading), '');
+      assert.equal(getComputedStyle(element.$.loading).display, 'none');
+    });
+  });
+
+  suite('404', () => {
+    test('fires page-error', done => {
+      const response = {status: 404};
+      sandbox.stub(element.$.restAPI, 'getPlugins',
+          (filter, pluginsPerPage, opt_offset, errFn) => {
+            errFn(response);
+          });
+
+      element.addEventListener('page-error', e => {
+        assert.deepEqual(e.detail.response, response);
+        done();
+      });
+
+      const value = {
+        filter: 'test',
+        offset: 25,
+      };
+      element._paramsChanged(value);
+    });
+  });
+});
 </script>

@@ -14,6 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../../scripts/bundled-polymer.js';
+
+import '../../elements/shared/gr-tooltip/gr-tooltip.js';
+import '../../scripts/rootElement.js';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 (function(window) {
   'use strict';
 
@@ -133,7 +139,7 @@
     _positionTooltip(tooltip) {
       // This flush is needed for tooltips to be positioned correctly in Firefox
       // and Safari.
-      Polymer.dom.flush();
+      flush();
       const rect = this.getBoundingClientRect();
       const boxRect = tooltip.getBoundingClientRect();
       const parentRect = tooltip.parentElement.getBoundingClientRect();

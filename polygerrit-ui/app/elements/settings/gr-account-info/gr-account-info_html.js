@@ -1,34 +1,22 @@
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../shared/gr-avatar/gr-avatar.html">
-<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
-<link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-
-<dom-module id="gr-account-info">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       gr-avatar {
         height: 120px;
@@ -47,14 +35,13 @@ limitations under the License.
       <section>
         <span class="title"></span>
         <span class="value">
-          <gr-avatar account="[[_account]]"
-              image-size="120"></gr-avatar>
+          <gr-avatar account="[[_account]]" image-size="120"></gr-avatar>
         </span>
       </section>
-      <section class$="[[_hideAvatarChangeUrl(_avatarChangeUrl)]]">
+      <section class\$="[[_hideAvatarChangeUrl(_avatarChangeUrl)]]">
         <span class="title"></span>
         <span class="value">
-          <a href$="[[_avatarChangeUrl]]">
+          <a href\$="[[_avatarChangeUrl]]">
             Change avatar
           </a>
         </span>
@@ -70,68 +57,35 @@ limitations under the License.
       <section>
         <span class="title">Registered</span>
         <span class="value">
-          <gr-date-formatter
-              has-tooltip
-              date-str="[[_account.registered_on]]"></gr-date-formatter>
+          <gr-date-formatter has-tooltip="" date-str="[[_account.registered_on]]"></gr-date-formatter>
         </span>
       </section>
       <section id="usernameSection">
         <span class="title">Username</span>
-        <span
-            hidden$="[[usernameMutable]]"
-            class="value">[[_username]]</span>
-        <span
-            hidden$="[[!usernameMutable]]"
-            class="value">
-          <iron-input
-              on-keydown="_handleKeydown"
-              bind-value="{{_username}}">
-            <input
-                is="iron-input"
-                id="usernameInput"
-                disabled="[[_saving]]"
-                on-keydown="_handleKeydown"
-                bind-value="{{_username}}">
+        <span hidden\$="[[usernameMutable]]" class="value">[[_username]]</span>
+        <span hidden\$="[[!usernameMutable]]" class="value">
+          <iron-input on-keydown="_handleKeydown" bind-value="{{_username}}">
+            <input is="iron-input" id="usernameInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_username}}">
           </iron-input>
         </span>
       </section>
       <section id="nameSection">
         <span class="title">Full name</span>
-        <span
-            hidden$="[[nameMutable]]"
-            class="value">[[_account.name]]</span>
-        <span
-            hidden$="[[!nameMutable]]"
-            class="value">
-          <iron-input
-              on-keydown="_handleKeydown"
-              bind-value="{{_account.name}}">
-            <input
-                is="iron-input"
-                id="nameInput"
-                disabled="[[_saving]]"
-                on-keydown="_handleKeydown"
-                bind-value="{{_account.name}}">
+        <span hidden\$="[[nameMutable]]" class="value">[[_account.name]]</span>
+        <span hidden\$="[[!nameMutable]]" class="value">
+          <iron-input on-keydown="_handleKeydown" bind-value="{{_account.name}}">
+            <input is="iron-input" id="nameInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_account.name}}">
           </iron-input>
         </span>
       </section>
       <section>
         <span class="title">Status (e.g. "Vacation")</span>
         <span class="value">
-          <iron-input
-              on-keydown="_handleKeydown"
-              bind-value="{{_account.status}}">
-            <input
-                is="iron-input"
-                id="statusInput"
-                disabled="[[_saving]]"
-                on-keydown="_handleKeydown"
-                bind-value="{{_account.status}}">
+          <iron-input on-keydown="_handleKeydown" bind-value="{{_account.status}}">
+            <input is="iron-input" id="statusInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_account.status}}">
           </iron-input>
         </span>
       </section>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-account-info.js"></script>
-</dom-module>
+`;

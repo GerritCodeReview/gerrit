@@ -298,3 +298,17 @@ message AccountProto {
   string status = 7;
   string meta_id = 8;
 }
+
+// Key for com.google.gerrit.server.account.TODO.
+// Next ID: 3
+message UserPreferences {
+
+  message RepeatedPreference {
+    repeated string value = 1;
+  }
+
+  map<string,RepeatedPreference> general = 1;
+  map<string,RepeatedPreference> edit = 2;
+  map<string,RepeatedPreference> diff = 3;
+}
+

@@ -277,3 +277,24 @@ message PureRevertKeyProto {
   bytes claimed_original = 2;
   bytes claimed_revert = 3;
 }
+
+// Key for com.google.gerrit.server.account.ProjectWatches.ProjectWatcheKey.
+// Next ID: 3
+message ProjectWatchKeyProto {
+  string project = 1;
+  string filter = 2;
+}
+
+// Serialized form of
+// com.google.gerrit.entities.Account.
+// Next ID: 9
+message AccountProto {
+  int32 id = 1;
+  int64 registered_on = 2;
+  string full_name = 3;
+  string display_name = 4;
+  string preferred_email = 5;
+  bool inactive = 6;
+  string status = 7;
+  string meta_id = 8;
+}

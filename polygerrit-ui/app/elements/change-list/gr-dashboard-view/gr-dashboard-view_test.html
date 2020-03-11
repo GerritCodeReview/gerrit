@@ -103,11 +103,13 @@ limitations under the License.
       test('_showDraftsBanner', () => {
         element._showDraftsBanner = false;
         flushAsynchronousOperations();
-        assert.isTrue(isHidden(element.$$('.banner')));
+        assert.isTrue(isHidden(element.shadowRoot
+            .querySelector('.banner')));
 
         element._showDraftsBanner = true;
         flushAsynchronousOperations();
-        assert.isFalse(isHidden(element.$$('.banner')));
+        assert.isFalse(isHidden(element.shadowRoot
+            .querySelector('.banner')));
       });
 
       test('delete tap opens dialog', () => {
@@ -115,7 +117,8 @@ limitations under the License.
         element._showDraftsBanner = true;
         flushAsynchronousOperations();
 
-        MockInteractions.tap(element.$$('.banner .delete'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.banner .delete'));
         assert.isTrue(element._handleOpenDeleteDialog.called);
       });
 
@@ -330,12 +333,14 @@ limitations under the License.
       flushAsynchronousOperations();
 
       assert.equal(element.$.emptyOutgoing.textContent.trim(), 'No changes');
-      assert.isNotOk(element.$$('gr-create-change-help'));
+      assert.isNotOk(element.shadowRoot
+          .querySelector('gr-create-change-help'));
       element._showNewUserHelp = true;
       flushAsynchronousOperations();
 
       assert.notEqual(element.$.emptyOutgoing.textContent.trim(), 'No changes');
-      assert.isOk(element.$$('gr-create-change-help'));
+      assert.isOk(element.shadowRoot
+          .querySelector('gr-create-change-help'));
     });
 
     test('_computeUserHeaderClass', () => {

@@ -63,7 +63,8 @@ limitations under the License.
 
     test('WIP', () => {
       element.status = 'WIP';
-      assert.equal(element.$$('.chip').innerText, 'Work in Progress');
+      assert.equal(element.shadowRoot
+          .querySelector('.chip').innerText, 'Work in Progress');
       assert.equal(element.tooltipText, WIP_TOOLTIP);
       assert.isTrue(element.classList.contains('wip'));
     });
@@ -71,7 +72,8 @@ limitations under the License.
     test('WIP flat', () => {
       element.flat = true;
       element.status = 'WIP';
-      assert.equal(element.$$('.chip').innerText, 'WIP');
+      assert.equal(element.shadowRoot
+          .querySelector('.chip').innerText, 'WIP');
       assert.isDefined(element.tooltipText);
       assert.isTrue(element.classList.contains('wip'));
       assert.isTrue(element.hasAttribute('flat'));
@@ -79,42 +81,48 @@ limitations under the License.
 
     test('merged', () => {
       element.status = 'Merged';
-      assert.equal(element.$$('.chip').innerText, element.status);
+      assert.equal(element.shadowRoot
+          .querySelector('.chip').innerText, element.status);
       assert.equal(element.tooltipText, '');
       assert.isTrue(element.classList.contains('merged'));
     });
 
     test('abandoned', () => {
       element.status = 'Abandoned';
-      assert.equal(element.$$('.chip').innerText, element.status);
+      assert.equal(element.shadowRoot
+          .querySelector('.chip').innerText, element.status);
       assert.equal(element.tooltipText, '');
       assert.isTrue(element.classList.contains('abandoned'));
     });
 
     test('merge conflict', () => {
       element.status = 'Merge Conflict';
-      assert.equal(element.$$('.chip').innerText, element.status);
+      assert.equal(element.shadowRoot
+          .querySelector('.chip').innerText, element.status);
       assert.equal(element.tooltipText, MERGE_CONFLICT_TOOLTIP);
       assert.isTrue(element.classList.contains('merge-conflict'));
     });
 
     test('private', () => {
       element.status = 'Private';
-      assert.equal(element.$$('.chip').innerText, element.status);
+      assert.equal(element.shadowRoot
+          .querySelector('.chip').innerText, element.status);
       assert.equal(element.tooltipText, PRIVATE_TOOLTIP);
       assert.isTrue(element.classList.contains('private'));
     });
 
     test('active', () => {
       element.status = 'Active';
-      assert.equal(element.$$('.chip').innerText, element.status);
+      assert.equal(element.shadowRoot
+          .querySelector('.chip').innerText, element.status);
       assert.equal(element.tooltipText, '');
       assert.isTrue(element.classList.contains('active'));
     });
 
     test('ready to submit', () => {
       element.status = 'Ready to submit';
-      assert.equal(element.$$('.chip').innerText, element.status);
+      assert.equal(element.shadowRoot
+          .querySelector('.chip').innerText, element.status);
       assert.equal(element.tooltipText, '');
       assert.isTrue(element.classList.contains('ready-to-submit'));
     });

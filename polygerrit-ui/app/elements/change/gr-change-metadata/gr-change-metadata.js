@@ -491,7 +491,7 @@
       if (this._topicReadOnly || this.change.topic) { return; }
       // Cannot use `this.$.ID` syntax because the element exists inside of a
       // dom-if.
-      this.$$('.topicEditableLabel').open();
+      this.shadowRoot.querySelector('.topicEditableLabel').open();
     }
 
     _getReviewerSuggestionsProvider(change) {

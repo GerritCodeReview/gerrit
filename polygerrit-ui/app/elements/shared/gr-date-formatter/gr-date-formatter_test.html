@@ -70,7 +70,8 @@ limitations under the License.
       sandbox.useFakeTimers(normalizedDate(nowStr).getTime());
       element.dateStr = dateStr;
       flush(() => {
-        const span = element.$$('span');
+        const span = element.shadowRoot
+            .querySelector('span');
         assert.equal(span.textContent.trim(), expected);
         assert.equal(element.title, expectedTooltip);
         element.showDateAndTime = true;

@@ -184,7 +184,8 @@ limitations under the License.
           // This is needed on non-Blink engines most likely due to the ways in
           // which the dom-repeat elements are stamped.
           flush(() => {
-            MockInteractions.tap(element.$$('.send'));
+            MockInteractions.tap(element.shadowRoot
+                .querySelector('.send'));
           });
         });
       });
@@ -218,7 +219,8 @@ limitations under the License.
           // This is needed on non-Blink engines most likely due to the ways in
           // which the dom-repeat elements are stamped.
           flush(() => {
-            MockInteractions.tap(element.$$('.send'));
+            MockInteractions.tap(element.shadowRoot
+                .querySelector('.send'));
           });
         });
       });
@@ -258,14 +260,18 @@ limitations under the License.
       // This is needed on non-Blink engines most likely due to the ways in
       // which the dom-repeat elements are stamped.
       flush(() => {
-        MockInteractions.tap(element.$$('.send'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.send'));
         assert.isTrue(element.disabled);
       });
     });
 
     test('getlabelValue returns value', done => {
       flush(() => {
-        element.$$('gr-label-scores').$$(`gr-label-score-row[name="Verified"]`)
+        element.shadowRoot
+            .querySelector('gr-label-scores')
+            .shadowRoot
+            .querySelector(`gr-label-score-row[name="Verified"]`)
             .setSelectedValue(-1);
         assert.equal('-1', element.getLabelValue('Verified'));
         done();
@@ -274,8 +280,10 @@ limitations under the License.
 
     test('getlabelValue when no score is selected', done => {
       flush(() => {
-        element.$$('gr-label-scores')
-            .$$(`gr-label-score-row[name="Code-Review"]`)
+        element.shadowRoot
+            .querySelector('gr-label-scores')
+            .shadowRoot
+            .querySelector(`gr-label-score-row[name="Code-Review"]`)
             .setSelectedValue(-1);
         assert.strictEqual(element.getLabelValue('Verified'), ' 0');
         done();
@@ -338,10 +346,12 @@ limitations under the License.
     }
 
     function testConfirmationDialog(done, cc) {
-      const yesButton =
-          element.$$('.reviewerConfirmationButtons gr-button:first-child');
-      const noButton =
-          element.$$('.reviewerConfirmationButtons gr-button:last-child');
+      const yesButton = element
+          .shadowRoot
+          .querySelector('.reviewerConfirmationButtons gr-button:first-child');
+      const noButton = element
+          .shadowRoot
+          .querySelector('.reviewerConfirmationButtons gr-button:last-child');
 
       element._ccPendingConfirmation = null;
       element._reviewerPendingConfirmation = null;
@@ -691,10 +701,13 @@ limitations under the License.
         // The send button can be tapped before the others, causing the test to
         // fail.
 
-        element.$$('gr-label-scores').$$(
-            'gr-label-score-row[name="Verified"]')
+        element.shadowRoot
+            .querySelector('gr-label-scores').shadowRoot
+            .querySelector(
+                'gr-label-score-row[name="Verified"]')
             .setSelectedValue(-1);
-        MockInteractions.tap(element.$$('.send'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.send'));
       });
     });
 
@@ -1024,13 +1037,15 @@ limitations under the License.
       });
 
       test('start review sets ready', () => {
-        MockInteractions.tap(element.$$('.send'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.send'));
         flushAsynchronousOperations();
         assert.isTrue(sendStub.calledWith(true, true));
       });
 
       test('save review doesn\'t set ready', () => {
-        MockInteractions.tap(element.$$('.save'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.save'));
         flushAsynchronousOperations();
         assert.isTrue(sendStub.calledWith(true, false));
       });
@@ -1187,13 +1202,15 @@ limitations under the License.
       element.draftCommentThreads = [];
       flushAsynchronousOperations();
 
-      MockInteractions.tap(element.$$('gr-button.send'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('gr-button.send'));
       assert.isFalse(sendStub.called);
 
       element.draftCommentThreads = [{comments: [{__draft: true}]}];
       flushAsynchronousOperations();
 
-      MockInteractions.tap(element.$$('gr-button.send'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('gr-button.send'));
       assert.isTrue(sendStub.called);
     });
 

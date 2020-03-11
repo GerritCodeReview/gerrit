@@ -382,7 +382,7 @@
         return;
       }
 
-      let actionBox = this.$$('gr-selection-action-box');
+      let actionBox = this.shadowRoot.querySelector('gr-selection-action-box');
       if (!actionBox) {
         actionBox = document.createElement('gr-selection-action-box');
         const root = Polymer.dom(this.root);
@@ -429,7 +429,8 @@
 
     _removeActionBox() {
       this.selectedRange = undefined;
-      const actionBox = this.$$('gr-selection-action-box');
+      const actionBox = this.shadowRoot
+          .querySelector('gr-selection-action-box');
       if (actionBox) {
         Polymer.dom(this.root).removeChild(actionBox);
       }

@@ -158,15 +158,17 @@ limitations under the License.
         assert.deepEqual(element._sections,
             element.toSortedArray(accessRes.local));
         assert.deepEqual(element._labels, repoRes.labels);
-        assert.equal(getComputedStyle(element.$$('.weblinks')).display,
-            'block');
+        assert.equal(getComputedStyle(element.shadowRoot
+            .querySelector('.weblinks')).display,
+        'block');
         return element._repoChanged('Another New Repo');
       })
           .then(() => {
             assert.deepEqual(element._sections,
                 element.toSortedArray(accessRes2.local));
-            assert.equal(getComputedStyle(element.$$('.weblinks')).display,
-                'none');
+            assert.equal(getComputedStyle(element.shadowRoot
+                .querySelector('.weblinks')).display,
+            'none');
             done();
           });
     });
@@ -332,7 +334,8 @@ limitations under the License.
       test('removing an added section', () => {
         element.editing = true;
         assert.equal(element._sections.length, 1);
-        element.$$('gr-access-section').fire('added-section-removed');
+        element.shadowRoot
+            .querySelector('gr-access-section').fire('added-section-removed');
         flushAsynchronousOperations();
         assert.equal(element._sections.length, 0);
       });
@@ -581,7 +584,9 @@ limitations under the License.
           remove: {},
         };
 
-        element.$$('gr-access-section').$$('gr-permission')
+        element.shadowRoot
+            .querySelector('gr-access-section').shadowRoot
+            .querySelector('gr-permission')
             ._handleAddRuleItem(
                 {detail: {value: {id: 'Maintainers'}}});
 
@@ -651,7 +656,8 @@ limitations under the License.
           },
           remove: {},
         };
-        element.$$('gr-access-section')._handleAddPermission();
+        element.shadowRoot
+            .querySelector('gr-access-section')._handleAddPermission();
         flushAsynchronousOperations();
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
@@ -678,7 +684,8 @@ limitations under the License.
           remove: {},
         };
         const newPermission =
-            Polymer.dom(element.$$('gr-access-section').root).querySelectorAll(
+            Polymer.dom(element.shadowRoot
+                .querySelector('gr-access-section').root).querySelectorAll(
                 'gr-permission')[2];
         newPermission._handleAddRuleItem(
             {detail: {value: {id: 'Maintainers'}}});
@@ -799,8 +806,9 @@ limitations under the License.
           remove: {},
         };
 
-        newSection.$$('gr-permission')._handleAddRuleItem(
-            {detail: {value: {id: 'Maintainers'}}});
+        newSection.shadowRoot
+            .querySelector('gr-permission')._handleAddRuleItem(
+                {detail: {value: {id: 'Maintainers'}}});
 
         flushAsynchronousOperations();
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
@@ -911,7 +919,8 @@ limitations under the License.
 
         // Add a rule to the existing permission;
         const readPermission =
-            Polymer.dom(element.$$('gr-access-section').root).querySelectorAll(
+            Polymer.dom(element.shadowRoot
+                .querySelector('gr-access-section').root).querySelectorAll(
                 'gr-permission')[1];
         readPermission._handleAddRuleItem(
             {detail: {value: {id: 'Maintainers'}}});
@@ -988,8 +997,9 @@ limitations under the License.
             .querySelectorAll('gr-access-section')[1];
         newSection._handleAddPermission();
         flushAsynchronousOperations();
-        newSection.$$('gr-permission')._handleAddRuleItem(
-            {detail: {value: {id: 'Maintainers'}}});
+        newSection.shadowRoot
+            .querySelector('gr-permission')._handleAddRuleItem(
+                {detail: {value: {id: 'Maintainers'}}});
         // Modify a the reference from the default value.
         element._local['refs/for/*'].updatedId = 'refs/for/new';
 
@@ -1061,8 +1071,9 @@ limitations under the License.
             .querySelectorAll('gr-access-section')[2];
         newSection._handleAddPermission();
         flushAsynchronousOperations();
-        newSection.$$('gr-permission')._handleAddRuleItem(
-            {detail: {value: {id: 'Maintainers'}}});
+        newSection.shadowRoot
+            .querySelector('gr-permission')._handleAddRuleItem(
+                {detail: {value: {id: 'Maintainers'}}});
         // Modify a the reference from the default value.
         element._local['refs/for/**'].updatedId = 'refs/for/new2';
         expectedInput = {

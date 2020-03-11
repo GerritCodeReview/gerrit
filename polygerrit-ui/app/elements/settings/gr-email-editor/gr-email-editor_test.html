@@ -57,7 +57,8 @@ limitations under the License.
     });
 
     test('renders', () => {
-      const rows = element.$$('table').querySelectorAll('tbody tr');
+      const rows = element.shadowRoot
+          .querySelector('table').querySelectorAll('tbody tr');
 
       assert.equal(rows.length, 3);
 
@@ -75,7 +76,8 @@ limitations under the License.
 
     test('edit preferred', () => {
       const preferredChangedSpy = sinon.spy(element, '_handlePreferredChange');
-      const radios = element.$$('table').querySelectorAll('input[type=radio]');
+      const radios = element.shadowRoot
+          .querySelector('table').querySelectorAll('input[type=radio]');
 
       assert.isFalse(element.hasUnsavedChanges);
       assert.isNotOk(element._newPreferred);
@@ -97,7 +99,8 @@ limitations under the License.
     });
 
     test('delete email', () => {
-      const buttons = element.$$('table').querySelectorAll('gr-button');
+      const buttons = element.shadowRoot
+          .querySelector('table').querySelectorAll('gr-button');
 
       assert.isFalse(element.hasUnsavedChanges);
       assert.isNotOk(element._newPreferred);
@@ -119,7 +122,8 @@ limitations under the License.
           sinon.stub(element.$.restAPI, 'deleteAccountEmail');
       const setPreferredStub = sinon.stub(element.$.restAPI,
           'setPreferredAccountEmail');
-      const rows = element.$$('table').querySelectorAll('tbody tr');
+      const rows = element.shadowRoot
+          .querySelector('table').querySelectorAll('tbody tr');
 
       assert.isFalse(element.hasUnsavedChanges);
       assert.isNotOk(element._newPreferred);

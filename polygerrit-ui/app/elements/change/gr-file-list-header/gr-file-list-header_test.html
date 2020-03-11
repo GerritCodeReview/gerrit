@@ -204,7 +204,8 @@ limitations under the License.
     });
 
     test('fileViewActions are properly hidden', () => {
-      const actions = element.$$('.fileViewActions');
+      const actions = element.shadowRoot
+          .querySelector('.fileViewActions');
       assert.equal(getComputedStyle(actions).display, 'none');
       element.filesExpanded = GrFileListConstants.FilesExpandedState.SOME;
       flushAsynchronousOperations();
@@ -286,12 +287,14 @@ limitations under the License.
         flushAsynchronousOperations();
 
         assert.isFalse(isVisible(element.$.diffPrefsContainer));
-        assert.isFalse(isVisible(element.$$('.descriptionContainer')));
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.descriptionContainer')));
 
         element.editMode = false;
         flushAsynchronousOperations();
 
-        assert.isTrue(isVisible(element.$$('.descriptionContainer')));
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.descriptionContainer')));
         assert.isTrue(isVisible(element.$.diffPrefsContainer));
       });
 

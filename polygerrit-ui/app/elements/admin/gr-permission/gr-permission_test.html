@@ -345,7 +345,8 @@ limitations under the License.
         element.groups = {};
         element.$.groupAutocomplete.text = 'new group name';
         assert.equal(element._rules.length, 2);
-        element.$$('gr-rule-editor').fire('added-rule-removed');
+        element.shadowRoot
+            .querySelector('gr-rule-editor').fire('added-rule-removed');
         flushAsynchronousOperations();
         assert.equal(element._rules.length, 1);
       });

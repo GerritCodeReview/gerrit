@@ -56,7 +56,8 @@ limitations under the License.
 
     test('copy to clipboard', () => {
       const clipboardSpy = sandbox.spy(element, '_copyToClipboard');
-      const copyBtn = element.$$('.copyToClipboard');
+      const copyBtn = element.shadowRoot
+          .querySelector('.copyToClipboard');
       MockInteractions.tap(copyBtn);
       assert.isTrue(clipboardSpy.called);
     });
@@ -64,7 +65,8 @@ limitations under the License.
     test('focusOnCopy', () => {
       element.focusOnCopy();
       assert.deepEqual(Polymer.dom(element.root).activeElement,
-          element.$$('.copyToClipboard'));
+          element.shadowRoot
+              .querySelector('.copyToClipboard'));
     });
 
     test('_handleInputClick', () => {

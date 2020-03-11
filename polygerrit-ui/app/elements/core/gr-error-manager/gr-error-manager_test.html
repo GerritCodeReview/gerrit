@@ -239,7 +239,8 @@ limitations under the License.
                 noInteractionOverlay.backdropElement.getAttribute('opened'),
                 '');
             assert.isFalse(windowOpen.called);
-            MockInteractions.tap(toast.$$('gr-button.action'));
+            MockInteractions.tap(toast.shadowRoot
+                .querySelector('gr-button.action'));
             assert.isTrue(windowOpen.called);
 
             // @see Issue 5822: noopener breaks closeAfterLogin

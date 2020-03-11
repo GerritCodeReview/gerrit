@@ -378,7 +378,8 @@
       }
 
       const changeEl = changeEls[index];
-      changeEl.$$('gr-change-star').toggleStar();
+      changeEl.shadowRoot
+          .querySelector('gr-change-star').toggleStar();
     }
 
     _changeForIndex(index) {

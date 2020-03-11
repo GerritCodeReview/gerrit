@@ -25,7 +25,13 @@ limitations under the License.
 <script src="/bower_components/web-component-tester/browser.js"></script>
 <script src="../../../test/test-pre-setup.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="/bower_components/iron-test-helpers/mock-interactions.js"></script>
+<!-- Can't use absolute path below for mock-interaction.js.
+Web component tester(wct) has a built-in http server and it serves "/components" directory (which is
+actually /node_modules directory). Also, wct patches some files to load modules from /components.
+With the absolute path, browser tries to load dom-module from 2 different places (/component/... and
+/node_modules/...) though this is actually the same file. This leads to a run-time error.
+-->
+<script src="../../../node_modules/iron-test-helpers/mock-interactions.js"></script>
 
 <link rel="import" href="gr-hovercard.html">
 

@@ -1,5 +1,4 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/node_tools/polygerrit_app_preprocessor:index.bzl", "prepare_for_bundling", "update_links")
 load("//tools/node_tools/legacy:index.bzl", "polymer_bundler_tool")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 
@@ -16,84 +15,18 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
 
     app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app
 
-    # Update links in all .html files according to rules in redirects.json file. All other files
-    # remain unchanged. After the update, all references to bower_components have been replaced with
-    # correct references to node_modules.
-    # The output of this rule is a directory, which mirrors the directory layout of srcs files.
-    update_links(
-        name = app_name + "-updated-links",
-        srcs = srcs,
-        redirects = redirects,
-    )
-    # Note: prepare_for_bundling and polymer_bundler_tool will be removed after switch to
-    #   ES6 modules.
-    # Polymer 3 uses ES modules; gerrit still use HTML imports and polymer-bridges. In such
-    # conditions, polymer-bundler/crisper and polymer-cli tools crash without an error or complains
-    # about non-existing syntax error in .js code. But even if they works with some config, the
-    # output result is not correct. At the same time, polymer-bundler/crisper work well if input
-    # files are HTML and js without javascript modules.
-    #
-    # Polygerrit's code follows simple rules, so it is quite easy to preprocess code in a way, that
-    # it can be consumed by polymer-bundler/crisper tool. Rules do the following:
-    # 1) prepare_for_bundling - update srcs by moving all scripts out of HTML files.
-    #    For each HTML file it creates file.html_gen.js file in the same directory and put all
-    #    scripts there in the same order, as script tags appear in HTML file.
-    #    - Inline javascript is copied as is;
-    #    - <script src = "path/to/file.js" > adds to .js file as
-    #      import 'path/to/file.js'
-    #      statement. Such import statement run all side-effects in file.js (i.e. it run all global
-    #      code).
-    #    - <link rel="import" href = "path/to/file.html"> adds to .js file as
-    #     import 'path/to/file.html.js' - i.e. instead of html, the .js script imports another
-    #     generated js file ('path/to/file.html_gen.js').
-    #    Because output JS keeps the order of imports, all global variables are initialized in a
-    #    correct order (this is important for gerrit; it is impossible to use AMD modules here).
-    #    Then, all scripts are removed from HTML file.
-
-    #    Output of this rule - directory with updated HTML and JS files; all other files are copied
-    #    to the output directory without changes.
-    # 2) rollup_bundle - combines all .js files from the previous step into one bundle.
-    # 3) polymer_bundler_tool -
-    #    a) run polymer-bundle tool on HTML files (i.e. on output from the first step). Because
-    #    these files don't contain scripts anymore, it just combine all HTML/CSS files in one file
-    #    (by following HTML imports).
-    #    b) run crisper to add script tag at the end of generated HTML
-    #
-    # Output of the rule is 2 file: HTML bundle and JS bundle and HTML file loads JS file with
-    # <script src="..."> tag.
-
-    prepare_for_bundling(
-        name = app_name + "-prebundling-srcs",
-        srcs = [
-            app_name + "-updated-links",
-        ],
-        additional_node_modules_to_preprocess = [
-            "@ui_npm//polymer-bridges",
-        ],
-        entry_point = entry_point,
-        node_modules = [
+    native.filegroup(
+        name = app_name + "-full-src",
+        srcs = srcs + [
             "@ui_npm//:node_modules",
         ],
-        root_path = "polygerrit-ui/app/" + app_name + "-updated-links/polygerrit-ui/app",
-    )
-
-    native.filegroup(
-        name = app_name + "-prebundling-srcs-js",
-        srcs = [app_name + "-prebundling-srcs"],
-        output_group = "js",
-    )
-
-    native.filegroup(
-        name = app_name + "-prebundling-srcs-html",
-        srcs = [app_name + "-prebundling-srcs"],
-        output_group = "html",
     )
 
     rollup_bundle(
         name = app_name + "-bundle-js",
-        srcs = [app_name + "-prebundling-srcs-js"],
+        srcs = [app_name + "-full-src"],
         config_file = ":rollup.config.js",
-        entry_point = app_name + "-prebundling-srcs/entry.js",
+        entry_point = "elements/" + app_name + ".js",
         rollup_bin = "//tools/node_tools:rollup-bin",
         sourcemap = "hidden",
         deps = [
@@ -101,18 +34,11 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
         ],
     )
 
-    polymer_bundler_tool(
-        name = app_name + "-bundle-html",
-        srcs = [app_name + "-prebundling-srcs-html"],
-        entry_point = app_name + "-prebundling-srcs/entry.html",
-        script_src_value = app_name + ".js",
-    )
-
     native.filegroup(
         name = name + "_app_sources",
         srcs = [
             app_name + "-bundle-js.js",
-            app_name + "-bundle-html.html",
+            entry_point,
         ],
     )
 

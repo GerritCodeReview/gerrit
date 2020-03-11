@@ -1,0 +1,302 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb1a97a2_73ba89d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "did, rather?",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46511d1c_5b4391c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "run",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e007511_93e90a4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "in GerritServer",
+      "range": {
+        "startLine": 12,
+        "startChar": 54,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91462c4_c15ea39e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "GerritServer",
+      "range": {
+        "startLine": 17,
+        "startChar": 49,
+        "endLine": 17,
+        "endChar": 66
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "260a4f1a_f1c8b005",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "Long sentence. Would either split or add punctuation, for breathing.",
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11b0e97b_7312766e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "IndexIT",
+      "range": {
+        "startLine": 22,
+        "startChar": 27,
+        "endLine": 22,
+        "endChar": 39
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c35970b1_b8049651",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "I\u0027d make this an actual sentence without parentheses, for readability.",
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af3ad0eb_7b6f3510",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "test",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 4
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce9d75cd_44f2217c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "allows",
+      "range": {
+        "startLine": 29,
+        "startChar": 25,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f65b9492_45d00178",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "Can remove?",
+      "range": {
+        "startLine": 33,
+        "startChar": 51,
+        "endLine": 34,
+        "endChar": 6
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0044b388_7f3864c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "GerritServer",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 17
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "495f720d_9c8650ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "The above is another long sentence which would require pauses. I\u0027d even remove it completely, as reading the code -at will- should be enough.",
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61930448_283dfd4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "Extra?",
+      "range": {
+        "startLine": 40,
+        "startChar": 71,
+        "endLine": 40,
+        "endChar": 72
+      },
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f639fc21_17ecc0b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-11T20:44:32Z",
+      "side": 1,
+      "message": "You could replace the above code snippet with a short explanation or clarification. This I think would look nicer in the commit message, thus help readability.",
+      "revId": "a4f607ec83463899211e846f43c6f3abf7e8e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

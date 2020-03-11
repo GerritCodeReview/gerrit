@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PARENT;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_GLOBAL;
@@ -25,7 +24,6 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.AtomicLongMap;
-import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
@@ -50,7 +48,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.index.IndexExecutor;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -62,10 +59,6 @@ import org.junit.Test;
 @NoHttpd
 public class ProjectIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ProjectIndexedListener> projectIndexedListeners;
-
-  @Inject
-  @IndexExecutor(BATCH)
-  private ListeningExecutorService executor;
 
   private ProjectIndexedCounter projectIndexedCounter;
   private RegistrationHandle projectIndexedCounterHandle;

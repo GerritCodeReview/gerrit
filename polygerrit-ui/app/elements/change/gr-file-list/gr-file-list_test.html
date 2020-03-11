@@ -1276,9 +1276,11 @@ limitations under the License.
           project: 'gerrit',
         };
         const path = '//COMMIT_MSG';
-        const patchNum = 1;
+        const patchRange = {
+          patchNum: 1
+        };
         assert.equal(
-            element._computeDiffURL(change, patchNum, 'PARENT', path, false),
+            element._computeDiffURL(change, patchRange, path, false),
             '/c/gerrit/+/1/1//COMMIT_MSG');
       });
 
@@ -1290,10 +1292,12 @@ limitations under the License.
           project: 'gerrit',
         };
         const path = '//COMMIT_MSG';
-        const patchNum = 1;
+        const patchRange = {
+          patchNum: 1
+        };
         assert.equal(
             element._computeDiffURL(
-                change, patchNum, 'EDIT', path, true),
+                change, patchRange, path, true),
             '/c/test/+/1/edit//COMMIT_MSG,edit');
       });
     });

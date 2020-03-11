@@ -798,17 +798,18 @@
       return status || 'M';
     }
 
-    _computeDiffURL(change, patchNum, basePatchNum, path, editMode) {
+    _computeDiffURL(change, patchRange, path, editMode) {
       // Polymer 2: check for undefined
-      if ([change, patchNum, basePatchNum, path, editMode]
+      if ([change, patchRange, path, editMode]
           .some(arg => arg === undefined)) {
         return;
       }
       if (editMode && path !== this.MERGE_LIST_PATH) {
-        return Gerrit.Nav.getEditUrlForDiff(change, path, patchNum,
-            basePatchNum);
+        return Gerrit.Nav.getEditUrlForDiff(change, path, patchRange.patchNum,
+            patchRange.basePatchNum);
       }
-      return Gerrit.Nav.getUrlForDiff(change, path, patchNum, basePatchNum);
+      return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
+          patchRange.basePatchNum);
     }
 
     _formatBytes(bytes) {

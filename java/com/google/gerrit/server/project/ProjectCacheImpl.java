@@ -158,12 +158,12 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public void evict(Project p) throws IOException {
+  public void evict(Project p) {
     evict(p.getNameKey());
   }
 
   @Override
-  public void evict(Project.NameKey p) throws IOException {
+  public void evict(Project.NameKey p) {
     if (p != null) {
       logger.atFine().log("Evict project '%s'", p.get());
       byName.invalidate(p.get());
@@ -172,12 +172,12 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public void remove(Project p) throws IOException {
+  public void remove(Project p) {
     remove(p.getNameKey());
   }
 
   @Override
-  public void remove(Project.NameKey name) throws IOException {
+  public void remove(Project.NameKey name) {
     listLock.lock();
     try {
       list.put(

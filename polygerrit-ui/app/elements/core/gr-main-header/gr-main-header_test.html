@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-main-header</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-main-header.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-main-header.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-main-header.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,369 +40,371 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-main-header tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-main-header.js';
+suite('gr-main-header tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        probePath(path) { return Promise.resolve(false); },
-      });
-      stub('gr-main-header', {
-        _loadAccount() {},
-      });
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+      probePath(path) { return Promise.resolve(false); },
     });
-
-    teardown(() => {
-      sandbox.restore();
+    stub('gr-main-header', {
+      _loadAccount() {},
     });
-
-    test('link visibility', () => {
-      element.loading = true;
-      assert.equal(getComputedStyle(element.$$('.accountContainer')).display,
-          'none');
-      element.loading = false;
-      element.loggedIn = false;
-      assert.notEqual(getComputedStyle(element.$$('.accountContainer')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('.loginButton')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('.registerButton')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('gr-account-dropdown')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('.settingsButton')).display,
-          'none');
-      element.loggedIn = true;
-      assert.equal(getComputedStyle(element.$$('.loginButton')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('.registerButton')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('gr-account-dropdown'))
-          .display,
-      'none');
-      assert.notEqual(getComputedStyle(element.$$('.settingsButton')).display,
-          'none');
-    });
-
-    test('fix my menu item', () => {
-      assert.deepEqual([
-        {url: 'https://awesometown.com/#hashyhash'},
-        {url: 'url', target: '_blank'},
-      ].map(element._fixCustomMenuItem), [
-        {url: 'https://awesometown.com/#hashyhash'},
-        {url: 'url'},
-      ]);
-    });
-
-    test('user links', () => {
-      const defaultLinks = [{
-        title: 'Faves',
-        links: [{
-          name: 'Pinterest',
-          url: 'https://pinterest.com',
-        }],
-      }];
-      const userLinks = [{
-        name: 'Facebook',
-        url: 'https://facebook.com',
-      }];
-      const adminLinks = [{
-        name: 'Repos',
-        url: '/repos',
-      }];
-
-      // When no admin links are passed, it should use the default.
-      assert.deepEqual(element._computeLinks(
-          defaultLinks,
-          /* userLinks= */[],
-          adminLinks,
-          /* topMenus= */[],
-          /* docBaseUrl= */ ''
-      ),
-      defaultLinks.concat({
-        title: 'Browse',
-        links: adminLinks,
-      }));
-      assert.deepEqual(element._computeLinks(
-          defaultLinks,
-          userLinks,
-          adminLinks,
-          /* topMenus= */[],
-          /* docBaseUrl= */ ''
-      ),
-      defaultLinks.concat([
-        {
-          title: 'Your',
-          links: userLinks,
-        },
-        {
-          title: 'Browse',
-          links: adminLinks,
-        }])
-      );
-    });
-
-    test('documentation links', () => {
-      const docLinks = [
-        {
-          name: 'Table of Contents',
-          url: '/index.html',
-        },
-      ];
-
-      assert.deepEqual(element._getDocLinks(null, docLinks), []);
-      assert.deepEqual(element._getDocLinks('', docLinks), []);
-      assert.deepEqual(element._getDocLinks('base', null), []);
-      assert.deepEqual(element._getDocLinks('base', []), []);
-
-      assert.deepEqual(element._getDocLinks('base', docLinks), [{
-        name: 'Table of Contents',
-        target: '_blank',
-        url: 'base/index.html',
-      }]);
-
-      assert.deepEqual(element._getDocLinks('base/', docLinks), [{
-        name: 'Table of Contents',
-        target: '_blank',
-        url: 'base/index.html',
-      }]);
-    });
-
-    test('top menus', () => {
-      const adminLinks = [{
-        name: 'Repos',
-        url: '/repos',
-      }];
-      const topMenus = [{
-        name: 'Plugins',
-        items: [{
-          name: 'Manage',
-          target: '_blank',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }],
-      }];
-      assert.deepEqual(element._computeLinks(
-          /* defaultLinks= */ [],
-          /* userLinks= */ [],
-          adminLinks,
-          topMenus,
-          /* baseDocUrl= */ ''
-      ), [{
-        title: 'Browse',
-        links: adminLinks,
-      },
-      {
-        title: 'Plugins',
-        links: [{
-          name: 'Manage',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }],
-      }]);
-    });
-
-    test('ignore top project menus', () => {
-      const adminLinks = [{
-        name: 'Repos',
-        url: '/repos',
-      }];
-      const topMenus = [{
-        name: 'Projects',
-        items: [{
-          name: 'Project Settings',
-          target: '_blank',
-          url: '/plugins/myplugin/${projectName}',
-        }, {
-          name: 'Project List',
-          target: '_blank',
-          url: '/plugins/myplugin/index.html',
-        }],
-      }];
-      assert.deepEqual(element._computeLinks(
-          /* defaultLinks= */ [],
-          /* userLinks= */ [],
-          adminLinks,
-          topMenus,
-          /* baseDocUrl= */ ''
-      ), [{
-        title: 'Browse',
-        links: adminLinks,
-      },
-      {
-        title: 'Projects',
-        links: [{
-          name: 'Project List',
-          url: '/plugins/myplugin/index.html',
-        }],
-      }]);
-    });
-
-    test('merge top menus', () => {
-      const adminLinks = [{
-        name: 'Repos',
-        url: '/repos',
-      }];
-      const topMenus = [{
-        name: 'Plugins',
-        items: [{
-          name: 'Manage',
-          target: '_blank',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }],
-      }, {
-        name: 'Plugins',
-        items: [{
-          name: 'Create',
-          target: '_blank',
-          url: 'https://gerrit/plugins/plugin-manager/static/create.html',
-        }],
-      }];
-      assert.deepEqual(element._computeLinks(
-          /* defaultLinks= */ [],
-          /* userLinks= */ [],
-          adminLinks,
-          topMenus,
-          /* baseDocUrl= */ ''
-      ), [{
-        title: 'Browse',
-        links: adminLinks,
-      }, {
-        title: 'Plugins',
-        links: [{
-          name: 'Manage',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }, {
-          name: 'Create',
-          url: 'https://gerrit/plugins/plugin-manager/static/create.html',
-        }],
-      }]);
-    });
-
-    test('merge top menus in default links', () => {
-      const defaultLinks = [{
-        title: 'Faves',
-        links: [{
-          name: 'Pinterest',
-          url: 'https://pinterest.com',
-        }],
-      }];
-      const topMenus = [{
-        name: 'Faves',
-        items: [{
-          name: 'Manage',
-          target: '_blank',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }],
-      }];
-      assert.deepEqual(element._computeLinks(
-          defaultLinks,
-          /* userLinks= */ [],
-          /* adminLinks= */ [],
-          topMenus,
-          /* baseDocUrl= */ ''
-      ), [{
-        title: 'Faves',
-        links: defaultLinks[0].links.concat([{
-          name: 'Manage',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }]),
-      }, {
-        title: 'Browse',
-        links: [],
-      }]);
-    });
-
-    test('merge top menus in user links', () => {
-      const userLinks = [{
-        name: 'Facebook',
-        url: 'https://facebook.com',
-      }];
-      const topMenus = [{
-        name: 'Your',
-        items: [{
-          name: 'Manage',
-          target: '_blank',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }],
-      }];
-      assert.deepEqual(element._computeLinks(
-          /* defaultLinks= */ [],
-          userLinks,
-          /* adminLinks= */ [],
-          topMenus,
-          /* baseDocUrl= */ ''
-      ), [{
-        title: 'Your',
-        links: userLinks.concat([{
-          name: 'Manage',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }]),
-      }, {
-        title: 'Browse',
-        links: [],
-      }]);
-    });
-
-    test('merge top menus in admin links', () => {
-      const adminLinks = [{
-        name: 'Repos',
-        url: '/repos',
-      }];
-      const topMenus = [{
-        name: 'Browse',
-        items: [{
-          name: 'Manage',
-          target: '_blank',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }],
-      }];
-      assert.deepEqual(element._computeLinks(
-          /* defaultLinks= */ [],
-          /* userLinks= */ [],
-          adminLinks,
-          topMenus,
-          /* baseDocUrl= */ ''
-      ), [{
-        title: 'Browse',
-        links: adminLinks.concat([{
-          name: 'Manage',
-          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-        }]),
-      }]);
-    });
-
-    test('register URL', () => {
-      const config = {
-        auth: {
-          auth_type: 'LDAP',
-          register_url: 'https//gerrit.example.com/register',
-        },
-      };
-      element._retrieveRegisterURL(config);
-      assert.equal(element._registerURL, config.auth.register_url);
-      assert.equal(element._registerText, 'Sign up');
-
-      config.auth.register_text = 'Create account';
-      element._retrieveRegisterURL(config);
-      assert.equal(element._registerURL, config.auth.register_url);
-      assert.equal(element._registerText, config.auth.register_text);
-    });
-
-    test('register URL ignored for wrong auth type', () => {
-      const config = {
-        auth: {
-          auth_type: 'OPENID',
-          register_url: 'https//gerrit.example.com/register',
-        },
-      };
-      element._retrieveRegisterURL(config);
-      assert.equal(element._registerURL, null);
-      assert.equal(element._registerText, 'Sign up');
-    });
+    element = fixture('basic');
   });
-      </script>
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('link visibility', () => {
+    element.loading = true;
+    assert.equal(getComputedStyle(element.$$('.accountContainer')).display,
+        'none');
+    element.loading = false;
+    element.loggedIn = false;
+    assert.notEqual(getComputedStyle(element.$$('.accountContainer')).display,
+        'none');
+    assert.notEqual(getComputedStyle(element.$$('.loginButton')).display,
+        'none');
+    assert.notEqual(getComputedStyle(element.$$('.registerButton')).display,
+        'none');
+    assert.equal(getComputedStyle(element.$$('gr-account-dropdown')).display,
+        'none');
+    assert.equal(getComputedStyle(element.$$('.settingsButton')).display,
+        'none');
+    element.loggedIn = true;
+    assert.equal(getComputedStyle(element.$$('.loginButton')).display,
+        'none');
+    assert.equal(getComputedStyle(element.$$('.registerButton')).display,
+        'none');
+    assert.notEqual(getComputedStyle(element.$$('gr-account-dropdown'))
+        .display,
+    'none');
+    assert.notEqual(getComputedStyle(element.$$('.settingsButton')).display,
+        'none');
+  });
+
+  test('fix my menu item', () => {
+    assert.deepEqual([
+      {url: 'https://awesometown.com/#hashyhash'},
+      {url: 'url', target: '_blank'},
+    ].map(element._fixCustomMenuItem), [
+      {url: 'https://awesometown.com/#hashyhash'},
+      {url: 'url'},
+    ]);
+  });
+
+  test('user links', () => {
+    const defaultLinks = [{
+      title: 'Faves',
+      links: [{
+        name: 'Pinterest',
+        url: 'https://pinterest.com',
+      }],
+    }];
+    const userLinks = [{
+      name: 'Facebook',
+      url: 'https://facebook.com',
+    }];
+    const adminLinks = [{
+      name: 'Repos',
+      url: '/repos',
+    }];
+
+    // When no admin links are passed, it should use the default.
+    assert.deepEqual(element._computeLinks(
+        defaultLinks,
+        /* userLinks= */[],
+        adminLinks,
+        /* topMenus= */[],
+        /* docBaseUrl= */ ''
+    ),
+    defaultLinks.concat({
+      title: 'Browse',
+      links: adminLinks,
+    }));
+    assert.deepEqual(element._computeLinks(
+        defaultLinks,
+        userLinks,
+        adminLinks,
+        /* topMenus= */[],
+        /* docBaseUrl= */ ''
+    ),
+    defaultLinks.concat([
+      {
+        title: 'Your',
+        links: userLinks,
+      },
+      {
+        title: 'Browse',
+        links: adminLinks,
+      }])
+    );
+  });
+
+  test('documentation links', () => {
+    const docLinks = [
+      {
+        name: 'Table of Contents',
+        url: '/index.html',
+      },
+    ];
+
+    assert.deepEqual(element._getDocLinks(null, docLinks), []);
+    assert.deepEqual(element._getDocLinks('', docLinks), []);
+    assert.deepEqual(element._getDocLinks('base', null), []);
+    assert.deepEqual(element._getDocLinks('base', []), []);
+
+    assert.deepEqual(element._getDocLinks('base', docLinks), [{
+      name: 'Table of Contents',
+      target: '_blank',
+      url: 'base/index.html',
+    }]);
+
+    assert.deepEqual(element._getDocLinks('base/', docLinks), [{
+      name: 'Table of Contents',
+      target: '_blank',
+      url: 'base/index.html',
+    }]);
+  });
+
+  test('top menus', () => {
+    const adminLinks = [{
+      name: 'Repos',
+      url: '/repos',
+    }];
+    const topMenus = [{
+      name: 'Plugins',
+      items: [{
+        name: 'Manage',
+        target: '_blank',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }],
+    }];
+    assert.deepEqual(element._computeLinks(
+        /* defaultLinks= */ [],
+        /* userLinks= */ [],
+        adminLinks,
+        topMenus,
+        /* baseDocUrl= */ ''
+    ), [{
+      title: 'Browse',
+      links: adminLinks,
+    },
+    {
+      title: 'Plugins',
+      links: [{
+        name: 'Manage',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }],
+    }]);
+  });
+
+  test('ignore top project menus', () => {
+    const adminLinks = [{
+      name: 'Repos',
+      url: '/repos',
+    }];
+    const topMenus = [{
+      name: 'Projects',
+      items: [{
+        name: 'Project Settings',
+        target: '_blank',
+        url: '/plugins/myplugin/${projectName}',
+      }, {
+        name: 'Project List',
+        target: '_blank',
+        url: '/plugins/myplugin/index.html',
+      }],
+    }];
+    assert.deepEqual(element._computeLinks(
+        /* defaultLinks= */ [],
+        /* userLinks= */ [],
+        adminLinks,
+        topMenus,
+        /* baseDocUrl= */ ''
+    ), [{
+      title: 'Browse',
+      links: adminLinks,
+    },
+    {
+      title: 'Projects',
+      links: [{
+        name: 'Project List',
+        url: '/plugins/myplugin/index.html',
+      }],
+    }]);
+  });
+
+  test('merge top menus', () => {
+    const adminLinks = [{
+      name: 'Repos',
+      url: '/repos',
+    }];
+    const topMenus = [{
+      name: 'Plugins',
+      items: [{
+        name: 'Manage',
+        target: '_blank',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }],
+    }, {
+      name: 'Plugins',
+      items: [{
+        name: 'Create',
+        target: '_blank',
+        url: 'https://gerrit/plugins/plugin-manager/static/create.html',
+      }],
+    }];
+    assert.deepEqual(element._computeLinks(
+        /* defaultLinks= */ [],
+        /* userLinks= */ [],
+        adminLinks,
+        topMenus,
+        /* baseDocUrl= */ ''
+    ), [{
+      title: 'Browse',
+      links: adminLinks,
+    }, {
+      title: 'Plugins',
+      links: [{
+        name: 'Manage',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }, {
+        name: 'Create',
+        url: 'https://gerrit/plugins/plugin-manager/static/create.html',
+      }],
+    }]);
+  });
+
+  test('merge top menus in default links', () => {
+    const defaultLinks = [{
+      title: 'Faves',
+      links: [{
+        name: 'Pinterest',
+        url: 'https://pinterest.com',
+      }],
+    }];
+    const topMenus = [{
+      name: 'Faves',
+      items: [{
+        name: 'Manage',
+        target: '_blank',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }],
+    }];
+    assert.deepEqual(element._computeLinks(
+        defaultLinks,
+        /* userLinks= */ [],
+        /* adminLinks= */ [],
+        topMenus,
+        /* baseDocUrl= */ ''
+    ), [{
+      title: 'Faves',
+      links: defaultLinks[0].links.concat([{
+        name: 'Manage',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }]),
+    }, {
+      title: 'Browse',
+      links: [],
+    }]);
+  });
+
+  test('merge top menus in user links', () => {
+    const userLinks = [{
+      name: 'Facebook',
+      url: 'https://facebook.com',
+    }];
+    const topMenus = [{
+      name: 'Your',
+      items: [{
+        name: 'Manage',
+        target: '_blank',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }],
+    }];
+    assert.deepEqual(element._computeLinks(
+        /* defaultLinks= */ [],
+        userLinks,
+        /* adminLinks= */ [],
+        topMenus,
+        /* baseDocUrl= */ ''
+    ), [{
+      title: 'Your',
+      links: userLinks.concat([{
+        name: 'Manage',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }]),
+    }, {
+      title: 'Browse',
+      links: [],
+    }]);
+  });
+
+  test('merge top menus in admin links', () => {
+    const adminLinks = [{
+      name: 'Repos',
+      url: '/repos',
+    }];
+    const topMenus = [{
+      name: 'Browse',
+      items: [{
+        name: 'Manage',
+        target: '_blank',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }],
+    }];
+    assert.deepEqual(element._computeLinks(
+        /* defaultLinks= */ [],
+        /* userLinks= */ [],
+        adminLinks,
+        topMenus,
+        /* baseDocUrl= */ ''
+    ), [{
+      title: 'Browse',
+      links: adminLinks.concat([{
+        name: 'Manage',
+        url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+      }]),
+    }]);
+  });
+
+  test('register URL', () => {
+    const config = {
+      auth: {
+        auth_type: 'LDAP',
+        register_url: 'https//gerrit.example.com/register',
+      },
+    };
+    element._retrieveRegisterURL(config);
+    assert.equal(element._registerURL, config.auth.register_url);
+    assert.equal(element._registerText, 'Sign up');
+
+    config.auth.register_text = 'Create account';
+    element._retrieveRegisterURL(config);
+    assert.equal(element._registerURL, config.auth.register_url);
+    assert.equal(element._registerText, config.auth.register_text);
+  });
+
+  test('register URL ignored for wrong auth type', () => {
+    const config = {
+      auth: {
+        auth_type: 'OPENID',
+        register_url: 'https//gerrit.example.com/register',
+      },
+    };
+    element._retrieveRegisterURL(config);
+    assert.equal(element._registerURL, null);
+    assert.equal(element._registerText, 'Sign up');
+  });
+});
+</script>

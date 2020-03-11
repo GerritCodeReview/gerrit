@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-download-commands</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-download-commands.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-download-commands.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-download-commands.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,116 +40,118 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-download-commands', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    const SCHEMES = ['http', 'repo', 'ssh'];
-    const COMMANDS = [{
-      title: 'Checkout',
-      command: `git fetch http://andybons@localhost:8080/a/test-project
-          refs/changes/05/5/1 && git checkout FETCH_HEAD`,
-    }, {
-      title: 'Cherry Pick',
-      command: `git fetch http://andybons@localhost:8080/a/test-project
-          refs/changes/05/5/1 && git cherry-pick FETCH_HEAD`,
-    }, {
-      title: 'Format Patch',
-      command: `git fetch http://andybons@localhost:8080/a/test-project
-          refs/changes/05/5/1 && git format-patch -1 --stdout FETCH_HEAD`,
-    }, {
-      title: 'Pull',
-      command: `git pull http://andybons@localhost:8080/a/test-project
-          refs/changes/05/5/1`,
-    }];
-    const SELECTED_SCHEME = 'http';
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-download-commands.js';
+suite('gr-download-commands', () => {
+  let element;
+  let sandbox;
+  const SCHEMES = ['http', 'repo', 'ssh'];
+  const COMMANDS = [{
+    title: 'Checkout',
+    command: `git fetch http://andybons@localhost:8080/a/test-project
+        refs/changes/05/5/1 && git checkout FETCH_HEAD`,
+  }, {
+    title: 'Cherry Pick',
+    command: `git fetch http://andybons@localhost:8080/a/test-project
+        refs/changes/05/5/1 && git cherry-pick FETCH_HEAD`,
+  }, {
+    title: 'Format Patch',
+    command: `git fetch http://andybons@localhost:8080/a/test-project
+        refs/changes/05/5/1 && git format-patch -1 --stdout FETCH_HEAD`,
+  }, {
+    title: 'Pull',
+    command: `git pull http://andybons@localhost:8080/a/test-project
+        refs/changes/05/5/1`,
+  }];
+  const SELECTED_SCHEME = 'http';
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('unauthenticated', () => {
+    setup(done => {
+      element = fixture('basic');
+      element.schemes = SCHEMES;
+      element.commands = COMMANDS;
+      element.selectedScheme = SELECTED_SCHEME;
+      flushAsynchronousOperations();
+      flush(done);
     });
 
-    teardown(() => {
-      sandbox.restore();
+    test('focusOnCopy', () => {
+      const focusStub = sandbox.stub(element.$$('gr-shell-command'),
+          'focusOnCopy');
+      element.focusOnCopy();
+      assert.isTrue(focusStub.called);
     });
 
-    suite('unauthenticated', () => {
-      setup(done => {
-        element = fixture('basic');
-        element.schemes = SCHEMES;
-        element.commands = COMMANDS;
-        element.selectedScheme = SELECTED_SCHEME;
-        flushAsynchronousOperations();
-        flush(done);
+    test('element visibility', () => {
+      assert.isFalse(isHidden(element.$$('paper-tabs')));
+      assert.isFalse(isHidden(element.$$('.commands')));
+
+      element.schemes = [];
+      assert.isTrue(isHidden(element.$$('paper-tabs')));
+      assert.isTrue(isHidden(element.$$('.commands')));
+    });
+
+    test('tab selection', done => {
+      assert.equal(element.$.downloadTabs.selected, '0');
+      MockInteractions.tap(element.$$('[data-scheme="ssh"]'));
+      flushAsynchronousOperations();
+      assert.equal(element.selectedScheme, 'ssh');
+      assert.equal(element.$.downloadTabs.selected, '2');
+      done();
+    });
+
+    test('loads scheme from preferences', done => {
+      stub('gr-rest-api-interface', {
+        getPreferences() {
+          return Promise.resolve({download_scheme: 'repo'});
+        },
       });
-
-      test('focusOnCopy', () => {
-        const focusStub = sandbox.stub(element.$$('gr-shell-command'),
-            'focusOnCopy');
-        element.focusOnCopy();
-        assert.isTrue(focusStub.called);
-      });
-
-      test('element visibility', () => {
-        assert.isFalse(isHidden(element.$$('paper-tabs')));
-        assert.isFalse(isHidden(element.$$('.commands')));
-
-        element.schemes = [];
-        assert.isTrue(isHidden(element.$$('paper-tabs')));
-        assert.isTrue(isHidden(element.$$('.commands')));
-      });
-
-      test('tab selection', done => {
-        assert.equal(element.$.downloadTabs.selected, '0');
-        MockInteractions.tap(element.$$('[data-scheme="ssh"]'));
-        flushAsynchronousOperations();
-        assert.equal(element.selectedScheme, 'ssh');
-        assert.equal(element.$.downloadTabs.selected, '2');
+      element._loggedIn = true;
+      assert.isTrue(element.$.restAPI.getPreferences.called);
+      element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
+        assert.equal(element.selectedScheme, 'repo');
         done();
       });
+    });
 
-      test('loads scheme from preferences', done => {
-        stub('gr-rest-api-interface', {
-          getPreferences() {
-            return Promise.resolve({download_scheme: 'repo'});
-          },
-        });
-        element._loggedIn = true;
-        assert.isTrue(element.$.restAPI.getPreferences.called);
-        element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
-          assert.equal(element.selectedScheme, 'repo');
-          done();
-        });
+    test('normalize scheme from preferences', done => {
+      stub('gr-rest-api-interface', {
+        getPreferences() {
+          return Promise.resolve({download_scheme: 'REPO'});
+        },
       });
-
-      test('normalize scheme from preferences', done => {
-        stub('gr-rest-api-interface', {
-          getPreferences() {
-            return Promise.resolve({download_scheme: 'REPO'});
-          },
-        });
-        element._loggedIn = true;
-        element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
-          assert.equal(element.selectedScheme, 'repo');
-          done();
-        });
-      });
-
-      test('saves scheme to preferences', () => {
-        element._loggedIn = true;
-        const savePrefsStub = sandbox.stub(element.$.restAPI, 'savePreferences',
-            () => Promise.resolve());
-
-        flushAsynchronousOperations();
-
-        const repoTab = element.$$('paper-tab[data-scheme="repo"]');
-
-        MockInteractions.tap(repoTab);
-
-        assert.isTrue(savePrefsStub.called);
-        assert.equal(savePrefsStub.lastCall.args[0].download_scheme,
-            repoTab.getAttribute('data-scheme'));
+      element._loggedIn = true;
+      element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
+        assert.equal(element.selectedScheme, 'repo');
+        done();
       });
     });
+
+    test('saves scheme to preferences', () => {
+      element._loggedIn = true;
+      const savePrefsStub = sandbox.stub(element.$.restAPI, 'savePreferences',
+          () => Promise.resolve());
+
+      flushAsynchronousOperations();
+
+      const repoTab = element.$$('paper-tab[data-scheme="repo"]');
+
+      MockInteractions.tap(repoTab);
+
+      assert.isTrue(savePrefsStub.called);
+      assert.equal(savePrefsStub.lastCall.args[0].download_scheme,
+          repoTab.getAttribute('data-scheme'));
+    });
   });
+});
 </script>

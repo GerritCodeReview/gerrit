@@ -19,17 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-ranged-comment-layer</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="../gr-diff/gr-diff-line.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../gr-diff/gr-diff-line.js"></script>
 
-<link rel="import" href="gr-ranged-comment-layer.html">
+<script type="module" src="./gr-ranged-comment-layer.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../gr-diff/gr-diff-line.js';
+import './gr-ranged-comment-layer.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,310 +43,313 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-ranged-comment-layer', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../gr-diff/gr-diff-line.js';
+import './gr-ranged-comment-layer.js';
+suite('gr-ranged-comment-layer', () => {
+  let element;
+  let sandbox;
+
+  setup(() => {
+    const initialCommentRanges = [
+      {
+        side: 'left',
+        range: {
+          end_character: 9,
+          end_line: 39,
+          start_character: 6,
+          start_line: 36,
+        },
+      },
+      {
+        side: 'right',
+        range: {
+          end_character: 22,
+          end_line: 12,
+          start_character: 10,
+          start_line: 10,
+        },
+      },
+      {
+        side: 'right',
+        range: {
+          end_character: 15,
+          end_line: 100,
+          start_character: 5,
+          start_line: 100,
+        },
+      },
+      {
+        side: 'right',
+        range: {
+          end_character: 2,
+          end_line: 55,
+          start_character: 32,
+          start_line: 55,
+        },
+      },
+    ];
+
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    element.commentRanges = initialCommentRanges;
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('annotate', () => {
     let sandbox;
+    let el;
+    let line;
+    let annotateElementStub;
+    const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      const initialCommentRanges = [
-        {
-          side: 'left',
-          range: {
-            end_character: 9,
-            end_line: 39,
-            start_character: 6,
-            start_line: 36,
-          },
-        },
-        {
-          side: 'right',
-          range: {
-            end_character: 22,
-            end_line: 12,
-            start_character: 10,
-            start_line: 10,
-          },
-        },
-        {
-          side: 'right',
-          range: {
-            end_character: 15,
-            end_line: 100,
-            start_character: 5,
-            start_line: 100,
-          },
-        },
-        {
-          side: 'right',
-          range: {
-            end_character: 2,
-            end_line: 55,
-            start_character: 32,
-            start_line: 55,
-          },
-        },
-      ];
-
       sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      element.commentRanges = initialCommentRanges;
+      annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+      el = document.createElement('div');
+      el.setAttribute('data-side', 'left');
+      line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      line.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,';
     });
 
     teardown(() => {
       sandbox.restore();
     });
 
-    suite('annotate', () => {
-      let sandbox;
-      let el;
-      let line;
-      let annotateElementStub;
-      const lineNumberEl = document.createElement('td');
+    test('type=Remove no-comment', () => {
+      line.type = GrDiffLine.Type.REMOVE;
+      line.beforeNumber = 40;
 
-      setup(() => {
-        sandbox = sinon.sandbox.create();
-        annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
-        el = document.createElement('div');
-        el.setAttribute('data-side', 'left');
-        line = new GrDiffLine(GrDiffLine.Type.BOTH);
-        line.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,';
-      });
+      element.annotate(el, lineNumberEl, line);
 
-      teardown(() => {
-        sandbox.restore();
-      });
-
-      test('type=Remove no-comment', () => {
-        line.type = GrDiffLine.Type.REMOVE;
-        line.beforeNumber = 40;
-
-        element.annotate(el, lineNumberEl, line);
-
-        assert.isFalse(annotateElementStub.called);
-      });
-
-      test('type=Remove has-comment', () => {
-        line.type = GrDiffLine.Type.REMOVE;
-        line.beforeNumber = 36;
-        const expectedStart = 6;
-        const expectedLength = line.text.length - expectedStart;
-
-        element.annotate(el, lineNumberEl, line);
-
-        assert.isTrue(annotateElementStub.called);
-        const lastCall = annotateElementStub.lastCall;
-        assert.equal(lastCall.args[0], el);
-        assert.equal(lastCall.args[1], expectedStart);
-        assert.equal(lastCall.args[2], expectedLength);
-        assert.equal(lastCall.args[3], 'style-scope gr-diff range');
-      });
-
-      test('type=Remove has-comment hovering', () => {
-        line.type = GrDiffLine.Type.REMOVE;
-        line.beforeNumber = 36;
-        element.set(['commentRanges', 0, 'hovering'], true);
-
-        const expectedStart = 6;
-        const expectedLength = line.text.length - expectedStart;
-
-        element.annotate(el, lineNumberEl, line);
-
-        assert.isTrue(annotateElementStub.called);
-        const lastCall = annotateElementStub.lastCall;
-        assert.equal(lastCall.args[0], el);
-        assert.equal(lastCall.args[1], expectedStart);
-        assert.equal(lastCall.args[2], expectedLength);
-        assert.equal(lastCall.args[3], 'style-scope gr-diff rangeHighlight');
-      });
-
-      test('type=Both has-comment', () => {
-        line.type = GrDiffLine.Type.BOTH;
-        line.beforeNumber = 36;
-
-        const expectedStart = 6;
-        const expectedLength = line.text.length - expectedStart;
-
-        element.annotate(el, lineNumberEl, line);
-
-        assert.isTrue(annotateElementStub.called);
-        const lastCall = annotateElementStub.lastCall;
-        assert.equal(lastCall.args[0], el);
-        assert.equal(lastCall.args[1], expectedStart);
-        assert.equal(lastCall.args[2], expectedLength);
-        assert.equal(lastCall.args[3], 'style-scope gr-diff range');
-      });
-
-      test('type=Both has-comment off side', () => {
-        line.type = GrDiffLine.Type.BOTH;
-        line.beforeNumber = 36;
-        el.setAttribute('data-side', 'right');
-
-        element.annotate(el, lineNumberEl, line);
-
-        assert.isFalse(annotateElementStub.called);
-      });
-
-      test('type=Add has-comment', () => {
-        line.type = GrDiffLine.Type.ADD;
-        line.afterNumber = 12;
-        el.setAttribute('data-side', 'right');
-
-        const expectedStart = 0;
-        const expectedLength = 22;
-
-        element.annotate(el, lineNumberEl, line);
-
-        assert.isTrue(annotateElementStub.called);
-        const lastCall = annotateElementStub.lastCall;
-        assert.equal(lastCall.args[0], el);
-        assert.equal(lastCall.args[1], expectedStart);
-        assert.equal(lastCall.args[2], expectedLength);
-        assert.equal(lastCall.args[3], 'style-scope gr-diff range');
-      });
+      assert.isFalse(annotateElementStub.called);
     });
 
-    test('_handleCommentRangesChange overwrite', () => {
-      element.set('commentRanges', []);
+    test('type=Remove has-comment', () => {
+      line.type = GrDiffLine.Type.REMOVE;
+      line.beforeNumber = 36;
+      const expectedStart = 6;
+      const expectedLength = line.text.length - expectedStart;
 
-      assert.equal(Object.keys(element._rangesMap.left).length, 0);
-      assert.equal(Object.keys(element._rangesMap.right).length, 0);
+      element.annotate(el, lineNumberEl, line);
+
+      assert.isTrue(annotateElementStub.called);
+      const lastCall = annotateElementStub.lastCall;
+      assert.equal(lastCall.args[0], el);
+      assert.equal(lastCall.args[1], expectedStart);
+      assert.equal(lastCall.args[2], expectedLength);
+      assert.equal(lastCall.args[3], 'style-scope gr-diff range');
     });
 
-    test('_handleCommentRangesChange hovering', () => {
-      const notifyStub = sinon.stub();
-      element.addListener(notifyStub);
-      const updateRangesMapSpy = sandbox.spy(element, '_updateRangesMap');
+    test('type=Remove has-comment hovering', () => {
+      line.type = GrDiffLine.Type.REMOVE;
+      line.beforeNumber = 36;
+      element.set(['commentRanges', 0, 'hovering'], true);
 
-      element.set(['commentRanges', 1, 'hovering'], true);
+      const expectedStart = 6;
+      const expectedLength = line.text.length - expectedStart;
 
-      assert.isTrue(notifyStub.called);
-      const lastCall = notifyStub.lastCall;
-      assert.equal(lastCall.args[0], 10);
-      assert.equal(lastCall.args[1], 12);
-      assert.equal(lastCall.args[2], 'right');
+      element.annotate(el, lineNumberEl, line);
 
-      assert.isTrue(updateRangesMapSpy.called);
+      assert.isTrue(annotateElementStub.called);
+      const lastCall = annotateElementStub.lastCall;
+      assert.equal(lastCall.args[0], el);
+      assert.equal(lastCall.args[1], expectedStart);
+      assert.equal(lastCall.args[2], expectedLength);
+      assert.equal(lastCall.args[3], 'style-scope gr-diff rangeHighlight');
     });
 
-    test('_handleCommentRangesChange splice out', () => {
-      const notifyStub = sinon.stub();
-      element.addListener(notifyStub);
+    test('type=Both has-comment', () => {
+      line.type = GrDiffLine.Type.BOTH;
+      line.beforeNumber = 36;
 
-      element.splice('commentRanges', 1, 1);
+      const expectedStart = 6;
+      const expectedLength = line.text.length - expectedStart;
 
-      assert.isTrue(notifyStub.called);
-      const lastCall = notifyStub.lastCall;
-      assert.equal(lastCall.args[0], 10);
-      assert.equal(lastCall.args[1], 12);
-      assert.equal(lastCall.args[2], 'right');
+      element.annotate(el, lineNumberEl, line);
+
+      assert.isTrue(annotateElementStub.called);
+      const lastCall = annotateElementStub.lastCall;
+      assert.equal(lastCall.args[0], el);
+      assert.equal(lastCall.args[1], expectedStart);
+      assert.equal(lastCall.args[2], expectedLength);
+      assert.equal(lastCall.args[3], 'style-scope gr-diff range');
     });
 
-    test('_handleCommentRangesChange splice in', () => {
-      const notifyStub = sinon.stub();
-      element.addListener(notifyStub);
+    test('type=Both has-comment off side', () => {
+      line.type = GrDiffLine.Type.BOTH;
+      line.beforeNumber = 36;
+      el.setAttribute('data-side', 'right');
 
-      element.splice('commentRanges', 1, 0, {
-        side: 'left',
-        range: {
-          end_character: 15,
-          end_line: 275,
-          start_character: 5,
-          start_line: 250,
-        },
-      });
+      element.annotate(el, lineNumberEl, line);
 
-      assert.isTrue(notifyStub.called);
-      const lastCall = notifyStub.lastCall;
-      assert.equal(lastCall.args[0], 250);
-      assert.equal(lastCall.args[1], 275);
-      assert.equal(lastCall.args[2], 'left');
+      assert.isFalse(annotateElementStub.called);
     });
 
-    test('_handleCommentRangesChange mixed actions', () => {
-      const notifyStub = sinon.stub();
-      element.addListener(notifyStub);
-      const updateRangesMapSpy = sandbox.spy(element, '_updateRangesMap');
+    test('type=Add has-comment', () => {
+      line.type = GrDiffLine.Type.ADD;
+      line.afterNumber = 12;
+      el.setAttribute('data-side', 'right');
 
-      element.set(['commentRanges', 1, 'hovering'], true);
-      assert.isTrue(updateRangesMapSpy.callCount === 1);
-      element.splice('commentRanges', 1, 1);
-      assert.isTrue(updateRangesMapSpy.callCount === 2);
-      element.splice('commentRanges', 1, 1);
-      assert.isTrue(updateRangesMapSpy.callCount === 3);
-      element.splice('commentRanges', 1, 0, {
-        side: 'left',
-        range: {
-          end_character: 15,
-          end_line: 275,
-          start_character: 5,
-          start_line: 250,
-        },
-      });
-      assert.isTrue(updateRangesMapSpy.callCount === 4);
-      element.set(['commentRanges', 2, 'hovering'], true);
-      assert.isTrue(updateRangesMapSpy.callCount === 5);
-    });
+      const expectedStart = 0;
+      const expectedLength = 22;
 
-    test('_computeCommentMap creates maps correctly', () => {
-      // There is only one ranged comment on the left, but it spans ll.36-39.
-      const leftKeys = [];
-      for (let i = 36; i <= 39; i++) { leftKeys.push('' + i); }
-      assert.deepEqual(Object.keys(element._rangesMap.left).sort(),
-          leftKeys.sort());
+      element.annotate(el, lineNumberEl, line);
 
-      assert.equal(element._rangesMap.left[36].length, 1);
-      assert.equal(element._rangesMap.left[36][0].start, 6);
-      assert.equal(element._rangesMap.left[36][0].end, -1);
-
-      assert.equal(element._rangesMap.left[37].length, 1);
-      assert.equal(element._rangesMap.left[37][0].start, 0);
-      assert.equal(element._rangesMap.left[37][0].end, -1);
-
-      assert.equal(element._rangesMap.left[38].length, 1);
-      assert.equal(element._rangesMap.left[38][0].start, 0);
-      assert.equal(element._rangesMap.left[38][0].end, -1);
-
-      assert.equal(element._rangesMap.left[39].length, 1);
-      assert.equal(element._rangesMap.left[39][0].start, 0);
-      assert.equal(element._rangesMap.left[39][0].end, 9);
-
-      // The right has two ranged comments, one spanning ll.10-12 and the other
-      // on line 100.
-      const rightKeys = [];
-      for (let i = 10; i <= 12; i++) { rightKeys.push('' + i); }
-      rightKeys.push('55', '100');
-      assert.deepEqual(Object.keys(element._rangesMap.right).sort(),
-          rightKeys.sort());
-
-      assert.equal(element._rangesMap.right[10].length, 1);
-      assert.equal(element._rangesMap.right[10][0].start, 10);
-      assert.equal(element._rangesMap.right[10][0].end, -1);
-
-      assert.equal(element._rangesMap.right[11].length, 1);
-      assert.equal(element._rangesMap.right[11][0].start, 0);
-      assert.equal(element._rangesMap.right[11][0].end, -1);
-
-      assert.equal(element._rangesMap.right[12].length, 1);
-      assert.equal(element._rangesMap.right[12][0].start, 0);
-      assert.equal(element._rangesMap.right[12][0].end, 22);
-
-      assert.equal(element._rangesMap.right[100].length, 1);
-      assert.equal(element._rangesMap.right[100][0].start, 5);
-      assert.equal(element._rangesMap.right[100][0].end, 15);
-    });
-
-    test('_getRangesForLine normalizes invalid ranges', () => {
-      const line = {
-        afterNumber: 55,
-        text: '_getRangesForLine normalizes invalid ranges',
-      };
-      const ranges = element._getRangesForLine(line, 'right');
-      assert.equal(ranges.length, 1);
-      const range = ranges[0];
-      assert.isTrue(range.start < range.end, 'start and end are normalized');
-      assert.equal(range.end, line.text.length);
+      assert.isTrue(annotateElementStub.called);
+      const lastCall = annotateElementStub.lastCall;
+      assert.equal(lastCall.args[0], el);
+      assert.equal(lastCall.args[1], expectedStart);
+      assert.equal(lastCall.args[2], expectedLength);
+      assert.equal(lastCall.args[3], 'style-scope gr-diff range');
     });
   });
+
+  test('_handleCommentRangesChange overwrite', () => {
+    element.set('commentRanges', []);
+
+    assert.equal(Object.keys(element._rangesMap.left).length, 0);
+    assert.equal(Object.keys(element._rangesMap.right).length, 0);
+  });
+
+  test('_handleCommentRangesChange hovering', () => {
+    const notifyStub = sinon.stub();
+    element.addListener(notifyStub);
+    const updateRangesMapSpy = sandbox.spy(element, '_updateRangesMap');
+
+    element.set(['commentRanges', 1, 'hovering'], true);
+
+    assert.isTrue(notifyStub.called);
+    const lastCall = notifyStub.lastCall;
+    assert.equal(lastCall.args[0], 10);
+    assert.equal(lastCall.args[1], 12);
+    assert.equal(lastCall.args[2], 'right');
+
+    assert.isTrue(updateRangesMapSpy.called);
+  });
+
+  test('_handleCommentRangesChange splice out', () => {
+    const notifyStub = sinon.stub();
+    element.addListener(notifyStub);
+
+    element.splice('commentRanges', 1, 1);
+
+    assert.isTrue(notifyStub.called);
+    const lastCall = notifyStub.lastCall;
+    assert.equal(lastCall.args[0], 10);
+    assert.equal(lastCall.args[1], 12);
+    assert.equal(lastCall.args[2], 'right');
+  });
+
+  test('_handleCommentRangesChange splice in', () => {
+    const notifyStub = sinon.stub();
+    element.addListener(notifyStub);
+
+    element.splice('commentRanges', 1, 0, {
+      side: 'left',
+      range: {
+        end_character: 15,
+        end_line: 275,
+        start_character: 5,
+        start_line: 250,
+      },
+    });
+
+    assert.isTrue(notifyStub.called);
+    const lastCall = notifyStub.lastCall;
+    assert.equal(lastCall.args[0], 250);
+    assert.equal(lastCall.args[1], 275);
+    assert.equal(lastCall.args[2], 'left');
+  });
+
+  test('_handleCommentRangesChange mixed actions', () => {
+    const notifyStub = sinon.stub();
+    element.addListener(notifyStub);
+    const updateRangesMapSpy = sandbox.spy(element, '_updateRangesMap');
+
+    element.set(['commentRanges', 1, 'hovering'], true);
+    assert.isTrue(updateRangesMapSpy.callCount === 1);
+    element.splice('commentRanges', 1, 1);
+    assert.isTrue(updateRangesMapSpy.callCount === 2);
+    element.splice('commentRanges', 1, 1);
+    assert.isTrue(updateRangesMapSpy.callCount === 3);
+    element.splice('commentRanges', 1, 0, {
+      side: 'left',
+      range: {
+        end_character: 15,
+        end_line: 275,
+        start_character: 5,
+        start_line: 250,
+      },
+    });
+    assert.isTrue(updateRangesMapSpy.callCount === 4);
+    element.set(['commentRanges', 2, 'hovering'], true);
+    assert.isTrue(updateRangesMapSpy.callCount === 5);
+  });
+
+  test('_computeCommentMap creates maps correctly', () => {
+    // There is only one ranged comment on the left, but it spans ll.36-39.
+    const leftKeys = [];
+    for (let i = 36; i <= 39; i++) { leftKeys.push('' + i); }
+    assert.deepEqual(Object.keys(element._rangesMap.left).sort(),
+        leftKeys.sort());
+
+    assert.equal(element._rangesMap.left[36].length, 1);
+    assert.equal(element._rangesMap.left[36][0].start, 6);
+    assert.equal(element._rangesMap.left[36][0].end, -1);
+
+    assert.equal(element._rangesMap.left[37].length, 1);
+    assert.equal(element._rangesMap.left[37][0].start, 0);
+    assert.equal(element._rangesMap.left[37][0].end, -1);
+
+    assert.equal(element._rangesMap.left[38].length, 1);
+    assert.equal(element._rangesMap.left[38][0].start, 0);
+    assert.equal(element._rangesMap.left[38][0].end, -1);
+
+    assert.equal(element._rangesMap.left[39].length, 1);
+    assert.equal(element._rangesMap.left[39][0].start, 0);
+    assert.equal(element._rangesMap.left[39][0].end, 9);
+
+    // The right has two ranged comments, one spanning ll.10-12 and the other
+    // on line 100.
+    const rightKeys = [];
+    for (let i = 10; i <= 12; i++) { rightKeys.push('' + i); }
+    rightKeys.push('55', '100');
+    assert.deepEqual(Object.keys(element._rangesMap.right).sort(),
+        rightKeys.sort());
+
+    assert.equal(element._rangesMap.right[10].length, 1);
+    assert.equal(element._rangesMap.right[10][0].start, 10);
+    assert.equal(element._rangesMap.right[10][0].end, -1);
+
+    assert.equal(element._rangesMap.right[11].length, 1);
+    assert.equal(element._rangesMap.right[11][0].start, 0);
+    assert.equal(element._rangesMap.right[11][0].end, -1);
+
+    assert.equal(element._rangesMap.right[12].length, 1);
+    assert.equal(element._rangesMap.right[12][0].start, 0);
+    assert.equal(element._rangesMap.right[12][0].end, 22);
+
+    assert.equal(element._rangesMap.right[100].length, 1);
+    assert.equal(element._rangesMap.right[100][0].start, 5);
+    assert.equal(element._rangesMap.right[100][0].end, 15);
+  });
+
+  test('_getRangesForLine normalizes invalid ranges', () => {
+    const line = {
+      afterNumber: 55,
+      text: '_getRangesForLine normalizes invalid ranges',
+    };
+    const ranges = element._getRangesForLine(line, 'right');
+    assert.equal(ranges.length, 1);
+    const range = ranges[0];
+    assert.isTrue(range.start < range.end, 'start and end are normalized');
+    assert.equal(range.end, line.text.length);
+  });
+});
 </script>

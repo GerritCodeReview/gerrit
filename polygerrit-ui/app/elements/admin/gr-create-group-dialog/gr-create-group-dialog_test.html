@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-create-group-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-create-group-dialog.html">
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-create-group-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-group-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,66 +41,68 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-create-group-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    const GROUP_NAME = 'test-group';
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-group-dialog.js';
+suite('gr-create-group-dialog tests', () => {
+  let element;
+  let sandbox;
+  const GROUP_NAME = 'test-group';
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-      });
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(true); },
     });
+    element = fixture('basic');
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('name is updated correctly', done => {
-      assert.isFalse(element.hasNewGroupName);
+  test('name is updated correctly', done => {
+    assert.isFalse(element.hasNewGroupName);
 
-      const inputEl = element.root.querySelector('iron-input');
-      inputEl.bindValue = GROUP_NAME;
+    const inputEl = element.root.querySelector('iron-input');
+    inputEl.bindValue = GROUP_NAME;
 
-      setTimeout(() => {
-        assert.isTrue(element.hasNewGroupName);
-        assert.deepEqual(element._name, GROUP_NAME);
-        done();
-      });
-    });
-
-    test('test for redirecting to group on successful creation', done => {
-      sandbox.stub(element.$.restAPI, 'createGroup')
-          .returns(Promise.resolve({status: 201}));
-
-      sandbox.stub(element.$.restAPI, 'getGroupConfig')
-          .returns(Promise.resolve({group_id: 551}));
-
-      const showStub = sandbox.stub(page, 'show');
-      element.handleCreateGroup()
-          .then(() => {
-            assert.isTrue(showStub.calledWith('/admin/groups/551'));
-            done();
-          });
-    });
-
-    test('test for unsuccessful group creation', done => {
-      sandbox.stub(element.$.restAPI, 'createGroup')
-          .returns(Promise.resolve({status: 409}));
-
-      sandbox.stub(element.$.restAPI, 'getGroupConfig')
-          .returns(Promise.resolve({group_id: 551}));
-
-      const showStub = sandbox.stub(page, 'show');
-      element.handleCreateGroup()
-          .then(() => {
-            assert.isFalse(showStub.called);
-            done();
-          });
+    setTimeout(() => {
+      assert.isTrue(element.hasNewGroupName);
+      assert.deepEqual(element._name, GROUP_NAME);
+      done();
     });
   });
+
+  test('test for redirecting to group on successful creation', done => {
+    sandbox.stub(element.$.restAPI, 'createGroup')
+        .returns(Promise.resolve({status: 201}));
+
+    sandbox.stub(element.$.restAPI, 'getGroupConfig')
+        .returns(Promise.resolve({group_id: 551}));
+
+    const showStub = sandbox.stub(page, 'show');
+    element.handleCreateGroup()
+        .then(() => {
+          assert.isTrue(showStub.calledWith('/admin/groups/551'));
+          done();
+        });
+  });
+
+  test('test for unsuccessful group creation', done => {
+    sandbox.stub(element.$.restAPI, 'createGroup')
+        .returns(Promise.resolve({status: 409}));
+
+    sandbox.stub(element.$.restAPI, 'getGroupConfig')
+        .returns(Promise.resolve({group_id: 551}));
+
+    const showStub = sandbox.stub(page, 'show');
+    element.handleCreateGroup()
+        .then(() => {
+          assert.isFalse(showStub.called);
+          done();
+        });
+  });
+});
 </script>

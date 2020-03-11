@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-create-change-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-create-change-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-create-change-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-change-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,136 +40,138 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-create-change-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-change-dialog.js';
+suite('gr-create-change-dialog tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getRepoBranches(input) {
-          if (input.startsWith('test')) {
-            return Promise.resolve([
-              {
-                ref: 'refs/heads/test-branch',
-                revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
-                can_delete: true,
-              },
-            ]);
-          } else {
-            return Promise.resolve({});
-          }
-        },
-      });
-      element = fixture('basic');
-      element.repoName = 'test-repo',
-      element._repoConfig = {
-        private_by_default: {
-          configured_value: 'FALSE',
-          inherited_value: false,
-        },
-      };
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(true); },
+      getRepoBranches(input) {
+        if (input.startsWith('test')) {
+          return Promise.resolve([
+            {
+              ref: 'refs/heads/test-branch',
+              revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
+              can_delete: true,
+            },
+          ]);
+        } else {
+          return Promise.resolve({});
+        }
+      },
     });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('new change created with default', done => {
-      const configInputObj = {
-        branch: 'test-branch',
-        subject: 'first change created with polygerrit ui',
-        topic: 'test-topic',
-        is_private: false,
-        work_in_progress: true,
-      };
-
-      const saveStub = sandbox.stub(element.$.restAPI,
-          'createChange', () => Promise.resolve({}));
-
-      element.branch = 'test-branch';
-      element.topic = 'test-topic';
-      element.subject = 'first change created with polygerrit ui';
-      assert.isFalse(element.$.privateChangeCheckBox.checked);
-
-      element.$.branchInput.bindValue = configInputObj.branch;
-      element.$.tagNameInput.bindValue = configInputObj.topic;
-      element.$.messageInput.bindValue = configInputObj.subject;
-
-      element.handleCreateChange().then(() => {
-        // Private change
-        assert.isFalse(saveStub.lastCall.args[4]);
-        // WIP Change
-        assert.isTrue(saveStub.lastCall.args[5]);
-        assert.isTrue(saveStub.called);
-        done();
-      });
-    });
-
-    test('new change created with private', done => {
-      element.privateByDefault = {
-        configured_value: 'TRUE',
+    element = fixture('basic');
+    element.repoName = 'test-repo',
+    element._repoConfig = {
+      private_by_default: {
+        configured_value: 'FALSE',
         inherited_value: false,
-      };
-      sandbox.stub(element, '_formatBooleanString', () => Promise.resolve(true));
-      flushAsynchronousOperations();
+      },
+    };
+  });
 
-      const configInputObj = {
-        branch: 'test-branch',
-        subject: 'first change created with polygerrit ui',
-        topic: 'test-topic',
-        is_private: true,
-        work_in_progress: true,
-      };
+  teardown(() => {
+    sandbox.restore();
+  });
 
-      const saveStub = sandbox.stub(element.$.restAPI,
-          'createChange', () => Promise.resolve({}));
+  test('new change created with default', done => {
+    const configInputObj = {
+      branch: 'test-branch',
+      subject: 'first change created with polygerrit ui',
+      topic: 'test-topic',
+      is_private: false,
+      work_in_progress: true,
+    };
 
-      element.branch = 'test-branch';
-      element.topic = 'test-topic';
-      element.subject = 'first change created with polygerrit ui';
-      assert.isTrue(element.$.privateChangeCheckBox.checked);
+    const saveStub = sandbox.stub(element.$.restAPI,
+        'createChange', () => Promise.resolve({}));
 
-      element.$.branchInput.bindValue = configInputObj.branch;
-      element.$.tagNameInput.bindValue = configInputObj.topic;
-      element.$.messageInput.bindValue = configInputObj.subject;
+    element.branch = 'test-branch';
+    element.topic = 'test-topic';
+    element.subject = 'first change created with polygerrit ui';
+    assert.isFalse(element.$.privateChangeCheckBox.checked);
 
-      element.handleCreateChange().then(() => {
-        // Private change
-        assert.isTrue(saveStub.lastCall.args[4]);
-        // WIP Change
-        assert.isTrue(saveStub.lastCall.args[5]);
-        assert.isTrue(saveStub.called);
-        done();
-      });
-    });
+    element.$.branchInput.bindValue = configInputObj.branch;
+    element.$.tagNameInput.bindValue = configInputObj.topic;
+    element.$.messageInput.bindValue = configInputObj.subject;
 
-    test('_getRepoBranchesSuggestions empty', done => {
-      element._getRepoBranchesSuggestions('nonexistent').then(branches => {
-        assert.equal(branches.length, 0);
-        done();
-      });
-    });
-
-    test('_getRepoBranchesSuggestions non-empty', done => {
-      element._getRepoBranchesSuggestions('test-branch').then(branches => {
-        assert.equal(branches.length, 1);
-        assert.equal(branches[0].name, 'test-branch');
-        done();
-      });
-    });
-
-    test('_computeBranchClass', () => {
-      assert.equal(element._computeBranchClass(true), 'hide');
-      assert.equal(element._computeBranchClass(false), '');
-    });
-
-    test('_computePrivateSectionClass', () => {
-      assert.equal(element._computePrivateSectionClass(true), 'hide');
-      assert.equal(element._computePrivateSectionClass(false), '');
+    element.handleCreateChange().then(() => {
+      // Private change
+      assert.isFalse(saveStub.lastCall.args[4]);
+      // WIP Change
+      assert.isTrue(saveStub.lastCall.args[5]);
+      assert.isTrue(saveStub.called);
+      done();
     });
   });
+
+  test('new change created with private', done => {
+    element.privateByDefault = {
+      configured_value: 'TRUE',
+      inherited_value: false,
+    };
+    sandbox.stub(element, '_formatBooleanString', () => Promise.resolve(true));
+    flushAsynchronousOperations();
+
+    const configInputObj = {
+      branch: 'test-branch',
+      subject: 'first change created with polygerrit ui',
+      topic: 'test-topic',
+      is_private: true,
+      work_in_progress: true,
+    };
+
+    const saveStub = sandbox.stub(element.$.restAPI,
+        'createChange', () => Promise.resolve({}));
+
+    element.branch = 'test-branch';
+    element.topic = 'test-topic';
+    element.subject = 'first change created with polygerrit ui';
+    assert.isTrue(element.$.privateChangeCheckBox.checked);
+
+    element.$.branchInput.bindValue = configInputObj.branch;
+    element.$.tagNameInput.bindValue = configInputObj.topic;
+    element.$.messageInput.bindValue = configInputObj.subject;
+
+    element.handleCreateChange().then(() => {
+      // Private change
+      assert.isTrue(saveStub.lastCall.args[4]);
+      // WIP Change
+      assert.isTrue(saveStub.lastCall.args[5]);
+      assert.isTrue(saveStub.called);
+      done();
+    });
+  });
+
+  test('_getRepoBranchesSuggestions empty', done => {
+    element._getRepoBranchesSuggestions('nonexistent').then(branches => {
+      assert.equal(branches.length, 0);
+      done();
+    });
+  });
+
+  test('_getRepoBranchesSuggestions non-empty', done => {
+    element._getRepoBranchesSuggestions('test-branch').then(branches => {
+      assert.equal(branches.length, 1);
+      assert.equal(branches[0].name, 'test-branch');
+      done();
+    });
+  });
+
+  test('_computeBranchClass', () => {
+    assert.equal(element._computeBranchClass(true), 'hide');
+    assert.equal(element._computeBranchClass(false), '');
+  });
+
+  test('_computePrivateSectionClass', () => {
+    assert.equal(element._computePrivateSectionClass(true), 'hide');
+    assert.equal(element._computePrivateSectionClass(false), '');
+  });
+});
 </script>

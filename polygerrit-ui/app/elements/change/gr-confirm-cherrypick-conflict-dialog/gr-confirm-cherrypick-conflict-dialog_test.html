@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-confirm-cherrypick-conflict-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-confirm-cherrypick-conflict-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-confirm-cherrypick-conflict-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-confirm-cherrypick-conflict-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,39 +40,41 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-confirm-cherrypick-conflict-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-confirm-cherrypick-conflict-dialog.js';
+suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => { sandbox.restore(); });
-
-    test('_handleConfirmTap', () => {
-      const confirmHandler = sandbox.stub();
-      element.addEventListener('confirm', confirmHandler);
-      sandbox.spy(element, '_handleConfirmTap');
-      element.$$('gr-dialog').fire('confirm');
-      assert.isTrue(confirmHandler.called);
-      assert.isTrue(confirmHandler.calledOnce);
-      assert.isTrue(element._handleConfirmTap.called);
-      assert.isTrue(element._handleConfirmTap.calledOnce);
-    });
-
-    test('_handleCancelTap', () => {
-      const cancelHandler = sandbox.stub();
-      element.addEventListener('cancel', cancelHandler);
-      sandbox.spy(element, '_handleCancelTap');
-      element.$$('gr-dialog').fire('cancel');
-      assert.isTrue(cancelHandler.called);
-      assert.isTrue(cancelHandler.calledOnce);
-      assert.isTrue(element._handleCancelTap.called);
-      assert.isTrue(element._handleCancelTap.calledOnce);
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
   });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('_handleConfirmTap', () => {
+    const confirmHandler = sandbox.stub();
+    element.addEventListener('confirm', confirmHandler);
+    sandbox.spy(element, '_handleConfirmTap');
+    element.$$('gr-dialog').fire('confirm');
+    assert.isTrue(confirmHandler.called);
+    assert.isTrue(confirmHandler.calledOnce);
+    assert.isTrue(element._handleConfirmTap.called);
+    assert.isTrue(element._handleConfirmTap.calledOnce);
+  });
+
+  test('_handleCancelTap', () => {
+    const cancelHandler = sandbox.stub();
+    element.addEventListener('cancel', cancelHandler);
+    sandbox.spy(element, '_handleCancelTap');
+    element.$$('gr-dialog').fire('cancel');
+    assert.isTrue(cancelHandler.called);
+    assert.isTrue(cancelHandler.calledOnce);
+    assert.isTrue(element._handleCancelTap.called);
+    assert.isTrue(element._handleCancelTap.calledOnce);
+  });
+});
 </script>

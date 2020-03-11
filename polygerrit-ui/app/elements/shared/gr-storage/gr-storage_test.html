@@ -18,15 +18,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-storage</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-storage.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-storage.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-storage.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -34,165 +39,167 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-storage tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-storage.js';
+suite('gr-storage tests', () => {
+  let element;
+  let sandbox;
 
-    function mockStorage(opt_quotaExceeded) {
-      return {
-        getItem(key) { return this[key]; },
-        removeItem(key) { delete this[key]; },
-        setItem(key, value) {
-          // eslint-disable-next-line no-throw-literal
-          if (opt_quotaExceeded) { throw {code: 22}; /* Quota exceeded */ }
-          this[key] = value;
-        },
-      };
-    }
+  function mockStorage(opt_quotaExceeded) {
+    return {
+      getItem(key) { return this[key]; },
+      removeItem(key) { delete this[key]; },
+      setItem(key, value) {
+        // eslint-disable-next-line no-throw-literal
+        if (opt_quotaExceeded) { throw {code: 22}; /* Quota exceeded */ }
+        this[key] = value;
+      },
+    };
+  }
 
-    setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      element._storage = mockStorage();
-    });
-
-    teardown(() => sandbox.restore());
-
-    test('storing, retrieving and erasing drafts', () => {
-      const changeNum = 1234;
-      const patchNum = 5;
-      const path = 'my_source_file.js';
-      const line = 123;
-      const location = {
-        changeNum,
-        patchNum,
-        path,
-        line,
-      };
-
-      // The key is in the expected format.
-      const key = element._getDraftKey(location);
-      assert.equal(key, ['draft', changeNum, patchNum, path, line].join(':'));
-
-      // There should be no draft initially.
-      const draft = element.getDraftComment(location);
-      assert.isNotOk(draft);
-
-      // Setting the draft stores it under the expected key.
-      element.setDraftComment(location, 'my comment');
-      assert.isOk(element._storage.getItem(key));
-      assert.equal(JSON.parse(element._storage.getItem(key)).message,
-          'my comment');
-      assert.isOk(JSON.parse(element._storage.getItem(key)).updated);
-
-      // Erasing the draft removes the key.
-      element.eraseDraftComment(location);
-      assert.isNotOk(element._storage.getItem(key));
-    });
-
-    test('automatically removes old drafts', () => {
-      const changeNum = 1234;
-      const patchNum = 5;
-      const path = 'my_source_file.js';
-      const line = 123;
-      const location = {
-        changeNum,
-        patchNum,
-        path,
-        line,
-      };
-
-      const key = element._getDraftKey(location);
-
-      // Make sure that the call to cleanup doesn't get throttled.
-      element._lastCleanup = 0;
-
-      const cleanupSpy = sandbox.spy(element, '_cleanupItems');
-
-      // Create a message with a timestamp that is a second behind the max age.
-      element._storage.setItem(key, JSON.stringify({
-        message: 'old message',
-        updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
-      }));
-
-      // Getting the draft should cause it to be removed.
-      const draft = element.getDraftComment(location);
-
-      assert.isTrue(cleanupSpy.called);
-      assert.isNotOk(draft);
-      assert.isNotOk(element._storage.getItem(key));
-    });
-
-    test('_getDraftKey', () => {
-      const changeNum = 1234;
-      const patchNum = 5;
-      const path = 'my_source_file.js';
-      const line = 123;
-      const location = {
-        changeNum,
-        patchNum,
-        path,
-        line,
-      };
-      let expectedResult = 'draft:1234:5:my_source_file.js:123';
-      assert.equal(element._getDraftKey(location), expectedResult);
-      location.range = {
-        start_character: 1,
-        start_line: 1,
-        end_character: 1,
-        end_line: 2,
-      };
-      expectedResult = 'draft:1234:5:my_source_file.js:123:1-1-1-2';
-      assert.equal(element._getDraftKey(location), expectedResult);
-    });
-
-    test('exceeded quota disables storage', () => {
-      element._storage = mockStorage(true);
-      assert.isFalse(element._exceededQuota);
-
-      const changeNum = 1234;
-      const patchNum = 5;
-      const path = 'my_source_file.js';
-      const line = 123;
-      const location = {
-        changeNum,
-        patchNum,
-        path,
-        line,
-      };
-      const key = element._getDraftKey(location);
-      element.setDraftComment(location, 'my comment');
-      assert.isTrue(element._exceededQuota);
-      assert.isNotOk(element._storage.getItem(key));
-    });
-
-    test('editable content items', () => {
-      const cleanupStub = sandbox.stub(element, '_cleanupItems');
-      const key = 'testKey';
-      const computedKey = element._getEditableContentKey(key);
-      // Key correctly computed.
-      assert.equal(computedKey, 'editablecontent:testKey');
-
-      element.setEditableContentItem(key, 'my content');
-
-      // Setting the draft stores it under the expected key.
-      let item = element._storage.getItem(computedKey);
-      assert.isOk(item);
-      assert.equal(JSON.parse(item).message, 'my content');
-      assert.isOk(JSON.parse(item).updated);
-
-      // getEditableContentItem performs as expected.
-      item = element.getEditableContentItem(key);
-      assert.isOk(item);
-      assert.equal(item.message, 'my content');
-      assert.isOk(item.updated);
-      assert.isTrue(cleanupStub.called);
-
-      // eraseEditableContentItem performs as expected.
-      element.eraseEditableContentItem(key);
-      assert.isNotOk(element._storage.getItem(computedKey));
-    });
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    element._storage = mockStorage();
   });
+
+  teardown(() => sandbox.restore());
+
+  test('storing, retrieving and erasing drafts', () => {
+    const changeNum = 1234;
+    const patchNum = 5;
+    const path = 'my_source_file.js';
+    const line = 123;
+    const location = {
+      changeNum,
+      patchNum,
+      path,
+      line,
+    };
+
+    // The key is in the expected format.
+    const key = element._getDraftKey(location);
+    assert.equal(key, ['draft', changeNum, patchNum, path, line].join(':'));
+
+    // There should be no draft initially.
+    const draft = element.getDraftComment(location);
+    assert.isNotOk(draft);
+
+    // Setting the draft stores it under the expected key.
+    element.setDraftComment(location, 'my comment');
+    assert.isOk(element._storage.getItem(key));
+    assert.equal(JSON.parse(element._storage.getItem(key)).message,
+        'my comment');
+    assert.isOk(JSON.parse(element._storage.getItem(key)).updated);
+
+    // Erasing the draft removes the key.
+    element.eraseDraftComment(location);
+    assert.isNotOk(element._storage.getItem(key));
+  });
+
+  test('automatically removes old drafts', () => {
+    const changeNum = 1234;
+    const patchNum = 5;
+    const path = 'my_source_file.js';
+    const line = 123;
+    const location = {
+      changeNum,
+      patchNum,
+      path,
+      line,
+    };
+
+    const key = element._getDraftKey(location);
+
+    // Make sure that the call to cleanup doesn't get throttled.
+    element._lastCleanup = 0;
+
+    const cleanupSpy = sandbox.spy(element, '_cleanupItems');
+
+    // Create a message with a timestamp that is a second behind the max age.
+    element._storage.setItem(key, JSON.stringify({
+      message: 'old message',
+      updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
+    }));
+
+    // Getting the draft should cause it to be removed.
+    const draft = element.getDraftComment(location);
+
+    assert.isTrue(cleanupSpy.called);
+    assert.isNotOk(draft);
+    assert.isNotOk(element._storage.getItem(key));
+  });
+
+  test('_getDraftKey', () => {
+    const changeNum = 1234;
+    const patchNum = 5;
+    const path = 'my_source_file.js';
+    const line = 123;
+    const location = {
+      changeNum,
+      patchNum,
+      path,
+      line,
+    };
+    let expectedResult = 'draft:1234:5:my_source_file.js:123';
+    assert.equal(element._getDraftKey(location), expectedResult);
+    location.range = {
+      start_character: 1,
+      start_line: 1,
+      end_character: 1,
+      end_line: 2,
+    };
+    expectedResult = 'draft:1234:5:my_source_file.js:123:1-1-1-2';
+    assert.equal(element._getDraftKey(location), expectedResult);
+  });
+
+  test('exceeded quota disables storage', () => {
+    element._storage = mockStorage(true);
+    assert.isFalse(element._exceededQuota);
+
+    const changeNum = 1234;
+    const patchNum = 5;
+    const path = 'my_source_file.js';
+    const line = 123;
+    const location = {
+      changeNum,
+      patchNum,
+      path,
+      line,
+    };
+    const key = element._getDraftKey(location);
+    element.setDraftComment(location, 'my comment');
+    assert.isTrue(element._exceededQuota);
+    assert.isNotOk(element._storage.getItem(key));
+  });
+
+  test('editable content items', () => {
+    const cleanupStub = sandbox.stub(element, '_cleanupItems');
+    const key = 'testKey';
+    const computedKey = element._getEditableContentKey(key);
+    // Key correctly computed.
+    assert.equal(computedKey, 'editablecontent:testKey');
+
+    element.setEditableContentItem(key, 'my content');
+
+    // Setting the draft stores it under the expected key.
+    let item = element._storage.getItem(computedKey);
+    assert.isOk(item);
+    assert.equal(JSON.parse(item).message, 'my content');
+    assert.isOk(JSON.parse(item).updated);
+
+    // getEditableContentItem performs as expected.
+    item = element.getEditableContentItem(key);
+    assert.isOk(item);
+    assert.equal(item.message, 'my content');
+    assert.isOk(item.updated);
+    assert.isTrue(cleanupStub.called);
+
+    // eraseEditableContentItem performs as expected.
+    element.eraseEditableContentItem(key);
+    assert.isNotOk(element._storage.getItem(computedKey));
+  });
+});
 </script>

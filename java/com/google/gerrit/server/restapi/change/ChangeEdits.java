@@ -15,10 +15,13 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
@@ -276,11 +279,16 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
   public static class Put implements RestModifyView<ChangeEditResource, FileContentInput> {
     private final ChangeEditModifier editModifier;
     private final GitRepositoryManager repositoryManager;
+    private final EditMessage editMessage;
 
     @Inject
-    Put(ChangeEditModifier editModifier, GitRepositoryManager repositoryManager) {
+    Put(
+        ChangeEditModifier editModifier,
+        GitRepositoryManager repositoryManager,
+        EditMessage editMessage) {
       this.editModifier = editModifier;
       this.repositoryManager = repositoryManager;
+      this.editMessage = editMessage;
     }
 
     @Override
@@ -293,6 +301,12 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     public Response<?> apply(ChangeResource rsrc, String path, FileContentInput input)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
+      if (Patch.COMMIT_MSG.equals(path)) {
+        EditMessage.Input editCommitMessageInput = new EditMessage.Input();
+        editCommitMessageInput.message =
+            new String(ByteStreams.toByteArray(input.content.getInputStream()), UTF_8);
+        return editMessage.apply(rsrc, editCommitMessageInput);
+      }
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
@@ -350,6 +364,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
   public static class Get implements RestReadView<ChangeEditResource> {
     private final FileContentUtil fileContentUtil;
     private final ProjectCache projectCache;
+    private final GetMessage getMessage;
 
     @Option(
         name = "--base",
@@ -358,14 +373,19 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     private boolean base;
 
     @Inject
-    Get(FileContentUtil fileContentUtil, ProjectCache projectCache) {
+    Get(FileContentUtil fileContentUtil, ProjectCache projectCache, GetMessage getMessage) {
       this.fileContentUtil = fileContentUtil;
       this.projectCache = projectCache;
+      this.getMessage = getMessage;
     }
 
     @Override
-    public Response<BinaryResult> apply(ChangeEditResource rsrc) throws IOException {
+    public Response<BinaryResult> apply(ChangeEditResource rsrc) throws AuthException, IOException {
       try {
+        if (Patch.COMMIT_MSG.equals(rsrc.getPath())) {
+          return getMessage.apply(rsrc.getChangeResource());
+        }
+
         ChangeEdit edit = rsrc.getChangeEdit();
         Project.NameKey project = rsrc.getChangeResource().getProject();
         return Response.ok(

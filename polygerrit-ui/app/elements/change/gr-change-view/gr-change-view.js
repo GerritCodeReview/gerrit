@@ -1536,12 +1536,6 @@ class GrChangeView extends mixinBehaviors( [
           }
           const latestRevisionSha = this._getLatestRevisionSHA(change);
           const currentRevision = change.revisions[latestRevisionSha];
-          if (currentRevision.commit && currentRevision.commit.message) {
-            this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                currentRevision.commit.message);
-          } else {
-            this._latestCommitMessage = null;
-          }
 
           const lineHeight = getComputedStyle(this).lineHeight;
 
@@ -1550,6 +1544,7 @@ class GrChangeView extends mixinBehaviors( [
               parseInt(lineHeight.slice(0, lineHeight.length - 2), 10);
 
           this._change = change;
+          this._fetchChangeMessage(change, currentRevision);
           if (!this._patchRange || !this._patchRange.patchNum ||
               this.patchNumEquals(this._patchRange.patchNum,
                   currentRevision._number)) {
@@ -1566,13 +1561,35 @@ class GrChangeView extends mixinBehaviors( [
                   revision => {
                     // edit patchset is a special one
                     const thePatchNum = this._patchRange.patchNum;
-                    if (thePatchNum === 'edit') {
+                    if (thePatchNum === this.EDIT_NAME) {
                       return revision._number === thePatchNum;
                     }
                     return revision._number === parseInt(thePatchNum, 10);
                   });
           }
         });
+  }
+
+  _fetchChangeMessage(change, currentRevision) {
+    if (!this._patchRange || !this._patchRange.patchNum ||
+        this.patchNumEquals(this._patchRange.patchNum,
+            currentRevision._number)) {
+      this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+          currentRevision.commit.message);
+    } else {
+      const msg =
+        Object.values(change.revisions).find(
+            revision => {
+              // edit patchset is a special one
+              const thePatchNum = this._patchRange.patchNum;
+              if (thePatchNum === this.EDIT_NAME) {
+                return revision._number === thePatchNum;
+              }
+              return revision._number === parseInt(thePatchNum, 10);
+            });
+      this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+        msg.commit.message);
+    }
   }
 
   _isSubmitEnabled(revisionActions) {

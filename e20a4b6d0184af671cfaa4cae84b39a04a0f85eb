@@ -22,6 +22,30 @@
       "revId": "e20a4b6d0184af671cfaa4cae84b39a04a0f85eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dbbe9c8_9d0aaf65",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-11T09:26:20Z",
+      "side": 1,
+      "message": "Good catch. Will upload a fix.",
+      "parentUuid": "48b88cae_4d9a3877",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 7
+      },
+      "revId": "e20a4b6d0184af671cfaa4cae84b39a04a0f85eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

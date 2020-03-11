@@ -62,29 +62,27 @@ public interface ProjectCache {
    * Invalidate the cached information about the given project, and triggers reindexing for it
    *
    * @param p project that is being evicted
-   * @throws IOException thrown if the reindexing fails
    */
-  void evict(Project p) throws IOException;
+  void evict(Project p);
 
   /**
    * Invalidate the cached information about the given project, and triggers reindexing for it
    *
    * @param p the NameKey of the project that is being evicted
-   * @throws IOException thrown if the reindexing fails
    */
-  void evict(Project.NameKey p) throws IOException;
+  void evict(Project.NameKey p);
 
   /**
    * Remove information about the given project from the cache. It will no longer be returned from
    * {@link #all()}.
    */
-  void remove(Project p) throws IOException;
+  void remove(Project p);
 
   /**
    * Remove information about the given project from the cache. It will no longer be returned from
    * {@link #all()}.
    */
-  void remove(Project.NameKey name) throws IOException;
+  void remove(Project.NameKey name);
 
   /** @return sorted iteration of projects. */
   ImmutableSortedSet<Project.NameKey> all();

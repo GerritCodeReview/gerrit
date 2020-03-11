@@ -27,7 +27,7 @@ source): ./polygerrit-ui/app/run_test.sh --test_arg=--plugin --test_arg=sauce
 */
 
 const headless = 'WCT_HEADLESS_MODE' in process.env ?
-  process.env['WCT_HEADLESS_MODE'] !== '0' : false;
+  process.env['WCT_HEADLESS_MODE'] === '1' : false;
 
 const headlessBrowserOptions = {
   chrome: ['start-maximized', 'headless', 'disable-gpu', 'no-sandbox'],

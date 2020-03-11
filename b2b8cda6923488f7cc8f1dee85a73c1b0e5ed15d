@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "462e5a89_162ac530",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AttentionSetInput.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "I didn\u0027t think that through. I don\u0027t see a case where we\u0027d want to omit the reason. We should always put something like \"manual\" or \"automatic because added as reviewer\" or something like that. And when people really run bots against this those should also identify themselves. We wouldn\u0027t want the Sheriff to investigate report a la \"Why am I (not) in the attention set here?\".\n\nTL;DR: I think both should be mandatory for now, if that turns out to be a bother we can still change it later.",
+      "parentUuid": "860330cd_ce695915",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fe817f4_f3e11bf0",
         "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 10
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "c4251cbe_35e390d9",
+        "filename": "java/com/google/gerrit/extensions/common/AttentionSetEntry.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57db571b_7dec8870",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "959a3258_1b57f822",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 10
@@ -79,6 +121,30 @@
       "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614cf54e_ed6f2ea2",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "959a3258_1b57f822",
+      "range": {
+        "startLine": 514,
+        "startChar": 18,
+        "endLine": 514,
+        "endChar": 30
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +171,30 @@
     },
     {
       "key": {
+        "uuid": "a9a63853_ee956424",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77ba44a8_9d980be8",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34bc6e2e_57f19098",
         "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
         "patchSetId": 10
@@ -125,6 +215,30 @@
       "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac2402c9_4ee94665",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34bc6e2e_57f19098",
+      "range": {
+        "startLine": 65,
+        "startChar": 21,
+        "endLine": 65,
+        "endChar": 37
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "db8cc6ac_21de017e",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "e16dd70d_ba0af487",
+      "range": {
+        "startLine": 81,
+        "startChar": 54,
+        "endLine": 81,
+        "endChar": 82
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "137a9376_f660e72e",
         "filename": "java/com/google/gerrit/server/restapi/change/DeleteAttentionSet.java",
         "patchSetId": 10
@@ -174,6 +312,30 @@
     },
     {
       "key": {
+        "uuid": "11103c37_724cfdb4",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteAttentionSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "137a9376_f660e72e",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 20
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6925e3b6_3c0d395e",
         "filename": "java/com/google/gerrit/server/restapi/change/DeleteAttentionSet.java",
         "patchSetId": 10
@@ -188,6 +350,24 @@
       "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93bb6504_8c540884",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteAttentionSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6925e3b6_3c0d395e",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -214,6 +394,30 @@
     },
     {
       "key": {
+        "uuid": "465f79aa_b9643efc",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteAttentionSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6412e87f_b846ee09",
+      "range": {
+        "startLine": 67,
+        "startChar": 71,
+        "endLine": 67,
+        "endChar": 83
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1080fb7_005c2dc2",
         "filename": "java/com/google/gerrit/server/restapi/change/Module.java",
         "patchSetId": 10
@@ -225,6 +429,30 @@
       "writtenOn": "2020-03-10T09:07:35Z",
       "side": 1,
       "message": "Instead of directly allowing modifications on the changes detail layer, I think we want to use a child collection.\n\nWhat you currently have is:\n\nPUT /changes/1/assignee (with body)\nDELETE /changes/1/assignee (with body)\n\nWhat reviewers (and many other features that are basically a list of nested entities) do is:\n\nPOST /changes/1/assignee/ (with body)\nDELETE /changes/1/assignee/\u003cuserid\u003e (without body)",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 66
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c8b9a43_dd4586ef",
+        "filename": "java/com/google/gerrit/server/restapi/change/Module.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "\u003e Instead of directly allowing modifications on the changes detail layer, I think we want to use a child collection.\n\nJust for my understanding: Is this for consistency or is there a technical reason? I considered this option but it seemed more complicated.\n \n\u003e What you currently have is:\n\u003e \n\u003e PUT /changes/1/assignee (with body)\n\u003e DELETE /changes/1/assignee (with body)\n\u003e \n\u003e What reviewers (and many other features that are basically a list of nested entities) do is:\n\u003e \n\u003e POST /changes/1/assignee/ (with body)\n\u003e DELETE /changes/1/assignee/\u003cuserid\u003e (without body)\n\nDELETE would still have to have a body because we need the \"reason\" field. Does that change things?",
+      "parentUuid": "b1080fb7_005c2dc2",
       "range": {
         "startLine": 84,
         "startChar": 0,
@@ -254,6 +482,24 @@
     },
     {
       "key": {
+        "uuid": "04cc5acc_cb07bfa4",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutAttentionSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c5b040a_d4f2f194",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9317e52d_3edc34e7",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 10
@@ -277,6 +523,30 @@
     },
     {
       "key": {
+        "uuid": "6df4a8aa_5c442402",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9317e52d_3edc34e7",
+      "range": {
+        "startLine": 98,
+        "startChar": 58,
+        "endLine": 98,
+        "endChar": 71
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "accc1b33_2dc6cba3",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 10
@@ -288,6 +558,24 @@
       "writtenOn": "2020-03-10T09:07:35Z",
       "side": 1,
       "message": "Should this be a bad request exception instead or do you want to requests to be idempotent?",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf3dcfc7_daf48f05",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "I don\u0027t see value in reporting an error here. It could be a race, or the UI is open in multiple windows and one has stale state. The \"reason\" field might end up with an unexpected value because it\u0027s retained from the previous removal, but that alone doesn\u0027t seem to warrant the UI having to deal with the error.\n\nHowever, the reviewers endpoint does return a 404 in this case, and returns a list of actually added reviewers so callers can detect when a reviewer was already there. I\u0027d still have a slight preference of simply ignoring these cases. WDYT?",
+      "parentUuid": "accc1b33_2dc6cba3",
       "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -308,6 +596,24 @@
       "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61974e57_125b9a6c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-11T11:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5380309f_1b2434c6",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

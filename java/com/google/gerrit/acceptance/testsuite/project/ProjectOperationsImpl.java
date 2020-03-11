@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -253,6 +254,37 @@ public class ProjectOperationsImpl implements ProjectOperations {
         return config;
       } catch (Exception e) {
         throw new IllegalStateException(e);
+      }
+    }
+
+    private void setConfig(Config projectConfig) {
+      try (TestRepository<Repository> repo =
+          new TestRepository<>(repoManager.openRepository(nameKey))) {
+        repo.update(
+            RefNames.REFS_CONFIG,
+            repo.commit()
+                .message("Update project.config from test")
+                .parent(getHead(RefNames.REFS_CONFIG))
+                .add(ProjectConfig.PROJECT_CONFIG, projectConfig.toText()));
+        projectCache.evict(nameKey);
+      } catch (Exception e) {
+        throw new IllegalStateException(
+            "updating project.config of project " + nameKey + " failed", e);
+      }
+    }
+
+    @Override
+    public TestProjectInvalidation.Builder forInvalidation() {
+      return TestProjectInvalidation.builder(this::invalidateProject);
+    }
+
+    private void invalidateProject(TestProjectInvalidation testProjectInvalidation)
+        throws Exception {
+      if (!testProjectInvalidation.projectConfigUpdater().isEmpty()) {
+        Config projectConfig = new Config();
+        projectConfig.fromText(getConfig().toText());
+        testProjectInvalidation.projectConfigUpdater().forEach(c -> c.accept(projectConfig));
+        setConfig(projectConfig);
       }
     }
   }

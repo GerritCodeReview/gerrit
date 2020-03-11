@@ -1606,12 +1606,54 @@ suite('gr-change-view tests', () => {
     });
 
     test('commitCollapseToggle shown for long commit message', () => {
-      element._latestCommitMessage = _.times(31, String).join('\n');
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        _number: 42,
+        revisions: {
+          rev1: {
+            _number: 1,
+            commit: {
+              parents: [],
+              message: _.times(31, String).join('\n')
+            }
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        actions: {},
+      };
       assert.isFalse(element.$.commitCollapseToggle.hasAttribute('hidden'));
     });
 
     test('commitCollapseToggle functions', () => {
-      element._latestCommitMessage = _.times(35, String).join('\n');
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        _number: 42,
+        revisions: {
+          rev1: {
+            _number: 1,
+            commit: {
+              parents: [],
+              message: _.times(35, String).join('\n')
+            }
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        actions: {},
+      };
       assert.isTrue(element._commitCollapsed);
       assert.isTrue(element._commitCollapsible);
       assert.isTrue(
@@ -1690,7 +1732,28 @@ suite('gr-change-view tests', () => {
     });
 
     test('_updateRelatedChangeMaxHeight with commit toggle', () => {
-      element._latestCommitMessage = _.times(31, String).join('\n');
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        _number: 42,
+        revisions: {
+          rev1: {
+            _number: 1,
+            commit: {
+              parents: [],
+              message: _.times(31, String).join('\n')
+            }
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        actions: {},
+      };
       sandbox.stub(element, '_getOffsetHeight', () => 50);
       sandbox.stub(element, '_getLineHeight', () => 12);
       sandbox.stub(window, 'matchMedia', () => { return {matches: false}; });
@@ -1706,7 +1769,28 @@ suite('gr-change-view tests', () => {
     });
 
     test('_updateRelatedChangeMaxHeight in small screen mode', () => {
-      element._latestCommitMessage = _.times(31, String).join('\n');
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        _number: 42,
+        revisions: {
+          rev1: {
+            _number: 1,
+            commit: {
+              parents: [],
+              message: _.times(31, String).join('\n')
+            }
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        actions: {},
+      };
       sandbox.stub(element, '_getOffsetHeight', () => 50);
       sandbox.stub(element, '_getLineHeight', () => 12);
       sandbox.stub(window, 'matchMedia', () => { return {matches: true}; });
@@ -1721,7 +1805,28 @@ suite('gr-change-view tests', () => {
     });
 
     test('_updateRelatedChangeMaxHeight in medium screen mode', () => {
-      element._latestCommitMessage = _.times(31, String).join('\n');
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        _number: 42,
+        revisions: {
+          rev1: {
+            _number: 1,
+            commit: {
+              parents: [],
+              message: _.times(31, String).join('\n')
+            }
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        actions: {},
+      };
       sandbox.stub(element, '_getOffsetHeight', () => 50);
       sandbox.stub(element, '_getLineHeight', () => 12);
       sandbox.stub(window, 'matchMedia', () => {

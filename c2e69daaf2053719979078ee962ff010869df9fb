@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a7c7862_d5121f1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-11T16:53:51Z",
+      "side": 1,
+      "message": "Should this go into shared-styles maybe, so that we can use the same spinner also in other places?\n\nOr could we even make this a gr-icon?",
+      "revId": "c2e69daaf2053719979078ee962ff010869df9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad385f0f_bff65d23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-11T16:53:51Z",
+      "side": 1,
+      "message": "I find using \u003ci\u003e a bit weird. Maybe just \u003cspan\u003e?",
+      "range": {
+        "startLine": 195,
+        "startChar": 8,
+        "endLine": 195,
+        "endChar": 35
+      },
+      "revId": "c2e69daaf2053719979078ee962ff010869df9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf21937c_0d1cff2f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-11T16:53:51Z",
+      "side": 1,
+      "message": "maybe rename to `loadingPromise`",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 15
+      },
+      "revId": "c2e69daaf2053719979078ee962ff010869df9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beca4b7b_faa4eecd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-11T16:53:51Z",
+      "side": 1,
+      "message": "Maybe add a comment here that it is recommended to use the `loadingPromise` and consider the `loading` property private.",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 15
+      },
+      "revId": "c2e69daaf2053719979078ee962ff010869df9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

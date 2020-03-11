@@ -19,6 +19,7 @@ import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -253,6 +255,48 @@ public class ProjectOperationsImpl implements ProjectOperations {
         return config;
       } catch (Exception e) {
         throw new IllegalStateException(e);
+      }
+    }
+
+    private void setConfig(Config projectConfig) {
+      try (TestRepository<Repository> repo =
+          new TestRepository<>(repoManager.openRepository(nameKey))) {
+        repo.update(
+            RefNames.REFS_CONFIG,
+            repo.commit()
+                .message("Update project.config from test")
+                .parent(getHead(RefNames.REFS_CONFIG))
+                .add(ProjectConfig.PROJECT_CONFIG, projectConfig.toText()));
+      } catch (Exception e) {
+        throw new IllegalStateException(
+            "updating project.config of project " + nameKey + " failed", e);
+      }
+    }
+
+    @Override
+    public TestProjectInvalidation.Builder forInvalidation() {
+      return TestProjectInvalidation.builder(this::invalidateProject);
+    }
+
+    private void invalidateProject(TestProjectInvalidation testProjectInvalidation)
+        throws Exception {
+      if (!testProjectInvalidation.projectConfigUpdater().isEmpty()) {
+        Config projectConfig = new Config();
+        projectConfig.fromText(getConfig().toText());
+        testProjectInvalidation.projectConfigUpdater().forEach(c -> c.accept(projectConfig));
+        setConfig(projectConfig);
+        try {
+          projectCache.evict(nameKey);
+        } catch (Exception e) {
+          // Evicting the project from the cache, also triggers a reindex of the project.
+          // The reindex step fails if the project config is invalid. That's fine, since it was our
+          // intention to make the project config invalid. Hence we ignore exceptions that are cause
+          // by an invalid project config here.
+          if (!Throwables.getCausalChain(e).stream()
+              .anyMatch(ConfigInvalidException.class::isInstance)) {
+            throw e;
+          }
+        }
       }
     }
   }

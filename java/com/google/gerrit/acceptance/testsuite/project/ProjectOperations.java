@@ -73,5 +73,25 @@ public interface ProjectOperations {
      * @return a builder to update the check.
      */
     TestProjectUpdate.Builder forUpdate();
+
+    /**
+     * Starts the fluent chain to invalidate a project. The returned builder can be used to specify
+     * how the project should be made invalid. To invalidate the project for real, {@link
+     * TestProjectInvalidation.Builder#invalidate()} must be called.
+     *
+     * <p>Example:
+     *
+     * <pre>
+     * projectOperations.forInvalidation()
+     *     .addProjectConfigUpdater(cfg -> cfg.setString("invalidSection", null, "foo", "bar"))
+     *     .invalidate();
+     * </pre>
+     *
+     * <p><strong>Note:</strong> The invalidation will fail with an exception if the project to
+     * invalidate doesn't exist.
+     *
+     * @return a builder to invalidate the project
+     */
+    TestProjectInvalidation.Builder forInvalidation();
   }
 }

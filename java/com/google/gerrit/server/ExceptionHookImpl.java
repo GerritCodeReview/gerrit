@@ -19,7 +19,9 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.server.project.ProjectConfig;
 import java.util.Optional;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.RefUpdate;
 
@@ -32,10 +34,17 @@ public class ExceptionHookImpl implements ExceptionHook {
       "Updating a ref failed with LOCK_FAILURE.\n"
           + "This may be a temporary issue due to concurrent updates.\n"
           + "Please retry later.";
+  private static final String INVALID_PROJECT_CONFIG_USER_MESSAGE =
+      "Invalid " + ProjectConfig.PROJECT_CONFIG + " file.\n" + "Please contact the project owner.";
 
   @Override
   public boolean shouldRetry(String actionType, String actionName, Throwable throwable) {
     return isLockFailure(throwable);
+  }
+
+  @Override
+  public boolean skipRetryWithTrace(String actionType, String actionName, Throwable throwable) {
+    return isInvalidProjectConfig(throwable);
   }
 
   @Override
@@ -46,6 +55,9 @@ public class ExceptionHookImpl implements ExceptionHook {
     if (isMissingObjectException(throwable)) {
       return Optional.of("missing_object");
     }
+    if (isInvalidProjectConfig(throwable)) {
+      return Optional.of("invalid_project_config");
+    }
     return Optional.empty();
   }
 
@@ -54,6 +66,9 @@ public class ExceptionHookImpl implements ExceptionHook {
     if (isLockFailure(throwable)) {
       return ImmutableList.of(LOCK_FAILURE_USER_MESSAGE);
     }
+    if (isInvalidProjectConfig(throwable)) {
+      return ImmutableList.of(INVALID_PROJECT_CONFIG_USER_MESSAGE);
+    }
     return ImmutableList.of();
   }
 
@@ -61,6 +76,9 @@ public class ExceptionHookImpl implements ExceptionHook {
   public Optional<Status> getStatus(Throwable throwable) {
     if (isLockFailure(throwable)) {
       return Optional.of(Status.create(503, "Lock failure"));
+    }
+    if (isInvalidProjectConfig(throwable)) {
+      return Optional.of(Status.create(409, "Conflict"));
     }
     return Optional.empty();
   }
@@ -71,6 +89,15 @@ public class ExceptionHookImpl implements ExceptionHook {
 
   private static boolean isMissingObjectException(Throwable throwable) {
     return isMatching(throwable, t -> t instanceof MissingObjectException);
+  }
+
+  private static boolean isInvalidProjectConfig(Throwable throwable) {
+    return isMatching(
+        throwable,
+        t ->
+            t instanceof ConfigInvalidException
+                && t.getMessage()
+                    .startsWith("Invalid config file " + ProjectConfig.PROJECT_CONFIG));
   }
 
   /**

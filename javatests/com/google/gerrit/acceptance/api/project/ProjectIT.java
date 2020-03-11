@@ -36,8 +36,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -68,7 +68,6 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -77,13 +76,11 @@ import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Test;
 
-@NoHttpd
 public class ProjectIT extends AbstractDaemonTest {
   private static final String BUGZILLA = "bugzilla";
   private static final String BUGZILLA_LINK = "http://bugzilla.example.com/?id=$2";
@@ -881,23 +878,17 @@ public class ProjectIT extends AbstractDaemonTest {
     // Update the definition of the Code-Review label so that it has the value "+1 LGTM" twice.
     // This update bypasses all validation checks so that the duplicate label value doesn't get
     // rejected.
-    Config cfg = new Config();
-    cfg.fromText(projectOperations.project(allProjects).getConfig().toText());
-    cfg.setStringList(
-        "label",
-        "Code-Review",
-        "value",
-        ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad"));
-
-    try (TestRepository<Repository> repo =
-        new TestRepository<>(repoManager.openRepository(allProjects))) {
-      repo.update(
-          RefNames.REFS_CONFIG,
-          repo.commit()
-              .message("Set label with duplicate value")
-              .parent(getHead(repo.getRepository(), RefNames.REFS_CONFIG))
-              .add(ProjectConfig.PROJECT_CONFIG, cfg.toText()));
-    }
+    projectOperations
+        .project(allProjects)
+        .forInvalidation()
+        .addProjectConfigUpdater(
+            cfg ->
+                cfg.setStringList(
+                    "label",
+                    "Code-Review",
+                    "value",
+                    ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad")))
+        .invalidate();
 
     // Verify that project info can be retrieved and that the label value "+1 LGTM" appears only
     // once.
@@ -905,6 +896,24 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(projectInfo.labels.keySet()).containsExactly("Code-Review");
     assertThat(projectInfo.labels.get("Code-Review").values)
         .containsExactly("+1", "LGTM", " 0", "No Value", "-1", "Looks Bad");
+  }
+
+  @Test
+  public void getProjectThatHasInvalidProjectConfig() throws Exception {
+    // Make the project config invalid by adding permission entry with an invalid permission name.
+    projectOperations
+        .project(allProjects)
+        .forInvalidation()
+        .addProjectConfigUpdater(
+            cfg ->
+                cfg.setString(
+                    "access", "refs/*", "Invalid Permission Name", "group Administrators"))
+        .invalidate();
+
+    // We must test this via the REST API since ExceptionHook is not invoked from the Java API.
+    RestResponse r = adminRestSession.get("/projects/" + allProjects.get());
+    r.assertConflict();
+    assertThat(r.getEntityContent()).contains("Invalid project.config file");
   }
 
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {

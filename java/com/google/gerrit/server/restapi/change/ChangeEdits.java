@@ -301,6 +301,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     public Response<?> apply(ChangeResource rsrc, String path, FileContentInput input)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
+      if (input.content == null) {
+        throw new BadRequestException("new content required");
+      }
+
       if (Patch.COMMIT_MSG.equals(path)) {
         EditMessage.Input editCommitMessageInput = new EditMessage.Input();
         editCommitMessageInput.message =
@@ -309,10 +313,6 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       }
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
-      }
-
-      if (input.content == null) {
-        throw new BadRequestException("new content required");
       }
 
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {

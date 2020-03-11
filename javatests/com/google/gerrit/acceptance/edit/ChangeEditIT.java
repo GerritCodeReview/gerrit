@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -306,6 +307,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .modifyFile(Patch.COMMIT_MSG, RawInputUtil.create("Foo Bar".getBytes(UTF_8)));
     assertThat(getEdit(changeId)).isPresent();
     ensureSameBytes(getFileContentOfEdit(changeId, Patch.COMMIT_MSG), "Foo Bar\n".getBytes(UTF_8));
+  }
+
+  @Test
+  public void updateCommitMessageByEditingMagicCommitMsgFileWithoutContent() throws Exception {
+    createEmptyEditFor(changeId);
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).edit().modifyFile(Patch.COMMIT_MSG, (RawInput) null));
+    assertThat(ex).hasMessageThat().isEqualTo("new content required");
   }
 
   @Test

@@ -298,7 +298,7 @@ public class ProjectResetter implements AutoCloseable {
   }
 
   /** Evict projects for which the config was changed. */
-  private void evictAndReindexProjects() throws IOException {
+  private void evictAndReindexProjects() {
     if (projectCache == null) {
       return;
     }

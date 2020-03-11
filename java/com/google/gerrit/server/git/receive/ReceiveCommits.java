@@ -3060,12 +3060,7 @@ class ReceiveCommits {
       }
       if (isConfig(cmd)) {
         logger.atFine().log("Reloading project in cache");
-        try {
-          projectCache.evict(project);
-        } catch (IOException e) {
-          logger.atWarning().withCause(e).log(
-              "Cannot evict from project cache, name key: %s", project.getName());
-        }
+        projectCache.evict(project);
         ProjectState ps = projectCache.get(project.getNameKey());
         try {
           logger.atFine().log("Updating project description");

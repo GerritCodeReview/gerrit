@@ -1,54 +1,22 @@
-<!--
-@license
-Copyright (C) 2019 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-<script src="/bower_components/moment/moment.js"></script>
-<script src="../scripts/util.js"></script>
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../styles/shared-styles.html">
-<link rel="import" href="../styles/themes/app-theme.html">
-<link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
-<link rel="import" href="./documentation/gr-documentation-search/gr-documentation-search.html">
-<link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
-<link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
-<link rel="import" href="./change/gr-change-view/gr-change-view.html">
-<link rel="import" href="./core/gr-error-manager/gr-error-manager.html">
-<link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
-<link rel="import" href="./core/gr-main-header/gr-main-header.html">
-<link rel="import" href="./core/gr-navigation/gr-navigation.html">
-<link rel="import" href="./core/gr-reporting/gr-reporting.html">
-<link rel="import" href="./core/gr-router/gr-router.html">
-<link rel="import" href="./core/gr-smart-search/gr-smart-search.html">
-<link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
-<link rel="import" href="./edit/gr-editor-view/gr-editor-view.html">
-<link rel="import" href="./plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="./plugins/gr-endpoint-param/gr-endpoint-param.html">
-<link rel="import" href="./plugins/gr-external-style/gr-external-style.html">
-<link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
-<link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
-<link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
-<link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
-<link rel="import" href="./shared/gr-fixed-panel/gr-fixed-panel.html">
-<link rel="import" href="./shared/gr-lib-loader/gr-lib-loader.html">
-<link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
-<dom-module id="gr-app-element">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         background-color: var(--background-color-tertiary);
@@ -126,56 +94,33 @@ limitations under the License.
     </style>
     <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
     <gr-fixed-panel id="header">
-      <gr-main-header
-          id="mainHeader"
-          search-query="{{params.query}}"
-          on-mobile-search="_mobileSearchToggle"
-          login-url="[[_loginUrl]]"
-      >
+      <gr-main-header id="mainHeader" search-query="{{params.query}}" on-mobile-search="_mobileSearchToggle" login-url="[[_loginUrl]]">
       </gr-main-header>
     </gr-fixed-panel>
     <main>
-      <gr-smart-search
-          id="search"
-          search-query="{{params.query}}"
-          hidden="[[!mobileSearch]]">
+      <gr-smart-search id="search" search-query="{{params.query}}" hidden="[[!mobileSearch]]">
       </gr-smart-search>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
-        <gr-change-list-view
-            params="[[params]]"
-            account="[[_account]]"
-            view-state="{{_viewState.changeListView}}"></gr-change-list-view>
+        <gr-change-list-view params="[[params]]" account="[[_account]]" view-state="{{_viewState.changeListView}}"></gr-change-list-view>
       </template>
       <template is="dom-if" if="[[_showDashboardView]]" restamp="true">
-        <gr-dashboard-view
-            account="[[_account]]"
-            params="[[params]]"
-            view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
+        <gr-dashboard-view account="[[_account]]" params="[[params]]" view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
       </template>
       <template is="dom-if" if="[[_showChangeView]]" restamp="true">
-        <gr-change-view
-            params="[[params]]"
-            view-state="{{_viewState.changeView}}"
-            back-page="[[_lastSearchPage]]"></gr-change-view>
+        <gr-change-view params="[[params]]" view-state="{{_viewState.changeView}}" back-page="[[_lastSearchPage]]"></gr-change-view>
       </template>
       <template is="dom-if" if="[[_showEditorView]]" restamp="true">
-        <gr-editor-view
-            params="[[params]]"></gr-editor-view>
+        <gr-editor-view params="[[params]]"></gr-editor-view>
       </template>
       <template is="dom-if" if="[[_showDiffView]]" restamp="true">
-          <gr-diff-view
-              params="[[params]]"
-              change-view-state="{{_viewState.changeView}}"></gr-diff-view>
+          <gr-diff-view params="[[params]]" change-view-state="{{_viewState.changeView}}"></gr-diff-view>
         </template>
       <template is="dom-if" if="[[_showSettingsView]]" restamp="true">
-        <gr-settings-view
-            params="[[params]]"
-            on-account-detail-update="_handleAccountDetailUpdate">
+        <gr-settings-view params="[[params]]" on-account-detail-update="_handleAccountDetailUpdate">
         </gr-settings-view>
       </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
-        <gr-admin-view path="[[_path]]"
-            params=[[params]]></gr-admin-view>
+        <gr-admin-view path="[[_path]]" params="[[params]]"></gr-admin-view>
       </template>
       <template is="dom-if" if="[[_showPluginScreen]]" restamp="true">
         <gr-endpoint-decorator name="[[_pluginScreenName]]">
@@ -186,8 +131,7 @@ limitations under the License.
         <gr-cla-view></gr-cla-view>
       </template>
       <template is="dom-if" if="[[_showDocumentationSearch]]" restamp="true">
-        <gr-documentation-search
-            params="[[params]]">
+        <gr-documentation-search params="[[params]]">
         </gr-documentation-search>
       </template>
       <div id="errorView" class="errorView">
@@ -198,32 +142,23 @@ limitations under the License.
     </main>
     <footer r="contentinfo">
       <div>
-        Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
-        target="_blank">Gerrit Code Review</a>
+        Powered by <a href="https://www.gerritcodereview.com/" rel="noopener" target="_blank">Gerrit Code Review</a>
         ([[_version]])
         <gr-endpoint-decorator name="footer-left"></gr-endpoint-decorator>
       </div>
       <div>
         <template is="dom-if" if="[[_feedbackUrl]]">
-          <a class="feedback"
-              href$="[[_feedbackUrl]]"
-              rel="noopener"
-              target="_blank">Report bug</a> |
+          <a class="feedback" href\$="[[_feedbackUrl]]" rel="noopener" target="_blank">Report bug</a> |
         </template>
-        Press &ldquo;?&rdquo; for keyboard shortcuts
+        Press “?” for keyboard shortcuts
         <gr-endpoint-decorator name="footer-right"></gr-endpoint-decorator>
       </div>
     </footer>
-    <gr-overlay id="keyboardShortcuts" with-backdrop>
-      <gr-keyboard-shortcuts-dialog
-          on-close="_handleKeyboardShortcutDialogClose"></gr-keyboard-shortcuts-dialog>
+    <gr-overlay id="keyboardShortcuts" with-backdrop="">
+      <gr-keyboard-shortcuts-dialog on-close="_handleKeyboardShortcutDialogClose"></gr-keyboard-shortcuts-dialog>
     </gr-overlay>
-    <gr-overlay id="registrationOverlay" with-backdrop>
-      <gr-registration-dialog
-          id="registrationDialog"
-          settings-url="[[_settingsUrl]]"
-          on-account-detail-update="_handleAccountDetailUpdate"
-          on-close="_handleRegistrationDialogClose">
+    <gr-overlay id="registrationOverlay" with-backdrop="">
+      <gr-registration-dialog id="registrationDialog" settings-url="[[_settingsUrl]]" on-account-detail-update="_handleAccountDetailUpdate" on-close="_handleRegistrationDialogClose">
       </gr-registration-dialog>
     </gr-overlay>
     <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
@@ -231,12 +166,9 @@ limitations under the License.
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>
     <gr-router id="router"></gr-router>
-    <gr-plugin-host id="plugins"
-        config="[[_serverConfig]]">
+    <gr-plugin-host id="plugins" config="[[_serverConfig]]">
     </gr-plugin-host>
     <gr-lib-loader id="libLoader"></gr-lib-loader>
     <gr-external-style id="externalStyleForAll" name="app-theme"></gr-external-style>
     <gr-external-style id="externalStyleForTheme" name="[[getThemeEndpoint()]]"></gr-external-style>
-  </template>
-  <script src="gr-app-element.js" crossorigin="anonymous"></script>
-</dom-module>
+`;

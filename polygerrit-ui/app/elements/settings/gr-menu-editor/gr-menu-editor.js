@@ -14,68 +14,80 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrMenuEditor extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-menu-editor'; }
+import '@polymer/iron-input/iron-input.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-date-formatter/gr-date-formatter.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../../styles/shared-styles.js';
+import '../../../styles/gr-form-styles.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-menu-editor_html.js';
 
-    static get properties() {
-      return {
-        menuItems: Array,
-        _newName: String,
-        _newUrl: String,
-      };
-    }
+/** @extends Polymer.Element */
+class GrMenuEditor extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-    _handleMoveUpButton(e) {
-      const index = Number(Polymer.dom(e).localTarget.dataset.index);
-      if (index === 0) { return; }
-      const row = this.menuItems[index];
-      const prev = this.menuItems[index - 1];
-      this.splice('menuItems', index - 1, 2, row, prev);
-    }
+  static get is() { return 'gr-menu-editor'; }
 
-    _handleMoveDownButton(e) {
-      const index = Number(Polymer.dom(e).localTarget.dataset.index);
-      if (index === this.menuItems.length - 1) { return; }
-      const row = this.menuItems[index];
-      const next = this.menuItems[index + 1];
-      this.splice('menuItems', index, 2, next, row);
-    }
-
-    _handleDeleteButton(e) {
-      const index = Number(Polymer.dom(e).localTarget.dataset.index);
-      this.splice('menuItems', index, 1);
-    }
-
-    _handleAddButton() {
-      if (this._computeAddDisabled(this._newName, this._newUrl)) { return; }
-
-      this.splice('menuItems', this.menuItems.length, 0, {
-        name: this._newName,
-        url: this._newUrl,
-        target: '_blank',
-      });
-
-      this._newName = '';
-      this._newUrl = '';
-    }
-
-    _computeAddDisabled(newName, newUrl) {
-      return !newName.length || !newUrl.length;
-    }
-
-    _handleInputKeydown(e) {
-      if (e.keyCode === 13) {
-        e.stopPropagation();
-        this._handleAddButton();
-      }
-    }
+  static get properties() {
+    return {
+      menuItems: Array,
+      _newName: String,
+      _newUrl: String,
+    };
   }
 
-  customElements.define(GrMenuEditor.is, GrMenuEditor);
-})();
+  _handleMoveUpButton(e) {
+    const index = Number(dom(e).localTarget.dataset.index);
+    if (index === 0) { return; }
+    const row = this.menuItems[index];
+    const prev = this.menuItems[index - 1];
+    this.splice('menuItems', index - 1, 2, row, prev);
+  }
+
+  _handleMoveDownButton(e) {
+    const index = Number(dom(e).localTarget.dataset.index);
+    if (index === this.menuItems.length - 1) { return; }
+    const row = this.menuItems[index];
+    const next = this.menuItems[index + 1];
+    this.splice('menuItems', index, 2, next, row);
+  }
+
+  _handleDeleteButton(e) {
+    const index = Number(dom(e).localTarget.dataset.index);
+    this.splice('menuItems', index, 1);
+  }
+
+  _handleAddButton() {
+    if (this._computeAddDisabled(this._newName, this._newUrl)) { return; }
+
+    this.splice('menuItems', this.menuItems.length, 0, {
+      name: this._newName,
+      url: this._newUrl,
+      target: '_blank',
+    });
+
+    this._newName = '';
+    this._newUrl = '';
+  }
+
+  _computeAddDisabled(newName, newUrl) {
+    return !newName.length || !newUrl.length;
+  }
+
+  _handleInputKeydown(e) {
+    if (e.keyCode === 13) {
+      e.stopPropagation();
+      this._handleAddButton();
+    }
+  }
+}
+
+customElements.define(GrMenuEditor.is, GrMenuEditor);

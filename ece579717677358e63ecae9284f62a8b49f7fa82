@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "99929764_9d83a405",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-03-11T14:26:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "baa3d203_a7926e49",
+      "revId": "ece579717677358e63ecae9284f62a8b49f7fa82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facffe57_4e250472",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2020-03-11T08:53:40Z",
       "side": 1,
       "message": "It\u0027s unlikely this ever happen, so why we are not moving forward to do it the other way around: We remove in all places named logger and force using enlcosing class name as logger name, using FluentLogger.forEnclosingClass() method.",
+      "range": {
+        "startLine": 15,
+        "startChar": 9,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "ece579717677358e63ecae9284f62a8b49f7fa82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f30efc99_b8813c78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-03-11T14:26:45Z",
+      "side": 1,
+      "message": "tempting ;) but it would require all those places to be adopted by all tools that rely on having this log named like it is now... can\u0027t see much problem with this solution as we could migrate internally to whatever solution gets proposed/or better is accepted by flogger",
+      "parentUuid": "facffe57_4e250472",
       "range": {
         "startLine": 15,
         "startChar": 9,
@@ -62,6 +104,30 @@
       "revId": "ece579717677358e63ecae9284f62a8b49f7fa82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67c1792d_39fe4deb",
+        "filename": "java/com/google/gerrit/server/util/NamedFluentLogger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-03-11T14:26:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "69f268f2_43833f46",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "ece579717677358e63ecae9284f62a8b49f7fa82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

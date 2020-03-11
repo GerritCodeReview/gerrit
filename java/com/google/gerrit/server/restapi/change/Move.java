@@ -27,7 +27,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
@@ -67,8 +66,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -256,7 +253,6 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     private void updateApprovals(
         ChangeContext ctx, ChangeUpdate update, PatchSet.Id psId, Project.NameKey project)
         throws IOException {
-      List<PatchSetApproval> approvals = new ArrayList<>();
       for (PatchSetApproval psa :
           approvalsUtil.byPatchSet(
               ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
@@ -271,12 +267,6 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
 
         // Remove votes from NoteDb.
         update.removeApprovalFor(psa.accountId(), psa.label());
-        approvals.add(
-            PatchSetApproval.builder()
-                .key(PatchSetApproval.key(psId, psa.accountId(), LabelId.create(psa.label())))
-                .value(0)
-                .granted(ctx.getWhen())
-                .build());
       }
     }
   }

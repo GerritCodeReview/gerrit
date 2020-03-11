@@ -22,6 +22,30 @@
       "revId": "dbb407385c463f521dda53755a3c2baf8b592300",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6ab9e27_6b35f84b",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-11T01:18:58Z",
+      "side": 1,
+      "message": "I realised it was already broken in the base version, so I\u0027ve split the fix out to a separate commit so it can be backported to a stable branch.",
+      "parentUuid": "fd4a8986_46eb3ad1",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 8
+      },
+      "revId": "dbb407385c463f521dda53755a3c2baf8b592300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

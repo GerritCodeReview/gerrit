@@ -111,8 +111,9 @@ limitations under the License.
       const labelsChangedHandler = sandbox.stub();
       element.addEventListener('labels-changed', labelsChangedHandler);
       assert.ok(element.$.labelSelector);
-      MockInteractions.tap(element.$$(
-          'gr-button[data-value="-1"]'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector(
+              'gr-button[data-value="-1"]'));
       flushAsynchronousOperations();
       assert.strictEqual(element.selectedValue, '-1');
       assert.strictEqual(element.selectedItem
@@ -168,8 +169,9 @@ limitations under the License.
     });
 
     test('do not display tooltips on touch devices', () => {
-      const verifiedBtn = element.$$(
-          'iron-selector > gr-button[data-value="-1"]');
+      const verifiedBtn = element.shadowRoot
+          .querySelector(
+              'iron-selector > gr-button[data-value="-1"]');
 
       // On touch devices, tooltips should not be shown.
       verifiedBtn._isTouchDevice = true;

@@ -201,7 +201,8 @@ limitations under the License.
 
       test('hide revision action', done => {
         flush(() => {
-          const buttonEl = element.$$('[data-action-key="submit"]');
+          const buttonEl = element.shadowRoot
+              .querySelector('[data-action-key="submit"]');
           assert.isOk(buttonEl);
           assert.throws(element.setActionHidden.bind(element, 'invalid type'));
           element.setActionHidden(element.ActionType.REVISION,
@@ -211,13 +212,15 @@ limitations under the License.
               element.RevisionActions.SUBMIT, true);
           assert.lengthOf(element._hiddenActions, 1);
           flush(() => {
-            const buttonEl = element.$$('[data-action-key="submit"]');
+            const buttonEl = element.shadowRoot
+                .querySelector('[data-action-key="submit"]');
             assert.isNotOk(buttonEl);
 
             element.setActionHidden(element.ActionType.REVISION,
                 element.RevisionActions.SUBMIT, false);
             flush(() => {
-              const buttonEl = element.$$('[data-action-key="submit"]');
+              const buttonEl = element.shadowRoot
+                  .querySelector('[data-action-key="submit"]');
               assert.isOk(buttonEl);
               assert.isFalse(buttonEl.hasAttribute('hidden'));
               done();
@@ -294,7 +297,8 @@ limitations under the License.
         };
         element.latestPatchNum = '2';
 
-        const submitButton = element.$$('gr-button[data-action-key="submit"]');
+        const submitButton = element.shadowRoot
+            .querySelector('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);
         MockInteractions.tap(submitButton);
 
@@ -318,7 +322,8 @@ limitations under the License.
         element.latestPatchNum = '2';
 
         const submitIcon =
-            element.$$('gr-button[data-action-key="submit"] iron-icon');
+            element.shadowRoot
+                .querySelector('gr-button[data-action-key="submit"] iron-icon');
         assert.ok(submitIcon);
         MockInteractions.tap(submitIcon);
       });
@@ -344,7 +349,8 @@ limitations under the License.
             () => false);
         const fireActionStub = sandbox.stub(element, '_fireAction');
         flush(() => {
-          const submitButton = element.$$('gr-button[data-action-key="submit"]');
+          const submitButton = element.shadowRoot
+              .querySelector('gr-button[data-action-key="submit"]');
           assert.ok(submitButton);
           MockInteractions.tap(submitButton);
           assert.equal(fireActionStub.callCount, 0);
@@ -386,7 +392,8 @@ limitations under the License.
             'fetchRecentChanges').returns(Promise.resolve([]));
         element._hasKnownChainState = true;
         flush(() => {
-          const rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+          const rebaseButton = element.shadowRoot
+              .querySelector('gr-button[data-action-key="rebase"]');
           MockInteractions.tap(rebaseButton);
           const rebaseAction = {
             __key: 'rebase',
@@ -410,7 +417,8 @@ limitations under the License.
         const fetchChangesStub = sandbox.stub(element.$.confirmRebase,
             'fetchRecentChanges').returns(Promise.resolve([]));
         element._hasKnownChainState = true;
-        const rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+        const rebaseButton = element.shadowRoot
+            .querySelector('gr-button[data-action-key="rebase"]');
         MockInteractions.tap(rebaseButton);
         assert.isTrue(fetchChangesStub.calledOnce);
 
@@ -425,7 +433,8 @@ limitations under the License.
       test('two dialogs are not shown at the same time', done => {
         element._hasKnownChainState = true;
         flush(() => {
-          const rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+          const rebaseButton = element.shadowRoot
+              .querySelector('gr-button[data-action-key="rebase"]');
           assert.ok(rebaseButton);
           MockInteractions.tap(rebaseButton);
           flushAsynchronousOperations();
@@ -474,11 +483,16 @@ limitations under the License.
           element.set('disableEdit', true);
           flushAsynchronousOperations();
 
-          assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="stopEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="publishEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="rebaseEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="deleteEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="edit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="stopEdit"]'));
         });
 
         test('shows confirm dialog for delete edit', () => {
@@ -491,7 +505,8 @@ limitations under the License.
           MockInteractions.tap(
               element.shadowRoot
                   .querySelector('#confirmDeleteEditDialog')
-                  .$$('gr-button[primary]'));
+                  .shadowRoot
+                  .querySelector('gr-button[primary]'));
           flushAsynchronousOperations();
 
           assert.equal(fireActionStub.lastCall.args[0], '/edit');
@@ -503,10 +518,14 @@ limitations under the License.
           element.change = {status: 'MERGED'};
           flushAsynchronousOperations();
 
-          assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
-          assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="publishEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="rebaseEdit"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="deleteEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="edit"]'));
         });
 
         test('edit patchset is loaded, needs rebase', () => {
@@ -516,11 +535,16 @@ limitations under the License.
           element.editBasedOnCurrentPatchSet = false;
           flushAsynchronousOperations();
 
-          assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
-          assert.isOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
-          assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="stopEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="publishEdit"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="rebaseEdit"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="deleteEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="edit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="stopEdit"]'));
         });
 
         test('edit patchset is loaded, does not need rebase', () => {
@@ -530,11 +554,16 @@ limitations under the License.
           element.editBasedOnCurrentPatchSet = true;
           flushAsynchronousOperations();
 
-          assert.isOk(element.$$('gr-button[data-action-key="publishEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
-          assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="stopEdit"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="publishEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="rebaseEdit"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="deleteEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="edit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="stopEdit"]'));
         });
 
         test('edit mode is loaded, no edit patchset', () => {
@@ -543,11 +572,16 @@ limitations under the License.
           element.change = {status: 'NEW'};
           flushAsynchronousOperations();
 
-          assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
-          assert.isOk(element.$$('gr-button[data-action-key="stopEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="publishEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="rebaseEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="deleteEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="edit"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="stopEdit"]'));
         });
 
         test('normal patch set', () => {
@@ -556,11 +590,16 @@ limitations under the License.
           element.change = {status: 'NEW'};
           flushAsynchronousOperations();
 
-          assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
-          assert.isOk(element.$$('gr-button[data-action-key="edit"]'));
-          assert.isNotOk(element.$$('gr-button[data-action-key="stopEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="publishEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="rebaseEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="deleteEdit"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="edit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="stopEdit"]'));
         });
 
         test('edit action', done => {
@@ -569,17 +608,21 @@ limitations under the License.
           element.change = {status: 'NEW'};
           flushAsynchronousOperations();
 
-          assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
-          assert.isOk(element.$$('gr-button[data-action-key="stopEdit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="edit"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="stopEdit"]'));
           element.change = {status: 'MERGED'};
           flushAsynchronousOperations();
 
-          assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('gr-button[data-action-key="edit"]'));
           element.change = {status: 'NEW'};
           element.set('editMode', false);
           flushAsynchronousOperations();
 
-          const editButton = element.$$('gr-button[data-action-key="edit"]');
+          const editButton = element.shadowRoot
+              .querySelector('gr-button[data-action-key="edit"]');
           assert.isOk(editButton);
           MockInteractions.tap(editButton);
         });
@@ -708,12 +751,14 @@ limitations under the License.
           assert.equal(e.detail.node.getAttribute('data-action-key'), key);
           element.removeActionButton(key);
           flush(() => {
-            assert.notOk(element.$$('[data-action-key="' + key + '"]'));
+            assert.notOk(element.shadowRoot
+                .querySelector('[data-action-key="' + key + '"]'));
             done();
           });
         });
         flush(() => {
-          MockInteractions.tap(element.$$('[data-action-key="' + key + '"]'));
+          MockInteractions.tap(element.shadowRoot
+              .querySelector('[data-action-key="' + key + '"]'));
         });
       });
 
@@ -723,7 +768,8 @@ limitations under the License.
         const cleanup = element._setLoadingOnButtonWithKey(type, key);
         assert.equal(element._actionLoadingMessage, 'Rebasing...');
 
-        const button = element.$$('[data-action-key="' + key + '"]');
+        const button = element.shadowRoot
+            .querySelector('[data-action-key="' + key + '"]');
         assert.isTrue(button.hasAttribute('loading'));
         assert.isTrue(button.disabled);
 
@@ -773,7 +819,8 @@ limitations under the License.
           element.$.confirmAbandonDialog.message = newAbandonMsg;
           flush(() => {
             const abandonButton =
-                element.$$('gr-button[data-action-key="abandon"]');
+                element.shadowRoot
+                    .querySelector('gr-button[data-action-key="abandon"]');
             MockInteractions.tap(abandonButton);
 
             assert.equal(element.$.confirmAbandonDialog.message, newAbandonMsg);
@@ -784,7 +831,8 @@ limitations under the License.
         test('abandon change with no message', done => {
           flush(() => {
             const abandonButton =
-                element.$$('gr-button[data-action-key="abandon"]');
+                element.shadowRoot
+                    .querySelector('gr-button[data-action-key="abandon"]');
             MockInteractions.tap(abandonButton);
 
             assert.isUndefined(element.$.confirmAbandonDialog.message);
@@ -795,7 +843,8 @@ limitations under the License.
         test('works', () => {
           element.$.confirmAbandonDialog.message = 'original message';
           const restoreButton =
-              element.$$('gr-button[data-action-key="abandon"]');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key="abandon"]');
           MockInteractions.tap(restoreButton);
 
           element.$.confirmAbandonDialog.message = 'foo message';
@@ -1059,7 +1108,8 @@ limitations under the License.
         test('make sure the mark private change button is not outside of the ' +
              'overflow menu', done => {
           flush(() => {
-            assert.isNotOk(element.$$('[data-action-key="private"]'));
+            assert.isNotOk(element.shadowRoot
+                .querySelector('[data-action-key="private"]'));
             done();
           });
         });
@@ -1067,12 +1117,15 @@ limitations under the License.
         test('private change', done => {
           flush(() => {
             assert.isOk(
-                element.$.moreActions.$$('span[data-id="private-change"]'));
+                element.$.moreActions.shadowRoot
+                    .querySelector('span[data-id="private-change"]'));
             element.setActionOverflow('change', 'private', false);
             flushAsynchronousOperations();
-            assert.isOk(element.$$('[data-action-key="private"]'));
+            assert.isOk(element.shadowRoot
+                .querySelector('[data-action-key="private"]'));
             assert.isNotOk(
-                element.$.moreActions.$$('span[data-id="private-change"]'));
+                element.$.moreActions.shadowRoot
+                    .querySelector('span[data-id="private-change"]'));
             done();
           });
         });
@@ -1105,7 +1158,8 @@ limitations under the License.
         test('make sure the unmark private change button is not outside of the ' +
              'overflow menu', done => {
           flush(() => {
-            assert.isNotOk(element.$$('[data-action-key="private.delete"]'));
+            assert.isNotOk(element.shadowRoot
+                .querySelector('[data-action-key="private.delete"]'));
             done();
           });
         });
@@ -1113,13 +1167,16 @@ limitations under the License.
         test('unmark the private change', done => {
           flush(() => {
             assert.isOk(
-                element.$.moreActions.$$('span[data-id="private.delete-change"]')
+                element.$.moreActions.shadowRoot
+                    .querySelector('span[data-id="private.delete-change"]')
             );
             element.setActionOverflow('change', 'private.delete', false);
             flushAsynchronousOperations();
-            assert.isOk(element.$$('[data-action-key="private.delete"]'));
+            assert.isOk(element.shadowRoot
+                .querySelector('[data-action-key="private.delete"]'));
             assert.isNotOk(
-                element.$.moreActions.$$('span[data-id="private.delete-change"]')
+                element.$.moreActions.shadowRoot
+                    .querySelector('span[data-id="private.delete-change"]')
             );
             done();
           });
@@ -1158,7 +1215,8 @@ limitations under the License.
           MockInteractions.tap(
               element.shadowRoot
                   .querySelector('#confirmDeleteDialog')
-                  .$$('gr-button[primary]'));
+                  .shadowRoot
+                  .querySelector('gr-button[primary]'));
           flushAsynchronousOperations();
           assert.isTrue(fireActionStub.calledWith('/', deleteAction, false));
         });
@@ -1168,7 +1226,8 @@ limitations under the License.
           MockInteractions.tap(
               element.shadowRoot
                   .querySelector('#confirmDeleteDialog')
-                  .$$('gr-button:not([primary])'));
+                  .shadowRoot
+                  .querySelector('gr-button:not([primary])'));
           flushAsynchronousOperations();
           assert.isTrue(element.shadowRoot
               .querySelector('#confirmDeleteDialog').hidden);
@@ -1202,16 +1261,20 @@ limitations under the License.
 
         test('make sure the ignore button is not outside of the overflow menu',
             () => {
-              assert.isNotOk(element.$$('[data-action-key="ignore"]'));
+              assert.isNotOk(element.shadowRoot
+                  .querySelector('[data-action-key="ignore"]'));
             });
 
         test('ignoring change', () => {
-          assert.isOk(element.$.moreActions.$$('span[data-id="ignore-change"]'));
+          assert.isOk(element.$.moreActions.shadowRoot
+              .querySelector('span[data-id="ignore-change"]'));
           element.setActionOverflow('change', 'ignore', false);
           flushAsynchronousOperations();
-          assert.isOk(element.$$('[data-action-key="ignore"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('[data-action-key="ignore"]'));
           assert.isNotOk(
-              element.$.moreActions.$$('span[data-id="ignore-change"]'));
+              element.$.moreActions.shadowRoot
+                  .querySelector('span[data-id="ignore-change"]'));
         });
       });
 
@@ -1240,17 +1303,21 @@ limitations under the License.
         });
 
         test('unignore button is not outside of the overflow menu', () => {
-          assert.isNotOk(element.$$('[data-action-key="unignore"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('[data-action-key="unignore"]'));
         });
 
         test('unignoring change', () => {
           assert.isOk(
-              element.$.moreActions.$$('span[data-id="unignore-change"]'));
+              element.$.moreActions.shadowRoot
+                  .querySelector('span[data-id="unignore-change"]'));
           element.setActionOverflow('change', 'unignore', false);
           flushAsynchronousOperations();
-          assert.isOk(element.$$('[data-action-key="unignore"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('[data-action-key="unignore"]'));
           assert.isNotOk(
-              element.$.moreActions.$$('span[data-id="unignore-change"]'));
+              element.$.moreActions.shadowRoot
+                  .querySelector('span[data-id="unignore-change"]'));
         });
       });
 
@@ -1280,17 +1347,21 @@ limitations under the License.
 
         test('make sure the reviewed button is not outside of the overflow menu',
             () => {
-              assert.isNotOk(element.$$('[data-action-key="reviewed"]'));
+              assert.isNotOk(element.shadowRoot
+                  .querySelector('[data-action-key="reviewed"]'));
             });
 
         test('reviewing change', () => {
           assert.isOk(
-              element.$.moreActions.$$('span[data-id="reviewed-change"]'));
+              element.$.moreActions.shadowRoot
+                  .querySelector('span[data-id="reviewed-change"]'));
           element.setActionOverflow('change', 'reviewed', false);
           flushAsynchronousOperations();
-          assert.isOk(element.$$('[data-action-key="reviewed"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('[data-action-key="reviewed"]'));
           assert.isNotOk(
-              element.$.moreActions.$$('span[data-id="reviewed-change"]'));
+              element.$.moreActions.shadowRoot
+                  .querySelector('span[data-id="reviewed-change"]'));
         });
       });
 
@@ -1319,17 +1390,21 @@ limitations under the License.
         });
 
         test('unreviewed button not outside of the overflow menu', () => {
-          assert.isNotOk(element.$$('[data-action-key="unreviewed"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('[data-action-key="unreviewed"]'));
         });
 
         test('unreviewed change', () => {
           assert.isOk(
-              element.$.moreActions.$$('span[data-id="unreviewed-change"]'));
+              element.$.moreActions.shadowRoot
+                  .querySelector('span[data-id="unreviewed-change"]'));
           element.setActionOverflow('change', 'unreviewed', false);
           flushAsynchronousOperations();
-          assert.isOk(element.$$('[data-action-key="unreviewed"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('[data-action-key="unreviewed"]'));
           assert.isNotOk(
-              element.$.moreActions.$$('span[data-id="unreviewed-change"]'));
+              element.$.moreActions.shadowRoot
+                  .querySelector('span[data-id="unreviewed-change"]'));
         });
       });
 
@@ -1358,13 +1433,15 @@ limitations under the License.
 
         test('added when can approve', () => {
           const approveButton =
-              element.$$('gr-button[data-action-key=\'review\']');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
           assert.isNotNull(approveButton);
         });
 
         test('hide quick approve', () => {
           const approveButton =
-              element.$$('gr-button[data-action-key=\'review\']');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
           assert.isNotNull(approveButton);
           assert.isFalse(element._hideQuickApproveAction);
 
@@ -1372,7 +1449,8 @@ limitations under the License.
           element.hideQuickApproveAction();
           flushAsynchronousOperations();
           const approveButtonUpdated =
-              element.$$('gr-button[data-action-key=\'review\']');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
           assert.isNull(approveButtonUpdated);
           assert.isTrue(element._hideQuickApproveAction);
         });
@@ -1398,7 +1476,8 @@ limitations under the License.
           };
           flushAsynchronousOperations();
           const approveButton =
-              element.$$('gr-button[data-action-key=\'review\']');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
           assert.isNull(approveButton);
         });
 
@@ -1414,14 +1493,16 @@ limitations under the License.
           };
           flushAsynchronousOperations();
           const approveButton =
-              element.$$('gr-button[data-action-key=\'review\']');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
           assert.isNull(approveButton);
         });
 
         test('approves when tapped', () => {
           const fireActionStub = sandbox.stub(element, '_fireAction');
           MockInteractions.tap(
-              element.$$('gr-button[data-action-key=\'review\']'));
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']'));
           flushAsynchronousOperations();
           assert.isTrue(fireActionStub.called);
           assert.isTrue(fireActionStub.calledWith('/review'));
@@ -1443,7 +1524,8 @@ limitations under the License.
           };
           flushAsynchronousOperations();
           const approveButton =
-              element.$$('gr-button[data-action-key=\'review\']');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
           assert.isNull(approveButton);
         });
 
@@ -1466,7 +1548,8 @@ limitations under the License.
           };
           flushAsynchronousOperations();
           const approveButton =
-              element.$$('gr-button[data-action-key=\'review\']');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
           assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
         });
 
@@ -1489,7 +1572,8 @@ limitations under the License.
           };
           flushAsynchronousOperations();
           const approveButton =
-              element.$$('gr-button[data-action-key=\'review\']');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
           assert.isNull(approveButton);
         });
 
@@ -1512,7 +1596,8 @@ limitations under the License.
           };
           flushAsynchronousOperations();
           const approveButton =
-              element.$$('gr-button[data-action-key=\'review\']');
+              element.shadowRoot
+                  .querySelector('gr-button[data-action-key=\'review\']');
           assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
         });
       });
@@ -1545,21 +1630,25 @@ limitations under the License.
 
       suite('setActionOverflow', () => {
         test('move action from overflow', () => {
-          assert.isNotOk(element.$$('[data-action-key="cherrypick"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('[data-action-key="cherrypick"]'));
           assert.strictEqual(
               element.$.moreActions.items[0].id, 'cherrypick-revision');
           element.setActionOverflow('revision', 'cherrypick', false);
           flushAsynchronousOperations();
-          assert.isOk(element.$$('[data-action-key="cherrypick"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('[data-action-key="cherrypick"]'));
           assert.notEqual(
               element.$.moreActions.items[0].id, 'cherrypick-revision');
         });
 
         test('move action to overflow', () => {
-          assert.isOk(element.$$('[data-action-key="submit"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('[data-action-key="submit"]'));
           element.setActionOverflow('revision', 'submit', true);
           flushAsynchronousOperations();
-          assert.isNotOk(element.$$('[data-action-key="submit"]'));
+          assert.isNotOk(element.shadowRoot
+              .querySelector('[data-action-key="submit"]'));
           assert.strictEqual(
               element.$.moreActions.items[3].id, 'submit-revision');
         });

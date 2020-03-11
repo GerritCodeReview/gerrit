@@ -79,24 +79,30 @@ limitations under the License.
       });
 
       test('focusOnCopy', () => {
-        const focusStub = sandbox.stub(element.$$('gr-shell-command'),
-            'focusOnCopy');
+        const focusStub = sandbox.stub(element.shadowRoot
+            .querySelector('gr-shell-command'),
+        'focusOnCopy');
         element.focusOnCopy();
         assert.isTrue(focusStub.called);
       });
 
       test('element visibility', () => {
-        assert.isFalse(isHidden(element.$$('paper-tabs')));
-        assert.isFalse(isHidden(element.$$('.commands')));
+        assert.isFalse(isHidden(element.shadowRoot
+            .querySelector('paper-tabs')));
+        assert.isFalse(isHidden(element.shadowRoot
+            .querySelector('.commands')));
 
         element.schemes = [];
-        assert.isTrue(isHidden(element.$$('paper-tabs')));
-        assert.isTrue(isHidden(element.$$('.commands')));
+        assert.isTrue(isHidden(element.shadowRoot
+            .querySelector('paper-tabs')));
+        assert.isTrue(isHidden(element.shadowRoot
+            .querySelector('.commands')));
       });
 
       test('tab selection', done => {
         assert.equal(element.$.downloadTabs.selected, '0');
-        MockInteractions.tap(element.$$('[data-scheme="ssh"]'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('[data-scheme="ssh"]'));
         flushAsynchronousOperations();
         assert.equal(element.selectedScheme, 'ssh');
         assert.equal(element.$.downloadTabs.selected, '2');
@@ -137,7 +143,8 @@ limitations under the License.
 
         flushAsynchronousOperations();
 
-        const repoTab = element.$$('paper-tab[data-scheme="repo"]');
+        const repoTab = element.shadowRoot
+            .querySelector('paper-tab[data-scheme="repo"]');
 
         MockInteractions.tap(repoTab);
 

@@ -94,7 +94,8 @@ limitations under the License.
       test('successful creation of change', () => {
         const change = {_number: '1'};
         createChangeStub.returns(Promise.resolve(change));
-        MockInteractions.tap(element.$.editRepoConfig.$$('gr-button'));
+        MockInteractions.tap(element.$.editRepoConfig.shadowRoot
+            .querySelector('gr-button'));
         return handleSpy.lastCall.returnValue.then(() => {
           flushAsynchronousOperations();
 
@@ -109,7 +110,8 @@ limitations under the License.
 
       test('unsuccessful creation of change', () => {
         createChangeStub.returns(Promise.resolve(null));
-        MockInteractions.tap(element.$.editRepoConfig.$$('gr-button'));
+        MockInteractions.tap(element.$.editRepoConfig.shadowRoot
+            .querySelector('gr-button'));
         return handleSpy.lastCall.returnValue.then(() => {
           flushAsynchronousOperations();
 

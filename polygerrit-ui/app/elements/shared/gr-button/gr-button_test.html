@@ -61,13 +61,17 @@ limitations under the License.
     });
 
     test('disabled is set by disabled or loading', () => {
-      assert.isFalse(element.$$('paper-button').disabled);
+      assert.isFalse(element.shadowRoot
+          .querySelector('paper-button').disabled);
       element.disabled = true;
-      assert.isTrue(element.$$('paper-button').disabled);
+      assert.isTrue(element.shadowRoot
+          .querySelector('paper-button').disabled);
       element.disabled = false;
-      assert.isFalse(element.$$('paper-button').disabled);
+      assert.isFalse(element.shadowRoot
+          .querySelector('paper-button').disabled);
       element.loading = true;
-      assert.isTrue(element.$$('paper-button').disabled);
+      assert.isTrue(element.shadowRoot
+          .querySelector('paper-button').disabled);
     });
 
     test('tabindex should be -1 if disabled', () => {

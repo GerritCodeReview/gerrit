@@ -50,12 +50,14 @@ limitations under the License.
 
     test('star visibility states', () => {
       element.set('change.starred', true);
-      let icon = element.$$('iron-icon');
+      let icon = element.shadowRoot
+          .querySelector('iron-icon');
       assert.isTrue(icon.classList.contains('active'));
       assert.equal(icon.icon, 'gr-icons:star');
 
       element.set('change.starred', false);
-      icon = element.$$('iron-icon');
+      icon = element.shadowRoot
+          .querySelector('iron-icon');
       assert.isFalse(icon.classList.contains('active'));
       assert.equal(icon.icon, 'gr-icons:star-border');
     });
@@ -66,7 +68,8 @@ limitations under the License.
         done();
       });
       element.set('change.starred', false);
-      MockInteractions.tap(element.$$('button'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('button'));
     });
 
     test('unstarring', done => {
@@ -75,7 +78,8 @@ limitations under the License.
         done();
       });
       element.set('change.starred', true);
-      MockInteractions.tap(element.$$('button'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('button'));
     });
   });
 </script>

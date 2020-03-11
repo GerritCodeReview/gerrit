@@ -316,7 +316,8 @@ limitations under the License.
         const content = stubContent(1, 'right');
         sandbox.spy(element, '_positionActionBox');
         emulateSelection(content.firstChild, 5, content.firstChild, 12);
-        const actionBox = element.$$('gr-selection-action-box');
+        const actionBox = element.shadowRoot
+            .querySelector('gr-selection-action-box');
         assert.isTrue(actionBox.positionBelow);
       });
 
@@ -326,7 +327,8 @@ limitations under the License.
         sandbox.spy(element, '_positionActionBox');
         emulateSelection(
             startContent.firstChild, 10, endContent.lastChild, 7);
-        const actionBox = element.$$('gr-selection-action-box');
+        const actionBox = element.shadowRoot
+            .querySelector('gr-selection-action-box');
         assert.isTrue(actionBox.positionBelow);
       });
 
@@ -334,7 +336,8 @@ limitations under the License.
         const content = stubContent(138, 'left');
         sandbox.spy(element, '_positionActionBox');
         emulateSelection(content.firstChild, 5, content.firstChild, 12);
-        const actionBox = element.$$('gr-selection-action-box');
+        const actionBox = element.shadowRoot
+            .querySelector('gr-selection-action-box');
         const {range, side} = element.selectedRange;
         assert.deepEqual(range, {
           start_line: 138,
@@ -352,7 +355,8 @@ limitations under the License.
         sandbox.spy(element, '_positionActionBox');
         emulateSelection(
             startContent.firstChild, 10, endContent.lastChild, 7);
-        const actionBox = element.$$('gr-selection-action-box');
+        const actionBox = element.shadowRoot
+            .querySelector('gr-selection-action-box');
         const {range, side} = element.selectedRange;
         assert.deepEqual(range, {
           start_line: 119,

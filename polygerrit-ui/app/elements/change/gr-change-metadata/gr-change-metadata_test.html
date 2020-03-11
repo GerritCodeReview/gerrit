@@ -109,7 +109,8 @@ limitations under the License.
     test('show strategy for open change', () => {
       element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {}};
       flushAsynchronousOperations();
-      const strategy = element.$$('.strategy');
+      const strategy = element.shadowRoot
+          .querySelector('.strategy');
       assert.ok(strategy);
       assert.isFalse(strategy.hasAttribute('hidden'));
       assert.equal(strategy.children[1].innerHTML, 'Cherry Pick');
@@ -118,7 +119,8 @@ limitations under the License.
     test('hide strategy for closed change', () => {
       element.change = {status: 'MERGED', labels: {}};
       flushAsynchronousOperations();
-      assert.isTrue(element.$$('.strategy').hasAttribute('hidden'));
+      assert.isTrue(element.shadowRoot
+          .querySelector('.strategy').hasAttribute('hidden'));
     });
 
     test('weblinks use Gerrit.Nav interface', () => {
@@ -520,7 +522,9 @@ limitations under the License.
         element.account = {};
         element.change = change;
         flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
+        const button = element.shadowRoot
+            .querySelector('gr-linked-chip').shadowRoot
+            .querySelector('gr-button');
         assert.isTrue(button.hasAttribute('hidden'));
       });
 
@@ -529,7 +533,9 @@ limitations under the License.
         change.actions.topic.enabled = true;
         element.change = change;
         flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
+        const button = element.shadowRoot
+            .querySelector('gr-linked-chip').shadowRoot
+            .querySelector('gr-button');
         assert.isFalse(button.hasAttribute('hidden'));
       });
     });
@@ -574,7 +580,9 @@ limitations under the License.
         element.account = {};
         element.change = change;
         flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
+        const button = element.shadowRoot
+            .querySelector('gr-linked-chip').shadowRoot
+            .querySelector('gr-button');
         assert.isTrue(button.hasAttribute('hidden'));
       });
 
@@ -584,7 +592,9 @@ limitations under the License.
         change.actions.hashtags.enabled = true;
         element.change = change;
         flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
+        const button = element.shadowRoot
+            .querySelector('gr-linked-chip').shadowRoot
+            .querySelector('gr-button');
         assert.isFalse(button.hasAttribute('hidden'));
       });
     });
@@ -683,7 +693,8 @@ limitations under the License.
       test('topic removal', () => {
         sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
             Promise.resolve());
-        const chip = element.$$('gr-linked-chip');
+        const chip = element.shadowRoot
+            .querySelector('gr-linked-chip');
         const remove = chip.$.remove;
         const topicChangedSpy = sandbox.spy();
         element.addEventListener('topic-changed', topicChangedSpy);
@@ -720,7 +731,8 @@ limitations under the License.
       element.change = {actions: {topic: {enabled: true}}};
       flushAsynchronousOperations();
 
-      const label = element.$$('.topicEditableLabel');
+      const label = element.shadowRoot
+          .querySelector('.topicEditableLabel');
       assert.ok(label);
       sandbox.stub(label, 'open');
       element.editTopic();

@@ -59,30 +59,40 @@ limitations under the License.
 
     test('link visibility', () => {
       element.loading = true;
-      assert.equal(getComputedStyle(element.$$('.accountContainer')).display,
-          'none');
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('.accountContainer')).display,
+      'none');
       element.loading = false;
       element.loggedIn = false;
-      assert.notEqual(getComputedStyle(element.$$('.accountContainer')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('.loginButton')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('.registerButton')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('gr-account-dropdown')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('.settingsButton')).display,
-          'none');
+      assert.notEqual(getComputedStyle(element.shadowRoot
+          .querySelector('.accountContainer')).display,
+      'none');
+      assert.notEqual(getComputedStyle(element.shadowRoot
+          .querySelector('.loginButton')).display,
+      'none');
+      assert.notEqual(getComputedStyle(element.shadowRoot
+          .querySelector('.registerButton')).display,
+      'none');
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('gr-account-dropdown')).display,
+      'none');
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('.settingsButton')).display,
+      'none');
       element.loggedIn = true;
-      assert.equal(getComputedStyle(element.$$('.loginButton')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('.registerButton')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('gr-account-dropdown'))
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('.loginButton')).display,
+      'none');
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('.registerButton')).display,
+      'none');
+      assert.notEqual(getComputedStyle(element.shadowRoot
+          .querySelector('gr-account-dropdown'))
           .display,
       'none');
-      assert.notEqual(getComputedStyle(element.$$('.settingsButton')).display,
-          'none');
+      assert.notEqual(getComputedStyle(element.shadowRoot
+          .querySelector('.settingsButton')).display,
+      'none');
     });
 
     test('fix my menu item', () => {

@@ -225,7 +225,8 @@ limitations under the License.
         flushAsynchronousOperations();
         const stub = sinon.stub();
         element.addEventListener('message-anchor-tap', stub);
-        const dateEl = element.$$('.date');
+        const dateEl = element.shadowRoot
+            .querySelector('.date');
         assert.ok(dateEl);
         MockInteractions.tap(dateEl);
 

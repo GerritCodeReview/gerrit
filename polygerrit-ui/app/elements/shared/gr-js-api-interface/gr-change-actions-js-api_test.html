@@ -128,14 +128,17 @@ breaking changes to gr-change-actions won’t be noticed.
         const handler = sinon.spy();
         changeActions.addTapListener(key, handler);
         flush(() => {
-          MockInteractions.tap(element.$$('[data-action-key="' + key + '"]'));
+          MockInteractions.tap(element.shadowRoot
+              .querySelector('[data-action-key="' + key + '"]'));
           assert(handler.calledOnce);
           changeActions.removeTapListener(key, handler);
-          MockInteractions.tap(element.$$('[data-action-key="' + key + '"]'));
+          MockInteractions.tap(element.shadowRoot
+              .querySelector('[data-action-key="' + key + '"]'));
           assert(handler.calledOnce);
           changeActions.remove(key);
           flush(() => {
-            assert.isNull(element.$$('[data-action-key="' + key + '"]'));
+            assert.isNull(element.shadowRoot
+                .querySelector('[data-action-key="' + key + '"]'));
             done();
           });
         });
@@ -144,7 +147,8 @@ breaking changes to gr-change-actions won’t be noticed.
       test('action button properties', done => {
         const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
         flush(() => {
-          const button = element.$$('[data-action-key="' + key + '"]');
+          const button = element.shadowRoot
+              .querySelector('[data-action-key="' + key + '"]');
           assert.isOk(button);
           assert.equal(button.getAttribute('data-label'), 'Bork!');
           assert.isNotOk(button.disabled);
@@ -166,13 +170,15 @@ breaking changes to gr-change-actions won’t be noticed.
       test('hide action buttons', done => {
         const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
         flush(() => {
-          const button = element.$$('[data-action-key="' + key + '"]');
+          const button = element.shadowRoot
+              .querySelector('[data-action-key="' + key + '"]');
           assert.isOk(button);
           assert.isFalse(button.hasAttribute('hidden'));
           changeActions.setActionHidden(
               changeActions.ActionType.REVISION, key, true);
           flush(() => {
-            const button = element.$$('[data-action-key="' + key + '"]');
+            const button = element.shadowRoot
+                .querySelector('[data-action-key="' + key + '"]');
             assert.isNotOk(button);
             done();
           });
@@ -183,11 +189,13 @@ breaking changes to gr-change-actions won’t be noticed.
         const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
         flush(() => {
           assert.isTrue(element.$.moreActions.hidden);
-          assert.isOk(element.$$('[data-action-key="' + key + '"]'));
+          assert.isOk(element.shadowRoot
+              .querySelector('[data-action-key="' + key + '"]'));
           changeActions.setActionOverflow(
               changeActions.ActionType.REVISION, key, true);
           flush(() => {
-            assert.isNotOk(element.$$('[data-action-key="' + key + '"]'));
+            assert.isNotOk(element.shadowRoot
+                .querySelector('[data-action-key="' + key + '"]'));
             assert.isFalse(element.$.moreActions.hidden);
             assert.strictEqual(element.$.moreActions.items[0].name, 'Bork!');
             done();

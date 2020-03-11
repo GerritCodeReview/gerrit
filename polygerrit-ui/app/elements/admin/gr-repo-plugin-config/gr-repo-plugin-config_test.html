@@ -100,7 +100,8 @@ limitations under the License.
         };
         flushAsynchronousOperations();
 
-        const editor = element.$$('gr-plugin-config-array-editor');
+        const editor = element.shadowRoot
+            .querySelector('gr-plugin-config-array-editor');
         assert.ok(editor);
         element._handleArrayChange({detail: 'test'});
         assert.isTrue(changeStub.called);
@@ -114,7 +115,8 @@ limitations under the License.
         };
         flushAsynchronousOperations();
 
-        const toggle = element.$$('paper-toggle-button');
+        const toggle = element.shadowRoot
+            .querySelector('paper-toggle-button');
         assert.ok(toggle);
         toggle.click();
         flushAsynchronousOperations();
@@ -132,7 +134,8 @@ limitations under the License.
         };
         flushAsynchronousOperations();
 
-        const input = element.$$('input');
+        const input = element.shadowRoot
+            .querySelector('input');
         assert.ok(input);
         input.value = 'newTest';
         input.dispatchEvent(new Event('input'));
@@ -152,7 +155,8 @@ limitations under the License.
         };
         flushAsynchronousOperations();
 
-        const select = element.$$('select');
+        const select = element.shadowRoot
+            .querySelector('select');
         assert.ok(select);
         select.value = 'newTest';
         select.dispatchEvent(new Event(

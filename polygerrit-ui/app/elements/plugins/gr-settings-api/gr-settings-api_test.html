@@ -72,11 +72,13 @@ limitations under the License.
       const element = fixture('basic');
       flush(() => {
         const [menuItemEl, itemEl] = element;
-        const menuItem = menuItemEl.$$('gr-settings-menu-item');
+        const menuItem = menuItemEl.shadowRoot
+            .querySelector('gr-settings-menu-item');
         assert.isOk(menuItem);
         assert.equal(menuItem.title, 'foo');
         assert.equal(menuItem.href, '#x/testplugin/bar');
-        const item = itemEl.$$('gr-settings-item');
+        const item = itemEl.shadowRoot
+            .querySelector('gr-settings-item');
         assert.isOk(item);
         assert.equal(item.title, 'foo');
         assert.equal(item.anchor, 'x/testplugin/bar');

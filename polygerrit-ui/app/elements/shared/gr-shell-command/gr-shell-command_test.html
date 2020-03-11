@@ -54,8 +54,9 @@ limitations under the License.
     });
 
     test('focusOnCopy', () => {
-      const focusStub = sandbox.stub(element.$$('gr-copy-clipboard'),
-          'focusOnCopy');
+      const focusStub = sandbox.stub(element.shadowRoot
+          .querySelector('gr-copy-clipboard'),
+      'focusOnCopy');
       element.focusOnCopy();
       assert.isTrue(focusStub.called);
     });

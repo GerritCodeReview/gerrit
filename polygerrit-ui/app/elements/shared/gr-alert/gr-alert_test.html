@@ -54,7 +54,8 @@ limitations under the License.
     test('action event', done => {
       element.show();
       element._actionCallback = done;
-      MockInteractions.tap(element.$$('.action'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('.action'));
     });
   });
 </script>

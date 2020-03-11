@@ -58,7 +58,8 @@ limitations under the License.
       actions._open();
       flushAsynchronousOperations();
   
-      MockInteractions.tap(actions.$$('li [data-id="open"]'));
+      MockInteractions.tap(actions.shadowRoot
+          .querySelector('li [data-id="open"]'));
       assert.isTrue(fileActionHandler.called);
       assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
           {action: GrEditConstants.Actions.OPEN.id, path: 'foo'});
@@ -70,7 +71,8 @@ limitations under the License.
       actions._open();
       flushAsynchronousOperations();
   
-      MockInteractions.tap(actions.$$('li [data-id="delete"]'));
+      MockInteractions.tap(actions.shadowRoot
+          .querySelector('li [data-id="delete"]'));
       assert.isTrue(fileActionHandler.called);
       assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
           {action: GrEditConstants.Actions.DELETE.id, path: 'foo'});
@@ -82,7 +84,8 @@ limitations under the License.
       actions._open();
       flushAsynchronousOperations();
   
-      MockInteractions.tap(actions.$$('li [data-id="restore"]'));
+      MockInteractions.tap(actions.shadowRoot
+          .querySelector('li [data-id="restore"]'));
       assert.isTrue(fileActionHandler.called);
       assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
           {action: GrEditConstants.Actions.RESTORE.id, path: 'foo'});
@@ -94,7 +97,8 @@ limitations under the License.
       actions._open();
       flushAsynchronousOperations();
   
-      MockInteractions.tap(actions.$$('li [data-id="rename"]'));
+      MockInteractions.tap(actions.shadowRoot
+          .querySelector('li [data-id="rename"]'));
       assert.isTrue(fileActionHandler.called);
       assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
           {action: GrEditConstants.Actions.RENAME.id, path: 'foo'});

@@ -66,7 +66,8 @@ limitations under the License.
     });
 
     test('renders', () => {
-      const rows = element.$$('tbody').querySelectorAll('tr');
+      const rows = element.shadowRoot
+          .querySelector('tbody').querySelectorAll('tr');
       let tds;
 
       // The `+ 1` is for the number column, which isn't included in the change
@@ -79,7 +80,8 @@ limitations under the License.
     });
 
     test('hide item', () => {
-      const checkbox = element.$$('table tr:nth-child(2) input');
+      const checkbox = element.shadowRoot
+          .querySelector('table tr:nth-child(2) input');
       const isChecked = checkbox.checked;
       const displayedLength = element.displayedColumns.length;
       assert.isTrue(isChecked);
@@ -100,11 +102,13 @@ limitations under the License.
         'Updated',
       ]);
       flushAsynchronousOperations();
-      const checkbox = element.$$('table tr:nth-child(2) input');
+      const checkbox = element.shadowRoot
+          .querySelector('table tr:nth-child(2) input');
       const isChecked = checkbox.checked;
       const displayedLength = element.displayedColumns.length;
       assert.isFalse(isChecked);
-      assert.equal(element.$$('table').style.display, '');
+      assert.equal(element.shadowRoot
+          .querySelector('table').style.display, '');
 
       MockInteractions.tap(checkbox);
       flushAsynchronousOperations();
@@ -116,7 +120,8 @@ limitations under the License.
     test('_getDisplayedColumns', () => {
       assert.deepEqual(element._getDisplayedColumns(), columns);
       MockInteractions.tap(
-          element.$$('.checkboxContainer input[name=Assignee]'));
+          element.shadowRoot
+              .querySelector('.checkboxContainer input[name=Assignee]'));
       assert.deepEqual(element._getDisplayedColumns(),
           columns.filter(c => c !== 'Assignee'));
     });
@@ -126,12 +131,14 @@ limitations under the License.
       sandbox.stub(element, '_handleTargetClick');
 
       MockInteractions.tap(
-          element.$$('table tr:first-of-type .checkboxContainer'));
+          element.shadowRoot
+              .querySelector('table tr:first-of-type .checkboxContainer'));
       assert.isTrue(element._handleNumberCheckboxClick.calledOnce);
       assert.isFalse(element._handleTargetClick.called);
 
       MockInteractions.tap(
-          element.$$('table tr:last-of-type .checkboxContainer'));
+          element.shadowRoot
+              .querySelector('table tr:last-of-type .checkboxContainer'));
       assert.isTrue(element._handleNumberCheckboxClick.calledOnce);
       assert.isTrue(element._handleTargetClick.calledOnce);
     });
@@ -140,12 +147,14 @@ limitations under the License.
       sandbox.spy(element, '_handleNumberCheckboxClick');
 
       MockInteractions
-          .tap(element.$$('.checkboxContainer input[name=number]'));
+          .tap(element.shadowRoot
+              .querySelector('.checkboxContainer input[name=number]'));
       assert.isTrue(element._handleNumberCheckboxClick.calledOnce);
       assert.isTrue(element.showNumber);
 
       MockInteractions
-          .tap(element.$$('.checkboxContainer input[name=number]'));
+          .tap(element.shadowRoot
+              .querySelector('.checkboxContainer input[name=number]'));
       assert.isTrue(element._handleNumberCheckboxClick.calledTwice);
       assert.isFalse(element.showNumber);
     });
@@ -154,7 +163,8 @@ limitations under the License.
       sandbox.spy(element, '_handleTargetClick');
       assert.include(element.displayedColumns, 'Assignee');
       MockInteractions
-          .tap(element.$$('.checkboxContainer input[name=Assignee]'));
+          .tap(element.shadowRoot
+              .querySelector('.checkboxContainer input[name=Assignee]'));
       assert.isTrue(element._handleTargetClick.calledOnce);
       assert.notInclude(element.displayedColumns, 'Assignee');
     });

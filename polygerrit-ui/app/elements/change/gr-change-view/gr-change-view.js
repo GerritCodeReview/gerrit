@@ -261,6 +261,7 @@ class GrChangeView extends mixinBehaviors( [
       /** @type {?string} */
       _latestCommitMessage: {
         type: String,
+        computed: '_getCommitMessage(_change, _patchRange)',
         value: '',
       },
       _commentTabs: {
@@ -1536,12 +1537,6 @@ class GrChangeView extends mixinBehaviors( [
           }
           const latestRevisionSha = this._getLatestRevisionSHA(change);
           const currentRevision = change.revisions[latestRevisionSha];
-          if (currentRevision.commit && currentRevision.commit.message) {
-            this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                currentRevision.commit.message);
-          } else {
-            this._latestCommitMessage = null;
-          }
 
           const lineHeight = getComputedStyle(this).lineHeight;
 
@@ -1566,13 +1561,44 @@ class GrChangeView extends mixinBehaviors( [
                   revision => {
                     // edit patchset is a special one
                     const thePatchNum = this._patchRange.patchNum;
-                    if (thePatchNum === 'edit') {
+                    if (thePatchNum === this.EDIT_NAME) {
                       return revision._number === thePatchNum;
                     }
                     return revision._number === parseInt(thePatchNum, 10);
                   });
           }
         });
+  }
+
+  _getCommitMessage(change, patchRange) {
+    if (!change || !change.revisions || !patchRange) return '';
+
+    const latestRevisionSha = this._getLatestRevisionSHA(change);
+    const currentRevision = change.revisions[latestRevisionSha];
+
+    if (!patchRange.patchNum ||
+        this.patchNumEquals(patchRange.patchNum, currentRevision._number)) {
+      if (currentRevision && currentRevision.commit &&
+          currentRevision.commit.message) {
+        return this._prepareCommitMsgForLinkify(currentRevision.commit.message);
+      } else {
+        return '';
+      }
+    } else {
+      const msg = Object.values(change.revisions).find(revision => {
+        // edit patchset is a special one
+        const thePatchNum = patchRange.patchNum;
+        if (thePatchNum === this.EDIT_NAME) {
+          return revision._number === thePatchNum;
+        }
+        return revision._number === parseInt(thePatchNum, 10);
+      });
+      if (msg && msg.commit && msg.commit.message) {
+        return this._prepareCommitMsgForLinkify(msg.commit.message);
+      } else {
+        return '';
+      }
+    }
   }
 
   _isSubmitEnabled(revisionActions) {
@@ -1745,6 +1771,7 @@ class GrChangeView extends mixinBehaviors( [
 
       const latestCommitMessageLoaded = loadingFlagSet.then(() => {
         // If the latest commit message is known, there is nothing to do.
+        console.log(this._latestCommitMessage);
         if (this._latestCommitMessage) { return Promise.resolve(); }
         return this._getLatestCommitMessage();
       });

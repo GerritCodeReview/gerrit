@@ -19,18 +19,25 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-email-suggestions-provider</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.html"/>
-<script src="../gr-display-name-utils/gr-display-name-utils.js"></script>
-<script src="gr-email-suggestions-provider.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js"></script>
+<script type="module" src="../gr-display-name-utils/gr-display-name-utils.js"></script>
+<script type="module" src="./gr-email-suggestions-provider.js"></script>
 
 
-<script>void(0);</script>
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-display-name-utils/gr-display-name-utils.js';
+import './gr-email-suggestions-provider.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -38,64 +45,68 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('GrEmailSuggestionsProvider tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let restAPI;
-    let provider;
-    const account1 = {
-      name: 'Some name',
-      email: 'some@example.com',
-    };
-    const account2 = {
-      email: 'other@example.com',
-      _account_id: 3,
-    };
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-display-name-utils/gr-display-name-utils.js';
+import './gr-email-suggestions-provider.js';
+suite('GrEmailSuggestionsProvider tests', () => {
+  let sandbox;
+  let restAPI;
+  let provider;
+  const account1 = {
+    name: 'Some name',
+    email: 'some@example.com',
+  };
+  const account2 = {
+    email: 'other@example.com',
+    _account_id: 3,
+  };
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+  setup(() => {
+    sandbox = sinon.sandbox.create();
 
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-      });
-      restAPI = fixture('basic');
-      provider = new GrEmailSuggestionsProvider(restAPI);
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
     });
+    restAPI = fixture('basic');
+    provider = new GrEmailSuggestionsProvider(restAPI);
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('getSuggestions', done => {
-      const getSuggestedAccountsStub =
-          sandbox.stub(restAPI, 'getSuggestedAccounts')
-              .returns(Promise.resolve([account1, account2]));
+  test('getSuggestions', done => {
+    const getSuggestedAccountsStub =
+        sandbox.stub(restAPI, 'getSuggestedAccounts')
+            .returns(Promise.resolve([account1, account2]));
 
-      provider.getSuggestions('Some input').then(res => {
-        assert.deepEqual(res, [account1, account2]);
-        assert.isTrue(getSuggestedAccountsStub.calledOnce);
-        assert.equal(getSuggestedAccountsStub.lastCall.args[0], 'Some input');
-        done();
-      });
-    });
-
-    test('makeSuggestionItem', () => {
-      assert.deepEqual(provider.makeSuggestionItem(account1), {
-        name: 'Some name <some@example.com>',
-        value: {
-          account: account1,
-          count: 1,
-        },
-      });
-
-      assert.deepEqual(provider.makeSuggestionItem(account2), {
-        name: 'other@example.com <other@example.com>',
-        value: {
-          account: account2,
-          count: 1,
-        },
-      });
+    provider.getSuggestions('Some input').then(res => {
+      assert.deepEqual(res, [account1, account2]);
+      assert.isTrue(getSuggestedAccountsStub.calledOnce);
+      assert.equal(getSuggestedAccountsStub.lastCall.args[0], 'Some input');
+      done();
     });
   });
+
+  test('makeSuggestionItem', () => {
+    assert.deepEqual(provider.makeSuggestionItem(account1), {
+      name: 'Some name <some@example.com>',
+      value: {
+        account: account1,
+        count: 1,
+      },
+    });
+
+    assert.deepEqual(provider.makeSuggestionItem(account2), {
+      name: 'other@example.com <other@example.com>',
+      value: {
+        account: account2,
+        count: 1,
+      },
+    });
+  });
+});
 </script>

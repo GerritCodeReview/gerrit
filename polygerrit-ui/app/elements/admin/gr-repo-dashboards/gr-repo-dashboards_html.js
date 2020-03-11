@@ -1,27 +1,22 @@
-<!--
-@license
-Copyright (C) 2018 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
-<dom-module id="gr-repo-dashboards">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -38,8 +33,8 @@ limitations under the License.
     <style include="gr-table-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
-    <table id="list" class$="genericList [[_computeLoadingClass(_loading)]]">
-      <tr class="headerRow">
+    <table id="list" class\$="genericList [[_computeLoadingClass(_loading)]]">
+      <tbody><tr class="headerRow">
         <th class="topHeader">Dashboard name</th>
         <th class="topHeader">Dashboard title</th>
         <th class="topHeader">Dashboard description</th>
@@ -49,14 +44,14 @@ limitations under the License.
       <tr id="loadingContainer">
         <td>Loading...</td>
       </tr>
-      <tbody id="dashboards">
+      </tbody><tbody id="dashboards">
         <template is="dom-repeat" items="[[_dashboards]]">
           <tr class="groupHeader">
             <td colspan="5">[[item.section]]</td>
           </tr>
           <template is="dom-repeat" items="[[item.dashboards]]">
             <tr class="table">
-              <td class="name"><a href$="[[_getUrl(item.project, item.id)]]">[[item.path]]</a></td>
+              <td class="name"><a href\$="[[_getUrl(item.project, item.id)]]">[[item.path]]</a></td>
               <td class="title">[[item.title]]</td>
               <td class="desc">[[item.description]]</td>
               <td class="inherited">[[_computeInheritedFrom(item.project, item.defining_project)]]</td>
@@ -67,6 +62,4 @@ limitations under the License.
       </tbody>
     </table>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-repo-dashboards.js"></script>
-</dom-module>
+`;

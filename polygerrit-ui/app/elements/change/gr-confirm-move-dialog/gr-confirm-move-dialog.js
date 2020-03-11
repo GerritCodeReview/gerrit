@@ -14,90 +14,102 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 
-  const SUGGESTIONS_LIMIT = 15;
+import '../../../scripts/bundled-polymer.js';
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-autocomplete/gr-autocomplete.js';
+import '../../shared/gr-dialog/gr-dialog.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-confirm-move-dialog_html.js';
+
+const SUGGESTIONS_LIMIT = 15;
+
+/**
+ * @appliesMixin Gerrit.FireMixin
+ * @appliesMixin Gerrit.KeyboardShortcutMixin
+ * @extends Polymer.Element
+ */
+class GrConfirmMoveDialog extends mixinBehaviors( [
+  Gerrit.FireBehavior,
+  Gerrit.KeyboardShortcutBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-confirm-move-dialog'; }
+  /**
+   * Fired when the confirm button is pressed.
+   *
+   * @event confirm
+   */
 
   /**
-   * @appliesMixin Gerrit.FireMixin
-   * @appliesMixin Gerrit.KeyboardShortcutMixin
-   * @extends Polymer.Element
+   * Fired when the cancel button is pressed.
+   *
+   * @event cancel
    */
-  class GrConfirmMoveDialog extends Polymer.mixinBehaviors( [
-    Gerrit.FireBehavior,
-    Gerrit.KeyboardShortcutBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-confirm-move-dialog'; }
-    /**
-     * Fired when the confirm button is pressed.
-     *
-     * @event confirm
-     */
 
-    /**
-     * Fired when the cancel button is pressed.
-     *
-     * @event cancel
-     */
-
-    static get properties() {
-      return {
-        branch: String,
-        message: String,
-        project: String,
-        _query: {
-          type: Function,
-          value() {
-            return this._getProjectBranchesSuggestions.bind(this);
-          },
+  static get properties() {
+    return {
+      branch: String,
+      message: String,
+      project: String,
+      _query: {
+        type: Function,
+        value() {
+          return this._getProjectBranchesSuggestions.bind(this);
         },
-      };
-    }
-
-    get keyBindings() {
-      return {
-        'ctrl+enter meta+enter': '_handleConfirmTap',
-      };
-    }
-
-    _handleConfirmTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.fire('confirm', null, {bubbles: false});
-    }
-
-    _handleCancelTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.fire('cancel', null, {bubbles: false});
-    }
-
-    _getProjectBranchesSuggestions(input) {
-      if (input.startsWith('refs/heads/')) {
-        input = input.substring('refs/heads/'.length);
-      }
-      return this.$.restAPI.getRepoBranches(
-          input, this.project, SUGGESTIONS_LIMIT).then(response => {
-        const branches = [];
-        let branch;
-        for (const key in response) {
-          if (!response.hasOwnProperty(key)) { continue; }
-          if (response[key].ref.startsWith('refs/heads/')) {
-            branch = response[key].ref.substring('refs/heads/'.length);
-          } else {
-            branch = response[key].ref;
-          }
-          branches.push({
-            name: branch,
-          });
-        }
-        return branches;
-      });
-    }
+      },
+    };
   }
 
-  customElements.define(GrConfirmMoveDialog.is, GrConfirmMoveDialog);
-})();
+  get keyBindings() {
+    return {
+      'ctrl+enter meta+enter': '_handleConfirmTap',
+    };
+  }
+
+  _handleConfirmTap(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.fire('confirm', null, {bubbles: false});
+  }
+
+  _handleCancelTap(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.fire('cancel', null, {bubbles: false});
+  }
+
+  _getProjectBranchesSuggestions(input) {
+    if (input.startsWith('refs/heads/')) {
+      input = input.substring('refs/heads/'.length);
+    }
+    return this.$.restAPI.getRepoBranches(
+        input, this.project, SUGGESTIONS_LIMIT).then(response => {
+      const branches = [];
+      let branch;
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        if (response[key].ref.startsWith('refs/heads/')) {
+          branch = response[key].ref.substring('refs/heads/'.length);
+        } else {
+          branch = response[key].ref;
+        }
+        branches.push({
+          name: branch,
+        });
+      }
+      return branches;
+    });
+  }
+}
+
+customElements.define(GrConfirmMoveDialog.is, GrConfirmMoveDialog);

@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-edit-preferences</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-edit-preferences.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-edit-preferences.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-edit-preferences.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,95 +40,97 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-edit-preferences tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let editPreferences;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-edit-preferences.js';
+suite('gr-edit-preferences tests', () => {
+  let element;
+  let sandbox;
+  let editPreferences;
 
-    function valueOf(title, fieldsetid) {
-      const sections = element.$[fieldsetid].querySelectorAll('section');
-      let titleEl;
-      for (let i = 0; i < sections.length; i++) {
-        titleEl = sections[i].querySelector('.title');
-        if (titleEl.textContent.trim() === title) {
-          return sections[i].querySelector('.value');
-        }
+  function valueOf(title, fieldsetid) {
+    const sections = element.$[fieldsetid].querySelectorAll('section');
+    let titleEl;
+    for (let i = 0; i < sections.length; i++) {
+      titleEl = sections[i].querySelector('.title');
+      if (titleEl.textContent.trim() === title) {
+        return sections[i].querySelector('.value');
       }
     }
+  }
 
-    setup(() => {
-      editPreferences = {
-        auto_close_brackets: false,
-        cursor_blink_rate: 0,
-        hide_line_numbers: false,
-        hide_top_menu: false,
-        indent_unit: 2,
-        indent_with_tabs: false,
-        key_map_type: 'DEFAULT',
-        line_length: 100,
-        line_wrapping: false,
-        match_brackets: true,
-        show_base: false,
-        show_tabs: true,
-        show_whitespace_errors: true,
-        syntax_highlighting: true,
-        tab_size: 8,
-        theme: 'DEFAULT',
-      };
+  setup(() => {
+    editPreferences = {
+      auto_close_brackets: false,
+      cursor_blink_rate: 0,
+      hide_line_numbers: false,
+      hide_top_menu: false,
+      indent_unit: 2,
+      indent_with_tabs: false,
+      key_map_type: 'DEFAULT',
+      line_length: 100,
+      line_wrapping: false,
+      match_brackets: true,
+      show_base: false,
+      show_tabs: true,
+      show_whitespace_errors: true,
+      syntax_highlighting: true,
+      tab_size: 8,
+      theme: 'DEFAULT',
+    };
 
-      stub('gr-rest-api-interface', {
-        getEditPreferences() {
-          return Promise.resolve(editPreferences);
-        },
-      });
-
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      return element.loadData();
+    stub('gr-rest-api-interface', {
+      getEditPreferences() {
+        return Promise.resolve(editPreferences);
+      },
     });
 
-    teardown(() => { sandbox.restore(); });
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    return element.loadData();
+  });
 
-    test('renders', () => {
-      // Rendered with the expected preferences selected.
-      assert.equal(valueOf('Tab width', 'editPreferences')
-          .firstElementChild.bindValue, editPreferences.tab_size);
-      assert.equal(valueOf('Columns', 'editPreferences')
-          .firstElementChild.bindValue, editPreferences.line_length);
-      assert.equal(valueOf('Indent unit', 'editPreferences')
-          .firstElementChild.bindValue, editPreferences.indent_unit);
-      assert.equal(valueOf('Syntax highlighting', 'editPreferences')
-          .firstElementChild.checked, editPreferences.syntax_highlighting);
-      assert.equal(valueOf('Show tabs', 'editPreferences')
-          .firstElementChild.checked, editPreferences.show_tabs);
-      assert.equal(valueOf('Match brackets', 'editPreferences')
-          .firstElementChild.checked, editPreferences.match_brackets);
-      assert.equal(valueOf('Line wrapping', 'editPreferences')
-          .firstElementChild.checked, editPreferences.line_wrapping);
-      assert.equal(valueOf('Indent with tabs', 'editPreferences')
-          .firstElementChild.checked, editPreferences.indent_with_tabs);
-      assert.equal(valueOf('Auto close brackets', 'editPreferences')
-          .firstElementChild.checked, editPreferences.auto_close_brackets);
+  teardown(() => { sandbox.restore(); });
 
+  test('renders', () => {
+    // Rendered with the expected preferences selected.
+    assert.equal(valueOf('Tab width', 'editPreferences')
+        .firstElementChild.bindValue, editPreferences.tab_size);
+    assert.equal(valueOf('Columns', 'editPreferences')
+        .firstElementChild.bindValue, editPreferences.line_length);
+    assert.equal(valueOf('Indent unit', 'editPreferences')
+        .firstElementChild.bindValue, editPreferences.indent_unit);
+    assert.equal(valueOf('Syntax highlighting', 'editPreferences')
+        .firstElementChild.checked, editPreferences.syntax_highlighting);
+    assert.equal(valueOf('Show tabs', 'editPreferences')
+        .firstElementChild.checked, editPreferences.show_tabs);
+    assert.equal(valueOf('Match brackets', 'editPreferences')
+        .firstElementChild.checked, editPreferences.match_brackets);
+    assert.equal(valueOf('Line wrapping', 'editPreferences')
+        .firstElementChild.checked, editPreferences.line_wrapping);
+    assert.equal(valueOf('Indent with tabs', 'editPreferences')
+        .firstElementChild.checked, editPreferences.indent_with_tabs);
+    assert.equal(valueOf('Auto close brackets', 'editPreferences')
+        .firstElementChild.checked, editPreferences.auto_close_brackets);
+
+    assert.isFalse(element.hasUnsavedChanges);
+  });
+
+  test('save changes', () => {
+    sandbox.stub(element.$.restAPI, 'saveEditPreferences')
+        .returns(Promise.resolve());
+    const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
+        .firstElementChild;
+    showTabsCheckbox.checked = false;
+    element._handleEditShowTabsChanged();
+
+    assert.isTrue(element.hasUnsavedChanges);
+
+    // Save the change.
+    return element.save().then(() => {
       assert.isFalse(element.hasUnsavedChanges);
     });
-
-    test('save changes', () => {
-      sandbox.stub(element.$.restAPI, 'saveEditPreferences')
-          .returns(Promise.resolve());
-      const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
-          .firstElementChild;
-      showTabsCheckbox.checked = false;
-      element._handleEditShowTabsChanged();
-
-      assert.isTrue(element.hasUnsavedChanges);
-
-      // Save the change.
-      return element.save().then(() => {
-        assert.isFalse(element.hasUnsavedChanges);
-      });
-    });
   });
+});
 </script>

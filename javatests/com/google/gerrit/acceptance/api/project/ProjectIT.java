@@ -36,8 +36,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -81,7 +81,6 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Test;
 
-@NoHttpd
 public class ProjectIT extends AbstractDaemonTest {
   private static final String BUGZILLA = "bugzilla";
   private static final String BUGZILLA_LINK = "http://bugzilla.example.com/?id=$2";
@@ -897,6 +896,24 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(projectInfo.labels.keySet()).containsExactly("Code-Review");
     assertThat(projectInfo.labels.get("Code-Review").values)
         .containsExactly("+1", "LGTM", " 0", "No Value", "-1", "Looks Bad");
+  }
+
+  @Test
+  public void getProjectThatHasInvalidProjectConfig() throws Exception {
+    // Make the project config invalid by adding permission entry with an invalid permission name.
+    projectOperations
+        .project(allProjects)
+        .forInvalidation()
+        .addProjectConfigUpdater(
+            cfg ->
+                cfg.setString(
+                    "access", "refs/*", "Invalid Permission Name", "group Administrators"))
+        .invalidate();
+
+    // We must test this via the REST API since ExceptionHook is not invoked from the Java API.
+    RestResponse r = adminRestSession.get("/projects/" + allProjects.get());
+    r.assertConflict();
+    assertThat(r.getEntityContent()).contains("Invalid project.config file");
   }
 
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {

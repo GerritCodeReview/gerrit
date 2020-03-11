@@ -30,17 +30,8 @@
 
     static get properties() {
       return {
-        title: {
-          type: String,
-          reflectToAttribute: true,
-        },
         maxWidth: {
           type: String,
-          reflectToAttribute: true,
-        },
-        positionBelow: {
-          type: Boolean,
-          valye: false,
           reflectToAttribute: true,
         },
         showIcon: {

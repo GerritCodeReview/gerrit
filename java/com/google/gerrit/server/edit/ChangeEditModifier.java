@@ -413,7 +413,7 @@ public class ChangeEditModifier {
   }
 
   private void assertCanEdit(ChangeNotes notes)
-      throws AuthException, PermissionBackendException, IOException, ResourceConflictException {
+      throws AuthException, PermissionBackendException, ResourceConflictException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

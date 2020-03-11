@@ -238,7 +238,7 @@ public class Rebase
       if (patchSetUtil.isPatchSetLocked(rsrc.getNotes())) {
         return description;
       }
-    } catch (StorageException | IOException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;

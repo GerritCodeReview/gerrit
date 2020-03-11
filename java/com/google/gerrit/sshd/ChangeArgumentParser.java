@@ -30,7 +30,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,13 +54,13 @@ public class ChangeArgumentParser {
   }
 
   public void addChange(String id, Map<Change.Id, ChangeResource> changes)
-      throws UnloggedFailure, PermissionBackendException, IOException {
+      throws UnloggedFailure, PermissionBackendException {
     addChange(id, changes, null);
   }
 
   public void addChange(
       String id, Map<Change.Id, ChangeResource> changes, @Nullable ProjectState projectState)
-      throws UnloggedFailure, PermissionBackendException, IOException {
+      throws UnloggedFailure, PermissionBackendException {
     addChange(id, changes, projectState, true);
   }
 
@@ -70,7 +69,7 @@ public class ChangeArgumentParser {
       Map<Change.Id, ChangeResource> changes,
       @Nullable ProjectState projectState,
       boolean useIndex)
-      throws UnloggedFailure, PermissionBackendException, IOException {
+      throws UnloggedFailure, PermissionBackendException {
     List<ChangeNotes> matched = useIndex ? changeFinder.find(id) : changeFromNotesFactory(id);
     List<ChangeNotes> toAdd = new ArrayList<>(changes.size());
     boolean canMaintainServer;

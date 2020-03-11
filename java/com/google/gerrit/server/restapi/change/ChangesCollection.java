@@ -98,8 +98,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   }
 
   public ChangeResource parse(Change.Id id)
-      throws ResourceConflictException, ResourceNotFoundException, PermissionBackendException,
-          IOException {
+      throws ResourceConflictException, ResourceNotFoundException, PermissionBackendException {
     List<ChangeNotes> notes = changeFinder.find(id);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));
@@ -123,7 +122,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
     return changeResourceFactory.create(notes, user);
   }
 
-  private boolean canRead(ChangeNotes notes) throws PermissionBackendException, IOException {
+  private boolean canRead(ChangeNotes notes) throws PermissionBackendException {
     try {
       permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
     } catch (AuthException e) {

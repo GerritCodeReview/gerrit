@@ -68,7 +68,6 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -77,7 +76,6 @@ import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
@@ -881,23 +879,17 @@ public class ProjectIT extends AbstractDaemonTest {
     // Update the definition of the Code-Review label so that it has the value "+1 LGTM" twice.
     // This update bypasses all validation checks so that the duplicate label value doesn't get
     // rejected.
-    Config cfg = new Config();
-    cfg.fromText(projectOperations.project(allProjects).getConfig().toText());
-    cfg.setStringList(
-        "label",
-        "Code-Review",
-        "value",
-        ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad"));
-
-    try (TestRepository<Repository> repo =
-        new TestRepository<>(repoManager.openRepository(allProjects))) {
-      repo.update(
-          RefNames.REFS_CONFIG,
-          repo.commit()
-              .message("Set label with duplicate value")
-              .parent(getHead(repo.getRepository(), RefNames.REFS_CONFIG))
-              .add(ProjectConfig.PROJECT_CONFIG, cfg.toText()));
-    }
+    projectOperations
+        .project(allProjects)
+        .forInvalidation()
+        .addProjectConfigUpdater(
+            cfg ->
+                cfg.setStringList(
+                    "label",
+                    "Code-Review",
+                    "value",
+                    ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad")))
+        .invalidate();
 
     // Verify that project info can be retrieved and that the label value "+1 LGTM" appears only
     // once.

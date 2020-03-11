@@ -81,7 +81,7 @@ export default {
   context: 'window',
   plugins: [resolve({
     customResolveOptions: {
-      moduleDirectory: 'node_modules'
+      moduleDirectory: 'external/ui_npm/node_modules'
     }
   }), importLocalFontMetaUrlResolver()],
 };

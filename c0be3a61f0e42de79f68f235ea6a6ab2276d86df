@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c18bf74_b226210a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutAttentionSet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-11T11:40:14Z",
+      "side": 1,
+      "message": "emptyToNull?",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 20
+      },
+      "revId": "c0be3a61f0e42de79f68f235ea6a6ab2276d86df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

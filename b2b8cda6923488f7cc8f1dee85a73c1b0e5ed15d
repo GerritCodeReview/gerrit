@@ -465,6 +465,30 @@
     },
     {
       "key": {
+        "uuid": "4ad0ed18_be2c04bb",
+        "filename": "java/com/google/gerrit/server/restapi/change/Module.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-11T11:40:14Z",
+      "side": 1,
+      "message": "\u003e Just for my understanding: Is this for consistency or is there a technical reason? I considered this option but it seemed more complicated.\n\nThe technical reason is that these requests show up in the request log with an ID, so it\u0027s easier to debug things.\n\nMore generally: It\u0027s an API design principle that we follow: If what you are mutating is a collection, make it a collection on the API. If in the future we add more functionality besides add/remove per-entry, these wouldn\u0027t clutter up the change API.\n\n\u003e DELETE would still have to have a body because we need the \"reason\" field. Does that change things?\nOther API endpoints use a POST on \u003cid\u003e/delete IIRC.",
+      "parentUuid": "9c8b9a43_dd4586ef",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 66
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c5b040a_d4f2f194",
         "filename": "java/com/google/gerrit/server/restapi/change/PutAttentionSet.java",
         "patchSetId": 10
@@ -579,6 +603,24 @@
       "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "440447ce_289e539a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-11T11:40:14Z",
+      "side": 1,
+      "message": "I think that\u0027s OK. In the end, the user wants to remove X from the set and if they are already removed, not throwing an exception is OK because the end result is what the user intended.",
+      "parentUuid": "cf3dcfc7_daf48f05",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

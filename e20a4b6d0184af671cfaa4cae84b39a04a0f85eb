@@ -46,6 +46,30 @@
       "revId": "e20a4b6d0184af671cfaa4cae84b39a04a0f85eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b177583_6aea0eb8",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-11T09:37:09Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/258430",
+      "parentUuid": "0dbbe9c8_9d0aaf65",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 7
+      },
+      "revId": "e20a4b6d0184af671cfaa4cae84b39a04a0f85eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

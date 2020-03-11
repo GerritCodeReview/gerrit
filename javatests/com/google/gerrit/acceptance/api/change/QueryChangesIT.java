@@ -19,11 +19,13 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.EnumSet;
 import java.util.List;
 import org.junit.Test;
 
@@ -31,6 +33,54 @@ import org.junit.Test;
 public class QueryChangesIT extends AbstractDaemonTest {
 
   @Inject private Provider<QueryChanges> queryChangesProvider;
+
+  @Test
+  public void queryWithOptions() throws Exception {
+    createChange();
+
+    EnumSet<ListChangesOption> listChangesOptions = getBasicListChangeOptions();
+    listChangesOptions.add(ListChangesOption.DETAILED_ACCOUNTS);
+    listChangesOptions.add(ListChangesOption.REVIEWED);
+    listChangesOptions.add(ListChangesOption.ALL_REVISIONS);
+    listChangesOptions.add(ListChangesOption.LABELS);
+    listChangesOptions.add(ListChangesOption.DETAILED_LABELS);
+    listChangesOptions.add(ListChangesOption.MESSAGES);
+    listChangesOptions.add(ListChangesOption.DOWNLOAD_COMMANDS);
+    listChangesOptions.add(ListChangesOption.ALL_COMMITS);
+    listChangesOptions.add(ListChangesOption.SUBMITTABLE);
+    listChangesOptions.add(ListChangesOption.CURRENT_ACTIONS);
+
+    List<ChangeInfo> result =
+        gApi.changes()
+            .query()
+            .withOptions(listChangesOptions)
+            .withQuery("is:open repo:" + project.get())
+            .get();
+    assertThat(result).hasSize(1);
+    ChangeInfo info = result.get(0);
+    assertThat(info.requirements).isEmpty();
+  }
+
+  @Test
+  public void queryWithNoOptions() throws Exception {
+    createChange();
+    List<ChangeInfo> result =
+        gApi.changes()
+            .query()
+            .withOptions(EnumSet.noneOf(ListChangesOption.class))
+            .withQuery("is:open repo:" + project.get())
+            .get();
+    assertThat(result).hasSize(1);
+    ChangeInfo info = result.get(0);
+    assertThat(info.requirements).isEmpty();
+  }
+
+  private static EnumSet<ListChangesOption> getBasicListChangeOptions() {
+    return EnumSet.of(
+        ListChangesOption.CURRENT_COMMIT,
+        ListChangesOption.CURRENT_REVISION,
+        ListChangesOption.DETAILED_ACCOUNTS);
+  }
 
   @Test
   @SuppressWarnings("unchecked")

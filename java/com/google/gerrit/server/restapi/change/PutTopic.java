@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -36,16 +35,13 @@ import com.google.inject.Singleton;
 public class PutTopic
     implements RestModifyView<ChangeResource, TopicInput>, UiAction<ChangeResource> {
   private final BatchUpdate.Factory updateFactory;
-  private final ChangeMessagesUtil cmUtil;
   private final SetTopicOp.Factory topicOpFactory;
 
   @Inject
   PutTopic(
       BatchUpdate.Factory updateFactory,
-      ChangeMessagesUtil cmUtil,
       SetTopicOp.Factory topicOpFactory) {
     this.updateFactory = updateFactory;
-    this.cmUtil = cmUtil;
     this.topicOpFactory = topicOpFactory;
   }
 

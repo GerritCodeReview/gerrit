@@ -28,7 +28,7 @@ import java.util.List;
 import org.junit.Test;
 
 @NoHttpd
-public class QueryChangeIT extends AbstractDaemonTest {
+public class QueryChangesIT extends AbstractDaemonTest {
 
   @Inject private Provider<QueryChanges> queryChangesProvider;
 

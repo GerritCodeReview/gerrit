@@ -107,8 +107,11 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
       boolean isSigned = isAnnotated && input.message.contains("-----BEGIN PGP SIGNATURE-----\n");
       if (isSigned) {
         throw new MethodNotAllowedException("Cannot create signed tag \"" + ref + "\"");
-      } else if (isAnnotated && !check(perm, RefPermission.CREATE_TAG)) {
-        throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
+      } else if (isAnnotated) {
+        if (!check(perm, RefPermission.CREATE_TAG)) {
+          throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
+        }
+
       } else {
         perm.check(RefPermission.CREATE);
       }

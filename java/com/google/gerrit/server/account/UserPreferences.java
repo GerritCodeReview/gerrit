@@ -1,0 +1,53 @@
+// Copyright (C) 2020 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.account;
+
+import com.google.gerrit.server.cache.proto.Cache;
+import java.util.Map;
+
+/** Helpers for combining user preferences with defaults. */
+public class UserPreferences {
+
+  private UserPreferences() {}
+
+  /** Returns an overlay of {@code userPreferences} over {@code defaults}. */
+  static Cache.UserPreferences overlayDefaults(
+      Cache.UserPreferences defaults, Cache.UserPreferences userPreferences) {
+    return Cache.UserPreferences.newBuilder()
+        .putAllGeneral(defaults.getGeneralMap())
+        .putAllGeneral(userPreferences.getGeneralMap())
+        .putAllEdit(defaults.getEditMap())
+        .putAllEdit(userPreferences.getEditMap())
+        .putAllDiff(defaults.getDiffMap())
+        .putAllDiff(userPreferences.getDiffMap())
+        .build();
+  }
+
+  /**
+   * Returns entries contained in {@code userSettings} if the value is not contained in {@code
+   * defaults}. This is the inverse of {@linke #overlayDefaults}.
+   */
+  static Cache.UserPreferences subtractDefaults(
+      Cache.UserPreferences defaults, Cache.UserPreferences userSettings) {
+    Cache.UserPreferences.Builder subtracted = Cache.UserPreferences.newBuilder();
+    for (Map.Entry<String, Cache.UserPreferences.RepeatedPreference> entry :
+        userSettings.getGeneralMap().entrySet()) {
+      if (!entry.getValue().equals(defaults.getGeneralMap().get(entry.getKey()))) {
+        subtracted.putGeneral(entry.getKey(), entry.getValue());
+      }
+    }
+    return subtracted.build();
+  }
+}

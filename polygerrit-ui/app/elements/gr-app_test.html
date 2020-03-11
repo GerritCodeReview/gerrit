@@ -25,13 +25,7 @@ limitations under the License.
 <script src="/bower_components/web-component-tester/browser.js"></script>
 <script src="../test/test-pre-setup.js"></script>
 <link rel="import" href="../test/common-test-setup.html"/>
-
-<script>
-  const link = document.createElement('link');
-  link.setAttribute('rel', 'import');
-  link.setAttribute('href', 'gr-app.html');
-  document.head.appendChild(link);
-</script>
+<link rel="import" href="gr-app.html"/>
 
 <script>void(0);</script>
 
@@ -84,7 +78,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    appElement = () => element.$['app-element'];
+    const appElement = () => element.$['app-element'];
 
     test('reporting', () => {
       assert.isTrue(appElement().$.reporting.appStarted.calledOnce);

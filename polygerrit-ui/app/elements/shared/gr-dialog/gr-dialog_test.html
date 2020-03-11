@@ -55,24 +55,28 @@ limitations under the License.
       element.addEventListener('confirm', handler);
       element.addEventListener('cancel', handler);
 
-      MockInteractions.tap(element.$$('gr-button[primary]'));
-      MockInteractions.tap(element.$$('gr-button:not([primary])'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('gr-button[primary]'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('gr-button:not([primary])'));
     });
 
     test('confirmOnEnter', () => {
       element.confirmOnEnter = false;
       const handleConfirmStub = sandbox.stub(element, '_handleConfirm');
       const handleKeydownSpy = sandbox.spy(element, '_handleKeydown');
-      MockInteractions.pressAndReleaseKeyOn(element.$$('main'),
-          13, null, 'enter');
+      MockInteractions.pressAndReleaseKeyOn(element.shadowRoot
+          .querySelector('main'),
+      13, null, 'enter');
       flushAsynchronousOperations();
 
       assert.isTrue(handleKeydownSpy.called);
       assert.isFalse(handleConfirmStub.called);
 
       element.confirmOnEnter = true;
-      MockInteractions.pressAndReleaseKeyOn(element.$$('main'),
-          13, null, 'enter');
+      MockInteractions.pressAndReleaseKeyOn(element.shadowRoot
+          .querySelector('main'),
+      13, null, 'enter');
       flushAsynchronousOperations();
 
       assert.isTrue(handleConfirmStub.called);

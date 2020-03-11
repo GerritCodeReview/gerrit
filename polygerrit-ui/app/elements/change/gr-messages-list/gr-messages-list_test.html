@@ -352,7 +352,9 @@ limitations under the License.
         const messageID = messages[1].id;
         element.scrollToMessage(messageID);
         assert.isTrue(
-            element.$$('[data-message-id="' + messageID + '"]')._expanded);
+            element.shadowRoot
+                .querySelector('[data-message-id="' + messageID + '"]')
+                ._expanded);
 
         assert.isTrue(scrollToStub.calledOnce);
         assert.isTrue(highlightStub.calledOnce);
@@ -372,7 +374,9 @@ limitations under the License.
         assert.isTrue(highlightStub.calledOnce);
         assert.equal(element._visibleMessages.length, 24);
         assert.isTrue(
-            element.$$('[data-message-id="' + messageID + '"]')._expanded);
+            element.shadowRoot
+                .querySelector('[data-message-id="' + messageID + '"]')
+                ._expanded);
       });
 
       test('messages', () => {

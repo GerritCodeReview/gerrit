@@ -67,7 +67,8 @@ limitations under the License.
       element = fixture('basic');
       elementNoPlaceholder = fixture('no-placeholder');
 
-      label = element.$$('label');
+      label = element.shadowRoot
+          .querySelector('label');
       sandbox = sinon.sandbox.create();
       flush(() => {
         // In Polymer 2 inputElement isn't nativeInput anymore
@@ -226,7 +227,8 @@ limitations under the License.
 
       setup(() => {
         element = fixture('read-only');
-        label = element.$$('label');
+        label = element.shadowRoot
+            .querySelector('label');
       });
 
       test('disallows edit when read-only', () => {

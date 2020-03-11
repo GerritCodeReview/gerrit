@@ -31,7 +31,7 @@
     }
 
     focusOnCopy() {
-      this.$$('gr-copy-clipboard').focusOnCopy();
+      this.shadowRoot.querySelector('gr-copy-clipboard').focusOnCopy();
     }
   }
 

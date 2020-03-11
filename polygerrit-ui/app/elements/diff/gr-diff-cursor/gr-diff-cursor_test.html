@@ -96,7 +96,8 @@ limitations under the License.
       // The cursor has been initialized to the first delta.
       assert.isOk(cursorElement.diffRow);
 
-      const firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+      const firstDeltaRow = diffElement.shadowRoot
+          .querySelector('.section.delta .diff-row');
       assert.equal(cursorElement.diffRow, firstDeltaRow);
 
       cursorElement.moveDown();
@@ -152,10 +153,12 @@ limitations under the License.
         // The cursor has been initialized to the first delta.
         assert.isOk(cursorElement.diffRow);
 
-        let firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+        let firstDeltaRow = diffElement.shadowRoot
+            .querySelector('.section.delta .diff-row');
         assert.equal(cursorElement.diffRow, firstDeltaRow);
 
-        firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+        firstDeltaRow = diffElement.shadowRoot
+            .querySelector('.section.delta .diff-row');
         assert.equal(cursorElement.diffRow, firstDeltaRow);
 
         cursorElement.moveDown();
@@ -175,7 +178,8 @@ limitations under the License.
       // mode.
       assert.equal(diffElement.viewMode, 'SIDE_BY_SIDE');
 
-      const firstDeltaSection = diffElement.$$('.section.delta');
+      const firstDeltaSection = diffElement.shadowRoot
+          .querySelector('.section.delta');
       const firstDeltaRow = firstDeltaSection.querySelector('.diff-row');
 
       // Because the first delta in this diff is on the right, it should be set
@@ -383,7 +387,8 @@ limitations under the License.
 
     test('expand context updates stops', done => {
       sandbox.spy(cursorElement, 'handleDiffUpdate');
-      MockInteractions.tap(diffElement.$$('.showContext'));
+      MockInteractions.tap(diffElement.shadowRoot
+          .querySelector('.showContext'));
       flush(() => {
         assert.isTrue(cursorElement.handleDiffUpdate.called);
         done();

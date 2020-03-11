@@ -58,16 +58,19 @@ limitations under the License.
 
     test('controls hidden on immutable element', () => {
       element.mutable = false;
-      assert.isTrue(element.$$('.controlsContainer').hasAttribute('hidden'));
+      assert.isTrue(element.shadowRoot
+          .querySelector('.controlsContainer').hasAttribute('hidden'));
       element.mutable = true;
-      assert.isFalse(element.$$('.controlsContainer').hasAttribute('hidden'));
+      assert.isFalse(element.shadowRoot
+          .querySelector('.controlsContainer').hasAttribute('hidden'));
     });
 
     test('add reviewer button opens reply dialog', done => {
       element.addEventListener('show-reply-dialog', () => {
         done();
       });
-      MockInteractions.tap(element.$$('.addReviewer'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('.addReviewer'));
     });
 
     test('only show remove for removable reviewers', () => {
@@ -123,7 +126,8 @@ limitations under the License.
         const accountID = el.account._account_id || el.account.email;
         assert.ok(accountID);
 
-        const buttonEl = el.$$('gr-button');
+        const buttonEl = el.shadowRoot
+            .querySelector('gr-button');
         assert.isNotNull(buttonEl);
         if (accountID == 2) {
           assert.isTrue(buttonEl.hasAttribute('hidden'));
@@ -213,7 +217,8 @@ limitations under the License.
       assert.equal(element._hiddenReviewerCount, 0);
       assert.equal(element._displayedReviewers.length, 6);
       assert.equal(element._reviewers.length, 6);
-      assert.isTrue(element.$$('.hiddenReviewers').hidden);
+      assert.isTrue(element.shadowRoot
+          .querySelector('.hiddenReviewers').hidden);
     });
 
     test('show all reviewers button with 8 reviewers', () => {
@@ -236,7 +241,8 @@ limitations under the License.
       assert.equal(element._hiddenReviewerCount, 3);
       assert.equal(element._displayedReviewers.length, 5);
       assert.equal(element._reviewers.length, 8);
-      assert.isFalse(element.$$('.hiddenReviewers').hidden);
+      assert.isFalse(element.shadowRoot
+          .querySelector('.hiddenReviewers').hidden);
     });
 
     test('no maxReviewersDisplayed', () => {
@@ -258,7 +264,8 @@ limitations under the License.
       assert.equal(element._hiddenReviewerCount, 0);
       assert.equal(element._displayedReviewers.length, 7);
       assert.equal(element._reviewers.length, 7);
-      assert.isTrue(element.$$('.hiddenReviewers').hidden);
+      assert.isTrue(element.shadowRoot
+          .querySelector('.hiddenReviewers').hidden);
     });
 
     test('show all reviewers button', () => {
@@ -281,14 +288,17 @@ limitations under the License.
       assert.equal(element._hiddenReviewerCount, 95);
       assert.equal(element._displayedReviewers.length, 5);
       assert.equal(element._reviewers.length, 100);
-      assert.isFalse(element.$$('.hiddenReviewers').hidden);
+      assert.isFalse(element.shadowRoot
+          .querySelector('.hiddenReviewers').hidden);
 
-      MockInteractions.tap(element.$$('.hiddenReviewers'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('.hiddenReviewers'));
 
       assert.equal(element._hiddenReviewerCount, 0);
       assert.equal(element._displayedReviewers.length, 100);
       assert.equal(element._reviewers.length, 100);
-      assert.isTrue(element.$$('.hiddenReviewers').hidden);
+      assert.isTrue(element.shadowRoot
+          .querySelector('.hiddenReviewers').hidden);
     });
 
     test('votable labels', () => {

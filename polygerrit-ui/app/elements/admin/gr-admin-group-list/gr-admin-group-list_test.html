@@ -163,7 +163,8 @@ limitations under the License.
     suite('create new', () => {
       test('_handleCreateClicked called when create-click fired', () => {
         sandbox.stub(element, '_handleCreateClicked');
-        element.$$('gr-list-view').fire('create-clicked');
+        element.shadowRoot
+            .querySelector('gr-list-view').fire('create-clicked');
         assert.isTrue(element._handleCreateClicked.called);
       });
 

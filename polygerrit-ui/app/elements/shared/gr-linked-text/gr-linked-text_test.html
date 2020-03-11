@@ -357,7 +357,8 @@ limitations under the License.
       const links = Polymer.dom(element.root).querySelectorAll('a');
 
       assert.equal(links.length, 2);
-      assert.equal(element.$$('span').textContent, '- B: 123, 45');
+      assert.equal(element.shadowRoot
+          .querySelector('span').textContent, '- B: 123, 45');
 
       assert.equal(links[0].href, 'ftp://foo/123');
       assert.equal(links[0].textContent, '123');

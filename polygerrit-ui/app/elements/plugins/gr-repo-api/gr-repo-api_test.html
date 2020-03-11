@@ -70,13 +70,16 @@ limitations under the License.
       const element = fixture('basic');
       flush(() => {
         assert.isTrue(attachedStub.called);
-        const pluginCommand = element.$$('gr-plugin-repo-command');
+        const pluginCommand = element.shadowRoot
+            .querySelector('gr-plugin-repo-command');
         assert.isOk(pluginCommand);
-        const command = pluginCommand.$$('gr-repo-command');
+        const command = pluginCommand.shadowRoot
+            .querySelector('gr-repo-command');
         assert.isOk(command);
         assert.equal(command.title, 'foo');
         assert.isFalse(tapStub.called);
-        MockInteractions.tap(command.$$('gr-button'));
+        MockInteractions.tap(command.shadowRoot
+            .querySelector('gr-button'));
         assert.isTrue(tapStub.called);
         done();
       });

@@ -470,7 +470,7 @@
     _handleAccountDetailUpdate(e) {
       this.$.mainHeader.reload();
       if (this.params.view === Gerrit.Nav.View.SETTINGS) {
-        this.$$('gr-settings-view').reloadAccountDetail();
+        this.shadowRoot.querySelector('gr-settings-view').reloadAccountDetail();
       }
     }
 

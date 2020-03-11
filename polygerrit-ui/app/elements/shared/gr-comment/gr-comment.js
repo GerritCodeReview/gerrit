@@ -433,7 +433,7 @@
 
       this.$.container.classList.toggle('editing', editing);
       if (this.comment && this.comment.id) {
-        this.$$('.cancel').hidden = !editing;
+        this.shadowRoot.querySelector('.cancel').hidden = !editing;
       }
       if (this.comment) {
         this.comment.__editing = this.editing;

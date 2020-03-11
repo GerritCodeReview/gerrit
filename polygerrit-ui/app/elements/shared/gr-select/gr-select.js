@@ -39,7 +39,10 @@
     }
 
     get nativeSelect() {
-      return this.$$('select');
+      // gr-select is not a shadow component
+      // TODO(taoalpha): maybe we should convert
+      // it into a shadow dom component instead
+      return this.querySelector('select');
     }
 
     _updateValue() {

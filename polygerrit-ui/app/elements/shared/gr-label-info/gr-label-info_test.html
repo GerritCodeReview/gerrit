@@ -82,7 +82,8 @@ limitations under the License.
 
       test('_computeCanDeleteVote', () => {
         element.mutable = false;
-        const button = element.$$('gr-button');
+        const button = element.shadowRoot
+            .querySelector('gr-button');
         assert.isTrue(isHidden(button));
         element.change.removable_reviewers = [element.account];
         element.mutable = true;
@@ -97,7 +98,8 @@ limitations under the License.
         element.change.removable_reviewers = [element.account];
         element.change.labels.test.recommended = {_account_id: 1};
         element.mutable = true;
-        const button = element.$$('gr-button');
+        const button = element.shadowRoot
+            .querySelector('gr-button');
         MockInteractions.tap(button);
         assert.isTrue(button.disabled);
         return deleteResponse.then(() => {
@@ -223,11 +225,14 @@ limitations under the License.
 
     test('placeholder', () => {
       element.labelInfo = {};
-      assert.isFalse(isHidden(element.$$('.placeholder')));
+      assert.isFalse(isHidden(element.shadowRoot
+          .querySelector('.placeholder')));
       element.labelInfo = {all: []};
-      assert.isFalse(isHidden(element.$$('.placeholder')));
+      assert.isFalse(isHidden(element.shadowRoot
+          .querySelector('.placeholder')));
       element.labelInfo = {all: [{value: 1}]};
-      assert.isTrue(isHidden(element.$$('.placeholder')));
+      assert.isTrue(isHidden(element.shadowRoot
+          .querySelector('.placeholder')));
     });
   });
 </script>

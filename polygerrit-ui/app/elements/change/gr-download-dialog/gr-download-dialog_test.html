@@ -191,7 +191,8 @@ limitations under the License.
         element.addEventListener('close', () => {
           done();
         });
-        MockInteractions.tap(element.$$('.closeButtonContainer gr-button'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.closeButtonContainer gr-button'));
       });
     });
 

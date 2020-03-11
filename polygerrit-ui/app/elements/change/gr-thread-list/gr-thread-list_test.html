@@ -246,11 +246,13 @@ limitations under the License.
     });
 
     test('draft toggle only appears when logged in', () => {
-      assert.equal(getComputedStyle(element.$$('.draftToggle')).display,
-          'none');
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('.draftToggle')).display,
+      'none');
       element.loggedIn = true;
-      assert.notEqual(getComputedStyle(element.$$('.draftToggle')).display,
-          'none');
+      assert.notEqual(getComputedStyle(element.shadowRoot
+          .querySelector('.draftToggle')).display,
+      'none');
     });
 
     test('there are five threads by default', () => {

@@ -304,14 +304,16 @@
 
     setLabelValue(label, value) {
       const selectorEl =
-          this.$.labelScores.$$(`gr-label-score-row[name="${label}"]`);
+          this.$.labelScores.shadowRoot
+              .querySelector(`gr-label-score-row[name="${label}"]`);
       if (!selectorEl) { return; }
       selectorEl.setSelectedValue(value);
     }
 
     getLabelValue(label) {
       const selectorEl =
-          this.$.labelScores.$$(`gr-label-score-row[name="${label}"]`);
+          this.$.labelScores.shadowRoot
+              .querySelector(`gr-label-score-row[name="${label}"]`);
       if (!selectorEl) { return null; }
 
       return selectorEl.selectedValue;

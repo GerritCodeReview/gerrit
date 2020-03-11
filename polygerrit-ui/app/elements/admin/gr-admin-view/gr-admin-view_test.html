@@ -95,8 +95,10 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.equal(Polymer.dom(element.root).querySelectorAll(
           '.selected').length, 1);
-      assert.ok(element.$$('gr-repo-list'));
-      assert.isNotOk(element.$$('gr-admin-create-repo'));
+      assert.ok(element.shadowRoot
+          .querySelector('gr-repo-list'));
+      assert.isNotOk(element.shadowRoot
+          .querySelector('gr-admin-create-repo'));
     });
 
     test('_filteredLinks admin', done => {
@@ -203,7 +205,8 @@ limitations under the License.
         flushAsynchronousOperations();
         assert.equal(Polymer.dom(element.root)
             .querySelectorAll('.sectionTitle').length, 3);
-        assert.equal(element.$$('.breadcrumbText').innerText, 'Test Repo');
+        assert.equal(element.shadowRoot
+            .querySelector('.breadcrumbText').innerText, 'Test Repo');
         assert.equal(
             element.shadowRoot.querySelector('#pageSelect').items.length,
             6
@@ -297,11 +300,13 @@ limitations under the License.
       element.params = {group: 1, view: Gerrit.Nav.View.GROUP};
       element._groupName = 'oldName';
       flushAsynchronousOperations();
-      element.$$('gr-group').fire('name-changed', {name: newName});
+      element.shadowRoot
+          .querySelector('gr-group').fire('name-changed', {name: newName});
     });
 
     test('dropdown displays if there is a subsection', () => {
-      assert.isNotOk(element.$$('.mainHeader'));
+      assert.isNotOk(element.shadowRoot
+          .querySelector('.mainHeader'));
       element._subsectionLinks = [
         {
           text: 'Home',
@@ -313,11 +318,13 @@ limitations under the License.
         },
       ];
       flushAsynchronousOperations();
-      assert.isOk(element.$$('.mainHeader'));
+      assert.isOk(element.shadowRoot
+          .querySelector('.mainHeader'));
       element._subsectionLinks = undefined;
       flushAsynchronousOperations();
       assert.equal(
-          getComputedStyle(element.$$('.mainHeader')).display,
+          getComputedStyle(element.shadowRoot
+              .querySelector('.mainHeader')).display,
           'none');
     });
 
@@ -521,7 +528,8 @@ limitations under the License.
             openCreateModal: false,
           };
           flushAsynchronousOperations();
-          const selected = element.$$('gr-page-nav .selected');
+          const selected = element.shadowRoot
+              .querySelector('gr-page-nav .selected');
           assert.isOk(selected);
           assert.equal(selected.textContent.trim(), 'Repositories');
         });
@@ -534,7 +542,8 @@ limitations under the License.
           element._repoName = 'foo';
           return element.reload().then(() => {
             flushAsynchronousOperations();
-            const selected = element.$$('gr-page-nav .selected');
+            const selected = element.shadowRoot
+                .querySelector('gr-page-nav .selected');
             assert.isOk(selected);
             assert.equal(selected.textContent.trim(), 'foo');
           });
@@ -549,7 +558,8 @@ limitations under the License.
           element._repoName = 'foo';
           return element.reload().then(() => {
             flushAsynchronousOperations();
-            const selected = element.$$('gr-page-nav .selected');
+            const selected = element.shadowRoot
+                .querySelector('gr-page-nav .selected');
             assert.isOk(selected);
             assert.equal(selected.textContent.trim(), 'Access');
           });
@@ -564,7 +574,8 @@ limitations under the License.
           element._repoName = 'foo';
           return element.reload().then(() => {
             flushAsynchronousOperations();
-            const selected = element.$$('gr-page-nav .selected');
+            const selected = element.shadowRoot
+                .querySelector('gr-page-nav .selected');
             assert.isOk(selected);
             assert.equal(selected.textContent.trim(), 'Dashboards');
           });
@@ -597,7 +608,8 @@ limitations under the License.
             openCreateModal: false,
           };
           flushAsynchronousOperations();
-          const selected = element.$$('gr-page-nav .selected');
+          const selected = element.shadowRoot
+              .querySelector('gr-page-nav .selected');
           assert.isOk(selected);
           assert.equal(selected.textContent.trim(), 'Groups');
         });
@@ -614,7 +626,8 @@ limitations under the License.
                 .querySelectorAll('.subsectionItem');
             assert.equal(subsectionItems.length, 2);
             assert.isTrue(element._groupIsInternal);
-            const selected = element.$$('gr-page-nav .selected');
+            const selected = element.shadowRoot
+                .querySelector('gr-page-nav .selected');
             assert.isOk(selected);
             assert.equal(selected.textContent.trim(), 'foo');
           });
@@ -638,7 +651,8 @@ limitations under the License.
                 .querySelectorAll('.subsectionItem');
             assert.equal(subsectionItems.length, 0);
             assert.isFalse(element._groupIsInternal);
-            const selected = element.$$('gr-page-nav .selected');
+            const selected = element.shadowRoot
+                .querySelector('gr-page-nav .selected');
             assert.isOk(selected);
             assert.equal(selected.textContent.trim(), 'foo');
           });
@@ -653,7 +667,8 @@ limitations under the License.
           element._groupName = 'foo';
           return element.reload().then(() => {
             flushAsynchronousOperations();
-            const selected = element.$$('gr-page-nav .selected');
+            const selected = element.shadowRoot
+                .querySelector('gr-page-nav .selected');
             assert.isOk(selected);
             assert.equal(selected.textContent.trim(), 'Members');
           });

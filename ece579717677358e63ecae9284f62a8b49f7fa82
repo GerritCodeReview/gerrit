@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa3d203_a7926e49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-03-11T08:53:40Z",
+      "side": 1,
+      "message": "Add an example here to demonstrate the new usage, e.g.:\n\n  Logger LOG \u003d NamedFluentLogger.forName(\"foo\");",
+      "revId": "ece579717677358e63ecae9284f62a8b49f7fa82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "facffe57_4e250472",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-03-11T08:53:40Z",
+      "side": 1,
+      "message": "It\u0027s unlikely this ever happen, so why we are not moving forward to do it the other way around: We remove in all places named logger and force using enlcosing class name as logger name, using FluentLogger.forEnclosingClass() method.",
+      "range": {
+        "startLine": 15,
+        "startChar": 9,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "ece579717677358e63ecae9284f62a8b49f7fa82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69f268f2_43833f46",
+        "filename": "java/com/google/gerrit/server/util/NamedFluentLogger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-03-11T08:53:40Z",
+      "side": 1,
+      "message": "2020?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "ece579717677358e63ecae9284f62a8b49f7fa82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

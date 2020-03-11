@@ -93,7 +93,8 @@
     }
 
     scrollToMessage(messageID) {
-      let el = this.$$('[data-message-id="' + messageID + '"]');
+      let el = this.shadowRoot
+          .querySelector('[data-message-id="' + messageID + '"]');
       // If the message is hidden, expand the hidden messages back to that
       // point.
       if (!el) {
@@ -111,7 +112,8 @@
         this.splice(...['_visibleMessages', 0, 0].concat(newMessages));
         // Allow the dom-repeat to stamp.
         Polymer.dom.flush();
-        el = this.$$('[data-message-id="' + messageID + '"]');
+        el = this.shadowRoot
+            .querySelector('[data-message-id="' + messageID + '"]');
       }
 
       el.set('message.expanded', true);

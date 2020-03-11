@@ -39,7 +39,7 @@
     }
 
     get nativeSelect() {
-      return this.$$('select');
+      return this.shadowRoot.querySelector('select');
     }
 
     _updateValue() {

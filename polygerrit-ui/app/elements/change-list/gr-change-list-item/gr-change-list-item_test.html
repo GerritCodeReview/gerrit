@@ -139,9 +139,11 @@ limitations under the License.
 
       for (const column of element.columnNames) {
         const elementClass = '.' + column.toLowerCase();
-        assert.isOk(element.$$(elementClass),
-            `Expect ${elementClass} element to be found`);
-        assert.isFalse(element.$$(elementClass).hidden);
+        assert.isOk(element.shadowRoot
+            .querySelector(elementClass),
+        `Expect ${elementClass} element to be found`);
+        assert.isFalse(element.shadowRoot
+            .querySelector(elementClass).hidden);
       }
     });
 
@@ -161,9 +163,11 @@ limitations under the License.
       for (const column of element.columnNames) {
         const elementClass = '.' + column.toLowerCase();
         if (column === 'Repo') {
-          assert.isTrue(element.$$(elementClass).hidden);
+          assert.isTrue(element.shadowRoot
+              .querySelector(elementClass).hidden);
         } else {
-          assert.isFalse(element.$$(elementClass).hidden);
+          assert.isFalse(element.shadowRoot
+              .querySelector(elementClass).hidden);
         }
       }
     });
@@ -175,14 +179,17 @@ limitations under the License.
 
       flushAsynchronousOperations();
       const elementClass = '.bad';
-      assert.isNotOk(element.$$(elementClass));
+      assert.isNotOk(element.shadowRoot
+          .querySelector(elementClass));
     });
 
     test('assignee only displayed if there is one', () => {
       element.change = {};
       flushAsynchronousOperations();
-      assert.isNotOk(element.$$('.assignee gr-account-link'));
-      assert.equal(element.$$('.assignee').textContent.trim(), '--');
+      assert.isNotOk(element.shadowRoot
+          .querySelector('.assignee gr-account-link'));
+      assert.equal(element.shadowRoot
+          .querySelector('.assignee').textContent.trim(), '--');
       element.change = {
         assignee: {
           name: 'test',
@@ -190,7 +197,8 @@ limitations under the License.
         },
       };
       flushAsynchronousOperations();
-      assert.isOk(element.$$('.assignee gr-account-link'));
+      assert.isOk(element.shadowRoot
+          .querySelector('.assignee gr-account-link'));
     });
 
     test('TShirt sizing tooltip', () => {

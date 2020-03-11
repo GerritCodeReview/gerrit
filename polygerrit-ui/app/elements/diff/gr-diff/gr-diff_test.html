@@ -212,7 +212,10 @@ limitations under the License.
 
       test('view does not start with displayLine classList', () => {
         assert.isFalse(
-            element.$$('.diffContainer').classList.contains('displayLine'));
+            element.shadowRoot
+                .querySelector('.diffContainer')
+                .classList
+                .contains('displayLine'));
       });
 
       test('displayLine class added called when displayLine is true', () => {
@@ -220,7 +223,10 @@ limitations under the License.
         element.displayLine = true;
         assert.isTrue(spy.called);
         assert.isTrue(
-            element.$$('.diffContainer').classList.contains('displayLine'));
+            element.shadowRoot
+                .querySelector('.diffContainer')
+                .classList
+                .contains('displayLine'));
       });
 
       test('thread groups', () => {
@@ -631,7 +637,8 @@ limitations under the License.
       test('adds .hiddenscroll', () => {
         Gerrit.hiddenscroll = true;
         element.displayLine = true;
-        assert.include(element.$$('.diffContainer').className, 'hiddenscroll');
+        assert.include(element.shadowRoot
+            .querySelector('.diffContainer').className, 'hiddenscroll');
       });
     });
 

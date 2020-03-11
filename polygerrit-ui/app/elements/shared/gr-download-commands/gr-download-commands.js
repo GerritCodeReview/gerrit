@@ -53,7 +53,7 @@
     }
 
     focusOnCopy() {
-      this.$$('gr-shell-command').focusOnCopy();
+      this.shadowRoot.querySelector('gr-shell-command').focusOnCopy();
     }
 
     _getLoggedIn() {

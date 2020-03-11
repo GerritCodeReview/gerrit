@@ -47,7 +47,8 @@
       for (const label in this.permittedLabels) {
         if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
 
-        const selectorEl = this.$$(`gr-label-score-row[name="${label}"]`);
+        const selectorEl = this.shadowRoot
+            .querySelector(`gr-label-score-row[name="${label}"]`);
         if (!selectorEl) { continue; }
 
         // The user may have not voted on this label.

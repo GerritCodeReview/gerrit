@@ -56,10 +56,12 @@ limitations under the License.
       element.action = {label: 'my-label'};
       element.change = {subject: 'my-subject'};
       flushAsynchronousOperations();
-      const header = element.$$('.header');
+      const header = element.shadowRoot
+          .querySelector('.header');
       assert.equal(header.textContent.trim(), 'my-label');
 
-      const message = element.$$('.main p');
+      const message = element.shadowRoot
+          .querySelector('.main p');
       assert.notEqual(message.textContent.length, 0);
       assert.notEqual(message.textContent.indexOf('my-subject'), -1);
     });

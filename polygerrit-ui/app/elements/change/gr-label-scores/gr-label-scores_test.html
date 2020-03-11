@@ -111,7 +111,8 @@ limitations under the License.
     test('get and set label scores', () => {
       for (const label in element.permittedLabels) {
         if (element.permittedLabels.hasOwnProperty(label)) {
-          const row = element.$$('gr-label-score-row[name="' + label + '"]');
+          const row = element.shadowRoot
+              .querySelector('gr-label-score-row[name="' + label + '"]');
           row.setSelectedValue(-1);
         }
       }

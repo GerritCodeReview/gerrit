@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84648391_2f31583c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-11T19:43:03Z",
+      "side": 1,
+      "message": "Please generally try to stick to 72 chars in line length. The Gerrit UI widget will otherwise have odd line breaks.\n\nBonus points for writing a linter that automatically formats the commit message, ideally as a pre-commit hook. :-)",
+      "revId": "cf702d4d585e2e4f9551d2ae2a3f6c2341430c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

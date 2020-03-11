@@ -57,14 +57,16 @@ limitations under the License.
         assert.equal(e.detail.content, 'foo');
         done();
       });
-      MockInteractions.tap(element.$$('gr-button[primary]'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('gr-button[primary]'));
     });
 
     test('cancel event', done => {
       element.addEventListener('editable-content-cancel', () => {
         done();
       });
-      MockInteractions.tap(element.$$('gr-button:not([primary])'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('gr-button:not([primary])'));
     });
 
     test('enabling editing keeps old content', () => {
@@ -96,12 +98,14 @@ limitations under the License.
       });
 
       test('save button is disabled initially', () => {
-        assert.isTrue(element.$$('gr-button[primary]').disabled);
+        assert.isTrue(element.shadowRoot
+            .querySelector('gr-button[primary]').disabled);
       });
 
       test('save button is enabled when content changes', () => {
         element._newContent = 'new content';
-        assert.isFalse(element.$$('gr-button[primary]').disabled);
+        assert.isFalse(element.shadowRoot
+            .querySelector('gr-button[primary]').disabled);
       });
     });
 

@@ -471,11 +471,11 @@
     }
 
     get messagesList() {
-      return this.$$('gr-messages-list');
+      return this.shadowRoot.querySelector('gr-messages-list');
     }
 
     get threadList() {
-      return this.$$('gr-thread-list');
+      return this.shadowRoot.querySelector('gr-thread-list');
     }
 
     /**

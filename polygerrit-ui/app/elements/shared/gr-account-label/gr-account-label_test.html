@@ -166,7 +166,8 @@ limitations under the License.
 
       test('status text should not have tooltip', () => {
         flushAsynchronousOperations();
-        assert.deepEqual(element.$$('gr-limited-text').title, '');
+        assert.deepEqual(element.shadowRoot
+            .querySelector('gr-limited-text').title, '');
       });
 
       test('status text should honor the name length and total length', () => {

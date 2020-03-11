@@ -347,7 +347,8 @@ limitations under the License.
       test('all columns visible', () => {
         for (const column of element.columnNames) {
           const elementClass = '.' + element._lowerCase(column);
-          assert.isFalse(element.$$(elementClass).hidden);
+          assert.isFalse(element.shadowRoot
+              .querySelector(elementClass).hidden);
         }
       });
     });
@@ -381,7 +382,8 @@ limitations under the License.
       test('all columns visible', () => {
         for (const column of element.changeTableColumns) {
           const elementClass = '.' + element._lowerCase(column);
-          assert.isFalse(element.$$(elementClass).hidden);
+          assert.isFalse(element.shadowRoot
+              .querySelector(elementClass).hidden);
         }
       });
     });
@@ -415,9 +417,11 @@ limitations under the License.
         for (const column of element.changeTableColumns) {
           const elementClass = '.' + column.toLowerCase();
           if (column === 'Repo') {
-            assert.isTrue(element.$$(elementClass).hidden);
+            assert.isTrue(element.shadowRoot
+                .querySelector(elementClass).hidden);
           } else {
-            assert.isFalse(element.$$(elementClass).hidden);
+            assert.isFalse(element.shadowRoot
+                .querySelector(elementClass).hidden);
           }
         }
       });
@@ -443,7 +447,8 @@ limitations under the License.
 
       test('bad column does not exist', () => {
         const elementClass = '.bad';
-        assert.isNotOk(element.$$(elementClass));
+        assert.isNotOk(element.shadowRoot
+            .querySelector(elementClass));
       });
     });
 

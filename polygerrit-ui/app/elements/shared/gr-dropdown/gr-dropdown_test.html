@@ -129,7 +129,8 @@ limitations under the License.
       element.addEventListener('tap-item-foo', fooTapped);
       element.addEventListener('tap-item', tapped);
       flushAsynchronousOperations();
-      MockInteractions.tap(element.$$('.itemAction'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('.itemAction'));
       assert.isTrue(fooTapped.called);
       assert.isTrue(tapped.called);
       assert.deepEqual(tapped.lastCall.args[0].detail, item0);
@@ -144,7 +145,8 @@ limitations under the License.
       element.addEventListener('tap-item-foo', stub);
       element.addEventListener('tap-item', tapped);
       flushAsynchronousOperations();
-      MockInteractions.tap(element.$$('.itemAction'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('.itemAction'));
       assert.isFalse(stub.called);
       assert.isFalse(tapped.called);
     });

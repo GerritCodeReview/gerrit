@@ -94,7 +94,8 @@ limitations under the License.
           openAutoCcmplete.text = 'src/test.cpp';
           assert.isTrue(queryStub.called);
           assert.isFalse(element.$.openDialog.disabled);
-          MockInteractions.tap(element.$.openDialog.$$('gr-button[primary]'));
+          MockInteractions.tap(element.$.openDialog.shadowRoot
+              .querySelector('gr-button[primary]'));
           for (const stub of navStubs) { assert.isTrue(stub.called); }
           assert.deepEqual(Gerrit.Nav.getEditUrlForDiff.lastCall.args,
               [element.change, 'src/test.cpp', element.patchNum]);
@@ -109,7 +110,8 @@ limitations under the License.
           openAutoCcmplete.noDebounce = true;
           openAutoCcmplete.text = 'src/test.cpp';
           assert.isFalse(element.$.openDialog.disabled);
-          MockInteractions.tap(element.$.openDialog.$$('gr-button'));
+          MockInteractions.tap(element.$.openDialog.shadowRoot
+              .querySelector('gr-button'));
           for (const stub of navStubs) { assert.isFalse(stub.called); }
           assert.isTrue(closeDialogSpy.called);
           assert.equal(element._path, 'src/test.cpp');
@@ -139,7 +141,8 @@ limitations under the License.
           deleteAutocomplete.text = 'src/test.cpp';
           assert.isTrue(queryStub.called);
           assert.isFalse(element.$.deleteDialog.disabled);
-          MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
+          MockInteractions.tap(element.$.deleteDialog.shadowRoot
+              .querySelector('gr-button[primary]'));
           flushAsynchronousOperations();
   
           assert.isTrue(deleteStub.called);
@@ -162,7 +165,8 @@ limitations under the License.
           deleteAutocomplete.text = 'src/test.cpp';
           assert.isTrue(queryStub.called);
           assert.isFalse(element.$.deleteDialog.disabled);
-          MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
+          MockInteractions.tap(element.$.deleteDialog.shadowRoot
+              .querySelector('gr-button[primary]'));
           flushAsynchronousOperations();
   
           assert.isTrue(deleteStub.called);
@@ -181,7 +185,8 @@ limitations under the License.
           element.$.deleteDialog.querySelector('gr-autocomplete').text =
               'src/test.cpp';
           assert.isFalse(element.$.deleteDialog.disabled);
-          MockInteractions.tap(element.$.deleteDialog.$$('gr-button'));
+          MockInteractions.tap(element.$.deleteDialog.shadowRoot
+              .querySelector('gr-button'));
           assert.isFalse(navStub.called);
           assert.isTrue(closeDialogSpy.called);
           assert.equal(element._path, 'src/test.cpp');
@@ -219,7 +224,8 @@ limitations under the License.
               'src/test.newPath';
   
           assert.isFalse(element.$.renameDialog.disabled);
-          MockInteractions.tap(element.$.renameDialog.$$('gr-button[primary]'));
+          MockInteractions.tap(element.$.renameDialog.shadowRoot
+              .querySelector('gr-button[primary]'));
           flushAsynchronousOperations();
   
           assert.isTrue(renameStub.called);
@@ -247,7 +253,8 @@ limitations under the License.
               'src/test.newPath';
   
           assert.isFalse(element.$.renameDialog.disabled);
-          MockInteractions.tap(element.$.renameDialog.$$('gr-button[primary]'));
+          MockInteractions.tap(element.$.renameDialog.shadowRoot
+              .querySelector('gr-button[primary]'));
           flushAsynchronousOperations();
   
           assert.isTrue(renameStub.called);
@@ -268,7 +275,8 @@ limitations under the License.
           element.$.renameDialog.querySelector(inputSelector).bindValue =
               'src/test.newPath';
           assert.isFalse(element.$.renameDialog.disabled);
-          MockInteractions.tap(element.$.renameDialog.$$('gr-button'));
+          MockInteractions.tap(element.$.renameDialog.shadowRoot
+              .querySelector('gr-button'));
           assert.isFalse(navStub.called);
           assert.isTrue(closeDialogSpy.called);
           assert.equal(element._path, 'src/test.cpp');
@@ -296,7 +304,8 @@ limitations under the License.
         element._path = 'src/test.cpp';
         MockInteractions.tap(element.shadowRoot.querySelector('#restore'));
         return showDialogSpy.lastCall.returnValue.then(() => {
-          MockInteractions.tap(element.$.restoreDialog.$$('gr-button[primary]'));
+          MockInteractions.tap(element.$.restoreDialog.shadowRoot
+              .querySelector('gr-button[primary]'));
           flushAsynchronousOperations();
   
           assert.isTrue(restoreStub.called);
@@ -314,7 +323,8 @@ limitations under the License.
         element._path = 'src/test.cpp';
         MockInteractions.tap(element.shadowRoot.querySelector('#restore'));
         return showDialogSpy.lastCall.returnValue.then(() => {
-          MockInteractions.tap(element.$.restoreDialog.$$('gr-button[primary]'));
+          MockInteractions.tap(element.$.restoreDialog.shadowRoot
+              .querySelector('gr-button[primary]'));
           flushAsynchronousOperations();
   
           assert.isTrue(restoreStub.called);
@@ -330,7 +340,8 @@ limitations under the License.
         element._path = 'src/test.cpp';
         MockInteractions.tap(element.shadowRoot.querySelector('#restore'));
         return showDialogSpy.lastCall.returnValue.then(() => {
-          MockInteractions.tap(element.$.restoreDialog.$$('gr-button'));
+          MockInteractions.tap(element.$.restoreDialog.shadowRoot
+              .querySelector('gr-button'));
           assert.isFalse(navStub.called);
           assert.isTrue(closeDialogSpy.called);
           assert.equal(element._path, 'src/test.cpp');

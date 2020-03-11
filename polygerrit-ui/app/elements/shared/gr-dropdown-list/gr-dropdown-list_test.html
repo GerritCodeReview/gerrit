@@ -94,7 +94,8 @@ limitations under the License.
           mobileText: 'Mobile Text 3',
         },
       ];
-      assert.equal(element.$$('paper-listbox').selected, element.value);
+      assert.equal(element.shadowRoot
+          .querySelector('paper-listbox').selected, element.value);
       assert.equal(element.text, 'Button Text 2');
       flush(() => {
         const items = Polymer.dom(element.root).querySelectorAll('paper-item');

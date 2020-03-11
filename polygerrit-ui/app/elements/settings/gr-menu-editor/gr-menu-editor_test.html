@@ -55,8 +55,10 @@ limitations under the License.
       const selector = 'tr:nth-child(' + (index + 1) + ') .move' +
           direction + 'Button';
       const button =
-          element.$$('tbody').querySelector(selector)
-              .$$('paper-button');
+          element.shadowRoot
+              .querySelector('tbody').querySelector(selector)
+              .shadowRoot
+              .querySelector('paper-button');
       MockInteractions.tap(button);
     }
 
@@ -73,7 +75,8 @@ limitations under the License.
     });
 
     test('renders', () => {
-      const rows = element.$$('tbody').querySelectorAll('tr');
+      const rows = element.shadowRoot
+          .querySelector('tbody').querySelectorAll('tr');
       let tds;
 
       assert.equal(rows.length, menu.length);
@@ -149,17 +152,21 @@ limitations under the License.
           ['first name', 'second name', 'third name']);
 
       // Tap the delete button for the middle item.
-      MockInteractions.tap(element.$$('tbody')
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('tbody')
           .querySelector('tr:nth-child(2) .remove-button')
-          .$$('paper-button'));
+          .shadowRoot
+          .querySelector('paper-button'));
 
       assertMenuNamesEqual(element, ['first name', 'third name']);
 
       // Delete remaining items.
       for (let i = 0; i < 2; i++) {
-        MockInteractions.tap(element.$$('tbody')
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('tbody')
             .querySelector('tr:first-child .remove-button')
-            .$$('paper-button'));
+            .shadowRoot
+            .querySelector('paper-button'));
       }
       assertMenuNamesEqual(element, []);
 

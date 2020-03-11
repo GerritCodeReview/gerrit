@@ -81,34 +81,41 @@ limitations under the License.
       test('collapsible comments', () => {
         // When a comment (not draft) is loaded, it should be collapsed
         assert.isTrue(element.collapsed);
-        assert.isFalse(isVisible(element.$$('gr-formatted-text')),
-            'gr-formatted-text is not visible');
-        assert.isFalse(isVisible(element.$$('.actions')),
-            'actions are not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('gr-formatted-text')),
+        'gr-formatted-text is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.actions')),
+        'actions are not visible');
         assert.isNotOk(element.textarea, 'textarea is not visible');
 
         // The header middle content is only visible when comments are collapsed.
         // It shows the message in a condensed way, and limits to a single line.
-        assert.isTrue(isVisible(element.$$('.collapsedContent')),
-            'header middle content is visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.collapsedContent')),
+        'header middle content is visible');
 
         // When the header row is clicked, the comment should expand
         MockInteractions.tap(element.$.header);
         assert.isFalse(element.collapsed);
-        assert.isTrue(isVisible(element.$$('gr-formatted-text')),
-            'gr-formatted-text is visible');
-        assert.isTrue(isVisible(element.$$('.actions')),
-            'actions are visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('gr-formatted-text')),
+        'gr-formatted-text is visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.actions')),
+        'actions are visible');
         assert.isNotOk(element.textarea, 'textarea is not visible');
-        assert.isFalse(isVisible(element.$$('.collapsedContent')),
-            'header middle content is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.collapsedContent')),
+        'header middle content is not visible');
       });
 
       test('clicking on date link fires event', () => {
         element.side = 'PARENT';
         const stub = sinon.stub();
         element.addEventListener('comment-anchor-tap', stub);
-        const dateEl = element.$$('.date');
+        const dateEl = element.shadowRoot
+            .querySelector('.date');
         assert.ok(dateEl);
         MockInteractions.tap(dateEl);
 
@@ -168,23 +175,29 @@ limitations under the License.
 
       test('comment expand and collapse', () => {
         element.collapsed = true;
-        assert.isFalse(isVisible(element.$$('gr-formatted-text')),
-            'gr-formatted-text is not visible');
-        assert.isFalse(isVisible(element.$$('.actions')),
-            'actions are not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('gr-formatted-text')),
+        'gr-formatted-text is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.actions')),
+        'actions are not visible');
         assert.isNotOk(element.textarea, 'textarea is not visible');
-        assert.isTrue(isVisible(element.$$('.collapsedContent')),
-            'header middle content is visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.collapsedContent')),
+        'header middle content is visible');
 
         element.collapsed = false;
         assert.isFalse(element.collapsed);
-        assert.isTrue(isVisible(element.$$('gr-formatted-text')),
-            'gr-formatted-text is visible');
-        assert.isTrue(isVisible(element.$$('.actions')),
-            'actions are visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('gr-formatted-text')),
+        'gr-formatted-text is visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.actions')),
+        'actions are visible');
         assert.isNotOk(element.textarea, 'textarea is not visible');
-        assert.isFalse(isVisible(element.$$('.collapsedContent')),
-            'header middle content is is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.collapsedContent')),
+        'header middle content is is not visible');
       });
 
       suite('while editing', () => {
@@ -253,14 +266,16 @@ limitations under the License.
       });
       test('delete comment button for non-admins is hidden', () => {
         element._isAdmin = false;
-        assert.isFalse(element.$$('.action.delete')
+        assert.isFalse(element.shadowRoot
+            .querySelector('.action.delete')
             .classList.contains('showDeleteButtons'));
       });
 
       test('delete comment button for admins with draft is hidden', () => {
         element._isAdmin = false;
         element.draft = true;
-        assert.isFalse(element.$$('.action.delete')
+        assert.isFalse(element.shadowRoot
+            .querySelector('.action.delete')
             .classList.contains('showDeleteButtons'));
       });
 
@@ -271,9 +286,11 @@ limitations under the License.
         element.changeNum = 42;
         element.patchNum = 0xDEADBEEF;
         element._isAdmin = true;
-        assert.isTrue(element.$$('.action.delete')
+        assert.isTrue(element.shadowRoot
+            .querySelector('.action.delete')
             .classList.contains('showDeleteButtons'));
-        MockInteractions.tap(element.$$('.action.delete'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.action.delete'));
         flush(() => {
           element.confirmDeleteOverlay.open.lastCall.returnValue.then(() => {
             const dialog =
@@ -336,7 +353,8 @@ limitations under the License.
       test('edit reports interaction', () => {
         const reportStub = sandbox.stub(element.$.reporting,
             'recordDraftInteraction');
-        MockInteractions.tap(element.$$('.edit'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.edit'));
         assert.isTrue(reportStub.calledOnce);
       });
 
@@ -344,7 +362,8 @@ limitations under the License.
         const reportStub = sandbox.stub(element.$.reporting,
             'recordDraftInteraction');
         element.draft = true;
-        MockInteractions.tap(element.$$('.discard'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.discard'));
         assert.isTrue(reportStub.calledOnce);
       });
     });
@@ -400,77 +419,110 @@ limitations under the License.
 
       test('button visibility states', () => {
         element.showActions = false;
-        assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
-        assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
+        assert.isTrue(element.shadowRoot
+            .querySelector('.humanActions').hasAttribute('hidden'));
+        assert.isTrue(element.shadowRoot
+            .querySelector('.robotActions').hasAttribute('hidden'));
 
         element.showActions = true;
-        assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
-        assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
+        assert.isFalse(element.shadowRoot
+            .querySelector('.humanActions').hasAttribute('hidden'));
+        assert.isTrue(element.shadowRoot
+            .querySelector('.robotActions').hasAttribute('hidden'));
 
         element.draft = true;
-        assert.isTrue(isVisible(element.$$('.edit')), 'edit is visible');
-        assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
-        assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
-        assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
-        assert.isTrue(isVisible(element.$$('.resolve')), 'resolve is visible');
-        assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
-        assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.edit')), 'edit is visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.discard')), 'discard is visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.save')), 'save is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.cancel')), 'cancel is not visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.resolve')), 'resolve is visible');
+        assert.isFalse(element.shadowRoot
+            .querySelector('.humanActions').hasAttribute('hidden'));
+        assert.isTrue(element.shadowRoot
+            .querySelector('.robotActions').hasAttribute('hidden'));
 
         element.editing = true;
         flushAsynchronousOperations();
-        assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
-        assert.isFalse(isVisible(element.$$('.discard')), 'discard not visible');
-        assert.isTrue(isVisible(element.$$('.save')), 'save is visible');
-        assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
-        assert.isTrue(isVisible(element.$$('.resolve')), 'resolve is visible');
-        assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
-        assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.edit')), 'edit is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.discard')), 'discard not visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.save')), 'save is visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.cancel')), 'cancel is visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.resolve')), 'resolve is visible');
+        assert.isFalse(element.shadowRoot
+            .querySelector('.humanActions').hasAttribute('hidden'));
+        assert.isTrue(element.shadowRoot
+            .querySelector('.robotActions').hasAttribute('hidden'));
 
         element.draft = false;
         element.editing = false;
         flushAsynchronousOperations();
-        assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
-        assert.isFalse(isVisible(element.$$('.discard')),
-            'discard is not visible');
-        assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
-        assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
-        assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
-        assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.edit')), 'edit is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.discard')),
+        'discard is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.save')), 'save is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.cancel')), 'cancel is not visible');
+        assert.isFalse(element.shadowRoot
+            .querySelector('.humanActions').hasAttribute('hidden'));
+        assert.isTrue(element.shadowRoot
+            .querySelector('.robotActions').hasAttribute('hidden'));
 
         element.comment.id = 'foo';
         element.draft = true;
         element.editing = true;
         flushAsynchronousOperations();
-        assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
-        assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
-        assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.cancel')), 'cancel is visible');
+        assert.isFalse(element.shadowRoot
+            .querySelector('.humanActions').hasAttribute('hidden'));
+        assert.isTrue(element.shadowRoot
+            .querySelector('.robotActions').hasAttribute('hidden'));
 
         // Delete button is not hidden by default
         assert.isFalse(element.shadowRoot.querySelector('#deleteBtn').hidden);
 
         element.isRobotComment = true;
         element.draft = true;
-        assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
-        assert.isFalse(element.$$('.robotActions').hasAttribute('hidden'));
+        assert.isTrue(element.shadowRoot
+            .querySelector('.humanActions').hasAttribute('hidden'));
+        assert.isFalse(element.shadowRoot
+            .querySelector('.robotActions').hasAttribute('hidden'));
 
         // It is not expected to see Robot comment drafts, but if they appear,
         // they will behave the same as non-drafts.
         element.draft = false;
-        assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
-        assert.isFalse(element.$$('.robotActions').hasAttribute('hidden'));
+        assert.isTrue(element.shadowRoot
+            .querySelector('.humanActions').hasAttribute('hidden'));
+        assert.isFalse(element.shadowRoot
+            .querySelector('.robotActions').hasAttribute('hidden'));
 
         // A robot comment with run ID should display plain text.
         element.set(['comment', 'robot_run_id'], 'text');
         element.editing = false;
         element.collapsed = false;
         flushAsynchronousOperations();
-        assert.isTrue(element.$$('.robotRun.link').textContent === 'Run Details');
+        assert.isTrue(element.shadowRoot
+            .querySelector('.robotRun.link').textContent === 'Run Details');
 
         // A robot comment with run ID and url should display a link.
         element.set(['comment', 'url'], '/path/to/run');
         flushAsynchronousOperations();
-        assert.notEqual(getComputedStyle(element.$$('.robotRun.link')).display,
-            'none');
+        assert.notEqual(getComputedStyle(element.shadowRoot
+            .querySelector('.robotRun.link')).display,
+        'none');
 
         // Delete button is hidden for robot comments
         assert.isTrue(element.shadowRoot.querySelector('#deleteBtn').hidden);
@@ -478,60 +530,77 @@ limitations under the License.
 
       test('collapsible drafts', () => {
         assert.isTrue(element.collapsed);
-        assert.isFalse(isVisible(element.$$('gr-formatted-text')),
-            'gr-formatted-text is not visible');
-        assert.isFalse(isVisible(element.$$('.actions')),
-            'actions are not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('gr-formatted-text')),
+        'gr-formatted-text is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.actions')),
+        'actions are not visible');
         assert.isNotOk(element.textarea, 'textarea is not visible');
-        assert.isTrue(isVisible(element.$$('.collapsedContent')),
-            'header middle content is visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.collapsedContent')),
+        'header middle content is visible');
 
         MockInteractions.tap(element.$.header);
         assert.isFalse(element.collapsed);
-        assert.isTrue(isVisible(element.$$('gr-formatted-text')),
-            'gr-formatted-text is visible');
-        assert.isTrue(isVisible(element.$$('.actions')),
-            'actions are visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('gr-formatted-text')),
+        'gr-formatted-text is visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.actions')),
+        'actions are visible');
         assert.isNotOk(element.textarea, 'textarea is not visible');
-        assert.isFalse(isVisible(element.$$('.collapsedContent')),
-            'header middle content is is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.collapsedContent')),
+        'header middle content is is not visible');
 
         // When the edit button is pressed, should still see the actions
         // and also textarea
-        MockInteractions.tap(element.$$('.edit'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.edit'));
         flushAsynchronousOperations();
         assert.isFalse(element.collapsed);
-        assert.isFalse(isVisible(element.$$('gr-formatted-text')),
-            'gr-formatted-text is not visible');
-        assert.isTrue(isVisible(element.$$('.actions')),
-            'actions are visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('gr-formatted-text')),
+        'gr-formatted-text is not visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.actions')),
+        'actions are visible');
         assert.isTrue(isVisible(element.textarea), 'textarea is visible');
-        assert.isFalse(isVisible(element.$$('.collapsedContent')),
-            'header middle content is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.collapsedContent')),
+        'header middle content is not visible');
 
         // When toggle again, everything should be hidden except for textarea
         // and header middle content should be visible
         MockInteractions.tap(element.$.header);
         assert.isTrue(element.collapsed);
-        assert.isFalse(isVisible(element.$$('gr-formatted-text')),
-            'gr-formatted-text is not visible');
-        assert.isFalse(isVisible(element.$$('.actions')),
-            'actions are not visible');
-        assert.isFalse(isVisible(element.$$('gr-textarea')),
-            'textarea is not visible');
-        assert.isTrue(isVisible(element.$$('.collapsedContent')),
-            'header middle content is visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('gr-formatted-text')),
+        'gr-formatted-text is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.actions')),
+        'actions are not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('gr-textarea')),
+        'textarea is not visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.collapsedContent')),
+        'header middle content is visible');
 
         // When toggle again, textarea should remain open in the state it was
         // before
         MockInteractions.tap(element.$.header);
-        assert.isFalse(isVisible(element.$$('gr-formatted-text')),
-            'gr-formatted-text is not visible');
-        assert.isTrue(isVisible(element.$$('.actions')),
-            'actions are visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('gr-formatted-text')),
+        'gr-formatted-text is not visible');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.actions')),
+        'actions are visible');
         assert.isTrue(isVisible(element.textarea), 'textarea is visible');
-        assert.isFalse(isVisible(element.$$('.collapsedContent')),
-            'header middle content is not visible');
+        assert.isFalse(isVisible(element.shadowRoot
+            .querySelector('.collapsedContent')),
+        'header middle content is not visible');
       });
 
       test('robot comment layout', () => {
@@ -547,37 +616,45 @@ limitations under the License.
         flushAsynchronousOperations();
 
         let runIdMessage;
-        runIdMessage = element.$$('.runIdMessage');
+        runIdMessage = element.shadowRoot
+            .querySelector('.runIdMessage');
         assert.isFalse(runIdMessage.hidden);
 
-        const runDetailsLink = element.$$('.robotRunLink');
+        const runDetailsLink = element.shadowRoot
+            .querySelector('.robotRunLink');
         assert.isTrue(runDetailsLink.href.indexOf(element.comment.url) !== -1);
 
-        const robotServiceName = element.$$('.authorName');
+        const robotServiceName = element.shadowRoot
+            .querySelector('.authorName');
         assert.isTrue(robotServiceName.textContent === 'happy_robot_id');
 
-        const authorName = element.$$('.robotId');
+        const authorName = element.shadowRoot
+            .querySelector('.robotId');
         assert.isTrue(authorName.innerText === 'Happy Robot');
 
         element.collapsed = true;
         flushAsynchronousOperations();
-        runIdMessage = element.$$('.runIdMessage');
+        runIdMessage = element.shadowRoot
+            .querySelector('.runIdMessage');
         assert.isTrue(runIdMessage.hidden);
       });
 
       test('draft creation/cancellation', done => {
         assert.isFalse(element.editing);
-        MockInteractions.tap(element.$$('.edit'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.edit'));
         assert.isTrue(element.editing);
 
         element._messageText = '';
         const eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
 
         // Save should be disabled on an empty message.
-        let disabled = element.$$('.save').hasAttribute('disabled');
+        let disabled = element.shadowRoot
+            .querySelector('.save').hasAttribute('disabled');
         assert.isTrue(disabled, 'save button should be disabled.');
         element._messageText = '     ';
-        disabled = element.$$('.save').hasAttribute('disabled');
+        disabled = element.shadowRoot
+            .querySelector('.save').hasAttribute('disabled');
         assert.isTrue(disabled, 'save button should be disabled.');
 
         const updateStub = sinon.stub();
@@ -592,7 +669,8 @@ limitations under the License.
             done();
           }
         });
-        MockInteractions.tap(element.$$('.cancel'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.cancel'));
         element.flushDebouncer('fire-update');
         element._messageText = '';
         flushAsynchronousOperations();
@@ -695,7 +773,8 @@ limitations under the License.
         const cancelDebounce = sandbox.stub(element, 'cancelDebouncer');
 
         element.draft = true;
-        MockInteractions.tap(element.$$('.edit'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.edit'));
         element._messageText = 'good news, everyone!';
         element.flushDebouncer('fire-update');
         element.flushDebouncer('store');
@@ -709,7 +788,8 @@ limitations under the License.
         assert.isTrue(fireStub.calledOnce,
             'No events should fire for text editing');
 
-        MockInteractions.tap(element.$$('.save'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.save'));
 
         assert.isTrue(element.disabled,
             'Element should be disabled when creating draft.');
@@ -737,10 +817,12 @@ limitations under the License.
           assert.equal(draft.message, 'saved!');
           assert.isFalse(element.editing);
         }).then(() => {
-          MockInteractions.tap(element.$$('.edit'));
+          MockInteractions.tap(element.shadowRoot
+              .querySelector('.edit'));
           element._messageText = 'You’ll be delivering a package to Chapek 9, ' +
               'a world where humans are killed on sight.';
-          MockInteractions.tap(element.$$('.save'));
+          MockInteractions.tap(element.shadowRoot
+              .querySelector('.save'));
           assert.isTrue(element.disabled,
               'Element should be disabled when updating draft.');
 
@@ -760,17 +842,20 @@ limitations under the License.
         element.showActions = true;
         element.draft = true;
         MockInteractions.tap(element.$.header);
-        MockInteractions.tap(element.$$('.edit'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.edit'));
         element._messageText = 'good news, everyone!';
         element.flushDebouncer('fire-update');
         element.flushDebouncer('store');
 
         element.disabled = true;
-        MockInteractions.tap(element.$$('.save'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.save'));
         assert.isFalse(saveStub.called);
 
         element.disabled = false;
-        MockInteractions.tap(element.$$('.save'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.save'));
         assert.isTrue(saveStub.calledOnce);
       });
 
@@ -781,15 +866,18 @@ limitations under the License.
           assert.isFalse(save.called);
           done();
         });
-        MockInteractions.tap(element.$$('.resolve input'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.resolve input'));
       });
 
       test('resolved comment state indicated by checkbox', () => {
         sandbox.stub(element, 'save');
         element.comment = {unresolved: false};
-        assert.isTrue(element.$$('.resolve input').checked);
+        assert.isTrue(element.shadowRoot
+            .querySelector('.resolve input').checked);
         element.comment = {unresolved: true};
-        assert.isFalse(element.$$('.resolve input').checked);
+        assert.isFalse(element.shadowRoot
+            .querySelector('.resolve input').checked);
       });
 
       test('resolved checkbox saves with tap when !editing', () => {
@@ -797,12 +885,15 @@ limitations under the License.
         const save = sandbox.stub(element, 'save');
 
         element.comment = {unresolved: false};
-        assert.isTrue(element.$$('.resolve input').checked);
+        assert.isTrue(element.shadowRoot
+            .querySelector('.resolve input').checked);
         element.comment = {unresolved: true};
-        assert.isFalse(element.$$('.resolve input').checked);
+        assert.isFalse(element.shadowRoot
+            .querySelector('.resolve input').checked);
         assert.isFalse(save.called);
         MockInteractions.tap(element.$.resolvedCheckbox);
-        assert.isTrue(element.$$('.resolve input').checked);
+        assert.isTrue(element.shadowRoot
+            .querySelector('.resolve input').checked);
         assert.isTrue(save.called);
       });
 
@@ -881,7 +972,8 @@ limitations under the License.
         element.comments = [element.comment];
         flushAsynchronousOperations();
 
-        MockInteractions.tap(element.$$('.fix'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.fix'));
       });
 
       test('do not show Please Fix button if human reply exists', () => {
@@ -955,7 +1047,8 @@ limitations under the License.
         ];
         element.comment = element.comments[0];
         flushAsynchronousOperations();
-        assert.isNull(element.$$('robotActions gr-button'));
+        assert.isNull(element.shadowRoot
+            .querySelector('robotActions gr-button'));
       });
 
       test('show Please Fix if no human reply', () => {
@@ -1016,7 +1109,8 @@ limitations under the License.
         ];
         element.comment = element.comments[0];
         flushAsynchronousOperations();
-        assert.isNotNull(element.$$('.robotActions gr-button'));
+        assert.isNotNull(element.shadowRoot
+            .querySelector('.robotActions gr-button'));
       });
 
       test('_handleShowFix fires open-fix-preview event', done => {
@@ -1028,7 +1122,8 @@ limitations under the License.
         element.isRobotComment = true;
         flushAsynchronousOperations();
 
-        MockInteractions.tap(element.$$('.show-fix'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('.show-fix'));
       });
     });
 

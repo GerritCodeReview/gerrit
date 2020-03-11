@@ -51,14 +51,18 @@ limitations under the License.
     });
 
     test('the correct arrow is displayed', () => {
-      assert.equal(getComputedStyle(element.$$('.arrowPositionBelow')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('.arrowPositionAbove'))
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('.arrowPositionBelow')).display,
+      'none');
+      assert.notEqual(getComputedStyle(element.shadowRoot
+          .querySelector('.arrowPositionAbove'))
           .display, 'none');
       element.positionBelow = true;
-      assert.notEqual(getComputedStyle(element.$$('.arrowPositionBelow'))
+      assert.notEqual(getComputedStyle(element.shadowRoot
+          .querySelector('.arrowPositionBelow'))
           .display, 'none');
-      assert.equal(getComputedStyle(element.$$('.arrowPositionAbove'))
+      assert.equal(getComputedStyle(element.shadowRoot
+          .querySelector('.arrowPositionAbove'))
           .display, 'none');
     });
   });

@@ -101,12 +101,15 @@ limitations under the License.
       element._optionalLabels = [{label: 'test'}];
       flushAsynchronousOperations();
 
-      assert.ok(element.$$('section.optional'));
-      MockInteractions.tap(element.$$('.showHide'));
+      assert.ok(element.shadowRoot
+          .querySelector('section.optional'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('.showHide'));
       flushAsynchronousOperations();
 
       assert.isFalse(element._showOptionalLabels);
-      assert.isTrue(isHidden(element.$$('section.optional')));
+      assert.isTrue(isHidden(element.shadowRoot
+          .querySelector('section.optional')));
     });
 
     test('properly converts satisfied labels', () => {
@@ -121,9 +124,12 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      assert.ok(element.$$('.approved'));
-      assert.ok(element.$$('.name'));
-      assert.equal(element.$$('.name').text, 'Verified');
+      assert.ok(element.shadowRoot
+          .querySelector('.approved'));
+      assert.ok(element.shadowRoot
+          .querySelector('.name'));
+      assert.equal(element.shadowRoot
+          .querySelector('.name').text, 'Verified');
     });
 
     test('properly converts unsatisfied labels', () => {
@@ -137,7 +143,8 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      const name = element.$$('.name');
+      const name = element.shadowRoot
+          .querySelector('.name');
       assert.ok(name);
       assert.isFalse(name.hasAttribute('hidden'));
       assert.equal(name.text, 'Verified');
@@ -152,7 +159,8 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      const changeIsWip = element.$$('.title');
+      const changeIsWip = element.shadowRoot
+          .querySelector('.title');
       assert.ok(changeIsWip);
     });
 
@@ -167,7 +175,8 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      const requirement = element.$$('.requirement');
+      const requirement = element.shadowRoot
+          .querySelector('.requirement');
       assert.ok(requirement);
       assert.isFalse(requirement.hasAttribute('hidden'));
       assert.ok(requirement.querySelector('.approved'));
@@ -186,7 +195,8 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      const requirement = element.$$('.requirement');
+      const requirement = element.shadowRoot
+          .querySelector('.requirement');
       assert.ok(requirement);
       assert.ok(requirement.querySelector('.approved'));
     });
@@ -202,7 +212,8 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      const requirement = element.$$('.requirement');
+      const requirement = element.shadowRoot
+          .querySelector('.requirement');
       assert.ok(requirement);
       assert.strictEqual(requirement.querySelector('.approved'), null);
     });
@@ -218,7 +229,8 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      const requirement = element.$$('.requirement');
+      const requirement = element.shadowRoot
+          .querySelector('.requirement');
       assert.ok(requirement);
       assert.strictEqual(requirement.querySelector('.approved'), null);
     });

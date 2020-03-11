@@ -1254,7 +1254,8 @@
       }
 
       // Otherwise it's a top-level action.
-      const buttonEl = this.$$(`[data-action-key="${buttonKey}"]`);
+      const buttonEl = this.shadowRoot
+          .querySelector(`[data-action-key="${buttonKey}"]`);
       buttonEl.setAttribute('loading', true);
       buttonEl.disabled = true;
       return function() {

@@ -526,7 +526,8 @@ limitations under the License.
         element._submittedTogether = {changes: [change]};
         flushAsynchronousOperations();
         assert.notInclude(element.$.submittedTogether.className, 'hidden');
-        assert.isNull(element.$$('.note'));
+        assert.isNull(element.shadowRoot
+            .querySelector('.note'));
       });
 
       test('no visible submitted together changes', () => {
@@ -534,18 +535,22 @@ limitations under the License.
         element._submittedTogether = {changes: [], non_visible_changes: 1};
         flushAsynchronousOperations();
         assert.notInclude(element.$.submittedTogether.className, 'hidden');
-        assert.isNotNull(element.$$('.note'));
+        assert.isNotNull(element.shadowRoot
+            .querySelector('.note'));
         assert.strictEqual(
-            element.$$('.note').innerText, '(+ 1 non-visible change)');
+            element.shadowRoot
+                .querySelector('.note').innerText, '(+ 1 non-visible change)');
       });
 
       test('visible and non-visible submitted together changes', () => {
         element._submittedTogether = {changes: [change], non_visible_changes: 2};
         flushAsynchronousOperations();
         assert.notInclude(element.$.submittedTogether.className, 'hidden');
-        assert.isNotNull(element.$$('.note'));
+        assert.isNotNull(element.shadowRoot
+            .querySelector('.note'));
         assert.strictEqual(
-            element.$$('.note').innerText, '(+ 2 non-visible changes)');
+            element.shadowRoot
+                .querySelector('.note').innerText, '(+ 2 non-visible changes)');
       });
     });
   });

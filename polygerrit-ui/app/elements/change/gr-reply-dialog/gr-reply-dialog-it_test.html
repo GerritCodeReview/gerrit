@@ -123,12 +123,14 @@ limitations under the License.
       sandbox.stub(element, '_purgeReviewersPendingRemove');
 
       element.$.ccs.$.entry.setText('test');
-      MockInteractions.tap(element.$$('gr-button.send'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('gr-button.send'));
       assert.isFalse(sendStub.called);
       flushAsynchronousOperations();
 
       element.$.ccs.$.entry.setText('test@test.test');
-      MockInteractions.tap(element.$$('gr-button.send'));
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('gr-button.send'));
       assert.isTrue(sendStub.called);
     });
 
@@ -147,7 +149,8 @@ limitations under the License.
       element = fixture('basic');
       setupElement(element);
       const importSpy =
-          sandbox.spy(element.$$('gr-endpoint-decorator'), '_import');
+          sandbox.spy(element.shadowRoot
+              .querySelector('gr-endpoint-decorator'), '_import');
       Gerrit.awaitPluginsLoaded().then(() => {
         Promise.all(importSpy.returnValues).then(() => {
           flush(() => {

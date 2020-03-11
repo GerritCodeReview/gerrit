@@ -84,7 +84,8 @@ limitations under the License.
     });
 
     test('renders', () => {
-      const rows = element.$$('table').querySelectorAll('tbody tr');
+      const rows = element.shadowRoot
+          .querySelector('table').querySelectorAll('tbody tr');
       assert.equal(rows.length, 4);
 
       function getKeysOfRow(row) {
@@ -200,12 +201,14 @@ limitations under the License.
 
     test('_handleRemoveProject', () => {
       assert.equal(element._projectsToRemove, 0);
-      const button = element.$$('table tbody tr:nth-child(2) gr-button');
+      const button = element.shadowRoot
+          .querySelector('table tbody tr:nth-child(2) gr-button');
       MockInteractions.tap(button);
 
       flushAsynchronousOperations();
 
-      const rows = element.$$('table tbody').querySelectorAll('tr');
+      const rows = element.shadowRoot
+          .querySelector('table tbody').querySelectorAll('tr');
       assert.equal(rows.length, 3);
 
       assert.equal(element._projectsToRemove.length, 1);

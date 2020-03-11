@@ -80,7 +80,7 @@
     }
 
     focusTextarea() {
-      this.$$('iron-autogrow-textarea').textarea.focus();
+      this.shadowRoot.querySelector('iron-autogrow-textarea').textarea.focus();
     }
 
     _newContentChanged(newContent, oldContent) {

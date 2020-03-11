@@ -732,7 +732,8 @@ limitations under the License.
           assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
 
           // Switch to comment thread tab
-          MockInteractions.tap(element.$$('paper-tab.commentThreads'));
+          MockInteractions.tap(element.shadowRoot
+              .querySelector('paper-tab.commentThreads'));
           assert.equal(element.$.commentTabs.selected,
               CommentTabs.COMMENT_THREADS);
           assert.equal(element._currentView, CommentTabs.COMMENT_THREADS);
@@ -2191,7 +2192,8 @@ limitations under the License.
       const stub = sandbox.stub(element, '_handleToggleStar');
       flushAsynchronousOperations();
 
-      MockInteractions.tap(element.$.changeStar.$$('button'));
+      MockInteractions.tap(element.$.changeStar.shadowRoot
+          .querySelector('button'));
       assert.isTrue(stub.called);
     });
 

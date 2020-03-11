@@ -1267,6 +1267,40 @@ limitations under the License.
       });
     });
 
+    suite('diff url file list', () => {
+      test('diff url', () => {
+        sandbox.stub(Gerrit.Nav, 'getUrlForDiff').returns(
+            '/c/gerrit/+/1/1/index.php');
+        const change = {
+          _number: 1,
+          project: 'gerrit',
+        };
+        const path = 'index.php';
+        const patchRange = {
+          patchNum: 1,
+        };
+        assert.equal(
+            element._computeDiffURL(change, patchRange, path, false),
+            '/c/gerrit/+/1/1//COMMIT_MSG');
+      });
+
+      test('diff url commit msg', () => {
+        sandbox.stub(Gerrit.Nav, 'getUrlForDiff').returns(
+            '/c/gerrit/+/1/1//COMMIT_MSG');
+        const change = {
+          _number: 1,
+          project: 'gerrit',
+        };
+        const path = '/COMMIT_MSG';
+        const patchRange = {
+          patchNum: 1,
+        };
+        assert.equal(
+            element._computeDiffURL(change, patchRange, path, false),
+            '/c/gerrit/+/1/1//COMMIT_MSG');
+      });
+    });
+
     suite('size bars', () => {
       test('_computeSizeBarLayout', () => {
         assert.isUndefined(element._computeSizeBarLayout(null));

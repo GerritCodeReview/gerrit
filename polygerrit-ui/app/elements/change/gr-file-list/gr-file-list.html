@@ -336,9 +336,9 @@ limitations under the License.
               [[_computeFileStatus(file.status)]]
             </div>
             <span
-                data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]"
+                data-url="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
                 class="path">
-              <a class="pathLink" href$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]">
+              <a class="pathLink" href$="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]">
                 <span title$="[[computeDisplayPath(file.__path)]]"
                     class="fullFileName">
                   [[computeDisplayPath(file.__path)]]

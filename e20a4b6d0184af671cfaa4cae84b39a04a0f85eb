@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48b88cae_4d9a3877",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-11T09:14:34Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this null check be before the new code?",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 7
+      },
+      "revId": "e20a4b6d0184af671cfaa4cae84b39a04a0f85eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

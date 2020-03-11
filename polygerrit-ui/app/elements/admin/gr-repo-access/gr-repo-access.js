@@ -442,21 +442,42 @@
       return obj;
     }
 
-    _handleSave() {
+    _handleSave(e) {
       const obj = this._getObjforSave();
       if (!obj) { return; }
+      const button = e && e.target;
+      if (button) {
+        button.loading = true;
+      }
       return this.$.restAPI.setRepoAccessRights(this.repo, obj)
           .then(() => {
             this._reload(this.repo);
+          })
+          .finally(() => {
+            this._modified = false;
+            if (button) {
+              button.loading = false;
+            }
           });
     }
 
-    _handleSaveForReview() {
+    _handleSaveForReview(e) {
       const obj = this._getObjforSave();
       if (!obj) { return; }
-      return this.$.restAPI.setRepoAccessRightsForReview(this.repo, obj)
+      const button = e && e.target;
+      if (button) {
+        button.loading = true;
+      }
+      return this.$.restAPI
+          .setRepoAccessRightsForReview(this.repo, obj)
           .then(change => {
             Gerrit.Nav.navigateToChange(change);
+          })
+          .finally(() => {
+            this._modified = false;
+            if (button) {
+              button.loading = false;
+            }
           });
     }
 

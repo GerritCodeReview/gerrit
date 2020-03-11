@@ -105,12 +105,12 @@ limitations under the License.
             primary
             class$="[[_computeSaveBtnClass(_ownerOf)]]"
             on-click="_handleSave"
-            disabled$="[[!_modified]]">Save</gr-button>
+            disabled="[[!_modified]]">Save</gr-button>
         <gr-button id="saveReviewBtn"
             primary
             class$="[[_computeSaveReviewBtnClass(_canUpload)]]"
             on-click="_handleSaveForReview"
-            disabled$="[[!_modified]]">Save for review</gr-button>
+            disabled="[[!_modified]]">Save for review</gr-button>
         <template
             is="dom-repeat"
             items="{{_sections}}"

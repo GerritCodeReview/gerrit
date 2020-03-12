@@ -284,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "8d9a21b6_8ce402ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T09:52:02Z",
+      "side": 1,
+      "message": "`Plugin._sharedAPIElement \u003d document.createElement(\u0027gr-js-api-interface\u0027);`\n\nbut there maybe other ways to solve this right ? like moving it to a getter and let gr-js-api-interface always register itself into the document at the end ?\n\nbut if all these naming issues will be resolved after es6 modules and your change will be submitted together, then it maybe not worth effort.",
+      "parentUuid": "784d4b55_e0e9ff84",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 56
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4425571_3f639e5f",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
         "patchSetId": 25

@@ -52,6 +52,24 @@
       "revId": "8c7197e9e62080cf6e3af6e9ca5ea7daa2e89366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "340bc1c9_c0ca87bd",
+        "filename": "java/com/google/gerrit/common/flogger/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-12T23:50:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea59b975_8ad7266e",
+      "revId": "8c7197e9e62080cf6e3af6e9ca5ea7daa2e89366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

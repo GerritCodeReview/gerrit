@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a663d0df_e6e4dc46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-12T10:22:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "602ba958_df55e467",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "d65abe55af2b8aeb72892f4d868e747ec7d7edc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f9b413d_a76636a3",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 5

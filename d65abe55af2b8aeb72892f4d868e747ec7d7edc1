@@ -45,6 +45,30 @@
       "revId": "d65abe55af2b8aeb72892f4d868e747ec7d7edc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "972c6441_bf348cc2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-12T10:18:30Z",
+      "side": 1,
+      "message": "Due to the dom-repeat above, i doin\u0027t think this is possible to move to a computed property. This is because we use file.__path but that\u0027s created by dom-repeat above.",
+      "parentUuid": "0f9b413d_a76636a3",
+      "range": {
+        "startLine": 339,
+        "startChar": 28,
+        "endLine": 339,
+        "endChar": 86
+      },
+      "revId": "d65abe55af2b8aeb72892f4d868e747ec7d7edc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

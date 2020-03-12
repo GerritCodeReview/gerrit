@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1835952e_dabb0f91",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateTag.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-12T14:57:46Z",
+      "side": 1,
+      "message": "Should you be able to create an annotated tag if you have CREATE but not CREATE_TAG on the tag-ref?\nIf so this shouldn\u0027t be an \u0027else\u0027 it should be an \u0027if\u0027.",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 12
+      },
+      "revId": "d193d01d84d817d909917e0704e506d842764428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -118,6 +118,30 @@
       "revId": "0a88e3cd81ba9d2d0184f0b41f3b169612d652b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d593dcb0_2fe645dc",
+        "filename": "polygerrit-ui/app/wct.conf.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-12T19:27:00Z",
+      "side": 1,
+      "message": "Build/Tests executes the java tests so not the PolyGerrit tests. The PolyGerrit tests run the run_test.sh script.\n\nI\u0027ve tested this locally and fixed the behaviour for me.",
+      "parentUuid": "bafdd1c1_50442879",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "0a88e3cd81ba9d2d0184f0b41f3b169612d652b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

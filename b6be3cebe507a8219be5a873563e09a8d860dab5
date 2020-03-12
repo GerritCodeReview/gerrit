@@ -46,6 +46,30 @@
       "revId": "b6be3cebe507a8219be5a873563e09a8d860dab5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "529752fd_6cc1e374",
+        "filename": "java/com/google/gerrit/server/ExceptionHookImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-12T23:53:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "104d2891_aa401b60",
+      "range": {
+        "startLine": 110,
+        "startChar": 13,
+        "endLine": 110,
+        "endChar": 34
+      },
+      "revId": "b6be3cebe507a8219be5a873563e09a8d860dab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

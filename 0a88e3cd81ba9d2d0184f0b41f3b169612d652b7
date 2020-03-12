@@ -22,6 +22,30 @@
       "revId": "0a88e3cd81ba9d2d0184f0b41f3b169612d652b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef36d16f_945ecaa3",
+        "filename": "polygerrit-ui/app/wct.conf.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-12T15:44:54Z",
+      "side": 1,
+      "message": "Apparently some how by the looks of things \u0027WCT_HEADLESS_MODE\u0027 in process.env is equally true. I suspect that\u0027s due to https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/run_test.sh#L15\n\nEven though WCT_HEADLESS_MODE is undefined, some how it\u0027s making this equal true.",
+      "parentUuid": "193e1ea5_14b192ac",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "0a88e3cd81ba9d2d0184f0b41f3b169612d652b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

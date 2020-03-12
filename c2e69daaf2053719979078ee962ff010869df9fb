@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ce8b0c9_8114c017",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T07:33:07Z",
+      "side": 1,
+      "message": "its not really a svg icon and i think currently gr-icon is most used for that.",
+      "parentUuid": "9a7c7862_d5121f1e",
+      "revId": "c2e69daaf2053719979078ee962ff010869df9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad385f0f_bff65d23",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
         "patchSetId": 1
@@ -63,6 +81,30 @@
       "revId": "c2e69daaf2053719979078ee962ff010869df9fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5c746a6_f478f051",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T07:33:07Z",
+      "side": 1,
+      "message": "oh i thought i is short for icon.. apparently its actually for `italic` :(",
+      "parentUuid": "fdc55963_596724eb",
+      "range": {
+        "startLine": 195,
+        "startChar": 8,
+        "endLine": 195,
+        "endChar": 35
+      },
+      "revId": "c2e69daaf2053719979078ee962ff010869df9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

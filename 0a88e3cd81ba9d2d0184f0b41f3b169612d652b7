@@ -94,6 +94,30 @@
       "revId": "0a88e3cd81ba9d2d0184f0b41f3b169612d652b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bafdd1c1_50442879",
+        "filename": "polygerrit-ui/app/wct.conf.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-12T16:39:55Z",
+      "side": 1,
+      "message": "Done, also ci sets that as far as i\u0027m aware (at least i added this years ago)",
+      "parentUuid": "eccdda34_26ccbdca",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "0a88e3cd81ba9d2d0184f0b41f3b169612d652b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

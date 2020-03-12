@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ac57d0e6_1d2d4bd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-12T07:27:49Z",
+      "side": 1,
+      "message": "OK, in your example the submit rule does depend on the change state (the +2 reviews), but the issue is that the submit requirements in the index are not updated when the rule is enabled/disabled. That\u0027s indeed an issue, but I have no solution for it, other than reindexing the changes.",
+      "parentUuid": "aac9e615_2da45f4a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f806a0db_4b810b1c",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
         "patchSetId": 2

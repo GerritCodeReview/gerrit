@@ -189,6 +189,23 @@
       "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2311395_53785b23",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-12T08:22:18Z",
+      "side": 1,
+      "message": "Leave a comment about the behavior explaining the caveat?",
+      "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -110,9 +110,19 @@ Valid commands are:
 * `pull`
 * `push`
 
+=== Project and HTTP credentials
+
 The example above assumes that the `loadtest-repo` project exists in the Gerrit under test. The
-`HTTP Credentials` or password obtained from test user's `Settings` (in Gerrit) may be required, in
-`src/test/resources/application.conf`, depending on the above commands used.
+`CloneUsingBothProtocols` scenario already includes creating that project and deleting it once done
+with it. That scenario class can be used as an example of how a scenario can compose itself
+alongside other scenarios (here, `CreateProject` and `DeleteProject`).
+
+The `HTTP Credentials` or password obtained from test user's `Settings` (in Gerrit) may be
+required, in `src/test/resources/application.conf`, depending on the above commands used. That
+file's `http` section shows which shell environment variables can be used to set those credentials.
+
+Executing the `CloneUsingBothProtocols` scenario, as is, does require setting the http credentials.
+That is because of the aforementioned create/delete project (http) scenarios composed within it.
 
 == How to run tests
 

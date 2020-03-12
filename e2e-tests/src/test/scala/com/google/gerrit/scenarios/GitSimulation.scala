@@ -16,23 +16,18 @@ package com.google.gerrit.scenarios
 
 import java.io.{File, IOException}
 
+import com.github.barbasa.gatling.git.GitRequestSession
 import com.github.barbasa.gatling.git.protocol.GitProtocol
 import com.github.barbasa.gatling.git.request.builder.GitRequestBuilder
-import com.github.barbasa.gatling.git.{GatlingGitConfiguration, GitRequestSession}
 import io.gatling.core.Predef._
-import io.gatling.core.feeder.FileBasedFeederBuilder
 import org.apache.commons.io.FileUtils
 import org.eclipse.jgit.hooks.CommitMsgHook
 
-class GitSimulation extends Simulation {
-
-  implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
+class GitSimulation extends GerritSimulation {
   implicit val postMessageHook: Option[String] = Some(s"hooks/${CommitMsgHook.NAME}")
 
-  protected val name: String = this.getClass.getSimpleName
-  protected val data: FileBasedFeederBuilder[Any]#F = jsonFile(s"data/$name.json").circular
-  protected val request = new GitRequestBuilder(GitRequestSession("${cmd}", "${url}"))
-  protected val protocol: GitProtocol = GitProtocol()
+  protected val gitRequest = new GitRequestBuilder(GitRequestSession("${cmd}", "${url}"))
+  protected val gitProtocol: GitProtocol = GitProtocol()
 
   after {
     Thread.sleep(5000)

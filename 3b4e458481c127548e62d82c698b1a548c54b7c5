@@ -22,6 +22,53 @@
       "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aac9e615_2da45f4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-03-12T07:21:35Z",
+      "side": 1,
+      "message": "How about different review model? e.g.:\nimagine that change requires 2 +2 from someone different than author now and change state is the same but rule changed hence it shouldn\u0027t be mergeable anymore...\nbuilt in label functions offer a lot of great functionality but in the case when consistent messaging (when rule is not satisfied) is needed and more sophisticated model is introduced one ends up in writing dedicated SubmitRule that gets evaluated dynamically",
+      "parentUuid": "862c96a9_6eb8956c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f806a0db_4b810b1c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-03-12T07:21:35Z",
+      "side": 1,
+      "message": "I guess it should be called: is NOT propagated unless one calls re-index? Maybe add re-index call there and show that it works in such condition?",
+      "range": {
+        "startLine": 80,
+        "startChar": 14,
+        "endLine": 80,
+        "endChar": 50
+      },
+      "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

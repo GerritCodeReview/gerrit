@@ -98,7 +98,7 @@ public class UserPreferenceFields {
   }
 
   /** Field definition for a user preference. Can be used to obtain a typed instance. */
-  static class Field<T> {
+  public static class Field<T> {
     private final UserPreferenceSection type;
     private final String key;
     private final T defaultValue;
@@ -118,22 +118,34 @@ public class UserPreferenceFields {
     }
 
     @Nullable
-    public T get(Cache.UserPreferences preferences) {
+    public T get(UserPreferences preferences) {
       switch (type) {
         case GENERAL:
-          return get(preferences.getGeneralMap());
+          return get(preferences.preferences().getGeneralMap());
         case EDIT:
-          return get(preferences.getEditMap());
+          return get(preferences.preferences().getEditMap());
         case DIFF:
-          return get(preferences.getDiffMap());
+          return get(preferences.preferences().getDiffMap());
         default:
           // TODO(hiesel): Remove in Java 12
           throw new IllegalStateException();
       }
     }
 
-    public T getOrDefault(Cache.UserPreferences preferences) {
+    public T getOrDefault(UserPreferences preferences) {
       return firstNonNull(get(preferences), defaultValue);
+    }
+
+    public String key() {
+      return key;
+    }
+
+    public T defaultValue() {
+      return defaultValue;
+    }
+
+    public UserPreferenceSection type() {
+      return type;
     }
 
     @Nullable
@@ -143,6 +155,19 @@ public class UserPreferenceFields {
         return null;
       }
       return adapter.fromString(ImmutableList.copyOf(pref.getValueList()));
+    }
+
+    public void set(Map<String, Cache.UserPreferences.RepeatedPreference> map, T val) {
+      Cache.UserPreferences.RepeatedPreference pref = map.get(key);
+      map.put(key(), toProto(adapter.toString(val)));
+    }
+
+    public void setDefault(Map<String, Cache.UserPreferences.RepeatedPreference> map) {
+      set(map, defaultValue);
+    }
+
+    public static Cache.UserPreferences.RepeatedPreference toProto(ImmutableList<String> s) {
+      return Cache.UserPreferences.RepeatedPreference.newBuilder().addAllValue(s).build();
     }
   }
 

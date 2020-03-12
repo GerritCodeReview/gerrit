@@ -21,6 +21,8 @@ import java.util.Map;
 /** Helpers for combining user preferences with defaults. */
 public interface UserPreferences {
 
+  Cache.UserPreferences preferences();
+
   static User create(Cache.UserPreferences preferences) {
     return new AutoValue_UserPreferences_User(preferences);
   }
@@ -31,13 +33,53 @@ public interface UserPreferences {
 
   @AutoValue
   abstract class User implements UserPreferences {
-    abstract Cache.UserPreferences preferences();
+    @Override
+    public abstract Cache.UserPreferences preferences();
   }
 
   @AutoValue
   abstract class Default implements UserPreferences {
-    abstract Cache.UserPreferences preferences();
+    @Override
+    public abstract Cache.UserPreferences preferences();
   }
+
+  @AutoValue
+  abstract class Mixed implements UserPreferences {
+    @Override
+    public abstract Cache.UserPreferences preferences();
+
+    public static Builder newBuilder() {
+      return new Builder();
+    }
+
+    public static class Builder {
+      private final Cache.UserPreferences.Builder defaults;
+      private final Cache.UserPreferences.Builder values;
+
+      Builder() {
+        this.defaults = Cache.UserPreferences.newBuilder();
+        this.values = Cache.UserPreferences.newBuilder();
+      }
+
+      public <T> Builder add(UserPreferenceFields.Field<T> field, T value) {
+        switch (field.type()) {
+          case UserPreferenceSection.GENERAL:
+            field.setDefault(defaults.getGeneralMap());
+            field.set(values.getGeneralMap(), value);
+        }
+
+        return this;
+      }
+
+      public Mixed build() {
+        return new AutoValue_UserPreferences_Mixed(builder.build());
+      }
+    }
+  }
+
+  /** Returns an overlay of {@code userPreferences} over {@code defaults}. */
+  static UserPreferences.Mixed overlayDefaults(
+      UserPreferences.Default defaults, UserPreferences.User user) {}
 
   /** Returns an overlay of {@code userPreferences} over {@code defaults}. */
   static Cache.UserPreferences overlayDefaults(

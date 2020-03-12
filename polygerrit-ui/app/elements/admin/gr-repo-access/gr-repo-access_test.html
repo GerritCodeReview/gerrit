@@ -1138,6 +1138,53 @@ limitations under the License.
         assert.equal(Object.keys(element._local).length, 1);
       });
 
+      test('_handleSave', done => {
+        const repoAccessInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                owner: {
+                  rules: {
+                    123: {action: 'DENY', modified: true},
+                  },
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {
+                  rules: {
+                    123: {},
+                  },
+                },
+              },
+            },
+          },
+        };
+        sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
+            Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
+        sandbox.stub(Gerrit.Nav, 'navigateToChange');
+        let resolver;
+        const saveStub = sandbox.stub(element.$.restAPI,
+            'setRepoAccessRights')
+            .returns(new Promise(r => resolver = r));
+
+        element.repo = 'test-repo';
+        sandbox.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
+
+        element._modified = true;
+        MockInteractions.tap(element.$.saveBtn);
+        assert.equal(element.$.saveBtn.hasAttribute('loading'), true);
+        resolver({_number: 1});
+        flush(() => {
+          assert.isTrue(saveStub.called);
+          assert.isTrue(Gerrit.Nav.navigateToChange.notCalled);
+          done();
+        });
+      });
+
       test('_handleSaveForReview', done => {
         const repoAccessInput = {
           add: {
@@ -1166,14 +1213,19 @@ limitations under the License.
         sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
             Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
         sandbox.stub(Gerrit.Nav, 'navigateToChange');
+        let resolver;
         const saveForReviewStub = sandbox.stub(element.$.restAPI,
             'setRepoAccessRightsForReview')
-            .returns(Promise.resolve({_number: 1}));
+            .returns(new Promise(r => resolver = r));
 
         element.repo = 'test-repo';
         sandbox.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
-        element._handleSaveForReview().then(() => {
+        element._modified = true;
+        MockInteractions.tap(element.$.saveReviewBtn);
+        assert.equal(element.$.saveReviewBtn.hasAttribute('loading'), true);
+        resolver({_number: 1});
+        flush(() => {
           assert.isTrue(saveForReviewStub.called);
           assert.isTrue(Gerrit.Nav.navigateToChange
               .lastCall.calledWithExactly({_number: 1}));

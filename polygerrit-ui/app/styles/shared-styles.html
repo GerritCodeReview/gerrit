@@ -162,6 +162,22 @@ limitations under the License.
       strong {
         font-weight: var(--font-weight-bold);
       }
+
+      /** BEGIN: loading spiner */
+      .loadingSpin {
+        border: 2px solid var(--disabled-button-background-color);
+        border-top: 2px solid var(--primary-button-background-color);
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        animation: spin 2s linear infinite;
+        margin-right: var(--spacing-s);
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      /** END: loading spiner */
     </style>
   </template>
 </dom-module>

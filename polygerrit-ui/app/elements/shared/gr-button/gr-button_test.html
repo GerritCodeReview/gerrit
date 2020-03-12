@@ -35,8 +35,14 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="tabindex">
+  <template>
+    <gr-button tabindex="3"></gr-button>
+  </template>
+</test-fixture>
+
 <script>
-  suite('gr-select tests', async () => {
+  suite('gr-button tests', async () => {
     await readyToTest();
     let element;
     let sandbox;
@@ -60,18 +66,32 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('disabled is set by disabled or loading', () => {
-      assert.isFalse(element.shadowRoot
-          .querySelector('paper-button').disabled);
+    test('disabled is set by disabled', () => {
+      const paperBtn = element.shadowRoot.querySelector('paper-button');
+      assert.isFalse(paperBtn.disabled);
       element.disabled = true;
-      assert.isTrue(element.shadowRoot
-          .querySelector('paper-button').disabled);
+      assert.isTrue(paperBtn.disabled);
       element.disabled = false;
-      assert.isFalse(element.shadowRoot
-          .querySelector('paper-button').disabled);
-      element.loading = true;
-      assert.isTrue(element.shadowRoot
-          .querySelector('paper-button').disabled);
+      assert.isFalse(paperBtn.disabled);
+    });
+
+    test('loading set from listener', done => {
+      let resolve;
+      element.addEventListener('click', e => {
+        e.target.loading = true;
+        resolve = () => e.target.loading = false;
+      });
+      const paperBtn = element.shadowRoot.querySelector('paper-button');
+      assert.isFalse(paperBtn.disabled);
+      MockInteractions.tap(element);
+      assert.isTrue(paperBtn.disabled);
+      assert.isTrue(element.hasAttribute('loading'));
+      resolve();
+      flush(() => {
+        assert.isFalse(paperBtn.disabled);
+        assert.isFalse(element.hasAttribute('loading'));
+        done();
+      });
     });
 
     test('tabindex should be -1 if disabled', () => {
@@ -82,22 +102,42 @@ limitations under the License.
     // Regression tests for Issue: 11969
     test('tabindex should be reset to 0 if enabled', () => {
       element.disabled = false;
-      assert.isTrue(element.getAttribute('tabindex') === '0');
+      assert.equal(element.getAttribute('tabindex'), '0');
       element.disabled = true;
-      assert.isTrue(element.getAttribute('tabindex') === '-1');
+      assert.equal(element.getAttribute('tabindex'), '-1');
       element.disabled = false;
-      assert.isTrue(element.getAttribute('tabindex') === '0');
+      assert.equal(element.getAttribute('tabindex'), '0');
+    });
+
+    test('tabindex should be preserved', () => {
+      element = fixture('tabindex');
+      element.disabled = false;
+      assert.equal(element.getAttribute('tabindex'), '3');
+      element.disabled = true;
+      assert.equal(element.getAttribute('tabindex'), '-1');
+      element.disabled = false;
+      assert.equal(element.getAttribute('tabindex'), '3');
     });
 
     // 'tap' event is tested so we don't loose backward compatibility with older
     // plugins who didn't move to on-click which is faster and well supported.
-    for (const eventName of ['tap', 'click']) {
-      test('dispatches ' + eventName + ' event', () => {
-        const spy = addSpyOn(eventName);
-        MockInteractions.tap(element);
-        assert.isTrue(spy.calledOnce);
-      });
-    }
+    test('dispatches click event', () => {
+      const spy = addSpyOn('click');
+      MockInteractions.click(element);
+      assert.isTrue(spy.calledOnce);
+    });
+
+    test('dispatches tap event', () => {
+      const spy = addSpyOn('tap');
+      MockInteractions.tap(element);
+      assert.isTrue(spy.calledOnce);
+    });
+
+    test('dispatches click from tap event', () => {
+      const spy = addSpyOn('click');
+      MockInteractions.tap(element);
+      assert.isTrue(spy.calledOnce);
+    });
 
     // Keycodes: 32 for Space, 13 for Enter.
     for (const key of [32, 13]) {

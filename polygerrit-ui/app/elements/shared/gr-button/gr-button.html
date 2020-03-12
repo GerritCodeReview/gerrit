@@ -137,7 +137,7 @@ limitations under the License.
 
       /* Keep below color definition for primary so that this takes precedence
         when disabled. */
-      :host([disabled]) {
+      :host([disabled]), :host([loading]) {
         --background-color: var(--disabled-button-background-color);
         --text-color: var(--deemphasized-text-color);
         cursor: default;
@@ -149,7 +149,8 @@ limitations under the License.
         --margin: 0;
         --padding: 5px 4px;
       }
-      :host([disabled][link]) {
+      :host([disabled][link]),
+      :host([loading][link]) {
         --background-color: transparent;
         --text-color: var(--deemphasized-text-color);
         cursor: default;
@@ -173,8 +174,11 @@ limitations under the License.
     </style>
     <paper-button
         raised="[[!link]]"
-        disabled="[[_computeDisabled(disabled, loading)]]"
+        disabled="[[_disabled]]"
         tabindex="-1">
+      <template is="dom-if" if="[[loading]]">
+        <span class="loadingSpin"></span>
+      </template>
       <slot></slot>
       <i class="downArrow"></i>
     </paper-button>

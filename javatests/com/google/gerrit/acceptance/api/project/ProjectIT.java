@@ -68,6 +68,7 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -913,7 +914,16 @@ public class ProjectIT extends AbstractDaemonTest {
     // We must test this via the REST API since ExceptionHook is not invoked from the Java API.
     RestResponse r = adminRestSession.get("/projects/" + allProjects.get());
     r.assertConflict();
-    assertThat(r.getEntityContent()).contains("Invalid project.config file");
+    assertThat(r.getEntityContent())
+        .contains(
+            String.format(
+                "Invalid config file %s in project %s in branch %s in commit %s: "
+                    + "Bad entry delimiter\n"
+                    + "Please contact the project owner.",
+                ProjectConfig.PROJECT_CONFIG,
+                allProjects.get(),
+                RefNames.REFS_CONFIG,
+                projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).name()));
   }
 
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {

@@ -254,11 +254,13 @@ public class PushAccountIT extends AbstractDaemonTest {
           .contains(
               String.format(
                   "invalid account configuration: commit '%s' has an invalid '%s' file for account"
-                      + " '%s': Invalid config file %s in commit %s",
+                      + " '%s': Invalid config file %s in project %s in branch %s in commit %s",
                   r.getCommit().name(),
                   AccountProperties.ACCOUNT_CONFIG,
                   admin.id(),
                   AccountProperties.ACCOUNT_CONFIG,
+                  allUsers.get(),
+                  userRef,
                   r.getCommit().name()));
     }
   }
@@ -480,7 +482,8 @@ public class PushAccountIT extends AbstractDaemonTest {
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-      fetch(allUsersRepo, RefNames.refsUsers(admin.id()) + ":userRef");
+      String userRef = RefNames.refsUsers(admin.id());
+      fetch(allUsersRepo, userRef + ":userRef");
       allUsersRepo.reset("userRef");
 
       PushOneCommit.Result r =
@@ -496,11 +499,13 @@ public class PushAccountIT extends AbstractDaemonTest {
       r.assertMessage(
           String.format(
               "commit '%s' has an invalid '%s' file for account '%s':"
-                  + " Invalid config file %s in commit %s",
+                  + " Invalid config file %s in project %s in branch %s in commit %s",
               r.getCommit().name(),
               AccountProperties.ACCOUNT_CONFIG,
               admin.id(),
               AccountProperties.ACCOUNT_CONFIG,
+              allUsers.get(),
+              userRef,
               r.getCommit().name()));
       accountIndexedCounter.assertNoReindex();
     }

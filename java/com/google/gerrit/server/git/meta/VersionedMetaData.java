@@ -23,6 +23,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.server.InvalidConfigFileException;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -471,15 +472,7 @@ public abstract class VersionedMetaData {
       try {
         rc.fromText(text);
       } catch (ConfigInvalidException err) {
-        StringBuilder msg =
-            new StringBuilder("Invalid config file ")
-                .append(fileName)
-                .append(" in commit ")
-                .append(revision.name());
-        if (err.getCause() != null) {
-          msg.append(": ").append(err.getCause());
-        }
-        throw new ConfigInvalidException(msg.toString(), err);
+        throw new InvalidConfigFileException(projectName, getRefName(), revision, fileName, err);
       }
     }
     return rc;

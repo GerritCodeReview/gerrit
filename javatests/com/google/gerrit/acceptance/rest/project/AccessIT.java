@@ -51,6 +51,7 @@ import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.schema.GrantRevertPermission;
 import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,12 +76,30 @@ public class AccessIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private GrantRevertPermission grantRevertPermission;
 
   private Project.NameKey newProjectName;
 
   @Before
   public void setUp() throws Exception {
     newProjectName = projectOperations.newProject().create();
+  }
+
+  @Test
+  public void grantRevertPermission() throws Exception {
+    String ref = "refs/heads/*";
+    String permissionName = "revert";
+    String groupId = "global:Registered-Users";
+
+    grantRevertPermission.execute(newProjectName);
+    ProjectAccessInfo info = pApi().access();
+    assertThat(info.local.containsKey(ref)).isTrue();
+    AccessSectionInfo accessSectionInfo = info.local.get(ref);
+    assertThat(accessSectionInfo.permissions.containsKey(permissionName)).isTrue();
+    PermissionInfo permissionInfo = accessSectionInfo.permissions.get(permissionName);
+    assertThat(permissionInfo.rules.containsKey(groupId)).isTrue();
+    PermissionRuleInfo permissionRuleInfo = permissionInfo.rules.get(groupId);
+    assertThat(permissionRuleInfo.action).isEqualTo(PermissionRuleInfo.Action.ALLOW);
   }
 
   @Test

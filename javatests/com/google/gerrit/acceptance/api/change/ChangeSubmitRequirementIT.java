@@ -32,6 +32,7 @@ import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Module;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 
 public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
@@ -58,11 +59,20 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void checkSubmitRequirementIsPropagated() throws Exception {
+  public void submitRequirementIsPropagated() throws Exception {
     PushOneCommit.Result r = createChange();
 
     ChangeInfo result = gApi.changes().id(r.getChangeId()).get();
     assertThat(result.requirements).containsExactly(reqInfo);
+  }
+
+  @Test
+  public void submitRequirementIsPropagatedInQuery() throws Exception {
+    createChange();
+
+    List<ChangeInfo> result = gApi.changes().query("status:open project:" + project.get()).get();
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).requirements).containsExactly(reqInfo);
   }
 
   private static class CustomSubmitRule implements SubmitRule {

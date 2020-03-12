@@ -31,6 +31,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
+import com.google.gerrit.server.account.DefaultPreferencesCacheImpl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
@@ -155,6 +156,7 @@ public class BatchProgramModule extends FactoryModule {
     install(new GroupModule());
     install(new NoteDbModule());
     install(AccountCacheImpl.module());
+    install(DefaultPreferencesCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(ProjectCacheImpl.module());

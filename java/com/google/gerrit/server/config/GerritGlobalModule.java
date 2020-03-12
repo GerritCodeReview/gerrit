@@ -90,6 +90,7 @@ import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
+import com.google.gerrit.server.account.DefaultPreferencesCacheImpl;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
@@ -232,6 +233,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ChangeKindCacheImpl.module());
     install(ChangeFinder.module());
     install(ConflictsCacheImpl.module());
+    install(DefaultPreferencesCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(MergeabilityCacheImpl.module());

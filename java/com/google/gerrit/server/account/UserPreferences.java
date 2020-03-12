@@ -14,13 +14,30 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.server.cache.proto.Cache;
 import java.util.Map;
 
 /** Helpers for combining user preferences with defaults. */
-public class UserPreferences {
+public interface UserPreferences {
 
-  private UserPreferences() {}
+  static User create(Cache.UserPreferences preferences) {
+    return new AutoValue_UserPreferences_User(preferences);
+  }
+
+  static Default defaults(Cache.UserPreferences preferences) {
+    return new AutoValue_UserPreferences_Default(preferences);
+  }
+
+  @AutoValue
+  abstract class User implements UserPreferences {
+    abstract Cache.UserPreferences preferences();
+  }
+
+  @AutoValue
+  abstract class Default implements UserPreferences {
+    abstract Cache.UserPreferences preferences();
+  }
 
   /** Returns an overlay of {@code userPreferences} over {@code defaults}. */
   static Cache.UserPreferences overlayDefaults(

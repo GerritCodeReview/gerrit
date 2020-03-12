@@ -32,13 +32,18 @@ interface NoteDbSchemaVersion {
     final GitRepositoryManager repoManager;
     final AllProjectsName allProjects;
     final AllUsersName allUsers;
+    final GrantRevertPermission grantRevertPermission;
 
     @Inject
     Arguments(
-        GitRepositoryManager repoManager, AllProjectsName allProjects, AllUsersName allUsers) {
+        GitRepositoryManager repoManager,
+        AllProjectsName allProjects,
+        AllUsersName allUsers,
+        GrantRevertPermission grantRevertPermission) {
       this.repoManager = repoManager;
       this.allProjects = allProjects;
       this.allUsers = allUsers;
+      this.grantRevertPermission = grantRevertPermission;
     }
   }
 

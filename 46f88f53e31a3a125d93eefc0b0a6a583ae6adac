@@ -160,6 +160,30 @@
       "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afac89e2_632ee925",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-12T08:15:55Z",
+      "side": 1,
+      "message": "https://en.wikipedia.org/wiki/Nota_bene",
+      "parentUuid": "a4425571_3f639e5f",
+      "range": {
+        "startLine": 30,
+        "startChar": 5,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

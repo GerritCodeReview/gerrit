@@ -34,6 +34,24 @@
       "revId": "8c7197e9e62080cf6e3af6e9ca5ea7daa2e89366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea59b975_8ad7266e",
+        "filename": "java/com/google/gerrit/common/flogger/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-03-12T13:27:50Z",
+      "side": 1,
+      "message": "Would it be a good idea to mention in the commit message, why we isolating this single utility class in its own Bazel package, and may be even add a reference to the pending issue upstream.\n\nOf course the most verbose solution would be to add TODO comment to this BUILD file to merge this package into the parent one, once this Bazel collision issue between error prone and auto-value-annotations library is fixed.",
+      "parentUuid": "e7be66d5_2b164585",
+      "revId": "8c7197e9e62080cf6e3af6e9ca5ea7daa2e89366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

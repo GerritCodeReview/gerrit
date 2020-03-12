@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c960209_fed19dca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T07:57:07Z",
+      "side": 1,
+      "message": "is there a link to those expectations you are referring to ? I am curious to learn more about how that related to following changes",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af6600e3_2cf3a8ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T07:57:07Z",
+      "side": 1,
+      "message": "nit : change ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b89a0a79_f183c5a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T07:57:07Z",
+      "side": 1,
+      "message": "are ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0d08789_fb4c7a8d",
+        "filename": "polygerrit-ui/app/elements/gr-app-init.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T07:57:07Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a436d0f_601ad03c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T07:57:07Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea8e379c_fba4fca6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T07:57:07Z",
+      "side": 1,
+      "message": "this is a bit confusing as the file name is different with module name, i am ok if its only for a transitioned period. But is it possible to avoid this ? I think you might have tried already, but just in case, a quick peek on the js file, it seems that might be fine just to have the gr-js-api-interface.js at the bottom of the list of scripts needed for that element (i think other files are not relying on anything from gr-js-api directly), so maybe you can use the same convention as other changes to just promote all other scripts to the top while preserving the order ?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 56
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4425571_3f639e5f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T07:57:07Z",
+      "side": 1,
+      "message": "just curious, what `NB:` means ? `Note xxx`?",
+      "range": {
+        "startLine": 30,
+        "startChar": 5,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

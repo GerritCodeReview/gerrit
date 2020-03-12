@@ -21,7 +21,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.project.ProjectConfig;
 import java.util.Optional;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.RefUpdate;
 
@@ -35,7 +34,9 @@ public class ExceptionHookImpl implements ExceptionHook {
           + "This may be a temporary issue due to concurrent updates.\n"
           + "Please retry later.";
   private static final String INVALID_PROJECT_CONFIG_USER_MESSAGE =
-      "Invalid " + ProjectConfig.PROJECT_CONFIG + " file.\n" + "Please contact the project owner.";
+      "Invalid " + ProjectConfig.PROJECT_CONFIG + " file.";
+  private static final String CONTACT_PROJECT_OWNER_USER_MESSAGE =
+      "Please contact the project owner.";
 
   @Override
   public boolean shouldRetry(String actionType, String actionName, Throwable throwable) {
@@ -67,7 +68,10 @@ public class ExceptionHookImpl implements ExceptionHook {
       return ImmutableList.of(LOCK_FAILURE_USER_MESSAGE);
     }
     if (isInvalidProjectConfig(throwable)) {
-      return ImmutableList.of(INVALID_PROJECT_CONFIG_USER_MESSAGE);
+      return ImmutableList.of(
+          getInvalidConfigMessage(throwable).orElse(INVALID_PROJECT_CONFIG_USER_MESSAGE)
+              + "\n"
+              + CONTACT_PROJECT_OWNER_USER_MESSAGE);
     }
     return ImmutableList.of();
   }
@@ -95,9 +99,16 @@ public class ExceptionHookImpl implements ExceptionHook {
     return isMatching(
         throwable,
         t ->
-            t instanceof ConfigInvalidException
-                && t.getMessage()
-                    .startsWith("Invalid config file " + ProjectConfig.PROJECT_CONFIG));
+            t instanceof InvalidConfigFileException
+                && ProjectConfig.PROJECT_CONFIG.equals(
+                    ((InvalidConfigFileException) t).getFileName()));
+  }
+
+  private Optional<String> getInvalidConfigMessage(Throwable throwable) {
+    return Throwables.getCausalChain(throwable).stream()
+        .filter(InvalidConfigFileException.class::isInstance)
+        .map(ex -> ex.getMessage())
+        .findFirst();
   }
 
   /**

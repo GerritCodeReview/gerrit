@@ -104,7 +104,6 @@ public class ChangeFieldTest {
         SubmitRequirement.builder()
             .setType("short_type")
             .setFallbackText("Fallback text may contain special symbols like < > \\ / ; :")
-            .addCustomValue("custom_data", "my value")
             .build();
     r.requirements = Collections.singletonList(sr);
 

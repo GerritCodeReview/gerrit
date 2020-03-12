@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d3189c7_f789c601",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-12T10:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c9e089d_1252b69a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "072301ea015a20480760c62232184314a7574af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c117835_d8426f38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f6e8b1bb_389f4ae2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-12T10:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c117835_d8426f38",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "072301ea015a20480760c62232184314a7574af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3257c83c_c21e113e",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.html",
         "patchSetId": 6
@@ -59,6 +107,24 @@
       "writtenOn": "2020-03-12T08:04:47Z",
       "side": 1,
       "message": "can you clarify this a little bit ? I assume you mean the wct will fail after es6 module right ?",
+      "revId": "072301ea015a20480760c62232184314a7574af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "752cb3c8_7eb41819",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-12T10:12:59Z",
+      "side": 1,
+      "message": "I updated comment.\nIs it ok now?",
+      "parentUuid": "3257c83c_c21e113e",
       "revId": "072301ea015a20480760c62232184314a7574af0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

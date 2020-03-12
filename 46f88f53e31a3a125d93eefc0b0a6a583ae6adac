@@ -184,6 +184,30 @@
       "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f418f5a_6b39d9bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T08:22:58Z",
+      "side": 1,
+      "message": "Ya I googled it after this comment :) Gratias tibi!",
+      "parentUuid": "afac89e2_632ee925",
+      "range": {
+        "startLine": 30,
+        "startChar": 5,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

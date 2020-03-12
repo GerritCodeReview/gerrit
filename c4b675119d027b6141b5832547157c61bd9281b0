@@ -22,6 +22,47 @@
       "revId": "c4b675119d027b6141b5832547157c61bd9281b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa5db26d_c4ac3151",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T08:18:55Z",
+      "side": 1,
+      "message": "or as an independently shared component, it makes sense to do that manually and separately",
+      "parentUuid": "b2ceca0b_71398345",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 0
+      },
+      "revId": "c4b675119d027b6141b5832547157c61bd9281b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62f58657_57e4a452",
+        "filename": "polygerrit-ui/app/embed/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T08:18:55Z",
+      "side": 1,
+      "message": "will polymer_binary still work fine with this ? since that\u0027s the build rule used to build the shared gr-diff component",
+      "revId": "c4b675119d027b6141b5832547157c61bd9281b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

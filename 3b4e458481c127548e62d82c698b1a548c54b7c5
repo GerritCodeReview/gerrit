@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "df3e11e2_26355ad4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-12T07:26:09Z",
+      "side": 1,
+      "message": "What led to this is that we have a plugin that implements SubmitRule for project/organization based rules, and those rules can be changed. For example it\u0027s possible to add a rule that a certain label is required.\n\nWe have a test that does something like:\n\n- create changes\n- assert that the changes are submittable (and there are no \u0027requirements\u0027)\n- update the rules to require a certain label\n- assert that the changes are not submittable (and the \u0027requirements\u0027 are included)\n\nWe found that the second assertion fails when using the change query to get the changes, but not when getting each change directly.",
+      "parentUuid": "862c96a9_6eb8956c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f806a0db_4b810b1c",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
         "patchSetId": 2

@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "99f5647f_c6a5eb05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-12T07:36:01Z",
+      "side": 1,
+      "message": "\u003e I have no solution for it, other than reindexing the changes.\n\nThat\u0027s what we will do if it turns out that we do need the submit rule to be correct for bulk change queries.  In the cases where we only need a single change we\u0027ll just use the change API.  For some reason we were previously using the query to get a single change and that\u0027s where this issue came up.",
+      "parentUuid": "ac57d0e6_1d2d4bd3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f806a0db_4b810b1c",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a48578ab_5a24e9d7",
+        "filename": "java/com/google/gerrit/common/flogger/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-03-12T13:02:13Z",
+      "side": 1,
+      "message": "That looks like a overkill to me - not sure if I understand why it has to be done that way... is this a bazel issue or build configuration problem?",
+      "revId": "8c7197e9e62080cf6e3af6e9ca5ea7daa2e89366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

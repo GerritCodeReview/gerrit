@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2ceca0b_71398345",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-12T08:08:56Z",
+      "side": 1,
+      "message": "IMHO, you may want to rephrase this as the community won\u0027t and not necessary to know about the `internal projects` :) I think gr-diff is a core piece of the gerrit, so it is already a great reason to convert that manually.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 0
+      },
+      "revId": "c4b675119d027b6141b5832547157c61bd9281b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "0a88e3cd81ba9d2d0184f0b41f3b169612d652b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eccdda34_26ccbdca",
+        "filename": "polygerrit-ui/app/wct.conf.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-12T16:27:05Z",
+      "side": 1,
+      "message": "\"Build/Tests\" was not executed manually. Could you please upload any change on top of this change with some update in .html or .js file ? (to force \"Build/Tests\" check)",
+      "parentUuid": "a9862f32_0083f1f3",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "0a88e3cd81ba9d2d0184f0b41f3b169612d652b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

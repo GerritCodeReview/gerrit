@@ -63,6 +63,24 @@
       "revId": "c4b675119d027b6141b5832547157c61bd9281b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10d53804_322a79ca",
+        "filename": "polygerrit-ui/app/embed/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-12T10:20:12Z",
+      "side": 1,
+      "message": "No. I am working on updating it (but this doesn\u0027t affect gerrit in any way)",
+      "parentUuid": "62f58657_57e4a452",
+      "revId": "c4b675119d027b6141b5832547157c61bd9281b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

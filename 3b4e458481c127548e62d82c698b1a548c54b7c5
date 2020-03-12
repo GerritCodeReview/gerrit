@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "862c96a9_6eb8956c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-12T07:03:08Z",
+      "side": 1,
+      "message": "Normally the result of a submit rule should depend on the change state. If the change state is changed, and hence the submit rule delivers a new result, the change is reindexed, and hence the submit requirement in the change index is up-to-date.\n\nIn my opinion, writing a submit rule for which the result depends on non-change factors is a bad practise.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

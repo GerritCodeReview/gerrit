@@ -18,8 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
-import com.google.common.collect.ImmutableMap;
-import java.util.Map;
 
 /** Describes a requirement to submit a change. */
 @AutoValue
@@ -37,15 +35,6 @@ public abstract class SubmitRequirement {
 
     public abstract Builder setFallbackText(String value);
 
-    public Builder setData(Map<String, String> value) {
-      return setData(ImmutableMap.copyOf(value));
-    }
-
-    public Builder addCustomValue(String key, String value) {
-      dataBuilder().put(key, value);
-      return this;
-    }
-
     public SubmitRequirement build() {
       SubmitRequirement requirement = autoBuild();
       checkState(
@@ -54,18 +43,12 @@ public abstract class SubmitRequirement {
       return requirement;
     }
 
-    abstract Builder setData(ImmutableMap<String, String> value);
-
-    abstract ImmutableMap.Builder<String, String> dataBuilder();
-
     abstract SubmitRequirement autoBuild();
   }
 
   public abstract String fallbackText();
 
   public abstract String type();
-
-  public abstract ImmutableMap<String, String> data();
 
   public static Builder builder() {
     return new AutoValue_SubmitRequirement.Builder();

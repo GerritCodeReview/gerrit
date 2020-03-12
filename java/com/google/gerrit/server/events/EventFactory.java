@@ -259,7 +259,6 @@ public class EventFactory {
         SubmitRequirementAttribute re = new SubmitRequirementAttribute();
         re.fallbackText = req.fallbackText();
         re.type = req.type();
-        re.data = req.data();
         sa.requirements.add(re);
       }
     }

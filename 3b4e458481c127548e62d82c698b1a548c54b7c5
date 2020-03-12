@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "fb43265d_f7233a2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-03-12T07:54:34Z",
+      "side": 1,
+      "message": "\u003e I guess this might also be an issue with the checks plugin, e.g. if a failed check is rerun it updates the check state, but not the change state, hence the checks submit requirement in the index will be stale.\n\nyeah, it will eventually get correct if anyone votes but it might be out of sync if users vote prior check finished and there is some flakiness in checks... which is probably a very rate case ;)",
+      "parentUuid": "99f5647f_c6a5eb05",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "3b4e458481c127548e62d82c698b1a548c54b7c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f806a0db_4b810b1c",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
         "patchSetId": 2

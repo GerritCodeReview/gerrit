@@ -44,6 +44,8 @@ java_library(
     testonly = True,
     srcs = [
         "AbstractPushTag.java",
+        "AbstractHttpPushTag.java",
+        "AbstractSshPushTag.java",
     ],
     deps = [
         "//java/com/google/gerrit/acceptance:lib",

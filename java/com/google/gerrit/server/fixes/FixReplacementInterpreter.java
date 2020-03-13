@@ -14,26 +14,33 @@
 
 package com.google.gerrit.server.fixes;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Comment.Range;
 import com.google.gerrit.entities.FixReplacement;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.change.FileContentUtil;
+import com.google.gerrit.server.edit.CommitModification;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
 import com.google.gerrit.server.edit.tree.TreeModification;
+import com.google.gerrit.server.patch.MagicFile;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 
 /** An interpreter for {@code FixReplacement}s. */
@@ -60,7 +67,7 @@ public class FixReplacementInterpreter {
    * @throws ResourceConflictException if the replacements can't be transformed into {@code
    *     TreeModification}s
    */
-  public List<TreeModification> toTreeModifications(
+  public CommitModification toCommitModification(
       Repository repository,
       ProjectState projectState,
       ObjectId patchSetCommitId,
@@ -72,14 +79,63 @@ public class FixReplacementInterpreter {
     Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
         fixReplacements.stream().collect(groupingBy(fixReplacement -> fixReplacement.path));
 
-    List<TreeModification> treeModifications = new ArrayList<>();
+    CommitModification.Builder modificationBuilder = CommitModification.builder();
     for (Map.Entry<String, List<FixReplacement>> entry : fixReplacementsPerFilePath.entrySet()) {
-      TreeModification treeModification =
-          toTreeModification(
-              repository, projectState, patchSetCommitId, entry.getKey(), entry.getValue());
-      treeModifications.add(treeModification);
+      if (Objects.equals(entry.getKey(), Patch.COMMIT_MSG)) {
+        String newCommitMessage =
+            getNewCommitMessage(repository, patchSetCommitId, entry.getValue());
+        modificationBuilder.newCommitMessage(newCommitMessage);
+      } else {
+        TreeModification treeModification =
+            toTreeModification(
+                repository, projectState, patchSetCommitId, entry.getKey(), entry.getValue());
+        modificationBuilder.addTreeModification(treeModification);
+      }
     }
-    return treeModifications;
+    return modificationBuilder.build();
+  }
+
+  private static String getNewCommitMessage(
+      Repository repository, ObjectId patchSetCommitId, List<FixReplacement> fixReplacements)
+      throws ResourceConflictException, IOException {
+    try (ObjectReader reader = repository.newObjectReader()) {
+      // In the magic /COMMIT_MSG file, the actual commit message is placed after some generated
+      // header lines. -> Need to find out to which actual line of the commit message a replacement
+      // refers.
+      MagicFile commitMessageFile = MagicFile.forCommitMessage(reader, patchSetCommitId);
+      int commitMessageStartLine = commitMessageFile.getStartLineOfModifiableContent();
+      // Line numbers are 1-based. -> Add 1 to not move first line.
+      // Move up for any additionally found lines.
+      int necessaryRangeShift = -commitMessageStartLine + 1;
+      ImmutableList<FixReplacement> adjustedReplacements =
+          shiftRangesBy(fixReplacements, necessaryRangeShift);
+      if (referToNonPositiveLine(adjustedReplacements)) {
+        throw new ResourceConflictException(
+            String.format("The header of the %s file cannot be modified.", Patch.COMMIT_MSG));
+      }
+      String commitMessage = commitMessageFile.modifiableContent();
+      return FixCalculator.getNewFileContent(commitMessage, adjustedReplacements);
+    }
+  }
+
+  private static ImmutableList<FixReplacement> shiftRangesBy(
+      List<FixReplacement> fixReplacements, int shiftedAmount) {
+    return fixReplacements.stream()
+        .map(replacement -> shiftRangesBy(replacement, shiftedAmount))
+        .collect(toImmutableList());
+  }
+
+  private static FixReplacement shiftRangesBy(FixReplacement fixReplacement, int shiftedAmount) {
+    Range adjustedRange = fixReplacement.range;
+    adjustedRange.startLine += shiftedAmount;
+    adjustedRange.endLine += shiftedAmount;
+    return new FixReplacement(fixReplacement.path, adjustedRange, fixReplacement.replacement);
+  }
+
+  private static boolean referToNonPositiveLine(List<FixReplacement> adjustedReplacements) {
+    return adjustedReplacements.stream()
+        .map(replacement -> replacement.range)
+        .anyMatch(range -> range.startLine <= 0);
   }
 
   private TreeModification toTreeModification(

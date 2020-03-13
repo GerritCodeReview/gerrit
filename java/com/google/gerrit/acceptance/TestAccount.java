@@ -63,7 +63,6 @@ public class TestAccount {
     InetSocketAddress addr = server.getHttpAddress();
     return new URIBuilder()
         .setScheme("http")
-        .setUserInfo(username, httpPassword)
         .setHost(InetAddresses.toUriString(addr.getAddress()))
         .setPort(addr.getPort())
         .toString();

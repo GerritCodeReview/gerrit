@@ -22,6 +22,40 @@
       "revId": "f72270dff1feede69add35e3b30dbcd880598c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b91f302a_d6c1e11d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-13T11:21:32Z",
+      "side": 1,
+      "message": "maybe split to new line after the `.`",
+      "revId": "f72270dff1feede69add35e3b30dbcd880598c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a23c942_b1aa453f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-13T11:21:32Z",
+      "side": 1,
+      "message": "overlength ?",
+      "revId": "f72270dff1feede69add35e3b30dbcd880598c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

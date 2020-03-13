@@ -7121,7 +7121,10 @@ replaced by another content.
 |==========================
 |Field Name      |Description
 |`path`          |The path of the file which should be modified. Any file in
-the repository may be modified.
+the repository may be modified. The commit message can be modified via the
+magic file `/COMMIT_MSG` though only the part below the generated header of
+that magic file can be modified. References to the header lines will result in
+errors when the fix is applied.
 |`range`         |A <<comment-range,CommentRange>> indicating which content
 of the file should be replaced. Lines in the file are assumed to be separated
 by the line feed character, the carriage return character, the carriage return

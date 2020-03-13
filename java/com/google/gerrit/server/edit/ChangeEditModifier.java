@@ -16,7 +16,6 @@ package com.google.gerrit.server.edit;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -324,7 +323,7 @@ public class ChangeEditModifier {
    * @param repository the affected Git repository
    * @param notes the {@link ChangeNotes} of the change to which the patch set belongs
    * @param patchSet the {@code PatchSet} which should be modified
-   * @param treeModifications the modifications which should be applied
+   * @param commitModification the modifications which should be applied
    * @return the resulting {@code ChangeEdit}
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if the existing change edit is based on another patch
@@ -336,16 +335,11 @@ public class ChangeEditModifier {
       Repository repository,
       ChangeNotes notes,
       PatchSet patchSet,
-      List<TreeModification> treeModifications)
+      CommitModification commitModification)
       throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
           PermissionBackendException, ResourceConflictException {
     return modifyCommit(
-        repository,
-        notes,
-        new ModificationIntention.PatchSetCommit(patchSet),
-        CommitModification.builder()
-            .treeModifications(ImmutableList.copyOf(treeModifications))
-            .build());
+        repository, notes, new ModificationIntention.PatchSetCommit(patchSet), commitModification);
   }
 
   private ChangeEdit modifyCommit(

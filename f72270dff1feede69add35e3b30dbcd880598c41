@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6389336a_792adc5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-13T13:00:37Z",
+      "side": 1,
+      "message": "I\u0027m not exactly sure, dosn\u0027t look like it.",
+      "parentUuid": "c2a0cbf7_4bf0c263",
+      "range": {
+        "startLine": 339,
+        "startChar": 16,
+        "endLine": 339,
+        "endChar": 24
+      },
+      "revId": "f72270dff1feede69add35e3b30dbcd880598c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b91f302a_d6c1e11d",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 8
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "2ba43633_a5ed9fd6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-13T13:00:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b91f302a_d6c1e11d",
+      "revId": "f72270dff1feede69add35e3b30dbcd880598c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a23c942_b1aa453f",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 8
@@ -56,6 +98,24 @@
       "revId": "f72270dff1feede69add35e3b30dbcd880598c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b35c1fbf_d860db78",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-13T13:00:37Z",
+      "side": 1,
+      "message": "I doin\u0027t think so, but i\u0027ve followed what you said above.",
+      "parentUuid": "6a23c942_b1aa453f",
+      "revId": "f72270dff1feede69add35e3b30dbcd880598c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

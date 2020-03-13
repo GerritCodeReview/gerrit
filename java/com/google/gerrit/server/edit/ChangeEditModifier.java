@@ -53,6 +53,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.dircache.InvalidPathException;
@@ -199,42 +200,18 @@ public class ChangeEditModifier {
    *     modified
    * @param newCommitMessage the new commit message
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
-   * @throws UnchangedCommitMessageException if the commit message is the same as before
+   * @throws InvalidChangeOperationException if the commit message is the same as before
    * @throws PermissionBackendException
    * @throws BadRequestException if the commit message is malformed
    */
   public void modifyMessage(Repository repository, ChangeNotes notes, String newCommitMessage)
-      throws AuthException, IOException, UnchangedCommitMessageException,
+      throws AuthException, IOException, InvalidChangeOperationException,
           PermissionBackendException, BadRequestException, ResourceConflictException {
-    assertCanEdit(notes);
-    newCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(newCommitMessage);
-
-    Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(notes);
-    PatchSet basePatchSet = getBasePatchSet(optionalChangeEdit, notes);
-    RevCommit basePatchSetCommit = NoteDbEdits.lookupCommit(repository, basePatchSet.commitId());
-    RevCommit baseCommit =
-        optionalChangeEdit.map(ChangeEdit::getEditCommit).orElse(basePatchSetCommit);
-
-    String currentCommitMessage = baseCommit.getFullMessage();
-    if (newCommitMessage.equals(currentCommitMessage)) {
-      throw new UnchangedCommitMessageException();
-    }
-
-    RevTree baseTree = baseCommit.getTree();
-    Timestamp nowTimestamp = TimeUtil.nowTs();
-    ObjectId newEditCommit =
-        createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
-
-    if (optionalChangeEdit.isPresent()) {
-      noteDbEdits.updateEdit(
-          notes.getProjectName(),
-          repository,
-          optionalChangeEdit.get(),
-          newEditCommit,
-          nowTimestamp);
-    } else {
-      noteDbEdits.createEdit(repository, notes, basePatchSet, newEditCommit, nowTimestamp);
-    }
+    modifyCommit(
+        repository,
+        notes,
+        new ModificationIntention.LatestCommit(),
+        CommitModification.builder().newCommitMessage(newCommitMessage).build());
   }
 
   /**
@@ -255,11 +232,13 @@ public class ChangeEditModifier {
       Repository repository, ChangeNotes notes, String filePath, RawInput newContent)
       throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
-    modifyTree(
+    modifyCommit(
         repository,
         notes,
         new ModificationIntention.LatestCommit(),
-        ImmutableList.of(new ChangeFileContentModification(filePath, newContent)));
+        CommitModification.builder()
+            .addTreeModification(new ChangeFileContentModification(filePath, newContent))
+            .build());
   }
 
   /**
@@ -278,11 +257,11 @@ public class ChangeEditModifier {
   public void deleteFile(Repository repository, ChangeNotes notes, String file)
       throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
-    modifyTree(
+    modifyCommit(
         repository,
         notes,
         new ModificationIntention.LatestCommit(),
-        ImmutableList.of(new DeleteFileModification(file)));
+        CommitModification.builder().addTreeModification(new DeleteFileModification(file)).build());
   }
 
   /**
@@ -304,11 +283,13 @@ public class ChangeEditModifier {
       Repository repository, ChangeNotes notes, String currentFilePath, String newFilePath)
       throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
-    modifyTree(
+    modifyCommit(
         repository,
         notes,
         new ModificationIntention.LatestCommit(),
-        ImmutableList.of(new RenameFileModification(currentFilePath, newFilePath)));
+        CommitModification.builder()
+            .addTreeModification(new RenameFileModification(currentFilePath, newFilePath))
+            .build());
   }
 
   /**
@@ -326,11 +307,13 @@ public class ChangeEditModifier {
   public void restoreFile(Repository repository, ChangeNotes notes, String file)
       throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
-    modifyTree(
+    modifyCommit(
         repository,
         notes,
         new ModificationIntention.LatestCommit(),
-        ImmutableList.of(new RestoreFileModification(file)));
+        CommitModification.builder()
+            .addTreeModification(new RestoreFileModification(file))
+            .build());
   }
 
   /**
@@ -356,15 +339,20 @@ public class ChangeEditModifier {
       List<TreeModification> treeModifications)
       throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
           PermissionBackendException, ResourceConflictException {
-    return modifyTree(
-        repository, notes, new ModificationIntention.PatchSetCommit(patchSet), treeModifications);
+    return modifyCommit(
+        repository,
+        notes,
+        new ModificationIntention.PatchSetCommit(patchSet),
+        CommitModification.builder()
+            .treeModifications(ImmutableList.copyOf(treeModifications))
+            .build());
   }
 
-  private ChangeEdit modifyTree(
+  private ChangeEdit modifyCommit(
       Repository repository,
       ChangeNotes notes,
       ModificationIntention modificationIntention,
-      List<TreeModification> treeModifications)
+      CommitModification commitModification)
       throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
           PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
@@ -378,21 +366,26 @@ public class ChangeEditModifier {
         editBehavior.getModificationTarget(notes, modificationIntention);
 
     RevCommit commitToModify = modificationTarget.getCommit(repository);
-    ObjectId newTreeId = createNewTree(repository, commitToModify, treeModifications);
+    ObjectId newTreeId =
+        createNewTree(repository, commitToModify, commitModification.treeModifications());
     newTreeId = editBehavior.mergeTreesIfNecessary(repository, newTreeId, commitToModify);
-
-    Optional<ChangeEdit> unmodifiedEdit = editBehavior.getEditIfNoModification(newTreeId);
-    if (unmodifiedEdit.isPresent()) {
-      return unmodifiedEdit.get();
-    }
 
     PatchSet basePatchset = modificationTarget.getBasePatchset();
     RevCommit basePatchsetCommit = NoteDbEdits.lookupCommit(repository, basePatchset.commitId());
 
-    String commitMessage = editBehavior.getNewCommitMessage(commitToModify);
+    String newCommitMessage =
+        createNewCommitMessage(editBehavior, commitModification, commitToModify);
+    newCommitMessage = editBehavior.mergeCommitMessageIfNecessary(newCommitMessage, commitToModify);
+
+    Optional<ChangeEdit> unmodifiedEdit =
+        editBehavior.getEditIfNoModification(newTreeId, newCommitMessage);
+    if (unmodifiedEdit.isPresent()) {
+      return unmodifiedEdit.get();
+    }
+
     Timestamp nowTimestamp = TimeUtil.nowTs();
     ObjectId newEditCommit =
-        createCommit(repository, basePatchsetCommit, newTreeId, commitMessage, nowTimestamp);
+        createCommit(repository, basePatchsetCommit, newTreeId, newCommitMessage, nowTimestamp);
 
     return editBehavior.updateEditInStorage(
         repository, notes, basePatchset, newEditCommit, nowTimestamp);
@@ -428,11 +421,6 @@ public class ChangeEditModifier {
     return changeEditUtil.byChange(notes);
   }
 
-  private PatchSet getBasePatchSet(Optional<ChangeEdit> optionalChangeEdit, ChangeNotes notes) {
-    Optional<PatchSet> editBasePatchSet = optionalChangeEdit.map(ChangeEdit::getBasePatchSet);
-    return editBasePatchSet.isPresent() ? editBasePatchSet.get() : lookupCurrentPatchSet(notes);
-  }
-
   private PatchSet lookupCurrentPatchSet(ChangeNotes notes) {
     return patchSetUtil.current(notes);
   }
@@ -445,6 +433,10 @@ public class ChangeEditModifier {
   private static ObjectId createNewTree(
       Repository repository, RevCommit baseCommit, List<TreeModification> treeModifications)
       throws BadRequestException, IOException, InvalidChangeOperationException {
+    if (treeModifications.isEmpty()) {
+      return baseCommit.getTree();
+    }
+
     ObjectId newTreeId;
     try {
       TreeCreator treeCreator = TreeCreator.basedOn(baseCommit);
@@ -475,6 +467,25 @@ public class ChangeEditModifier {
           "The existing change edit could not be merged with another tree.");
     }
     return threeWayMerger.getResultTreeId();
+  }
+
+  private String createNewCommitMessage(
+      EditBehavior editBehavior, CommitModification commitModification, RevCommit commitToModify)
+      throws InvalidChangeOperationException, BadRequestException {
+    if (!commitModification.newCommitMessage().isPresent()) {
+      return editBehavior.getUnmodifiedCommitMessage(commitToModify);
+    }
+
+    String newCommitMessage =
+        CommitMessageUtil.checkAndSanitizeCommitMessage(
+            commitModification.newCommitMessage().get());
+
+    if (newCommitMessage.equals(commitToModify.getFullMessage())) {
+      throw new InvalidChangeOperationException(
+          "New commit message cannot be same as existing commit message");
+    }
+
+    return newCommitMessage;
   }
 
   private ObjectId createCommit(
@@ -516,9 +527,11 @@ public class ChangeEditModifier {
         Repository repository, ObjectId newTreeId, ObjectId commitToModify)
         throws IOException, MergeConflictException;
 
-    String getNewCommitMessage(RevCommit commitToModify);
+    String getUnmodifiedCommitMessage(RevCommit commitToModify);
 
-    Optional<ChangeEdit> getEditIfNoModification(ObjectId newTreeId);
+    String mergeCommitMessageIfNecessary(String newCommitMessage, ObjectId commitToModify);
+
+    Optional<ChangeEdit> getEditIfNoModification(ObjectId newTreeId, String newCommitMessage);
 
     ChangeEdit updateEditInStorage(
         Repository repository,
@@ -561,17 +574,35 @@ public class ChangeEditModifier {
     }
 
     @Override
-    public String getNewCommitMessage(RevCommit commitToModify) {
+    public String getUnmodifiedCommitMessage(RevCommit commitToModify) {
       return changeEdit.getEditCommit().getFullMessage();
     }
 
     @Override
-    public Optional<ChangeEdit> getEditIfNoModification(ObjectId newTreeId) {
-      if (ObjectId.isEqual(newTreeId, changeEdit.getEditCommit().getTree())) {
-        // Modifications are already contained in the change edit.
-        return Optional.of(changeEdit);
+    public String mergeCommitMessageIfNecessary(String newCommitMessage, ObjectId commitToModify) {
+      if (ObjectId.isEqual(changeEdit.getEditCommit(), commitToModify)) {
+        return newCommitMessage;
       }
-      return Optional.empty();
+      String editCommitMessage = changeEdit.getEditCommit().getFullMessage();
+      if (editCommitMessage.equals(newCommitMessage)) {
+        return editCommitMessage;
+      }
+      // Adjusted in follow-up change.
+      throw new UnsupportedOperationException(
+          "Merging different commit messages is not supported.");
+    }
+
+    @Override
+    public Optional<ChangeEdit> getEditIfNoModification(
+        ObjectId newTreeId, String newCommitMessage) {
+      if (!ObjectId.isEqual(newTreeId, changeEdit.getEditCommit().getTree())) {
+        return Optional.empty();
+      }
+      if (!Objects.equals(newCommitMessage, changeEdit.getEditCommit().getFullMessage())) {
+        return Optional.empty();
+      }
+      // Modifications are already contained in the change edit.
+      return Optional.of(changeEdit);
     }
 
     @Override
@@ -613,12 +644,18 @@ public class ChangeEditModifier {
     }
 
     @Override
-    public String getNewCommitMessage(RevCommit commitToModify) {
+    public String getUnmodifiedCommitMessage(RevCommit commitToModify) {
       return commitToModify.getFullMessage();
     }
 
     @Override
-    public Optional<ChangeEdit> getEditIfNoModification(ObjectId newTreeId) {
+    public String mergeCommitMessageIfNecessary(String newCommitMessage, ObjectId commitToModify) {
+      return newCommitMessage;
+    }
+
+    @Override
+    public Optional<ChangeEdit> getEditIfNoModification(
+        ObjectId newTreeId, String newCommitMessage) {
       return Optional.empty();
     }
 

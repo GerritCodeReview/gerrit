@@ -43,6 +43,8 @@ java_library(
     name = "push_tag_util",
     testonly = True,
     srcs = [
+        "AbstractHttpPushTag.java",
+        "AbstractSshPushTag.java",
         "AbstractPushTag.java",
     ],
     deps = [

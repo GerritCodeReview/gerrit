@@ -63,6 +63,11 @@ public class DefaultPreferencesCacheImpl implements DefaultPreferencesCache {
     }
   }
 
+  @Override
+  public void invalidate() {
+    cache.invalidateAll();
+  }
+
   private static class Loader extends CacheLoader<String, UserPreferences.Default> {
     private final AllUsersName allUsersName;
     private final GitRepositoryManager repoManager;

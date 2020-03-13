@@ -27,7 +27,8 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.DefaultPreferencesCache;
+import com.google.gerrit.server.account.PreferenceConverter;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -52,16 +53,19 @@ public class GetPreferences implements RestReadView<AccountResource> {
   private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
   private final DynamicMap<DownloadScheme> downloadSchemes;
+  private final DefaultPreferencesCache defaultPreferencesCache;
 
   @Inject
   GetPreferences(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       AccountCache accountCache,
+      DefaultPreferencesCache defaultPreferencesCache,
       DynamicMap<DownloadScheme> downloadSchemes) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
+    this.defaultPreferencesCache = defaultPreferencesCache;
     this.downloadSchemes = downloadSchemes;
   }
 
@@ -76,7 +80,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     GeneralPreferencesInfo preferencesInfo =
         accountCache
             .get(id)
-            .map(AccountState::generalPreferences)
+            .map(s -> PreferenceConverter.general(defaultPreferencesCache.get(), s.preferences()))
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
     return Response.ok(unsetDownloadSchemeIfUnsupported(preferencesInfo));
   }

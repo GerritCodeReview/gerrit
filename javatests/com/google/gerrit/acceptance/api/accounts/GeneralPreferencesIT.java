@@ -53,7 +53,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getAndSetPreferences() throws Exception {
     GeneralPreferencesInfo o = gApi.accounts().id(user42.id().toString()).getPreferences();
-    assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "changeTable");
+    assertPrefs(o, new GeneralPreferencesInfo(), "my", "changeTable");
     assertThat(o.my)
         .containsExactly(
             new MenuItem("Dashboard", "#/dashboard/self", null),
@@ -64,7 +64,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
             new MenuItem("Groups", "#/settings/#Groups", null));
     assertThat(o.changeTable).isEmpty();
 
-    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    GeneralPreferencesInfo i = new GeneralPreferencesInfo();
 
     // change all default values
     i.changesPerPage *= -1;
@@ -94,7 +94,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void getPreferencesWithConfiguredDefaults() throws Exception {
-    GeneralPreferencesInfo d = GeneralPreferencesInfo.defaults();
+    GeneralPreferencesInfo d = new GeneralPreferencesInfo();
     int newChangesPerPage = d.changesPerPage * 2;
     GeneralPreferencesInfo update = new GeneralPreferencesInfo();
     update.changesPerPage = newChangesPerPage;
@@ -111,7 +111,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void overwriteConfiguredDefaults() throws Exception {
-    GeneralPreferencesInfo d = GeneralPreferencesInfo.defaults();
+    GeneralPreferencesInfo d = new GeneralPreferencesInfo();
     int configuredChangesPerPage = d.changesPerPage * 2;
     GeneralPreferencesInfo update = new GeneralPreferencesInfo();
     update.changesPerPage = configuredChangesPerPage;
@@ -146,7 +146,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void rejectMyMenuWithoutName() throws Exception {
-    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    GeneralPreferencesInfo i = new GeneralPreferencesInfo();
     i.my = new ArrayList<>();
     i.my.add(new MenuItem(null, "url"));
 
@@ -159,7 +159,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void rejectMyMenuWithoutUrl() throws Exception {
-    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    GeneralPreferencesInfo i = new GeneralPreferencesInfo();
     i.my = new ArrayList<>();
     i.my.add(new MenuItem("name", null));
 
@@ -172,7 +172,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void trimMyMenuInput() throws Exception {
-    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    GeneralPreferencesInfo i = new GeneralPreferencesInfo();
     i.my = new ArrayList<>();
     i.my.add(new MenuItem(" name\t", " url\t", " _blank\t", " id\t"));
 
@@ -182,7 +182,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void rejectUnsupportedDownloadScheme() throws Exception {
-    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    GeneralPreferencesInfo i = new GeneralPreferencesInfo();
     i.downloadScheme = "foo";
 
     BadRequestException thrown =
@@ -199,7 +199,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     String schemeName = "foo";
     try (Registration registration =
         extensionRegistry.newRegistration().add(new TestDownloadScheme(), schemeName)) {
-      GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+      GeneralPreferencesInfo i = new GeneralPreferencesInfo();
       i.downloadScheme = schemeName;
 
       GeneralPreferencesInfo o = gApi.accounts().id(user42.id().toString()).setPreferences(i);

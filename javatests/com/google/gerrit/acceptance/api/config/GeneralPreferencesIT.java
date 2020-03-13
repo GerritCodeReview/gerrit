@@ -27,19 +27,19 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getGeneralPreferences() throws Exception {
     GeneralPreferencesInfo result = gApi.config().server().getDefaultPreferences();
-    assertPrefs(result, GeneralPreferencesInfo.defaults(), "changeTable", "my");
+    assertPrefs(result, new GeneralPreferencesInfo(), "changeTable", "my"); // TODO(hiesel)
   }
 
   @Test
   public void setGeneralPreferences() throws Exception {
-    boolean newSignedOffBy = !GeneralPreferencesInfo.defaults().signedOffBy;
+    boolean newSignedOffBy = true;
     GeneralPreferencesInfo update = new GeneralPreferencesInfo();
     update.signedOffBy = newSignedOffBy;
     GeneralPreferencesInfo result = gApi.config().server().setDefaultPreferences(update);
     assertWithMessage("signedOffBy").that(result.signedOffBy).isEqualTo(newSignedOffBy);
 
     result = gApi.config().server().getDefaultPreferences();
-    GeneralPreferencesInfo expected = GeneralPreferencesInfo.defaults();
+    GeneralPreferencesInfo expected = new GeneralPreferencesInfo();
     expected.signedOffBy = newSignedOffBy;
     assertPrefs(result, expected, "changeTable", "my");
   }

@@ -25,8 +25,9 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.DefaultPreferencesCache;
+import com.google.gerrit.server.account.PreferenceConverter;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -54,15 +55,18 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final DefaultPreferencesCache defaultPreferencesCache;
 
   @Inject
   SetDiffPreferences(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
+      DefaultPreferencesCache defaultPreferencesCache) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountsUpdateProvider = accountsUpdateProvider;
+    this.defaultPreferencesCache = defaultPreferencesCache;
   }
 
   @Override
@@ -81,8 +85,11 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
     return Response.ok(
         accountsUpdateProvider
             .get()
-            .update("Set Diff Preferences via API", id, u -> u.setDiffPreferences(input))
-            .map(AccountState::diffPreferences)
+            .update(
+                "Set Diff Preferences via API",
+                id,
+                u -> u.setPreferences(PreferenceConverter.forUpdate(input)))
+            .map(s -> PreferenceConverter.diff(defaultPreferencesCache.get(), s.preferences()))
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 }

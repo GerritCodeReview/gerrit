@@ -15,7 +15,9 @@
 package com.google.gerrit.server.account;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cache.proto.Cache;
+import java.util.Arrays;
 import java.util.Map;
 
 /** Helpers for combining user preferences with defaults. */
@@ -31,22 +33,48 @@ public interface UserPreferences {
     return new AutoValue_UserPreferences_Default(preferences);
   }
 
+  /** Settings of a single user. Does not contain any defaults. */
   @AutoValue
   abstract class User implements UserPreferences {
     @Override
     public abstract Cache.UserPreferences preferences();
+
+    public static User empty() {
+      return new AutoValue_UserPreferences_User(Cache.UserPreferences.newBuilder().build());
+    }
   }
 
+  /**
+   * Default settings for the Gerrit instance. These come from {@code refs/users/defaults}. Does not
+   * contain any programmatic defaults.
+   */
   @AutoValue
   abstract class Default implements UserPreferences {
     @Override
     public abstract Cache.UserPreferences preferences();
   }
 
+  /** A result of overlaying user preferences. */
   @AutoValue
-  abstract class Mixed implements UserPreferences {
+  abstract class Overlay implements UserPreferences {
     @Override
     public abstract Cache.UserPreferences preferences();
+  }
+
+  /**
+   * Settings intended to be used for updating stored values. Might be overlayed with defaults. The
+   * storage must guarantee to only store settings that are different from the defaults.
+   */
+  @AutoValue
+  abstract class ForUpdate implements UserPreferences {
+    @Override
+    public Cache.UserPreferences preferences() {
+      return values();
+    }
+
+    abstract Cache.UserPreferences defaults();
+
+    abstract Cache.UserPreferences values();
 
     public static Builder newBuilder() {
       return new Builder();
@@ -61,25 +89,43 @@ public interface UserPreferences {
         this.values = Cache.UserPreferences.newBuilder();
       }
 
-      public <T> Builder add(UserPreferenceFields.Field<T> field, T value) {
+      public <T> Builder add(UserPreferenceFields.Field<T> field, @Nullable T value) {
         switch (field.type()) {
-          case UserPreferenceSection.GENERAL:
-            field.setDefault(defaults.getGeneralMap());
-            field.set(values.getGeneralMap(), value);
+          case GENERAL:
+            defaults.putGeneral(field.key(), field.protoValue(field.defaultValue()));
+            if (value != null) {
+              values.putGeneral(field.key(), field.protoValue(value));
+            }
+          case DIFF:
+            defaults.putDiff(field.key(), field.protoValue(field.defaultValue()));
+            if (value != null) {
+              values.putDiff(field.key(), field.protoValue(value));
+            }
+          case EDIT:
+            defaults.putEdit(field.key(), field.protoValue(field.defaultValue()));
+            if (value != null) {
+              values.putEdit(field.key(), field.protoValue(value));
+            }
         }
 
         return this;
       }
 
-      public Mixed build() {
-        return new AutoValue_UserPreferences_Mixed(builder.build());
+      public ForUpdate build() {
+        return new AutoValue_UserPreferences_ForUpdate(defaults.build(), values.build());
       }
     }
   }
 
   /** Returns an overlay of {@code userPreferences} over {@code defaults}. */
-  static UserPreferences.Mixed overlayDefaults(
-      UserPreferences.Default defaults, UserPreferences.User user) {}
+  static UserPreferences overlayDefaults(UserPreferences... preferences) {
+    return Arrays.stream(preferences)
+        .reduce(
+            (p1, p2) ->
+                new AutoValue_UserPreferences_Overlay(
+                    overlayDefaults(p1.preferences(), p2.preferences())))
+        .get();
+  }
 
   /** Returns an overlay of {@code userPreferences} over {@code defaults}. */
   static Cache.UserPreferences overlayDefaults(

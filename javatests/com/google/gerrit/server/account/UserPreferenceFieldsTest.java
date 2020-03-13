@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.cache.proto.Cache;
@@ -46,49 +47,48 @@ public class UserPreferenceFieldsTest {
   @Test
   public void fieldTest_noValue() {
     UserPreferenceFields.Field<Integer> field =
-        UserPreferenceFields.Field.of(
-            UserPreferenceSection.GENERAL, "someKey", 123, UserPreferenceFields.INTEGER_ADAPTER);
+        UserPreferenceFields.Field.general("someKey", 123, UserPreferenceFields.INTEGER_ADAPTER);
     Cache.UserPreferences preferences = Cache.UserPreferences.newBuilder().build();
-    assertThat(field.get(preferences)).isNull();
-    assertThat(field.getOrDefault(preferences)).isEqualTo(123);
+    assertThat(field.get(UserPreferences.defaults(preferences))).isEmpty();
+    assertThat(field.getOrDefault(UserPreferences.defaults(preferences))).isEqualTo(123);
   }
 
   @Test
   public void fieldTest_withValue() {
     UserPreferenceFields.Field<Integer> field =
-        UserPreferenceFields.Field.of(
-            UserPreferenceSection.GENERAL, "someKey", 123, UserPreferenceFields.INTEGER_ADAPTER);
+        UserPreferenceFields.Field.general("someKey", 123, UserPreferenceFields.INTEGER_ADAPTER);
     Cache.UserPreferences preferences =
         Cache.UserPreferences.newBuilder().putGeneral("someKey", repeated("100")).build();
-    assertThat(field.get(preferences)).isEqualTo(100);
-    assertThat(field.getOrDefault(preferences)).isEqualTo(100);
+    assertThat(field.get(UserPreferences.defaults(preferences))).hasValue(100);
+    assertThat(field.getOrDefault(UserPreferences.defaults(preferences))).isEqualTo(100);
   }
 
   @Test
   public void repeatedFieldTest_noValue() {
     UserPreferenceFields.Field<ImmutableList<String>> field =
-        UserPreferenceFields.Field.of(
-            UserPreferenceSection.EDIT,
+        UserPreferenceFields.Field.edit(
             "someKey",
             ImmutableList.of("foo", "bar"),
             UserPreferenceFields.REPEATED_STRING_ADAPTER);
     Cache.UserPreferences preferences = Cache.UserPreferences.newBuilder().build();
-    assertThat(field.get(preferences)).isNull();
-    assertThat(field.getOrDefault(preferences)).isEqualTo(ImmutableList.of("foo", "bar"));
+    assertThat(field.get(UserPreferences.defaults(preferences))).isEmpty();
+    assertThat(field.getOrDefault(UserPreferences.defaults(preferences)))
+        .isEqualTo(ImmutableList.of("foo", "bar"));
   }
 
   @Test
   public void repeatedFieldTest_withValue() {
     UserPreferenceFields.Field<ImmutableList<String>> field =
-        UserPreferenceFields.Field.of(
-            UserPreferenceSection.EDIT,
+        UserPreferenceFields.Field.edit(
             "someKey",
             ImmutableList.of("foo", "bar"),
             UserPreferenceFields.REPEATED_STRING_ADAPTER);
     Cache.UserPreferences preferences =
         Cache.UserPreferences.newBuilder().putEdit("someKey", repeated("override")).build();
-    assertThat(field.get(preferences)).isEqualTo(ImmutableList.of("override"));
-    assertThat(field.getOrDefault(preferences)).isEqualTo(ImmutableList.of("override"));
+    assertThat(field.get(UserPreferences.defaults(preferences)))
+        .hasValue(ImmutableList.of("override"));
+    assertThat(field.getOrDefault(UserPreferences.defaults(preferences)))
+        .isEqualTo(ImmutableList.of("override"));
   }
 
   private static Cache.UserPreferences.RepeatedPreference repeated(String... val) {

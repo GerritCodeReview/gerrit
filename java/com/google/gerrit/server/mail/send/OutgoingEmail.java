@@ -32,6 +32,7 @@ import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.mail.EmailHeader.AddressList;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.UserPreferenceFields;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
@@ -122,8 +123,12 @@ public abstract class OutgoingEmail {
       if (fromId != null) {
         Optional<AccountState> fromUser = args.accountCache.get(fromId);
         if (fromUser.isPresent()) {
-          GeneralPreferencesInfo senderPrefs = fromUser.get().generalPreferences();
-          if (senderPrefs != null && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
+          GeneralPreferencesInfo.EmailStrategy strategy =
+              fromUser
+                  .get()
+                  .getPreference(
+                      UserPreferenceFields.General.EMAIL_STRATEGY, args.defaultPreferencesCache);
+          if (strategy == CC_ON_OWN_COMMENTS) {
             // If we are impersonating a user, make sure they receive a CC of
             // this message so they can always review and audit what we sent
             // on their behalf to others.
@@ -138,9 +143,7 @@ public abstract class OutgoingEmail {
             //
             logger.atFine().log(
                 "Not CCing email sender %s because the email strategy of this user is not %s but %s",
-                fromUser.get().account().id(),
-                CC_ON_OWN_COMMENTS,
-                senderPrefs != null ? senderPrefs.getEmailStrategy() : null);
+                fromUser.get().account().id(), CC_ON_OWN_COMMENTS, strategy);
             removeUser(fromUser.get().account());
           }
         }
@@ -152,12 +155,21 @@ public abstract class OutgoingEmail {
         Optional<AccountState> thisUser = args.accountCache.get(id);
         if (thisUser.isPresent()) {
           Account thisUserAccount = thisUser.get().account();
-          GeneralPreferencesInfo prefs = thisUser.get().generalPreferences();
-          if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
+          GeneralPreferencesInfo.EmailStrategy strategy =
+              thisUser
+                  .get()
+                  .getPreference(
+                      UserPreferenceFields.General.EMAIL_STRATEGY, args.defaultPreferencesCache);
+          GeneralPreferencesInfo.EmailFormat format =
+              thisUser
+                  .get()
+                  .getPreference(
+                      UserPreferenceFields.General.EMAIL_FORMAT, args.defaultPreferencesCache);
+          if (strategy == DISABLED) {
             logger.atFine().log(
                 "Not emailing account %s because user has set email strategy to %s", id, DISABLED);
             removeUser(thisUserAccount);
-          } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
+          } else if (useHtml() && format == EmailFormat.PLAINTEXT) {
             logger.atFine().log(
                 "Removing account %s from HTML email because user prefers plain text emails", id);
             removeUser(thisUserAccount);

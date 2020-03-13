@@ -24,6 +24,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.DefaultPreferencesCache;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -85,6 +86,7 @@ public class EmailArguments {
   final AllProjectsName allProjectsName;
   final List<String> sshAddresses;
   final SitePaths site;
+  final DefaultPreferencesCache defaultPreferencesCache;
 
   final Provider<ChangeQueryBuilder> queryBuilder;
   final ChangeData.Factory changeDataFactory;
@@ -125,6 +127,7 @@ public class EmailArguments {
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
       Provider<InternalAccountQuery> accountQueryProvider,
       OutgoingEmailValidator validator,
+      DefaultPreferencesCache defaultPreferencesCache,
       @GerritInstanceName Provider<String> instanceNameProvider,
       @GerritServerConfig Config cfg) {
     this.server = server;
@@ -154,6 +157,7 @@ public class EmailArguments {
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
     this.accountQueryProvider = accountQueryProvider;
     this.validator = validator;
+    this.defaultPreferencesCache = defaultPreferencesCache;
     this.instanceNameProvider = instanceNameProvider;
 
     this.addInstanceNameInSubject = cfg.getBoolean("sendemail", "addInstanceNameInSubject", false);

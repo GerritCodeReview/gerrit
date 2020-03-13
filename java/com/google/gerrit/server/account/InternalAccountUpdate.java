@@ -20,9 +20,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
@@ -139,27 +136,7 @@ public abstract class InternalAccountUpdate {
    * @return the new value for the general preferences, {@code Optional#empty()} if the general
    *     preferences are not being updated, the wrapped value is never {@code null}
    */
-  public abstract Optional<GeneralPreferencesInfo> getGeneralPreferences();
-
-  /**
-   * Returns the new value for the diff preferences.
-   *
-   * <p>Only preferences that are non-null in the returned DiffPreferencesInfo should be updated.
-   *
-   * @return the new value for the diff preferences, {@code Optional#empty()} if the diff
-   *     preferences are not being updated, the wrapped value is never {@code null}
-   */
-  public abstract Optional<DiffPreferencesInfo> getDiffPreferences();
-
-  /**
-   * Returns the new value for the edit preferences.
-   *
-   * <p>Only preferences that are non-null in the returned DiffPreferencesInfo should be updated.
-   *
-   * @return the new value for the edit preferences, {@code Optional#empty()} if the edit
-   *     preferences are not being updated, the wrapped value is never {@code null}
-   */
-  public abstract Optional<EditPreferencesInfo> getEditPreferences();
+  public abstract Optional<UserPreferences.ForUpdate> getPreferences();
 
   /**
    * Class to build an account update.
@@ -422,30 +399,10 @@ public abstract class InternalAccountUpdate {
      *
      * <p>Updates any preference that is non-null in the provided GeneralPreferencesInfo.
      *
-     * @param generalPreferences the general preferences that should be set
+     * @param preferences the preferences that should be set
      * @return the builder
      */
-    public abstract Builder setGeneralPreferences(GeneralPreferencesInfo generalPreferences);
-
-    /**
-     * Sets the diff preferences for the account.
-     *
-     * <p>Updates any preference that is non-null in the provided DiffPreferencesInfo.
-     *
-     * @param diffPreferences the diff preferences that should be set
-     * @return the builder
-     */
-    public abstract Builder setDiffPreferences(DiffPreferencesInfo diffPreferences);
-
-    /**
-     * Sets the edit preferences for the account.
-     *
-     * <p>Updates any preference that is non-null in the provided EditPreferencesInfo.
-     *
-     * @param editPreferences the edit preferences that should be set
-     * @return the builder
-     */
-    public abstract Builder setEditPreferences(EditPreferencesInfo editPreferences);
+    public abstract Builder setPreferences(UserPreferences.ForUpdate preferences);
 
     /**
      * Builds the account update.
@@ -585,20 +542,8 @@ public abstract class InternalAccountUpdate {
       }
 
       @Override
-      public Builder setGeneralPreferences(GeneralPreferencesInfo generalPreferences) {
-        delegate.setGeneralPreferences(generalPreferences);
-        return this;
-      }
-
-      @Override
-      public Builder setDiffPreferences(DiffPreferencesInfo diffPreferences) {
-        delegate.setDiffPreferences(diffPreferences);
-        return this;
-      }
-
-      @Override
-      public Builder setEditPreferences(EditPreferencesInfo editPreferences) {
-        delegate.setEditPreferences(editPreferences);
+      public Builder setPreferences(UserPreferences.ForUpdate preferences) {
+        delegate.setPreferences(preferences);
         return this;
       }
     }

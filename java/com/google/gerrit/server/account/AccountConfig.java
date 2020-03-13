@@ -24,12 +24,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.DuplicateKeyException;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -85,8 +83,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private Optional<AccountProperties> loadedAccountProperties;
   private Optional<ObjectId> externalIdsRev;
   private ProjectWatches projectWatches;
-  private StoredPreferences preferences;
+  private Cache.UserPreferences preferences;
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
+  private VersionedPreferences defaultPreferences;
   private List<ValidationError> validationErrors;
 
   public AccountConfig(Account.Id accountId, AllUsersName allUsersName, Repository allUsersRepo) {
@@ -94,6 +93,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     this.allUsersName = requireNonNull(allUsersName, "allUsersName");
     this.repo = requireNonNull(allUsersRepo, "allUsersRepo");
     this.ref = RefNames.refsUsers(accountId);
+    this.defaultPreferences = VersionedPreferences.defaults();
   }
 
   @Override
@@ -103,6 +103,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
   public AccountConfig load() throws IOException, ConfigInvalidException {
     load(allUsersName, repo);
+    // Default preferences are written to a separate ref. Therefore we load them separately here.
+    defaultPreferences.load(allUsersName, repo);
     return this;
   }
 
@@ -143,33 +145,13 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   /**
-   * Get the general preferences of the loaded account.
+   * Get the preferences of the loaded account.
    *
-   * @return the general preferences of the loaded account
+   * @return the preferences of the loaded account
    */
-  public GeneralPreferencesInfo getGeneralPreferences() {
+  public UserPreferences.User getPreferences() {
     checkLoaded();
-    return preferences.getGeneralPreferences();
-  }
-
-  /**
-   * Get the diff preferences of the loaded account.
-   *
-   * @return the diff preferences of the loaded account
-   */
-  public DiffPreferencesInfo getDiffPreferences() {
-    checkLoaded();
-    return preferences.getDiffPreferences();
-  }
-
-  /**
-   * Get the edit preferences of the loaded account.
-   *
-   * @return the edit preferences of the loaded account
-   */
-  public EditPreferencesInfo getEditPreferences() {
-    checkLoaded();
-    return preferences.getEditPreferences();
+    return UserPreferences.create(preferences);
   }
 
   /**
@@ -241,27 +223,14 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
           Optional.of(new AccountProperties(accountId, registeredOn, accountConfig, revision));
 
       projectWatches = new ProjectWatches(accountId, readConfig(ProjectWatches.WATCH_CONFIG), this);
+      projectWatches.parse();
 
       preferences =
-          new StoredPreferences(
-              accountId,
-              readConfig(StoredPreferences.PREFERENCES_CONFIG),
-              StoredPreferences.readDefaultConfig(allUsersName, repo),
-              this);
-
-      projectWatches.parse();
-      preferences.parse();
+          VersionedPreferences.readFromConfig(readConfig(VersionedPreferences.PREFERENCES_CONFIG));
     } else {
       loadedAccountProperties = Optional.empty();
-
       projectWatches = new ProjectWatches(accountId, new Config(), this);
-
-      preferences =
-          new StoredPreferences(
-              accountId,
-              new Config(),
-              StoredPreferences.readDefaultConfig(allUsersName, repo),
-              this);
+      preferences = Cache.UserPreferences.newBuilder().build();
     }
 
     Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
@@ -326,20 +295,20 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private void savePreferences() throws IOException, ConfigInvalidException {
-    if (!accountUpdate.isPresent()
-        || (!accountUpdate.get().getGeneralPreferences().isPresent()
-            && !accountUpdate.get().getDiffPreferences().isPresent()
-            && !accountUpdate.get().getEditPreferences().isPresent())) {
+  private void savePreferences() throws IOException {
+    if (!accountUpdate.isPresent() || !accountUpdate.get().getPreferences().isPresent()) {
       return;
     }
-
+    // TODO(hiesel) More docs.
+    // Overlay defaults as well as existing and new preferences. Then save the subtraction.
+    UserPreferences.ForUpdate forUpdate = accountUpdate.get().getPreferences().get();
+    preferences =
+        UserPreferences.subtractDefaults(
+            UserPreferences.overlayDefaults(
+                forUpdate.defaults(), defaultPreferences.getPreferences()),
+            UserPreferences.overlayDefaults(preferences, forUpdate.values()));
     saveConfig(
-        StoredPreferences.PREFERENCES_CONFIG,
-        preferences.saveGeneralPreferences(
-            accountUpdate.get().getGeneralPreferences(),
-            accountUpdate.get().getDiffPreferences(),
-            accountUpdate.get().getEditPreferences()));
+        VersionedPreferences.PREFERENCES_CONFIG, VersionedPreferences.writeToConfig(preferences));
   }
 
   private void checkLoaded() {

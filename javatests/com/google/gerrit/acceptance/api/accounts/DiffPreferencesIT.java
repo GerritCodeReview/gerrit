@@ -27,14 +27,14 @@ import org.junit.Test;
 public class DiffPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getDiffPreferences() throws Exception {
-    DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
+    DiffPreferencesInfo d = new DiffPreferencesInfo();
     DiffPreferencesInfo o = gApi.accounts().id(admin.id().toString()).getDiffPreferences();
     assertPrefs(o, d);
   }
 
   @Test
   public void setDiffPreferences() throws Exception {
-    DiffPreferencesInfo i = DiffPreferencesInfo.defaults();
+    DiffPreferencesInfo i = new DiffPreferencesInfo();
 
     // change all default values
     i.context *= -1;
@@ -75,7 +75,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void getDiffPreferencesWithConfiguredDefaults() throws Exception {
-    DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
+    DiffPreferencesInfo d = new DiffPreferencesInfo();
     int newLineLength = d.lineLength + 10;
     int newTabSize = d.tabSize * 2;
     int newFontSize = d.fontSize - 2;
@@ -98,8 +98,8 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void overwriteConfiguredDefaults() throws Exception {
-    DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
-    int configuredDefaultLineLength = d.lineLength + 10;
+    DiffPreferencesInfo d = new DiffPreferencesInfo();
+    int configuredDefaultLineLength = 1337;
     DiffPreferencesInfo update = new DiffPreferencesInfo();
     update.lineLength = configuredDefaultLineLength;
     gApi.config().server().setDefaultDiffPreferences(update);

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
@@ -29,9 +30,9 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.StoredPreferences;
+import com.google.gerrit.server.account.DefaultPreferencesCache;
+import com.google.gerrit.server.account.PreferenceConverter;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -39,6 +40,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -58,17 +60,37 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   private final PermissionBackend permissionBackend;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final DynamicMap<DownloadScheme> downloadSchemes;
+  private final DefaultPreferencesCache defaultPreferencesCache;
 
   @Inject
   SetPreferences(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      DynamicMap<DownloadScheme> downloadSchemes) {
+      DynamicMap<DownloadScheme> downloadSchemes,
+      DefaultPreferencesCache defaultPreferencesCache) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.downloadSchemes = downloadSchemes;
+    this.defaultPreferencesCache = defaultPreferencesCache;
+  }
+
+  public static void validateMy(List<MenuItem> my) throws BadRequestException {
+    if (my == null) {
+      return;
+    }
+    for (MenuItem item : my) {
+      checkRequiredMenuItemField(item.name, "name");
+      checkRequiredMenuItemField(item.url, "URL");
+    }
+  }
+
+  private static void checkRequiredMenuItemField(String value, String name)
+      throws BadRequestException {
+    if (Strings.isNullOrEmpty(value)) {
+      throw new BadRequestException(name + " for menu item is required");
+    }
   }
 
   @Override
@@ -79,14 +101,17 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     }
 
     checkDownloadScheme(input.downloadScheme);
-    StoredPreferences.validateMy(input.my);
+    validateMy(input.my);
     Account.Id id = rsrc.getUser().getAccountId();
 
     return Response.ok(
         accountsUpdateProvider
             .get()
-            .update("Set General Preferences via API", id, u -> u.setGeneralPreferences(input))
-            .map(AccountState::generalPreferences)
+            .update(
+                "Set General Preferences via API",
+                id,
+                u -> u.setPreferences(PreferenceConverter.forUpdate(input)))
+            .map(s -> PreferenceConverter.general(defaultPreferencesCache.get(), s.preferences()))
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 

@@ -14,13 +14,20 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.account.UserPreferenceFields.Field.diff;
+import static com.google.gerrit.server.account.UserPreferenceFields.Field.edit;
+import static com.google.gerrit.server.account.UserPreferenceFields.Field.general;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.server.cache.proto.Cache;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -31,31 +38,140 @@ public class UserPreferenceFields {
   /** Field definitions for general user preferences. */
   public static class General {
     public static final Field<Integer> CHANGES_PER_PAGE =
-        Field.of(UserPreferenceSection.GENERAL, "changesPerPage", 0, INTEGER_ADAPTER);
-    // TODO(hiesel): Add all fields
-
+        general("changesPerPage", 25, INTEGER_ADAPTER);
     public static final Field<String> DOWNLOAD_SCHEME =
-        Field.of(UserPreferenceSection.GENERAL, "downloadScheme", "foo", STRING_ADAPTER);
+        general("downloadScheme", "TODO", STRING_ADAPTER);
+    public static final Field<GeneralPreferencesInfo.DateFormat> DATE_FORMAT =
+        general(
+            "dateFormat",
+            GeneralPreferencesInfo.DateFormat.STD,
+            StorageAdapter.single(Object::toString, GeneralPreferencesInfo.DateFormat::valueOf));
+    public static final Field<GeneralPreferencesInfo.TimeFormat> TIME_FORMAT =
+        general(
+            "timeFormat",
+            GeneralPreferencesInfo.TimeFormat.HHMM_12,
+            StorageAdapter.single(Object::toString, GeneralPreferencesInfo.TimeFormat::valueOf));
+    public static final Field<Boolean> EXPAND_INLINE_DIFFS =
+        general("expandInlineDiffs", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> HIGHLIGHT_ASSIGNEE_IN_CHANGE_TABLE =
+        general("highlightAssigneeInChangeTable", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> RELATIVE_DATE_IN_CHANGE_TABLE =
+        general("relativeDateInChangeTable", false, BOOLEAN_ADAPTER);
+    public static final Field<GeneralPreferencesInfo.DiffView> DIFF_VIEW =
+        general(
+            "diffView",
+            GeneralPreferencesInfo.DiffView.SIDE_BY_SIDE,
+            StorageAdapter.single(Object::toString, GeneralPreferencesInfo.DiffView::valueOf));
+    public static final Field<Boolean> SIZE_BAR_IN_CHANGE_TABLE =
+        general("sizeBarInChangeTable", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> LEGACY_ID_IN_CHANGE_TABLE =
+        general("legacycidInChangeTable", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> MUTE_COMMON_PATH_PREFIXED =
+        general("muteCommonPathPrefixes", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SIGNED_OFF_BY =
+        general("signedOffBy", false, BOOLEAN_ADAPTER);
+    public static final Field<GeneralPreferencesInfo.EmailStrategy> EMAIL_STRATEGY =
+        general(
+            "emailStrategy",
+            GeneralPreferencesInfo.EmailStrategy.ENABLED,
+            StorageAdapter.single(Object::toString, GeneralPreferencesInfo.EmailStrategy::valueOf));
+    public static final Field<GeneralPreferencesInfo.EmailFormat> EMAIL_FORMAT =
+        general(
+            "emailFormat",
+            GeneralPreferencesInfo.EmailFormat.HTML_PLAINTEXT,
+            StorageAdapter.single(Object::toString, GeneralPreferencesInfo.EmailFormat::valueOf));
+    public static final Field<GeneralPreferencesInfo.DefaultBase> DEFAULT_BASE =
+        general(
+            "defaultBase",
+            GeneralPreferencesInfo.DefaultBase.FIRST_PARENT,
+            StorageAdapter.single(Object::toString, GeneralPreferencesInfo.DefaultBase::valueOf));
+    public static final Field<Boolean> PUBLISH_COMMENTS_ON_PUSH =
+        general("publishCommentsOnPush", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> WORK_IN_PROGRESS_BY_DEFAULT =
+        general("workInProgressByDefault", false, BOOLEAN_ADAPTER);
+    public static final Field<ImmutableList<MenuItem>> MY =
+        general(
+            "my",
+            ImmutableList.of(),
+            StorageAdapter.repeated(
+                m -> m.stream().map(Object::toString).collect(toImmutableList()),
+                s -> s.stream().map(MenuItem::fromString).collect(toImmutableList())));
     public static final Field<ImmutableList<String>> CHANGE_TABLE =
-        Field.of(UserPreferenceSection.GENERAL, "changeTable", null, REPEATED_STRING_ADAPTER);
+        general("changeTable", ImmutableList.of(), REPEATED_STRING_ADAPTER);
   }
 
   /** Field definitions for edit user preferences. */
   public static class Edit {
-    public static final Field<Integer> TAB_SIZE =
-        Field.of(UserPreferenceSection.EDIT, "tabSize", 8, INTEGER_ADAPTER);
-    public static final Field<Boolean> HIDE_TOP_MENU =
-        Field.of(UserPreferenceSection.EDIT, "hideTopMenu", false, BOOLEAN_ADAPTER);
-    // TODO(hiesel): Add all fields
+    public static final Field<Integer> TAB_SIZE = edit("tabSize", 8, INTEGER_ADAPTER);
+    public static final Field<Integer> LINE_LENGTH = edit("lineLength", 100, INTEGER_ADAPTER);
+    public static final Field<Integer> INDENT_UNIT = edit("indentUnit", 2, INTEGER_ADAPTER);
+    public static final Field<Integer> CURSOR_BLINK_RATE =
+        edit("cursorBlinkRate", 0, INTEGER_ADAPTER);
+
+    public static final Field<Boolean> HIDE_TOP_MENU = edit("hideTopMenu", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SHOW_TABS = edit("showTabs", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SHOW_WHITESPACE_ERRORS =
+        edit("showWhitespaceErrors", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SYNTAX_HIGHLIGHTING =
+        edit("syntaxHighlighting", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> HIDE_LINE_NUMBERS =
+        edit("hideLineNumbers", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> MATCH_BRACKETS =
+        edit("matchBrackets", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> LINE_WRAPPING = edit("lineWrapping", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> INDENT_WITH_TABS =
+        edit("indentWithTabs", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> AUTO_CLOSE_TRACKETS =
+        edit("autoCloseBrackets", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SHOW_BASE = edit("showBase", false, BOOLEAN_ADAPTER);
   }
 
   /** Field definitions for diff user preferences. */
   public static class Diff {
-    public static final Field<Integer> CONTEXT =
-        Field.of(UserPreferenceSection.DIFF, "context", 10, INTEGER_ADAPTER);
-    public static final Field<Integer> TAB_SIZE =
-        Field.of(UserPreferenceSection.DIFF, "downloadScheme", 8, INTEGER_ADAPTER);
-    // TODO(hiesel): Add all fields
+    public static final Field<Integer> CONTEXT = diff("context", 10, INTEGER_ADAPTER);
+    public static final Field<Integer> TAB_SIZE = diff("tabSize", 8, INTEGER_ADAPTER);
+    public static final Field<Integer> FONT_SIZE = diff("fontSize", 12, INTEGER_ADAPTER);
+    public static final Field<Integer> LINE_LENGTH = diff("lineLength", 100, INTEGER_ADAPTER);
+    public static final Field<Integer> CURSOR_BLINK_RATE =
+        diff("cursorBlinkRate", 0, INTEGER_ADAPTER);
+
+    public static final Field<Boolean> EXPAND_ALL_COMMENTS =
+        diff("expandAllComments", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> INTRALINE_DIFFERENCE =
+        diff("intralineDifference", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> MANUAL_REVIEW = diff("manualReview", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SHOW_LINE_ENDINGS =
+        diff("showLineEndings", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SHOW_TABS = diff("showTabs", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SHOW_WHITESPACE_ERRORS =
+        diff("showWhitespaceErrors", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SYNTAX_HIGHLIGHTING =
+        diff("syntaxHighlighting", true, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> HIDE_TOP_MENU = diff("hideTopMenu", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> AUTO_HIDE_DIFF_TABLE_HEADER =
+        diff("autoHideDiffTableHeader", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> HIDE_LINE_NUMBERS =
+        diff("hideLineNumbers", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> RENDER_ENTIRE_FILE =
+        diff("renderEntireFile", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> HIDE_EMPTY_PANE =
+        diff("hideEmptyPane", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> MATCH_BRACKETS =
+        diff("matchBrackets", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> LINE_WRAPPING = diff("lineWrapping", false, BOOLEAN_ADAPTER);
+
+    public static final Field<DiffPreferencesInfo.Whitespace> IGNORE_WHITESPACE =
+        diff(
+            "ignoreWhitespace",
+            DiffPreferencesInfo.Whitespace.IGNORE_NONE,
+            StorageAdapter.single(Object::toString, DiffPreferencesInfo.Whitespace::valueOf));
+
+    public static final Field<Boolean> RETAIN_HEADER = diff("retainHeader", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SKIP_DELETED = diff("skipDeleted", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SKIP_UNCHANGED =
+        diff("skipUnchanged", false, BOOLEAN_ADAPTER);
+    public static final Field<Boolean> SKIP_UNCOMMENTED =
+        diff("skipUncommented", false, BOOLEAN_ADAPTER);
   }
 
   /**
@@ -104,9 +220,16 @@ public class UserPreferenceFields {
     private final T defaultValue;
     private final StorageAdapter<T> adapter;
 
-    static <T> Field<T> of(
-        UserPreferenceSection type, String key, T defaultValue, StorageAdapter<T> stringAdapter) {
-      return new Field<>(type, key, defaultValue, stringAdapter);
+    static <T> Field<T> general(String key, T defaultValue, StorageAdapter<T> stringAdapter) {
+      return new Field<>(UserPreferenceSection.GENERAL, key, defaultValue, stringAdapter);
+    }
+
+    static <T> Field<T> diff(String key, T defaultValue, StorageAdapter<T> stringAdapter) {
+      return new Field<>(UserPreferenceSection.DIFF, key, defaultValue, stringAdapter);
+    }
+
+    static <T> Field<T> edit(String key, T defaultValue, StorageAdapter<T> stringAdapter) {
+      return new Field<>(UserPreferenceSection.EDIT, key, defaultValue, stringAdapter);
     }
 
     private Field(
@@ -118,7 +241,7 @@ public class UserPreferenceFields {
     }
 
     @Nullable
-    public T get(UserPreferences preferences) {
+    public Optional<T> get(UserPreferences preferences) {
       switch (type) {
         case GENERAL:
           return get(preferences.preferences().getGeneralMap());
@@ -133,7 +256,13 @@ public class UserPreferenceFields {
     }
 
     public T getOrDefault(UserPreferences preferences) {
-      return firstNonNull(get(preferences), defaultValue);
+      return get(preferences).orElse(defaultValue);
+    }
+
+    @Nullable
+    public T getOrDefaultFalseToNull(UserPreferences preferences) {
+      T value = get(preferences).orElse(defaultValue);
+      return Boolean.FALSE.equals(value) ? null : value;
     }
 
     public String key() {
@@ -148,30 +277,24 @@ public class UserPreferenceFields {
       return type;
     }
 
-    @Nullable
-    private T get(Map<String, Cache.UserPreferences.RepeatedPreference> map) {
+    private Optional<T> get(Map<String, Cache.UserPreferences.RepeatedPreference> map) {
       Cache.UserPreferences.RepeatedPreference pref = map.get(key);
       if (pref == null) {
-        return null;
+        return Optional.empty();
       }
-      return adapter.fromString(ImmutableList.copyOf(pref.getValueList()));
+      return Optional.of(adapter.fromString(ImmutableList.copyOf(pref.getValueList())));
     }
 
-    public void set(Map<String, Cache.UserPreferences.RepeatedPreference> map, T val) {
-      Cache.UserPreferences.RepeatedPreference pref = map.get(key);
-      map.put(key(), toProto(adapter.toString(val)));
+    Cache.UserPreferences.RepeatedPreference protoValue(T val) {
+      return toProto(adapter.serializer.apply(val));
     }
 
-    public void setDefault(Map<String, Cache.UserPreferences.RepeatedPreference> map) {
-      set(map, defaultValue);
-    }
-
-    public static Cache.UserPreferences.RepeatedPreference toProto(ImmutableList<String> s) {
+    private static Cache.UserPreferences.RepeatedPreference toProto(ImmutableList<String> s) {
       return Cache.UserPreferences.RepeatedPreference.newBuilder().addAllValue(s).build();
     }
   }
 
-  /** Adapters for all fields. */
+  /** Common adapters for all fields. */
   static final StorageAdapter<Boolean> BOOLEAN_ADAPTER =
       StorageAdapter.single(Object::toString, Boolean::valueOf);
 

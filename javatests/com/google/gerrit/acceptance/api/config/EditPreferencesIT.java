@@ -28,19 +28,19 @@ public class EditPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getEditPreferences() throws Exception {
     EditPreferencesInfo result = gApi.config().server().getDefaultEditPreferences();
-    assertPrefs(result, EditPreferencesInfo.defaults());
+    assertPrefs(result, new EditPreferencesInfo()); // TODO(hiesel)
   }
 
   @Test
   public void setEditPreferences() throws Exception {
-    int newLineLength = EditPreferencesInfo.defaults().lineLength + 10;
+    int newLineLength = 10;
     EditPreferencesInfo update = new EditPreferencesInfo();
     update.lineLength = newLineLength;
     EditPreferencesInfo result = gApi.config().server().setDefaultEditPreferences(update);
     assertWithMessage("lineLength").that(result.lineLength).isEqualTo(newLineLength);
 
     result = gApi.config().server().getDefaultEditPreferences();
-    EditPreferencesInfo expected = EditPreferencesInfo.defaults();
+    EditPreferencesInfo expected = new EditPreferencesInfo();
     expected.lineLength = newLineLength;
     assertPrefs(result, expected);
   }

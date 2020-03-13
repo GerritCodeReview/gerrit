@@ -14,17 +14,15 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import static com.google.gerrit.server.config.ConfigUtil.skipField;
-
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.StoredPreferences;
+import com.google.gerrit.server.account.DefaultPreferencesCache;
+import com.google.gerrit.server.account.PreferenceConverter;
+import com.google.gerrit.server.account.VersionedPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -32,26 +30,24 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 public class SetEditPreferences implements RestModifyView<ConfigResource, EditPreferencesInfo> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
+
   private final AllUsersName allUsersName;
-  private final AccountCache accountCache;
+  private final DefaultPreferencesCache defaultPreferencesCache;
 
   @Inject
   SetEditPreferences(
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName,
-      AccountCache accountCache) {
+      DefaultPreferencesCache defaultPreferencesCache) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
-    this.accountCache = accountCache;
+    this.defaultPreferencesCache = defaultPreferencesCache;
   }
 
   @Override
@@ -61,30 +57,14 @@ public class SetEditPreferences implements RestModifyView<ConfigResource, EditPr
     if (input == null) {
       throw new BadRequestException("input must be provided");
     }
-    if (!hasSetFields(input)) {
-      throw new BadRequestException("unsupported option");
-    }
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      EditPreferencesInfo updatedPrefs = StoredPreferences.updateDefaultEditPreferences(md, input);
-      accountCache.evictAll();
-      return Response.ok(updatedPrefs);
+      VersionedPreferences prefs = VersionedPreferences.defaults();
+      prefs.load(md);
+      prefs.update(PreferenceConverter.forUpdate(input));
+      prefs.commit(md);
     }
-  }
-
-  private static boolean hasSetFields(EditPreferencesInfo in) {
-    try {
-      for (Field field : in.getClass().getDeclaredFields()) {
-        if (skipField(field)) {
-          continue;
-        }
-        if (field.get(in) != null) {
-          return true;
-        }
-      }
-    } catch (IllegalAccessException e) {
-      logger.atSevere().withCause(e).log("Unable to verify input");
-    }
-    return false;
+    defaultPreferencesCache.invalidate();
+    return Response.ok(PreferenceConverter.edit(defaultPreferencesCache.get()));
   }
 }

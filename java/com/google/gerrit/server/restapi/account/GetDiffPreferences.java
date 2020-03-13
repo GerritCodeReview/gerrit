@@ -24,7 +24,8 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.DefaultPreferencesCache;
+import com.google.gerrit.server.account.PreferenceConverter;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -51,13 +52,18 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
+  private final DefaultPreferencesCache defaultPreferencesCache;
 
   @Inject
   GetDiffPreferences(
-      Provider<CurrentUser> self, PermissionBackend permissionBackend, AccountCache accountCache) {
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
+      AccountCache accountCache,
+      DefaultPreferencesCache defaultPreferencesCache) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
+    this.defaultPreferencesCache = defaultPreferencesCache;
   }
 
   @Override
@@ -71,7 +77,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     return Response.ok(
         accountCache
             .get(id)
-            .map(AccountState::diffPreferences)
+            .map(s -> PreferenceConverter.diff(defaultPreferencesCache.get(), s.preferences()))
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 }

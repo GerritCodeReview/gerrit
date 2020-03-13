@@ -15,24 +15,8 @@
 package com.google.gerrit.extensions.client;
 
 public class DiffPreferencesInfo {
-
-  /** Default number of lines of context. */
-  public static final int DEFAULT_CONTEXT = 10;
-
-  /** Default tab size. */
-  public static final int DEFAULT_TAB_SIZE = 8;
-
-  /** Default font size. */
-  public static final int DEFAULT_FONT_SIZE = 12;
-
-  /** Default line length. */
-  public static final int DEFAULT_LINE_LENGTH = 100;
-
   /** Context setting to display the entire file. */
   public static final short WHOLE_FILE_CONTEXT = -1;
-
-  /** Typical valid choices for the default context setting. */
-  public static final short[] CONTEXT_CHOICES = {3, 10, 25, 50, 75, 100, WHOLE_FILE_CONTEXT};
 
   public enum Whitespace {
     IGNORE_NONE,
@@ -65,33 +49,4 @@ public class DiffPreferencesInfo {
   public Boolean skipDeleted;
   public Boolean skipUnchanged;
   public Boolean skipUncommented;
-
-  public static DiffPreferencesInfo defaults() {
-    DiffPreferencesInfo i = new DiffPreferencesInfo();
-    i.context = DEFAULT_CONTEXT;
-    i.tabSize = DEFAULT_TAB_SIZE;
-    i.fontSize = DEFAULT_FONT_SIZE;
-    i.lineLength = DEFAULT_LINE_LENGTH;
-    i.cursorBlinkRate = 0;
-    i.expandAllComments = false;
-    i.intralineDifference = true;
-    i.manualReview = false;
-    i.showLineEndings = true;
-    i.showTabs = true;
-    i.showWhitespaceErrors = true;
-    i.syntaxHighlighting = true;
-    i.hideTopMenu = false;
-    i.autoHideDiffTableHeader = true;
-    i.hideLineNumbers = false;
-    i.renderEntireFile = false;
-    i.hideEmptyPane = false;
-    i.matchBrackets = false;
-    i.lineWrapping = false;
-    i.ignoreWhitespace = Whitespace.IGNORE_NONE;
-    i.retainHeader = false;
-    i.skipDeleted = false;
-    i.skipUnchanged = false;
-    i.skipUncommented = false;
-    return i;
-  }
 }

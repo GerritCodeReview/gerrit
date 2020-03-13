@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.client;
 
-/* This class is stored in Git config file. */
+/** Edit preferences either for a single user for as the server's defaults. */
 public class EditPreferencesInfo {
   public Integer tabSize;
   public Integer lineLength;
@@ -30,23 +30,4 @@ public class EditPreferencesInfo {
   public Boolean indentWithTabs;
   public Boolean autoCloseBrackets;
   public Boolean showBase;
-
-  public static EditPreferencesInfo defaults() {
-    EditPreferencesInfo i = new EditPreferencesInfo();
-    i.tabSize = 8;
-    i.lineLength = 100;
-    i.indentUnit = 2;
-    i.cursorBlinkRate = 0;
-    i.hideTopMenu = false;
-    i.showTabs = true;
-    i.showWhitespaceErrors = false;
-    i.syntaxHighlighting = true;
-    i.hideLineNumbers = false;
-    i.matchBrackets = true;
-    i.lineWrapping = false;
-    i.indentWithTabs = false;
-    i.autoCloseBrackets = false;
-    i.showBase = false;
-    return i;
-  }
 }

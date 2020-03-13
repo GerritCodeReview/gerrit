@@ -20,9 +20,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -31,6 +28,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
+import javax.inject.Provider;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -92,12 +90,6 @@ public abstract class AccountState {
     // an open Repository instance.
     ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
         accountConfig.getProjectWatches();
-    Preferences.General generalPreferences =
-        Preferences.General.fromInfo(accountConfig.getGeneralPreferences());
-    Preferences.Diff diffPreferences =
-        Preferences.Diff.fromInfo(accountConfig.getDiffPreferences());
-    Preferences.Edit editPreferences =
-        Preferences.Edit.fromInfo(accountConfig.getEditPreferences());
 
     return Optional.of(
         new AutoValue_AccountState(
@@ -105,9 +97,7 @@ public abstract class AccountState {
             extIds,
             ExternalId.getUserName(extIds),
             projectWatches,
-            generalPreferences,
-            diffPreferences,
-            editPreferences));
+            accountConfig.getPreferences()));
   }
 
   /**
@@ -134,9 +124,7 @@ public abstract class AccountState {
         ImmutableSet.copyOf(extIds),
         ExternalId.getUserName(extIds),
         ImmutableMap.of(),
-        Preferences.General.fromInfo(GeneralPreferencesInfo.defaults()),
-        Preferences.Diff.fromInfo(DiffPreferencesInfo.defaults()),
-        Preferences.Edit.fromInfo(EditPreferencesInfo.defaults()));
+        UserPreferences.User.empty());
   }
 
   /** Get the cached account metadata. */
@@ -155,21 +143,7 @@ public abstract class AccountState {
   /** The project watches of the account. */
   public abstract ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches();
   /** The general preferences of the account. */
-
-  /** The general preferences of the account. */
-  public GeneralPreferencesInfo generalPreferences() {
-    return immutableGeneralPreferences().toInfo();
-  }
-
-  /** The diff preferences of the account. */
-  public DiffPreferencesInfo diffPreferences() {
-    return immutableDiffPreferences().toInfo();
-  }
-
-  /** The edit preferences of the account. */
-  public EditPreferencesInfo editPreferences() {
-    return immutableEditPreferences().toInfo();
-  }
+  public abstract UserPreferences.User preferences();
 
   @Override
   public final String toString() {
@@ -178,9 +152,9 @@ public abstract class AccountState {
     return h.toString();
   }
 
-  protected abstract Preferences.General immutableGeneralPreferences();
-
-  protected abstract Preferences.Diff immutableDiffPreferences();
-
-  protected abstract Preferences.Edit immutableEditPreferences();
+  /** Returns the user's preference for the provided setting. */
+  public <T> T getPreference(
+      UserPreferenceFields.Field<T> field, Provider<UserPreferences.Default> defaults) {
+    return field.getOrDefault(UserPreferences.overlayDefaults(defaults.get(), preferences()));
+  }
 }

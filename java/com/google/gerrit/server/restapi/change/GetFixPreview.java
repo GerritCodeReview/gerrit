@@ -23,7 +23,6 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -32,6 +31,8 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.account.DefaultPreferencesCache;
+import com.google.gerrit.server.account.PreferenceConverter;
 import com.google.gerrit.server.change.FixResource;
 import com.google.gerrit.server.diff.DiffInfoCreator;
 import com.google.gerrit.server.diff.DiffSide;
@@ -60,15 +61,18 @@ public class GetFixPreview implements RestReadView<FixResource> {
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
   private final PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory;
+  private final DefaultPreferencesCache defaultPreferencesCache;
 
   @Inject
   GetFixPreview(
       ProjectCache projectCache,
       GitRepositoryManager repoManager,
-      PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory) {
+      PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory,
+      DefaultPreferencesCache defaultPreferencesCache) {
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
+    this.defaultPreferencesCache = defaultPreferencesCache;
   }
 
   @Override
@@ -114,7 +118,12 @@ public class GetFixPreview implements RestReadView<FixResource> {
           InvalidChangeOperationException, IOException, ResourceNotFoundException {
     PatchScriptFactoryForAutoFix psf =
         patchScriptFactoryFactory.create(
-            git, notes, fileName, patchSet, fixReplacements, DiffPreferencesInfo.defaults());
+            git,
+            notes,
+            fileName,
+            patchSet,
+            fixReplacements,
+            PreferenceConverter.diff(defaultPreferencesCache.get()));
     PatchScript ps = psf.call();
 
     DiffSide sideA =

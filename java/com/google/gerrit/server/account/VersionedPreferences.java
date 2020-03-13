@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
@@ -51,10 +50,6 @@ public class VersionedPreferences extends VersionedMetaData {
 
   private Cache.UserPreferences preferences;
 
-  public static VersionedPreferences forUser(Account.Id accountId) {
-    return new VersionedPreferences(RefNames.refsUsers(accountId));
-  }
-
   public static VersionedPreferences defaults() {
     return new VersionedPreferences(RefNames.REFS_USERS_DEFAULT);
   }
@@ -68,8 +63,11 @@ public class VersionedPreferences extends VersionedMetaData {
     return preferences;
   }
 
-  public void setPreferences(Cache.UserPreferences preferences) {
-    this.preferences = preferences;
+  public void update(UserPreferences.ForUpdate preferences) {
+    this.preferences =
+        UserPreferences.subtractDefaults(
+            preferences.defaults(),
+            UserPreferences.overlayDefaults(getPreferences(), preferences.values()));
   }
 
   @Override
@@ -84,6 +82,7 @@ public class VersionedPreferences extends VersionedMetaData {
 
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException {
+    checkState(preferences != null, "preferences unset");
     if (Strings.isNullOrEmpty(commit.getMessage())) {
       commit.setMessage("Update preferences\n");
     }

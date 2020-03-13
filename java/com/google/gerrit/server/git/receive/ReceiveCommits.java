@@ -82,7 +82,6 @@ import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -109,6 +108,8 @@ import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.DefaultPreferencesCache;
+import com.google.gerrit.server.account.UserPreferenceFields;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.SetHashtagsOp;
@@ -369,6 +370,7 @@ class ReceiveCommits {
   private final ListMultimap<String, String> pushOptions;
   private final ReceivePackRefCache receivePackRefCache;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
+  private final DefaultPreferencesCache defaultPreferencesCache;
 
   // Other settings populated during processing.
   private MagicBranchInput magicBranch;
@@ -422,6 +424,7 @@ class ReceiveCommits {
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
+      DefaultPreferencesCache defaultPreferencesCache,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -470,6 +473,7 @@ class ReceiveCommits {
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
+    this.defaultPreferencesCache = defaultPreferencesCache;
 
     // Assisted injected fields.
     this.projectState = projectState;
@@ -1612,17 +1616,23 @@ class ReceiveCommits {
     @Option(name = "--create-cod-token", usage = "create a token for consistency-on-demand")
     private boolean createCodToken;
 
+    private final DefaultPreferencesCache defaultPreferencesCache;
+
     MagicBranchInput(
-        IdentifiedUser user, ProjectState projectState, ReceiveCommand cmd, LabelTypes labelTypes) {
+        IdentifiedUser user,
+        ProjectState projectState,
+        DefaultPreferencesCache defaultPreferencesCache,
+        ReceiveCommand cmd,
+        LabelTypes labelTypes) {
       this.user = user;
       this.projectState = projectState;
       this.cmd = cmd;
       this.labelTypes = labelTypes;
-      GeneralPreferencesInfo prefs = user.state().generalPreferences();
+      this.defaultPreferencesCache = defaultPreferencesCache;
       this.defaultPublishComments =
-          prefs != null
-              ? firstNonNull(user.state().generalPreferences().publishCommentsOnPush, false)
-              : false;
+          user.state()
+              .getPreference(
+                  UserPreferenceFields.General.PUBLISH_COMMENTS_ON_PUSH, defaultPreferencesCache);
     }
 
     /**
@@ -1715,7 +1725,10 @@ class ReceiveCommits {
       }
 
       return projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
-          || firstNonNull(user.state().generalPreferences().workInProgressByDefault, false);
+          || user.state()
+              .getPreference(
+                  UserPreferenceFields.General.WORK_IN_PROGRESS_BY_DEFAULT,
+                  defaultPreferencesCache);
     }
 
     NotifyResolver.Result getNotifyForNewChange() {
@@ -1751,7 +1764,8 @@ class ReceiveCommits {
   private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException, IOException {
     try (TraceTimer traceTimer = newTimer("parseMagicBranch")) {
       logger.atFine().log("Found magic branch %s", cmd.getRefName());
-      MagicBranchInput magicBranch = new MagicBranchInput(user, projectState, cmd, labelTypes);
+      MagicBranchInput magicBranch =
+          new MagicBranchInput(user, projectState, defaultPreferencesCache, cmd, labelTypes);
 
       String ref;
       magicBranch.cmdLineParser = optionParserFactory.create(magicBranch);

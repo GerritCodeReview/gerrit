@@ -15,13 +15,17 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.exceptions.StorageException;
+import javax.inject.Provider;
 
 /** Cache that holds default preferences for this Gerrit server. */
-public interface DefaultPreferencesCache {
+public interface DefaultPreferencesCache extends Provider<UserPreferences.Default> {
 
   /**
    * Returns the server's default user preferences. These get applied when the user has not made any
    * configurations on their own.
    */
+  @Override
   UserPreferences.Default get() throws StorageException;
+
+  void invalidate();
 }

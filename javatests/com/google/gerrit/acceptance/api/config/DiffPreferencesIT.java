@@ -28,19 +28,19 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getDiffPreferences() throws Exception {
     DiffPreferencesInfo result = gApi.config().server().getDefaultDiffPreferences();
-    assertPrefs(result, DiffPreferencesInfo.defaults());
+    assertPrefs(result, new DiffPreferencesInfo());
   }
 
   @Test
   public void setDiffPreferences() throws Exception {
-    int newLineLength = DiffPreferencesInfo.defaults().lineLength + 10;
+    int newLineLength = 10;
     DiffPreferencesInfo update = new DiffPreferencesInfo();
     update.lineLength = newLineLength;
     DiffPreferencesInfo result = gApi.config().server().setDefaultDiffPreferences(update);
     assertWithMessage("lineLength").that(result.lineLength).isEqualTo(newLineLength);
 
     result = gApi.config().server().getDefaultDiffPreferences();
-    DiffPreferencesInfo expected = DiffPreferencesInfo.defaults();
+    DiffPreferencesInfo expected = new DiffPreferencesInfo();
     expected.lineLength = newLineLength;
     assertPrefs(result, expected);
   }

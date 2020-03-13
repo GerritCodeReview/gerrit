@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.account.UserPreferenceFields;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.diff.DiffInfoCreator;
@@ -85,7 +86,7 @@ public class GetDiff implements RestReadView<FileResource> {
   Whitespace whitespace;
 
   @Option(name = "--context", handler = ContextOptionHandler.class)
-  int context = DiffPreferencesInfo.DEFAULT_CONTEXT;
+  int context = UserPreferenceFields.Diff.CONTEXT.defaultValue();
 
   @Option(name = "--intraline")
   boolean intraline;
@@ -128,6 +129,7 @@ public class GetDiff implements RestReadView<FileResource> {
         "patchSetId = %d, fileName = %s, base = %s, parentNum = %d",
         pId.get(), fileName, base, parentNum);
     ChangeNotes notes = resource.getRevision().getNotes();
+
     if (base != null) {
       RevisionResource baseResource =
           revisions.parse(resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
@@ -135,6 +137,7 @@ public class GetDiff implements RestReadView<FileResource> {
       if (basePatchSet.id().get() == 0) {
         throw new BadRequestException("edit not allowed as base");
       }
+      // TODO(hiesel): Fix null pointer in prefs
       psf = patchScriptFactoryFactory.create(notes, fileName, basePatchSet.id(), pId, prefs);
     } else if (parentNum > 0) {
       psf = patchScriptFactoryFactory.create(notes, fileName, parentNum - 1, pId, prefs);

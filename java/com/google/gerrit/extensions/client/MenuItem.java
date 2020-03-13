@@ -72,4 +72,8 @@ public class MenuItem {
         .append('}')
         .toString();
   }
+
+  public static MenuItem fromString(String s) {
+    return null;
+  }
 }

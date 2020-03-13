@@ -51,6 +51,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.DefaultPreferencesCache;
+import com.google.gerrit.server.account.UserPreferenceFields;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
@@ -130,6 +132,7 @@ public class CreateChange
   private final NotifyResolver notifyResolver;
   private final ContributorAgreementsChecker contributorAgreements;
   private final boolean disablePrivateChanges;
+  private final DefaultPreferencesCache defaultPreferencesCache;
 
   @Inject
   CreateChange(
@@ -150,7 +153,8 @@ public class CreateChange
       @GerritServerConfig Config config,
       MergeUtil.Factory mergeUtilFactory,
       NotifyResolver notifyResolver,
-      ContributorAgreementsChecker contributorAgreements) {
+      ContributorAgreementsChecker contributorAgreements,
+      DefaultPreferencesCache defaultPreferencesCache) {
     this.updateFactory = updateFactory;
     this.anonymousCowardName = anonymousCowardName;
     this.gitManager = gitManager;
@@ -170,6 +174,7 @@ public class CreateChange
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyResolver = notifyResolver;
     this.contributorAgreements = contributorAgreements;
+    this.defaultPreferencesCache = defaultPreferencesCache;
   }
 
   @Override
@@ -266,7 +271,10 @@ public class CreateChange
         input.workInProgress = true;
       } else {
         input.workInProgress =
-            firstNonNull(me.state().generalPreferences().workInProgressByDefault, false);
+            me.state()
+                .getPreference(
+                    UserPreferenceFields.General.WORK_IN_PROGRESS_BY_DEFAULT,
+                    defaultPreferencesCache);
       }
     }
 
@@ -481,7 +489,8 @@ public class CreateChange
       commitMessage = ChangeIdUtil.insertId(commitMessage, id);
     }
 
-    if (Boolean.TRUE.equals(me.state().generalPreferences().signedOffBy)) {
+    if (me.state()
+        .getPreference(UserPreferenceFields.General.SIGNED_OFF_BY, defaultPreferencesCache)) {
       commitMessage =
           Joiner.on("\n")
               .join(

@@ -1,0 +1,481 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7834eada_1af8e2ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "Can this be rewritten in a positive way? The commit slogan should be a few words, present tense and active form, about what the commit is changing.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7834aad_a55c3a7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "being",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 2
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "484b0719_f254e8a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "Unnecessary. A commit message is often implicitly meant as a detailed explanation.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d2c7b93_93cdf1ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "Would remove this part, which should already be common knowledge enough.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 45
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a55eb6b_991e84bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "index (such",
+      "range": {
+        "startLine": 26,
+        "startChar": 35,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42eb67c5_342b8d9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "executes",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce9d4fba_9afb1f92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "pages, which makes a",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 47
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a517fff2_b0a18011",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "result set that exists",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "444556d9_36a0b583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "10000. If",
+      "range": {
+        "startLine": 34,
+        "startChar": 35,
+        "endLine": 34,
+        "endChar": 44
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a660db6_096455cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "May remove.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 10
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5cdfd0e_5b22962d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "Can we merge this information into some paragraph(s) that simply explain the implemented solution? I\u0027d then not mention \"plans\" (Plan-X), but still mention the key decision making sentences. I think that this text basically needs simplification and refocus around the key elements.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "474cedf8_74fc0870",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "Tab inserted, should replace with space-based indentation. Unless this quote paragraph can simply be replaced with just the reference, which I believe is the one linked below?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 1
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5201aac5_4eb82f4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "[1] https",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 15
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb297756_9bc59f9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "while Gerrit still supports\n\n(But then maybe this paragraph will be reconsidered as a whole, based on my previous comments.)",
+      "range": {
+        "startLine": 78,
+        "startChar": 22,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea3cba4_8fffbd9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "[2] https",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 15
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f12ecb7_c04c6ba9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "A test was made locally to check the performance with 10000 accounts, 100000 projects and 200000 changes. Most of the Gerrit user query scenarios worked well. No severe performance degradation appeared.\n\nAbove, I propose some rewriting of this paragraph. I\u0027d also make it a regular paragraph, rather than a bulleted /numbered one. I\u0027m just not sure about what \"most\" and \"severe\" meant, above. Please clarify the extent of that test success, within the paragraph.",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 0
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f65c7e40_a25972c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "Bug: Issue 12444",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 62
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c93fb21_c2f30635",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3193,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "Would back-tick this so it renders as code: `from + size`.",
+      "range": {
+        "startLine": 3193,
+        "startChar": 26,
+        "endLine": 3193,
+        "endChar": 37
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bb8c3a8_31487412",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3195,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "Remove, as we moved this change to a branch that does not support this down-stream.",
+      "range": {
+        "startLine": 3195,
+        "startChar": 27,
+        "endLine": 3195,
+        "endChar": 55
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fe668a3_4c815377",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticConfiguration.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "KEY_MAX_RESULT_WINDOW",
+      "range": {
+        "startLine": 43,
+        "startChar": 22,
+        "endLine": 43,
+        "endChar": 39
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d432aa2a_3354ccba",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticConfiguration.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T18:25:27Z",
+      "side": 1,
+      "message": "Move this line to right after line 57, above? -Consistent with the related insertions further above.",
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

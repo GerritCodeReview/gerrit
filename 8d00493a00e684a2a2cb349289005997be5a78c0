@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f461a531_3f89b6e3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-13T14:08:21Z",
+      "side": 1,
+      "message": "Is it worth testing a plugin permission?",
+      "revId": "8d00493a00e684a2a2cb349289005997be5a78c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

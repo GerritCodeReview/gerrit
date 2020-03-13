@@ -175,6 +175,22 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addAccessSectionWithInvalidPermission() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    PermissionInfo push = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    push.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSectionInfo.permissions.put("Invalid Permission", push);
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> pApi().access(accessInput));
+    assertThat(ex).hasMessageThat().isEqualTo("Unknown permission: Invalid Permission");
+  }
+
+  @Test
   public void createAccessChangeNop() throws Exception {
     ProjectAccessInput accessInput = newProjectAccessInput();
     assertThrows(BadRequestException.class, () -> pApi().accessChange(accessInput));

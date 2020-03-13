@@ -150,6 +150,13 @@ public class SetAccessUtil {
           throw new BadRequestException("invalid section name");
         }
         RefPattern.validate(name);
+
+        // Check all permissions for soundness
+        for (Permission p : section.getPermissions()) {
+          if (!isPermission(p.getName())) {
+            throw new BadRequestException("Unknown permission: " + p.getName());
+          }
+        }
       } else {
         // Check all permissions for soundness
         for (Permission p : section.getPermissions()) {
@@ -237,6 +244,15 @@ public class SetAccessUtil {
       }
       config.getProject().setParentName(newParentProjectName);
     }
+  }
+
+  private boolean isPermission(String name) {
+    if (Permission.isPermission(name)) {
+      return true;
+    }
+    Set<String> pluginPermissions =
+        pluginPermissionsUtil.collectPluginProjectPermissions().keySet();
+    return pluginPermissions.contains(name);
   }
 
   private boolean isCapability(String name) {

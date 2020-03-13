@@ -30,7 +30,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
-import com.google.gerrit.server.edit.tree.TreeModification;
+import com.google.gerrit.server.edit.CommitModification;
 import com.google.gerrit.server.fixes.FixReplacementInterpreter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -40,7 +40,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.List;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
@@ -76,12 +75,12 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
     PatchSet patchSet = revisionResource.getPatchSet();
 
     try (Repository repository = gitRepositoryManager.openRepository(project)) {
-      List<TreeModification> treeModifications =
-          fixReplacementInterpreter.toTreeModifications(
+      CommitModification commitModification =
+          fixReplacementInterpreter.toCommitModification(
               repository, projectState, patchSet.commitId(), fixResource.getFixReplacements());
       ChangeEdit changeEdit =
           changeEditModifier.combineWithModifiedPatchSetTree(
-              repository, revisionResource.getNotes(), patchSet, treeModifications);
+              repository, revisionResource.getNotes(), patchSet, commitModification);
       return Response.ok(changeEditJson.toEditInfo(changeEdit, false));
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());

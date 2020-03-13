@@ -1054,15 +1054,123 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
 
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
-    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
-
-    List<String> fixIds = getFixIds(robotCommentInfos);
-    String fixId = Iterables.getOnlyElement(fixIds);
+    String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
 
     gApi.changes().id(changeId).current().applyFix(fixId);
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage).isEqualTo(changeEditCommitMessage);
+  }
+
+  @Test
+  public void fixOnCommitMessageCanBeApplied() throws Exception {
+    // Set a dedicated commit message.
+    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    withFixRobotCommentInput.path = Patch.COMMIT_MSG;
+    fixReplacementInfo.path = Patch.COMMIT_MSG;
+    fixReplacementInfo.replacement = "Modified line\n";
+    fixReplacementInfo.range = createRange(7, 0, 8, 0);
+
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
+    String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
+
+    gApi.changes().id(changeId).current().applyFix(fixId);
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage).isEqualTo("Modified line\nLine 2 of commit message\n");
+  }
+
+  @Test
+  public void fixOnHeaderPartOfCommitMessageCannotBeApplied() throws Exception {
+    // Set a dedicated commit message.
+    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    withFixRobotCommentInput.path = Patch.COMMIT_MSG;
+    fixReplacementInfo.path = Patch.COMMIT_MSG;
+    fixReplacementInfo.replacement = "Modified line\n";
+    fixReplacementInfo.range = createRange(1, 0, 2, 0);
+
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
+    String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
+
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyFix(fixId));
+    assertThat(exception).hasMessageThat().contains("header");
+  }
+
+  @Test
+  public void fixContainingSeveralModificationsOfCommitMessageCanBeApplied() throws Exception {
+    // Set a dedicated commit message.
+    String originalCommitMessage =
+        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = Patch.COMMIT_MSG;
+    fixReplacementInfo1.range = createRange(7, 0, 8, 0);
+    fixReplacementInfo1.replacement = "Modified line 1\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = Patch.COMMIT_MSG;
+    fixReplacementInfo2.range = createRange(9, 0, 10, 0);
+    fixReplacementInfo2.replacement = "Modified line 3\n";
+
+    FixSuggestionInfo fixSuggestionInfo =
+        createFixSuggestionInfo(fixReplacementInfo1, fixReplacementInfo2);
+    withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
+    withFixRobotCommentInput.path = Patch.COMMIT_MSG;
+
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
+    String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
+
+    gApi.changes().id(changeId).current().applyFix(fixId);
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage)
+        .isEqualTo("Modified line 1\nLine 2 of commit message\nModified line 3\n");
+  }
+
+  @Test
+  public void fixModifyingTheCommitMessageAndAFileCanBeApplied() throws Exception {
+    // Set a dedicated commit message.
+    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = Patch.COMMIT_MSG;
+    fixReplacementInfo1.range = createRange(7, 0, 8, 0);
+    fixReplacementInfo1.replacement = "Modified line 1\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME2;
+    fixReplacementInfo2.range = createRange(1, 0, 2, 0);
+    fixReplacementInfo2.replacement = "File modification\n";
+
+    FixSuggestionInfo fixSuggestionInfo =
+        createFixSuggestionInfo(fixReplacementInfo1, fixReplacementInfo2);
+    withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
+
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
+    String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
+
+    gApi.changes().id(changeId).current().applyFix(fixId);
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage).isEqualTo("Modified line 1\nLine 2 of commit message\n");
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo("File modification\n2nd line\n3rd line\n");
   }
 
   @Test

@@ -34,7 +34,7 @@ public class FixCalculatorVariousTest {
       "First line\nSecond line\nThird line\nFourth line\nFifth line\n";
   private static final Text multilineContent = new Text(multilineContentString.getBytes(UTF_8));
 
-  public static FixResult calculateFixSingleReplacement(
+  static FixResult calculateFixSingleReplacement(
       String content, int startLine, int startChar, int endLine, int endChar, String replacement)
       throws ResourceConflictException {
     FixReplacement fixReplacement =
@@ -52,10 +52,63 @@ public class FixCalculatorVariousTest {
   }
 
   @Test
-  public void insertAtTheEndOfSingleLineContentHasEOLMarkInvalidPosition() throws Exception {
+  public void lineNumberMustExist() {
+    assertThrows(
+        ResourceConflictException.class,
+        () -> calculateFixSingleReplacement("First line\nSecond line", 4, 0, 4, 0, "Abc"));
+  }
+
+  @Test
+  public void startOffsetMustNotBeNegative() {
+    assertThrows(
+        ResourceConflictException.class,
+        () -> calculateFixSingleReplacement("First line\nSecond line", 0, -1, 0, 0, "Abc"));
+  }
+
+  @Test
+  public void endOffsetMustNotBeNegative() {
+    assertThrows(
+        ResourceConflictException.class,
+        () -> calculateFixSingleReplacement("First line\nSecond line", 0, 0, 0, -1, "Abc"));
+  }
+
+  @Test
+  public void insertAtTheEndOfSingleLineContentHasEOLMarkInvalidPosition() {
     assertThrows(
         ResourceConflictException.class,
         () -> calculateFixSingleReplacement("First line\n", 1, 11, 1, 11, "Abc"));
+  }
+
+  @Test
+  public void startAfterEndOfLineMarkOfIntermediateLineThrowsAnException() {
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            calculateFixSingleReplacement(
+                "First line\nSecond line\nThird line\n", 1, 11, 2, 6, "Abc"));
+  }
+
+  @Test
+  public void startAfterEndOfLineMarkOfLastLineThrowsAnException() {
+    assertThrows(
+        ResourceConflictException.class,
+        () -> calculateFixSingleReplacement("First line\n", 1, 11, 2, 0, "Abc"));
+  }
+
+  @Test
+  public void endAfterEndOfLineMarkOfIntermediateLineThrowsAnException() {
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            calculateFixSingleReplacement(
+                "First line\nSecond line\nThird line\n", 2, 0, 2, 12, "Abc"));
+  }
+
+  @Test
+  public void endAfterEndOfLineMarkOfLastLineThrowsAnException() {
+    assertThrows(
+        ResourceConflictException.class,
+        () -> calculateFixSingleReplacement("First line\nSecond line\n", 2, 0, 2, 12, "Abc"));
   }
 
   @Test
@@ -146,7 +199,18 @@ public class FixCalculatorVariousTest {
     assertThat(result)
         .text()
         .isEqualTo(
-            "FiAB\nC\nDEFG\nQ\nrd line\nFourth lneQWERTY\nSixth line\nSevXY line\nEighth KLMNO\nASDFline\nNinth line\nTenine\n");
+            "FiAB\n"
+                + "C\n"
+                + "DEFG\n"
+                + "Q\n"
+                + "rd line\n"
+                + "Fourth lneQWERTY\n"
+                + "Sixth line\n"
+                + "SevXY line\n"
+                + "Eighth KLMNO\n"
+                + "ASDFline\n"
+                + "Ninth line\n"
+                + "Tenine\n");
     assertThat(result).edits().hasSize(3);
     assertThat(result).edits().element(0).isReplace(0, 5, 0, 6);
     assertThat(result)
@@ -164,5 +228,24 @@ public class FixCalculatorVariousTest {
         .containsExactly(new Edit(3, 7, 3, 5), new Edit(20, 20, 18, 28));
     assertThat(result).edits().element(2).isReplace(9, 1, 11, 1);
     assertThat(result).edits().element(2).internalEdits().onlyElement().isDelete(3, 4, 3);
+  }
+
+  @Test
+  public void changesMayTouch() throws Exception {
+    FixReplacement firstReplace = new FixReplacement("path", new Range(1, 6, 2, 7), "modified ");
+    FixReplacement consecutiveReplace =
+        new FixReplacement("path", new Range(2, 7, 3, 5), "content");
+    FixResult result =
+        FixCalculator.calculateFix(
+            multilineContent, ImmutableList.of(firstReplace, consecutiveReplace));
+    assertThat(result).text().isEqualTo("First modified content line\nFourth line\nFifth line\n");
+    assertThat(result).edits().hasSize(1);
+    Edit edit = result.edits.get(0);
+    assertThat(edit).isReplace(0, 3, 0, 1);
+    // The current code creates two inline edits even though only one would be necessary. It
+    // shouldn't make a visual difference to the user and hence we can ignore this.
+    assertThat(edit).internalEdits().hasSize(2);
+    assertThat(edit).internalEdits().element(0).isReplace(6, 12, 6, 9);
+    assertThat(edit).internalEdits().element(1).isReplace(18, 10, 15, 7);
   }
 }

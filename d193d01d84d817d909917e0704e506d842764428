@@ -46,6 +46,30 @@
       "revId": "d193d01d84d817d909917e0704e506d842764428",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bebbe84c_e8cc1131",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateTag.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-13T08:47:09Z",
+      "side": 1,
+      "message": "Good, then it works as expected.",
+      "parentUuid": "656f20d3_f3e5e7f6",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 12
+      },
+      "revId": "d193d01d84d817d909917e0704e506d842764428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

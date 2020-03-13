@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "59e3894e_46122738",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-13T09:47:09Z",
+      "side": 1,
+      "message": "Please format to 72ch line length. :-)",
+      "revId": "821fae937d3b2d3127d8abc1e9738d895c08459e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91df91d3_f499b0b2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.js",
         "patchSetId": 1
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "Ya i had it changed to Object.assign locally for ps 2 and added some tests, but want to hear more regarding the alternative I mentioned in the change message before sending out, i.e: remove the COMMIT_MSG_LINE_LENGTH for both places and honor line_length for all files, I am actually in favor of that.",
       "parentUuid": "91df91d3_f499b0b2",
+      "range": {
+        "startLine": 295,
+        "startChar": 10,
+        "endLine": 295,
+        "endChar": 27
+      },
+      "revId": "821fae937d3b2d3127d8abc1e9738d895c08459e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f642e3a_4ef4a97d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-13T09:47:09Z",
+      "side": 1,
+      "message": "+1 to changing the prefs object directly.",
+      "parentUuid": "0b61f123_ffab512e",
       "range": {
         "startLine": 295,
         "startChar": 10,

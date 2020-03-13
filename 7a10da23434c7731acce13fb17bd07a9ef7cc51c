@@ -309,6 +309,30 @@
       "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "377bb2a8_42a48b8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2020-03-13T18:11:30Z",
+      "side": 1,
+      "message": "Ok, thanks you,Marco.",
+      "parentUuid": "197c6963_bdc944c9",
+      "range": {
+        "startLine": 57,
+        "startChar": 20,
+        "endLine": 58,
+        "endChar": 51
+      },
+      "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

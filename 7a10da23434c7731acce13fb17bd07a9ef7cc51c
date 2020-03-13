@@ -285,6 +285,30 @@
       "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "197c6963_bdc944c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-13T17:38:36Z",
+      "side": 1,
+      "message": "\u003e Should I upload another change for stable-2.16 or just keep this one is OK?\n\nI\u0027ll move this change to the stable-2.16 branch and rebase it on top of that branch\u0027s current HEAD. Doing so will keep this very change but only move it to that branch.",
+      "parentUuid": "6741c56d_38096d7c",
+      "range": {
+        "startLine": 57,
+        "startChar": 20,
+        "endLine": 58,
+        "endChar": 51
+      },
+      "revId": "7a10da23434c7731acce13fb17bd07a9ef7cc51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

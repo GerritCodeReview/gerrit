@@ -335,10 +335,11 @@ limitations under the License.
                   aria-label$="[[_computeFileStatusLabel(file.status)]]">
               [[_computeFileStatus(file.status)]]
             </div>
+            <!-- TODO: Remove data-url as it appears its not used -->
             <span
-                data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]"
+                data-url="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
                 class="path">
-              <a class="pathLink" href$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]">
+              <a class="pathLink" href$="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]">
                 <span title$="[[computeDisplayPath(file.__path)]]"
                     class="fullFileName">
                   [[computeDisplayPath(file.__path)]]

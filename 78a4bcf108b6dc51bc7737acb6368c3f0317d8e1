@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a723e6ae_d63859e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-13T18:54:39Z",
+      "side": 1,
+      "message": "list with two items:\n- test 1\n- test 2\n\nnew list:\n\n- test 1\n - test 1.1 (nest not supported yet)\n - test 1.2 (but with heading spaces, it will be recognized as pre, so whitespace can be kept)\n- test 2 as another list\n\n-dash without space won\u0027t be recognized as list\n\n  pre-formatted text here\nmore here\nmore more here\n\nseparate paragraph followed by quotes:\n\n\u003e test\n\u003e tttt\n\ncode example with plain text:\n```\nTips on writing a good patch description:\nPrefix your changelist (CL) title with “DevTools:”\nE.g: DevTools: Fix DOM breakpoints sidebar pane exception\n```\n\nreal code example:\n```\nclass A {\n  test() {\n    return \"asd\";\n  }\n}\n```\n\nsingle line code example:\n`new A().test()`\n``new A().test()``\n```new A().test()```\n\ninvalid single line example:\n` new A().test() ``\n\npara 1 with more new lines below\n\n\n\npara 2\n\npara 3",
+      "revId": "78a4bcf108b6dc51bc7737acb6368c3f0317d8e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

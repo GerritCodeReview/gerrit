@@ -153,7 +153,8 @@ public class ProjectCacheImpl implements ProjectCache {
         logger.atFine().log("Cannot find project %s", projectName.get());
         return Optional.empty();
       }
-      throw new StorageException("project state not available", e);
+      throw new StorageException(
+          String.format("project state of project %s not available", projectName.get()), e);
     }
   }
 

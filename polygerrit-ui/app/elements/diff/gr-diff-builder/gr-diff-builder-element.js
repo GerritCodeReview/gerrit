@@ -24,6 +24,16 @@
 
   const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
+  const COMMIT_MSG_PATH = '/COMMIT_MSG';
+  /**
+   * 72 is the inofficial length standard for git commit messages.
+   * Derived from the fact that git log/show appends 4 ws in the beginning of
+   * each line when displaying commit messages. To center the commit message
+   * in an 80 char terminal a 4 ws border is added to the rightmost side:
+   * 4 + 72 + 4
+   */
+  const COMMIT_MSG_LINE_LENGTH = 72;
+
   /**
    * @appliesMixin Gerrit.FireMixin
    */
@@ -271,18 +281,39 @@
         return;
       }
 
+      const localPrefs = Object.assign({}, prefs);
+      if (this.path === COMMIT_MSG_PATH) {
+        // override line_length for commit msg the same way as
+        // in gr-diff
+        localPrefs.line_length = COMMIT_MSG_LINE_LENGTH;
+      }
+
       let builder = null;
       if (this.isImageDiff) {
-        builder = new GrDiffBuilderImage(diff, prefs, this.diffElement,
-            this.baseImage, this.revisionImage);
+        builder = new GrDiffBuilderImage(
+            diff,
+            localPrefs,
+            this.diffElement,
+            this.baseImage,
+            this.revisionImage);
       } else if (diff.binary) {
         // If the diff is binary, but not an image.
-        return new GrDiffBuilderBinary(diff, prefs, this.diffElement);
+        return new GrDiffBuilderBinary(
+            diff,
+            localPrefs,
+            this.diffElement);
       } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-        builder = new GrDiffBuilderSideBySide(diff, prefs, this.diffElement,
-            this._layers);
+        builder = new GrDiffBuilderSideBySide(
+            diff,
+            localPrefs,
+            this.diffElement,
+            this._layers
+        );
       } else if (this.viewMode === DiffViewMode.UNIFIED) {
-        builder = new GrDiffBuilderUnified(diff, prefs, this.diffElement,
+        builder = new GrDiffBuilderUnified(
+            diff,
+            localPrefs,
+            this.diffElement,
             this._layers);
       }
       if (!builder) {

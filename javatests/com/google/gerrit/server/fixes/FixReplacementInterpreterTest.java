@@ -15,6 +15,7 @@
 package com.google.gerrit.server.fixes;
 
 import static com.google.gerrit.server.edit.tree.TreeModificationSubject.assertThatList;
+import static com.google.gerrit.truth.OptionalSubject.assertThat;
 import static java.util.Comparator.comparing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -24,6 +25,7 @@ import com.google.gerrit.entities.Comment.Range;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.server.change.FileContentUtil;
+import com.google.gerrit.server.edit.CommitModification;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.ArrayList;
@@ -50,8 +52,9 @@ public class FixReplacementInterpreterTest {
 
   @Test
   public void noReplacementsResultInNoTreeModifications() throws Exception {
-    List<TreeModification> treeModifications = toTreeModifications();
-    assertThatList(treeModifications).isEmpty();
+    CommitModification commitModification = toCommitModification();
+    assertThatList(commitModification.treeModifications()).isEmpty();
+    assertThat(commitModification.newCommitMessage()).isEmpty();
   }
 
   @Test
@@ -60,7 +63,8 @@ public class FixReplacementInterpreterTest {
         new FixReplacement(filePath1, new Range(1, 1, 3, 2), "Modified content");
     mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
 
-    List<TreeModification> treeModifications = toTreeModifications(fixReplacement);
+    CommitModification commitModification = toCommitModification(fixReplacement);
+    ImmutableList<TreeModification> treeModifications = commitModification.treeModifications();
     assertThatList(treeModifications)
         .onlyElement()
         .asChangeFileContentModification()
@@ -84,9 +88,10 @@ public class FixReplacementInterpreterTest {
         new FixReplacement(filePath2, new Range(2, 0, 3, 0), "Another modified content");
     mockFileContent(filePath2, "1st line\n2nd line\n3rd line\n");
 
-    List<TreeModification> treeModifications =
-        toTreeModifications(fixReplacement, fixReplacement3, fixReplacement2);
-    List<TreeModification> sortedTreeModifications = getSortedCopy(treeModifications);
+    CommitModification commitModification =
+        toCommitModification(fixReplacement, fixReplacement3, fixReplacement2);
+    List<TreeModification> sortedTreeModifications =
+        getSortedCopy(commitModification.treeModifications());
     assertThatList(sortedTreeModifications)
         .element(0)
         .asChangeFileContentModification()
@@ -120,9 +125,10 @@ public class FixReplacementInterpreterTest {
         new FixReplacement(filePath2, new Range(3, 0, 4, 0), "Second modification\n");
     mockFileContent(filePath2, "1st line\n2nd line\n3rd line\n");
 
-    List<TreeModification> treeModifications =
-        toTreeModifications(fixReplacement3, fixReplacement1, fixReplacement2);
-    List<TreeModification> sortedTreeModifications = getSortedCopy(treeModifications);
+    CommitModification commitModification =
+        toCommitModification(fixReplacement3, fixReplacement1, fixReplacement2);
+    List<TreeModification> sortedTreeModifications =
+        getSortedCopy(commitModification.treeModifications());
     assertThatList(sortedTreeModifications)
         .element(0)
         .asChangeFileContentModification()
@@ -140,9 +146,9 @@ public class FixReplacementInterpreterTest {
         .thenReturn(BinaryResult.create(fileContent));
   }
 
-  private List<TreeModification> toTreeModifications(FixReplacement... fixReplacements)
+  private CommitModification toCommitModification(FixReplacement... fixReplacements)
       throws Exception {
-    return fixReplacementInterpreter.toTreeModifications(
+    return fixReplacementInterpreter.toCommitModification(
         repository, projectState, patchSetCommitId, ImmutableList.copyOf(fixReplacements));
   }
 

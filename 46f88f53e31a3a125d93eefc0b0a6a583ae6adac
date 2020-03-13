@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "d03974bc_d94720ad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-13T15:46:25Z",
+      "side": 1,
+      "message": "Moving to a getter doesn\u0027t guarantee that gr-js-api-interface is registered when getter is called.\nGetter and other methods require additional testing.\nI prefer to make changes which guarantee that the order of script execution remains the same.\n\nWith es6 modules it is possible to express these dependency explicitly (i.e. gr-public-js-api.js can import gr-js-api-interface.js) and this problem disappear.",
+      "parentUuid": "8d9a21b6_8ce402ea",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 56
+      },
+      "revId": "46f88f53e31a3a125d93eefc0b0a6a583ae6adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4425571_3f639e5f",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
         "patchSetId": 25

@@ -28,9 +28,13 @@ import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
+import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.Test;
 
 public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
@@ -56,22 +60,63 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
     };
   }
 
+  @Inject CustomSubmitRule rule;
+
   @Test
-  public void checkSubmitRequirementIsPropagated() throws Exception {
+  public void submitRequirementIsPropagated() throws Exception {
+    rule.block(false);
     PushOneCommit.Result r = createChange();
 
     ChangeInfo result = gApi.changes().id(r.getChangeId()).get();
+    assertThat(result.requirements).isEmpty();
+
+    rule.block(true);
+    result = gApi.changes().id(r.getChangeId()).get();
     assertThat(result.requirements).containsExactly(reqInfo);
   }
 
+  @Test
+  public void submitRequirementIsPropagatedInQuery() throws Exception {
+    rule.block(false);
+    PushOneCommit.Result r = createChange();
+
+    String query = "status:open project:" + project.get();
+    List<ChangeInfo> result = gApi.changes().query(query).get();
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).requirements).isEmpty();
+
+    // Submit rule behavior is changed, but the query still returns
+    // the previous result from the index
+    rule.block(true);
+    result = gApi.changes().query(query).get();
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).requirements).isEmpty();
+
+    // The submit rule result is updated after the change is reindexed
+    gApi.changes().id(r.getChangeId()).index();
+    result = gApi.changes().query(query).get();
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).requirements).containsExactly(reqInfo);
+  }
+
+  @Singleton
   private static class CustomSubmitRule implements SubmitRule {
+    private final AtomicBoolean block = new AtomicBoolean(true);
+
+    public void block(boolean block) {
+      this.block.set(block);
+    }
+
     @Override
     public Optional<SubmitRecord> evaluate(ChangeData changeData) {
-      SubmitRecord record = new SubmitRecord();
-      record.labels = new ArrayList<>();
-      record.status = SubmitRecord.Status.NOT_READY;
-      record.requirements = ImmutableList.of(req);
-      return Optional.of(record);
+      if (block.get()) {
+        SubmitRecord record = new SubmitRecord();
+        record.labels = new ArrayList<>();
+        record.status = SubmitRecord.Status.NOT_READY;
+        record.requirements = ImmutableList.of(req);
+        return Optional.of(record);
+      }
+      return Optional.empty();
     }
   }
 }

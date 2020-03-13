@@ -18,10 +18,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.extensions.events.TopicEdited;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.change.SetTopicOp;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -38,8 +36,6 @@ import org.kohsuke.args4j.Option;
 @CommandMetaData(name = "set-topic", description = "Set the topic for one or more changes")
 public class SetTopicCommand extends SshCommand {
   private final BatchUpdate.Factory updateFactory;
-  private final ChangeMessagesUtil cmUtil;
-  private final TopicEdited topicEdited;
   private final ChangeArgumentParser changeArgumentParser;
   private final SetTopicOp.Factory topicOpFactory;
 
@@ -69,13 +65,9 @@ public class SetTopicCommand extends SshCommand {
   @Inject
   SetTopicCommand(
       BatchUpdate.Factory updateFactory,
-      ChangeMessagesUtil cmUtil,
-      TopicEdited topicEdited,
       ChangeArgumentParser changeArgumentParser,
       SetTopicOp.Factory topicOpFactory) {
     this.updateFactory = updateFactory;
-    this.cmUtil = cmUtil;
-    this.topicEdited = topicEdited;
     this.changeArgumentParser = changeArgumentParser;
     this.topicOpFactory = topicOpFactory;
   }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b60f0c81_083ff347",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-13T12:22:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebb6d2e3_d2b8b555",
+      "revId": "4312325db3a6a9f688754d206ed1defda0bcd847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2ef6c62_c1b48030",
         "filename": "java/com/google/gerrit/common/flogger/NamedFluentLogger.java",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "4312325db3a6a9f688754d206ed1defda0bcd847",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c21ba11_0041f37f",
+        "filename": "java/com/google/gerrit/common/flogger/NamedFluentLogger.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-13T12:22:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2ef6c62_c1b48030",
+      "revId": "4312325db3a6a9f688754d206ed1defda0bcd847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

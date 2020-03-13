@@ -191,6 +191,22 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addAccessSectionWithInvalidLabelPermission() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    PermissionInfo push = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    push.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSectionInfo.permissions.put("label-Invalid Permission", push);
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> pApi().access(accessInput));
+    assertThat(ex).hasMessageThat().isEqualTo("Unknown permission: label-Invalid Permission");
+  }
+
+  @Test
   public void createAccessChangeNop() throws Exception {
     ProjectAccessInput accessInput = newProjectAccessInput();
     assertThrows(BadRequestException.class, () -> pApi().accessChange(accessInput));

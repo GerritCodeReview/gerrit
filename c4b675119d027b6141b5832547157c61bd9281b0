@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "13aea476_afced16a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-13T15:48:17Z",
+      "side": 1,
+      "message": "Rewrote commit message. Looks better?",
+      "parentUuid": "aa5db26d_c4ac3151",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 0
+      },
+      "revId": "c4b675119d027b6141b5832547157c61bd9281b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "62f58657_57e4a452",
         "filename": "polygerrit-ui/app/embed/gr-diff.html",
         "patchSetId": 5

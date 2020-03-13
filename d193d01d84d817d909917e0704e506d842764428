@@ -22,6 +22,30 @@
       "revId": "d193d01d84d817d909917e0704e506d842764428",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "656f20d3_f3e5e7f6",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateTag.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-13T00:22:59Z",
+      "side": 1,
+      "message": "If I understand the documentation [1] correctly, no. The CREATE_TAG permission is explicitly required to be able to create an annotated tag. To create a lightweight tag, only CREATE_REFERENCE (on refs/tags) is needed.\n\n[1] http://gerrit-documentation.storage.googleapis.com/Documentation/2.16/access-control.html#category_create_annotated",
+      "parentUuid": "1835952e_dabb0f91",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 12
+      },
+      "revId": "d193d01d84d817d909917e0704e506d842764428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

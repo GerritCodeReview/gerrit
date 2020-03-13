@@ -46,7 +46,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
 @NoHttpd
-public class QueryChangeIT extends AbstractDaemonTest {
+public class QueryChangesIT extends AbstractDaemonTest {
   @Inject private AccountOperations accountOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<QueryChanges> queryChangesProvider;

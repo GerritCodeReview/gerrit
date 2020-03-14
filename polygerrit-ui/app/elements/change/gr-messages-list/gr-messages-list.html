@@ -113,9 +113,10 @@ limitations under the License.
         items="[[_visibleMessages]]"
         as="message">
       <gr-message
+          change="[[change]]"
           change-num="[[changeNum]]"
           message="[[message]]"
-          comments="[[_computeCommentsForMessage(changeComments, message)]]"
+          comments="[[_computeThreadsForMessage(changeComments, message)]]"
           hide-automated="[[_hideAutomated]]"
           project-name="[[projectName]]"
           show-reply-button="[[showReplyButtons]]"

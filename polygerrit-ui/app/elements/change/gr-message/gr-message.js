@@ -50,6 +50,8 @@
 
     static get properties() {
       return {
+        /** @type {?} */
+        change: Object,
         changeNum: Number,
         /** @type {?} */
         message: Object,
@@ -169,13 +171,7 @@
 
     _computeCommentCountText(comments) {
       if (!comments) return undefined;
-      let count = 0;
-      for (const file in comments) {
-        if (comments.hasOwnProperty(file)) {
-          const commentArray = comments[file] || [];
-          count += commentArray.length;
-        }
-      }
+      const count = comments.length;
       if (count === 0) {
         return undefined;
       } else if (count === 1) {
@@ -183,6 +179,15 @@
       } else {
         return `${count} comments`;
       }
+    }
+
+    _onThreadListModified() {
+      // TODO(taoalpha): this won't propogate the changes to the files
+      // should consider replacing this with either top level events
+      // or gerrit level events
+
+      // emit the event so change-view can also get updated with latest changes
+      this.fire('comment-refresh');
     }
 
     _computeMessageContentExpanded(content, tag) {

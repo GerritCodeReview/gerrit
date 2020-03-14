@@ -36,8 +36,6 @@
 
     static get properties() {
       return {
-      /** @type {?} */
-        change: Object,
         threads: Array,
         changeNum: String,
         loggedIn: Boolean,
@@ -170,13 +168,18 @@
             thread.comments[thread.comments.length - 2] :
             lastComment;
 
+      let threadUpdated = lastComment.updated;
+      if (!lastComment.updated) {
+        threadUpdated = (lastComment.__date || new Date()).toISOString();
+      }
+
       return {
         thread,
         // Use the unresolved bit for the last non draft comment. This is what
         // anybody other than the current user would see.
         unresolved: !!lastNonDraftComment.unresolved,
         hasDraft: !!lastComment.__draft,
-        updated: lastComment.updated,
+        updated: threadUpdated,
       };
     }
 

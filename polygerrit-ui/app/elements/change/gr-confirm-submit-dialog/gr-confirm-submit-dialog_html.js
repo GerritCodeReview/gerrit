@@ -1,34 +1,22 @@
-<!--
-@license
-Copyright (C) 2018 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
-
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
-
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-confirm-submit-dialog">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       #dialog {
         min-width: 40em;
@@ -48,18 +36,13 @@ limitations under the License.
         }
       }
     </style>
-    <gr-dialog
-        id="dialog"
-        confirm-label="Continue"
-        confirm-on-enter
-        on-cancel="_handleCancelTap"
-        on-confirm="_handleConfirmTap">
+    <gr-dialog id="dialog" confirm-label="Continue" confirm-on-enter="" on-cancel="_handleCancelTap" on-confirm="_handleConfirmTap">
       <div class="header" slot="header">
         [[action.label]]
       </div>
       <div class="main" slot="main">
         <gr-endpoint-decorator name="confirm-submit-change">
-          <p>Ready to submit &ldquo;<strong>[[change.subject]]</strong>&rdquo;?</p>
+          <p>Ready to submit “<strong>[[change.subject]]</strong>”?</p>
           <template is="dom-if" if="[[change.is_private]]">
             <p>
               <iron-icon icon="gr-icons:error" class="warningBeforeSubmit"></iron-icon>
@@ -79,6 +62,4 @@ limitations under the License.
       </div>
     </gr-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-confirm-submit-dialog.js"></script>
-</dom-module>
+`;

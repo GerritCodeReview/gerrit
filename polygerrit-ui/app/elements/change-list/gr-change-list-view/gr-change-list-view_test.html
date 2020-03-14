@@ -19,16 +19,21 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-list-view</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-change-list-view.html">
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-change-list-view.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-change-list-view.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,26 +41,170 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
-  const COMMIT_HASH = '12345678';
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-change-list-view.js';
+const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
+const COMMIT_HASH = '12345678';
 
-  suite('gr-change-list-view tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+suite('gr-change-list-view tests', () => {
+  let element;
+  let sandbox;
 
+  setup(() => {
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(false); },
+      getChanges(num, query) {
+        return Promise.resolve([]);
+      },
+      getAccountDetails() { return Promise.resolve({}); },
+      getAccountStatus() { return Promise.resolve({}); },
+    });
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(done => {
+    flush(() => {
+      sandbox.restore();
+      done();
+    });
+  });
+
+  test('_computePage', () => {
+    assert.equal(element._computePage(0, 25), 1);
+    assert.equal(element._computePage(50, 25), 3);
+  });
+
+  test('_limitFor', () => {
+    const defaultLimit = 25;
+    const _limitFor = q => element._limitFor(q, defaultLimit);
+    assert.equal(_limitFor(''), defaultLimit);
+    assert.equal(_limitFor('limit:10'), 10);
+    assert.equal(_limitFor('xlimit:10'), defaultLimit);
+    assert.equal(_limitFor('x(limit:10'), 10);
+  });
+
+  test('_computeNavLink', () => {
+    const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForSearchQuery')
+        .returns('');
+    const query = 'status:open';
+    let offset = 0;
+    let direction = 1;
+    const changesPerPage = 5;
+
+    element._computeNavLink(query, offset, direction, changesPerPage);
+    assert.equal(getUrlStub.lastCall.args[1], 5);
+
+    direction = -1;
+    element._computeNavLink(query, offset, direction, changesPerPage);
+    assert.equal(getUrlStub.lastCall.args[1], 0);
+
+    offset = 5;
+    direction = 1;
+    element._computeNavLink(query, offset, direction, changesPerPage);
+    assert.equal(getUrlStub.lastCall.args[1], 10);
+  });
+
+  test('_computePrevArrowClass', () => {
+    let offset = 0;
+    assert.equal(element._computePrevArrowClass(offset), 'hide');
+    offset = 5;
+    assert.equal(element._computePrevArrowClass(offset), '');
+  });
+
+  test('_computeNextArrowClass', () => {
+    let changes = _.times(25, _.constant({_more_changes: true}));
+    assert.equal(element._computeNextArrowClass(changes), '');
+    changes = _.times(25, _.constant({}));
+    assert.equal(element._computeNextArrowClass(changes), 'hide');
+  });
+
+  test('_computeNavClass', () => {
+    let loading = true;
+    assert.equal(element._computeNavClass(loading), 'hide');
+    loading = false;
+    assert.equal(element._computeNavClass(loading), 'hide');
+    element._changes = [];
+    assert.equal(element._computeNavClass(loading), 'hide');
+    element._changes = _.times(5, _.constant({}));
+    assert.equal(element._computeNavClass(loading), '');
+  });
+
+  test('_handleNextPage', () => {
+    const showStub = sandbox.stub(page, 'show');
+    element.$.nextArrow.hidden = true;
+    element._handleNextPage();
+    assert.isFalse(showStub.called);
+    element.$.nextArrow.hidden = false;
+    element._handleNextPage();
+    assert.isTrue(showStub.called);
+  });
+
+  test('_handlePreviousPage', () => {
+    const showStub = sandbox.stub(page, 'show');
+    element.$.prevArrow.hidden = true;
+    element._handlePreviousPage();
+    assert.isFalse(showStub.called);
+    element.$.prevArrow.hidden = false;
+    element._handlePreviousPage();
+    assert.isTrue(showStub.called);
+  });
+
+  test('_userId query', done => {
+    assert.isNull(element._userId);
+    element._query = 'owner: foo@bar';
+    element._changes = [{owner: {email: 'foo@bar'}}];
+    flush(() => {
+      assert.equal(element._userId, 'foo@bar');
+
+      element._query = 'foo bar baz';
+      element._changes = [{owner: {email: 'foo@bar'}}];
+      assert.isNull(element._userId);
+
+      done();
+    });
+  });
+
+  test('_userId query without email', done => {
+    assert.isNull(element._userId);
+    element._query = 'owner: foo@bar';
+    element._changes = [{owner: {}}];
+    flush(() => {
+      assert.isNull(element._userId);
+      done();
+    });
+  });
+
+  test('_repo query', done => {
+    assert.isNull(element._repo);
+    element._query = 'project: test-repo';
+    element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
+    flush(() => {
+      assert.equal(element._repo, 'test-repo');
+      element._query = 'foo bar baz';
+      element._changes = [{owner: {email: 'foo@bar'}}];
+      assert.isNull(element._repo);
+      done();
+    });
+  });
+
+  test('_repo query with open status', done => {
+    assert.isNull(element._repo);
+    element._query = 'project:test-repo status:open';
+    element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
+    flush(() => {
+      assert.equal(element._repo, 'test-repo');
+      element._query = 'foo bar baz';
+      element._changes = [{owner: {email: 'foo@bar'}}];
+      assert.isNull(element._repo);
+      done();
+    });
+  });
+
+  suite('query based navigation', () => {
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-        getChanges(num, query) {
-          return Promise.resolve([]);
-        },
-        getAccountDetails() { return Promise.resolve({}); },
-        getAccountStatus() { return Promise.resolve({}); },
-      });
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
     });
 
     teardown(done => {
@@ -65,205 +214,63 @@ limitations under the License.
       });
     });
 
-    test('_computePage', () => {
-      assert.equal(element._computePage(0, 25), 1);
-      assert.equal(element._computePage(50, 25), 3);
-    });
-
-    test('_limitFor', () => {
-      const defaultLimit = 25;
-      const _limitFor = q => element._limitFor(q, defaultLimit);
-      assert.equal(_limitFor(''), defaultLimit);
-      assert.equal(_limitFor('limit:10'), 10);
-      assert.equal(_limitFor('xlimit:10'), defaultLimit);
-      assert.equal(_limitFor('x(limit:10'), 10);
-    });
-
-    test('_computeNavLink', () => {
-      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForSearchQuery')
-          .returns('');
-      const query = 'status:open';
-      let offset = 0;
-      let direction = 1;
-      const changesPerPage = 5;
-
-      element._computeNavLink(query, offset, direction, changesPerPage);
-      assert.equal(getUrlStub.lastCall.args[1], 5);
-
-      direction = -1;
-      element._computeNavLink(query, offset, direction, changesPerPage);
-      assert.equal(getUrlStub.lastCall.args[1], 0);
-
-      offset = 5;
-      direction = 1;
-      element._computeNavLink(query, offset, direction, changesPerPage);
-      assert.equal(getUrlStub.lastCall.args[1], 10);
-    });
-
-    test('_computePrevArrowClass', () => {
-      let offset = 0;
-      assert.equal(element._computePrevArrowClass(offset), 'hide');
-      offset = 5;
-      assert.equal(element._computePrevArrowClass(offset), '');
-    });
-
-    test('_computeNextArrowClass', () => {
-      let changes = _.times(25, _.constant({_more_changes: true}));
-      assert.equal(element._computeNextArrowClass(changes), '');
-      changes = _.times(25, _.constant({}));
-      assert.equal(element._computeNextArrowClass(changes), 'hide');
-    });
-
-    test('_computeNavClass', () => {
-      let loading = true;
-      assert.equal(element._computeNavClass(loading), 'hide');
-      loading = false;
-      assert.equal(element._computeNavClass(loading), 'hide');
-      element._changes = [];
-      assert.equal(element._computeNavClass(loading), 'hide');
-      element._changes = _.times(5, _.constant({}));
-      assert.equal(element._computeNavClass(loading), '');
-    });
-
-    test('_handleNextPage', () => {
-      const showStub = sandbox.stub(page, 'show');
-      element.$.nextArrow.hidden = true;
-      element._handleNextPage();
-      assert.isFalse(showStub.called);
-      element.$.nextArrow.hidden = false;
-      element._handleNextPage();
-      assert.isTrue(showStub.called);
-    });
-
-    test('_handlePreviousPage', () => {
-      const showStub = sandbox.stub(page, 'show');
-      element.$.prevArrow.hidden = true;
-      element._handlePreviousPage();
-      assert.isFalse(showStub.called);
-      element.$.prevArrow.hidden = false;
-      element._handlePreviousPage();
-      assert.isTrue(showStub.called);
-    });
-
-    test('_userId query', done => {
-      assert.isNull(element._userId);
-      element._query = 'owner: foo@bar';
-      element._changes = [{owner: {email: 'foo@bar'}}];
-      flush(() => {
-        assert.equal(element._userId, 'foo@bar');
-
-        element._query = 'foo bar baz';
-        element._changes = [{owner: {email: 'foo@bar'}}];
-        assert.isNull(element._userId);
-
+    test('Searching for a change ID redirects to change', done => {
+      const change = {_number: 1};
+      sandbox.stub(element, '_getChanges')
+          .returns(Promise.resolve([change]));
+      sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
+        assert.equal(url, change);
         done();
       });
+
+      element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
     });
 
-    test('_userId query without email', done => {
-      assert.isNull(element._userId);
-      element._query = 'owner: foo@bar';
-      element._changes = [{owner: {}}];
-      flush(() => {
-        assert.isNull(element._userId);
+    test('Searching for a change num redirects to change', done => {
+      const change = {_number: 1};
+      sandbox.stub(element, '_getChanges')
+          .returns(Promise.resolve([change]));
+      sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
+        assert.equal(url, change);
         done();
       });
+
+      element.params = {view: Gerrit.Nav.View.SEARCH, query: '1'};
     });
 
-    test('_repo query', done => {
-      assert.isNull(element._repo);
-      element._query = 'project: test-repo';
-      element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
-      flush(() => {
-        assert.equal(element._repo, 'test-repo');
-        element._query = 'foo bar baz';
-        element._changes = [{owner: {email: 'foo@bar'}}];
-        assert.isNull(element._repo);
+    test('Commit hash redirects to change', done => {
+      const change = {_number: 1};
+      sandbox.stub(element, '_getChanges')
+          .returns(Promise.resolve([change]));
+      sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
+        assert.equal(url, change);
         done();
       });
+
+      element.params = {view: Gerrit.Nav.View.SEARCH, query: COMMIT_HASH};
     });
 
-    test('_repo query with open status', done => {
-      assert.isNull(element._repo);
-      element._query = 'project:test-repo status:open';
-      element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
-      flush(() => {
-        assert.equal(element._repo, 'test-repo');
-        element._query = 'foo bar baz';
-        element._changes = [{owner: {email: 'foo@bar'}}];
-        assert.isNull(element._repo);
-        done();
-      });
+    test('Searching for an invalid change ID searches', () => {
+      sandbox.stub(element, '_getChanges')
+          .returns(Promise.resolve([]));
+      const stub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+
+      element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
+      flushAsynchronousOperations();
+
+      assert.isFalse(stub.called);
     });
 
-    suite('query based navigation', () => {
-      setup(() => {
-      });
+    test('Change ID with multiple search results searches', () => {
+      sandbox.stub(element, '_getChanges')
+          .returns(Promise.resolve([{}, {}]));
+      const stub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
 
-      teardown(done => {
-        flush(() => {
-          sandbox.restore();
-          done();
-        });
-      });
+      element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
+      flushAsynchronousOperations();
 
-      test('Searching for a change ID redirects to change', done => {
-        const change = {_number: 1};
-        sandbox.stub(element, '_getChanges')
-            .returns(Promise.resolve([change]));
-        sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
-          assert.equal(url, change);
-          done();
-        });
-
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
-      });
-
-      test('Searching for a change num redirects to change', done => {
-        const change = {_number: 1};
-        sandbox.stub(element, '_getChanges')
-            .returns(Promise.resolve([change]));
-        sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
-          assert.equal(url, change);
-          done();
-        });
-
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: '1'};
-      });
-
-      test('Commit hash redirects to change', done => {
-        const change = {_number: 1};
-        sandbox.stub(element, '_getChanges')
-            .returns(Promise.resolve([change]));
-        sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
-          assert.equal(url, change);
-          done();
-        });
-
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: COMMIT_HASH};
-      });
-
-      test('Searching for an invalid change ID searches', () => {
-        sandbox.stub(element, '_getChanges')
-            .returns(Promise.resolve([]));
-        const stub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
-        flushAsynchronousOperations();
-
-        assert.isFalse(stub.called);
-      });
-
-      test('Change ID with multiple search results searches', () => {
-        sandbox.stub(element, '_getChanges')
-            .returns(Promise.resolve([{}, {}]));
-        const stub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
-        flushAsynchronousOperations();
-
-        assert.isFalse(stub.called);
-      });
+      assert.isFalse(stub.called);
     });
   });
+});
 </script>

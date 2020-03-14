@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-create-repo-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-create-repo-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-create-repo-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-repo-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,74 +40,76 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-create-repo-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-repo-dialog.js';
+suite('gr-create-repo-dialog tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-      });
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(true); },
     });
+    element = fixture('basic');
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('default values are populated', () => {
-      assert.isTrue(element.$.initialCommit.bindValue);
-      assert.isFalse(element.$.parentRepo.bindValue);
-    });
+  test('default values are populated', () => {
+    assert.isTrue(element.$.initialCommit.bindValue);
+    assert.isFalse(element.$.parentRepo.bindValue);
+  });
 
-    test('repo created', done => {
-      const configInputObj = {
-        name: 'test-repo',
-        create_empty_commit: true,
-        parent: 'All-Project',
-        permissions_only: false,
-        owners: ['testId'],
-      };
+  test('repo created', done => {
+    const configInputObj = {
+      name: 'test-repo',
+      create_empty_commit: true,
+      parent: 'All-Project',
+      permissions_only: false,
+      owners: ['testId'],
+    };
 
-      const saveStub = sandbox.stub(element.$.restAPI,
-          'createRepo', () => Promise.resolve({}));
+    const saveStub = sandbox.stub(element.$.restAPI,
+        'createRepo', () => Promise.resolve({}));
 
-      assert.isFalse(element.hasNewRepoName);
+    assert.isFalse(element.hasNewRepoName);
 
-      element._repoConfig = {
-        name: 'test-repo',
-        create_empty_commit: true,
-        parent: 'All-Project',
-        permissions_only: false,
-      };
+    element._repoConfig = {
+      name: 'test-repo',
+      create_empty_commit: true,
+      parent: 'All-Project',
+      permissions_only: false,
+    };
 
-      element._repoOwner = 'test';
-      element._repoOwnerId = 'testId';
+    element._repoOwner = 'test';
+    element._repoOwnerId = 'testId';
 
-      element.$.repoNameInput.bindValue = configInputObj.name;
-      element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
-      element.$.ownerInput.text = configInputObj.owners[0];
-      element.$.initialCommit.bindValue =
-          configInputObj.create_empty_commit;
-      element.$.parentRepo.bindValue =
-          configInputObj.permissions_only;
+    element.$.repoNameInput.bindValue = configInputObj.name;
+    element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
+    element.$.ownerInput.text = configInputObj.owners[0];
+    element.$.initialCommit.bindValue =
+        configInputObj.create_empty_commit;
+    element.$.parentRepo.bindValue =
+        configInputObj.permissions_only;
 
-      assert.isTrue(element.hasNewRepoName);
+    assert.isTrue(element.hasNewRepoName);
 
-      assert.deepEqual(element._repoConfig, configInputObj);
+    assert.deepEqual(element._repoConfig, configInputObj);
 
-      element.handleCreateRepo().then(() => {
-        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
-        done();
-      });
-    });
-
-    test('testing observer of _repoOwner', () => {
-      element._repoOwnerId = 'test-5';
-      assert.deepEqual(element._repoConfig.owners, ['test-5']);
+    element.handleCreateRepo().then(() => {
+      assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
+      done();
     });
   });
+
+  test('testing observer of _repoOwner', () => {
+    element._repoOwnerId = 'test-5';
+    assert.deepEqual(element._repoConfig.owners, ['test-5']);
+  });
+});
 </script>

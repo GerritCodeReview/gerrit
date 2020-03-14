@@ -15,313 +15,315 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <!-- Polymer included for the html import polyfill. -->
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
 <title>gr-patch-set-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<link rel="import" href="gr-patch-set-behavior.html">
+<script type="module" src="./gr-patch-set-behavior.js"></script>
 
-<script>
-  suite('gr-patch-set-behavior tests', async () => {
-    await readyToTest();
-    test('getRevisionByPatchNum', () => {
-      const get = Gerrit.PatchSetBehavior.getRevisionByPatchNum;
-      const revisions = [
-        {_number: 0},
-        {_number: 1},
-        {_number: 2},
-      ];
-      assert.deepEqual(get(revisions, '1'), revisions[1]);
-      assert.deepEqual(get(revisions, 2), revisions[2]);
-      assert.equal(get(revisions, '3'), undefined);
-    });
-
-    test('fetchChangeUpdates on latest', done => {
-      const knownChange = {
-        revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
-        },
-        status: 'NEW',
-        messages: [],
-      };
-      const mockRestApi = {
-        getChangeDetail() {
-          return Promise.resolve(knownChange);
-        },
-      };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
-          .then(result => {
-            assert.isTrue(result.isLatest);
-            assert.isNotOk(result.newStatus);
-            assert.isFalse(result.newMessages);
-            done();
-          });
-    });
-
-    test('fetchChangeUpdates not on latest', done => {
-      const knownChange = {
-        revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
-        },
-        status: 'NEW',
-        messages: [],
-      };
-      const actualChange = {
-        revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
-          sha3: {description: 'patch 3', _number: 3},
-        },
-        status: 'NEW',
-        messages: [],
-      };
-      const mockRestApi = {
-        getChangeDetail() {
-          return Promise.resolve(actualChange);
-        },
-      };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
-          .then(result => {
-            assert.isFalse(result.isLatest);
-            assert.isNotOk(result.newStatus);
-            assert.isFalse(result.newMessages);
-            done();
-          });
-    });
-
-    test('fetchChangeUpdates new status', done => {
-      const knownChange = {
-        revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
-        },
-        status: 'NEW',
-        messages: [],
-      };
-      const actualChange = {
-        revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
-        },
-        status: 'MERGED',
-        messages: [],
-      };
-      const mockRestApi = {
-        getChangeDetail() {
-          return Promise.resolve(actualChange);
-        },
-      };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
-          .then(result => {
-            assert.isTrue(result.isLatest);
-            assert.equal(result.newStatus, 'MERGED');
-            assert.isFalse(result.newMessages);
-            done();
-          });
-    });
-
-    test('fetchChangeUpdates new messages', done => {
-      const knownChange = {
-        revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
-        },
-        status: 'NEW',
-        messages: [],
-      };
-      const actualChange = {
-        revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
-        },
-        status: 'NEW',
-        messages: [{message: 'blah blah'}],
-      };
-      const mockRestApi = {
-        getChangeDetail() {
-          return Promise.resolve(actualChange);
-        },
-      };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
-          .then(result => {
-            assert.isTrue(result.isLatest);
-            assert.isNotOk(result.newStatus);
-            assert.isTrue(result.newMessages);
-            done();
-          });
-    });
-
-    test('_computeWipForPatchSets', () => {
-      // Compute patch sets for a given timeline on a change. The initial WIP
-      // property of the change can be true or false. The map of tags by
-      // revision is keyed by patch set number. Each value is a list of change
-      // message tags in the order that they occurred in the timeline. These
-      // indicate actions that modify the WIP property of the change and/or
-      // create new patch sets.
-      //
-      // Returns the actual results with an assertWip method that can be used
-      // to compare against an expected value for a particular patch set.
-      const compute = (initialWip, tagsByRevision) => {
-        const change = {
-          messages: [],
-          work_in_progress: initialWip,
-        };
-        const revs = Object.keys(tagsByRevision).sort((a, b) => a - b);
-        for (const rev of revs) {
-          for (const tag of tagsByRevision[rev]) {
-            change.messages.push({
-              tag,
-              _revision_number: rev,
-            });
-          }
-        }
-        let patchNums = revs.map(rev => { return {num: rev}; });
-        patchNums = Gerrit.PatchSetBehavior._computeWipForPatchSets(
-            change, patchNums);
-        const actualWipsByRevision = {};
-        for (const patchNum of patchNums) {
-          actualWipsByRevision[patchNum.num] = patchNum.wip;
-        }
-        const verifier = {
-          assertWip(revision, expectedWip) {
-            const patchNum = patchNums.find(patchNum => patchNum.num == revision);
-            if (!patchNum) {
-              assert.fail('revision ' + revision + ' not found');
-            }
-            assert.equal(patchNum.wip, expectedWip,
-                'wip state for ' + revision + ' is ' +
-              patchNum.wip + '; expected ' + expectedWip);
-            return verifier;
-          },
-        };
-        return verifier;
-      };
-
-      compute(false, {1: ['upload']}).assertWip(1, false);
-      compute(true, {1: ['upload']}).assertWip(1, true);
-
-      const setWip = 'autogenerated:gerrit:setWorkInProgress';
-      const uploadInWip = 'autogenerated:gerrit:newWipPatchSet';
-      const clearWip = 'autogenerated:gerrit:setReadyForReview';
-
-      compute(false, {
-        1: ['upload', setWip],
-        2: ['upload'],
-        3: ['upload', clearWip],
-        4: ['upload', setWip],
-      }).assertWip(1, false) // Change was created with PS1 ready for review
-          .assertWip(2, true) // PS2 was uploaded during WIP
-          .assertWip(3, false) // PS3 was marked ready for review after upload
-          .assertWip(4, false); // PS4 was uploaded ready for review
-
-      compute(false, {
-        1: [uploadInWip, null, 'addReviewer'],
-        2: ['upload'],
-        3: ['upload', clearWip, setWip],
-        4: ['upload'],
-        5: ['upload', clearWip],
-        6: [uploadInWip],
-      }).assertWip(1, true) // Change was created in WIP
-          .assertWip(2, true) // PS2 was uploaded during WIP
-          .assertWip(3, false) // PS3 was marked ready for review
-          .assertWip(4, true) // PS4 was uploaded during WIP
-          .assertWip(5, false) // PS5 was marked ready for review
-          .assertWip(6, true); // PS6 was uploaded with WIP option
-    });
-
-    test('patchNumEquals', () => {
-      const equals = Gerrit.PatchSetBehavior.patchNumEquals;
-      assert.isFalse(equals('edit', 'PARENT'));
-      assert.isFalse(equals('edit', NaN));
-      assert.isFalse(equals(1, '2'));
-
-      assert.isTrue(equals(1, '1'));
-      assert.isTrue(equals(1, 1));
-      assert.isTrue(equals('edit', 'edit'));
-      assert.isTrue(equals('PARENT', 'PARENT'));
-    });
-
-    test('isMergeParent', () => {
-      const isParent = Gerrit.PatchSetBehavior.isMergeParent;
-      assert.isFalse(isParent(1));
-      assert.isFalse(isParent(4321));
-      assert.isFalse(isParent('52'));
-      assert.isFalse(isParent('edit'));
-      assert.isFalse(isParent('PARENT'));
-      assert.isFalse(isParent(0));
-
-      assert.isTrue(isParent(-23));
-      assert.isTrue(isParent(-1));
-      assert.isTrue(isParent('-42'));
-    });
-
-    test('findEditParentRevision', () => {
-      const findParent = Gerrit.PatchSetBehavior.findEditParentRevision;
-      let revisions = [
-        {_number: 0},
-        {_number: 1},
-        {_number: 2},
-      ];
-      assert.strictEqual(findParent(revisions), null);
-
-      revisions = [...revisions, {_number: 'edit', basePatchNum: 3}];
-      assert.strictEqual(findParent(revisions), null);
-
-      revisions = [...revisions, {_number: 3}];
-      assert.deepEqual(findParent(revisions), {_number: 3});
-    });
-
-    test('findEditParentPatchNum', () => {
-      const findNum = Gerrit.PatchSetBehavior.findEditParentPatchNum;
-      let revisions = [
-        {_number: 0},
-        {_number: 1},
-        {_number: 2},
-      ];
-      assert.equal(findNum(revisions), -1);
-
-      revisions =
-          [...revisions, {_number: 'edit', basePatchNum: 3}, {_number: 3}];
-      assert.deepEqual(findNum(revisions), 3);
-    });
-
-    test('sortRevisions', () => {
-      const sort = Gerrit.PatchSetBehavior.sortRevisions;
-      const revisions = [
-        {_number: 0},
-        {_number: 2},
-        {_number: 1},
-      ];
-      const sorted = [
-        {_number: 2},
-        {_number: 1},
-        {_number: 0},
-      ];
-
-      assert.deepEqual(sort(revisions), sorted);
-
-      // Edit patchset should follow directly after its basePatchNum.
-      revisions.push({_number: 'edit', basePatchNum: 2});
-      sorted.unshift({_number: 'edit', basePatchNum: 2});
-      assert.deepEqual(sort(revisions), sorted);
-
-      revisions[0].basePatchNum = 0;
-      const edit = sorted.shift();
-      edit.basePatchNum = 0;
-      // Edit patchset should be at index 2.
-      sorted.splice(2, 0, edit);
-      assert.deepEqual(sort(revisions), sorted);
-    });
-
-    test('getParentIndex', () => {
-      assert.equal(Gerrit.PatchSetBehavior.getParentIndex('-13'), 13);
-      assert.equal(Gerrit.PatchSetBehavior.getParentIndex(-4), 4);
-    });
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './gr-patch-set-behavior.js';
+suite('gr-patch-set-behavior tests', () => {
+  test('getRevisionByPatchNum', () => {
+    const get = Gerrit.PatchSetBehavior.getRevisionByPatchNum;
+    const revisions = [
+      {_number: 0},
+      {_number: 1},
+      {_number: 2},
+    ];
+    assert.deepEqual(get(revisions, '1'), revisions[1]);
+    assert.deepEqual(get(revisions, 2), revisions[2]);
+    assert.equal(get(revisions, '3'), undefined);
   });
+
+  test('fetchChangeUpdates on latest', done => {
+    const knownChange = {
+      revisions: {
+        sha1: {description: 'patch 1', _number: 1},
+        sha2: {description: 'patch 2', _number: 2},
+      },
+      status: 'NEW',
+      messages: [],
+    };
+    const mockRestApi = {
+      getChangeDetail() {
+        return Promise.resolve(knownChange);
+      },
+    };
+    Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+        .then(result => {
+          assert.isTrue(result.isLatest);
+          assert.isNotOk(result.newStatus);
+          assert.isFalse(result.newMessages);
+          done();
+        });
+  });
+
+  test('fetchChangeUpdates not on latest', done => {
+    const knownChange = {
+      revisions: {
+        sha1: {description: 'patch 1', _number: 1},
+        sha2: {description: 'patch 2', _number: 2},
+      },
+      status: 'NEW',
+      messages: [],
+    };
+    const actualChange = {
+      revisions: {
+        sha1: {description: 'patch 1', _number: 1},
+        sha2: {description: 'patch 2', _number: 2},
+        sha3: {description: 'patch 3', _number: 3},
+      },
+      status: 'NEW',
+      messages: [],
+    };
+    const mockRestApi = {
+      getChangeDetail() {
+        return Promise.resolve(actualChange);
+      },
+    };
+    Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+        .then(result => {
+          assert.isFalse(result.isLatest);
+          assert.isNotOk(result.newStatus);
+          assert.isFalse(result.newMessages);
+          done();
+        });
+  });
+
+  test('fetchChangeUpdates new status', done => {
+    const knownChange = {
+      revisions: {
+        sha1: {description: 'patch 1', _number: 1},
+        sha2: {description: 'patch 2', _number: 2},
+      },
+      status: 'NEW',
+      messages: [],
+    };
+    const actualChange = {
+      revisions: {
+        sha1: {description: 'patch 1', _number: 1},
+        sha2: {description: 'patch 2', _number: 2},
+      },
+      status: 'MERGED',
+      messages: [],
+    };
+    const mockRestApi = {
+      getChangeDetail() {
+        return Promise.resolve(actualChange);
+      },
+    };
+    Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+        .then(result => {
+          assert.isTrue(result.isLatest);
+          assert.equal(result.newStatus, 'MERGED');
+          assert.isFalse(result.newMessages);
+          done();
+        });
+  });
+
+  test('fetchChangeUpdates new messages', done => {
+    const knownChange = {
+      revisions: {
+        sha1: {description: 'patch 1', _number: 1},
+        sha2: {description: 'patch 2', _number: 2},
+      },
+      status: 'NEW',
+      messages: [],
+    };
+    const actualChange = {
+      revisions: {
+        sha1: {description: 'patch 1', _number: 1},
+        sha2: {description: 'patch 2', _number: 2},
+      },
+      status: 'NEW',
+      messages: [{message: 'blah blah'}],
+    };
+    const mockRestApi = {
+      getChangeDetail() {
+        return Promise.resolve(actualChange);
+      },
+    };
+    Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+        .then(result => {
+          assert.isTrue(result.isLatest);
+          assert.isNotOk(result.newStatus);
+          assert.isTrue(result.newMessages);
+          done();
+        });
+  });
+
+  test('_computeWipForPatchSets', () => {
+    // Compute patch sets for a given timeline on a change. The initial WIP
+    // property of the change can be true or false. The map of tags by
+    // revision is keyed by patch set number. Each value is a list of change
+    // message tags in the order that they occurred in the timeline. These
+    // indicate actions that modify the WIP property of the change and/or
+    // create new patch sets.
+    //
+    // Returns the actual results with an assertWip method that can be used
+    // to compare against an expected value for a particular patch set.
+    const compute = (initialWip, tagsByRevision) => {
+      const change = {
+        messages: [],
+        work_in_progress: initialWip,
+      };
+      const revs = Object.keys(tagsByRevision).sort((a, b) => a - b);
+      for (const rev of revs) {
+        for (const tag of tagsByRevision[rev]) {
+          change.messages.push({
+            tag,
+            _revision_number: rev,
+          });
+        }
+      }
+      let patchNums = revs.map(rev => { return {num: rev}; });
+      patchNums = Gerrit.PatchSetBehavior._computeWipForPatchSets(
+          change, patchNums);
+      const actualWipsByRevision = {};
+      for (const patchNum of patchNums) {
+        actualWipsByRevision[patchNum.num] = patchNum.wip;
+      }
+      const verifier = {
+        assertWip(revision, expectedWip) {
+          const patchNum = patchNums.find(patchNum => patchNum.num == revision);
+          if (!patchNum) {
+            assert.fail('revision ' + revision + ' not found');
+          }
+          assert.equal(patchNum.wip, expectedWip,
+              'wip state for ' + revision + ' is ' +
+            patchNum.wip + '; expected ' + expectedWip);
+          return verifier;
+        },
+      };
+      return verifier;
+    };
+
+    compute(false, {1: ['upload']}).assertWip(1, false);
+    compute(true, {1: ['upload']}).assertWip(1, true);
+
+    const setWip = 'autogenerated:gerrit:setWorkInProgress';
+    const uploadInWip = 'autogenerated:gerrit:newWipPatchSet';
+    const clearWip = 'autogenerated:gerrit:setReadyForReview';
+
+    compute(false, {
+      1: ['upload', setWip],
+      2: ['upload'],
+      3: ['upload', clearWip],
+      4: ['upload', setWip],
+    }).assertWip(1, false) // Change was created with PS1 ready for review
+        .assertWip(2, true) // PS2 was uploaded during WIP
+        .assertWip(3, false) // PS3 was marked ready for review after upload
+        .assertWip(4, false); // PS4 was uploaded ready for review
+
+    compute(false, {
+      1: [uploadInWip, null, 'addReviewer'],
+      2: ['upload'],
+      3: ['upload', clearWip, setWip],
+      4: ['upload'],
+      5: ['upload', clearWip],
+      6: [uploadInWip],
+    }).assertWip(1, true) // Change was created in WIP
+        .assertWip(2, true) // PS2 was uploaded during WIP
+        .assertWip(3, false) // PS3 was marked ready for review
+        .assertWip(4, true) // PS4 was uploaded during WIP
+        .assertWip(5, false) // PS5 was marked ready for review
+        .assertWip(6, true); // PS6 was uploaded with WIP option
+  });
+
+  test('patchNumEquals', () => {
+    const equals = Gerrit.PatchSetBehavior.patchNumEquals;
+    assert.isFalse(equals('edit', 'PARENT'));
+    assert.isFalse(equals('edit', NaN));
+    assert.isFalse(equals(1, '2'));
+
+    assert.isTrue(equals(1, '1'));
+    assert.isTrue(equals(1, 1));
+    assert.isTrue(equals('edit', 'edit'));
+    assert.isTrue(equals('PARENT', 'PARENT'));
+  });
+
+  test('isMergeParent', () => {
+    const isParent = Gerrit.PatchSetBehavior.isMergeParent;
+    assert.isFalse(isParent(1));
+    assert.isFalse(isParent(4321));
+    assert.isFalse(isParent('52'));
+    assert.isFalse(isParent('edit'));
+    assert.isFalse(isParent('PARENT'));
+    assert.isFalse(isParent(0));
+
+    assert.isTrue(isParent(-23));
+    assert.isTrue(isParent(-1));
+    assert.isTrue(isParent('-42'));
+  });
+
+  test('findEditParentRevision', () => {
+    const findParent = Gerrit.PatchSetBehavior.findEditParentRevision;
+    let revisions = [
+      {_number: 0},
+      {_number: 1},
+      {_number: 2},
+    ];
+    assert.strictEqual(findParent(revisions), null);
+
+    revisions = [...revisions, {_number: 'edit', basePatchNum: 3}];
+    assert.strictEqual(findParent(revisions), null);
+
+    revisions = [...revisions, {_number: 3}];
+    assert.deepEqual(findParent(revisions), {_number: 3});
+  });
+
+  test('findEditParentPatchNum', () => {
+    const findNum = Gerrit.PatchSetBehavior.findEditParentPatchNum;
+    let revisions = [
+      {_number: 0},
+      {_number: 1},
+      {_number: 2},
+    ];
+    assert.equal(findNum(revisions), -1);
+
+    revisions =
+        [...revisions, {_number: 'edit', basePatchNum: 3}, {_number: 3}];
+    assert.deepEqual(findNum(revisions), 3);
+  });
+
+  test('sortRevisions', () => {
+    const sort = Gerrit.PatchSetBehavior.sortRevisions;
+    const revisions = [
+      {_number: 0},
+      {_number: 2},
+      {_number: 1},
+    ];
+    const sorted = [
+      {_number: 2},
+      {_number: 1},
+      {_number: 0},
+    ];
+
+    assert.deepEqual(sort(revisions), sorted);
+
+    // Edit patchset should follow directly after its basePatchNum.
+    revisions.push({_number: 'edit', basePatchNum: 2});
+    sorted.unshift({_number: 'edit', basePatchNum: 2});
+    assert.deepEqual(sort(revisions), sorted);
+
+    revisions[0].basePatchNum = 0;
+    const edit = sorted.shift();
+    edit.basePatchNum = 0;
+    // Edit patchset should be at index 2.
+    sorted.splice(2, 0, edit);
+    assert.deepEqual(sort(revisions), sorted);
+  });
+
+  test('getParentIndex', () => {
+    assert.equal(Gerrit.PatchSetBehavior.getParentIndex('-13'), 13);
+    assert.equal(Gerrit.PatchSetBehavior.getParentIndex(-4), 4);
+  });
+});
 </script>

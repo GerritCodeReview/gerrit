@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-account-dropdown</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-account-dropdown.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-account-dropdown.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-account-dropdown.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,93 +40,95 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-account-dropdown tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-account-dropdown.js';
+suite('gr-account-dropdown tests', () => {
+  let element;
 
-    setup(() => {
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-      });
-      element = fixture('basic');
+  setup(() => {
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+    });
+    element = fixture('basic');
+  });
+
+  test('account information', () => {
+    element.account = {name: 'John Doe', email: 'john@doe.com'};
+    assert.deepEqual(element.topContent,
+        [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
+  });
+
+  test('test for account without a name', () => {
+    element.account = {id: '0001'};
+    assert.deepEqual(element.topContent,
+        [{text: 'Anonymous', bold: true}, {text: ''}]);
+  });
+
+  test('test for account without a name but using config', () => {
+    element.config = {
+      user: {
+        anonymous_coward_name: 'WikiGerrit',
+      },
+    };
+    element.account = {id: '0001'};
+    assert.deepEqual(element.topContent,
+        [{text: 'WikiGerrit', bold: true}, {text: ''}]);
+  });
+
+  test('test for account name as an email', () => {
+    element.config = {
+      user: {
+        anonymous_coward_name: 'WikiGerrit',
+      },
+    };
+    element.account = {email: 'john@doe.com'};
+    assert.deepEqual(element.topContent,
+        [{text: 'john@doe.com', bold: true}, {text: 'john@doe.com'}]);
+  });
+
+  test('switch account', () => {
+    // Missing params.
+    assert.isUndefined(element._getLinks());
+    assert.isUndefined(element._getLinks(null));
+
+    // No switch account link.
+    assert.equal(element._getLinks(null, '').length, 2);
+
+    // Unparameterized switch account link.
+    let links = element._getLinks('/switch-account', '');
+    assert.equal(links.length, 3);
+    assert.deepEqual(links[1], {
+      name: 'Switch account',
+      url: '/switch-account',
+      external: true,
     });
 
-    test('account information', () => {
-      element.account = {name: 'John Doe', email: 'john@doe.com'};
-      assert.deepEqual(element.topContent,
-          [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
-    });
-
-    test('test for account without a name', () => {
-      element.account = {id: '0001'};
-      assert.deepEqual(element.topContent,
-          [{text: 'Anonymous', bold: true}, {text: ''}]);
-    });
-
-    test('test for account without a name but using config', () => {
-      element.config = {
-        user: {
-          anonymous_coward_name: 'WikiGerrit',
-        },
-      };
-      element.account = {id: '0001'};
-      assert.deepEqual(element.topContent,
-          [{text: 'WikiGerrit', bold: true}, {text: ''}]);
-    });
-
-    test('test for account name as an email', () => {
-      element.config = {
-        user: {
-          anonymous_coward_name: 'WikiGerrit',
-        },
-      };
-      element.account = {email: 'john@doe.com'};
-      assert.deepEqual(element.topContent,
-          [{text: 'john@doe.com', bold: true}, {text: 'john@doe.com'}]);
-    });
-
-    test('switch account', () => {
-      // Missing params.
-      assert.isUndefined(element._getLinks());
-      assert.isUndefined(element._getLinks(null));
-
-      // No switch account link.
-      assert.equal(element._getLinks(null, '').length, 2);
-
-      // Unparameterized switch account link.
-      let links = element._getLinks('/switch-account', '');
-      assert.equal(links.length, 3);
-      assert.deepEqual(links[1], {
-        name: 'Switch account',
-        url: '/switch-account',
-        external: true,
-      });
-
-      // Parameterized switch account link.
-      links = element._getLinks('/switch-account${path}', '/c/123');
-      assert.equal(links.length, 3);
-      assert.deepEqual(links[1], {
-        name: 'Switch account',
-        url: '/switch-account/c/123',
-        external: true,
-      });
-    });
-
-    test('_interpolateUrl', () => {
-      const replacements = {
-        foo: 'bar',
-        test: 'TEST',
-      };
-      const interpolate = function(url) {
-        return element._interpolateUrl(url, replacements);
-      };
-
-      assert.equal(interpolate('test'), 'test');
-      assert.equal(interpolate('${test}'), 'TEST');
-      assert.equal(
-          interpolate('${}, ${test}, ${TEST}, ${foo}'),
-          '${}, TEST, , bar');
+    // Parameterized switch account link.
+    links = element._getLinks('/switch-account${path}', '/c/123');
+    assert.equal(links.length, 3);
+    assert.deepEqual(links[1], {
+      name: 'Switch account',
+      url: '/switch-account/c/123',
+      external: true,
     });
   });
+
+  test('_interpolateUrl', () => {
+    const replacements = {
+      foo: 'bar',
+      test: 'TEST',
+    };
+    const interpolate = function(url) {
+      return element._interpolateUrl(url, replacements);
+    };
+
+    assert.equal(interpolate('test'), 'test');
+    assert.equal(interpolate('${test}'), 'TEST');
+    assert.equal(
+        interpolate('${}, ${test}, ${TEST}, ${foo}'),
+        '${}, TEST, , bar');
+  });
+});
 </script>

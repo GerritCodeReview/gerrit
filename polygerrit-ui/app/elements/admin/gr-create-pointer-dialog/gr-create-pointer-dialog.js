@@ -14,89 +14,103 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  const DETAIL_TYPES = {
-    branches: 'branches',
-    tags: 'tags',
-  };
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import '@polymer/iron-input/iron-input.js';
+import '../../../styles/gr-form-styles.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../shared/gr-select/gr-select.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-create-pointer-dialog_html.js';
 
-  /**
-   * @appliesMixin Gerrit.BaseUrlMixin
-   * @appliesMixin Gerrit.URLEncodingMixin
-   * @extends Polymer.Element
-   */
-  class GrCreatePointerDialog extends Polymer.mixinBehaviors( [
-    Gerrit.BaseUrlBehavior,
-    Gerrit.URLEncodingBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-create-pointer-dialog'; }
+const DETAIL_TYPES = {
+  branches: 'branches',
+  tags: 'tags',
+};
 
-    static get properties() {
-      return {
-        detailType: String,
-        repoName: String,
-        hasNewItemName: {
-          type: Boolean,
-          notify: true,
-          value: false,
-        },
-        itemDetail: String,
-        _itemName: String,
-        _itemRevision: String,
-        _itemAnnotation: String,
-      };
-    }
+/**
+ * @appliesMixin Gerrit.BaseUrlMixin
+ * @appliesMixin Gerrit.URLEncodingMixin
+ * @extends Polymer.Element
+ */
+class GrCreatePointerDialog extends mixinBehaviors( [
+  Gerrit.BaseUrlBehavior,
+  Gerrit.URLEncodingBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
 
-    static get observers() {
-      return [
-        '_updateItemName(_itemName)',
-      ];
-    }
+  static get is() { return 'gr-create-pointer-dialog'; }
 
-    _updateItemName(name) {
-      this.hasNewItemName = !!name;
-    }
+  static get properties() {
+    return {
+      detailType: String,
+      repoName: String,
+      hasNewItemName: {
+        type: Boolean,
+        notify: true,
+        value: false,
+      },
+      itemDetail: String,
+      _itemName: String,
+      _itemRevision: String,
+      _itemAnnotation: String,
+    };
+  }
 
-    _computeItemUrl(project) {
-      if (this.itemDetail === DETAIL_TYPES.branches) {
-        return this.getBaseUrl() + '/admin/repos/' +
-            this.encodeURL(this.repoName, true) + ',branches';
-      } else if (this.itemDetail === DETAIL_TYPES.tags) {
-        return this.getBaseUrl() + '/admin/repos/' +
-            this.encodeURL(this.repoName, true) + ',tags';
-      }
-    }
+  static get observers() {
+    return [
+      '_updateItemName(_itemName)',
+    ];
+  }
 
-    handleCreateItem() {
-      const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
-      if (this.itemDetail === DETAIL_TYPES.branches) {
-        return this.$.restAPI.createRepoBranch(this.repoName,
-            this._itemName, {revision: USE_HEAD})
-            .then(itemRegistered => {
-              if (itemRegistered.status === 201) {
-                page.show(this._computeItemUrl(this.itemDetail));
-              }
-            });
-      } else if (this.itemDetail === DETAIL_TYPES.tags) {
-        return this.$.restAPI.createRepoTag(this.repoName,
-            this._itemName,
-            {revision: USE_HEAD, message: this._itemAnnotation || null})
-            .then(itemRegistered => {
-              if (itemRegistered.status === 201) {
-                page.show(this._computeItemUrl(this.itemDetail));
-              }
-            });
-      }
-    }
+  _updateItemName(name) {
+    this.hasNewItemName = !!name;
+  }
 
-    _computeHideItemClass(type) {
-      return type === DETAIL_TYPES.branches ? 'hideItem' : '';
+  _computeItemUrl(project) {
+    if (this.itemDetail === DETAIL_TYPES.branches) {
+      return this.getBaseUrl() + '/admin/repos/' +
+          this.encodeURL(this.repoName, true) + ',branches';
+    } else if (this.itemDetail === DETAIL_TYPES.tags) {
+      return this.getBaseUrl() + '/admin/repos/' +
+          this.encodeURL(this.repoName, true) + ',tags';
     }
   }
 
-  customElements.define(GrCreatePointerDialog.is, GrCreatePointerDialog);
-})();
+  handleCreateItem() {
+    const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
+    if (this.itemDetail === DETAIL_TYPES.branches) {
+      return this.$.restAPI.createRepoBranch(this.repoName,
+          this._itemName, {revision: USE_HEAD})
+          .then(itemRegistered => {
+            if (itemRegistered.status === 201) {
+              page.show(this._computeItemUrl(this.itemDetail));
+            }
+          });
+    } else if (this.itemDetail === DETAIL_TYPES.tags) {
+      return this.$.restAPI.createRepoTag(this.repoName,
+          this._itemName,
+          {revision: USE_HEAD, message: this._itemAnnotation || null})
+          .then(itemRegistered => {
+            if (itemRegistered.status === 201) {
+              page.show(this._computeItemUrl(this.itemDetail));
+            }
+          });
+    }
+  }
+
+  _computeHideItemClass(type) {
+    return type === DETAIL_TYPES.branches ? 'hideItem' : '';
+  }
+}
+
+customElements.define(GrCreatePointerDialog.is, GrCreatePointerDialog);

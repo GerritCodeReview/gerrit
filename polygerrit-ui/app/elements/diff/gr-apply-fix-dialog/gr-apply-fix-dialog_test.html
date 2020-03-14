@@ -17,17 +17,23 @@ limitations under the License.
 -->
 <meta name='viewport' content='width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes'>
 <title>gr-apply-fix-dialog</title>
-<link rel='import' href='../../../test/common-test-setup.html'>
-<script src='/bower_components/webcomponentsjs/custom-elements-es5-adapter.js'></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src='/bower_components/webcomponentsjs/webcomponents-lite.js'></script>
-<script src='/bower_components/web-component-tester/browser.js'></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel='import' href='../../../test/common-test-setup.html' />
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<link rel='import' href='./gr-apply-fix-dialog.html'>
+<script type="module" src="./gr-apply-fix-dialog.js"></script>
 
-<script>void (0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-apply-fix-dialog.js';
+void (0);
+</script>
 
 <test-fixture id='basic'>
   <template>
@@ -35,229 +41,232 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-apply-fix-dialog tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    const ROBOT_COMMENT_WITH_TWO_FIXES = {
-      robot_id: 'robot_1',
-      fix_suggestions: [{fix_id: 'fix_1'}, {fix_id: 'fix_2'}],
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-apply-fix-dialog.js';
+suite('gr-apply-fix-dialog tests', () => {
+  let element;
+  let sandbox;
+  const ROBOT_COMMENT_WITH_TWO_FIXES = {
+    robot_id: 'robot_1',
+    fix_suggestions: [{fix_id: 'fix_1'}, {fix_id: 'fix_2'}],
+  };
+
+  const ROBOT_COMMENT_WITH_ONE_FIX = {
+    robot_id: 'robot_1',
+    fix_suggestions: [{fix_id: 'fix_1'}],
+  };
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    element.changeNum = '1';
+    element._patchNum = 2;
+    element.change = {
+      _number: '1',
+      project: 'project',
     };
-
-    const ROBOT_COMMENT_WITH_ONE_FIX = {
-      robot_id: 'robot_1',
-      fix_suggestions: [{fix_id: 'fix_1'}],
+    element.prefs = {
+      font_size: 12,
+      line_length: 100,
+      tab_size: 4,
     };
+  });
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      element.changeNum = '1';
-      element._patchNum = 2;
-      element.change = {
-        _number: '1',
-        project: 'project',
-      };
-      element.prefs = {
-        font_size: 12,
-        line_length: 100,
-        tab_size: 4,
-      };
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  test('dialog opens fetch and sets previews', done => {
+    sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+        .returns(Promise.resolve({
+          f1: {
+            meta_a: {},
+            meta_b: {},
+            content: [
+              {
+                ab: ['loqlwkqll'],
+              },
+              {
+                b: ['qwqqsqw'],
+              },
+              {
+                ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
+              },
+            ],
+          },
+          f2: {
+            meta_a: {},
+            meta_b: {},
+            content: [
+              {
+                ab: ['eqweqweqwex'],
+              },
+              {
+                b: ['zassdasd'],
+              },
+              {
+                ab: ['zassdasd', 'dasdasda', 'asdasdad'],
+              },
+            ],
+          },
+        }));
+    sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
 
-    test('dialog opens fetch and sets previews', done => {
-      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
-          .returns(Promise.resolve({
-            f1: {
-              meta_a: {},
-              meta_b: {},
-              content: [
-                {
-                  ab: ['loqlwkqll'],
-                },
-                {
-                  b: ['qwqqsqw'],
-                },
-                {
-                  ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
-                },
-              ],
-            },
-            f2: {
-              meta_a: {},
-              meta_b: {},
-              content: [
-                {
-                  ab: ['eqweqweqwex'],
-                },
-                {
-                  b: ['zassdasd'],
-                },
-                {
-                  ab: ['zassdasd', 'dasdasda', 'asdasdad'],
-                },
-              ],
-            },
-          }));
-      sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
-
-      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
-          .then(() => {
-            assert.equal(element._currentFix.fix_id, 'fix_1');
-            assert.equal(element._currentPreviews.length, 2);
-            assert.equal(element._robotId, 'robot_1');
-            done();
-          });
-    });
-
-    test('next button state updated when suggestions changed', done => {
-      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
-          .returns(Promise.resolve({}));
-      sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
-
-      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_ONE_FIX}})
-          .then(() => assert.isTrue(element.$.nextFix.disabled))
-          .then(() =>
-            element.open({detail: {patchNum: 2,
-              comment: ROBOT_COMMENT_WITH_TWO_FIXES}}))
-          .then(() => {
-            assert.isFalse(element.$.nextFix.disabled);
-            done();
-          });
-    });
-
-    test('preview endpoint throws error should reset dialog', done => {
-      sandbox.stub(window, 'fetch', (url => {
-        if (url.endsWith('/preview')) {
-          return Promise.reject(new Error('backend error'));
-        }
-        return Promise.resolve({
-          ok: true,
-          text() { return Promise.resolve(''); },
-          status: 200,
+    element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
+        .then(() => {
+          assert.equal(element._currentFix.fix_id, 'fix_1');
+          assert.equal(element._currentPreviews.length, 2);
+          assert.equal(element._robotId, 'robot_1');
+          done();
         });
-      }));
-      const errorStub = sinon.stub();
-      document.addEventListener('network-error', errorStub);
-      element.open({detail: {patchNum: 2,
-        comment: ROBOT_COMMENT_WITH_TWO_FIXES}});
-      flush(() => {
-        assert.isTrue(errorStub.called);
-        assert.deepEqual(element._currentFix, {});
-        done();
-      });
-    });
+  });
 
-    test('apply fix button should call apply ' +
-    'and navigate to change view', done => {
-      sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
-          .returns(Promise.resolve({ok: true}));
-      sandbox.stub(Gerrit.Nav, 'navigateToChange');
-      element._currentFix = {fix_id: '123'};
+  test('next button state updated when suggestions changed', done => {
+    sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+        .returns(Promise.resolve({}));
+    sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
 
-      element._handleApplyFix().then(() => {
-        assert.isTrue(element.$.restAPI.applyFixSuggestion
-            .calledWithExactly('1', 2, '123'));
-        assert.isTrue(Gerrit.Nav.navigateToChange.calledWithExactly({
-          _number: '1',
-          project: 'project',
-        }, 'edit', 2));
-
-        // reset gr-apply-fix-dialog and close
-        assert.deepEqual(element._currentFix, {});
-        assert.equal(element._currentPreviews.length, 0);
-        done();
-      });
-    });
-
-    test('should not navigate to change view if incorect reponse', done => {
-      sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
-          .returns(Promise.resolve({}));
-      sandbox.stub(Gerrit.Nav, 'navigateToChange');
-      element._currentFix = {fix_id: '123'};
-
-      element._handleApplyFix().then(() => {
-        assert.isTrue(element.$.restAPI.applyFixSuggestion
-            .calledWithExactly('1', 2, '123'));
-        assert.isTrue(Gerrit.Nav.navigateToChange.notCalled);
-
-        assert.equal(element._isApplyFixLoading, false);
-        done();
-      });
-    });
-
-    test('select fix forward and back of multiple suggested fixes', done => {
-      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
-          .returns(Promise.resolve({
-            f1: {
-              meta_a: {},
-              meta_b: {},
-              content: [
-                {
-                  ab: ['loqlwkqll'],
-                },
-                {
-                  b: ['qwqqsqw'],
-                },
-                {
-                  ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
-                },
-              ],
-            },
-            f2: {
-              meta_a: {},
-              meta_b: {},
-              content: [
-                {
-                  ab: ['eqweqweqwex'],
-                },
-                {
-                  b: ['zassdasd'],
-                },
-                {
-                  ab: ['zassdasd', 'dasdasda', 'asdasdad'],
-                },
-              ],
-            },
-          }));
-      sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
-
-      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
-          .then(() => {
-            element._onNextFixClick();
-            assert.equal(element._currentFix.fix_id, 'fix_2');
-            element._onPrevFixClick();
-            assert.equal(element._currentFix.fix_id, 'fix_1');
-            done();
-          });
-    });
-
-    test('server-error should throw for failed apply call', done => {
-      sandbox.stub(window, 'fetch', (url => {
-        if (url.endsWith('/apply')) {
-          return Promise.reject(new Error('backend error'));
-        }
-        return Promise.resolve({
-          ok: true,
-          text() { return Promise.resolve(''); },
-          status: 200,
+    element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_ONE_FIX}})
+        .then(() => assert.isTrue(element.$.nextFix.disabled))
+        .then(() =>
+          element.open({detail: {patchNum: 2,
+            comment: ROBOT_COMMENT_WITH_TWO_FIXES}}))
+        .then(() => {
+          assert.isFalse(element.$.nextFix.disabled);
+          done();
         });
-      }));
-      const errorStub = sinon.stub();
-      document.addEventListener('network-error', errorStub);
-      sandbox.stub(Gerrit.Nav, 'navigateToChange');
-      element._currentFix = {fix_id: '123'};
-      element._handleApplyFix();
-      flush(() => {
-        assert.isFalse(Gerrit.Nav.navigateToChange.called);
-        assert.isTrue(errorStub.called);
-        done();
+  });
+
+  test('preview endpoint throws error should reset dialog', done => {
+    sandbox.stub(window, 'fetch', (url => {
+      if (url.endsWith('/preview')) {
+        return Promise.reject(new Error('backend error'));
+      }
+      return Promise.resolve({
+        ok: true,
+        text() { return Promise.resolve(''); },
+        status: 200,
       });
+    }));
+    const errorStub = sinon.stub();
+    document.addEventListener('network-error', errorStub);
+    element.open({detail: {patchNum: 2,
+      comment: ROBOT_COMMENT_WITH_TWO_FIXES}});
+    flush(() => {
+      assert.isTrue(errorStub.called);
+      assert.deepEqual(element._currentFix, {});
+      done();
     });
   });
+
+  test('apply fix button should call apply ' +
+  'and navigate to change view', done => {
+    sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
+        .returns(Promise.resolve({ok: true}));
+    sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    element._currentFix = {fix_id: '123'};
+
+    element._handleApplyFix().then(() => {
+      assert.isTrue(element.$.restAPI.applyFixSuggestion
+          .calledWithExactly('1', 2, '123'));
+      assert.isTrue(Gerrit.Nav.navigateToChange.calledWithExactly({
+        _number: '1',
+        project: 'project',
+      }, 'edit', 2));
+
+      // reset gr-apply-fix-dialog and close
+      assert.deepEqual(element._currentFix, {});
+      assert.equal(element._currentPreviews.length, 0);
+      done();
+    });
+  });
+
+  test('should not navigate to change view if incorect reponse', done => {
+    sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
+        .returns(Promise.resolve({}));
+    sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    element._currentFix = {fix_id: '123'};
+
+    element._handleApplyFix().then(() => {
+      assert.isTrue(element.$.restAPI.applyFixSuggestion
+          .calledWithExactly('1', 2, '123'));
+      assert.isTrue(Gerrit.Nav.navigateToChange.notCalled);
+
+      assert.equal(element._isApplyFixLoading, false);
+      done();
+    });
+  });
+
+  test('select fix forward and back of multiple suggested fixes', done => {
+    sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+        .returns(Promise.resolve({
+          f1: {
+            meta_a: {},
+            meta_b: {},
+            content: [
+              {
+                ab: ['loqlwkqll'],
+              },
+              {
+                b: ['qwqqsqw'],
+              },
+              {
+                ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
+              },
+            ],
+          },
+          f2: {
+            meta_a: {},
+            meta_b: {},
+            content: [
+              {
+                ab: ['eqweqweqwex'],
+              },
+              {
+                b: ['zassdasd'],
+              },
+              {
+                ab: ['zassdasd', 'dasdasda', 'asdasdad'],
+              },
+            ],
+          },
+        }));
+    sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
+
+    element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
+        .then(() => {
+          element._onNextFixClick();
+          assert.equal(element._currentFix.fix_id, 'fix_2');
+          element._onPrevFixClick();
+          assert.equal(element._currentFix.fix_id, 'fix_1');
+          done();
+        });
+  });
+
+  test('server-error should throw for failed apply call', done => {
+    sandbox.stub(window, 'fetch', (url => {
+      if (url.endsWith('/apply')) {
+        return Promise.reject(new Error('backend error'));
+      }
+      return Promise.resolve({
+        ok: true,
+        text() { return Promise.resolve(''); },
+        status: 200,
+      });
+    }));
+    const errorStub = sinon.stub();
+    document.addEventListener('network-error', errorStub);
+    sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    element._currentFix = {fix_id: '123'};
+    element._handleApplyFix();
+    flush(() => {
+      assert.isFalse(Gerrit.Nav.navigateToChange.called);
+      assert.isTrue(errorStub.called);
+      done();
+    });
+  });
+});
 </script>

@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-gpg-editor</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-gpg-editor.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-gpg-editor.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-gpg-editor.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,163 +40,166 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-gpg-editor tests', async () => {
-    await readyToTest();
-    let element;
-    let keys;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-gpg-editor.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-gpg-editor tests', () => {
+  let element;
+  let keys;
 
-    setup(done => {
-      const fingerprint1 = '0192 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
-      const fingerprint2 = '0196 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
-      keys = {
-        AFC8A49B: {
-          fingerprint: fingerprint1,
-          user_ids: [
-            'John Doe john.doe@example.com',
-          ],
-          key: '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
-               '\nVersion: BCPG v1.52\n\t<key 1>',
-          status: 'TRUSTED',
-          problems: [],
-        },
-        AED9B59C: {
-          fingerprint: fingerprint2,
-          user_ids: [
-            'Gerrit gerrit@example.com',
-          ],
-          key: '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
-               '\nVersion: BCPG v1.52\n\t<key 2>',
-          status: 'TRUSTED',
-          problems: [],
-        },
-      };
+  setup(done => {
+    const fingerprint1 = '0192 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
+    const fingerprint2 = '0196 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
+    keys = {
+      AFC8A49B: {
+        fingerprint: fingerprint1,
+        user_ids: [
+          'John Doe john.doe@example.com',
+        ],
+        key: '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
+             '\nVersion: BCPG v1.52\n\t<key 1>',
+        status: 'TRUSTED',
+        problems: [],
+      },
+      AED9B59C: {
+        fingerprint: fingerprint2,
+        user_ids: [
+          'Gerrit gerrit@example.com',
+        ],
+        key: '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
+             '\nVersion: BCPG v1.52\n\t<key 2>',
+        status: 'TRUSTED',
+        problems: [],
+      },
+    };
 
-      stub('gr-rest-api-interface', {
-        getAccountGPGKeys() { return Promise.resolve(keys); },
-      });
-
-      element = fixture('basic');
-
-      element.loadData().then(() => { flush(done); });
+    stub('gr-rest-api-interface', {
+      getAccountGPGKeys() { return Promise.resolve(keys); },
     });
 
-    test('renders', () => {
-      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+    element = fixture('basic');
 
-      assert.equal(rows.length, 2);
+    element.loadData().then(() => { flush(done); });
+  });
 
-      let cells = rows[0].querySelectorAll('td');
-      assert.equal(cells[0].textContent, 'AFC8A49B');
+  test('renders', () => {
+    const rows = dom(element.root).querySelectorAll('tbody tr');
 
-      cells = rows[1].querySelectorAll('td');
-      assert.equal(cells[0].textContent, 'AED9B59C');
-    });
+    assert.equal(rows.length, 2);
 
-    test('remove key', done => {
-      const lastKey = keys[Object.keys(keys)[1]];
+    let cells = rows[0].querySelectorAll('td');
+    assert.equal(cells[0].textContent, 'AFC8A49B');
 
-      const saveStub = sinon.stub(element.$.restAPI, 'deleteAccountGPGKey',
-          () => Promise.resolve());
+    cells = rows[1].querySelectorAll('td');
+    assert.equal(cells[0].textContent, 'AED9B59C');
+  });
 
+  test('remove key', done => {
+    const lastKey = keys[Object.keys(keys)[1]];
+
+    const saveStub = sinon.stub(element.$.restAPI, 'deleteAccountGPGKey',
+        () => Promise.resolve());
+
+    assert.equal(element._keysToRemove.length, 0);
+    assert.isFalse(element.hasUnsavedChanges);
+
+    // Get the delete button for the last row.
+    const button = dom(element.root).querySelector(
+        'tbody tr:last-of-type td:nth-child(6) gr-button');
+
+    MockInteractions.tap(button);
+
+    assert.equal(element._keys.length, 1);
+    assert.equal(element._keysToRemove.length, 1);
+    assert.equal(element._keysToRemove[0], lastKey);
+    assert.isTrue(element.hasUnsavedChanges);
+    assert.isFalse(saveStub.called);
+
+    element.save().then(() => {
+      assert.isTrue(saveStub.called);
+      assert.equal(saveStub.lastCall.args[0], Object.keys(keys)[1]);
       assert.equal(element._keysToRemove.length, 0);
       assert.isFalse(element.hasUnsavedChanges);
-
-      // Get the delete button for the last row.
-      const button = Polymer.dom(element.root).querySelector(
-          'tbody tr:last-of-type td:nth-child(6) gr-button');
-
-      MockInteractions.tap(button);
-
-      assert.equal(element._keys.length, 1);
-      assert.equal(element._keysToRemove.length, 1);
-      assert.equal(element._keysToRemove[0], lastKey);
-      assert.isTrue(element.hasUnsavedChanges);
-      assert.isFalse(saveStub.called);
-
-      element.save().then(() => {
-        assert.isTrue(saveStub.called);
-        assert.equal(saveStub.lastCall.args[0], Object.keys(keys)[1]);
-        assert.equal(element._keysToRemove.length, 0);
-        assert.isFalse(element.hasUnsavedChanges);
-        done();
-      });
-    });
-
-    test('show key', () => {
-      const openSpy = sinon.spy(element.$.viewKeyOverlay, 'open');
-
-      // Get the show button for the last row.
-      const button = Polymer.dom(element.root).querySelector(
-          'tbody tr:last-of-type td:nth-child(4) gr-button');
-
-      MockInteractions.tap(button);
-
-      assert.equal(element._keyToView, keys[Object.keys(keys)[1]]);
-      assert.isTrue(openSpy.called);
-    });
-
-    test('add key', done => {
-      const newKeyString =
-          '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
-          '\nVersion: BCPG v1.52\n\t<key 3>';
-      const newKeyObject = {
-        ADE8A59B: {
-          fingerprint: '0194 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B',
-          user_ids: [
-            'John john@example.com',
-          ],
-          key: newKeyString,
-          status: 'TRUSTED',
-          problems: [],
-        },
-      };
-
-      const addStub = sinon.stub(element.$.restAPI, 'addAccountGPGKey',
-          () => Promise.resolve(newKeyObject));
-
-      element._newKey = newKeyString;
-
-      assert.isFalse(element.$.addButton.disabled);
-      assert.isFalse(element.$.newKey.disabled);
-
-      element._handleAddKey().then(() => {
-        assert.isTrue(element.$.addButton.disabled);
-        assert.isFalse(element.$.newKey.disabled);
-        assert.equal(element._keys.length, 2);
-        done();
-      });
-
-      assert.isTrue(element.$.addButton.disabled);
-      assert.isTrue(element.$.newKey.disabled);
-
-      assert.isTrue(addStub.called);
-      assert.deepEqual(addStub.lastCall.args[0], {add: [newKeyString]});
-    });
-
-    test('add invalid key', done => {
-      const newKeyString = 'not even close to valid';
-
-      const addStub = sinon.stub(element.$.restAPI, 'addAccountGPGKey',
-          () => Promise.reject(new Error('error')));
-
-      element._newKey = newKeyString;
-
-      assert.isFalse(element.$.addButton.disabled);
-      assert.isFalse(element.$.newKey.disabled);
-
-      element._handleAddKey().then(() => {
-        assert.isFalse(element.$.addButton.disabled);
-        assert.isFalse(element.$.newKey.disabled);
-        assert.equal(element._keys.length, 2);
-        done();
-      });
-
-      assert.isTrue(element.$.addButton.disabled);
-      assert.isTrue(element.$.newKey.disabled);
-
-      assert.isTrue(addStub.called);
-      assert.deepEqual(addStub.lastCall.args[0], {add: [newKeyString]});
+      done();
     });
   });
+
+  test('show key', () => {
+    const openSpy = sinon.spy(element.$.viewKeyOverlay, 'open');
+
+    // Get the show button for the last row.
+    const button = dom(element.root).querySelector(
+        'tbody tr:last-of-type td:nth-child(4) gr-button');
+
+    MockInteractions.tap(button);
+
+    assert.equal(element._keyToView, keys[Object.keys(keys)[1]]);
+    assert.isTrue(openSpy.called);
+  });
+
+  test('add key', done => {
+    const newKeyString =
+        '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
+        '\nVersion: BCPG v1.52\n\t<key 3>';
+    const newKeyObject = {
+      ADE8A59B: {
+        fingerprint: '0194 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B',
+        user_ids: [
+          'John john@example.com',
+        ],
+        key: newKeyString,
+        status: 'TRUSTED',
+        problems: [],
+      },
+    };
+
+    const addStub = sinon.stub(element.$.restAPI, 'addAccountGPGKey',
+        () => Promise.resolve(newKeyObject));
+
+    element._newKey = newKeyString;
+
+    assert.isFalse(element.$.addButton.disabled);
+    assert.isFalse(element.$.newKey.disabled);
+
+    element._handleAddKey().then(() => {
+      assert.isTrue(element.$.addButton.disabled);
+      assert.isFalse(element.$.newKey.disabled);
+      assert.equal(element._keys.length, 2);
+      done();
+    });
+
+    assert.isTrue(element.$.addButton.disabled);
+    assert.isTrue(element.$.newKey.disabled);
+
+    assert.isTrue(addStub.called);
+    assert.deepEqual(addStub.lastCall.args[0], {add: [newKeyString]});
+  });
+
+  test('add invalid key', done => {
+    const newKeyString = 'not even close to valid';
+
+    const addStub = sinon.stub(element.$.restAPI, 'addAccountGPGKey',
+        () => Promise.reject(new Error('error')));
+
+    element._newKey = newKeyString;
+
+    assert.isFalse(element.$.addButton.disabled);
+    assert.isFalse(element.$.newKey.disabled);
+
+    element._handleAddKey().then(() => {
+      assert.isFalse(element.$.addButton.disabled);
+      assert.isFalse(element.$.newKey.disabled);
+      assert.equal(element._keys.length, 2);
+      done();
+    });
+
+    assert.isTrue(element.$.addButton.disabled);
+    assert.isTrue(element.$.newKey.disabled);
+
+    assert.isTrue(addStub.called);
+    assert.deepEqual(addStub.lastCall.args[0], {add: [newKeyString]});
+  });
+});
 </script>

@@ -14,78 +14,90 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /**
-   * @appliesMixin Gerrit.ListViewMixin
-   * @extends Polymer.Element
-   */
-  class GrDocumentationSearch extends Polymer.mixinBehaviors( [
-    Gerrit.ListViewBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-documentation-search'; }
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
+import '../../../styles/gr-table-styles.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-list-view/gr-list-view.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-documentation-search_html.js';
 
-    static get properties() {
-      return {
-      /**
-       * URL params passed from the router.
-       */
-        params: {
-          type: Object,
-          observer: '_paramsChanged',
-        },
+/**
+ * @appliesMixin Gerrit.ListViewMixin
+ * @extends Polymer.Element
+ */
+class GrDocumentationSearch extends mixinBehaviors( [
+  Gerrit.ListViewBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
 
-        _path: {
-          type: String,
-          readOnly: true,
-          value: '/Documentation',
-        },
-        _documentationSearches: Array,
+  static get is() { return 'gr-documentation-search'; }
 
-        _loading: {
-          type: Boolean,
-          value: true,
-        },
-        _filter: {
-          type: String,
-          value: '',
-        },
-      };
-    }
+  static get properties() {
+    return {
+    /**
+     * URL params passed from the router.
+     */
+      params: {
+        type: Object,
+        observer: '_paramsChanged',
+      },
 
-    /** @override */
-    attached() {
-      super.attached();
-      this.dispatchEvent(
-          new CustomEvent('title-change', {title: 'Documentation Search'}));
-    }
+      _path: {
+        type: String,
+        readOnly: true,
+        value: '/Documentation',
+      },
+      _documentationSearches: Array,
 
-    _paramsChanged(params) {
-      this._loading = true;
-      this._filter = this.getFilterValue(params);
-
-      return this._getDocumentationSearches(this._filter);
-    }
-
-    _getDocumentationSearches(filter) {
-      this._documentationSearches = [];
-      return this.$.restAPI.getDocumentationSearches(filter)
-          .then(searches => {
-            // Late response.
-            if (filter !== this._filter || !searches) { return; }
-            this._documentationSearches = searches;
-            this._loading = false;
-          });
-    }
-
-    _computeSearchUrl(url) {
-      if (!url) { return ''; }
-      return this.getBaseUrl() + '/' + url;
-    }
+      _loading: {
+        type: Boolean,
+        value: true,
+      },
+      _filter: {
+        type: String,
+        value: '',
+      },
+    };
   }
 
-  customElements.define(GrDocumentationSearch.is, GrDocumentationSearch);
-})();
+  /** @override */
+  attached() {
+    super.attached();
+    this.dispatchEvent(
+        new CustomEvent('title-change', {title: 'Documentation Search'}));
+  }
+
+  _paramsChanged(params) {
+    this._loading = true;
+    this._filter = this.getFilterValue(params);
+
+    return this._getDocumentationSearches(this._filter);
+  }
+
+  _getDocumentationSearches(filter) {
+    this._documentationSearches = [];
+    return this.$.restAPI.getDocumentationSearches(filter)
+        .then(searches => {
+          // Late response.
+          if (filter !== this._filter || !searches) { return; }
+          this._documentationSearches = searches;
+          this._loading = false;
+        });
+  }
+
+  _computeSearchUrl(url) {
+    if (!url) { return ''; }
+    return this.getBaseUrl() + '/' + url;
+  }
+}
+
+customElements.define(GrDocumentationSearch.is, GrDocumentationSearch);

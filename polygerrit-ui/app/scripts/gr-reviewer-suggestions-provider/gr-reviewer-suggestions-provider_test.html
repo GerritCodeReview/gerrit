@@ -19,17 +19,24 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-reviewer-suggestions-provider</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.html"/>
-<script src="../gr-display-name-utils/gr-display-name-utils.js"></script>
-<script src="gr-reviewer-suggestions-provider.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js"></script>
+<script type="module" src="../gr-display-name-utils/gr-display-name-utils.js"></script>
+<script type="module" src="./gr-reviewer-suggestions-provider.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-display-name-utils/gr-display-name-utils.js';
+import './gr-reviewer-suggestions-provider.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -37,227 +44,231 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('GrReviewerSuggestionsProvider tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let _nextAccountId = 0;
-    const makeAccount = function(opt_status) {
-      const accountId = ++_nextAccountId;
-      return {
-        _account_id: accountId,
-        name: 'name ' + accountId,
-        email: 'email ' + accountId,
-        status: opt_status,
-      };
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-display-name-utils/gr-display-name-utils.js';
+import './gr-reviewer-suggestions-provider.js';
+suite('GrReviewerSuggestionsProvider tests', () => {
+  let sandbox;
+  let _nextAccountId = 0;
+  const makeAccount = function(opt_status) {
+    const accountId = ++_nextAccountId;
+    return {
+      _account_id: accountId,
+      name: 'name ' + accountId,
+      email: 'email ' + accountId,
+      status: opt_status,
     };
-    let _nextAccountId2 = 0;
-    const makeAccount2 = function(opt_status) {
-      const accountId2 = ++_nextAccountId2;
-      return {
-        _account_id: accountId2,
-        name: 'name ' + accountId2,
-        status: opt_status,
-      };
+  };
+  let _nextAccountId2 = 0;
+  const makeAccount2 = function(opt_status) {
+    const accountId2 = ++_nextAccountId2;
+    return {
+      _account_id: accountId2,
+      name: 'name ' + accountId2,
+      status: opt_status,
+    };
+  };
+
+  let owner;
+  let existingReviewer1;
+  let existingReviewer2;
+  let suggestion1;
+  let suggestion2;
+  let suggestion3;
+  let restAPI;
+  let provider;
+
+  let redundantSuggestion1;
+  let redundantSuggestion2;
+  let redundantSuggestion3;
+  let change;
+
+  setup(done => {
+    owner = makeAccount();
+    existingReviewer1 = makeAccount();
+    existingReviewer2 = makeAccount();
+    suggestion1 = {account: makeAccount()};
+    suggestion2 = {account: makeAccount()};
+    suggestion3 = {
+      group: {
+        id: 'suggested group id',
+        name: 'suggested group',
+      },
     };
 
-    let owner;
-    let existingReviewer1;
-    let existingReviewer2;
-    let suggestion1;
-    let suggestion2;
-    let suggestion3;
-    let restAPI;
-    let provider;
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(true); },
+      getConfig() { return Promise.resolve({}); },
+    });
 
-    let redundantSuggestion1;
-    let redundantSuggestion2;
-    let redundantSuggestion3;
-    let change;
+    restAPI = fixture('basic');
+    change = {
+      _number: 42,
+      owner,
+      reviewers: {
+        CC: [existingReviewer1],
+        REVIEWER: [existingReviewer2],
+      },
+    };
+    sandbox = sinon.sandbox.create();
+    return flush(done);
+  });
 
+  teardown(() => {
+    sandbox.restore();
+  });
+  suite('allowAnyUser set to false', () => {
     setup(done => {
-      owner = makeAccount();
-      existingReviewer1 = makeAccount();
-      existingReviewer2 = makeAccount();
-      suggestion1 = {account: makeAccount()};
-      suggestion2 = {account: makeAccount()};
-      suggestion3 = {
-        group: {
-          id: 'suggested group id',
-          name: 'suggested group',
-        },
-      };
-
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getConfig() { return Promise.resolve({}); },
+      provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
+          Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
+      provider.init().then(done);
+    });
+    suite('stubbed values for _getReviewerSuggestions', () => {
+      setup(() => {
+        stub('gr-rest-api-interface', {
+          getChangeSuggestedReviewers() {
+            redundantSuggestion1 = {account: existingReviewer1};
+            redundantSuggestion2 = {account: existingReviewer2};
+            redundantSuggestion3 = {account: owner};
+            return Promise.resolve([redundantSuggestion1, redundantSuggestion2,
+              redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
+          },
+        });
       });
 
-      restAPI = fixture('basic');
-      change = {
-        _number: 42,
-        owner,
-        reviewers: {
-          CC: [existingReviewer1],
-          REVIEWER: [existingReviewer2],
-        },
-      };
-      sandbox = sinon.sandbox.create();
-      return flush(done);
-    });
+      test('makeSuggestionItem formats account or group accordingly', () => {
+        let account = makeAccount();
+        const account3 = makeAccount2();
+        let suggestion = provider.makeSuggestionItem({account});
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '>',
+          value: {account},
+        });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-    suite('allowAnyUser set to false', () => {
-      setup(done => {
-        provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
-            Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
-        provider.init().then(done);
+        const group = {name: 'test'};
+        suggestion = provider.makeSuggestionItem({group});
+        assert.deepEqual(suggestion, {
+          name: group.name + ' (group)',
+          value: {group},
+        });
+
+        suggestion = provider.makeSuggestionItem(account);
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '>',
+          value: {account, count: 1},
+        });
+
+        suggestion = provider.makeSuggestionItem({account: {}});
+        assert.deepEqual(suggestion, {
+          name: 'Anonymous',
+          value: {account: {}},
+        });
+
+        provider._config = {
+          user: {
+            anonymous_coward_name: 'Anonymous Coward Name',
+          },
+        };
+
+        suggestion = provider.makeSuggestionItem({account: {}});
+        assert.deepEqual(suggestion, {
+          name: 'Anonymous Coward Name',
+          value: {account: {}},
+        });
+
+        account = makeAccount('OOO');
+
+        suggestion = provider.makeSuggestionItem({account});
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '> (OOO)',
+          value: {account},
+        });
+
+        suggestion = provider.makeSuggestionItem(account);
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '> (OOO)',
+          value: {account, count: 1},
+        });
+
+        sandbox.stub(GrDisplayNameUtils, '_accountEmail',
+            () => '');
+
+        suggestion = provider.makeSuggestionItem(account3);
+        assert.deepEqual(suggestion, {
+          name: account3.name,
+          value: {account: account3, count: 1},
+        });
       });
-      suite('stubbed values for _getReviewerSuggestions', () => {
-        setup(() => {
-          stub('gr-rest-api-interface', {
-            getChangeSuggestedReviewers() {
-              redundantSuggestion1 = {account: existingReviewer1};
-              redundantSuggestion2 = {account: existingReviewer2};
-              redundantSuggestion3 = {account: owner};
-              return Promise.resolve([redundantSuggestion1, redundantSuggestion2,
-                redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
-            },
-          });
-        });
 
-        test('makeSuggestionItem formats account or group accordingly', () => {
-          let account = makeAccount();
-          const account3 = makeAccount2();
-          let suggestion = provider.makeSuggestionItem({account});
-          assert.deepEqual(suggestion, {
-            name: account.name + ' <' + account.email + '>',
-            value: {account},
-          });
+      test('getSuggestions', done => {
+        provider.getSuggestions()
+            .then(reviewers => {
+              // Default is no filtering.
+              assert.equal(reviewers.length, 6);
+              assert.deepEqual(reviewers,
+                  [redundantSuggestion1, redundantSuggestion2,
+                    redundantSuggestion3, suggestion1,
+                    suggestion2, suggestion3]);
+            })
+            .then(done);
+      });
 
-          const group = {name: 'test'};
-          suggestion = provider.makeSuggestionItem({group});
-          assert.deepEqual(suggestion, {
-            name: group.name + ' (group)',
-            value: {group},
-          });
-
-          suggestion = provider.makeSuggestionItem(account);
-          assert.deepEqual(suggestion, {
-            name: account.name + ' <' + account.email + '>',
-            value: {account, count: 1},
-          });
-
-          suggestion = provider.makeSuggestionItem({account: {}});
-          assert.deepEqual(suggestion, {
-            name: 'Anonymous',
-            value: {account: {}},
-          });
-
-          provider._config = {
-            user: {
-              anonymous_coward_name: 'Anonymous Coward Name',
-            },
-          };
-
-          suggestion = provider.makeSuggestionItem({account: {}});
-          assert.deepEqual(suggestion, {
-            name: 'Anonymous Coward Name',
-            value: {account: {}},
-          });
-
-          account = makeAccount('OOO');
-
-          suggestion = provider.makeSuggestionItem({account});
-          assert.deepEqual(suggestion, {
-            name: account.name + ' <' + account.email + '> (OOO)',
-            value: {account},
-          });
-
-          suggestion = provider.makeSuggestionItem(account);
-          assert.deepEqual(suggestion, {
-            name: account.name + ' <' + account.email + '> (OOO)',
-            value: {account, count: 1},
-          });
-
-          sandbox.stub(GrDisplayNameUtils, '_accountEmail',
-              () => '');
-
-          suggestion = provider.makeSuggestionItem(account3);
-          assert.deepEqual(suggestion, {
-            name: account3.name,
-            value: {account: account3, count: 1},
-          });
-        });
-
-        test('getSuggestions', done => {
-          provider.getSuggestions()
-              .then(reviewers => {
-                // Default is no filtering.
-                assert.equal(reviewers.length, 6);
-                assert.deepEqual(reviewers,
-                    [redundantSuggestion1, redundantSuggestion2,
-                      redundantSuggestion3, suggestion1,
-                      suggestion2, suggestion3]);
-              })
-              .then(done);
-        });
-
-        test('getSuggestions short circuits when logged out', () => {
-          // API call is already stubbed.
-          const xhrSpy = restAPI.getChangeSuggestedReviewers;
-          provider._loggedIn = false;
+      test('getSuggestions short circuits when logged out', () => {
+        // API call is already stubbed.
+        const xhrSpy = restAPI.getChangeSuggestedReviewers;
+        provider._loggedIn = false;
+        return provider.getSuggestions('').then(() => {
+          assert.isFalse(xhrSpy.called);
+          provider._loggedIn = true;
           return provider.getSuggestions('').then(() => {
-            assert.isFalse(xhrSpy.called);
-            provider._loggedIn = true;
-            return provider.getSuggestions('').then(() => {
-              assert.isTrue(xhrSpy.called);
-            });
+            assert.isTrue(xhrSpy.called);
           });
-        });
-      });
-
-      test('getChangeSuggestedReviewers is used', done => {
-        const suggestReviewerStub =
-            sandbox.stub(restAPI, 'getChangeSuggestedReviewers')
-                .returns(Promise.resolve([]));
-        const suggestAccountStub =
-            sandbox.stub(restAPI, 'getSuggestedAccounts')
-                .returns(Promise.resolve([]));
-
-        provider.getSuggestions('').then(() => {
-          assert.isTrue(suggestReviewerStub.calledOnce);
-          assert.isTrue(suggestReviewerStub.calledWith(42, ''));
-          assert.isFalse(suggestAccountStub.called);
-          done();
         });
       });
     });
 
-    suite('allowAnyUser set to true', () => {
-      setup(done => {
-        provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
-            Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
-        provider.init().then(done);
-      });
+    test('getChangeSuggestedReviewers is used', done => {
+      const suggestReviewerStub =
+          sandbox.stub(restAPI, 'getChangeSuggestedReviewers')
+              .returns(Promise.resolve([]));
+      const suggestAccountStub =
+          sandbox.stub(restAPI, 'getSuggestedAccounts')
+              .returns(Promise.resolve([]));
 
-      test('getSuggestedAccounts is used', done => {
-        const suggestReviewerStub =
-            sandbox.stub(restAPI, 'getChangeSuggestedReviewers')
-                .returns(Promise.resolve([]));
-        const suggestAccountStub =
-            sandbox.stub(restAPI, 'getSuggestedAccounts')
-                .returns(Promise.resolve([]));
-
-        provider.getSuggestions('').then(() => {
-          assert.isFalse(suggestReviewerStub.called);
-          assert.isTrue(suggestAccountStub.calledOnce);
-          assert.isTrue(suggestAccountStub.calledWith('cansee:42 '));
-          done();
-        });
+      provider.getSuggestions('').then(() => {
+        assert.isTrue(suggestReviewerStub.calledOnce);
+        assert.isTrue(suggestReviewerStub.calledWith(42, ''));
+        assert.isFalse(suggestAccountStub.called);
+        done();
       });
     });
   });
+
+  suite('allowAnyUser set to true', () => {
+    setup(done => {
+      provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
+          Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
+      provider.init().then(done);
+    });
+
+    test('getSuggestedAccounts is used', done => {
+      const suggestReviewerStub =
+          sandbox.stub(restAPI, 'getChangeSuggestedReviewers')
+              .returns(Promise.resolve([]));
+      const suggestAccountStub =
+          sandbox.stub(restAPI, 'getSuggestedAccounts')
+              .returns(Promise.resolve([]));
+
+      provider.getSuggestions('').then(() => {
+        assert.isFalse(suggestReviewerStub.called);
+        assert.isTrue(suggestAccountStub.calledOnce);
+        assert.isTrue(suggestAccountStub.calledWith('cansee:42 '));
+        done();
+      });
+    });
+  });
+});
 </script>

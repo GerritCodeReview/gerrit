@@ -26,8 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../styles/gr-voting-styles.html">
-
-<link rel="import" href="../gr-comment-list/gr-comment-list.html">
+<link rel="import" href="../gr-thread-list/gr-thread-list.html">
 
 <dom-module id="gr-message">
   <template>
@@ -79,7 +78,7 @@ limitations under the License.
       gr-button {
         margin: 0 -4px;
       }
-      .collapsed gr-comment-list,
+      .collapsed gr-thread-list,
       .collapsed .replyBtn,
       .collapsed .deleteBtn,
       .collapsed .hideOnCollapsed,
@@ -236,13 +235,16 @@ limitations under the License.
                   </gr-button>
               </div>
             </template>
-            <gr-comment-list
-                comments="[[comments]]"
-                change-num="[[changeNum]]"
-                patch-num="[[message._revision_number]]"
-                project-name="[[projectName]]"
-                project-config="[[_projectConfig]]"></gr-comment-list>
-          </div>
+            <gr-thread-list
+              id="commentList"
+              change="[[change]]"
+              hidden$="[[!comments.length]]"
+              threads="[[comments]]"
+              change-num="[[changeNum]]"
+              logged-in="true"
+              hide-toggle-buttons
+              on-thread-list-modified="_onThreadListModified">
+            </gr-thread-list>
         </template>
         <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">
           <div class="content">

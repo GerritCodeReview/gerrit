@@ -36,7 +36,7 @@
 
     static get properties() {
       return {
-      /** @type {?} */
+        /** @type {?} */
         change: Object,
         threads: Array,
         changeNum: String,

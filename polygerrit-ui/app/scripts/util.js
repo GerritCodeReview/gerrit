@@ -124,6 +124,12 @@
           .filter(child => !!child.shadowRoot)
           .map(child => child.shadowRoot);
       nodes = nodes.concat(allShadowNodes);
+
+      // Add shadowRoot of current node if has one
+      // as its not included in node.querySelectorAll('*')
+      if (node.shadowRoot) {
+        nodes.push(node.shadowRoot);
+      }
     }
     return result;
   };
@@ -154,6 +160,12 @@
           .filter(child => !!child.shadowRoot)
           .map(child => child.shadowRoot);
       nodes = nodes.concat(allShadowNodes);
+
+      // Add shadowRoot of current node if has one
+      // as its not included in node.querySelectorAll('*')
+      if (node.shadowRoot) {
+        nodes.push(node.shadowRoot);
+      }
     }
     return [...results];
   };

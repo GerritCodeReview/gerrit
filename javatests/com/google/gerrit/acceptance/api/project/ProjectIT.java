@@ -894,14 +894,10 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getProjectThatHasInvalidProjectConfig() throws Exception {
-    // Make the project config invalid by adding permission entry with an invalid permission name.
     projectOperations
         .project(allProjects)
         .forInvalidation()
-        .addProjectConfigUpdater(
-            cfg ->
-                cfg.setString(
-                    "access", "refs/*", "Invalid Permission Name", "group Administrators"))
+        .makeProjectConfigInvalid()
         .invalidate();
 
     // We must test this via the REST API since ExceptionHook is not invoked from the Java API.

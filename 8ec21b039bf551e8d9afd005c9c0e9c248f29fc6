@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "420edfb2_20e66dda",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-16T18:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea23c310_fc5fd6ec",
+      "range": {
+        "startLine": 33,
+        "startChar": 7,
+        "endLine": 33,
+        "endChar": 27
+      },
+      "revId": "8ec21b039bf551e8d9afd005c9c0e9c248f29fc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a0728a7_ab41f829",
         "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
         "patchSetId": 2
@@ -68,6 +92,30 @@
       "revId": "8ec21b039bf551e8d9afd005c9c0e9c248f29fc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29dc08b7_8a5c3007",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-16T18:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a0728a7_ab41f829",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 34
+      },
+      "revId": "8ec21b039bf551e8d9afd005c9c0e9c248f29fc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

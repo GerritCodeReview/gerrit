@@ -54,6 +54,7 @@ EXPORTS = [
     "//java/com/google/gerrit/server/util/time",
     "//java/com/google/gerrit/util/cli",
     "//java/com/google/gerrit/util/http",
+    "//java/com/google/gerrit/util/logging",
     "//lib/antlr:java-runtime",
     "//lib/auto:auto-value-annotations",
     "//lib/commons:compress",

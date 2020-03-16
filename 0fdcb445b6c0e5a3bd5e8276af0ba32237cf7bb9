@@ -22,6 +22,30 @@
       "revId": "0fdcb445b6c0e5a3bd5e8276af0ba32237cf7bb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6229ce5_c4e21dd0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-16T12:21:22Z",
+      "side": 1,
+      "message": "AccessIT is about verifying that the SetAccess REST endpoint works correctly. Checking that it correctly stores plugin capabilities / permissions should be sufficient.\n\nTesting that plugin capabilities / permissions properly work should already be covered by PluginAccessIT.",
+      "parentUuid": "f40eb173_ecfdeb48",
+      "range": {
+        "startLine": 170,
+        "startChar": 78,
+        "endLine": 171,
+        "endChar": 76
+      },
+      "revId": "0fdcb445b6c0e5a3bd5e8276af0ba32237cf7bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

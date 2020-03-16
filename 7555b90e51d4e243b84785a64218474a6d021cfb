@@ -16,6 +16,24 @@
       "revId": "7555b90e51d4e243b84785a64218474a6d021cfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77743ab2_9f663582",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-16T12:03:40Z",
+      "side": 1,
+      "message": "Agreed with Patrick: we have over 45k projects and cannot afford to break the whole project listing if one of them is invalid.\n\nHowever, when there is an invalid project filtered out during listing, we should have proper warnings and metrics in place, so that the Gerrit admin can notice and repair the problem.\n\nThe overall approach when making these trade-offs should be \"preserve the global availability\" and \"fail with service degradation\" rather than outage.",
+      "parentUuid": "d9c13d07_810ff4a3",
+      "revId": "7555b90e51d4e243b84785a64218474a6d021cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

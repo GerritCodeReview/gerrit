@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "120f2761_59168e06",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-16T14:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fe817f4_f3e11bf0",
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57db571b_7dec8870",
         "filename": "java/com/google/gerrit/extensions/common/AttentionSetEntry.java",
         "patchSetId": 10
@@ -486,6 +504,30 @@
       "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "540cdca4_efd7f90c",
+        "filename": "java/com/google/gerrit/server/restapi/change/Module.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-16T14:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ad0ed18_be2c04bb",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 66
+      },
+      "revId": "b2b8cda6923488f7cc8f1dee85a73c1b0e5ed15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

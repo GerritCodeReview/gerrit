@@ -84,6 +84,13 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listProjectsFiltersBrokenProjects() throws Exception {
+    assertThatNameList(gApi.projects().list().get()).contains(project);
+    projectOperations.project(project).forInvalidation().makeProjectConfigInvalid().invalidate();
+    assertThatNameList(gApi.projects().list().get()).doesNotContain(project);
+  }
+
+  @Test
   public void listProjectsWithBranch() throws Exception {
     Map<String, ProjectInfo> result = gApi.projects().list().addShowBranch("master").getAsMap();
     assertThat(result).containsKey(project.get());

@@ -1,0 +1,6 @@
+[
+  {
+    "url": "http://localhost:8082/loadtest-repo",
+    "cmd": "clone"
+  }
+]

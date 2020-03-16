@@ -46,6 +46,30 @@
       "revId": "72e165cede367d88e51e567775a3e75b8ff9d922",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d97edacf_501b5714",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-16T12:44:15Z",
+      "side": 1,
+      "message": "Sorry, I confused this. I thought you complaint about the \u0027makeProjectConfigInvalid\u0027 method in TestProjectInvalidation. I considered a \u0027makeProjectConfigCorrupt\u0027 method there.\n\nThis method is named \u0027invalidateProject\u0027 to be consistent with all other Test*Invalidation classes. I think we discussed this before :) If we want to change this, it should be changed everywhere consistently. Not sure if it\u0027s worth the effort, and I actually think I like \"invalidate\" more.",
+      "parentUuid": "ce2d4a28_562a3402",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 34
+      },
+      "revId": "72e165cede367d88e51e567775a3e75b8ff9d922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -78,7 +78,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -745,7 +744,6 @@ public class ChangeField {
     static class StoredRequirement {
       String fallbackText;
       String type;
-      Map<String, String> data;
     }
 
     SubmitRecord.Status status;
@@ -772,7 +770,6 @@ public class ChangeField {
           StoredRequirement sr = new StoredRequirement();
           sr.type = requirement.type();
           sr.fallbackText = requirement.fallbackText();
-          sr.data = requirement.data();
           this.requirements.add(sr);
         }
       }
@@ -799,7 +796,6 @@ public class ChangeField {
               SubmitRequirement.builder()
                   .setType(req.type)
                   .setFallbackText(req.fallbackText)
-                  .setData(req.data)
                   .build();
           rec.requirements.add(sr);
         }

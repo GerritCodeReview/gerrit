@@ -936,8 +936,7 @@ public class ChangeNotesStateTest {
         .hasAutoValueMethods(
             ImmutableMap.of(
                 "fallbackText", String.class,
-                "type", String.class,
-                "data", new TypeLiteral<ImmutableMap<String, String>>() {}.getType()));
+                "type", String.class));
   }
 
   @Test

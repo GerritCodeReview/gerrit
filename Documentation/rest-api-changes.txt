@@ -7031,8 +7031,6 @@ The `Requirement` entity contains information about a requirement relative to a 
 Alphanumerical (plus hyphens or underscores) string to identify what the requirement is and why it
 was triggered. Can be seen as a class: requirements sharing the same type were created for a similar
 reason, and the data structure will follow one set of rules.
-|`data`          |optional|
-Holds custom key-value strings, used in templates to render richer status messages
 |===========================
 
 

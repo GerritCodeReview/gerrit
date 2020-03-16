@@ -340,7 +340,7 @@ public class ChangeJson {
   }
 
   private static SubmitRequirementInfo requirementToInfo(SubmitRequirement req, Status status) {
-    return new SubmitRequirementInfo(status.name(), req.fallbackText(), req.type(), req.data());
+    return new SubmitRequirementInfo(status.name(), req.fallbackText(), req.type());
   }
 
   private static void finish(ChangeInfo info) {

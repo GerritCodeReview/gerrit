@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.api.change;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -39,14 +38,9 @@ import org.junit.Test;
 
 public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
   private static final SubmitRequirement req =
-      SubmitRequirement.builder()
-          .setType("custom_rule")
-          .setFallbackText("Fallback text")
-          .addCustomValue("key", "value")
-          .build();
+      SubmitRequirement.builder().setType("custom_rule").setFallbackText("Fallback text").build();
   private static final SubmitRequirementInfo reqInfo =
-      new SubmitRequirementInfo(
-          "NOT_READY", "Fallback text", "custom_rule", ImmutableMap.of("key", "value"));
+      new SubmitRequirementInfo("NOT_READY", "Fallback text", "custom_rule");
 
   @Override
   public Module createModule() {

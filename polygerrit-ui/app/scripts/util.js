@@ -170,5 +170,52 @@
     return [...results];
   };
 
+  /**
+   * Retrieves the dom path of the current event.
+   *
+   * If the event contains the `path`, use it,
+   * otherwise, construct the dom path base on the event target.
+   */
+  util.getEventPath = e => {
+    let path = '';
+    if (e.path && e.path.length) {
+      let reachTop = false;
+      path = e.path.reduce((p, curEl) => {
+        reachTop = curEl.tagName === 'GR-APP';
+        if (reachTop || !curEl.tagName
+          || curEl instanceof DocumentFragment
+          || curEl instanceof HTMLSlotElement) {
+          return p;
+        }
+        let cp = curEl.tagName;
+        if (curEl.id) cp += `#${curEl.id}`;
+        if (curEl.className) cp += `.${curEl.className.replace(' ', '.')}`;
+        p = p ? `${cp}>${p}` : cp;
+        return p;
+      }, '');
+    } else {
+      let el = e.target;
+      while (el) {
+        if (el.tagName && el.tagName.startsWith('GR-APP')) {
+          break;
+        }
+        if (!el.tagName
+          || el instanceof DocumentFragment
+          || el instanceof HTMLSlotElement) {
+          el = el.parentNode || el.host;
+          continue;
+        }
+
+        let cp = el.tagName;
+        if (el.id) cp += `#${el.id}`;
+        if (el.className) cp += `.${el.className.replace(' ', '.')}`;
+
+        path = path ? `${cp}>${path}` : cp;
+        el = el.parentNode || el.host;
+      }
+    }
+    return path.trim().toLowerCase();
+  };
+
   window.util = util;
 })(window);

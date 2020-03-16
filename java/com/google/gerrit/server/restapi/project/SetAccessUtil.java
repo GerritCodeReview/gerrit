@@ -154,8 +154,7 @@ public class SetAccessUtil {
         // Check all permissions for soundness
         for (Permission p : section.getPermissions()) {
           if (!isCapability(p.getName())) {
-            throw new BadRequestException(
-                "Cannot add non-global capability " + p.getName() + " to global capabilities");
+            throw new BadRequestException("Unknown global capability: " + p.getName());
           }
         }
       }

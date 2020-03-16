@@ -470,10 +470,7 @@ public class AccessIT extends AbstractDaemonTest {
         assertThrows(
             BadRequestException.class,
             () -> gApi.projects().name(allProjects.get()).access(accessInput));
-    assertThat(ex)
-        .hasMessageThat()
-        .isEqualTo(
-            "Cannot add non-global capability " + Permission.PUSH + " to global capabilities");
+    assertThat(ex).hasMessageThat().isEqualTo("Unknown global capability: " + Permission.PUSH);
   }
 
   @Test
@@ -493,8 +490,7 @@ public class AccessIT extends AbstractDaemonTest {
             () -> gApi.projects().name(allProjects.get()).access(accessInput));
     assertThat(ex)
         .hasMessageThat()
-        .isEqualTo(
-            "Cannot add non-global capability Invalid Global Capability to global capabilities");
+        .isEqualTo("Unknown global capability: Invalid Global Capability");
   }
 
   @Test

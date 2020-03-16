@@ -48,6 +48,9 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
 |`commit_message/1`   |`commit_message('Fix bug X').`
     |Commit message as string atom
 
+|`commit_parent_count/1`   |`commit_parent_count(1).`
+    |Number of parent commits of a commit. Can be used to detect merge commits
+
 |`commit_stats/3`   |`commit_stats(5,20,50).`
     |Number of files modified, number of insertions and the number of deletions.
 

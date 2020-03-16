@@ -22,6 +22,30 @@
       "revId": "72e165cede367d88e51e567775a3e75b8ff9d922",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce2d4a28_562a3402",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-16T12:37:18Z",
+      "side": 1,
+      "message": "I like \u0027invalidate\u0027 more as the project.config file is still parseable.\nI was considering to add \u0027curruptProject\u0027 too, which would make the project.config non-parseable. We may still want to add such a method later.",
+      "parentUuid": "6c9db151_50a11827",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 34
+      },
+      "revId": "72e165cede367d88e51e567775a3e75b8ff9d922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

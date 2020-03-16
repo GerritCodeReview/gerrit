@@ -280,6 +280,29 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
     private void invalidateProject(TestProjectInvalidation testProjectInvalidation)
         throws Exception {
+      if (testProjectInvalidation.makeProjectConfigInvalid()) {
+        Config projectConfig = new Config();
+        projectConfig.fromText(getConfig().toText());
+
+        // Make the project config invalid by adding a permission entry with an invalid permission
+        // name.
+        projectConfig.setString(
+            "access", "refs/*", "Invalid Permission Name", "group Administrators");
+
+        setConfig(projectConfig);
+        try {
+          projectCache.evict(nameKey);
+        } catch (Exception e) {
+          // Evicting the project from the cache, also triggers a reindex of the project.
+          // The reindex step fails if the project config is invalid. That's fine, since it was our
+          // intention to make the project config invalid. Hence we ignore exceptions that are cause
+          // by an invalid project config here.
+          if (!Throwables.getCausalChain(e).stream()
+              .anyMatch(ConfigInvalidException.class::isInstance)) {
+            throw e;
+          }
+        }
+      }
       if (!testProjectInvalidation.projectConfigUpdater().isEmpty()) {
         Config projectConfig = new Config();
         projectConfig.fromText(getConfig().toText());

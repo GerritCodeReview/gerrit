@@ -456,6 +456,48 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addPermissionAsGlobalCapability() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
+
+    PermissionInfo push = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    push.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSectionInfo.permissions.put(Permission.PUSH, push);
+
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(allProjects.get()).access(accessInput));
+    assertThat(ex)
+        .hasMessageThat()
+        .isEqualTo(
+            "Cannot add non-global capability " + Permission.PUSH + " to global capabilities");
+  }
+
+  @Test
+  public void addInvalidGlobalCapability() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultGlobalCapabilitiesAccessSectionInfo();
+
+    PermissionInfo permissionInfo = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    permissionInfo.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSectionInfo.permissions.put("Invalid Global Capability", permissionInfo);
+
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(allProjects.get()).access(accessInput));
+    assertThat(ex)
+        .hasMessageThat()
+        .isEqualTo(
+            "Cannot add non-global capability Invalid Global Capability to global capabilities");
+  }
+
+  @Test
   public void addGlobalCapabilityForNonRootProject() throws Exception {
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = createDefaultGlobalCapabilitiesAccessSectionInfo();

@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffa137a0_695a0e29",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AttentionSetApi.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T15:57:49Z",
+      "side": 1,
+      "message": "2020 :-) - here and below\n\nBack to the future!",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3bc0f40_bb7ba773",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AttentionSetApi.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T15:57:49Z",
+      "side": 1,
+      "message": "optinal/nit: could be removed. the java interface is descriptive enough.",
+      "range": {
+        "startLine": 20,
+        "startChar": 51,
+        "endLine": 20,
+        "endChar": 85
+      },
+      "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74f253e8_12454278",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T15:57:49Z",
+      "side": 1,
+      "message": "nit: toImmutableMap (statically imported)",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 37
+      },
+      "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a911d368_90d64c8e",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAttentionSet.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T15:57:49Z",
+      "side": 1,
+      "message": "I can see a falling trend here :-)",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e04c53c_c03cc301",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAttentionSet.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T15:57:49Z",
+      "side": 1,
+      "message": "Should this be filled with AccountDirectory?\n\nOtherwise we\u0027re only returning IDs, not names.",
+      "range": {
+        "startLine": 42,
+        "startChar": 28,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7eba24c_031edfb8",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAttentionSet.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T15:57:49Z",
+      "side": 1,
+      "message": "nit: import statically",
+      "range": {
+        "startLine": 45,
+        "startChar": 35,
+        "endLine": 45,
+        "endChar": 50
+      },
+      "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4074e2cb_95f5c8eb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T15:57:49Z",
+      "side": 1,
+      "message": "When adding Ops, we usually also test email notifications. I think it\u0027s OK to skip this for now because we are developing this iterative and emails is still on the list.",
+      "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72d5a673_b3480325",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T15:57:49Z",
+      "side": 1,
+      "message": "Should this be a BadRequestException?\n\nI think it has to be consistent with the behavior of removing an already removed attention set entry. So as per our previous discussions, the answer would be no.\n\nThis does feel odd: The user is providing meaningless input and we are silently ignoring it.\n\nWDYT?",
+      "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
+import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
@@ -47,6 +48,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExtensionRegistry {
+  public static final String PLUGIN_NAME = "myPlugin";
+
   private final DynamicSet<AccountIndexedListener> accountIndexedListeners;
   private final DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   private final DynamicSet<GroupIndexedListener> groupIndexedListeners;
@@ -71,6 +74,7 @@ public class ExtensionRegistry {
       accountActivationValidationListeners;
   private final DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
   private final DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners;
+  private final DynamicMap<CapabilityDefinition> capabilityDefinitions;
 
   @Inject
   ExtensionRegistry(
@@ -96,7 +100,8 @@ public class ExtensionRegistry {
       DynamicSet<GroupBackend> groupBackends,
       DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners,
       DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners,
-      DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners) {
+      DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners,
+      DynamicMap<CapabilityDefinition> capabilityDefinitions) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -120,6 +125,7 @@ public class ExtensionRegistry {
     this.accountActivationValidationListeners = accountActivationValidationListeners;
     this.onSubmitValidationListeners = onSubmitValidationListeners;
     this.workInProgressStateChangedListeners = workInProgressStateChangedListeners;
+    this.capabilityDefinitions = capabilityDefinitions;
   }
 
   public Registration newRegistration() {
@@ -227,6 +233,10 @@ public class ExtensionRegistry {
       return add(workInProgressStateChangedListeners, workInProgressStateChangedListener);
     }
 
+    public Registration add(CapabilityDefinition capabilityDefinition, String exportName) {
+      return add(capabilityDefinitions, capabilityDefinition, exportName);
+    }
+
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {
       return add(dynamicSet, extension, "gerrit");
     }
@@ -240,7 +250,7 @@ public class ExtensionRegistry {
     private <T> Registration add(DynamicMap<T> dynamicMap, T extension, String exportName) {
       RegistrationHandle registrationHandle =
           ((PrivateInternals_DynamicMapImpl<T>) dynamicMap)
-              .put("myPlugin", exportName, Providers.of(extension));
+              .put(PLUGIN_NAME, exportName, Providers.of(extension));
       registrationHandles.add(registrationHandle);
       return this;
     }

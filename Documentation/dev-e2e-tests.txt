@@ -150,6 +150,23 @@ link:http://logback.qos.ch/manual/configuration.html[configures] Gatling's loggi
 docker run -it e2e-tests -s com.google.gerrit.scenarios.CloneUsingBothProtocols
 ----
 
+=== How to run using HA
+
+After starting a pair of HA Gerrit instances (`8081` and `8082`), using either
+link:https://gerrit.googlesource.com/plugins/high-availability/+/refs/heads/stable-3.1/src/test/docker/[HA plugin]
+or another system assuming those ports:
+
+---
+sbt "gatling:testOnly com.google.gerrit.scenarios.CloneUsingHAGerrit2"
+---
+
+This is a scenario that can server as an example for how to start testing an HA Gerrit system. That
+scenario tries to clone a project created on gerrit 1 (port `8081`) -but from gerrit 2 (on `8082`).
+The scenario therefore expects Gerrit HA to have properly synchronized the new project from 1 to 2.
+
+As mentioned for the other example scenario further above, that project gets deleted after, here
+using HA Gerrit straight (no specific port).
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

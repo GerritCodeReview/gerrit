@@ -1,43 +1,22 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
-<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-storage/gr-storage.html">
-<link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
-<link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
-<link rel="import" href="../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.html">
-<script src="../../../scripts/rootElement.js"></script>
-
-<dom-module id="gr-comment">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -257,144 +236,85 @@ limitations under the License.
         <div class="headerLeft">
           <span class="authorName">[[_computeAuthorName(comment)]]</span>
           <span class="draftLabel">DRAFT</span>
-          <gr-tooltip-content class="draftTooltip"
-              has-tooltip
-              title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'A' key."
-              max-width="20em"
-              show-icon></gr-tooltip-content>
+          <gr-tooltip-content class="draftTooltip" has-tooltip="" title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'A' key." max-width="20em" show-icon=""></gr-tooltip-content>
         </div>
         <div class="headerMiddle">
           <span class="collapsedContent">[[comment.message]]</span>
         </div>
-        <div hidden$="[[_computeHideRunDetails(comment, collapsed)]]" class="runIdMessage message">
+        <div hidden\$="[[_computeHideRunDetails(comment, collapsed)]]" class="runIdMessage message">
           <div class="runIdInformation">
-            <a class="robotRunLink" href$="[[comment.url]]">
+            <a class="robotRunLink" href\$="[[comment.url]]">
               <span class="robotRun link">Run Details</span>
             </a>
           </div>
         </div>
-        <gr-button
-            id="deleteBtn"
-            link
-            class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
-            hidden$="[[isRobotComment]]"
-            on-click="_handleCommentDelete">
+        <gr-button id="deleteBtn" link="" class\$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]" hidden\$="[[isRobotComment]]" on-click="_handleCommentDelete">
           <iron-icon id="icon" icon="gr-icons:delete"></iron-icon>
         </gr-button>
         <span class="date" on-click="_handleAnchorClick">
-          <gr-date-formatter
-              has-tooltip
-              date-str="[[comment.updated]]"></gr-date-formatter>
+          <gr-date-formatter has-tooltip="" date-str="[[comment.updated]]"></gr-date-formatter>
         </span>
         <div class="show-hide">
           <label class="show-hide">
-            <input type="checkbox" class="show-hide"
-               checked$="[[collapsed]]"
-               on-change="_handleToggleCollapsed">
-            <iron-icon
-                id="icon"
-                icon="[[_computeShowHideIcon(collapsed)]]">
+            <input type="checkbox" class="show-hide" checked\$="[[collapsed]]" on-change="_handleToggleCollapsed">
+            <iron-icon id="icon" icon="[[_computeShowHideIcon(collapsed)]]">
             </iron-icon>
           </label>
         </div>
       </div>
       <div class="body">
         <template is="dom-if" if="[[isRobotComment]]">
-          <div class="robotId" hidden$="[[collapsed]]">
+          <div class="robotId" hidden\$="[[collapsed]]">
             [[comment.author.name]]
           </div>
         </template>
         <template is="dom-if" if="[[editing]]">
-          <gr-textarea
-              id="editTextarea"
-              class="editMessage"
-              autocomplete="on"
-              code
-              disabled="{{disabled}}"
-              rows="4"
-              text="{{_messageText}}"></gr-textarea>
+          <gr-textarea id="editTextarea" class="editMessage" autocomplete="on" code="" disabled="{{disabled}}" rows="4" text="{{_messageText}}"></gr-textarea>
           <template is="dom-if" if="[[_computeVisibilityOfTip(_showRespectfulTip, _respectfulTipDismissed)]]">
             <div class="respectfulReviewTip">
               <div>
-                <gr-tooltip-content
-                  has-tooltip
-                  title="Tips for respectful code reviews.">
+                <gr-tooltip-content has-tooltip="" title="Tips for respectful code reviews.">
                   <iron-icon class="pointer" icon="gr-icons:lightbulb-outline"></iron-icon>
                 </gr-tooltip-content>
                 [[_respectfulReviewTip]]
               </div>
               <div>
-                <a
-                  tabIndex="-1"
-                  on-click="_onRespectfulReadMoreClick"
-                  href="https://testing.googleblog.com/2019/11/code-health-respectful-reviews-useful.html"
-                  target="_blank">
+                <a tabindex="-1" on-click="_onRespectfulReadMoreClick" href="https://testing.googleblog.com/2019/11/code-health-respectful-reviews-useful.html" target="_blank">
                   Read more
                 </a>
-                <iron-icon
-                  class="close pointer"
-                  on-click="_dismissRespectfulTip"
-                  icon="gr-icons:close"></iron-icon>
+                <iron-icon class="close pointer" on-click="_dismissRespectfulTip" icon="gr-icons:close"></iron-icon>
               </div>
             </div>
           </template>
         </template>
         <!--The message class is needed to ensure selectability from
         gr-diff-selection.-->
-        <gr-formatted-text class="message"
-            content="[[comment.message]]"
-            no-trailing-margin="[[!comment.__draft]]"
-            config="[[projectConfig.commentlinks]]"></gr-formatted-text>
-        <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
+        <gr-formatted-text class="message" content="[[comment.message]]" no-trailing-margin="[[!comment.__draft]]" config="[[projectConfig.commentlinks]]"></gr-formatted-text>
+        <div class="actions humanActions" hidden\$="[[!_showHumanActions]]">
           <div class="action resolve hideOnPublished">
             <label>
-              <input type="checkbox"
-                  id="resolvedCheckbox"
-                  checked="[[resolved]]"
-                  on-change="_handleToggleResolved">
+              <input type="checkbox" id="resolvedCheckbox" checked="[[resolved]]" on-change="_handleToggleResolved">
               Resolved
             </label>
           </div>
           <div class="rightActions">
-            <gr-button
-                link
-                class="action cancel hideOnPublished"
-                on-click="_handleCancel">Cancel</gr-button>
-            <gr-button
-                link
-                class="action discard hideOnPublished"
-                on-click="_handleDiscard">Discard</gr-button>
-            <gr-button
-                link
-                class="action edit hideOnPublished"
-                on-click="_handleEdit">Edit</gr-button>
-            <gr-button
-                link
-                disabled$="[[_computeSaveDisabled(_messageText, comment, resolved)]]"
-                class="action save hideOnPublished"
-                on-click="_handleSave">Save</gr-button>
+            <gr-button link="" class="action cancel hideOnPublished" on-click="_handleCancel">Cancel</gr-button>
+            <gr-button link="" class="action discard hideOnPublished" on-click="_handleDiscard">Discard</gr-button>
+            <gr-button link="" class="action edit hideOnPublished" on-click="_handleEdit">Edit</gr-button>
+            <gr-button link="" disabled\$="[[_computeSaveDisabled(_messageText, comment, resolved)]]" class="action save hideOnPublished" on-click="_handleSave">Save</gr-button>
           </div>
         </div>
-        <div class="robotActions" hidden$="[[!_showRobotActions]]">
+        <div class="robotActions" hidden\$="[[!_showRobotActions]]">
           <template is="dom-if" if="[[isRobotComment]]">
             <gr-endpoint-decorator name="robot-comment-controls">
               <gr-endpoint-param name="comment" value="[[comment]]">
               </gr-endpoint-param>
             </gr-endpoint-decorator>
-            <gr-button
-                link
-                secondary
-                class="action show-fix"
-                hidden$="[[_hasNoFix(comment)]]"
-                on-click="_handleShowFix">
+            <gr-button link="" secondary="" class="action show-fix" hidden\$="[[_hasNoFix(comment)]]" on-click="_handleShowFix">
               Show Fix
             </gr-button>
             <template is="dom-if" if="[[!_hasHumanReply]]">
-              <gr-button
-                  link
-                  class="action fix"
-                  on-click="_handleFix"
-                  disabled="[[robotButtonDisabled]]">
+              <gr-button link="" class="action fix" on-click="_handleFix" disabled="[[robotButtonDisabled]]">
                 Please Fix
               </gr-button>
             </template>
@@ -403,19 +323,12 @@ limitations under the License.
       </div>
     </div>
     <template is="dom-if" if="[[_enableOverlay]]">
-      <gr-overlay id="confirmDeleteOverlay" with-backdrop>
-        <gr-confirm-delete-comment-dialog id="confirmDeleteComment"
-            on-confirm="_handleConfirmDeleteComment"
-            on-cancel="_handleCancelDeleteComment">
+      <gr-overlay id="confirmDeleteOverlay" with-backdrop="">
+        <gr-confirm-delete-comment-dialog id="confirmDeleteComment" on-confirm="_handleConfirmDeleteComment" on-cancel="_handleCancelDeleteComment">
         </gr-confirm-delete-comment-dialog>
       </gr-overlay>
-      <gr-overlay id="confirmDiscardOverlay" with-backdrop>
-        <gr-dialog
-            id="confirmDiscardDialog"
-            confirm-label="Discard"
-            confirm-on-enter
-            on-confirm="_handleConfirmDiscard"
-            on-cancel="_closeConfirmDiscardOverlay">
+      <gr-overlay id="confirmDiscardOverlay" with-backdrop="">
+        <gr-dialog id="confirmDiscardDialog" confirm-label="Discard" confirm-on-enter="" on-confirm="_handleConfirmDiscard" on-cancel="_closeConfirmDiscardOverlay">
           <div class="header" slot="header">
             Discard comment
           </div>
@@ -428,6 +341,4 @@ limitations under the License.
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
     <gr-reporting id="reporting"></gr-reporting>
-  </template>
-  <script src="gr-comment.js"></script>
-</dom-module>
+`;

@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-upload-help-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-upload-help-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-upload-help-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-upload-help-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,93 +40,95 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-upload-help-dialog tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-upload-help-dialog.js';
+suite('gr-upload-help-dialog tests', () => {
+  let element;
 
-    setup(() => {
-      element = fixture('basic');
-    });
+  setup(() => {
+    element = fixture('basic');
+  });
 
-    test('constructs push command from branch', () => {
-      element.targetBranch = 'foo';
-      assert.equal(element._pushCommand, 'git push origin HEAD:refs/for/foo');
+  test('constructs push command from branch', () => {
+    element.targetBranch = 'foo';
+    assert.equal(element._pushCommand, 'git push origin HEAD:refs/for/foo');
 
-      element.targetBranch = 'master';
-      assert.equal(element._pushCommand,
-          'git push origin HEAD:refs/for/master');
-    });
+    element.targetBranch = 'master';
+    assert.equal(element._pushCommand,
+        'git push origin HEAD:refs/for/master');
+  });
 
-    suite('fetch command', () => {
-      const testRev = {
-        fetch: {
-          http: {
-            commands: {
-              Checkout: 'http checkout',
-              Pull: 'http pull',
-            },
-          },
-          ssh: {
-            commands: {
-              Pull: 'ssh pull',
-            },
+  suite('fetch command', () => {
+    const testRev = {
+      fetch: {
+        http: {
+          commands: {
+            Checkout: 'http checkout',
+            Pull: 'http pull',
           },
         },
-      };
+        ssh: {
+          commands: {
+            Pull: 'ssh pull',
+          },
+        },
+      },
+    };
 
-      test('null cases', () => {
-        assert.isUndefined(element._computeFetchCommand());
-        assert.isUndefined(element._computeFetchCommand({}));
-        assert.isUndefined(element._computeFetchCommand({fetch: null}));
-        assert.isUndefined(element._computeFetchCommand({fetch: {}}));
-      });
+    test('null cases', () => {
+      assert.isUndefined(element._computeFetchCommand());
+      assert.isUndefined(element._computeFetchCommand({}));
+      assert.isUndefined(element._computeFetchCommand({fetch: null}));
+      assert.isUndefined(element._computeFetchCommand({fetch: {}}));
+    });
 
-      test('not all defined', () => {
-        assert.isUndefined(
-            element._computeFetchCommand(testRev, undefined, ''));
-        assert.isUndefined(
-            element._computeFetchCommand(testRev, '', undefined));
-        assert.isUndefined(
-            element._computeFetchCommand(undefined, '', ''));
-      });
+    test('not all defined', () => {
+      assert.isUndefined(
+          element._computeFetchCommand(testRev, undefined, ''));
+      assert.isUndefined(
+          element._computeFetchCommand(testRev, '', undefined));
+      assert.isUndefined(
+          element._computeFetchCommand(undefined, '', ''));
+    });
 
-      test('insufficiently defined scheme', () => {
-        assert.isUndefined(
-            element._computeFetchCommand(testRev, '', 'badscheme'));
+    test('insufficiently defined scheme', () => {
+      assert.isUndefined(
+          element._computeFetchCommand(testRev, '', 'badscheme'));
 
-        const rev = Object.assign({}, testRev);
-        rev.fetch = Object.assign({}, testRev.fetch, {nocmds: {commands: {}}});
-        assert.isUndefined(
-            element._computeFetchCommand(rev, '', 'nocmds'));
+      const rev = Object.assign({}, testRev);
+      rev.fetch = Object.assign({}, testRev.fetch, {nocmds: {commands: {}}});
+      assert.isUndefined(
+          element._computeFetchCommand(rev, '', 'nocmds'));
 
-        rev.fetch.nocmds.commands.unsupported = 'unsupported';
-        assert.isUndefined(
-            element._computeFetchCommand(rev, '', 'nocmds'));
-      });
+      rev.fetch.nocmds.commands.unsupported = 'unsupported';
+      assert.isUndefined(
+          element._computeFetchCommand(rev, '', 'nocmds'));
+    });
 
-      test('default scheme and command', () => {
-        const cmd = element._computeFetchCommand(testRev, '', '');
-        assert.isTrue(cmd === 'http checkout' || cmd === 'ssh pull');
-      });
+    test('default scheme and command', () => {
+      const cmd = element._computeFetchCommand(testRev, '', '');
+      assert.isTrue(cmd === 'http checkout' || cmd === 'ssh pull');
+    });
 
-      test('default command', () => {
-        assert.strictEqual(
-            element._computeFetchCommand(testRev, '', 'http'),
-            'http checkout');
-        assert.strictEqual(
-            element._computeFetchCommand(testRev, '', 'ssh'),
-            'ssh pull');
-      });
+    test('default command', () => {
+      assert.strictEqual(
+          element._computeFetchCommand(testRev, '', 'http'),
+          'http checkout');
+      assert.strictEqual(
+          element._computeFetchCommand(testRev, '', 'ssh'),
+          'ssh pull');
+    });
 
-      test('user preferred scheme and command', () => {
-        assert.strictEqual(
-            element._computeFetchCommand(testRev, 'PULL', 'http'),
-            'http pull');
-        assert.strictEqual(
-            element._computeFetchCommand(testRev, 'badcmd', 'http'),
-            'http checkout');
-      });
+    test('user preferred scheme and command', () => {
+      assert.strictEqual(
+          element._computeFetchCommand(testRev, 'PULL', 'http'),
+          'http pull');
+      assert.strictEqual(
+          element._computeFetchCommand(testRev, 'badcmd', 'http'),
+          'http checkout');
     });
   });
+});
 </script>

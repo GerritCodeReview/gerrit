@@ -1,35 +1,22 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<!--
-  The custom CSS property `--gr-formatted-text-prose-max-width` controls the max
-  width of formatted text blocks that are not code.
--->
-
-<dom-module id="gr-comment-list">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -64,27 +51,19 @@ limitations under the License.
     </style>
     <template is="dom-repeat" items="[[_computeFilesFromComments(comments)]]" as="file">
       <div class="file"><a class="fileLink" href="[[_computeDiffURL(file, changeNum, comments)]]">[[computeDisplayPath(file)]]</a></div>
-      <template is="dom-repeat"
-                items="[[_computeCommentsForFile(comments, file)]]" as="comment">
+      <template is="dom-repeat" items="[[_computeCommentsForFile(comments, file)]]" as="comment">
         <div class="container">
-          <a class="lineNum"
-             href$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]">
-             <span hidden$="[[!comment.line]]">
+          <a class="lineNum" href\$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]">
+             <span hidden\$="[[!comment.line]]">
                <span>[[_computePatchDisplayName(comment)]]</span>
                Line <span>[[comment.line]]</span>
              </span>
-             <span hidden$="[[comment.line]]">
+             <span hidden\$="[[comment.line]]">
                File comment:
              </span>
           </a>
-          <gr-formatted-text
-              class="message"
-              no-trailing-margin
-              content="[[comment.message]]"
-              config="[[projectConfig.commentlinks]]"></gr-formatted-text>
+          <gr-formatted-text class="message" no-trailing-margin="" content="[[comment.message]]" config="[[projectConfig.commentlinks]]"></gr-formatted-text>
         </div>
       </template>
     </template>
-  </template>
-  <script src="gr-comment-list.js"></script>
-</dom-module>
+`;

@@ -14,52 +14,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /**
-   * @appliesMixin Gerrit.FireMixin
-   * @extends Polymer.Element
-   */
-  class GrLinkedChip extends Polymer.mixinBehaviors( [
-    Gerrit.FireBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-linked-chip'; }
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
+import '../gr-button/gr-button.js';
+import '../gr-icons/gr-icons.js';
+import '../gr-limited-text/gr-limited-text.js';
+import '../../../styles/shared-styles.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-linked-chip_html.js';
 
-    static get properties() {
-      return {
-        href: String,
-        disabled: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true,
-        },
-        removable: {
-          type: Boolean,
-          value: false,
-        },
-        text: String,
-        transparentBackground: {
-          type: Boolean,
-          value: false,
-        },
+/**
+ * @appliesMixin Gerrit.FireMixin
+ * @extends Polymer.Element
+ */
+class GrLinkedChip extends mixinBehaviors( [
+  Gerrit.FireBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
 
-        /**  If provided, sets the maximum length of the content. */
-        limit: Number,
-      };
-    }
+  static get is() { return 'gr-linked-chip'; }
 
-    _getBackgroundClass(transparent) {
-      return transparent ? 'transparentBackground' : '';
-    }
+  static get properties() {
+    return {
+      href: String,
+      disabled: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
+      removable: {
+        type: Boolean,
+        value: false,
+      },
+      text: String,
+      transparentBackground: {
+        type: Boolean,
+        value: false,
+      },
 
-    _handleRemoveTap(e) {
-      e.preventDefault();
-      this.fire('remove');
-    }
+      /**  If provided, sets the maximum length of the content. */
+      limit: Number,
+    };
   }
 
-  customElements.define(GrLinkedChip.is, GrLinkedChip);
-})();
+  _getBackgroundClass(transparent) {
+    return transparent ? 'transparentBackground' : '';
+  }
+
+  _handleRemoveTap(e) {
+    e.preventDefault();
+    this.fire('remove');
+  }
+}
+
+customElements.define(GrLinkedChip.is, GrLinkedChip);

@@ -19,72 +19,74 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>revision-info</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="revision-info.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./revision-info.js"></script>
 
-<script>
-  suite('revision-info tests', async () => {
-    await readyToTest();
-    let mockChange;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './revision-info.js';
+suite('revision-info tests', () => {
+  let mockChange;
 
-    setup(() => {
-      mockChange = {
-        revisions: {
-          r1: {_number: 1, commit: {parents: [
-            {commit: 'p1'},
-            {commit: 'p2'},
-            {commit: 'p3'},
-          ]}},
-          r2: {_number: 2, commit: {parents: [
-            {commit: 'p1'},
-            {commit: 'p4'},
-          ]}},
-          r3: {_number: 3, commit: {parents: [{commit: 'p5'}]}},
-          r4: {_number: 4, commit: {parents: [
-            {commit: 'p2'},
-            {commit: 'p3'},
-          ]}},
-          r5: {_number: 5, commit: {parents: [
-            {commit: 'p5'},
-            {commit: 'p2'},
-            {commit: 'p3'},
-          ]}},
-        },
-      };
-    });
-
-    test('getMaxParents', () => {
-      const ri = new window.Gerrit.RevisionInfo(mockChange);
-      assert.equal(ri.getMaxParents(), 3);
-    });
-
-    test('getParentCountMap', () => {
-      const ri = new window.Gerrit.RevisionInfo(mockChange);
-      assert.deepEqual(ri.getParentCountMap(), {1: 3, 2: 2, 3: 1, 4: 2, 5: 3});
-    });
-
-    test('getParentCount', () => {
-      const ri = new window.Gerrit.RevisionInfo(mockChange);
-      assert.deepEqual(ri.getParentCount(1), 3);
-      assert.deepEqual(ri.getParentCount(3), 1);
-    });
-
-    test('getParentCount', () => {
-      const ri = new window.Gerrit.RevisionInfo(mockChange);
-      assert.deepEqual(ri.getParentCount(1), 3);
-      assert.deepEqual(ri.getParentCount(3), 1);
-    });
-
-    test('getParentId', () => {
-      const ri = new window.Gerrit.RevisionInfo(mockChange);
-      assert.deepEqual(ri.getParentId(1, 2), 'p3');
-      assert.deepEqual(ri.getParentId(2, 1), 'p4');
-      assert.deepEqual(ri.getParentId(3, 0), 'p5');
-    });
+  setup(() => {
+    mockChange = {
+      revisions: {
+        r1: {_number: 1, commit: {parents: [
+          {commit: 'p1'},
+          {commit: 'p2'},
+          {commit: 'p3'},
+        ]}},
+        r2: {_number: 2, commit: {parents: [
+          {commit: 'p1'},
+          {commit: 'p4'},
+        ]}},
+        r3: {_number: 3, commit: {parents: [{commit: 'p5'}]}},
+        r4: {_number: 4, commit: {parents: [
+          {commit: 'p2'},
+          {commit: 'p3'},
+        ]}},
+        r5: {_number: 5, commit: {parents: [
+          {commit: 'p5'},
+          {commit: 'p2'},
+          {commit: 'p3'},
+        ]}},
+      },
+    };
   });
+
+  test('getMaxParents', () => {
+    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    assert.equal(ri.getMaxParents(), 3);
+  });
+
+  test('getParentCountMap', () => {
+    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    assert.deepEqual(ri.getParentCountMap(), {1: 3, 2: 2, 3: 1, 4: 2, 5: 3});
+  });
+
+  test('getParentCount', () => {
+    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    assert.deepEqual(ri.getParentCount(1), 3);
+    assert.deepEqual(ri.getParentCount(3), 1);
+  });
+
+  test('getParentCount', () => {
+    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    assert.deepEqual(ri.getParentCount(1), 3);
+    assert.deepEqual(ri.getParentCount(3), 1);
+  });
+
+  test('getParentId', () => {
+    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    assert.deepEqual(ri.getParentId(1, 2), 'p3');
+    assert.deepEqual(ri.getParentId(2, 1), 'p4');
+    assert.deepEqual(ri.getParentId(3, 0), 'p5');
+  });
+});
 </script>

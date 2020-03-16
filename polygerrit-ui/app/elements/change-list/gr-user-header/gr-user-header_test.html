@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-user-header</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-user-header.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-user-header.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-user-header.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,50 +40,52 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-user-header tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-user-header.js';
+suite('gr-user-header tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
 
-    teardown(() => { sandbox.restore(); });
+  teardown(() => { sandbox.restore(); });
 
-    test('loads and clears account info', done => {
-      sandbox.stub(element.$.restAPI, 'getAccountDetails')
-          .returns(Promise.resolve({
-            name: 'foo',
-            email: 'bar',
-            registered_on: '2015-03-12 18:32:08.000000000',
-          }));
-      sandbox.stub(element.$.restAPI, 'getAccountStatus')
-          .returns(Promise.resolve('baz'));
+  test('loads and clears account info', done => {
+    sandbox.stub(element.$.restAPI, 'getAccountDetails')
+        .returns(Promise.resolve({
+          name: 'foo',
+          email: 'bar',
+          registered_on: '2015-03-12 18:32:08.000000000',
+        }));
+    sandbox.stub(element.$.restAPI, 'getAccountStatus')
+        .returns(Promise.resolve('baz'));
 
-      element.userId = 'foo.bar@baz';
+    element.userId = 'foo.bar@baz';
+    flush(() => {
+      assert.isOk(element._accountDetails);
+      assert.isOk(element._status);
+
+      element.userId = null;
       flush(() => {
-        assert.isOk(element._accountDetails);
-        assert.isOk(element._status);
+        flushAsynchronousOperations();
+        assert.isNull(element._accountDetails);
+        assert.isNull(element._status);
 
-        element.userId = null;
-        flush(() => {
-          flushAsynchronousOperations();
-          assert.isNull(element._accountDetails);
-          assert.isNull(element._status);
-
-          done();
-        });
+        done();
       });
     });
-
-    test('_computeDashboardLinkClass', () => {
-      assert.include(element._computeDashboardLinkClass(false, false), 'hide');
-      assert.include(element._computeDashboardLinkClass(true, false), 'hide');
-      assert.include(element._computeDashboardLinkClass(false, true), 'hide');
-      assert.notInclude(element._computeDashboardLinkClass(true, true), 'hide');
-    });
   });
+
+  test('_computeDashboardLinkClass', () => {
+    assert.include(element._computeDashboardLinkClass(false, false), 'hide');
+    assert.include(element._computeDashboardLinkClass(true, false), 'hide');
+    assert.include(element._computeDashboardLinkClass(false, true), 'hide');
+    assert.notInclude(element._computeDashboardLinkClass(true, true), 'hide');
+  });
+});
 </script>

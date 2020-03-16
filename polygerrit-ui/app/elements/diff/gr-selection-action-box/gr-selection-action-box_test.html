@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-selection-action-box</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-selection-action-box.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-selection-action-box.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-selection-action-box.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -38,98 +43,100 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-selection-action-box', async () => {
-    await readyToTest();
-    let container;
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-selection-action-box.js';
+suite('gr-selection-action-box', () => {
+  let container;
+  let element;
+  let sandbox;
+
+  setup(() => {
+    container = fixture('basic');
+    element = container.querySelector('gr-selection-action-box');
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(element, 'fire');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('ignores regular keys', () => {
+    MockInteractions.pressAndReleaseKeyOn(document.body, 27, null, 'esc');
+    assert.isFalse(element.fire.called);
+  });
+
+  suite('mousedown reacts only to main button', () => {
+    let e;
 
     setup(() => {
-      container = fixture('basic');
-      element = container.querySelector('gr-selection-action-box');
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(element, 'fire');
+      e = {
+        button: 0,
+        preventDefault: sandbox.stub(),
+        stopPropagation: sandbox.stub(),
+      };
     });
 
-    teardown(() => {
-      sandbox.restore();
+    test('event handled if main button', () => {
+      element._handleMouseDown(e);
+      assert.isTrue(e.preventDefault.called);
+      assert(element.fire.calledWithExactly('create-comment-requested'));
     });
 
-    test('ignores regular keys', () => {
-      MockInteractions.pressAndReleaseKeyOn(document.body, 27, null, 'esc');
+    test('event ignored if not main button', () => {
+      e.button = 1;
+      element._handleMouseDown(e);
+      assert.isFalse(e.preventDefault.called);
       assert.isFalse(element.fire.called);
     });
+  });
 
-    suite('mousedown reacts only to main button', () => {
-      let e;
+  suite('placeAbove', () => {
+    let target;
 
-      setup(() => {
-        e = {
-          button: 0,
-          preventDefault: sandbox.stub(),
-          stopPropagation: sandbox.stub(),
-        };
-      });
-
-      test('event handled if main button', () => {
-        element._handleMouseDown(e);
-        assert.isTrue(e.preventDefault.called);
-        assert(element.fire.calledWithExactly('create-comment-requested'));
-      });
-
-      test('event ignored if not main button', () => {
-        e.button = 1;
-        element._handleMouseDown(e);
-        assert.isFalse(e.preventDefault.called);
-        assert.isFalse(element.fire.called);
-      });
+    setup(() => {
+      target = container.querySelector('.target');
+      sandbox.stub(container, 'getBoundingClientRect').returns(
+          {top: 1, bottom: 2, left: 3, right: 4, width: 50, height: 6});
+      sandbox.stub(element, '_getTargetBoundingRect').returns(
+          {top: 42, bottom: 20, left: 30, right: 40, width: 100, height: 60});
+      sandbox.stub(element.$.tooltip, 'getBoundingClientRect').returns(
+          {width: 10, height: 10});
     });
 
-    suite('placeAbove', () => {
-      let target;
+    test('placeAbove for Element argument', () => {
+      element.placeAbove(target);
+      assert.equal(element.style.top, '25px');
+      assert.equal(element.style.left, '72px');
+    });
 
-      setup(() => {
-        target = container.querySelector('.target');
-        sandbox.stub(container, 'getBoundingClientRect').returns(
-            {top: 1, bottom: 2, left: 3, right: 4, width: 50, height: 6});
-        sandbox.stub(element, '_getTargetBoundingRect').returns(
-            {top: 42, bottom: 20, left: 30, right: 40, width: 100, height: 60});
-        sandbox.stub(element.$.tooltip, 'getBoundingClientRect').returns(
-            {width: 10, height: 10});
-      });
+    test('placeAbove for Text Node argument', () => {
+      element.placeAbove(target.firstChild);
+      assert.equal(element.style.top, '25px');
+      assert.equal(element.style.left, '72px');
+    });
 
-      test('placeAbove for Element argument', () => {
-        element.placeAbove(target);
-        assert.equal(element.style.top, '25px');
-        assert.equal(element.style.left, '72px');
-      });
+    test('placeBelow for Element argument', () => {
+      element.placeBelow(target);
+      assert.equal(element.style.top, '45px');
+      assert.equal(element.style.left, '72px');
+    });
 
-      test('placeAbove for Text Node argument', () => {
-        element.placeAbove(target.firstChild);
-        assert.equal(element.style.top, '25px');
-        assert.equal(element.style.left, '72px');
-      });
+    test('placeBelow for Text Node argument', () => {
+      element.placeBelow(target.firstChild);
+      assert.equal(element.style.top, '45px');
+      assert.equal(element.style.left, '72px');
+    });
 
-      test('placeBelow for Element argument', () => {
-        element.placeBelow(target);
-        assert.equal(element.style.top, '45px');
-        assert.equal(element.style.left, '72px');
-      });
-
-      test('placeBelow for Text Node argument', () => {
-        element.placeBelow(target.firstChild);
-        assert.equal(element.style.top, '45px');
-        assert.equal(element.style.left, '72px');
-      });
-
-      test('uses document.createRange', () => {
-        sandbox.spy(document, 'createRange');
-        element._getTargetBoundingRect.restore();
-        sandbox.spy(element, '_getTargetBoundingRect');
-        element.placeAbove(target.firstChild);
-        assert.isTrue(document.createRange.called);
-      });
+    test('uses document.createRange', () => {
+      sandbox.spy(document, 'createRange');
+      element._getTargetBoundingRect.restore();
+      sandbox.spy(element, '_getTargetBoundingRect');
+      element.placeAbove(target.firstChild);
+      assert.isTrue(document.createRange.called);
     });
   });
+});
 </script>

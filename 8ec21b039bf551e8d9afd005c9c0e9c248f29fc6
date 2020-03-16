@@ -45,6 +45,29 @@
       "revId": "8ec21b039bf551e8d9afd005c9c0e9c248f29fc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a0728a7_ab41f829",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-16T10:06:50Z",
+      "side": 1,
+      "message": "This should be implemented as schema migration. This means this class should implement NoteDbSchemaVersion, see Schema_182 for an example. Then this class should also follow the naming convention for schema migrations, e.g. become Schema_183.",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 34
+      },
+      "revId": "8ec21b039bf551e8d9afd005c9c0e9c248f29fc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

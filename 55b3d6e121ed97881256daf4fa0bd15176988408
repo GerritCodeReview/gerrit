@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea9359e6_337d6955",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-16T15:33:20Z",
+      "side": 1,
+      "message": "Can you make unit tests for getEventPath?",
+      "range": {
+        "startLine": 179,
+        "startChar": 2,
+        "endLine": 180,
+        "endChar": 8
+      },
+      "revId": "55b3d6e121ed97881256daf4fa0bd15176988408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93dc7e2a_884db120",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-16T15:33:20Z",
+      "side": 1,
+      "message": "Can you refactor this so the code has no duplication.\n\nfor example when there is no e.path than create e.path\n\nconst path \u003d e.path ? e.path : constructPath(e.target);\nand then one code with path?",
+      "range": {
+        "startLine": 198,
+        "startChar": 7,
+        "endLine": 214,
+        "endChar": 38
+      },
+      "revId": "55b3d6e121ed97881256daf4fa0bd15176988408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

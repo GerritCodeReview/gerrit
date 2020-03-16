@@ -70,6 +70,30 @@
       "revId": "72e165cede367d88e51e567775a3e75b8ff9d922",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e1c564d_c565092f",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T12:53:04Z",
+      "side": 1,
+      "message": "Makes sense, thanks.",
+      "parentUuid": "d97edacf_501b5714",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 34
+      },
+      "revId": "72e165cede367d88e51e567775a3e75b8ff9d922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

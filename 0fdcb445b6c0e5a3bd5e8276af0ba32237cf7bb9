@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f40eb173_ecfdeb48",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-03-16T11:23:32Z",
+      "side": 1,
+      "message": "this tests that the permission is stored, but do you need a test that the permission is also working internally (ie. have the plugin check the permission, and verify that it fails/succeeds as the plugin dictates?). The same for the global capability you added in the other change.",
+      "range": {
+        "startLine": 170,
+        "startChar": 78,
+        "endLine": 171,
+        "endChar": 76
+      },
+      "revId": "0fdcb445b6c0e5a3bd5e8276af0ba32237cf7bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

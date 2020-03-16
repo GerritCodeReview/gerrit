@@ -170,5 +170,44 @@
     return [...results];
   };
 
+  function getPathFromNode(el) {
+    if (!el.tagName || el.tagName === 'GR-APP'
+      || el instanceof DocumentFragment
+      || el instanceof HTMLSlotElement) {
+      return '';
+    }
+    let cp = el.tagName.toLowerCase();
+    if (el.id) cp += `#${el.id}`;
+    if (el.className) cp += `.${el.className.replace(/ /g, '.')}`;
+    return cp;
+  }
+
+  /**
+   * Retrieves the dom path of the current event.
+   *
+   * If the event contains the `path`, use it,
+   * otherwise, construct the dom path base on the event target.
+   */
+  util.getEventPath = e => {
+    if (!e) return '';
+
+    let path = e.path;
+    if (!path || !path.length) {
+      path = [];
+      // construct the path
+      let el = e.target;
+      while (el) {
+        path.push(el);
+        el = el.parentNode || el.host;
+      }
+    }
+
+    return path.reduce((p, curEl) => {
+      const cp = getPathFromNode(curEl);
+      if (!cp) return p;
+      return p ? `${cp}>${p}` : cp;
+    }, '');
+  };
+
   window.util = util;
 })(window);

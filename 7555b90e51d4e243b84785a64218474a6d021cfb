@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9c13d07_810ff4a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-16T11:32:10Z",
+      "side": 1,
+      "message": "I think so, the project should just be omitted.\n\nOn a host with 5k projects, you can\u0027t afford that a single broken config brings down a host-wide API endpoint.\n\nThis *could* be a query parameter (--failOnBrokenProject), though.",
+      "revId": "7555b90e51d4e243b84785a64218474a6d021cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

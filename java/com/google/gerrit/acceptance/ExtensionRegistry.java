@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
@@ -75,6 +76,7 @@ public class ExtensionRegistry {
   private final DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
   private final DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners;
   private final DynamicMap<CapabilityDefinition> capabilityDefinitions;
+  private final DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions;
 
   @Inject
   ExtensionRegistry(
@@ -101,7 +103,8 @@ public class ExtensionRegistry {
       DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners,
       DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners,
       DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners,
-      DynamicMap<CapabilityDefinition> capabilityDefinitions) {
+      DynamicMap<CapabilityDefinition> capabilityDefinitions,
+      DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -126,6 +129,7 @@ public class ExtensionRegistry {
     this.onSubmitValidationListeners = onSubmitValidationListeners;
     this.workInProgressStateChangedListeners = workInProgressStateChangedListeners;
     this.capabilityDefinitions = capabilityDefinitions;
+    this.pluginProjectPermissionDefinitions = pluginProjectPermissionDefinitions;
   }
 
   public Registration newRegistration() {
@@ -235,6 +239,11 @@ public class ExtensionRegistry {
 
     public Registration add(CapabilityDefinition capabilityDefinition, String exportName) {
       return add(capabilityDefinitions, capabilityDefinition, exportName);
+    }
+
+    public Registration add(
+        PluginProjectPermissionDefinition pluginProjectPermissionDefinition, String exportName) {
+      return add(pluginProjectPermissionDefinitions, pluginProjectPermissionDefinition, exportName);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -141,6 +142,36 @@ public class AccessIT extends AbstractDaemonTest {
     RevCommit updatedHead = projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         newProjectName.get(), RefNames.REFS_CONFIG, null, initialHead, initialHead, updatedHead);
+  }
+
+  @Test
+  public void addAccessSectionForPluginPermission() throws Exception {
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                new PluginProjectPermissionDefinition() {
+                  @Override
+                  public String getDescription() {
+                    return "A Plugin Project Permission";
+                  }
+                },
+                "fooPermission")) {
+      ProjectAccessInput accessInput = newProjectAccessInput();
+      AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
+
+      PermissionInfo foo = newPermissionInfo();
+      PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+      foo.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+      accessSectionInfo.permissions.put(
+          "plugin-" + ExtensionRegistry.PLUGIN_NAME + "-fooPermission", foo);
+
+      accessInput.add.put(REFS_HEADS, accessSectionInfo);
+      ProjectAccessInfo updatedAccessSectionInfo = pApi().access(accessInput);
+      assertThat(updatedAccessSectionInfo.local).isEqualTo(accessInput.add);
+
+      assertThat(pApi().access().local).isEqualTo(accessInput.add);
+    }
   }
 
   @Test

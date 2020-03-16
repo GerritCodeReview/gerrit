@@ -16,6 +16,24 @@
       "revId": "8d00493a00e684a2a2cb349289005997be5a78c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f40e1c8e_473a21b0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-16T09:57:10Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/258931",
+      "parentUuid": "f461a531_3f89b6e3",
+      "revId": "8d00493a00e684a2a2cb349289005997be5a78c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

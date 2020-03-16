@@ -34,9 +34,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.PluginPermissionsUtil;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
-import com.google.gerrit.server.restapi.config.ListCapabilities;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -51,18 +51,18 @@ public class SetAccessUtil {
   private final GroupResolver groupResolver;
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
-  private final ListCapabilities listCapabilities;
+  private final PluginPermissionsUtil pluginPermissionsUtil;
 
   @Inject
   private SetAccessUtil(
       GroupResolver groupResolver,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
-      ListCapabilities listCapabilities) {
+      PluginPermissionsUtil pluginPermissionsUtil) {
     this.groupResolver = groupResolver;
     this.allProjects = allProjects;
     this.setParent = setParent;
-    this.listCapabilities = listCapabilities;
+    this.pluginPermissionsUtil = pluginPermissionsUtil;
   }
 
   List<AccessSection> getAccessSections(Map<String, AccessSectionInfo> sectionInfos)
@@ -244,7 +244,7 @@ public class SetAccessUtil {
     if (GlobalCapability.isGlobalCapability(name)) {
       return true;
     }
-    Set<String> pluginCapabilities = listCapabilities.collectPluginCapabilities().keySet();
+    Set<String> pluginCapabilities = pluginPermissionsUtil.collectPluginCapabilities().keySet();
     return pluginCapabilities.contains(name);
   }
 }

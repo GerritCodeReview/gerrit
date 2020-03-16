@@ -60,6 +60,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
+  const DiffViewMode = {
+    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+    UNIFIED: 'UNIFIED_DIFF',
+  };
+
   suite('gr-diff-builder tests', async () => {
     await readyToTest();
     let prefs;
@@ -191,6 +196,27 @@ limitations under the License.
       const result = builder._createTextEl(undefined, line).firstChild.innerHTML;
       assert.equal(result, expected);
     });
+
+    [DiffViewMode.UNIFIED, DiffViewMode.SIDE_BY_SIDE]
+        .forEach(mode => {
+          test(`line_length used for regular files under ${mode}`, () => {
+            element.path = '/a.txt';
+            element.viewMode = mode;
+            builder = element._getDiffBuilder(
+                {}, {tab_size: 4, line_length: 50}
+            );
+            assert.equal(builder._prefs.line_length, 50);
+          });
+
+          test(`line_length ignored for commit msg under ${mode}`, () => {
+            element.path = '/COMMIT_MSG';
+            element.viewMode = mode;
+            builder = element._getDiffBuilder(
+                {}, {tab_size: 4, line_length: 50}
+            );
+            assert.equal(builder._prefs.line_length, 72);
+          });
+        });
 
     test('_createTextEl linewrap with tabs', () => {
       const text = '\t'.repeat(7) + '!';

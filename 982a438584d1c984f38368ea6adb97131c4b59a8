@@ -1,0 +1,221 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2726c47_ce30f6bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "72 chars",
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ea72989_75e86eed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "Does this cause extra trouble for Dmitrii? Do you want to wait until after es6-modules have been submitted?",
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d19252b_52771595",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "If you remove this comma, then maybe you can save three lines by formatting differently?",
+      "range": {
+        "startLine": 99,
+        "startChar": 38,
+        "endLine": 99,
+        "endChar": 39
+      },
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3ebe26b_c5bcff8b",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "Maybe rename to something more telling.",
+      "range": {
+        "startLine": 179,
+        "startChar": 8,
+        "endLine": 179,
+        "endChar": 10
+      },
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02bfedf9_3abc93bf",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "I had intentionally left this out, because that can blow up the size of the string considerably. OTOH I am ok with leaving it in and see what happens.",
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14bef7ee_9d71b400",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "Maybe mention that you return a string and give an example of how it looks like.",
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78b11d68_2d77dd69",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "Maybe:\n\n  If the event object contains a `path` property, then use it,",
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b44cff9_37afbf2a",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "based",
+      "range": {
+        "startLine": 189,
+        "startChar": 39,
+        "endLine": 189,
+        "endChar": 43
+      },
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8153f571_69971130",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "Maybe remove this comment? Don\u0027t describe, explain.",
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7d22365_78f2e146",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "maybe rename",
+      "range": {
+        "startLine": 205,
+        "startChar": 24,
+        "endLine": 205,
+        "endChar": 25
+      },
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de69a09_a15a9737",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-17T09:32:10Z",
+      "side": 1,
+      "message": "maybe rename",
+      "range": {
+        "startLine": 206,
+        "startChar": 12,
+        "endLine": 206,
+        "endChar": 14
+      },
+      "revId": "982a438584d1c984f38368ea6adb97131c4b59a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

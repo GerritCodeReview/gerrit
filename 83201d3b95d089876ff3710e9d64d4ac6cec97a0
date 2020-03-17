@@ -393,6 +393,30 @@
     },
     {
       "key": {
+        "uuid": "2c52ac70_253a380e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2020-03-17T14:53:24Z",
+      "side": 1,
+      "message": "I had thought about this paragraph and I decided to delete it.\n\nThe test work is needed to be done, this is a common understanding，  but not enough reason for explaining so much in the commit message.",
+      "parentUuid": "f65c7e40_a25972c6",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 62
+      },
+      "revId": "83201d3b95d089876ff3710e9d64d4ac6cec97a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c93fb21_c2f30635",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5

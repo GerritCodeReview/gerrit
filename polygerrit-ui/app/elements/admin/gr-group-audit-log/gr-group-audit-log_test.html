@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-group-audit-log</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-group-audit-log.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-group-audit-log.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-group-audit-log.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,85 +40,87 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-group-audit-log tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-group-audit-log.js';
+suite('gr-group-audit-log tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('members', () => {
+    test('test _getNameForGroup', () => {
+      let group = {
+        member: {
+          name: 'test-name',
+        },
+      };
+      assert.equal(element._getNameForGroup(group.member), 'test-name');
+
+      group = {
+        member: {
+          id: 'test-id',
+        },
+      };
+      assert.equal(element._getNameForGroup(group.member), 'test-id');
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+    test('test _isGroupEvent', () => {
+      assert.isTrue(element._isGroupEvent('ADD_GROUP'));
+      assert.isTrue(element._isGroupEvent('REMOVE_GROUP'));
 
-    suite('members', () => {
-      test('test _getNameForGroup', () => {
-        let group = {
-          member: {
-            name: 'test-name',
-          },
-        };
-        assert.equal(element._getNameForGroup(group.member), 'test-name');
-
-        group = {
-          member: {
-            id: 'test-id',
-          },
-        };
-        assert.equal(element._getNameForGroup(group.member), 'test-id');
-      });
-
-      test('test _isGroupEvent', () => {
-        assert.isTrue(element._isGroupEvent('ADD_GROUP'));
-        assert.isTrue(element._isGroupEvent('REMOVE_GROUP'));
-
-        assert.isFalse(element._isGroupEvent('ADD_USER'));
-        assert.isFalse(element._isGroupEvent('REMOVE_USER'));
-      });
-    });
-
-    suite('users', () => {
-      test('test _getIdForUser', () => {
-        const account = {
-          user: {
-            username: 'test-user',
-            _account_id: 12,
-          },
-        };
-        assert.equal(element._getIdForUser(account.user), ' (12)');
-      });
-
-      test('test _account_id not present', () => {
-        const account = {
-          user: {
-            username: 'test-user',
-          },
-        };
-        assert.equal(element._getIdForUser(account.user), '');
-      });
-    });
-
-    suite('404', () => {
-      test('fires page-error', done => {
-        element.groupId = 1;
-
-        const response = {status: 404};
-        sandbox.stub(
-            element.$.restAPI, 'getGroupAuditLog', (group, errFn) => {
-              errFn(response);
-            });
-
-        element.addEventListener('page-error', e => {
-          assert.deepEqual(e.detail.response, response);
-          done();
-        });
-
-        element._getAuditLogs();
-      });
+      assert.isFalse(element._isGroupEvent('ADD_USER'));
+      assert.isFalse(element._isGroupEvent('REMOVE_USER'));
     });
   });
+
+  suite('users', () => {
+    test('test _getIdForUser', () => {
+      const account = {
+        user: {
+          username: 'test-user',
+          _account_id: 12,
+        },
+      };
+      assert.equal(element._getIdForUser(account.user), ' (12)');
+    });
+
+    test('test _account_id not present', () => {
+      const account = {
+        user: {
+          username: 'test-user',
+        },
+      };
+      assert.equal(element._getIdForUser(account.user), '');
+    });
+  });
+
+  suite('404', () => {
+    test('fires page-error', done => {
+      element.groupId = 1;
+
+      const response = {status: 404};
+      sandbox.stub(
+          element.$.restAPI, 'getGroupAuditLog', (group, errFn) => {
+            errFn(response);
+          });
+
+      element.addEventListener('page-error', e => {
+        assert.deepEqual(e.detail.response, response);
+        done();
+      });
+
+      element._getAuditLogs();
+    });
+  });
+});
 </script>

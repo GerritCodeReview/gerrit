@@ -18,15 +18,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-labeled-autocomplete</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-labeled-autocomplete.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-labeled-autocomplete.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-labeled-autocomplete.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -34,32 +39,34 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-labeled-autocomplete tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-labeled-autocomplete.js';
+suite('gr-labeled-autocomplete tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => { sandbox.restore(); });
-
-    test('tapping trigger focuses autocomplete', () => {
-      const e = {stopPropagation: () => undefined};
-      sandbox.stub(e, 'stopPropagation');
-      sandbox.stub(element.$.autocomplete, 'focus');
-      element._handleTriggerClick(e);
-      assert.isTrue(e.stopPropagation.calledOnce);
-      assert.isTrue(element.$.autocomplete.focus.calledOnce);
-    });
-
-    test('setText', () => {
-      sandbox.stub(element.$.autocomplete, 'setText');
-      element.setText('foo-bar');
-      assert.isTrue(element.$.autocomplete.setText.calledWith('foo-bar'));
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
   });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('tapping trigger focuses autocomplete', () => {
+    const e = {stopPropagation: () => undefined};
+    sandbox.stub(e, 'stopPropagation');
+    sandbox.stub(element.$.autocomplete, 'focus');
+    element._handleTriggerClick(e);
+    assert.isTrue(e.stopPropagation.calledOnce);
+    assert.isTrue(element.$.autocomplete.focus.calledOnce);
+  });
+
+  test('setText', () => {
+    sandbox.stub(element.$.autocomplete, 'setText');
+    element.setText('foo-bar');
+    assert.isTrue(element.$.autocomplete.setText.calledWith('foo-bar'));
+  });
+});
 </script>

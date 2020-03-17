@@ -1,47 +1,22 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
-<link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
-<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
-<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-storage/gr-storage.html">
-<link rel="import" href="../../shared/gr-account-list/gr-account-list.html">
-<link rel="import" href="../gr-label-scores/gr-label-scores.html">
-<link rel="import" href="../gr-thread-list/gr-thread-list.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../change/gr-comment-list/gr-comment-list.html">
-<script src="../../../scripts/gr-display-name-utils/gr-display-name-utils.js"></script>
-<script src="../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js"></script>
-
-<dom-module id="gr-reply-dialog">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         background-color: var(--dialog-background-color);
@@ -167,33 +142,15 @@ limitations under the License.
       <section class="peopleContainer">
         <div class="peopleList">
           <div class="peopleListLabel">Reviewers</div>
-          <gr-account-list
-              id="reviewers"
-              accounts="{{_reviewers}}"
-              removable-values="[[change.removable_reviewers]]"
-              filter="[[filterReviewerSuggestion]]"
-              pending-confirmation="{{_reviewerPendingConfirmation}}"
-              placeholder="Add reviewer..."
-              on-account-text-changed="_handleAccountTextEntry"
-              suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]">
+          <gr-account-list id="reviewers" accounts="{{_reviewers}}" removable-values="[[change.removable_reviewers]]" filter="[[filterReviewerSuggestion]]" pending-confirmation="{{_reviewerPendingConfirmation}}" placeholder="Add reviewer..." on-account-text-changed="_handleAccountTextEntry" suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]">
           </gr-account-list>
         </div>
         <div class="peopleList">
           <div class="peopleListLabel">CC</div>
-          <gr-account-list
-              id="ccs"
-              accounts="{{_ccs}}"
-              filter="[[filterCCSuggestion]]"
-              pending-confirmation="{{_ccPendingConfirmation}}"
-              allow-any-input
-              placeholder="Add CC..."
-              on-account-text-changed="_handleAccountTextEntry"
-              suggestions-provider="[[_getCcSuggestionsProvider(change)]]">
+          <gr-account-list id="ccs" accounts="{{_ccs}}" filter="[[filterCCSuggestion]]" pending-confirmation="{{_ccPendingConfirmation}}" allow-any-input="" placeholder="Add CC..." on-account-text-changed="_handleAccountTextEntry" suggestions-provider="[[_getCcSuggestionsProvider(change)]]">
           </gr-account-list>
         </div>
-        <gr-overlay
-            id="reviewerConfirmationOverlay"
-            on-iron-overlay-canceled="_cancelPendingReviewer">
+        <gr-overlay id="reviewerConfirmationOverlay" on-iron-overlay-canceled="_cancelPendingReviewer">
           <div class="reviewerConfirmation">
             Group
             <span class="groupName">
@@ -215,18 +172,7 @@ limitations under the License.
       </section>
       <section class="textareaContainer">
         <gr-endpoint-decorator name="reply-text">
-          <gr-textarea
-              id="textarea"
-              class="message"
-              autocomplete="on"
-              placeholder=[[_messagePlaceholder]]
-              fixed-position-dropdown
-              hide-border="true"
-              monospace="true"
-              disabled="{{disabled}}"
-              rows="4"
-              text="{{draft}}"
-              on-bind-value-changed="_handleHeightChanged">
+          <gr-textarea id="textarea" class="message" autocomplete="on" placeholder="[[_messagePlaceholder]]" fixed-position-dropdown="" hide-border="true" monospace="true" disabled="{{disabled}}" rows="4" text="{{draft}}" on-bind-value-changed="_handleHeightChanged">
           </gr-textarea>
         </gr-endpoint-decorator>
       </section>
@@ -235,84 +181,44 @@ limitations under the License.
           <input type="checkbox" checked="{{_previewFormatting::change}}">
           Preview formatting
         </label>
-        <gr-formatted-text
-            content="[[draft]]"
-            hidden$="[[!_previewFormatting]]"
-            config="[[projectConfig.commentlinks]]"></gr-formatted-text>
+        <gr-formatted-text content="[[draft]]" hidden\$="[[!_previewFormatting]]" config="[[projectConfig.commentlinks]]"></gr-formatted-text>
       </section>
       <section class="labelsContainer">
         <gr-endpoint-decorator name="reply-label-scores">
-          <gr-label-scores
-              id="labelScores"
-              account="[[_account]]"
-              change="[[change]]"
-              on-labels-changed="_handleLabelsChanged"
-              permitted-labels=[[permittedLabels]]></gr-label-scores>
+          <gr-label-scores id="labelScores" account="[[_account]]" change="[[change]]" on-labels-changed="_handleLabelsChanged" permitted-labels="[[permittedLabels]]"></gr-label-scores>
         </gr-endpoint-decorator>
         <div id="pluginMessage">[[_pluginMessage]]</div>
       </section>
-      <section class="draftsContainer" hidden$="[[_computeHideDraftList(draftCommentThreads)]]">
+      <section class="draftsContainer" hidden\$="[[_computeHideDraftList(draftCommentThreads)]]">
         <div class="includeComments">
-          <input type="checkbox" id="includeComments"
-              checked="{{_includeComments::change}}">
+          <input type="checkbox" id="includeComments" checked="{{_includeComments::change}}">
           <label for="includeComments">Publish [[_computeDraftsTitle(draftCommentThreads)]]</label>
         </div>
-        <gr-thread-list
-          id="commentList"
-          hidden$="[[!_includeComments]]"
-          threads="[[draftCommentThreads]]"
-          change="[[change]]"
-          change-num="[[change._number]]"
-          logged-in="true"
-          hide-toggle-buttons
-          on-thread-list-modified="_onThreadListModified">
+        <gr-thread-list id="commentList" hidden\$="[[!_includeComments]]" threads="[[draftCommentThreads]]" change="[[change]]" change-num="[[change._number]]" logged-in="true" hide-toggle-buttons="" on-thread-list-modified="_onThreadListModified">
         </gr-thread-list>
-        <span
-            id="savingLabel"
-            class$="[[_computeSavingLabelClass(_savingComments)]]">
+        <span id="savingLabel" class\$="[[_computeSavingLabelClass(_savingComments)]]">
           Saving comments...
         </span>
       </section>
       <section class="actions">
         <div class="left">
-          <span
-              id="checkingStatusLabel"
-              hidden$="[[!_isState(knownLatestState, 'checking')]]">
+          <span id="checkingStatusLabel" hidden\$="[[!_isState(knownLatestState, 'checking')]]">
             Checking whether patch [[patchNum]] is latest...
           </span>
-          <span
-              id="notLatestLabel"
-              hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
+          <span id="notLatestLabel" hidden\$="[[!_isState(knownLatestState, 'not-latest')]]">
             [[_computePatchSetWarning(patchNum, _labelsChanged)]]
-            <gr-button link on-click="_reload">Reload</gr-button>
+            <gr-button link="" on-click="_reload">Reload</gr-button>
           </span>
         </div>
         <div class="right">
-          <gr-button
-              link
-              id="cancelButton"
-              class="action cancel"
-              on-click="_cancelTapHandler">Cancel</gr-button>
+          <gr-button link="" id="cancelButton" class="action cancel" on-click="_cancelTapHandler">Cancel</gr-button>
           <template is="dom-if" if="[[canBeStarted]]">
             <!-- Use 'Send' here as the change may only about reviewers / ccs
               and when this button is visible, the next button will always
               be 'Start review' -->
-            <gr-button
-                link
-                disabled="[[_isState(knownLatestState, 'not-latest')]]"
-                class="action save"
-                has-tooltip
-                title="[[_saveTooltip]]"
-                on-click="_saveClickHandler">Save</gr-button>
+            <gr-button link="" disabled="[[_isState(knownLatestState, 'not-latest')]]" class="action save" has-tooltip="" title="[[_saveTooltip]]" on-click="_saveClickHandler">Save</gr-button>
           </template>
-          <gr-button
-              id="sendButton"
-              primary
-              disabled="[[_sendDisabled]]"
-              class="action send"
-              has-tooltip
-              title$="[[_computeSendButtonTooltip(canBeStarted)]]"
-              on-click="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
+          <gr-button id="sendButton" primary="" disabled="[[_sendDisabled]]" class="action send" has-tooltip="" title\$="[[_computeSendButtonTooltip(canBeStarted)]]" on-click="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
         </div>
       </section>
     </div>
@@ -320,6 +226,4 @@ limitations under the License.
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
     <gr-reporting id="reporting"></gr-reporting>
-  </template>
-  <script src="gr-reply-dialog.js"></script>
-</dom-module>
+`;

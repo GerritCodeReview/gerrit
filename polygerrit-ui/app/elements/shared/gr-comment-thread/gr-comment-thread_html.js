@@ -1,32 +1,22 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-storage/gr-storage.html">
-<link rel="import" href="../gr-comment/gr-comment.html">
-
-<dom-module id="gr-comment-thread">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         font-family: var(--font-family);
@@ -83,58 +73,25 @@ limitations under the License.
     </style>
     <template is="dom-if" if="[[showFilePath]]">
       <div class="pathInfo">
-        <a href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]">[[_computeDisplayPath(path)]]</a>
+        <a href\$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]">[[_computeDisplayPath(path)]]</a>
         <span class="descriptionText">Patchset [[patchNum]]</span>
       </div>
     </template>
-    <div id="container" class$="[[_computeHostClass(unresolved, isRobotComment)]]">
-      <template id="commentList" is="dom-repeat" items="[[_orderedComments]]"
-          as="comment">
-        <gr-comment
-            comment="{{comment}}"
-            comments="{{comments}}"
-            robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]"
-            change-num="[[changeNum]]"
-            patch-num="[[patchNum]]"
-            draft="[[_isDraft(comment)]]"
-            show-actions="[[_showActions]]"
-            comment-side="[[comment.__commentSide]]"
-            side="[[comment.side]]"
-            project-config="[[_projectConfig]]"
-            on-create-fix-comment="_handleCommentFix"
-            on-comment-discard="_handleCommentDiscard"
-            on-comment-save="_handleCommentSavedOrDiscarded"></gr-comment>
+    <div id="container" class\$="[[_computeHostClass(unresolved, isRobotComment)]]">
+      <template id="commentList" is="dom-repeat" items="[[_orderedComments]]" as="comment">
+        <gr-comment comment="{{comment}}" comments="{{comments}}" robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]" change-num="[[changeNum]]" patch-num="[[patchNum]]" draft="[[_isDraft(comment)]]" show-actions="[[_showActions]]" comment-side="[[comment.__commentSide]]" side="[[comment.side]]" project-config="[[_projectConfig]]" on-create-fix-comment="_handleCommentFix" on-comment-discard="_handleCommentDiscard" on-comment-save="_handleCommentSavedOrDiscarded"></gr-comment>
       </template>
-      <div id="commentInfoContainer"
-          hidden$="[[_hideActions(_showActions, _lastComment)]]">
-        <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
+      <div id="commentInfoContainer" hidden\$="[[_hideActions(_showActions, _lastComment)]]">
+        <span id="unresolvedLabel" hidden\$="[[!unresolved]]">Unresolved</span>
         <div id="actions">
-          <gr-button
-              id="replyBtn"
-              link
-              class="action reply"
-              on-click="_handleCommentReply">Reply</gr-button>
-          <gr-button
-              id="quoteBtn"
-              link
-              class="action quote"
-              on-click="_handleCommentQuote">Quote</gr-button>
-          <gr-button
-              id="ackBtn"
-              link
-              class="action ack"
-              on-click="_handleCommentAck">Ack</gr-button>
-          <gr-button
-              id="doneBtn"
-              link
-              class="action done"
-              on-click="_handleCommentDone">Done</gr-button>
+          <gr-button id="replyBtn" link="" class="action reply" on-click="_handleCommentReply">Reply</gr-button>
+          <gr-button id="quoteBtn" link="" class="action quote" on-click="_handleCommentQuote">Quote</gr-button>
+          <gr-button id="ackBtn" link="" class="action ack" on-click="_handleCommentAck">Ack</gr-button>
+          <gr-button id="doneBtn" link="" class="action done" on-click="_handleCommentDone">Done</gr-button>
         </div>
       </div>
     </div>
     <gr-reporting id="reporting"></gr-reporting>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
-  </template>
-  <script src="gr-comment-thread.js"></script>
-</dom-module>
+`;

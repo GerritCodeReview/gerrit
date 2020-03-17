@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-settings-view</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-agreements-list.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-agreements-list.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-agreements-list.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,38 +40,41 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-agreements-list tests', async () => {
-    await readyToTest();
-    let element;
-    let agreements;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-agreements-list.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+suite('gr-agreements-list tests', () => {
+  let element;
+  let agreements;
 
-    setup(done => {
-      agreements = [{
-        url: 'some url',
-        description: 'Agreements 1 description',
-        name: 'Agreements 1',
-      }];
+  setup(done => {
+    agreements = [{
+      url: 'some url',
+      description: 'Agreements 1 description',
+      name: 'Agreements 1',
+    }];
 
-      stub('gr-rest-api-interface', {
-        getAccountAgreements() { return Promise.resolve(agreements); },
-      });
-
-      element = fixture('basic');
-
-      element.loadData().then(() => { flush(done); });
+    stub('gr-rest-api-interface', {
+      getAccountAgreements() { return Promise.resolve(agreements); },
     });
 
-    test('renders', () => {
-      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+    element = fixture('basic');
 
-      assert.equal(rows.length, 1);
-
-      const nameCells = Array.from(rows).map(row =>
-        row.querySelectorAll('td')[0].textContent.trim()
-      );
-
-      assert.equal(nameCells[0], 'Agreements 1');
-    });
+    element.loadData().then(() => { flush(done); });
   });
+
+  test('renders', () => {
+    const rows = dom(element.root).querySelectorAll('tbody tr');
+
+    assert.equal(rows.length, 1);
+
+    const nameCells = Array.from(rows).map(row =>
+      row.querySelectorAll('td')[0].textContent.trim()
+    );
+
+    assert.equal(nameCells[0], 'Agreements 1');
+  });
+});
 </script>

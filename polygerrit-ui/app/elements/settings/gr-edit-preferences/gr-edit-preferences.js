@@ -14,76 +14,86 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrEditPreferences extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-edit-preferences'; }
+import '@polymer/iron-input/iron-input.js';
+import '../../../styles/gr-form-styles.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../shared/gr-select/gr-select.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-edit-preferences_html.js';
 
-    static get properties() {
-      return {
-        hasUnsavedChanges: {
-          type: Boolean,
-          notify: true,
-          value: false,
-        },
+/** @extends Polymer.Element */
+class GrEditPreferences extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-        /** @type {?} */
-        editPrefs: Object,
-      };
-    }
+  static get is() { return 'gr-edit-preferences'; }
 
-    loadData() {
-      return this.$.restAPI.getEditPreferences().then(prefs => {
-        this.editPrefs = prefs;
-      });
-    }
+  static get properties() {
+    return {
+      hasUnsavedChanges: {
+        type: Boolean,
+        notify: true,
+        value: false,
+      },
 
-    _handleEditPrefsChanged() {
-      this.hasUnsavedChanges = true;
-    }
-
-    _handleEditSyntaxHighlightingChanged() {
-      this.set('editPrefs.syntax_highlighting',
-          this.$.editSyntaxHighlighting.checked);
-      this._handleEditPrefsChanged();
-    }
-
-    _handleEditShowTabsChanged() {
-      this.set('editPrefs.show_tabs', this.$.editShowTabs.checked);
-      this._handleEditPrefsChanged();
-    }
-
-    _handleMatchBracketsChanged() {
-      this.set('editPrefs.match_brackets', this.$.showMatchBrackets.checked);
-      this._handleEditPrefsChanged();
-    }
-
-    _handleEditLineWrappingChanged() {
-      this.set('editPrefs.line_wrapping', this.$.editShowLineWrapping.checked);
-      this._handleEditPrefsChanged();
-    }
-
-    _handleIndentWithTabsChanged() {
-      this.set('editPrefs.indent_with_tabs', this.$.showIndentWithTabs.checked);
-      this._handleEditPrefsChanged();
-    }
-
-    _handleAutoCloseBracketsChanged() {
-      this.set('editPrefs.auto_close_brackets',
-          this.$.showAutoCloseBrackets.checked);
-      this._handleEditPrefsChanged();
-    }
-
-    save() {
-      return this.$.restAPI.saveEditPreferences(this.editPrefs).then(res => {
-        this.hasUnsavedChanges = false;
-      });
-    }
+      /** @type {?} */
+      editPrefs: Object,
+    };
   }
 
-  customElements.define(GrEditPreferences.is, GrEditPreferences);
-})();
+  loadData() {
+    return this.$.restAPI.getEditPreferences().then(prefs => {
+      this.editPrefs = prefs;
+    });
+  }
+
+  _handleEditPrefsChanged() {
+    this.hasUnsavedChanges = true;
+  }
+
+  _handleEditSyntaxHighlightingChanged() {
+    this.set('editPrefs.syntax_highlighting',
+        this.$.editSyntaxHighlighting.checked);
+    this._handleEditPrefsChanged();
+  }
+
+  _handleEditShowTabsChanged() {
+    this.set('editPrefs.show_tabs', this.$.editShowTabs.checked);
+    this._handleEditPrefsChanged();
+  }
+
+  _handleMatchBracketsChanged() {
+    this.set('editPrefs.match_brackets', this.$.showMatchBrackets.checked);
+    this._handleEditPrefsChanged();
+  }
+
+  _handleEditLineWrappingChanged() {
+    this.set('editPrefs.line_wrapping', this.$.editShowLineWrapping.checked);
+    this._handleEditPrefsChanged();
+  }
+
+  _handleIndentWithTabsChanged() {
+    this.set('editPrefs.indent_with_tabs', this.$.showIndentWithTabs.checked);
+    this._handleEditPrefsChanged();
+  }
+
+  _handleAutoCloseBracketsChanged() {
+    this.set('editPrefs.auto_close_brackets',
+        this.$.showAutoCloseBrackets.checked);
+    this._handleEditPrefsChanged();
+  }
+
+  save() {
+    return this.$.restAPI.saveEditPreferences(this.editPrefs).then(res => {
+      this.hasUnsavedChanges = false;
+    });
+  }
+}
+
+customElements.define(GrEditPreferences.is, GrEditPreferences);

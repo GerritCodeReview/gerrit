@@ -1,30 +1,22 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../gr-message/gr-message.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-messages-list">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host,
       .messageListControls {
@@ -75,55 +67,27 @@ limitations under the License.
       }
     </style>
     <div class="header">
-        <span
-            id="automatedMessageToggleContainer"
-            class="container"
-            hidden$="[[!_hasAutomatedMessages(messages)]]">
-          <paper-toggle-button
-              id="automatedMessageToggle"
-              checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
+        <span id="automatedMessageToggleContainer" class="container" hidden\$="[[!_hasAutomatedMessages(messages)]]">
+          <paper-toggle-button id="automatedMessageToggle" checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
           <span class="transparent separator"></span>
         </span>
-        <gr-button
-            id="collapse-messages"
-            link
-            title="[[_expandCollapseTitle]]"
-            on-click="_handleExpandCollapseTap">
+        <gr-button id="collapse-messages" link="" title="[[_expandCollapseTitle]]" on-click="_handleExpandCollapseTap">
           [[_computeExpandCollapseMessage(_expanded)]]
         </gr-button>
       </div>
-    <span
-        id="messageControlsContainer"
-        hidden$="[[_computeShowHideTextHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
-      <gr-button id="oldMessagesBtn" link on-click="_handleShowAllTap">
+    <span id="messageControlsContainer" hidden\$="[[_computeShowHideTextHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
+      <gr-button id="oldMessagesBtn" link="" on-click="_handleShowAllTap">
           [[_computeNumMessagesText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
       </gr-button>
-      <span
-          class="container"
-          hidden$="[[_computeIncrementHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
+      <span class="container" hidden\$="[[_computeIncrementHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
         <span class="transparent separator"></span>
-        <gr-button id="incrementMessagesBtn" link
-            on-click="_handleIncrementShownMessages">
+        <gr-button id="incrementMessagesBtn" link="" on-click="_handleIncrementShownMessages">
           [[_computeIncrementText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
         </gr-button>
       </span>
     </span>
-    <template
-        is="dom-repeat"
-        items="[[_visibleMessages]]"
-        as="message">
-      <gr-message
-          change-num="[[changeNum]]"
-          message="[[message]]"
-          comments="[[_computeCommentsForMessage(changeComments, message)]]"
-          hide-automated="[[_hideAutomated]]"
-          project-name="[[projectName]]"
-          show-reply-button="[[showReplyButtons]]"
-          on-message-anchor-tap="_handleAnchorClick"
-          label-extremes="[[_labelExtremes]]"
-          data-message-id$="[[message.id]]"></gr-message>
+    <template is="dom-repeat" items="[[_visibleMessages]]" as="message">
+      <gr-message change-num="[[changeNum]]" message="[[message]]" comments="[[_computeCommentsForMessage(changeComments, message)]]" hide-automated="[[_hideAutomated]]" project-name="[[projectName]]" show-reply-button="[[showReplyButtons]]" on-message-anchor-tap="_handleAnchorClick" label-extremes="[[_labelExtremes]]" data-message-id\$="[[message.id]]"></gr-message>
     </template>
     <gr-reporting id="reporting" category="message-list"></gr-reporting>
-  </template>
-  <script src="gr-messages-list.js"></script>
-</dom-module>
+`;

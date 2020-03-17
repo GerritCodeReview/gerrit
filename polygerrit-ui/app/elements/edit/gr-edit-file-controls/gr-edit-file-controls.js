@@ -14,56 +14,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  /** @extends Polymer.Element */
-  class GrEditFileControls extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-edit-file-controls'; }
-    /**
-     * Fired when an action in the overflow menu is tapped.
-     *
-     * @event file-action-tap
-     */
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-dropdown/gr-dropdown.js';
+import '../gr-edit-constants.js';
+import '../../../styles/shared-styles.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-edit-file-controls_html.js';
 
-    static get properties() {
-      return {
-        filePath: String,
-        _allFileActions: {
-          type: Array,
-          value: () => Object.values(GrEditConstants.Actions),
-        },
-        _fileActions: {
-          type: Array,
-          computed: '_computeFileActions(_allFileActions)',
-        },
-      };
-    }
+/** @extends Polymer.Element */
+class GrEditFileControls extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get template() { return htmlTemplate; }
 
-    _handleActionTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this._dispatchFileAction(e.detail.id, this.filePath);
-    }
+  static get is() { return 'gr-edit-file-controls'; }
+  /**
+   * Fired when an action in the overflow menu is tapped.
+   *
+   * @event file-action-tap
+   */
 
-    _dispatchFileAction(action, path) {
-      this.dispatchEvent(new CustomEvent(
-          'file-action-tap',
-          {detail: {action, path}, bubbles: true, composed: true}));
-    }
-
-    _computeFileActions(actions) {
-      // TODO(kaspern): conditionally disable some actions based on file status.
-      return actions.map(action => {
-        return {
-          name: action.label,
-          id: action.id,
-        };
-      });
-    }
+  static get properties() {
+    return {
+      filePath: String,
+      _allFileActions: {
+        type: Array,
+        value: () => Object.values(GrEditConstants.Actions),
+      },
+      _fileActions: {
+        type: Array,
+        computed: '_computeFileActions(_allFileActions)',
+      },
+    };
   }
 
-  customElements.define(GrEditFileControls.is, GrEditFileControls);
-})();
+  _handleActionTap(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this._dispatchFileAction(e.detail.id, this.filePath);
+  }
+
+  _dispatchFileAction(action, path) {
+    this.dispatchEvent(new CustomEvent(
+        'file-action-tap',
+        {detail: {action, path}, bubbles: true, composed: true}));
+  }
+
+  _computeFileActions(actions) {
+    // TODO(kaspern): conditionally disable some actions based on file status.
+    return actions.map(action => {
+      return {
+        name: action.label,
+        id: action.id,
+      };
+    });
+  }
+}
+
+customElements.define(GrEditFileControls.is, GrEditFileControls);

@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-create-commands-dialog</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-create-commands-dialog.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-create-commands-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-commands-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,23 +40,25 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-create-commands-dialog tests', async () => {
-    await readyToTest();
-    let element;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-create-commands-dialog.js';
+suite('gr-create-commands-dialog tests', () => {
+  let element;
 
-    setup(() => {
-      element = fixture('basic');
-    });
-
-    test('_computePushCommand', () => {
-      element.branch = 'master';
-      assert.equal(element._pushCommand,
-          'git push origin HEAD:refs/for/master');
-
-      element.branch = 'stable-2.15';
-      assert.equal(element._pushCommand,
-          'git push origin HEAD:refs/for/stable-2.15');
-    });
+  setup(() => {
+    element = fixture('basic');
   });
+
+  test('_computePushCommand', () => {
+    element.branch = 'master';
+    assert.equal(element._pushCommand,
+        'git push origin HEAD:refs/for/master');
+
+    element.branch = 'stable-2.15';
+    assert.equal(element._pushCommand,
+        'git push origin HEAD:refs/for/stable-2.15');
+  });
+});
 </script>

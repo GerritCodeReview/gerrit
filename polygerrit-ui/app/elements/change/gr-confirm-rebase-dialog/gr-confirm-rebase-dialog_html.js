@@ -1,28 +1,22 @@
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
-<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-confirm-rebase-dialog">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -50,70 +44,43 @@ limitations under the License.
         margin: var(--spacing-m) 0;
       }
     </style>
-    <gr-dialog
-        id="confirmDialog"
-        confirm-label="Rebase"
-        on-confirm="_handleConfirmTap"
-        on-cancel="_handleCancelTap">
+    <gr-dialog id="confirmDialog" confirm-label="Rebase" on-confirm="_handleConfirmTap" on-cancel="_handleCancelTap">
       <div class="header" slot="header">Confirm rebase</div>
       <div class="main" slot="main">
-        <div id="rebaseOnParent" class="rebaseOption"
-            hidden$="[[!_displayParentOption(rebaseOnCurrent, hasParent)]]">
-          <input id="rebaseOnParentInput"
-              name="rebaseOptions"
-              type="radio"
-              on-click="_handleRebaseOnParent">
+        <div id="rebaseOnParent" class="rebaseOption" hidden\$="[[!_displayParentOption(rebaseOnCurrent, hasParent)]]">
+          <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" on-click="_handleRebaseOnParent">
           <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
             Rebase on parent change
           </label>
         </div>
-        <div id="parentUpToDateMsg" class="message"
-            hidden$="[[!_displayParentUpToDateMsg(rebaseOnCurrent, hasParent)]]">
+        <div id="parentUpToDateMsg" class="message" hidden\$="[[!_displayParentUpToDateMsg(rebaseOnCurrent, hasParent)]]">
           This change is up to date with its parent.
         </div>
-        <div id="rebaseOnTip" class="rebaseOption"
-            hidden$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]">
-          <input id="rebaseOnTipInput"
-              name="rebaseOptions"
-              type="radio"
-              disabled$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]"
-              on-click="_handleRebaseOnTip">
+        <div id="rebaseOnTip" class="rebaseOption" hidden\$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]">
+          <input id="rebaseOnTipInput" name="rebaseOptions" type="radio" disabled\$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]" on-click="_handleRebaseOnTip">
           <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
             Rebase on top of the [[branch]]
-            branch<span hidden$="[[!hasParent]]">
+            branch<span hidden\$="[[!hasParent]]">
               (breaks relation chain)
             </span>
           </label>
         </div>
-        <div id="tipUpToDateMsg" class="message"
-            hidden$="[[_displayTipOption(rebaseOnCurrent, hasParent)]]">
+        <div id="tipUpToDateMsg" class="message" hidden\$="[[_displayTipOption(rebaseOnCurrent, hasParent)]]">
           Change is up to date with the target branch already ([[branch]])
         </div>
         <div id="rebaseOnOther" class="rebaseOption">
-          <input id="rebaseOnOtherInput"
-              name="rebaseOptions"
-              type="radio"
-              on-click="_handleRebaseOnOther">
+          <input id="rebaseOnOtherInput" name="rebaseOptions" type="radio" on-click="_handleRebaseOnOther">
           <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
-            Rebase on a specific change, ref, or commit <span hidden$="[[!hasParent]]">
+            Rebase on a specific change, ref, or commit <span hidden\$="[[!hasParent]]">
               (breaks relation chain)
             </span>
           </label>
         </div>
         <div class="parentRevisionContainer">
-          <gr-autocomplete
-              id="parentInput"
-              query="[[_query]]"
-              no-debounce
-              text="{{_text}}"
-              on-click="_handleEnterChangeNumberClick"
-              allow-non-suggested-values
-              placeholder="Change number, ref, or commit hash">
+          <gr-autocomplete id="parentInput" query="[[_query]]" no-debounce="" text="{{_text}}" on-click="_handleEnterChangeNumberClick" allow-non-suggested-values="" placeholder="Change number, ref, or commit hash">
           </gr-autocomplete>
         </div>
       </div>
     </gr-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-confirm-rebase-dialog.js"></script>
-</dom-module>
+`;

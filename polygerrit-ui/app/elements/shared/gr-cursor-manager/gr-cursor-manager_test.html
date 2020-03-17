@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-cursor-manager</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-cursor-manager.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-cursor-manager.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-cursor-manager.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -41,243 +46,245 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-cursor-manager tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let element;
-    let list;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-cursor-manager.js';
+suite('gr-cursor-manager tests', () => {
+  let sandbox;
+  let element;
+  let list;
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    const fixtureElements = fixture('basic');
+    element = fixtureElements[0];
+    list = fixtureElements[1];
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('core cursor functionality', () => {
+    // The element is initialized into the proper state.
+    assert.isArray(element.stops);
+    assert.equal(element.stops.length, 0);
+    assert.equal(element.index, -1);
+    assert.isNotOk(element.target);
+
+    // Initialize the cursor with its stops.
+    element.stops = list.querySelectorAll('li');
+
+    // It should have the stops but it should not be targeting any of them.
+    assert.isNotNull(element.stops);
+    assert.equal(element.stops.length, 4);
+    assert.equal(element.index, -1);
+    assert.isNotOk(element.target);
+
+    // Select the third stop.
+    element.setCursor(list.children[2]);
+
+    // It should update its internal state and update the element's class.
+    assert.equal(element.index, 2);
+    assert.equal(element.target, list.children[2]);
+    assert.isTrue(list.children[2].classList.contains('targeted'));
+    assert.isFalse(element.isAtStart());
+    assert.isFalse(element.isAtEnd());
+
+    // Progress the cursor.
+    element.next();
+
+    // Confirm that the next stop is selected and that the previous stop is
+    // unselected.
+    assert.equal(element.index, 3);
+    assert.equal(element.target, list.children[3]);
+    assert.isTrue(element.isAtEnd());
+    assert.isFalse(list.children[2].classList.contains('targeted'));
+    assert.isTrue(list.children[3].classList.contains('targeted'));
+
+    // Progress the cursor.
+    element.next();
+
+    // We should still be at the end.
+    assert.equal(element.index, 3);
+    assert.equal(element.target, list.children[3]);
+    assert.isTrue(element.isAtEnd());
+
+    // Wind the cursor all the way back to the first stop.
+    element.previous();
+    element.previous();
+    element.previous();
+
+    // The element state should reflect the end of the list.
+    assert.equal(element.index, 0);
+    assert.equal(element.target, list.children[0]);
+    assert.isTrue(element.isAtStart());
+    assert.isTrue(list.children[0].classList.contains('targeted'));
+
+    const newLi = document.createElement('li');
+    newLi.textContent = 'Z';
+    list.insertBefore(newLi, list.children[0]);
+    element.stops = list.querySelectorAll('li');
+
+    assert.equal(element.index, 1);
+
+    // De-select all targets.
+    element.unsetCursor();
+
+    // There should now be no cursor target.
+    assert.isFalse(list.children[1].classList.contains('targeted'));
+    assert.isNotOk(element.target);
+    assert.equal(element.index, -1);
+  });
+
+  test('_moveCursor', () => {
+    // Initialize the cursor with its stops.
+    element.stops = list.querySelectorAll('li');
+    // Select the first stop.
+    element.setCursor(list.children[0]);
+    const getTargetHeight = sinon.stub();
+
+    // Move the cursor without an optional get target height function.
+    element._moveCursor(1);
+    assert.isFalse(getTargetHeight.called);
+
+    // Move the cursor with an optional get target height function.
+    element._moveCursor(1, null, getTargetHeight);
+    assert.isTrue(getTargetHeight.called);
+  });
+
+  test('_moveCursor from -1 does not check height', () => {
+    element.stops = list.querySelectorAll('li');
+    const getTargetHeight = sinon.stub();
+    element._moveCursor(1, () => false, getTargetHeight);
+    assert.isFalse(getTargetHeight.called);
+  });
+
+  test('opt_noScroll', () => {
+    sandbox.stub(element, '_targetIsVisible', () => false);
+    const scrollStub = sandbox.stub(window, 'scrollTo');
+    element.stops = list.querySelectorAll('li');
+    element.scrollBehavior = 'keep-visible';
+
+    element.setCursorAtIndex(1, true);
+    assert.isFalse(scrollStub.called);
+
+    element.setCursorAtIndex(2);
+    assert.isTrue(scrollStub.called);
+  });
+
+  test('_getNextindex', () => {
+    const isLetterB = function(row) {
+      return row.textContent === 'B';
+    };
+    element.stops = list.querySelectorAll('li');
+    // Start cursor at the first stop.
+    element.setCursor(list.children[0]);
+
+    // Move forward to meet the next condition.
+    assert.equal(element._getNextindex(1, isLetterB), 1);
+    element.index = 1;
+
+    // Nothing else meets the condition, should be at last stop.
+    assert.equal(element._getNextindex(1, isLetterB), 3);
+    element.index = 3;
+
+    // Should stay at last stop if try to proceed.
+    assert.equal(element._getNextindex(1, isLetterB), 3);
+
+    // Go back to the previous condition met. Should be back at.
+    // stop 1.
+    assert.equal(element._getNextindex(-1, isLetterB), 1);
+    element.index = 1;
+
+    // Go back. No more meet the condition. Should be at stop 0.
+    assert.equal(element._getNextindex(-1, isLetterB), 0);
+  });
+
+  test('focusOnMove prop', () => {
+    const listEls = list.querySelectorAll('li');
+    for (let i = 0; i < listEls.length; i++) {
+      sandbox.spy(listEls[i], 'focus');
+    }
+    element.stops = listEls;
+    element.setCursor(list.children[0]);
+
+    element.focusOnMove = false;
+    element.next();
+    assert.isFalse(element.target.focus.called);
+
+    element.focusOnMove = true;
+    element.next();
+    assert.isTrue(element.target.focus.called);
+  });
+
+  suite('_scrollToTarget', () => {
+    let scrollStub;
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      const fixtureElements = fixture('basic');
-      element = fixtureElements[0];
-      list = fixtureElements[1];
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('core cursor functionality', () => {
-      // The element is initialized into the proper state.
-      assert.isArray(element.stops);
-      assert.equal(element.stops.length, 0);
-      assert.equal(element.index, -1);
-      assert.isNotOk(element.target);
-
-      // Initialize the cursor with its stops.
-      element.stops = list.querySelectorAll('li');
-
-      // It should have the stops but it should not be targeting any of them.
-      assert.isNotNull(element.stops);
-      assert.equal(element.stops.length, 4);
-      assert.equal(element.index, -1);
-      assert.isNotOk(element.target);
-
-      // Select the third stop.
-      element.setCursor(list.children[2]);
-
-      // It should update its internal state and update the element's class.
-      assert.equal(element.index, 2);
-      assert.equal(element.target, list.children[2]);
-      assert.isTrue(list.children[2].classList.contains('targeted'));
-      assert.isFalse(element.isAtStart());
-      assert.isFalse(element.isAtEnd());
-
-      // Progress the cursor.
-      element.next();
-
-      // Confirm that the next stop is selected and that the previous stop is
-      // unselected.
-      assert.equal(element.index, 3);
-      assert.equal(element.target, list.children[3]);
-      assert.isTrue(element.isAtEnd());
-      assert.isFalse(list.children[2].classList.contains('targeted'));
-      assert.isTrue(list.children[3].classList.contains('targeted'));
-
-      // Progress the cursor.
-      element.next();
-
-      // We should still be at the end.
-      assert.equal(element.index, 3);
-      assert.equal(element.target, list.children[3]);
-      assert.isTrue(element.isAtEnd());
-
-      // Wind the cursor all the way back to the first stop.
-      element.previous();
-      element.previous();
-      element.previous();
-
-      // The element state should reflect the end of the list.
-      assert.equal(element.index, 0);
-      assert.equal(element.target, list.children[0]);
-      assert.isTrue(element.isAtStart());
-      assert.isTrue(list.children[0].classList.contains('targeted'));
-
-      const newLi = document.createElement('li');
-      newLi.textContent = 'Z';
-      list.insertBefore(newLi, list.children[0]);
-      element.stops = list.querySelectorAll('li');
-
-      assert.equal(element.index, 1);
-
-      // De-select all targets.
-      element.unsetCursor();
-
-      // There should now be no cursor target.
-      assert.isFalse(list.children[1].classList.contains('targeted'));
-      assert.isNotOk(element.target);
-      assert.equal(element.index, -1);
-    });
-
-    test('_moveCursor', () => {
-      // Initialize the cursor with its stops.
-      element.stops = list.querySelectorAll('li');
-      // Select the first stop.
-      element.setCursor(list.children[0]);
-      const getTargetHeight = sinon.stub();
-
-      // Move the cursor without an optional get target height function.
-      element._moveCursor(1);
-      assert.isFalse(getTargetHeight.called);
-
-      // Move the cursor with an optional get target height function.
-      element._moveCursor(1, null, getTargetHeight);
-      assert.isTrue(getTargetHeight.called);
-    });
-
-    test('_moveCursor from -1 does not check height', () => {
-      element.stops = list.querySelectorAll('li');
-      const getTargetHeight = sinon.stub();
-      element._moveCursor(1, () => false, getTargetHeight);
-      assert.isFalse(getTargetHeight.called);
-    });
-
-    test('opt_noScroll', () => {
-      sandbox.stub(element, '_targetIsVisible', () => false);
-      const scrollStub = sandbox.stub(window, 'scrollTo');
       element.stops = list.querySelectorAll('li');
       element.scrollBehavior = 'keep-visible';
 
-      element.setCursorAtIndex(1, true);
-      assert.isFalse(scrollStub.called);
+      // There is a target which has a targetNext
+      element.setCursor(list.children[0]);
+      element._moveCursor(1);
+      scrollStub = sandbox.stub(window, 'scrollTo');
+      window.innerHeight = 60;
+    });
 
-      element.setCursorAtIndex(2);
+    test('Called when top and bottom not visible', () => {
+      sandbox.stub(element, '_targetIsVisible').returns(false);
+      element._scrollToTarget();
       assert.isTrue(scrollStub.called);
     });
 
-    test('_getNextindex', () => {
-      const isLetterB = function(row) {
-        return row.textContent === 'B';
-      };
-      element.stops = list.querySelectorAll('li');
-      // Start cursor at the first stop.
-      element.setCursor(list.children[0]);
-
-      // Move forward to meet the next condition.
-      assert.equal(element._getNextindex(1, isLetterB), 1);
-      element.index = 1;
-
-      // Nothing else meets the condition, should be at last stop.
-      assert.equal(element._getNextindex(1, isLetterB), 3);
-      element.index = 3;
-
-      // Should stay at last stop if try to proceed.
-      assert.equal(element._getNextindex(1, isLetterB), 3);
-
-      // Go back to the previous condition met. Should be back at.
-      // stop 1.
-      assert.equal(element._getNextindex(-1, isLetterB), 1);
-      element.index = 1;
-
-      // Go back. No more meet the condition. Should be at stop 0.
-      assert.equal(element._getNextindex(-1, isLetterB), 0);
+    test('Not called when top and bottom visible', () => {
+      sandbox.stub(element, '_targetIsVisible').returns(true);
+      element._scrollToTarget();
+      assert.isFalse(scrollStub.called);
     });
 
-    test('focusOnMove prop', () => {
-      const listEls = list.querySelectorAll('li');
-      for (let i = 0; i < listEls.length; i++) {
-        sandbox.spy(listEls[i], 'focus');
-      }
-      element.stops = listEls;
-      element.setCursor(list.children[0]);
-
-      element.focusOnMove = false;
-      element.next();
-      assert.isFalse(element.target.focus.called);
-
-      element.focusOnMove = true;
-      element.next();
-      assert.isTrue(element.target.focus.called);
+    test('Called when top is visible, bottom is not, scroll is lower', () => {
+      const visibleStub = sandbox.stub(element, '_targetIsVisible',
+          () => visibleStub.callCount === 2);
+      sandbox.stub(element, '_getWindowDims').returns({
+        scrollX: 123,
+        scrollY: 15,
+        innerHeight: 1000,
+        pageYOffset: 0,
+      });
+      sandbox.stub(element, '_calculateScrollToValue').returns(20);
+      element._scrollToTarget();
+      assert.isTrue(scrollStub.called);
+      assert.isTrue(scrollStub.calledWithExactly(123, 20));
+      assert.equal(visibleStub.callCount, 2);
     });
 
-    suite('_scrollToTarget', () => {
-      let scrollStub;
-      setup(() => {
-        element.stops = list.querySelectorAll('li');
-        element.scrollBehavior = 'keep-visible';
-
-        // There is a target which has a targetNext
-        element.setCursor(list.children[0]);
-        element._moveCursor(1);
-        scrollStub = sandbox.stub(window, 'scrollTo');
-        window.innerHeight = 60;
+    test('Called when top is visible, bottom not, scroll is higher', () => {
+      const visibleStub = sandbox.stub(element, '_targetIsVisible',
+          () => visibleStub.callCount === 2);
+      sandbox.stub(element, '_getWindowDims').returns({
+        scrollX: 123,
+        scrollY: 25,
+        innerHeight: 1000,
+        pageYOffset: 0,
       });
+      sandbox.stub(element, '_calculateScrollToValue').returns(20);
+      element._scrollToTarget();
+      assert.isFalse(scrollStub.called);
+      assert.equal(visibleStub.callCount, 2);
+    });
 
-      test('Called when top and bottom not visible', () => {
-        sandbox.stub(element, '_targetIsVisible').returns(false);
-        element._scrollToTarget();
-        assert.isTrue(scrollStub.called);
+    test('_calculateScrollToValue', () => {
+      sandbox.stub(element, '_getWindowDims').returns({
+        scrollX: 123,
+        scrollY: 25,
+        innerHeight: 300,
+        pageYOffset: 0,
       });
-
-      test('Not called when top and bottom visible', () => {
-        sandbox.stub(element, '_targetIsVisible').returns(true);
-        element._scrollToTarget();
-        assert.isFalse(scrollStub.called);
-      });
-
-      test('Called when top is visible, bottom is not, scroll is lower', () => {
-        const visibleStub = sandbox.stub(element, '_targetIsVisible',
-            () => visibleStub.callCount === 2);
-        sandbox.stub(element, '_getWindowDims').returns({
-          scrollX: 123,
-          scrollY: 15,
-          innerHeight: 1000,
-          pageYOffset: 0,
-        });
-        sandbox.stub(element, '_calculateScrollToValue').returns(20);
-        element._scrollToTarget();
-        assert.isTrue(scrollStub.called);
-        assert.isTrue(scrollStub.calledWithExactly(123, 20));
-        assert.equal(visibleStub.callCount, 2);
-      });
-
-      test('Called when top is visible, bottom not, scroll is higher', () => {
-        const visibleStub = sandbox.stub(element, '_targetIsVisible',
-            () => visibleStub.callCount === 2);
-        sandbox.stub(element, '_getWindowDims').returns({
-          scrollX: 123,
-          scrollY: 25,
-          innerHeight: 1000,
-          pageYOffset: 0,
-        });
-        sandbox.stub(element, '_calculateScrollToValue').returns(20);
-        element._scrollToTarget();
-        assert.isFalse(scrollStub.called);
-        assert.equal(visibleStub.callCount, 2);
-      });
-
-      test('_calculateScrollToValue', () => {
-        sandbox.stub(element, '_getWindowDims').returns({
-          scrollX: 123,
-          scrollY: 25,
-          innerHeight: 300,
-          pageYOffset: 0,
-        });
-        assert.equal(element._calculateScrollToValue(1000, {offsetHeight: 10}),
-            905);
-      });
+      assert.equal(element._calculateScrollToValue(1000, {offsetHeight: 10}),
+          905);
     });
   });
+});
 </script>

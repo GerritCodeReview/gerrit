@@ -19,54 +19,63 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-admin-api</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
-<link rel="import" href="gr-admin-api.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../../shared/gr-js-api-interface/gr-js-api-interface.js"></script>
+<script type="module" src="./gr-admin-api.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+import './gr-admin-api.js';
+void(0);
+</script>
 
-<script>
-  suite('gr-admin-api tests', async () => {
-    await readyToTest();
-    let sandbox;
-    let adminApi;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+import './gr-admin-api.js';
+suite('gr-admin-api tests', () => {
+  let sandbox;
+  let adminApi;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      Gerrit._loadPlugins([]);
-      adminApi = plugin.admin();
-    });
-
-    teardown(() => {
-      adminApi = null;
-      sandbox.restore();
-    });
-
-    test('exists', () => {
-      assert.isOk(adminApi);
-    });
-
-    test('addMenuLink', () => {
-      adminApi.addMenuLink('text', 'url');
-      const links = adminApi.getMenuLinks();
-      assert.equal(links.length, 1);
-      assert.deepEqual(links[0], {text: 'text', url: 'url', capability: null});
-    });
-
-    test('addMenuLinkWithCapability', () => {
-      adminApi.addMenuLink('text', 'url', 'capability');
-      const links = adminApi.getMenuLinks();
-      assert.equal(links.length, 1);
-      assert.deepEqual(links[0],
-          {text: 'text', url: 'url', capability: 'capability'});
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    let plugin;
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
+    Gerrit._loadPlugins([]);
+    adminApi = plugin.admin();
   });
+
+  teardown(() => {
+    adminApi = null;
+    sandbox.restore();
+  });
+
+  test('exists', () => {
+    assert.isOk(adminApi);
+  });
+
+  test('addMenuLink', () => {
+    adminApi.addMenuLink('text', 'url');
+    const links = adminApi.getMenuLinks();
+    assert.equal(links.length, 1);
+    assert.deepEqual(links[0], {text: 'text', url: 'url', capability: null});
+  });
+
+  test('addMenuLinkWithCapability', () => {
+    adminApi.addMenuLink('text', 'url', 'capability');
+    const links = adminApi.getMenuLinks();
+    assert.equal(links.length, 1);
+    assert.deepEqual(links[0],
+        {text: 'text', url: 'url', capability: 'capability'});
+  });
+});
 </script>

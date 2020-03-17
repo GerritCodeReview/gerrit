@@ -1,38 +1,21 @@
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-<script src="gr-app-init.js"></script>
-<script src="./font-roboto-local-loader.js" type="module" />
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/polymer-resin/standalone/polymer-resin.html">
-<!-- TODO(taoalpha): Remove once all legacyUndefinedCheck removed. -->
-<link rel="import" href="../behaviors/safe-types-behavior/safe-types-behavior.html">
-<script>
-  security.polymer_resin.install({
-    allowedIdentifierPrefixes: [''],
-    reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
-    safeTypesBridge: Gerrit.SafeTypes.safeTypesBridge,
-  });
-</script>
-
-<link rel="import" href="./gr-app-element.html">
-<dom-module id="gr-app">
-  <template>
+export const htmlTemplate = html`
     <gr-app-element id="app-element"></gr-app-element>
-  </template>
-  <script src="gr-app.js" crossorigin="anonymous"></script>
-</dom-module>
+`;

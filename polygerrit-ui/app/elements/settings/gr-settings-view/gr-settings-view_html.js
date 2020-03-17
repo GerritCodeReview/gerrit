@@ -1,53 +1,22 @@
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-
-<link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
-<link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
-
-<link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../../styles/gr-menu-page-styles.html">
-<link rel="import" href="../../../styles/gr-page-nav-styles.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="../../settings/gr-change-table-editor/gr-change-table-editor.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-diff-preferences/gr-diff-preferences.html">
-<link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
-<link rel="import" href="../gr-account-info/gr-account-info.html">
-<link rel="import" href="../gr-agreements-list/gr-agreements-list.html">
-<link rel="import" href="../gr-edit-preferences/gr-edit-preferences.html">
-<link rel="import" href="../gr-email-editor/gr-email-editor.html">
-<link rel="import" href="../gr-gpg-editor/gr-gpg-editor.html">
-<link rel="import" href="../gr-group-list/gr-group-list.html">
-<link rel="import" href="../gr-http-password/gr-http-password.html">
-<link rel="import" href="../gr-identities/gr-identities.html">
-<link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
-<link rel="import" href="../gr-ssh-editor/gr-ssh-editor.html">
-<link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
-<script src="../../../scripts/util.js"></script>
-
-<dom-module id="gr-settings-view">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         color: var(--primary-text-color);
@@ -84,8 +53,8 @@ limitations under the License.
     <style include="gr-page-nav-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
-    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
-    <div hidden$="[[_loading]]" hidden>
+    <div class="loading" hidden\$="[[!_loading]]">Loading...</div>
+    <div hidden\$="[[_loading]]" hidden="">
       <gr-page-nav class="navStyles">
         <ul>
           <li><a href="#Profile">Profile</a></li>
@@ -99,10 +68,10 @@ limitations under the License.
           <template is="dom-if" if="[[_showHttpAuth(_serverConfig)]]">
             <li><a href="#HTTPCredentials">HTTP Credentials</a></li>
           </template>
-          <li hidden$="[[!_serverConfig.sshd]]"><a href="#SSHKeys">
+          <li hidden\$="[[!_serverConfig.sshd]]"><a href="#SSHKeys">
             SSH Keys
           </a></li>
-          <li hidden$="[[!_serverConfig.receive.enable_signed_push]]"><a href="#GPGKeys">
+          <li hidden\$="[[!_serverConfig.receive.enable_signed_push]]"><a href="#GPGKeys">
             GPG Keys
           </a></li>
           <li><a href="#Groups">Groups</a></li>
@@ -121,9 +90,7 @@ limitations under the License.
         <h1>User Settings</h1>
         <section class="darkToggle">
           <div class="toggle">
-            <paper-toggle-button
-                checked="[[_isDark]]"
-                on-change="_handleToggleDark"></paper-toggle-button>
+            <paper-toggle-button checked="[[_isDark]]" on-change="_handleToggleDark"></paper-toggle-button>
             <div>Dark theme (alpha)</div>
           </div>
           <p>
@@ -132,26 +99,17 @@ limitations under the License.
             feedback via the link in the app footer is strongly encouraged!
           </p>
         </section>
-        <h2
-            id="Profile"
-            class$="[[_computeHeaderClass(_accountInfoChanged)]]">Profile</h2>
+        <h2 id="Profile" class\$="[[_computeHeaderClass(_accountInfoChanged)]]">Profile</h2>
         <fieldset id="profile">
-          <gr-account-info
-              id="accountInfo"
-              has-unsaved-changes="{{_accountInfoChanged}}"></gr-account-info>
-          <gr-button
-              on-click="_handleSaveAccountInfo"
-              disabled="[[!_accountInfoChanged]]">Save changes</gr-button>
+          <gr-account-info id="accountInfo" has-unsaved-changes="{{_accountInfoChanged}}"></gr-account-info>
+          <gr-button on-click="_handleSaveAccountInfo" disabled="[[!_accountInfoChanged]]">Save changes</gr-button>
         </fieldset>
-        <h2
-            id="Preferences"
-            class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
+        <h2 id="Preferences" class\$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
         <fieldset id="preferences">
           <section>
             <span class="title">Changes per page</span>
             <span class="value">
-              <gr-select
-                  bind-value="{{_localPrefs.changes_per_page}}">
+              <gr-select bind-value="{{_localPrefs.changes_per_page}}">
                 <select>
                   <option value="10">10 rows per page</option>
                   <option value="25">25 rows per page</option>
@@ -164,8 +122,7 @@ limitations under the License.
           <section>
             <span class="title">Date/time format</span>
             <span class="value">
-              <gr-select
-                  bind-value="{{_localPrefs.date_format}}">
+              <gr-select bind-value="{{_localPrefs.date_format}}">
                 <select>
                   <option value="STD">Jun 3 ; Jun 3, 2016</option>
                   <option value="US">06/03 ; 06/03/16</option>
@@ -174,8 +131,7 @@ limitations under the License.
                   <option value="UK">03/06 ; 03/06/2016</option>
                 </select>
               </gr-select>
-              <gr-select
-                  bind-value="{{_localPrefs.time_format}}">
+              <gr-select bind-value="{{_localPrefs.time_format}}">
                 <select>
                   <option value="HHMM_12">4:10 PM</option>
                   <option value="HHMM_24">16:10</option>
@@ -186,8 +142,7 @@ limitations under the License.
           <section>
             <span class="title">Email notifications</span>
             <span class="value">
-              <gr-select
-                  bind-value="{{_localPrefs.email_strategy}}">
+              <gr-select bind-value="{{_localPrefs.email_strategy}}">
                 <select>
                   <option value="CC_ON_OWN_COMMENTS">Every comment</option>
                   <option value="ENABLED">Only comments left by others</option>
@@ -196,11 +151,10 @@ limitations under the License.
               </gr-select>
             </span>
           </section>
-          <section hidden$="[[!_localPrefs.email_format]]">
+          <section hidden\$="[[!_localPrefs.email_format]]">
             <span class="title">Email format</span>
             <span class="value">
-              <gr-select
-                  bind-value="{{_localPrefs.email_format}}">
+              <gr-select bind-value="{{_localPrefs.email_format}}">
                 <select>
                   <option value="HTML_PLAINTEXT">HTML and plaintext</option>
                   <option value="PLAINTEXT">Plaintext only</option>
@@ -208,11 +162,10 @@ limitations under the License.
               </gr-select>
             </span>
           </section>
-          <section hidden$="[[!_localPrefs.default_base_for_merges]]">
+          <section hidden\$="[[!_localPrefs.default_base_for_merges]]">
             <span class="title">Default Base For Merges</span>
             <span class="value">
-              <gr-select
-                  bind-value="{{_localPrefs.default_base_for_merges}}">
+              <gr-select bind-value="{{_localPrefs.default_base_for_merges}}">
                 <select>
                   <option value="AUTO_MERGE">Auto Merge</option>
                   <option value="FIRST_PARENT">First Parent</option>
@@ -223,18 +176,13 @@ limitations under the License.
           <section>
             <span class="title">Show Relative Dates In Changes Table</span>
             <span class="value">
-              <input
-                  id="relativeDateInChangeTable"
-                  type="checkbox"
-                  checked$="[[_localPrefs.relative_date_in_change_table]]"
-                  on-change="_handleRelativeDateInChangeTable">
+              <input id="relativeDateInChangeTable" type="checkbox" checked\$="[[_localPrefs.relative_date_in_change_table]]" on-change="_handleRelativeDateInChangeTable">
             </span>
           </section>
           <section>
             <span class="title">Diff view</span>
             <span class="value">
-              <gr-select
-                  bind-value="{{_localPrefs.diff_view}}">
+              <gr-select bind-value="{{_localPrefs.diff_view}}">
                 <select>
                   <option value="SIDE_BY_SIDE">Side by side</option>
                   <option value="UNIFIED_DIFF">Unified diff</option>
@@ -245,31 +193,19 @@ limitations under the License.
           <section>
             <span class="title">Show size bars in file list</span>
             <span class="value">
-              <input
-                  id="showSizeBarsInFileList"
-                  type="checkbox"
-                  checked$="[[_localPrefs.size_bar_in_change_table]]"
-                  on-change="_handleShowSizeBarsInFileListChanged">
+              <input id="showSizeBarsInFileList" type="checkbox" checked\$="[[_localPrefs.size_bar_in_change_table]]" on-change="_handleShowSizeBarsInFileListChanged">
             </span>
           </section>
           <section>
             <span class="title">Publish comments on push</span>
             <span class="value">
-              <input
-                  id="publishCommentsOnPush"
-                  type="checkbox"
-                  checked$="[[_localPrefs.publish_comments_on_push]]"
-                  on-change="_handlePublishCommentsOnPushChanged">
+              <input id="publishCommentsOnPush" type="checkbox" checked\$="[[_localPrefs.publish_comments_on_push]]" on-change="_handlePublishCommentsOnPushChanged">
             </span>
           </section>
           <section>
             <span class="title">Set new changes to "work in progress" by default</span>
             <span class="value">
-              <input
-                  id="workInProgressByDefault"
-                  type="checkbox"
-                  checked$="[[_localPrefs.work_in_progress_by_default]]"
-                  on-change="_handleWorkInProgressByDefault">
+              <input id="workInProgressByDefault" type="checkbox" checked\$="[[_localPrefs.work_in_progress_by_default]]" on-change="_handleWorkInProgressByDefault">
             </span>
           </section>
           <section>
@@ -277,132 +213,69 @@ limitations under the License.
               Insert Signed-off-by Footer For Inline Edit Changes
             </span>
             <span class="value">
-              <input
-                  id="insertSignedOff"
-                  type="checkbox"
-                  checked$="[[_localPrefs.signed_off_by]]"
-                  on-change="_handleInsertSignedOff">
+              <input id="insertSignedOff" type="checkbox" checked\$="[[_localPrefs.signed_off_by]]" on-change="_handleInsertSignedOff">
             </span>
           </section>
-          <gr-button
-              id="savePrefs"
-              on-click="_handleSavePreferences"
-              disabled="[[!_prefsChanged]]">Save changes</gr-button>
+          <gr-button id="savePrefs" on-click="_handleSavePreferences" disabled="[[!_prefsChanged]]">Save changes</gr-button>
         </fieldset>
-        <h2
-            id="DiffPreferences"
-            class$="[[_computeHeaderClass(_diffPrefsChanged)]]">
+        <h2 id="DiffPreferences" class\$="[[_computeHeaderClass(_diffPrefsChanged)]]">
           Diff Preferences
         </h2>
         <fieldset id="diffPreferences">
-          <gr-diff-preferences
-              id="diffPrefs"
-              has-unsaved-changes="{{_diffPrefsChanged}}"></gr-diff-preferences>
-          <gr-button
-              id="saveDiffPrefs"
-              on-click="_handleSaveDiffPreferences"
-              disabled$="[[!_diffPrefsChanged]]">Save changes</gr-button>
+          <gr-diff-preferences id="diffPrefs" has-unsaved-changes="{{_diffPrefsChanged}}"></gr-diff-preferences>
+          <gr-button id="saveDiffPrefs" on-click="_handleSaveDiffPreferences" disabled\$="[[!_diffPrefsChanged]]">Save changes</gr-button>
         </fieldset>
-        <h2
-            id="EditPreferences"
-            class$="[[_computeHeaderClass(_editPrefsChanged)]]">
+        <h2 id="EditPreferences" class\$="[[_computeHeaderClass(_editPrefsChanged)]]">
           Edit Preferences
         </h2>
         <fieldset id="editPreferences">
-          <gr-edit-preferences
-              id="editPrefs"
-              has-unsaved-changes="{{_editPrefsChanged}}"></gr-edit-preferences>
-          <gr-button
-              id="saveEditPrefs"
-              on-click="_handleSaveEditPreferences"
-              disabled$="[[!_editPrefsChanged]]">Save changes</gr-button>
+          <gr-edit-preferences id="editPrefs" has-unsaved-changes="{{_editPrefsChanged}}"></gr-edit-preferences>
+          <gr-button id="saveEditPrefs" on-click="_handleSaveEditPreferences" disabled\$="[[!_editPrefsChanged]]">Save changes</gr-button>
         </fieldset>
-        <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
+        <h2 id="Menu" class\$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
         <fieldset id="menu">
-          <gr-menu-editor
-              menu-items="{{_localMenu}}"></gr-menu-editor>
-          <gr-button
-              id="saveMenu"
-              on-click="_handleSaveMenu"
-              disabled="[[!_menuChanged]]">Save changes</gr-button>
-          <gr-button
-              id="resetMenu"
-              link
-              on-click="_handleResetMenuButton">Reset</gr-button>
+          <gr-menu-editor menu-items="{{_localMenu}}"></gr-menu-editor>
+          <gr-button id="saveMenu" on-click="_handleSaveMenu" disabled="[[!_menuChanged]]">Save changes</gr-button>
+          <gr-button id="resetMenu" link="" on-click="_handleResetMenuButton">Reset</gr-button>
         </fieldset>
-        <h2 id="ChangeTableColumns"
-            class$="[[_computeHeaderClass(_changeTableChanged)]]">
+        <h2 id="ChangeTableColumns" class\$="[[_computeHeaderClass(_changeTableChanged)]]">
           Change Table Columns
         </h2>
         <fieldset id="changeTableColumns">
-          <gr-change-table-editor
-              show-number="{{_showNumber}}"
-              displayed-columns="{{_localChangeTableColumns}}">
+          <gr-change-table-editor show-number="{{_showNumber}}" displayed-columns="{{_localChangeTableColumns}}">
           </gr-change-table-editor>
-          <gr-button
-              id="saveChangeTable"
-              on-click="_handleSaveChangeTable"
-              disabled="[[!_changeTableChanged]]">Save changes</gr-button>
+          <gr-button id="saveChangeTable" on-click="_handleSaveChangeTable" disabled="[[!_changeTableChanged]]">Save changes</gr-button>
         </fieldset>
-        <h2
-            id="Notifications"
-            class$="[[_computeHeaderClass(_watchedProjectsChanged)]]">
+        <h2 id="Notifications" class\$="[[_computeHeaderClass(_watchedProjectsChanged)]]">
           Notifications
         </h2>
         <fieldset id="watchedProjects">
-          <gr-watched-projects-editor
-              has-unsaved-changes="{{_watchedProjectsChanged}}"
-              id="watchedProjectsEditor"></gr-watched-projects-editor>
-          <gr-button
-              on-click="_handleSaveWatchedProjects"
-              disabled$="[[!_watchedProjectsChanged]]"
-              id="_handleSaveWatchedProjects">Save changes</gr-button>
+          <gr-watched-projects-editor has-unsaved-changes="{{_watchedProjectsChanged}}" id="watchedProjectsEditor"></gr-watched-projects-editor>
+          <gr-button on-click="_handleSaveWatchedProjects" disabled\$="[[!_watchedProjectsChanged]]" id="_handleSaveWatchedProjects">Save changes</gr-button>
         </fieldset>
-        <h2
-            id="EmailAddresses"
-            class$="[[_computeHeaderClass(_emailsChanged)]]">
+        <h2 id="EmailAddresses" class\$="[[_computeHeaderClass(_emailsChanged)]]">
           Email Addresses
         </h2>
         <fieldset id="email">
-          <gr-email-editor
-              id="emailEditor"
-              has-unsaved-changes="{{_emailsChanged}}"></gr-email-editor>
-          <gr-button
-              on-click="_handleSaveEmails"
-              disabled$="[[!_emailsChanged]]">Save changes</gr-button>
+          <gr-email-editor id="emailEditor" has-unsaved-changes="{{_emailsChanged}}"></gr-email-editor>
+          <gr-button on-click="_handleSaveEmails" disabled\$="[[!_emailsChanged]]">Save changes</gr-button>
         </fieldset>
         <fieldset id="newEmail">
           <section>
             <span class="title">New email address</span>
             <span class="value">
-              <iron-input
-                  class="newEmailInput"
-                  bind-value="{{_newEmail}}"
-                  type="text"
-                  on-keydown="_handleNewEmailKeydown"
-                  placeholder="email@example.com">
-                <input
-                    class="newEmailInput"
-                    bind-value="{{_newEmail}}"
-                    is="iron-input"
-                    type="text"
-                    disabled="[[_addingEmail]]"
-                    on-keydown="_handleNewEmailKeydown"
-                    placeholder="email@example.com">
+              <iron-input class="newEmailInput" bind-value="{{_newEmail}}" type="text" on-keydown="_handleNewEmailKeydown" placeholder="email@example.com">
+                <input class="newEmailInput" bind-value="{{_newEmail}}" is="iron-input" type="text" disabled="[[_addingEmail]]" on-keydown="_handleNewEmailKeydown" placeholder="email@example.com">
               </iron-input>
             </span>
           </section>
-          <section
-              id="verificationSentMessage"
-              hidden$="[[!_lastSentVerificationEmail]]">
+          <section id="verificationSentMessage" hidden\$="[[!_lastSentVerificationEmail]]">
             <p>
               A verification email was sent to
               <em>[[_lastSentVerificationEmail]]</em>. Please check your inbox.
             </p>
           </section>
-          <gr-button
-              disabled="[[!_computeAddEmailButtonEnabled(_newEmail, _addingEmail)]]"
-              on-click="_handleAddEmailButton">Send verification</gr-button>
+          <gr-button disabled="[[!_computeAddEmailButtonEnabled(_newEmail, _addingEmail)]]" on-click="_handleAddEmailButton">Send verification</gr-button>
         </fieldset>
         <template is="dom-if" if="[[_showHttpAuth(_serverConfig)]]">
           <div>
@@ -412,21 +285,13 @@ limitations under the License.
             </fieldset>
           </div>
         </template>
-        <div hidden$="[[!_serverConfig.sshd]]">
-          <h2
-              id="SSHKeys"
-              class$="[[_computeHeaderClass(_keysChanged)]]">SSH keys</h2>
-          <gr-ssh-editor
-              id="sshEditor"
-              has-unsaved-changes="{{_keysChanged}}"></gr-ssh-editor>
+        <div hidden\$="[[!_serverConfig.sshd]]">
+          <h2 id="SSHKeys" class\$="[[_computeHeaderClass(_keysChanged)]]">SSH keys</h2>
+          <gr-ssh-editor id="sshEditor" has-unsaved-changes="{{_keysChanged}}"></gr-ssh-editor>
         </div>
-        <div hidden$="[[!_serverConfig.receive.enable_signed_push]]">
-          <h2
-              id="GPGKeys"
-              class$="[[_computeHeaderClass(_gpgKeysChanged)]]">GPG keys</h2>
-          <gr-gpg-editor
-              id="gpgEditor"
-              has-unsaved-changes="{{_gpgKeysChanged}}"></gr-gpg-editor>
+        <div hidden\$="[[!_serverConfig.receive.enable_signed_push]]">
+          <h2 id="GPGKeys" class\$="[[_computeHeaderClass(_gpgKeysChanged)]]">GPG keys</h2>
+          <gr-gpg-editor id="gpgEditor" has-unsaved-changes="{{_gpgKeysChanged}}"></gr-gpg-editor>
         </div>
         <h2 id="Groups">Groups</h2>
         <fieldset>
@@ -451,9 +316,7 @@ limitations under the License.
           <p>
             Here are some example Gmail queries that can be used for filters or
             for searching through archived messages. View the
-            <a href$="[[_getFilterDocsLink(_docsBaseUrl)]]"
-                target="_blank"
-                rel="nofollow">Gerrit documentation</a>
+            <a href\$="[[_getFilterDocsLink(_docsBaseUrl)]]" target="_blank" rel="nofollow">Gerrit documentation</a>
             for the complete set of footers.
           </p>
           <table>
@@ -517,6 +380,4 @@ limitations under the License.
       </main>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-  </template>
-  <script src="gr-settings-view.js"></script>
-</dom-module>
+`;

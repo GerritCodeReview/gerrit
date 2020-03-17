@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.entities.Project;
@@ -150,6 +151,13 @@ public class SetAccessUtil {
           throw new BadRequestException("invalid section name");
         }
         RefPattern.validate(name);
+
+        // Check all permissions for soundness
+        for (Permission p : section.getPermissions()) {
+          if (!isPermission(p.getName())) {
+            throw new BadRequestException("Unknown permission: " + p.getName());
+          }
+        }
       } else {
         // Check all permissions for soundness
         for (Permission p : section.getPermissions()) {
@@ -237,6 +245,23 @@ public class SetAccessUtil {
       }
       config.getProject().setParentName(newParentProjectName);
     }
+  }
+
+  private boolean isPermission(String name) {
+    if (Permission.isPermission(name)) {
+      if (Permission.isLabel(name) || Permission.isLabelAs(name)) {
+        String labelName = Permission.extractLabel(name);
+        try {
+          LabelType.checkName(labelName);
+        } catch (IllegalArgumentException e) {
+          return false;
+        }
+      }
+      return true;
+    }
+    Set<String> pluginPermissions =
+        pluginPermissionsUtil.collectPluginProjectPermissions().keySet();
+    return pluginPermissions.contains(name);
   }
 
   private boolean isCapability(String name) {

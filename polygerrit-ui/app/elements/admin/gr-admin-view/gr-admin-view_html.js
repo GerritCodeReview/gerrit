@@ -1,48 +1,22 @@
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<link rel="import" href="/bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
-<link rel="import" href="../../../styles/gr-menu-page-styles.html">
-<link rel="import" href="../../../styles/gr-page-nav-styles.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
-<link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
-<link rel="import" href="../gr-group/gr-group.html">
-<link rel="import" href="../gr-group-audit-log/gr-group-audit-log.html">
-<link rel="import" href="../gr-group-members/gr-group-members.html">
-<link rel="import" href="../gr-plugin-list/gr-plugin-list.html">
-<link rel="import" href="../gr-repo/gr-repo.html">
-<link rel="import" href="../gr-repo-access/gr-repo-access.html">
-<link rel="import" href="../gr-repo-commands/gr-repo-commands.html">
-<link rel="import" href="../gr-repo-dashboards/gr-repo-dashboards.html">
-<link rel="import" href="../gr-repo-detail-list/gr-repo-detail-list.html">
-<link rel="import" href="../gr-repo-list/gr-repo-list.html">
-
-<dom-module id="gr-admin-view">
-  <template>
+export const htmlTemplate = html`
     <style include="shared-styles">
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
@@ -84,28 +58,24 @@ limitations under the License.
     <gr-page-nav class="navStyles">
       <ul class="sectionContent">
         <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
-          <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
-            <a class="title" href="[[_computeLinkURL(item)]]"
-                  rel="noopener">[[item.name]]</a>
+          <li class\$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
+            <a class="title" href="[[_computeLinkURL(item)]]" rel="noopener">[[item.name]]</a>
           </li>
           <template is="dom-repeat" items="[[item.children]]" as="child">
-            <li class$="[[_computeSelectedClass(child.view, params)]]">
-              <a href$="[[_computeLinkURL(child)]]"
-                  rel="noopener">[[child.name]]</a>
+            <li class\$="[[_computeSelectedClass(child.view, params)]]">
+              <a href\$="[[_computeLinkURL(child)]]" rel="noopener">[[child.name]]</a>
             </li>
           </template>
           <template is="dom-if" if="[[item.subsection]]">
             <!--If a section has a subsection, render that.-->
-            <li class$="[[_computeSelectedClass(item.subsection.view, params)]]">
-              <a class="title" href$="[[_computeLinkURL(item.subsection)]]"
-                  rel="noopener">
+            <li class\$="[[_computeSelectedClass(item.subsection.view, params)]]">
+              <a class="title" href\$="[[_computeLinkURL(item.subsection)]]" rel="noopener">
                 [[item.subsection.name]]</a>
             </li>
             <!--Loop through the links in the sub-section.-->
-            <template is="dom-repeat"
-                items="[[item.subsection.children]]" as="child">
-              <li class$="subsectionItem [[_computeSelectedClass(child.view, params, child.detailType)]]">
-                <a href$="[[_computeLinkURL(child)]]">[[child.name]]</a>
+            <template is="dom-repeat" items="[[item.subsection.children]]" as="child">
+              <li class\$="subsectionItem [[_computeSelectedClass(child.view, params, child.detailType)]]">
+                <a href\$="[[_computeLinkURL(child)]]">[[child.name]]</a>
               </li>
             </template>
           </template>
@@ -118,12 +88,7 @@ limitations under the License.
           <span class="breadcrumbText">[[_breadcrumbParentName]]</span>
           <iron-icon icon="gr-icons:chevron-right"></iron-icon>
         </span>
-        <gr-dropdown-list
-            lowercase
-            id="pageSelect"
-            value="[[_computeSelectValue(params)]]"
-            items="[[_subsectionLinks]]"
-            on-value-change="_handleSubsectionChange">
+        <gr-dropdown-list lowercase="" id="pageSelect" value="[[_computeSelectValue(params)]]" items="[[_subsectionLinks]]" on-value-change="_handleSubsectionChange">
         </gr-dropdown-list>
       </section>
     </template>
@@ -150,42 +115,32 @@ limitations under the License.
     </template>
     <template is="dom-if" if="[[_showGroup]]" restamp="true">
       <main class="breadcrumbs">
-        <gr-group
-            group-id="[[params.groupId]]"
-            on-name-changed="_updateGroupName"></gr-group>
+        <gr-group group-id="[[params.groupId]]" on-name-changed="_updateGroupName"></gr-group>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupMembers]]" restamp="true">
       <main class="breadcrumbs">
-        <gr-group-members
-            group-id="[[params.groupId]]"></gr-group-members>
+        <gr-group-members group-id="[[params.groupId]]"></gr-group-members>
       </main>
     </template>
     <template is="dom-if" if="[[_showRepoDetailList]]" restamp="true">
       <main class="table breadcrumbs">
-        <gr-repo-detail-list
-            params="[[params]]"
-            class="table"></gr-repo-detail-list>
+        <gr-repo-detail-list params="[[params]]" class="table"></gr-repo-detail-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupAuditLog]]" restamp="true">
       <main class="table breadcrumbs">
-        <gr-group-audit-log
-            group-id="[[params.groupId]]"
-            class="table"></gr-group-audit-log>
+        <gr-group-audit-log group-id="[[params.groupId]]" class="table"></gr-group-audit-log>
       </main>
     </template>
     <template is="dom-if" if="[[_showRepoCommands]]" restamp="true">
       <main class="breadcrumbs">
-        <gr-repo-commands
-            repo="[[params.repo]]"></gr-repo-commands>
+        <gr-repo-commands repo="[[params.repo]]"></gr-repo-commands>
       </main>
     </template>
     <template is="dom-if" if="[[_showRepoAccess]]" restamp="true">
       <main class="breadcrumbs">
-        <gr-repo-access
-            path="[[path]]"
-            repo="[[params.repo]]"></gr-repo-access>
+        <gr-repo-access path="[[path]]" repo="[[params.repo]]"></gr-repo-access>
       </main>
     </template>
     <template is="dom-if" if="[[_showRepoDashboards]]" restamp="true">
@@ -195,6 +150,4 @@ limitations under the License.
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
-  </template>
-  <script src="gr-admin-view.js"></script>
-</dom-module>
+`;

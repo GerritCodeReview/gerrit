@@ -14,115 +14,128 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  const SUGGESTIONS_LIMIT = 15;
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
+import '@polymer/iron-input/iron-input.js';
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-autocomplete/gr-autocomplete.js';
+import '../../shared/gr-dialog/gr-dialog.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-confirm-cherrypick-dialog_html.js';
+
+const SUGGESTIONS_LIMIT = 15;
+
+/**
+ * @appliesMixin Gerrit.FireMixin
+ * @extends Polymer.Element
+ */
+class GrConfirmCherrypickDialog extends mixinBehaviors( [
+  Gerrit.FireBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
+
+  static get is() { return 'gr-confirm-cherrypick-dialog'; }
+  /**
+   * Fired when the confirm button is pressed.
+   *
+   * @event confirm
+   */
 
   /**
-   * @appliesMixin Gerrit.FireMixin
-   * @extends Polymer.Element
+   * Fired when the cancel button is pressed.
+   *
+   * @event cancel
    */
-  class GrConfirmCherrypickDialog extends Polymer.mixinBehaviors( [
-    Gerrit.FireBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-confirm-cherrypick-dialog'; }
-    /**
-     * Fired when the confirm button is pressed.
-     *
-     * @event confirm
-     */
 
-    /**
-     * Fired when the cancel button is pressed.
-     *
-     * @event cancel
-     */
-
-    static get properties() {
-      return {
-        branch: String,
-        baseCommit: String,
-        changeStatus: String,
-        commitMessage: String,
-        commitNum: String,
-        message: String,
-        project: String,
-        _query: {
-          type: Function,
-          value() {
-            return this._getProjectBranchesSuggestions.bind(this);
-          },
+  static get properties() {
+    return {
+      branch: String,
+      baseCommit: String,
+      changeStatus: String,
+      commitMessage: String,
+      commitNum: String,
+      message: String,
+      project: String,
+      _query: {
+        type: Function,
+        value() {
+          return this._getProjectBranchesSuggestions.bind(this);
         },
-      };
-    }
-
-    static get observers() {
-      return [
-        '_computeMessage(changeStatus, commitNum, commitMessage)',
-      ];
-    }
-
-    _computeMessage(changeStatus, commitNum, commitMessage) {
-      // Polymer 2: check for undefined
-      if ([
-        changeStatus,
-        commitNum,
-        commitMessage,
-      ].some(arg => arg === undefined)) {
-        return;
-      }
-
-      let newMessage = commitMessage;
-
-      if (changeStatus === 'MERGED') {
-        newMessage += '(cherry picked from commit ' + commitNum + ')';
-      }
-      this.message = newMessage;
-    }
-
-    _handleConfirmTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.fire('confirm', null, {bubbles: false});
-    }
-
-    _handleCancelTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.fire('cancel', null, {bubbles: false});
-    }
-
-    resetFocus() {
-      this.$.branchInput.focus();
-    }
-
-    _getProjectBranchesSuggestions(input) {
-      if (input.startsWith('refs/heads/')) {
-        input = input.substring('refs/heads/'.length);
-      }
-      return this.$.restAPI.getRepoBranches(
-          input, this.project, SUGGESTIONS_LIMIT).then(response => {
-        const branches = [];
-        let branch;
-        for (const key in response) {
-          if (!response.hasOwnProperty(key)) { continue; }
-          if (response[key].ref.startsWith('refs/heads/')) {
-            branch = response[key].ref.substring('refs/heads/'.length);
-          } else {
-            branch = response[key].ref;
-          }
-          branches.push({
-            name: branch,
-          });
-        }
-        return branches;
-      });
-    }
+      },
+    };
   }
 
-  customElements.define(GrConfirmCherrypickDialog.is,
-      GrConfirmCherrypickDialog);
-})();
+  static get observers() {
+    return [
+      '_computeMessage(changeStatus, commitNum, commitMessage)',
+    ];
+  }
+
+  _computeMessage(changeStatus, commitNum, commitMessage) {
+    // Polymer 2: check for undefined
+    if ([
+      changeStatus,
+      commitNum,
+      commitMessage,
+    ].some(arg => arg === undefined)) {
+      return;
+    }
+
+    let newMessage = commitMessage;
+
+    if (changeStatus === 'MERGED') {
+      newMessage += '(cherry picked from commit ' + commitNum + ')';
+    }
+    this.message = newMessage;
+  }
+
+  _handleConfirmTap(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.fire('confirm', null, {bubbles: false});
+  }
+
+  _handleCancelTap(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.fire('cancel', null, {bubbles: false});
+  }
+
+  resetFocus() {
+    this.$.branchInput.focus();
+  }
+
+  _getProjectBranchesSuggestions(input) {
+    if (input.startsWith('refs/heads/')) {
+      input = input.substring('refs/heads/'.length);
+    }
+    return this.$.restAPI.getRepoBranches(
+        input, this.project, SUGGESTIONS_LIMIT).then(response => {
+      const branches = [];
+      let branch;
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        if (response[key].ref.startsWith('refs/heads/')) {
+          branch = response[key].ref.substring('refs/heads/'.length);
+        } else {
+          branch = response[key].ref;
+        }
+        branches.push({
+          name: branch,
+        });
+      }
+      return branches;
+    });
+  }
+}
+
+customElements.define(GrConfirmCherrypickDialog.is,
+    GrConfirmCherrypickDialog);

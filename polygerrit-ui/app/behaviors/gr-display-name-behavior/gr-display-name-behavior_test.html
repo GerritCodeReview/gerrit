@@ -19,13 +19,13 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-display-name-behavior</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="gr-display-name-behavior.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/test-pre-setup.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-display-name-behavior.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -33,69 +33,72 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-display-name-behavior tests', async () => {
-    await readyToTest();
-    let element;
-    // eslint-disable-next-line no-unused-vars
-    const config = {
-      user: {
-        anonymous_coward_name: 'Anonymous Coward',
-      },
-    };
+<script type="module">
+import '../../test/test-pre-setup.js';
+import '../../test/common-test-setup.js';
+import './gr-display-name-behavior.js';
+import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+suite('gr-display-name-behavior tests', () => {
+  let element;
+  // eslint-disable-next-line no-unused-vars
+  const config = {
+    user: {
+      anonymous_coward_name: 'Anonymous Coward',
+    },
+  };
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element-anon',
-        behaviors: [
-          Gerrit.DisplayNameBehavior,
-        ],
-      });
-    });
-
-    setup(() => {
-      element = fixture('basic');
-    });
-
-    test('getUserName name only', () => {
-      const account = {
-        name: 'test-name',
-      };
-      assert.deepEqual(element.getUserName(config, account, true), 'test-name');
-    });
-
-    test('getUserName username only', () => {
-      const account = {
-        username: 'test-user',
-      };
-      assert.deepEqual(element.getUserName(config, account, true), 'test-user');
-    });
-
-    test('getUserName email only', () => {
-      const account = {
-        email: 'test-user@test-url.com',
-      };
-      assert.deepEqual(element.getUserName(config, account, true),
-          'test-user@test-url.com');
-    });
-
-    test('getUserName returns not Anonymous Coward as the anon name', () => {
-      assert.deepEqual(element.getUserName(config, null, true), 'Anonymous');
-    });
-
-    test('getUserName for the config returning the anon name', () => {
-      const config = {
-        user: {
-          anonymous_coward_name: 'Test Anon',
-        },
-      };
-      assert.deepEqual(element.getUserName(config, null, true), 'Test Anon');
-    });
-
-    test('getGroupDisplayName', () => {
-      assert.equal(element.getGroupDisplayName({name: 'Some user name'}),
-          'Some user name (group)');
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'test-element-anon',
+      behaviors: [
+        Gerrit.DisplayNameBehavior,
+      ],
     });
   });
+
+  setup(() => {
+    element = fixture('basic');
+  });
+
+  test('getUserName name only', () => {
+    const account = {
+      name: 'test-name',
+    };
+    assert.deepEqual(element.getUserName(config, account, true), 'test-name');
+  });
+
+  test('getUserName username only', () => {
+    const account = {
+      username: 'test-user',
+    };
+    assert.deepEqual(element.getUserName(config, account, true), 'test-user');
+  });
+
+  test('getUserName email only', () => {
+    const account = {
+      email: 'test-user@test-url.com',
+    };
+    assert.deepEqual(element.getUserName(config, account, true),
+        'test-user@test-url.com');
+  });
+
+  test('getUserName returns not Anonymous Coward as the anon name', () => {
+    assert.deepEqual(element.getUserName(config, null, true), 'Anonymous');
+  });
+
+  test('getUserName for the config returning the anon name', () => {
+    const config = {
+      user: {
+        anonymous_coward_name: 'Test Anon',
+      },
+    };
+    assert.deepEqual(element.getUserName(config, null, true), 'Test Anon');
+  });
+
+  test('getGroupDisplayName', () => {
+    assert.equal(element.getGroupDisplayName({name: 'Some user name'}),
+        'Some user name (group)');
+  });
+});
 </script>

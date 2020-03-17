@@ -18,15 +18,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-repo-branch-picker</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-repo-branch-picker.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-repo-branch-picker.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-branch-picker.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -34,113 +39,115 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-repo-branch-picker tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-repo-branch-picker.js';
+suite('gr-repo-branch-picker tests', () => {
+  let element;
+  let sandbox;
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
+
+  teardown(() => { sandbox.restore(); });
+
+  suite('_getRepoSuggestions', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
+      sandbox.stub(element.$.restAPI, 'getRepos')
+          .returns(Promise.resolve([
+            {
+              id: 'plugins%2Favatars-external',
+              name: 'plugins/avatars-external',
+            }, {
+              id: 'plugins%2Favatars-gravatar',
+              name: 'plugins/avatars-gravatar',
+            }, {
+              id: 'plugins%2Favatars%2Fexternal',
+              name: 'plugins/avatars/external',
+            }, {
+              id: 'plugins%2Favatars%2Fgravatar',
+              name: 'plugins/avatars/gravatar',
+            },
+          ]));
     });
 
-    teardown(() => { sandbox.restore(); });
-
-    suite('_getRepoSuggestions', () => {
-      setup(() => {
-        sandbox.stub(element.$.restAPI, 'getRepos')
-            .returns(Promise.resolve([
-              {
-                id: 'plugins%2Favatars-external',
-                name: 'plugins/avatars-external',
-              }, {
-                id: 'plugins%2Favatars-gravatar',
-                name: 'plugins/avatars-gravatar',
-              }, {
-                id: 'plugins%2Favatars%2Fexternal',
-                name: 'plugins/avatars/external',
-              }, {
-                id: 'plugins%2Favatars%2Fgravatar',
-                name: 'plugins/avatars/gravatar',
-              },
-            ]));
-      });
-
-      test('converts to suggestion objects', () => {
-        const input = 'plugins/avatars';
-        return element._getRepoSuggestions(input).then(suggestions => {
-          assert.isTrue(element.$.restAPI.getRepos.calledWith(input));
-          const unencodedNames = [
-            'plugins/avatars-external',
-            'plugins/avatars-gravatar',
-            'plugins/avatars/external',
-            'plugins/avatars/gravatar',
-          ];
-          assert.deepEqual(suggestions.map(s => s.name), unencodedNames);
-          assert.deepEqual(suggestions.map(s => s.value), unencodedNames);
-        });
-      });
-    });
-
-    suite('_getRepoBranchesSuggestions', () => {
-      setup(() => {
-        sandbox.stub(element.$.restAPI, 'getRepoBranches')
-            .returns(Promise.resolve([
-              {ref: 'refs/heads/stable-2.10'},
-              {ref: 'refs/heads/stable-2.11'},
-              {ref: 'refs/heads/stable-2.12'},
-              {ref: 'refs/heads/stable-2.13'},
-              {ref: 'refs/heads/stable-2.14'},
-              {ref: 'refs/heads/stable-2.15'},
-            ]));
-      });
-
-      test('converts to suggestion objects', () => {
-        const repo = 'gerrit';
-        const branchInput = 'stable-2.1';
-        element.repo = repo;
-        return element._getRepoBranchesSuggestions(branchInput)
-            .then(suggestions => {
-              assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
-                  branchInput, repo, 15));
-              const refNames = [
-                'stable-2.10',
-                'stable-2.11',
-                'stable-2.12',
-                'stable-2.13',
-                'stable-2.14',
-                'stable-2.15',
-              ];
-              assert.deepEqual(suggestions.map(s => s.name), refNames);
-              assert.deepEqual(suggestions.map(s => s.value), refNames);
-            });
-      });
-
-      test('filters out ref prefix', () => {
-        const repo = 'gerrit';
-        const branchInput = 'refs/heads/stable-2.1';
-        element.repo = repo;
-        return element._getRepoBranchesSuggestions(branchInput)
-            .then(suggestions => {
-              assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
-                  'stable-2.1', repo, 15));
-            });
-      });
-
-      test('does not query when repo is unset', done => {
-        element
-            ._getRepoBranchesSuggestions('')
-            .then(() => {
-              assert.isFalse(element.$.restAPI.getRepoBranches.called);
-              element.repo = 'gerrit';
-              return element._getRepoBranchesSuggestions('');
-            })
-            .then(() => {
-              assert.isTrue(element.$.restAPI.getRepoBranches.called);
-              done();
-            });
+    test('converts to suggestion objects', () => {
+      const input = 'plugins/avatars';
+      return element._getRepoSuggestions(input).then(suggestions => {
+        assert.isTrue(element.$.restAPI.getRepos.calledWith(input));
+        const unencodedNames = [
+          'plugins/avatars-external',
+          'plugins/avatars-gravatar',
+          'plugins/avatars/external',
+          'plugins/avatars/gravatar',
+        ];
+        assert.deepEqual(suggestions.map(s => s.name), unencodedNames);
+        assert.deepEqual(suggestions.map(s => s.value), unencodedNames);
       });
     });
   });
+
+  suite('_getRepoBranchesSuggestions', () => {
+    setup(() => {
+      sandbox.stub(element.$.restAPI, 'getRepoBranches')
+          .returns(Promise.resolve([
+            {ref: 'refs/heads/stable-2.10'},
+            {ref: 'refs/heads/stable-2.11'},
+            {ref: 'refs/heads/stable-2.12'},
+            {ref: 'refs/heads/stable-2.13'},
+            {ref: 'refs/heads/stable-2.14'},
+            {ref: 'refs/heads/stable-2.15'},
+          ]));
+    });
+
+    test('converts to suggestion objects', () => {
+      const repo = 'gerrit';
+      const branchInput = 'stable-2.1';
+      element.repo = repo;
+      return element._getRepoBranchesSuggestions(branchInput)
+          .then(suggestions => {
+            assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
+                branchInput, repo, 15));
+            const refNames = [
+              'stable-2.10',
+              'stable-2.11',
+              'stable-2.12',
+              'stable-2.13',
+              'stable-2.14',
+              'stable-2.15',
+            ];
+            assert.deepEqual(suggestions.map(s => s.name), refNames);
+            assert.deepEqual(suggestions.map(s => s.value), refNames);
+          });
+    });
+
+    test('filters out ref prefix', () => {
+      const repo = 'gerrit';
+      const branchInput = 'refs/heads/stable-2.1';
+      element.repo = repo;
+      return element._getRepoBranchesSuggestions(branchInput)
+          .then(suggestions => {
+            assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
+                'stable-2.1', repo, 15));
+          });
+    });
+
+    test('does not query when repo is unset', done => {
+      element
+          ._getRepoBranchesSuggestions('')
+          .then(() => {
+            assert.isFalse(element.$.restAPI.getRepoBranches.called);
+            element.repo = 'gerrit';
+            return element._getRepoBranchesSuggestions('');
+          })
+          .then(() => {
+            assert.isTrue(element.$.restAPI.getRepoBranches.called);
+            done();
+          });
+    });
+  });
+});
 </script>

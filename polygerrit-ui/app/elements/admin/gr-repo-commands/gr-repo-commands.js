@@ -14,113 +14,131 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import '../../../scripts/bundled-polymer.js';
 
-  const GC_MESSAGE = 'Garbage collection completed successfully.';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
+import '../../../behaviors/fire-behavior/fire-behavior.js';
+import '../../../styles/gr-form-styles.js';
+import '../../../styles/gr-subpage-styles.js';
+import '../../../styles/shared-styles.js';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
+import '../../shared/gr-dialog/gr-dialog.js';
+import '../../shared/gr-overlay/gr-overlay.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-create-change-dialog/gr-create-change-dialog.js';
+import '../gr-repo-command/gr-repo-command.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-repo-commands_html.js';
 
-  const CONFIG_BRANCH = 'refs/meta/config';
-  const CONFIG_PATH = 'project.config';
-  const EDIT_CONFIG_SUBJECT = 'Edit Repo Config';
-  const INITIAL_PATCHSET = 1;
-  const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
-  const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
+const GC_MESSAGE = 'Garbage collection completed successfully.';
 
-  /**
-   * @appliesMixin Gerrit.FireMixin
-   * @extends Polymer.Element
-   */
-  class GrRepoCommands extends Polymer.mixinBehaviors( [
-    Gerrit.FireBehavior,
-  ], Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element))) {
-    static get is() { return 'gr-repo-commands'; }
+const CONFIG_BRANCH = 'refs/meta/config';
+const CONFIG_PATH = 'project.config';
+const EDIT_CONFIG_SUBJECT = 'Edit Repo Config';
+const INITIAL_PATCHSET = 1;
+const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
+const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 
-    static get properties() {
-      return {
-        params: Object,
-        repo: String,
-        _loading: {
-          type: Boolean,
-          value: true,
-        },
-        /** @type {?} */
-        _repoConfig: Object,
-        _canCreate: Boolean,
-      };
-    }
+/**
+ * @appliesMixin Gerrit.FireMixin
+ * @extends Polymer.Element
+ */
+class GrRepoCommands extends mixinBehaviors( [
+  Gerrit.FireBehavior,
+], GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement))) {
+  static get template() { return htmlTemplate; }
 
-    /** @override */
-    attached() {
-      super.attached();
-      this._loadRepo();
+  static get is() { return 'gr-repo-commands'; }
 
-      this.fire('title-change', {title: 'Repo Commands'});
-    }
-
-    _loadRepo() {
-      if (!this.repo) { return Promise.resolve(); }
-
-      const errFn = response => {
-        this.fire('page-error', {response});
-      };
-
-      return this.$.restAPI.getProjectConfig(this.repo, errFn)
-          .then(config => {
-            if (!config) { return Promise.resolve(); }
-
-            this._repoConfig = config;
-            this._loading = false;
-          });
-    }
-
-    _computeLoadingClass(loading) {
-      return loading ? 'loading' : '';
-    }
-
-    _isLoading() {
-      return this._loading || this._loading === undefined;
-    }
-
-    _handleRunningGC() {
-      return this.$.restAPI.runRepoGC(this.repo).then(response => {
-        if (response.status === 200) {
-          this.dispatchEvent(new CustomEvent(
-              'show-alert',
-              {detail: {message: GC_MESSAGE}, bubbles: true, composed: true}));
-        }
-      });
-    }
-
-    _createNewChange() {
-      this.$.createChangeOverlay.open();
-    }
-
-    _handleCreateChange() {
-      this.$.createNewChangeModal.handleCreateChange();
-      this._handleCloseCreateChange();
-    }
-
-    _handleCloseCreateChange() {
-      this.$.createChangeOverlay.close();
-    }
-
-    _handleEditRepoConfig() {
-      return this.$.restAPI.createChange(this.repo, CONFIG_BRANCH,
-          EDIT_CONFIG_SUBJECT, undefined, false, true).then(change => {
-        const message = change ?
-          CREATE_CHANGE_SUCCEEDED_MESSAGE :
-          CREATE_CHANGE_FAILED_MESSAGE;
-        this.dispatchEvent(new CustomEvent('show-alert',
-            {detail: {message}, bubbles: true, composed: true}));
-        if (!change) { return; }
-
-        Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
-            change, CONFIG_PATH, INITIAL_PATCHSET));
-      });
-    }
+  static get properties() {
+    return {
+      params: Object,
+      repo: String,
+      _loading: {
+        type: Boolean,
+        value: true,
+      },
+      /** @type {?} */
+      _repoConfig: Object,
+      _canCreate: Boolean,
+    };
   }
 
-  customElements.define(GrRepoCommands.is, GrRepoCommands);
-})();
+  /** @override */
+  attached() {
+    super.attached();
+    this._loadRepo();
+
+    this.fire('title-change', {title: 'Repo Commands'});
+  }
+
+  _loadRepo() {
+    if (!this.repo) { return Promise.resolve(); }
+
+    const errFn = response => {
+      this.fire('page-error', {response});
+    };
+
+    return this.$.restAPI.getProjectConfig(this.repo, errFn)
+        .then(config => {
+          if (!config) { return Promise.resolve(); }
+
+          this._repoConfig = config;
+          this._loading = false;
+        });
+  }
+
+  _computeLoadingClass(loading) {
+    return loading ? 'loading' : '';
+  }
+
+  _isLoading() {
+    return this._loading || this._loading === undefined;
+  }
+
+  _handleRunningGC() {
+    return this.$.restAPI.runRepoGC(this.repo).then(response => {
+      if (response.status === 200) {
+        this.dispatchEvent(new CustomEvent(
+            'show-alert',
+            {detail: {message: GC_MESSAGE}, bubbles: true, composed: true}));
+      }
+    });
+  }
+
+  _createNewChange() {
+    this.$.createChangeOverlay.open();
+  }
+
+  _handleCreateChange() {
+    this.$.createNewChangeModal.handleCreateChange();
+    this._handleCloseCreateChange();
+  }
+
+  _handleCloseCreateChange() {
+    this.$.createChangeOverlay.close();
+  }
+
+  _handleEditRepoConfig() {
+    return this.$.restAPI.createChange(this.repo, CONFIG_BRANCH,
+        EDIT_CONFIG_SUBJECT, undefined, false, true).then(change => {
+      const message = change ?
+        CREATE_CHANGE_SUCCEEDED_MESSAGE :
+        CREATE_CHANGE_FAILED_MESSAGE;
+      this.dispatchEvent(new CustomEvent('show-alert',
+          {detail: {message}, bubbles: true, composed: true}));
+      if (!change) { return; }
+
+      Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
+          change, CONFIG_PATH, INITIAL_PATCHSET));
+    });
+  }
+}
+
+customElements.define(GrRepoCommands.is, GrRepoCommands);

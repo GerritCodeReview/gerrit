@@ -19,18 +19,23 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-page-nav</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/page/page.js"></script>
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="/node_modules/page/page.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
 
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<link rel="import" href="gr-page-nav.html">
+<script type="module" src="./gr-page-nav.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-page-nav.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -42,53 +47,55 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-page-nav tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-page-nav.js';
+suite('gr-page-nav tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      flushAsynchronousOperations();
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('header is not pinned just below top', () => {
-      sandbox.stub(element, '_getOffsetParent', () => 0);
-      sandbox.stub(element, '_getOffsetTop', () => 10);
-      sandbox.stub(element, '_getScrollY', () => 5);
-      element._handleBodyScroll();
-      assert.isFalse(element.$.nav.classList.contains('pinned'));
-    });
-
-    test('header is pinned when scroll down the page', () => {
-      sandbox.stub(element, '_getOffsetParent', () => 0);
-      sandbox.stub(element, '_getOffsetTop', () => 10);
-      sandbox.stub(element, '_getScrollY', () => 25);
-      window.scrollY = 100;
-      element._handleBodyScroll();
-      assert.isTrue(element.$.nav.classList.contains('pinned'));
-    });
-
-    test('header is not pinned just below top with header set', () => {
-      element._headerHeight = 20;
-      sandbox.stub(element, '_getScrollY', () => 15);
-      window.scrollY = 100;
-      element._handleBodyScroll();
-      assert.isFalse(element.$.nav.classList.contains('pinned'));
-    });
-
-    test('header is pinned when scroll down the page with header set', () => {
-      element._headerHeight = 20;
-      sandbox.stub(element, '_getScrollY', () => 25);
-      window.scrollY = 100;
-      element._handleBodyScroll();
-      assert.isTrue(element.$.nav.classList.contains('pinned'));
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    flushAsynchronousOperations();
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('header is not pinned just below top', () => {
+    sandbox.stub(element, '_getOffsetParent', () => 0);
+    sandbox.stub(element, '_getOffsetTop', () => 10);
+    sandbox.stub(element, '_getScrollY', () => 5);
+    element._handleBodyScroll();
+    assert.isFalse(element.$.nav.classList.contains('pinned'));
+  });
+
+  test('header is pinned when scroll down the page', () => {
+    sandbox.stub(element, '_getOffsetParent', () => 0);
+    sandbox.stub(element, '_getOffsetTop', () => 10);
+    sandbox.stub(element, '_getScrollY', () => 25);
+    window.scrollY = 100;
+    element._handleBodyScroll();
+    assert.isTrue(element.$.nav.classList.contains('pinned'));
+  });
+
+  test('header is not pinned just below top with header set', () => {
+    element._headerHeight = 20;
+    sandbox.stub(element, '_getScrollY', () => 15);
+    window.scrollY = 100;
+    element._handleBodyScroll();
+    assert.isFalse(element.$.nav.classList.contains('pinned'));
+  });
+
+  test('header is pinned when scroll down the page with header set', () => {
+    element._headerHeight = 20;
+    sandbox.stub(element, '_getScrollY', () => 25);
+    window.scrollY = 100;
+    element._handleBodyScroll();
+    assert.isTrue(element.$.nav.classList.contains('pinned'));
+  });
+});
 </script>

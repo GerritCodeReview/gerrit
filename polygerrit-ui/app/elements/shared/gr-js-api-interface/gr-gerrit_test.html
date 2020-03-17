@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-api-interface</title>
 
-<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/test-pre-setup.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-js-api-interface.html">
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/test-pre-setup.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-js-api-interface.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,68 +40,70 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-gerrit tests', async () => {
-    await readyToTest();
-    let element;
-    let sandbox;
-    let sendStub;
+<script type="module">
+import '../../../test/test-pre-setup.js';
+import '../../../test/common-test-setup.js';
+import './gr-js-api-interface.js';
+suite('gr-gerrit tests', () => {
+  let element;
+  let sandbox;
+  let sendStub;
 
-    setup(() => {
-      window.clock = sinon.useFakeTimers();
-      sandbox = sinon.sandbox.create();
-      sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
-      stub('gr-rest-api-interface', {
-        getAccount() {
-          return Promise.resolve({name: 'Judy Hopps'});
-        },
-        send(...args) {
-          return sendStub(...args);
-        },
-      });
-      element = fixture('basic');
+  setup(() => {
+    window.clock = sinon.useFakeTimers();
+    sandbox = sinon.sandbox.create();
+    sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
+    stub('gr-rest-api-interface', {
+      getAccount() {
+        return Promise.resolve({name: 'Judy Hopps'});
+      },
+      send(...args) {
+        return sendStub(...args);
+      },
+    });
+    element = fixture('basic');
+  });
+
+  teardown(() => {
+    window.clock.restore();
+    sandbox.restore();
+    element._removeEventCallbacks();
+    Gerrit._testOnly_resetPlugins();
+  });
+
+  suite('proxy methods', () => {
+    test('Gerrit._isPluginEnabled proxy to pluginLoader', () => {
+      const stubFn = sandbox.stub();
+      sandbox.stub(
+          Gerrit._pluginLoader,
+          'isPluginEnabled',
+          (...args) => stubFn(...args)
+      );
+      Gerrit._isPluginEnabled('test_plugin');
+      assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
-    teardown(() => {
-      window.clock.restore();
-      sandbox.restore();
-      element._removeEventCallbacks();
-      Gerrit._testOnly_resetPlugins();
+    test('Gerrit._isPluginLoaded proxy to pluginLoader', () => {
+      const stubFn = sandbox.stub();
+      sandbox.stub(
+          Gerrit._pluginLoader,
+          'isPluginLoaded',
+          (...args) => stubFn(...args)
+      );
+      Gerrit._isPluginLoaded('test_plugin');
+      assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
-    suite('proxy methods', () => {
-      test('Gerrit._isPluginEnabled proxy to pluginLoader', () => {
-        const stubFn = sandbox.stub();
-        sandbox.stub(
-            Gerrit._pluginLoader,
-            'isPluginEnabled',
-            (...args) => stubFn(...args)
-        );
-        Gerrit._isPluginEnabled('test_plugin');
-        assert.isTrue(stubFn.calledWith('test_plugin'));
-      });
-
-      test('Gerrit._isPluginLoaded proxy to pluginLoader', () => {
-        const stubFn = sandbox.stub();
-        sandbox.stub(
-            Gerrit._pluginLoader,
-            'isPluginLoaded',
-            (...args) => stubFn(...args)
-        );
-        Gerrit._isPluginLoaded('test_plugin');
-        assert.isTrue(stubFn.calledWith('test_plugin'));
-      });
-
-      test('Gerrit._isPluginPreloaded proxy to pluginLoader', () => {
-        const stubFn = sandbox.stub();
-        sandbox.stub(
-            Gerrit._pluginLoader,
-            'isPluginPreloaded',
-            (...args) => stubFn(...args)
-        );
-        Gerrit._isPluginPreloaded('test_plugin');
-        assert.isTrue(stubFn.calledWith('test_plugin'));
-      });
+    test('Gerrit._isPluginPreloaded proxy to pluginLoader', () => {
+      const stubFn = sandbox.stub();
+      sandbox.stub(
+          Gerrit._pluginLoader,
+          'isPluginPreloaded',
+          (...args) => stubFn(...args)
+      );
+      Gerrit._isPluginPreloaded('test_plugin');
+      assert.isTrue(stubFn.calledWith('test_plugin'));
     });
   });
+});
 </script>

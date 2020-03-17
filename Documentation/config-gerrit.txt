@@ -5059,6 +5059,10 @@ account deactivations.
 The link:#schedule-configuration-interval[interval] for running
 account deactivations.
 
+Note that the task will only be scheduled if the
+link:#autoUpdateAccountActiveStatus[auth.autoUpdateAccountActiveStatus]
+is set to true.
+
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
 

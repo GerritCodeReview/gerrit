@@ -248,7 +248,10 @@
         value: false,
         observer: '_updateToggleContainerClass',
       },
-      _parentIsCurrent: Boolean,
+      _parentIsCurrent: {
+        type: Boolean,
+        computed: '_isParentCurrent(_currentRevisionActions)',
+      },
       _submitEnabled: {
         type: Boolean,
         computed: '_isSubmitEnabled(_currentRevisionActions)',
@@ -1319,6 +1322,14 @@
     _isSubmitEnabled(revisionActions) {
       return !!(revisionActions && revisionActions.submit &&
         revisionActions.submit.enabled);
+    },
+
+    _isParentCurrent(revisionActions) {
+      if (revisionActions && revisionActions.rebase) {
+        return !revisionActions.rebase.enabled;
+      } else {
+        return true;
+      }
     },
 
     _getEdit() {

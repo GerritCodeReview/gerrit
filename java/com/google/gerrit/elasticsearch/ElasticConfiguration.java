@@ -40,10 +40,13 @@ class ElasticConfiguration {
   static final String KEY_SERVER = "server";
   static final String KEY_NUMBER_OF_SHARDS = "numberOfShards";
   static final String KEY_NUMBER_OF_REPLICAS = "numberOfReplicas";
+  static final String KEY_MAX_RESULT_WINDOW = "maxResultWindow";
+
   static final String DEFAULT_PORT = "9200";
   static final String DEFAULT_USERNAME = "elastic";
   static final int DEFAULT_NUMBER_OF_SHARDS = 0;
   static final int DEFAULT_NUMBER_OF_REPLICAS = 1;
+  static final int DEFAULT_MAX_RESULT_WINDOW = 10000;
 
   private final Config cfg;
   private final List<HttpHost> hosts;
@@ -52,6 +55,7 @@ class ElasticConfiguration {
   final String password;
   final int numberOfShards;
   final int numberOfReplicas;
+  final int maxResultWindow;
   final String prefix;
 
   @Inject
@@ -68,6 +72,8 @@ class ElasticConfiguration {
         cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_NUMBER_OF_SHARDS, DEFAULT_NUMBER_OF_SHARDS);
     this.numberOfReplicas =
         cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_NUMBER_OF_REPLICAS, DEFAULT_NUMBER_OF_REPLICAS);
+    this.maxResultWindow =
+        cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_MAX_RESULT_WINDOW, DEFAULT_MAX_RESULT_WINDOW);
     this.hosts = new ArrayList<>();
     for (String server : cfg.getStringList(SECTION_ELASTICSEARCH, null, KEY_SERVER)) {
       try {

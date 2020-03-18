@@ -29,6 +29,7 @@
           'Status',
           'Owner',
           'Assignee',
+          'Comments',
           'Repo',
           'Branch',
           'Updated',
@@ -58,6 +59,30 @@
         return false;
       }
       return !columnsToDisplay.includes(columnToCheck);
+    },
+
+    /**
+     * Is the column disabled by a server config? For example the assignee
+     * feature might be disabled and thus the corresponding column is also
+     * disabled.
+     *
+     * @param {string} column
+     * @param {Object} config
+     * @return {boolean}
+     */
+    isColumnEnabled(column, config) {
+      if (!config || !config.change) return true;
+      if (column === 'Assignee') return !!config.change.enable_assignee;
+      if (column === 'Comments') return !!config.change.enable_attention_set;
+      return true;
+    },
+
+    /**
+     * @param {!Array<string>} columns
+     * @return {!Array<string>} enabled columns, see isColumnEnabled().
+     */
+    getEnabledColumns(columns, config) {
+      return columns.filter(col => this.isColumnEnabled(col, config));
     },
 
     /**

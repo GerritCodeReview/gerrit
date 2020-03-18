@@ -27,6 +27,7 @@ import '../../shared/gr-account-link/gr-account-link.js';
 import '../../shared/gr-change-star/gr-change-star.js';
 import '../../shared/gr-change-status/gr-change-status.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
+import '../../shared/gr-icons/gr-icons.js';
 import '../../shared/gr-limited-text/gr-limited-text.js';
 import '../../shared/gr-tooltip-content/gr-tooltip-content.js';
 import '../../../styles/shared-styles.js';
@@ -207,6 +208,12 @@ class GrChangeListItem extends mixinBehaviors( [
     } else {
       return `+${change.insertions}, -${change.deletions}`;
     }
+  }
+
+  _computeComments(change) {
+    const commentCount = change.unresolved_comment_count;
+    if (!commentCount || commentCount < 1) return '';
+    return `${commentCount} unresolved`;
   }
 
   /**

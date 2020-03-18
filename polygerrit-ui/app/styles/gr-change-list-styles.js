@@ -103,7 +103,8 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       @media only screen and (max-width: 150em) {
         .assignee,
         .branch,
-        .owner {
+        .owner,
+        .reviewers {
           overflow: hidden;
           max-width: 18rem;
           text-overflow: ellipsis;
@@ -118,7 +119,8 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       @media only screen and (max-width: 100em) {
         .assignee,
         .branch,
-        .owner {
+        .owner,
+        .reviewers {
           max-width: 10rem;
         }
       }

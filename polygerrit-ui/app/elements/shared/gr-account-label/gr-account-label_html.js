@@ -45,7 +45,7 @@ export const htmlTemplate = html`
     </style>
     <span>
       <template is="dom-if" if="[[!hideAvatar]]">
-        <gr-avatar account="[[account]]" image-size="[[avatarImageSize]]"></gr-avatar>
+        <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
       </template>
       <span class\$="text [[_computeShowEmailClass(account)]]">
         <span class="name">

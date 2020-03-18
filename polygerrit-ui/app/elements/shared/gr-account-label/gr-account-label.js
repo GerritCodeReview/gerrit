@@ -70,7 +70,7 @@ class GrAccountLabel extends mixinBehaviors( [
   }
 
   _computeName(account, config) {
-    return this.getUserName(config, account, true);
+    return this.getUserName(config, account);
   }
 }
 

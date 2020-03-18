@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8bb4e87_38825200",
+        "filename": ".zuul.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-18T00:16:08Z",
+      "side": 1,
+      "message": "This should be adapted to the stable-3.0 branch.  We should either submit [1] and then do this merge on top, or abandon that and make the adaptations in this merge.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/257076/2/.zuul.yaml",
+      "revId": "ab5cf1b55ec3f5d596ef323154c50d2cb212ac54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

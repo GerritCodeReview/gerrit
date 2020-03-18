@@ -70,54 +70,6 @@ suite('gr-account-label tests', () => {
     });
   });
 
-  test('missing email', () => {
-    assert.equal('', element._computeEmailStr({name: 'foo'}));
-  });
-
-  test('computed fields', () => {
-    assert.equal(
-        element._computeAccountTitle({
-          name: 'Andrew Bonventre',
-          email: 'andybons+gerrit@gmail.com',
-        }, /* additionalText= */ ''),
-        'Andrew Bonventre <andybons+gerrit@gmail.com>');
-
-    assert.equal(
-        element._computeAccountTitle({
-          name: 'Andrew Bonventre',
-        }, /* additionalText= */ ''),
-        'Andrew Bonventre');
-
-    assert.equal(
-        element._computeAccountTitle({
-          email: 'andybons+gerrit@gmail.com',
-        }, /* additionalText= */ ''),
-        'Anonymous <andybons+gerrit@gmail.com>');
-
-    assert.equal(element._computeShowEmailClass(
-        {
-          name: 'Andrew Bonventre',
-          email: 'andybons+gerrit@gmail.com',
-        }, /* additionalText= */ ''), '');
-
-    assert.equal(element._computeShowEmailClass(
-        {
-          email: 'andybons+gerrit@gmail.com',
-        }, /* additionalText= */ ''), 'showEmail');
-
-    assert.equal(element._computeShowEmailClass(
-        {name: 'Andrew Bonventre'},
-        /* additionalText= */ ''
-    ),
-    '');
-
-    assert.equal(element._computeShowEmailClass(undefined), '');
-
-    assert.equal(
-        element._computeEmailStr({name: 'test', email: 'test'}), '(test)');
-    assert.equal(element._computeEmailStr({email: 'test'}, ''), 'test');
-  });
-
   suite('_computeName', () => {
     test('not showing anonymous', () => {
       const account = {name: 'Wyatt'};

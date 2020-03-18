@@ -51,10 +51,9 @@ class GrAccountLabel extends mixinBehaviors( [
        */
       account: Object,
       voteableText: String,
-      hasTooltip: {
+      showAttention: {
         type: Boolean,
-        reflectToAttribute: true,
-        computed: '_computeHasTooltip(account)',
+        value: false,
       },
       hideAvatar: {
         type: Boolean,

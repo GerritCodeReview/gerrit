@@ -34,6 +34,24 @@
       "revId": "d58ba12643a175d6397b8751b0b0058ccbb633ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ead8fb_f907c8ce",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-18T15:34:36Z",
+      "side": 1,
+      "message": "hmmm i thought you just said the redirects.json is no longer used ? And do we have anywhere contains `bower_components` in tests ?",
+      "parentUuid": "95d04ed2_10e127e0",
+      "revId": "d58ba12643a175d6397b8751b0b0058ccbb633ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

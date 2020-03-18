@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c58230b4_27c7f051",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "Can you take a screenshot and upload to imgur or something similar?",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d74d88c_049bf12c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "What does this refer to? Is this an AXIS issue tracker?\n\nMaybe use this line instead:\n\n  Bug: Issue 6293",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce35e334_36450832",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "Maybe the title could be something like\n\n  Switches change state from \"Work in Progress\" to \"Active\".",
+      "range": {
+        "startLine": 472,
+        "startChar": 22,
+        "endLine": 472,
+        "endChar": 27
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c55aea_bc8a28fb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "This should only be primary, if and only if the other button is secondary.",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd53d502_c95f32c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "If it is hidden anyway, then you don\u0027t need to disable it. :-)",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82559767_66fe3606",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "This text never changes, so I would prefer if you just put the constant string here. That reduces complexity.",
+      "range": {
+        "startLine": 476,
+        "startChar": 49,
+        "endLine": 476,
+        "endChar": 70
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b166a95_fb67418e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 251,
+        "startChar": 61,
+        "endLine": 251,
+        "endChar": 76
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "828d571a_e1adaf2b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1759,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "Can you check whether this action is available to the owner only? I would like to make sure that \"start review\" is not something that we show as a primary action for non-owners.",
+      "range": {
+        "startLine": 1759,
+        "startChar": 8,
+        "endLine": 1759,
+        "endChar": 37
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "955337df_a77ae700",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "It would be better to associate this logic directly to the \"primary\" attribute in the html template:\n\n  primary\u003d\"[[!_canStartReview]]\"",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a5964d7_e027a4fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-18T08:58:57Z",
+      "side": 1,
+      "message": "formatting: spaces before and after \u003d\u003d\u003d",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

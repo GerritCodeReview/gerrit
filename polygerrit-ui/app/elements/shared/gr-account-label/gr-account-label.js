@@ -57,6 +57,16 @@ class GrAccountLabel extends mixinBehaviors( [
        * part of the ChangeInfo object in the change property.
        */
       highlightAttention: {
+      blurred: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
+      showAttention: {
+        type: Boolean,
+        value: false,
+      },
+      hideHovercard: {
         type: Boolean,
         value: false,
       },

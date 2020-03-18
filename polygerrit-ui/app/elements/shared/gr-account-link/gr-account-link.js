@@ -41,7 +41,6 @@ class GrAccountLink extends mixinBehaviors( [
 
   static get properties() {
     return {
-      additionalText: String,
       account: Object,
     };
   }

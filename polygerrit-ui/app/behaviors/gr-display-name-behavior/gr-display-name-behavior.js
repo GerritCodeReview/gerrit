@@ -29,6 +29,10 @@ import '../../scripts/gr-display-name-utils/gr-display-name-utils.js';
       return GrDisplayNameUtils.getUserName(config, account);
     },
 
+    getDisplayName(config, account) {
+      return GrDisplayNameUtils.getDisplayName(config, account);
+    },
+
     getGroupDisplayName(group) {
       return GrDisplayNameUtils.getGroupDisplayName(group);
     },

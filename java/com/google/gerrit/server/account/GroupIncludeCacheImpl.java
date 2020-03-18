@@ -24,7 +24,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.account.ExternalGroupsKeyReader.GroupsExternalKey;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.proto.Cache.AllExternalGroupsProto;
+import com.google.gerrit.server.cache.proto.Cache.AllExternalGroupsProto.ExternalGroupProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.logging.Metadata;
@@ -49,6 +54,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   private static final String PARENT_GROUPS_NAME = "groups_bysubgroup";
   private static final String GROUPS_WITH_MEMBER_NAME = "groups_bymember";
   private static final String EXTERNAL_NAME = "groups_external";
+  private static final String PERSISTED_EXTERNAL_NAME = "groups_external_persisted";
 
   public static Module module() {
     return new CacheModule() {
@@ -66,8 +72,23 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
                 new TypeLiteral<ImmutableList<AccountGroup.UUID>>() {})
             .loader(ParentGroupsLoader.class);
 
+        /**
+         * Splitting the groups external cache into 2 caches: The first one is in memory, used to
+         * serve the callers and has a single constant key "EXTERNAL_NAME". The second one is
+         * persisted, its key represents the groups' state in NoteDb. The in-memory cache is used on
+         * top of the persisted cache to enhance performance
+         */
         cache(EXTERNAL_NAME, String.class, new TypeLiteral<ImmutableList<AccountGroup.UUID>>() {})
-            .loader(AllExternalLoader.class);
+            .loader(AllExternalInMemoryLoader.class);
+
+        persist(
+                PERSISTED_EXTERNAL_NAME,
+                GroupsExternalKey.class,
+                new TypeLiteral<ImmutableList<AccountGroup.UUID>>() {})
+            .loader(AllExternalLoader.class)
+            .diskLimit(-1)
+            .keySerializer(GroupsExternalKey.Serializer.INSTANCE)
+            .valueSerializer(new ExternalGroupsSerializer());
 
         bind(GroupIncludeCacheImpl.class);
         bind(GroupIncludeCache.class).to(GroupIncludeCacheImpl.class);
@@ -127,6 +148,11 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
       if (!groupId.isInternalGroup()) {
         logger.atFine().log("Evict external group %s", groupId.get());
+        /**
+         * No need to invalidate the persistent cache, because this eviction will change the state
+         * of NoteDb causing the persistent cache's loader to use a new key that doesn't exist in
+         * its cache
+         */
         external.invalidate(EXTERNAL_NAME);
       }
     }
@@ -184,7 +210,29 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
-  static class AllExternalLoader extends CacheLoader<String, ImmutableList<AccountGroup.UUID>> {
+  static class AllExternalInMemoryLoader
+      extends CacheLoader<String, ImmutableList<AccountGroup.UUID>> {
+    private final LoadingCache<GroupsExternalKey, ImmutableList<AccountGroup.UUID>>
+        externalPersisted;
+    private final ExternalGroupsKeyReader externalGroupsKeyReader;
+
+    @Inject
+    AllExternalInMemoryLoader(
+        @Named(PERSISTED_EXTERNAL_NAME)
+            LoadingCache<GroupsExternalKey, ImmutableList<AccountGroup.UUID>> externalPersisted,
+        ExternalGroupsKeyReader externalGroupsKeyReader) {
+      this.externalPersisted = externalPersisted;
+      this.externalGroupsKeyReader = externalGroupsKeyReader;
+    }
+
+    @Override
+    public ImmutableList<AccountGroup.UUID> load(String key) throws Exception {
+      return externalPersisted.get(externalGroupsKeyReader.currentKey());
+    }
+  }
+
+  static class AllExternalLoader
+      extends CacheLoader<GroupsExternalKey, ImmutableList<AccountGroup.UUID>> {
     private final Groups groups;
 
     @Inject
@@ -193,10 +241,32 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public ImmutableList<AccountGroup.UUID> load(String key) throws Exception {
+    public ImmutableList<AccountGroup.UUID> load(GroupsExternalKey key) throws Exception {
       try (TraceTimer timer = TraceContext.newTimer("Loading all external groups")) {
-        return groups.getExternalGroups().collect(toImmutableList());
+        return groups.getExternalGroups(key).collect(toImmutableList());
       }
+    }
+  }
+
+  static class ExternalGroupsSerializer
+      implements CacheSerializer<ImmutableList<AccountGroup.UUID>> {
+
+    @Override
+    public byte[] serialize(ImmutableList<AccountGroup.UUID> object) {
+      AllExternalGroupsProto.Builder allBuilder = AllExternalGroupsProto.newBuilder();
+      object.stream()
+          .map(group -> ExternalGroupProto.newBuilder().setGroupUuid(group.get()).build())
+          .forEach(allBuilder::addExternalGroup);
+      return Protos.toByteArray(allBuilder.build());
+    }
+
+    @Override
+    public ImmutableList<AccountGroup.UUID> deserialize(byte[] in) {
+      return Protos.parseUnchecked(AllExternalGroupsProto.parser(), in)
+          .getExternalGroupList()
+          .stream()
+          .map(groupProto -> AccountGroup.UUID.parse(groupProto.getGroupUuid()))
+          .collect(toImmutableList());
     }
   }
 }

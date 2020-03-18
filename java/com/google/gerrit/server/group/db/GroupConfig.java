@@ -144,7 +144,37 @@ public class GroupConfig extends VersionedMetaData {
   public static GroupConfig loadForGroup(
       Project.NameKey projectName, Repository repository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = new GroupConfig(groupUuid);
+    return loadForGroup(projectName, repository, groupUuid, null);
+  }
+
+  /**
+   * Creates a {@code GroupConfig} for an existing group.
+   *
+   * <p>The group is automatically loaded within this method and can be accessed via {@link
+   * #getLoadedGroup()}.
+   *
+   * <p>If the parameter groupRefObjectId is set, the group is loaded using this objectId which
+   * points to some commit (probably not the latest) for this group ref, otherwise the group is
+   * loaded using the ref name from the group UUID (latest commit)
+   *
+   * @param projectName the name of the project which holds the NoteDb commits for groups
+   * @param repository the repository which holds the NoteDb commits for groups
+   * @param groupUuid the UUID of the group
+   * @param groupRefObjectId a specific ObjectId to load the group from
+   * @return a {@code GroupConfig} for the group with the specified UUID
+   * @throws IOException if the repository can't be accessed for some reason
+   * @throws ConfigInvalidException if the group exists but can't be read due to an invalid format
+   */
+  public static GroupConfig loadForGroup(
+      Project.NameKey projectName,
+      Repository repository,
+      AccountGroup.UUID groupUuid,
+      ObjectId groupRefObjectId)
+      throws IOException, ConfigInvalidException {
+    GroupConfig groupConfig =
+        groupRefObjectId == null
+            ? new GroupConfig(groupUuid)
+            : new VersionedGroupConfig(groupUuid, groupRefObjectId);
     groupConfig.load(projectName, repository);
     return groupConfig;
   }
@@ -186,7 +216,7 @@ public class GroupConfig extends VersionedMetaData {
   private boolean isLoaded = false;
   private boolean allowSaveEmptyName;
 
-  private GroupConfig(AccountGroup.UUID groupUuid) {
+  protected GroupConfig(AccountGroup.UUID groupUuid) {
     this.groupUuid = requireNonNull(groupUuid);
     ref = RefNames.refsGroups(groupUuid);
   }

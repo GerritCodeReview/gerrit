@@ -270,6 +270,21 @@ message AllExternalIdsProto {
   repeated ExternalIdProto external_id = 1;
 }
 
+// Serialized form of a list of com.google.gerrit.entities.AccountGroup.UUID
+// Next ID: 2
+message AllExternalGroupsProto {
+  message ExternalGroupProto {
+    string groupUuid = 1;
+  }
+  repeated ExternalGroupProto external_group = 1;
+}
+
+// Serialized form of com.google.gerrit.server.account.ExternalGroupsKeyReader.GroupsExternalKey
+// Next ID: 2
+message AllExternalGroupsKeyProto {
+  repeated string groupRefName = 1;
+}
+
 // Key for com.google.gerrit.server.git.PureRevertCache.
 // Next ID: 4
 message PureRevertKeyProto {

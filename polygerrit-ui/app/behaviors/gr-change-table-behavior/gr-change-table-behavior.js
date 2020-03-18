@@ -29,6 +29,7 @@
           'Status',
           'Owner',
           'Assignee',
+          'Reviewers',
           'Comments',
           'Repo',
           'Branch',
@@ -74,6 +75,7 @@
     isColumnEnabled(column, config, experiments) {
       if (!config || !config.change) return true;
       if (column === 'Comments') return experiments.includes('comments-column');
+      if (column === 'Reviewers') return !!config.change.enable_attention_set;
       return true;
     },
 

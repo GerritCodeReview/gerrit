@@ -950,49 +950,50 @@ class GrRestApiInterface extends mixinBehaviors( [
    *     changeInfos.
    */
   getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
-    const options = opt_options || this.listChangesOptionsToHex(
-        this.ListChangesOption.LABELS,
-        this.ListChangesOption.DETAILED_ACCOUNTS
-    );
-    // Issue 4524: respect legacy token with max sortkey.
-    if (opt_offset === 'n,z') {
-      opt_offset = 0;
-    }
-    const params = {
-      O: options,
-      S: opt_offset || 0,
-    };
-    if (opt_changesPerPage) { params.n = opt_changesPerPage; }
-    if (opt_query && opt_query.length > 0) {
-      params.q = opt_query;
-    }
-    const iterateOverChanges = arr => {
-      for (const change of (arr || [])) {
-        this._maybeInsertInLookup(change);
-      }
-    };
-    const req = {
-      url: '/changes/',
-      params,
-      reportUrlAsIs: true,
-    };
-    return this._restApiHelper.fetchJSON(req).then(response => {
-      // Response may be an array of changes OR an array of arrays of
-      // changes.
-      if (opt_query instanceof Array) {
-        // Normalize the response to look like a multi-query response
-        // when there is only one query.
-        if (opt_query.length === 1) {
-          response = [response];
-        }
-        for (const arr of response) {
-          iterateOverChanges(arr);
-        }
-      } else {
-        iterateOverChanges(response);
-      }
-      return response;
-    });
+    return this.getConfig(false)
+        .then(config => {
+          const options = opt_options || this._getChangesOptionsHex(config);
+          // Issue 4524: respect legacy token with max sortkey.
+          if (opt_offset === 'n,z') {
+            opt_offset = 0;
+          }
+          const params = {
+            O: options,
+            S: opt_offset || 0,
+          };
+          if (opt_changesPerPage) { params.n = opt_changesPerPage; }
+          if (opt_query && opt_query.length > 0) {
+            params.q = opt_query;
+          }
+          return {
+            url: '/changes/',
+            params,
+            reportUrlAsIs: true,
+          };
+        })
+        .then(req => this._restApiHelper.fetchJSON(req))
+        .then(response => {
+          const iterateOverChanges = arr => {
+            for (const change of (arr || [])) {
+              this._maybeInsertInLookup(change);
+            }
+          };
+          // Response may be an array of changes OR an array of arrays of
+          // changes.
+          if (opt_query instanceof Array) {
+            // Normalize the response to look like a multi-query response
+            // when there is only one query.
+            if (opt_query.length === 1) {
+              response = [response];
+            }
+            for (const arr of response) {
+              iterateOverChanges(arr);
+            }
+          } else {
+            iterateOverChanges(response);
+          }
+          return response;
+        });
   }
 
   /**
@@ -1032,6 +1033,20 @@ class GrRestApiInterface extends mixinBehaviors( [
           changeNum, optionsHex, opt_errFn, opt_cancelCondition)
           .then(GrReviewerUpdatesParser.parse);
     });
+  }
+
+  _getChangesOptionsHex(config) {
+    const options = [
+      this.ListChangesOption.LABELS,
+      this.ListChangesOption.DETAILED_ACCOUNTS,
+    ];
+    if (config && config.change && config.change.enable_attention_set) {
+      options.push(this.ListChangesOption.DETAILED_LABELS);
+    } else {
+      options.push(this.ListChangesOption.REVIEWED);
+    }
+
+    return this.listChangesOptionsToHex(...options);
   }
 
   _getChangeOptionsHex(config) {

@@ -105,14 +105,6 @@ class GrDashboardView extends mixinBehaviors( [
     ];
   }
 
-  get options() {
-    return this.listChangesOptionsToHex(
-        this.ListChangesOption.LABELS,
-        this.ListChangesOption.DETAILED_ACCOUNTS,
-        this.ListChangesOption.REVIEWED
-    );
-  }
-
   /** @override */
   attached() {
     super.attached();
@@ -240,7 +232,7 @@ class GrDashboardView extends mixinBehaviors( [
       queries.push('owner:self limit:1');
     }
 
-    return this.$.restAPI.getChanges(null, queries, null, this.options)
+    return this.$.restAPI.getChanges(null, queries)
         .then(changes => {
           if (checkForNewUser) {
             // Last set of results is not meant for dashboard display.

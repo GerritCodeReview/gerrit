@@ -33,6 +33,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
@@ -78,6 +79,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -744,6 +746,7 @@ public class ChangeField {
     static class StoredRequirement {
       String fallbackText;
       String type;
+      @Deprecated Map<String, String> data;
     }
 
     SubmitRecord.Status status;
@@ -770,6 +773,12 @@ public class ChangeField {
           StoredRequirement sr = new StoredRequirement();
           sr.type = requirement.type();
           sr.fallbackText = requirement.fallbackText();
+          // For backwards compatibility, write an empty map to the index.
+          // This is required, because the SubmitRequirement AutoValue can't
+          // handle null in the old code.
+          // TODO(hiesel): Remove once we have rolled out the new code
+          //  and waited long enough to not need to roll back.
+          sr.data = ImmutableMap.of();
           this.requirements.add(sr);
         }
       }

@@ -49,6 +49,9 @@ export const htmlTemplate = html`
     .reviewers {
       white-space: nowrap;
     }
+    .reviewers {
+      --account-max-length: 75px;
+    }
     .spacer {
       height: 0;
       overflow: hidden;
@@ -149,7 +152,11 @@ export const htmlTemplate = html`
     class="cell owner"
     hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]"
   >
-    <gr-account-link account="[[change.owner]]"></gr-account-link>
+    <gr-account-link
+      show-attention
+      change="[[change]]"
+      account="[[change.owner]]"
+    ></gr-account-link>
   </td>
   <td
     class="cell assignee"
@@ -172,16 +179,22 @@ export const htmlTemplate = html`
     <div>
       <template
         is="dom-repeat"
-        items="[[change.reviewers.REVIEWER]]"
+        items="[[_computePrimaryReviewers(change)]]"
         as="reviewer"
       >
         <gr-account-link
           hide-avatar=""
           hide-status=""
+          show-attention
+          change="[[change]]"
           account="[[reviewer]]"
         ></gr-account-link
-        ><!--
-       --><span class="lastChildHidden">, </span>
+        ><span class="lastChildHidden">, </span>
+      </template>
+      <template is="dom-if" if="[[_computeAdditionalReviewersCount(change)]]">
+        <span title="[[_computeAdditionalReviewersTitle(change, config)]]">
+          +[[_computeAdditionalReviewersCount(change, config)]]
+        </span>
       </template>
     </div>
   </td>

@@ -135,6 +135,7 @@ export const htmlTemplate = html`
             highlight$="[[_computeItemHighlight(account, change)]]"
             needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
             change="[[change]]"
+            config="[[_config]]"
             visible-change-table-columns="[[visibleChangeTableColumns]]"
             show-number="[[showNumber]]"
             show-star="[[showStar]]"

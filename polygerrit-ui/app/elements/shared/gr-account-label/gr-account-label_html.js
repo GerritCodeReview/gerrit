@@ -51,8 +51,10 @@ export const htmlTemplate = html`
       <span class="text">
         <span class="name">
           [[_computeName(account, _serverConfig)]]</span>
-        <template is="dom-if" if="[[account.status]]">
-          <iron-icon icon="gr-icons:calendar"></iron-icon>
+        <template is="dom-if" if="[[!hideStatus]]">
+          <template is="dom-if" if="[[account.status]]">
+            <iron-icon icon="gr-icons:calendar"></iron-icon>
+          </template>
         </template>
       </span>
     </span>

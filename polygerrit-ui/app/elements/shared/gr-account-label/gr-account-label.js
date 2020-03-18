@@ -49,6 +49,10 @@ class GrAccountLabel extends mixinBehaviors( [
        * @type {{ name: string, status: string }}
        */
       account: Object,
+      showAttention: {
+        type: Boolean,
+        value: false,
+      },
       hideAvatar: {
         type: Boolean,
         value: false,

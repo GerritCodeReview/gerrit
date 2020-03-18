@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "9dae36d8_b33691c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-18T14:48:41Z",
+      "side": 1,
+      "message": "I\u0027m fine in merging this change. However, because of the hiccups of the upgrade process (schema + data), it is definitely *NOT* recommended to skip releases. Of course, we do not prevent anyone from trying and, if the fix is easy, we could support it.\n\nHowever, it\u0027s like hiking mountains: you can try a free solo, and you can succeed. But if you fall, that hurts a lot :-(\nWe would always recommend the safest and most consolidate/tested path.",
+      "parentUuid": "b7e72c62_1636a1f0",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2976ff05_89be5536",
         "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1

@@ -1,0 +1,4 @@
+*
+!*/
+!/com/google/gerrit/scenarios/*
+!/.gitignore

@@ -150,6 +150,27 @@ link:http://logback.qos.ch/manual/configuration.html[configures] Gatling's loggi
 docker run -it e2e-tests -s com.google.gerrit.scenarios.CloneUsingBothProtocols
 ----
 
+=== How to run non-core scenarios
+
+Locally adding non-core scenarios, for example from Gerrit plugins, is as simple as copying such
+files in. Copying is necessary over linking, unless running using Docker (above) is not required.
+Docker does not support links for files it has to copy over through the Dockerfile (here, the
+scenario files). Here is how to proceed for adding such external (e.g., plugin) scenario files in:
+
+----
+pushd e2e-tests/src/test/scala
+cp -r (or, ln -s) scalaPackageStructure .
+popd
+
+pushd e2e-tests/src/test/resources/data
+cp -r (or, ln -s) jsonFilesPackageStructure .
+popd
+----
+
+The destination folders above readily git-ignore every non-core scenario file added under them. If
+running using Docker, `e2e-tests/Dockerfile` may require another `COPY` line for the hereby added
+scenarios. Aforementioned `sbt` or `docker` commands can then be used to run the added tests.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

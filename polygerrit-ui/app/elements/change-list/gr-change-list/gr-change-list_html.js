@@ -103,4 +103,5 @@ export const htmlTemplate = html`
       </template>
     </table>
     <gr-cursor-manager id="cursor" index="{{selectedIndex}}" scroll-behavior="keep-visible" focus-on-move=""></gr-cursor-manager>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

@@ -253,7 +253,7 @@ class GrReplyDialog extends mixinBehaviors( [
       },
       _sendDisabled: {
         type: Boolean,
-        computed: '_computeSendButtonDisabled(_sendButtonLabel, ' +
+        computed: '_computeSendButtonDisabled(canBeStarted, ' +
           'draftCommentThreads, draft, _reviewersMutated, _labelsChanged, ' +
           '_includeComments, disabled)',
         observer: '_sendDisabledChanged',
@@ -853,7 +853,8 @@ class GrReplyDialog extends mixinBehaviors( [
   }
 
   _computeSendButtonLabel(canBeStarted) {
-    return canBeStarted ? ButtonLabels.START_REVIEW : ButtonLabels.SEND;
+    return canBeStarted ? ButtonLabels.SEND + ' and ' +
+    ButtonLabels.START_REVIEW : ButtonLabels.SEND;
   }
 
   _computeSendButtonTooltip(canBeStarted) {
@@ -865,11 +866,11 @@ class GrReplyDialog extends mixinBehaviors( [
   }
 
   _computeSendButtonDisabled(
-      buttonLabel, draftCommentThreads, text, reviewersMutated,
+      canBeStarted, draftCommentThreads, text, reviewersMutated,
       labelsChanged, includeComments, disabled) {
     // Polymer 2: check for undefined
     if ([
-      buttonLabel,
+      canBeStarted,
       draftCommentThreads,
       text,
       reviewersMutated,
@@ -881,7 +882,7 @@ class GrReplyDialog extends mixinBehaviors( [
     }
 
     if (disabled) { return true; }
-    if (buttonLabel === ButtonLabels.START_REVIEW) { return false; }
+    if (canBeStarted === true) { return false; }
     const hasDrafts = includeComments && draftCommentThreads.length;
     return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
   }

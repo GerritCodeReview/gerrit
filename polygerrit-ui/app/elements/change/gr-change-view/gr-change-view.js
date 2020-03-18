@@ -296,7 +296,7 @@ class GrChangeView extends mixinBehaviors( [
       _replyButtonLabel: {
         type: String,
         value: 'Reply',
-        computed: '_computeReplyButtonLabel(_diffDrafts.*, _canStartReview)',
+        computed: '_computeReplyButtonLabel(_diffDrafts.*)',
       },
       _selectedPatchSet: String,
       _shownFileCount: Number,
@@ -864,6 +864,13 @@ class GrChangeView extends mixinBehaviors( [
     this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
   }
 
+  _handleReadyTap(e) {
+    e.preventDefault();
+    this.$.restAPI.startReview(this._changeNum).then(result => {
+      this._reload(result);
+    });
+  }
+
   _handleOpenDiffPrefs() {
     this.$.fileList.openDiffPrefs();
   }
@@ -1296,14 +1303,10 @@ class GrChangeView extends mixinBehaviors( [
     return result;
   }
 
-  _computeReplyButtonLabel(changeRecord, canStartReview) {
+  _computeReplyButtonLabel(changeRecord) {
     // Polymer 2: check for undefined
-    if ([changeRecord, canStartReview].some(arg => arg === undefined)) {
+    if ([changeRecord].some(arg => arg === undefined)) {
       return 'Reply';
-    }
-
-    if (canStartReview) {
-      return 'Start review';
     }
 
     const drafts = (changeRecord && changeRecord.base) || {};
@@ -1807,8 +1810,9 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _computeCanStartReview(change) {
-    return !!(change.actions && change.actions.ready &&
+    const canStartReview = !!(change.actions && change.actions.ready &&
         change.actions.ready.enabled);
+    return !!canStartReview;
   }
 
   _computeReplyDisabled() { return false; }

@@ -371,7 +371,9 @@ export const htmlTemplate = html`
               <div class="commitContainer">
                 <div>
                   <gr-button id="replyBtn" class="reply" title="[[createTitle(Shortcut.OPEN_REPLY_DIALOG,
-                        ShortcutSection.ACTIONS)]]" hidden\$="[[!_loggedIn]]" primary="" disabled="[[_replyDisabled]]" on-click="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+                        ShortcutSection.ACTIONS)]]" hidden\$="[[!_loggedIn]]" primary\$="[[!_canStartReview]]" disabled="[[_replyDisabled]]" on-click="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+                  <gr-button id="startReviewBtn" class="startReview" title="Switches change state from 'Work in Progress' to 'Active'."
+                        hidden="[[!_canStartReview]]" primary\$="[[_canStartReview]]" on-click="_handleReadyTap">Start review</gr-button>
                 </div>
                 <div id="commitMessage" class="commitMessage">
                   <gr-editable-content id="commitMessageEditor" editing="[[_editingCommitMessage]]" content="{{_latestCommitMessage}}" storage-key="[[_computeCommitMessageKey(_change._number, _change.current_revision)]]" remove-zero-width-space="" collapsed\$="[[_computeCommitMessageCollapsed(_commitCollapsed, _commitCollapsible)]]">

@@ -936,7 +936,7 @@ suite('gr-reply-dialog tests', () => {
         'Send');
     assert.equal(
         element._computeSendButtonLabel(true),
-        'Start review');
+        'Send and Start review');
   });
 
   test('_handle400Error reviewrs and CCs', done => {
@@ -1119,10 +1119,11 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
-  test('_computeSendButtonDisabled', () => {
+  test('_computeSendButtonDisabled_canBeStarted', () => {
     const fn = element._computeSendButtonDisabled.bind(element);
+    // Mock canBeStarted
     assert.isFalse(fn(
-        /* buttonLabel= */ 'Start review',
+        /* canBeStarted= */ true,
         /* draftCommentThreads= */ [],
         /* text= */ '',
         /* reviewersMutated= */ false,
@@ -1130,8 +1131,13 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false
     ));
+  });
+
+  test('_computeSendButtonDisabled_allFalse', () => {
+    const fn = element._computeSendButtonDisabled.bind(element);
+    // Mock everything false
     assert.isTrue(fn(
-        /* buttonLabel= */ 'Send',
+        /* canBeStarted= */ false,
         /* draftCommentThreads= */ [],
         /* text= */ '',
         /* reviewersMutated= */ false,
@@ -1139,9 +1145,13 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false
     ));
-    // Mock nonempty comment draft array, with seding comments.
+  });
+
+  test('_computeSendButtonDisabled_draftCommentsSend', () => {
+    const fn = element._computeSendButtonDisabled.bind(element);
+    // Mock nonempty comment draft array, with sending comments.
     assert.isFalse(fn(
-        /* buttonLabel= */ 'Send',
+        /* canBeStarted= */ false,
         /* draftCommentThreads= */ [{comments: [{__draft: true}]}],
         /* text= */ '',
         /* reviewersMutated= */ false,
@@ -1149,9 +1159,13 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ true,
         /* disabled= */ false
     ));
-    // Mock nonempty comment draft array, without seding comments.
+  });
+
+  test('_computeSendButtonDisabled_draftCommentsDoNotSend', () => {
+    const fn = element._computeSendButtonDisabled.bind(element);
+    // Mock nonempty comment draft array, without sending comments.
     assert.isTrue(fn(
-        /* buttonLabel= */ 'Send',
+        /* canBeStarted= */ false,
         /* draftCommentThreads= */ [{comments: [{__draft: true}]}],
         /* text= */ '',
         /* reviewersMutated= */ false,
@@ -1159,9 +1173,13 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false
     ));
+  });
+
+  test('_computeSendButtonDisabled_changeMessage', () => {
+    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock nonempty change message.
     assert.isFalse(fn(
-        /* buttonLabel= */ 'Send',
+        /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ 'test',
         /* reviewersMutated= */ false,
@@ -1169,9 +1187,13 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false
     ));
+  });
+
+  test('_computeSendButtonDisabled_reviewersChanged', () => {
+    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock reviewers mutated.
     assert.isFalse(fn(
-        /* buttonLabel= */ 'Send',
+        /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
         /* reviewersMutated= */ true,
@@ -1179,9 +1201,13 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false
     ));
+  });
+
+  test('_computeSendButtonDisabled_labelsChanged', () => {
+    const fn = element._computeSendButtonDisabled.bind(element);
     // Mock labels changed.
     assert.isFalse(fn(
-        /* buttonLabel= */ 'Send',
+        /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
         /* reviewersMutated= */ false,
@@ -1189,9 +1215,13 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false
     ));
+  });
+
+  test('_computeSendButtonDisabled_dialogDisabled', () => {
+    const fn = element._computeSendButtonDisabled.bind(element);
     // Whole dialog is disabled.
     assert.isTrue(fn(
-        /* buttonLabel= */ 'Send',
+        /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
         /* reviewersMutated= */ false,

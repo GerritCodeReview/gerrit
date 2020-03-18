@@ -968,7 +968,7 @@ suite('gr-change-view tests', () => {
     const getLabel = element._computeReplyButtonLabel;
 
     assert.equal(getLabel(null, false), 'Reply');
-    assert.equal(getLabel(null, true), 'Start review');
+    assert.equal(getLabel(null, true), 'Reply');
 
     const changeRecord = {base: null};
     assert.equal(getLabel(changeRecord, false), 'Reply');
@@ -984,9 +984,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('start review button when owner of WIP change', () => {
-    assert.equal(
-        element._computeReplyButtonLabel(null, true),
-        'Start review');
+    assert.equal(element.$.startReviewBtn.innerHTML, 'Start review');
   });
 
   test('comment events properly update diff drafts', () => {

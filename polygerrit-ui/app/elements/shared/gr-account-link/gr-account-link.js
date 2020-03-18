@@ -43,10 +43,6 @@ class GrAccountLink extends mixinBehaviors( [
     return {
       additionalText: String,
       account: Object,
-      avatarImageSize: {
-        type: Number,
-        value: 32,
-      },
     };
   }
 

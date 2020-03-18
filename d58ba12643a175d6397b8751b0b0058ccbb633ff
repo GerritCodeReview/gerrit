@@ -52,6 +52,24 @@
       "revId": "d58ba12643a175d6397b8751b0b0058ccbb633ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8888a996_e4698999",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-18T15:46:08Z",
+      "side": 1,
+      "message": "Yes, redirects.json is no longer used and probably, and probably bower_components is not needed.\nBut I would like to keep it or at least it in this change.\n\nI remember, that wct loads some file /components or /bower_components and we must be accurate when cleaning these paths. Let\u0027s do it in a separate change and test different scenarios there. Otherwise we can break some other scenario for server.go.",
+      "parentUuid": "66ead8fb_f907c8ce",
+      "revId": "d58ba12643a175d6397b8751b0b0058ccbb633ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

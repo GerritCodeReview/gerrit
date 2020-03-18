@@ -50,7 +50,16 @@ class GrAccountLabel extends mixinBehaviors( [
        */
       account: Object,
       voteableText: String,
+      blurred: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
       showAttention: {
+        type: Boolean,
+        value: false,
+      },
+      hideHovercard: {
         type: Boolean,
         value: false,
       },

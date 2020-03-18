@@ -955,6 +955,7 @@ class GrRestApiInterface extends mixinBehaviors( [
   getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
     const options = opt_options || this.listChangesOptionsToHex(
         this.ListChangesOption.LABELS,
+        this.ListChangesOption.DETAILED_LABELS,
         this.ListChangesOption.DETAILED_ACCOUNTS
     );
     // Issue 4524: respect legacy token with max sortkey.

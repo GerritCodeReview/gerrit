@@ -52,7 +52,8 @@ export const htmlTemplate = html`
         white-space: nowrap;
         width: 100%;
       }
-      .comments {
+      .comments,
+      .reviewers {
         white-space: nowrap;
       }
       .spacer {
@@ -152,6 +153,14 @@ export const htmlTemplate = html`
       <template is="dom-if" if="[[!change.assignee]]">
         <span class="placeholder">--</span>
       </template>
+    </td>
+    <td class="cell reviewers" hidden\$="[[isColumnHidden('Reviewers', visibleChangeTableColumns)]]">
+      <div>
+        <template is="dom-repeat" items="[[change.reviewers.REVIEWER]]" as="reviewer">
+          <gr-account-link hide-avatar="" hide-status="" account="[[reviewer]]"></gr-account-link><!--
+       --><span hidden\$="[[_isLastItem(change.reviewers.REVIEWER, index)]]">, </span>
+        </template>
+      </div>
     </td>
     <td class="cell comments" hidden\$="[[isColumnHidden('Comments', visibleChangeTableColumns)]]">
       <iron-icon hidden\$="[[!change.unresolved_comment_count]]" icon="gr-icons:comment"></iron-icon>

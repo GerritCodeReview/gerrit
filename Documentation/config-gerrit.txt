@@ -3155,6 +3155,14 @@ Elasticsearch documentation,role=external,window=_blank] for details.
 +
 Defaults to 1.
 
+[[elasticsearch.maxResultWindow]]elasticsearch.maxResultWindow::
++
+Sets the maximum value of `from + size` for searches to use per index. Refer to the
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#dynamic-index-settings[
+Elasticsearch documentation] for details.
++
+Defaults to 10000.
+
 ==== Elasticsearch Security
 
 When security is enabled in Elasticsearch, the username and password must be provided.

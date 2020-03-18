@@ -50,6 +50,10 @@ class GrAccountLabel extends mixinBehaviors( [
        */
       account: Object,
       voteableText: String,
+      showAttention: {
+        type: Boolean,
+        value: false,
+      },
       hideAvatar: {
         type: Boolean,
         value: false,

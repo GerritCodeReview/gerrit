@@ -69,6 +69,7 @@ suite('gr-change-list basic tests', () => {
       element = fixture('basic');
       element.account = null;
       element.preferences = null;
+      element._config = {};
     });
 
     test('show number disabled', () => {
@@ -85,6 +86,7 @@ suite('gr-change-list basic tests', () => {
         change_table: [],
       };
       element.account = {_account_id: 1001};
+      element._config = {};
       flushAsynchronousOperations();
     });
 
@@ -102,6 +104,7 @@ suite('gr-change-list basic tests', () => {
         change_table: [],
       };
       element.account = {_account_id: 1001};
+      element._config = {};
       flushAsynchronousOperations();
     });
 
@@ -334,6 +337,7 @@ suite('gr-change-list basic tests', () => {
         time_format: 'HHMM_12',
         change_table: [],
       };
+      element._config = {};
       flushAsynchronousOperations();
     });
 
@@ -367,12 +371,14 @@ suite('gr-change-list basic tests', () => {
           'Status',
           'Owner',
           'Assignee',
+          'Comments',
           'Repo',
           'Branch',
           'Updated',
           'Size',
         ],
       };
+      element._config = {};
       flushAsynchronousOperations();
     });
 
@@ -402,11 +408,13 @@ suite('gr-change-list basic tests', () => {
           'Status',
           'Owner',
           'Assignee',
+          'Comments',
           'Branch',
           'Updated',
           'Size',
         ],
       };
+      element._config = {};
       flushAsynchronousOperations();
     });
 

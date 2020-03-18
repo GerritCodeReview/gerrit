@@ -16,6 +16,24 @@
       "revId": "d58ba12643a175d6397b8751b0b0058ccbb633ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95d04ed2_10e127e0",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-18T15:31:58Z",
+      "side": 1,
+      "message": "Please, keep it. These redirects needed for running tests in browser.",
+      "parentUuid": "ff17354d_7839d877",
+      "revId": "d58ba12643a175d6397b8751b0b0058ccbb633ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.auth;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
@@ -26,7 +24,6 @@ public class AuthenticationCheckIT extends AbstractDaemonTest {
   public void authCheck_loggedInUser_returnsOk() throws Exception {
     RestResponse r = adminRestSession.get("/auth-check");
     r.assertNoContent();
-    // Jetty strips Content-Length when status is NO_CONTENT
   }
 
   @Test
@@ -34,6 +31,5 @@ public class AuthenticationCheckIT extends AbstractDaemonTest {
     RestSession anonymous = new RestSession(server, null);
     RestResponse r = anonymous.get("/auth-check");
     r.assertForbidden();
-    assertThat(r.getHeader("Content-Length")).isEqualTo("0");
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c593847b_e1783a31",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-18T23:36:32Z",
+      "side": 1,
+      "message": "Unlike the groups\u0027 external cache loader which loops on all internal groups\u0027 refs and parses them from NoteDb (defined in Groups.getExternalGroupsFromNoteDb), this call here loads the group references from the single ref \"REFS_GROUPNAMES\" without the need to parse them. So this is expected to be faster.",
+      "range": {
+        "startLine": 54,
+        "startChar": 41,
+        "endLine": 54,
+        "endChar": 75
+      },
+      "revId": "c71e81217a2251bbd9436affa0aceead911d91f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

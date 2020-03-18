@@ -49,6 +49,7 @@ class GrReviewerList extends mixinBehaviors( [
   static get properties() {
     return {
       change: Object,
+      serverConfig: Object,
       disabled: {
         type: Boolean,
         value: false,
@@ -66,7 +67,6 @@ class GrReviewerList extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
-      maxReviewersDisplayed: Number,
 
       _displayedReviewers: {
         type: Array,
@@ -97,7 +97,7 @@ class GrReviewerList extends mixinBehaviors( [
 
   static get observers() {
     return [
-      '_reviewersChanged(change.reviewers.*, change.owner)',
+      '_reviewersChanged(change.reviewers.*, change.owner, serverConfig)',
     ];
   }
 
@@ -184,9 +184,9 @@ class GrReviewerList extends mixinBehaviors( [
     return maxScores.join(', ');
   }
 
-  _reviewersChanged(changeRecord, owner) {
+  _reviewersChanged(changeRecord, owner, serverConfig) {
     // Polymer 2: check for undefined
-    if ([changeRecord, owner].some(arg => arg === undefined)) {
+    if ([changeRecord, owner, serverConfig].some(arg => arg === undefined)) {
       return;
     }
 
@@ -206,12 +206,13 @@ class GrReviewerList extends mixinBehaviors( [
     this._reviewers = result
         .filter(reviewer => reviewer._account_id != owner._account_id);
 
+    const isFirstNameConfigured = serverConfig.accounts
+        && serverConfig.accounts.default_display_name === 'FIRST_NAME';
+    const maxReviewers = isFirstNameConfigured ? 6 : 3;
     // If there is one or two more than the max reviewers, don't show the
     // 'show more' button, because it takes up just as much space.
-    if (this.maxReviewersDisplayed &&
-        this._reviewers.length > this.maxReviewersDisplayed + 2) {
-      this._displayedReviewers =
-        this._reviewers.slice(0, this.maxReviewersDisplayed);
+    if (this._reviewers.length > maxReviewers + 2) {
+      this._displayedReviewers = this._reviewers.slice(0, maxReviewers);
     } else {
       this._displayedReviewers = this._reviewers;
     }

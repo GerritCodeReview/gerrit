@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "748dbd54_80ac396b",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-18T13:05:05Z",
+      "side": 0,
+      "message": "nit: is this related?",
+      "revId": "43209beb4a5222f9dff5d5e2893985528bdae039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

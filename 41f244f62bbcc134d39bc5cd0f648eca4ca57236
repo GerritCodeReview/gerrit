@@ -111,6 +111,23 @@
       "revId": "41f244f62bbcc134d39bc5cd0f648eca4ca57236",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "186409b1_ff561450",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1087826
+      },
+      "writtenOn": "2020-03-18T14:46:35Z",
+      "side": 1,
+      "message": "Oh, and to be clear, I think it\u0027s fine to go ahead and merge this change and the merge-up change https://gerrit-review.googlesource.com/259358",
+      "revId": "41f244f62bbcc134d39bc5cd0f648eca4ca57236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

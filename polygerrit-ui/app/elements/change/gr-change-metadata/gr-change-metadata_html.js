@@ -97,6 +97,9 @@ export const htmlTemplate = html`
       .topic gr-linked-chip {
         --linked-chip-text-color: var(--link-color);
       }
+      gr-reviewer-list {
+        max-width: 200px;
+      }
     </style>
     <gr-external-style id="externalStyle" name="change-metadata">
       <section>
@@ -145,13 +148,13 @@ export const htmlTemplate = html`
       <section>
         <span class="title">Reviewers</span>
         <span class="value">
-          <gr-reviewer-list change="{{change}}" mutable="[[_mutable]]" reviewers-only="" max-reviewers-displayed="3"></gr-reviewer-list>
+          <gr-reviewer-list change="{{change}}" mutable="[[_mutable]]" reviewers-only="" server-config="[[serverConfig]]"></gr-reviewer-list>
         </span>
       </section>
       <section>
         <span class="title">CC</span>
         <span class="value">
-          <gr-reviewer-list change="{{change}}" mutable="[[_mutable]]" ccs-only="" max-reviewers-displayed="3"></gr-reviewer-list>
+          <gr-reviewer-list change="{{change}}" mutable="[[_mutable]]" ccs-only="" server-config="[[serverConfig]]"></gr-reviewer-list>
         </span>
       </section>
       <template is="dom-if" if="[[_computeShowRepoBranchTogether(change.project, change.branch)]]">

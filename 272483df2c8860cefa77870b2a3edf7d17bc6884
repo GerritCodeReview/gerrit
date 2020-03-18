@@ -34,6 +34,24 @@
       "revId": "272483df2c8860cefa77870b2a3edf7d17bc6884",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "346472b9_8aaa1075",
+        "filename": "java/com/google/gerrit/httpd/raw/AuthorizationCheckServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-18T12:58:01Z",
+      "side": 0,
+      "message": "hmm I think i tried before and no `content-length` was present for 403 before and that\u0027s why we ship the original change 😊\n\nI agree that it seems suspicious that chrome can not handle this correctly, I will definitely look into more about this.",
+      "parentUuid": "b8e55549_041ea846",
+      "revId": "272483df2c8860cefa77870b2a3edf7d17bc6884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -90,6 +90,9 @@ suite('gr-reply-dialog tests', () => {
     element = fixture('basic');
     element.change = {
       _number: changeNum,
+      owner: {
+        _account_id: 999,
+      },
       labels: {
         'Verified': {
           values: {
@@ -197,6 +200,47 @@ suite('gr-reply-dialog tests', () => {
         });
       });
     });
+  });
+
+  test('modified attention set', done => {
+    const buttonEl = element.shadowRoot.querySelector('.edit-attention-button');
+    MockInteractions.tap(buttonEl);
+    flushAsynchronousOperations();
+
+    stubSaveReview(review => {
+      assert.isTrue(review.ignore_default_rules);
+      assert.deepEqual(review.add_to_attention_set, []);
+      assert.deepEqual(review.remove_from_attention_set, []);
+      done();
+    });
+    MockInteractions.tap(element.shadowRoot.querySelector('.send'));
+  });
+
+  function checkComputeAttention(
+      userId, reviewerIds, ownerId, attSetIds, expectedIds) {
+    const user = {_account_id: userId};
+    const reviewers = reviewerIds.map(id => {
+      return {_account_id: id};
+    });
+    const change = {
+      owner: {_account_id: ownerId},
+      attention_set: {},
+    };
+    attSetIds.forEach(id => change.attention_set[id] = {});
+    const actual = element._computeNewAttention(user, reviewers, change);
+    assert.deepEqual(actual, new Set(expectedIds));
+  }
+
+  test('computeNewAttention', () => {
+    checkComputeAttention(1, [], 999, [], [999]);
+    checkComputeAttention(1, [], 999, [1], [999]);
+    checkComputeAttention(1, [22], 999, [], [999]);
+    checkComputeAttention(1, [22], 999, [22], [22, 999]);
+    checkComputeAttention(1, [], 1, [], []);
+    checkComputeAttention(1, [], 1, [1], []);
+    checkComputeAttention(1, [22], 1, [], [22]);
+    checkComputeAttention(1, [22, 33], 1, [], [22, 33]);
+    checkComputeAttention(1, [22, 33], 1, [22, 33], [22, 33]);
   });
 
   test('toggle resolved checkbox', done => {
@@ -715,7 +759,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_chooseFocusTarget', () => {
-    element._account = null;
+    element._account = undefined;
     assert.strictEqual(
         element._chooseFocusTarget(), element.FocusTarget.BODY);
 

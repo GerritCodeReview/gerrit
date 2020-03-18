@@ -66,6 +66,10 @@ class GrAccountChip extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      showAttention: {
+        type: Boolean,
+        value: false,
+      },
       showAvatar: {
         type: Boolean,
         reflectToAttribute: true,

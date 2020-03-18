@@ -24,7 +24,7 @@ export const htmlTemplate = html`
         position: absolute;
         transition: opacity 200ms;
         visibility: hidden;
-        z-index: 100;
+        z-index: 200;
       }
       :host(.hovered) {
         visibility: visible;
@@ -32,8 +32,8 @@ export const htmlTemplate = html`
       }
       #hovercard {
         background: var(--dialog-background-color);
-        box-shadow: var(--elevation-level-2);
-        padding: var(--spacing-l);
+        border-radius: var(--border-radius);
+        box-shadow: var(--elevation-level-5);
       }
     </style>
     <div id="hovercard" role="tooltip" tabindex="-1">

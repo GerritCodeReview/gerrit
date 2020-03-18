@@ -44,6 +44,9 @@ export const htmlTemplate = html`
       }
     </style>
     <span>
+      <gr-hovercard>
+        <gr-hovercard-account account="[[account]]"></gr-hovercard-account>
+      </gr-hovercard>
       <template is="dom-if" if="[[!hideAvatar]]">
         <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
       </template>

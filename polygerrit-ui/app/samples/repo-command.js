@@ -1,45 +1,73 @@
-<dom-module id="sample-repo-command">
-  <script>
-    Gerrit.install(plugin => {
-      // High-level API
-      plugin.project()
-          .createCommand('Bork', (repoName, projectConfig) => {
-            if (repoName !== 'All-Projects') {
-              return false;
-            }
-          })
-          .onTap(() => {
-            alert('Bork, bork!');
-          });
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const {Element, html} = Polymer;
 
-      // Low-level API
-      plugin.registerCustomComponent(
-          'repo-command', 'repo-command-low');
-    });
-  </script>
-</dom-module>
+class RepoCommandLow extends Element {
+  static get is() { return 'repo-command-low'; }
 
-<!-- Low-level custom component for repo command. -->
-<dom-module id="repo-command-low">
-  <template>
+  static get properties() {
+    return {
+      rootUrl: String,
+    };
+  }
+
+  static get template() {
+    return html`
     <gr-repo-command
-        title="Low-level bork"
-        on-command-tap="_handleCommandTap">
+      title="Low-level bork"
+      on-command-tap="_handleCommandTap">
     </gr-repo-command>
-  </template>
-  <script>
-    Polymer({
-      is: 'repo-command-low',
+    `;
+  }
 
-      /** @override */
-      attached() {
-        console.log(this.repoName);
-        console.log(this.config);
-        this.hidden = this.repoName !== 'All-Projects';
-      },
-      _handleCommandTap() {
-        alert('(softly) bork, bork.');
-      },
-    });
-  </script>
-</dom-module>
+  connectedCallback() {
+    super.connectedCallback();
+    console.log(this.repoName);
+    console.log(this.config);
+    this.hidden = this.repoName !== 'All-Projects';
+  }
+
+  _handleCommandTap() {
+    alert('(softly) bork, bork.');
+  }
+}
+
+// register the custom component
+customElements.define(RepoCommandLow.is, RepoCommandLow);
+
+/**
+ * This plugin will add two new commands in command page for
+ * All-Projects.
+ *
+ * The added commands will simply alert you when click.
+ */
+Gerrit.install(plugin => {
+  // High-level API
+  plugin.project()
+      .createCommand('Bork', (repoName, projectConfig) => {
+        if (repoName !== 'All-Projects') {
+          return false;
+        }
+      })
+      .onTap(() => {
+        alert('Bork, bork!');
+      });
+
+  // Low-level API
+  plugin.registerCustomComponent(
+      'repo-command', 'repo-command-low');
+});

@@ -26,11 +26,16 @@ GrHoverCardSharedStyle .innerHTML =
         position: absolute;
         transition: opacity 200ms;
         visibility: hidden;
-        z-index: 100;
+        z-index: 200;
       }
       :host(.hovered) {
         visibility: visible;
         opacity: 1;
+      }
+      #hovercard {
+        background: var(--dialog-background-color);
+        border-radius: var(--border-radius);
+        box-shadow: var(--elevation-level-5);
       }
     </style>
   </template>`;

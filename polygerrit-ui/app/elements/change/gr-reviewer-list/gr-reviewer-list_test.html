@@ -329,13 +329,13 @@ suite('gr-reviewer-list tests', () => {
       },
     };
     assert.strictEqual(
-        element._computeReviewerTooltip({_account_id: 1}, change),
-        'Votable: Bar');
+        element._computeVoteableText({_account_id: 1}, change),
+        'Bar');
     assert.strictEqual(
-        element._computeReviewerTooltip({_account_id: 7}, change),
-        'Votable: Foo: +2, Bar, FooBar');
+        element._computeVoteableText({_account_id: 7}, change),
+        'Foo: +2, Bar, FooBar');
     assert.strictEqual(
-        element._computeReviewerTooltip({_account_id: 2}, change),
+        element._computeVoteableText({_account_id: 2}, change),
         '');
   });
 
@@ -347,7 +347,7 @@ suite('gr-reviewer-list tests', () => {
       },
     };
     assert.strictEqual(
-        element._computeReviewerTooltip({_account_id: 1}, change), '');
+        element._computeVoteableText({_account_id: 1}, change), '');
   });
 });
 </script>

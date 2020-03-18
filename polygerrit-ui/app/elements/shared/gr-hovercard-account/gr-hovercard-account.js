@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,44 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../behaviors/base-url-behavior/base-url-behavior.js';
-
 import '../../../scripts/bundled-polymer.js';
-import '../../core/gr-navigation/gr-navigation.js';
-import '../gr-account-label/gr-account-label.js';
+
 import '../../../styles/shared-styles.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import '../gr-avatar/gr-avatar.js';
+import '../gr-button/gr-button.js';
+import {hovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-account-link_html.js';
+import {htmlTemplate} from './gr-hovercard-account_html.js';
 
-/**
- * @appliesMixin Gerrit.BaseUrlMixin
- * @extends Polymer.Element
- */
-class GrAccountLink extends mixinBehaviors( [
-  Gerrit.BaseUrlBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
+/** @extends Polymer.Element */
+class GrHovercardAccount extends GestureEventListeners(
+    hovercardBehaviorMixin(LegacyElementMixin(
         PolymerElement))) {
   static get template() { return htmlTemplate; }
 
-  static get is() { return 'gr-account-link'; }
+  static get is() { return 'gr-hovercard-account'; }
 
   static get properties() {
     return {
-      voteableText: String,
       account: Object,
+      voteableText: String,
+      attention: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
     };
-  }
-
-  _computeOwnerLink(account) {
-    if (!account) { return; }
-    return Gerrit.Nav.getUrlForOwner(
-        account.email || account.username || account.name ||
-        account._account_id);
   }
 }
 
-customElements.define(GrAccountLink.is, GrAccountLink);
+customElements.define(GrHovercardAccount.is, GrHovercardAccount);

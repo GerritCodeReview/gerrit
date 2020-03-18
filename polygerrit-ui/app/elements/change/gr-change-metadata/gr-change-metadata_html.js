@@ -97,6 +97,9 @@ export const htmlTemplate = html`
       .topic gr-linked-chip {
         --linked-chip-text-color: var(--link-color);
       }
+      gr-reviewer-list {
+        max-width: 220px;
+      }
     </style>
     <gr-external-style id="externalStyle" name="change-metadata">
       <section>

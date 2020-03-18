@@ -20,9 +20,21 @@ export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: inline;
+        position: relative;
       }
       :host::after {
         content: var(--account-label-suffix);
+      }
+      :host(:not([blurred])) .overlay {
+        display: none;
+      }
+      .overlay {
+        position: absolute;
+        pointer-events: none;
+        height: var(--line-height-normal);
+        right: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.5);
       }
       gr-avatar {
         height: var(--line-height-normal);
@@ -46,6 +58,7 @@ export const htmlTemplate = html`
         top: 2px;
       }
     </style>
+    <div class="overlay"></div>
     <span>
       <gr-hovercard-account attention="[[showAttention]]"
                             account="[[account]]"

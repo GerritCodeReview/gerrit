@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "2a49033f_3c9eaef2",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-18T08:41:24Z",
+      "side": 1,
+      "message": "I\u0027ve reworked it to use jdbc to detect if the column exists before attempting the migration, and then creating it if it\u0027s not there, rather than catching the exception and attempting to detect it from the exception message.",
+      "parentUuid": "f3146e86_0fe53eb1",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 71
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8eb1ff_a4aef3fe",
         "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1
@@ -236,6 +260,30 @@
       "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcac24d6_2b97a207",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-18T08:41:24Z",
+      "side": 1,
+      "message": "Marking this a resolved; as mentioned before if there column wasn\u0027t there there\u0027s no way to get the real data.",
+      "parentUuid": "2d80d149_71e12bf8",
+      "range": {
+        "startLine": 49,
+        "startChar": 82,
+        "endLine": 49,
+        "endChar": 99
+      },
+      "revId": "a5857d8b7a3f1c416fc7e0ccdef37a327a8f3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

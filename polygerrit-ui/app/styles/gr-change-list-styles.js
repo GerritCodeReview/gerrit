@@ -89,6 +89,9 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       .star {
         width: 30px;
       }
+      .reviewers div {
+        overflow: hidden;
+      }
       .label, .endpoint {
         border-left: 1px solid var(--border-color);
       }
@@ -118,7 +121,8 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       @media only screen and (max-width: 100em) {
         .assignee,
         .branch,
-        .owner {
+        .owner,
+        .reviewers {
           max-width: 10rem;
         }
       }

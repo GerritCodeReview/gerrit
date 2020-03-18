@@ -1,3 +1,7 @@
+Note: Gerrit has moved to polymer 3 as of submitted of https://gerrit-review.googlesource.com/q/topic:%22bower+to+npm+packages+switch%22+(status:open%20OR%20status:merged).
+
+The change is backward compatible, so no code change needed to support all plugins, but we would highly recommend to start moving to latest polymer 3 for all plugins, check out [Polymer3.md](./Polymer3.md) for more insights.
+
 ## Polymer 2 upgrade
 
 Gerrit is updating to use polymer 2 from polymer 1 by following the [Polymer 2.0 upgrade guide](https://polymer-library.polymer-project.org/2.0/docs/upgrade).

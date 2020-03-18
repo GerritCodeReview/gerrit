@@ -151,7 +151,7 @@
   };
 
   Plugin.prototype.screenUrl = function(opt_screenName) {
-    const origin = this._url.origin;
+    const origin = location.origin;
     const base = Gerrit.BaseUrlBehavior.getBaseUrl();
     const tokenPart = opt_screenName ? '/' + opt_screenName : '';
     return `${origin}${base}/x/${this.getPluginName()}${tokenPart}`;

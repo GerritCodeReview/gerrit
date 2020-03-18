@@ -474,9 +474,14 @@ suite('gr-js-api-interface tests', () => {
   suite('screen', () => {
     test('screenUrl()', () => {
       sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/base');
-      assert.equal(plugin.screenUrl(), 'http://test.com/base/x/testplugin');
       assert.equal(
-          plugin.screenUrl('foo'), 'http://test.com/base/x/testplugin/foo');
+          plugin.screenUrl(),
+          `${location.origin}/base/x/testplugin`
+      );
+      assert.equal(
+          plugin.screenUrl('foo'),
+          `${location.origin}/base/x/testplugin/foo`
+      );
     });
 
     test('deprecated works', () => {

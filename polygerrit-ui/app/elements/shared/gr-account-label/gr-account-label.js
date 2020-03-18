@@ -20,6 +20,8 @@ import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import '../../../scripts/bundled-polymer.js';
 import '../../../styles/shared-styles.js';
 import '../gr-avatar/gr-avatar.js';
+import '../gr-hovercard/gr-hovercard.js';
+import '../gr-hovercard-account/gr-hovercard-account.js';
 import '../gr-limited-text/gr-limited-text.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../scripts/util.js';
@@ -136,7 +138,7 @@ class GrAccountLabel extends mixinBehaviors( [
 
   _computeHasTooltip(account) {
     // If an account has loaded to fire this method, then set to true.
-    return !!account;
+    return false;
   }
 }
 

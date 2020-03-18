@@ -16,6 +16,24 @@
       "revId": "ab5cf1b55ec3f5d596ef323154c50d2cb212ac54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bf16cd4_97f345d9",
+        "filename": ".zuul.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-03-18T15:03:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e8bb4e87_38825200",
+      "revId": "ab5cf1b55ec3f5d596ef323154c50d2cb212ac54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

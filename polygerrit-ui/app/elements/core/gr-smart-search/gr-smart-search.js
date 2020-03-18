@@ -161,7 +161,7 @@ class GrSmartSearch extends mixinBehaviors( [
 
   _mapAccountsHelper(accounts, predicate) {
     return accounts.map(account => {
-      const userName = this.getUserName(this._serverConfig, account, false);
+      const userName = this.getUserName(this._serverConfig, account);
       return {
         label: account.name || '',
         text: account.email ?

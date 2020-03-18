@@ -35,7 +35,10 @@ export const htmlTemplate = html`
       .text:hover {
         @apply --gr-account-label-text-hover-style;
       }
-      iron-icon {
+      iron-icon.attention {
+        vertical-align: top;
+      }
+      iron-icon.status {
         width: 14px;
         height: 14px;
         vertical-align: top;
@@ -44,16 +47,22 @@ export const htmlTemplate = html`
       }
     </style>
     <span>
-      <gr-hovercard-account account="[[account]]" voteable-text="[[voteableText]]"></gr-hovercard-account>
-      <template is="dom-if" if="[[!hideAvatar]]">
-        <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
+      <gr-hovercard-account attention="[[showAttention]]"
+                            account="[[account]]"
+                            voteable-text="[[voteableText]]">
+      </gr-hovercard-account>
+      <template is="dom-if" if="[[showAttention]]">
+        <iron-icon class="attention" icon="gr-icons:attention"></iron-icon><!--
+   --></template><!--
+   --><template is="dom-if" if="[[!hideAvatar]]"><!--
+     --><gr-avatar account="[[account]]" image-size="32"></gr-avatar>
       </template>
       <span class="text">
         <span class="name">
           [[_computeName(account, _serverConfig)]]</span>
         <template is="dom-if" if="[[!hideStatus]]">
           <template is="dom-if" if="[[account.status]]">
-            <iron-icon icon="gr-icons:calendar"></iron-icon>
+            <iron-icon class="status" icon="gr-icons:calendar"></iron-icon>
           </template>
         </template>
       </span>

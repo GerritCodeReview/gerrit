@@ -52,6 +52,24 @@
       "revId": "272483df2c8860cefa77870b2a3edf7d17bc6884",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e068013_1f315351",
+        "filename": "java/com/google/gerrit/httpd/raw/AuthorizationCheckServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-18T15:04:39Z",
+      "side": 0,
+      "message": "Great, thanks. I\u0027ll leave this around and we can decide what we want to do once we know all the caveats.",
+      "parentUuid": "346472b9_8aaa1075",
+      "revId": "272483df2c8860cefa77870b2a3edf7d17bc6884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

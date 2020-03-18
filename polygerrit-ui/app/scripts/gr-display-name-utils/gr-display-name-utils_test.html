@@ -43,7 +43,7 @@ suite('gr-display-name-utils tests', () => {
     const account = {
       name: 'test-name',
     };
-    assert.deepEqual(GrDisplayNameUtils.getUserName(config, account, true),
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, account),
         'test-name');
   });
 
@@ -51,7 +51,7 @@ suite('gr-display-name-utils tests', () => {
     const account = {
       username: 'test-user',
     };
-    assert.deepEqual(GrDisplayNameUtils.getUserName(config, account, true),
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, account),
         'test-user');
   });
 
@@ -59,12 +59,12 @@ suite('gr-display-name-utils tests', () => {
     const account = {
       email: 'test-user@test-url.com',
     };
-    assert.deepEqual(GrDisplayNameUtils.getUserName(config, account, true),
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, account),
         'test-user@test-url.com');
   });
 
   test('getUserName returns not Anonymous Coward as the anon name', () => {
-    assert.deepEqual(GrDisplayNameUtils.getUserName(config, null, true),
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, null),
         'Anonymous');
   });
 
@@ -74,7 +74,7 @@ suite('gr-display-name-utils tests', () => {
         anonymous_coward_name: 'Test Anon',
       },
     };
-    assert.deepEqual(GrDisplayNameUtils.getUserName(config, null, true),
+    assert.deepEqual(GrDisplayNameUtils.getUserName(config, null),
         'Test Anon');
   });
 
@@ -89,13 +89,6 @@ suite('gr-display-name-utils tests', () => {
     assert.equal(
         GrDisplayNameUtils.getAccountDisplayName(config,
             {email: 'my@example.com'}),
-        'Anonymous <my@example.com>');
-  });
-
-  test('getAccountDisplayName - account with email only - allowEmail', () => {
-    assert.equal(
-        GrDisplayNameUtils.getAccountDisplayName(config,
-            {email: 'my@example.com'}, true),
         'my@example.com <my@example.com>');
   });
 

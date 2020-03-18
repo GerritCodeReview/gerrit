@@ -39,6 +39,24 @@
       return ANONYMOUS_NAME;
     }
 
+    static getDisplayName(config, account) {
+      if (account && account.display_name) {
+        return account.display_name;
+      }
+      if (!account || !account.name || !config || !config.accounts) {
+        return this.getUserName(config, account);
+      }
+      if (config.accounts.default_display_name === 'USERNAME'
+          && account.username) {
+        return account.username;
+      }
+      if (config.accounts.default_display_name === 'FIRST_NAME') {
+        return account.name.split(' ')[0];
+      }
+      // Treat every other value as FULL_NAME.
+      return account.name;
+    }
+
     static getAccountDisplayName(config, account) {
       const reviewerName = this.getUserName(config, account);
       const reviewerEmail = this._accountEmail(account.email);

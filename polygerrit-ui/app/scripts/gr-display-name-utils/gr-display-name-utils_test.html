@@ -34,7 +34,64 @@ suite('gr-display-name-utils tests', () => {
     },
   };
 
-  test('getUserName name only', () => {
+  test('getDisplayName name only', () => {
+    const account = {
+      name: 'test-name',
+    };
+    assert.equal(GrDisplayNameUtils.getDisplayName(config, account),
+        'test-name');
+  });
+
+  test('getDisplayName prefer displayName', () => {
+    const account = {
+      name: 'test-name',
+      display_name: 'better-name',
+    };
+    assert.equal(GrDisplayNameUtils.getDisplayName(config, account),
+        'better-name');
+  });
+
+  test('getDisplayName prefer username default', () => {
+    const account = {
+      name: 'test-name',
+      username: 'user-name',
+    };
+    const config = {
+      accounts: {
+        default_display_name: 'USERNAME',
+      },
+    };
+    assert.equal(GrDisplayNameUtils.getDisplayName(config, account),
+        'user-name');
+  });
+
+  test('getDisplayName prefer first name default', () => {
+    const account = {
+      name: 'firstname lastname',
+    };
+    const config = {
+      accounts: {
+        default_display_name: 'FIRST_NAME',
+      },
+    };
+    assert.equal(GrDisplayNameUtils.getDisplayName(config, account),
+        'firstname');
+  });
+
+  test('getDisplayName full name default', () => {
+    const account = {
+      name: 'firstname lastname',
+    };
+    const config = {
+      accounts: {
+        default_display_name: 'FULL_NAME',
+      },
+    };
+    assert.equal(GrDisplayNameUtils.getDisplayName(config, account),
+        'firstname lastname');
+  });
+
+  test('getDisplayName name only', () => {
     const account = {
       name: 'test-name',
     };

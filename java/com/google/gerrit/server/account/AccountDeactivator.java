@@ -57,10 +57,14 @@ public class AccountDeactivator implements Runnable {
 
     @Override
     public void start() {
-      if (!supportAutomaticAccountActivityUpdate) {
-        return;
+      if (schedule.isPresent()) {
+        if (supportAutomaticAccountActivityUpdate) {
+          queue.scheduleAtFixedRate(deactivator, schedule.get());
+        } else {
+          logger.atWarning().log(
+              "Not scheduling AccountDeactivator because auth.autoUpdateAccountActiveStatus is false");
+        }
       }
-      schedule.ifPresent(s -> queue.scheduleAtFixedRate(deactivator, s));
     }
 
     @Override

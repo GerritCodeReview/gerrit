@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d4454f7_0bd69700",
+        "filename": "java/com/google/gerrit/httpd/raw/AuthorizationCheckServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-18T12:44:33Z",
+      "side": 0,
+      "message": "but I do see `content-length: 0` for 403, so at least it works for 403, do we still need to revert the change ? And will this header carry out fine for 200 ? if so we can switch to 200 for successful auth-check call",
+      "revId": "272483df2c8860cefa77870b2a3edf7d17bc6884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

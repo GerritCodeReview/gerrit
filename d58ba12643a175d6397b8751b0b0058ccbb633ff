@@ -70,6 +70,24 @@
       "revId": "d58ba12643a175d6397b8751b0b0058ccbb633ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cff0d6e_38f41416",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-18T15:50:08Z",
+      "side": 1,
+      "message": "@milutin, Please add a TODO somewhere for cleaning up later if its complicated to do so now.\n\nI am still in favor of having the `webcomponents` loaded from cdn directly unless people find it useful to have it locally (debugging purpose maybe). Not a blocker for sure",
+      "parentUuid": "8888a996_e4698999",
+      "revId": "d58ba12643a175d6397b8751b0b0058ccbb633ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

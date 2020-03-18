@@ -777,6 +777,7 @@ export const htmlTemplate = html`
       permitted-labels="[[_change.permitted_labels]]"
       draft-comment-threads="[[_draftCommentThreads]]"
       project-config="[[_projectConfig]]"
+      server-config="[[_serverConfig]]"
       can-be-started="[[_canStartReview]]"
       on-send="_handleReplySent"
       on-cancel="_handleReplyCancel"

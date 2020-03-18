@@ -60,6 +60,15 @@ class GrAccountLabel extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      blurred: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
+      hideHovercard: {
+        type: Boolean,
+        value: false,
+      },
       hideAvatar: {
         type: Boolean,
         value: false,

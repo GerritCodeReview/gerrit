@@ -199,6 +199,20 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
+  test('modified attention set', done => {
+    const buttonEl = element.shadowRoot.querySelector('.edit-attention-button');
+    MockInteractions.tap(buttonEl);
+    flushAsynchronousOperations();
+
+    stubSaveReview(review => {
+      assert.isTrue(review.ignore_default_rules);
+      assert.deepEqual(review.add_to_attention_set, []);
+      assert.deepEqual(review.remove_from_attention_set, []);
+      done();
+    });
+    MockInteractions.tap(element.shadowRoot.querySelector('.send'));
+  });
+
   test('toggle resolved checkbox', done => {
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.

@@ -137,6 +137,39 @@ export const htmlTemplate = html`
       #pluginMessage:empty {
         display: none;
       }
+      .attention-icon {
+        vertical-align: top;
+      }
+      .attention .edit-attention-button {
+        vertical-align: top;
+        --padding: 0px 4px;
+      }
+      .attention .edit-attention-button iron-icon {
+        color: inherit;
+      }
+      .attention-detail .peopleList {
+        margin-top: var(--spacing-s);
+      }
+      .attention-detail gr-account-label {
+        background-color: var(--background-color-tertiary);
+        border-radius: 10px;
+        padding: 0 var(--spacing-m) 0 var(--spacing-s);
+        margin-right: var(--spacing-m);
+        user-select: none;
+      }
+      .attention-detail gr-account-label:focus {
+        outline: none;
+      }
+      .attention-detail gr-account-label:hover {
+        box-shadow: var(--elevation-level-1);
+        cursor: pointer;
+      }
+      .attention-detail .attentionDetailsTitle {
+        margin-bottom: var(--spacing-s);
+      }
+      .attention-detail .selectUsers {
+        color: var(--deemphasized-text-color);
+      }
     </style>
     <div class="container" tabindex="-1">
       <section class="peopleContainer">
@@ -199,6 +232,43 @@ export const htmlTemplate = html`
         <span id="savingLabel" class\$="[[_computeSavingLabelClass(_savingComments)]]">
           Saving comments...
         </span>
+      </section>
+      <section hidden\$="[[!_showAttentionSummary(serverConfig, _attentionModified)]]" class="attention">
+        <div>
+          <iron-icon class="attention-icon" icon="gr-icons:attention"></iron-icon>
+          <span hidden\$="[[_isOwner(_account, change)]]">Bring to owner's attention.</span>
+          <span hidden\$="[[!_isOwner(_account, change)]]">Bring to all reviewer's attention.</span>
+          <gr-button class="edit-attention-button" on-click="_handleAttentionModify" link="" position-below="" data-label="Edit" data-action-type="change" data-action-key="edit" title="Edit attention set changes" role="button" tabindex="0">
+            <iron-icon icon="gr-icons:edit" class=""></iron-icon>
+            Modify
+          </gr-button>
+        </div>
+      </section>
+      <section hidden\$="[[!_showAttentionDetails(serverConfig, _attentionModified)]]" class="attention-detail">
+        <div class="attentionDetailsTitle">
+          <iron-icon class="attention-icon" icon="gr-icons:attention"></iron-icon>
+          <span>Bring to attention of ...</span>
+          <span class="selectUsers">(select users)</span>
+        </div>
+        <div class="peopleList">
+          <div class="peopleListLabel">Owner</div>
+          <gr-account-label account="[[_owner]]" show-attention="[[_computeHasNewAttention(_owner, _newAttention)]]" blurred="[[!_computeHasNewAttention(_owner, _newAttention)]]" hide-hovercard="" on-click="_handleAttentionClick" data-account-id\$="[[_owner._account_id]]" tabindex="-1">
+          </gr-account-label>
+        </div>
+        <div class="peopleList">
+          <div class="peopleListLabel">Reviewers</div>
+          <template is="dom-repeat" items="[[_reviewers]]" as="account">
+            <gr-account-label account="[[account]]" show-attention="[[_computeHasNewAttention(account, _newAttention)]]" blurred="[[!_computeHasNewAttention(account, _newAttention)]]" hide-hovercard="" on-click="_handleAttentionClick" data-account-id\$="[[account._account_id]]" tabindex="-1">
+            </gr-account-label>
+          </template>
+        </div>
+        <div class="peopleList">
+          <div class="peopleListLabel">CC</div>
+          <template is="dom-repeat" items="[[_ccs]]" as="account">
+            <gr-account-label account="[[account]]" show-attention="[[_computeHasNewAttention(account, _newAttention)]]" blurred="[[!_computeHasNewAttention(account, _newAttention)]]" hide-hovercard="" on-click="_handleAttentionClick" data-account-id\$="[[account._account_id]]" tabindex="-1">
+            </gr-account-label>
+          </template>
+        </div>
       </section>
       <section class="actions">
         <div class="left">

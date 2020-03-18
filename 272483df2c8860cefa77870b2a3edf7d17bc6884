@@ -16,6 +16,24 @@
       "revId": "272483df2c8860cefa77870b2a3edf7d17bc6884",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8e55549_041ea846",
+        "filename": "java/com/google/gerrit/httpd/raw/AuthorizationCheckServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-18T12:51:44Z",
+      "side": 0,
+      "message": "It was showing that even before this change. I think the content length is always computed by the web server. We could try to move it to 200 and see if that carries a content-length header.\n\nBut: I think we are chasing the wrong tail here. Jetty is a standard web server and it omits the header on 204. So I\u0027d be really surprise if Chrome doesn\u0027t handle this correctly. Can you dig a bit deeper here before we take other attempts?",
+      "parentUuid": "7d4454f7_0bd69700",
+      "revId": "272483df2c8860cefa77870b2a3edf7d17bc6884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

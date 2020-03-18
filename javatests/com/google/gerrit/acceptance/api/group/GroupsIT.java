@@ -72,6 +72,7 @@ import com.google.gerrit.extensions.common.GroupAuditEventInfo.UserMemberAuditEv
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -79,7 +80,9 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
+import com.google.gerrit.server.auth.ldap.FakeLdapGroupBackend;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -94,7 +97,9 @@ import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritJUnit.ThrowingRunnable;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -138,6 +143,17 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private ExtensionRegistry extensionRegistry;
+
+  @Override
+  public Module createModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        /** Binding a {@link FakeLdapGroupBackend} to test adding external groups * */
+        DynamicSet.bind(binder(), GroupBackend.class).to(FakeLdapGroupBackend.class);
+      }
+    };
+  }
 
   @After
   public void consistencyCheck() throws Exception {
@@ -184,6 +200,33 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().id(group.get()).removeMembers("user");
     ImmutableSet<Account.Id> members = groupOperations.group(group).get().members();
     assertThat(members).isEmpty();
+  }
+
+  @Test
+  public void addExternalGroups() throws Exception {
+    AccountGroup.UUID group1 = groupOperations.newGroup().create();
+    AccountGroup.UUID group2 = groupOperations.newGroup().create();
+
+    gApi.groups().id(group1.get()).addGroups("ldap:external_g1");
+    gApi.groups().id(group2.get()).addGroups("ldap:external_g2");
+
+    assertThat(groupIncludeCache.allExternalMembers())
+        .containsExactlyElementsIn(
+            ImmutableList.of(
+                AccountGroup.UUID.parse("ldap:external_g1"),
+                AccountGroup.UUID.parse("ldap:external_g2"),
+                AccountGroup.UUID.parse("global:Registered-Users")));
+    assertThat(groupIncludeCache.parentGroupsOf(AccountGroup.UUID.parse("ldap:external_g1")))
+        .containsExactly(group1);
+    assertThat(groupIncludeCache.parentGroupsOf(AccountGroup.UUID.parse("ldap:external_g2")))
+        .containsExactly(group2);
+
+    gApi.groups().id(group1.get()).removeGroups("ldap:external_g1");
+    assertThat(groupIncludeCache.allExternalMembers())
+        .containsExactlyElementsIn(
+            ImmutableList.of(
+                AccountGroup.UUID.parse("ldap:external_g2"),
+                AccountGroup.UUID.parse("global:Registered-Users")));
   }
 
   @Test

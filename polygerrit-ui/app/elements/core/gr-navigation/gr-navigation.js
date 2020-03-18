@@ -109,12 +109,22 @@
       suffixForDashboard: 'limit:10',
     },
     {
+      // Changes where the user is in the attention set.
+      name: 'Your Turn',
+      // TODO(brohlfs): Change to correct query language.
+      query: 'owner:${user}',
+      hideIfEmpty: false,
+      suffixForDashboard: 'limit:25',
+      attentionSetOnly: true,
+    },
+    {
       // Changes that are assigned to the viewed user.
       name: 'Assigned reviews',
       query: 'assignee:${user} (-is:wip OR owner:self OR assignee:self) ' +
           'is:open -is:ignored',
       hideIfEmpty: true,
       suffixForDashboard: 'limit:25',
+      assigneeOnly: true,
     },
     {
       // WIP open changes owned by viewing user. This section is omitted when
@@ -735,8 +745,14 @@
     },
 
     getUserDashboard(user = 'self', sections = DEFAULT_SECTIONS,
-        title = '') {
+        title = '', config = {}) {
+      const attentionEnabled =
+          config.change && !!config.change.enable_attention_set;
+      const assigneeEnabled =
+          config.change && !!config.change.enable_assignee;
       sections = sections
+          .filter(section => (attentionEnabled || !section.attentionSetOnly))
+          .filter(section => (assigneeEnabled || !section.assigneeOnly))
           .filter(section => (user === 'self' || !section.selfOnly))
           .map(section => Object.assign({}, section, {
             name: section.name,

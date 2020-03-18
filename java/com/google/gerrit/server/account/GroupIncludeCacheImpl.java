@@ -50,6 +50,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   private static final String GROUPS_WITH_MEMBER_NAME = "groups_bymember";
   private static final String EXTERNAL_NAME = "groups_external";
 
+  private ExternalGroupReader externalGroupReader;
+
   public static Module module() {
     return new CacheModule() {
       @Override
@@ -71,6 +73,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
         bind(GroupIncludeCacheImpl.class);
         bind(GroupIncludeCache.class).to(GroupIncludeCacheImpl.class);
+        bind(ExternalGroupReader.class);
       }
     };
   }
@@ -85,10 +88,12 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
           LoadingCache<Account.Id, ImmutableSet<AccountGroup.UUID>> groupsWithMember,
       @Named(PARENT_GROUPS_NAME)
           LoadingCache<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> parentGroups,
-      @Named(EXTERNAL_NAME) LoadingCache<String, ImmutableList<AccountGroup.UUID>> external) {
+      @Named(EXTERNAL_NAME) LoadingCache<String, ImmutableList<AccountGroup.UUID>> external,
+      ExternalGroupReader externalGroupReader) {
     this.groupsWithMember = groupsWithMember;
     this.parentGroups = parentGroups;
     this.external = external;
+    this.externalGroupReader = externalGroupReader;
   }
 
   @Override
@@ -124,19 +129,14 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     if (groupId != null) {
       logger.atFine().log("Evict parent groups of %s", groupId.get());
       parentGroups.invalidate(groupId);
-
-      if (!groupId.isInternalGroup()) {
-        logger.atFine().log("Evict external group %s", groupId.get());
-        external.invalidate(EXTERNAL_NAME);
-      }
     }
   }
 
   @Override
   public Collection<AccountGroup.UUID> allExternalMembers() {
     try {
-      return external.get(EXTERNAL_NAME);
-    } catch (ExecutionException e) {
+      return external.get(externalGroupReader.readRevision());
+    } catch (Exception e) {
       logger.atWarning().withCause(e).log("Cannot load set of non-internal groups");
       return ImmutableList.of();
     }

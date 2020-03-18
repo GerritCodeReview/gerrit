@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff17354d_7839d877",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-18T15:29:15Z",
+      "side": 1,
+      "message": "maybe also clean up this file since the es6 modules change merged in, i think most of the redirects here are no longer necessary.\n\nand regarding the webcomponents, maybe we can just keep using the live one instead of redirecting back to local ? (you can just change the cdn pattern at the top to do that )",
+      "revId": "d58ba12643a175d6397b8751b0b0058ccbb633ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

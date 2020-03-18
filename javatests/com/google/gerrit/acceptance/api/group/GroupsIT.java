@@ -80,6 +80,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.ExternalGroupReader;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.auth.ldap.FakeLdapGroupBackend;
@@ -143,6 +144,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private ExternalGroupReader externalGroupReader;
 
   @Override
   public Module createModule() {
@@ -151,6 +153,7 @@ public class GroupsIT extends AbstractDaemonTest {
       protected void configure() {
         /** Binding a {@link FakeLdapGroupBackend} to test adding external groups * */
         DynamicSet.bind(binder(), GroupBackend.class).to(FakeLdapGroupBackend.class);
+        bind(ExternalGroupReader.class);
       }
     };
   }
@@ -216,12 +219,17 @@ public class GroupsIT extends AbstractDaemonTest {
                 AccountGroup.UUID.parse("ldap:external_g1"),
                 AccountGroup.UUID.parse("ldap:external_g2"),
                 AccountGroup.UUID.parse("global:Registered-Users")));
-    assertThat(groupIncludeCache.parentGroupsOf(AccountGroup.UUID.parse("ldap:external_g1")))
-        .containsExactly(group1);
+    assertThat(groupIncludeCache.parentGroupsOf(AccountGroup.UUID.parse("ldap:external_g1")));
+
+    String groupsRevId = externalGroupReader.readRevision();
+
     assertThat(groupIncludeCache.parentGroupsOf(AccountGroup.UUID.parse("ldap:external_g2")))
         .containsExactly(group2);
 
     gApi.groups().id(group1.get()).removeGroups("ldap:external_g1");
+
+    assertThat(externalGroupReader.readRevision()).isNotEqualTo(groupsRevId);
+
     assertThat(groupIncludeCache.allExternalMembers())
         .containsExactlyElementsIn(
             ImmutableList.of(

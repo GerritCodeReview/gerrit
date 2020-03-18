@@ -33,12 +33,10 @@ import {htmlTemplate} from './gr-account-label_html.js';
 
 /**
  * @appliesMixin Gerrit.DisplayNameMixin
- * @appliesMixin Gerrit.TooltipMixin
  * @extends Polymer.Element
  */
 class GrAccountLabel extends mixinBehaviors( [
   Gerrit.DisplayNameBehavior,
-  Gerrit.TooltipBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -52,11 +50,6 @@ class GrAccountLabel extends mixinBehaviors( [
        * @type {{ name: string, status: string }}
        */
       account: Object,
-      title: {
-        type: String,
-        reflectToAttribute: true,
-        computed: '_computeAccountTitle(account, additionalText)',
-      },
       voteableText: String,
       hasTooltip: {
         type: Boolean,
@@ -77,48 +70,12 @@ class GrAccountLabel extends mixinBehaviors( [
   /** @override */
   ready() {
     super.ready();
-    if (!this.additionalText) { this.additionalText = ''; }
     this.$.restAPI.getConfig()
         .then(config => { this._serverConfig = config; });
   }
 
   _computeName(account, config) {
     return this.getUserName(config, account, true);
-  }
-
-  _computeAccountTitle(account, tooltip) {
-    // Polymer 2: check for undefined
-    if ([
-      account,
-      tooltip,
-    ].some(arg => arg === undefined)) {
-      return undefined;
-    }
-
-    if (!account) { return; }
-    let result = '';
-    if (this._computeName(account, this._serverConfig)) {
-      result += this._computeName(account, this._serverConfig);
-    }
-    if (account.email) {
-      result += ` <${account.email}>`;
-    }
-    if (this.additionalText) {
-      result += ` ${this.additionalText}`;
-    }
-
-    // Show status in the label tooltip instead of
-    // in a separate tooltip on status
-    if (account.status) {
-      result += ` (${account.status})`;
-    }
-
-    return result;
-  }
-
-  _computeHasTooltip(account) {
-    // If an account has loaded to fire this method, then set to true.
-    return false;
   }
 }
 

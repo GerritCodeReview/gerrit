@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "699eecb6_4f17f868",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-18T13:15:04Z",
+      "side": 1,
+      "message": "I missed your comment, let\u0027s keep the discussion open then. I\u0027ll downgrade my -2.",
+      "parentUuid": "5ec55110_ad8c3a95",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "bbb48268a54e8e1c4073c8f133ea170e199c6f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "62f86a50_916c199d",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2

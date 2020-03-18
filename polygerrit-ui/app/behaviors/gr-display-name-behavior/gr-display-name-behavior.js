@@ -25,12 +25,8 @@ import '../../scripts/gr-display-name-utils/gr-display-name-utils.js';
   Gerrit.DisplayNameBehavior = {
     // TODO(dmfilippov) replace DisplayNameBehavior with GrDisplayNameUtils
 
-    /**
-     * enableEmail when true enables to fallback to using email if
-     * the account name is not avilable.
-     */
-    getUserName(config, account, enableEmail) {
-      return GrDisplayNameUtils.getUserName(config, account, enableEmail);
+    getUserName(config, account) {
+      return GrDisplayNameUtils.getUserName(config, account);
     },
 
     getGroupDisplayName(group) {

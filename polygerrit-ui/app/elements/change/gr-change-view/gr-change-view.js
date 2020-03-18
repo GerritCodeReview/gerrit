@@ -203,7 +203,6 @@
       _loading: Boolean,
       /** @type {?} */
       _projectConfig: Object,
-      _rebaseOnCurrent: Boolean,
       _replyButtonLabel: {
         type: String,
         value: 'Reply',

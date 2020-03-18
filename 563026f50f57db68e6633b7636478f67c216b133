@@ -380,6 +380,24 @@
       "revId": "563026f50f57db68e6633b7636478f67c216b133",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e07e87e0_184b58f0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-18T08:57:13Z",
+      "side": 1,
+      "message": "This extra stuff was added only on the master branch.  For new links introduced on stable-2.16, we don\u0027t add them, but add them later in the merge to master.",
+      "parentUuid": "a8284610_eeb16791",
+      "revId": "563026f50f57db68e6633b7636478f67c216b133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

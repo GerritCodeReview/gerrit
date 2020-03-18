@@ -198,7 +198,7 @@ func readFile(originalPath string, redirectedPath string) ([]byte, error) {
 
 	if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
 		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(bowerComponentsSuffix):])
-		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(bowerComponentsSuffix):])
+		pathsToTry = append(pathsToTry, "node_modules/@webcomponents/"+originalPath[len(bowerComponentsSuffix):])
 	}
 
 	if strings.HasPrefix(originalPath, nodeModulesPrefix) {

@@ -18,13 +18,11 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
     <style include="gr-hovercard-shared-style">
-      #hovercard {
-        background: var(--dialog-background-color);
-        box-shadow: var(--elevation-level-2);
+      #container {
         padding: var(--spacing-l);
       }
     </style>
-    <div id="hovercard" role="tooltip" tabindex="-1">
+    <div id="container" role="tooltip" tabindex="-1">
       <slot></slot>
     </div>
 `;

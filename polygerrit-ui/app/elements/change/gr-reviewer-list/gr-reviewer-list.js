@@ -167,7 +167,7 @@ class GrReviewerList extends mixinBehaviors( [
     return NaN;
   }
 
-  _computeReviewerTooltip(reviewer, change) {
+  _computeVoteableText(reviewer, change) {
     if (!change || !change.labels) { return ''; }
     const maxScores = [];
     const maxPermitted = this._getMaxPermittedScores(change);
@@ -181,11 +181,7 @@ class GrReviewerList extends mixinBehaviors( [
         maxScores.push(`${label}`);
       }
     }
-    if (maxScores.length) {
-      return 'Votable: ' + maxScores.join(', ');
-    } else {
-      return '';
-    }
+    return maxScores.join(', ');
   }
 
   _reviewersChanged(changeRecord, owner) {

@@ -33,7 +33,8 @@ export const htmlTemplate = html`
     </style>
     <span>
       <a href\$="[[_computeOwnerLink(account)]]" tabindex="-1">
-        <gr-account-label account="[[account]]"></gr-account-label>
+        <gr-account-label hide-avatar="[[hideAvatar]]" hide-status="[[hideStatus]]" account="[[account]]">
+        </gr-account-label>
       </a>
     </span>
 `;

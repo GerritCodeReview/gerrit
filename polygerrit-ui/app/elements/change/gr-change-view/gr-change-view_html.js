@@ -495,7 +495,7 @@ export const htmlTemplate = html`
       <gr-included-in-dialog id="includedInDialog" change-num="[[_changeNum]]" on-close="_handleIncludedInDialogClose"></gr-included-in-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay" class="scrollable" no-cancel-on-outside-click="" no-cancel-on-esc-key="" with-backdrop="">
-      <gr-reply-dialog id="replyDialog" change="{{_change}}" patch-num="[[computeLatestPatchNum(_allPatchSets)]]" permitted-labels="[[_change.permitted_labels]]" draft-comment-threads="[[_draftCommentThreads]]" project-config="[[_projectConfig]]" can-be-started="[[_canStartReview]]" on-send="_handleReplySent" on-cancel="_handleReplyCancel" on-autogrow="_handleReplyAutogrow" on-send-disabled-changed="_resetReplyOverlayFocusStops" hidden\$="[[!_loggedIn]]">
+      <gr-reply-dialog id="replyDialog" change="{{_change}}" patch-num="[[computeLatestPatchNum(_allPatchSets)]]" permitted-labels="[[_change.permitted_labels]]" draft-comment-threads="[[_draftCommentThreads]]" project-config="[[_projectConfig]]" server-config="[[_serverConfig]]" can-be-started="[[_canStartReview]]" on-send="_handleReplySent" on-cancel="_handleReplyCancel" on-autogrow="_handleReplyAutogrow" on-send-disabled-changed="_resetReplyOverlayFocusStops" hidden\$="[[!_loggedIn]]">
       </gr-reply-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>

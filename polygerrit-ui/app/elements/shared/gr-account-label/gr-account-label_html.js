@@ -60,10 +60,12 @@ export const htmlTemplate = html`
     </style>
     <div class="overlay"></div>
     <span>
-      <gr-hovercard-account attention="[[showAttention]]"
-                            account="[[account]]"
-                            voteable-text="[[voteableText]]">
-      </gr-hovercard-account>
+      <template is="dom-if" if="[[!hideHovercard]]">
+        <gr-hovercard-account attention="[[showAttention]]"
+                              account="[[account]]"
+                              voteable-text="[[voteableText]]">
+        </gr-hovercard-account>
+      </template>
       <template is="dom-if" if="[[showAttention]]">
         <iron-icon class="attention" icon="gr-icons:attention"></iron-icon><!--
    --></template><!--

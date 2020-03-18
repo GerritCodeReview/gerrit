@@ -1316,6 +1316,41 @@ suite('gr-file-list tests', () => {
           '/c/gerrit/+/1/1//COMMIT_MSG');
       diffStub.restore();
     });
+
+      test('edit url', () => {
+        const editStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff')
+            .returns('/c/gerrit/+/1/edit/index.php,edit');
+        const change = {
+          _number: 1,
+          project: 'gerrit',
+        };
+        const path = 'index.php';
+        const patchRange = {
+          patchNum: 1,
+        };
+        assert.equal(
+            element._computeDiffURL(change, patchRange, path, true),
+            '/c/gerrit/+/1/edit/index.php,edit');
+        editStub.restore();
+      });
+
+      test('edit url commit msg', () => {
+        const editStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff')
+            .returns('/c/gerrit/+/1/edit//COMMIT_MSG,edit');
+        const change = {
+          _number: 1,
+          project: 'gerrit',
+        };
+        const path = '/COMMIT_MSG';
+        const patchRange = {
+          patchNum: 1,
+        };
+        assert.equal(
+            element._computeDiffURL(change, patchRange, path, true),
+            '/c/gerrit/+/1/edit//COMMIT_MSG,edit');
+        editStub.restore();
+      });
+    });
   });
 
   suite('size bars', () => {

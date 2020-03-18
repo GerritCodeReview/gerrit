@@ -433,9 +433,7 @@
     },
 
     _getRebaseAction(revisionActions) {
-      return this._getRevisionAction(revisionActions, 'rebase',
-          {rebaseOnCurrent: null}
-      );
+      return this._getRevisionAction(revisionActions, 'rebase', null);
     },
 
     _getRevisionAction(revisionActions, actionName, emptyActionValue) {
@@ -459,7 +457,7 @@
       return this._getRevisionActions().then(revisionActions => {
         if (!revisionActions) { return; }
 
-        this.revisionActions = this._updateRebaseAction(revisionActions);
+        this.revisionActions = revisionActions;
         this._sendShowRevisionActions({
           change: this.change,
           revisionActions,
@@ -481,18 +479,6 @@
           this.$.jsAPI.EventType.SHOW_REVISION_ACTIONS,
           detail
       );
-    },
-
-    _updateRebaseAction(revisionActions) {
-      if (revisionActions && revisionActions.rebase) {
-        revisionActions.rebase.rebaseOnCurrent =
-            !!revisionActions.rebase.enabled;
-        this._parentIsCurrent = !revisionActions.rebase.enabled;
-        revisionActions.rebase.enabled = true;
-      } else {
-        this._parentIsCurrent = true;
-      }
-      return revisionActions;
     },
 
     _changeChanged() {
@@ -1045,8 +1031,12 @@
     },
 
     _calculateDisabled(action, hasKnownChainState) {
-      if (action.__key === 'rebase' && hasKnownChainState === false) {
-        return true;
+      if (action.__key === 'rebase') {
+        if (hasKnownChainState === false) {
+          return true;
+        }
+        // Rebase button is always enabled when change has parent(s).
+        return false;
       }
       return !action.enabled;
     },
@@ -1481,6 +1471,13 @@
           tooltip: action.title,
         };
       });
+    },
+
+    _computeRebaseOnCurrent(revisionRebaseAction) {
+      if (revisionRebaseAction) {
+        return !!revisionRebaseAction.enabled;
+      }
+      return null;
     },
 
     /**

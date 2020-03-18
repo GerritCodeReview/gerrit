@@ -117,6 +117,30 @@
       "revId": "934aa2bc70f258fd531b45cea5de87f351f35f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f7074bb_71b0d965",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-18T10:02:04Z",
+      "side": 1,
+      "message": "It didn\u0027t work when it was lower case.",
+      "parentUuid": "63a6a666_d45ac06d",
+      "range": {
+        "startLine": 72,
+        "startChar": 58,
+        "endLine": 72,
+        "endChar": 89
+      },
+      "revId": "934aa2bc70f258fd531b45cea5de87f351f35f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

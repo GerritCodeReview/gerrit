@@ -138,13 +138,15 @@ export const htmlTemplate = html`
           <gr-account-link account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"></gr-account-link>
         </span>
       </section>
-      <section class="assignee">
-        <span class="title">Assignee</span>
-        <span class="value">
-          <gr-account-list id="assigneeValue" placeholder="Set assignee..." max-count="1" skip-suggest-on-empty="" accounts="{{_assignee}}" readonly="[[_computeAssigneeReadOnly(_mutable, change)]]" suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]">
-          </gr-account-list>
-        </span>
-      </section>
+      <template is="dom-if" if="[[_isAssigneeEnabled(serverConfig)]]">
+        <section class="assignee">
+          <span class="title">Assignee</span>
+          <span class="value">
+            <gr-account-list id="assigneeValue" placeholder="Set assignee..." max-count="1" skip-suggest-on-empty="" accounts="{{_assignee}}" readonly="[[_computeAssigneeReadOnly(_mutable, change)]]" suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]">
+            </gr-account-list>
+          </span>
+        </section>
+      </template>
       <section>
         <span class="title">Reviewers</span>
         <span class="value">

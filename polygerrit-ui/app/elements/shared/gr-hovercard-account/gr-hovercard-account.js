@@ -16,6 +16,7 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
+import '@polymer/iron-icon/iron-icon.js';
 import '../../../styles/shared-styles.js';
 import '../gr-avatar/gr-avatar.js';
 import '../gr-button/gr-button.js';

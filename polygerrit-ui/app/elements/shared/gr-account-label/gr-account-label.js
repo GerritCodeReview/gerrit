@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
-
-import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import '../../../scripts/bundled-polymer.js';
+
+import '@polymer/iron-icon/iron-icon.js';
+import '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
+import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-avatar/gr-avatar.js';
 import '../gr-hovercard-account/gr-hovercard-account.js';
-import '../gr-limited-text/gr-limited-text.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../scripts/util.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -47,9 +47,9 @@ class GrAccountLabel extends mixinBehaviors( [
 
   static get properties() {
     return {
-    /**
-     * @type {{ name: string, status: string }}
-     */
+      /**
+       * @type {{ name: string, status: string }}
+       */
       account: Object,
       title: {
         type: String,
@@ -83,11 +83,6 @@ class GrAccountLabel extends mixinBehaviors( [
 
   _computeName(account, config) {
     return this.getUserName(config, account, false);
-  }
-
-  _computeStatusTextLength(account, config) {
-    // 35 as the max length of the name + status
-    return Math.max(10, 35 - this._computeName(account, config).length);
   }
 
   _computeAccountTitle(account, tooltip) {

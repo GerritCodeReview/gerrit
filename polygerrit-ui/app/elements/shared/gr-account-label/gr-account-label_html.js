@@ -42,6 +42,13 @@ export const htmlTemplate = html`
       .showEmail .email {
         display: inline-block;
       }
+      iron-icon {
+        width: 14px;
+        height: 14px;
+        vertical-align: top;
+        position: relative;
+        top: 2px;
+      }
     </style>
     <span>
       <gr-hovercard-account account="[[account]]" voteable-text="[[voteableText]]"></gr-hovercard-account>
@@ -55,8 +62,7 @@ export const htmlTemplate = html`
           [[_computeEmailStr(account)]]
         </span>
         <template is="dom-if" if="[[account.status]]">
-          (<gr-limited-text disable-tooltip="true" limit="[[_computeStatusTextLength(account, _serverConfig)]]" text="[[account.status]]">
-          </gr-limited-text>)
+          <iron-icon icon="gr-icons:calendar"></iron-icon>
         </template>
       </span>
     </span>

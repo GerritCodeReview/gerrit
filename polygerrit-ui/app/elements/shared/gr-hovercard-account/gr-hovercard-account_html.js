@@ -39,6 +39,13 @@ export const htmlTemplate = html`
       .email {
         color: var(--deemphasized-text-color);
       }
+      .status iron-icon {
+        width: 14px;
+        height: 14px;
+        vertical-align: top;
+        position: relative;
+        top: 2px;
+      }
       .action {
         border-top: 1px solid var(--border-color);
         padding: var(--spacing-s) var(--spacing-l);
@@ -68,7 +75,10 @@ export const htmlTemplate = html`
       </div>
       <template is="dom-if" if="[[account.status]]">
         <div class="status">
-          <span class="title">Status:</span>
+          <span class="title">
+            <iron-icon icon="gr-icons:calendar"></iron-icon>
+            Status:
+          </span>
           <span class="value">[[account.status]]</span>
         </div>
       </template>

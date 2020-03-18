@@ -25,6 +25,7 @@ import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/gr-change-list-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-cursor-manager/gr-cursor-manager.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-change-list-item/gr-change-list-item.js';
 import '../../../styles/shared-styles.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -134,13 +135,14 @@ class GrChangeList extends mixinBehaviors( [
       changeTableColumns: Array,
       visibleChangeTableColumns: Array,
       preferences: Object,
+      _config: Object,
     };
   }
 
   static get observers() {
     return [
       '_sectionsChanged(sections.*)',
-      '_computePreferences(account, preferences)',
+      '_computePreferences(account, preferences, _config)',
     ];
   }
 
@@ -168,6 +170,9 @@ class GrChangeList extends mixinBehaviors( [
   ready() {
     super.ready();
     this._ensureAttribute('tabindex', 0);
+    this.$.restAPI.getConfig().then(config => {
+      this._config = config;
+    });
   }
 
   /** @override */
@@ -197,28 +202,26 @@ class GrChangeList extends mixinBehaviors( [
     return column.toLowerCase();
   }
 
-  _computePreferences(account, preferences) {
+  _computePreferences(account, preferences, config) {
     // Polymer 2: check for undefined
-    if ([account, preferences].some(arg => arg === undefined)) {
+    if ([account, preferences, config].some(arg => arg === undefined)) {
       return;
     }
 
     this.changeTableColumns = this.columnNames;
+    this.showNumber = false;
+    this.visibleChangeTableColumns = this.getEnabledColumns(this.columnNames,
+        config);
 
     if (account) {
       this.showNumber = !!(preferences &&
           preferences.legacycid_in_change_table);
       if (preferences.change_table &&
           preferences.change_table.length > 0) {
-        this.visibleChangeTableColumns =
-          this.getVisibleColumns(preferences.change_table);
-      } else {
-        this.visibleChangeTableColumns = this.columnNames;
+        const prefColumns = this.getVisibleColumns(preferences.change_table);
+        this.visibleChangeTableColumns = this.getEnabledColumns(prefColumns,
+            config);
       }
-    } else {
-      // Not logged in.
-      this.showNumber = false;
-      this.visibleChangeTableColumns = this.columnNames;
     }
   }
 

@@ -34,6 +34,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-metadata-shared-style
       .title,
       .value {
         display: table-cell;
+        vertical-align: top;
       }
 
       .title {

@@ -34,6 +34,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-metadata-shared-style
       .title,
       .value {
         display: table-cell;
+        vertical-align: top;
       }
 
       .title {
@@ -42,10 +43,6 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-metadata-shared-style
         padding-left: var(--metadata-horizontal-padding);
         padding-right: var(--metadata-horizontal-padding);
         word-break: break-word;
-      }
-
-      .value {
-        padding-right: var(--metadata-horizontal-padding);
       }
     </style>
   </template>

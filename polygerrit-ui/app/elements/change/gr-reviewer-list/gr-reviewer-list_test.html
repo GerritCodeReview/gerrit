@@ -194,9 +194,32 @@ suite('gr-reviewer-list tests', () => {
         {value: {ccsOnly: true}}));
   });
 
-  test('no show all reviewers button with 6 reviewers', () => {
+  test('dont show all reviewers button with 4 reviewers', () => {
     const reviewers = [];
-    element.maxReviewersDisplayed = 5;
+    element.maxReviewersDisplayed = 3;
+    for (let i = 0; i < 4; i++) {
+      reviewers.push(
+          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
+    }
+    element.ccsOnly = true;
+
+    element.change = {
+      owner: {
+        _account_id: 1,
+      },
+      reviewers: {
+        CC: reviewers,
+      },
+    };
+    assert.equal(element._hiddenReviewerCount, 0);
+    assert.equal(element._displayedReviewers.length, 4);
+    assert.equal(element._reviewers.length, 4);
+    assert.isTrue(element.shadowRoot
+        .querySelector('.hiddenReviewers').hidden);
+  });
+
+  test('show all reviewers button with 6 reviewers', () => {
+    const reviewers = [];
     for (let i = 0; i < 6; i++) {
       reviewers.push(
           {email: i+'reviewer@google.com', name: 'reviewer-' + i});
@@ -211,63 +234,15 @@ suite('gr-reviewer-list tests', () => {
         CC: reviewers,
       },
     };
-    assert.equal(element._hiddenReviewerCount, 0);
-    assert.equal(element._displayedReviewers.length, 6);
-    assert.equal(element._reviewers.length, 6);
-    assert.isTrue(element.shadowRoot
-        .querySelector('.hiddenReviewers').hidden);
-  });
-
-  test('show all reviewers button with 8 reviewers', () => {
-    const reviewers = [];
-    element.maxReviewersDisplayed = 5;
-    for (let i = 0; i < 8; i++) {
-      reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
-    }
-    element.ccsOnly = true;
-
-    element.change = {
-      owner: {
-        _account_id: 1,
-      },
-      reviewers: {
-        CC: reviewers,
-      },
-    };
     assert.equal(element._hiddenReviewerCount, 3);
-    assert.equal(element._displayedReviewers.length, 5);
-    assert.equal(element._reviewers.length, 8);
+    assert.equal(element._displayedReviewers.length, 3);
+    assert.equal(element._reviewers.length, 6);
     assert.isFalse(element.shadowRoot
-        .querySelector('.hiddenReviewers').hidden);
-  });
-
-  test('no maxReviewersDisplayed', () => {
-    const reviewers = [];
-    for (let i = 0; i < 7; i++) {
-      reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
-    }
-    element.ccsOnly = true;
-
-    element.change = {
-      owner: {
-        _account_id: 1,
-      },
-      reviewers: {
-        CC: reviewers,
-      },
-    };
-    assert.equal(element._hiddenReviewerCount, 0);
-    assert.equal(element._displayedReviewers.length, 7);
-    assert.equal(element._reviewers.length, 7);
-    assert.isTrue(element.shadowRoot
         .querySelector('.hiddenReviewers').hidden);
   });
 
   test('show all reviewers button', () => {
     const reviewers = [];
-    element.maxReviewersDisplayed = 5;
     for (let i = 0; i < 100; i++) {
       reviewers.push(
           {email: i+'reviewer@google.com', name: 'reviewer-' + i});
@@ -282,8 +257,8 @@ suite('gr-reviewer-list tests', () => {
         CC: reviewers,
       },
     };
-    assert.equal(element._hiddenReviewerCount, 95);
-    assert.equal(element._displayedReviewers.length, 5);
+    assert.equal(element._hiddenReviewerCount, 97);
+    assert.equal(element._displayedReviewers.length, 3);
     assert.equal(element._reviewers.length, 100);
     assert.isFalse(element.shadowRoot
         .querySelector('.hiddenReviewers').hidden);

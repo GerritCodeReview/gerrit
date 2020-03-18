@@ -94,6 +94,23 @@
       "revId": "41f244f62bbcc134d39bc5cd0f648eca4ca57236",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87a8f05a_aaaad133",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1087826
+      },
+      "writtenOn": "2020-03-18T14:45:11Z",
+      "side": 1,
+      "message": "Indeed, that is needed before any of the 4 changes to Gerrit, and if Zuul were gating, it would not allow the Gerrit changes to merge before this.  And we have indeed broken the Zuul config by merging the 2.16 branch first.  But that\u0027s fine, we\u0027re not using it in earnest yet, and it\u0027s easy to fix by simply going ahead and merging 255652.  Here you can see the errors:\n\nhttps://ci.gerritcodereview.com/t/gerrit/config-errors\n\n(You can also see that on any page by clicking the little bell icon in the top right corner.)\n\nWe did test the whole series in https://gerrit-review.googlesource.com/257078, so I\u0027m certain that when all the changes land, we\u0027ll be whole again.  :)",
+      "revId": "41f244f62bbcc134d39bc5cd0f648eca4ca57236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

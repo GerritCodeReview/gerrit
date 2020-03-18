@@ -53,6 +53,10 @@ class GrAccountLabel extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      hideStatus: {
+        type: Boolean,
+        value: false,
+      },
       _serverConfig: {
         type: Object,
         value: null,

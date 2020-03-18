@@ -247,6 +247,10 @@ class GrChangeListItem extends mixinBehaviors( [
       detail: {change: this.change, reviewed: newVal},
     }));
   }
+
+  _isLastItem(array, index) {
+    return array && array.length - 1 === index;
+  }
 }
 
 customElements.define(GrChangeListItem.is, GrChangeListItem);

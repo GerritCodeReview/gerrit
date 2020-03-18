@@ -45,6 +45,30 @@
       "revId": "934aa2bc70f258fd531b45cea5de87f351f35f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec72a4e8_e0ee0321",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-18T09:47:22Z",
+      "side": 1,
+      "message": "+1 to DavidO comment.",
+      "parentUuid": "8f43d0bd_e2cec2eb",
+      "range": {
+        "startLine": 72,
+        "startChar": 58,
+        "endLine": 72,
+        "endChar": 89
+      },
+      "revId": "934aa2bc70f258fd531b45cea5de87f351f35f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

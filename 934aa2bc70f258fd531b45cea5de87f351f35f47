@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "863e8c44_27ba3c96",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-18T09:39:43Z",
+      "side": 1,
+      "message": "Just get the connection at L43 and then reuse here and L45",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "934aa2bc70f258fd531b45cea5de87f351f35f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f43d0bd_e2cec2eb",
         "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 3

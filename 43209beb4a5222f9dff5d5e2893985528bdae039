@@ -34,6 +34,24 @@
       "revId": "43209beb4a5222f9dff5d5e2893985528bdae039",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "317a5b96_6055a774",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-18T14:09:05Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "f28b01b6_76e13ebe",
+      "revId": "43209beb4a5222f9dff5d5e2893985528bdae039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

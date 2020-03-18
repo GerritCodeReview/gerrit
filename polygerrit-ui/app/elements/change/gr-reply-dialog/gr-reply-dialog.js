@@ -182,6 +182,7 @@ class GrReplyDialog extends mixinBehaviors( [
        * @type {{ commentlinks: Array }}
        */
       projectConfig: Object,
+      serverConfig: Object,
       knownLatestState: String,
       underReview: {
         type: Boolean,
@@ -250,6 +251,33 @@ class GrReplyDialog extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      /**
+       * Is the UI in the state where the user individually modifies attention
+       * set entries?
+       */
+      _attentionModified: {
+        type: Boolean,
+        value: false,
+      },
+      /**
+       * Set of account IDs that currently constitues the attention set, read
+       * from change.attention_set. Will be updated by the
+       * _computeNewAttention() observer.
+       */
+      _currentAttention: {
+        type: Object,
+        value: () => new Set(),
+      },
+      /**
+       * Set of account IDs that should constitute the attention set after
+       * publishing the votes/comments. Will be updated to a sensible default
+       * by the _computeNewAttention(_account, _owner, _reviewers, change)
+       * observer.
+       */
+      _newAttention: {
+        type: Object,
+        value: () => new Set(),
+      },
       _sendDisabled: {
         type: Boolean,
         computed: '_computeSendButtonDisabled(canBeStarted, ' +
@@ -282,6 +310,7 @@ class GrReplyDialog extends mixinBehaviors( [
       '_changeUpdated(change.reviewers.*, change.owner)',
       '_ccsChanged(_ccs.splices)',
       '_reviewersChanged(_reviewers.splices)',
+      '_computeNewAttention(_account, _owner, _reviewers, change)',
     ];
   }
 
@@ -512,6 +541,24 @@ class GrReplyDialog extends mixinBehaviors( [
       obj.ready = true;
     }
 
+    if (this._attentionModified) {
+      obj.ignore_default_rules = true;
+      obj.add_to_attention_set = [];
+      for (const user of this._newAttention) {
+        if (!this._currentAttention.has(user)) {
+          obj.add_to_attention_set.push(user);
+        }
+      }
+      obj.remove_from_attention_set = [];
+      for (const user of this._currentAttention) {
+        if (!this._newAttention.has(user)) {
+          obj.remove_from_attention_set.push(user);
+        }
+      }
+    } else {
+      obj.ignore_default_rules = false;
+    }
+
     if (this.draft != null) {
       if (this._isPatchsetCommentsExperimentEnabled) {
         const comment = {
@@ -608,6 +655,13 @@ class GrReplyDialog extends mixinBehaviors( [
 
     // Default to BODY.
     return FocusTarget.BODY;
+  }
+
+  _isOwner(account, change) {
+    if (!account) return false;
+    if (!change) return false;
+    if (!change.owner) return false;
+    return account._account_id === change.owner._account_id;
   }
 
   _handle400Error(response) {
@@ -711,6 +765,56 @@ class GrReplyDialog extends mixinBehaviors( [
 
     this._ccs = ccs;
     this._reviewers = reviewers;
+  }
+
+  _handleAttentionModify() {
+    this._attentionModified = true;
+  }
+
+  _showAttentionSummary(config, attentionModified) {
+    return this._isAttentionSetEnabled(config) && !attentionModified;
+  }
+
+  _showAttentionDetails(config, attentionModified) {
+    return this._isAttentionSetEnabled(config) && attentionModified;
+  }
+
+  _isAttentionSetEnabled(config) {
+    return !!config && !!config.change && !!config.change.enable_attention_set;
+  }
+
+  _handleAttentionClick(e) {
+    const id = e.target.account._account_id;
+    if (!id) return;
+    if (this._newAttention.has(id)) {
+      this._newAttention.delete(id);
+    } else {
+      this._newAttention.add(id);
+    }
+    // Ensure that Polymer picks up the change.
+    this._newAttention = new Set(this._newAttention);
+  }
+
+  _computeHasNewAttention(account, newAttention) {
+    return newAttention && account && newAttention.has(account._account_id);
+  }
+
+  _computeNewAttention(user, owner, reviewers, change) {
+    if ([user, owner, reviewers, change].some(arg => arg === undefined)) {
+      return;
+    }
+    this._attentionModified = false;
+    this._currentAttention =
+        new Set(Object.keys(this.change.attention_set || {})
+            .map(id => parseInt(id)));
+    const newAttention = new Set(this._currentAttention);
+    if (this._isOwner(user, change)) {
+      reviewers.map(r => r._account_id).forEach(newAttention.add);
+    } else {
+      newAttention.add(owner._account_id);
+    }
+    newAttention.delete(user._account_id);
+    this._newAttention = newAttention;
   }
 
   _accountOrGroupKey(entry) {

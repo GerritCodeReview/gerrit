@@ -81,7 +81,7 @@ export const htmlTemplate = html`
       }
     </style>
     <div class\$="container [[_getBackgroundClass(transparentBackground)]]">
-      <gr-account-link account="[[account]]" additional-text="[[additionalText]]">
+      <gr-account-link account="[[account]]" voteable-text="[[voteableText]]">
       </gr-account-link>
       <gr-button id="remove" link="" hidden\$="[[!removable]]" hidden="" tabindex="-1" aria-label="Remove" class\$="remove [[_getBackgroundClass(transparentBackground)]]" on-click="_handleRemoveTap">
         <iron-icon icon="gr-icons:close"></iron-icon>

@@ -44,7 +44,7 @@ export const htmlTemplate = html`
     </style>
     <div class="container">
       <template is="dom-repeat" items="[[_displayedReviewers]]" as="reviewer">
-        <gr-account-chip class="reviewer" account="[[reviewer]]" on-remove="_handleRemove" additional-text="[[_computeReviewerTooltip(reviewer, change)]]" removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
+        <gr-account-chip class="reviewer" account="[[reviewer]]" on-remove="_handleRemove" voteable-text="[[_computeVoteableText(reviewer, change)]]" removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
         </gr-account-chip>
       </template>
       <gr-button class="hiddenReviewers" link="" hidden\$="[[!_hiddenReviewerCount]]" on-click="_handleViewAll">and [[_hiddenReviewerCount]] more</gr-button>

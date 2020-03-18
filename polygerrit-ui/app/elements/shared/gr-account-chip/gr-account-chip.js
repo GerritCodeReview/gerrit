@@ -56,7 +56,7 @@ class GrAccountChip extends mixinBehaviors( [
   static get properties() {
     return {
       account: Object,
-      additionalText: String,
+      voteableText: String,
       disabled: {
         type: Boolean,
         value: false,

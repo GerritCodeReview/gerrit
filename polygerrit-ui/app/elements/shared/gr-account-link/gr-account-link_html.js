@@ -33,7 +33,7 @@ export const htmlTemplate = html`
     </style>
     <span>
       <a href\$="[[_computeOwnerLink(account)]]" tabindex="-1">
-        <gr-account-label account="[[account]]" additional-text="[[additionalText]]"></gr-account-label>
+        <gr-account-label account="[[account]]" voteable-text="[[voteableText]]"></gr-account-label>
       </a>
     </span>
 `;

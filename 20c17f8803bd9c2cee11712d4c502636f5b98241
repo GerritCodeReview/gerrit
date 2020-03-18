@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3885160_f834418f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1329,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-18T09:58:15Z",
+      "side": 1,
+      "message": "Because revisionActions.rebase.enabled is always true, regardless of whether parent is up-to-date or not...",
+      "range": {
+        "startLine": 1329,
+        "startChar": 39,
+        "endLine": 1329,
+        "endChar": 47
+      },
+      "revId": "20c17f8803bd9c2cee11712d4c502636f5b98241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

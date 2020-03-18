@@ -37,6 +37,7 @@ import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {GrDisplayNameUtils} from '../../../scripts/gr-display-name-utils/gr-display-name-utils.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
@@ -45,6 +46,11 @@ const CHANGE_SIZE = {
   SMALL: 50,
   MEDIUM: 250,
   LARGE: 1000,
+};
+
+const hasAttention = function(account, change) {
+  const set = change.attention_set || {};
+  return set.hasOwnProperty(account._account_id);
 };
 
 /**
@@ -73,6 +79,7 @@ class GrChangeListItem extends mixinBehaviors( [
 
       /** @type {?} */
       change: Object,
+      config: Object,
       changeURL: {
         type: String,
         computed: '_computeChangeURL(change)',
@@ -205,6 +212,35 @@ class GrChangeListItem extends mixinBehaviors( [
     } else {
       return `+${change.insertions}, -${change.deletions}`;
     }
+  }
+
+  _computeReviewers(change) {
+    if (!change || !change.reviewers || !change.reviewers.REVIEWER) return [];
+    return change.reviewers.REVIEWER;
+  }
+
+  _computePrimaryReviewers(change) {
+    const all = this._computeReviewers(change);
+    const attention = all.filter(r => hasAttention(r, change));
+    const noAttention = all.filter(r => !hasAttention(r, change));
+    return attention.concat(noAttention).slice(0, 2);
+  }
+
+  _computeAdditionalReviewers(change) {
+    const all = this._computeReviewers(change);
+    const primary = this._computePrimaryReviewers(change);
+    return all.filter(r => !primary.includes(r));
+  }
+
+  _computeAdditionalReviewersCount(change) {
+    return this._computeAdditionalReviewers(change).length;
+  }
+
+  _computeAdditionalReviewersTitle(change, config) {
+    if (!change || !config) return '';
+    return this._computeAdditionalReviewers(change)
+        .map(user => GrDisplayNameUtils.getDisplayName(config, user))
+        .join(', ');
   }
 
   _computeComments(unresolved_comment_count) {

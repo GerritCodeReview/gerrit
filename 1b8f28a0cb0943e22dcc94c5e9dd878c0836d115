@@ -46,6 +46,30 @@
       "revId": "1b8f28a0cb0943e22dcc94c5e9dd878c0836d115",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53a8f518_73029d86",
+        "filename": "java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-18T12:21:49Z",
+      "side": 1,
+      "message": "Cool, testing it E2E again now.",
+      "parentUuid": "56a065b1_59eabe59",
+      "range": {
+        "startLine": 49,
+        "startChar": 72,
+        "endLine": 49,
+        "endChar": 97
+      },
+      "revId": "1b8f28a0cb0943e22dcc94c5e9dd878c0836d115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

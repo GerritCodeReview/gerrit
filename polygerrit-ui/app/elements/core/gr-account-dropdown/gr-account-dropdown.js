@@ -124,7 +124,7 @@ class GrAccountDropdown extends mixinBehaviors( [
   }
 
   _accountName(account) {
-    return this.getUserName(this.config, account, true);
+    return this.getUserName(this.config, account);
   }
 }
 

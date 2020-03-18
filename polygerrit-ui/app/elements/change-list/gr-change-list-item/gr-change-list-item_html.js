@@ -52,6 +52,9 @@ export const htmlTemplate = html`
         white-space: nowrap;
         width: 100%;
       }
+      .comments {
+        white-space: nowrap;
+      }
       .spacer {
         height: 0;
         overflow: hidden;
@@ -149,6 +152,10 @@ export const htmlTemplate = html`
       <template is="dom-if" if="[[!change.assignee]]">
         <span class="placeholder">--</span>
       </template>
+    </td>
+    <td class="cell comments" hidden\$="[[isColumnHidden('Comments', visibleChangeTableColumns)]]">
+      <iron-icon hidden\$="[[!change.unresolved_comment_count]]" icon="gr-icons:comment"></iron-icon>
+      <span>[[_computeComments(change)]]</span>
     </td>
     <td class="cell repo" hidden\$="[[isColumnHidden('Repo', visibleChangeTableColumns)]]">
       <a class="fullRepo" href\$="[[_computeRepoUrl(change)]]">

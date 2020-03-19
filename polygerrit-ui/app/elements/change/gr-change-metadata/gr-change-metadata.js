@@ -38,7 +38,6 @@ import '../gr-change-requirements/gr-change-requirements.js';
 import '../gr-commit-info/gr-commit-info.js';
 import '../gr-reviewer-list/gr-reviewer-list.js';
 import '../../shared/gr-account-list/gr-account-list.js';
-import '../../../scripts/gr-display-name-utils/gr-display-name-utils.js';
 import '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';

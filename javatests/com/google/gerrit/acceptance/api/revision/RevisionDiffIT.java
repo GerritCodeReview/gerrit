@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.FileInfoSubject.assertThat;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
@@ -118,6 +119,24 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
     assertDiffForNewFile(result, fileName, fileContent);
     assertDiffForNewFile(result, COMMIT_MSG, result.getCommit().getFullMessage());
+  }
+
+  @Test
+  public void patchsetLevelFileDiffIsEmpty() throws Exception {
+    PushOneCommit.Result result = createChange();
+    DiffInfo diffForPatchsetLevelFile =
+        gApi.changes()
+            .id(result.getChangeId())
+            .revision(result.getCommit().name())
+            .file(PATCHSET_LEVEL)
+            .diff();
+    // This behavior is the same as the behavior for non-existent files.
+    assertThat(diffForPatchsetLevelFile).binary().isNull();
+    assertThat(diffForPatchsetLevelFile).content().isEmpty();
+    assertThat(diffForPatchsetLevelFile).diffHeader().isNull();
+    assertThat(diffForPatchsetLevelFile).metaA().isNull();
+    assertThat(diffForPatchsetLevelFile).metaB().isNull();
+    assertThat(diffForPatchsetLevelFile).webLinks().isNull();
   }
 
   @Test

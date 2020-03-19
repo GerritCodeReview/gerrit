@@ -56,7 +56,6 @@ var GrThemeApi;
 var SiteBasedCache;
 var FetchPromisesCache;
 var GrRestApiHelper;
-var GrDisplayNameUtils;
 var GrReviewerSuggestionsProvider;
 var moment;
 var page;

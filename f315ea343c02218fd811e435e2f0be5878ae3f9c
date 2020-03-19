@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab260c84_f6d551e2",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-19T10:16:34Z",
+      "side": 1,
+      "message": "I feel bad about not thinking about this at the time :-/\n\nI think the CommitValidationListener interface should be improved to solve this issue more generally:\n- Add a method validateDirectPush() that descendants have to implement so they cannot overlook this aspect.\n- Remove the default implementation of shouldValidateAllCommits(). That name could also be clearer, e.g. ignoreSkipValidation() or allowSkipValidation() or something like that. Currently the name is unclear and you have to read the @return documentation to understand what the method does.",
+      "revId": "f315ea343c02218fd811e435e2f0be5878ae3f9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

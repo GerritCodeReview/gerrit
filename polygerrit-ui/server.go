@@ -151,6 +151,21 @@ func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, 
 
 func getContent(normalizedContentPath string) ([]byte, error) {
   //normalizedContentPath must always starts with '/'
+
+  // gerrit loads gr-app.js as an ordinary script, without type="module" attribute.
+  // If server.go serves this file as is, browser shows the error:
+  // Uncaught SyntaxError: Cannot use import statement outside a module
+  //
+  // To load non-bundled gr-app.js as a module, we "virtually" renames original
+  // gr-app.js to gr-app.mjs and load it with dynamic import.
+  if normalizedContentPath == "/elements/gr-app.js" {
+   return []byte("import('./gr-app.mjs')"), nil
+  }
+
+  if normalizedContentPath == "/elements/gr-app.mjs" {
+   normalizedContentPath = "/elements/gr-app.js"
+  }
+
 	pathsToTry := []string{"app" + normalizedContentPath}
 	bowerComponentsSuffix := "/bower_components/"
 	nodeModulesPrefix := "/node_modules/"

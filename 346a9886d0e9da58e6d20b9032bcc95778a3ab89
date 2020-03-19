@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6bebdfd3_da0510d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-19T14:05:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure about ChangeMessage, I think Jacek might be able to answer better.\nUpdated the commit message with more details about the use-case.",
+      "parentUuid": "e5b796e7_5318fd64",
+      "revId": "346a9886d0e9da58e6d20b9032bcc95778a3ab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a4563f0_5180be72",
         "filename": "java/com/google/gerrit/entities/Patch.java",
         "patchSetId": 1
@@ -69,6 +87,24 @@
       "revId": "346a9886d0e9da58e6d20b9032bcc95778a3ab89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adaf2f37_34c3de37",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-19T14:05:29Z",
+      "side": 1,
+      "message": "Sure, added this suggestion to the commit message. We\u0027ll decide on the name later.",
+      "parentUuid": "7a4563f0_5180be72",
+      "revId": "346a9886d0e9da58e6d20b9032bcc95778a3ab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

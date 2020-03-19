@@ -73,6 +73,10 @@
       }
     ],
     "no-undef": "off",
+    "no-restricted-globals": [
+      "error",
+      "GrDisplayNameUtils"
+    ],
     "no-useless-escape": "off",
     "no-var": "error",
     "operator-linebreak": "off",

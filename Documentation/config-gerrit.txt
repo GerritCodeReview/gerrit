@@ -3021,7 +3021,7 @@ manually.
 [[elasticsearch.numberOfShards]]elasticsearch.numberOfShards::
 +
 Sets the number of shards to use per index. Refer to the
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#getting-started-shards-and-replicas[
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#_static_index_settings[
 Elasticsearch documentation] for details.
 +
 Defaults to 5 for Elasticsearch versions 5 and 6, and to 1 starting with Elasticsearch 7.
@@ -3029,10 +3029,18 @@ Defaults to 5 for Elasticsearch versions 5 and 6, and to 1 starting with Elastic
 [[elasticsearch.numberOfReplicas]]elasticsearch.numberOfReplicas::
 +
 Sets the number of replicas to use per index. Refer to the
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#getting-started-shards-and-replicas[
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#dynamic-index-settings[
 Elasticsearch documentation] for details.
 +
 Defaults to 1.
+
+[[elasticsearch.maxResultWindow]]elasticsearch.maxResultWindow::
++
+Sets the maximum value of `from + size` for searches to use per index. Refer to the
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#dynamic-index-settings[
+Elasticsearch documentation] for details.
++
+Defaults to 10000.
 
 ==== Elasticsearch Security
 
@@ -4903,6 +4911,10 @@ account deactivations.
 +
 The link:#schedule-configuration-interval[interval] for running
 account deactivations.
+
+Note that the task will only be scheduled if the
+link:#autoUpdateAccountActiveStatus[auth.autoUpdateAccountActiveStatus]
+is set to true.
 
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.

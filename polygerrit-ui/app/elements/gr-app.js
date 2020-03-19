@@ -21,10 +21,15 @@
   then delete this comment!
 */
 import './gr-app-init.js';
-
 import './font-roboto-local-loader.js';
 import '../scripts/bundled-polymer.js';
 import 'polymer-resin/standalone/polymer-resin.js';
+import {initGlobalVariables} from './gr-app-global-var-init.js';
+// Initialize global variables before any other imports
+// If a plugin is loaded in one of the subsequent import (with async/await, for
+// example), then all global variables must be initialized at this time
+initGlobalVariables();
+
 import '../behaviors/safe-types-behavior/safe-types-behavior.js';
 import './gr-app-element.js';
 import './change-list/gr-embed-dashboard/gr-embed-dashboard.js';

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -35,6 +36,16 @@ public class GetBlameIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void forPatchsetLevelFile() throws Exception {
+    PushOneCommit.Result r = createChange("Test Change", "foo.txt", "FOO");
+    List<BlameInfo> blameInfos =
+        gApi.changes().id(r.getChangeId()).current().file(PATCHSET_LEVEL).blameRequest().get();
+
+    // File doesn't exist in commit.
+    assertThat(blameInfos).isEmpty();
+  }
+
+  @Test
   public void forNonExistingFileFromBase() throws Exception {
     PushOneCommit.Result r = createChange("Test Change", "foo.txt", "FOO");
     List<BlameInfo> blameInfos =
@@ -42,6 +53,22 @@ public class GetBlameIT extends AbstractDaemonTest {
             .id(r.getChangeId())
             .current()
             .file("non-existing.txt")
+            .blameRequest()
+            .forBase(true)
+            .get();
+
+    // File doesn't exist in base commit.
+    assertThat(blameInfos).isEmpty();
+  }
+
+  @Test
+  public void forPatchsetLevelFileFromBase() throws Exception {
+    PushOneCommit.Result r = createChange("Test Change", "foo.txt", "FOO");
+    List<BlameInfo> blameInfos =
+        gApi.changes()
+            .id(r.getChangeId())
+            .current()
+            .file(PATCHSET_LEVEL)
             .blameRequest()
             .forBase(true)
             .get();

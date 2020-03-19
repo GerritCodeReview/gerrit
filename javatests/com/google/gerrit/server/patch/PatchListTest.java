@@ -23,19 +23,38 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
+import java.util.Comparator;
 import org.junit.Test;
 
 public class PatchListTest {
+
+  private final Comparator<String> magicFilesFirst = PatchList::magicFilesFirst;
+  private final Comparator<String> naturalOrder = Comparator.naturalOrder();
+  private final Comparator<String> mainComparator = magicFilesFirst.thenComparing(naturalOrder);
+
   @Test
   public void fileOrder() {
     String[] names = {
-      "zzz", "def/g", "/!xxx", "abc", Patch.MERGE_LIST, "qrx", Patch.COMMIT_MSG,
+      "zzz",
+      "def/g",
+      "/!xxx",
+      "abc",
+      Patch.MERGE_LIST,
+      "qrx",
+      Patch.COMMIT_MSG,
+      Patch.PATCHSET_LEVEL
     };
     String[] want = {
-      Patch.COMMIT_MSG, Patch.MERGE_LIST, "/!xxx", "abc", "def/g", "qrx", "zzz",
+      Patch.COMMIT_MSG,
+      Patch.MERGE_LIST,
+      Patch.PATCHSET_LEVEL,
+      "/!xxx",
+      "abc",
+      "def/g",
+      "qrx",
+      "zzz",
     };
-
-    Arrays.sort(names, 0, names.length, PatchList::comparePaths);
+    Arrays.sort(names, 0, names.length, mainComparator);
     assertThat(names).isEqualTo(want);
   }
 
@@ -48,7 +67,7 @@ public class PatchListTest {
       Patch.COMMIT_MSG, "/!xxx", "abc", "def/g", "qrx", "zzz",
     };
 
-    Arrays.sort(names, 0, names.length, PatchList::comparePaths);
+    Arrays.sort(names, 0, names.length, mainComparator);
     assertThat(names).isEqualTo(want);
   }
 

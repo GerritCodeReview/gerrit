@@ -462,7 +462,6 @@ class GrChangeActions extends mixinBehaviors( [
         type: Boolean,
         value: true,
       },
-      _revertChanges: Array,
     };
   }
 
@@ -1412,7 +1411,6 @@ class GrChangeActions extends mixinBehaviors( [
       cleanupFn.call(this);
       this._handleResponseError(action, response, payload);
     };
-
     return this.fetchChangeUpdates(this.change, this.$.restAPI)
         .then(result => {
           if (!result.isLatest) {
@@ -1451,7 +1449,15 @@ class GrChangeActions extends mixinBehaviors( [
 
   _handleCherrypickTap() {
     this.$.confirmCherrypick.branch = '';
-    this._showActionDialog(this.$.confirmCherrypick);
+    const query = `topic: "${this.change.topic}"`;
+    const options =
+      this.listChangesOptionsToHex(this.ListChangesOption.MESSAGES,
+          this.ListChangesOption.ALL_REVISIONS);
+    this.$.restAPI.getChanges('', query, undefined, options)
+        .then(changes => {
+          this.$.confirmCherrypick.updateChanges(changes);
+          this._showActionDialog(this.$.confirmCherrypick);
+        });
   }
 
   _handleMoveTap() {

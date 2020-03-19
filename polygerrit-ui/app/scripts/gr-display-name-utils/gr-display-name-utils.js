@@ -14,54 +14,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
+const ANONYMOUS_NAME = 'Anonymous';
 
-  if (window.GrDisplayNameUtils) {
-    return;
+export class GrDisplayNameUtils {
+  /**
+   * enableEmail when true enables to fallback to using email if
+   * the account name is not available.
+   */
+  static getUserName(config, account, enableEmail) {
+    if (account && account.name) {
+      return account.name;
+    } else if (account && account.username) {
+      return account.username;
+    } else if (enableEmail && account && account.email) {
+      return account.email;
+    } else if (config && config.user &&
+        config.user.anonymous_coward_name !== 'Anonymous Coward') {
+      return config.user.anonymous_coward_name;
+    }
+
+    return ANONYMOUS_NAME;
   }
 
-  const ANONYMOUS_NAME = 'Anonymous';
-
-  class GrDisplayNameUtils {
-    /**
-     * enableEmail when true enables to fallback to using email if
-     * the account name is not avilable.
-     */
-    static getUserName(config, account, enableEmail) {
-      if (account && account.name) {
-        return account.name;
-      } else if (account && account.username) {
-        return account.username;
-      } else if (enableEmail && account && account.email) {
-        return account.email;
-      } else if (config && config.user &&
-          config.user.anonymous_coward_name !== 'Anonymous Coward') {
-        return config.user.anonymous_coward_name;
-      }
-
-      return ANONYMOUS_NAME;
-    }
-
-    static getAccountDisplayName(config, account, enableEmail) {
-      const reviewerName = this.getUserName(config, account, !!enableEmail);
-      const reviewerEmail = this._accountEmail(account.email);
-      const reviewerStatus = account.status ? '(' + account.status + ')' : '';
-      return [reviewerName, reviewerEmail, reviewerStatus]
-          .filter(p => p.length > 0).join(' ');
-    }
-
-    static _accountEmail(email) {
-      if (typeof email !== 'undefined') {
-        return '<' + email + '>';
-      }
-      return '';
-    }
-
-    static getGroupDisplayName(group) {
-      return group.name + ' (group)';
-    }
+  static getAccountDisplayName(config, account, enableEmail) {
+    const reviewerName = this.getUserName(config, account, !!enableEmail);
+    const reviewerEmail = this._accountEmail(account.email);
+    const reviewerStatus = account.status ? '(' + account.status + ')' : '';
+    return [reviewerName, reviewerEmail, reviewerStatus]
+        .filter(p => p.length > 0).join(' ');
   }
 
-  window.GrDisplayNameUtils = GrDisplayNameUtils;
-})(window);
+  static _accountEmail(email) {
+    if (typeof email !== 'undefined') {
+      return '<' + email + '>';
+    }
+    return '';
+  }
+
+  static getGroupDisplayName(group) {
+    return group.name + ' (group)';
+  }
+}

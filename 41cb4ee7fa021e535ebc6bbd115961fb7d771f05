@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8fbd578_e5ae1aed",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T15:59:29Z",
+      "side": 1,
+      "message": "Please, add some comment why it can\u0027t be called immediately (or maybe it can? In most cases I don\u0027t see the error in console, probably you can still call this.pageLoaded without waiting )",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 38
+      },
+      "revId": "41cb4ee7fa021e535ebc6bbd115961fb7d771f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fafd9f13_a9465d12",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T15:59:29Z",
+      "side": 1,
+      "message": "May be rephrase it, because now it is not exactly describe what is going on?\nThis phrase scares me when I see it in a console :)\nFor example,\n\"pageLoaded was called, but information about window.onload timing is not available yet. Wating for it...\"",
+      "range": {
+        "startLine": 296,
+        "startChar": 20,
+        "endLine": 296,
+        "endChar": 67
+      },
+      "revId": "41cb4ee7fa021e535ebc6bbd115961fb7d771f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

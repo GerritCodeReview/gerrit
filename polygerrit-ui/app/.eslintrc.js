@@ -186,7 +186,6 @@ module.exports = {
     "GrDiffBuilderUnified": "readonly",
     "GrDiffGroup": "readonly",
     "GrDiffLine": "readonly",
-    "GrDisplayNameUtils": "readonly",
     "GrDomHook": "readonly",
     "GrDomHooksManager": "readonly",
     "GrEditConstants": "readonly",

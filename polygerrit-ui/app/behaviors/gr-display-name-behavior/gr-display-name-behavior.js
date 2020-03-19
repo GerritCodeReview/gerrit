@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../scripts/gr-display-name-utils/gr-display-name-utils.js';
+import {GrDisplayNameUtils} from '../../scripts/gr-display-name-utils/gr-display-name-utils.js';
 
 /** @polymerBehavior Gerrit.DisplayNameBehavior */
 export const DisplayNameBehavior = {

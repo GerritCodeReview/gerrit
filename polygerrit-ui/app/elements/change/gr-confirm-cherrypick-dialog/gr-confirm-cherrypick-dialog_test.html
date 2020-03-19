@@ -33,6 +33,11 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-confirm-cherrypick-dialog.js';
+
+const CHERRY_PICK_TYPES = {
+  SINGLE_CHANGE: 1,
+  TOPIC: 2,
+};
 suite('gr-confirm-cherrypick-dialog tests', () => {
   let element;
   let sandbox;
@@ -95,6 +100,73 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     element._getProjectBranchesSuggestions('nonexistent').then(branches => {
       assert.equal(branches.length, 0);
       done();
+    });
+  });
+
+  suite('cherry pick topic', () => {
+    const changes = [
+      {
+        change_id: '12345678901234', topic: 'T', subject: 'random',
+        project: 'A',
+        _number: 1,
+        revisions: {
+          a: {_number: 1},
+        },
+        current_revision: 'a',
+      },
+      {
+        change_id: '23456', topic: 'T', subject: 'a'.repeat(100),
+        project: 'B',
+        _number: 2,
+        revisions: {
+          a: {_number: 1},
+        },
+        current_revision: 'a',
+      },
+    ];
+    setup(() => {
+      element.updateChanges(changes);
+      element._cherryPickType = CHERRY_PICK_TYPES.TOPIC;
+    });
+
+    test('invalid branch name shows an error', done => {
+      assert.isNull(element.shadowRoot.querySelector('gr-dialog')
+          .querySelector('.branch-error'));
+      element.branch = 'a bc';
+      flush(() => {
+        assert.isOk(element.shadowRoot.querySelector('gr-dialog')
+            .querySelector('.branch-error'));
+        done();
+      });
+    });
+
+    test('cherry pick topic submit', done => {
+      element.branch = 'master';
+      const executeChangeActionStub = sandbox.stub(element.$.restAPI,
+          'executeChangeAction').returns(Promise.resolve([]));
+      MockInteractions.tap(element.shadowRoot.
+          querySelector('gr-dialog').$.confirm);
+      flush(() => {
+        const args = executeChangeActionStub.args[0];
+        assert.equal(args[0], 1);
+        assert.equal(args[1], 'POST');
+        assert.equal(args[2], '/cherrypick');
+        assert.equal(args[4].destination, 'master');
+        assert.isTrue(args[4].allow_conflicts);
+        done();
+      });
+    });
+
+    test('submit button is blocked while cherry picks is running', done => {
+      console.log(element);
+      const confirmButton = element.shadowRoot.querySelector('gr-dialog').$
+          .confirm;
+      assert.isFalse(confirmButton.hasAttribute('disabled'));
+      element.updateStatus(changes[0], {status: 'RUNNING'});
+      flush(() => {
+        assert.isTrue(confirmButton.hasAttribute('disabled'));
+        done();
+      });
     });
   });
 

@@ -16,6 +16,7 @@
  */
 
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper.js';
 
 (function(window) {
   'use strict';

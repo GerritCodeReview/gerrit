@@ -403,6 +403,15 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
+      // TODO(zieren): Refactor interface to signal the intent of the event instead of hard-coding
+      // it here.
+      String refName = receiveEvent.command.getRefName();
+      if (!refName.startsWith("refs/for/") && !refName.startsWith(RefNames.REFS_CHANGES)) {
+        // This is a direct push bypassing review. We don't need to enforce any file-count limits
+        // here.
+        return Collections.emptyList();
+      }
+
       PatchListKey patchListKey =
           PatchListKey.againstBase(
               receiveEvent.commit.getId(), receiveEvent.commit.getParentCount());

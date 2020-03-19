@@ -25,13 +25,10 @@ limitations under the License.
 <script src="/components/wct-browser-legacy/browser.js"></script>
 <script type="module" src="../../../test/test-pre-setup.js"></script>
 <script type="module" src="../../../test/common-test-setup.js"></script>
-<script type="module" src="./gr-annotation.js"></script>
-
 
 <script type="module">
 import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
-import './gr-annotation.js';
 void(0);
 </script>
 
@@ -44,7 +41,7 @@ void(0);
 <script type="module">
 import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
-import './gr-annotation.js';
+import {GrAnnotation} from './gr-annotation.js';
 import {sanitizeDOMValue, setSanitizeDOMValue} from '@polymer/polymer/lib/utils/settings.js';
 suite('annotation', () => {
   let str;

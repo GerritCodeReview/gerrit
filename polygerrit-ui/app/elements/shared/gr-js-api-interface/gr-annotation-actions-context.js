@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import {GrAnnotation} from '../../diff/gr-diff-highlight/gr-annotation.js';
+
 (function(window) {
   'use strict';
 

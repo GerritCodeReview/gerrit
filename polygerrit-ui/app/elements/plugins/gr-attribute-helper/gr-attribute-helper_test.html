@@ -27,7 +27,6 @@ limitations under the License.
 <dom-element id="some-element">
   <script type="module">
 import '../../../test/common-test-setup.js';
-import './gr-attribute-helper.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 Polymer({
   is: 'some-element',
@@ -49,8 +48,8 @@ Polymer({
 </test-fixture>
 
 <script type="module">
-import '../../../test/common-test-setup.js';
-import './gr-attribute-helper.js';
+import {GrAttributeHelper} from './gr-attribute-helper.js';
+
 suite('gr-attribute-helper tests', () => {
   let element;
   let instance;

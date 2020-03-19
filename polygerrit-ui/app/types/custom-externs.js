@@ -29,7 +29,6 @@
 // @unused
 
 var Gerrit;
-var GrAttributeHelper;
 var GrChangeActionsInterface;
 var GrChangeReplyInterface;
 var GrDiffBuilder;

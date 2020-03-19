@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper.js';
+
 (function(window) {
   'use strict';
 

@@ -24,8 +24,10 @@
 
 import {GrDisplayNameUtils} from '../scripts/gr-display-name-utils/gr-display-name-utils.js';
 import {GrAnnotation} from './diff/gr-diff-highlight/gr-annotation.js';
+import {GrAttributeHelper} from './plugins/gr-attribute-helper/gr-attribute-helper.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
   window.GrAnnotation = GrAnnotation;
+  window.GrAttributeHelper = GrAttributeHelper;
 }

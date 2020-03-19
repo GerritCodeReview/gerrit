@@ -76,7 +76,8 @@
     "no-restricted-globals": [
       "error",
       "GrDisplayNameUtils",
-      "GrAnnotation"
+      "GrAnnotation",
+      "GrAttributeHelper"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

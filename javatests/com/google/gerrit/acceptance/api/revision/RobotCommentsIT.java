@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.entities.Patch.NO_FILE;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThatList;
@@ -1215,6 +1216,15 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThat(diff).content().element(0).commonLines().containsExactly("1st line");
     assertThat(diff).content().element(1).linesOfA().containsExactly("2nd line");
     assertThat(diff).content().element(1).linesOfB().containsExactly("2nd line", "");
+  }
+
+  @Test
+  public void patchsetLevelRobotComment() throws Exception {
+    RobotCommentInput input = TestCommentHelper.createRobotCommentInput(NO_FILE);
+    testCommentHelper.addRobotComment(changeId, input);
+
+    List<RobotCommentInfo> results = getRobotComments();
+    assertThat(Iterables.getOnlyElement(results).path).isEqualTo(NO_FILE);
   }
 
   private static FixSuggestionInfo createFixSuggestionInfo(

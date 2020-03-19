@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.entities.Patch.NO_FILE;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -1075,6 +1076,40 @@ public class CommentsIT extends AbstractDaemonTest {
 
     assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
     assertThat(getChangeSortedComments(id.get())).hasSize(3);
+  }
+
+  @Test
+  public void patchsetLevelComment() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = newComment(NO_FILE, "comment");
+    addComments(changeId, ps1, comment);
+
+    Map<String, List<CommentInfo>> results = getPublishedComments(changeId, ps1);
+    assertThat(results).hasSize(1);
+    assertThat(results.containsKey(NO_FILE)).isTrue();
+    assertThat(Iterables.getOnlyElement(results.get(NO_FILE)).message).isEqualTo("comment");
+  }
+
+  @Test
+  public void patchsetLevelDraftComment() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String path = "/NO_FILE";
+    DraftInput comment = newDraft(path, Side.REVISION, 0, "comment");
+    addDraft(changeId, revId, comment);
+    Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+    assertThat(result).hasSize(1);
+    CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+
+    List<CommentInfo> list = getDraftCommentsAsList(changeId);
+    assertThat(list).hasSize(1);
+    actual = list.get(0);
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
   }
 
   private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {

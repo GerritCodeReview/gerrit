@@ -29,6 +29,9 @@ public final class Patch {
   /** Magical file name which represents the merge list of a merge commit. */
   public static final String MERGE_LIST = "/MERGE_LIST";
 
+  /** Magical file name which represents no file. */
+  public static final String NO_FILE = "/NO_FILE";
+
   /**
    * Checks if the given path represents a magic file. A magic file is a generated file that is
    * automatically included into changes. It does not exist in the commit of the patch set.
@@ -37,7 +40,7 @@ public final class Patch {
    * @return {@code true} if the path represents a magic file, otherwise {@code false}.
    */
   public static boolean isMagic(String path) {
-    return COMMIT_MSG.equals(path) || MERGE_LIST.equals(path);
+    return COMMIT_MSG.equals(path) || MERGE_LIST.equals(path) || NO_FILE.equals(path);
   }
 
   public static Key key(PatchSet.Id patchSetId, String fileName) {

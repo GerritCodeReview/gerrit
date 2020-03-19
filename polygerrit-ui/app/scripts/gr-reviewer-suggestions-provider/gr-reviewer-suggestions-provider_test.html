@@ -33,8 +33,9 @@ limitations under the License.
 <script type="module">
 import '../../test/common-test-setup.js';
 import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-display-name-utils/gr-display-name-utils.js';
 import './gr-reviewer-suggestions-provider.js';
+import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
+
 suite('GrReviewerSuggestionsProvider tests', () => {
   let sandbox;
   let _nextAccountId = 0;

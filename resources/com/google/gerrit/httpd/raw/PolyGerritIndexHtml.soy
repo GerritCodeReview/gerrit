@@ -140,8 +140,6 @@
     <link rel="import" href="{$assetsPath}/{$assetsBundle}">{\n}
   {/if}
 
-  <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
-
   // Now use preloaded resources
   {if $useGoogleFonts}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700|Open+Sans:400,600,700&display=swap">{\n}
@@ -152,4 +150,8 @@
 
   <body unresolved>{\n}
   <gr-app id="app"></gr-app>{\n}
+
+  // Load gr-app.js after <gr-app ...> tag because gr-router expects that
+  // <gr-app ...> already exists in the document when script is executed.
+  <script src="{$staticResourcePath}/elements/gr-app.js"></script>{\n}
 {/template}

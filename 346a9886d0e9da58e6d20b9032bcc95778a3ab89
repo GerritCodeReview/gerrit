@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9ea50da_9f9e8a74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-03-19T12:49:43Z",
+      "side": 1,
+      "message": "would you please elaborate the use case for this?",
+      "revId": "346a9886d0e9da58e6d20b9032bcc95778a3ab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

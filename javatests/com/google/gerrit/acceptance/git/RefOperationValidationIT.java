@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -205,5 +206,23 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
       PushOneCommit.Result r4 = push4.to(TEST_REF);
       r4.assertErrorStatus(UPDATE_NONFASTFORWARD.name());
     }
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxFiles", value = "0")
+  public void dontEnforceFileCountForDirectPushes() throws Exception {
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "change", "c.txt", "content");
+    PushOneCommit.Result result = push.to("refs/heads/master");
+    result.assertOkStatus();
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxFiles", value = "0")
+  public void enforceFileCountLimitOnPushesForReview() throws Exception {
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "change", "c.txt", "content");
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertErrorStatus("Exceeding maximum number of files per change");
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d14d8e2e_b87a93f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T16:00:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da30cd82_39cfa452",
+      "range": {
+        "startLine": 22,
+        "startChar": 5,
+        "endLine": 22,
+        "endChar": 7
+      },
+      "revId": "c71e81217a2251bbd9436affa0aceead911d91f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c593847b_e1783a31",
         "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
         "patchSetId": 2
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "ac74cbdf_8446a932",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T16:00:16Z",
+      "side": 1,
+      "message": "Yeah makes sense. Thanks for pointing that out.\nI tried adding 1K group refs and the readRevision method takes 2 milliseconds using byPrefx and 245 milliseconds using exactRef on my Linux workstation.",
+      "parentUuid": "455bb6cd_88e2a57e",
+      "range": {
+        "startLine": 54,
+        "startChar": 41,
+        "endLine": 54,
+        "endChar": 75
+      },
+      "revId": "c71e81217a2251bbd9436affa0aceead911d91f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d52f8642_7b793815",
         "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
         "patchSetId": 2
@@ -92,6 +140,30 @@
       "revId": "c71e81217a2251bbd9436affa0aceead911d91f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a65af5c_71260ed8",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T16:00:16Z",
+      "side": 1,
+      "message": "Thanks for your detailed explanation here.",
+      "parentUuid": "d52f8642_7b793815",
+      "range": {
+        "startLine": 59,
+        "startChar": 36,
+        "endLine": 59,
+        "endChar": 48
+      },
+      "revId": "c71e81217a2251bbd9436affa0aceead911d91f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "d48d0d61_c0fa07c1",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T16:00:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb79c28d_4cd088e1",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 15
+      },
+      "revId": "c71e81217a2251bbd9436affa0aceead911d91f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ee31398_bac5f7fa",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 2
@@ -132,6 +228,24 @@
       "revId": "c71e81217a2251bbd9436affa0aceead911d91f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8321450d_f650a184",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T16:00:16Z",
+      "side": 1,
+      "message": "Yeah it works without this explicit binding. Thanks for your comment.",
+      "parentUuid": "0ee31398_bac5f7fa",
+      "revId": "c71e81217a2251bbd9436affa0aceead911d91f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

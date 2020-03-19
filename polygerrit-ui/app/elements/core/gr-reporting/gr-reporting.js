@@ -284,7 +284,7 @@ let GrReporting = Polymer({
    */
   appStarted() {
     this.timeEnd(TIMING.APP_STARTED);
-    this.pageLoaded();
+    this.async(this.pageLoaded, 1000);
   },
 
   /**
@@ -293,8 +293,8 @@ let GrReporting = Polymer({
    */
   pageLoaded() {
     if (this.performanceTiming.loadEventEnd === 0) {
-      console.error('pageLoaded should be called after window.onload');
-      this.async(this.pageLoaded, 100);
+      console.warn('pageLoaded should be called after window.onload');
+      this.async(this.pageLoaded, 1000);
     } else {
       const perfEvents = Object.keys(this.performanceTiming.toJSON());
       perfEvents.forEach(

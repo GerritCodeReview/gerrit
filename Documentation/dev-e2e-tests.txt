@@ -85,10 +85,11 @@ ssh-keyscan -t rsa -p 29418 localhost > ~/.ssh/known_hosts
 === Input file
 
 The `CloneUsingBothProtocols` scenario is fed with the data coming from the
-`src/test/resources/data/CloneUsingBothProtocols.json` file. Such a file contains the commands and
-repository used during the load test. That file currently looks like below. This scenario serves
-as a simple example with no actual load in it. It can be used to test or validate the local setup.
-More complex scenarios can be further developed, under the `com.google.gerrit.scenarios` package.
+`src/test/resources/data/com/google/gerrit/scenarios/CloneUsingBothProtocols.json` file. Such a
+file contains the commands and repository used during the load test. That file currently looks like
+below. This scenario serves as a simple example with no actual load in it. It can be used to test
+or validate the local setup. More complex scenarios can be further developed, under the
+`com.google.gerrit.scenarios` package.
 
 ----
 [

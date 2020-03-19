@@ -1,3 +1,4 @@
-/*
-!/*.json
+*
+!*/
+!/com/google/gerrit/scenarios/*
 !/.gitignore

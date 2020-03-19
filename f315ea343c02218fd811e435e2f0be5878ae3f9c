@@ -52,6 +52,24 @@
       "revId": "f315ea343c02218fd811e435e2f0be5878ae3f9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40a451cb_d3a61ee0",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-19T11:33:04Z",
+      "side": 1,
+      "message": "\u003e Looks like I have a topic for the Quarterly Qleanup :-) I filed b/151911514.\n\nLooks like a great candidate!\n\n\u003e Do we need to distinguish these cases here?\n\nPotentially, but I have not thought about it deeply to be honest.\n\n\u003e SGTM. Can you add a short comment/todo/reference to b/151911514?\n\nDone",
+      "parentUuid": "a976ae5a_51ba4417",
+      "revId": "f315ea343c02218fd811e435e2f0be5878ae3f9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

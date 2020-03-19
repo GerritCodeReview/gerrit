@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e42f46b_db1a26b0",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-19T04:25:52Z",
+      "side": 1,
+      "message": "This annotation is not needed on an empty constructor.",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db424a3_e4f62854",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-19T04:25:52Z",
+      "side": 1,
+      "message": "This is only used at L44; inline it there",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 3
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "576b6d21_8fcef770",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-19T04:25:52Z",
+      "side": 1,
+      "message": "This is only used at L63; inline it there.",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 37
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a828f3d_96a20de8",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-19T04:25:52Z",
+      "side": 1,
+      "message": "This should be a member, initialized from the constructor parameter.",
+      "range": {
+        "startLine": 58,
+        "startChar": 15,
+        "endLine": 58,
+        "endChar": 19
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3a261f0_0401fda9",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-19T04:25:52Z",
+      "side": 1,
+      "message": "Collections.emptyList()",
+      "range": {
+        "startLine": 87,
+        "startChar": 35,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "584065f2_9b29eb77",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-19T04:25:52Z",
+      "side": 1,
+      "message": "Don\u0027t import this explicitly; just import AccountGroup (already done in the previous line) and reference it as AccountGroup.UUID in the code below.",
+      "range": {
+        "startLine": 61,
+        "startChar": 34,
+        "endLine": 61,
+        "endChar": 52
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d04c53f7_312949fa",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-19T04:25:52Z",
+      "side": 1,
+      "message": "AccountGroup.UUID\n\nhere and below",
+      "range": {
+        "startLine": 217,
+        "startChar": 16,
+        "endLine": 217,
+        "endChar": 20
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

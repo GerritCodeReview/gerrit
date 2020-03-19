@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a745099d_0198111b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T13:54:27Z",
+      "side": 1,
+      "message": "\u003e\u003eI think this is a bit too tightly coupled with our releases flow. For upstreams, IMO, this only adds confusion, the important take away here is this change is depending on the other change.\n\nAgree, about it. But at the same time I think this is a very important information. If we release all changes at the same time (with our releases flow), we break, for example, gerrit-review.googlesource.com site.\n\n\u003e\u003e And maybe add them into the same topic so they are clearly linked and can be reverted at the same time.\n\nDone",
+      "parentUuid": "c2ef07ba_1c029256",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8685b8cb_b8cf96ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bbdd37b_1d653c79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T13:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8685b8cb_b8cf96ce",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8667e815_ce03a9ca",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T13:54:27Z",
+      "side": 1,
+      "message": "I thought about it, but we have the --dev-cdn for local development (https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/#running-locally-against-a-gerrit-test-site)\nIn this scenario we are using server.go as a cdn, so we can\u0027t modify index.html",
+      "parentUuid": "85daede6_32145ce9",
+      "range": {
+        "startLine": 155,
+        "startChar": 50,
+        "endLine": 155,
+        "endChar": 72
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a35acee_14477a13",
         "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
         "patchSetId": 3
@@ -85,6 +157,24 @@
       "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "180b6c37_73f3a490",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T13:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a35acee_14477a13",
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

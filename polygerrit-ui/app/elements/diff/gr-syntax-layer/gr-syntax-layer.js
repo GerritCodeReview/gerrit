@@ -19,7 +19,7 @@ import '../../../scripts/bundled-polymer.js';
 import '../../shared/gr-lib-loader/gr-lib-loader.js';
 import '../../../scripts/util.js';
 import '../gr-diff/gr-diff-line.js';
-import '../gr-diff-highlight/gr-annotation.js';
+import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';

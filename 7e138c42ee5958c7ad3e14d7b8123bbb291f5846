@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a33c9c48_8a4e40cd",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-19T15:17:02Z",
+      "side": 1,
+      "message": "nit: remove \"*\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 62,
+        "endLine": 38,
+        "endChar": 64
+      },
+      "revId": "7e138c42ee5958c7ad3e14d7b8123bbb291f5846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

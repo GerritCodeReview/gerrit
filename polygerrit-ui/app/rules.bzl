@@ -2,7 +2,7 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/node_tools/legacy:index.bzl", "polymer_bundler_tool")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 
-def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
+def polygerrit_bundle(name, srcs, outs, entry_point):
     """Build .zip bundle from source code
 
     Args:
@@ -10,7 +10,6 @@ def polygerrit_bundle(name, srcs, outs, entry_point, redirects):
         srcs: source files
         outs: array with a single item - the output file name
         entry_point: application entry-point
-        redirects: .json file with redirects
     """
 
     app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app

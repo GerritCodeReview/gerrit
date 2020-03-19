@@ -46,36 +46,6 @@ var (
 	bundledPluginsPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_assets/[0-9.]*")
 )
 
-type redirectTarget struct {
-	NpmModule string            `json:"npm_module"`
-	Dir       string            `json:"dir"`
-	Files     map[string]string `json:"files"`
-}
-
-type redirects struct {
-	From string         `json:"from"`
-	To   redirectTarget `json:"to"`
-}
-
-type redirectsJson struct {
-	Redirects []redirects `json:"redirects"`
-}
-
-func readRedirects() []redirects {
-	redirectsFile, err := os.Open("app/redirects.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer redirectsFile.Close()
-	redirectsFileContent, err := ioutil.ReadAll(redirectsFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-	var result redirectsJson
-	json.Unmarshal([]byte(redirectsFileContent), &result)
-	return result.Redirects
-}
-
 func main() {
 	flag.Parse()
 
@@ -89,14 +59,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	redirects := readRedirects()
-
 	dirListingMux := http.NewServeMux()
 	dirListingMux.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("app/styles"))))
 	dirListingMux.Handle("/elements/", http.StripPrefix("/elements/", http.FileServer(http.Dir("app/elements"))))
 	dirListingMux.Handle("/behaviors/", http.StripPrefix("/behaviors/", http.FileServer(http.Dir("app/behaviors"))))
 
-	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) { handleSrcRequest(redirects, dirListingMux, w, req) })
+	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) { handleSrcRequest(dirListingMux, w, req) })
 
 	http.Handle("/fonts/",
 		addDevHeadersMiddleware(http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts")))))
@@ -136,7 +104,7 @@ func addDevHeaders(writer http.ResponseWriter) {
 
 }
 
-func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, writer http.ResponseWriter, originalRequest *http.Request) {
+func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, originalRequest *http.Request) {
 	parsedUrl, err := url.Parse(originalRequest.RequestURI)
 	if err != nil {
 		writer.WriteHeader(500)
@@ -144,10 +112,6 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 	}
 	if parsedUrl.Path != "/" && strings.HasSuffix(parsedUrl.Path, "/") {
 		dirListingMux.ServeHTTP(writer, originalRequest)
-		return
-	}
-	if parsedUrl.Path == "/bower_components/web-component-tester/browser.js" {
-		http.Redirect(writer, originalRequest, "/bower_components/wct-browser-legacy/browser.js", 301)
 		return
 	}
 
@@ -186,7 +150,7 @@ func handleSrcRequest(redirects []redirects, dirListingMux *http.ServeMux, write
 }
 
 func readFile(originalPath string, redirectedPath string) ([]byte, error) {
-	pathsToTry := []string{"app/modulizer_out" + redirectedPath, "app" + redirectedPath}
+	pathsToTry := []string{"app" + redirectedPath}
 	bowerComponentsSuffix := "/bower_components/"
 	nodeModulesPrefix := "/node_modules/"
 	testComponentsPrefix := "/components/"
@@ -197,8 +161,6 @@ func readFile(originalPath string, redirectedPath string) ([]byte, error) {
 	}
 
 	if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
-		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(bowerComponentsSuffix):])
-		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(bowerComponentsSuffix):])
 		pathsToTry = append(pathsToTry, "node_modules/@webcomponents/"+originalPath[len(bowerComponentsSuffix):])
 	}
 

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "843d486f_acd1a275",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-19T09:22:25Z",
+      "side": 1,
+      "message": "I do feel that the method name adds readability. But I\u0027m OK with inlining if you add a comment that this condition is true iff it\u0027s an LDAP UUID.",
+      "parentUuid": "1db424a3_e4f62854",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 3
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "576b6d21_8fcef770",
         "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
         "patchSetId": 3

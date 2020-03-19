@@ -30,6 +30,11 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-confirm-cherrypick-dialog_html.js';
 
 const SUGGESTIONS_LIMIT = 15;
+const CHANGE_SUBJECT_LIMIT = 50;
+const CHERRY_PICK_TYPES = {
+  SINGLE_CHANGE: 1,
+  TOPIC: 2,
+};
 
 /**
  * @appliesMixin Gerrit.FireMixin
@@ -64,12 +69,30 @@ class GrConfirmCherrypickDialog extends mixinBehaviors( [
       commitNum: String,
       message: String,
       project: String,
+      changes: Array,
       _query: {
         type: Function,
         value() {
           return this._getProjectBranchesSuggestions.bind(this);
         },
       },
+      _showCherryPickTopic: {
+        type: Boolean,
+        value: false,
+      },
+      _changesCount: Number,
+      _cherryPickType: {
+        type: Number,
+        value: CHERRY_PICK_TYPES.SINGLE_CHANGE,
+      },
+      _duplicateProjectChanges: {
+        type: Boolean,
+        value: false,
+      },
+      statusCherryPick: {
+        type: Object,
+      },
+      _statuses: Object,
     };
   }
 
@@ -77,6 +100,86 @@ class GrConfirmCherrypickDialog extends mixinBehaviors( [
     return [
       '_computeMessage(changeStatus, commitNum, commitMessage)',
     ];
+  }
+
+  updateChanges(changes) {
+    this.changes = changes;
+    this._statuses = {};
+    const projects = {};
+    this._duplicateProjectChanges = false;
+    changes.forEach(change => {
+      if (projects[change.project]) {
+        this._duplicateProjectChanges = true;
+      }
+      projects[change.project] = true;
+    });
+    this._changesCount = changes.length;
+    this._showCherryPickTopic = changes.length > 1;
+  }
+
+  _computeTopicErrorMessage(duplicateProjectChanges) {
+    if (duplicateProjectChanges) {
+      return 'Two changes cannot be of the same project';
+    }
+  }
+
+  updateStatus(change, status) {
+    this._statuses = Object.assign({}, this._statuses, {[change.id]: status});
+  }
+
+  _computeStatus(change, statuses) {
+    if (!statuses || !statuses[change.id]) return 'NOT STARTED';
+    return statuses[change.id].status;
+  }
+
+  _computeError(change, statuses) {
+    if (!statuses || !statuses[change.id]) return '';
+    if (statuses[change.id].status === 'FAILED') {
+      return statuses[change.id].msg;
+    }
+  }
+
+  _getChangeId(change) {
+    return change.change_id.substring(0, 10);
+  }
+
+  _getTrimmedChangeSubject(subject) {
+    if (!subject) return '';
+    if (subject.length < CHANGE_SUBJECT_LIMIT) return subject;
+    return subject.substring(0, CHANGE_SUBJECT_LIMIT) + '...';
+  }
+
+  _computeCancelLabel(statuses) {
+    const isRunningChange = Object.values(statuses).
+        some(v => v.status === 'RUNNING');
+    return isRunningChange ? 'Close' : 'Cancel';
+  }
+
+  _computeDisableCherryPick(cherryPickType, duplicateProjectChanges,
+      statuses) {
+    const duplicateProject = (cherryPickType === CHERRY_PICK_TYPES.TOPIC) &&
+      duplicateProjectChanges;
+    if (duplicateProject) return true;
+    if (!statuses) return false;
+    const isRunningChange = Object.values(statuses).
+        some(v => v.status === 'RUNNING');
+    return isRunningChange;
+  }
+
+  _computeIfSinglecherryPick(cherryPickType) {
+    return cherryPickType === CHERRY_PICK_TYPES.SINGLE_CHANGE;
+  }
+
+  _computeIfCherryPickTopic(cherryPickType) {
+    return cherryPickType === CHERRY_PICK_TYPES.TOPIC;
+  }
+
+  _handlecherryPickSingleChangeClicked(e) {
+    this._cherryPickType = CHERRY_PICK_TYPES.SINGLE_CHANGE;
+  }
+
+  _handlecherryPickTopicClicked(e) {
+    this._cherryPickType = CHERRY_PICK_TYPES.TOPIC;
   }
 
   _computeMessage(changeStatus, commitNum, commitMessage) {
@@ -97,10 +200,57 @@ class GrConfirmCherrypickDialog extends mixinBehaviors( [
     this.message = newMessage;
   }
 
+  _generateCherryPickTopicCommitMessage(change) {
+    const randomString = Math.random().toString(36)
+        .substr(2, 10);
+    const message = `cherrypick-${change.topic}-${randomString}`;
+    return message;
+  }
+
+  _handleCherryPickFailed(change, response) {
+    response.text().then(errText => {
+      this.updateStatus(change,
+          {status: 'FAILED', msg: errText});
+    });
+  }
+
+  _handleCherryPickTopic() {
+    const message = this._generateCherryPickTopicCommitMessage(
+        this.changes[0]);
+    this.changes.forEach(change => {
+      this.updateStatus(change,
+          {status: 'RUNNING'});
+      const payload = {
+        destination: this.branch,
+        base: null,
+        message,
+        allow_conflicts: true,
+      };
+      const handleError = response => {
+        this._handleCherryPickFailed(change, response);
+      };
+      const patchNum = change.revisions[change.current_revision]._number;
+      this.$.restAPI.executeChangeAction(change._number, 'POST', '/cherrypick',
+          patchNum, payload, handleError).then(response => {
+        this.updateStatus(change, {status: 'SUCCESSFUL'});
+        const failedOrPending = Object.values(this._statuses).find(
+            v => v.status !== 'SUCCESSFUL');
+        if (!failedOrPending) {
+          Gerrit.Nav.navigateToSearchQuery(`topic: "${change.topic}"`);
+        }
+      });
+    });
+  }
+
   _handleConfirmTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('confirm', null, {bubbles: false});
+    if (this._cherryPickType === CHERRY_PICK_TYPES.TOPIC) {
+      this._handleCherryPickTopic();
+      return;
+    }
+    this.fire('confirm', {type: this._cherryPickType, branch: this.branch},
+        {bubbles: false});
   }
 
   _handleCancelTap(e) {

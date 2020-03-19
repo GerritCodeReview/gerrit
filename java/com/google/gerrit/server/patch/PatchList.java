@@ -45,23 +45,12 @@ import org.eclipse.jgit.lib.ObjectId;
 public class PatchList implements Serializable {
   private static final long serialVersionUID = PatchListKey.serialVersionUID;
 
-  private static final Comparator<PatchListEntry> PATCH_CMP =
-      Comparator.comparing(PatchListEntry::getNewName, PatchList::comparePaths);
-
   @VisibleForTesting
-  static int comparePaths(String a, String b) {
-    int m1 = Patch.isMagic(a) ? (a.equals(Patch.MERGE_LIST) ? 2 : 1) : 3;
-    int m2 = Patch.isMagic(b) ? (b.equals(Patch.MERGE_LIST) ? 2 : 1) : 3;
+  static final Comparator<String> FILE_PATH_CMP =
+      Comparator.comparing(Patch::isMagic).reversed().thenComparing(Comparator.naturalOrder());
 
-    if (m1 != m2) {
-      return m1 - m2;
-    } else if (m1 < 3) {
-      return 0;
-    }
-
-    // m1 == m2 == 3: normal names.
-    return a.compareTo(b);
-  }
+  private static final Comparator<PatchListEntry> PATCH_CMP =
+      Comparator.comparing(PatchListEntry::getNewName, FILE_PATH_CMP);
 
   @Nullable private transient ObjectId oldId;
   private transient ObjectId newId;

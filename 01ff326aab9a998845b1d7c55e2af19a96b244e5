@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0f9733d4_6470fd15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "I accidentally replaced this with the \u0027axis\u0027 version of the commit message. The Commit message in PS2 is the one that was intended.\n\nNew Screenshot added.",
+      "parentUuid": "c58230b4_27c7f051",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d74d88c_049bf12c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e46a7658_6784d05a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "I accidentally replaced this with the \u0027axis\u0027 version of the commit message. The Commit message in PS2 is the one that was intended.\n\nPS2 has the Bug: Issue 6293 link, and PS4 will as well.",
+      "parentUuid": "5d74d88c_049bf12c",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "2153f9f5_7a23b0d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce35e334_36450832",
+      "range": {
+        "startLine": 472,
+        "startChar": 22,
+        "endLine": 472,
+        "endChar": 27
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24c55aea_bc8a28fb",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 3
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "ae723ea6_97f6043d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "Done, ish.\n\nReplyBtn is primary if the user can *not* start the review.\nReadyBtn is primary if the user can start the review (hidden otherwise).\n\nI am not sure how to do this in another way while complying with your comment in polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js about moving the logic here:\n\n  \u0027It would be better to associate this logic directly to the \"primary\" attribute in the html template:\n  primary\u003d\"[[!_canStartReview]]\"\u0027\n\nI couldn\u0027t get the simple [[!_canStartReview]] to work, but with \\$ it evaluated correctly.\n\nPolymer, bindings and attributes in JS aren\u0027t my strong suit, so I\u0027d be happy to learn better ways.",
+      "parentUuid": "24c55aea_bc8a28fb",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd53d502_c95f32c0",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 3
@@ -96,6 +180,24 @@
       "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d01c8df_a12fddda",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd53d502_c95f32c0",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "ab83c477_6e0e304e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82559767_66fe3606",
+      "range": {
+        "startLine": 476,
+        "startChar": 49,
+        "endLine": 476,
+        "endChar": 70
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b166a95_fb67418e",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3
@@ -145,6 +271,53 @@
     },
     {
       "key": {
+        "uuid": "aecb9f3b_d13a9069",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b166a95_fb67418e",
+      "range": {
+        "startLine": 251,
+        "startChar": 61,
+        "endLine": 251,
+        "endChar": 76
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c24ed268_745d5cbc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "If we set this to a string in gr-change-view.html(now gr-change-view_html.js), this doesn\u0027t need to exist. removed.",
+      "range": {
+        "startLine": 253,
+        "startChar": 1,
+        "endLine": 256,
+        "endChar": 10
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "828d571a_e1adaf2b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3
@@ -156,6 +329,30 @@
       "writtenOn": "2020-03-18T08:58:57Z",
       "side": 1,
       "message": "Can you check whether this action is available to the owner only? I would like to make sure that \"start review\" is not something that we show as a primary action for non-owners.",
+      "range": {
+        "startLine": 1759,
+        "startChar": 8,
+        "endLine": 1759,
+        "endChar": 37
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7bc6cbd_9d427c2c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1759,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "Start Review does not show up for a non-owner.",
+      "parentUuid": "828d571a_e1adaf2b",
       "range": {
         "startLine": 1759,
         "startChar": 8,
@@ -185,6 +382,24 @@
     },
     {
       "key": {
+        "uuid": "497d9ccb_a66164c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "955337df_a77ae700",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a5964d7_e027a4fa",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 3
@@ -199,6 +414,24 @@
       "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cd51e6a_2f6f1f4f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-03-19T15:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a5964d7_e027a4fa",
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

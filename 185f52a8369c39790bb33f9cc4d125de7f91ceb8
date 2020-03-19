@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e90bc824_3b135e76",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T17:04:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c880008_58823664",
+      "revId": "185f52a8369c39790bb33f9cc4d125de7f91ceb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c218d50_7e0ef96d",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "185f52a8369c39790bb33f9cc4d125de7f91ceb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b9b6893_ecde0755",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T17:04:22Z",
+      "side": 1,
+      "message": "No. Any non-existing file name can be here.\n.mjs extension is used because it is not used in our code and this extension sometimes used for es6-module",
+      "parentUuid": "8c218d50_7e0ef96d",
+      "range": {
+        "startLine": 162,
+        "startChar": 35,
+        "endLine": 162,
+        "endChar": 38
+      },
+      "revId": "185f52a8369c39790bb33f9cc4d125de7f91ceb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

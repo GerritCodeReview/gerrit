@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ccfdae21_f32dc644",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T17:04:22Z",
+      "side": 1,
+      "message": "Ok.\nMay be I can keep this comment for now and will update the comment when it is safe to submit?\nWhat do you think about it?",
+      "parentUuid": "ed4e620e_9a91b0f4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8685b8cb_b8cf96ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -188,6 +212,30 @@
       "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9bfc200_0f7fd78d",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-19T17:04:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53b51327_ac5f754e",
+      "range": {
+        "startLine": 155,
+        "startChar": 50,
+        "endLine": 155,
+        "endChar": 72
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

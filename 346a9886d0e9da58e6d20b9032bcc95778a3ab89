@@ -16,6 +16,24 @@
       "revId": "346a9886d0e9da58e6d20b9032bcc95778a3ab89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f5156c5_3c9cd983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-19T13:06:28Z",
+      "side": 1,
+      "message": "Sure :) \nAs far as I understand the design doc here: I671187cff, adding comments that are not attached to a file is a requirement for creating threaded change messages (as described in that doc).",
+      "parentUuid": "d9ea50da_9f9e8a74",
+      "revId": "346a9886d0e9da58e6d20b9032bcc95778a3ab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

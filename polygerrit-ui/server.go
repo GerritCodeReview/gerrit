@@ -115,16 +115,16 @@ func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, 
 		return
 	}
 
-	requestPath := parsedUrl.Path
+	normalizedContentPath := parsedUrl.Path
 
-	if !strings.HasPrefix(requestPath, "/") {
-		requestPath = "/" + requestPath
+	if !strings.HasPrefix(normalizedContentPath, "/") {
+		normalizedContentPath = "/" + normalizedContentPath
 	}
 
-	isJsFile := strings.HasSuffix(requestPath, ".js") || strings.HasSuffix(requestPath, ".mjs")
-	data, err := readFile(parsedUrl.Path, requestPath)
+	isJsFile := strings.HasSuffix(normalizedContentPath, ".js") || strings.HasSuffix(normalizedContentPath, ".mjs")
+	data, err := getContent(normalizedContentPath)
 	if err != nil {
-		data, err = readFile(parsedUrl.Path + ".js", requestPath + ".js")
+		data, err = getContent(normalizedContentPath + ".js")
 		if err != nil {
 			writer.WriteHeader(404)
 			return
@@ -135,13 +135,13 @@ func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, 
 		moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
 		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
 		writer.Header().Set("Content-Type", "application/javascript")
-	} else if strings.HasSuffix(requestPath, ".css") {
+	} else if strings.HasSuffix(normalizedContentPath, ".css") {
 		writer.Header().Set("Content-Type", "text/css")
-	} else if strings.HasSuffix(requestPath, "_test.html") {
+	} else if strings.HasSuffix(normalizedContentPath, "_test.html") {
 		moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
 		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
 		writer.Header().Set("Content-Type", "text/html")
-	} else if strings.HasSuffix(requestPath, ".html") {
+	} else if strings.HasSuffix(normalizedContentPath, ".html") {
 		writer.Header().Set("Content-Type", "text/html")
 	}
 	writer.WriteHeader(200)
@@ -149,23 +149,24 @@ func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, 
 	writer.Write(data)
 }
 
-func readFile(originalPath string, redirectedPath string) ([]byte, error) {
-	pathsToTry := []string{"app" + redirectedPath}
+func getContent(normalizedContentPath string) ([]byte, error) {
+  //normalizedContentPath must always starts with '/'
+	pathsToTry := []string{"app" + normalizedContentPath}
 	bowerComponentsSuffix := "/bower_components/"
 	nodeModulesPrefix := "/node_modules/"
 	testComponentsPrefix := "/components/"
 
-	if strings.HasPrefix(originalPath, testComponentsPrefix) {
-		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+originalPath[len(testComponentsPrefix):])
-		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(testComponentsPrefix):])
+	if strings.HasPrefix(normalizedContentPath, testComponentsPrefix) {
+		pathsToTry = append(pathsToTry, "node_modules/wct-browser-legacy/node_modules/"+normalizedContentPath[len(testComponentsPrefix):])
+		pathsToTry = append(pathsToTry, "node_modules/"+normalizedContentPath[len(testComponentsPrefix):])
 	}
 
-	if strings.HasPrefix(originalPath, bowerComponentsSuffix) {
-		pathsToTry = append(pathsToTry, "node_modules/@webcomponents/"+originalPath[len(bowerComponentsSuffix):])
+	if strings.HasPrefix(normalizedContentPath, bowerComponentsSuffix) {
+		pathsToTry = append(pathsToTry, "node_modules/@webcomponents/"+normalizedContentPath[len(bowerComponentsSuffix):])
 	}
 
-	if strings.HasPrefix(originalPath, nodeModulesPrefix) {
-		pathsToTry = append(pathsToTry, "node_modules/"+originalPath[len(nodeModulesPrefix):])
+	if strings.HasPrefix(normalizedContentPath, nodeModulesPrefix) {
+		pathsToTry = append(pathsToTry, "node_modules/"+normalizedContentPath[len(nodeModulesPrefix):])
 	}
 
 	for _, path := range pathsToTry {

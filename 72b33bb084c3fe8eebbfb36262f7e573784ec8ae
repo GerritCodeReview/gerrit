@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "907c92a8_5b3755b0",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-19T20:36:23Z",
+      "side": 1,
+      "message": "If this has to be the last element in the template, then maybe we can compensate that by add a \u003clink rel\u003d\"preload\"\u003e for gr-app.js somewhere at the top?\n\nMight be worthwhile to discuss with Milutin the best ordering of the \"link preloads\". It might affect performance which ones come first and which js is executed first.",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 70
+      },
+      "revId": "72b33bb084c3fe8eebbfb36262f7e573784ec8ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

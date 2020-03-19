@@ -170,7 +170,6 @@ module.exports = {
     "FetchPromisesCache": "readonly",
     "Gerrit": "readonly",
     "GrAdminApi": "readonly",
-    "GrAnnotation": "readonly",
     "GrAnnotationActionsContext": "readonly",
     "GrAnnotationActionsInterface": "readonly",
     "GrAttributeHelper": "readonly",

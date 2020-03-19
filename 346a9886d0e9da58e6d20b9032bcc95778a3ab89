@@ -34,6 +34,41 @@
       "revId": "346a9886d0e9da58e6d20b9032bcc95778a3ab89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5b796e7_5318fd64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-03-19T13:27:59Z",
+      "side": 1,
+      "message": "amend the commit message, please. 😊\n(from other changes i\u0027ve seen recently, the new convention seems to be to include a link to the published design doc, though that might be overkill if other changes of that topic are to be merged first.)\n\ni guess in the longer run this will completely replace whatever is the successor of the change_message table? mentioning this might make sense as well (also if my guess is wrong, with an explanation).",
+      "parentUuid": "3f5156c5_3c9cd983",
+      "revId": "346a9886d0e9da58e6d20b9032bcc95778a3ab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a4563f0_5180be72",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-03-19T13:27:59Z",
+      "side": 1,
+      "message": "\"no file\" is a tad too generic for my taste - after all, the two other magic not-quite-files would also qualify for that name.\n\ni suppose /COVER_MSG or something to that effect would fit.",
+      "revId": "346a9886d0e9da58e6d20b9032bcc95778a3ab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

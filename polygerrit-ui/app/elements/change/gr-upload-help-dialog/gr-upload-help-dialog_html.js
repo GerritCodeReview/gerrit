@@ -26,7 +26,7 @@ export const htmlTemplate = html`
         width: 100%;
       }
       ol {
-        margin-left: var(--spacing-l);
+        margin-left: var(--spacing-xl);
         list-style: decimal;
       }
       p {

@@ -403,6 +403,12 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
+      if (!receiveEvent.command.getRefName().startsWith("refs/for/")) {
+        // This is a direct push bypassing review. We don't need to enforce any file-count limits
+        // here.
+        return Collections.emptyList();
+      }
+
       PatchListKey patchListKey =
           PatchListKey.againstBase(
               receiveEvent.commit.getId(), receiveEvent.commit.getParentCount());

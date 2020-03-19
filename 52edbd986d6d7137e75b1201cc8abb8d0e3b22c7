@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee360c0f_45d2e360",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-19T09:29:46Z",
+      "side": 1,
+      "message": "nit: Isn\u0027t it just \u0027?\u0027? :-)",
+      "range": {
+        "startLine": 7,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "52edbd986d6d7137e75b1201cc8abb8d0e3b22c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

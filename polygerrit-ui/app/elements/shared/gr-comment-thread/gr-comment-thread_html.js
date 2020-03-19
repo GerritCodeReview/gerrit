@@ -24,6 +24,9 @@ export const htmlTemplate = html`
         font-weight: var(--font-weight-normal);
         line-height: var(--line-height-normal);
       }
+      gr-comment {
+        border-bottom: 1px solid var(--comment-box-border-color);
+      }
       gr-button {
         margin-left: var(--spacing-m);
       }

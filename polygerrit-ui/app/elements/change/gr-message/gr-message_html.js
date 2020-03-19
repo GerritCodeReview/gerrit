@@ -65,7 +65,7 @@ export const htmlTemplate = html`
       gr-button {
         margin: 0 -4px;
       }
-      .collapsed gr-comment-list,
+      .collapsed gr-thread-list,
       .collapsed .replyBtn,
       .collapsed .deleteBtn,
       .collapsed .hideOnCollapsed,
@@ -213,7 +213,16 @@ export const htmlTemplate = html`
                   </gr-button>
               </div>
             </template>
-            <gr-comment-list comments="[[comments]]" change-num="[[changeNum]]" patch-num="[[message._revision_number]]" project-name="[[projectName]]" project-config="[[_projectConfig]]"></gr-comment-list>
+            <gr-thread-list
+              id="commentList"
+              change="[[change]]"
+              hidden$="[[!comments.length]]"
+              threads="[[comments]]"
+              change-num="[[changeNum]]"
+              logged-in="true"
+              hide-toggle-buttons
+              on-thread-list-modified="_onThreadListModified">
+            </gr-thread-list>
           </div>
         </template>
         <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">

@@ -475,7 +475,7 @@ export const htmlTemplate = html`
       <section class="changeLog">
         <template is="dom-if" if="[[_isSelectedView(_currentView,
           _commentTabs.CHANGE_LOG)]]">
-          <gr-messages-list class="hideOnMobileOverlay" change-num="[[_changeNum]]" labels="[[_change.labels]]" messages="[[_change.messages]]" reviewer-updates="[[_change.reviewer_updates]]" change-comments="[[_changeComments]]" project-name="[[_change.project]]" show-reply-buttons="[[_loggedIn]]" on-message-anchor-tap="_handleMessageAnchorTap" on-reply="_handleMessageReply"></gr-messages-list>
+          <gr-messages-list class="hideOnMobileOverlay" change="[[_change]]" change-num="[[_changeNum]]" labels="[[_change.labels]]" messages="[[_change.messages]]" reviewer-updates="[[_change.reviewer_updates]]" change-comments="[[_changeComments]]" project-name="[[_change.project]]" show-reply-buttons="[[_loggedIn]]" on-message-anchor-tap="_handleMessageAnchorTap" on-reply="_handleMessageReply"></gr-messages-list>
         </template>
         <template is="dom-if" if="[[_isSelectedView(_currentView,
           _commentTabs.COMMENT_THREADS)]]">

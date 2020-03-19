@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2ef07ba_1c029256",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-19T13:28:00Z",
+      "side": 1,
+      "message": "i think this is a bit too tightly coupled with our releases flow. For upstreams, IMO, this only adds confusion, the important take away here is this change is depending on the other change. And maybe add them into the same topic so they are clearly linked and can be reverted at the same time.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8685b8cb_b8cf96ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-19T13:28:00Z",
+      "side": 1,
+      "message": "`includes:` ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85daede6_32145ce9",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-19T13:28:00Z",
+      "side": 1,
+      "message": "can not we just replace that and add the `type\u003d\"module\"` when we retrieve and modify the index.html ? similar to what we did for cdnPatterns ?",
+      "range": {
+        "startLine": 155,
+        "startChar": 50,
+        "endLine": 155,
+        "endChar": 72
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a35acee_14477a13",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-19T13:28:00Z",
+      "side": 1,
+      "message": "nit: maybe add new line above",
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

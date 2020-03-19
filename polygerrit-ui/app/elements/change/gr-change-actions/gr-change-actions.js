@@ -462,7 +462,8 @@ class GrChangeActions extends mixinBehaviors( [
         type: Boolean,
         value: true,
       },
-      _revertChanges: Array,
+      _cherryPickChanges: Array,
+      _cherryPickingTopicPendingCount: Number,
     };
   }
 
@@ -1301,12 +1302,12 @@ class GrChangeActions extends mixinBehaviors( [
    * @param {boolean} revAction
    * @param {!Object|string=} opt_payload
    */
-  _fireAction(endpoint, action, revAction, opt_payload) {
+  _fireAction(endpoint, action, revAction, opt_payload, change) {
     const cleanupFn =
         this._setLoadingOnButtonWithKey(action.__type, action.__key);
 
     this._send(action.method, opt_payload, endpoint, revAction, cleanupFn,
-        action).then(this._handleResponse.bind(this, action));
+        action, change).then(this._handleResponse.bind(this, action));
   }
 
   _showActionDialog(dialog) {
@@ -1340,6 +1341,16 @@ class GrChangeActions extends mixinBehaviors( [
               });
           break;
         case RevisionActions.CHERRYPICK:
+          if (this._cherryPickingTopicPendingCount > 0) {
+            this._cherryPickingTopicPendingCount -= 1;
+            this.$.confirmCherrypick.updateStatus(obj,
+                {status: 'SUCCESS'});
+            if (this._cherryPickingTopicPendingCount === 0) {
+              Gerrit.Nav.navigateToSearchQuery('topic: ' +
+                obj.topic);
+            }
+            return;
+          }
           this._waitForChangeReachable(obj._number).then(() => {
             Gerrit.Nav.navigateToChange(obj);
           });
@@ -1374,8 +1385,15 @@ class GrChangeActions extends mixinBehaviors( [
     this._hideAllDialogs();
   }
 
-  _handleResponseError(action, response, body) {
+  _handleResponseError(action, response, body, change) {
     if (action && action.__key === RevisionActions.CHERRYPICK) {
+      if (this._cherryPickingTopicPendingCount) {
+        return response.text().then(errText => {
+          this._cherryPickingTopicPendingCount -= 1;
+          this.$.confirmCherrypick.updateStatus(change,
+              {status: 'FAILED', msg: errText});
+        });
+      }
       if (response && response.status === 409 &&
           body && !body.allow_conflicts) {
         return this._showActionDialog(
@@ -1399,13 +1417,14 @@ class GrChangeActions extends mixinBehaviors( [
    * @param {?Function} cleanupFn
    * @param {!Object|undefined} action
    */
-  _send(method, payload, actionEndpoint, revisionAction, cleanupFn, action) {
+  _send(method, payload, actionEndpoint, revisionAction, cleanupFn, action,
+      change) {
     const handleError = response => {
       cleanupFn.call(this);
-      this._handleResponseError(action, response, payload);
+      this._handleResponseError(action, response, payload, change);
     };
-
-    return this.fetchChangeUpdates(this.change, this.$.restAPI)
+    change = change || this.change;
+    return this.fetchChangeUpdates(change, this.$.restAPI)
         .then(result => {
           if (!result.isLatest) {
             this.fire('show-alert', {
@@ -1414,7 +1433,7 @@ class GrChangeActions extends mixinBehaviors( [
               action: 'Reload',
               callback: () => {
                 // Load the current change without any patch range.
-                Gerrit.Nav.navigateToChange(this.change);
+                Gerrit.Nav.navigateToChange(change);
               },
             });
 
@@ -1424,8 +1443,11 @@ class GrChangeActions extends mixinBehaviors( [
 
             return Promise.resolve();
           }
-          const patchNum = revisionAction ? this.latestPatchNum : null;
-          return this.$.restAPI.executeChangeAction(this.changeNum, method,
+          const latestPatchNum = this.computeLatestPatchNum(
+              this.computeAllPatchSets(change));
+          const patchNum = revisionAction ? latestPatchNum : null;
+          const changeNum = change._number;
+          return this.$.restAPI.executeChangeAction(changeNum, method,
               actionEndpoint, patchNum, payload, handleError)
               .then(response => {
                 cleanupFn.call(this);
@@ -1440,7 +1462,17 @@ class GrChangeActions extends mixinBehaviors( [
 
   _handleCherrypickTap() {
     this.$.confirmCherrypick.branch = '';
-    this._showActionDialog(this.$.confirmCherrypick);
+    this._cherryPickingTopic = false;
+    const query = 'topic:' + this.change.topic;
+    const options =
+      this.listChangesOptionsToHex(this.ListChangesOption.MESSAGES,
+          this.ListChangesOption.ALL_REVISIONS);
+    this.$.restAPI.getChanges('', query, undefined, options)
+        .then(changes => {
+          this._cherryPickChanges = changes;
+          this.$.confirmCherrypick.updateChanges(changes);
+          this._showActionDialog(this.$.confirmCherrypick);
+        });
   }
 
   _handleMoveTap() {

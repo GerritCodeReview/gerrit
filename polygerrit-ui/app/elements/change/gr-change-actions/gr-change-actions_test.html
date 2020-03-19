@@ -49,6 +49,10 @@ import '../../../test/common-test-setup.js';
 import '../../../scripts/util.js';
 import './gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+const CHERRY_PICK_TYPES = {
+  SINGLE_CHANGE: 1,
+  TOPIC: 2,
+};
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
   let element;
@@ -449,12 +453,14 @@ suite('gr-change-actions tests', () => {
         MockInteractions.tap(rebaseButton);
         flushAsynchronousOperations();
         assert.isFalse(element.$.confirmRebase.hidden);
-
+        sandbox.stub(element.$.restAPI, 'getChanges')
+            .returns(Promise.resolve([]));
         element._handleCherrypickTap();
-        flushAsynchronousOperations();
-        assert.isTrue(element.$.confirmRebase.hidden);
-        assert.isFalse(element.$.confirmCherrypick.hidden);
-        done();
+        flush(() => {
+          assert.isTrue(element.$.confirmRebase.hidden);
+          assert.isFalse(element.$.confirmCherrypick.hidden);
+          done();
+        });
       });
     });
 
@@ -658,11 +664,21 @@ suite('gr-change-actions tests', () => {
           title: 'Cherry pick change to a different branch',
         };
 
-        element._handleCherrypickConfirm();
+        element._handleCherrypickConfirm({
+          detail: {
+            branch: '',
+            type: CHERRY_PICK_TYPES.SINGLE_CHANGE,
+          },
+        });
         assert.equal(fireActionStub.callCount, 0);
 
         element.$.confirmCherrypick.branch = 'master';
-        element._handleCherrypickConfirm();
+        element._handleCherrypickConfirm({
+          detail: {
+            branch: 'master',
+            type: CHERRY_PICK_TYPES.SINGLE_CHANGE,
+          },
+        });
         assert.equal(fireActionStub.callCount, 0); // Still needs a message.
 
         // Add attributes that are used to determine the message.
@@ -670,10 +686,15 @@ suite('gr-change-actions tests', () => {
         element.$.confirmCherrypick.changeStatus = 'OPEN';
         element.$.confirmCherrypick.commitNum = '123';
 
-        element._handleCherrypickConfirm();
+        element._handleCherrypickConfirm({
+          detail: {
+            branch: 'master',
+            type: CHERRY_PICK_TYPES.SINGLE_CHANGE,
+          },
+        });
 
-        assert.equal(element.$.confirmCherrypick.$.messageInput.value,
-            'foo message');
+        assert.equal(element.$.confirmCherrypick.shadowRoot.
+            querySelector('#messageInput').value, 'foo message');
 
         assert.deepEqual(fireActionStub.lastCall.args, [
           '/cherrypick', action, true, {
@@ -722,6 +743,89 @@ suite('gr-change-actions tests', () => {
 
         element._handleCherrypickTap();
         assert.equal(element.$.confirmCherrypick.branch, emptyBranchName);
+      });
+
+      suite('cherry pick topics', () => {
+        const changes = [
+          {
+            change_id: '12345678901234', topic: 'T', subject: 'random',
+            project: 'A',
+          },
+          {
+            change_id: '23456', topic: 'T', subject: 'a'.repeat(100),
+            project: 'B',
+          },
+        ];
+        setup(done => {
+          sandbox.stub(element.$.restAPI, 'getChanges')
+              .returns(Promise.resolve(changes));
+          element._handleCherrypickTap();
+          flush(() => {
+            const radioButtons = element.$.confirmCherrypick.shadowRoot.
+                querySelectorAll(`input[name='cherryPickOptions']`);
+            assert.equal(radioButtons.length, 2);
+            MockInteractions.tap(radioButtons[1]);
+            flush(() => {
+              done();
+            });
+          });
+        });
+
+        test('cherry pick topic dialog is rendered', done => {
+          const dialog = element.$.confirmCherrypick;
+          flush(() => {
+            const changesTable = dialog.shadowRoot.querySelector('table');
+            const headers = Array.from(changesTable.querySelectorAll('th'));
+            const expectedHeadings = ['Change', 'Subject', 'Project',
+              'Status', ''];
+            const headings = headers.map(header => header.innerText);
+            assert.equal(headings.length, expectedHeadings.length);
+            for (let i = 0; i < headings.length; i++) {
+              assert.equal(headings[i].trim(), expectedHeadings[i]);
+            }
+            const changeRows = changesTable.querySelectorAll('tbody > tr');
+            const change = Array.from(changeRows[0].querySelectorAll('td'))
+                .map(e => e.innerText);
+            const expectedChange = ['1234567890', 'random', 'A',
+              'NOT STARTED', ''];
+            for (let i = 0; i < change.length; i++) {
+              assert.equal(change[i].trim(), expectedChange[i]);
+            }
+            done();
+          });
+        });
+
+        test('cherry pick topic submit', () => {
+          const dialog = element.$.confirmCherrypick;
+          dialog.branch = 'random';
+          MockInteractions.tap(dialog.shadowRoot.
+              querySelector('gr-dialog').$.confirm);
+          flush(() => {
+            assert.deepEqual(fireActionStub.args[0][4], changes[0]);
+            assert.deepEqual(fireActionStub.args[1][4], changes[1]);
+          });
+        });
+
+        test('changes with duplicate project show an error', done => {
+          const dialog = element.$.confirmCherrypick;
+          const error = dialog.shadowRoot.querySelector('.error-message');
+          assert.equal(error.innerText, '');
+          dialog.updateChanges([
+            {
+              change_id: '12345678901234', topic: 'T', subject: 'random',
+              project: 'A',
+            },
+            {
+              change_id: '23456', topic: 'T', subject: 'a'.repeat(100),
+              project: 'A',
+            },
+          ]);
+          flush(() => {
+            assert.equal(error.innerText, 'Two changes cannot be of the same'
+             + ' project');
+            done();
+          });
+        });
       });
     });
 
@@ -1703,6 +1807,7 @@ suite('gr-change-actions tests', () => {
       setup(() => {
         cleanup = sinon.stub();
         element.changeNum = 42;
+        element.change._number = 42;
         element.latestPatchNum = 12;
         payload = {foo: 'bar'};
 
@@ -1723,6 +1828,8 @@ suite('gr-change-actions tests', () => {
               'getResponseObject');
           sandbox.stub(Gerrit.Nav,
               'navigateToChange').returns(Promise.resolve(true));
+          sandbox.stub(element, 'computeLatestPatchNum')
+              .returns(element.latestPatchNum);
         });
 
         test('change action', done => {

@@ -27,6 +27,7 @@ export const htmlTemplate = html`
       }
       label {
         cursor: pointer;
+        font-weight: var(--font-weight-bold);
       }
       .main {
         display: flex;
@@ -44,25 +45,97 @@ export const htmlTemplate = html`
         line-height: var(--line-height-mono);
         width: 73ch; /* Add a char to account for the border. */
       }
+      .cherryPickTopicLayout {
+        display: flex;
+      }
+      .cherryPickSingleChange, .cherryPickTopic {
+        margin-left: var(--spacing-m);
+        margin-bottom: var(--spacing-m);
+      }
+      .cherry-pick-topic-message {
+        margin-bottom: var(--spacing-m);
+      }
+      label[for='messageInput'] , label[for='baseInput'] {
+        margin-top: var(--spacing-m);
+      }
+      .title {
+        font-weight: var(--font-weight-bold);
+      }
+      tr > td {
+        padding: var(--spacing-m);
+      }
+      .error {
+        color: var(--error-text-color);
+      }
+      .error-message {
+        color: var(--error-text-color);
+        margin: var(--spacing-m) 0 var(--spacing-m) 0;
+      }
     </style>
-    <gr-dialog confirm-label="Cherry Pick" on-confirm="_handleConfirmTap" on-cancel="_handleCancelTap">
-      <div class="header" slot="header">Cherry Pick Change to Another Branch</div>
+    <gr-dialog confirm-label="Cherry Pick" cancel-label="[[_computeCancelLabel(_statuses)]]" disabled\$="[[_computeDisableCherryPick(_cherryPickType, _duplicateProjectChanges, _statuses)]]" on-confirm="_handleConfirmTap" on-cancel="_handleCancelTap">
+      <div class="header title" slot="header">Cherry Pick Change to Another Branch</div>
       <div class="main" slot="main">
+
+        <template is="dom-if" if="[[_showCherryPickTopic]]">
+          <div class="cherryPickTopicLayout">
+            <input name="cherryPickOptions" type="radio" id="cherryPickSingleChange" on-change="_handlecherryPickSingleChangeClicked" checked="">
+            <label for="cherryPickSingleChange" class="cherryPickSingleChange">
+              Cherry Pick single change
+            </label>
+          </div>
+          <div class="cherryPickTopicLayout">
+            <input name="cherryPickOptions" type="radio" id="cherryPickTopic" on-change="_handlecherryPickTopicClicked">
+            <label for="cherryPickTopic" class="cherryPickTopic">
+              Cherry Pick entire topic ([[_changesCount]] Changes)
+            </label>
+        </div></template>
+
         <label for="branchInput">
           Cherry Pick to branch
         </label>
         <gr-autocomplete id="branchInput" text="{{branch}}" query="[[_query]]" placeholder="Destination branch">
         </gr-autocomplete>
-        <label for="baseInput">
-          Provide base commit sha1 for cherry-pick
-        </label>
-        <iron-input maxlength="40" placeholder="(optional)" bind-value="{{baseCommit}}">
-          <input is="iron-input" id="baseCommitInput" maxlength="40" placeholder="(optional)" bind-value="{{baseCommit}}">
-        </iron-input>
-        <label for="messageInput">
-          Cherry Pick Commit Message
-        </label>
-        <iron-autogrow-textarea id="messageInput" class="message" autocomplete="on" rows="4" max-rows="15" bind-value="{{message}}"></iron-autogrow-textarea>
+        <template is="dom-if" if="[[_computeIfSinglecherryPick(_cherryPickType)]]">
+          <label for="baseInput">
+            Provide base commit sha1 for cherry-pick
+          </label>
+          <iron-input maxlength="40" placeholder="(optional)" bind-value="{{baseCommit}}">
+            <input is="iron-input" id="baseCommitInput" maxlength="40" placeholder="(optional)" bind-value="{{baseCommit}}">
+          </iron-input>
+          <label for="messageInput">
+            Cherry Pick Commit Message
+          </label> 
+        </template>
+        <template is="dom-if" if="[[_computeIfSinglecherryPick(_cherryPickType)]]">
+          <iron-autogrow-textarea id="messageInput" class="message" autocomplete="on" rows="4" max-rows="15" bind-value="{{message}}"></iron-autogrow-textarea>
+        </template>
+        <template is="dom-if" if="[[_computeIfCherryPickTopic(_cherryPickType)]]">
+          <span class="error-message">[[_computeTopicErrorMessage(_duplicateProjectChanges)]]</span>
+          <span class="cherry-pick-topic-message"> Commit Message will be auto generated </span>
+          <table>
+            <thead>
+              <tr>
+                <th> Change </th>
+                <th> Subject </th>
+                <th> Project </th>
+                <th> Status </th>
+                <!-- Error Message -->
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <template is="dom-repeat" items="[[changes]]">
+                <tr>
+                  <td> <span> [[_getChangeId(item)]] </span> </td>
+                  <td> <span> [[_getTrimmedChangeSubject(item.subject)]] </span> </td>
+                  <td> <span> [[item.project]] </span> </td>
+                  <td> <span> [[_computeStatus(item, _statuses)]] </span> </td>
+                  <td> <span class="error"> [[_computeError(item, _statuses)]] </span>  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </template>
       </div>
     </gr-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -16,6 +16,24 @@
       "revId": "f315ea343c02218fd811e435e2f0be5878ae3f9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de09bb6_fbc3a242",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-19T10:25:08Z",
+      "side": 1,
+      "message": "No problem.\n\nYou are right about the interface being the better and cleaner way to get this sorted, but it exceeds the amount of work I can do ad-hoc.\n\nAs for the interface, there aren\u0027t just two cases (direct vs. for review), there is also the case that Gerrit updates the ref from the WebUI. Trivially, that looks like a direct push, but it is not.\n\nSo the question is if we want to proceed with this as a bug fix while a cleaner solution is in the works. WDYT?",
+      "parentUuid": "ab260c84_f6d551e2",
+      "revId": "f315ea343c02218fd811e435e2f0be5878ae3f9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

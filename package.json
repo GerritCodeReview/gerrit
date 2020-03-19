@@ -13,7 +13,8 @@
     "fried-twinkie": "^0.2.2",
     "polymer-cli": "^1.9.11",
     "typescript": "^3.7.4",
-    "web-component-tester": "^6.5.1"
+    "web-component-tester": "^6.5.1",
+    "@lhci/cli": "0.3.9"
   },
   "scripts": {
     "clean": "git clean -fdx && bazel clean --expunge",
@@ -22,7 +23,8 @@
     "eslint": "./node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app",
     "eslintfix": "npm run eslint -- --fix",
     "test-template": "./polygerrit-ui/app/run_template_test.sh",
-    "polylint": "if [[ -z `which bazelisk 2>/dev/null` ]]; then bazel_bin=bazel; else bazel_bin=bazelisk; fi && $bazel_bin test polygerrit-ui/app:polylint_test"
+    "polylint": "if [[ -z `which bazelisk 2>/dev/null` ]]; then bazel_bin=bazel; else bazel_bin=bazelisk; fi && $bazel_bin test polygerrit-ui/app:polylint_test",
+    "lhci": "lhci autorun"
   },
   "repository": {
     "type": "git",

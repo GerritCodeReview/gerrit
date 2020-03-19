@@ -50,8 +50,8 @@ public class PatchList implements Serializable {
 
   @VisibleForTesting
   static int comparePaths(String a, String b) {
-    int m1 = Patch.isMagic(a) ? (a.equals(Patch.MERGE_LIST) ? 2 : 1) : 3;
-    int m2 = Patch.isMagic(b) ? (b.equals(Patch.MERGE_LIST) ? 2 : 1) : 3;
+    int m1 = a.equals(Patch.COMMIT_MSG) ? 1 : (a.equals(Patch.MERGE_LIST) ? 2 : 3);
+    int m2 = b.equals(Patch.COMMIT_MSG) ? 1 : (b.equals(Patch.MERGE_LIST) ? 2 : 3);
 
     if (m1 != m2) {
       return m1 - m2;

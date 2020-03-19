@@ -46,21 +46,21 @@ public class PatchList implements Serializable {
   private static final long serialVersionUID = PatchListKey.serialVersionUID;
 
   private static final Comparator<PatchListEntry> PATCH_CMP =
-      Comparator.comparing(PatchListEntry::getNewName, PatchList::comparePaths);
+      Comparator.comparing(PatchListEntry::getNewName, PatchList::magicFilesFirst)
+          .thenComparing(PatchListEntry::getNewName, Comparator.naturalOrder());
 
   @VisibleForTesting
-  static int comparePaths(String a, String b) {
-    int m1 = Patch.isMagic(a) ? (a.equals(Patch.MERGE_LIST) ? 2 : 1) : 3;
-    int m2 = Patch.isMagic(b) ? (b.equals(Patch.MERGE_LIST) ? 2 : 1) : 3;
-
-    if (m1 != m2) {
-      return m1 - m2;
-    } else if (m1 < 3) {
+  static int magicFilesFirst(String a, String b) {
+    boolean aIsMagic = Patch.isMagic(a);
+    boolean bIsMagic = Patch.isMagic(b);
+    if ((aIsMagic && bIsMagic) || (!aIsMagic && !bIsMagic)) {
       return 0;
     }
-
-    // m1 == m2 == 3: normal names.
-    return a.compareTo(b);
+    if (aIsMagic) {
+      return -1;
+    }
+    // if bisMagic
+    return 1;
   }
 
   @Nullable private transient ObjectId oldId;

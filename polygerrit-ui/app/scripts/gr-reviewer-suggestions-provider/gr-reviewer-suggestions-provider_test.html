@@ -26,14 +26,12 @@ limitations under the License.
 <script type="module" src="../../test/test-pre-setup.js"></script>
 <script type="module" src="../../test/common-test-setup.js"></script>
 <script type="module" src="../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js"></script>
-<script type="module" src="../gr-display-name-utils/gr-display-name-utils.js"></script>
 <script type="module" src="./gr-reviewer-suggestions-provider.js"></script>
 
 <script type="module">
 import '../../test/test-pre-setup.js';
 import '../../test/common-test-setup.js';
 import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-display-name-utils/gr-display-name-utils.js';
 import './gr-reviewer-suggestions-provider.js';
 void(0);
 </script>
@@ -48,8 +46,9 @@ void(0);
 import '../../test/test-pre-setup.js';
 import '../../test/common-test-setup.js';
 import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-display-name-utils/gr-display-name-utils.js';
 import './gr-reviewer-suggestions-provider.js';
+import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
+
 suite('GrReviewerSuggestionsProvider tests', () => {
   let sandbox;
   let _nextAccountId = 0;

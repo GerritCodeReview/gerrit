@@ -23,12 +23,9 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 class GerritSimulation extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
 
-  private val root: String = "data"
   private val path: String = this.getClass.getPackage.getName.replaceAllLiterally(".", "/")
-
   protected val name: String = this.getClass.getSimpleName
-  protected val core: String = s"$root/$name.json"
-  protected val added: String = s"$root/$path/$name.json"
+  protected val added: String = s"data/$path/$name.json"
 
   protected val httpRequest: HttpRequestBuilder = http(name).post("${url}")
   protected val httpProtocol: HttpProtocolBuilder = http.basicAuth(

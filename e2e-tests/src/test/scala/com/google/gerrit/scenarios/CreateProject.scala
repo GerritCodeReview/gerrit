@@ -19,7 +19,7 @@ import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
 class CreateProject extends GerritSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(core).queue
+  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(added).queue
 
   val test: ScenarioBuilder = scenario(name)
       .feed(data)

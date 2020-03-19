@@ -34,6 +34,24 @@
       "revId": "5549af5b8bbbcaf83ba36ec178d41eb136a63115",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c09fe87e_81d2d993",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-19T16:30:20Z",
+      "side": 1,
+      "message": "sorry for getting back to you so late :) This may not look pretty when you have a smaller line-length :) \n\nhow about show an edit icon on latest patchset when you hover on any line ? similar to what gwt has I believe.",
+      "parentUuid": "1a34b23a_d7b061b1",
+      "revId": "5549af5b8bbbcaf83ba36ec178d41eb136a63115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

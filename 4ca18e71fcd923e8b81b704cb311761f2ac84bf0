@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "844d98f7_33fed5ba",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-19T16:43:40Z",
+      "side": 1,
+      "message": "nit: The name does not match what the class is doing. Call it ExternalGroupKeyReader?",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "4ca18e71fcd923e8b81b704cb311761f2ac84bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bbf8aa6_d7a12775",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-19T16:43:40Z",
+      "side": 1,
+      "message": "nit: revision usually means a commit in a Git repo which this is not.\n\nMaybe call it currentKey().\n\nWould be good to have JavaDoc on the method and the class.",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 28
+      },
+      "revId": "4ca18e71fcd923e8b81b704cb311761f2ac84bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c421f694_d89fba89",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-19T16:43:40Z",
+      "side": 1,
+      "message": "nit: just inline this in the other method.",
+      "revId": "4ca18e71fcd923e8b81b704cb311761f2ac84bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a40d74d_c7cdf088",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-19T16:43:40Z",
+      "side": 1,
+      "message": "nit: RefNames.REFS_GROUPS (that also has the trailing slash, which we include for prefixes usually)",
+      "range": {
+        "startLine": 52,
+        "startChar": 66,
+        "endLine": 52,
+        "endChar": 77
+      },
+      "revId": "4ca18e71fcd923e8b81b704cb311761f2ac84bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a32e977a_231d16b4",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-19T16:43:40Z",
+      "side": 1,
+      "message": "Please reuse the list",
+      "range": {
+        "startLine": 54,
+        "startChar": 24,
+        "endLine": 54,
+        "endChar": 76
+      },
+      "revId": "4ca18e71fcd923e8b81b704cb311761f2ac84bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc9b00ee_62cb6c38",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-19T16:43:40Z",
+      "side": 1,
+      "message": "less array copying and less code:\n\nreturn Hashing.murmur3_128().hashBytes(buf.array()).toString;",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 31
+      },
+      "revId": "4ca18e71fcd923e8b81b704cb311761f2ac84bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e320da99_e3c028ed",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-19T16:43:40Z",
+      "side": 1,
+      "message": "This will make it so that we\u0027d have to compute the hash key every time we receive the value from the cache.\n\nUsually, that\u0027s 1x per request and even that we could reduce (from your caller analysis, it seems that most calls are used by logging, which we could move the be lazy - the logger then just calls the method if it really needs to log, which for atFine logs only happens when requests are traced for debugging) to only a small number of requests.\n\nMy main concern is AccountControl which calls the cache for each user it checks visibility on. If the key computation takes a low number of milliseconds - say 5ms - but we do it 100 times on a request, that would add 0.5s.\n\nThere are two ways to solve this:\n1) Have an in-memory cache with the same key that we have now, leave eviction in place. Change the loader to get the value from a new cache. That has the hash as key and is persisted. Sounds complicated, but I bet it\u0027s just a couple of lines of code.\n2) Rework AccountControl to not query the same cache for the same key n times per request, but only once. Minimize the other callers.",
+      "revId": "4ca18e71fcd923e8b81b704cb311761f2ac84bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

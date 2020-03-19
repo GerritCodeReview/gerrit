@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b735ea5d_c5ea3ff9",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T14:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e42f46b_db1a26b0",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db424a3_e4f62854",
         "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
         "patchSetId": 3
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a9557caa_ea858ce5",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T14:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "843d486f_acd1a275",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 3
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576b6d21_8fcef770",
         "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
         "patchSetId": 3
@@ -92,6 +140,30 @@
       "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8a0de1a_08ca5908",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T14:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576b6d21_8fcef770",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 37
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "37a9e1c5_2c7b4bbb",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T14:30:16Z",
+      "side": 1,
+      "message": "I followed the way it was done in LdapGroupBackend (https://gerrit.googlesource.com/gerrit/+/c974ed78686582ac6f47b2ada36c1ea9796e3c95/gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java#145).\n\nWe anyway need to pass-in the uuid parameter to this method to follow the interface definition.",
+      "parentUuid": "9a828f3d_96a20de8",
+      "range": {
+        "startLine": 58,
+        "startChar": 15,
+        "endLine": 58,
+        "endChar": 19
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3a261f0_0401fda9",
         "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
         "patchSetId": 3
@@ -138,6 +234,30 @@
       "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92cd7ffa_959cd654",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T14:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3a261f0_0401fda9",
+      "range": {
+        "startLine": 87,
+        "startChar": 35,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "7f8c86f7_3233fcdd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T14:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "584065f2_9b29eb77",
+      "range": {
+        "startLine": 61,
+        "startChar": 34,
+        "endLine": 61,
+        "endChar": 52
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c53f7_312949fa",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 3
@@ -184,6 +328,30 @@
       "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "708bb092_03f76baf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-19T14:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d04c53f7_312949fa",
+      "range": {
+        "startLine": 217,
+        "startChar": 16,
+        "endLine": 217,
+        "endChar": 20
+      },
+      "revId": "51b10c8400347f68b995c03d216b1327d970f9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

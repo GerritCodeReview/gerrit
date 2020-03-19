@@ -44,6 +44,11 @@ void(0);
 import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
 import './gr-confirm-cherrypick-dialog.js';
+
+const CHERRY_PICK_TYPES = {
+  SINGLE_CHANGE: 1,
+  TOPIC: 2,
+};
 suite('gr-confirm-cherrypick-dialog tests', () => {
   let element;
   let sandbox;
@@ -106,6 +111,35 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     element._getProjectBranchesSuggestions('nonexistent').then(branches => {
       assert.equal(branches.length, 0);
       done();
+    });
+  });
+
+  suite('cherry pick topic', () => {
+    const changes = [
+      {
+        change_id: '12345678901234', topic: 'T', subject: 'random',
+        project: 'A',
+      },
+      {
+        change_id: '23456', topic: 'T', subject: 'a'.repeat(100),
+        project: 'B',
+      },
+    ];
+    setup(() => {
+      element.updateChanges(changes);
+      element._cherryPickType = CHERRY_PICK_TYPES.TOPIC;
+    });
+
+    test('submit button is blocked while cherry picks is running', done => {
+      console.log(element);
+      const confirmButton = element.shadowRoot.querySelector('gr-dialog').$
+          .confirm;
+      assert.isFalse(confirmButton.hasAttribute('disabled'));
+      element.updateStatus(changes[0], {status: 'RUNNING'});
+      flush(() => {
+        assert.isTrue(confirmButton.hasAttribute('disabled'));
+        done();
+      });
     });
   });
 

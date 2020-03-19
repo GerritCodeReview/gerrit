@@ -1,0 +1,22 @@
+{
+  "ci": {
+    "assert": {
+      "assertions": {
+        "categories:accessibility": ["error", {"minScore": 0.7}],
+        "button-name": ["error", {}]
+      }
+    },
+    "collect": {
+      "startServerCommand": "polygerrit-ui/run-server.sh",
+      "url": [
+        "http://localhost:8081/",
+        "http://localhost:8081/c/gerrit/+/259558",
+        "http://localhost:8081/c/gerrit/+/259558/2/polygerrit-ui/server.go"
+      ],
+      "numberOfRuns": 1
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

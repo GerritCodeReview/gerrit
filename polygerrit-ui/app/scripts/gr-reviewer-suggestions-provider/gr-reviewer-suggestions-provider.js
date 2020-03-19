@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
+
 (function(window) {
   'use strict';
   window.Gerrit = window.Gerrit || {};

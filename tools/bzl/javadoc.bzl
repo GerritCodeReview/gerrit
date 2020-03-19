@@ -32,7 +32,7 @@ def _impl(ctx):
         "export TZ",
         "rm -rf %s" % source,
         "mkdir %s" % source,
-        " && ".join(["unzip -qud %s %s" % (source, j.path) for j in source_jars.to_list()]),
+        " && ".join(["unzip -qoud %s %s" % (source, j.path) for j in source_jars.to_list()]),
         "rm -rf %s" % dir,
         "mkdir %s" % dir,
         " ".join([

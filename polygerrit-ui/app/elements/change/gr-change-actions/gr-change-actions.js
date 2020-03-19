@@ -462,7 +462,6 @@ class GrChangeActions extends mixinBehaviors( [
         type: Boolean,
         value: true,
       },
-      _revertChanges: Array,
     };
   }
 
@@ -1289,12 +1288,12 @@ class GrChangeActions extends mixinBehaviors( [
    * @param {boolean} revAction
    * @param {!Object|string=} opt_payload
    */
-  _fireAction(endpoint, action, revAction, opt_payload) {
+  _fireAction(endpoint, action, revAction, opt_payload, change) {
     const cleanupFn =
         this._setLoadingOnButtonWithKey(action.__type, action.__key);
 
     this._send(action.method, opt_payload, endpoint, revAction, cleanupFn,
-        action).then(this._handleResponse.bind(this, action));
+        action, change).then(this._handleResponse.bind(this, action));
   }
 
   _showActionDialog(dialog) {
@@ -1362,7 +1361,7 @@ class GrChangeActions extends mixinBehaviors( [
     this._hideAllDialogs();
   }
 
-  _handleResponseError(action, response, body) {
+  _handleResponseError(action, response, body, change) {
     if (action && action.__key === RevisionActions.CHERRYPICK) {
       if (response && response.status === 409 &&
           body && !body.allow_conflicts) {
@@ -1392,8 +1391,7 @@ class GrChangeActions extends mixinBehaviors( [
       cleanupFn.call(this);
       this._handleResponseError(action, response, payload);
     };
-
-    return this.fetchChangeUpdates(this.change, this.$.restAPI)
+    return this.fetchChangeUpdates(change, this.$.restAPI)
         .then(result => {
           if (!result.isLatest) {
             this.fire('show-alert', {
@@ -1402,7 +1400,7 @@ class GrChangeActions extends mixinBehaviors( [
               action: 'Reload',
               callback: () => {
                 // Load the current change without any patch range.
-                Gerrit.Nav.navigateToChange(this.change);
+                Gerrit.Nav.navigateToChange(change);
               },
             });
 
@@ -1412,7 +1410,7 @@ class GrChangeActions extends mixinBehaviors( [
 
             return Promise.resolve();
           }
-          const patchNum = revisionAction ? this.latestPatchNum : null;
+          const patchNum = revisionAction ? latestPatchNum : null;
           return this.$.restAPI.executeChangeAction(this.changeNum, method,
               actionEndpoint, patchNum, payload, handleError)
               .then(response => {
@@ -1428,7 +1426,16 @@ class GrChangeActions extends mixinBehaviors( [
 
   _handleCherrypickTap() {
     this.$.confirmCherrypick.branch = '';
-    this._showActionDialog(this.$.confirmCherrypick);
+    this._cherryPickingTopic = false;
+    const query = `topic: "${this.change.topic}"`;
+    const options =
+      this.listChangesOptionsToHex(this.ListChangesOption.MESSAGES,
+          this.ListChangesOption.ALL_REVISIONS);
+    this.$.restAPI.getChanges('', query, undefined, options)
+        .then(changes => {
+          this.$.confirmCherrypick.updateChanges(changes);
+          this._showActionDialog(this.$.confirmCherrypick);
+        });
   }
 
   _handleMoveTap() {

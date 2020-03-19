@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ed4e620e_9a91b0f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-19T14:01:36Z",
+      "side": 1,
+      "message": "ya i think you can still deliver that important info without being so specific for our flow. like: IMPORTANT: this change depends on xxxx, it won\u0027t work without that change. should not that be enough ?",
+      "parentUuid": "a745099d_0198111b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8685b8cb_b8cf96ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "I thought about it, but we have the --dev-cdn for local development (https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/#running-locally-against-a-gerrit-test-site)\nIn this scenario we are using server.go as a cdn, so we can\u0027t modify index.html",
       "parentUuid": "85daede6_32145ce9",
+      "range": {
+        "startLine": 155,
+        "startChar": 50,
+        "endLine": 155,
+        "endChar": 72
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53b51327_ac5f754e",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-19T14:01:36Z",
+      "side": 1,
+      "message": "ah good to know, can you mention that in the comment ? in case people did not know that just go ahead and change it",
+      "parentUuid": "8667e815_ce03a9ca",
       "range": {
         "startLine": 155,
         "startChar": 50,

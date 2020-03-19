@@ -284,23 +284,17 @@ let GrReporting = Polymer({
    */
   appStarted() {
     this.timeEnd(TIMING.APP_STARTED);
-    this.pageLoaded();
+    this._reportNavResTimes();
   },
 
   /**
-   * Page load time and other metrics, should be reported at any time
-   * after navigation.
+   * Browser's n avigation and resource timings
    */
-  pageLoaded() {
-    if (this.performanceTiming.loadEventEnd === 0) {
-      console.error('pageLoaded should be called after window.onload');
-      this.async(this.pageLoaded, 100);
-    } else {
-      const perfEvents = Object.keys(this.performanceTiming.toJSON());
-      perfEvents.forEach(
-          eventName => this._reportPerformanceTiming(eventName)
-      );
-    }
+  _reportNavResTimes() {
+    const perfEvents = Object.keys(this.performanceTiming.toJSON());
+    perfEvents.forEach(
+        eventName => this._reportPerformanceTiming(eventName)
+    );
   },
 
   _reportPerformanceTiming(eventName, eventDetails) {

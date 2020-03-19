@@ -89,8 +89,8 @@ suite('gr-reporting tests', () => {
     ));
   });
 
-  test('pageLoaded', () => {
-    element.pageLoaded();
+  test('_reportNavResTimes', () => {
+    element._reportNavResTimes();
     assert.isTrue(
         element.reporter.calledWithExactly(
             'timing-report', 'UI Latency', 'NavResTime - loadEventEnd',

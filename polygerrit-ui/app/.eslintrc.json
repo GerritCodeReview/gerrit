@@ -75,7 +75,8 @@
     "no-undef": "off",
     "no-restricted-globals": [
       "error",
-      "GrDisplayNameUtils"
+      "GrDisplayNameUtils",
+      "GrAnnotation"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

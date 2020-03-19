@@ -71,6 +71,11 @@ public class ListSubject<S extends Subject, E> extends IterableSubject {
     return elementSubjectCreator.apply(check("lastElement()"), Iterables.getLast(list));
   }
 
+  public S hasPath() {
+    isNotNull();
+    return elementSubjectCreator.apply(check("lastElement()"), Iterables.getLast(list));
+  }
+
   public static class ListSubjectBuilder extends CustomSubjectBuilder {
 
     ListSubjectBuilder(FailureMetadata failureMetadata) {

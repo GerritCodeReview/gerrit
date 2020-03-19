@@ -24,6 +24,7 @@ public class PatchTest {
   public void isMagic() {
     assertThat(Patch.isMagic("/COMMIT_MSG")).isTrue();
     assertThat(Patch.isMagic("/MERGE_LIST")).isTrue();
+    assertThat(Patch.isMagic("/PATCHSET_LEVEL")).isTrue();
 
     assertThat(Patch.isMagic("/COMMIT_MSG/")).isFalse();
     assertThat(Patch.isMagic("COMMIT_MSG")).isFalse();

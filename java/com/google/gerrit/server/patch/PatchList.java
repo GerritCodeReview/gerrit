@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
@@ -133,7 +134,9 @@ public class PatchList implements Serializable {
   /** Find an entry by name, returning an empty entry if not present. */
   public PatchListEntry get(String fileName) {
     final int index = search(fileName);
-    return 0 <= index ? patches[index] : PatchListEntry.empty(fileName);
+    return 0 <= index && !fileName.equals(PATCHSET_LEVEL)
+        ? patches[index]
+        : PatchListEntry.empty(fileName);
   }
 
   private int search(String fileName) {

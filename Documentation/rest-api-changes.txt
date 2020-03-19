@@ -5723,6 +5723,10 @@ information and the committer information.
 The list of commits that are being integrated into the destination
 branch by submitting the merge commit.
 
+* `/PATCHSET_LEVEL`:
++
+Always empty. This path includes patchset level comments.
+
 [[fix-id]]
 === \{fix-id\}
 UUID of a suggested fix.

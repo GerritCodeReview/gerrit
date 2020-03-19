@@ -24,6 +24,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
@@ -1446,6 +1447,15 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertContent(r, FILE_NAME, FILE_CONTENT);
     assertContent(r, COMMIT_MSG, r.getCommit().getFullMessage());
+
+    assertThrows(
+        ResourceNotFoundException.class,
+        () ->
+            gApi.changes()
+                .id(r.getChangeId())
+                .revision(r.getCommit().name())
+                .file(PATCHSET_LEVEL)
+                .content());
   }
 
   @Test

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
@@ -600,6 +601,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         ensureLineIsNonNegative(comment.line, path);
         ensureCommentNotOnMagicFilesOfAutoMerge(path, comment);
         ensureRangeIsValid(path, comment.range);
+        ensureValidPatchsetLevelComment(path, comment);
       }
     }
   }
@@ -638,6 +640,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
+  private static <T extends CommentInput> void ensureValidPatchsetLevelComment(
+      String path, T comment) throws BadRequestException {
+    if (path.equals(PATCHSET_LEVEL)
+        && (comment.side != null || comment.range != null || comment.line != null)) {
+      throw new BadRequestException("Patchset level comments can't have side, range, or line");
+    }
+  }
+
   private void checkRobotComments(
       RevisionResource revision, Map<String, List<RobotCommentInput>> in)
       throws BadRequestException, PatchListNotAvailableException {
@@ -647,7 +657,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (RobotCommentInput c : e.getValue()) {
         ensureRobotIdIsSet(c.robotId, commentPath);
         ensureRobotRunIdIsSet(c.robotRunId, commentPath);
-        ensureFixSuggestionsAreAddable(c.fixSuggestions, commentPath);
+        ensureFixSuggestionsAreAddableForNonPatchsetLevelComments(c.fixSuggestions, commentPath);
         // Size is validated later, in CommentLimitsValidator.
       }
     }
@@ -670,13 +680,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private static void ensureFixSuggestionsAreAddable(
+  private static void ensureFixSuggestionsAreAddableForNonPatchsetLevelComments(
       List<FixSuggestionInfo> fixSuggestionInfos, String commentPath) throws BadRequestException {
     if (fixSuggestionInfos == null) {
       return;
     }
 
     for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
+      if (commentPath.equals(PATCHSET_LEVEL)) {
+        throw new BadRequestException("Patchset level robot comments can't have fix suggestions");
+      }
       ensureDescriptionIsSet(commentPath, fixSuggestionInfo.description);
       ensureFixReplacementsAreAddable(commentPath, fixSuggestionInfo.replacements);
     }

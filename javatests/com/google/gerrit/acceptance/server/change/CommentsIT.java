@@ -18,7 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.entities.Patch.COMMIT_MSG;
+import static com.google.gerrit.entities.Patch.MERGE_LIST;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
@@ -173,6 +177,77 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(comment)
           .isEqualTo(infoToInput(file).apply(getPublishedComment(changeId, revId, actual.id)));
     }
+  }
+
+  @Test
+  public void PatchsetLevelCommentCanBeAddedAndRetrieved() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = newPatchsetLevelComment(PATCHSET_LEVEL, "comment");
+    addComments(changeId, ps1, comment);
+
+    Map<String, List<CommentInfo>> results = getPublishedComments(changeId, ps1);
+    assertThat(results).hasSize(1);
+    assertThat(results.containsKey(PATCHSET_LEVEL)).isTrue();
+    assertThatMap(results).keys().containsExactly(PATCHSET_LEVEL);
+    assertThatMap(results).values().hasSize(1);
+  }
+
+  @Test
+  public void patchsetLevelCommentCantHaveLine() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput input = newComment(PATCHSET_LEVEL, "comment");
+    input.line = 1;
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, input));
+    assertThat(ex.getMessage())
+        .isEqualTo("Patchset level comments can't have side, range, or line");
+  }
+
+  @Test
+  public void patchsetLevelCommentCantHaveRange() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput input = newComment(PATCHSET_LEVEL, "comment");
+    input.range = createLineRange(1, 3);
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, input));
+    assertThat(ex.getMessage())
+        .isEqualTo("Patchset level comments can't have side, range, or line");
+  }
+
+  @Test
+  public void patchsetLevelCommentCantHaveSide() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput input = newComment(PATCHSET_LEVEL, "comment");
+    input.side = Side.REVISION;
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, input));
+    assertThat(ex.getMessage())
+        .isEqualTo("Patchset level comments can't have side, range, or line");
+  }
+
+  @Test
+  public void PatchsetLevelDraftCommentCanBeAddedAndRetrieved() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraft(PATCHSET_LEVEL, Side.REVISION, 0, "comment");
+    addDraft(changeId, revId, comment);
+    Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
+    assertThat(results).hasSize(1);
+    assertThatMap(results).keys().containsExactly(PATCHSET_LEVEL);
+    assertThatMap(results).values().hasSize(1);
   }
 
   @Test
@@ -1078,14 +1153,13 @@ public class CommentsIT extends AbstractDaemonTest {
     String ps4 = result4.getCommit().name();
 
     // 10th commit: Add (c7, c8) to PS4.
-    CommentInput c7 = newComment("c.txt", "comment 7");
-    CommentInput c8 = newComment("b.txt", "comment 8");
+    CommentInput c7 = newComment(COMMIT_MSG, "comment 7");
+    CommentInput c8 = newComment(MERGE_LIST, "comment 8");
     addComments(changeId, ps4, c7, c8);
 
     // 11th commit: Add (c9) to PS2.
-    CommentInput c9 = newComment("b.txt", "comment 9");
+    CommentInput c9 = newPatchsetLevelComment(PATCHSET_LEVEL, "comment 9");
     addComments(changeId, ps2, c9);
-
     List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
     assertThat(commentsBeforeDelete).hasSize(9);
     // PS1 has comments [c1, c2, c3, c4, c5].
@@ -1338,6 +1412,10 @@ public class CommentsIT extends AbstractDaemonTest {
 
   private static CommentInput newComment(String file, String message) {
     return newComment(file, Side.REVISION, 0, message, false);
+  }
+
+  private static CommentInput newPatchsetLevelComment(String file, String message) {
+    return populate(new CommentInput(), file, null, null, 0, message, false);
   }
 
   private static CommentInput newComment(

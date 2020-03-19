@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b60c8237_d4f6089c",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-19T16:05:04Z",
+      "side": 1,
+      "message": "i don\u0027t think this `1000` delay is good for metrics (i mean metrics are supposed to be accurate right ?) can not we find a better place to have this pageLoad event emitted ? And if the error is only intermittent, then maybe find the reason behind that and solve the root cause instead ?",
+      "parentUuid": "d8fbd578_e5ae1aed",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 38
+      },
+      "revId": "41cb4ee7fa021e535ebc6bbd115961fb7d771f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fafd9f13_a9465d12",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 1

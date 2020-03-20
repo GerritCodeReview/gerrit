@@ -144,6 +144,54 @@
     },
     {
       "key": {
+        "uuid": "bd6165d6_036b9c84",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T13:33:19Z",
+      "side": 1,
+      "message": "Yeah, I don\u0027t feel strongly. I will try renaming and see whether this works with all the dependent changes on top.",
+      "parentUuid": "fc980ea2_15afa140",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 48,
+        "endChar": 29
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8853d94f_2409a9e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T13:33:19Z",
+      "side": 1,
+      "message": "I think what you are proposing is this:\n\n  gr-account-label_html.js\n\n  @@ -45,8 +45,6 @@ export const htmlTemplate \u003d html`\n       \u003c/style\u003e\n       \u003cspan\u003e\n  -      \u003cgr-hovercard\u003e\n  -        \u003cgr-hovercard-account\u003e\u003c/gr-hovercard-account\u003e\n  -      \u003c/gr-hovercard\u003e\n  +      \u003cgr-hovercard-account\u003e\u003c/gr-hovercard-account\u003e\n         \u003ctemplate is\u003d\"dom-if\" if\u003d\"[[!hideAvatar]]\"\u003e\n           \u003cgr-avatar account\u003d\"[[account]]\" image-size\u003d\"32\"\u003e\u003c/gr-avatar\u003e\n         \u003c/template\u003e\n\n  gr-hovercard-account_html.js\n\n  @@ -64,4 +64,5 @@ export const htmlTemplate \u003d html`\n         }\n       \u003c/style\u003e\n  +    \u003cgr-hovercard for-parent\u003e\n       \u003cdiv class\u003d\"top\"\u003e\n         \u003cdiv class\u003d\"avatar\"\u003e\n  @@ -100,3 +101,4 @@ export const htmlTemplate \u003d html`\n         \u003c/div\u003e\n       \u003c/div\u003e\n  +    \u003c/gr-hovercard\u003e\n   `;\n\nThat would indeed be nicer, but the content of the hovercard is then nearly impossible to style: The stuff that you put into the \u003cgr-hovercard\u003e slot will be relocated to the hovercard container somewhere else in the DOM. That means the styles in \u003cgr-hovercard-account\u003e won\u0027t apply anymore. For that reason you cannot really put anything other than complete component inside of \u003cgr-hovercard\u003e. so it is unavoidable to have something like this somewhere:\n\n  \u003cgr-hovercard\u003e\n    \u003cgr-whatever-hovercard-content\u003e\n    \u003c/gr-whatever-hovercard-content\u003e\n  \u003c/gr-hovercard\u003e\n\nOf course, we could wrap these two elements in one component (gr-whatever-hovercard?), but that would be an extremely simple component that just adds a level of indirection.\n\nMaybe it is possible to write the gr-hovercard component in a smarter way avoiding this problem, but I am not aware of anything simple, so I would prefer to keep as is.\n\nWDYT?",
+      "parentUuid": "738c81c2_52d8abb6",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee25bc8e_9434489b",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
         "patchSetId": 18

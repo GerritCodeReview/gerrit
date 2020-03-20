@@ -303,13 +303,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
-        assertThrows(
-            AuthException.class,
-            () ->
-                gApi.changes()
-                    .id(r.getChange().getId().get())
-                    .current()
-                    .review(ReviewInput.approve()));
+        assertThrows(AuthException.class, () -> change(r).current().review(ReviewInput.approve()));
     assertThat(thrown).hasMessageThat().contains("is restricted");
   }
 
@@ -560,7 +554,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/for/master%topic=someTopic");
 
     // Verify before the cherry-pick that the change has exactly 1 message.
-    ChangeApi changeApi = gApi.changes().id(r.getChange().getId().get());
+    ChangeApi changeApi = change(r);
     assertThat(changeApi.get().messages).hasSize(1);
 
     // Cherry-pick the change to the other branch, that should fail with a conflict.

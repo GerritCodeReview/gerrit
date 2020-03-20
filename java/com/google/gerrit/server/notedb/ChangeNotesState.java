@@ -35,7 +35,7 @@ import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionStatus;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
@@ -56,7 +56,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AssigneeStatusUpdateProto;
-import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AttentionStatusProto;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AttentionSetUpdateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeColumnsProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerSetEntryProto;
@@ -119,7 +119,7 @@ public abstract class ChangeNotesState {
       ReviewerByEmailSet pendingReviewersByEmail,
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
-      List<AttentionStatus> attentionStatusUpdates,
+      List<AttentionSetUpdate> attentionSetUpdates,
       List<AssigneeStatusUpdate> assigneeUpdates,
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> changeMessages,
@@ -170,7 +170,7 @@ public abstract class ChangeNotesState {
         .pendingReviewersByEmail(pendingReviewersByEmail)
         .allPastReviewers(allPastReviewers)
         .reviewerUpdates(reviewerUpdates)
-        .attentionUpdates(attentionStatusUpdates)
+        .attentionSet(attentionSetUpdates)
         .assigneeUpdates(assigneeUpdates)
         .submitRecords(submitRecords)
         .changeMessages(changeMessages)
@@ -305,7 +305,8 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableList<ReviewerStatusUpdate> reviewerUpdates();
 
-  abstract ImmutableList<AttentionStatus> attentionUpdates();
+  /** Returns the most recent update (i.e. current status status) per user. */
+  abstract ImmutableList<AttentionSetUpdate> attentionSet();
 
   abstract ImmutableList<AssigneeStatusUpdate> assigneeUpdates();
 
@@ -384,7 +385,7 @@ public abstract class ChangeNotesState {
           .pendingReviewersByEmail(ReviewerByEmailSet.empty())
           .allPastReviewers(ImmutableList.of())
           .reviewerUpdates(ImmutableList.of())
-          .attentionUpdates(ImmutableList.of())
+          .attentionSet(ImmutableList.of())
           .assigneeUpdates(ImmutableList.of())
           .submitRecords(ImmutableList.of())
           .changeMessages(ImmutableList.of())
@@ -418,7 +419,7 @@ public abstract class ChangeNotesState {
 
     abstract Builder reviewerUpdates(List<ReviewerStatusUpdate> reviewerUpdates);
 
-    abstract Builder attentionUpdates(List<AttentionStatus> attentionUpdates);
+    abstract Builder attentionSet(List<AttentionSetUpdate> attentionSetUpdates);
 
     abstract Builder assigneeUpdates(List<AssigneeStatusUpdate> assigneeUpdates);
 
@@ -487,7 +488,7 @@ public abstract class ChangeNotesState {
 
       object.allPastReviewers().forEach(a -> b.addPastReviewer(a.get()));
       object.reviewerUpdates().forEach(u -> b.addReviewerUpdate(toReviewerStatusUpdateProto(u)));
-      object.attentionUpdates().forEach(u -> b.addAttentionStatus(toAttentionStatusProto(u)));
+      object.attentionSet().forEach(u -> b.addAttentionSetUpdate(toAttentionSetUpdateProto(u)));
       object.assigneeUpdates().forEach(u -> b.addAssigneeUpdate(toAssigneeStatusUpdateProto(u)));
       object
           .submitRecords()
@@ -571,12 +572,13 @@ public abstract class ChangeNotesState {
           .build();
     }
 
-    private static AttentionStatusProto toAttentionStatusProto(AttentionStatus attentionStatus) {
-      return AttentionStatusProto.newBuilder()
-          .setTimestampMillis(attentionStatus.timestamp().toEpochMilli())
-          .setAccount(attentionStatus.account().get())
-          .setOperation(attentionStatus.operation().name())
-          .setReason(attentionStatus.reason())
+    private static AttentionSetUpdateProto toAttentionSetUpdateProto(
+        AttentionSetUpdate attentionSetUpdate) {
+      return AttentionSetUpdateProto.newBuilder()
+          .setTimestampMillis(attentionSetUpdate.timestamp().toEpochMilli())
+          .setAccount(attentionSetUpdate.account().get())
+          .setOperation(attentionSetUpdate.operation().name())
+          .setReason(attentionSetUpdate.reason())
           .build();
     }
 
@@ -620,7 +622,7 @@ public abstract class ChangeNotesState {
               .allPastReviewers(
                   proto.getPastReviewerList().stream().map(Account::id).collect(toImmutableList()))
               .reviewerUpdates(toReviewerStatusUpdateList(proto.getReviewerUpdateList()))
-              .attentionUpdates(toAttentionUpdateList(proto.getAttentionStatusList()))
+              .attentionSet(toAttentionSetUpdateList(proto.getAttentionSetUpdateList()))
               .assigneeUpdates(toAssigneeStatusUpdateList(proto.getAssigneeUpdateList()))
               .submitRecords(
                   proto.getSubmitRecordList().stream()
@@ -719,15 +721,15 @@ public abstract class ChangeNotesState {
       return b.build();
     }
 
-    private static ImmutableList<AttentionStatus> toAttentionUpdateList(
-        List<AttentionStatusProto> protos) {
-      ImmutableList.Builder<AttentionStatus> b = ImmutableList.builder();
-      for (AttentionStatusProto proto : protos) {
+    private static ImmutableList<AttentionSetUpdate> toAttentionSetUpdateList(
+        List<AttentionSetUpdateProto> protos) {
+      ImmutableList.Builder<AttentionSetUpdate> b = ImmutableList.builder();
+      for (AttentionSetUpdateProto proto : protos) {
         b.add(
-            AttentionStatus.createFromRead(
+            AttentionSetUpdate.createFromRead(
                 Instant.ofEpochMilli(proto.getTimestampMillis()),
                 Account.id(proto.getAccount()),
-                AttentionStatus.Operation.valueOf(proto.getOperation()),
+                AttentionSetUpdate.Operation.valueOf(proto.getOperation()),
                 proto.getReason()));
       }
       return b.build();

@@ -16,7 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionStatus;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gson.Gson;
@@ -171,11 +171,11 @@ public class ChangeNoteUtil {
   private static class AttentionStatusInNoteDb {
 
     final String personIdent;
-    final AttentionStatus.Operation operation;
+    final AttentionSetUpdate.Operation operation;
     final String reason;
 
     AttentionStatusInNoteDb(
-        String personIndent, AttentionStatus.Operation operation, String reason) {
+        String personIndent, AttentionSetUpdate.Operation operation, String reason) {
       this.personIdent = personIndent;
       this.operation = operation;
       this.reason = reason;
@@ -183,7 +183,7 @@ public class ChangeNoteUtil {
   }
 
   /** The returned {@link Optional} holds the parsed entity or is empty if parsing failed. */
-  static Optional<AttentionStatus> attentionStatusFromJson(
+  static Optional<AttentionSetUpdate> attentionStatusFromJson(
       Instant timestamp, String attentionString) {
     AttentionStatusInNoteDb inNoteDb =
         gson.fromJson(attentionString, AttentionStatusInNoteDb.class);
@@ -193,18 +193,20 @@ public class ChangeNoteUtil {
     }
     Optional<Account.Id> account = NoteDbUtil.parseIdent(personIdent);
     return account.map(
-        id -> AttentionStatus.createFromRead(timestamp, id, inNoteDb.operation, inNoteDb.reason));
+        id ->
+            AttentionSetUpdate.createFromRead(timestamp, id, inNoteDb.operation, inNoteDb.reason));
   }
 
-  String attentionStatusToJson(AttentionStatus attentionStatus) {
+  String attentionSetUpdateToJson(AttentionSetUpdate attentionSetUpdate) {
     PersonIdent personIdent =
         new PersonIdent(
-            getUsername(attentionStatus.account()), getEmailAddress(attentionStatus.account()));
+            getUsername(attentionSetUpdate.account()),
+            getEmailAddress(attentionSetUpdate.account()));
     StringBuilder stringBuilder = new StringBuilder();
     appendIdentString(stringBuilder, personIdent.getName(), personIdent.getEmailAddress());
     return gson.toJson(
         new AttentionStatusInNoteDb(
-            stringBuilder.toString(), attentionStatus.operation(), attentionStatus.reason()));
+            stringBuilder.toString(), attentionSetUpdate.operation(), attentionSetUpdate.reason()));
   }
 
   static void appendIdentString(StringBuilder stringBuilder, String name, String emailAddress) {

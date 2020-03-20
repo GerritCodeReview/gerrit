@@ -40,6 +40,7 @@ import com.google.common.collect.Lists;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
@@ -61,6 +62,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
@@ -834,6 +836,10 @@ public abstract class AbstractDaemonTest {
 
   protected ChangeInfo info(String id) throws RestApiException {
     return gApi.changes().id(id).info();
+  }
+
+  protected ChangeApi change(Result r) throws RestApiException {
+    return gApi.changes().id(r.getChange().getId().get());
   }
 
   protected Optional<EditInfo> getEdit(String id) throws RestApiException {

@@ -216,6 +216,54 @@
     },
     {
       "key": {
+        "uuid": "d3c28436_3a176e4f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T21:30:02Z",
+      "side": 1,
+      "message": "I think after all I would like to stick with gr-hovercard-account, because for me the hovercard aspect is more important.",
+      "parentUuid": "bd6165d6_036b9c84",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 48,
+        "endChar": 29
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1f2ee5a_dc0574c4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T21:30:02Z",
+      "side": 1,
+      "message": "Rebased on top of your new hovercard behavior. PTAL",
+      "parentUuid": "9d0c86ea_b97e43bd",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee25bc8e_9434489b",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
         "patchSetId": 18
@@ -360,6 +408,24 @@
       "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9e13714_e8894d34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T21:30:02Z",
+      "side": 1,
+      "message": "Yeah, blame still works fine.",
+      "parentUuid": "20b14cff_90a93279",
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

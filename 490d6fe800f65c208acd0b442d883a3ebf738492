@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07258974_64899399",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractHttpPushTag.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-20T08:05:35Z",
+      "side": 1,
+      "message": "I\u0027m wondering if this isn\u0027t what sets the IdentifiedUser earlier in the test-scope than on a \"real\" Gerrit server. Is there another way to set the User.",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 83
+      },
+      "revId": "490d6fe800f65c208acd0b442d883a3ebf738492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

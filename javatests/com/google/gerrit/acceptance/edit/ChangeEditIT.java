@@ -114,6 +114,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void draft() throws Exception {}
+
+  @Test
   public void parseEditRevision() throws Exception {
     createArbitraryEditFor(changeId);
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16484c4e_b18c8c9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-20T19:37:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "071ca4b3_566fe4e3",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "3a50d306fe0997b3921c447734bc032517d234bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3d5207c_4e1e6efc",
         "filename": "polygerrit-ui/app/elements/gr-app-global-var-init.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "3a50d306fe0997b3921c447734bc032517d234bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4240174_f80d2c7e",
+        "filename": "polygerrit-ui/app/elements/gr-app-global-var-init.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-20T19:37:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3d5207c_4e1e6efc",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "3a50d306fe0997b3921c447734bc032517d234bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7ed7d995_7269b2dd",
+        "filename": "polygerrit-ui/app/elements/gr-app-global-var-init.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-20T19:37:39Z",
+      "side": 1,
+      "message": "Do you mean deprecated warning for initGlobalVariables function?\nOr for the global variable?\nI know how to do the first warning, but I don\u0027t know how to do the last one (if this is even possible)",
+      "parentUuid": "2b863830_eaf9a94d",
+      "range": {
+        "startLine": 28,
+        "startChar": 30,
+        "endLine": 28,
+        "endChar": 48
+      },
+      "revId": "3a50d306fe0997b3921c447734bc032517d234bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76ecc141_f6d51a03",
         "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider_test.html",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2020-03-19T16:21:16Z",
       "side": 1,
       "message": "just saw this, is this expected ? that we have them imported from script tag and also the module file below?\n\nditto on all other files",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 75
+      },
+      "revId": "3a50d306fe0997b3921c447734bc032517d234bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acd0be2c_da426ad0",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-20T19:37:39Z",
+      "side": 1,
+      "message": "This was done by polymer-modulizer, I also noticed it too late.\nI am going to have a separate change to cleanup these import, don\u0027t want to mix it with this change (just in case if it breaks some tests)",
+      "parentUuid": "76ecc141_f6d51a03",
       "range": {
         "startLine": 29,
         "startChar": 0,

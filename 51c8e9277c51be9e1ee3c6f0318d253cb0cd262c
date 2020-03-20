@@ -16,6 +16,24 @@
       "revId": "51c8e9277c51be9e1ee3c6f0318d253cb0cd262c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07d34f51_7a040f6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1568,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-20T09:35:57Z",
+      "side": 1,
+      "message": "I believe it\u0027s still valid. gr-confirm-rebase-dialog.rebaseOnCurrent should be null if changeRevisionActions is empty.",
+      "parentUuid": "566a5fd2_e3681bc1",
+      "revId": "51c8e9277c51be9e1ee3c6f0318d253cb0cd262c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "68bf666e_7f861240",
+        "filename": "polygerrit-ui/app/elements/gr-app-global-var-init.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-20T19:44:52Z",
+      "side": 1,
+      "message": "global variables, you have quite a few ways to do that. Like using `proxy`, or `Object.defineProperties` or `Object.defineProperty`:\n\n```\nObject.defineProperties(window, {\n  \"GrDisplayNameUtils\": {\n    get() {\n      console.warn(\"Please do not use GrDisplayNameUtils directly!\");\n      return GrDisplayNameUtils;\n    }\n  },\n});\n```\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties",
+      "parentUuid": "7ed7d995_7269b2dd",
+      "range": {
+        "startLine": 28,
+        "startChar": 30,
+        "endLine": 28,
+        "endChar": 48
+      },
+      "revId": "3a50d306fe0997b3921c447734bc032517d234bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76ecc141_f6d51a03",
         "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider_test.html",
         "patchSetId": 3
@@ -187,6 +211,30 @@
       "revId": "3a50d306fe0997b3921c447734bc032517d234bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5571174a_4e514dab",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-20T19:44:52Z",
+      "side": 1,
+      "message": "sg",
+      "parentUuid": "acd0be2c_da426ad0",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 75
+      },
+      "revId": "3a50d306fe0997b3921c447734bc032517d234bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

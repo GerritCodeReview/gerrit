@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d3edf4b_22f4674f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-20T08:56:35Z",
+      "side": 1,
+      "message": "A picture is worth a thousand words",
+      "revId": "7614b14c28662a35dc7284b0536f809c2e189454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

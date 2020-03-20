@@ -351,6 +351,24 @@
       "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b20a1b_6862fa54",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-20T07:53:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c15766d6_89f3f0f7",
+      "revId": "4250cb8218d8ca109acc4fe4d67db80c9833bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

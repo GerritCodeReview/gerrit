@@ -14,17 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-export const htmlTemplate = html`
-    <style include="gr-hovercard-shared-style">
-      #hovercard {
-        background: var(--dialog-background-color);
-        box-shadow: var(--elevation-level-2);
-        padding: var(--spacing-l);
+/** The shared styles for all hover cards. */
+const GrHoverCardSharedStyle = document.createElement('dom-module');
+GrHoverCardSharedStyle .innerHTML =
+  `<template>
+    <style include="shared-styles">
+      :host {
+        box-sizing: border-box;
+        opacity: 0;
+        position: absolute;
+        transition: opacity 200ms;
+        visibility: hidden;
+        z-index: 100;
+      }
+      :host(.hovered) {
+        visibility: visible;
+        opacity: 1;
       }
     </style>
-    <div id="hovercard" role="tooltip" tabindex="-1">
-      <slot></slot>
-    </div>
-`;
+  </template>`;
+
+GrHoverCardSharedStyle.register('gr-hovercard-shared-style');

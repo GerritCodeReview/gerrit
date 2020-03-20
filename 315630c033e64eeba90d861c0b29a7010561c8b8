@@ -22,6 +22,30 @@
       "revId": "315630c033e64eeba90d861c0b29a7010561c8b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5d58cd4_285b6eb0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-20T15:19:11Z",
+      "side": 1,
+      "message": "ya I was thinking doing that way initially, but since all existing behaviors are using the mixinBehaviors, I decided to go that way. But second thought, maybe its better to just use the latest syntax instead. Will update",
+      "parentUuid": "807ea3e8_54e29a5d",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "315630c033e64eeba90d861c0b29a7010561c8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

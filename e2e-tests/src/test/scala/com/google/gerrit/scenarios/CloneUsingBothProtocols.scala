@@ -21,7 +21,7 @@ import io.gatling.core.structure.ScenarioBuilder
 import scala.concurrent.duration._
 
 class CloneUsingBothProtocols extends GitSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(added).queue
+  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(resource).queue
 
   private val test: ScenarioBuilder = scenario(name)
       .feed(data)

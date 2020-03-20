@@ -21,7 +21,7 @@ import io.gatling.core.structure.ScenarioBuilder
 import scala.concurrent.duration._
 
 class ReplayRecordsFromFeeder extends GitSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(added).circular
+  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(resource).circular
 
   private val test: ScenarioBuilder = scenario(name)
       .repeat(10000) {

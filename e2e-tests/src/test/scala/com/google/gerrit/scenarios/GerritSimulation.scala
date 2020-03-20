@@ -25,7 +25,7 @@ class GerritSimulation extends Simulation {
 
   private val path: String = this.getClass.getPackage.getName.replaceAllLiterally(".", "/")
   protected val name: String = this.getClass.getSimpleName
-  protected val added: String = s"data/$path/$name.json"
+  protected val resource: String = s"data/$path/$name.json"
 
   protected val httpRequest: HttpRequestBuilder = http(name).post("${url}")
   protected val httpProtocol: HttpProtocolBuilder = http.basicAuth(

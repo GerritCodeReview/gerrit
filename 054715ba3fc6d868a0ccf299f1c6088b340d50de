@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ec0e59c_768bd065",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-03-20T17:43:32Z",
+      "side": 1,
+      "message": "the questions \"where?\", \"why?\", and \"tradeoffs?\" come to mind.\n\ni suppose you could also include before/after images of one small and one particularly crowded reviewer set.",
+      "revId": "054715ba3fc6d868a0ccf299f1c6088b340d50de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

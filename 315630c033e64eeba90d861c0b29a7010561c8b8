@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "807ea3e8_54e29a5d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T15:16:25Z",
+      "side": 1,
+      "message": "Defining this as a Behavior means that this has to be used as mixinBehavior, right? mixinBehavior is \"legacy\". Do you know what the \"proper\" way to handle this would be? Should we just define a class here and extend that?\n\nOr do it like this?\nhttps://polymer-library.polymer-project.org/2.0/docs/devguide/custom-elements#defining-mixins\nhttps://polymer-library.polymer-project.org/2.0/docs/devguide/registering-elements#using-mixins",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "315630c033e64eeba90d861c0b29a7010561c8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

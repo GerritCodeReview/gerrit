@@ -970,47 +970,68 @@ suite('gr-diff tests', () => {
       });
     });
   });
+  const setupSampleDiff = function(params) {
+    const {ignore_whitespace, content} = params;
+    element = fixture('basic');
+    element.prefs = {
+      ignore_whitespace: ignore_whitespace || 'IGNORE_ALL',
+      auto_hide_diff_table_header: true,
+      context: 10,
+      cursor_blink_rate: 0,
+      font_size: 12,
+      intraline_difference: true,
+      line_length: 100,
+      line_wrapping: false,
+      show_line_endings: true,
+      show_tabs: true,
+      show_whitespace_errors: true,
+      syntax_highlighting: true,
+      tab_size: 8,
+      theme: 'DEFAULT',
+    };
+    element.diff = {
+      intraline_status: 'OK',
+      change_type: 'MODIFIED',
+      diff_header: [
+        'diff --git a/carrot.js b/carrot.js',
+        'index 2adc47d..f9c2f2c 100644',
+        '--- a/carrot.js',
+        '+++ b/carrot.jjs',
+        'file differ',
+      ],
+      content,
+      binary: false,
+    };
+    element._renderDiffTable();
+    flushAsynchronousOperations();
+  };
+
+  test('clear diff table content as soon as diff changes', () => {
+    const content = [{
+      a: ['all work and no play make andybons a dull boy'],
+    }, {
+      b: [
+        'Non eram nescius, Brute, cum, quae summis ingeniis ',
+      ],
+    }];
+    function assertDiffTableWithContent() {
+      assert.isTrue(element.$.diffTable.innerText.includes(content[0].a));
+    }
+    setupSampleDiff({content});
+    assertDiffTableWithContent();
+    const diffCopy = Object.assign({}, element.diff);
+    element.diff = diffCopy;
+    // immediatelly cleaned up
+    assert.equal(element.$.diffTable.innerHTML, '');
+    element._renderDiffTable();
+    flushAsynchronousOperations();
+    // rendered again
+    assertDiffTableWithContent();
+  });
 
   suite('whitespace changes only message', () => {
-    const setupDiff = function(ignore_whitespace, diffContent) {
-      element = fixture('basic');
-      element.prefs = {
-        ignore_whitespace,
-        auto_hide_diff_table_header: true,
-        context: 10,
-        cursor_blink_rate: 0,
-        font_size: 12,
-        intraline_difference: true,
-        line_length: 100,
-        line_wrapping: false,
-        show_line_endings: true,
-        show_tabs: true,
-        show_whitespace_errors: true,
-        syntax_highlighting: true,
-        tab_size: 8,
-        theme: 'DEFAULT',
-      };
-
-      element.diff = {
-        intraline_status: 'OK',
-        change_type: 'MODIFIED',
-        diff_header: [
-          'diff --git a/carrot.js b/carrot.js',
-          'index 2adc47d..f9c2f2c 100644',
-          '--- a/carrot.js',
-          '+++ b/carrot.jjs',
-          'file differ',
-        ],
-        content: diffContent,
-        binary: true,
-      };
-
-      element._renderDiffTable();
-      flushAsynchronousOperations();
-    };
-
     test('show the message if ignore_whitespace is criteria matches', () => {
-      setupDiff('IGNORE_ALL', [{skip: 100}]);
+      setupSampleDiff({content: [{skip: 100}]});
       assert.isTrue(element.showNoChangeMessage(
           /* loading= */ false,
           element.prefs,
@@ -1019,7 +1040,7 @@ suite('gr-diff tests', () => {
     });
 
     test('do not show the message if still loading', () => {
-      setupDiff('IGNORE_ALL', [{skip: 100}]);
+      setupSampleDiff({content: [{skip: 100}]});
       assert.isFalse(element.showNoChangeMessage(
           /* loading= */ true,
           element.prefs,
@@ -1037,7 +1058,7 @@ suite('gr-diff tests', () => {
           'exquisitaque doctrina philosophi Graeco sermone tractavissent',
         ],
       }];
-      setupDiff('IGNORE_ALL', content);
+      setupSampleDiff({content});
       assert.equal(element._diffLength, 3);
       assert.isFalse(element.showNoChangeMessage(
           /* loading= */ false,
@@ -1056,7 +1077,7 @@ suite('gr-diff tests', () => {
           'exquisitaque doctrina philosophi Graeco sermone tractavissent',
         ],
       }];
-      setupDiff('IGNORE_NONE', content);
+      setupSampleDiff({ignore_whitespace: 'IGNORE_NONE', content});
       assert.isFalse(element.showNoChangeMessage(
           /* loading= */ false,
           element.prefs,

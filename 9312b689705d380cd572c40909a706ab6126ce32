@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b953b30c_2a55fe0f",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-20T08:10:23Z",
+      "side": 1,
+      "message": "verifyNoRefPermissions?",
+      "range": {
+        "startLine": 95,
+        "startChar": 15,
+        "endLine": 95,
+        "endChar": 35
+      },
+      "revId": "9312b689705d380cd572c40909a706ab6126ce32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

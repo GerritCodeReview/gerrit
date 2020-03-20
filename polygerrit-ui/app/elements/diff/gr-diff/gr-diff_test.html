@@ -702,6 +702,21 @@ suite('gr-diff tests', () => {
       assert.isFalse(element._createComment.called);
     });
 
+    test('clear diff table content as soon as diff changes', () => {
+      element._renderDiffTable();
+      element.$.diffTable.innerHTML = '<tr><td>Some diff content</td></tr>';
+      element.diff = {
+        meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
+          lines: 560},
+        diff_header: [],
+        intraline_status: 'OK',
+        change_type: 'MODIFIED',
+        content: [{skip: 66}],
+      };
+      assert.equal(element.$.diffTable.innerHTML, '');
+    });
+
     suite('change in preferences', () => {
       setup(() => {
         element.diff = {

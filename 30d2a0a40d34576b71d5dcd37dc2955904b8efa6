@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac8c30a7_d5567ad9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-03-20T18:06:53Z",
+      "side": 1,
+      "message": "attributes can be blurred? css is a *really* strange language ... 😄\n\n(the minimal fix would be to put the attribute into quotes, but you probably want to re-formulate and elaborate anyway.)",
+      "revId": "30d2a0a40d34576b71d5dcd37dc2955904b8efa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

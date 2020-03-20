@@ -737,14 +737,18 @@ class GrDiff extends mixinBehaviors( [
     this._prefsChanged(this.prefs);
   }
 
+  _cleanup() {
+    this.cancel();
+    this._blame = null;
+    this._safetyBypass = null;
+    this._showWarning = false;
+    this.clearDiffContent();
+  }
+
   /** @param {boolean} newValue */
   _loadingChanged(newValue) {
     if (newValue) {
-      this.cancel();
-      this._blame = null;
-      this._safetyBypass = null;
-      this._showWarning = false;
-      this.clearDiffContent();
+      this._cleanup();
     }
   }
 
@@ -785,6 +789,7 @@ class GrDiff extends mixinBehaviors( [
 
   _diffChanged(newValue) {
     if (newValue) {
+      this._cleanup();
       this._diffLength = this.getDiffLength(newValue);
       this._debounceRenderDiffTable();
     }
@@ -806,7 +811,6 @@ class GrDiff extends mixinBehaviors( [
   }
 
   _renderDiffTable() {
-    this._unobserveIncrementalNodes();
     if (!this.prefs) {
       this.dispatchEvent(
           new CustomEvent('render', {bubbles: true, composed: true}));

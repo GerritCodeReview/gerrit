@@ -63,8 +63,8 @@ see <<dev-bazel#tests,Running Unit Tests with Bazel>>.
 [[e2e]]
 === End-to-end tests
 
-<<dev-e2e-tests#,This document>> describes how load test scenarios are
-implemented using link:https://gatling.io/[`Gatling`].
+<<dev-e2e-tests#,This document>> describes how `e2e` (load or functional) test
+scenarios are implemented using link:https://gatling.io/[`Gatling`].
 
 
 == Local server

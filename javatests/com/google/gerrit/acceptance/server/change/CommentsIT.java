@@ -48,6 +48,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -85,6 +86,7 @@ public class CommentsIT extends AbstractDaemonTest {
   @Inject private Provider<ChangesCollection> changes;
   @Inject private Provider<PostReview> postReview;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private CommentsUtil commentsUtil;
 
   private final Integer[] lines = {0, 1};
 
@@ -446,6 +448,82 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void putDraft_idMismatch() throws Exception {
+    String file = "file";
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraft(file, Side.REVISION, 0, "foo");
+    CommentInfo commentInfo = addDraft(changeId, revId, comment);
+    DraftInput draftInput = newDraft(file, Side.REVISION, 0, "bar");
+    draftInput.id = "anything_but_" + commentInfo.id;
+    BadRequestException e =
+        assertThrows(
+            BadRequestException.class,
+            () -> updateDraft(changeId, revId, draftInput, commentInfo.id));
+    assertThat(e).hasMessageThat().contains("id must match URL");
+  }
+
+  @Test
+  public void putDraft_negativeLine() throws Exception {
+    String file = "file";
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraft(file, Side.REVISION, -666, "foo");
+    BadRequestException e =
+        assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, comment));
+    assertThat(e).hasMessageThat().contains("line must be >= 0");
+  }
+
+  @Test
+  public void putDraft_invalidRange() throws Exception {
+    String file = "file";
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput draftInput = newDraft(file, Side.REVISION, createLineRange(2, 3), "bar");
+    draftInput.line = 666;
+    BadRequestException e =
+        assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, draftInput));
+    assertThat(e)
+        .hasMessageThat()
+        .contains("range endLine must be on the same line as the comment");
+  }
+
+  @Test
+  public void putDraft_updatePath() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraft("file_foo", Side.REVISION, 0, "foo");
+    CommentInfo commentInfo = addDraft(changeId, revId, comment);
+    assertThat(getDraftComments(changeId, revId).keySet()).containsExactly("file_foo");
+    DraftInput draftInput = newDraft("file_bar", Side.REVISION, 0, "bar");
+    updateDraft(changeId, revId, draftInput, commentInfo.id);
+    assertThat(getDraftComments(changeId, revId).keySet()).containsExactly("file_bar");
+  }
+
+  @Test
+  public void putDraft_updateInReplyToAndTag() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput draftInput1 = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    CommentInfo commentInfo = addDraft(changeId, revId, draftInput1);
+    DraftInput draftInput2 = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    String inReplyTo = "in_reply_to";
+    String tag = "täg";
+    draftInput2.inReplyTo = inReplyTo;
+    draftInput2.tag = tag;
+    updateDraft(changeId, revId, draftInput2, commentInfo.id);
+    com.google.gerrit.entities.Comment comment =
+        Iterables.getOnlyElement(commentsUtil.draftByChange(r.getChange().notes()));
+    assertThat(comment.parentUuid).isEqualTo(inReplyTo);
+    assertThat(comment.tag).isEqualTo(tag);
+  }
+
+  @Test
   public void listDrafts() throws Exception {
     String file = "file";
     PushOneCommit.Result r = createChange();
@@ -677,15 +755,15 @@ public class CommentsIT extends AbstractDaemonTest {
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, createLineRange(1, 4, 10), "Is it that bad?"));
+        newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 10), "Is it that bad?"));
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
-        newDraft(FILE_NAME, Side.PARENT, createLineRange(1, 0, 7), "what happened to this?"));
+        newDraft(FILE_NAME, Side.PARENT, createLineRange(0, 7), "what happened to this?"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, createLineRange(1, 4, 15), "better now"));
+        newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 15), "better now"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
@@ -905,7 +983,7 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void deleteCommentCannotBeAppliedByUser() throws Exception {
     PushOneCommit.Result result = createChange();
-    CommentInput targetComment = addComment(result.getChangeId(), "My password: abc123");
+    CommentInput targetComment = addComment(result.getChangeId());
 
     Map<String, List<CommentInfo>> commentsMap =
         getPublishedComments(result.getChangeId(), result.getCommit().name());
@@ -1083,9 +1161,9 @@ public class CommentsIT extends AbstractDaemonTest {
         .collect(toList());
   }
 
-  private CommentInput addComment(String changeId, String message) throws Exception {
+  private CommentInput addComment(String changeId) throws Exception {
     ReviewInput input = new ReviewInput();
-    CommentInput comment = newComment(FILE_NAME, Side.REVISION, 0, message, false);
+    CommentInput comment = newComment(FILE_NAME, Side.REVISION, 0, "a message", false);
     input.comments = ImmutableMap.of(comment.path, Lists.newArrayList(comment));
     gApi.changes().id(changeId).current().review(input);
     return comment;
@@ -1240,7 +1318,7 @@ public class CommentsIT extends AbstractDaemonTest {
   private static CommentInput newCommentOnParent(
       String path, int parent, int line, String message) {
     CommentInput c = new CommentInput();
-    return populate(c, path, Side.PARENT, Integer.valueOf(parent), line, message, false);
+    return populate(c, path, Side.PARENT, parent, line, message, false);
   }
 
   private DraftInput newDraft(String path, Side side, int line, String message) {
@@ -1255,7 +1333,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   private DraftInput newDraftOnParent(String path, int parent, int line, String message) {
     DraftInput d = new DraftInput();
-    return populate(d, path, Side.PARENT, Integer.valueOf(parent), line, message, false);
+    return populate(d, path, Side.PARENT, parent, line, message, false);
   }
 
   private static <C extends Comment> C populate(
@@ -1284,11 +1362,11 @@ public class CommentsIT extends AbstractDaemonTest {
     return populate(c, path, side, parent, line, null, message, unresolved);
   }
 
-  private static Comment.Range createLineRange(int line, int startChar, int endChar) {
+  private static Comment.Range createLineRange(int startChar, int endChar) {
     Comment.Range range = new Comment.Range();
-    range.startLine = line;
+    range.startLine = 1;
     range.startCharacter = startChar;
-    range.endLine = line;
+    range.endLine = 1;
     range.endCharacter = endChar;
     return range;
   }

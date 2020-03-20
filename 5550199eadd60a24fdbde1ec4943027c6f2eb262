@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "b7421e61_0447aa7e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T12:18:11Z",
+      "side": 1,
+      "message": "I agree that gr-hovercard-content-account would be a better name.\n\nI like that \"gr-hovercard-...\" comes first, because then the directories are next to each other. And the component is firstly a content block for a hovercard and only secondly about accounts.\n\nWDYT?",
+      "parentUuid": "80b0c608_e9ede4f3",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 48,
+        "endChar": 29
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "057960fa_cec6481b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T12:18:11Z",
+      "side": 1,
+      "message": "I am not sure I understand. I guess we could rename gr-hovercard-account to gr-hovercard-account-content and then create a component gr-hovercard-account which basically is:\n\n\u003cgr-hovercard\u003e\n  \u003cgr-hovercard-account-content\u003e\n  \u003c/gr-hovercard-account-content\u003e\n\u003c/gr-hovercard\u003e\n\nI think this is too simple to warrant its own component. But maybe I have misunderstood your comment?",
+      "parentUuid": "23f62054_15137027",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee25bc8e_9434489b",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
         "patchSetId": 18
@@ -59,6 +107,30 @@
       "writtenOn": "2020-03-20T08:54:10Z",
       "side": 1,
       "message": "won\u0027t this a duplicate with the following imports ?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 98
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d2420ec_87523eb8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T12:18:11Z",
+      "side": 1,
+      "message": "This is identical in all tests. Not my doing. :-) But yeah, it would be interesting to ask Dmitrii why this is duplicated in all tests.",
+      "parentUuid": "ee25bc8e_9434489b",
       "range": {
         "startLine": 26,
         "startChar": 0,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "ecdf0562_dc9b73db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T12:18:11Z",
+      "side": 1,
+      "message": "No idea. :-) Dmitrii?",
+      "parentUuid": "e4972a2b_6f56e300",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60d27d46_8914896b",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.js",
         "patchSetId": 18
@@ -108,6 +204,24 @@
       "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7f7f8bd_a1ec3f22",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T12:18:11Z",
+      "side": 1,
+      "message": "\u003cgr-hovercard\u003e is unused. blame uses something different.",
+      "parentUuid": "60d27d46_8914896b",
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -131,6 +245,30 @@
       "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d1a5c3_66220ccf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard_html.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-20T12:18:11Z",
+      "side": 1,
+      "message": "You are absolutely right, but let me do this in a separate change.",
+      "parentUuid": "ffbb52ad_a320ae1c",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 20
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

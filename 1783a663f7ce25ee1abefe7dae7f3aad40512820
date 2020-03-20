@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8be2d4b3_ebe72c89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-03-20T17:57:15Z",
+      "side": 1,
+      "message": "which comments?",
+      "revId": "1783a663f7ce25ee1abefe7dae7f3aad40512820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e774957c_b8f57247",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-03-20T17:57:15Z",
+      "side": 1,
+      "message": "you have an atomicity problem here. you could move that line to Id2d46f5549 , or - even better - pull that other change ahead, where you would initially add these \"infrastructure\" functions for the existing field(s) and add the new conditions together with their fields in (now) later commits (as already the case for \"reviewers\").",
+      "revId": "1783a663f7ce25ee1abefe7dae7f3aad40512820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

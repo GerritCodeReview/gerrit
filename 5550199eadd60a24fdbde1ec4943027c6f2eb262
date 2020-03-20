@@ -96,6 +96,54 @@
     },
     {
       "key": {
+        "uuid": "738c81c2_52d8abb6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-20T12:32:00Z",
+      "side": 1,
+      "message": "thats not what I mean, why not just have a `gr-account-hovercard` and use it here ?\n\n```\n\u003cgr-account-hovercard\u003exxxx\u003c/gr-account-hovercard\u003e\n```\n\nwhy it has to be two DOM nodes ? I can see the hovercard used in a lot of other places, and yet seems no use case to use the inner content by itself ?",
+      "parentUuid": "057960fa_cec6481b",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc980ea2_15afa140",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-20T12:32:00Z",
+      "side": 1,
+      "message": "hmm i see. I treat them actually opposite, i think its closer to `gr-account-` instead of `gr-hovercard`, besides that, `gr-hovercard-xxx` is just a bit weird.. either works fine with a good reason.",
+      "parentUuid": "b7421e61_0447aa7e",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 48,
+        "endChar": 29
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee25bc8e_9434489b",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
         "patchSetId": 18
@@ -222,6 +270,24 @@
       "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20b14cff_90a93279",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-20T12:32:00Z",
+      "side": 1,
+      "message": "blame is using gr-hovercard, its just creating it in the code (gr-diff-builder.js):\n```\n const hovercard \u003d this._createElement(\u0027gr-hovercard\u0027);\n```",
+      "parentUuid": "e7f7f8bd_a1ec3f22",
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

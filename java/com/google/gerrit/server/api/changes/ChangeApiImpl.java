@@ -111,7 +111,6 @@ import com.google.gerrit.server.restapi.change.SuggestChangeReviewers;
 import com.google.gerrit.server.restapi.change.Unignore;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
@@ -750,23 +749,20 @@ class ChangeApiImpl implements ChangeApi {
   @Singleton
   static class DynamicOptionParser {
     private final CmdLineParser.Factory cmdLineParserFactory;
-    private final Injector injector;
     private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
     @Inject
     DynamicOptionParser(
         CmdLineParser.Factory cmdLineParserFactory,
-        Injector injector,
         DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
       this.cmdLineParserFactory = cmdLineParserFactory;
-      this.injector = injector;
       this.dynamicBeans = dynamicBeans;
     }
 
     void parseDynamicOptions(Object bean, ListMultimap<String, String> pluginOptions)
         throws BadRequestException {
       CmdLineParser clp = cmdLineParserFactory.create(bean);
-      DynamicOptions dynamicOptions = new DynamicOptions(bean, injector, dynamicBeans);
+      DynamicOptions dynamicOptions = new DynamicOptions(bean, dynamicBeans);
       dynamicOptions.parseDynamicBeans(clp);
       dynamicOptions.setDynamicBeans();
       dynamicOptions.onBeanParseStart();

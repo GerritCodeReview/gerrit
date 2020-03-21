@@ -34,6 +34,24 @@
       "revId": "51c8e9277c51be9e1ee3c6f0318d253cb0cd262c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e859c929_54ac9702",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1568,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-21T08:42:49Z",
+      "side": 1,
+      "message": "oh my bad, did not check its for confirm rebase dialog",
+      "parentUuid": "07d34f51_7a040f6a",
+      "revId": "51c8e9277c51be9e1ee3c6f0318d253cb0cd262c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

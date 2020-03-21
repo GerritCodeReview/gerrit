@@ -44,7 +44,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
@@ -149,16 +148,11 @@ public class ParameterParser {
   }
 
   private final CmdLineParser.Factory parserFactory;
-  private final Injector injector;
   private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   @Inject
-  ParameterParser(
-      CmdLineParser.Factory pf,
-      Injector injector,
-      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
+  ParameterParser(CmdLineParser.Factory pf, DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
     this.parserFactory = pf;
-    this.injector = injector;
     this.dynamicBeans = dynamicBeans;
   }
 
@@ -166,7 +160,7 @@ public class ParameterParser {
       T param, ListMultimap<String, String> in, HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     CmdLineParser clp = parserFactory.create(param);
-    DynamicOptions pluginOptions = new DynamicOptions(param, injector, dynamicBeans);
+    DynamicOptions pluginOptions = new DynamicOptions(param, dynamicBeans);
     pluginOptions.parseDynamicBeans(clp);
     pluginOptions.setDynamicBeans();
     pluginOptions.onBeanParseStart();

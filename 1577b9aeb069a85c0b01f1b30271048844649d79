@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a7acf05_d5ae3ad9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-03-21T13:57:13Z",
+      "side": 1,
+      "message": "clickbait alert! ;)\n\nmore interesting would be the actual impact in the big picture.\n\ni\u0027d also elaborate on the (lack of) trade-off, as the original change was presumably done for some reason (though its commit message also failed to explain it).\n\nfinally, consider strategically placing a comment in the code to discourage repeating the mistake, if this is something that can be reasonably expected to happen again.",
+      "revId": "1577b9aeb069a85c0b01f1b30271048844649d79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

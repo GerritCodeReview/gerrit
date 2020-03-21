@@ -48,7 +48,7 @@ export const htmlTemplate = html`
       }
       code {
         display: block;
-        white-space: pre;
+        white-space: pre-wrap;
         color: var(--deemphasized-text-color);
       }
       li {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bddd82d2_bcf0b769",
+        "filename": "java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-21T09:37:28Z",
+      "side": 0,
+      "message": "Before the delegated class loader from the dynamic bean played a role in this method call, now all that piece of code is gone.\n\nIt would be best to have Martin to double-check that this isn\u0027t breaking anything of the functionality of the dynamic beans.\n\nP.S. I\u0027ve never used dynamic beans in Gerrit so I can\u0027t tell exactly how it was supposed to work.",
+      "range": {
+        "startLine": 221,
+        "startChar": 34,
+        "endLine": 221,
+        "endChar": 70
+      },
+      "revId": "4dae943d356e86a90d5c428dce6aea9011825e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

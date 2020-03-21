@@ -15,16 +15,11 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.server.plugins.DelegatingClassLoader;
 import com.google.gerrit.util.cli.CmdLineParser;
-import com.google.inject.Injector;
-import com.google.inject.Module;
 import com.google.inject.Provider;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -187,16 +182,15 @@ public class DynamicOptions {
   protected static Map<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>> mergedClByCls =
       Collections.synchronizedMap(new WeakHashMap<>());
 
-  protected Object bean;
-  protected Map<String, DynamicBean> beansByPlugin;
-  protected Injector injector;
+  Object bean;
+  Map<String, DynamicBean> beansByPlugin;
 
   /**
    * Internal: For Gerrit to include options from DynamicBeans, setup a DynamicMap and instantiate
    * this class so the following methods can be called if desired:
    *
    * <pre>
-   *    DynamicOptions pluginOptions = new DynamicOptions(bean, injector, dynamicBeans);
+   *    DynamicOptions pluginOptions = new DynamicOptions(bean, dynamicBeans);
    *    pluginOptions.parseDynamicBeans(clp);
    *    pluginOptions.setDynamicBeans();
    *    pluginOptions.onBeanParseStart();
@@ -206,9 +200,8 @@ public class DynamicOptions {
    *    pluginOptions.onBeanParseEnd();
    * </pre>
    */
-  public DynamicOptions(Object bean, Injector injector, DynamicMap<DynamicBean> dynamicBeans) {
+  public DynamicOptions(Object bean, DynamicMap<DynamicBean> dynamicBeans) {
     this.bean = bean;
-    this.injector = injector;
     beansByPlugin = new HashMap<>();
     Class<?> beanClass =
         (bean instanceof BeanReceiver)
@@ -218,70 +211,9 @@ public class DynamicOptions {
       Provider<DynamicBean> provider =
           dynamicBeans.byPlugin(plugin).get(beanClass.getCanonicalName());
       if (provider != null) {
-        beansByPlugin.put(plugin, getDynamicBean(bean, provider.get()));
+        beansByPlugin.put(plugin, provider.get());
       }
     }
-  }
-
-  @SuppressWarnings("unchecked")
-  public DynamicBean getDynamicBean(Object bean, DynamicBean dynamicBean) {
-    ClassLoader coreCl = getClass().getClassLoader();
-    ClassLoader beanCl = bean.getClass().getClassLoader();
-
-    ClassLoader loader = beanCl;
-    if (beanCl != coreCl) { // bean from a plugin?
-      ClassLoader dynamicBeanCl = dynamicBean.getClass().getClassLoader();
-      if (beanCl != dynamicBeanCl) { // in a different plugin?
-        loader = getMergedClassLoader(beanCl, dynamicBeanCl);
-      }
-    }
-
-    String className = null;
-    if (dynamicBean instanceof ClassNameProvider) {
-      className = ((ClassNameProvider) dynamicBean).getClassName();
-    } else if (loader != beanCl) { // in a different plugin?
-      className = dynamicBean.getClass().getCanonicalName();
-    }
-
-    if (className != null) {
-      try {
-        List<Module> modules = new ArrayList<>();
-        Injector modulesInjector = injector;
-        if (dynamicBean instanceof ModulesClassNamesProvider) {
-          modulesInjector = injector.createChildInjector();
-          for (String moduleName :
-              ((ModulesClassNamesProvider) dynamicBean).getModulesClassNames()) {
-            Class<Module> mClass = (Class<Module>) loader.loadClass(moduleName);
-            modules.add(modulesInjector.getInstance(mClass));
-          }
-        }
-        return modulesInjector
-            .createChildInjector(modules)
-            .getInstance((Class<DynamicOptions.DynamicBean>) loader.loadClass(className));
-      } catch (ClassNotFoundException e) {
-        throw new RuntimeException(e);
-      }
-    }
-
-    return dynamicBean;
-  }
-
-  protected ClassLoader getMergedClassLoader(ClassLoader beanCl, ClassLoader dynamicBeanCl) {
-    Map<ClassLoader, WeakReference<ClassLoader>> mergedClByCl = mergedClByCls.get(beanCl);
-    if (mergedClByCl == null) {
-      mergedClByCl = Collections.synchronizedMap(new WeakHashMap<>());
-      mergedClByCls.put(beanCl, mergedClByCl);
-    }
-    WeakReference<ClassLoader> mergedClRef = mergedClByCl.get(dynamicBeanCl);
-    ClassLoader mergedCl = null;
-    if (mergedClRef != null) {
-      mergedCl = mergedClRef.get();
-    }
-    if (mergedCl == null) {
-      mergedCl = new DelegatingClassLoader(beanCl, dynamicBeanCl);
-      mergedClByCl.put(dynamicBeanCl, new WeakReference<>(mergedCl));
-    }
-    return mergedCl;
   }
 
   public void parseDynamicBeans(CmdLineParser clp) {

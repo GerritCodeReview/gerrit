@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.server.account.AccountResolver.isSelf;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
@@ -24,6 +23,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupDescription;
@@ -958,17 +958,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return isVisible();
     }
     try {
-      return Predicate.or(
-          parseAccount(who).stream()
-              .map(a -> visibleto(args.userFactory.create(a)))
-              .collect(toImmutableList()));
+      Set<Account.Id> accounts = parseAccount(who);
+      if (accounts.size() == 1) {
+        return visibleto(args.userFactory.create(Iterables.getOnlyElement(accounts)));
+      } else if (accounts.size() > 1) {
+        throw error(String.format("\"%s\" resolves to multiple accounts", who));
+      }
     } catch (QueryParseException e) {
       if (e instanceof QueryRequiresAuthException) {
         throw e;
       }
-      // Otherwise continue: if it's not an account, maybe it's a group?
     }
 
+    // If its not an account, maybe its a group?
     Collection<GroupReference> suggestions = args.groupBackend.suggest(who, null);
     if (!suggestions.isEmpty()) {
       HashSet<AccountGroup.UUID> ids = new HashSet<>();

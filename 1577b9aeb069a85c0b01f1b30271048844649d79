@@ -16,6 +16,24 @@
       "revId": "1577b9aeb069a85c0b01f1b30271048844649d79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0faf9dd2_6be03b94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-03-21T17:39:17Z",
+      "side": 1,
+      "message": "2nding that. Is there a measurable impact with/without this change? There are many plugins using this functionality (at least for us internally), so this isn\u0027t something that can just be dropped.",
+      "parentUuid": "4a7acf05_d5ae3ad9",
+      "revId": "1577b9aeb069a85c0b01f1b30271048844649d79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

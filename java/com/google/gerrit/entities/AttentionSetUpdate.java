@@ -23,8 +23,8 @@ import java.time.Instant;
  * in reverse chronological order. Since each update contains all required information and
  * invalidates all previous state, only the most recent record is relevant for each user.
  *
- * <p>See {@link com.google.gerrit.extensions.api.changes.AttentionSetInput} for the representation
- * in the API.
+ * <p>See {@link com.google.gerrit.extensions.api.changes.AddToAttentionSetInput} for the
+ * representation in the API.
  */
 @AutoValue
 public abstract class AttentionSetUpdate {

@@ -496,9 +496,7 @@ class GrChangeActions extends mixinBehaviors( [
   }
 
   _getRebaseAction(revisionActions) {
-    return this._getRevisionAction(revisionActions, 'rebase',
-        {rebaseOnCurrent: null}
-    );
+    return this._getRevisionAction(revisionActions, 'rebase', null);
   }
 
   _getRevisionAction(revisionActions, actionName, emptyActionValue) {
@@ -523,7 +521,7 @@ class GrChangeActions extends mixinBehaviors( [
         .then(revisionActions => {
           if (!revisionActions) { return; }
 
-          this.revisionActions = this._updateRebaseAction(revisionActions);
+          this.revisionActions = revisionActions;
           this._sendShowRevisionActions({
             change: this.change,
             revisionActions,
@@ -546,18 +544,6 @@ class GrChangeActions extends mixinBehaviors( [
         this.$.jsAPI.EventType.SHOW_REVISION_ACTIONS,
         detail
     );
-  }
-
-  _updateRebaseAction(revisionActions) {
-    if (revisionActions && revisionActions.rebase) {
-      revisionActions.rebase.rebaseOnCurrent =
-          !!revisionActions.rebase.enabled;
-      this._parentIsCurrent = !revisionActions.rebase.enabled;
-      revisionActions.rebase.enabled = true;
-    } else {
-      this._parentIsCurrent = true;
-    }
-    return revisionActions;
   }
 
   _changeChanged() {
@@ -1120,8 +1106,9 @@ class GrChangeActions extends mixinBehaviors( [
   }
 
   _calculateDisabled(action, hasKnownChainState) {
-    if (action.__key === 'rebase' && hasKnownChainState === false) {
-      return true;
+    if (action.__key === 'rebase') {
+      // Rebase button is only disabled when change has no parent(s).
+      return hasKnownChainState === false;
     }
     return !action.enabled;
   }
@@ -1599,6 +1586,13 @@ class GrChangeActions extends mixinBehaviors( [
         tooltip: action.title,
       };
     });
+  }
+
+  _computeRebaseOnCurrent(revisionRebaseAction) {
+    if (revisionRebaseAction) {
+      return !!revisionRebaseAction.enabled;
+    }
+    return null;
   }
 
   /**

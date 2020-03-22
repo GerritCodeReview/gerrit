@@ -1,29 +1,38 @@
 :linkattrs:
-= Gerrit Code Review - End to end load tests
+= Gerrit Code Review - End to end tests
 
-This document provides a description of a Gerrit load test scenario implemented using the
+This document provides descriptions of Gerrit end-to-end (`e2e`) test scenarios implemented using
 link:https://gatling.io/[Gatling,role=external,window=_blank] framework.
 
 Similar scenarios have been successfully used to compare performance of different Gerrit versions
-or study the Gerrit response under different load profiles.
+or study the Gerrit response under different load profiles. Although mostly for load, scenarios can
+either be for link:https://gatling.io/load-testing-continuous-integration/[load or functional,role=external,window=_blank]
+(e2e) testing purposes. Functional scenarios may then reuse this framework and Gatling's usability
+features such as its protocols (more below) and
+link:https://en.wikipedia.org/wiki/Domain-specific_language[DSL,role=external,window=_blank].
+
+That cross test-scope reusability applies to both Gerrit core scenarios and non-core ones, such as
+for Gerrit plugins or other potential extensions. End-to-end testing may then include scopes like
+feature integration, deployment, smoke (and load) testing. These load and functional test scopes
+should remain orthogonal to the unit and component (aka Gerrit `IT`-suffixed or `acceptance`) ones.
+The term `acceptance` though may still be coined by organizations to target e2e functional testing.
 
 == What is Gatling?
 
-Gatling is a load testing tool which provides out of the box support for the HTTP protocol.
+Gatling is mostly a load testing tool which provides out of the box support for the HTTP protocol.
 Documentation on how to write an HTTP load test can be found
 link:https://gatling.io/docs/current/http/http_protocol/[here,role=external,window=_blank].
-
-However, in the scenario we are proposing, we are leveraging the
-link:https://github.com/GerritForge/gatling-git[Gatling Git extension,role=external,window=_blank]
-to run tests at Git protocol level.
+However, in the scenarios that were initially proposed, the
+link:https://github.com/GerritForge/gatling-git[Gatling Git extension,role=external,window=_blank] was
+leveraged to run tests at the Git protocol level.
 
 Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios
 implementation easy even without any Scala knowledge. The
 link:https://gitenterprise.me/2019/12/20/stress-your-gerrit-with-gatling/[Stress your Gerrit with Gatling,role=external,window=_blank]
 blog post has more introductory information.
 
-Examples of scenarios can be found in the `e2e-tests` directory. The files in that directory
-should be formatted using the mainstream
+Examples of scenarios can be found in the `e2e-tests` directory. The files in that directory should
+be formatted using the mainstream
 link:https://plugins.jetbrains.com/plugin/1347-scala[Scala plugin for IntelliJ,role=external,window=_blank].
 The latter is not mandatory but preferred for `sbt` and Scala IDE purposes in this project.
 
@@ -86,10 +95,11 @@ ssh-keyscan -t rsa -p 29418 localhost > ~/.ssh/known_hosts
 === Input file
 
 The `CloneUsingBothProtocols` scenario is fed with the data coming from the
-`src/test/resources/data/CloneUsingBothProtocols.json` file. Such a file contains the commands and
-repository used during the load test. That file currently looks like below. This scenario serves
-as a simple example with no actual load in it. It can be used to test or validate the local setup.
-More complex scenarios can be further developed, under the `com.google.gerrit.scenarios` package.
+`src/test/resources/data/com/google/gerrit/scenarios/CloneUsingBothProtocols.json` file. Such a
+file contains the commands and repository used during the e2e test. That file currently looks like
+below. This scenario serves as a simple example with no actual load in it. It can be used to test
+or validate the local setup. More complex scenarios can be further developed, under the
+`com.google.gerrit.scenarios` package.
 
 ----
 [
@@ -111,9 +121,19 @@ Valid commands are:
 * `pull`
 * `push`
 
+=== Project and HTTP credentials
+
 The example above assumes that the `loadtest-repo` project exists in the Gerrit under test. The
-`HTTP Credentials` or password obtained from test user's `Settings` (in Gerrit) may be required, in
-`src/test/resources/application.conf`, depending on the above commands used.
+`CloneUsingBothProtocols` scenario already includes creating that project and deleting it once done
+with it. That scenario class can be used as an example of how a scenario can compose itself
+alongside other scenarios (here, `CreateProject` and `DeleteProject`).
+
+The `HTTP Credentials` or password obtained from test user's `Settings` (in Gerrit) may be
+required, in `src/test/resources/application.conf`, depending on the above commands used. That
+file's `http` section shows which shell environment variables can be used to set those credentials.
+
+Executing the `CloneUsingBothProtocols` scenario, as is, does require setting the http credentials.
+That is because of the aforementioned create/delete project (http) scenarios composed within it.
 
 == How to run tests
 
@@ -141,6 +161,27 @@ Gatling's logging level.
 ----
 docker run -it e2e-tests -s com.google.gerrit.scenarios.CloneUsingBothProtocols
 ----
+
+=== How to run non-core scenarios
+
+Locally adding non-core scenarios, for example from Gerrit plugins, is as simple as copying such
+files in. Copying is necessary over linking, unless running using Docker (above) is not required.
+Docker does not support links for files it has to copy over through the Dockerfile (here, the
+scenario files). Here is how to proceed for adding such external (e.g., plugin) scenario files in:
+
+----
+pushd e2e-tests/src/test/scala
+cp -r (or, ln -s) scalaPackageStructure .
+popd
+
+pushd e2e-tests/src/test/resources/data
+cp -r (or, ln -s) jsonFilesPackageStructure .
+popd
+----
+
+The destination folders above readily git-ignore every non-core scenario file added under them. If
+running using Docker, `e2e-tests/Dockerfile` may require another `COPY` line for the hereby added
+scenarios. Aforementioned `sbt` or `docker` commands can then be used to run the added tests.
 
 GERRIT
 ------

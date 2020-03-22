@@ -332,36 +332,6 @@ suite('gr-rest-api-interface tests', () => {
         ]);
   });
 
-  suite('rebase action', () => {
-    let resolve_fetchJSON;
-    setup(() => {
-      sandbox.stub(element._restApiHelper, 'fetchJSON').returns(
-          new Promise(resolve => {
-            resolve_fetchJSON = resolve;
-          }));
-    });
-
-    test('no rebase on current', done => {
-      element.getChangeRevisionActions('42', '1337').then(
-          response => {
-            assert.isTrue(response.rebase.enabled);
-            assert.isFalse(response.rebase.rebaseOnCurrent);
-            done();
-          });
-      resolve_fetchJSON({rebase: {}});
-    });
-
-    test('rebase on current', done => {
-      element.getChangeRevisionActions('42', '1337').then(
-          response => {
-            assert.isTrue(response.rebase.enabled);
-            assert.isTrue(response.rebase.rebaseOnCurrent);
-            done();
-          });
-      resolve_fetchJSON({rebase: {enabled: true}});
-    });
-  });
-
   test('server error', done => {
     const getResponseObjectStub = sandbox.stub(element, 'getResponseObject');
     window.fetch.returns(Promise.resolve({ok: false}));

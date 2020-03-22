@@ -1202,12 +1202,6 @@ class GrRestApiInterface extends mixinBehaviors( [
       reportEndpointAsIs: true,
     };
     return this._getChangeURLAndFetch(req).then(revisionActions => {
-      // The rebase button on change screen is always enabled.
-      if (revisionActions.rebase) {
-        revisionActions.rebase.rebaseOnCurrent =
-            !!revisionActions.rebase.enabled;
-        revisionActions.rebase.enabled = true;
-      }
       return revisionActions;
     });
   }

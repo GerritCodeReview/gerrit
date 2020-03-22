@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdcc4a45_9d95d373",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-22T11:09:03Z",
+      "side": 1,
+      "message": "This wasn\u0027t intended to be committed.",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 3
+      },
+      "revId": "5323faf0d2e83cf5025616b01712a2fde44ad38f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

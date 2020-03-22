@@ -1204,7 +1204,7 @@ suite('gr-change-view tests', () => {
         .returns('/change/123');
     assert.equal(
         element._computeCopyTextForTitle(change),
-        '123: test subject | https://localhost:8081/change/123'
+        `123: test subject | http://${location.host}/change/123`
     );
   });
 

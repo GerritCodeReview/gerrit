@@ -1837,8 +1837,9 @@ class GrChangeView extends mixinBehaviors( [
    * @param {!Object} change
    */
   _computeCopyTextForTitle(change) {
-    return `${change._number}: ${change.subject}` +
-     ` | https://${location.host}${this._computeChangeUrl(change)}`;
+    return `${change._number}: ${change.subject} | ` +
+     `${location.protocol}://${location.host}` +
+       `${this._computeChangeUrl(change)}`;
   }
 
   _toggleCommitCollapsed() {

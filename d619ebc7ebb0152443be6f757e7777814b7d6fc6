@@ -22,6 +22,30 @@
       "revId": "d619ebc7ebb0152443be6f757e7777814b7d6fc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9711e2e_5ee01777",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-22T15:10:28Z",
+      "side": 1,
+      "message": "Yes, this is needed. As if i do `${location.protocol}//${location.host}${this._computeChangeUrl(change)}` equals 81 (so over the limit).",
+      "parentUuid": "abf427ff_bd39f2a2",
+      "range": {
+        "startLine": 1841,
+        "startChar": 44,
+        "endLine": 1842,
+        "endChar": 8
+      },
+      "revId": "d619ebc7ebb0152443be6f757e7777814b7d6fc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

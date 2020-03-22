@@ -1784,16 +1784,43 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(q + " visibleto:self", change2, change1);
 
     // Second user cannot see first user's private change
-    Account.Id user2 = createAccount("anotheruser");
+    Account.Id user2 = createAccount("user2");
     assertQuery(q + " visibleto:" + user2.get(), change1);
-    assertQuery(q + " visibleto:anotheruser", change1);
+    assertQuery(q + " visibleto:user2", change1);
 
     String g1 = createGroup("group1", "Administrators");
-    gApi.groups().id(g1).addMembers("anotheruser");
+    gApi.groups().id(g1).addMembers("user2");
     assertQuery(q + " visibleto:" + g1, change1);
 
     requestContext.setContext(newRequestContext(user2));
     assertQuery("is:visible", change1);
+
+    Account.Id user3 = createAccount("user3");
+
+    // Explicitly authenticate user2 and user3 so that display name gets set
+    AuthRequest authRequest = AuthRequest.forUser("user2");
+    authRequest.setDisplayName("Another User");
+    authRequest.setEmailAddress("user2@example.com");
+    accountManager.authenticate(authRequest);
+    authRequest = AuthRequest.forUser("user3");
+    authRequest.setDisplayName("Another User");
+    authRequest.setEmailAddress("user3@example.com");
+    accountManager.authenticate(authRequest);
+
+    // Switch to user3
+    requestContext.setContext(newRequestContext(user3));
+    Change change3 = insert(repo, newChange(repo), user3);
+    Change change4 = insert(repo, newChangePrivate(repo), user3);
+
+    // User3 can see both their changes and the first user's change
+    assertQuery(q + " visibleto:" + user3.get(), change4, change3, change1);
+
+    // User2 cannot see user3's private change
+    assertQuery(q + " visibleto:" + user2.get(), change3, change1);
+
+    // Query as user3 by display name matching user2 and user3; bad request
+    assertFailingQuery(
+        q + " visibleto:\"Another User\"", "\"Another User\" resolves to multiple accounts");
   }
 
   @Test

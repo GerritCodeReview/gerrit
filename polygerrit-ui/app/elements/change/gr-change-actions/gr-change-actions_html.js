@@ -101,7 +101,7 @@ export const htmlTemplate = html`
         </gr-dropdown>
     </div>
     <gr-overlay id="overlay" with-backdrop="">
-      <gr-confirm-rebase-dialog id="confirmRebase" class="confirmDialog" change-number="[[change._number]]" on-confirm="_handleRebaseConfirm" on-cancel="_handleConfirmDialogCancel" branch="[[change.branch]]" has-parent="[[hasParent]]" rebase-on-current="[[_revisionRebaseAction.rebaseOnCurrent]]" hidden=""></gr-confirm-rebase-dialog>
+      <gr-confirm-rebase-dialog id="confirmRebase" class="confirmDialog" change-number="[[change._number]]" on-confirm="_handleRebaseConfirm" on-cancel="_handleConfirmDialogCancel" branch="[[change.branch]]" has-parent="[[hasParent]]" rebase-on-current="[[_computeRebaseOnCurrent(_revisionRebaseAction)]]" hidden=""></gr-confirm-rebase-dialog>
       <gr-confirm-cherrypick-dialog id="confirmCherrypick" class="confirmDialog" change-status="[[changeStatus]]" commit-message="[[commitMessage]]" commit-num="[[commitNum]]" on-confirm="_handleCherrypickConfirm" on-cancel="_handleConfirmDialogCancel" project="[[change.project]]" hidden=""></gr-confirm-cherrypick-dialog>
       <gr-confirm-cherrypick-conflict-dialog id="confirmCherrypickConflict" class="confirmDialog" on-confirm="_handleCherrypickConflictConfirm" on-cancel="_handleConfirmDialogCancel" hidden=""></gr-confirm-cherrypick-conflict-dialog>
       <gr-confirm-move-dialog id="confirmMove" class="confirmDialog" on-confirm="_handleMoveConfirm" on-cancel="_handleConfirmDialogCancel" project="[[change.project]]" hidden=""></gr-confirm-move-dialog>

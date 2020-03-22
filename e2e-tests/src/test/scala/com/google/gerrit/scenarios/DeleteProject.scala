@@ -15,9 +15,11 @@
 package com.google.gerrit.scenarios
 
 import io.gatling.core.Predef._
+import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
 class DeleteProject extends GerritSimulation {
+  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(resource).queue
 
   val test: ScenarioBuilder = scenario(name)
       .feed(data)

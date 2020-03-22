@@ -15,11 +15,13 @@
 package com.google.gerrit.scenarios
 
 import io.gatling.core.Predef._
+import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
 import scala.concurrent.duration._
 
 class CloneUsingBothProtocols extends GitSimulation {
+  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(resource).queue
 
   private val test: ScenarioBuilder = scenario(name)
       .feed(data)

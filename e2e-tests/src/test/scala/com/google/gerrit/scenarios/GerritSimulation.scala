@@ -16,7 +16,6 @@ package com.google.gerrit.scenarios
 
 import com.github.barbasa.gatling.git.GatlingGitConfiguration
 import io.gatling.core.Predef._
-import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.http.Predef.http
 import io.gatling.http.protocol.HttpProtocolBuilder
 import io.gatling.http.request.builder.HttpRequestBuilder
@@ -24,8 +23,9 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 class GerritSimulation extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
 
+  private val path: String = this.getClass.getPackage.getName.replaceAllLiterally(".", "/")
   protected val name: String = this.getClass.getSimpleName
-  protected val data: FileBasedFeederBuilder[Any]#F = jsonFile(s"data/$name.json").circular
+  protected val resource: String = s"data/$path/$name.json"
 
   protected val httpRequest: HttpRequestBuilder = http(name).post("${url}")
   protected val httpProtocol: HttpProtocolBuilder = http.basicAuth(

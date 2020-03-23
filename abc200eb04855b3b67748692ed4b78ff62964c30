@@ -39,6 +39,24 @@
       "revId": "abc200eb04855b3b67748692ed4b78ff62964c30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e77b62f_ff04eaa8",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-23T15:04:51Z",
+      "side": 1,
+      "message": "Even if I don\u0027t inject GrantRevertPermission, I will somehow have to inject the necessary parameters used by the migration code:  private final ProjectConfig.Factory, SystemGroupBackend, PersonIdent.\n\nIs it really better to inject those 3 parameters instead of just GrantRevertPermission?\n\nEither way, when injecting those 3 parameters I can keep the GrantRevertPermission class (no need to inject it).",
+      "parentUuid": "6e61179d_e171cb18",
+      "revId": "abc200eb04855b3b67748692ed4b78ff62964c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

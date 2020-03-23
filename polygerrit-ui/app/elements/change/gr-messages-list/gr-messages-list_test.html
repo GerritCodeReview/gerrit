@@ -23,20 +23,6 @@ limitations under the License.
 
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../../test/test-pre-setup.js"></script>
-<script type="module" src="../../../test/common-test-setup.js"></script>
-<script type="module" src="../../diff/gr-comment-api/gr-comment-api.js"></script>
-
-<script type="module" src="./gr-messages-list.js"></script>
-
-<script type="module">
-import '../../../test/test-pre-setup.js';
-import '../../../test/common-test-setup.js';
-import '../../diff/gr-comment-api/gr-comment-api.js';
-import './gr-messages-list.js';
-import '../../diff/gr-comment-api/gr-comment-api-mock_test.js';
-void(0);
-</script>
 
 <dom-module id="comment-api-mock">
   <template>
@@ -45,8 +31,7 @@ void(0);
         change-comments="[[_changeComments]]"></gr-messages-list>
     <gr-comment-api id="commentAPI"></gr-comment-api>
   </template>
-  <script type="module" src="../../diff/gr-comment-api/gr-comment-api-mock_test.js"></script>
-</dom-module>
+  </dom-module>
 
 <test-fixture id="basic">
   <template>
@@ -57,7 +42,6 @@ void(0);
 </test-fixture>
 
 <script type="module">
-import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
 import './gr-messages-list.js';

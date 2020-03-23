@@ -21,16 +21,6 @@ limitations under the License.
 
 <script src="../../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../../test/test-pre-setup.js"></script>
-<script type="module" src="../../../test/common-test-setup.js"></script>
-<script type="module" src="../gr-js-api-interface/gr-js-api-interface.js"></script>
-
-<script type="module">
-import '../../../test/test-pre-setup.js';
-import '../../../test/common-test-setup.js';
-import '../gr-js-api-interface/gr-js-api-interface.js';
-void(0);
-</script>
 
 <test-fixture id="basic">
   <template>
@@ -39,7 +29,6 @@ void(0);
 </test-fixture>
 
 <script type="module">
-import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
 import '../gr-js-api-interface/gr-js-api-interface.js';
 suite('gr-event-interface tests', () => {

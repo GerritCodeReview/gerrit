@@ -23,10 +23,6 @@ limitations under the License.
 
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../test/test-pre-setup.js"></script>
-<script type="module" src="../../test/common-test-setup.js"></script>
-<script type="module" src="./keyboard-shortcut-behavior.js"></script>
-
 <test-fixture id="basic">
   <template>
     <test-element></test-element>
@@ -42,7 +38,6 @@ limitations under the License.
 </test-fixture>
 
 <script type="module">
-import '../../test/test-pre-setup.js';
 import '../../test/common-test-setup.js';
 import './keyboard-shortcut-behavior.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';

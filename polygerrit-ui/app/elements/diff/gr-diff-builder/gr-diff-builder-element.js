@@ -24,7 +24,6 @@ import '../gr-ranged-comment-layer/gr-ranged-comment-layer.js';
 import '../../../scripts/util.js';
 import './gr-diff-builder-side-by-side.js';
 import './gr-diff-builder-unified.js';
-import './gr-diff-builder-image.js';
 import './gr-diff-builder-binary.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -35,6 +34,7 @@ import {htmlTemplate} from './gr-diff-builder-element_html.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
+import {GrDiffBuilderImage} from './gr-diff-builder-image.js';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',

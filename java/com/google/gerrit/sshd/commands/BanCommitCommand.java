@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER;
 
 import com.google.common.base.Joiner;
@@ -69,9 +70,9 @@ public class BanCommitCommand extends SshCommand {
       input.reason = reason;
 
       BanResultInfo r = banCommit.apply(new ProjectResource(projectState, user), input).value();
-      printCommits(r.newlyBanned, "The following commits were banned");
-      printCommits(r.alreadyBanned, "The following commits were already banned");
-      printCommits(r.ignored, "The following ids do not represent commits and were ignored");
+      printCommits(r.newlyBanned, getText("sshd.commands.ban.commit.newly_banned"));
+      printCommits(r.alreadyBanned, getText("sshd.commands.ban.commit.already_banned"));
+      printCommits(r.ignored, getText("sshd.commands.ban.commit.ignored"));
     } catch (Exception e) {
       throw die(e);
     }

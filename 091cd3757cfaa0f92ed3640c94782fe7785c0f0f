@@ -213,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "cd9cf77d_9d91f697",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:50:40Z",
+      "side": 1,
+      "message": "No this is different. For other actions and dialogs this is handling the XHR, because the dialog is already closed. FWIW I don\u0027t even like that much. I feel it is the responsibility of the dialog to perform the action before closing the dialog.\n\nAnyway, your new dialog is different. It does not close, so it is super weird that this (huge!) gr-change-actions class keeps track of the _cherryPickingTopicPendingCount property. That really belongs into the dialog.\n\nWhat happens here is that the dialog fires an event, the event is handled here with a few lines of code and then you reach back into the dialog with this.$.confirmCherrypick.updateStatus(). That indicates that the entire handling should go into the dialog.\n\nI understand that you were just trying to follow the current code and patterns. Sorry for that. :-/",
+      "parentUuid": "474223d1_6813aec6",
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25ab0870_355abec5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 14

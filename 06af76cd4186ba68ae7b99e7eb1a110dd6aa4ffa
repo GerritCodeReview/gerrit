@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a44d97ae_a0e5d290",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:38:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20cc1ca5_22f7412a",
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81cd06f8_0b8eea1b",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
         "patchSetId": 20
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a4afd647_8d9fd5ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:38:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81cd06f8_0b8eea1b",
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c144f56c_c05f0b36",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
         "patchSetId": 20
@@ -50,6 +86,24 @@
       "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4695a92f_5082a6c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:38:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c144f56c_c05f0b36",
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "bd2e0286_7b62ff53",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:38:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2e2b651_f0fbf9a6",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 12
+      },
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a960f1a1_550aaf89",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
         "patchSetId": 20
@@ -96,6 +174,30 @@
       "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a90b820_cee52f64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:38:49Z",
+      "side": 1,
+      "message": "Dmitrii will clean this up.",
+      "parentUuid": "a960f1a1_550aaf89",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "ee7355e7_07e73aa4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-shared-style.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:38:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da3380d1_fddd3b0a",
+      "range": {
+        "startLine": 20,
+        "startChar": 22,
+        "endLine": 20,
+        "endChar": 23
+      },
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84d26c6f_bdfa5ad7",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-shared-style.js",
         "patchSetId": 20
@@ -136,6 +262,24 @@
       "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d255d02b_2dada8fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-shared-style.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:38:49Z",
+      "side": 1,
+      "message": "Good point. Comment added.",
+      "parentUuid": "84d26c6f_bdfa5ad7",
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

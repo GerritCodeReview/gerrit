@@ -22,7 +22,6 @@ import '../gr-diff-processor/gr-diff-processor.js';
 import '../../shared/gr-hovercard/gr-hovercard.js';
 import '../gr-ranged-comment-layer/gr-ranged-comment-layer.js';
 import '../../../scripts/util.js';
-import '../gr-diff/gr-diff-line.js';
 import '../gr-diff/gr-diff-group.js';
 import './gr-diff-builder.js';
 import './gr-diff-builder-side-by-side.js';

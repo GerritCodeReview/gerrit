@@ -77,7 +77,8 @@
       "error",
       "GrDisplayNameUtils",
       "GrAnnotation",
-      "GrAttributeHelper"
+      "GrAttributeHelper",
+      "GrDiffLine"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

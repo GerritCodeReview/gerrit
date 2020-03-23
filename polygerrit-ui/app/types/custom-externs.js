@@ -36,7 +36,6 @@ var GrDiffBuilderImage;
 var GrDiffBuilderSideBySide;
 var GrDiffBuilderUnified;
 var GrDiffGroup;
-var GrDiffLine;
 var GrDomHooks;
 var GrEditConstants;
 var GrEtagDecorator;

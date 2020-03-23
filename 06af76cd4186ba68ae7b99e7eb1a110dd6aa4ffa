@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20cc1ca5_22f7412a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T13:59:00Z",
+      "side": 1,
+      "message": "maybe no padding for bottom ? otherwise the space between them might be too big ( 2x spacing-m )?",
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81cd06f8_0b8eea1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T13:59:00Z",
+      "side": 1,
+      "message": "this can be merged into the `.top` section above",
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c144f56c_c05f0b36",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T13:59:00Z",
+      "side": 1,
+      "message": "this can be merged together with `email`",
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2e2b651_f0fbf9a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T13:59:00Z",
+      "side": 1,
+      "message": "hmm maybe just only add this section in the same change when we add these functionalities ?",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 12
+      },
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a960f1a1_550aaf89",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T13:59:00Z",
+      "side": 1,
+      "message": "i am pretty sure you don\u0027t need these... and above script tags for the same import as well. but its up to you if you want to leave this to the overall clean up. Just weird to have it in a newly added file...",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da3380d1_fddd3b0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-shared-style.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T13:59:00Z",
+      "side": 1,
+      "message": "this must be left by accident... :(",
+      "range": {
+        "startLine": 20,
+        "startChar": 22,
+        "endLine": 20,
+        "endChar": 23
+      },
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d26c6f_bdfa5ad7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-shared-style.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T13:59:00Z",
+      "side": 1,
+      "message": "I left this part to gr-hovercard intentionally since I want the shared style only control the host style without affecting the content, but I guess it makes sense to add one for container here, maybe add a comment here mentioning that recommend use `#container` as the wrapper to have consistent styles ?",
+      "revId": "06af76cd4186ba68ae7b99e7eb1a110dd6aa4ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

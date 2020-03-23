@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window, GrDiffBuilder) {
+
+import {GrDiffBuilder} from './gr-diff-builder.js';
+
+(function(window) {
   'use strict';
 
   // Prevent redefinition.
@@ -116,4 +119,4 @@
   };
 
   window.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
-})(window, GrDiffBuilder);
+})(window);

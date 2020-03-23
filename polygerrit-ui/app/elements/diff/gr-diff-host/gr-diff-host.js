@@ -29,6 +29,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-host_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {GrDiffBuilder} from '../gr-diff-builder/gr-diff-builder.js';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 

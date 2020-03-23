@@ -79,7 +79,8 @@
       "GrAnnotation",
       "GrAttributeHelper",
       "GrDiffLine",
-      "GrDiffGroup"
+      "GrDiffGroup",
+      "GrDiffBuilder"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

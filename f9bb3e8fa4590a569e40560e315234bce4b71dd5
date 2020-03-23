@@ -16,6 +16,24 @@
       "revId": "f9bb3e8fa4590a569e40560e315234bce4b71dd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd7f6398_fb0726f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T09:50:05Z",
+      "side": 1,
+      "message": "This is the way the query is formatted when you click on the topic. \nI guess then both navigations are broken if it can contain that.",
+      "parentUuid": "037b182d_fe4314c9",
+      "revId": "f9bb3e8fa4590a569e40560e315234bce4b71dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

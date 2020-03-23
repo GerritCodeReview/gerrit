@@ -19,6 +19,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.i18n.I18nImpl;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
@@ -35,6 +36,7 @@ public abstract class SshCommand extends BaseCommand {
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
   @Inject private PluginSetContext<RequestListener> requestListeners;
   @Inject @GerritServerConfig private Config config;
+  @Inject protected I18nImpl i18n;
 
   @Option(name = "--trace", usage = "enable request tracing")
   private boolean trace;

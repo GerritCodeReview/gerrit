@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
+import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
 
-(function(window, GrDiffGroup) {
+(function(window) {
   'use strict';
 
   // Prevent redefinition.
@@ -624,4 +625,4 @@ ${commit.commit_msg}`;
   };
 
   window.GrDiffBuilder = GrDiffBuilder;
-})(window, GrDiffGroup);
+})(window);

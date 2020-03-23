@@ -21,7 +21,6 @@ import '../gr-diff-processor/gr-diff-processor.js';
 import '../../shared/gr-hovercard/gr-hovercard.js';
 import '../gr-ranged-comment-layer/gr-ranged-comment-layer.js';
 import '../../../scripts/util.js';
-import './gr-diff-builder.js';
 import './gr-diff-builder-side-by-side.js';
 import './gr-diff-builder-unified.js';
 import './gr-diff-builder-image.js';
@@ -34,6 +33,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-builder-element_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
+import {GrDiffBuilder} from './gr-diff-builder.js';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',

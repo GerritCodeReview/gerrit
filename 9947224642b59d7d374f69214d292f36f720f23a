@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8b7b2ec_c32e78d9",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T09:55:28Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 291,
+        "startChar": 15,
+        "endLine": 291,
+        "endChar": 18
+      },
+      "revId": "9947224642b59d7d374f69214d292f36f720f23a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d75691_09add516",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T09:55:28Z",
+      "side": 1,
+      "message": "if its a private method, then let\u0027s not test it by directly calling it, shall we ?\n\nyou can just call `appStarted` and test against the metric reporting",
+      "range": {
+        "startLine": 93,
+        "startChar": 12,
+        "endLine": 93,
+        "endChar": 30
+      },
+      "revId": "9947224642b59d7d374f69214d292f36f720f23a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

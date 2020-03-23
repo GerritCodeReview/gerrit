@@ -65,26 +65,26 @@ suite('gr-display-name-behavior tests', () => {
     const account = {
       name: 'test-name',
     };
-    assert.deepEqual(element.getUserName(config, account, true), 'test-name');
+    assert.equal(element.getUserName(config, account), 'test-name');
   });
 
   test('getUserName username only', () => {
     const account = {
       username: 'test-user',
     };
-    assert.deepEqual(element.getUserName(config, account, true), 'test-user');
+    assert.equal(element.getUserName(config, account), 'test-user');
   });
 
   test('getUserName email only', () => {
     const account = {
       email: 'test-user@test-url.com',
     };
-    assert.deepEqual(element.getUserName(config, account, true),
+    assert.equal(element.getUserName(config, account),
         'test-user@test-url.com');
   });
 
   test('getUserName returns not Anonymous Coward as the anon name', () => {
-    assert.deepEqual(element.getUserName(config, null, true), 'Anonymous');
+    assert.equal(element.getUserName(config, null), 'Anonymous');
   });
 
   test('getUserName for the config returning the anon name', () => {
@@ -93,7 +93,7 @@ suite('gr-display-name-behavior tests', () => {
         anonymous_coward_name: 'Test Anon',
       },
     };
-    assert.deepEqual(element.getUserName(config, null, true), 'Test Anon');
+    assert.equal(element.getUserName(config, null), 'Test Anon');
   });
 
   test('getGroupDisplayName', () => {

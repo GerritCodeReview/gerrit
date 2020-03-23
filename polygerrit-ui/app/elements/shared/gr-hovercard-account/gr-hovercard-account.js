@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,60 +17,34 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-icon/iron-icon.js';
-import '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
-import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-avatar/gr-avatar.js';
-import '../gr-hovercard-account/gr-hovercard-account.js';
-import '../gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../scripts/util.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import '../gr-button/gr-button.js';
+import {hovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-account-label_html.js';
+import {htmlTemplate} from './gr-hovercard-account_html.js';
 
-/**
- * @appliesMixin Gerrit.DisplayNameMixin
- * @extends Polymer.Element
- */
-class GrAccountLabel extends mixinBehaviors( [
-  Gerrit.DisplayNameBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
+/** @extends Polymer.Element */
+class GrHovercardAccount extends GestureEventListeners(
+    hovercardBehaviorMixin(LegacyElementMixin(
         PolymerElement))) {
   static get template() { return htmlTemplate; }
 
-  static get is() { return 'gr-account-label'; }
+  static get is() { return 'gr-hovercard-account'; }
 
   static get properties() {
     return {
-      /**
-       * @type {{ name: string, status: string }}
-       */
       account: Object,
       voteableText: String,
-      hideAvatar: {
+      attention: {
         type: Boolean,
         value: false,
-      },
-      _serverConfig: {
-        type: Object,
-        value: null,
+        reflectToAttribute: true,
       },
     };
   }
-
-  /** @override */
-  ready() {
-    super.ready();
-    this.$.restAPI.getConfig()
-        .then(config => { this._serverConfig = config; });
-  }
-
-  _computeName(account, config) {
-    return this.getUserName(config, account);
-  }
 }
 
-customElements.define(GrAccountLabel.is, GrAccountLabel);
+customElements.define(GrHovercardAccount.is, GrHovercardAccount);

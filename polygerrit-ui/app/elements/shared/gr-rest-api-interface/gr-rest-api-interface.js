@@ -772,6 +772,23 @@ class GrRestApiInterface extends mixinBehaviors( [
   }
 
   /**
+   * @param {string} displayName
+   * @param {function(?Response, string=)=} opt_errFn
+   */
+  setAccountDisplayName(displayName, opt_errFn) {
+    const req = {
+      method: 'PUT',
+      url: '/accounts/self/displayname',
+      body: {display_name: displayName},
+      errFn: opt_errFn,
+      parseResponse: true,
+      reportUrlAsIs: true,
+    };
+    return this._restApiHelper.send(req)
+        .then(newName => this._updateCachedAccount({displayName: newName}));
+  }
+
+  /**
    * @param {string} status
    * @param {function(?Response, string=)=} opt_errFn
    */

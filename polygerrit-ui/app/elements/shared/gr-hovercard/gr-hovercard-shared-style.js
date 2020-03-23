@@ -17,7 +17,7 @@
 
 /** The shared styles for all hover cards. */
 const GrHoverCardSharedStyle = document.createElement('dom-module');
-GrHoverCardSharedStyle .innerHTML =
+GrHoverCardSharedStyle.innerHTML =
   `<template>
     <style include="shared-styles">
       :host {
@@ -26,11 +26,18 @@ GrHoverCardSharedStyle .innerHTML =
         position: absolute;
         transition: opacity 200ms;
         visibility: hidden;
-        z-index: 100;
+        z-index: 200;
       }
       :host(.hovered) {
         visibility: visible;
         opacity: 1;
+      }
+      /* You have to use a <div class="container"> in your hovercard in order
+         to pick up this consistent styling. */
+      #container {
+        background: var(--dialog-background-color);
+        border-radius: var(--border-radius);
+        box-shadow: var(--elevation-level-5);
       }
     </style>
   </template>`;

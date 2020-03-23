@@ -41,12 +41,8 @@ class GrAccountLink extends mixinBehaviors( [
 
   static get properties() {
     return {
-      additionalText: String,
+      voteableText: String,
       account: Object,
-      avatarImageSize: {
-        type: Number,
-        value: 32,
-      },
     };
   }
 

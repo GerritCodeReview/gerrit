@@ -59,6 +59,8 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="hourglass"><path d="M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z"></path><path d="M0 0h24v24H0V0z" fill="none"></path></g>
       <!-- This SVG is a copy from material.io https://material.io/icons/#mode_comment-->
       <g id="comment"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"></path><path d="M0 0h24v24H0z" fill="none"></path></g>
+      <!-- This SVG is a copy from material.io https://material.io/icons/#calendar_today-->
+      <g id="calendar"><path d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"></path><path d="M0 0h24v24H0z" fill="none"></path></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
       <g id="error"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
@@ -94,51 +96,10 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="review"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></g>
       <!-- This is a custom PolyGerrit SVG -->
       <g id="zeroState"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2zm-4 10H4V5h14v14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"></path></g>
+      <!-- This SVG is an adaptation of material.io https://material.io/icons/#label_important-->
+      <g id="attention"><path d="M5.5 19 l9 0 c.67 0 1.27 -.33 1.63 -.84 L20.5 12 l-4.37 -6.16 c-.36 -.51 -.96 -.84 -1.63 -.84 l-9 0 L9 12 z"></path></g>
     </defs>
   </svg>
 </iron-iconset-svg>`;
 
 document.head.appendChild($_documentContainer.content);
-
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from material.io https://material.io/icons/#unfold_more */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/editor-icons.html */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/editor-icons.html */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from material.io https://material.io/icons/#ic_hourglass_full*/
-/* This SVG is a copy from material.io https://material.io/icons/#mode_comment*/
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/* This is a custom PolyGerrit SVG */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-

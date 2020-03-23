@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f783ed7_c298bf89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-23T15:04:15Z",
+      "side": 1,
+      "message": "I\u0027m afraid this covers only one of the places where a topic is set (other places that I have in my mind are: setting topic on push, setting topic via the CreateChange REST endpoint, setting topic via the Revert REST endpoint, but there may be more). So I\u0027m wondering it there is a better place to do this kind of validation in a lower layer that makes this work consistently across all cases.",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

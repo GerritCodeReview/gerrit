@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d594275_7044609f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T13:02:56Z",
+      "side": 1,
+      "message": "1. i think `_expanded` here only corresponding to the status of the expand all toggle right ? maybe change this to `_expandAllToggleChecked` instead\n2. `_expandedChanged` should be renamed based on the comments above, apparently it\u0027s not applying the current status to all messages regardless whether it changed or not",
+      "revId": "69b735609ab71cd6dc8832c33408a4049caa6c67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "542fd436_f001f513",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T13:02:56Z",
+      "side": 1,
+      "message": "why not just `[...getMessages()].filter` instead ?",
+      "range": {
+        "startLine": 325,
+        "startChar": 21,
+        "endLine": 325,
+        "endChar": 38
+      },
+      "revId": "69b735609ab71cd6dc8832c33408a4049caa6c67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

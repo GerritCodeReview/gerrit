@@ -79,6 +79,12 @@ suite('gr-reporting tests', () => {
         element.reporter.calledWithMatch(
             'timing-report', 'UI Latency', 'App Started', 42
         ));
+    assert.isTrue(
+        element.reporter.calledWithExactly(
+            'timing-report', 'UI Latency', 'NavResTime - loadEventEnd',
+            fakePerformance.loadEventEnd - fakePerformance.navigationStart,
+            undefined, true)
+    );
   });
 
   test('WebComponentsReady', () => {
@@ -87,16 +93,6 @@ suite('gr-reporting tests', () => {
     assert.isTrue(element.reporter.calledWithMatch(
         'timing-report', 'UI Latency', 'WebComponentsReady', 42
     ));
-  });
-
-  test('pageLoaded', () => {
-    element.pageLoaded();
-    assert.isTrue(
-        element.reporter.calledWithExactly(
-            'timing-report', 'UI Latency', 'NavResTime - loadEventEnd',
-            fakePerformance.loadEventEnd - fakePerformance.navigationStart,
-            undefined, true)
-    );
   });
 
   test('beforeLocationChanged', () => {

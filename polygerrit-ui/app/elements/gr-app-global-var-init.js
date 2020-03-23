@@ -28,6 +28,7 @@ import {GrAttributeHelper} from './plugins/gr-attribute-helper/gr-attribute-help
 import {GrDiffLine} from './diff/gr-diff/gr-diff-line.js';
 import {GrDiffGroup} from './diff/gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './diff/gr-diff-builder/gr-diff-builder.js';
+import {GrDiffBuilderSideBySide} from './diff/gr-diff-builder/gr-diff-builder-side-by-side.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -36,4 +37,5 @@ export function initGlobalVariables() {
   window.GrDiffLine = GrDiffLine;
   window.GrDiffGroup = GrDiffGroup;
   window.GrDiffBuilder = GrDiffBuilder;
+  window.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
 }

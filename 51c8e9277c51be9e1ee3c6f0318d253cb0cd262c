@@ -52,6 +52,29 @@
       "revId": "51c8e9277c51be9e1ee3c6f0318d253cb0cd262c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2cc0854_373a2024",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-23T06:01:45Z",
+      "side": 1,
+      "message": "This causes a style error when merged up to master:\n\n error  Unexpected block statement surrounding arrow body; move the returned value immediately after the `\u003d\u003e`  arrow-body-style",
+      "range": {
+        "startLine": 1202,
+        "startChar": 6,
+        "endLine": 1204,
+        "endChar": 9
+      },
+      "revId": "51c8e9277c51be9e1ee3c6f0318d253cb0cd262c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -27,6 +27,7 @@ import {GrAnnotation} from './diff/gr-diff-highlight/gr-annotation.js';
 import {GrAttributeHelper} from './plugins/gr-attribute-helper/gr-attribute-helper.js';
 import {GrDiffLine} from './diff/gr-diff/gr-diff-line.js';
 import {GrDiffGroup} from './diff/gr-diff/gr-diff-group.js';
+import {GrDiffBuilder} from './diff/gr-diff-builder/gr-diff-builder.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -34,4 +35,5 @@ export function initGlobalVariables() {
   window.GrAttributeHelper = GrAttributeHelper;
   window.GrDiffLine = GrDiffLine;
   window.GrDiffGroup = GrDiffGroup;
+  window.GrDiffBuilder = GrDiffBuilder;
 }

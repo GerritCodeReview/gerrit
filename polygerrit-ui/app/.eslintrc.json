@@ -80,7 +80,8 @@
       "GrAttributeHelper",
       "GrDiffLine",
       "GrDiffGroup",
-      "GrDiffBuilder"
+      "GrDiffBuilder",
+      "GrDiffBuilderSideBySide"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

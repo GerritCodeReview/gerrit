@@ -921,12 +921,13 @@ suite('gr-change-actions tests', () => {
       });
 
       suite('revert change submitted together', () => {
+        let getChangesStub;
         setup(() => {
           element.change = {
-            submission_id: '199',
+            submission_id: '199 0',
             current_revision: '2000',
           };
-          sandbox.stub(element.$.restAPI, 'getChanges')
+          getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges')
               .returns(Promise.resolve([
                 {change_id: '12345678901234', topic: 'T', subject: 'random'},
                 {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
@@ -938,6 +939,7 @@ suite('gr-change-actions tests', () => {
               .querySelector('gr-button[data-action-key="revert"]');
           MockInteractions.tap(revertButton);
           flush(() => {
+            assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
             const confirmRevertDialog = element.$.confirmRevertDialog;
             const revertSingleChangeLabel = confirmRevertDialog
                 .shadowRoot.querySelector('.revertSingleChange');
@@ -947,7 +949,7 @@ suite('gr-change-actions tests', () => {
                 'Revert single change');
             assert(revertSubmissionLabel.innerText.trim() ===
                 'Revert entire submission (2 Changes)');
-            let expectedMsg = 'Revert submission 199' + '\n\n' +
+            let expectedMsg = 'Revert submission 199 0' + '\n\n' +
               'Reason for revert: <INSERT REASONING HERE>' + '\n' +
               'Reverted Changes:' + '\n' +
               '1234567890:random' + '\n' +
@@ -994,7 +996,7 @@ suite('gr-change-actions tests', () => {
           flush(() => {
             const radioInputs = confirmRevertDialog.shadowRoot
                 .querySelectorAll('input[name="revertOptions"]');
-            const revertSubmissionMsg = 'Revert submission 199' + '\n\n' +
+            const revertSubmissionMsg = 'Revert submission 199 0' + '\n\n' +
             'Reason for revert: <INSERT REASONING HERE>' + '\n' +
             'Reverted Changes:' + '\n' +
             '1234567890:random' + '\n' +

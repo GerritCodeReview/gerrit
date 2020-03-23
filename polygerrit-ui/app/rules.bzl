@@ -1,5 +1,4 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/node_tools/legacy:index.bzl", "polymer_bundler_tool")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 
 def polygerrit_bundle(name, srcs, outs, entry_point):

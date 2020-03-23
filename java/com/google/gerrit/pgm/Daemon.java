@@ -83,6 +83,7 @@ import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
+import com.google.gerrit.server.i18n.I18nModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
@@ -420,6 +421,8 @@ public class Daemon extends SiteProgram {
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
+
+    modules.add(new I18nModule());
 
     modules.add(new SearchingChangeCacheImpl.Module(replica));
     modules.add(new InternalAccountDirectory.Module());

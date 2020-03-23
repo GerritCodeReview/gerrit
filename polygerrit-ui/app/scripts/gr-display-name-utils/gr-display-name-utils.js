@@ -16,13 +16,13 @@
  */
 const ANONYMOUS_NAME = 'Anonymous';
 
-  export class GrDisplayNameUtils {
-    static getUserName(config, account) {
+export class GrDisplayNameUtils {
+  static getUserName(config, account) {
     if (account && account.name) {
       return account.name;
     } else if (account && account.username) {
       return account.username;
-      } else if (account && account.email) {
+    } else if (account && account.email) {
       return account.email;
     } else if (config && config.user &&
         config.user.anonymous_coward_name !== 'Anonymous Coward') {

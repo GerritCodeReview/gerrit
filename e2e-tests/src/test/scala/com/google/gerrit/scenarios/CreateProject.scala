@@ -18,29 +18,15 @@ import io.gatling.core.Predef._
 import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
-import scala.concurrent.duration._
-
-class CloneUsingBothProtocols extends GitSimulation {
+class CreateProject extends GerritSimulation {
   private val data: FileBasedFeederBuilder[Any]#F = jsonFile(resource).queue
 
-  private val test: ScenarioBuilder = scenario(name)
+  val test: ScenarioBuilder = scenario(name)
       .feed(data)
-      .exec(gitRequest)
-
-  private val createProject = new CreateProject
-  private val deleteProject = new DeleteProject
+      .exec(httpRequest)
 
   setUp(
-    createProject.test.inject(
-      atOnceUsers(1)
-    ),
     test.inject(
-      nothingFor(1 second),
-      constantUsersPerSec(1) during (2 seconds)
-    ),
-    deleteProject.test.inject(
-      nothingFor(3 second),
       atOnceUsers(1)
-    ),
-  ).protocols(gitProtocol, httpProtocol)
+    )).protocols(httpProtocol)
 }

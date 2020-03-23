@@ -15,16 +15,18 @@
 package com.google.gerrit.scenarios
 
 import io.gatling.core.Predef._
+import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
 import scala.concurrent.duration._
 
 class ReplayRecordsFromFeeder extends GitSimulation {
+  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(resource).circular
 
   private val test: ScenarioBuilder = scenario(name)
       .repeat(10000) {
         feed(data)
-            .exec(request)
+            .exec(gitRequest)
       }
 
   setUp(
@@ -34,6 +36,6 @@ class ReplayRecordsFromFeeder extends GitSimulation {
       rampUsers(10) during (5 seconds),
       constantUsersPerSec(20) during (15 seconds),
       constantUsersPerSec(20) during (15 seconds) randomized
-    )).protocols(protocol)
+    )).protocols(gitProtocol)
       .maxDuration(60 seconds)
 }

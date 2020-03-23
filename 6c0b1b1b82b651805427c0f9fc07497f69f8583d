@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c848a05a_7e55a4f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-shared-style.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T14:47:35Z",
+      "side": 1,
+      "message": "nit: `have to` seems a bit strong, i think its more like recommended.",
+      "range": {
+        "startLine": 35,
+        "startChar": 9,
+        "endLine": 35,
+        "endChar": 20
+      },
+      "revId": "6c0b1b1b82b651805427c0f9fc07497f69f8583d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

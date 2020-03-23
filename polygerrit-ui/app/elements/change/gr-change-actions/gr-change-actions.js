@@ -969,7 +969,8 @@ class GrChangeActions extends mixinBehaviors( [
   }
 
   showRevertDialog() {
-    const query = 'submissionid:' + this.change.submission_id;
+    // The search is still broken if there is a " in the topic.
+    const query = `submissionid: "${this.change.submission_id}"`;
     /* A chromium plugin expects that the modifyRevertMsg hook will only
     be called after the revert button is pressed, hence we populate the
     revert dialog after revert button is pressed. */

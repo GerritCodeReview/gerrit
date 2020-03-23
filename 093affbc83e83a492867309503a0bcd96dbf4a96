@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d96d5a3_b808c82a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T12:34:24Z",
+      "side": 1,
+      "message": "can you add inline comment here before `true` so its more readable ?",
+      "range": {
+        "startLine": 85,
+        "startChar": 45,
+        "endLine": 85,
+        "endChar": 49
+      },
+      "revId": "093affbc83e83a492867309503a0bcd96dbf4a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97ccf904_a326908b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T12:34:24Z",
+      "side": 1,
+      "message": "this method seems useless as well...",
+      "revId": "093affbc83e83a492867309503a0bcd96dbf4a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17c3cd3e_c52c1b29",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T12:34:24Z",
+      "side": 1,
+      "message": "maybe just add test case for the change from `false` to `true` in the code  as well ? apparently its not covered by existing cases",
+      "revId": "093affbc83e83a492867309503a0bcd96dbf4a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

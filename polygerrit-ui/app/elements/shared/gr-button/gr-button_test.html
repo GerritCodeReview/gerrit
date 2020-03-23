@@ -40,6 +40,14 @@ void(0);
   </template>
 </test-fixture>
 
+<test-fixture id="nested">
+  <template>
+    <div id="test">
+      <gr-button class="testBtn"></gr-button>
+    </div>
+  </template>
+</test-fixture>
+
 <test-fixture id="tabindex">
   <template>
     <gr-button tabindex="3"></gr-button>
@@ -189,6 +197,37 @@ suite('gr-button tests', () => {
         assert.isFalse(tapSpy.called);
       });
     }
+  });
+
+  suite('reporting', () => {
+    const reportStub = sinon.stub();
+    setup(() => {
+      stub('gr-reporting', {
+        reportInteraction: (...args) => {
+          reportStub(...args);
+        },
+      });
+      reportStub.reset();
+    });
+
+    test('report event after click', () => {
+      MockInteractions.click(element);
+      assert.isTrue(reportStub.calledOnce);
+      assert.equal(reportStub.lastCall.args[0], 'button-click');
+      assert.deepEqual(reportStub.lastCall.args[1], {
+        path: 'html>body>test-fixture#basic>gr-button',
+      });
+    });
+
+    test('report event after click on nested', () => {
+      element = fixture('nested');
+      MockInteractions.click(element.querySelector('gr-button'));
+      assert.isTrue(reportStub.calledOnce);
+      assert.equal(reportStub.lastCall.args[0], 'button-click');
+      assert.deepEqual(reportStub.lastCall.args[1], {
+        path: 'html>body>test-fixture#nested>div#test>gr-button.testBtn',
+      });
+    });
   });
 });
 </script>

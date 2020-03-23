@@ -170,5 +170,51 @@
     return [...results];
   };
 
+  function getPathFromNode(el) {
+    if (!el.tagName || el.tagName === 'GR-APP'
+      || el instanceof DocumentFragment
+      || el instanceof HTMLSlotElement) {
+      return '';
+    }
+    let path = el.tagName.toLowerCase();
+    if (el.id) path += `#${el.id}`;
+    if (el.className) path += `.${el.className.replace(/ /g, '.')}`;
+    return path;
+  }
+
+  /**
+   * Retrieves the dom path of the current event.
+   *
+   * If the event object contains a `path` property, then use it,
+   * otherwise, construct the dom path based on the event target.
+   *
+   * @param {!Event} e
+   * @return {string}
+   * @example
+   *
+   * domNode.onclick = e => {
+   *  getEventPath(e); // eg: div.class1>p#pid.class2
+   * }
+   */
+  util.getEventPath = e => {
+    if (!e) return '';
+
+    let path = e.path;
+    if (!path || !path.length) {
+      path = [];
+      let el = e.target;
+      while (el) {
+        path.push(el);
+        el = el.parentNode || el.host;
+      }
+    }
+
+    return path.reduce((domPath, curEl) => {
+      const pathForEl = getPathFromNode(curEl);
+      if (!pathForEl) return domPath;
+      return domPath ? `${pathForEl}>${domPath}` : pathForEl;
+    }, '');
+  };
+
   window.util = util;
 })(window);

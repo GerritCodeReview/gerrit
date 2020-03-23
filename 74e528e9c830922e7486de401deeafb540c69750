@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "51f5f5dc_bee44130",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-23T16:19:10Z",
+      "side": 1,
+      "message": "Maybe it would be better to check this in ChangeUpdate.setTopic?",
+      "parentUuid": "0a962906_5f8e8733",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa66b5dd_f1ecca65",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

@@ -37,6 +37,12 @@ const ReportingEvent = {
   SHOW_MORE: 'show-more-messages',
 };
 
+/** @enum {string} */
+const ExpandAllState = {
+  EXPAND_ALL: 'Expand All',
+  COLLAPSE_ALL: 'Collapse All',
+};
+
 /**
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
@@ -69,14 +75,20 @@ class GrMessagesList extends mixinBehaviors( [
       },
       labels: Object,
 
-      _expanded: {
-        type: Boolean,
-        value: false,
-        observer: '_expandedChanged',
-      },
-
-      _expandCollapseTitle: {
+      /**
+       * Keeps track of the state of the "Expand All" toggle button. Note that
+       * you can individually expand/collapse some messages without affecting
+       * the toggle button's state.
+       *
+       * @enum ExpandAllState
+       */
+      _expandAllState: {
         type: String,
+        value: ExpandAllState.EXPAND_ALL,
+      },
+      _expandAllTitle: {
+        type: String,
+        computed: '_computeExpandAllTitle(_expandAllState)',
       },
 
       _hideAutomated: {
@@ -185,10 +197,10 @@ class GrMessagesList extends mixinBehaviors( [
     return result;
   }
 
-  _expandedChanged(exp) {
+  _updateExpandedStateOfAllMessages(expanded) {
     if (this._processedMessages) {
       for (let i = 0; i < this._processedMessages.length; i++) {
-        this._processedMessages[i].expanded = exp;
+        this._processedMessages[i].expanded = expanded;
       }
     }
     // _visibleMessages is a subarray of _processedMessages
@@ -200,14 +212,18 @@ class GrMessagesList extends mixinBehaviors( [
         this.notifyPath(`_visibleMessages.${i}.expanded`);
       }
     }
+  }
 
-    if (this._expanded) {
-      this._expandCollapseTitle = this.createTitle(
+  _computeExpandAllTitle(_expandAllState) {
+    if (_expandAllState === ExpandAllState.COLLAPSED_ALL) {
+      return this.createTitle(
           this.Shortcut.COLLAPSE_ALL_MESSAGES, this.ShortcutSection.ACTIONS);
-    } else {
-      this._expandCollapseTitle = this.createTitle(
+    }
+    if (_expandAllState === ExpandAllState.EXPAND_ALL) {
+      return this.createTitle(
           this.Shortcut.EXPAND_ALL_MESSAGES, this.ShortcutSection.ACTIONS);
     }
+    return '';
   }
 
   _highlightEl(el) {
@@ -228,12 +244,15 @@ class GrMessagesList extends mixinBehaviors( [
    * @param {boolean} expand
    */
   handleExpandCollapse(expand) {
-    this._expanded = expand;
+    this._expandAllState = expand ? ExpandAllState.COLLAPSE_ALL
+      : ExpandAllState.EXPAND_ALL;
+    this._updateExpandedStateOfAllMessages(expand);
   }
 
   _handleExpandCollapseTap(e) {
     e.preventDefault();
-    this.handleExpandCollapse(!this._expanded);
+    this.handleExpandCollapse(
+        this._expandAllState === ExpandAllState.EXPAND_ALL);
   }
 
   _handleAnchorClick(e) {
@@ -248,10 +267,6 @@ class GrMessagesList extends mixinBehaviors( [
       }
     }
     return false;
-  }
-
-  _computeExpandCollapseMessage(expanded) {
-    return expanded ? 'Collapse all' : 'Expand all';
   }
 
   /**

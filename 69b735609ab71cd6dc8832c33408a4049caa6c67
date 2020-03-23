@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "246ae08a_2c9a1f04",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-23T14:49:14Z",
+      "side": 1,
+      "message": "nit: If we are going to rename it,maybe we should also convert _expanded to some enum value?\nBoolean _expandAllToggleChecked also doesn\u0027t express exact meaning of it. I.e. it can be true or false, but some messages are collapsed and some are not collapsed.",
+      "parentUuid": "1d594275_7044609f",
+      "revId": "69b735609ab71cd6dc8832c33408a4049caa6c67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "542fd436_f001f513",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 1

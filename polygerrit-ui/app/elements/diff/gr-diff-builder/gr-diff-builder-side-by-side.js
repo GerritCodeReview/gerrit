@@ -17,107 +17,98 @@
 
 import {GrDiffBuilder} from './gr-diff-builder.js';
 
-(function(window) {
-  'use strict';
+/** @constructor */
+export function GrDiffBuilderSideBySide(diff, prefs, outputEl, layers) {
+  GrDiffBuilder.call(this, diff, prefs, outputEl, layers);
+}
+GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);
+GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;
 
-  // Prevent redefinition.
-  if (window.GrDiffBuilderSideBySide) { return; }
-
-  /** @constructor */
-  function GrDiffBuilderSideBySide(diff, prefs, outputEl, layers) {
-    GrDiffBuilder.call(this, diff, prefs, outputEl, layers);
+GrDiffBuilderSideBySide.prototype.buildSectionElement = function(group) {
+  const sectionEl = this._createElement('tbody', 'section');
+  sectionEl.classList.add(group.type);
+  if (this._isTotal(group)) {
+    sectionEl.classList.add('total');
   }
-  GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);
-  GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;
+  if (group.dueToRebase) {
+    sectionEl.classList.add('dueToRebase');
+  }
+  if (group.ignoredWhitespaceOnly) {
+    sectionEl.classList.add('ignoredWhitespaceOnly');
+  }
+  const pairs = group.getSideBySidePairs();
+  for (let i = 0; i < pairs.length; i++) {
+    sectionEl.appendChild(this._createRow(sectionEl, pairs[i].left,
+        pairs[i].right));
+  }
+  return sectionEl;
+};
 
-  GrDiffBuilderSideBySide.prototype.buildSectionElement = function(group) {
-    const sectionEl = this._createElement('tbody', 'section');
-    sectionEl.classList.add(group.type);
-    if (this._isTotal(group)) {
-      sectionEl.classList.add('total');
-    }
-    if (group.dueToRebase) {
-      sectionEl.classList.add('dueToRebase');
-    }
-    if (group.ignoredWhitespaceOnly) {
-      sectionEl.classList.add('ignoredWhitespaceOnly');
-    }
-    const pairs = group.getSideBySidePairs();
-    for (let i = 0; i < pairs.length; i++) {
-      sectionEl.appendChild(this._createRow(sectionEl, pairs[i].left,
-          pairs[i].right));
-    }
-    return sectionEl;
-  };
+GrDiffBuilderSideBySide.prototype.addColumns = function(outputEl, fontSize) {
+  const width = fontSize * 4;
+  const colgroup = document.createElement('colgroup');
 
-  GrDiffBuilderSideBySide.prototype.addColumns = function(outputEl, fontSize) {
-    const width = fontSize * 4;
-    const colgroup = document.createElement('colgroup');
+  // Add the blame column.
+  let col = this._createElement('col', 'blame');
+  colgroup.appendChild(col);
 
-    // Add the blame column.
-    let col = this._createElement('col', 'blame');
-    colgroup.appendChild(col);
+  // Add left-side line number.
+  col = document.createElement('col');
+  col.setAttribute('width', width);
+  colgroup.appendChild(col);
 
-    // Add left-side line number.
-    col = document.createElement('col');
-    col.setAttribute('width', width);
-    colgroup.appendChild(col);
+  // Add left-side content.
+  colgroup.appendChild(document.createElement('col'));
 
-    // Add left-side content.
-    colgroup.appendChild(document.createElement('col'));
+  // Add right-side line number.
+  col = document.createElement('col');
+  col.setAttribute('width', width);
+  colgroup.appendChild(col);
 
-    // Add right-side line number.
-    col = document.createElement('col');
-    col.setAttribute('width', width);
-    colgroup.appendChild(col);
+  // Add right-side content.
+  colgroup.appendChild(document.createElement('col'));
 
-    // Add right-side content.
-    colgroup.appendChild(document.createElement('col'));
+  outputEl.appendChild(colgroup);
+};
 
-    outputEl.appendChild(colgroup);
-  };
+GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
+    rightLine) {
+  const row = this._createElement('tr');
+  row.classList.add('diff-row', 'side-by-side');
+  row.setAttribute('left-type', leftLine.type);
+  row.setAttribute('right-type', rightLine.type);
+  row.tabIndex = -1;
 
-  GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
-      rightLine) {
-    const row = this._createElement('tr');
-    row.classList.add('diff-row', 'side-by-side');
-    row.setAttribute('left-type', leftLine.type);
-    row.setAttribute('right-type', rightLine.type);
-    row.tabIndex = -1;
+  row.appendChild(this._createBlameCell(leftLine));
 
-    row.appendChild(this._createBlameCell(leftLine));
+  this._appendPair(section, row, leftLine, leftLine.beforeNumber,
+      GrDiffBuilder.Side.LEFT);
+  this._appendPair(section, row, rightLine, rightLine.afterNumber,
+      GrDiffBuilder.Side.RIGHT);
+  return row;
+};
 
-    this._appendPair(section, row, leftLine, leftLine.beforeNumber,
-        GrDiffBuilder.Side.LEFT);
-    this._appendPair(section, row, rightLine, rightLine.afterNumber,
-        GrDiffBuilder.Side.RIGHT);
-    return row;
-  };
+GrDiffBuilderSideBySide.prototype._appendPair = function(section, row, line,
+    lineNumber, side) {
+  const lineNumberEl = this._createLineEl(line, lineNumber, line.type, side);
+  lineNumberEl.classList.add(side);
+  row.appendChild(lineNumberEl);
+  const action = this._createContextControl(section, line);
+  if (action) {
+    row.appendChild(action);
+  } else {
+    const textEl = this._createTextEl(lineNumberEl, line, side);
+    row.appendChild(textEl);
+  }
+};
 
-  GrDiffBuilderSideBySide.prototype._appendPair = function(section, row, line,
-      lineNumber, side) {
-    const lineNumberEl = this._createLineEl(line, lineNumber, line.type, side);
-    lineNumberEl.classList.add(side);
-    row.appendChild(lineNumberEl);
-    const action = this._createContextControl(section, line);
-    if (action) {
-      row.appendChild(action);
-    } else {
-      const textEl = this._createTextEl(lineNumberEl, line, side);
-      row.appendChild(textEl);
-    }
-  };
-
-  GrDiffBuilderSideBySide.prototype._getNextContentOnSide = function(
-      content, side) {
-    let tr = content.parentElement.parentElement;
-    while (tr = tr.nextSibling) {
-      content = tr.querySelector(
-          'td.content .contentText[data-side="' + side + '"]');
-      if (content) { return content; }
-    }
-    return null;
-  };
-
-  window.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
-})(window);
+GrDiffBuilderSideBySide.prototype._getNextContentOnSide = function(
+    content, side) {
+  let tr = content.parentElement.parentElement;
+  while (tr = tr.nextSibling) {
+    content = tr.querySelector(
+        'td.content .contentText[data-side="' + side + '"]');
+    if (content) { return content; }
+  }
+  return null;
+};

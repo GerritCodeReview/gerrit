@@ -55,6 +55,10 @@ public class PutTopic
           String.format("topic length exceeds the limit (%s)", ChangeUtil.TOPIC_MAX_LENGTH));
     }
 
+    if (input != null && input.topic != null && input.topic.contains("\"")) {
+      throw new BadRequestException("topic can't contain the character \".");
+    }
+
     TopicInput sanitizedInput = input == null ? new TopicInput() : input;
     if (sanitizedInput.topic != null) {
       sanitizedInput.topic = sanitizedInput.topic.trim();

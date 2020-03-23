@@ -23,8 +23,6 @@ limitations under the License.
 
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../../test/test-pre-setup.js"></script>
-<script type="module" src="../../../test/common-test-setup.js"></script>
 <!-- Can't use absolute path below for mock-interaction.js.
 Web component tester(wct) has a built-in http server and it serves "/components" directory (which is
 actually /node_modules directory). Also, wct patches some files to load modules from /components.
@@ -32,15 +30,6 @@ With the absolute path, browser tries to load dom-module from 2 different places
 /node_modules/...) though this is actually the same file. This leads to a run-time error.
 -->
 <script src="../../../node_modules/iron-test-helpers/mock-interactions.js"></script>
-
-<script type="module" src="./gr-editable-content.js"></script>
-
-<script type="module">
-import '../../../test/test-pre-setup.js';
-import '../../../test/common-test-setup.js';
-import './gr-editable-content.js';
-void(0);
-</script>
 
 <test-fixture id="basic">
   <template>

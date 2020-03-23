@@ -23,26 +23,7 @@ limitations under the License.
 
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../../test/test-pre-setup.js"></script>
-<script type="module" src="../../../test/common-test-setup.js"></script>
 <script src="/node_modules/page/page.js"></script>
-
-<script type="module" src="../gr-comment-api/gr-comment-api.js"></script>
-<script type="module" src="../../shared/gr-rest-api-interface/mock-diff-response_test.js"></script>
-<script type="module" src="../../shared/revision-info/revision-info.js"></script>
-
-<script type="module" src="./gr-patch-range-select.js"></script>
-
-<script type="module">
-import '../../../test/test-pre-setup.js';
-import '../../../test/common-test-setup.js';
-import '../gr-comment-api/gr-comment-api.js';
-import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
-import '../../shared/revision-info/revision-info.js';
-import './gr-patch-range-select.js';
-import '../gr-comment-api/gr-comment-api-mock_test.js';
-void(0);
-</script>
 
 <dom-module id="comment-api-mock">
   <template>
@@ -50,8 +31,7 @@ void(0);
         change-comments="[[_changeComments]]"></gr-patch-range-select>
     <gr-comment-api id="commentAPI"></gr-comment-api>
   </template>
-  <script type="module" src="../gr-comment-api/gr-comment-api-mock_test.js"></script>
-</dom-module>
+  </dom-module>
 
 <test-fixture id="basic">
   <template>

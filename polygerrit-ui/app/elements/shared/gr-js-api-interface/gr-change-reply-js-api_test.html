@@ -23,20 +23,10 @@ limitations under the License.
 
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../../test/test-pre-setup.js"></script>
-<script type="module" src="../../../test/common-test-setup.js"></script>
 <!--
 This must refer to the element this interface is wrapping around. Otherwise
 breaking changes to gr-reply-dialog won’t be noticed.
 -->
-<script type="module" src="../../change/gr-reply-dialog/gr-reply-dialog.js"></script>
-
-<script type="module">
-import '../../../test/test-pre-setup.js';
-import '../../../test/common-test-setup.js';
-import '../../change/gr-reply-dialog/gr-reply-dialog.js';
-void(0);
-</script>
 
 <test-fixture id="basic">
   <template>

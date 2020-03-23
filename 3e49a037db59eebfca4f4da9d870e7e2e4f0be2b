@@ -46,6 +46,30 @@
       "revId": "3e49a037db59eebfca4f4da9d870e7e2e4f0be2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c895d52e_c7e0b22d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-23T10:09:53Z",
+      "side": 1,
+      "message": "This was acceptable on stable-3.1 but no on master, it can be seen as a mere conflict resolution.\nI fixed it on stable-3.1 but IMO this is OK.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/259794",
+      "parentUuid": "01705fef_acdd142e",
+      "range": {
+        "startLine": 1204,
+        "startChar": 4,
+        "endLine": 1204,
+        "endChar": 43
+      },
+      "revId": "3e49a037db59eebfca4f4da9d870e7e2e4f0be2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

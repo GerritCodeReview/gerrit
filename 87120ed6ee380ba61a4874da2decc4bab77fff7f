@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b332c87_4c987bb0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T11:56:42Z",
+      "side": 1,
+      "message": ".. next time, notes like this, maybe write it as TODO, its easier to grab attention and for tracking purpose as well\n\n`TODO: figure out how to handle quotes which will not work`",
+      "revId": "87120ed6ee380ba61a4874da2decc4bab77fff7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -71,8 +71,8 @@ export const htmlTemplate = html`
           <paper-toggle-button id="automatedMessageToggle" checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
           <span class="transparent separator"></span>
         </span>
-        <gr-button id="collapse-messages" link="" title="[[_expandCollapseTitle]]" on-click="_handleExpandCollapseTap">
-          [[_computeExpandCollapseMessage(_expanded)]]
+        <gr-button id="collapse-messages" link="" title="[[_expandAllTitle]]" on-click="_handleExpandCollapseTap">
+          [[_expandAllState]]
         </gr-button>
       </div>
     <span id="messageControlsContainer" hidden\$="[[_computeShowHideTextHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">

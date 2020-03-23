@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "42f7dceb_afd54bff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T15:05:57Z",
+      "side": 1,
+      "message": "Ok, I changed wording. We are not using loadEventEnd for any analysis, so I just removed it. It\u0027s not worth of more complicated logic.",
+      "parentUuid": "cbf814df_d9bf9388",
+      "revId": "b166d2c3313684c4c990f4a295792cb9846e89bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2daf8a2d_e4e536ac",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "b166d2c3313684c4c990f4a295792cb9846e89bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f9aa677_b8799246",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T15:05:57Z",
+      "side": 1,
+      "message": "Yes and new version is experimental. I will look at this later, it\u0027s in my todolist.",
+      "parentUuid": "2daf8a2d_e4e536ac",
+      "revId": "b166d2c3313684c4c990f4a295792cb9846e89bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

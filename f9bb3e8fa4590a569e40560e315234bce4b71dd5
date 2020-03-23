@@ -70,6 +70,24 @@
       "revId": "f9bb3e8fa4590a569e40560e315234bce4b71dd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33c9c11c_b3fcaeba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T10:18:16Z",
+      "side": 1,
+      "message": "its supported from the UI doesn\u0027t mean its working correctly... @Gal, can you check how to search a topic with quote on the RESTful API level ? i.e: what the request url should look like in cli, like `curl`\n\nif its not searchable at all, then its probably better to just remove the support from the BE, i.e do not allow quotes in topic when create a topic from the API",
+      "parentUuid": "3ec95a68_7bd61d92",
+      "revId": "f9bb3e8fa4590a569e40560e315234bce4b71dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

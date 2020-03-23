@@ -72,7 +72,6 @@ class GrMessagesList extends mixinBehaviors( [
       _expanded: {
         type: Boolean,
         value: false,
-        observer: '_expandedChanged',
       },
 
       _expandCollapseTitle: {
@@ -229,6 +228,11 @@ class GrMessagesList extends mixinBehaviors( [
    */
   handleExpandCollapse(expand) {
     this._expanded = expand;
+    // We are deliberately calling _expandedChanged(), even if _expanded does
+    // not change. _expanded is initially false, but some messages might still
+    // be expanded. Then you want to be able to collapse all (e.g. by using the
+    // 'z' keyboard shortcut.
+    this._expandedChanged(expand);
   }
 
   _handleExpandCollapseTap(e) {

@@ -94,6 +94,10 @@ suite('gr-messages-list tests', () => {
     return dom(element.root).querySelectorAll('gr-message');
   };
 
+  const getMessageArray = function() {
+    return Array.from(getMessages());
+  };
+
   const author = {
     _account_id: 42,
     name: 'Marvin the Paranoid Android',
@@ -316,28 +320,21 @@ suite('gr-messages-list tests', () => {
     });
 
     test('expand/collapse from external keypress', () => {
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('#collapse-messages'));
-      let allMessageEls = getMessages();
-      for (const message of allMessageEls) {
-        assert.isTrue(message._expanded);
-      }
+      // Start with one expanded message. -> not all collapsed
+      element.scrollToMessage(messages[1].id);
+      assert.isFalse(getMessageArray().filter(m => m._expanded).length == 0);
 
-      // Expand/collapse all text also changes.
-      assert.equal(element.shadowRoot
-          .querySelector('#collapse-messages').textContent.trim(),
-      'Collapse all');
+      // Press 'z' -> all collapsed
+      element.handleExpandCollapse(false);
+      assert.isTrue(getMessageArray().filter(m => m._expanded).length == 0);
 
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('#collapse-messages'));
-      allMessageEls = getMessages();
-      for (const message of allMessageEls) {
-        assert.isFalse(message._expanded);
-      }
-      // Expand/collapse all text also changes.
-      assert.equal(element.shadowRoot
-          .querySelector('#collapse-messages').textContent.trim(),
-      'Expand all');
+      // Press 'x' -> all expanded
+      element.handleExpandCollapse(true);
+      assert.isTrue(getMessageArray().filter(m => !m._expanded).length == 0);
+
+      // Press 'z' -> all collapsed
+      element.handleExpandCollapse(false);
+      assert.isTrue(getMessageArray().filter(m => m._expanded).length == 0);
     });
 
     test('hide messages does not appear when no automated messages', () => {

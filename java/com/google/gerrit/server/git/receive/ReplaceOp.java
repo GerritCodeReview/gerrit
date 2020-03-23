@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -72,6 +73,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
@@ -242,7 +244,8 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
+      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException,
+          ValidationException {
     notes = ctx.getNotes();
     Change change = notes.getChange();
     if (change == null || change.isClosed()) {
@@ -272,7 +275,11 @@ public class ReplaceOp implements BatchUpdateOp {
         update.setHashtags(hashtags);
       }
       if (magicBranch.topic != null && !magicBranch.topic.equals(ctx.getChange().getTopic())) {
-        update.setTopic(magicBranch.topic);
+        try {
+          update.setTopic(magicBranch.topic);
+        } catch (ValidationException ex) {
+          throw new BadRequestException(ex.getMessage());
+        }
       }
       if (magicBranch.removePrivate) {
         change.setPrivate(false);

@@ -176,6 +176,7 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -2584,15 +2585,7 @@ class ReceiveCommits {
                     .setFireEvent(false));
           }
           if (!Strings.isNullOrEmpty(magicBranch.topic)) {
-            bu.addOp(
-                changeId,
-                new BatchUpdateOp() {
-                  @Override
-                  public boolean updateChange(ChangeContext ctx) {
-                    ctx.getUpdate(psId).setTopic(magicBranch.topic);
-                    return true;
-                  }
-                });
+            bu.addOp(changeId, new SetTopicOp(magicBranch.topic));
           }
           bu.addOp(
               changeId,
@@ -3465,5 +3458,20 @@ class ReceiveCommits {
     }
     b.append(")\n");
     return b.toString();
+  }
+
+  private static class SetTopicOp implements BatchUpdateOp {
+
+    private final String topic;
+
+    public SetTopicOp(String topic) {
+      this.topic = topic;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws ValidationException {
+      ctx.getUpdate(ctx.getChange().currentPatchSetId()).setTopic(topic);
+      return true;
+    }
   }
 }

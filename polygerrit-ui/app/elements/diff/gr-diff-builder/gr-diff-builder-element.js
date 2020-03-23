@@ -34,6 +34,7 @@ import {htmlTemplate} from './gr-diff-builder-element_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
+import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',

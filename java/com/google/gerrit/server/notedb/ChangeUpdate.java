@@ -66,6 +66,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -345,7 +346,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
-  public void setTopic(String topic) {
+  public void setTopic(String topic) throws ValidationException {
+
+    if (isIllegalTopic(topic)) {
+      throw new ValidationException("topic can't contain quotation marks.");
+    }
     this.topic = Strings.nullToEmpty(topic);
   }
 
@@ -789,6 +794,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       sb.append(sanitizeFooter(Objects.toString(value)));
     }
     sb.append('\n');
+  }
+
+  private static boolean isIllegalTopic(String topic) {
+    return (topic != null && topic.contains("\""));
   }
 
   private StringBuilder addIdent(StringBuilder sb, Account.Id accountId) {

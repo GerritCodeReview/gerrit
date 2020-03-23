@@ -31,7 +31,6 @@
 var Gerrit;
 var GrChangeActionsInterface;
 var GrChangeReplyInterface;
-var GrDiffBuilderImage;
 var GrDiffBuilderUnified;
 var GrDomHooks;
 var GrEditConstants;

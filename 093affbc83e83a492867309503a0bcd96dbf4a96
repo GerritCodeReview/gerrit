@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4a17e5ce_554277b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:39:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d96d5a3_b808c82a",
+      "range": {
+        "startLine": 85,
+        "startChar": 45,
+        "endLine": 85,
+        "endChar": 49
+      },
+      "revId": "093affbc83e83a492867309503a0bcd96dbf4a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97ccf904_a326908b",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 20
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7b4b557c_606ab5ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:39:03Z",
+      "side": 1,
+      "message": "removed in next change",
+      "parentUuid": "97ccf904_a326908b",
+      "revId": "093affbc83e83a492867309503a0bcd96dbf4a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17c3cd3e_c52c1b29",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_test.html",
         "patchSetId": 20
@@ -56,6 +98,24 @@
       "revId": "093affbc83e83a492867309503a0bcd96dbf4a96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "630f4107_256de6b2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-23T14:39:03Z",
+      "side": 1,
+      "message": "Are you referring to the \"enableEmail\" parameter? That is removed in change 257645.",
+      "parentUuid": "17c3cd3e_c52c1b29",
+      "revId": "093affbc83e83a492867309503a0bcd96dbf4a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

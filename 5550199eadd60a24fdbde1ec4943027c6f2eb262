@@ -311,6 +311,30 @@
     },
     {
       "key": {
+        "uuid": "5dd47a51_508c3192",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-23T14:09:48Z",
+      "side": 1,
+      "message": "Yes, this is something from polymer-modilzer. I noticed it after I submitted my changes.\n\nYou can ignore it. I am going to remove all of them in a week.",
+      "parentUuid": "0d2420ec_87523eb8",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 98
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4972a2b_6f56e300",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
         "patchSetId": 18
@@ -346,6 +370,30 @@
       "side": 1,
       "message": "No idea. :-) Dmitrii?",
       "parentUuid": "e4972a2b_6f56e300",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "5550199eadd60a24fdbde1ec4943027c6f2eb262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8bd05bd_fc7fad35",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-23T14:09:48Z",
+      "side": 1,
+      "message": "See above",
+      "parentUuid": "ecdf0562_dc9b73db",
       "range": {
         "startLine": 33,
         "startChar": 0,

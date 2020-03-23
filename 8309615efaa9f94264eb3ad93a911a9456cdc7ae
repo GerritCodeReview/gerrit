@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab2bba9b_9ea4c38d",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-03-23T16:59:55Z",
+      "side": 1,
+      "message": "I99f6d40 removed push to refs/changes/ ; what is this for?",
+      "range": {
+        "startLine": 409,
+        "startChar": 47,
+        "endLine": 409,
+        "endChar": 88
+      },
+      "revId": "8309615efaa9f94264eb3ad93a911a9456cdc7ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -26,7 +26,6 @@ import '../gr-diff-selection/gr-diff-selection.js';
 import '../gr-syntax-themes/gr-syntax-theme.js';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme.js';
 import '../../../scripts/hiddenscroll.js';
-import './gr-diff-group.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';

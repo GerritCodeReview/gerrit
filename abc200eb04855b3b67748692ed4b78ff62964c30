@@ -57,6 +57,24 @@
       "revId": "abc200eb04855b3b67748692ed4b78ff62964c30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "171a9cb4_4417ba28",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-23T15:13:14Z",
+      "side": 1,
+      "message": "\u003e Is it really better to inject those 3 parameters instead of just GrantRevertPermission?\n\nYes, it is okay to inject those. Those are generic enough to be useful for other migrations too.\n\n\u003e Either way, when injecting those 3 parameters I can keep the GrantRevertPermission class (no need to inject it).\n\nFine with me, if you prefer that.",
+      "parentUuid": "7e77b62f_ff04eaa8",
+      "revId": "abc200eb04855b3b67748692ed4b78ff62964c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "3e49a037db59eebfca4f4da9d870e7e2e4f0be2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01705fef_acdd142e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-23T09:27:49Z",
+      "side": 1,
+      "message": "See my comment there.  This merge included other non-trivial merge conflict fixes, and this is a minor change.\n\nWe can fix it in stable-3.1 and re-do the merge if you want, but I won\u0027t have time to do it today.",
+      "parentUuid": "d8d3668a_94b1f43d",
+      "range": {
+        "startLine": 1204,
+        "startChar": 4,
+        "endLine": 1204,
+        "endChar": 43
+      },
+      "revId": "3e49a037db59eebfca4f4da9d870e7e2e4f0be2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2,7 +2,7 @@ This folder contains shared components that can be used independently from Gerri
 
 ### gr-diff
 
-`gr-diff.html` is the `gr-diff` component used in gerrit to render diff. If you want to use it, feel free to import it and use it in your project as:
+`gr-diff.js` is the `gr-diff` component used in gerrit to render diff. If you want to use it, feel free to import it and use it in your project as:
 
 ```
 <gr-diff></gr-diff>

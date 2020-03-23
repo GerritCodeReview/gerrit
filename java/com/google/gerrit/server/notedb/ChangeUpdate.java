@@ -61,6 +61,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -345,7 +346,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
-  public void setTopic(String topic) {
+  public void setTopic(String topic) throws BadRequestException {
+
+    if (topic != null && topic.contains("\"")) {
+      throw new BadRequestException("topic can't contain quotation marks.");
+    }
     this.topic = Strings.nullToEmpty(topic);
   }
 

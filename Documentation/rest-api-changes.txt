@@ -893,7 +893,7 @@ Sets the topic of a change.
 
 The new topic must be provided in the request body inside a
 link:#topic-input[TopicInput] entity. Any leading or trailing whitespace
-in the topic name will be removed.
+in the topic name will be removed. A topic must not contain quotation marks (").
 
 .Request
 ----

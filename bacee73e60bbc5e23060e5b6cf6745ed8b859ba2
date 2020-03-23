@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed6aa557_e52d6013",
+        "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T12:50:42Z",
+      "side": 1,
+      "message": "nit: why `deepEqual` on strings ?",
+      "range": {
+        "startLine": 68,
+        "startChar": 11,
+        "endLine": 68,
+        "endChar": 20
+      },
+      "revId": "bacee73e60bbc5e23060e5b6cf6745ed8b859ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -59,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "018471df_357a3054",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-23T15:06:45Z",
+      "side": 1,
+      "message": "IIRC topics can also be set using a git push option. Can you check that that code path (and maybe others) are accurately protected as well?",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d01cf8d3_0a1f6985",
         "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
         "patchSetId": 2

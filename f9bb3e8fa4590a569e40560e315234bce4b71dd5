@@ -34,6 +34,24 @@
       "revId": "f9bb3e8fa4590a569e40560e315234bce4b71dd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51478621_f62036fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-23T09:50:42Z",
+      "side": 1,
+      "message": "apparently, the answer is yes.\nhttps://gerrit-review.googlesource.com/c/plugins/checks/+/258542/1",
+      "parentUuid": "037b182d_fe4314c9",
+      "revId": "f9bb3e8fa4590a569e40560e315234bce4b71dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

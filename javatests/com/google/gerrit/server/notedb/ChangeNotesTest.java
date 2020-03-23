@@ -57,6 +57,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
@@ -928,6 +929,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isNull();
+
+    // check invalid topic
+    ChangeUpdate failingUpdate = newUpdate(c, changeOwner);
+    assertThrows(ValidationException.class, () -> failingUpdate.setTopic("\""));
   }
 
   @Test

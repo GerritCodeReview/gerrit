@@ -41,6 +41,7 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -71,6 +72,7 @@ import com.google.gerrit.server.update.InsertChangeOp;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -380,7 +382,11 @@ public class ChangeInserter implements InsertChangeOp {
     update.setChangeId(change.getKey().get());
     update.setSubjectForCommit("Create change");
     update.setBranch(change.getDest().branch());
-    update.setTopic(change.getTopic());
+    try {
+      update.setTopic(change.getTopic());
+    } catch (ValidationException ex) {
+      throw new BadRequestException(ex.getMessage());
+    }
     update.setPsDescription(patchSetDescription);
     update.setPrivate(isPrivate);
     update.setWorkInProgress(workInProgress);

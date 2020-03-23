@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
+
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput.Filters;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -72,7 +74,7 @@ abstract class BaseTestPrologCommand extends SshCommand {
       OutputFormat.JSON.newGson().toJson(result, stdout);
       stdout.print('\n');
     } catch (Exception e) {
-      throw die("Processing of prolog script failed: " + e);
+      throw die(getText("sshd.command.test.prolog.fail", '\u0020', e));
     }
   }
 }

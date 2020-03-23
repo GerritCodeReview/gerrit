@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_GC;
+import static com.google.gerrit.server.i18n.I18n.getText;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import static java.util.stream.Collectors.toList;
 
@@ -68,10 +69,10 @@ public class GarbageCollectionCommand extends SshCommand {
 
   private void verifyCommandLine() throws UnloggedFailure {
     if (!all && projects.isEmpty()) {
-      throw die("needs projects as command arguments or --all option");
+      throw die(getText("ssh.command.garbage.collect.no.arguments"));
     }
     if (all && !projects.isEmpty()) {
-      throw die("either specify projects as command arguments or use --all option");
+      throw die(getText("ssh.command.garbage.collect.excess.arguments"));
     }
   }
 
@@ -92,23 +93,22 @@ public class GarbageCollectionCommand extends SshCommand {
         String msg;
         switch (e.getType()) {
           case REPOSITORY_NOT_FOUND:
-            msg = "error: project \"" + e.getProjectName() + "\" not found";
+            msg = getText("ssh.command.garbage.collect.project.not.found", e.getProjectName());
             break;
           case GC_ALREADY_SCHEDULED:
             msg =
-                "error: garbage collection for project \""
-                    + e.getProjectName()
-                    + "\" was already scheduled";
+                getText(
+                    "ssh.command.garbage.collect.project.already.scheduled", e.getProjectName());
             break;
           case GC_FAILED:
-            msg = "error: garbage collection for project \"" + e.getProjectName() + "\" failed";
+            msg = getText("ssh.command.garbage.collect.project.failed", e.getProjectName());
             break;
           default:
             msg =
-                "error: garbage collection for project \""
-                    + e.getProjectName()
-                    + "\" failed: "
-                    + e.getType();
+                getText(
+                    "ssh.command.garbage.collect.project.failed.with.type",
+                    e.getProjectName(),
+                    e.getType());
         }
         stdout.print(msg + "\n");
       }

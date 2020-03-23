@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
+
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
@@ -59,11 +61,12 @@ final class IndexChangesCommand extends SshCommand {
       } catch (Exception e) {
         ok = false;
         writeError(
-            "error", String.format("failed to index change %s: %s", rsrc.getId(), e.getMessage()));
+            "error",
+            getText("sshd.command.index.changes.specified.failed", rsrc.getId(), e.getMessage()));
       }
     }
     if (!ok) {
-      throw die("failed to index one or more changes");
+      throw die(getText("sshd.command.index.changes.failed.and.die"));
     }
   }
 }

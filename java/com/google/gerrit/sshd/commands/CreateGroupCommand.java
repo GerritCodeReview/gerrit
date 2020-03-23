@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.data.GlobalCapability;
@@ -115,7 +116,7 @@ final class CreateGroupCommand extends SshCommand {
     } catch (RestApiException e) {
       throw die(e);
     } catch (Exception e) {
-      throw new Failure(1, "unavailable", e);
+      throw new Failure(1, getText("sshd.commands.common.unavailable"), e);
     }
   }
 

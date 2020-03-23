@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+import static com.google.gerrit.server.i18n.I18n.getText;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.server.project.ProjectResource;
@@ -44,7 +45,7 @@ final class IndexChangesInProjectCommand extends SshCommand {
   @Override
   protected void run() throws UnloggedFailure, Failure, Exception {
     if (projects.isEmpty()) {
-      throw die("needs at least one project as command arguments");
+      throw die(getText("sshd.command.index.project.changes.input.empty"));
     }
     projects.stream().forEach(this::index);
   }
@@ -54,7 +55,9 @@ final class IndexChangesInProjectCommand extends SshCommand {
       index.apply(new ProjectResource(projectState, user), null);
     } catch (Exception e) {
       writeError(
-          "error", String.format("Unable to index %s: %s", projectState.getName(), e.getMessage()));
+          "error",
+          getText(
+              "sshd.command.index.project.changes.failed", projectState.getName(), e.getMessage()));
     }
   }
 }

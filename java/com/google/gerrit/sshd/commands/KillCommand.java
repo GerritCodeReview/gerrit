@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+import static com.google.gerrit.server.i18n.I18n.getText;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -56,7 +57,7 @@ final class KillCommand extends SshCommand {
           | ResourceNotFoundException
           | ResourceConflictException
           | PermissionBackendException e) {
-        stderr.print("kill: " + id + ": No such task\n");
+        stderr.print(getText("ssh.command.kill.no.such.task", id, "\n"));
       }
     }
   }

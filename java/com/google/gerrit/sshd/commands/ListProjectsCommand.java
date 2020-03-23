@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.server.restapi.project.ListProjects;
@@ -35,10 +36,10 @@ public class ListProjectsCommand extends SshCommand {
     if (!impl.getFormat().isJson()) {
       List<String> showBranch = impl.getShowBranch();
       if (impl.isShowTree() && (showBranch != null) && !showBranch.isEmpty()) {
-        throw die("--tree and --show-branch options are not compatible.");
+        throw die(getText("ssh.command.list.projects.tree.show-branch.not.compatible"));
       }
       if (impl.isShowTree() && impl.isShowDescription()) {
-        throw die("--tree and --description options are not compatible.");
+        throw die(getText("ssh.command.list.projects.tree.description.not.compatible"));
       }
     }
     impl.displayToStream(out);

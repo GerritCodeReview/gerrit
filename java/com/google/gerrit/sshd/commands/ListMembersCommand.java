@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.MoreObjects;
@@ -70,7 +71,7 @@ public class ListMembersCommand extends SshCommand {
 
     void display(PrintWriter writer) throws PermissionBackendException {
       Optional<InternalGroup> group = groupCache.get(AccountGroup.nameKey(name));
-      String errorText = "Group not found or not visible\n";
+      String errorText = getText("ssh.command.list.members.group.not.found.or.not.visible", "\n");
 
       if (!group.isPresent()) {
         writer.write(errorText);

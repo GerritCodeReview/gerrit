@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -205,7 +207,7 @@ final class CreateProjectCommand extends SshCommand {
     } catch (RestApiException err) {
       throw die(err);
     } catch (PermissionBackendException err) {
-      throw new Failure(1, "permissions unavailable", err);
+      throw new Failure(1, getText("sshd.commands.common.permissions.unavailable"), err);
     }
   }
 
@@ -218,11 +220,9 @@ final class CreateProjectCommand extends SshCommand {
       List<String> s2 = Splitter.on('.').splitToList(s.get(0));
       if (s.size() != 2 || s2.size() != 2) {
         throw die(
-            "Invalid plugin config value '"
-                + pluginConfigValue
-                + "', expected format '<plugin-name>.<parameter-name>=<value>'"
-                + " or '<plugin-name>.<parameter-name>=<value1,value2,...>'");
+            getText("sshd.command.create.project.invalid.plugin.config.value", pluginConfigValue));
       }
+
       ConfigValue value = new ConfigValue();
       String v = s.get(1);
       if (v.contains(",")) {

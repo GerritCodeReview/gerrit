@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
+
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.index.ReindexerAlreadyRunningException;
@@ -37,15 +39,15 @@ public class IndexActivateCommand extends SshCommand {
     try {
       if (versionManager.isKnownIndex(name)) {
         if (versionManager.activateLatestIndex(name)) {
-          stdout.println("Activated latest index version");
+          stdout.println(getText("ssh.command.index.active.latest.index.version"));
         } else {
-          stdout.println("Not activating index, already using latest version");
+          stdout.println(getText("ssh.command.index.active.no.activating.index"));
         }
       } else {
-        stderr.println(String.format("Cannot activate index %s: unknown", name));
+        stderr.println(getText("ssh.command.index.active.unknown.index", name));
       }
     } catch (ReindexerAlreadyRunningException e) {
-      throw die("Failed to activate latest index: " + e.getMessage());
+      throw die(getText("ssh.command.index.active.failed", e.getMessage()));
     }
   }
 }

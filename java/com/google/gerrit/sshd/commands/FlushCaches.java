@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+import static com.google.gerrit.server.i18n.I18n.getText;
 import static com.google.gerrit.server.restapi.config.PostCaches.Operation.FLUSH;
 import static com.google.gerrit.server.restapi.config.PostCaches.Operation.FLUSH_ALL;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
@@ -58,14 +59,14 @@ final class FlushCaches extends SshCommand {
     try {
       if (list) {
         if (all || !caches.isEmpty()) {
-          throw die("cannot use --list with --all or --cache");
+          throw die(getText("sshd.command.flush.caches.list.combine.err"));
         }
         doList();
         return;
       }
 
       if (all && !caches.isEmpty()) {
-        throw die("cannot combine --all and --cache");
+        throw die(getText("sshd.command.flush.caches.all.combine.err"));
       } else if (!all && caches.size() == 1 && caches.contains("all")) {
         caches.clear();
         all = true;
@@ -81,7 +82,7 @@ final class FlushCaches extends SshCommand {
     } catch (RestApiException e) {
       throw die(e.getMessage());
     } catch (Exception e) {
-      throw new Failure(1, "unavailable", e);
+      throw new Failure(1, getText("sshd.commands.common.unavailable"), e);
     }
   }
 

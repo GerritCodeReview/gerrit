@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.*;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.flogger.FluentLogger;
@@ -62,7 +63,7 @@ final class CloseConnection extends SshCommand {
   protected void run() throws Failure {
     IoAcceptor acceptor = sshDaemon.getIoAcceptor();
     if (acceptor == null) {
-      throw new Failure(1, "fatal: sshd no longer running");
+      throw new Failure(1, getText("sshd.commands.common.ssh_no_longer_running"));
     }
     for (String sessionId : sessionIds) {
       boolean connectionFound = false;
@@ -73,22 +74,22 @@ final class CloseConnection extends SshCommand {
             serverSession != null ? serverSession.getAttribute(SshSession.KEY) : null;
         if (sshSession != null && sshSession.getSessionId() == id) {
           connectionFound = true;
-          stdout.println("closing connection " + sessionId + "...");
+          stdout.println(getText("sshd.command.close.connection.closing", sessionId));
           CloseFuture future = io.close(true);
           if (wait) {
             try {
               future.await();
-              stdout.println("closed connection " + sessionId);
+              stdout.println(getText("sshd.command.close.connection.closed", sessionId));
             } catch (IOException e) {
               logger.atWarning().log(
-                  "Wait for connection to close interrupted: %s", e.getMessage());
+                  getText("sshd.command.close.connection.wait.interrupted", e.getMessage()));
             }
           }
           break;
         }
       }
       if (!connectionFound) {
-        stderr.print("close connection " + sessionId + ": no such connection\n");
+        stderr.print(getText("sshd.command.close.connection.no.such.connection", sessionId, "\n"));
       }
     }
   }

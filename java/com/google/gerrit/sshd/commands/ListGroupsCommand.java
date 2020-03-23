@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.MoreObjects;
@@ -53,7 +54,7 @@ public class ListGroupsCommand extends SshCommand {
   @Override
   public void run() throws Exception {
     if (listGroups.getUser() != null && !listGroups.getProjects().isEmpty()) {
-      throw die("--user and --project options are not compatible.");
+      throw die(getText("ssh.command.list.groups.user.and.project.options.are.not.compatible"));
     }
 
     ColumnFormatter formatter = new ColumnFormatter(stdout, '\t');

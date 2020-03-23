@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.i18n.I18n.getText;
+
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.index.ReindexerAlreadyRunningException;
@@ -41,15 +43,15 @@ public class IndexStartCommand extends SshCommand {
     try {
       if (versionManager.isKnownIndex(name)) {
         if (versionManager.startReindexer(name, force)) {
-          stdout.println("Reindexer started");
+          stdout.println(getText("sshd.command.index.start.reindexer.started"));
         } else {
-          stdout.println("Nothing to reindex, index is already the latest version");
+          stdout.println(getText("sshd.command.index.start.reindexer.already.latest.version"));
         }
       } else {
-        stderr.println(String.format("Cannot reindex %s: unknown", name));
+        stderr.println(getText("ssh.command.index.start.reindexer.unknown.index", name));
       }
     } catch (ReindexerAlreadyRunningException e) {
-      throw die("Failed to start reindexer: " + e.getMessage());
+      throw die(getText("sshd.command.index.start.reindexer.failed", e.getMessage()));
     }
   }
 }

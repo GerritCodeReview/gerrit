@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "0c660d80_31c220b0",
+        "filename": "polygerrit-ui/app/elements/gr-app-global-var-init.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-23T10:22:20Z",
+      "side": 1,
+      "message": "Yes, it makes sense.\nBut at present, I suggest to keep it without any warning. I am thinking how to expose these variables to plugins (and probably some of these variables must not be exposed). There are several questions which need additional research and we can\u0027t provide alternatives for global variable right now.\nSo, if we show warning we must have a good replacement for it.",
+      "parentUuid": "68bf666e_7f861240",
+      "range": {
+        "startLine": 28,
+        "startChar": 30,
+        "endLine": 28,
+        "endChar": 48
+      },
+      "revId": "3a50d306fe0997b3921c447734bc032517d234bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76ecc141_f6d51a03",
         "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider_test.html",
         "patchSetId": 3

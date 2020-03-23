@@ -22,6 +22,30 @@
       "revId": "72b33bb084c3fe8eebbfb36262f7e573784ec8ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11809bfc_b9f18e0b",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:13:24Z",
+      "side": 1,
+      "message": "I would first try this without preload - browser should be smart and start preloading even when it is not executing straight away. We can add preload later, if browser doesn\u0027t.",
+      "parentUuid": "907c92a8_5b3755b0",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 70
+      },
+      "revId": "72b33bb084c3fe8eebbfb36262f7e573784ec8ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

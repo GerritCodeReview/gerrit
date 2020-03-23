@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e3d04871_7fc6e38c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "690e9745_c65fbfc4",
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71794b8c_6cc992c4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 14
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "82005865_a30a90e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "I don\u0027t think so.\nYou must have some changes if you want to cherry pick them.",
+      "parentUuid": "71794b8c_6cc992c4",
+      "range": {
+        "startLine": 1157,
+        "startChar": 34,
+        "endLine": 1157,
+        "endChar": 40
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1981b33_f90dfa36",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 14
@@ -62,6 +104,30 @@
       "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b90687d3_7c60c273",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1981b33_f90dfa36",
+      "range": {
+        "startLine": 1158,
+        "startChar": 16,
+        "endLine": 1158,
+        "endChar": 23
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +171,48 @@
     },
     {
       "key": {
+        "uuid": "ffed72e1_92fab6a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "you mean block cherry pick if something is running?\nI guess the cherry pick button topic button is blocked if something is running.",
+      "parentUuid": "c8d8ec35_8c6d2cb9",
+      "range": {
+        "startLine": 1161,
+        "startChar": 2,
+        "endLine": 1161,
+        "endChar": 26
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "474223d1_6813aec6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "It\u0027s not doing much. Just firing some actions. \nIt\u0027s consistent with how gr-change-actions currently works.",
+      "parentUuid": "2f8e40be_0deac962",
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25ab0870_355abec5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 14
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "b37403c8_a20282b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "Yes, I think so.\nThe _handleConfirmTap() in gr-confirm-cherry-pick-dialog always sends an event.",
+      "parentUuid": "25ab0870_355abec5",
+      "range": {
+        "startLine": 1162,
+        "startChar": 19,
+        "endLine": 1162,
+        "endChar": 25
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8337ca49_147dc400",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 14
@@ -139,6 +271,30 @@
       "writtenOn": "2020-03-23T09:31:13Z",
       "side": 1,
       "message": "Wouldn\u0027t be better to send it as one fire action as batch than n actions?",
+      "range": {
+        "startLine": 1173,
+        "startChar": 7,
+        "endLine": 1183,
+        "endChar": 18
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "635dc714_42eec43a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "I don\u0027t think there is a batch API for cherry pick.\nSo we have to make an API call for each change.\nIs that what you meant?",
+      "parentUuid": "8337ca49_147dc400",
       "range": {
         "startLine": 1173,
         "startChar": 7,
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "89590a12_8aff3559",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "I think it works.\nI see your point but it will take some effort to refactor this and I don\u0027t think it\u0027s necessary for now.",
+      "parentUuid": "2ae57462_e893449c",
+      "range": {
+        "startLine": 1381,
+        "startChar": 17,
+        "endLine": 1381,
+        "endChar": 48
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1685d273_ba1595f6",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
         "patchSetId": 14
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "6d941026_1e08c007",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "Nice.\nProbably fine to keep this for the change.\nAllows for easier testing to see if the message is directly truncated.",
+      "parentUuid": "1685d273_ba1595f6",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 149,
+        "endChar": 62
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "782624c6_8a7e7761",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
         "patchSetId": 14
@@ -208,6 +412,24 @@
       "writtenOn": "2020-03-23T13:06:12Z",
       "side": 1,
       "message": "Why flex?",
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f0198e7_2746ae5b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-23T14:43:00Z",
+      "side": 1,
+      "message": "The layout broke without it.\nhttps://screenshot.googleplex.com/UwjQH1diOQC\n\nI think it\u0027s because of the display:block property on the host.",
+      "parentUuid": "782624c6_8a7e7761",
       "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

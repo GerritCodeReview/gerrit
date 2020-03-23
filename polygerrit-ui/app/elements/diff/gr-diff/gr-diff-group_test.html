@@ -24,8 +24,8 @@ limitations under the License.
 <script src="/components/wct-browser-legacy/browser.js"></script>
 <script type="module">
 import '../../../test/common-test-setup.js';
-import './gr-diff-line.js';
 import './gr-diff-group.js';
+import {GrDiffLine} from './gr-diff-line.js';
 suite('gr-diff-group tests', () => {
   test('delta line pairs', () => {
     let group = new GrDiffGroup(GrDiffGroup.Type.DELTA);

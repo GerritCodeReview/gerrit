@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2020 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/wct-browser-legacy/browser.js"></script>
+
+<test-fixture id="basic">
+  <template>
+    <div id="test" class="a b c">
+      <a class="testBtn"></a>
+    </div>
+  </template>
+</test-fixture>
+
+<script type="module">
+  import '../test/common-test-setup.js';
+  import './util.js';
+  suite('util tests', () => {
+    suite('getEventPath', () => {
+      test('empty event', () => {
+        assert.equal(util.getEventPath(), '');
+        assert.equal(util.getEventPath(null), '');
+        assert.equal(util.getEventPath(undefined), '');
+        assert.equal(util.getEventPath({}), '');
+      });
+
+      test('event with fake path', () => {
+        assert.equal(util.getEventPath({path: []}), '');
+        assert.equal(util.getEventPath({path: [
+          {tagName: 'dd'},
+        ]}), 'dd');
+      });
+
+      test('event with fake complicated path', () => {
+        assert.equal(util.getEventPath({path: [
+          {tagName: 'dd', id: 'test', className: 'a b'},
+          {tagName: 'DIV', id: 'test2', className: 'a b c'},
+        ]}), 'div#test2.a.b.c>dd#test.a.b');
+      });
+
+      test('event with fake target', () => {
+        const fakeTargetParent2 = {
+          tagName: 'DIV', id: 'test2', className: 'a b c',
+        };
+        const fakeTargetParent1 = {
+          parentNode: fakeTargetParent2,
+          tagName: 'dd',
+          id: 'test',
+          className: 'a b',
+        };
+        const fakeTarget = {tagName: 'SPAN', parentNode: fakeTargetParent1};
+        assert.equal(
+            util.getEventPath({target: fakeTarget}),
+            'div#test2.a.b.c>dd#test.a.b>span'
+        );
+      });
+
+      test('event with real click', () => {
+        const element = fixture('basic');
+        const aLink = element.querySelector('a');
+        let path;
+        aLink.onclick = e => path = util.getEventPath(e);
+        MockInteractions.click(aLink);
+        assert.equal(
+            path,
+            'html>body>test-fixture#basic>div#test.a.b.c>a.testBtn'
+        );
+      });
+    });
+  });
+</script>

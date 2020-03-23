@@ -37,6 +37,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
+import com.google.gerrit.exceptions.IllegalTopicException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -242,7 +243,8 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
+      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException,
+          IllegalTopicException {
     notes = ctx.getNotes();
     Change change = notes.getChange();
     if (change == null || change.isClosed()) {

@@ -75,6 +75,7 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmissionId;
+import com.google.gerrit.exceptions.IllegalTopicException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -2584,15 +2585,7 @@ class ReceiveCommits {
                     .setFireEvent(false));
           }
           if (!Strings.isNullOrEmpty(magicBranch.topic)) {
-            bu.addOp(
-                changeId,
-                new BatchUpdateOp() {
-                  @Override
-                  public boolean updateChange(ChangeContext ctx) {
-                    ctx.getUpdate(psId).setTopic(magicBranch.topic);
-                    return true;
-                  }
-                });
+            bu.addOp(changeId, new SetTopicOp(magicBranch.topic));
           }
           bu.addOp(
               changeId,
@@ -3465,5 +3458,20 @@ class ReceiveCommits {
     }
     b.append(")\n");
     return b.toString();
+  }
+
+  private static class SetTopicOp implements BatchUpdateOp {
+
+    private final String topic;
+
+    public SetTopicOp(String topic) {
+      this.topic = topic;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws IllegalTopicException {
+      ctx.getUpdate(ctx.getChange().currentPatchSetId()).setTopic(topic);
+      return true;
+    }
   }
 }

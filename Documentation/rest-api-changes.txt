@@ -6075,6 +6075,7 @@ must be unique per repository and branch. If the commit message doesn't
 contain a Change-Id, a newly generated Change-Id is automatically
 inserted into the commit message.
 |`topic`              |optional|The topic to which this change belongs.
+topic can't contain quotation marks, newlines, null, and other control characters
 |`status`             |optional, default to `NEW`|
 The status of the change (only `NEW` accepted here).
 |`is_private`         |optional, default to `false`|
@@ -7068,6 +7069,7 @@ of recipient type to link:#notify-info[NotifyInfo] entity.
 Name of the topic for the revert change. If not set, the default for Revert
 endpoint is the topic of the change being reverted, and the default for the
 RevertSubmission endpoint is `revert-{submission_id}-{timestamp.now}`.
+topic can't contain quotation marks, newlines, null, and other control characters
 |=============================
 
 [[revert-submission-info]]
@@ -7490,6 +7492,7 @@ The `TopicInput` entity contains information for setting a topic.
 |Field Name    ||Description
 |`topic`       |optional|The topic. +
 The topic will be deleted if not set.
+topic can't contain quotation marks, newlines, null, and other control characters
 |===========================
 
 [[tracking-id-info]]

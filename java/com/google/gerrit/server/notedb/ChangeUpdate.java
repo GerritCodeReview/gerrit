@@ -60,6 +60,7 @@ import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
+import com.google.gerrit.exceptions.IllegalTopicException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
@@ -345,8 +346,23 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
-  public void setTopic(String topic) {
+  public void setTopic(String topic) throws IllegalTopicException {
+
+    if (isIllegalTopic(topic)) {
+      throw new IllegalTopicException(
+          "topic can't contain quotation marks, newlines, null, and other control characters.");
+    }
     this.topic = Strings.nullToEmpty(topic);
+  }
+
+  private boolean isIllegalTopic(String topic) {
+    if (topic == null) {
+      return false;
+    }
+
+    // All chars with integer less than 32 are illegal (newlines, null, and other control
+    // characters)
+    return topic.chars().anyMatch(c -> c < 32) || topic.contains("\"");
   }
 
   public void setCommit(RevWalk rw, ObjectId id) throws IOException {

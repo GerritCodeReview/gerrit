@@ -17,7 +17,9 @@ package com.google.gerrit.server.restapi.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.exceptions.IllegalTopicException;
 import com.google.gerrit.extensions.api.changes.TopicInput;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.extensions.events.TopicEdited;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -49,7 +51,7 @@ public class SetTopicOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) {
+  public boolean updateChange(ChangeContext ctx) throws BadRequestException {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     newTopicName = Strings.nullToEmpty(input.topic);
@@ -67,8 +69,11 @@ public class SetTopicOp implements BatchUpdateOp {
       summary = String.format("Topic changed from %s to %s", oldTopicName, newTopicName);
     }
     change.setTopic(Strings.emptyToNull(newTopicName));
-    update.setTopic(change.getTopic());
-
+    try {
+      update.setTopic(change.getTopic());
+    } catch (IllegalTopicException ex) {
+      throw new BadRequestException(ex.getMessage());
+    }
     ChangeMessage cmsg =
         ChangeMessagesUtil.newMessage(ctx, summary, ChangeMessagesUtil.TAG_SET_TOPIC);
     cmUtil.addChangeMessage(update, cmsg);

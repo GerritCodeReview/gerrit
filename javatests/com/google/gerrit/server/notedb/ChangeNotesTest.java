@@ -48,6 +48,7 @@ import com.google.gerrit.entities.CommentRange;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmissionId;
+import com.google.gerrit.exceptions.IllegalTopicException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.AssigneeStatusUpdate;
@@ -928,6 +929,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isNull();
+
+    // check invalid topic
+    ChangeUpdate failingUpdate = newUpdate(c, changeOwner);
+    assertThrows(IllegalTopicException.class, () -> failingUpdate.setTopic("\""));
   }
 
   @Test

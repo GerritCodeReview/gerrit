@@ -58,4 +58,16 @@ public class TopicIT extends AbstractDaemonTest {
 
     assertThat(response.getEntityContent()).isEqualTo(")]}'\n\"t opic\"");
   }
+
+  @Test
+  public void illegalTopics() throws Exception {
+    Result result = createChange();
+    char illegalChar = '"';
+    String endpoint = "/changes/" + result.getChangeId() + "/topic";
+    RestResponse response = adminRestSession.put(endpoint, "topic" + illegalChar);
+    response.assertBadRequest();
+    illegalChar = '\0';
+    response = adminRestSession.put(endpoint, "topic" + illegalChar + "with illegal char");
+    response.assertBadRequest();
+  }
 }

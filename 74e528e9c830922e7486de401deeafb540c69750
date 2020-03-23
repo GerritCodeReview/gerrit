@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "0a962906_5f8e8733",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-23T16:05:30Z",
+      "side": 1,
+      "message": "Thanks you both for the quick review :)\n\nThis is more complicated than what I thought.\nI\u0027ve been looking into RestApiServlet and I think I can come up with a way to convert the request body into a string and look for \"topic:\". If the subsequent string has a \", it means it\u0027s a bad request.",
+      "parentUuid": "363d41a6_9407f900",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa66b5dd_f1ecca65",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

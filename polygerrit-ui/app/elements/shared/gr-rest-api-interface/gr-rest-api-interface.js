@@ -1199,9 +1199,7 @@
         patchNum,
         reportEndpointAsIs: true,
       };
-      return this._getChangeURLAndFetch(req).then(revisionActions => {
-        return revisionActions;
-      });
+      return this._getChangeURLAndFetch(req);
     },
 
     /**

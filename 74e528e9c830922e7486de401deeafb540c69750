@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9b7ce22a_a6ed0f6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-23T15:06:04Z",
+      "side": 1,
+      "message": "nit: capital T\n\nnit: \"Disallow topics that contain a quotation mark\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f783ed7_c298bf89",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -13,6 +36,46 @@
       "writtenOn": "2020-03-23T15:04:15Z",
       "side": 1,
       "message": "I\u0027m afraid this covers only one of the places where a topic is set (other places that I have in my mind are: setting topic on push, setting topic via the CreateChange REST endpoint, setting topic via the Revert REST endpoint, but there may be more). So I\u0027m wondering it there is a better place to do this kind of validation in a lower layer that makes this work consistently across all cases.",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa66b5dd_f1ecca65",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-23T15:06:04Z",
+      "side": 1,
+      "message": "I think we\u0027ve been way too generous with what we allow in a topic. Instead of blocking chars one by one that we don\u0027t like, can we work with a whitelist instead?\n\nFor example, just allow: [0-9A-Za-z\\-] (upper case, lower case, numbers and a dash).\n\nWe\u0027d need to check what topics currently look like to make sure this isn\u0027t overly restrictive.",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d01cf8d3_0a1f6985",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-23T15:06:04Z",
+      "side": 1,
+      "message": "nit: reuse checks:\n\nif (input !\u003d null \u0026\u0026 input.topic !\u003d null) {\nif(input.topic.length() \u003e ChangeUtil.TOPIC_MAX_LENGTH) {\n      throw new BadRequestException(\n          String.format(\"topic length exceeds the limit (%s)\", ChangeUtil.TOPIC_MAX_LENGTH));\n}\nif(input.topic.contains(\"\\\"\")) {\nthrow new BadRequestException(\"topic can\u0027t contain the character \\\".\");\n}\n}",
+      "range": {
+        "startLine": 51,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 5
+      },
       "revId": "74e528e9c830922e7486de401deeafb540c69750",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

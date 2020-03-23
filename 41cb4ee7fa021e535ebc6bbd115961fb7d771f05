@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fe38c8a6_6fbc2d35",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:53:50Z",
+      "side": 1,
+      "message": "I change it completely purpose of function. Since page load is actually not interesting",
+      "parentUuid": "b60c8237_d4f6089c",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 38
+      },
+      "revId": "41cb4ee7fa021e535ebc6bbd115961fb7d771f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fafd9f13_a9465d12",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "41cb4ee7fa021e535ebc6bbd115961fb7d771f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78c28e52_d92abad5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:53:50Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "fafd9f13_a9465d12",
+      "range": {
+        "startLine": 296,
+        "startChar": 20,
+        "endLine": 296,
+        "endChar": 67
+      },
+      "revId": "41cb4ee7fa021e535ebc6bbd115961fb7d771f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

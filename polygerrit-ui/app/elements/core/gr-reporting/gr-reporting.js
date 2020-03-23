@@ -283,7 +283,11 @@ let GrReporting = Polymer({
    * User-perceived app start time, should be reported when the app is ready.
    */
   appStarted() {
-    this.timeEnd(TIMING.APP_STARTED);
+    this.timeEnd(TIMING.APP_STARTED, window.performance.navigation ?
+      {
+        navigationType: window.performance.navigation.type,
+        navigationRedirectCount: window.performance.navigation.redirectCount,
+      } : undefined);
     this._reportNavResTimes();
   },
 

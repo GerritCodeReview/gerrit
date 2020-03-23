@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbf814df_d9bf9388",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T11:48:02Z",
+      "side": 1,
+      "message": "`therefore` here is a bit weird... since the reason that this is a private method seems have nothing to do with what you mentioned before `therefore`.\n\nAnd i think that PageLoad event before was already sending all navigation timing before, you basically don\u0027t check for non-zero `loadEventEnd` for this change. I am not sure what\u0027s the implication of having the navigation and resource timings reported immediately without waiting for the `loadEventEnd` as `If this event has not yet been sent, or is not yet completed, returns 0`, if that happens, will we collect the right navigation and resource timing at all ?\n\nmaybe consider adopting the https://developer.mozilla.org/en-US/docs/Web/API/PerformanceNavigationTiming/loadEventEnd which is replacing the performance timing (I did not really look into this that much tho)",
+      "revId": "b166d2c3313684c4c990f4a295792cb9846e89bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2daf8a2d_e4e536ac",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-23T11:48:02Z",
+      "side": 1,
+      "message": "just FYI, this is deprecating: https://developer.mozilla.org/en-US/docs/Web/API/PerformanceTiming/loadEventEnd",
+      "revId": "b166d2c3313684c4c990f4a295792cb9846e89bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

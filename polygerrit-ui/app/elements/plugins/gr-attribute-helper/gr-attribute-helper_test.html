@@ -23,20 +23,9 @@ limitations under the License.
 
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../../test/test-pre-setup.js"></script>
-<script type="module" src="../../../test/common-test-setup.js"></script>
-<script type="module" src="./gr-attribute-helper.js"></script>
-
-<script type="module">
-import '../../../test/test-pre-setup.js';
-import '../../../test/common-test-setup.js';
-import './gr-attribute-helper.js';
-void(0);
-</script>
 
 <dom-element id="some-element">
   <script type="module">
-import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
 import './gr-attribute-helper.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
@@ -60,7 +49,6 @@ Polymer({
 </test-fixture>
 
 <script type="module">
-import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
 import './gr-attribute-helper.js';
 suite('gr-attribute-helper tests', () => {

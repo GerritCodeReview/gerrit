@@ -23,18 +23,6 @@ limitations under the License.
 
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../../test/test-pre-setup.js"></script>
-<script type="module" src="../../../test/common-test-setup.js"></script>
-<script type="module" src="./gr-popup-interface.js"></script>
-<script type="module" src="../../shared/gr-js-api-interface/gr-js-api-interface.js"></script>
-
-<script type="module">
-import '../../../test/test-pre-setup.js';
-import '../../../test/common-test-setup.js';
-import './gr-popup-interface.js';
-import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-void(0);
-</script>
 
 <test-fixture id="container">
   <template>
@@ -47,7 +35,6 @@ void(0);
     <div id="barfoo">some test module</div>
   </template>
   <script type="module">
-import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
 import './gr-popup-interface.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
@@ -57,7 +44,6 @@ Polymer({is: 'gr-user-test-popup'});
 </dom-module>
 
 <script type="module">
-import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
 import './gr-popup-interface.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';

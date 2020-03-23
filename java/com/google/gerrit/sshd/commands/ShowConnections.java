@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.i18n.I18n.getText;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.collect.ImmutableList;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
@@ -88,7 +90,7 @@ final class ShowConnections extends SshCommand {
   protected void run() throws Failure {
     final IoAcceptor acceptor = daemon.getIoAcceptor();
     if (acceptor == null) {
-      throw new Failure(1, "fatal: sshd no longer running");
+      throw new Failure(1, getText("sshd.commands.show.connections.ssh_no_longer_running"));
     }
 
     final ImmutableList<IoSession> list =
@@ -116,7 +118,12 @@ final class ShowConnections extends SshCommand {
       long now = TimeUtil.nowMs();
       stdout.print(
           String.format(
-              "%-8s %8s %8s   %-15s %s\n", "Session", "Start", "Idle", "User", "Remote Host"));
+              "\"%-8s %8s %8s   %-15s %s\\n\"",
+              getText("sshd.commands.show.connections.session"),
+              getText("sshd.commands.show.connections.start"),
+              getText("sshd.commands.show.connections.idle"),
+              getText("sshd.commands.show.connections.user"),
+              getText("sshd.commands.show.connections.remote_host")));
       stdout.print("--------------------------------------------------------------\n");
       for (IoSession io : list) {
         checkState(io instanceof MinaSession, "expected MinaSession");
@@ -136,7 +143,12 @@ final class ShowConnections extends SshCommand {
                 hostname(io.getRemoteAddress())));
       }
     } else {
-      stdout.print(String.format("%-8s   %-15s %s\n", "Session", "User", "Remote Host"));
+      stdout.print(
+          String.format(
+              "%-8s   %-15s %s\n",
+              getText("sshd.commands.show.connections.session"),
+              getText("sshd.commands.show.connections.user"),
+              getText("sshd.commands.show.connections.remote_host")));
       stdout.print("--------------------------------------------------------------\n");
       for (IoSession io : list) {
         AbstractSession s = AbstractSession.getSession(io, true);
@@ -149,7 +161,9 @@ final class ShowConnections extends SshCommand {
     }
 
     stdout.print("--\n");
-    stdout.print(String.format(" %d connections; SSHD Backend: %s\n", list.size(), getBackend()));
+    stdout.print(
+        MessageFormat.format(
+            getText("sshd.commands.show.connections.summary"), " ", list.size(), getBackend()));
   }
 
   private String getBackend() {

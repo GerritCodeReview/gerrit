@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71794b8c_6cc992c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:31:13Z",
+      "side": 1,
+      "message": "can change be undefined?",
+      "range": {
+        "startLine": 1157,
+        "startChar": 34,
+        "endLine": 1157,
+        "endChar": 40
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1981b33_f90dfa36",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:31:13Z",
+      "side": 1,
+      "message": "why console.log?",
+      "range": {
+        "startLine": 1158,
+        "startChar": 16,
+        "endLine": 1158,
+        "endChar": 23
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8d8ec35_8c6d2cb9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:31:13Z",
+      "side": 1,
+      "message": "Maybe check here if _cherryPickingTopicPendingCount \u003d\u003d 0",
+      "range": {
+        "startLine": 1161,
+        "startChar": 2,
+        "endLine": 1161,
+        "endChar": 26
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25ab0870_355abec5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:31:13Z",
+      "side": 1,
+      "message": "is there always detail?",
+      "range": {
+        "startLine": 1162,
+        "startChar": 19,
+        "endLine": 1162,
+        "endChar": 25
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8337ca49_147dc400",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:31:13Z",
+      "side": 1,
+      "message": "Wouldn\u0027t be better to send it as one fire action as batch than n actions?",
+      "range": {
+        "startLine": 1173,
+        "startChar": 7,
+        "endLine": 1183,
+        "endChar": 18
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ae57462_e893449c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:31:13Z",
+      "side": 1,
+      "message": "This looks fishy to me. Are you sure this works if user clicks twice. I would rather use decorator for _cherryPickChanges with processed on each change. And here I would check if all _cherryPickChanges were processed.",
+      "range": {
+        "startLine": 1381,
+        "startChar": 17,
+        "endLine": 1381,
+        "endChar": 48
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1685d273_ba1595f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-23T09:31:13Z",
+      "side": 1,
+      "message": "You can do this with css",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 149,
+        "endChar": 62
+      },
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -179,7 +179,6 @@ module.exports = {
     "GrCountStringFormatter": "readonly",
     "GrDiffBuilderBinary": "readonly",
     "GrDiffBuilderImage": "readonly",
-    "GrDiffBuilderSideBySide": "readonly",
     "GrDiffBuilderUnified": "readonly",
     "GrDomHook": "readonly",
     "GrDomHooksManager": "readonly",

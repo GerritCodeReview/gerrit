@@ -26,7 +26,6 @@ import '../gr-diff-selection/gr-diff-selection.js';
 import '../gr-syntax-themes/gr-syntax-theme.js';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme.js';
 import '../../../scripts/hiddenscroll.js';
-import './gr-diff-line.js';
 import './gr-diff-group.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -34,6 +33,7 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {htmlTemplate} from './gr-diff_html.js';
+import {GrDiffLine} from './gr-diff-line.js';
 
 const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
 const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +

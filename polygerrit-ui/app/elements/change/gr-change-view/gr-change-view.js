@@ -31,7 +31,6 @@ import '../../shared/gr-account-link/gr-account-link.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-change-star/gr-change-star.js';
 import '../../shared/gr-change-status/gr-change-status.js';
-import '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
 import '../../shared/gr-editable-content/gr-editable-content.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
@@ -62,6 +61,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-view_html.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
+import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',

@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-input/iron-input.js';
-import '../../../behaviors/docs-url-behavior/docs-url-behavior.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-menu-page-styles.js';
@@ -48,6 +47,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-settings-view_html.js';
+import {DocsUrlBehavior} from '../../../behaviors/docs-url-behavior/docs-url-behavior.js';
 
 const PREFS_SECTION_FIELDS = [
   'changes_per_page',
@@ -78,13 +78,12 @@ const HTTP_AUTH = [
 ];
 
 /**
- * @appliesMixin Gerrit.DocsUrlMixin
  * @appliesMixin Gerrit.ChangeTableMixin
  * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrSettingsView extends mixinBehaviors( [
-  Gerrit.DocsUrlBehavior,
+  DocsUrlBehavior,
   Gerrit.ChangeTableBehavior,
   Gerrit.FireBehavior,
 ], GestureEventListeners(

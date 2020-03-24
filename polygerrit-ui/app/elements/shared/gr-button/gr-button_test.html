@@ -189,17 +189,9 @@ suite('gr-button tests', () => {
   });
 
   suite('reporting', () => {
-    const reportStub = sinon.stub();
-    setup(() => {
-      stub('gr-reporting', {
-        reportInteraction: (...args) => {
-          reportStub(...args);
-        },
-      });
-      reportStub.reset();
-    });
-
     test('report event after click', () => {
+      const reportStub = element.reporting.reportInteraction;
+      reportStub.reset();
       MockInteractions.click(element);
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
@@ -210,7 +202,10 @@ suite('gr-button tests', () => {
 
     test('report event after click on nested', () => {
       element = fixture('nested');
-      MockInteractions.click(element.querySelector('gr-button'));
+      const grButton = element.querySelector('gr-button');
+      const reportStub = grButton.reporting.reportInteraction;
+      reportStub.reset();
+      MockInteractions.click(grButton);
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {

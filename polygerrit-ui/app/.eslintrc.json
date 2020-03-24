@@ -97,7 +97,11 @@
       "GrThemeApi",
       "SiteBasedCache",
       "FetchPromisesCache",
-      "GrRestApiHelper"
+      "GrRestApiHelper",
+      "GrLinkTextParser",
+      "GrPluginEndpoints",
+      "GrReviewerUpdatesParser"
+
     ],
     "no-useless-escape": "off",
     "no-var": "error",

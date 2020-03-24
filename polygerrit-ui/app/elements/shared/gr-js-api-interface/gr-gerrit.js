@@ -20,6 +20,8 @@
  * should be defined or linked here.
  */
 
+import {GrPluginEndpoints} from './gr-plugin-endpoints.js';
+
 (function(window) {
   'use strict';
 

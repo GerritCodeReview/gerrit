@@ -29,12 +29,9 @@
 // @unused
 
 var Gerrit;
-var GrLinkTextParser;
-var GrPluginEndpoints;
 var GrPopupInterface;
 var GrRangeNormalizer;
 var GrReporting;
-var GrReviewerUpdatesParser;
 var GrCountStringFormatter;
 var GrReviewerSuggestionsProvider;
 var moment;

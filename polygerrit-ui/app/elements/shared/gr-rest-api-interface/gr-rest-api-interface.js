@@ -36,6 +36,7 @@ import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-c
 import {GrEtagDecorator} from './gr-etag-decorator.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-apis/gr-rest-api-helper.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
+import {util} from '../../../scripts/util.js';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',

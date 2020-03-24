@@ -30,6 +30,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-host_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrDiffBuilder} from '../gr-diff-builder/gr-diff-builder.js';
+import {util} from '../../../scripts/util.js';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 

@@ -28,6 +28,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-messages-list_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {util} from '../../../scripts/util.js';
 
 const MAX_INITIAL_SHOWN_MESSAGES = 20;
 const MESSAGES_INCREMENT = 5;

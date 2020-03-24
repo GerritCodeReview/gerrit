@@ -14,20 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
 
-  const util = window.util || {};
-
-  util.parseDate = function(dateStr) {
+function getPathFromNode(el) {
+  if (!el.tagName || el.tagName === 'GR-APP'
+      || el instanceof DocumentFragment
+      || el instanceof HTMLSlotElement) {
+    return '';
+  }
+  let path = el.tagName.toLowerCase();
+  if (el.id) path += `#${el.id}`;
+  if (el.className) path += `.${el.className.replace(/ /g, '.')}`;
+  return path;
+}
+// TODO (dmfilippov): Each function must be exported separately. According to
+// the code style guide, a namespacing is not allowed.
+export const util = {
+  parseDate(dateStr) {
     // Timestamps are given in UTC and have the format
     // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
     // nanoseconds.
     // Munge the date into an ISO 8061 format and parse that.
     return new Date(dateStr.replace(' ', 'T') + 'Z');
-  };
+  },
 
-  util.getCookie = function(name) {
+  getCookie(name) {
     const key = name + '=';
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -40,7 +50,7 @@
       }
     }
     return '';
-  };
+  },
 
   /**
    * Make the promise cancelable.
@@ -50,7 +60,7 @@
    * {isCancelled: true} synchronously. If the inner promise for a cancelled
    * promise resolves or rejects this is ignored.
    */
-  util.makeCancelable = promise => {
+  makeCancelable: promise => {
     // True if the promise is either resolved or reject (possibly cancelled)
     let isDone = false;
 
@@ -73,7 +83,7 @@
       isDone = true;
     };
     return wrappedPromise;
-  };
+  },
 
   /**
    * Get computed style value.
@@ -83,7 +93,7 @@
    * Otherwise fallback to native method (in polymer 2).
    *
    */
-  util.getComputedStyleValue = (name, el) => {
+  getComputedStyleValue: (name, el) => {
     let style;
     if (window.ShadyCSS) {
       style = ShadyCSS.getComputedStyleValue(el, name);
@@ -93,7 +103,7 @@
       style = getComputedStyle(el).getPropertyValue(name);
     }
     return style;
-  };
+  },
 
   /**
    * Query selector on a dom element.
@@ -103,7 +113,7 @@
    * multiple shadow hosts.
    *
    */
-  util.querySelector = (el, selector) => {
+  querySelector: (el, selector) => {
     let nodes = [el];
     let result = null;
     while (nodes.length) {
@@ -132,7 +142,7 @@
       }
     }
     return result;
-  };
+  },
 
   /**
    * Query selector all dom elements matching with certain selector.
@@ -143,7 +153,7 @@
    *
    * Note: this can be very expensive, only use when have to.
    */
-  util.querySelectorAll = (el, selector) => {
+  querySelectorAll: (el, selector) => {
     let nodes = [el];
     const results = new Set();
     while (nodes.length) {
@@ -168,19 +178,7 @@
       }
     }
     return [...results];
-  };
-
-  function getPathFromNode(el) {
-    if (!el.tagName || el.tagName === 'GR-APP'
-      || el instanceof DocumentFragment
-      || el instanceof HTMLSlotElement) {
-      return '';
-    }
-    let path = el.tagName.toLowerCase();
-    if (el.id) path += `#${el.id}`;
-    if (el.className) path += `.${el.className.replace(/ /g, '.')}`;
-    return path;
-  }
+  },
 
   /**
    * Retrieves the dom path of the current event.
@@ -196,7 +194,7 @@
    *  getEventPath(e); // eg: div.class1>p#pid.class2
    * }
    */
-  util.getEventPath = e => {
+  getEventPath: e => {
     if (!e) return '';
 
     let path = e.path;
@@ -214,7 +212,5 @@
       if (!pathForEl) return domPath;
       return domPath ? `${pathForEl}>${domPath}` : pathForEl;
     }, '');
-  };
-
-  window.util = util;
-})(window);
+  },
+};

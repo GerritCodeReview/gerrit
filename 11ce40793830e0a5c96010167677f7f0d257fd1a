@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5245b3d_3411c0ff",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-03-24T16:12:14Z",
+      "side": 1,
+      "message": "you\u0027re checking for just one type of prohibited char, but I bet there are others. (eg. \u0027:\u0027 , \u0027 \u0027? - what happens if you try to put a \u0027\\n\u0027 into the topic?)\n\nSee also https://xkcd.com/327/ \n\nI think it would be better to define the topic name format more precisely, (eg. alphanumeric + space + \u0027-\u0027 and \u0027_\u0027). Maybe look in the changes table to come up with a sensible definition.",
+      "range": {
+        "startLine": 351,
+        "startChar": 24,
+        "endLine": 351,
+        "endChar": 45
+      },
+      "revId": "11ce40793830e0a5c96010167677f7f0d257fd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

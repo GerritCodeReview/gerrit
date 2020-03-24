@@ -276,8 +276,8 @@ suite('comment action tests', () => {
   test('reply', () => {
     const commentEl = element.shadowRoot
         .querySelector('gr-comment');
-    const reportStub = sandbox.stub(element.$.reporting,
-        'recordDraftInteraction');
+    const reportStub = element.reporting.recordDraftInteraction;
+    reportStub.reset();
     assert.ok(commentEl);
 
     const replyBtn = element.$.replyBtn;
@@ -294,8 +294,8 @@ suite('comment action tests', () => {
   test('quote reply', () => {
     const commentEl = element.shadowRoot
         .querySelector('gr-comment');
-    const reportStub = sandbox.stub(element.$.reporting,
-        'recordDraftInteraction');
+    const reportStub = element.reporting.recordDraftInteraction;
+    reportStub.reset();
     assert.ok(commentEl);
 
     const quoteBtn = element.$.quoteBtn;
@@ -310,8 +310,8 @@ suite('comment action tests', () => {
   });
 
   test('quote reply multiline', () => {
-    const reportStub = sandbox.stub(element.$.reporting,
-        'recordDraftInteraction');
+    const reportStub = element.reporting.recordDraftInteraction;
+    reportStub.reset();
     element.comments = [{
       author: {
         name: 'Mr. Peanutbutter',
@@ -341,8 +341,8 @@ suite('comment action tests', () => {
   });
 
   test('ack', done => {
-    const reportStub = sandbox.stub(element.$.reporting,
-        'recordDraftInteraction');
+    const reportStub = element.reporting.recordDraftInteraction;
+    reportStub.reset();
     element.changeNum = '42';
     element.patchNum = '1';
 
@@ -364,8 +364,8 @@ suite('comment action tests', () => {
   });
 
   test('done', done => {
-    const reportStub = sandbox.stub(element.$.reporting,
-        'recordDraftInteraction');
+    const reportStub = element.reporting.recordDraftInteraction;
+    reportStub.reset();
     element.changeNum = '42';
     element.patchNum = '1';
     const commentEl = element.shadowRoot

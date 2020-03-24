@@ -164,7 +164,6 @@ export const htmlTemplate = html`
     <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
     <gr-error-manager id="errorManager" login-url="[[_loginUrl]]"></gr-error-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-reporting id="reporting"></gr-reporting>
     <gr-router id="router"></gr-router>
     <gr-plugin-host id="plugins" config="[[_serverConfig]]">
     </gr-plugin-host>

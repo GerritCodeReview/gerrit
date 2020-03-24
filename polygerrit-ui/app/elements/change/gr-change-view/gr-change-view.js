@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/paper-tabs/paper-tabs.js';
 import '../../../styles/shared-styles.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
@@ -449,6 +448,7 @@ class GrChangeView extends mixinBehaviors( [
   constructor() {
     super();
     this.flagsService = appContext.flagsService;
+    this.reporting = appContext.reportingService;
   }
 
   /** @override */
@@ -626,7 +626,7 @@ class GrChangeView extends mixinBehaviors( [
     }
     if (paperTabs.selected !== activeIndex) {
       paperTabs.selected = activeIndex;
-      this.$.reporting.reportInteraction('show-tab', {tabName});
+      this.reporting.reportInteraction('show-tab', {tabName});
     }
     return tabName;
   }
@@ -978,7 +978,7 @@ class GrChangeView extends mixinBehaviors( [
   _handleReplySent(e) {
     this.addEventListener('change-details-loaded',
         () => {
-          this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+          this.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
         }, {once: true});
     this.$.replyOverlay.close();
     this._reload();
@@ -1745,8 +1745,8 @@ class GrChangeView extends mixinBehaviors( [
   _reload(opt_isLocationChange) {
     this._loading = true;
     this._relatedChangesCollapsed = true;
-    this.$.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
-    this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
+    this.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
+    this.reporting.time(CHANGE_DATA_TIMING_LABEL);
 
     // Array to house all promises related to data requests.
     const allDataPromises = [];
@@ -1765,9 +1765,9 @@ class GrChangeView extends mixinBehaviors( [
               {bubbles: true, composed: true}));
         })
         .then(() => {
-          this.$.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+          this.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
           if (opt_isLocationChange) {
-            this.$.reporting.changeDisplayed();
+            this.reporting.changeDisplayed();
           }
         });
 
@@ -1837,9 +1837,9 @@ class GrChangeView extends mixinBehaviors( [
     }
 
     Promise.all(allDataPromises).then(() => {
-      this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
+      this.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
       if (opt_isLocationChange) {
-        this.$.reporting.changeFullyLoaded();
+        this.reporting.changeFullyLoaded();
       }
     });
 

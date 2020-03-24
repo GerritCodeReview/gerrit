@@ -173,5 +173,4 @@ export const htmlTemplate = html`
     <slot></slot>
     <i class="downArrow"></i>
   </paper-button>
-  <gr-reporting id="reporting"></gr-reporting>
 `;

@@ -22,6 +22,30 @@
       "revId": "05894d336b5599021ec06734acbb9fccd4fee2c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "482534d5_17d49960",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-24T16:42:10Z",
+      "side": 1,
+      "message": "\u003e Depends on the currently failing I83627adb3.\n\n(Still the case after this latest rebase.)",
+      "parentUuid": "26708891_0cd8d20b",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "05894d336b5599021ec06734acbb9fccd4fee2c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d4d598d_f56afd23",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-24T08:05:56Z",
+      "side": 1,
+      "message": "Don\u0027t import this explicitly.  Just import AccountGroup (done on the previous line) and refer to AccountGroup.UUID explicitly in the code below.",
+      "range": {
+        "startLine": 27,
+        "startChar": 34,
+        "endLine": 27,
+        "endChar": 52
+      },
+      "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1afc0534_de683bba",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-24T08:05:56Z",
+      "side": 1,
+      "message": "AccountGroup.UUID",
+      "range": {
+        "startLine": 229,
+        "startChar": 25,
+        "endLine": 229,
+        "endChar": 29
+      },
+      "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

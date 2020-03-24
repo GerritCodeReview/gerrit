@@ -117,13 +117,7 @@ public class EventFactory {
     this.indexConfig = indexConfig;
   }
 
-  /**
-   * Create a ChangeAttribute for the given change suitable for serialization to JSON.
-   *
-   * @param change
-   * @return object suitable for serialization to JSON
-   */
-  public ChangeAttribute asChangeAttribute(Change change) {
+  private ChangeAttribute asChangeAttribute(Change change) {
     ChangeAttribute a = new ChangeAttribute();
     a.project = change.getProject().get();
     a.branch = change.getDest().shortName();
@@ -151,13 +145,7 @@ public class EventFactory {
     return a;
   }
 
-  /**
-   * Create a ChangeAttribute for the given change suitable for serialization to JSON.
-   *
-   * @param change
-   * @param notes
-   * @return object suitable for serialization to JSON
-   */
+  /** Create a {@link ChangeAttribute} instance from the specified change. */
   public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) {
     ChangeAttribute a = asChangeAttribute(change);
     Set<String> hashtags = notes.load().getHashtags();
@@ -168,16 +156,10 @@ public class EventFactory {
     return a;
   }
   /**
-   * Create a RefUpdateAttribute for the given old ObjectId, new ObjectId, and branch that is
-   * suitable for serialization to JSON.
-   *
-   * @param oldId
-   * @param newId
-   * @param refName
-   * @return object suitable for serialization to JSON
+   * Create a {@link RefUpdateAttribute} for the given old ObjectId, new ObjectId, and branch that
+   * is suitable for serialization to JSON.
    */
-  public RefUpdateAttribute asRefUpdateAttribute(
-      ObjectId oldId, ObjectId newId, BranchNameKey refName) {
+  RefUpdateAttribute asRefUpdateAttribute(ObjectId oldId, ObjectId newId, BranchNameKey refName) {
     RefUpdateAttribute ru = new RefUpdateAttribute();
     ru.newRev = newId != null ? newId.getName() : ObjectId.zeroId().getName();
     ru.oldRev = oldId != null ? oldId.getName() : ObjectId.zeroId().getName();
@@ -186,23 +168,13 @@ public class EventFactory {
     return ru;
   }
 
-  /**
-   * Extend the existing ChangeAttribute with additional fields.
-   *
-   * @param a
-   * @param change
-   */
+  /** Extend the existing {@link ChangeAttribute} with additional fields. */
   public void extend(ChangeAttribute a, Change change) {
     a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
     a.open = change.isNew();
   }
 
-  /**
-   * Add allReviewers to an existing ChangeAttribute.
-   *
-   * @param a
-   * @param notes
-   */
+  /** Add allReviewers to an existing {@link ChangeAttribute}. */
   public void addAllReviewers(ChangeAttribute a, ChangeNotes notes) {
     Collection<Account.Id> reviewers = approvalsUtil.getReviewers(notes).all();
     if (!reviewers.isEmpty()) {
@@ -213,12 +185,7 @@ public class EventFactory {
     }
   }
 
-  /**
-   * Add submitRecords to an existing ChangeAttribute.
-   *
-   * @param ca
-   * @param submitRecords
-   */
+  /** Add submitRecords to an existing {@link ChangeAttribute}. */
   public void addSubmitRecords(ChangeAttribute ca, List<SubmitRecord> submitRecords) {
     ca.submitRecords = new ArrayList<>();
 
@@ -385,15 +352,6 @@ public class EventFactory {
       ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
-      LabelTypes labelTypes) {
-    addPatchSets(revWalk, ca, ps, approvals, false, null, labelTypes);
-  }
-
-  public void addPatchSets(
-      RevWalk revWalk,
-      ChangeAttribute ca,
-      Collection<PatchSet> ps,
-      Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       boolean includeFiles,
       Change change,
       LabelTypes labelTypes) {
@@ -457,12 +415,7 @@ public class EventFactory {
     }
   }
 
-  /**
-   * Create a PatchSetAttribute for the given patchset suitable for serialization to JSON.
-   *
-   * @param patchSet
-   * @return object suitable for serialization to JSON
-   */
+  /** Create a PatchSetAttribute for the given patchset suitable for serialization to JSON. */
   public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk, Change change, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.commitId().name();
@@ -506,7 +459,7 @@ public class EventFactory {
     return p;
   }
 
-  public void addApprovals(
+  private void addApprovals(
       PatchSetAttribute p,
       PatchSet.Id id,
       Map<PatchSet.Id, Collection<PatchSetApproval>> all,
@@ -532,26 +485,16 @@ public class EventFactory {
     }
   }
 
-  /**
-   * Create an AuthorAttribute for the given account suitable for serialization to JSON.
-   *
-   * @param id
-   * @return object suitable for serialization to JSON
-   */
-  public AccountAttribute asAccountAttribute(Account.Id id) {
+  /** Create an AuthorAttribute for the given account suitable for serialization to JSON. */
+  AccountAttribute asAccountAttribute(Account.Id id) {
     if (id == null) {
       return null;
     }
     return accountCache.get(id).map(this::asAccountAttribute).orElse(null);
   }
 
-  /**
-   * Create an AuthorAttribute for the given account suitable for serialization to JSON.
-   *
-   * @param accountState the account state
-   * @return object suitable for serialization to JSON
-   */
-  public AccountAttribute asAccountAttribute(AccountState accountState) {
+  /** Create an AuthorAttribute for the given account suitable for serialization to JSON. */
+  private AccountAttribute asAccountAttribute(AccountState accountState) {
     AccountAttribute who = new AccountAttribute();
     who.name = accountState.account().fullName();
     who.email = accountState.account().preferredEmail();
@@ -559,13 +502,8 @@ public class EventFactory {
     return who;
   }
 
-  /**
-   * Create an AuthorAttribute for the given person ident suitable for serialization to JSON.
-   *
-   * @param ident
-   * @return object suitable for serialization to JSON
-   */
-  public AccountAttribute asAccountAttribute(PersonIdent ident) {
+  /** Create an AuthorAttribute for the given person ident suitable for serialization to JSON. */
+  private AccountAttribute asAccountAttribute(PersonIdent ident) {
     AccountAttribute who = new AccountAttribute();
     who.name = ident.getName();
     who.email = ident.getEmailAddress();
@@ -575,11 +513,10 @@ public class EventFactory {
   /**
    * Create an ApprovalAttribute for the given approval suitable for serialization to JSON.
    *
-   * @param approval
    * @param labelTypes label types for the containing project
    * @return object suitable for serialization to JSON
    */
-  public ApprovalAttribute asApprovalAttribute(PatchSetApproval approval, LabelTypes labelTypes) {
+  private ApprovalAttribute asApprovalAttribute(PatchSetApproval approval, LabelTypes labelTypes) {
     ApprovalAttribute a = new ApprovalAttribute();
     a.type = approval.labelId().get();
     a.value = Short.toString(approval.value());
@@ -594,7 +531,7 @@ public class EventFactory {
     return a;
   }
 
-  public MessageAttribute asMessageAttribute(ChangeMessage message) {
+  private MessageAttribute asMessageAttribute(ChangeMessage message) {
     MessageAttribute a = new MessageAttribute();
     a.timestamp = message.getWrittenOn().getTime() / 1000L;
     a.reviewer =
@@ -605,7 +542,7 @@ public class EventFactory {
     return a;
   }
 
-  public PatchSetCommentAttribute asPatchSetLineAttribute(Comment c) {
+  private PatchSetCommentAttribute asPatchSetLineAttribute(Comment c) {
     PatchSetCommentAttribute a = new PatchSetCommentAttribute();
     a.reviewer = asAccountAttribute(c.author.getId());
     a.file = c.key.filename;

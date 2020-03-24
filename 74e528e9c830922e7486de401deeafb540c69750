@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "bcbd4d78_9022dfbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-24T08:10:12Z",
+      "side": 1,
+      "message": "\"not allowed\" or \"disallowed\"\n\nor rewrite as suggested by Patrick",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da78b20f_3aa5e08b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -148,6 +171,24 @@
       "writtenOn": "2020-03-23T15:06:04Z",
       "side": 1,
       "message": "I think we\u0027ve been way too generous with what we allow in a topic. Instead of blocking chars one by one that we don\u0027t like, can we work with a whitelist instead?\n\nFor example, just allow: [0-9A-Za-z\\-] (upper case, lower case, numbers and a dash).\n\nWe\u0027d need to check what topics currently look like to make sure this isn\u0027t overly restrictive.",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5802e95_dbcd862c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-24T08:10:12Z",
+      "side": 1,
+      "message": "What will happen to any existing topics that don\u0027t conform to this whitelist?",
+      "parentUuid": "aa66b5dd_f1ecca65",
       "revId": "74e528e9c830922e7486de401deeafb540c69750",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

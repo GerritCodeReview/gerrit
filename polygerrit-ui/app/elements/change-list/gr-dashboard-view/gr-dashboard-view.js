@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
 import '../gr-change-list/gr-change-list.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../shared/gr-overlay/gr-overlay.js';
@@ -34,6 +33,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-dashboard-view_html.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {appContext} from '../../../services/app-context.js';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
@@ -96,6 +96,11 @@ class GrDashboardView extends mixinBehaviors( [
         value: false,
       },
     };
+  }
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
   }
 
   static get observers() {
@@ -197,7 +202,7 @@ class GrDashboardView extends mixinBehaviors( [
         })
         .then(() => {
           this._maybeShowDraftsBanner();
-          this.$.reporting.dashboardDisplayed();
+          this.reporting.dashboardDisplayed();
         })
         .catch(err => {
           this.dispatchEvent(new CustomEvent('title-change', {

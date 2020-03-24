@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+
 /**
  * Pattern describing URLs with supported protocols.
  *
@@ -41,7 +43,7 @@ export function GrLinkTextParser(linkConfig, callback,
   this.linkConfig = linkConfig;
   this.callback = callback;
   this.removeZeroWidthSpace = opt_removeZeroWidthSpace;
-  this.baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
+  this.baseUrl = BaseUrlBehavior.getBaseUrl();
   Object.preventExtensions(this);
 }
 

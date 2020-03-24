@@ -34,6 +34,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
 suite('gr-js-api-interface tests', () => {
   const {PLUGIN_LOADING_TIMEOUT_MS} = window._apiUtils;
@@ -379,7 +380,7 @@ suite('gr-js-api-interface tests', () => {
     let baseUrlPlugin;
 
     setup(() => {
-      sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');
+      sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns('/r');
 
       Gerrit.install(p => { baseUrlPlugin = p; }, '0.1',
           'http://test.com/r/plugins/baseurlplugin/static/test.js');
@@ -464,7 +465,7 @@ suite('gr-js-api-interface tests', () => {
 
   suite('screen', () => {
     test('screenUrl()', () => {
-      sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/base');
+      sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns('/base');
       assert.equal(
           plugin.screenUrl(),
           `${location.origin}/base/x/testplugin`

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
@@ -30,6 +29,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import page from 'page/page.mjs';
 self.page = page;
 import {htmlTemplate} from './gr-router_html.js';
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
 const RoutePattern = {
   ROOT: '/',
@@ -225,7 +225,7 @@ if (!app) {
  * @extends Polymer.Element
  */
 class GrRouter extends mixinBehaviors( [
-  Gerrit.BaseUrlBehavior,
+  BaseUrlBehavior,
   Gerrit.FireBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.URLEncodingBehavior,

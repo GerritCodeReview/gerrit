@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/gr-form-styles.js';
@@ -30,6 +29,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-create-repo-dialog_html.js';
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
 /**
  * @appliesMixin Gerrit.BaseUrlMixin
@@ -37,7 +37,7 @@ import {htmlTemplate} from './gr-create-repo-dialog_html.js';
  * @extends Polymer.Element
  */
 class GrCreateRepoDialog extends mixinBehaviors( [
-  Gerrit.BaseUrlBehavior,
+  BaseUrlBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

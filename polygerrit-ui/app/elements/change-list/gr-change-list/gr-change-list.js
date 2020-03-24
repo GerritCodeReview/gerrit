@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
 import '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
@@ -35,6 +34,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list_html.js';
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -51,7 +51,7 @@ const MAX_SHORTCUT_CHARS = 5;
  * @extends Polymer.Element
  */
 class GrChangeList extends mixinBehaviors( [
-  Gerrit.BaseUrlBehavior,
+  BaseUrlBehavior,
   Gerrit.ChangeTableBehavior,
   Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,

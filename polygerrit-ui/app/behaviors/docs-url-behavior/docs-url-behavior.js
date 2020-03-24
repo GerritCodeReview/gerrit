@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../base-url-behavior/base-url-behavior.js';
+import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
 
 (function(window) {
   'use strict';
@@ -57,7 +57,7 @@ import '../base-url-behavior/base-url-behavior.js';
       cachedPromise = undefined;
     },
   },
-  Gerrit.BaseUrlBehavior,
+  BaseUrlBehavior,
   ];
 
   // eslint-disable-next-line no-unused-vars

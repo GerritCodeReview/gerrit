@@ -50,6 +50,8 @@ import './gr-file-list.js';
 import '../../diff/gr-comment-api/gr-comment-api-mock_test.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {GrFileListConstants} from '../gr-file-list-constants.js';
+
 suite('gr-file-list tests', () => {
   const kb = KeyboardShortcutBinder;
   kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');

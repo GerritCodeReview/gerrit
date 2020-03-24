@@ -36,7 +36,6 @@ limitations under the License.
   </template>
   <script type="module">
 import '../../../test/common-test-setup.js';
-import './gr-popup-interface.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 Polymer({is: 'gr-user-test-popup'});
@@ -45,9 +44,10 @@ Polymer({is: 'gr-user-test-popup'});
 
 <script type="module">
 import '../../../test/common-test-setup.js';
-import './gr-popup-interface.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GrPopupInterface} from './gr-popup-interface.js';
+
 suite('gr-popup-interface tests', () => {
   let container;
   let instance;

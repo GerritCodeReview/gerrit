@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+
 (function(window) {
   'use strict';
 
@@ -136,7 +139,7 @@
   Plugin.prototype.url = function(opt_path) {
     const relPath = '/plugins/' + this._name + (opt_path || '/');
     const sameOriginPath = window.location.origin +
-      `${Gerrit.BaseUrlBehavior.getBaseUrl()}${relPath}`;
+      `${BaseUrlBehavior.getBaseUrl()}${relPath}`;
     if (window.location.origin === this._url.origin) {
       // Plugin loaded from the same origin as gr-app, getBaseUrl in effect.
       return sameOriginPath;
@@ -152,7 +155,7 @@
 
   Plugin.prototype.screenUrl = function(opt_screenName) {
     const origin = location.origin;
-    const base = Gerrit.BaseUrlBehavior.getBaseUrl();
+    const base = BaseUrlBehavior.getBaseUrl();
     const tokenPart = opt_screenName ? '/' + opt_screenName : '';
     return `${origin}${base}/x/${this.getPluginName()}${tokenPart}`;
   };

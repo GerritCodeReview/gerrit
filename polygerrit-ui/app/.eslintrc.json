@@ -104,7 +104,8 @@
       "GrPopupInterface",
       "GrRangeNormalizer",
       "GrCountStringFormatter",
-      "GrReviewerSuggestionsProvider"
+      "GrReviewerSuggestionsProvider",
+      "util"
 
     ],
     "no-useless-escape": "off",

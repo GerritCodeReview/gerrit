@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../scripts/util.js';
-
 import '../scripts/bundled-polymer.js';
 import '../behaviors/base-url-behavior/base-url-behavior.js';
 import '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';

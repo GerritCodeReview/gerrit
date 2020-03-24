@@ -32,4 +32,3 @@ var Gerrit;
 var GrReporting;
 var moment;
 var page;
-var util;

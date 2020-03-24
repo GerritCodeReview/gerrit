@@ -54,6 +54,7 @@ class GrConfirmSubmitDialog extends GestureEventListeners(
      * @type {{
      *    is_private: boolean,
      *    subject: string,
+     *    unresolved_comment_count: number,
      *  }}
      */
       change: Object,

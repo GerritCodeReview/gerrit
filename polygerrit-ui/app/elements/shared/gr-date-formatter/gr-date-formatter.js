@@ -25,6 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-date-formatter_html.js';
 import {util} from '../../../scripts/util.js';
+import moment from 'moment/src/moment.js';
 
 const Duration = {
   HOUR: 1000 * 60 * 60,

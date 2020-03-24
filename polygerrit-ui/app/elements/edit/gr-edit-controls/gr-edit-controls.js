@@ -24,7 +24,6 @@ import '../../shared/gr-dialog/gr-dialog.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
 import '../../shared/gr-overlay/gr-overlay.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-edit-constants.js';
 import '../../../styles/shared-styles.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -33,6 +32,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-edit-controls_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {GrEditConstants} from '../gr-edit-constants.js';
 
 /**
  * @extends Polymer.Element

@@ -19,6 +19,7 @@ import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-
 import {GrChangeActionsInterface} from './gr-change-actions-js-api.js';
 import {GrChangeReplyInterface} from './gr-change-reply-js-api.js';
 import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks.js';
+import {GrThemeApi} from '../../plugins/gr-theme-api/gr-theme-api.js';
 
 (function(window) {
   'use strict';

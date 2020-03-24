@@ -25,7 +25,6 @@ import '../../plugins/gr-popup-interface/gr-popup-interface.js';
 import '../../plugins/gr-repo-api/gr-repo-api.js';
 import '../../plugins/gr-settings-api/gr-settings-api.js';
 import '../../plugins/gr-styles-api/gr-styles-api.js';
-import '../../plugins/gr-theme-api/gr-theme-api.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import './gr-api-utils.js';
 import '../gr-event-interface/gr-event-interface.js';

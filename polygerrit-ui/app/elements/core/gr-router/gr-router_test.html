@@ -33,6 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-router.js';
+import page from 'page/page.mjs';
 suite('gr-router tests', () => {
   let element;
   let sandbox;
@@ -149,9 +150,8 @@ suite('gr-router tests', () => {
     const requiresAuth = {};
     const doesNotRequireAuth = {};
     sandbox.stub(Gerrit.Nav, 'setup');
-    sandbox.stub(window.page, 'start');
-    sandbox.stub(window.page, 'base');
-    sandbox.stub(window, 'page');
+    sandbox.stub(page, 'start');
+    sandbox.stub(page, 'base');
     sandbox.stub(element, '_mapRoute', (pattern, methodName, usesAuth) => {
       if (usesAuth) {
         requiresAuth[methodName] = true;
@@ -676,11 +676,10 @@ suite('gr-router tests', () => {
       const onRegisteringExit = (match, _onExit) => {
         onExit = _onExit;
       };
-      sandbox.stub(window.page, 'exit', onRegisteringExit);
+      sandbox.stub(page, 'exit', onRegisteringExit);
       sandbox.stub(Gerrit.Nav, 'setup');
-      sandbox.stub(window.page, 'start');
-      sandbox.stub(window.page, 'base');
-      sandbox.stub(window, 'page');
+      sandbox.stub(page, 'start');
+      sandbox.stub(page, 'base');
       element._startRouter();
 
       const appElementStub = {dispatchEvent: sinon.stub()};

@@ -430,10 +430,7 @@ suite('gr-error-manager tests', () => {
     test('show-error', () => {
       const openStub = sandbox.stub(element.$.errorOverlay, 'open');
       const closeStub = sandbox.stub(element.$.errorOverlay, 'close');
-      const reportStub = sandbox.stub(
-          element.$.reporting,
-          'reportErrorDialog'
-      );
+      const reportStub = element.reporting.reportErrorDialog;
 
       const message = 'test message';
       element.fire('show-error', {message});

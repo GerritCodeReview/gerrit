@@ -101,11 +101,6 @@ suite('gr-plugin-loader tests', () => {
   });
 
   test('report pluginsLoaded', done => {
-    stub('gr-reporting', {
-      pluginsLoaded() {
-        done();
-      },
-    });
     Gerrit._loadPlugins([]);
   });
 
@@ -131,10 +126,8 @@ suite('gr-plugin-loader tests', () => {
     sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
       Gerrit.install(() => void 0, undefined, url);
     });
-    const pluginsLoadedStub = sandbox.stub();
-    stub('gr-reporting', {
-      pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-    });
+    const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+        .pluginsLoaded;
 
     const plugins = [
       'http://test.com/plugins/foo/static/test.js',
@@ -152,10 +145,6 @@ suite('gr-plugin-loader tests', () => {
   test('isPluginEnabled and isPluginLoaded', done => {
     sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
       Gerrit.install(() => void 0, undefined, url);
-    });
-    const pluginsLoadedStub = sandbox.stub();
-    stub('gr-reporting', {
-      pluginsLoaded: (...args) => pluginsLoadedStub(...args),
     });
 
     const plugins = [
@@ -195,10 +184,8 @@ suite('gr-plugin-loader tests', () => {
       }, undefined, url);
     });
 
-    const pluginsLoadedStub = sandbox.stub();
-    stub('gr-reporting', {
-      pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-    });
+    const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+        .pluginsLoaded;
 
     Gerrit._loadPlugins(plugins);
 
@@ -227,10 +214,8 @@ suite('gr-plugin-loader tests', () => {
       }, undefined, url);
     });
 
-    const pluginsLoadedStub = sandbox.stub();
-    stub('gr-reporting', {
-      pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-    });
+    const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+        .pluginsLoaded;
 
     Gerrit._loadPlugins(plugins);
     assert.isTrue(
@@ -262,10 +247,8 @@ suite('gr-plugin-loader tests', () => {
       }, undefined, url);
     });
 
-    const pluginsLoadedStub = sandbox.stub();
-    stub('gr-reporting', {
-      pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-    });
+    const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+        .pluginsLoaded;
 
     Gerrit._loadPlugins(plugins);
 
@@ -291,10 +274,8 @@ suite('gr-plugin-loader tests', () => {
       }, url === plugins[0] ? '' : 'alpha', url);
     });
 
-    const pluginsLoadedStub = sandbox.stub();
-    stub('gr-reporting', {
-      pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-    });
+    const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+        .pluginsLoaded;
 
     Gerrit._loadPlugins(plugins);
 
@@ -310,10 +291,8 @@ suite('gr-plugin-loader tests', () => {
     sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
       Gerrit.install(() => void 0, undefined, url);
     });
-    const pluginsLoadedStub = sandbox.stub();
-    stub('gr-reporting', {
-      pluginsLoaded: (...args) => pluginsLoadedStub(...args),
-    });
+    const pluginsLoadedStub = Gerrit._pluginLoader._getReporting()
+        .pluginsLoaded;
 
     const plugins = [
       'http://test.com/plugins/foo/static/test.js',

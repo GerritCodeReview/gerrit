@@ -501,5 +501,4 @@ export const htmlTemplate = html`
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-comment-api id="commentAPI"></gr-comment-api>
-    <gr-reporting id="reporting"></gr-reporting>
 `;

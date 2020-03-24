@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "670d080c_8d3f0695",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-24T19:02:49Z",
+      "side": 1,
+      "message": "It looks like question too related to personal belief or preference.\nShould we rephrase as: \"Do we believe this feature belongs to Gerrit Code Review use-cases\"?\n\nExample: I would like to have code-browsing in Gerrit (personally) but I do not believe that it belongs to the Gerrit code-review use-case.",
+      "range": {
+        "startLine": 270,
+        "startChar": 7,
+        "endLine": 270,
+        "endChar": 43
+      },
+      "revId": "c739807f75681212904a72f7e17585487fb8ddc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5006f851_d9c4e9be",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-24T19:02:49Z",
+      "side": 1,
+      "message": "I would prefer as \u0027unnecessary\u0027 rather than undesired.\nI do not believe that anyone desire complexity :-) However, sometimes the solution is complex and is necessary.",
+      "range": {
+        "startLine": 290,
+        "startChar": 43,
+        "endLine": 290,
+        "endChar": 52
+      },
+      "revId": "c739807f75681212904a72f7e17585487fb8ddc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

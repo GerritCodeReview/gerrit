@@ -604,7 +604,7 @@ public class ChangeNotesStateTest {
     assertRoundTrip(
         newBuilder()
             .attentionSet(
-                ImmutableList.of(
+                ImmutableSet.of(
                     AttentionSetUpdate.createFromRead(
                         Instant.EPOCH.plusSeconds(23),
                         Account.id(1000),
@@ -790,7 +790,7 @@ public class ChangeNotesStateTest {
                     new TypeLiteral<ImmutableList<ReviewerStatusUpdate>>() {}.getType())
                 .put(
                     "attentionSet",
-                    new TypeLiteral<ImmutableList<AttentionSetUpdate>>() {}.getType())
+                    new TypeLiteral<ImmutableSet<AttentionSetUpdate>>() {}.getType())
                 .put(
                     "assigneeUpdates",
                     new TypeLiteral<ImmutableList<AssigneeStatusUpdate>>() {}.getType())

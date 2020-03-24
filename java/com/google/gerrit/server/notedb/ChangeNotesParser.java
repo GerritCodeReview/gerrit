@@ -44,7 +44,6 @@ import static java.util.stream.Collectors.joining;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ListMultimap;
@@ -246,7 +245,7 @@ class ChangeNotesParser {
         pendingReviewersByEmail,
         allPastReviewers,
         buildReviewerUpdates(),
-        ImmutableList.copyOf(latestAttentionStatus.values()),
+        ImmutableSet.copyOf(latestAttentionStatus.values()),
         assigneeUpdates,
         submitRecords,
         buildAllMessages(),

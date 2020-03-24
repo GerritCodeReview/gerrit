@@ -29,4 +29,5 @@ public class CherryPickInput {
 
   public boolean keepReviewers;
   public boolean allowConflicts;
+  public String topic;
 }

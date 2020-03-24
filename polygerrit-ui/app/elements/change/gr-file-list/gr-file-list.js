@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/async-foreach-behavior/async-foreach-behavior.js';
 import '../../../behaviors/dom-util-behavior/dom-util-behavior.js';
 import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
@@ -79,7 +78,7 @@ const FileStatus = {
  * @extends Polymer.Element
  */
 class GrFileList extends mixinBehaviors( [
-  Gerrit.AsyncForeachBehavior,
+  AsyncForeachBehavior,
   Gerrit.DomUtilBehavior,
   Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,

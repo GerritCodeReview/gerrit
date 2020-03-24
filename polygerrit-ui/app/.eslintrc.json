@@ -105,7 +105,9 @@
       "GrRangeNormalizer",
       "GrCountStringFormatter",
       "GrReviewerSuggestionsProvider",
-      "util"
+      "util",
+      "moment",
+      "page"
 
     ],
     "no-useless-escape": "off",

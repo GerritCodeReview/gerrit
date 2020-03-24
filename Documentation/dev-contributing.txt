@@ -245,6 +245,76 @@ over, changes that have already been submitted for the feature might
 get reverted so that there is no unused or half-finished code in the
 code base.
 
+[[esc-dd-evaluation]]
+== How the ESC evaluates design documents
+This section describes how the ESC evaluates design documents. It’s
+meant as a guideline rather than being prescriptive for both ESC
+members and contributors.
+
+=== General Process
+As part of the design process, the ESC makes a final decision if a
+design gets to be implemented. If there are multiple alternative
+solutions, the ESC will decide which solution can be implemented.
+
+The ESC should wait until all contributors had the chance to
+voice their opinion in review comments or by proposing alternative
+solutions. Due to the infrequent ESC meetings (every 2-4 weeks)
+the ESC might discuss documents in cases where the discussion is
+already advanced far enough, but not make a decision yet. In this
+case, contributors can still voice concerns or discuss alternatives.
+The decision can be at the next meeting or via email in between
+meetings.
+
+=== Evaluation
+Product/Vision fit
+Q: `Do we want this feature to be in Gerrit?`
+* Does the proposed solution fit into Gerrit Code Review?
+  Yes: Customizable dashboards No: UI for managing an LDAP server
+* Is the proposed solution aligned with Gerrit’s vision?
+  Yes: Showing comments of older patch sets in newer patch sets to
+  keep track (core code review)
+  No: Implement a bug tracker in Gerrit (not core code review).
+
+=== Impact
+Q: `Will the new feature have a measurable, positive impact?`
+* Yes: Increased productivity, faster/smoother workflow, etc.
+* Yes: Better latency, more reliable system.
+* No: Unclear impact or lacking metrics to measure.
+
+=== Complexity
+Q: `Can we support/maintain this feature once it is in Gerrit?`
+* Is the proposed feature or rework maintainable?
+  Yes: Code will fit into codebase, be well tested, easy to
+  understand. No: Will add code or a workflow that is hard to
+  understand and easy to misinterpret.
+* Is the proposed feature or rework adding undesired complexity?
+  Yes: Adding a dependency on a well-supported library.
+  No: Adding a dependency on a library that is not widely used
+  or not actively maintained.
+
+=== Core vs. Plugin decision
+Q: `Would this fit better in a plugin?`
+* Is the proposed feature or rework applicable to a wider user
+  base? (core)
+* Is the proposed feature or rework a `core code review feature`? (core)
+* Is the proposed feature or rework an implementation (e.g. Lucene
+  is an index implementation) of a generic concept that others
+  might want to implement differently? (plugin)
+
+=== Commitment
+Q: `Is someone willing to implement it?` (this question is
+especially important when reviewers propose alternative designs
+to the author’s own solution).
+* Does the author or someone else commit to implementing the
+  proposed solution?
+* If a mentorship is required, is there a mentor who is willing to help?
+
+=== Community
+Q: `If in doubt, is there a substantial benefit to a long-standing
+community member with many users?`
+* The community shapes the future of Gerrit as a product. In
+  cases of doubt, the ESC can be more generous with long-standing community members compared to `drive-by` contributions.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

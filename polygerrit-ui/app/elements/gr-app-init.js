@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {installGlobalReporting} from './core/gr-reporting/gr-reporting.js';
+
 if (!window.Polymer) {
   window.Polymer = {
     passiveTouchGestures: true,
@@ -22,3 +24,5 @@ if (!window.Polymer) {
   };
 }
 window.Gerrit = window.Gerrit || {};
+
+installGlobalReporting();

@@ -20,7 +20,6 @@ import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-change-list/gr-change-list.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../shared/gr-overlay/gr-overlay.js';
@@ -34,6 +33,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-dashboard-view_html.js';
+import {GrReportingProvider} from '../../core/gr-reporting/gr-reporting.js';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
@@ -113,6 +113,12 @@ class GrDashboardView extends mixinBehaviors( [
         this.ListChangesOption.DETAILED_ACCOUNTS,
         this.ListChangesOption.REVIEWED
     );
+  }
+
+  /** @override */
+  created() {
+    super.created();
+    this.reporting = GrReportingProvider.getReportingInstance();
   }
 
   /** @override */
@@ -202,7 +208,7 @@ class GrDashboardView extends mixinBehaviors( [
         })
         .then(() => {
           this._maybeShowDraftsBanner();
-          this.$.reporting.dashboardDisplayed();
+          this.reporting.dashboardDisplayed();
         })
         .catch(err => {
           this.fire('title-change', {

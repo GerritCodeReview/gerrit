@@ -339,6 +339,24 @@
     },
     {
       "key": {
+        "uuid": "51f285fc_641f34ab",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-24T11:48:24Z",
+      "side": 1,
+      "message": "Maybe it would be feasible to write a schema migration that fixes invalid topics of old changes, but not sure if it\u0027s worth the effort and if there would be unwanted side effects.",
+      "parentUuid": "35ec20c4_7f6b2775",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "018471df_357a3054",
         "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
         "patchSetId": 2

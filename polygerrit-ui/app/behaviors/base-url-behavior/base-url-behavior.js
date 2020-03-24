@@ -14,33 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
 
-  window.Gerrit = window.Gerrit || {};
+/** @polymerBehavior BaseUrlBehavior */
+export const BaseUrlBehavior = {
+  /** @return {string} */
+  getBaseUrl() {
+    return window.CANONICAL_PATH || '';
+  },
+};
 
-  /** @polymerBehavior Gerrit.BaseUrlBehavior */
-  Gerrit.BaseUrlBehavior = {
-    /** @return {string} */
-    getBaseUrl() {
-      return window.CANONICAL_PATH || '';
-    },
-  };
+// TODO(dmfilippov) Remove the following lines with assignments
+// Plugins can use the behavior because it was accessible with
+// the global Gerrit... variable. To avoid breaking changes in plugins
+// temporary assign global variables.
+window.Gerrit = window.Gerrit || {};
+window.Gerrit.BaseUrlBehavior = BaseUrlBehavior;
 
-  // eslint-disable-next-line no-unused-vars
-  function defineEmptyMixin() {
-    // This is a temporary function.
-    // Polymer linter doesn't process correctly the following code:
-    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
-    // To workaround this issue, the mock mixin is declared in this method.
-    // In the following changes, legacy behaviors will be converted to mixins.
-
-    /**
-     * @polymer
-     * @mixinFunction
-     */
-    Gerrit.BaseUrlMixin = base =>
-      class extends base {
-      };
-  }
-})(window);

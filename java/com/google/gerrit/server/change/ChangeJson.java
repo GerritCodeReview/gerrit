@@ -33,6 +33,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_DIFFSTA
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
+import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
@@ -50,7 +51,6 @@ import com.google.gerrit.common.data.SubmitRecord.Status;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
@@ -510,9 +510,8 @@ public class ChangeJson {
     out.topic = in.getTopic();
     if (!cd.attentionSet().isEmpty()) {
       out.attentionSet =
-          cd.attentionSet().stream()
-              // This filtering should match GetAttentionSet.
-              .filter(a -> a.operation() == AttentionSetUpdate.Operation.ADD)
+          // This filtering should match GetAttentionSet.
+          additionsOnly(cd.attentionSet()).stream()
               .collect(
                   toImmutableMap(
                       a -> a.account().get(),

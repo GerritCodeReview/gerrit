@@ -36,6 +36,7 @@ GrHoverCardSharedStyle.innerHTML =
          to pick up this consistent styling. */
       #container {
         background: var(--dialog-background-color);
+        border: 1px solid var(--border-color);
         border-radius: var(--border-radius);
         box-shadow: var(--elevation-level-5);
       }

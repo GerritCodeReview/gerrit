@@ -94,7 +94,6 @@ const elements = [
   'core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog_test.html',
   'core/gr-main-header/gr-main-header_test.html',
   'core/gr-navigation/gr-navigation_test.html',
-  'core/gr-reporting/gr-reporting_test.html',
   'core/gr-router/gr-router_test.html',
   'core/gr-search-bar/gr-search-bar_test.html',
   'core/gr-smart-search/gr-smart-search_test.html',
@@ -260,12 +259,18 @@ for (let file of scripts) {
 }
 
 const services = [
+  'app-context-init_test.html',
   'flags_test.html',
+  'gr-reporting/gr-reporting_test.html',
+  'gr-reporting/gr-reporting_mock_test.html',
 ];
 for (let file of services) {
   file = servicesPath + file;
   testFiles.push(file);
 }
+
+// embed test
+testFiles.push('embed/gr-diff-app-context-init_test.html');
 
 /**
  * Converts multiline string to a map<file_name, test_count>.

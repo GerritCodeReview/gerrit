@@ -93,5 +93,4 @@ export const htmlTemplate = html`
     value="{{text}}"
     on-bind-value-changed="_onValueChanged"
   ></iron-autogrow-textarea>
-  <gr-reporting id="reporting"></gr-reporting>
 `;

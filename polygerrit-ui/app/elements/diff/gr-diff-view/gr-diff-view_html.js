@@ -290,5 +290,4 @@ export const htmlTemplate = html`
     <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="cursor" scroll-top-margin="[[_scrollTopMargin]]"></gr-diff-cursor>
     <gr-comment-api id="commentAPI"></gr-comment-api>
-    <gr-reporting id="reporting"></gr-reporting>
 `;

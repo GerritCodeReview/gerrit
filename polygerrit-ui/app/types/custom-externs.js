@@ -29,7 +29,6 @@
 // @unused
 
 var Gerrit;
-var GrDomHooks;
 var GrEtagDecorator;
 var GrGapiAuth;
 var GrGerritAuth;

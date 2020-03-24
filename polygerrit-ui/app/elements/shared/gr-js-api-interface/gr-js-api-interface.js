@@ -20,7 +20,6 @@ import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../plugins/gr-admin-api/gr-admin-api.js';
 import '../../plugins/gr-change-metadata-api/gr-change-metadata-api.js';
-import '../../plugins/gr-dom-hooks/gr-dom-hooks.js';
 import '../../plugins/gr-event-helper/gr-event-helper.js';
 import '../../plugins/gr-popup-interface/gr-popup-interface.js';
 import '../../plugins/gr-repo-api/gr-repo-api.js';

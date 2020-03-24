@@ -87,7 +87,10 @@
       "GrChangeActionsInterface",
       "GrChangeReplyInterface",
       "GrEditConstants",
-      "GrFileListConstants"
+      "GrFileListConstants",
+      "GrDomHook",
+      "GrDomHooksManager",
+      "GrDomHooks"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

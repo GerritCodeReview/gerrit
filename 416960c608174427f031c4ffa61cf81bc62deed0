@@ -16,6 +16,24 @@
       "revId": "416960c608174427f031c4ffa61cf81bc62deed0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb4fce26_b84e9226",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-24T12:40:04Z",
+      "side": 1,
+      "message": "Yes, this is a rare case, will fix it later.\nFix for pointing to it",
+      "parentUuid": "109cb8b0_a2494800",
+      "revId": "416960c608174427f031c4ffa61cf81bc62deed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

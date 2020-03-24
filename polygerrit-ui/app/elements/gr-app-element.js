@@ -28,7 +28,6 @@ import './core/gr-error-manager/gr-error-manager.js';
 import './core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.js';
 import './core/gr-main-header/gr-main-header.js';
 import './core/gr-navigation/gr-navigation.js';
-import './core/gr-reporting/gr-reporting.js';
 import './core/gr-router/gr-router.js';
 import './core/gr-smart-search/gr-smart-search.js';
 import './diff/gr-diff-view/gr-diff-view.js';
@@ -52,6 +51,7 @@ self.moment = moment;
 import {htmlTemplate} from './gr-app-element_html.js';
 import {BaseUrlBehavior} from '../behaviors/base-url-behavior/base-url-behavior.js';
 import {KeyboardShortcutBehavior} from '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {appContext} from '../services/app-context.js';
 
 /**
  * @extends Polymer.Element
@@ -160,6 +160,11 @@ class GrAppElement extends mixinBehaviors( [
     };
   }
 
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
+  }
+
   /** @override */
   created() {
     super.created();
@@ -180,7 +185,7 @@ class GrAppElement extends mixinBehaviors( [
   ready() {
     super.ready();
     this._updateLoginUrl();
-    this.$.reporting.appStarted();
+    this.reporting.appStarted();
     this.$.router.start();
 
     this.$.restAPI.getAccount().then(account => {
@@ -415,7 +420,7 @@ class GrAppElement extends mixinBehaviors( [
     if (e.ctrlKey) key = 'ctrl+' + key;
     if (e.metaKey) key = 'meta+' + key;
     if (e.altKey) key = 'alt+' + key;
-    this.$.reporting.reportInteraction('shortcut-triggered', {
+    this.reporting.reportInteraction('shortcut-triggered', {
       key,
       from: event.path && event.path[0]
         && event.path[0].nodeName || 'unknown',
@@ -566,7 +571,7 @@ class GrAppElement extends mixinBehaviors( [
    * that would create a cyclic dependency.
    */
   _handleRpcLog(e) {
-    this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
+    this.reporting.reportRpcTiming(e.detail.anonymizedUrl,
         e.detail.elapsed);
   }
 

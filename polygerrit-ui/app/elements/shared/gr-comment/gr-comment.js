@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../../styles/shared-styles.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
 import '../gr-button/gr-button.js';
@@ -40,6 +39,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {appContext} from '../../../services/app-context.js';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -233,6 +233,11 @@ class GrComment extends mixinBehaviors( [
     };
   }
 
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
+  }
+
   /** @override */
   attached() {
     super.attached();
@@ -267,7 +272,7 @@ class GrComment extends mixinBehaviors( [
       this._showRespectfulTip = true;
       const randomIdx = this.getRandomNum(0, RESPECTFUL_REVIEW_TIPS.length);
       this._respectfulReviewTip = RESPECTFUL_REVIEW_TIPS[randomIdx];
-      this.$.reporting.reportInteraction(
+      this.reporting.reportInteraction(
           'respectful-tip-appeared',
           {tip: this._respectfulReviewTip}
       );
@@ -287,7 +292,7 @@ class GrComment extends mixinBehaviors( [
 
   _dismissRespectfulTip() {
     this._respectfulTipDismissed = true;
-    this.$.reporting.reportInteraction(
+    this.reporting.reportInteraction(
         'respectful-tip-dismissed',
         {tip: this._respectfulReviewTip}
     );
@@ -296,7 +301,7 @@ class GrComment extends mixinBehaviors( [
   }
 
   _onRespectfulReadMoreClick() {
-    this.$.reporting.reportInteraction('respectful-read-more-clicked');
+    this.reporting.reportInteraction('respectful-read-more-clicked');
   }
 
   get textarea() {
@@ -567,7 +572,7 @@ class GrComment extends mixinBehaviors( [
     e.preventDefault();
     this._messageText = this.comment.message;
     this.editing = true;
-    this.$.reporting.recordDraftInteraction();
+    this.reporting.recordDraftInteraction();
   }
 
   _handleSave(e) {
@@ -579,7 +584,7 @@ class GrComment extends mixinBehaviors( [
     }
     const timingLabel = this.comment.id ?
       REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
-    const timer = this.$.reporting.getTimer(timingLabel);
+    const timer = this.reporting.getTimer(timingLabel);
     this.set('comment.__editing', false);
     return this.save().then(() => { timer.end(); });
   }
@@ -627,7 +632,7 @@ class GrComment extends mixinBehaviors( [
 
   _handleDiscard(e) {
     e.preventDefault();
-    this.$.reporting.recordDraftInteraction();
+    this.reporting.recordDraftInteraction();
 
     if (!this._messageText) {
       this._discardDraft();
@@ -642,7 +647,7 @@ class GrComment extends mixinBehaviors( [
 
   _handleConfirmDiscard(e) {
     e.preventDefault();
-    const timer = this.$.reporting.getTimer(REPORT_DISCARD_DRAFT);
+    const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
     this._closeConfirmDiscardOverlay();
     return this._discardDraft().then(() => { timer.end(); });
   }
@@ -783,7 +788,7 @@ class GrComment extends mixinBehaviors( [
   }
 
   _handleToggleResolved() {
-    this.$.reporting.recordDraftInteraction();
+    this.reporting.recordDraftInteraction();
     this.resolved = !this.resolved;
     // Modify payload instead of this.comment, as this.comment is passed from
     // the parent by ref.

@@ -21,12 +21,12 @@ import '@polymer/iron-input/iron-input.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-dialog/gr-dialog.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-confirm-cherrypick-dialog_html.js';
+import {appContext} from '../../../services/app-context.js';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -94,6 +94,11 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
         value: false,
       },
     };
+  }
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
   }
 
   static get observers() {
@@ -259,7 +264,7 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
     e.preventDefault();
     e.stopPropagation();
     if (this._cherryPickType === CHERRY_PICK_TYPES.TOPIC) {
-      this.$.reporting.reportInteraction('cherry-pick-topic-clicked');
+      this.reporting.reportInteraction('cherry-pick-topic-clicked');
       this._handleCherryPickTopic();
       return;
     }

@@ -440,5 +440,4 @@ export const htmlTemplate = html`
     <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="diffCursor"></gr-diff-cursor>
     <gr-cursor-manager id="fileCursor" scroll-behavior="keep-visible" focus-on-move="" cursor-target-class="selected"></gr-cursor-manager>
-    <gr-reporting id="reporting"></gr-reporting>
 `;

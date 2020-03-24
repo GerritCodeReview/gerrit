@@ -23,5 +23,4 @@ export const htmlTemplate = html`
     <gr-overlay id="noInteractionOverlay" with-backdrop="" always-on-top="" no-cancel-on-esc-key="" no-cancel-on-outside-click="">
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-reporting id="reporting"></gr-reporting>
 `;

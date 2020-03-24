@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '../../admin/gr-create-change-dialog/gr-create-change-dialog.js';
 import '../../core/gr-navigation/gr-navigation.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
@@ -43,6 +42,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-actions_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {appContext} from '../../../services/app-context.js';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -271,6 +271,7 @@ class GrChangeActions extends mixinBehaviors( [
     this.ActionType = ActionType;
     this.ChangeActions = ChangeActions;
     this.RevisionActions = RevisionActions;
+    this.reporting = appContext.reportingService;
   }
 
   static get properties() {
@@ -1013,7 +1014,7 @@ class GrChangeActions extends mixinBehaviors( [
   }
 
   _handleAction(type, key) {
-    this.$.reporting.reportInteraction(`${type}-${key}`);
+    this.reporting.reportInteraction(`${type}-${key}`);
     switch (type) {
       case ActionType.REVISION:
         this._handleRevisionAction(key);

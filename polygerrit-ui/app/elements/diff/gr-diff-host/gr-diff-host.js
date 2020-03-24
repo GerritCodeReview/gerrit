@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-comment-thread/gr-comment-thread.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
@@ -29,6 +28,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-host_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {appContext} from '../../../services/app-context.js';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -261,6 +261,11 @@ class GrDiffHost extends mixinBehaviors( [
     ];
   }
 
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
+  }
+
   /** @override */
   created() {
     super.created();
@@ -362,21 +367,21 @@ class GrDiffHost extends mixinBehaviors( [
               const needsSyntaxHighlighting = event.detail &&
                     event.detail.contentRendered;
               if (needsSyntaxHighlighting) {
-                this.$.reporting.time(TimingLabel.SYNTAX);
+                this.reporting.time(TimingLabel.SYNTAX);
                 this.$.syntaxLayer.process().then(() => {
-                  this.$.reporting.timeEnd(TimingLabel.SYNTAX);
-                  this.$.reporting.timeEnd(TimingLabel.TOTAL);
+                  this.reporting.timeEnd(TimingLabel.SYNTAX);
+                  this.reporting.timeEnd(TimingLabel.TOTAL);
                   resolve();
                 });
               } else {
-                this.$.reporting.timeEnd(TimingLabel.TOTAL);
+                this.reporting.timeEnd(TimingLabel.TOTAL);
                 resolve();
               }
               this.removeEventListener('render', callback);
               if (shouldReportMetric) {
                 // We report diffViewContentDisplayed only on reload caused
                 // by params changed - expected only on Diff Page.
-                this.$.reporting.diffViewContentDisplayed();
+                this.reporting.diffViewContentDisplayed();
               }
             };
             this.addEventListener('render', callback);
@@ -604,11 +609,11 @@ class GrDiffHost extends mixinBehaviors( [
     // Report the due_to_rebase percentage in the "diff" category when
     // applicable.
     if (this.patchRange.basePatchNum === 'PARENT') {
-      this.$.reporting.reportInteraction(EVENT_AGAINST_PARENT);
+      this.reporting.reportInteraction(EVENT_AGAINST_PARENT);
     } else if (percentRebaseDelta === 0) {
-      this.$.reporting.reportInteraction(EVENT_ZERO_REBASE);
+      this.reporting.reportInteraction(EVENT_ZERO_REBASE);
     } else {
-      this.$.reporting.reportInteraction(EVENT_NONZERO_REBASE,
+      this.reporting.reportInteraction(EVENT_NONZERO_REBASE,
           {percentRebaseDelta});
     }
   }
@@ -728,7 +733,7 @@ class GrDiffHost extends mixinBehaviors( [
         isOnParent);
     threadEl.addOrEditDraft(lineNum, range);
 
-    this.$.reporting.recordDraftInteraction();
+    this.reporting.recordDraftInteraction();
   }
 
   /**
@@ -1026,7 +1031,7 @@ class GrDiffHost extends mixinBehaviors( [
   _listenToViewportRender() {
     const renderUpdateListener = start => {
       if (start > NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT) {
-        this.$.reporting.diffViewDisplayed();
+        this.reporting.diffViewDisplayed();
         this.$.syntaxLayer.removeListener(renderUpdateListener);
       }
     };
@@ -1035,16 +1040,16 @@ class GrDiffHost extends mixinBehaviors( [
   }
 
   _handleRenderStart() {
-    this.$.reporting.time(TimingLabel.TOTAL);
-    this.$.reporting.time(TimingLabel.CONTENT);
+    this.reporting.time(TimingLabel.TOTAL);
+    this.reporting.time(TimingLabel.CONTENT);
   }
 
   _handleRenderContent() {
-    this.$.reporting.timeEnd(TimingLabel.CONTENT);
+    this.reporting.timeEnd(TimingLabel.CONTENT);
   }
 
   _handleNormalizeRange(event) {
-    this.$.reporting.reportInteraction('normalize-range',
+    this.reporting.reportInteraction('normalize-range',
         {
           side: event.detail.side,
           lineNum: event.detail.lineNum,
@@ -1052,7 +1057,7 @@ class GrDiffHost extends mixinBehaviors( [
   }
 
   _handleDiffContextExpanded(event) {
-    this.$.reporting.reportInteraction(
+    this.reporting.reportInteraction(
         'diff-context-expanded', {numLines: event.detail.numLines}
     );
   }

@@ -2307,13 +2307,13 @@ suite('gr-change-view tests', () => {
       sandbox.stub(element, '_getMergeability').returns(Promise.resolve());
       sandbox.stub(element, '_getLatestCommitMessage')
           .returns(Promise.resolve());
+      element.reporting.changeDisplayed.reset();
+      element.reporting.changeFullyLoaded.reset();
     });
 
     test('don\'t report changedDisplayed on reply', done => {
-      const changeDisplayStub =
-        sandbox.stub(element.$.reporting, 'changeDisplayed');
-      const changeFullyLoadedStub =
-        sandbox.stub(element.$.reporting, 'changeFullyLoaded');
+      const changeDisplayStub = element.reporting.changeDisplayed;
+      const changeFullyLoadedStub = element.reporting.changeFullyLoaded;
       element._handleReplySent();
       flush(() => {
         assert.isFalse(changeDisplayStub.called);
@@ -2323,10 +2323,8 @@ suite('gr-change-view tests', () => {
     });
 
     test('report changedDisplayed on _paramsChanged', done => {
-      const changeDisplayStub =
-        sandbox.stub(element.$.reporting, 'changeDisplayed');
-      const changeFullyLoadedStub =
-        sandbox.stub(element.$.reporting, 'changeFullyLoaded');
+      const changeDisplayStub = element.reporting.changeDisplayed;
+      const changeFullyLoadedStub = element.reporting.changeFullyLoaded;
       element._paramsChanged({
         view: Gerrit.Nav.View.CHANGE,
         changeNum: 101,

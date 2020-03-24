@@ -340,5 +340,4 @@ export const htmlTemplate = html`
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
-    <gr-reporting id="reporting"></gr-reporting>
 `;

@@ -21,7 +21,10 @@ import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
 import moment from 'moment/src/moment.js';
 import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
+import {appContext} from '../services/app-context.js';
 import {initAppContext} from '../services/app-context-init.js';
+import {setupReportingMock} from './services/gr-reporting_mock.js';
+
 self.moment = moment;
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
@@ -79,6 +82,11 @@ setup(() => {
     Gerrit._testOnly_resetPlugins();
   }
   initAppContext();
+  Object.defineProperty(appContext, 'reportingService', {
+    get() {
+      return setupReportingMock();
+    },
+  });
 });
 
 if (window.stub) {

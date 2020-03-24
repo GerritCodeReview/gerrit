@@ -136,5 +136,4 @@ export const htmlTemplate = html`
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-reporting id="reporting" category="change-actions"></gr-reporting>
 `;

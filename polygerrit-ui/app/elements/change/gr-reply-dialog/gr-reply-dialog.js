@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../shared/gr-account-chip/gr-account-chip.js';
 import '../../shared/gr-textarea/gr-textarea.js';
@@ -42,6 +41,7 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {appContext} from '../../../services/app-context.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -133,6 +133,7 @@ class GrReplyDialog extends mixinBehaviors( [
   constructor() {
     super();
     this.FocusTarget = FocusTarget;
+    this.reporting = appContext.reportingService;
   }
 
   static get properties() {
@@ -468,7 +469,7 @@ class GrReplyDialog extends mixinBehaviors( [
   }
 
   send(includeComments, startReview) {
-    this.$.reporting.time(SEND_REPLY_TIMING_LABEL);
+    this.reporting.time(SEND_REPLY_TIMING_LABEL);
     const labels = this.$.labelScores.getLabelValues();
 
     const obj = {

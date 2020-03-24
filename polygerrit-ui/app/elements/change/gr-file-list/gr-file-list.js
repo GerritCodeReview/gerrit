@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../diff/gr-diff-cursor/gr-diff-cursor.js';
 import '../../diff/gr-diff-host/gr-diff-host.js';
 import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.js';
@@ -44,6 +43,7 @@ import {DomUtilBehavior} from '../../../behaviors/dom-util-behavior/dom-util-beh
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {appContext} from '../../../services/app-context.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -288,6 +288,11 @@ class GrFileList extends mixinBehaviors( [
     };
   }
 
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
+  }
+
   /** @override */
   created() {
     super.created();
@@ -373,14 +378,14 @@ class GrFileList extends mixinBehaviors( [
     return Promise.all(promises).then(() => {
       this._loading = false;
       this._detectChromiteButler();
-      this.$.reporting.fileListDisplayed();
+      this.reporting.fileListDisplayed();
     });
   }
 
   _detectChromiteButler() {
     const hasButler = !!document.getElementById('butler-suggested-owners');
     if (hasButler) {
-      this.$.reporting.reportExtension('butler');
+      this.reporting.reportExtension('butler');
     }
   }
 
@@ -448,7 +453,7 @@ class GrFileList extends mixinBehaviors( [
   _updateDiffPreferences() {
     if (!this.diffs.length) { return; }
     // Re-render all expanded diffs sequentially.
-    this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
+    this.reporting.time(EXPAND_ALL_TIMING_LABEL);
     this._renderInOrder(this._expandedFiles, this.diffs,
         this._expandedFiles.length);
   }
@@ -1014,7 +1019,7 @@ class GrFileList extends mixinBehaviors( [
     // Start the timer for the rendering work hwere because this is where the
     // _shownFiles property is being set, and _shownFiles is used in the
     // dom-repeat binding.
-    this.$.reporting.time(RENDER_TIMING_LABEL);
+    this.reporting.time(RENDER_TIMING_LABEL);
 
     // How many more files are being shown (if it's an increase).
     this._reportinShownFilesIncrement =
@@ -1139,7 +1144,7 @@ class GrFileList extends mixinBehaviors( [
     // Required so that the newly created diff view is included in this.diffs.
     flush();
 
-    this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
+    this.reporting.time(EXPAND_ALL_TIMING_LABEL);
 
     if (newFiles.length) {
       this._renderInOrder(newFiles, this.diffs, newFiles.length);
@@ -1198,7 +1203,7 @@ class GrFileList extends mixinBehaviors( [
       this._cancelForEachDiff = null;
       this._nextRenderParams = null;
       console.log('Finished expanding', initialCount, 'diff(s)');
-      this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
+      this.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
           EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
       this.$.diffCursor.handleDiffUpdate();
     }));
@@ -1450,7 +1455,7 @@ class GrFileList extends mixinBehaviors( [
   _reportRenderedRow(index) {
     if (index === this._shownFiles.length - 1) {
       this.async(() => {
-        this.$.reporting.timeEndWithAverage(RENDER_TIMING_LABEL,
+        this.reporting.timeEndWithAverage(RENDER_TIMING_LABEL,
             RENDER_AVG_TIMING_LABEL, this._reportinShownFilesIncrement);
       }, 1);
     }

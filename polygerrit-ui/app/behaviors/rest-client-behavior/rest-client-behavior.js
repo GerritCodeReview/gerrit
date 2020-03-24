@@ -16,7 +16,7 @@
  */
 import '../../scripts/bundled-polymer.js';
 
-import '../base-url-behavior/base-url-behavior.js';
+import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
 (function(window) {
   'use strict';
 
@@ -175,7 +175,7 @@ import '../base-url-behavior/base-url-behavior.js';
       return this.changeStatuses(change).join(', ');
     },
   },
-  Gerrit.BaseUrlBehavior,
+  BaseUrlBehavior,
   ];
 
   // eslint-disable-next-line no-unused-vars

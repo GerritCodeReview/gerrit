@@ -25,8 +25,8 @@ limitations under the License.
 <script src="/components/wct-browser-legacy/browser.js"></script>
 <script type="module">
 import '../../../test/common-test-setup.js';
-import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import './gr-auth.js';
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 suite('gr-auth', () => {
   let auth;
   let sandbox;
@@ -273,7 +273,7 @@ suite('gr-auth', () => {
 
     test('base url support', done => {
       const baseUrl = 'http://foo';
-      sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
+      sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
       auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
         const [url] = fetch.lastCall.args;
         assert.equal(url, 'http://foo/a/url?access_token=zbaz');

@@ -20,6 +20,7 @@ import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
@@ -195,6 +196,9 @@ public class RevertSubmission
   }
 
   private String createTopic(String topic, String submissionId) {
+    if (topic != null) {
+      topic = Strings.emptyToNull(topic.trim());
+    }
     if (topic == null) {
       return String.format(
           "revert-%s-%s", submissionId, RandomStringUtils.randomAlphabetic(10).toUpperCase());
@@ -321,12 +325,7 @@ public class RevertSubmission
       bu.addOp(
           changeNotes.getChange().getId(),
           new CreateCherryPickOp(
-              revCommitId,
-              revertInput.topic,
-              generatedChangeId,
-              cherryPickRevertChangeId,
-              groupName,
-              timestamp));
+              revCommitId, generatedChangeId, cherryPickRevertChangeId, groupName, timestamp));
       bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
       bu.addOp(
           cherryPickRevertChangeId,
@@ -356,6 +355,7 @@ public class RevertSubmission
     cherryPickInput.notifyDetails = revertInput.notifyDetails;
     cherryPickInput.parent = 1;
     cherryPickInput.keepReviewers = true;
+    cherryPickInput.topic = revertInput.topic;
     return cherryPickInput;
   }
 
@@ -570,7 +570,6 @@ public class RevertSubmission
 
   private class CreateCherryPickOp implements BatchUpdateOp {
     private final ObjectId revCommitId;
-    private final String topic;
     private final ObjectId computedChangeId;
     private final Change.Id cherryPickRevertChangeId;
     private final String groupName;
@@ -578,13 +577,11 @@ public class RevertSubmission
 
     CreateCherryPickOp(
         ObjectId revCommitId,
-        String topic,
         ObjectId computedChangeId,
         Change.Id cherryPickRevertChangeId,
         String groupName,
         Timestamp timestamp) {
       this.revCommitId = revCommitId;
-      this.topic = topic;
       this.computedChangeId = computedChangeId;
       this.cherryPickRevertChangeId = cherryPickRevertChangeId;
       this.groupName = groupName;
@@ -604,7 +601,6 @@ public class RevertSubmission
                   change.getProject(), RefNames.fullName(cherryPickInput.destination)),
               true,
               timestamp,
-              topic,
               change.getId(),
               computedChangeId,
               cherryPickRevertChangeId,

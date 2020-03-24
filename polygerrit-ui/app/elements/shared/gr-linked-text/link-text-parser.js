@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+
 (function() {
   'use strict';
-
   /**
    * Pattern describing URLs with supported protocols.
    *
@@ -42,7 +44,7 @@
     this.linkConfig = linkConfig;
     this.callback = callback;
     this.removeZeroWidthSpace = opt_removeZeroWidthSpace;
-    this.baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
+    this.baseUrl = BaseUrlBehavior.getBaseUrl();
     Object.preventExtensions(this);
   }
 

@@ -100,7 +100,11 @@
       "GrRestApiHelper",
       "GrLinkTextParser",
       "GrPluginEndpoints",
-      "GrReviewerUpdatesParser"
+      "GrReviewerUpdatesParser",
+      "GrPopupInterface",
+      "GrRangeNormalizer",
+      "GrCountStringFormatter",
+      "GrReviewerSuggestionsProvider"
 
     ],
     "no-useless-escape": "off",

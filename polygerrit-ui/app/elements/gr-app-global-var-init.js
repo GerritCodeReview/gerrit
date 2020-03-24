@@ -42,6 +42,10 @@ import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './shared/gr-r
 import {GrLinkTextParser} from './shared/gr-linked-text/link-text-parser.js';
 import {GrPluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {GrReviewerUpdatesParser} from './shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';
+import {GrPopupInterface} from './plugins/gr-popup-interface/gr-popup-interface.js';
+import {GrRangeNormalizer} from './diff/gr-diff-highlight/gr-range-normalizer.js';
+import {GrCountStringFormatter} from './shared/gr-count-string-formatter/gr-count-string-formatter.js';
+import {GrReviewerSuggestionsProvider} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -67,4 +71,8 @@ export function initGlobalVariables() {
   window.GrLinkTextParser = GrLinkTextParser;
   window.GrPluginEndpoints = GrPluginEndpoints;
   window.GrReviewerUpdatesParser = GrReviewerUpdatesParser;
+  window.GrPopupInterface = GrPopupInterface;
+  window.GrRangeNormalizer = GrRangeNormalizer;
+  window.GrCountStringFormatter = GrCountStringFormatter;
+  window.GrReviewerSuggestionsProvider = GrReviewerSuggestionsProvider;
 }

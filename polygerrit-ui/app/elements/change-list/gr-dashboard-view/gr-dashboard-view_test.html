@@ -349,6 +349,19 @@ suite('gr-dashboard-view tests', () => {
         'hide');
   });
 
+  test('params change triggers dashboardDisplayed()', () => {
+    const reportStub = element.reporting.dashboardDisplayed;
+    reportStub.reset();
+    element.params = {
+      view: Gerrit.Nav.View.DASHBOARD,
+      project: 'project',
+      dashboard: 'dashboard',
+    };
+    return paramsChangedPromise.then(() => {
+      assert.isTrue(reportStub.calledOnce);
+    });
+  });
+
   test('404 page', done => {
     const response = {status: 404};
     sandbox.stub(element.$.restAPI, 'getDashboard',
@@ -364,18 +377,6 @@ suite('gr-dashboard-view tests', () => {
       project: 'project',
       dashboard: 'dashboard',
     };
-  });
-
-  test('params change triggers dashboardDisplayed()', () => {
-    sandbox.stub(element.$.reporting, 'dashboardDisplayed');
-    element.params = {
-      view: Gerrit.Nav.View.DASHBOARD,
-      project: 'project',
-      dashboard: 'dashboard',
-    };
-    return paramsChangedPromise.then(() => {
-      assert.isTrue(element.$.reporting.dashboardDisplayed.calledOnce);
-    });
   });
 });
 </script>

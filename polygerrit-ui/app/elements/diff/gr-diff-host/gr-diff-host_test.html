@@ -45,10 +45,6 @@ suite('gr-diff-host tests', () => {
     stub('gr-rest-api-interface', {
       async getLoggedIn() { return getLoggedIn; },
     });
-    stub('gr-reporting', {
-      time: sandbox.stub(),
-      timeEnd: sandbox.stub(),
-    });
     element = fixture('basic');
   });
 
@@ -288,23 +284,27 @@ suite('gr-diff-host tests', () => {
 
   suite('render reporting', () => {
     test('starts total and content timer on render-start', done => {
+      element.reporting.time.reset();
       element.dispatchEvent(
           new CustomEvent('render-start', {bubbles: true, composed: true}));
-      assert.isTrue(element.$.reporting.time.calledWithExactly(
+      assert.isTrue(element.reporting.time.calledWithExactly(
           'Diff Total Render'));
-      assert.isTrue(element.$.reporting.time.calledWithExactly(
+      assert.isTrue(element.reporting.time.calledWithExactly(
           'Diff Content Render'));
       done();
     });
 
     test('ends content timer on render-content', () => {
+      element.reporting.timeEnd.reset();
       element.dispatchEvent(
           new CustomEvent('render-content', {bubbles: true, composed: true}));
-      assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+      assert.isTrue(element.reporting.timeEnd.calledWithExactly(
           'Diff Content Render'));
     });
 
     test('ends total and syntax timer after syntax layer processing', done => {
+      element.reporting.timeEnd.reset();
+      element.reporting.diffViewContentDisplayed.reset();
       let notifySyntaxProcessed;
       sandbox.stub(element.$.syntaxLayer, 'process').returns(new Promise(
           resolve => {
@@ -322,26 +322,26 @@ suite('gr-diff-host tests', () => {
         notifySyntaxProcessed();
         // Assert after the notification task is processed.
         Promise.resolve().then(() => {
-          assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+          assert.isTrue(element.reporting.timeEnd.calledWithExactly(
               'Diff Total Render'));
-          assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+          assert.isTrue(element.reporting.timeEnd.calledWithExactly(
               'Diff Syntax Render'));
-          assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
-              'StartupDiffViewOnlyContent'));
+          assert.isTrue(element.reporting.diffViewContentDisplayed.called);
           done();
         });
       });
     });
 
     test('ends total timer w/ no syntax layer processing', done => {
+      element.reporting.timeEnd.reset();
       sandbox.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.patchRange = {};
       element.reload();
       // Multiple cascading microtasks are scheduled.
       setTimeout(() => {
-        assert.isTrue(element.$.reporting.timeEnd.calledOnce);
-        assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+        assert.isTrue(element.reporting.timeEnd.calledOnce);
+        assert.isTrue(element.reporting.timeEnd.calledWithExactly(
             'Diff Total Render'));
         done();
       });
@@ -1010,7 +1010,8 @@ suite('gr-diff-host tests', () => {
     setup(() => {
       element = fixture('basic');
       element.patchRange = {basePatchNum: 1};
-      reportStub = sandbox.stub(element.$.reporting, 'reportInteraction');
+      reportStub = element.reporting.reportInteraction;
+      reportStub.reset();
     });
 
     test('null and content-less', () => {

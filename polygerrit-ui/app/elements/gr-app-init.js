@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import {initAppContext} from '../services/app-context-init.js';
+import {installGlobalReporting} from '../services/gr-reporting/gr-reporting.js';
+import {appContext} from '../services/app-context.js';
 
 if (!window.Polymer) {
   window.Polymer = {
@@ -25,3 +27,4 @@ if (!window.Polymer) {
 window.Gerrit = window.Gerrit || {};
 
 initAppContext();
+installGlobalReporting(appContext);

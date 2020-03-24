@@ -1083,10 +1083,10 @@ suite('gr-router tests', () => {
       });
 
       test('_handleGroupRoute', () => {
-        const data = {params: {0: 4321}};
+        const data = {params: {0: '4321'}};
         assertDataToParams(data, '_handleGroupRoute', {
           view: GerritNav.View.GROUP,
-          groupId: 4321,
+          groupId: '4321',
         });
       });
     });
@@ -1115,38 +1115,38 @@ suite('gr-router tests', () => {
       });
 
       test('_handleRepoRoute', () => {
-        const data = {params: {0: 4321}};
+        const data = {params: {0: '4321'}};
         assertDataToParams(data, '_handleRepoRoute', {
           view: GerritNav.View.REPO,
-          repo: 4321,
+          repo: '4321',
         });
       });
 
       test('_handleRepoCommandsRoute', () => {
-        const data = {params: {0: 4321}};
+        const data = {params: {0: '4321'}};
         assertDataToParams(data, '_handleRepoCommandsRoute', {
           view: GerritNav.View.REPO,
           detail: GerritNav.RepoDetailView.COMMANDS,
-          repo: 4321,
+          repo: '4321',
         });
       });
 
       test('_handleRepoAccessRoute', () => {
-        const data = {params: {0: 4321}};
+        const data = {params: {0: '4321'}};
         assertDataToParams(data, '_handleRepoAccessRoute', {
           view: GerritNav.View.REPO,
           detail: GerritNav.RepoDetailView.ACCESS,
-          repo: 4321,
+          repo: '4321',
         });
       });
 
       suite('branch list routes', () => {
         test('_handleBranchListOffsetRoute', () => {
-          const data = {params: {0: 4321}};
+          const data = {params: {0: '4321'}};
           assertDataToParams(data, '_handleBranchListOffsetRoute', {
             view: GerritNav.View.REPO,
             detail: GerritNav.RepoDetailView.BRANCHES,
-            repo: 4321,
+            repo: '4321',
             offset: 0,
             filter: null,
           });
@@ -1155,29 +1155,29 @@ suite('gr-router tests', () => {
           assertDataToParams(data, '_handleBranchListOffsetRoute', {
             view: GerritNav.View.REPO,
             detail: GerritNav.RepoDetailView.BRANCHES,
-            repo: 4321,
+            repo: '4321',
             offset: 42,
             filter: null,
           });
         });
 
         test('_handleBranchListFilterOffsetRoute', () => {
-          const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
+          const data = {params: {repo: '4321', filter: 'foo', offset: 42}};
           assertDataToParams(data, '_handleBranchListFilterOffsetRoute', {
             view: GerritNav.View.REPO,
             detail: GerritNav.RepoDetailView.BRANCHES,
-            repo: 4321,
+            repo: '4321',
             offset: 42,
             filter: 'foo',
           });
         });
 
         test('_handleBranchListFilterRoute', () => {
-          const data = {params: {repo: 4321, filter: 'foo'}};
+          const data = {params: {repo: '4321', filter: 'foo'}};
           assertDataToParams(data, '_handleBranchListFilterRoute', {
             view: GerritNav.View.REPO,
             detail: GerritNav.RepoDetailView.BRANCHES,
-            repo: 4321,
+            repo: '4321',
             filter: 'foo',
           });
         });
@@ -1185,33 +1185,33 @@ suite('gr-router tests', () => {
 
       suite('tag list routes', () => {
         test('_handleTagListOffsetRoute', () => {
-          const data = {params: {0: 4321}};
+          const data = {params: {0: '4321'}};
           assertDataToParams(data, '_handleTagListOffsetRoute', {
             view: GerritNav.View.REPO,
             detail: GerritNav.RepoDetailView.TAGS,
-            repo: 4321,
+            repo: '4321',
             offset: 0,
             filter: null,
           });
         });
 
         test('_handleTagListFilterOffsetRoute', () => {
-          const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
+          const data = {params: {repo: '4321', filter: 'foo', offset: 42}};
           assertDataToParams(data, '_handleTagListFilterOffsetRoute', {
             view: GerritNav.View.REPO,
             detail: GerritNav.RepoDetailView.TAGS,
-            repo: 4321,
+            repo: '4321',
             offset: 42,
             filter: 'foo',
           });
         });
 
         test('_handleTagListFilterRoute', () => {
-          const data = {params: {repo: 4321}};
+          const data = {params: {repo: '4321'}};
           assertDataToParams(data, '_handleTagListFilterRoute', {
             view: GerritNav.View.REPO,
             detail: GerritNav.RepoDetailView.TAGS,
-            repo: 4321,
+            repo: '4321',
             filter: null,
           });
 
@@ -1219,7 +1219,7 @@ suite('gr-router tests', () => {
           assertDataToParams(data, '_handleTagListFilterRoute', {
             view: GerritNav.View.REPO,
             detail: GerritNav.RepoDetailView.TAGS,
-            repo: 4321,
+            repo: '4321',
             filter: 'foo',
           });
         });

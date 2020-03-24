@@ -587,5 +587,4 @@ export const htmlTemplate = html`
     focus-on-move=""
     cursor-target-class="selected"
   ></gr-cursor-manager>
-  <gr-reporting id="reporting"></gr-reporting>
 `;

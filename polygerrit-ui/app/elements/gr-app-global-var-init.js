@@ -46,6 +46,7 @@ import {GrPopupInterface} from './plugins/gr-popup-interface/gr-popup-interface.
 import {GrRangeNormalizer} from './diff/gr-diff-highlight/gr-range-normalizer.js';
 import {GrCountStringFormatter} from './shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GrReviewerSuggestionsProvider} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
+import {util} from '../scripts/util.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -75,4 +76,5 @@ export function initGlobalVariables() {
   window.GrRangeNormalizer = GrRangeNormalizer;
   window.GrCountStringFormatter = GrCountStringFormatter;
   window.GrReviewerSuggestionsProvider = GrReviewerSuggestionsProvider;
+  window.util = util;
 }

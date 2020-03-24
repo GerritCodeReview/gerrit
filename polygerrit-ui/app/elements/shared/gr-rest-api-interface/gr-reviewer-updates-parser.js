@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {util} from '../../../scripts/util.js';
+
 /** @constructor */
 export function GrReviewerUpdatesParser(change) {
   this.result = Object.assign({}, change);

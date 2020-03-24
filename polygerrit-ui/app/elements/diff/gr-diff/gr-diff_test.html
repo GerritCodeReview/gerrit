@@ -33,12 +33,12 @@ limitations under the License.
 
 <script type="module">
 import '../../../test/common-test-setup.js';
-import '../../../scripts/util.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
 import './gr-diff.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
+import {util} from '../../../scripts/util.js';
 
 suite('gr-diff tests', () => {
   let element;

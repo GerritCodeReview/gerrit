@@ -10,8 +10,9 @@ fi
 # TODO(hanwen): does $DISPLAY even work on OSX?
 ${bazel_bin} test \
       --test_env="HOME=$HOME" \
-      --test_env="WCT_ARGS=${WCT_ARGS}" \
+      --test_env="WCT_ARGS=${WCT_ARGS} --expanded" \
       --test_env="DISPLAY=${DISPLAY}" \
       --test_env="WCT_HEADLESS_MODE=${WCT_HEADLESS_MODE}" \
+      --test_output=streamed \
       "$@" \
       //polygerrit-ui/app:wct_test

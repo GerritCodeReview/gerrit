@@ -16,6 +16,7 @@
  */
 
 import {appContext} from '../services/app-context.js';
+import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock.js';
 
 class MockFlagsService {
   isEnabled(experimentId) {
@@ -35,4 +36,5 @@ class MockFlagsService {
 // TODO(dmfilippov): find a better solution for gr-diff
 export function initDiffAppContext() {
   appContext.flagsService = new MockFlagsService();
+  appContext.reportingService = grReportingMock;
 }

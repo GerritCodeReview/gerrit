@@ -64,7 +64,7 @@ bazel fetch @ui_npm//:node_modules
 bazel fetch @ui_dev_npm//:node_modules
 
 # Install packages from tools/node_tools/packages.json
-bazel fetch @ui_dev_npm//:node_modules
+bazel fetch @tools_npm//:node_modules
 ```
 
 More information for installing and using nodejs rules can be found here https://bazelbuild.github.io/rules_nodejs/install.html

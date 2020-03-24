@@ -91,7 +91,9 @@
       "GrDomHook",
       "GrDomHooksManager",
       "GrDomHooks",
-      "GrEtagDecorator"
+      "GrEtagDecorator",
+      "GrGapiAuth",
+      "GrGerritAuth"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

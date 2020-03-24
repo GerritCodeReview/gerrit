@@ -29,8 +29,6 @@
 // @unused
 
 var Gerrit;
-var GrGapiAuth;
-var GrGerritAuth;
 var GrLinkTextParser;
 var GrPluginEndpoints;
 var GrPopupInterface;

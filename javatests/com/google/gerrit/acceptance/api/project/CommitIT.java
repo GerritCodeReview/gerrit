@@ -169,6 +169,21 @@ public class CommitIT extends AbstractDaemonTest {
     assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
   }
 
+  @Test
+  public void cherryPickCommitWithSetTopic() throws Exception {
+    String branch = "foo";
+    RevCommit revCommit = createChange().getCommit();
+    gApi.projects().name(project.get()).branch(branch).create(new BranchInput());
+    CherryPickInput input = new CherryPickInput();
+    input.destination = branch;
+    input.topic = "topic";
+    String changeId =
+        gApi.projects().name(project.get()).commit(revCommit.name()).cherryPick(input).get().id;
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    assertThat(changeInfo.topic).isEqualTo(input.topic);
+  }
+
   private IncludedInInfo getIncludedIn(ObjectId id) throws Exception {
     return gApi.projects().name(project.get()).commit(id.name()).includedIn();
   }

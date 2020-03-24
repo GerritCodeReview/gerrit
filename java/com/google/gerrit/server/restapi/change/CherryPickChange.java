@@ -175,7 +175,6 @@ public class CherryPickChange {
         null,
         null,
         null,
-        null,
         null);
   }
 
@@ -217,7 +216,6 @@ public class CherryPickChange {
         null,
         null,
         null,
-        null,
         null);
   }
 
@@ -235,7 +233,6 @@ public class CherryPickChange {
    * @param ignoreIdenticalTree When false, we throw an error when trying to cherry-pick creates an
    *     empty commit. When true, we allow creation of an empty commit.
    * @param timestamp the current timestamp.
-   * @param topic Topic name for the change created.
    * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
    *     field to mark the created cherry pick change as "revertOf" the original change that was
    *     reverted.
@@ -263,7 +260,6 @@ public class CherryPickChange {
       BranchNameKey dest,
       boolean ignoreIdenticalTree,
       Timestamp timestamp,
-      @Nullable String topic,
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
       @Nullable Change.Id idForNewChange,
@@ -381,8 +377,8 @@ public class CherryPickChange {
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
-            String newTopic = topic;
-            if (topic == null
+            String newTopic = input.topic;
+            if (input.topic == null
                 && sourceChange != null
                 && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
               newTopic = sourceChange.getTopic() + "-" + newDest.shortName();

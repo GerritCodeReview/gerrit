@@ -23,7 +23,10 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -40,7 +43,16 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.events.RefReceivedEvent;
+import com.google.gerrit.server.git.validators.RefOperationValidationListener;
+import com.google.gerrit.server.git.validators.ValidationMessage;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.io.IOException;
+import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +60,7 @@ import org.junit.Test;
 public class CreateBranchIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private BranchNameKey testBranch;
 
@@ -83,7 +96,49 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Test
   public void branchAlreadyExists_Conflict() throws Exception {
     assertCreateSucceeds(testBranch);
-    assertCreateFails(testBranch, ResourceConflictException.class);
+    assertCreateFails(
+        testBranch,
+        ResourceConflictException.class,
+        "branch \"" + testBranch.branch() + "\" already exists");
+  }
+
+  @Test
+  public void createBranch_LockFailure() throws Exception {
+    // check that the branch doesn't exist yet
+    assertThrows(ResourceNotFoundException.class, () -> branch(testBranch).get());
+
+    // Register a validation listener that creates the branch to simulate a concurrent request that
+    // creates the same branch.
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                new RefOperationValidationListener() {
+                  @Override
+                  public List<ValidationMessage> onRefOperation(RefReceivedEvent refEvent)
+                      throws ValidationException {
+                    try (Repository repo = repoManager.openRepository(project)) {
+                      RefUpdate u = repo.updateRef(testBranch.branch());
+                      u.setExpectedOldObjectId(ObjectId.zeroId());
+                      u.setNewObjectId(repo.exactRef("refs/heads/master").getObjectId());
+                      RefUpdate.Result result = u.update();
+                      if (result != RefUpdate.Result.NEW) {
+                        throw new ValidationException(
+                            "Concurrent creation of branch failed: " + result);
+                      }
+                      return ImmutableList.of();
+                    } catch (IOException e) {
+                      throw new ValidationException("Concurrent creation of branch failed.", e);
+                    }
+                  }
+                })) {
+      // Creating the branch is expected to fails, since it's being created by the validation
+      // listener right before the ref update to create the new branch is done.
+      assertCreateFails(
+          testBranch,
+          ResourceConflictException.class,
+          "branch \"" + testBranch.branch() + "\" already exists");
+    }
   }
 
   @Test
@@ -323,10 +378,5 @@ public class CreateBranchIT extends AbstractDaemonTest {
     if (errMsg != null) {
       assertThat(thrown).hasMessageThat().contains(errMsg);
     }
-  }
-
-  private void assertCreateFails(BranchNameKey branch, Class<? extends RestApiException> errType)
-      throws Exception {
-    assertCreateFails(branch, errType, null);
   }
 }

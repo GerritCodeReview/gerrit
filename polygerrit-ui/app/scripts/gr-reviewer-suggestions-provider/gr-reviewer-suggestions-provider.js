@@ -16,102 +16,92 @@
  */
 import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
 
-(function(window) {
-  'use strict';
-  window.Gerrit = window.Gerrit || {};
+window.Gerrit = window.Gerrit || {};
+/**
+ * @enum {string}
+ */
+Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES = {
+  REVIEWER: 'reviewers',
+  CC: 'ccs',
+  ANY: 'any',
+};
 
-  if (window.GrReviewerSuggestionsProvider) {
-    return;
+export class GrReviewerSuggestionsProvider {
+  static create(restApi, changeNumber, usersType) {
+    switch (usersType) {
+      case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER:
+        return new GrReviewerSuggestionsProvider(restApi, changeNumber,
+            input => restApi.getChangeSuggestedReviewers(changeNumber,
+                input));
+      case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC:
+        return new GrReviewerSuggestionsProvider(restApi, changeNumber,
+            input => restApi.getChangeSuggestedCCs(changeNumber, input));
+      case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY:
+        return new GrReviewerSuggestionsProvider(restApi, changeNumber,
+            input => restApi.getSuggestedAccounts(
+                `cansee:${changeNumber} ${input}`));
+      default:
+        throw new Error(`Unknown users type: ${usersType}`);
+    }
   }
 
-  /**
-   * @enum {string}
-   */
-  Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES = {
-    REVIEWER: 'reviewers',
-    CC: 'ccs',
-    ANY: 'any',
-  };
+  constructor(restAPI, changeNumber, apiCall) {
+    this._changeNumber = changeNumber;
+    this._apiCall = apiCall;
+    this._restAPI = restAPI;
+  }
 
-  class GrReviewerSuggestionsProvider {
-    static create(restApi, changeNumber, usersType) {
-      switch (usersType) {
-        case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER:
-          return new GrReviewerSuggestionsProvider(restApi, changeNumber,
-              input => restApi.getChangeSuggestedReviewers(changeNumber,
-                  input));
-        case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC:
-          return new GrReviewerSuggestionsProvider(restApi, changeNumber,
-              input => restApi.getChangeSuggestedCCs(changeNumber, input));
-        case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY:
-          return new GrReviewerSuggestionsProvider(restApi, changeNumber,
-              input => restApi.getSuggestedAccounts(
-                  `cansee:${changeNumber} ${input}`));
-        default:
-          throw new Error(`Unknown users type: ${usersType}`);
-      }
-    }
-
-    constructor(restAPI, changeNumber, apiCall) {
-      this._changeNumber = changeNumber;
-      this._apiCall = apiCall;
-      this._restAPI = restAPI;
-    }
-
-    init() {
-      if (this._initPromise) {
-        return this._initPromise;
-      }
-      const getConfigPromise = this._restAPI.getConfig().then(cfg => {
-        this._config = cfg;
-      });
-      const getLoggedInPromise = this._restAPI.getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-      });
-      this._initPromise = Promise.all([getConfigPromise, getLoggedInPromise])
-          .then(() => {
-            this._initialized = true;
-          });
+  init() {
+    if (this._initPromise) {
       return this._initPromise;
     }
-
-    getSuggestions(input) {
-      if (!this._initialized || !this._loggedIn) {
-        return Promise.resolve([]);
-      }
-
-      return this._apiCall(input)
-          .then(reviewers => (reviewers || []));
-    }
-
-    makeSuggestionItem(suggestion) {
-      if (suggestion.account) {
-        // Reviewer is an account suggestion from getChangeSuggestedReviewers.
-        return {
-          name: GrDisplayNameUtils.getAccountDisplayName(this._config,
-              suggestion.account),
-          value: suggestion,
-        };
-      }
-
-      if (suggestion.group) {
-        // Reviewer is a group suggestion from getChangeSuggestedReviewers.
-        return {
-          name: GrDisplayNameUtils.getGroupDisplayName(suggestion.group),
-          value: suggestion,
-        };
-      }
-
-      if (suggestion._account_id) {
-        // Reviewer is an account suggestion from getSuggestedAccounts.
-        return {
-          name: GrDisplayNameUtils.getAccountDisplayName(this._config,
-              suggestion),
-          value: {account: suggestion, count: 1},
-        };
-      }
-    }
+    const getConfigPromise = this._restAPI.getConfig().then(cfg => {
+      this._config = cfg;
+    });
+    const getLoggedInPromise = this._restAPI.getLoggedIn().then(loggedIn => {
+      this._loggedIn = loggedIn;
+    });
+    this._initPromise = Promise.all([getConfigPromise, getLoggedInPromise])
+        .then(() => {
+          this._initialized = true;
+        });
+    return this._initPromise;
   }
 
-  window.GrReviewerSuggestionsProvider = GrReviewerSuggestionsProvider;
-})(window);
+  getSuggestions(input) {
+    if (!this._initialized || !this._loggedIn) {
+      return Promise.resolve([]);
+    }
+
+    return this._apiCall(input)
+        .then(reviewers => (reviewers || []));
+  }
+
+  makeSuggestionItem(suggestion) {
+    if (suggestion.account) {
+      // Reviewer is an account suggestion from getChangeSuggestedReviewers.
+      return {
+        name: GrDisplayNameUtils.getAccountDisplayName(this._config,
+            suggestion.account),
+        value: suggestion,
+      };
+    }
+
+    if (suggestion.group) {
+      // Reviewer is a group suggestion from getChangeSuggestedReviewers.
+      return {
+        name: GrDisplayNameUtils.getGroupDisplayName(suggestion.group),
+        value: suggestion,
+      };
+    }
+
+    if (suggestion._account_id) {
+      // Reviewer is an account suggestion from getSuggestedAccounts.
+      return {
+        name: GrDisplayNameUtils.getAccountDisplayName(this._config,
+            suggestion),
+        value: {account: suggestion, count: 1},
+      };
+    }
+  }
+}

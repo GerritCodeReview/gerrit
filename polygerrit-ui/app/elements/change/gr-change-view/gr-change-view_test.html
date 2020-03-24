@@ -2320,9 +2320,9 @@ suite('gr-change-view tests', () => {
 
     test('don\'t report changedDisplayed on reply', done => {
       const changeDisplayStub =
-        sandbox.stub(element.$.reporting, 'changeDisplayed');
+        sandbox.stub(element.reporting, 'changeDisplayed');
       const changeFullyLoadedStub =
-        sandbox.stub(element.$.reporting, 'changeFullyLoaded');
+        sandbox.stub(element.reporting, 'changeFullyLoaded');
       element._handleReplySent();
       flush(() => {
         assert.isFalse(changeDisplayStub.called);
@@ -2333,9 +2333,9 @@ suite('gr-change-view tests', () => {
 
     test('report changedDisplayed on _paramsChanged', done => {
       const changeDisplayStub =
-        sandbox.stub(element.$.reporting, 'changeDisplayed');
+        sandbox.stub(element.reporting, 'changeDisplayed');
       const changeFullyLoadedStub =
-        sandbox.stub(element.$.reporting, 'changeFullyLoaded');
+        sandbox.stub(element.reporting, 'changeFullyLoaded');
       element._paramsChanged({
         view: GerritNav.View.CHANGE,
         changeNum: 101,

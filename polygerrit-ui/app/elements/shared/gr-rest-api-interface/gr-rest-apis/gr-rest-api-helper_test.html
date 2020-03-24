@@ -28,7 +28,9 @@ limitations under the License.
 import '../../../../test/common-test-setup.js';
 import '../../../../scripts/util.js';
 import '../gr-auth.js';
-import './gr-rest-api-helper.js';
+import {SiteBasedCache} from './gr-rest-api-helper.js';
+import {FetchPromisesCache, GrRestApiHelper} from './gr-rest-api-helper.js';
+
 suite('gr-rest-api-helper tests', () => {
   let helper;
   let sandbox;

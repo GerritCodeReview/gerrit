@@ -25,7 +25,6 @@ import '@polymer/iron-dropdown/iron-dropdown.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
@@ -302,6 +301,12 @@ class GrDiffView extends mixinBehaviors( [
       [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
       [this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
     };
+  }
+
+  /** @override */
+  created() {
+    super.created();
+    this.reporting = GrReporting.getInstance();
   }
 
   /** @override */
@@ -782,9 +787,9 @@ class GrDiffView extends mixinBehaviors( [
           return this.$.diffHost.reload(true);
         })
         .then(() => {
-          this.$.reporting.diffViewFullyLoaded();
+          this.reporting.diffViewFullyLoaded();
           // If diff view displayed has not ended yet, it ends here.
-          this.$.reporting.diffViewDisplayed();
+          this.reporting.diffViewDisplayed();
         });
   }
 

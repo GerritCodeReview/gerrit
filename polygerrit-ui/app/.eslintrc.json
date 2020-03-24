@@ -90,7 +90,8 @@
       "GrFileListConstants",
       "GrDomHook",
       "GrDomHooksManager",
-      "GrDomHooks"
+      "GrDomHooks",
+      "GrEtagDecorator"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

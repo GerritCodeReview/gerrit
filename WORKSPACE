@@ -46,11 +46,13 @@ load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 # otherwise refer to RBE docs.
 rbe_autoconfig(name = "rbe_default")
 
+# TODO(davido): Switch to upstream again, when this PR is merged:
+# https://github.com/bazelbuild/rules_closure/pull/478
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "03c3b16f205085817fd89cfdcb2220a0138647ee7992be9cef291b069dd90301",
-    strip_prefix = "rules_closure-196a45f0ede2faec11dcc6c60fbc5e7471f4bd58",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/196a45f0ede2faec11dcc6c60fbc5e7471f4bd58.tar.gz"],
+    sha256 = "b9c2bc6ba377aa497eb7c31681d34404febf9d4e3c9c7d98ce0d78238a0af20f",
+    strip_prefix = "rules_closure-0.31",
+    urls = ["https://github.com/davido/rules_closure/archive/V0.31.tar.gz"],
 )
 
 http_archive(

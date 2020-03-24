@@ -1,3 +1,5 @@
+import {appContext} from '../../../services/app-context.js';
+
 /**
  * @license
  * Copyright (C) 2019 The Android Open Source Project
@@ -85,7 +87,7 @@ export class PluginLoader {
 
   _getReporting() {
     if (!this._reporting) {
-      this._reporting = document.createElement('gr-reporting');
+      this._reporting = appContext.reportingService;
     }
     return this._reporting;
   }

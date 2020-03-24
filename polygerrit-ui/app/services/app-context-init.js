@@ -16,6 +16,7 @@
  */
 import {appContext} from './app-context.js';
 import {FlagsService} from './flags.js';
+import {GrReporting} from './gr-reporting/gr-reporting.js';
 
 const initializedServices = new Map();
 
@@ -43,6 +44,7 @@ export function initAppContext() {
   }
 
   addService('flagsService', () => new FlagsService());
+  addService('reportingService', () => new GrReporting());
 
   Object.defineProperties(appContext, registeredServices);
 }

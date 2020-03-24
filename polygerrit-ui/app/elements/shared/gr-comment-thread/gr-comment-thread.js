@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-storage/gr-storage.js';
 import '../gr-comment/gr-comment.js';
@@ -31,6 +30,7 @@ import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {util} from '../../../scripts/util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {appContext} from '../../../services/app-context.js';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -169,6 +169,11 @@ class GrCommentThread extends mixinBehaviors( [
     return {
       'e shift+e': '_handleEKey',
     };
+  }
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
   }
 
   /** @override */
@@ -318,7 +323,7 @@ class GrCommentThread extends mixinBehaviors( [
 
   _createReplyComment(parent, content, opt_isEditing,
       opt_unresolved) {
-    this.$.reporting.recordDraftInteraction();
+    this.reporting.recordDraftInteraction();
     const reply = this._newReply(
         this._orderedComments[this._orderedComments.length - 1].id,
         parent.line,

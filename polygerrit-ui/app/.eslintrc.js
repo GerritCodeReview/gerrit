@@ -172,7 +172,6 @@ module.exports = {
     "GrAdminApi": "readonly",
     "GrAnnotationActionsContext": "readonly",
     "GrAnnotationActionsInterface": "readonly",
-    "GrChangeActionsInterface": "readonly",
     "GrChangeMetadataApi": "readonly",
     "GrChangeReplyInterface": "readonly",
     "GrChangeViewApi": "readonly",

@@ -24,15 +24,10 @@ limitations under the License.
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
 
-<test-fixture id="basic">
-  <template>
-    <gr-reporting></gr-reporting>
-  </template>
-</test-fixture>
-
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-reporting.js';
+import {DEFAULT_STARTUP_TIMERS, GrReporting} from './gr-reporting.js';
 suite('gr-reporting tests', () => {
   let element;
   let sandbox;
@@ -44,15 +39,8 @@ suite('gr-reporting tests', () => {
   setup(() => {
     sandbox = sinon.sandbox.create();
     clock = sinon.useFakeTimers(NOW_TIME);
-    element = fixture('basic');
-    element._baselines = Object.assign({}, GrReporting.STARTUP_TIMERS);
-    fakePerformance = {
-      navigationStart: 1,
-      loadEventEnd: 2,
-    };
-    fakePerformance.toJSON = () => fakePerformance;
-    sinon.stub(element, 'performanceTiming',
-        {get() { return fakePerformance; }});
+    element = new GrReporting();
+    element._baselines = Object.assign({}, DEFAULT_STARTUP_TIMERS);
     sandbox.stub(element, 'reporter');
   });
 
@@ -62,6 +50,13 @@ suite('gr-reporting tests', () => {
   });
 
   test('appStarted', () => {
+    fakePerformance = {
+      navigationStart: 1,
+      loadEventEnd: 2,
+    };
+    fakePerformance.toJSON = () => fakePerformance;
+    sinon.stub(element, 'performanceTiming',
+        {get() { return fakePerformance; }});
     sandbox.stub(element, 'now').returns(42);
     element.appStarted();
     assert.isTrue(

@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../gr-message/gr-message.js';
 import '../../../styles/shared-styles.js';
@@ -28,6 +27,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-messages-list_html.js';
+import {GrReportingProvider} from '../../core/gr-reporting/gr-reporting.js';
 
 const MAX_INITIAL_SHOWN_MESSAGES = 20;
 const MESSAGES_INCREMENT = 5;
@@ -104,6 +104,12 @@ class GrMessagesList extends mixinBehaviors( [
         computed: '_computeLabelExtremes(labels.*)',
       },
     };
+  }
+
+  /** @override */
+  created() {
+    super.created();
+    this.reporting = GrReportingProvider.getReportingInstance();
   }
 
   scrollToMessage(messageID) {
@@ -377,7 +383,7 @@ class GrMessagesList extends mixinBehaviors( [
 
   _handleShowAllTap() {
     this._visibleMessages = this._processedMessages;
-    this.$.reporting.reportInteraction(ReportingEvent.SHOW_ALL);
+    this.reporting.reportInteraction(ReportingEvent.SHOW_ALL);
   }
 
   _handleIncrementShownMessages() {
@@ -387,7 +393,7 @@ class GrMessagesList extends mixinBehaviors( [
     const newMessages = this._processedMessages.slice(-(len + delta), -len);
     // Add newMessages to the beginning of _visibleMessages
     this.splice(...['_visibleMessages', 0, 0].concat(newMessages));
-    this.$.reporting.reportInteraction(ReportingEvent.SHOW_MORE);
+    this.reporting.reportInteraction(ReportingEvent.SHOW_MORE);
   }
 
   _processedMessagesChanged(messages) {
@@ -401,7 +407,7 @@ class GrMessagesList extends mixinBehaviors( [
         acc[val] = (acc[val] || 0) + 1;
         return acc;
       }, {all: messages.length});
-      this.$.reporting.reportInteraction('messages-count', tagsCounted);
+      this.reporting.reportInteraction('messages-count', tagsCounted);
     }
   }
 

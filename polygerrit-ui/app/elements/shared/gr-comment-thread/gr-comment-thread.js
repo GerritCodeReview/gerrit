@@ -20,7 +20,6 @@ import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-storage/gr-storage.js';
 import '../gr-comment/gr-comment.js';
@@ -30,6 +29,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment-thread_html.js';
+import {GrReportingProvider} from '../../core/gr-reporting/gr-reporting.js';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -177,6 +177,7 @@ class GrCommentThread extends mixinBehaviors( [
   /** @override */
   created() {
     super.created();
+    this.reporting = GrReportingProvider.getReportingInstance();
     this.addEventListener('comment-update',
         e => this._handleCommentUpdate(e));
   }
@@ -321,7 +322,7 @@ class GrCommentThread extends mixinBehaviors( [
 
   _createReplyComment(parent, content, opt_isEditing,
       opt_unresolved) {
-    this.$.reporting.recordDraftInteraction();
+    this.reporting.recordDraftInteraction();
     const reply = this._newReply(
         this._orderedComments[this._orderedComments.length - 1].id,
         parent.line,

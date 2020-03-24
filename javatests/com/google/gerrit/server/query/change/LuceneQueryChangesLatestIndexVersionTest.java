@@ -14,13 +14,32 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testing.IndexConfig;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Test;
 
 public class LuceneQueryChangesLatestIndexVersionTest extends LuceneQueryChangesTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {
     return IndexConfig.createForLucene();
+  }
+
+  @Test
+  public void attentionSet() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    AddToAttentionSetInput input =
+        new AddToAttentionSetInput(user.getAccountId().toString(), "some reason");
+    gApi.changes().id(change1.getChangeId()).addToAttentionSet(input);
+
+    assertQuery("attention:" + user.getUserName().get(), change1);
+    assertQuery("-attention:" + user.getAccountId().toString(), change2);
   }
 }

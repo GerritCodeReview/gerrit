@@ -24,6 +24,7 @@ import static com.google.gerrit.index.FieldDef.integer;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
+import static com.google.gerrit.server.util.AttentionSetUtil.includedIn;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -288,6 +289,11 @@ public class ChangeField {
                       ? cd.change().getCherryPickOf().get()
                       : null);
 
+  /** Users included in the attention set of the change. */
+  public static final FieldDef<ChangeData, Iterable<Integer>> ATTENTION =
+      integer(ChangeQueryBuilder.FIELD_ATTENTION)
+          .buildRepeatable(ChangeField::getAttentionSetValues);
+
   /** The user assigned to the change. */
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
       integer(ChangeQueryBuilder.FIELD_ASSIGNEE)
@@ -461,6 +467,12 @@ public class ChangeField {
       b.put(reviewerState.get(), address, timestamp);
     }
     return ReviewerByEmailSet.fromTable(b.build());
+  }
+
+  private static ImmutableSet<Integer> getAttentionSetValues(ChangeData changeData) {
+    return includedIn(changeData.attentionSet()).stream()
+        .map(update -> update.account().get())
+        .collect(ImmutableSet.toImmutableSet());
   }
 
   /** Commit ID of any patch set on the change, using prefix match. */

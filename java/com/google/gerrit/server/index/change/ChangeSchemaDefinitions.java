@@ -85,12 +85,14 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UPDATED,
           ChangeField.WIP);
 
-  // The computation of the 'extension' field is changed, hence reindexing is required.
+  /** The computation of the 'extension' field is changed, hence reindexing is required. */
   @Deprecated static final Schema<ChangeData> V56 = schema(V55);
 
-  // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
-  // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
-  // document id type is replaced with string document id type.
+  /**
+   * New numeric types: use dimensional points using the k-d tree geo-spatial data structure to
+   * offer fast single- and multi-dimensional numeric range. As the consequense, integer document id
+   * type is replaced with string document id type.
+   */
   @Deprecated
   static final Schema<ChangeData> V57 =
       new Schema.Builder<ChangeData>()
@@ -100,13 +102,18 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .legacyNumericFields(false)
           .build();
 
-  // Add new field CHERRY_PICK_OF
+  /** Added new field CHERRY_PICK_OF. */
+  @Deprecated
   static final Schema<ChangeData> V58 =
       new Schema.Builder<ChangeData>()
           .add(V57)
           .add(ChangeField.CHERRY_PICK_OF_CHANGE)
           .add(ChangeField.CHERRY_PICK_OF_PATCHSET)
           .build();
+
+  /** Added new field ATTENTION. */
+  static final Schema<ChangeData> V59 =
+      new Schema.Builder<ChangeData>().add(V58).add(ChangeField.ATTENTION).build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

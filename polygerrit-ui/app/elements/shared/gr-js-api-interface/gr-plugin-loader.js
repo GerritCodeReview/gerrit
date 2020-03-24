@@ -1,3 +1,5 @@
+import {GrReportingProvider} from '../../core/gr-reporting/gr-reporting.js';
+
 /**
  * @license
  * Copyright (C) 2019 The Android Open Source Project
@@ -88,7 +90,7 @@
 
     _getReporting() {
       if (!this._reporting) {
-        this._reporting = document.createElement('gr-reporting');
+        this._reporting = GrReportingProvider.getReportingInstance();
       }
       return this._reporting;
     }

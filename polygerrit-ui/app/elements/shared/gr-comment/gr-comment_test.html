@@ -311,7 +311,10 @@ suite('gr-comment tests', () => {
         sandbox.stub(element, '_discardDraft')
             .returns(Promise.resolve({}));
         endStub = sinon.stub();
-        getTimerStub = sandbox.stub(element.$.reporting, 'getTimer')
+        if (element.reporting.getTimer.restore) {
+          element.reporting.getTimer.restore();
+        }
+        getTimerStub = sandbox.stub(element.reporting, 'getTimer')
             .returns({end: endStub});
       });
 
@@ -345,16 +348,14 @@ suite('gr-comment tests', () => {
     });
 
     test('edit reports interaction', () => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = element.reporting.recordDraftInteraction;
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       assert.isTrue(reportStub.calledOnce);
     });
 
     test('discard reports interaction', () => {
-      const reportStub = sandbox.stub(element.$.reporting,
-          'recordDraftInteraction');
+      const reportStub = element.reporting.recordDraftInteraction;
       element.draft = true;
       MockInteractions.tap(element.shadowRoot
           .querySelector('.discard'));

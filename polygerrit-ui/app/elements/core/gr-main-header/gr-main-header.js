@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../../behaviors/docs-url-behavior/docs-url-behavior.js';
-import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -32,6 +31,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-main-header_html.js';
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
 const DEFAULT_LINKS = [{
   title: 'Changes',
@@ -87,14 +87,13 @@ const AUTH_TYPES_WITH_REGISTER_URL = new Set([
 
 /**
  * @appliesMixin Gerrit.AdminNavMixin
- * @appliesMixin Gerrit.BaseUrlMixin
  * @appliesMixin Gerrit.DocsUrlMixin
  * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrMainHeader extends mixinBehaviors( [
   Gerrit.AdminNavBehavior,
-  Gerrit.BaseUrlBehavior,
+  BaseUrlBehavior,
   Gerrit.DocsUrlBehavior,
   Gerrit.FireBehavior,
 ], GestureEventListeners(

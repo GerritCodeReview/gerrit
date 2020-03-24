@@ -27,7 +27,6 @@ import '../../shared/gr-account-link/gr-account-link.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-change-star/gr-change-star.js';
 import '../../shared/gr-change-status/gr-change-status.js';
-import '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
 import '../../shared/gr-editable-content/gr-editable-content.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
@@ -60,6 +59,7 @@ import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patc
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
+import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';

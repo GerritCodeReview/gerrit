@@ -14,66 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
 
-  /**
-   * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
-   */
-  class GrChangeReplyInterface {
-    constructor(plugin) {
-      this.plugin = plugin;
-      this._sharedApiEl = Plugin._sharedAPIElement;
-    }
-
-    get _el() {
-      return this._sharedApiEl.getElement(
-          this._sharedApiEl.Element.REPLY_DIALOG);
-    }
-
-    getLabelValue(label) {
-      return this._el.getLabelValue(label);
-    }
-
-    setLabelValue(label, value) {
-      this._el.setLabelValue(label, value);
-    }
-
-    send(opt_includeComments) {
-      this._el.send(opt_includeComments);
-    }
-
-    addReplyTextChangedCallback(handler) {
-      const hookApi = this.plugin.hook('reply-text');
-      const registeredHandler = e => handler(e.detail.value);
-      hookApi.onAttached(el => {
-        if (!el.content) { return; }
-        el.content.addEventListener('value-changed', registeredHandler);
-      });
-      hookApi.onDetached(el => {
-        if (!el.content) { return; }
-        el.content.removeEventListener('value-changed', registeredHandler);
-      });
-    }
-
-    addLabelValuesChangedCallback(handler) {
-      const hookApi = this.plugin.hook('reply-label-scores');
-      const registeredHandler = e => handler(e.detail);
-      hookApi.onAttached(el => {
-        if (!el.content) { return; }
-        el.content.addEventListener('labels-changed', registeredHandler);
-      });
-
-      hookApi.onDetached(el => {
-        if (!el.content) { return; }
-        el.content.removeEventListener('labels-changed', registeredHandler);
-      });
-    }
-
-    showMessage(message) {
-      return this._el.setPluginMessage(message);
-    }
+/**
+ * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
+ */
+export class GrChangeReplyInterface {
+  constructor(plugin) {
+    this.plugin = plugin;
+    this._sharedApiEl = Plugin._sharedAPIElement;
   }
 
-  window.GrChangeReplyInterface = GrChangeReplyInterface;
-})(window);
+  get _el() {
+    return this._sharedApiEl.getElement(
+        this._sharedApiEl.Element.REPLY_DIALOG);
+  }
+
+  getLabelValue(label) {
+    return this._el.getLabelValue(label);
+  }
+
+  setLabelValue(label, value) {
+    this._el.setLabelValue(label, value);
+  }
+
+  send(opt_includeComments) {
+    this._el.send(opt_includeComments);
+  }
+
+  addReplyTextChangedCallback(handler) {
+    const hookApi = this.plugin.hook('reply-text');
+    const registeredHandler = e => handler(e.detail.value);
+    hookApi.onAttached(el => {
+      if (!el.content) { return; }
+      el.content.addEventListener('value-changed', registeredHandler);
+    });
+    hookApi.onDetached(el => {
+      if (!el.content) { return; }
+      el.content.removeEventListener('value-changed', registeredHandler);
+    });
+  }
+
+  addLabelValuesChangedCallback(handler) {
+    const hookApi = this.plugin.hook('reply-label-scores');
+    const registeredHandler = e => handler(e.detail);
+    hookApi.onAttached(el => {
+      if (!el.content) { return; }
+      el.content.addEventListener('labels-changed', registeredHandler);
+    });
+
+    hookApi.onDetached(el => {
+      if (!el.content) { return; }
+      el.content.removeEventListener('labels-changed', registeredHandler);
+    });
+  }
+
+  showMessage(message) {
+    return this._el.setPluginMessage(message);
+  }
+}

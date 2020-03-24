@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+
 (function(window) {
   'use strict';
   window.Gerrit = window.Gerrit || {};
@@ -41,7 +43,7 @@
     }
 
     get baseUrl() {
-      return Gerrit.BaseUrlBehavior.getBaseUrl();
+      return BaseUrlBehavior.getBaseUrl();
     }
 
     /**

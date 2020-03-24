@@ -29,7 +29,6 @@
 // @unused
 
 var Gerrit;
-var GrEtagDecorator;
 var GrGapiAuth;
 var GrGerritAuth;
 var GrLinkTextParser;

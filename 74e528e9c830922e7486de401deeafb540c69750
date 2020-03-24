@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "055ead19_119ffe35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-24T11:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b7ce22a_a6ed0f6c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04cbb88f_e059bc08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-24T11:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcbd4d78_9022dfbc",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da78b20f_3aa5e08b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "74e528e9c830922e7486de401deeafb540c69750",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cde5ed60_73427eeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-24T11:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da78b20f_3aa5e08b",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -160,6 +232,24 @@
     },
     {
       "key": {
+        "uuid": "dfcb58bf_e5da19d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-24T11:16:26Z",
+      "side": 1,
+      "message": "Yep,ChangeUpdate is the storage layer.",
+      "parentUuid": "0b3bac79_ad7d2430",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa66b5dd_f1ecca65",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -195,6 +285,24 @@
     },
     {
       "key": {
+        "uuid": "00c59a7f_d02c3ceb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-24T11:16:26Z",
+      "side": 1,
+      "message": "All current topics that don\u0027t conform to the whitelist will stay the same.\n\nI\u0027m not sure if there is a need to do this whitelist: What reason do we have to block so many characters?\nI think users can reasonably use _, %, ^, (,), and maybe Russian characters as far as I\u0027m concerned.\nI think we should just stick with blocking the character that makes bugs like \".\n\nAlso, I\u0027ve ensured that (almost) nobody used topics with a quotation mark in the past few months, but there are plenty of topics that don\u0027t conform to the whitelist.\n\nIf necessary, in the future this is an easy change to make.\nWDYT?",
+      "parentUuid": "b5802e95_dbcd862c",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "018471df_357a3054",
         "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
         "patchSetId": 2
@@ -209,6 +317,24 @@
       "revId": "74e528e9c830922e7486de401deeafb540c69750",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3817e62a_984eee1e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-24T11:16:26Z",
+      "side": 1,
+      "message": "I\u0027ve manually ensured that Revert and Create have the same code path, and it\u0027s kind of clear that they do since the code was added in the NoteDb layer.\nI think it\u0027s not necessary to write a test for all of those different code paths since it would just be a duplicate test.",
+      "parentUuid": "018471df_357a3054",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +358,30 @@
       "revId": "74e528e9c830922e7486de401deeafb540c69750",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b21b13b_cee16349",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-24T11:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d01cf8d3_0a1f6985",
+      "range": {
+        "startLine": 51,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 5
+      },
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

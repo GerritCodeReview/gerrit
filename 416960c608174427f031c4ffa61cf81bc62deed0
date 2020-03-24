@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "109cb8b0_a2494800",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-24T12:19:14Z",
+      "side": 1,
+      "message": "is this needed ? - i guess you did some kind of find and replace so rare cases like this probably is fine to have them fixed later when we touch related files.",
+      "revId": "416960c608174427f031c4ffa61cf81bc62deed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

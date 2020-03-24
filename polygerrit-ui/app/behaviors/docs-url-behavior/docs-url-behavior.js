@@ -16,64 +16,44 @@
  */
 import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
 
-(function(window) {
-  'use strict';
+const PROBE_PATH = '/Documentation/index.html';
+const DOCS_BASE_PATH = '/Documentation';
 
-  const PROBE_PATH = '/Documentation/index.html';
-  const DOCS_BASE_PATH = '/Documentation';
+let cachedPromise;
 
-  let cachedPromise;
+/** @polymerBehavior DocsUrlBehavior */
+export const DocsUrlBehavior = [{
 
-  window.Gerrit = window.Gerrit || {};
-
-  /** @polymerBehavior Gerrit.DocsUrlBehavior */
-  Gerrit.DocsUrlBehavior = [{
-
-    /**
-     * Get the docs base URL from either the server config or by probing.
-     *
-     * @param {Object} config The server config.
-     * @param {!Object} restApi A REST API instance
-     * @return {!Promise<string>} A promise that resolves with the docs base
-     *     URL.
-     */
-    getDocsBaseUrl(config, restApi) {
-      if (!cachedPromise) {
-        cachedPromise = new Promise(resolve => {
-          if (config && config.gerrit && config.gerrit.doc_url) {
-            resolve(config.gerrit.doc_url);
-          } else {
-            restApi.probePath(this.getBaseUrl() + PROBE_PATH).then(ok => {
-              resolve(ok ? (this.getBaseUrl() + DOCS_BASE_PATH) : null);
-            });
-          }
-        });
-      }
-      return cachedPromise;
-    },
-
-    /** For testing only. */
-    _clearDocsBaseUrlCache() {
-      cachedPromise = undefined;
-    },
+  /**
+   * Get the docs base URL from either the server config or by probing.
+   *
+   * @param {Object} config The server config.
+   * @param {!Object} restApi A REST API instance
+   * @return {!Promise<string>} A promise that resolves with the docs base
+   *     URL.
+   */
+  getDocsBaseUrl(config, restApi) {
+    if (!cachedPromise) {
+      cachedPromise = new Promise(resolve => {
+        if (config && config.gerrit && config.gerrit.doc_url) {
+          resolve(config.gerrit.doc_url);
+        } else {
+          restApi.probePath(this.getBaseUrl() + PROBE_PATH).then(ok => {
+            resolve(ok ? (this.getBaseUrl() + DOCS_BASE_PATH) : null);
+          });
+        }
+      });
+    }
+    return cachedPromise;
   },
-  BaseUrlBehavior,
-  ];
 
-  // eslint-disable-next-line no-unused-vars
-  function defineEmptyMixin() {
-    // This is a temporary function.
-    // Polymer linter doesn't process correctly the following code:
-    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
-    // To workaround this issue, the mock mixin is declared in this method.
-    // In the following changes, legacy behaviors will be converted to mixins.
+  /** For testing only. */
+  _clearDocsBaseUrlCache() {
+    cachedPromise = undefined;
+  },
+},
+BaseUrlBehavior,
+];
 
-    /**
-     * @polymer
-     * @mixinFunction
-     */
-    Gerrit.DocsUrlMixin = base =>
-      class extends base {
-      };
-  }
-})(window);
+window.Gerrit = window.Gerrit || {};
+window.Gerrit.BaseUrlBehavior = BaseUrlBehavior;

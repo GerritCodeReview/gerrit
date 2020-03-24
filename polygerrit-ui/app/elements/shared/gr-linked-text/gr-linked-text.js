@@ -19,13 +19,13 @@ import '../../../scripts/bundled-polymer.js';
 import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
-import './link-text-parser.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import 'ba-linkify/ba-linkify.js';
 import {htmlTemplate} from './gr-linked-text_html.js';
+import {GrLinkTextParser} from './link-text-parser.js';
 
 /** @extends Polymer.Element */
 class GrLinkedText extends GestureEventListeners(

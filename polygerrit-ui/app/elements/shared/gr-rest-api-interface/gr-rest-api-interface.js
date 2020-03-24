@@ -29,7 +29,6 @@ import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import './gr-auth.js';
-import './gr-reviewer-updates-parser.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -38,6 +37,7 @@ import 'es6-promise/lib/es6-promise.js';
 import 'whatwg-fetch/fetch.js';
 import {GrEtagDecorator} from './gr-etag-decorator.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-apis/gr-rest-api-helper.js';
+import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',

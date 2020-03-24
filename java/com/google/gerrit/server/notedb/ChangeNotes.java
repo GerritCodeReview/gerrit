@@ -377,7 +377,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /** Returns the most recent update (i.e. status) per user. */
-  public ImmutableList<AttentionSetUpdate> getAttentionSet() {
+  public ImmutableSet<AttentionSetUpdate> getAttentionSet() {
     return state.attentionSet();
   }
 

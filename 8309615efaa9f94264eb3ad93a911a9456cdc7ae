@@ -22,6 +22,30 @@
       "revId": "8309615efaa9f94264eb3ad93a911a9456cdc7ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcb46ddd_91d8940a",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-24T08:53:58Z",
+      "side": 1,
+      "message": "It\u0027s an artifact of the current interface that will be addressed by the TODO that I left:\n\nThis method is called from both the ReceiveCommits (refs/for \u003d for review, otherwise direct) path as well as Gerrit (e.g. when publishing edits). For the latter case, the prefix is refs/changes/\u003cshard\u003e/\u003cpsNum\u003e.",
+      "parentUuid": "ab2bba9b_9ea4c38d",
+      "range": {
+        "startLine": 409,
+        "startChar": 47,
+        "endLine": 409,
+        "endChar": 88
+      },
+      "revId": "8309615efaa9f94264eb3ad93a911a9456cdc7ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

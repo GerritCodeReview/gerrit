@@ -703,7 +703,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     AttentionSetUpdate attentionSetUpdate =
         AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
-    update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate));
+    update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -716,12 +716,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     AttentionSetUpdate attentionSetUpdate =
         AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
-    update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate));
+    update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
     update.commit();
     update = newUpdate(c, changeOwner);
     attentionSetUpdate =
         AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.REMOVE, "test");
-    update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate));
+    update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -738,7 +738,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     IllegalArgumentException thrown =
         assertThrows(
             IllegalArgumentException.class,
-            () -> update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate)));
+            () -> update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate)));
     assertThat(thrown).hasMessageThat().contains("must not specify timestamp for write");
   }
 
@@ -755,7 +755,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             IllegalArgumentException.class,
             () ->
                 update.setAttentionSetUpdates(
-                    ImmutableList.of(attentionSetUpdate0, attentionSetUpdate1)));
+                    ImmutableSet.of(attentionSetUpdate0, attentionSetUpdate1)));
     assertThat(thrown)
         .hasMessageThat()
         .contains("must not specify multiple updates for single user");
@@ -770,7 +770,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     AttentionSetUpdate attentionSetUpdate1 =
         AttentionSetUpdate.createForWrite(otherUser.getAccountId(), Operation.ADD, "test");
 
-    update.setAttentionSetUpdates(ImmutableList.of(attentionSetUpdate0, attentionSetUpdate1));
+    update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate0, attentionSetUpdate1));
     update.commit();
 
     ChangeNotes notes = newNotes(c);

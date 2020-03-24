@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
@@ -69,7 +69,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
 
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     update.setAttentionSetUpdates(
-        ImmutableList.of(
+        ImmutableSet.of(
             AttentionSetUpdate.createForWrite(
                 attentionUserId, AttentionSetUpdate.Operation.ADD, reason)));
     addMessage(ctx, update);

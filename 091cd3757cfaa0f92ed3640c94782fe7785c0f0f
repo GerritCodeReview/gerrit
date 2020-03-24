@@ -231,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "c711d9d4_b6918ac0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-24T18:30:54Z",
+      "side": 1,
+      "message": "Actually ended up making the code more clean.\nThanks for the suggestion.",
+      "parentUuid": "cd9cf77d_9d91f697",
+      "revId": "091cd3757cfaa0f92ed3640c94782fe7785c0f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25ab0870_355abec5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 14

@@ -17,6 +17,7 @@
 
 import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper.js';
 import {GrChangeActionsInterface} from './gr-change-actions-js-api.js';
+import {GrChangeReplyInterface} from './gr-change-reply-js-api.js';
 
 (function(window) {
   'use strict';

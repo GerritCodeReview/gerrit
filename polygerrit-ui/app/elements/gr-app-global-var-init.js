@@ -32,6 +32,9 @@ import {GrDiffBuilderSideBySide} from './diff/gr-diff-builder/gr-diff-builder-si
 import {GrDiffBuilderImage} from './diff/gr-diff-builder/gr-diff-builder-image.js';
 import {GrDiffBuilderUnified} from './diff/gr-diff-builder/gr-diff-builder-unified.js';
 import {GrChangeActionsInterface} from './shared/gr-js-api-interface/gr-change-actions-js-api.js';
+import {GrChangeReplyInterface} from './shared/gr-js-api-interface/gr-change-reply-js-api.js';
+import {GrEditConstants} from './edit/gr-edit-constants.js';
+import {GrFileListConstants} from './change/gr-file-list-constants.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -44,4 +47,7 @@ export function initGlobalVariables() {
   window.GrDiffBuilderImage = GrDiffBuilderImage;
   window.GrDiffBuilderUnified = GrDiffBuilderUnified;
   window.GrChangeActionsInterface = GrChangeActionsInterface;
+  window.GrChangeReplyInterface = GrChangeReplyInterface;
+  window.GrEditConstants = GrEditConstants;
+  window.GrFileListConstants = GrFileListConstants;
 }

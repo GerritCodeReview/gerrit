@@ -14,18 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
 
-  const GrEditConstants = window.GrEditConstants || {};
-
-  // Order corresponds to order in the UI.
-  GrEditConstants.Actions = {
+export const GrEditConstants = {
+// Order corresponds to order in the UI.
+  Actions: {
     OPEN: {label: 'Add/Open', id: 'open'},
     DELETE: {label: 'Delete', id: 'delete'},
     RENAME: {label: 'Rename', id: 'rename'},
     RESTORE: {label: 'Restore', id: 'restore'},
-  };
+  },
+};
 
-  window.GrEditConstants = GrEditConstants;
-})(window);

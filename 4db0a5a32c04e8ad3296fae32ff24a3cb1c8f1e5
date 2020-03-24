@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5879493a_04f3b570",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3239,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-24T16:25:07Z",
+      "side": 1,
+      "message": "super-nit: ideally, this would be in it\u0027s own change that then fails in case the subject logic breaks, but it\u0027s probably not worth the extra code here.",
+      "revId": "4db0a5a32c04e8ad3296fae32ff24a3cb1c8f1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80dfbc34_1f0a20c9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3245,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-24T16:25:07Z",
+      "side": 1,
+      "message": "nit: comment would help why this should contain \"update change by merge ps2\".\n\nI had to look up the code to see that in this case we are reusing the previous subject.",
+      "revId": "4db0a5a32c04e8ad3296fae32ff24a3cb1c8f1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

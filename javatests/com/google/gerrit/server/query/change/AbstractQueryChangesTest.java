@@ -54,6 +54,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
@@ -69,6 +70,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AttentionSetEntry;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -2911,6 +2913,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         mergedReviewingIgnoredByUser,
         mergedReviewing,
         mergedOwned);
+  }
+
+  @Test
+  public void attentionSetIndexed() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.ATTENTION)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    AddToAttentionSetInput input = new AddToAttentionSetInput(userId.toString(), "some reason");
+    gApi.changes().id(change1.getChangeId()).addToAttentionSet(input);
+
+    assertQuery("attention:" + user.getUserName().get(), change1);
+    assertQuery("-attention:" + userId.toString(), change2);
   }
 
   @Test

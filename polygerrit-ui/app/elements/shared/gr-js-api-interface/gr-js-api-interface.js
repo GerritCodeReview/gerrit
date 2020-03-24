@@ -32,7 +32,6 @@ import './gr-api-utils.js';
 import '../gr-event-interface/gr-event-interface.js';
 import './gr-annotation-actions-context.js';
 import './gr-annotation-actions-js-api.js';
-import './gr-change-actions-js-api.js';
 import './gr-change-reply-js-api.js';
 import './gr-js-api-interface-element.js';
 import './gr-plugin-endpoints.js';

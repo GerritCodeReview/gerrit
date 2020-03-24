@@ -32,8 +32,9 @@ limitations under the License.
 
 <script type="module">
 import '../../../test/common-test-setup.js';
-import './gr-dom-hooks.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+import {GrDomHook, GrDomHooksManager} from './gr-dom-hooks.js';
+
 suite('gr-dom-hooks tests', () => {
   const PUBLIC_METHODS =[
     'onAttached',

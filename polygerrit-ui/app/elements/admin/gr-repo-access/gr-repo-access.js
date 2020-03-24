@@ -26,7 +26,6 @@ import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-access-section/gr-access-section.js';
-import '../../../scripts/util.js';
 import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';

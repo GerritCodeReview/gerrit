@@ -62,6 +62,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-view_html.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
+import {util} from '../../../scripts/util.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',

@@ -103,6 +103,12 @@ class GrErrorManager extends mixinBehaviors( [
   }
 
   /** @override */
+  created() {
+    super.created();
+    this.reporting = GrReporting.getInstance();
+  }
+
+  /** @override */
   attached() {
     super.attached();
     this.listen(document, 'server-error', '_handleServerError');
@@ -407,7 +413,7 @@ class GrErrorManager extends mixinBehaviors( [
   }
 
   _showErrorDialog(message, opt_options) {
-    this.$.reporting.reportErrorDialog(message);
+    this.reporting.reportErrorDialog(message);
     this.$.errorDialog.text = message;
     this.$.errorDialog.showSignInButton =
         opt_options && opt_options.showSignInButton;

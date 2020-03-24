@@ -29,8 +29,8 @@ limitations under the License.
 
 <script type="module">
 import '../../test/common-test-setup.js';
-import './docs-url-behavior.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {DocsUrlBehavior} from './docs-url-behavior.js';
 suite('docs-url-behavior tests', () => {
   let element;
 
@@ -38,7 +38,7 @@ suite('docs-url-behavior tests', () => {
     // Define a Polymer element that uses this behavior.
     Polymer({
       is: 'docs-url-behavior-element',
-      behaviors: [Gerrit.DocsUrlBehavior],
+      behaviors: [DocsUrlBehavior],
     });
   });
 

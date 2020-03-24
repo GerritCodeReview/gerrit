@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.extensions.common.AttentionSetEntry;
 import com.google.gerrit.extensions.restapi.Response;
@@ -27,7 +27,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.Set;
 
 /** Reads the list of users currently in the attention set. */
 @Singleton
@@ -41,10 +41,10 @@ public class GetAttentionSet implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Response<List<AttentionSetEntry>> apply(ChangeResource changeResource)
+  public Response<Set<AttentionSetEntry>> apply(ChangeResource changeResource)
       throws PermissionBackendException {
     AccountLoader accountLoader = accountLoaderFactory.create(true);
-    ImmutableList<AttentionSetEntry> response =
+    ImmutableSet<AttentionSetEntry> response =
         changeResource.getNotes().getAttentionSet().stream()
             // This filtering should match ChangeJson.
             .filter(a -> a.operation() == Operation.ADD)
@@ -52,7 +52,7 @@ public class GetAttentionSet implements RestReadView<ChangeResource> {
                 a ->
                     new AttentionSetEntry(
                         accountLoader.get(a.account()), Timestamp.from(a.timestamp()), a.reason()))
-            .collect(toImmutableList());
+            .collect(toImmutableSet());
     accountLoader.fill();
     return Response.ok(response);
   }

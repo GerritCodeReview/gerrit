@@ -473,14 +473,14 @@ suite('gr-diff-view tests', () => {
             sandbox.stub(comments, 'computeCommentCount');
         const unresolvedCountStub =
             sandbox.stub(comments, 'computeUnresolvedNum');
-        commentCountStub.withArgs(1, path).returns(0);
-        commentCountStub.withArgs(2, path).returns(1);
-        commentCountStub.withArgs(3, path).returns(2);
-        commentCountStub.withArgs(4, path).returns(0);
-        unresolvedCountStub.withArgs(1, path).returns(1);
-        unresolvedCountStub.withArgs(2, path).returns(0);
-        unresolvedCountStub.withArgs(3, path).returns(2);
-        unresolvedCountStub.withArgs(4, path).returns(0);
+        commentCountStub.withArgs({patchNum: 1, path}).returns(0);
+        commentCountStub.withArgs({patchNum: 2, path}).returns(1);
+        commentCountStub.withArgs({patchNum: 3, path}).returns(2);
+        commentCountStub.withArgs({patchNum: 4, path}).returns(0);
+        unresolvedCountStub.withArgs({patchNum: 1, path}).returns(1);
+        unresolvedCountStub.withArgs({patchNum: 2, path}).returns(0);
+        unresolvedCountStub.withArgs({patchNum: 3, path}).returns(2);
+        unresolvedCountStub.withArgs({patchNum: 4, path}).returns(0);
 
         assert.equal(element._computeCommentString(comments, 1, path, {}),
             '1 unresolved');

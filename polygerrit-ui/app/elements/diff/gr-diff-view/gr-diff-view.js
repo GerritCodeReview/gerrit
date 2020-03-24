@@ -937,9 +937,9 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _computeCommentString(changeComments, patchNum, path, changeFileInfo) {
-    const unresolvedCount = changeComments.computeUnresolvedNum(patchNum,
-        path);
-    const commentCount = changeComments.computeCommentCount(patchNum, path);
+    const unresolvedCount = changeComments.computeUnresolvedNum({patchNum,
+      path});
+    const commentCount = changeComments.computeCommentCount({patchNum, path});
     const commentString = GrCountStringFormatter.computePluralString(
         commentCount, 'comment');
     const unresolvedString = GrCountStringFormatter.computeString(

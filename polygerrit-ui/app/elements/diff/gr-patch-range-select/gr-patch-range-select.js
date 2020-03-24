@@ -242,11 +242,11 @@ class GrPatchRangeSelect extends mixinBehaviors( [
   _computePatchSetCommentsString(changeComments, patchNum) {
     if (!changeComments) { return; }
 
-    const commentCount = changeComments.computeCommentCount(patchNum);
+    const commentCount = changeComments.computeCommentCount({patchNum});
     const commentString = GrCountStringFormatter.computePluralString(
         commentCount, 'comment');
 
-    const unresolvedCount = changeComments.computeUnresolvedNum(patchNum);
+    const unresolvedCount = changeComments.computeUnresolvedNum({patchNum});
     const unresolvedString = GrCountStringFormatter.computeString(
         unresolvedCount, 'unresolved');
 

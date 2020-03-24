@@ -52,6 +52,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import moment from 'moment/src/moment.js';
 self.moment = moment;
 import {htmlTemplate} from './gr-app-element_html.js';
+import {GrReportingProvider} from './core/gr-reporting/gr-reporting.js';
 
 /**
  * @appliesMixin Gerrit.BaseUrlMixin
@@ -165,7 +166,7 @@ class GrAppElement extends mixinBehaviors( [
   /** @override */
   created() {
     super.created();
-    this.reporting = GrReporting.getInstance();
+    this.reporting = GrReportingProvider.getReportingInstance();
     this._bindKeyboardShortcuts();
     this.addEventListener('page-error',
         e => this._handlePageError(e));

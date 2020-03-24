@@ -27,6 +27,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-reporting.js';
+import {DEFAULT_STARTUP_TIMERS, GrReporting} from './gr-reporting.js';
 suite('gr-reporting tests', () => {
   let element;
   let sandbox;
@@ -38,8 +39,8 @@ suite('gr-reporting tests', () => {
   setup(() => {
     sandbox = sinon.sandbox.create();
     clock = sinon.useFakeTimers(NOW_TIME);
-    element = window.GrReporting.getInstance();
-    element._baselines = Object.assign({}, GrReporting.STARTUP_TIMERS);
+    element = new GrReporting();
+    element._baselines = Object.assign({}, DEFAULT_STARTUP_TIMERS);
     sandbox.stub(element, 'reporter');
   });
 

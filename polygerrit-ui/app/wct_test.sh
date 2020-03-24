@@ -21,6 +21,9 @@ cp -R -L ./polygerrit-ui/app/* $t/
 export PATH="$(dirname $NPM):$PATH"
 
 cd $t
+ls -l ./node_modules/web-component-tester/runner/browserrunner.js
+sed -i'' -e 's|onEvent(event, data) {|onEvent(event, data) {console.log("OnEvent!!!!", event, (new Date()).toString());console.log(data);|g' ./node_modules/web-component-tester/runner/browserrunner.js
+cat ./node_modules/web-component-tester/runner/browserrunner.js
 
 # If wct doesn't receive any paramenters, it fails (can't find files)
 # Pass --config-file as a parameter to have some arguments in command line

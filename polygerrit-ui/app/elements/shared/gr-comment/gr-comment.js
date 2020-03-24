@@ -40,6 +40,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment_html.js';
+import {GrReportingProvider} from '../../core/gr-reporting/gr-reporting.js';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -238,7 +239,7 @@ class GrComment extends mixinBehaviors( [
   /** @override */
   created() {
     super.created();
-    this.reporting = GrReporting.getInstance();
+    this.reporting = GrReportingProvider.getReportingInstance();
   }
 
   /** @override */

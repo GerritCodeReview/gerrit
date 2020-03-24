@@ -21,7 +21,7 @@ import '../behaviors/safe-types-behavior/safe-types-behavior.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
 import moment from 'moment/src/moment.js';
-import '../elements/core/gr-reporting/gr-reporting_mock.js';
+import {setupReportingMock} from '../elements/core/gr-reporting/gr-reporting_mock.js';
 self.moment = moment;
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
@@ -47,14 +47,13 @@ self.mockPromise = () => {
   return promise;
 };
 self.isHidden = el => getComputedStyle(el).display === 'none';
+
+setupReportingMock();
+
 setup(() => {
   if (!window.Gerrit) { return; }
   if (Gerrit._testOnly_resetPlugins) {
     Gerrit._testOnly_resetPlugins();
   }
 });
-if (!window.GrReporting) {
-  window.GrReporting = {
-    getInstance: window.getGrReportingMock,
-  };
-}
+

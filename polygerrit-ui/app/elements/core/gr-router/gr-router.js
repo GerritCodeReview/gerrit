@@ -30,6 +30,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import page from 'page/page.mjs';
 self.page = page;
 import {htmlTemplate} from './gr-router_html.js';
+import {GrReportingProvider} from '../gr-reporting/gr-reporting.js';
 
 const RoutePattern = {
   ROOT: '/',
@@ -210,7 +211,7 @@ if (!app) {
 
 // Setup listeners outside of the router component initialization.
 (function() {
-  const reporting = GrReporting.getInstance();
+  const reporting = GrReportingProvider.getReportingInstance();
 
   window.addEventListener('WebComponentsReady', () => {
     reporting.timeEnd('WebComponentsReady');
@@ -255,7 +256,7 @@ class GrRouter extends mixinBehaviors( [
   /** @override */
   created() {
     super.created();
-    this.reporting = GrReporting.getInstance();
+    this.reporting = GrReportingProvider.getReportingInstance();
   }
 
   start() {

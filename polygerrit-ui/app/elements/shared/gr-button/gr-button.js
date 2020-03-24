@@ -26,6 +26,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-button_html.js';
 import '../../../scripts/util.js';
+import {GrReportingProvider} from '../../core/gr-reporting/gr-reporting.js';
 
 /**
  * @appliesMixin Gerrit.KeyboardShortcutMixin
@@ -84,7 +85,7 @@ class GrButton extends mixinBehaviors( [
   /** @override */
   created() {
     super.created();
-    this.reporting = GrReporting.getInstance();
+    this.reporting = GrReportingProvider.getReportingInstance();
     this._initialTabindex = this.getAttribute('tabindex') || '0';
     this.addEventListener('click', e => this._handleAction(e));
     this.addEventListener('keydown',

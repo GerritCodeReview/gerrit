@@ -30,6 +30,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-textarea_html.js';
+import {GrReportingProvider} from '../../core/gr-reporting/gr-reporting.js';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -145,7 +146,7 @@ class GrTextarea extends mixinBehaviors( [
   /** @override */
   created() {
     super.created();
-    this.reporting = GrReporting.getInstance();
+    this.reporting = GrReportingProvider.getReportingInstance();
   }
 
   /** @override */

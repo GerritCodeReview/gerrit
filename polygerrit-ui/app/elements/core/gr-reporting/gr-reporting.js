@@ -137,36 +137,44 @@ const catchErrors = function(opt_context) {
     GrReporting.prototype.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
   });
 };
-catchErrors();
 
-// PerformanceObserver interface is a browser API.
-if (window.PerformanceObserver) {
-  const supportedEntryTypes = PerformanceObserver.supportedEntryTypes || [];
-  // Safari doesn't support longtask yet
-  if (supportedEntryTypes.includes('longtask')) {
-    const catchLongJsTasks = new PerformanceObserver(list => {
-      for (const task of list.getEntries()) {
-        // We are interested in longtask longer than 200 ms (default is 50 ms)
-        if (task.duration > 200) {
-          GrReporting.prototype.reporter(TIMING.TYPE,
-              TIMING.CATEGORY_UI_LATENCY, `Task ${task.name}`,
-              Math.round(task.duration), {}, false);
+export function installGlobalReporting() {
+  catchErrors();
+
+  // PerformanceObserver interface is a browser API.
+  if (window.PerformanceObserver) {
+    const supportedEntryTypes = PerformanceObserver.supportedEntryTypes || [];
+    // Safari doesn't support longtask yet
+    if (supportedEntryTypes.includes('longtask')) {
+      const catchLongJsTasks = new PerformanceObserver(list => {
+        for (const task of list.getEntries()) {
+          // We are interested in longtask longer than 200 ms (default is 50 ms)
+          if (task.duration > 200) {
+            GrReporting.prototype.reporter(TIMING.TYPE,
+                TIMING.CATEGORY_UI_LATENCY, `Task ${task.name}`,
+                Math.round(task.duration), {}, false);
+          }
         }
-      }
-    });
-    catchLongJsTasks.observe({entryTypes: ['longtask']});
+      });
+      catchLongJsTasks.observe({entryTypes: ['longtask']});
+    }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    const eventName = `Visibility changed to ${document.visibilityState}`;
+    GrReporting.prototype.reporter(INTERACTION_TYPE, undefined, eventName,
+        undefined, {}, true);
+  });
+}
+
+export class GrReportingProvider {
+  static getReportingInstance() {
+    return GrReporting.getInstance();
   }
 }
 
-document.addEventListener('visibilitychange', () => {
-  const eventName = `Visibility changed to ${document.visibilityState}`;
-  GrReporting.prototype.reporter(INTERACTION_TYPE, undefined, eventName,
-      undefined, {}, true);
-});
-
-// The Polymer pass of JSCompiler requires this to be reassignable
-// eslint-disable-next-line prefer-const
-class GrReporting {
+// Export - only for test. May be rework test to avoid export
+export class GrReporting {
   constructor() {
     this.category = undefined;
     this._baselines = STARTUP_TIMERS;
@@ -567,3 +575,4 @@ window.GrReporting = GrReporting;
 // Expose onerror installation so it would be accessible from tests.
 window.GrReporting._catchErrors = catchErrors;
 window.GrReporting.STARTUP_TIMERS = Object.assign({}, STARTUP_TIMERS);
+export const DEFAULT_STARTUP_TIMERS = Object.assign({}, STARTUP_TIMERS);

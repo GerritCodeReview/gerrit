@@ -18,7 +18,7 @@
   "scripts": {
     "clean": "git clean -fdx && bazel clean --expunge",
     "start": "polygerrit-ui/run-server.sh",
-    "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh",
+    "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome --expanded' ./polygerrit-ui/app/run_test.sh",
     "eslint": "./node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app",
     "eslintfix": "npm run eslint -- --fix",
     "test-template": "./polygerrit-ui/app/run_template_test.sh",

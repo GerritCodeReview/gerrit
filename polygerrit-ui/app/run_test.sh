@@ -13,5 +13,6 @@ ${bazel_bin} test \
       --test_env="WCT_ARGS=${WCT_ARGS}" \
       --test_env="DISPLAY=${DISPLAY}" \
       --test_env="WCT_HEADLESS_MODE=${WCT_HEADLESS_MODE}" \
+      --test_output=streamed \
       "$@" \
       //polygerrit-ui/app:wct_test

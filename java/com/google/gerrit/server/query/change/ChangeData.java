@@ -611,6 +611,21 @@ public class ChangeData {
     return attentionSet;
   }
 
+  /**
+   * Sets the specified attention set. If two or more entries refer to the same user, throws an
+   * {@link IllegalStateException}.
+   */
+  public void setAttentionSet(ImmutableSet<AttentionSetUpdate> attentionSet) {
+    if (attentionSet.stream().map(AttentionSetUpdate::account).distinct().count()
+        != attentionSet.size()) {
+      throw new IllegalStateException(
+          String.format(
+              "Stored attention set for change %d contains duplicate update",
+              change.getId().get()));
+    }
+    this.attentionSet = attentionSet;
+  }
+
   /** @return patches for the change, in patch set ID order. */
   public Collection<PatchSet> patchSets() {
     if (patchSets == null) {

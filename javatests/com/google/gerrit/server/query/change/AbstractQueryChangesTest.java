@@ -54,6 +54,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
@@ -2911,6 +2912,41 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         mergedReviewingIgnoredByUser,
         mergedReviewing,
         mergedOwned);
+  }
+
+  @Test
+  public void attentionSetIndexed() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.ATTENTION_SET_USERS)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    AddToAttentionSetInput input = new AddToAttentionSetInput(userId.toString(), "some reason");
+    gApi.changes().id(change1.getChangeId()).addToAttentionSet(input);
+
+    assertQuery("attention:" + user.getUserName().get(), change1);
+    assertQuery("-attention:" + userId.toString(), change2);
+  }
+
+  @Test
+  public void attentionSetStored() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.ATTENTION_SET_USERS)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+
+    AddToAttentionSetInput input = new AddToAttentionSetInput(userId.toString(), "reason 1");
+    gApi.changes().id(change.getChangeId()).addToAttentionSet(input);
+    Account.Id user2Id =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+    input = new AddToAttentionSetInput(user2Id.toString(), "reason 2");
+    gApi.changes().id(change.getChangeId()).addToAttentionSet(input);
+
+    List<ChangeInfo> result = newQuery("attention:" + user2Id.toString()).get();
+    assertThat(result).hasSize(1);
+    ChangeInfo changeInfo = Iterables.getOnlyElement(result);
+    assertThat(changeInfo.attentionSet.keySet()).containsExactly(userId.get(), user2Id.get());
+    assertThat(changeInfo.attentionSet.get(userId.get()).reason).isEqualTo("reason 1");
+    assertThat(changeInfo.attentionSet.get(user2Id.get()).reason).isEqualTo("reason 2");
   }
 
   @Test

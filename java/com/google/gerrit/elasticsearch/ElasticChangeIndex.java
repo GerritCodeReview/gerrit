@@ -405,6 +405,14 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     // Unresolved-comment-count.
     decodeUnresolvedCommentCount(source, ChangeField.UNRESOLVED_COMMENT_COUNT.getName(), cd);
 
+    // Attention set.
+    if (fields.contains(ChangeField.ATTENTION_SET_FULL.getName())) {
+      ChangeField.parseAttentionSet(
+          FluentIterable.from(source.getAsJsonArray(ChangeField.ATTENTION_SET_FULL.getName()))
+              .transform(JsonElement::getAsString),
+          cd);
+    }
+
     return cd;
   }
 

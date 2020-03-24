@@ -91,7 +91,9 @@ public final class FieldDef<I, T> {
 
   private final String name;
   private final FieldType<?> type;
+  /** Allow reading the actual data from the index. */
   private final boolean stored;
+
   private final boolean repeatable;
   private final Getter<I, T> getter;
 

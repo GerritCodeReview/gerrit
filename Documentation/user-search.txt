@@ -73,6 +73,11 @@ assignee:'USER'::
 +
 Changes assigned to the given user.
 
+[[attention]]
+attention:'USER'::
++
+Changes whose attention set includes the given user.
+
 [[before_until]]
 before:'TIME'/until:'TIME'::
 +

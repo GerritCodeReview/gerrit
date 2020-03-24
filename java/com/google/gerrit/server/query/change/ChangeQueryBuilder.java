@@ -136,6 +136,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   public static final String FIELD_ADDED = "added";
   public static final String FIELD_AGE = "age";
+  public static final String FIELD_ATTENTION_SET_USERS = "attentionusers";
+  public static final String FIELD_ATTENTION_SET_FULL = "attentionfull";
   public static final String FIELD_ASSIGNEE = "assignee";
   public static final String FIELD_AUTHOR = "author";
   public static final String FIELD_EXACTAUTHOR = "exactauthor";
@@ -1049,6 +1051,20 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return Predicate.any();
     }
     return owner(accounts);
+  }
+
+  @Operator
+  public Predicate<ChangeData> attention(String who)
+      throws QueryParseException, IOException, ConfigInvalidException {
+    if (!args.index.getSchema().hasField(ChangeField.ATTENTION_SET_USERS)) {
+      throw new QueryParseException(
+          "'attention' operator is not supported by change index version");
+    }
+    return attention(parseAccount(who, (AccountState s) -> true));
+  }
+
+  private Predicate<ChangeData> attention(Set<Account.Id> who) {
+    return Predicate.or(who.stream().map(AttentionSetPredicate::new).collect(toImmutableList()));
   }
 
   @Operator

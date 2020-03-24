@@ -24,6 +24,7 @@ import static com.google.gerrit.index.FieldDef.integer;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
+import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -45,6 +46,8 @@ import com.google.common.primitives.Longs;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -74,6 +77,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gson.Gson;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -288,6 +292,45 @@ public class ChangeField {
                       ? cd.change().getCherryPickOf().get()
                       : null);
 
+  /** This class decouples the internal and API types from storage. */
+  private static class StoredAttentionSetEntry {
+    final long timestampMillis;
+    final int userId;
+    final String reason;
+    final Operation operation;
+
+    StoredAttentionSetEntry(AttentionSetUpdate attentionSetUpdate) {
+      timestampMillis = attentionSetUpdate.timestamp().toEpochMilli();
+      userId = attentionSetUpdate.account().get();
+      reason = attentionSetUpdate.reason();
+      operation = attentionSetUpdate.operation();
+    }
+
+    AttentionSetUpdate toAttentionSetUpdate() {
+      return AttentionSetUpdate.createFromRead(
+          Instant.ofEpochMilli(timestampMillis), Account.id(userId), operation, reason);
+    }
+  }
+
+  /**
+   * Users included in the attention set of the change. This omits timestamp, reason and possible
+   * future fields.
+   *
+   * @see #ATTENTION_SET_FULL
+   */
+  public static final FieldDef<ChangeData, Iterable<Integer>> ATTENTION_SET_USERS =
+      integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS)
+          .buildRepeatable(ChangeField::getAttentionSetUserIds);
+
+  /**
+   * The full attention set data including timestamp, reason and possible future fields.
+   *
+   * @see #ATTENTION_SET_USERS
+   */
+  public static final FieldDef<ChangeData, Iterable<byte[]>> ATTENTION_SET_FULL =
+      storedOnly(ChangeQueryBuilder.FIELD_ATTENTION_SET_FULL)
+          .buildRepeatable(ChangeField::storedAttentionSet);
+
   /** The user assigned to the change. */
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
       integer(ChangeQueryBuilder.FIELD_ASSIGNEE)
@@ -461,6 +504,33 @@ public class ChangeField {
       b.put(reviewerState.get(), address, timestamp);
     }
     return ReviewerByEmailSet.fromTable(b.build());
+  }
+
+  private static ImmutableSet<Integer> getAttentionSetUserIds(ChangeData changeData) {
+    return additionsOnly(changeData.attentionSet()).stream()
+        .map(update -> update.account().get())
+        .collect(toImmutableSet());
+  }
+
+  private static ImmutableSet<byte[]> storedAttentionSet(ChangeData changeData) {
+    return changeData.attentionSet().stream()
+        .map(StoredAttentionSetEntry::new)
+        .map(storedAttentionSetEntry -> GSON.toJson(storedAttentionSetEntry).getBytes(UTF_8))
+        .collect(toImmutableSet());
+  }
+
+  /**
+   * Deserializes the specified attention set entries from JSON and stores them in the specified
+   * change.
+   */
+  public static void parseAttentionSet(
+      Iterable<String> storedAttentionSetEntriesJson, ChangeData changeData) {
+    ImmutableSet<AttentionSetUpdate> attentionSet =
+        storedAttentionSetEntriesJson.stream()
+            .map(
+                entry -> GSON.fromJson(entry, StoredAttentionSetEntry.class).toAttentionSetUpdate())
+            .collect(toImmutableSet());
+    changeData.setAttentionSet(attentionSet);
   }
 
   /** Commit ID of any patch set on the change, using prefix match. */

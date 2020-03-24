@@ -29,11 +29,8 @@
 // @unused
 
 var Gerrit;
-var GrChangeReplyInterface;
 var GrDomHooks;
-var GrEditConstants;
 var GrEtagDecorator;
-var GrFileListConstants;
 var GrGapiAuth;
 var GrGerritAuth;
 var GrLinkTextParser;

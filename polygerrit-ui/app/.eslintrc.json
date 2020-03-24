@@ -84,7 +84,10 @@
       "GrDiffBuilderSideBySide",
       "GrDiffBuilderImage",
       "GrDiffBuilderUnified",
-      "GrChangeActionsInterface"
+      "GrChangeActionsInterface",
+      "GrChangeReplyInterface",
+      "GrEditConstants",
+      "GrFileListConstants"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

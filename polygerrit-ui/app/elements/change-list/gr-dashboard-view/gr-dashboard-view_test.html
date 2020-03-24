@@ -378,14 +378,13 @@ suite('gr-dashboard-view tests', () => {
   });
 
   test('params change triggers dashboardDisplayed()', () => {
-    sandbox.stub(element.$.reporting, 'dashboardDisplayed');
     element.params = {
       view: Gerrit.Nav.View.DASHBOARD,
       project: 'project',
       dashboard: 'dashboard',
     };
     return paramsChangedPromise.then(() => {
-      assert.isTrue(element.$.reporting.dashboardDisplayed.calledOnce);
+      assert.isTrue(element.reporting.dashboardDisplayed.calledOnce);
     });
   });
 });

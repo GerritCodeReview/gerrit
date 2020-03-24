@@ -165,6 +165,7 @@ class GrAppElement extends mixinBehaviors( [
   /** @override */
   created() {
     super.created();
+    this.reporting = GrReporting.getInstance();
     this._bindKeyboardShortcuts();
     this.addEventListener('page-error',
         e => this._handlePageError(e));
@@ -182,7 +183,7 @@ class GrAppElement extends mixinBehaviors( [
   ready() {
     super.ready();
     this._updateLoginUrl();
-    this.$.reporting.appStarted();
+    this.reporting.appStarted();
     this.$.router.start();
 
     this.$.restAPI.getAccount().then(account => {
@@ -417,7 +418,7 @@ class GrAppElement extends mixinBehaviors( [
     if (e.ctrlKey) key = 'ctrl+' + key;
     if (e.metaKey) key = 'meta+' + key;
     if (e.altKey) key = 'alt+' + key;
-    this.$.reporting.reportInteraction('shortcut-triggered', {
+    this.reporting.reportInteraction('shortcut-triggered', {
       key,
       from: event.path && event.path[0]
         && event.path[0].nodeName || 'unknown',
@@ -568,7 +569,7 @@ class GrAppElement extends mixinBehaviors( [
    * that would create a cyclic dependency.
    */
   _handleRpcLog(e) {
-    this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
+    this.reporting.reportRpcTiming(e.detail.anonymizedUrl,
         e.detail.elapsed);
   }
 

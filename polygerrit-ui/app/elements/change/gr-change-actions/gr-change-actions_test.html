@@ -1872,7 +1872,7 @@ suite('gr-change-actions tests', () => {
 
     test('_handleAction reports', () => {
       sandbox.stub(element, '_fireAction');
-      const reportStub = sandbox.stub(element.$.reporting, 'reportInteraction');
+      const reportStub = element.reporting.reportInteraction;
       element._handleAction('type', 'key');
       assert.isTrue(reportStub.called);
       assert.equal(reportStub.lastCall.args[0], 'type-key');

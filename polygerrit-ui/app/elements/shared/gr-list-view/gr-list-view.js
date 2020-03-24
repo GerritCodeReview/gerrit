@@ -28,6 +28,7 @@ import {htmlTemplate} from './gr-list-view_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import page from 'page/page.mjs';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 

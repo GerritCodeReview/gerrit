@@ -15,9 +15,9 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.util.AttentionSetUtil.includedIn;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.extensions.common.AttentionSetEntry;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -45,9 +45,8 @@ public class GetAttentionSet implements RestReadView<ChangeResource> {
       throws PermissionBackendException {
     AccountLoader accountLoader = accountLoaderFactory.create(true);
     ImmutableList<AttentionSetEntry> response =
-        changeResource.getNotes().getAttentionSet().stream()
-            // This filtering should match ChangeJson.
-            .filter(a -> a.operation() == Operation.ADD)
+        // This filtering should match ChangeJson.
+        includedIn(changeResource.getNotes().getAttentionSet()).stream()
             .map(
                 a ->
                     new AttentionSetEntry(

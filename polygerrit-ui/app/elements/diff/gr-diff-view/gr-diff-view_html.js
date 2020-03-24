@@ -420,5 +420,4 @@ export const htmlTemplate = html`
     scroll-top-margin="[[_scrollTopMargin]]"
   ></gr-diff-cursor>
   <gr-comment-api id="commentAPI"></gr-comment-api>
-  <gr-reporting id="reporting"></gr-reporting>
 `;

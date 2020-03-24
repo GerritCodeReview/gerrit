@@ -44,6 +44,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list_html.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
+import {AsyncForeachBehavior} from '../../../behaviors/async-foreach-behavior/async-foreach-behavior.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -79,7 +80,7 @@ const FileStatus = {
  * @extends Polymer.Element
  */
 class GrFileList extends mixinBehaviors( [
-  Gerrit.AsyncForeachBehavior,
+  AsyncForeachBehavior,
   Gerrit.DomUtilBehavior,
   Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,

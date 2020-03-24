@@ -81,4 +81,5 @@ export function initGlobalVariables() {
   window.util = util;
   window.moment = moment;
   window.page = page;
+  window.Gerrit = {};
 }

@@ -49,6 +49,9 @@ suite('gr-app tests', () => {
   let element;
 
   setup(done => {
+    window.GrReporting = {
+      getInstance: window.getGrReportingMock,
+    };
     sandbox = sinon.sandbox.create();
     stub('gr-reporting', {
       appStarted: sandbox.stub(),
@@ -88,12 +91,12 @@ suite('gr-app tests', () => {
   const appElement = () => element.$['app-element'];
 
   test('reporting', () => {
-    assert.isTrue(appElement().$.reporting.appStarted.calledOnce);
+    assert.isTrue(appElement().reporting.appStarted.calledOnce);
   });
 
   test('reporting called before router start', () => {
     const element = appElement();
-    const appStartedStub = element.$.reporting.appStarted;
+    const appStartedStub = element.reporting.appStarted;
     const routerStartStub = element.$.router.start;
     sinon.assert.callOrder(appStartedStub, routerStartStub);
   });

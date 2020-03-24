@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "34558a63_915cd362",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsKeyReader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-24T20:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8420ca4_4aa26656",
+      "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d4d598d_f56afd23",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 8
@@ -39,6 +57,30 @@
       "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9455777b_ba6192de",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-24T20:30:45Z",
+      "side": 1,
+      "message": "Thanks David for the note. Done.",
+      "parentUuid": "0d4d598d_f56afd23",
+      "range": {
+        "startLine": 27,
+        "startChar": 34,
+        "endLine": 27,
+        "endChar": 52
+      },
+      "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "687a49f6_6bd74e24",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-24T20:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1afc0534_de683bba",
+      "range": {
+        "startLine": 229,
+        "startChar": 25,
+        "endLine": 229,
+        "endChar": 29
+      },
+      "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9912a23d_c7684498",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 8
@@ -85,6 +151,30 @@
       "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6ef7155_a6c1b847",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-24T20:30:45Z",
+      "side": 1,
+      "message": "Thanks for your detailed explanation here Patrick!\n\nWell, I found the following usages inside the H2 Cache implementation:\n1) We don\u0027t use the key deserializer in order to obtain a value from the store. The way it works is that the key is serialized, passed to the SQL store that executes the statement, returns the serialized value and deserializes it.\n2) BUT, the key deserializer is used to compute a bloom filter. The bloom filter uses the mightContain method on keys before getting them, which I assume is implemented to enhance performance.\n\nNow I updated the implementation so that the persisted cache key is an object with a list of groups refs, implemented the serialize() and deserialize() methods but got rid of the hashing part. Do we really need to do the hashing?\n\nI still need to implement serialize/deserialize properly here.",
+      "parentUuid": "9912a23d_c7684498",
+      "range": {
+        "startLine": 230,
+        "startChar": 13,
+        "endLine": 230,
+        "endChar": 72
+      },
+      "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

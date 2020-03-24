@@ -35,6 +35,7 @@ import {GrChangeActionsInterface} from './shared/gr-js-api-interface/gr-change-a
 import {GrChangeReplyInterface} from './shared/gr-js-api-interface/gr-change-reply-js-api.js';
 import {GrEditConstants} from './edit/gr-edit-constants.js';
 import {GrFileListConstants} from './change/gr-file-list-constants.js';
+import {GrDomHooksManager, GrDomHook} from './plugins/gr-dom-hooks/gr-dom-hooks.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -50,4 +51,6 @@ export function initGlobalVariables() {
   window.GrChangeReplyInterface = GrChangeReplyInterface;
   window.GrEditConstants = GrEditConstants;
   window.GrFileListConstants = GrFileListConstants;
+  window.GrDomHooksManager = GrDomHooksManager;
+  window.GrDomHook = GrDomHook;
 }

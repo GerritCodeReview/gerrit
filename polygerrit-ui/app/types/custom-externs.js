@@ -29,7 +29,6 @@
 // @unused
 
 var Gerrit;
-var GrChangeActionsInterface;
 var GrChangeReplyInterface;
 var GrDomHooks;
 var GrEditConstants;

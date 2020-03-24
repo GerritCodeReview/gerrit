@@ -26,7 +26,6 @@ import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import '../../../scripts/bundled-polymer.js';
 import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../gr-error-dialog/gr-error-dialog.js';
-import '../gr-reporting/gr-reporting.js';
 import '../../shared/gr-alert/gr-alert.js';
 import '../../shared/gr-overlay/gr-overlay.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -100,6 +99,12 @@ class GrErrorManager extends mixinBehaviors( [
 
     /** @type {?Function} */
     this._authErrorHandlerDeregistrationHook;
+  }
+
+  /** @override */
+  created() {
+    super.created();
+    this.reporting = GrReporting.getInstance();
   }
 
   /** @override */
@@ -407,7 +412,7 @@ class GrErrorManager extends mixinBehaviors( [
   }
 
   _showErrorDialog(message, opt_options) {
-    this.$.reporting.reportErrorDialog(message);
+    this.reporting.reportErrorDialog(message);
     this.$.errorDialog.text = message;
     this.$.errorDialog.showSignInButton =
         opt_options && opt_options.showSignInButton;

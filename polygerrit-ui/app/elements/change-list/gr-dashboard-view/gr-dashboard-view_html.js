@@ -93,5 +93,4 @@ export const htmlTemplate = html`
     <gr-create-destination-dialog id="destinationDialog" on-confirm="_handleDestinationConfirm"></gr-create-destination-dialog>
     <gr-create-commands-dialog id="commandsDialog"></gr-create-commands-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-reporting id="reporting"></gr-reporting>
 `;

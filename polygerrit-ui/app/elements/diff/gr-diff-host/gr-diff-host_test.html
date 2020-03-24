@@ -45,10 +45,6 @@ suite('gr-diff-host tests', () => {
     stub('gr-rest-api-interface', {
       async getLoggedIn() { return getLoggedIn; },
     });
-    stub('gr-reporting', {
-      time: sandbox.stub(),
-      timeEnd: sandbox.stub(),
-    });
     element = fixture('basic');
   });
 
@@ -290,9 +286,9 @@ suite('gr-diff-host tests', () => {
     test('starts total and content timer on render-start', done => {
       element.dispatchEvent(
           new CustomEvent('render-start', {bubbles: true, composed: true}));
-      assert.isTrue(element.$.reporting.time.calledWithExactly(
+      assert.isTrue(element.reporting.time.calledWithExactly(
           'Diff Total Render'));
-      assert.isTrue(element.$.reporting.time.calledWithExactly(
+      assert.isTrue(element.reporting.time.calledWithExactly(
           'Diff Content Render'));
       done();
     });
@@ -300,7 +296,7 @@ suite('gr-diff-host tests', () => {
     test('ends content timer on render-content', () => {
       element.dispatchEvent(
           new CustomEvent('render-content', {bubbles: true, composed: true}));
-      assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+      assert.isTrue(element.reporting.timeEnd.calledWithExactly(
           'Diff Content Render'));
     });
 
@@ -322,12 +318,11 @@ suite('gr-diff-host tests', () => {
         notifySyntaxProcessed();
         // Assert after the notification task is processed.
         Promise.resolve().then(() => {
-          assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+          assert.isTrue(element.reporting.timeEnd.calledWithExactly(
               'Diff Total Render'));
-          assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+          assert.isTrue(element.reporting.timeEnd.calledWithExactly(
               'Diff Syntax Render'));
-          assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
-              'StartupDiffViewOnlyContent'));
+          assert.isTrue(element.reporting.diffViewContentDisplayed.called);
           done();
         });
       });
@@ -340,8 +335,8 @@ suite('gr-diff-host tests', () => {
       element.reload();
       // Multiple cascading microtasks are scheduled.
       setTimeout(() => {
-        assert.isTrue(element.$.reporting.timeEnd.calledOnce);
-        assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+        assert.isTrue(element.reporting.timeEnd.calledOnce);
+        assert.isTrue(element.reporting.timeEnd.calledWithExactly(
             'Diff Total Render'));
         done();
       });
@@ -1010,7 +1005,7 @@ suite('gr-diff-host tests', () => {
     setup(() => {
       element = fixture('basic');
       element.patchRange = {basePatchNum: 1};
-      reportStub = sandbox.stub(element.$.reporting, 'reportInteraction');
+      reportStub = element.reporting.reportInteraction;
     });
 
     test('null and content-less', () => {

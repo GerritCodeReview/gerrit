@@ -20,7 +20,6 @@ import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-change-list/gr-change-list.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../shared/gr-overlay/gr-overlay.js';
@@ -116,6 +115,12 @@ class GrDashboardView extends mixinBehaviors( [
   }
 
   /** @override */
+  created() {
+    super.created();
+    this.reporting = GrReporting.getInstance();
+  }
+
+  /** @override */
   attached() {
     super.attached();
     this._loadPreferences();
@@ -202,7 +207,7 @@ class GrDashboardView extends mixinBehaviors( [
         })
         .then(() => {
           this._maybeShowDraftsBanner();
-          this.$.reporting.dashboardDisplayed();
+          this.reporting.dashboardDisplayed();
         })
         .catch(err => {
           this.fire('title-change', {

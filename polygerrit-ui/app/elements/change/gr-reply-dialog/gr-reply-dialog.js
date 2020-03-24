@@ -22,7 +22,6 @@ import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../shared/gr-account-chip/gr-account-chip.js';
 import '../../shared/gr-textarea/gr-textarea.js';
@@ -281,6 +280,12 @@ class GrReplyDialog extends mixinBehaviors( [
   }
 
   /** @override */
+  created() {
+    super.created();
+    this.reporting = GrReporting.getInstance();
+  }
+
+  /** @override */
   attached() {
     super.attached();
     this._getAccount().then(account => {
@@ -471,7 +476,7 @@ class GrReplyDialog extends mixinBehaviors( [
   }
 
   send(includeComments, startReview) {
-    this.$.reporting.time(SEND_REPLY_TIMING_LABEL);
+    this.reporting.time(SEND_REPLY_TIMING_LABEL);
     const labels = this.$.labelScores.getLabelValues();
 
     const obj = {

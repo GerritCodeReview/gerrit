@@ -175,8 +175,6 @@ module.exports = {
     "GrChangeMetadataApi": "readonly",
     "GrChangeViewApi": "readonly",
     "GrCountStringFormatter": "readonly",
-    "GrDomHook": "readonly",
-    "GrDomHooksManager": "readonly",
     "GrEmailSuggestionsProvider": "readonly",
     "GrEtagDecorator": "readonly",
     "GrEventHelper": "readonly",

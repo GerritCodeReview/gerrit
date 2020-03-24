@@ -29,11 +29,7 @@
 // @unused
 
 var Gerrit;
-var GrPopupInterface;
-var GrRangeNormalizer;
 var GrReporting;
-var GrCountStringFormatter;
-var GrReviewerSuggestionsProvider;
 var moment;
 var page;
 var util;

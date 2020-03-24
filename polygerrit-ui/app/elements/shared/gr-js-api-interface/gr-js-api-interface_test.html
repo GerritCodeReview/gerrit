@@ -33,6 +33,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
+import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
+
 suite('gr-js-api-interface tests', () => {
   const {PLUGIN_LOADING_TIMEOUT_MS} = window._apiUtils;
   let element;
@@ -400,13 +402,17 @@ suite('gr-js-api-interface tests', () => {
     });
 
     test('popup(moduleName) creates popup with component', () => {
-      const openStub = sandbox.stub();
-      sandbox.stub(window, 'GrPopupInterface').returns({
-        open: openStub,
-      });
+      const openStub = sandbox.stub(GrPopupInterface.prototype, 'open',
+          function() {
+            // Arrow function can't be used here, because we want to
+            // get properties from the instance of GrPopupInterface
+            // eslint-disable-next-line no-invalid-this
+            const grPopupInterface = this;
+            assert.equal(grPopupInterface.plugin, plugin);
+            assert.equal(grPopupInterface._moduleName, 'some-name');
+          });
       plugin.popup('some-name');
       assert.isTrue(openStub.calledOnce);
-      assert.isTrue(GrPopupInterface.calledWith(plugin, 'some-name'));
     });
 
     test('deprecated.popup(element) creates popup with element', () => {

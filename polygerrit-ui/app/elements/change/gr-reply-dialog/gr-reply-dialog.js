@@ -37,12 +37,12 @@ import '../gr-label-scores/gr-label-scores.js';
 import '../gr-thread-list/gr-thread-list.js';
 import '../../../styles/shared-styles.js';
 import '../gr-comment-list/gr-comment-list.js';
-import '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-reply-dialog_html.js';
+import {GrReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 

@@ -321,6 +321,24 @@
     },
     {
       "key": {
+        "uuid": "35ec20c4_7f6b2775",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-24T11:38:12Z",
+      "side": 1,
+      "message": "I agree. This makes a whitelist even more difficult.\nWith the quotation mark only, it will be simple enough for me to \u003c10 changes manually (that\u0027s enough to cover 6+ months).",
+      "parentUuid": "1c685525_3c1b96ae",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "018471df_357a3054",
         "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
         "patchSetId": 2

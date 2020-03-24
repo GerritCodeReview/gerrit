@@ -25,6 +25,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-date-formatter_html.js';
 import {TooltipBehavior} from '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import {util} from '../../../scripts/util.js';
+import moment from 'moment/src/moment.js';
 
 const Duration = {
   HOUR: 1000 * 60 * 60,

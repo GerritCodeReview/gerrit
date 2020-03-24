@@ -14,16 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
 
-  const GrFileListConstants = window.GrFileListConstants || {};
-
-  GrFileListConstants.FilesExpandedState = {
+export const GrFileListConstants = {
+  FilesExpandedState: {
     ALL: 'all',
     NONE: 'none',
     SOME: 'some',
-  };
+  },
+};
 
-  window.GrFileListConstants = GrFileListConstants;
-})(window);

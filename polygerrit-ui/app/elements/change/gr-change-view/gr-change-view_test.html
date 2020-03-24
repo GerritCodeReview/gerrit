@@ -43,6 +43,8 @@ import '../../edit/gr-edit-constants.js';
 import './gr-change-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {GrEditConstants} from '../../edit/gr-edit-constants.js';
+
 suite('gr-change-view tests', () => {
   const kb = KeyboardShortcutBinder;
   kb.bindShortcut(kb.Shortcut.SEND_REPLY, 'ctrl+enter');

@@ -23,7 +23,6 @@
 */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';

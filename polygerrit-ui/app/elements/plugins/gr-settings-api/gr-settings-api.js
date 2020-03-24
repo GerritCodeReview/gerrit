@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import '../../settings/gr-settings-view/gr-settings-item.js';
 import '../../settings/gr-settings-view/gr-settings-menu-item.js';
 const $_documentContainer = document.createElement('template');

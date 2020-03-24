@@ -23,7 +23,6 @@ import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
 import '../../edit/gr-edit-constants.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -62,6 +61,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-view_html.js';
+import {GrReportingProvider} from '../../core/gr-reporting/gr-reporting.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -441,6 +441,7 @@ class GrChangeView extends mixinBehaviors( [
   /** @override */
   created() {
     super.created();
+    this.reporting = GrReportingProvider.getReportingInstance();
 
     this.addEventListener('topic-changed',
         () => this._handleTopicChanged());
@@ -571,7 +572,7 @@ class GrChangeView extends mixinBehaviors( [
     this._currentView = this.$.commentTabs.selected;
     const type = Object.keys(CommentTabs).find(key => CommentTabs[key] ===
         this._currentView);
-    this.$.reporting.reportInteraction('comment-tab-changed', {tabName:
+    this.reporting.reportInteraction('comment-tab-changed', {tabName:
         type});
   }
 
@@ -600,7 +601,7 @@ class GrChangeView extends mixinBehaviors( [
       this._selectedTabPluginEndpoint = '';
       this._selectedTabPluginHeader = '';
     }
-    this.$.reporting.reportInteraction('tab-changed',
+    this.reporting.reportInteraction('tab-changed',
         {tabName: this._currentTabName, source});
   }
 
@@ -617,7 +618,7 @@ class GrChangeView extends mixinBehaviors( [
     }
     primaryTabs.selected = idx;
     primaryTabs.scrollIntoView();
-    this.$.reporting.reportInteraction('show-tab', {tabName: e.detail.tab});
+    this.reporting.reportInteraction('show-tab', {tabName: e.detail.tab});
   }
 
   _handleEditCommitMessage(e) {
@@ -919,7 +920,7 @@ class GrChangeView extends mixinBehaviors( [
   _handleReplySent(e) {
     this.addEventListener('change-details-loaded',
         () => {
-          this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+          this.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
         }, {once: true});
     this.$.replyOverlay.close();
     this._reload();
@@ -1674,8 +1675,8 @@ class GrChangeView extends mixinBehaviors( [
   _reload(opt_isLocationChange) {
     this._loading = true;
     this._relatedChangesCollapsed = true;
-    this.$.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
-    this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
+    this.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
+    this.reporting.time(CHANGE_DATA_TIMING_LABEL);
 
     // Array to house all promises related to data requests.
     const allDataPromises = [];
@@ -1694,9 +1695,9 @@ class GrChangeView extends mixinBehaviors( [
               {bubbles: true, composed: true}));
         })
         .then(() => {
-          this.$.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+          this.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
           if (opt_isLocationChange) {
-            this.$.reporting.changeDisplayed();
+            this.reporting.changeDisplayed();
           }
         });
 
@@ -1765,9 +1766,9 @@ class GrChangeView extends mixinBehaviors( [
     }
 
     Promise.all(allDataPromises).then(() => {
-      this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
+      this.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
       if (opt_isLocationChange) {
-        this.$.reporting.changeFullyLoaded();
+        this.reporting.changeFullyLoaded();
       }
     });
 

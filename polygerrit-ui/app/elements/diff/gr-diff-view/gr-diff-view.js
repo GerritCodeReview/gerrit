@@ -25,7 +25,6 @@ import '@polymer/iron-dropdown/iron-dropdown.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
@@ -48,6 +47,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-view_html.js';
+import {GrReportingProvider} from '../../core/gr-reporting/gr-reporting.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -302,6 +302,12 @@ class GrDiffView extends mixinBehaviors( [
       [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
       [this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
     };
+  }
+
+  /** @override */
+  created() {
+    super.created();
+    this.reporting = GrReportingProvider.getReportingInstance();
   }
 
   /** @override */
@@ -782,9 +788,9 @@ class GrDiffView extends mixinBehaviors( [
           return this.$.diffHost.reload(true);
         })
         .then(() => {
-          this.$.reporting.diffViewFullyLoaded();
+          this.reporting.diffViewFullyLoaded();
           // If diff view displayed has not ended yet, it ends here.
-          this.$.reporting.diffViewDisplayed();
+          this.reporting.diffViewDisplayed();
         });
   }
 

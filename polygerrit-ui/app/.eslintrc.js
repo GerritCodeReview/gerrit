@@ -165,7 +165,6 @@ module.exports = {
     // You must not add anything new in this list!
     // Instead export variables from modules
     // TODO(dmfilippov): Remove global variables from polygerrit
-    "GrReporting": "readonly",
     // Global variables from 3rd party libraries.
     // You should not add anything in this list, always try to import
     // If import is not possible - you can extend this list
@@ -182,7 +181,7 @@ module.exports = {
       },
     },
     {
-      "files": ["*.html", "common-test-setup.js"],
+      "files": ["*.html", "common-test-setup.js", "*_stub.js"],
       // Additional global variables allowed in tests
       "globals": {
         // Global variables from 3rd party test libraries/frameworks.

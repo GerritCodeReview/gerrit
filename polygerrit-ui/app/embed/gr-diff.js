@@ -18,7 +18,7 @@
 window.Gerrit = window.Gerrit || {};
 import '../elements/diff/gr-diff/gr-diff.js';
 import '../elements/diff/gr-diff-cursor/gr-diff-cursor.js';
-import {initDiffAppContext} from './app-context-init.js';
+import {initDiffAppContext} from './gr-diff-app-context-init.js';
 import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line.js';
 import {GrAnnotation} from '../elements/diff/gr-diff-highlight/gr-annotation.js';
 

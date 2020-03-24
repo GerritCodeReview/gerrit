@@ -93,7 +93,11 @@
       "GrDomHooks",
       "GrEtagDecorator",
       "GrGapiAuth",
-      "GrGerritAuth"
+      "GrGerritAuth",
+      "GrThemeApi",
+      "SiteBasedCache",
+      "FetchPromisesCache",
+      "GrRestApiHelper"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

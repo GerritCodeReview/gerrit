@@ -37,6 +37,8 @@ import {GrEditConstants} from './edit/gr-edit-constants.js';
 import {GrFileListConstants} from './change/gr-file-list-constants.js';
 import {GrDomHooksManager, GrDomHook} from './plugins/gr-dom-hooks/gr-dom-hooks.js';
 import {GrEtagDecorator} from './shared/gr-rest-api-interface/gr-etag-decorator.js';
+import {GrThemeApi} from './plugins/gr-theme-api/gr-theme-api.js';
+import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -55,4 +57,8 @@ export function initGlobalVariables() {
   window.GrDomHooksManager = GrDomHooksManager;
   window.GrDomHook = GrDomHook;
   window.GrEtagDecorator = GrEtagDecorator;
+  window.GrThemeApi = GrThemeApi;
+  window.SiteBasedCache = SiteBasedCache;
+  window.FetchPromisesCache = FetchPromisesCache;
+  window.GrRestApiHelper = GrRestApiHelper;
 }

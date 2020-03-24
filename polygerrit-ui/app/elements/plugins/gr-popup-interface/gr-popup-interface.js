@@ -26,64 +26,58 @@ $_documentContainer.innerHTML = `<dom-module id="gr-popup-interface">
 
 document.head.appendChild($_documentContainer.content);
 
-(function(window) {
-  'use strict';
+/**
+ * Plugin popup API.
+ * Provides method for opening and closing popups from plugin.
+ * opt_moduleName is a name of custom element that will be automatically
+ * inserted on popup opening.
+ *
+ * @constructor
+ * @param {!Object} plugin
+ * @param {opt_moduleName=} string
+ */
+export function GrPopupInterface(plugin, opt_moduleName) {
+  this.plugin = plugin;
+  this._openingPromise = null;
+  this._popup = null;
+  this._moduleName = opt_moduleName || null;
+}
 
-  /**
-   * Plugin popup API.
-   * Provides method for opening and closing popups from plugin.
-   * opt_moduleName is a name of custom element that will be automatically
-   * inserted on popup opening.
-   *
-   * @constructor
-   * @param {!Object} plugin
-   * @param {opt_moduleName=} string
-   */
-  function GrPopupInterface(plugin, opt_moduleName) {
-    this.plugin = plugin;
-    this._openingPromise = null;
-    this._popup = null;
-    this._moduleName = opt_moduleName || null;
+GrPopupInterface.prototype._getElement = function() {
+  return dom(this._popup);
+};
+
+/**
+ * Opens the popup, inserts it into DOM over current UI.
+ * Creates the popup if not previously created. Creates popup content element,
+ * if it was provided with constructor.
+ *
+ * @returns {!Promise<!Object>}
+ */
+GrPopupInterface.prototype.open = function() {
+  if (!this._openingPromise) {
+    this._openingPromise =
+        this.plugin.hook('plugin-overlay').getLastAttached()
+            .then(hookEl => {
+              const popup = document.createElement('gr-plugin-popup');
+              if (this._moduleName) {
+                const el = dom(popup).appendChild(
+                    document.createElement(this._moduleName));
+                el.plugin = this.plugin;
+              }
+              this._popup = dom(hookEl).appendChild(popup);
+              flush();
+              return this._popup.open().then(() => this);
+            });
   }
+  return this._openingPromise;
+};
 
-  GrPopupInterface.prototype._getElement = function() {
-    return dom(this._popup);
-  };
-
-  /**
-   * Opens the popup, inserts it into DOM over current UI.
-   * Creates the popup if not previously created. Creates popup content element,
-   * if it was provided with constructor.
-   *
-   * @returns {!Promise<!Object>}
-   */
-  GrPopupInterface.prototype.open = function() {
-    if (!this._openingPromise) {
-      this._openingPromise =
-          this.plugin.hook('plugin-overlay').getLastAttached()
-              .then(hookEl => {
-                const popup = document.createElement('gr-plugin-popup');
-                if (this._moduleName) {
-                  const el = dom(popup).appendChild(
-                      document.createElement(this._moduleName));
-                  el.plugin = this.plugin;
-                }
-                this._popup = dom(hookEl).appendChild(popup);
-                flush();
-                return this._popup.open().then(() => this);
-              });
-    }
-    return this._openingPromise;
-  };
-
-  /**
-   * Hides the popup.
-   */
-  GrPopupInterface.prototype.close = function() {
-    if (!this._popup) { return; }
-    this._popup.close();
-    this._openingPromise = null;
-  };
-
-  window.GrPopupInterface = GrPopupInterface;
-})(window);
+/**
+ * Hides the popup.
+ */
+GrPopupInterface.prototype.close = function() {
+  if (!this._popup) { return; }
+  this._popup.close();
+  this._openingPromise = null;
+};

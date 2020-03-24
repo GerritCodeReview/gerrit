@@ -395,11 +395,20 @@ suite('gr-comment-api tests', () => {
 
       test('computeUnresolvedNum', () => {
         assert.equal(element._changeComments
-            .computeUnresolvedNum(2, 'file/one'), 0);
+            .computeUnresolvedNum({
+              patchNum: 2,
+              path: 'file/one',
+            }), 0);
         assert.equal(element._changeComments
-            .computeUnresolvedNum(1, 'file/one'), 0);
+            .computeUnresolvedNum({
+              patchNum: 1,
+              path: 'file/one',
+            }), 0);
         assert.equal(element._changeComments
-            .computeUnresolvedNum(2, 'file/three'), 1);
+            .computeUnresolvedNum({
+              patchNum: 2,
+              path: 'file/three',
+            }), 1);
       });
 
       test('computeUnresolvedNum w/ non-linear thread', () => {
@@ -437,20 +446,38 @@ suite('gr-comment-api tests', () => {
 
       test('computeCommentCount', () => {
         assert.equal(element._changeComments
-            .computeCommentCount(2, 'file/one'), 4);
+            .computeCommentCount({
+              patchNum: 2,
+              path: 'file/one',
+            }), 4);
         assert.equal(element._changeComments
-            .computeCommentCount(1, 'file/one'), 0);
+            .computeCommentCount({
+              patchNum: 1,
+              path: 'file/one',
+            }), 0);
         assert.equal(element._changeComments
-            .computeCommentCount(2, 'file/three'), 1);
+            .computeCommentCount({
+              patchNum: 2,
+              path: 'file/three',
+            }), 1);
       });
 
       test('computeDraftCount', () => {
         assert.equal(element._changeComments
-            .computeDraftCount(2, 'file/one'), 2);
+            .computeDraftCount({
+              patchNum: 2,
+              path: 'file/one',
+            }), 2);
         assert.equal(element._changeComments
-            .computeDraftCount(1, 'file/one'), 0);
+            .computeDraftCount({
+              patchNum: 1,
+              path: 'file/one',
+            }), 0);
         assert.equal(element._changeComments
-            .computeDraftCount(2, 'file/three'), 0);
+            .computeDraftCount({
+              patchNum: 2,
+              path: 'file/three',
+            }), 0);
         assert.equal(element._changeComments
             .computeDraftCount(), 3);
       });

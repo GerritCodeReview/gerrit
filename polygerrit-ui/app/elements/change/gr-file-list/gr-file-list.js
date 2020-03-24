@@ -474,11 +474,23 @@ class GrFileList extends mixinBehaviors( [
    */
   _computeCommentsString(changeComments, patchRange, path) {
     const unresolvedCount =
-        changeComments.computeUnresolvedNum(patchRange.basePatchNum, path) +
-        changeComments.computeUnresolvedNum(patchRange.patchNum, path);
+        changeComments.computeUnresolvedNum({
+          patchNum: patchRange.basePatchNum,
+          path,
+        }) +
+        changeComments.computeUnresolvedNum({
+          patchNum: patchRange.patchNum,
+          path,
+        });
     const commentCount =
-        changeComments.computeCommentCount(patchRange.basePatchNum, path) +
-        changeComments.computeCommentCount(patchRange.patchNum, path);
+        changeComments.computeCommentCount({
+          patchNum: patchRange.basePatchNum,
+          path,
+        }) +
+        changeComments.computeCommentCount({
+          patchNum: patchRange.patchNum,
+          path,
+        });
     const commentString = GrCountStringFormatter.computePluralString(
         commentCount, 'comment');
     const unresolvedString = GrCountStringFormatter.computeString(
@@ -501,8 +513,14 @@ class GrFileList extends mixinBehaviors( [
    */
   _computeDraftsString(changeComments, patchRange, path) {
     const draftCount =
-        changeComments.computeDraftCount(patchRange.basePatchNum, path) +
-        changeComments.computeDraftCount(patchRange.patchNum, path);
+        changeComments.computeDraftCount({
+          patchNum: patchRange.basePatchNum,
+          path,
+        }) +
+        changeComments.computeDraftCount({
+          patchNum: patchRange.patchNum,
+          path,
+        });
     return GrCountStringFormatter.computePluralString(draftCount, 'draft');
   }
 
@@ -516,8 +534,14 @@ class GrFileList extends mixinBehaviors( [
    */
   _computeDraftsStringMobile(changeComments, patchRange, path) {
     const draftCount =
-        changeComments.computeDraftCount(patchRange.basePatchNum, path) +
-        changeComments.computeDraftCount(patchRange.patchNum, path);
+        changeComments.computeDraftCount({
+          patchNum: patchRange.basePatchNum,
+          path,
+        }) +
+        changeComments.computeDraftCount({
+          patchNum: patchRange.patchNum,
+          path,
+        });
     return GrCountStringFormatter.computeShortString(draftCount, 'd');
   }
 
@@ -531,8 +555,14 @@ class GrFileList extends mixinBehaviors( [
    */
   _computeCommentsStringMobile(changeComments, patchRange, path) {
     const commentCount =
-        changeComments.computeCommentCount(patchRange.basePatchNum, path) +
-        changeComments.computeCommentCount(patchRange.patchNum, path);
+        changeComments.computeCommentCount({
+          patchNum: patchRange.basePatchNum,
+          path,
+        }) +
+        changeComments.computeCommentCount({
+          patchNum: patchRange.patchNum,
+          path,
+        });
     return GrCountStringFormatter.computeShortString(commentCount, 'c');
   }
 

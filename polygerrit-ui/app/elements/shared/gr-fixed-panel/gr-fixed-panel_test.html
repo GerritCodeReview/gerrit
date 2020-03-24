@@ -23,9 +23,6 @@ limitations under the License.
 
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../../test/test-pre-setup.js"></script>
-<script type="module" src="../../../test/common-test-setup.js"></script>
-<script type="module" src="./gr-fixed-panel.js"></script>
 <style>
   /* Prevent horizontal scrolling on page.
    New version of web-component-tester creates body with margins */
@@ -34,13 +31,6 @@ limitations under the License.
     padding: 0px;
   }
 </style>
-
-<script type="module">
-import '../../../test/test-pre-setup.js';
-import '../../../test/common-test-setup.js';
-import './gr-fixed-panel.js';
-void(0);
-</script>
 
 <test-fixture id="basic">
   <template>
@@ -51,7 +41,6 @@ void(0);
 </test-fixture>
 
 <script type="module">
-import '../../../test/test-pre-setup.js';
 import '../../../test/common-test-setup.js';
 import './gr-fixed-panel.js';
 suite('gr-fixed-panel', () => {

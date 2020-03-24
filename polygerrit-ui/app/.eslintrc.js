@@ -189,8 +189,6 @@ module.exports = {
     "Polymer": "readonly",
     "ShadyCSS": "readonly",
     "linkify": "readonly",
-    "moment": "readonly",
-    "page": "readonly",
     "security": "readonly",
   },
   "overrides": [

@@ -30,6 +30,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list-view_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import page from 'page/page.mjs';
 
 const LookupQueryPatterns = {
   CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,

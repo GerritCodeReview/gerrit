@@ -19,10 +19,9 @@ import '../scripts/bundled-polymer.js';
 import 'polymer-resin/standalone/polymer-resin.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
-import moment from 'moment/src/moment.js';
 import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
 import {initAppContext} from '../services/app-context-init.js';
-self.moment = moment;
+
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
   reportHandler(isViolation, fmt, ...args) {

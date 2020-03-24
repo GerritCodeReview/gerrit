@@ -14,10 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {appContext} from '../../../services/app-context.js';
 
 // Latency reporting constants.
 const TIMING = {
@@ -94,120 +90,111 @@ STARTUP_TIMERS[TIMING.APP_STARTED] = 0;
 STARTUP_TIMERS[TIMER.WEB_COMPONENTS_READY] = 0;
 
 const INTERACTION_TYPE = 'interaction';
-
 const DRAFT_ACTION_TIMER = 'TimeBetweenDraftActions';
 const DRAFT_ACTION_TIMER_MAX = 2 * 60 * 1000; // 2 minutes.
-
-let pending = [];
-let slowRpcList = [];
 const SLOW_RPC_THRESHOLD = 500;
 
-// Variables that hold context info in global scope
-let reportRepoName = undefined;
+export function installGlobalReporting(appContext) {
+  const reportingService = appContext.reportingService;
 
-const onError = function(oldOnError, msg, url, line, column, error) {
-  if (oldOnError) {
-    oldOnError(msg, url, line, column, error);
-  }
-  if (error) {
-    line = line || error.lineNumber;
-    column = column || error.columnNumber;
-    let shortenedErrorStack = msg;
-    if (error.stack) {
-      const errorStackLines = error.stack.split('\n');
-      shortenedErrorStack = errorStackLines.slice(0,
-          Math.min(3, errorStackLines.length)).join('\n');
+  const onError = function(oldOnError, msg, url, line, column, error) {
+    if (oldOnError) {
+      oldOnError(msg, url, line, column, error);
     }
-    msg = shortenedErrorStack || error.toString();
-  }
-  const payload = {
-    url,
-    line,
-    column,
-    error,
-  };
-  GrReporting.prototype.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
-  return true;
-};
-
-const catchErrors = function(opt_context) {
-  const context = opt_context || window;
-  context.onerror = onError.bind(null, context.onerror);
-  context.addEventListener('unhandledrejection', e => {
-    const msg = e.reason.message;
-    const payload = {
-      error: e.reason,
-    };
-    GrReporting.prototype.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
-  });
-};
-catchErrors();
-
-// PerformanceObserver interface is a browser API.
-if (window.PerformanceObserver) {
-  const supportedEntryTypes = PerformanceObserver.supportedEntryTypes || [];
-  // Safari doesn't support longtask yet
-  if (supportedEntryTypes.includes('longtask')) {
-    const catchLongJsTasks = new PerformanceObserver(list => {
-      for (const task of list.getEntries()) {
-        // We are interested in longtask longer than 200 ms (default is 50 ms)
-        if (task.duration > 200) {
-          GrReporting.prototype.reporter(TIMING.TYPE,
-              TIMING.CATEGORY_UI_LATENCY, `Task ${task.name}`,
-              Math.round(task.duration), {}, false);
-        }
+    if (error) {
+      line = line || error.lineNumber;
+      column = column || error.columnNumber;
+      let shortenedErrorStack = msg;
+      if (error.stack) {
+        const errorStackLines = error.stack.split('\n');
+        shortenedErrorStack = errorStackLines.slice(0,
+            Math.min(3, errorStackLines.length)).join('\n');
       }
+      msg = shortenedErrorStack || error.toString();
+    }
+    const payload = {
+      url,
+      line,
+      column,
+      error,
+    };
+    reportingService.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
+    return true;
+  };
+
+  const catchErrors = function(opt_context) {
+    const context = opt_context || window;
+    context.onerror = onError.bind(null, context.onerror);
+    context.addEventListener('unhandledrejection', e => {
+      const msg = e.reason.message;
+      const payload = {
+        error: e.reason,
+      };
+      reportingService.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
     });
-    catchLongJsTasks.observe({entryTypes: ['longtask']});
+  };
+
+  // PerformanceObserver interface is a browser API.
+  if (window.PerformanceObserver) {
+    const supportedEntryTypes = PerformanceObserver.supportedEntryTypes || [];
+    // Safari doesn't support longtask yet
+    if (supportedEntryTypes.includes('longtask')) {
+      const catchLongJsTasks = new PerformanceObserver(list => {
+        for (const task of list.getEntries()) {
+          // We are interested in longtask longer than 200 ms (default is 50 ms)
+          if (task.duration > 200) {
+            reportingService.reporter(TIMING.TYPE,
+                TIMING.CATEGORY_UI_LATENCY, `Task ${task.name}`,
+                Math.round(task.duration), {}, false);
+          }
+        }
+      });
+      catchLongJsTasks.observe({entryTypes: ['longtask']});
+    }
   }
+
+  document.addEventListener('visibilitychange', () => {
+    const eventName = `Visibility changed to ${document.visibilityState}`;
+    reportingService.reporter(INTERACTION_TYPE, undefined, eventName,
+        undefined, {}, true);
+  });
+
+  return {catchErrors};
 }
 
-document.addEventListener('visibilitychange', () => {
-  const eventName = `Visibility changed to ${document.visibilityState}`;
-  GrReporting.prototype.reporter(INTERACTION_TYPE, undefined, eventName,
-      undefined, {}, true);
-});
-
-// The Polymer pass of JSCompiler requires this to be reassignable
-// eslint-disable-next-line prefer-const
-let GrReporting = Polymer({
-  is: 'gr-reporting',
-
-  properties: {
-    category: String,
-
-    _baselines: {
-      type: Object,
-      value: STARTUP_TIMERS, // Shared across all instances.
-    },
-
-    _timers: {
-      type: Object,
-      value: {timeBetweenDraftActions: null}, // Shared across all instances.
-    },
-  },
+export class GrReporting {
+  constructor(flagsService) {
+    this._flagsService = flagsService;
+    this._baselines = STARTUP_TIMERS;
+    this._timers = {
+      timeBetweenDraftActions: null,
+    };
+    this.reportRepoName = undefined;
+    this.pending = [];
+    this.slowRpcList = [];
+  }
 
   get performanceTiming() {
     return window.performance.timing;
-  },
+  }
 
   get slowRpcSnapshot() {
-    return slowRpcList.slice();
-  },
+    return this.slowRpcList.slice();
+  }
 
   now() {
     return Math.round(window.performance.now());
-  },
+  }
 
   _arePluginsLoaded() {
     return this._baselines &&
       !this._baselines.hasOwnProperty(TIMER.PLUGINS_LOADED);
-  },
+  }
 
   _isMetricsPluginLoaded() {
     return this._arePluginsLoaded() || this._baselines &&
       !this._baselines.hasOwnProperty(TIMER.METRICS_PLUGIN_LOADED);
-  },
+  }
 
   /**
    * Reporter reports events. Events will be queued if metrics plugin is not
@@ -229,19 +216,19 @@ let GrReporting = Polymer({
     }
 
     // We report events immediately when metrics plugin is loaded
-    if (this._isMetricsPluginLoaded() && !pending.length) {
+    if (this._isMetricsPluginLoaded() && !this.pending.length) {
       this._reportEvent(eventInfo, opt_noLog);
     } else {
       // We cache until metrics plugin is loaded
-      pending.push([eventInfo, opt_noLog]);
+      this.pending.push([eventInfo, opt_noLog]);
       if (this._isMetricsPluginLoaded()) {
-        pending.forEach(([eventInfo, opt_noLog]) => {
+        this.pending.forEach(([eventInfo, opt_noLog]) => {
           this._reportEvent(eventInfo, opt_noLog);
         });
-        pending = [];
+        this.pending = [];
       }
     }
-  },
+  }
 
   _reportEvent(eventInfo, opt_noLog) {
     const {type, value, name} = eventInfo;
@@ -254,7 +241,7 @@ let GrReporting = Polymer({
         console.log(`Reporting: ${name}`);
       }
     }
-  },
+  }
 
   _createEventInfo(type, category, name, value, eventDetails) {
     const eventInfo = {
@@ -270,8 +257,8 @@ let GrReporting = Polymer({
       eventInfo.eventDetails = JSON.stringify(eventDetails);
     }
 
-    if (reportRepoName) {
-      eventInfo.repoName = reportRepoName;
+    if (this.reportRepoName) {
+      eventInfo.repoName = this.reportRepoName;
     }
 
     const isInBackgroundTab = document.visibilityState === 'hidden';
@@ -279,13 +266,13 @@ let GrReporting = Polymer({
       eventInfo.inBackgroundTab = isInBackgroundTab;
     }
 
-    const enabledExperiments = appContext.flagsService.enabledExperiments;
-    if (enabledExperiments.length) {
-      eventInfo.enabledExperiments = JSON.stringify(enabledExperiments);
+    if (this._flagsService.enabledExperiments.length) {
+      eventInfo.enabledExperiments =
+        JSON.stringify(this._flagsService.enabledExperiments);
     }
 
     return eventInfo;
-  },
+  }
 
   /**
    * User-perceived app start time, should be reported when the app is ready.
@@ -293,7 +280,7 @@ let GrReporting = Polymer({
   appStarted() {
     this.timeEnd(TIMING.APP_STARTED);
     this._reportNavResTimes();
-  },
+  }
 
   /**
    * Browser's navigation and resource timings
@@ -303,7 +290,7 @@ let GrReporting = Polymer({
     perfEvents.forEach(
         eventName => this._reportPerformanceTiming(eventName)
     );
-  },
+  }
 
   _reportPerformanceTiming(eventName, eventDetails) {
     const eventTiming = this.performanceTiming[eventName];
@@ -314,7 +301,7 @@ let GrReporting = Polymer({
       this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
           `NavResTime - ${eventName}`, elapsedTime, eventDetails, true);
     }
-  },
+  }
 
   beforeLocationChanged() {
     for (const prop of Object.keys(this._baselines)) {
@@ -327,15 +314,15 @@ let GrReporting = Polymer({
     this.time(TIMER.DIFF_VIEW_DISPLAYED);
     this.time(TIMER.DIFF_VIEW_LOAD_FULL);
     this.time(TIMER.FILE_LIST_DISPLAYED);
-    reportRepoName = undefined;
+    this.reportRepoName = undefined;
     // reset slow rpc list since here start page loads which report these rpcs
-    slowRpcList = [];
-  },
+    this.slowRpcList = [];
+  }
 
   locationChanged(page) {
     this.reporter(
         NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
-  },
+  }
 
   dashboardDisplayed() {
     if (this._baselines.hasOwnProperty(TIMER.STARTUP_DASHBOARD_DISPLAYED)) {
@@ -343,7 +330,7 @@ let GrReporting = Polymer({
     } else {
       this.timeEnd(TIMER.DASHBOARD_DISPLAYED, this._pageLoadDetails());
     }
-  },
+  }
 
   changeDisplayed() {
     if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_DISPLAYED)) {
@@ -351,7 +338,7 @@ let GrReporting = Polymer({
     } else {
       this.timeEnd(TIMER.CHANGE_DISPLAYED, this._pageLoadDetails());
     }
-  },
+  }
 
   changeFullyLoaded() {
     if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_LOAD_FULL)) {
@@ -359,7 +346,7 @@ let GrReporting = Polymer({
     } else {
       this.timeEnd(TIMER.CHANGE_LOAD_FULL);
     }
-  },
+  }
 
   diffViewDisplayed() {
     if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_DISPLAYED)) {
@@ -367,7 +354,7 @@ let GrReporting = Polymer({
     } else {
       this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
     }
-  },
+  }
 
   diffViewFullyLoaded() {
     if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_LOAD_FULL)) {
@@ -375,7 +362,7 @@ let GrReporting = Polymer({
     } else {
       this.timeEnd(TIMER.DIFF_VIEW_LOAD_FULL);
     }
-  },
+  }
 
   diffViewContentDisplayed() {
     if (this._baselines.hasOwnProperty(
@@ -384,7 +371,7 @@ let GrReporting = Polymer({
     } else {
       this.timeEnd(TIMER.DIFF_VIEW_CONTENT_DISPLAYED);
     }
-  },
+  }
 
   fileListDisplayed() {
     if (this._baselines.hasOwnProperty(TIMER.STARTUP_FILE_LIST_DISPLAYED)) {
@@ -392,7 +379,7 @@ let GrReporting = Polymer({
     } else {
       this.timeEnd(TIMER.FILE_LIST_DISPLAYED);
     }
-  },
+  }
 
   _pageLoadDetails() {
     const details = {
@@ -420,24 +407,24 @@ let GrReporting = Polymer({
     }
 
     return details;
-  },
+  }
 
   reportExtension(name) {
     this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
-  },
+  }
 
   pluginLoaded(name) {
     if (name.startsWith('metrics-')) {
       this.timeEnd(TIMER.METRICS_PLUGIN_LOADED);
     }
-  },
+  }
 
   pluginsLoaded(pluginsList) {
     this.timeEnd(TIMER.PLUGINS_LOADED);
     this.reporter(
         PLUGINS.TYPE, PLUGINS.INSTALLED, PLUGINS.INSTALLED, undefined,
         {pluginsList: pluginsList || []}, true);
-  },
+  }
 
   /**
    * Reset named timer.
@@ -445,7 +432,7 @@ let GrReporting = Polymer({
   time(name) {
     this._baselines[name] = this.now();
     window.performance.mark(`${name}-start`);
-  },
+  }
 
   /**
    * Finish named timer and report it to server.
@@ -465,7 +452,7 @@ let GrReporting = Polymer({
       // (if undefined).
       window.performance.measure(name);
     }
-  },
+  }
 
   /**
    * Reports just line timeEnd, but additionally reports an average given a
@@ -485,7 +472,7 @@ let GrReporting = Polymer({
     if (!denominator) { return; }
     const time = this.now() - baseTime;
     this._reportTiming(averageName, time / denominator);
-  },
+  }
 
   /**
    * Send a timing report with an arbitrary time value.
@@ -497,7 +484,7 @@ let GrReporting = Polymer({
   _reportTiming(name, time, eventDetails) {
     this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name, time,
         eventDetails);
-  },
+  }
 
   /**
    * Get a timer object to for reporing a user timing. The start time will be
@@ -546,7 +533,7 @@ let GrReporting = Polymer({
 
     // The timer is initialized to its creation time.
     return timer.reset();
-  },
+  }
 
   /**
    * Log timing information for an RPC.
@@ -558,14 +545,14 @@ let GrReporting = Polymer({
     this.reporter(TIMING.TYPE, TIMING.CATEGORY_RPC, 'RPC-' + anonymizedUrl,
         elapsed, {}, true);
     if (elapsed >= SLOW_RPC_THRESHOLD) {
-      slowRpcList.push({anonymizedUrl, elapsed});
+      this.slowRpcList.push({anonymizedUrl, elapsed});
     }
-  },
+  }
 
   reportInteraction(eventName, details) {
-    this.reporter(INTERACTION_TYPE, this.category, eventName, undefined,
+    this.reporter(INTERACTION_TYPE, undefined, eventName, undefined,
         details, true);
-  },
+  }
 
   /**
    * A draft interaction was started. Update the time-betweeen-draft-actions
@@ -585,19 +572,16 @@ let GrReporting = Polymer({
 
     // Mark the time and reinitialize the timer.
     timer.end().reset();
-  },
+  }
 
   reportErrorDialog(message) {
     this.reporter(ERROR_DIALOG.TYPE, ERROR_DIALOG.CATEGORY,
         'ErrorDialog: ' + message, {error: new Error(message)});
-  },
+  }
 
   setRepoName(repoName) {
-    reportRepoName = repoName;
-  },
-});
+    this.reportRepoName = repoName;
+  }
+}
 
-window.GrReporting = GrReporting;
-// Expose onerror installation so it would be accessible from tests.
-window.GrReporting._catchErrors = catchErrors;
-window.GrReporting.STARTUP_TIMERS = Object.assign({}, STARTUP_TIMERS);
+export const DEFAULT_STARTUP_TIMERS = Object.assign({}, STARTUP_TIMERS);

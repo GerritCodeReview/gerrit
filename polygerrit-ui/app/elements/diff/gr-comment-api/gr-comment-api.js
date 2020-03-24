@@ -36,440 +36,509 @@ const PARENT = 'PARENT';
  * @param {!Object} drafts
  * @param {number} changeNum
  */
-function ChangeComments(comments, robotComments, drafts, changeNum) {
-  this._comments = comments;
-  this._robotComments = robotComments;
-  this._drafts = drafts;
-  this._changeNum = changeNum;
-}
-
-ChangeComments.prototype = {
-  get comments() {
-    return this._comments;
-  },
-  get drafts() {
-    return this._drafts;
-  },
-  get robotComments() {
-    return this._robotComments;
-  },
-};
-
-ChangeComments.prototype._patchNumEquals =
+class ChangeComments {
+  constructor(comments, robotComments, drafts, changeNum) {
+    // TODO(taoalpha): replace these with exported methods from patchset behavior
+    this._patchNumEquals =
     Gerrit.PatchSetBehavior.patchNumEquals;
-ChangeComments.prototype._isMergeParent =
+    this._isMergeParent =
     Gerrit.PatchSetBehavior.isMergeParent;
-ChangeComments.prototype._getParentIndex =
+    this._getParentIndex =
     Gerrit.PatchSetBehavior.getParentIndex;
 
-/**
- * Get an object mapping file paths to a boolean representing whether that
- * path contains diff comments in the given patch set (including drafts and
- * robot comments).
- *
- * Paths with comments are mapped to true, whereas paths without comments
- * are not mapped.
- *
- * @param {Gerrit.PatchRange=} opt_patchRange The patch-range object containing
- *     patchNum and basePatchNum properties to represent the range.
- * @return {!Object}
- */
-ChangeComments.prototype.getPaths = function(opt_patchRange) {
-  const responses = [this.comments, this.drafts, this.robotComments];
-  const commentMap = {};
-  for (const response of responses) {
-    for (const path in response) {
-      if (response.hasOwnProperty(path) &&
+    this._comments = comments;
+    this._robotComments = robotComments;
+    this._drafts = drafts;
+    this._changeNum = changeNum;
+  }
+
+  get comments() {
+    return this._comments;
+  }
+
+  get drafts() {
+    return this._drafts;
+  }
+
+  get robotComments() {
+    return this._robotComments;
+  }
+
+  /**
+   * Get an object mapping file paths to a boolean representing whether that
+   * path contains diff comments in the given patch set (including drafts and
+   * robot comments).
+   *
+   * Paths with comments are mapped to true, whereas paths without comments
+   * are not mapped.
+   *
+   * @param {Gerrit.PatchRange=} opt_patchRange The patch-range object containing
+   *     patchNum and basePatchNum properties to represent the range.
+   * @return {!Object}
+   */
+  getPaths(opt_patchRange) {
+    const responses = [this.comments, this.drafts, this.robotComments];
+    const commentMap = {};
+    for (const response of responses) {
+      for (const path in response) {
+        if (response.hasOwnProperty(path) &&
           response[path].some(c => {
             // If don't care about patch range, we know that the path exists.
             if (!opt_patchRange) { return true; }
             return this._isInPatchRange(c, opt_patchRange);
           })) {
-        commentMap[path] = true;
+          commentMap[path] = true;
+        }
       }
     }
+    return commentMap;
   }
-  return commentMap;
-};
 
-/**
- * Gets all the comments and robot comments for the given change.
- *
- * @param {number=} opt_patchNum
- * @return {!Object}
- */
-ChangeComments.prototype.getAllPublishedComments = function(opt_patchNum) {
-  return this.getAllComments(false, opt_patchNum);
-};
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {number=} opt_patchNum
+   * @return {!Object}
+   */
+  getAllPublishedComments(opt_patchNum) {
+    return this.getAllComments(false, opt_patchNum);
+  }
 
-/**
- * Gets all the comments for a particular thread group. Used for refreshing
- * comments after the thread group has already been built.
- *
- * @param {string} rootId
- * @return {!Array} an array of comments
- */
-ChangeComments.prototype.getCommentsForThread = function(rootId) {
-  const allThreads = this.getAllThreadsForChange();
-  const threadMatch = allThreads.find(t => t.rootId === rootId);
+  /**
+   * Gets all the comments for a particular thread group. Used for refreshing
+   * comments after the thread group has already been built.
+   *
+   * @param {string} rootId
+   * @return {!Array} an array of comments
+   */
+  getCommentsForThread(rootId) {
+    const allThreads = this.getAllThreadsForChange();
+    const threadMatch = allThreads.find(t => t.rootId === rootId);
 
-  // In the event that a single draft comment was removed by the thread-list
-  // and the diff view is updating comments, there will no longer be a thread
-  // found.  In this case, return null.
-  return threadMatch ? threadMatch.comments : null;
-};
+    // In the event that a single draft comment was removed by the thread-list
+    // and the diff view is updating comments, there will no longer be a thread
+    // found.  In this case, return null.
+    return threadMatch ? threadMatch.comments : null;
+  }
 
-/**
- * Filters an array of comments by line and side
- *
- * @param {!Array} comments
- * @param {boolean} parentOnly whether the only comments returned should have
- *   the side attribute set to PARENT
- * @param {string} commentSide whether the comment was left on the left or the
- *   right side regardless or unified or side-by-side
- * @param {number=} opt_line line number, can be undefined if file comment
- * @return {!Array} an array of comments
- */
-ChangeComments.prototype._filterCommentsBySideAndLine = function(comments,
-    parentOnly, commentSide, opt_line) {
-  return comments.filter(c => {
+  /**
+   * Filters an array of comments by line and side
+   *
+   * @param {!Array} comments
+   * @param {boolean} parentOnly whether the only comments returned should have
+   *   the side attribute set to PARENT
+   * @param {string} commentSide whether the comment was left on the left or the
+   *   right side regardless or unified or side-by-side
+   * @param {number=} opt_line line number, can be undefined if file comment
+   * @return {!Array} an array of comments
+   */
+  _filterCommentsBySideAndLine(comments,
+      parentOnly, commentSide, opt_line) {
+    return comments.filter(c => {
     // if parentOnly, only match comments with PARENT for the side.
-    let sideMatch = parentOnly ? c.side === PARENT : c.side !== PARENT;
-    if (parentOnly) {
-      sideMatch = sideMatch && c.side === PARENT;
-    }
-    return sideMatch && c.line === opt_line;
-  }).map(c => {
-    c.__commentSide = commentSide;
-    return c;
-  });
-};
+      let sideMatch = parentOnly ? c.side === PARENT : c.side !== PARENT;
+      if (parentOnly) {
+        sideMatch = sideMatch && c.side === PARENT;
+      }
+      return sideMatch && c.line === opt_line;
+    }).map(c => {
+      c.__commentSide = commentSide;
+      return c;
+    });
+  }
 
-/**
- * Gets all the comments and robot comments for the given change.
- *
- * @param {boolean=} opt_includeDrafts
- * @param {number=} opt_patchNum
- * @return {!Object}
- */
-ChangeComments.prototype.getAllComments = function(opt_includeDrafts,
-    opt_patchNum) {
-  const paths = this.getPaths();
-  const publishedComments = {};
-  for (const path of Object.keys(paths)) {
-    let commentsToAdd = this.getAllCommentsForPath(path, opt_patchNum);
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {boolean=} opt_includeDrafts
+   * @param {number=} opt_patchNum
+   * @return {!Object}
+   */
+  getAllComments(opt_includeDrafts,
+      opt_patchNum) {
+    const paths = this.getPaths();
+    const publishedComments = {};
+    for (const path of Object.keys(paths)) {
+      let commentsToAdd = this.getAllCommentsForPath(path, opt_patchNum);
+      if (opt_includeDrafts) {
+        const drafts = this.getAllDraftsForPath(path, opt_patchNum)
+            .map(d => Object.assign({__draft: true}, d));
+        commentsToAdd = commentsToAdd.concat(drafts);
+      }
+      publishedComments[path] = commentsToAdd;
+    }
+    return publishedComments;
+  }
+
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {number=} opt_patchNum
+   * @return {!Object}
+   */
+  getAllDrafts(opt_patchNum) {
+    const paths = this.getPaths();
+    const drafts = {};
+    for (const path of Object.keys(paths)) {
+      drafts[path] = this.getAllDraftsForPath(path, opt_patchNum);
+    }
+    return drafts;
+  }
+
+  /**
+   * Get the comments (robot comments) for a path and optional patch num.
+   *
+   * @param {!string} path
+   * @param {number=} opt_patchNum
+   * @param {boolean=} opt_includeDrafts
+   * @return {!Array}
+   */
+  getAllCommentsForPath(path,
+      opt_patchNum, opt_includeDrafts) {
+    const comments = this._comments[path] || [];
+    const robotComments = this._robotComments[path] || [];
+    let allComments = comments.concat(robotComments);
     if (opt_includeDrafts) {
-      const drafts = this.getAllDraftsForPath(path, opt_patchNum)
+      const drafts = this.getAllDraftsForPath(path)
           .map(d => Object.assign({__draft: true}, d));
-      commentsToAdd = commentsToAdd.concat(drafts);
+      allComments = allComments.concat(drafts);
     }
-    publishedComments[path] = commentsToAdd;
-  }
-  return publishedComments;
-};
-
-/**
- * Gets all the comments and robot comments for the given change.
- *
- * @param {number=} opt_patchNum
- * @return {!Object}
- */
-ChangeComments.prototype.getAllDrafts = function(opt_patchNum) {
-  const paths = this.getPaths();
-  const drafts = {};
-  for (const path of Object.keys(paths)) {
-    drafts[path] = this.getAllDraftsForPath(path, opt_patchNum);
-  }
-  return drafts;
-};
-
-/**
- * Get the comments (robot comments) for a path and optional patch num.
- *
- * @param {!string} path
- * @param {number=} opt_patchNum
- * @param {boolean=} opt_includeDrafts
- * @return {!Array}
- */
-ChangeComments.prototype.getAllCommentsForPath = function(path,
-    opt_patchNum, opt_includeDrafts) {
-  const comments = this._comments[path] || [];
-  const robotComments = this._robotComments[path] || [];
-  let allComments = comments.concat(robotComments);
-  if (opt_includeDrafts) {
-    const drafts = this.getAllDraftsForPath(path)
-        .map(d => Object.assign({__draft: true}, d));
-    allComments = allComments.concat(drafts);
-  }
-  if (!opt_patchNum) { return allComments; }
-  return (allComments || []).filter(c =>
-    this._patchNumEquals(c.patch_set, opt_patchNum)
-  );
-};
-
-/**
- * Get the drafts for a path and optional patch num.
- *
- * @param {!string} path
- * @param {number=} opt_patchNum
- * @return {!Array}
- */
-ChangeComments.prototype.getAllDraftsForPath = function(path,
-    opt_patchNum) {
-  const comments = this._drafts[path] || [];
-  if (!opt_patchNum) { return comments; }
-  return (comments || []).filter(c =>
-    this._patchNumEquals(c.patch_set, opt_patchNum)
-  );
-};
-
-/**
- * Get the comments (with drafts and robot comments) for a path and
- * patch-range. Returns an object with left and right properties mapping to
- * arrays of comments in on either side of the patch range for that path.
- *
- * @param {!string} path
- * @param {!Gerrit.PatchRange} patchRange The patch-range object containing patchNum
- *     and basePatchNum properties to represent the range.
- * @param {Object=} opt_projectConfig Optional project config object to
- *     include in the meta sub-object.
- * @return {!Gerrit.CommentsBySide}
- */
-ChangeComments.prototype.getCommentsBySideForPath = function(path,
-    patchRange, opt_projectConfig) {
-  let comments = [];
-  let drafts = [];
-  let robotComments = [];
-  if (this.comments && this.comments[path]) {
-    comments = this.comments[path];
-  }
-  if (this.drafts && this.drafts[path]) {
-    drafts = this.drafts[path];
-  }
-  if (this.robotComments && this.robotComments[path]) {
-    robotComments = this.robotComments[path];
+    if (!opt_patchNum) { return allComments; }
+    return (allComments || []).filter(c =>
+      this._patchNumEquals(c.patch_set, opt_patchNum)
+    );
   }
 
-  drafts.forEach(d => { d.__draft = true; });
+  /**
+   * Get the comments (robot comments) for a file.
+   *
+   * // TODO(taoalpha): maybe merge in *ForPath
+   *
+   * @param {!{path: string, oldPath?: string, patchNum?: number}} file
+   * @param {boolean=} opt_includeDrafts
+   * @return {!Array}
+   */
+  getAllCommentsForFile(file, opt_includeDrafts) {
+    let allComments = this.getAllCommentsForPath(
+        file.path, file.patchNum, opt_includeDrafts
+    );
 
-  const all = comments.concat(drafts).concat(robotComments);
-
-  const baseComments = all.filter(c =>
-    this._isInBaseOfPatchRange(c, patchRange));
-  const revisionComments = all.filter(c =>
-    this._isInRevisionOfPatchRange(c, patchRange));
-
-  return {
-    meta: {
-      changeNum: this._changeNum,
-      path,
-      patchRange,
-      projectConfig: opt_projectConfig,
-    },
-    left: baseComments,
-    right: revisionComments,
-  };
-};
-
-/**
- * @param {!Object} comments Object keyed by file, with a value of an array
- *   of comments left on that file.
- * @return {!Array} A flattened list of all comments, where each comment
- *   also includes the file that it was left on, which was the key of the
- *   originall object.
- */
-ChangeComments.prototype._commentObjToArrayWithFile = function(comments) {
-  let commentArr = [];
-  for (const file of Object.keys(comments)) {
-    const commentsForFile = [];
-    for (const comment of comments[file]) {
-      commentsForFile.push(Object.assign({__path: file}, comment));
+    if (file.oldPath) {
+      allComments = allComments.concat(
+          this.getAllCommentsForPath(
+              file.oldPath, file.patchNum, opt_includeDrafts
+          )
+      );
     }
-    commentArr = commentArr.concat(commentsForFile);
-  }
-  return commentArr;
-};
 
-ChangeComments.prototype._commentObjToArray = function(comments) {
-  let commentArr = [];
-  for (const file of Object.keys(comments)) {
-    commentArr = commentArr.concat(comments[file]);
-  }
-  return commentArr;
-};
-
-/**
- * Computes a string counting the number of commens in a given file and path.
- *
- * @param {number} patchNum
- * @param {string=} opt_path
- * @return {number}
- */
-ChangeComments.prototype.computeCommentCount = function(patchNum, opt_path) {
-  if (opt_path) {
-    return this.getAllCommentsForPath(opt_path, patchNum).length;
-  }
-  const allComments = this.getAllPublishedComments(patchNum);
-  return this._commentObjToArray(allComments).length;
-};
-
-/**
- * Computes a string counting the number of draft comments in the entire
- * change, optionally filtered by path and/or patchNum.
- *
- * @param {number=} opt_patchNum
- * @param {string=} opt_path
- * @return {number}
- */
-ChangeComments.prototype.computeDraftCount = function(opt_patchNum,
-    opt_path) {
-  if (opt_path) {
-    return this.getAllDraftsForPath(opt_path, opt_patchNum).length;
-  }
-  const allDrafts = this.getAllDrafts(opt_patchNum);
-  return this._commentObjToArray(allDrafts).length;
-};
-
-/**
- * Computes a number of unresolved comment threads in a given file and path.
- *
- * @param {number} patchNum
- * @param {string=} opt_path
- * @return {number}
- */
-ChangeComments.prototype.computeUnresolvedNum = function(patchNum,
-    opt_path) {
-  let comments = [];
-  let drafts = [];
-
-  if (opt_path) {
-    comments = this.getAllCommentsForPath(opt_path, patchNum);
-    drafts = this.getAllDraftsForPath(opt_path, patchNum);
-  } else {
-    comments = this._commentObjToArray(
-        this.getAllPublishedComments(patchNum));
+    return allComments;
   }
 
-  comments = comments.concat(drafts);
+  /**
+   * Get the drafts for a path and optional patch num.
+   *
+   * @param {!string} path
+   * @param {number=} opt_patchNum
+   * @return {!Array}
+   */
+  getAllDraftsForPath(path,
+      opt_patchNum) {
+    const comments = this._drafts[path] || [];
+    if (!opt_patchNum) { return comments; }
+    return (comments || []).filter(c =>
+      this._patchNumEquals(c.patch_set, opt_patchNum)
+    );
+  }
 
-  const threads = this.getCommentThreads(this._sortComments(comments));
+  /**
+   * Get the drafts for a file.
+   *
+   * // TODO(taoalpha): maybe merge in *ForPath
+   *
+   * @param {!{path: string, oldPath?: string, patchNum?: number}} file
+   * @return {!Array}
+   */
+  getAllDraftsForFile(file) {
+    let allDrafts = this.getAllDraftsForPath(file.path, file.patchNum);
+    if (file.oldPath) {
+      allDrafts = allDrafts.concat(
+          this.getAllDraftsForPath(file.oldPath, file.patchNum)
+      );
+    }
+    return allDrafts;
+  }
 
-  const unresolvedThreads = threads
-      .filter(thread =>
-        thread.comments.length &&
+  /**
+   * Get the comments (with drafts and robot comments) for a path and
+   * patch-range. Returns an object with left and right properties mapping to
+   * arrays of comments in on either side of the patch range for that path.
+   *
+   * @param {!string} path
+   * @param {!Gerrit.PatchRange} patchRange The patch-range object containing patchNum
+   *     and basePatchNum properties to represent the range.
+   * @param {Object=} opt_projectConfig Optional project config object to
+   *     include in the meta sub-object.
+   * @return {!Gerrit.CommentsBySide}
+   */
+  getCommentsBySideForPath(path,
+      patchRange, opt_projectConfig) {
+    let comments = [];
+    let drafts = [];
+    let robotComments = [];
+    if (this.comments && this.comments[path]) {
+      comments = this.comments[path];
+    }
+    if (this.drafts && this.drafts[path]) {
+      drafts = this.drafts[path];
+    }
+    if (this.robotComments && this.robotComments[path]) {
+      robotComments = this.robotComments[path];
+    }
+
+    drafts.forEach(d => { d.__draft = true; });
+
+    const all = comments.concat(drafts).concat(robotComments);
+
+    const baseComments = all.filter(c =>
+      this._isInBaseOfPatchRange(c, patchRange));
+    const revisionComments = all.filter(c =>
+      this._isInRevisionOfPatchRange(c, patchRange));
+
+    return {
+      meta: {
+        changeNum: this._changeNum,
+        path,
+        patchRange,
+        projectConfig: opt_projectConfig,
+      },
+      left: baseComments,
+      right: revisionComments,
+    };
+  }
+
+  /**
+   * Get the comments (with drafts and robot comments) for a file and
+   * patch-range. Returns an object with left and right properties mapping to
+   * arrays of comments in on either side of the patch range for that path.
+   *
+   * // TODO(taoalpha): maybe merge *ForPath so find all comments in one pass
+   *
+   * @param {!{path: string, oldPath?: string, patchNum?: number}} file
+   * @param {!Gerrit.PatchRange} patchRange The patch-range object containing patchNum
+   *     and basePatchNum properties to represent the range.
+   * @param {Object=} opt_projectConfig Optional project config object to
+   *     include in the meta sub-object.
+   * @return {!Gerrit.CommentsBySide}
+   */
+  getCommentsBySideForFile(file, patchRange, opt_projectConfig) {
+    const comments = this.getCommentsBySideForPath(
+        file.path, patchRange, opt_projectConfig
+    );
+    if (file.oldPath) {
+      const commentsForOldPath = this.getCommentsBySideForPath(
+          file.oldPath, patchRange, opt_projectConfig
+      );
+      // merge in the left and right
+      comments.left = comments.left.concat(commentsForOldPath.left);
+      comments.right = comments.right.concat(commentsForOldPath.right);
+    }
+  }
+
+  /**
+   * @param {!Object} comments Object keyed by file, with a value of an array
+   *   of comments left on that file.
+   * @return {!Array} A flattened list of all comments, where each comment
+   *   also includes the file that it was left on, which was the key of the
+   *   originall object.
+   */
+  _commentObjToArrayWithFile(comments) {
+    let commentArr = [];
+    for (const file of Object.keys(comments)) {
+      const commentsForFile = [];
+      for (const comment of comments[file]) {
+        commentsForFile.push(Object.assign({__path: file}, comment));
+      }
+      commentArr = commentArr.concat(commentsForFile);
+    }
+    return commentArr;
+  }
+
+  _commentObjToArray(comments) {
+    let commentArr = [];
+    for (const file of Object.keys(comments)) {
+      commentArr = commentArr.concat(comments[file]);
+    }
+    return commentArr;
+  }
+
+  /**
+   * Computes a string counting the number of commens in a given file.
+   *
+   * @param {{path: string, oldPath?: string, patchNum?: number}} file
+   * @return {number}
+   */
+  computeCommentCount(file) {
+    if (file.path) {
+      return this.getAllCommentsForFile(file).length;
+    }
+    const allComments = this.getAllPublishedComments(file.patchNum);
+    return this._commentObjToArray(allComments).length;
+  }
+
+  /**
+   * Computes a string counting the number of draft comments in the entire
+   * change, optionally filtered by path and/or patchNum.
+   *
+   * @param {?{path: string, oldPath?: string, patchNum?: number}} file
+   * @return {number}
+   */
+  computeDraftCount(file) {
+    if (file && file.path) {
+      return this.getAllDraftsForFile(file).length;
+    }
+    const allDrafts = this.getAllDrafts(file && file.patchNum);
+    return this._commentObjToArray(allDrafts).length;
+  }
+
+  /**
+   * Computes a number of unresolved comment threads in a given file and path.
+   *
+   * @param {{path: string, oldPath?: string, patchNum?: number}} file
+   * @return {number}
+   */
+  computeUnresolvedNum(file) {
+    let comments = [];
+    let drafts = [];
+
+    if (file.path) {
+      comments = this.getAllCommentsForFile(file);
+      drafts = this.getAllDraftsForFile(file);
+    } else {
+      comments = this._commentObjToArray(
+          this.getAllPublishedComments(file.patchNum));
+    }
+
+    comments = comments.concat(drafts);
+
+    const threads = this.getCommentThreads(this._sortComments(comments));
+
+    const unresolvedThreads = threads
+        .filter(thread =>
+          thread.comments.length &&
         thread.comments[thread.comments.length - 1].unresolved);
 
-  return unresolvedThreads.length;
-};
+    return unresolvedThreads.length;
+  }
 
-ChangeComments.prototype.getAllThreadsForChange = function() {
-  const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
-  const sortedComments = this._sortComments(comments);
-  return this.getCommentThreads(sortedComments);
-};
+  getAllThreadsForChange() {
+    const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
+    const sortedComments = this._sortComments(comments);
+    return this.getCommentThreads(sortedComments);
+  }
 
-ChangeComments.prototype._sortComments = function(comments) {
-  return comments.slice(0)
-      .sort(
-          (c1, c2) => util.parseDate(c1.updated) - util.parseDate(c2.updated)
-      );
-};
+  _sortComments(comments) {
+    return comments.slice(0)
+        .sort(
+            (c1, c2) => util.parseDate(c1.updated) - util.parseDate(c2.updated)
+        );
+  }
 
-/**
- * Computes all of the comments in thread format.
- *
- * @param {!Array} comments sorted by updated timestamp.
- * @return {!Array}
- */
-ChangeComments.prototype.getCommentThreads = function(comments) {
-  const threads = [];
-  const idThreadMap = {};
-  for (const comment of comments) {
+  /**
+   * Computes all of the comments in thread format.
+   *
+   * @param {!Array} comments sorted by updated timestamp.
+   * @return {!Array}
+   */
+  getCommentThreads(comments) {
+    const threads = [];
+    const idThreadMap = {};
+    for (const comment of comments) {
     // If the comment is in reply to another comment, find that comment's
     // thread and append to it.
-    if (comment.in_reply_to) {
-      const thread = idThreadMap[comment.in_reply_to];
-      if (thread) {
-        thread.comments.push(comment);
-        idThreadMap[comment.id] = thread;
-        continue;
+      if (comment.in_reply_to) {
+        const thread = idThreadMap[comment.in_reply_to];
+        if (thread) {
+          thread.comments.push(comment);
+          idThreadMap[comment.id] = thread;
+          continue;
+        }
       }
-    }
 
-    // Otherwise, this comment starts its own thread.
-    const newThread = {
-      comments: [comment],
-      patchNum: comment.patch_set,
-      path: comment.__path,
-      line: comment.line,
-      rootId: comment.id,
-    };
-    if (comment.side) {
-      newThread.commentSide = comment.side;
+      // Otherwise, this comment starts its own thread.
+      const newThread = {
+        comments: [comment],
+        patchNum: comment.patch_set,
+        path: comment.__path,
+        line: comment.line,
+        rootId: comment.id,
+      };
+      if (comment.side) {
+        newThread.commentSide = comment.side;
+      }
+      threads.push(newThread);
+      idThreadMap[comment.id] = newThread;
     }
-    threads.push(newThread);
-    idThreadMap[comment.id] = newThread;
+    return threads;
   }
-  return threads;
-};
 
-/**
- * Whether the given comment should be included in the base side of the
- * given patch range.
- *
- * @param {!Object} comment
- * @param {!Gerrit.PatchRange} range
- * @return {boolean}
- */
-ChangeComments.prototype._isInBaseOfPatchRange = function(comment, range) {
+  /**
+   * Whether the given comment should be included in the base side of the
+   * given patch range.
+   *
+   * @param {!Object} comment
+   * @param {!Gerrit.PatchRange} range
+   * @return {boolean}
+   */
+  _isInBaseOfPatchRange(comment, range) {
   // If the base of the patch range is a parent of a merge, and the comment
   // appears on a specific parent then only show the comment if the parent
   // index of the comment matches that of the range.
-  if (comment.parent && comment.side === PARENT) {
-    return this._isMergeParent(range.basePatchNum) &&
+    if (comment.parent && comment.side === PARENT) {
+      return this._isMergeParent(range.basePatchNum) &&
         comment.parent === this._getParentIndex(range.basePatchNum);
-  }
+    }
 
-  // If the base of the range is the parent of the patch:
-  if (range.basePatchNum === PARENT &&
+    // If the base of the range is the parent of the patch:
+    if (range.basePatchNum === PARENT &&
       comment.side === PARENT &&
       this._patchNumEquals(comment.patch_set, range.patchNum)) {
-    return true;
-  }
-  // If the base of the range is not the parent of the patch:
-  if (range.basePatchNum !== PARENT &&
+      return true;
+    }
+    // If the base of the range is not the parent of the patch:
+    if (range.basePatchNum !== PARENT &&
       comment.side !== PARENT &&
       this._patchNumEquals(comment.patch_set, range.basePatchNum)) {
-    return true;
+      return true;
+    }
+    return false;
   }
-  return false;
-};
 
-/**
- * Whether the given comment should be included in the revision side of the
- * given patch range.
- *
- * @param {!Object} comment
- * @param {!Gerrit.PatchRange} range
- * @return {boolean}
- */
-ChangeComments.prototype._isInRevisionOfPatchRange = function(comment,
-    range) {
-  return comment.side !== PARENT &&
+  /**
+   * Whether the given comment should be included in the revision side of the
+   * given patch range.
+   *
+   * @param {!Object} comment
+   * @param {!Gerrit.PatchRange} range
+   * @return {boolean}
+   */
+  _isInRevisionOfPatchRange(comment,
+      range) {
+    return comment.side !== PARENT &&
       this._patchNumEquals(comment.patch_set, range.patchNum);
-};
+  }
 
-/**
- * Whether the given comment should be included in the given patch range.
- *
- * @param {!Object} comment
- * @param {!Gerrit.PatchRange} range
- * @return {boolean|undefined}
- */
-ChangeComments.prototype._isInPatchRange = function(comment, range) {
-  return this._isInBaseOfPatchRange(comment, range) ||
+  /**
+   * Whether the given comment should be included in the given patch range.
+   *
+   * @param {!Object} comment
+   * @param {!Gerrit.PatchRange} range
+   * @return {boolean|undefined}
+   */
+  _isInPatchRange(comment, range) {
+    return this._isInBaseOfPatchRange(comment, range) ||
       this._isInRevisionOfPatchRange(comment, range);
-};
+  }
+}
 
 /**
  * @appliesMixin Gerrit.PatchSetMixin

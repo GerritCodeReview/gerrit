@@ -167,7 +167,6 @@ module.exports = {
     // TODO(dmfilippov): Remove global variables from polygerrit
     "Auth": "readonly",
     "EventEmitter": "readonly",
-    "FetchPromisesCache": "readonly",
     "Gerrit": "readonly",
     "GrAdminApi": "readonly",
     "GrAnnotationActionsContext": "readonly",
@@ -186,14 +185,11 @@ module.exports = {
     "GrRangeNormalizer": "readonly",
     "GrRepoApi": "readonly",
     "GrReporting": "readonly",
-    "GrRestApiHelper": "readonly",
     "GrReviewerSuggestionsProvider": "readonly",
     "GrReviewerUpdatesParser": "readonly",
     "GrSettingsApi": "readonly",
     "GrStylesApi": "readonly",
-    "GrThemeApi": "readonly",
     "PluginLoader": "readonly",
-    "SiteBasedCache": "readonly",
     "util": "readonly",
     // Global variables from 3rd party libraries.
     // You should not add anything in this list, always try to import

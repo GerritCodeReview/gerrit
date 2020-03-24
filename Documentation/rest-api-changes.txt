@@ -6177,6 +6177,13 @@ Callers can find out if there were conflicts by checking the
 `contains_git_conflicts` field in the link:#change-info[ChangeInfo]. If
 there are conflicts the cherry-pick change is marked as
 work-in-progress.
+|`topic`            |optional|
+The topic of the created cherry-picked change. If not set, the default depends
+on the source. If the source is a change with a topic, the resulting topic
+of the cherry-picked change change will be
+{source_change_topic}-{destination_branch}.
+Otherwise, if the source change has no topic, or the source is a commit,
+the created change will have no topic.
 |===========================
 
 [[comment-info]]

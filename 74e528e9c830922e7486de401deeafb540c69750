@@ -303,6 +303,24 @@
     },
     {
       "key": {
+        "uuid": "1c685525_3c1b96ae",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-24T11:32:51Z",
+      "side": 1,
+      "message": "\u003e All current topics that don\u0027t conform to the whitelist will stay the same.\n\nI believe this could cause issues. E.g. if we would disallow the invalid characters for topics on NoteDb level, trying to revert an old change that has a topic that is now invalid will fail, as we try to set the topic of the reverted change on the newly created revert change (where it would get rejected). It\u0027s possible there are more such cases where the topic of an existing change is applied to a new change.",
+      "parentUuid": "00c59a7f_d02c3ceb",
+      "revId": "74e528e9c830922e7486de401deeafb540c69750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "018471df_357a3054",
         "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
         "patchSetId": 2

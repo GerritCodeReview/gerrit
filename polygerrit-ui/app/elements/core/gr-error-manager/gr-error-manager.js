@@ -24,7 +24,6 @@
 
 import '../../../scripts/bundled-polymer.js';
 import '../gr-error-dialog/gr-error-dialog.js';
-import '../gr-reporting/gr-reporting.js';
 import '../../shared/gr-alert/gr-alert.js';
 import '../../shared/gr-overlay/gr-overlay.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -37,6 +36,7 @@ import {htmlTemplate} from './gr-error-manager_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {authService} from '../../shared/gr-rest-api-interface/gr-auth.js';
 import {gerritEventEmitter} from '../../shared/gr-event-emitter/gr-event-emitter.js';
+import {appContext} from '../../../services/app-context.js';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -98,6 +98,8 @@ class GrErrorManager extends mixinBehaviors( [
 
     /** @type {?Function} */
     this._authErrorHandlerDeregistrationHook;
+
+    this.reporting = appContext.reportingService;
   }
 
   /** @override */
@@ -406,7 +408,7 @@ class GrErrorManager extends mixinBehaviors( [
   }
 
   _showErrorDialog(message, opt_options) {
-    this.$.reporting.reportErrorDialog(message);
+    this.reporting.reportErrorDialog(message);
     this.$.errorDialog.text = message;
     this.$.errorDialog.showSignInButton =
         opt_options && opt_options.showSignInButton;

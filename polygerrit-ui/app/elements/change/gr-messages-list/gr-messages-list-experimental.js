@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../gr-message/gr-message.js';
 import '../../../styles/shared-styles.js';
@@ -30,6 +29,7 @@ import {htmlTemplate} from './gr-messages-list-experimental_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {util} from '../../../scripts/util.js';
 import {MessageTags} from '../../../constants/constants.js';
+import {appContext} from '../../../services/app-context.js';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -148,6 +148,11 @@ class GrMessagesListExperimental extends mixinBehaviors( [
         computed: '_computeLabelExtremes(labels.*)',
       },
     };
+  }
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
   }
 
   scrollToMessage(messageID) {
@@ -333,7 +338,7 @@ class GrMessagesListExperimental extends mixinBehaviors( [
         acc[val] = (acc[val] || 0) + 1;
         return acc;
       }, {all: combinedMessages.length});
-      this.$.reporting.reportInteraction('messages-count', tagsCounted);
+      this.reporting.reportInteraction('messages-count', tagsCounted);
     }
   }
 

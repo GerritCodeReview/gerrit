@@ -82,7 +82,8 @@
       "GrDiffGroup",
       "GrDiffBuilder",
       "GrDiffBuilderSideBySide",
-      "GrDiffBuilderImage"
+      "GrDiffBuilderImage",
+      "GrDiffBuilderUnified"
     ],
     "no-useless-escape": "off",
     "no-var": "error",

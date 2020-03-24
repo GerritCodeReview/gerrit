@@ -2,7 +2,7 @@
 = Gerrit Code Review - End to end tests
 
 This document provides descriptions of Gerrit end-to-end (`e2e`) test scenarios implemented using
-link:https://gatling.io/[Gatling,role=external,window=_blank] framework.
+the link:https://gatling.io/[Gatling,role=external,window=_blank] framework.
 
 Similar scenarios have been successfully used to compare performance of different Gerrit versions
 or study the Gerrit response under different load profiles. Although mostly for load, scenarios can

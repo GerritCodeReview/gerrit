@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -256,6 +257,27 @@ public class CreateBranchIT extends AbstractDaemonTest {
         "invalid\trevision",
         BadRequestException.class,
         "invalid revision \"invalid\trevision\"");
+  }
+
+  @Test
+  public void createBranchLeadingSlashesAreRemoved() throws Exception {
+    BranchNameKey expectedNameKey = BranchNameKey.create(project, "test");
+
+    // check that the branch doesn't exist yet
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.projects().name(project.get()).branch(expectedNameKey.branch()).get());
+
+    // create the branch, but include leading slashes in the branch name,
+    // when creating the branch ensure that the branch name in the URL matches the branch name in
+    // the input (if there is a mismatch the creation request is rejected)
+    BranchInput branchInput = new BranchInput();
+    branchInput.ref = "////" + expectedNameKey.shortName();
+    gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
+
+    // verify that the branch was created without the leading slashes in the name
+    assertThat(gApi.projects().name(project.get()).branch(expectedNameKey.branch()).get().ref)
+        .isEqualTo(expectedNameKey.branch());
   }
 
   private void blockCreateReference() throws Exception {

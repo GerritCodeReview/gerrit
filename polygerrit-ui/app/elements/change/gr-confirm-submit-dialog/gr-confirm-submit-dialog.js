@@ -50,12 +50,9 @@ class GrConfirmSubmitDialog extends GestureEventListeners(
 
   static get properties() {
     return {
-    /**
-     * @type {{
-     *    is_private: boolean,
-     *    subject: string,
-     *  }}
-     */
+      /**
+       * @type {Gerrit.Change}
+       */
       change: Object,
 
       /**

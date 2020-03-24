@@ -19,6 +19,11 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
+/**
+ * A selection of change properties used in events. Suitable for serialization to JSON.
+ *
+ * @see com.google.gerrit.server.events.EventFactory
+ */
 public class ChangeAttribute {
   public String project;
   public String branch;

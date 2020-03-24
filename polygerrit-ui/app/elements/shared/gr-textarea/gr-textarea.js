@@ -22,7 +22,6 @@ import '../gr-overlay/gr-overlay.js';
 import '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../../styles/shared-styles.js';
-import '../../core/gr-reporting/gr-reporting.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -30,6 +29,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-textarea_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {appContext} from '../../../services/app-context.js';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -139,6 +139,11 @@ class GrTextarea extends mixinBehaviors( [
     };
   }
 
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
+  }
+
   /** @override */
   ready() {
     super.ready();
@@ -214,7 +219,7 @@ class GrTextarea extends mixinBehaviors( [
     this.text = this._getText(text);
     this.$.textarea.selectionStart = colonIndex + 1;
     this.$.textarea.selectionEnd = colonIndex + 1;
-    this.$.reporting.reportInteraction('select-emoji', {type: text});
+    this.reporting.reportInteraction('select-emoji', {type: text});
     this._resetEmojiDropdown();
   }
 
@@ -302,7 +307,7 @@ class GrTextarea extends mixinBehaviors( [
 
   _openEmojiDropdown() {
     this.$.emojiSuggestions.open();
-    this.$.reporting.reportInteraction('open-emoji-dropdown');
+    this.reporting.reportInteraction('open-emoji-dropdown');
   }
 
   _formatSuggestions(matchedSuggestions) {

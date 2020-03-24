@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-reporting/gr-reporting.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -28,6 +27,7 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
+import {appContext} from '../../../services/app-context.js';
 
 const RoutePattern = {
   ROOT: '/',
@@ -208,10 +208,8 @@ if (!app) {
 
 // Setup listeners outside of the router component initialization.
 (function() {
-  const reporting = document.createElement('gr-reporting');
-
   window.addEventListener('WebComponentsReady', () => {
-    reporting.timeEnd('WebComponentsReady');
+    appContext.reportingService.timeEnd('WebComponentsReady');
   });
 })();
 
@@ -243,6 +241,11 @@ class GrRouter extends mixinBehaviors( [
         value: true,
       },
     };
+  }
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
   }
 
   start() {
@@ -714,7 +717,7 @@ class GrRouter extends mixinBehaviors( [
         (ctx, next) => this._loadUserMiddleware(ctx, next),
         (ctx, next) => this._queryStringMiddleware(ctx, next),
         data => {
-          this.$.reporting.locationChanged(handlerName);
+          this.reporting.locationChanged(handlerName);
           const promise = opt_authRedirect ?
             this._redirectIfNotLoggedIn(data) : Promise.resolve();
           promise.then(() => { this[handlerName](data); });
@@ -736,7 +739,7 @@ class GrRouter extends mixinBehaviors( [
 
     page.exit('*', (ctx, next) => {
       if (!this._isRedirecting) {
-        this.$.reporting.beforeLocationChanged();
+        this.reporting.beforeLocationChanged();
       }
       this._isRedirecting = false;
       this._isInitialLoad = false;
@@ -1087,7 +1090,7 @@ class GrRouter extends mixinBehaviors( [
       project,
       dashboard: decodeURIComponent(data.params[1]),
     });
-    this.$.reporting.setRepoName(project);
+    this.reporting.setRepoName(project);
   }
 
   _handleGroupInfoRoute(data) {
@@ -1168,7 +1171,7 @@ class GrRouter extends mixinBehaviors( [
       detail: GerritNav.RepoDetailView.COMMANDS,
       repo,
     });
-    this.$.reporting.setRepoName(repo);
+    this.reporting.setRepoName(repo);
   }
 
   _handleRepoAccessRoute(data) {
@@ -1178,7 +1181,7 @@ class GrRouter extends mixinBehaviors( [
       detail: GerritNav.RepoDetailView.ACCESS,
       repo,
     });
-    this.$.reporting.setRepoName(repo);
+    this.reporting.setRepoName(repo);
   }
 
   _handleRepoDashboardsRoute(data) {
@@ -1188,7 +1191,7 @@ class GrRouter extends mixinBehaviors( [
       detail: GerritNav.RepoDetailView.DASHBOARDS,
       repo,
     });
-    this.$.reporting.setRepoName(repo);
+    this.reporting.setRepoName(repo);
   }
 
   _handleBranchListOffsetRoute(data) {
@@ -1294,7 +1297,7 @@ class GrRouter extends mixinBehaviors( [
       view: GerritNav.View.REPO,
       repo,
     });
-    this.$.reporting.setRepoName(repo);
+    this.reporting.setRepoName(repo);
   }
 
   _handlePluginListOffsetRoute(data) {
@@ -1357,7 +1360,7 @@ class GrRouter extends mixinBehaviors( [
       queryMap: ctx.queryMap,
     };
 
-    this.$.reporting.setRepoName(params.project);
+    this.reporting.setRepoName(params.project);
     this._redirectOrNavigate(params);
   }
 
@@ -1377,7 +1380,7 @@ class GrRouter extends mixinBehaviors( [
       params.leftSide = address.leftSide;
       params.lineNum = address.lineNum;
     }
-    this.$.reporting.setRepoName(params.project);
+    this.reporting.setRepoName(params.project);
     this._redirectOrNavigate(params);
   }
 
@@ -1428,7 +1431,7 @@ class GrRouter extends mixinBehaviors( [
       lineNum: ctx.hash,
       view: GerritNav.View.EDIT,
     });
-    this.$.reporting.setRepoName(project);
+    this.reporting.setRepoName(project);
   }
 
   _handleChangeEditRoute(ctx) {
@@ -1441,7 +1444,7 @@ class GrRouter extends mixinBehaviors( [
       view: GerritNav.View.CHANGE,
       edit: true,
     });
-    this.$.reporting.setRepoName(project);
+    this.reporting.setRepoName(project);
   }
 
   /**

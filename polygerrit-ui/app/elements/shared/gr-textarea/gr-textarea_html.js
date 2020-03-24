@@ -74,5 +74,4 @@ export const htmlTemplate = html`
     <gr-autocomplete-dropdown vertical-align="top" horizontal-align="left" dynamic-align="" id="emojiSuggestions" suggestions="[[_suggestions]]" index="[[_index]]" vertical-offset="[[_verticalOffset]]" on-dropdown-closed="_resetEmojiDropdown" on-item-selected="_handleEmojiSelect">
     </gr-autocomplete-dropdown>
     <iron-autogrow-textarea id="textarea" autocomplete="[[autocomplete]]" placeholder="[[placeholder]]" disabled="[[disabled]]" rows="[[rows]]" max-rows="[[maxRows]]" value="{{text}}" on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
-    <gr-reporting id="reporting"></gr-reporting>
 `;

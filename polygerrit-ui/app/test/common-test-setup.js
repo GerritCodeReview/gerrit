@@ -20,9 +20,13 @@ import 'polymer-resin/standalone/polymer-resin.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
 import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
+import {appContext} from '../services/app-context.js';
 import {initAppContext} from '../services/app-context-init.js';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
+import {setupReportingMock} from './services/gr-reporting_mock.js';
+import moment from 'moment/src/moment.js';
 
+self.moment = moment;
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
   reportHandler(isViolation, fmt, ...args) {
@@ -76,6 +80,11 @@ setup(() => {
 
   _testOnly_resetPluginLoader();
   initAppContext();
+  Object.defineProperty(appContext, 'reportingService', {
+    get() {
+      return setupReportingMock();
+    },
+  });
 });
 
 if (window.stub) {

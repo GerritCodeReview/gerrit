@@ -27,7 +27,6 @@ import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-select/gr-select.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-icons/gr-icons.js';
-import '../gr-file-list-constants.js';
 import '../gr-commit-info/gr-commit-info.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -37,6 +36,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list-header_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {GrFileListConstants} from '../gr-file-list-constants.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;

@@ -24,92 +24,83 @@ $_documentContainer.innerHTML = `<dom-module id="gr-etag-decorator">
 
 document.head.appendChild($_documentContainer.content);
 
-(function(window) {
-  'use strict';
+// Limit cache size because /change/detail responses may be large.
+const MAX_CACHE_SIZE = 30;
 
-  // Prevent redefinition.
-  if (window.GrEtagDecorator) { return; }
+/** @constructor */
+export function GrEtagDecorator() {
+  this._etags = new Map();
+  this._payloadCache = new Map();
+}
 
-  // Limit cache size because /change/detail responses may be large.
-  const MAX_CACHE_SIZE = 30;
-
-  /** @constructor */
-  function GrEtagDecorator() {
-    this._etags = new Map();
-    this._payloadCache = new Map();
+/**
+ * Get or upgrade fetch options to include an ETag in a request.
+ *
+ * @param {string} url The URL being fetched.
+ * @param {!Object=} opt_options Optional options object in which to include
+ *     the ETag request header. If omitted, the result will be a fresh option
+ *     set.
+ * @return {!Object}
+ */
+GrEtagDecorator.prototype.getOptions = function(url, opt_options) {
+  const etag = this._etags.get(url);
+  if (!etag) {
+    return opt_options;
   }
+  const options = Object.assign({}, opt_options);
+  options.headers = options.headers || new Headers();
+  options.headers.set('If-None-Match', this._etags.get(url));
+  return options;
+};
 
-  /**
-   * Get or upgrade fetch options to include an ETag in a request.
-   *
-   * @param {string} url The URL being fetched.
-   * @param {!Object=} opt_options Optional options object in which to include
-   *     the ETag request header. If omitted, the result will be a fresh option
-   *     set.
-   * @return {!Object}
-   */
-  GrEtagDecorator.prototype.getOptions = function(url, opt_options) {
-    const etag = this._etags.get(url);
-    if (!etag) {
-      return opt_options;
+/**
+ * Handle a response to a request with ETag headers, potentially incorporating
+ * its result in the payload cache.
+ *
+ * @param {string} url The URL of the request.
+ * @param {!Response} response The response object.
+ * @param {string} payload The raw, unparsed JSON contained in the response
+ *     body. Note: because response.text() cannot be read twice, this must be
+ *     provided separately.
+ */
+GrEtagDecorator.prototype.collect = function(url, response, payload) {
+  if (!response ||
+      !response.ok ||
+      response.status !== 200 ||
+      response.status === 304) {
+    // 304 Not Modified means etag is still valid.
+    return;
+  }
+  this._payloadCache.set(url, payload);
+  const etag = response.headers && response.headers.get('etag');
+  if (!etag) {
+    this._etags.delete(url);
+  } else {
+    this._etags.set(url, etag);
+    this._truncateCache();
+  }
+};
+
+/**
+ * Get the cached payload for a given URL.
+ *
+ * @param {string} url
+ * @return {string|undefined} Returns the unparsed JSON payload from the
+ *     cache.
+ */
+GrEtagDecorator.prototype.getCachedPayload = function(url) {
+  return this._payloadCache.get(url);
+};
+
+/**
+ * Limit the cache size to MAX_CACHE_SIZE.
+ */
+GrEtagDecorator.prototype._truncateCache = function() {
+  for (const url of this._etags.keys()) {
+    if (this._etags.size <= MAX_CACHE_SIZE) {
+      break;
     }
-    const options = Object.assign({}, opt_options);
-    options.headers = options.headers || new Headers();
-    options.headers.set('If-None-Match', this._etags.get(url));
-    return options;
-  };
-
-  /**
-   * Handle a response to a request with ETag headers, potentially incorporating
-   * its result in the payload cache.
-   *
-   * @param {string} url The URL of the request.
-   * @param {!Response} response The response object.
-   * @param {string} payload The raw, unparsed JSON contained in the response
-   *     body. Note: because response.text() cannot be read twice, this must be
-   *     provided separately.
-   */
-  GrEtagDecorator.prototype.collect = function(url, response, payload) {
-    if (!response ||
-        !response.ok ||
-        response.status !== 200 ||
-        response.status === 304) {
-      // 304 Not Modified means etag is still valid.
-      return;
-    }
-    this._payloadCache.set(url, payload);
-    const etag = response.headers && response.headers.get('etag');
-    if (!etag) {
-      this._etags.delete(url);
-    } else {
-      this._etags.set(url, etag);
-      this._truncateCache();
-    }
-  };
-
-  /**
-   * Get the cached payload for a given URL.
-   *
-   * @param {string} url
-   * @return {string|undefined} Returns the unparsed JSON payload from the
-   *     cache.
-   */
-  GrEtagDecorator.prototype.getCachedPayload = function(url) {
-    return this._payloadCache.get(url);
-  };
-
-  /**
-   * Limit the cache size to MAX_CACHE_SIZE.
-   */
-  GrEtagDecorator.prototype._truncateCache = function() {
-    for (const url of this._etags.keys()) {
-      if (this._etags.size <= MAX_CACHE_SIZE) {
-        break;
-      }
-      this._etags.delete(url);
-      this._payloadCache.delete(url);
-    }
-  };
-
-  window.GrEtagDecorator = GrEtagDecorator;
-})(window);
+    this._etags.delete(url);
+    this._payloadCache.delete(url);
+  }
+};

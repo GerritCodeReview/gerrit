@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d8420ca4_4aa26656",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsKeyReader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-24T08:39:11Z",
+      "side": 1,
+      "message": "nit: Please add JavaDoc",
+      "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d4d598d_f56afd23",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 8
@@ -42,6 +59,46 @@
         "endLine": 229,
         "endChar": 29
       },
+      "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9912a23d_c7684498",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-24T08:39:11Z",
+      "side": 1,
+      "message": "The way that this is implemented now, it could race:\n\nt0: A group is added so currentKey will give a new Key next time we call it\nt1: The cache gets the new currentKey, it\u0027s a miss, the loader is invoked\nt2: A new group is added. currentKey *would* yield a different key\nt3: The loader is invoked, with key from t1. It will, however, now use the values from t2, so give a wrong value for the key.\n\nIt\u0027s always a forward-race because at t3 (with a key of t1) we\u0027ll never have values older than t1, so not that much of an issue. But I\u0027d like to avoid all types of races :-)\n\nOne way to work around this is to define your own Key class that gets a list (TreeSet?) of Refs (in essence, that\u0027s the key) the serializer then makes a has out of that.\n\n@AutoValue\nGroupsExternalKey {\nabstract TreeSet\u003cRef\u003e allGroupsRefs;\n\nstatic class Serializer ... {\n\nbyte[] serialize(ConflictKey object) {\n// compute hash\n}\n\npublic ConflictKey deserialize(byte[] in) {\n// We never deserialize keys.\nthrow new IllegalStateException();\n}\n\nThis way, the loader can use \u0027allGroupRefs\u0027 to do it\u0027s work and is guaranteed to be consistent with the key.\n\nThat is based on the assumption that we never deserializer keys (which I think is correct, but please check). If so, we could modify PersistedCacheDef#keySerializer to return a OneWaySerializer instead of a CacheSerializer that does not have a deserialize method. That\u0027s because we can\u0027t reconstruct allGroupsRefs from the hash. This interface change could be a follow-up to this change.",
+      "range": {
+        "startLine": 230,
+        "startChar": 13,
+        "endLine": 230,
+        "endChar": 72
+      },
+      "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56633105_1cd07870",
+        "filename": "proto/cache.proto",
+        "patchSetId": 8
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-24T08:39:11Z",
+      "side": 1,
+      "message": "nit: \n\n// Value for ...\nNext ID: 2",
       "revId": "9527c3ab30367c56ea5888e396a4bfdf3ce1cfa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

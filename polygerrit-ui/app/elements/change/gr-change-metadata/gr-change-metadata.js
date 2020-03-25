@@ -46,6 +46,8 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-metadata_html.js';
+import labelStore from '../../../store/label-store.js';
+import {autorun} from 'mobx/lib/mobx.es6.js';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -174,13 +176,14 @@ class GrChangeMetadata extends mixinBehaviors( [
   static get observers() {
     return [
       '_changeChanged(change)',
-      '_labelsChanged(change.labels)',
       '_assigneeChanged(_assignee.*)',
     ];
   }
 
-  _labelsChanged(labels) {
-    this.labels = Object.assign({}, labels) || null;
+  /** @override */
+  attached() {
+    super.attached();
+    autorun(() => this.labels = labelStore.labels);
   }
 
   _changeChanged(change) {

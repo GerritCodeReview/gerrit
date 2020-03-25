@@ -2,6 +2,92 @@
   "comments": [
     {
       "key": {
+        "uuid": "05a04e32_e46b51ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T11:43:13Z",
+      "side": 1,
+      "message": "Remove both properties, you don\u0027t need them anymore.",
+      "range": {
+        "startLine": 465,
+        "startChar": 6,
+        "endLine": 466,
+        "endChar": 46
+      },
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98470b71_8d1ed1c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 1341,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T11:43:13Z",
+      "side": 1,
+      "message": "Can you revert this block, because cherrypicking topics is handled in the dialog?",
+      "range": {
+        "startLine": 1332,
+        "startChar": 9,
+        "endLine": 1341,
+        "endChar": 11
+      },
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5205f129_5fc3d202",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T11:43:13Z",
+      "side": 1,
+      "message": "Can you revert this block, because cherrypicking topics is handled in the dialog?",
+      "range": {
+        "startLine": 1377,
+        "startChar": 4,
+        "endLine": 1384,
+        "endChar": 7
+      },
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32209125_03e21652",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 1408,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T11:43:13Z",
+      "side": 1,
+      "message": "Can you revert changes to this method, because cherrypicking topics is handled in the dialog?",
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e36eba10_68fa3904",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 20
@@ -49,6 +135,30 @@
     },
     {
       "key": {
+        "uuid": "f2d78c91_09b1fa40",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T11:43:13Z",
+      "side": 1,
+      "message": "_showActionDialog() must stay here. I am fine with reverting all changes to this method.\n\nThe question is where the \"restAPI.getChanges()\" call belongs. I think ultimately that would belong to a \"changeSearchService\". It seems wrong here and IMO is slightly better placed in the dialog itself, but I don\u0027t feel strongly about it. Either place is not really great.",
+      "parentUuid": "abc37ae2_ea8324c7",
+      "range": {
+        "startLine": 1453,
+        "startChar": 4,
+        "endLine": 1463,
+        "endChar": 11
+      },
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed8a4089_be880cb4",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
         "patchSetId": 20
@@ -78,6 +188,24 @@
       "side": 1,
       "message": "This is for single cherry pick.\nKeeping it consistent with the others?\nI thought we did special handling for the cherry-pick-topic since the dialog does not close itself.\nThat\u0027s not the case for single cherry pick.\nThe dialog closes itself as soon as you click confirm.",
       "parentUuid": "ed8a4089_be880cb4",
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4aed1c4_a85bf2c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T11:43:13Z",
+      "side": 1,
+      "message": "Ah ok. Maybe add a comment saying so. And remove the \"type\" from the event detail?",
+      "parentUuid": "0ee3ca21_e01d69d4",
       "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -22,6 +22,30 @@
       "revId": "23a6008eec127591c36fcd1f50d997ae7fda2b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d246af8_255c944a",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-25T12:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48e554cb_9eae5157",
+      "range": {
+        "startLine": 121,
+        "startChar": 29,
+        "endLine": 121,
+        "endChar": 38
+      },
+      "revId": "23a6008eec127591c36fcd1f50d997ae7fda2b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

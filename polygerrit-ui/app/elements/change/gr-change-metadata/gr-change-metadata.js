@@ -46,6 +46,8 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-metadata_html.js';
+import labelStore from '../../../store/label-store.js';
+import {autorun} from 'mobx/lib/mobx.es6.js';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -104,6 +106,8 @@ class GrChangeMetadata extends mixinBehaviors( [
         type: Object,
         notify: true,
       },
+      hasLabels: Boolean,
+      labelNames: Object,
       account: Object,
       /** @type {?} */
       revision: Object,
@@ -174,13 +178,18 @@ class GrChangeMetadata extends mixinBehaviors( [
   static get observers() {
     return [
       '_changeChanged(change)',
-      '_labelsChanged(change.labels)',
       '_assigneeChanged(_assignee.*)',
     ];
   }
 
-  _labelsChanged(labels) {
-    this.labels = Object.assign({}, labels) || null;
+  /** @override */
+  attached() {
+    super.attached();
+    autorun(() => {
+      this.labels = labelStore.labels;
+      this.hasLabels = labelStore.hasLabels;
+      this.labelNames = labelStore.labelNames;
+    });
   }
 
   _changeChanged(change) {
@@ -230,7 +239,7 @@ class GrChangeMetadata extends mixinBehaviors( [
   }
 
   _computeLabelNames(labels) {
-    return Object.keys(labels).sort();
+    return this.labelNames;
   }
 
   _handleTopicChanged(e, topic) {
@@ -325,9 +334,7 @@ class GrChangeMetadata extends mixinBehaviors( [
     }
     const hasRequirements = !!change.requirements &&
         Object.keys(change.requirements).length > 0;
-    const hasLabels = !!change.labels &&
-        Object.keys(change.labels).length > 0;
-    return hasRequirements || hasLabels || !!change.work_in_progress;
+    return hasRequirements || this.hasLabels || !!change.work_in_progress;
   }
 
   /**

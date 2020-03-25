@@ -28,7 +28,7 @@ import org.eclipse.jgit.archive.ZipFormat;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
 
-public enum ArchiveFormat {
+public enum ArchiveFormatInternal {
   TGZ("application/x-gzip", new TgzFormat()),
   TAR("application/x-tar", new TarFormat()),
   TBZ2("application/x-bzip2", new Tbz2Format()),
@@ -40,7 +40,7 @@ public enum ArchiveFormat {
 
   private final String mimeType;
 
-  ArchiveFormat(String mimeType, ArchiveCommand.Format<?> format) {
+  ArchiveFormatInternal(String mimeType, ArchiveCommand.Format<?> format) {
     this.format = format;
     this.mimeType = mimeType;
     ArchiveCommand.registerFormat(name(), format);

@@ -43,7 +43,7 @@ import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
-import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -254,7 +254,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
           }
         });
     info.archives =
-        archiveFormats.getAllowed().stream().map(ArchiveFormat::getShortName).collect(toList());
+        archiveFormats.getAllowed().stream()
+            .map(ArchiveFormatInternal::getShortName)
+            .collect(toList());
     return info;
   }
 

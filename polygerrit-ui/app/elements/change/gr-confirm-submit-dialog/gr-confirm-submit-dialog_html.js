@@ -56,6 +56,11 @@ export const htmlTemplate = html`
               [[_computeUnresolvedCommentsWarning(change)]]
             </p>
           </template>
+          <template is="dom-if" if="[[_computeHasChangeEdit(change)]]">
+              <iron-icon icon="gr-icons:error" class="warningBeforeSubmit"></iron-icon>
+              Your unpublished edit will not be submitted. Did you
+              forget to click <b>PUBLISH</b>?
+          </template>
           <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
           <gr-endpoint-param name="action" value="[[action]]"></gr-endpoint-param>
         </gr-endpoint-decorator>

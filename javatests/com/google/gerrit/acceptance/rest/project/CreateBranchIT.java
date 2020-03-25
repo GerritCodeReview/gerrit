@@ -365,6 +365,17 @@ public class CreateBranchIT extends AbstractDaemonTest {
         .isEqualTo(expectedNameKey.branch());
   }
 
+  @Test
+  public void branchNameInInputMustMatchBranchNameInUrl() throws Exception {
+    BranchInput branchInput = new BranchInput();
+    branchInput.ref = "foo";
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(project.get()).branch("bar").create(branchInput));
+    assertThat(ex).hasMessageThat().isEqualTo("ref must match URL");
+  }
+
   private void blockCreateReference() throws Exception {
     projectOperations
         .project(project)

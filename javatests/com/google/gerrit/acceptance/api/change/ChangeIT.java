@@ -3210,7 +3210,8 @@ public class ChangeIT extends AbstractDaemonTest {
     mergeInput.source = "dev";
     MergePatchSetInput in = new MergePatchSetInput();
     in.merge = mergeInput;
-    in.subject = "update change by merge ps2";
+    String subject = "update change by merge ps2";
+    in.subject = subject;
 
     TestWorkInProgressStateChangedListener wipStateChangedListener =
         new TestWorkInProgressStateChangedListener();
@@ -3234,6 +3235,16 @@ public class ChangeIT extends AbstractDaemonTest {
     List<ChangeMessageInfo> messages = gApi.changes().id(changeId).messages();
     assertThat(messages).hasSize(2);
     assertThat(Iterables.getLast(messages).message).isEqualTo("Uploaded patch set 2.");
+
+    assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.message)
+        .contains(subject);
+
+    // No subject: reuse message from previous patchset.
+    in.subject = null;
+    gApi.changes().id(changeId).createMergePatchSet(in);
+    changeInfo = gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
+    assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.message)
+        .contains(subject);
   }
 
   @Test

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.ArchiveFormat;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -39,6 +40,17 @@ public class GetArchiveIT extends AbstractDaemonTest {
             BadRequestException.class,
             () -> gApi.changes().id(changeId).current().getArchive(null));
     assertThat(ex).hasMessageThat().isEqualTo("format is not specified");
+  }
+
+  @Test
+  public void unknownFormat() throws Exception {
+    // Test this by a REST call, since the Java API doesn't allow to specify an unknown format.
+    RestResponse res =
+        adminRestSession.get(
+            String.format(
+                "/changes/%s/revisions/current/archive?format=%s", changeId, "unknownFormat"));
+    res.assertBadRequest();
+    assertThat(res.getEntityContent()).isEqualTo("unknown archive format");
   }
 
   @Test

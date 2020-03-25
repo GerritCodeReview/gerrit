@@ -1,0 +1,480 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "387c3dd5_9ddffaf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "At some point in time we should agree on the term we use for these comments. Just talking about \"comments not attached to files\" or \"comments without a file\" might not always be descriptive enough as they might also be understood to not be attached to a patch set. Up to now, I found the expression \"patch-set-level comments\" to work best.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43864ec6_823f5ee0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "In this case, it would be better to link to https://www.gerritcodereview.com/design-docs/change-log-threaded-feedback.html instead. It contains the latest version of the design doc and all parts for it. For instance, the ESC conclusion will also show up there once Ia4a955824 is merged.",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10c65012_76af6b35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "Duplicate also -\u003e omit.",
+      "range": {
+        "startLine": 12,
+        "startChar": 61,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "423532a3_ffec07a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "If you need a specific use case, you could use this example: some robots/analyzers might want to complain about a missing file and hence can\u0027t attach such a robot comment to an existing file.",
+      "range": {
+        "startLine": 13,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d43a21ea_fc32c1ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "This part sounds strange when placed in the middle of the sentence. I\u0027d move it to the end.",
+      "range": {
+        "startLine": 21,
+        "startChar": 47,
+        "endLine": 21,
+        "endChar": 61
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e0ddfc6_dafa74ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "When do you want to discuss the name? As Oswald, I\u0027m not a fan of \"/NO_FILE\". \"/COVER_MSG\" would be meaningless to me. I think something with \"patch set\" in it would be best. If possible, I\u0027d also like to avoid abbreviated names as they can be confusing, can\u0027t be easily pronounced, and there\u0027s no need to shorten them.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 17
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8953ed69_4b437c2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "It would be good to describe what happens if we roll out this change without doing the frontend changes. Will the UI break if a patch set level comment is present? Will it just not be visible?",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d147481_c635b10f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "It\u0027s good to mention that frontend adjustments are required and will be done in the future. I would use a different writing style, though. For instance, we typically don\u0027t write instructions for others in the commit message. I also wouldn\u0027t specify how many follow-up changes are required exactly as the person implementing this might decide to split the implementation into more parts. Just a general indication of what needs to be covered would be sufficient in opinion.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1e87a3c_9b9c9667",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "We have unit tests for this class. The new magic file should be covered as well.",
+      "range": {
+        "startLine": 25,
+        "startChar": 19,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21e45cef_8cd650d5",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "That description is not very helpful. In addition, if this magic file path is only intended for the use of comments, we should mention this here to avoid confusion for other code paths.",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21047ed8_268e17f7",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "Did you check whether all code paths which use this method work smoothly with the new magic file path? Is there maybe some other Gerrit functionality now which allows the use of the new magic file path but shouldn\u0027t? For instance, the code in FilesInCommitCollection looks suspicious.",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c83ac36_c6c18d38",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "Honestly, just seeing one new test for robot comments and two new tests for human comments makes me think that we\u0027re leaving a lot of test scenarios uncovered.\n\nSome examples I could already think of:\nFor robot comments, I\u0027m wondering how the new magic file path and fix suggestions work together. Fix suggestions for the new path wouldn\u0027t make sense but we should ensure that Gerrit fails in the expected way.\nFor human comments, I had been wondering whether publishing draft comments works for the patch-set-level ones. I guess so, but it would be helpful to document that in a test. Does deletion work for patch-set-level comments? Is it possible to reply to a patch-set-level comment?\nWhat happens if a diff for the new magic file name is requested, or its file content?\n\nI understand that by choosing to use a magic file name, most aspects should work out of the box. The *IT tests are our safety belt, though, and should ensure that supported use cases are working as expected. Of course, we need to find a good balance as not every aspect for comments needs to be covered for patch-set-level comments again.",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b75c7230_9d2af93d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "Here and also for CommentsIT: Did you deliberately choose where you put the tests? Looking at the other tests surrounding the new ones, I don\u0027t see any reason why the tests are placed here except for this being the end of all of the other tests. Can you please find other tests with similar intention and move the new tests close to them?",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57dc2777_59287a45",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "This doesn\u0027t say anything about the intention of the test. I would at least add a verb or some other details (e.g. add \"isPossible\" or \"canBeAddedAndRetrieved\" at the end of the current test name).\n\nPlease also adjust the names of the new tests in CommentsIT accordingly.",
+      "range": {
+        "startLine": 1222,
+        "startChar": 14,
+        "endLine": 1222,
+        "endChar": 39
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91186e0f_0b92bcbe",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "We have a RobotCommentInfoSubject, which should be used to get better failure messages here. We\u0027d just need to add support for the \u0027path\u0027 field but that should be easy.",
+      "range": {
+        "startLine": 1227,
+        "startChar": 4,
+        "endLine": 1227,
+        "endChar": 54
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b16b9c5b_5e3dc858",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "This should rather use the MapSubject by closing the brackets after \"result\".",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26c1e237_92334f96",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "We have CommentInfoSubject for better Truth failure messages.",
+      "range": {
+        "startLine": 1093,
+        "startChar": 4,
+        "endLine": 1093,
+        "endChar": 70
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1191fb7e_cc4a4458",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "Is there a reason not to use the constant here?",
+      "range": {
+        "startLine": 1101,
+        "startChar": 18,
+        "endLine": 1101,
+        "endChar": 28
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f18f40f_856ff094",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "Seeing this, I\u0027m tended to disallow the specification of a \u0027side\u0027 for patch-set-level human/robot comments. What do you think?\n\nDid you also check whether some other input fields wouldn\u0027t be reasonable and whether we could disallow them? For instance, I would imagine that any location indication (e.g. lines, ranges) don\u0027t make sense for patch-set-level comments.",
+      "range": {
+        "startLine": 1102,
+        "startChar": 40,
+        "endLine": 1102,
+        "endChar": 53
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23cc0d37_4478f0be",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "It\u0027s confusing that this is not using NO_FILE. This makes the test harder to read.",
+      "range": {
+        "startLine": 1106,
+        "startChar": 61,
+        "endLine": 1106,
+        "endChar": 73
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcfbcc52_1b6efe92",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "Seeing this line, I\u0027m a bit confused about the intention of this test. I would have expected it to test that a patch-set-level draft comment can be added and retrieved. This line is checking that all of the provided input made it to the server and is returned again. Is this really the intention of this test?",
+      "range": {
+        "startLine": 1107,
+        "startChar": 4,
+        "endLine": 1107,
+        "endChar": 67
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f47d004c_aa70fbb8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-25T18:40:44Z",
+      "side": 1,
+      "message": "This part seems unnecessary for me as this test seems to be just for generally testing that patch-set-level comments can be added/retrieved in general. If Gerrit offers two different ways to retrieve the same comments which just differ in the way they structure the results, I would expect that a comment which works for one of them also works for the other. Is there any indication that those two methods could return different results?",
+      "range": {
+        "startLine": 1109,
+        "startChar": 4,
+        "endLine": 1112,
+        "endChar": 67
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

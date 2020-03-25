@@ -141,6 +141,20 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void conflictingBranchAlreadyExists_Conflict() throws Exception {
+    assertCreateSucceeds(testBranch);
+    BranchNameKey testBranch2 = BranchNameKey.create(project, testBranch.branch() + "/foo/bar");
+    assertCreateFails(
+        testBranch2,
+        ResourceConflictException.class,
+        "Cannot create branch \""
+            + testBranch2.branch()
+            + "\" since it conflicts with branch \""
+            + testBranch.branch()
+            + "\"");
+  }
+
+  @Test
   public void createBranchByProjectOwner() throws Exception {
     grantOwner();
     requestScopeOperations.setApiUser(user.id());

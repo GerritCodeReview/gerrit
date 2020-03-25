@@ -50,6 +50,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -186,6 +187,21 @@ public class CreateBranchIT extends AbstractDaemonTest {
         .add(allow(Permission.PUSH).ref(metaRef).group(REGISTERED_USERS))
         .update();
     assertCreateSucceeds(BranchNameKey.create(project, metaRef));
+  }
+
+  @Test
+  public void createMetaConfigBranch() throws Exception {
+    // Delete refs/meta/config branch, so that we can re-create it.
+    try (TestRepository<Repository> repo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      repo.delete(RefNames.REFS_CONFIG);
+    }
+
+    // Create refs/meta/config branch.
+    BranchInfo created =
+        branch(BranchNameKey.create(project, RefNames.REFS_CONFIG)).create(new BranchInput()).get();
+    assertThat(created.ref).isEqualTo(RefNames.REFS_CONFIG);
+    assertThat(created.canDelete).isNull();
   }
 
   @Test

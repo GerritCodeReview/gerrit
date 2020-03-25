@@ -718,31 +718,6 @@ suite('gr-change-view tests', () => {
       sandbox.spy(element, '_paramsChanged');
       element.params = {view: 'change', changeNum: '1'};
     });
-
-    test('tab switch works correctly', done => {
-      assert.isTrue(element._paramsChanged.called);
-      assert.equal(element.$.commentTabs.selected, CommentTabs.CHANGE_LOG);
-      assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
-
-      const commentTab = element.shadowRoot.querySelector(
-          'paper-tab.commentThreads'
-      );
-      // Switch to comment thread tab
-      MockInteractions.tap(commentTab);
-      const commentTabs = element.$.commentTabs;
-      assert.equal(commentTabs.selected,
-          CommentTabs.COMMENT_THREADS);
-      assert.equal(element._currentView, CommentTabs.COMMENT_THREADS);
-
-      // Switch back to 'Change Log' tab
-      element._paramsChanged(element.params);
-      flush(() => {
-        assert.equal(commentTabs.selected,
-            CommentTabs.CHANGE_LOG);
-        assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
-        done();
-      });
-    });
   });
 
   suite('Findings comment tab', () => {

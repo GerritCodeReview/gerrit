@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.ValidationMessage;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -325,6 +326,14 @@ public class CreateBranchIT extends AbstractDaemonTest {
         "invalid\trevision",
         BadRequestException.class,
         "invalid revision \"invalid\trevision\"");
+  }
+
+  @Test
+  public void cannotCreateBranchInMagicBranchNamespace() throws Exception {
+    assertCreateFails(
+        BranchNameKey.create(project, MagicBranch.NEW_CHANGE + "foo"),
+        BadRequestException.class,
+        "not allowed to create branches under \"" + MagicBranch.NEW_CHANGE + "\"");
   }
 
   @Test

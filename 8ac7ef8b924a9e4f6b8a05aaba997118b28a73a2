@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69cac08f_72887121",
+        "filename": "polygerrit-ui/app/behaviors/async-foreach-behavior/async-foreach-behavior.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T11:47:29Z",
+      "side": 1,
+      "message": "What is the benefit of leaving this is vs removing immediately?\n\nA simple code search reveals that this is not used in any Google hosted plugins.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 37
+      },
+      "revId": "8ac7ef8b924a9e4f6b8a05aaba997118b28a73a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

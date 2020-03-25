@@ -19,13 +19,30 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.client.ArchiveFormat;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import org.junit.Before;
 import org.junit.Test;
 
 public class GetArchiveIT extends AbstractDaemonTest {
+  private String changeId;
+
+  @Before
+  public void setUp() throws Exception {
+    changeId = createChange().getChangeId();
+  }
+
+  @Test
+  public void formatNotSpecified() throws Exception {
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).current().getArchive(null));
+    assertThat(ex).hasMessageThat().isEqualTo("format is not specified");
+  }
+
   @Test
   public void zipFormatIsDisabled() throws Exception {
-    String changeId = createChange().getChangeId();
     MethodNotAllowedException ex =
         assertThrows(
             MethodNotAllowedException.class,

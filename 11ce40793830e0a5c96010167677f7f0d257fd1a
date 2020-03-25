@@ -22,6 +22,29 @@
       "revId": "11ce40793830e0a5c96010167677f7f0d257fd1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d43f66c1_d230b316",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-25T07:26:15Z",
+      "side": 1,
+      "message": "[optional] FWIW I\u0027m not a big fan of throwing an exception that is defined on the REST API layer, on a lower level such as the NoteDb layer. RestApiExceptions define the HTTP status code for the response and only make sense if the call comes in through the REST API. Setting topics can also be done through the Git API and it\u0027s strange needing to handle a RestApiException there, where we do not have HTTP status codes. But I\u0027m well aware that we already do this in other places, hence this is just an optional suggestion, but it may be cleaner if you may define a new IllegalTopicException instead, that is then wrapped into a BadRequestException in the REST API layer.",
+      "range": {
+        "startLine": 352,
+        "startChar": 12,
+        "endLine": 352,
+        "endChar": 35
+      },
+      "revId": "11ce40793830e0a5c96010167677f7f0d257fd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

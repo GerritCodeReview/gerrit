@@ -16,6 +16,24 @@
       "revId": "23fc40e3d24efd91bb1894dd193d2539abaa17ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62ce9b78_8d6385d7",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T08:11:02Z",
+      "side": 1,
+      "message": "I agree with Tao. Nearly all the Behaviors are actually utility functions, and I would also prefer to call utility functions instead of mixing in methods. I have run into the issue multiple times where I was wondering where a method was defined, and then I found it in some Behavior.\n\nBut I would also understand, if you want to focus your current changes on removing the globals. We can do the behavior -\u003e util conversion at a later point in time.",
+      "parentUuid": "7301255b_a683f39a",
+      "revId": "23fc40e3d24efd91bb1894dd193d2539abaa17ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

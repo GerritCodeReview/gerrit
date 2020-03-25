@@ -337,6 +337,14 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotCreateBranchWithInvalidName() throws Exception {
+    assertCreateFails(
+        BranchNameKey.create(project, RefNames.REFS_HEADS),
+        BadRequestException.class,
+        "invalid branch name \"" + RefNames.REFS_HEADS + "\"");
+  }
+
+  @Test
   public void createBranchLeadingSlashesAreRemoved() throws Exception {
     BranchNameKey expectedNameKey = BranchNameKey.create(project, "test");
 

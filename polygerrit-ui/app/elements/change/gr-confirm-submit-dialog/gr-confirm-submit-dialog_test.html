@@ -49,7 +49,10 @@ suite('gr-file-list-header tests', () => {
 
   test('display', () => {
     element.action = {label: 'my-label'};
-    element.change = {subject: 'my-subject'};
+    element.change = {
+      subject: 'my-subject',
+      revisions: {},
+    };
     flushAsynchronousOperations();
     const header = element.shadowRoot
         .querySelector('.header');
@@ -69,6 +72,28 @@ suite('gr-file-list-header tests', () => {
     const change2 = {unresolved_comment_count: 2};
     assert.equal(element._computeUnresolvedCommentsWarning(change2),
         'Heads Up! 2 unresolved comments.');
+  });
+
+  test('_computeHasChangeEdit', () => {
+    const change = {
+      revisions: {
+        d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: {
+          _number: 'edit',
+        },
+      },
+      unresolved_comment_count: 0,
+    };
+
+    assert.equal(element._computeHasChangeEdit(change), true);
+
+    const change2 = {
+      revisions: {
+        d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: {
+          _number: 2,
+        },
+      },
+    };
+    assert.equal(element._computeHasChangeEdit(change2), false);
   });
 });
 </script>

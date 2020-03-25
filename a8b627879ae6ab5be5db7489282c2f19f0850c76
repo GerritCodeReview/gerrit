@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f07ce9ac_da1a9f96",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-25T13:48:39Z",
+      "side": 1,
+      "message": "Could you please explain(or point to doc) how binding works after removing these properties?",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 0
+      },
+      "revId": "a8b627879ae6ab5be5db7489282c2f19f0850c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70505222_e8d81080",
+        "filename": "polygerrit-ui/app/store/label-store.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-25T13:48:39Z",
+      "side": 1,
+      "message": "All GrChangeMetada elements share the same LabelStore.\nIs it expected?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 36
+      },
+      "revId": "a8b627879ae6ab5be5db7489282c2f19f0850c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2426667b_2293a7e4",
+        "filename": "polygerrit-ui/app/store/label-store.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-25T13:48:39Z",
+      "side": 1,
+      "message": "Let\u0027s not use default exports, it is a big pain to refactor code with default exports.",
+      "range": {
+        "startLine": 51,
+        "startChar": 7,
+        "endLine": 51,
+        "endChar": 25
+      },
+      "revId": "a8b627879ae6ab5be5db7489282c2f19f0850c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

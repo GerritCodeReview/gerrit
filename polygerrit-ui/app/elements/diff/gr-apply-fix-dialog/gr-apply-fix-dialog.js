@@ -44,7 +44,7 @@ class GrApplyFixDialog extends mixinBehaviors( [
 
   static get properties() {
     return {
-    // Diff rendering preference API response.
+      // Diff rendering preference API response.
       prefs: Array,
       // ChangeInfo API response object.
       change: Object,
@@ -64,6 +64,11 @@ class GrApplyFixDialog extends mixinBehaviors( [
       },
       // Index of currently showing suggested fix.
       _selectedFixIdx: Number,
+      _disableApplyFixButton: {
+        type: Boolean,
+        computed: '_computeDisableApplyFixButton(_isApplyFixLoading, change, '
+          + '_patchNum)',
+      },
     };
   }
 
@@ -194,6 +199,25 @@ class GrApplyFixDialog extends mixinBehaviors( [
 
   _getApplyFixButtonLabel(isLoading) {
     return isLoading ? 'Saving...' : 'Apply Fix';
+  }
+
+  _computeTooltip(change, patchNum) {
+    if (!change || patchNum == undefined) return '';
+    // This assumes change object should always request the revisions key
+    const currentPatchNum = change.revisions[change.current_revision]._number;
+    return currentPatchNum !== patchNum ?
+      'Fix can only be applied to the latest patchset' : '';
+  }
+
+  _computeDisableApplyFixButton(isApplyFixLoading, change, patchNum) {
+    if (!change || isApplyFixLoading == undefined || patchNum == undefined) {
+      return true;
+    }
+    const currentPatchNum = change.revisions[change.current_revision]._number;
+    if (patchNum !== currentPatchNum) {
+      return true;
+    }
+    return isApplyFixLoading;
   }
 
   _handleApplyFix(e) {

@@ -22,6 +22,30 @@
       "revId": "8ac7ef8b924a9e4f6b8a05aaba997118b28a73a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4efd964_39762861",
+        "filename": "polygerrit-ui/app/behaviors/async-foreach-behavior/async-foreach-behavior.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-25T11:49:27Z",
+      "side": 1,
+      "message": "I decided to keep all such global variables for some time, because it is easy to do and it allows to focus only on one problem at a time.\nAll global variables can be removed as a separate change later, after this change (and other similar changes) are submitted and tested.",
+      "parentUuid": "69cac08f_72887121",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 37
+      },
+      "revId": "8ac7ef8b924a9e4f6b8a05aaba997118b28a73a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

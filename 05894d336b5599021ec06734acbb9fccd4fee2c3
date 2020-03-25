@@ -46,6 +46,30 @@
       "revId": "05894d336b5599021ec06734acbb9fccd4fee2c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27c8eeee_404100b0",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-25T14:59:00Z",
+      "side": 1,
+      "message": "\u003e \u003e Depends on the currently failing I83627adb3.\n\u003e \n\u003e (Still the case after this latest rebase.)\n\nTo unblock this upstream core merge and potentially following ones, I just removed that dependency. The replication plugin should be automatically upgraded in core once I83627adb3 can be resolved (merged in). Currently, this change passes replication (former/current) plugin tests locally.",
+      "parentUuid": "482534d5_17d49960",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "05894d336b5599021ec06734acbb9fccd4fee2c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

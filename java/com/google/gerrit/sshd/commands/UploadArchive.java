@@ -20,7 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -174,7 +174,7 @@ public class UploadArchive extends AbstractGitCommand {
       // Parse Git arguments
       readArguments();
 
-      ArchiveFormat f = allowedFormats.getExtensions().get("." + options.format);
+      ArchiveFormatInternal f = allowedFormats.getExtensions().get("." + options.format);
       if (f == null) {
         throw new Failure(3, "fatal: upload-archive not permitted for format " + options.format);
       }
@@ -222,8 +222,8 @@ public class UploadArchive extends AbstractGitCommand {
     }
   }
 
-  private Map<String, Object> getFormatOptions(ArchiveFormat f) {
-    if (f == ArchiveFormat.ZIP) {
+  private Map<String, Object> getFormatOptions(ArchiveFormatInternal f) {
+    if (f == ArchiveFormatInternal.ZIP) {
       int value =
           Arrays.asList(
                   options.level0,

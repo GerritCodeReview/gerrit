@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -28,13 +28,13 @@ import java.util.Set;
 
 @Singleton
 public class AllowedFormats {
-  final ImmutableMap<String, ArchiveFormat> extensions;
-  final ImmutableSet<ArchiveFormat> allowed;
+  final ImmutableMap<String, ArchiveFormatInternal> extensions;
+  final ImmutableSet<ArchiveFormatInternal> allowed;
 
   @Inject
   AllowedFormats(DownloadConfig cfg) {
-    Map<String, ArchiveFormat> exts = new HashMap<>();
-    for (ArchiveFormat format : cfg.getArchiveFormats()) {
+    Map<String, ArchiveFormatInternal> exts = new HashMap<>();
+    for (ArchiveFormatInternal format : cfg.getArchiveFormats()) {
       for (String ext : format.getSuffixes()) {
         exts.put(ext, format);
       }
@@ -46,14 +46,14 @@ public class AllowedFormats {
     // valid JAR file, whose code would have access to cookies on the domain.
     allowed =
         Sets.immutableEnumSet(
-            Iterables.filter(cfg.getArchiveFormats(), f -> f != ArchiveFormat.ZIP));
+            Iterables.filter(cfg.getArchiveFormats(), f -> f != ArchiveFormatInternal.ZIP));
   }
 
-  public Set<ArchiveFormat> getAllowed() {
+  public Set<ArchiveFormatInternal> getAllowed() {
     return allowed;
   }
 
-  public ImmutableMap<String, ArchiveFormat> getExtensions() {
+  public ImmutableMap<String, ArchiveFormatInternal> getExtensions() {
     return extensions;
   }
 }

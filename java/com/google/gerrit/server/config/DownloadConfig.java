@@ -17,7 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.CoreDownloadSchemes;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
-import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.lang.reflect.Field;
@@ -37,7 +37,7 @@ import org.eclipse.jgit.lib.Config;
 public class DownloadConfig {
   private final ImmutableSet<String> downloadSchemes;
   private final ImmutableSet<DownloadCommand> downloadCommands;
-  private final ImmutableSet<ArchiveFormat> archiveFormats;
+  private final ImmutableSet<ArchiveFormatInternal> archiveFormats;
 
   @Inject
   DownloadConfig(@GerritServerConfig Config cfg) {
@@ -69,13 +69,13 @@ public class DownloadConfig {
 
     String v = cfg.getString("download", null, "archive");
     if (v == null) {
-      archiveFormats = ImmutableSet.copyOf(EnumSet.allOf(ArchiveFormat.class));
+      archiveFormats = ImmutableSet.copyOf(EnumSet.allOf(ArchiveFormatInternal.class));
     } else if (v.isEmpty() || "off".equalsIgnoreCase(v)) {
       archiveFormats = ImmutableSet.of();
     } else {
       archiveFormats =
           ImmutableSet.copyOf(
-              ConfigUtil.getEnumList(cfg, "download", null, "archive", ArchiveFormat.TGZ));
+              ConfigUtil.getEnumList(cfg, "download", null, "archive", ArchiveFormatInternal.TGZ));
     }
   }
 
@@ -110,7 +110,7 @@ public class DownloadConfig {
   }
 
   /** Archive formats for downloading. */
-  public ImmutableSet<ArchiveFormat> getArchiveFormats() {
+  public ImmutableSet<ArchiveFormatInternal> getArchiveFormats() {
     return archiveFormats;
   }
 }

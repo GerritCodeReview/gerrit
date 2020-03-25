@@ -22,6 +22,30 @@
       "revId": "fc938f83eea7c9e9378a5c1051ee4ac904bd51f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f3e4a84_5dfa46a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-25T09:19:10Z",
+      "side": 1,
+      "message": "TODO is added and I removed this line from comment because it is really confusing.\nNote: I decided to keep all such global variables for some time, because it is easy to do and it allows to focus only on one problem at a time.\nAll global variables can be removed as a separate change later, after this change (and other similar changes) are submitted and tested.",
+      "parentUuid": "1dabae5b_b535e9a5",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "fc938f83eea7c9e9378a5c1051ee4ac904bd51f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

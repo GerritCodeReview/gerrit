@@ -19,6 +19,7 @@ var path = require('path');
 
 var ret = {
   suites: ['app/test'],
+  testTimeout: 600000,
   webserver: {
     pathMappings: []
   }

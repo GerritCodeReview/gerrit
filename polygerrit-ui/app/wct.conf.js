@@ -44,6 +44,7 @@ module.exports = {
   npm: true,
   moduleResolution: 'node',
   wctPackageName: 'wct-browser-legacy',
+  testTimeout: 600000,
   plugins: {
     local: {
       skipSeleniumInstall: true,

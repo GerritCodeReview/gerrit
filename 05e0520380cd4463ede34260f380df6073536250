@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3a0fbb94_c905177d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-25T09:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1ead5c9_7cb5aa6c",
+      "range": {
+        "startLine": 29,
+        "startChar": 54,
+        "endLine": 29,
+        "endChar": 66
+      },
+      "revId": "05e0520380cd4463ede34260f380df6073536250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0f471fa_6807e4b6",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "05e0520380cd4463ede34260f380df6073536250",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eef794ca_db874d28",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-25T09:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0f471fa_6807e4b6",
+      "range": {
+        "startLine": 112,
+        "startChar": 9,
+        "endLine": 112,
+        "endChar": 21
+      },
+      "revId": "05e0520380cd4463ede34260f380df6073536250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -91,6 +139,54 @@
       "revId": "05e0520380cd4463ede34260f380df6073536250",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afdd38f6_35cd6ffe",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-25T09:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98017d0a_62cb68c3",
+      "range": {
+        "startLine": 135,
+        "startChar": 57,
+        "endLine": 135,
+        "endChar": 67
+      },
+      "revId": "05e0520380cd4463ede34260f380df6073536250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6491d7f9_b5c15b35",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-25T09:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2daebabe_b0aa9c0e",
+      "range": {
+        "startLine": 135,
+        "startChar": 44,
+        "endLine": 135,
+        "endChar": 49
+      },
+      "revId": "05e0520380cd4463ede34260f380df6073536250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

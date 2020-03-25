@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c99d389_ba47f7c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-25T10:41:03Z",
+      "side": 1,
+      "message": "nice! maybe move this to `types.js` and use it here so we don\u0027t need repeated defining `change` all the time.\n\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/types/types.js",
+      "revId": "6f30518753cf55d1f6663b4d7cbf34f36a31a8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

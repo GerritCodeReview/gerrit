@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "450ce004_22b93f26",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-03-25T18:10:52Z",
+      "side": 1,
+      "message": "I didn\u0027t realise _computeUnresolvedCommentsWarning didn\u0027t have one. If it works without any issues, you can ignore my comment, sorry.",
+      "parentUuid": "09545442_2d938249",
+      "revId": "f61f732bfffb53c5438d87e8ce2f48bf2995731d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74719062_4bdc5ab3",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
         "patchSetId": 1

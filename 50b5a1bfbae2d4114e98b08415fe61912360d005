@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e36eba10_68fa3904",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T08:51:43Z",
+      "side": 1,
+      "message": "This code should also go into the dialog.",
+      "range": {
+        "startLine": 1453,
+        "startChar": 4,
+        "endLine": 1463,
+        "endChar": 11
+      },
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed8a4089_be880cb4",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T08:51:43Z",
+      "side": 1,
+      "message": "Don\u0027t fire \"confirm\", just handle it here and not in gr-change-actions.js.",
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

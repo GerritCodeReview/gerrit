@@ -59,6 +59,11 @@ suite('gr-apply-fix-dialog tests', () => {
     element.change = {
       _number: '1',
       project: 'project',
+      revisions: {
+        abcd: {_number: 1},
+        efgh: {_number: 2},
+      },
+      current_revision: 'efgh',
     };
     element.prefs = {
       font_size: 12,
@@ -71,49 +76,96 @@ suite('gr-apply-fix-dialog tests', () => {
     sandbox.restore();
   });
 
-  test('dialog opens fetch and sets previews', done => {
-    sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
-        .returns(Promise.resolve({
-          f1: {
-            meta_a: {},
-            meta_b: {},
-            content: [
-              {
-                ab: ['loqlwkqll'],
-              },
-              {
-                b: ['qwqqsqw'],
-              },
-              {
-                ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
-              },
-            ],
-          },
-          f2: {
-            meta_a: {},
-            meta_b: {},
-            content: [
-              {
-                ab: ['eqweqweqwex'],
-              },
-              {
-                b: ['zassdasd'],
-              },
-              {
-                ab: ['zassdasd', 'dasdasda', 'asdasdad'],
-              },
-            ],
-          },
-        }));
-    sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
+  suite('dialog open', () => {
+    setup(() => {
+      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+          .returns(Promise.resolve({
+            f1: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['loqlwkqll'],
+                },
+                {
+                  b: ['qwqqsqw'],
+                },
+                {
+                  ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
+                },
+              ],
+            },
+            f2: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['eqweqweqwex'],
+                },
+                {
+                  b: ['zassdasd'],
+                },
+                {
+                  ab: ['zassdasd', 'dasdasda', 'asdasdad'],
+                },
+              ],
+            },
+          }));
+      sandbox.stub(element.$.applyFixOverlay, 'open')
+          .returns(Promise.resolve());
+    });
 
-    element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
-        .then(() => {
-          assert.equal(element._currentFix.fix_id, 'fix_1');
-          assert.equal(element._currentPreviews.length, 2);
-          assert.equal(element._robotId, 'robot_1');
-          done();
-        });
+    test('dialog opens fetch and sets previews', done => {
+      element.open({detail: {patchNum: 2,
+        comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
+          .then(() => {
+            assert.equal(element._currentFix.fix_id, 'fix_1');
+            assert.equal(element._currentPreviews.length, 2);
+            assert.equal(element._robotId, 'robot_1');
+            const button = element.shadowRoot.querySelector(
+                '#applyFixDialog').shadowRoot.querySelector('#confirm');
+            assert.isFalse(button.hasAttribute('disabled'));
+            assert.equal(button.getAttribute('title'), '');
+            done();
+          });
+    });
+
+    test('tooltip is hidden if apply fix is loading', done => {
+      element.open({detail: {patchNum: 2,
+        comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
+          .then(() => {
+            element._isApplyFixLoading = true;
+            const button = element.shadowRoot.querySelector(
+                '#applyFixDialog').shadowRoot.querySelector('#confirm');
+            assert.isTrue(button.hasAttribute('disabled'));
+            assert.equal(button.getAttribute('title'), '');
+            done();
+          });
+    });
+
+    test('apply fix button is disabled on older patchset', done => {
+      element.change = {
+        _number: '1',
+        project: 'project',
+        revisions: {
+          abcd: {_number: 1},
+          efgh: {_number: 2},
+        },
+        current_revision: 'abcd',
+      };
+      element.open({detail: {patchNum: 2,
+        comment: ROBOT_COMMENT_WITH_ONE_FIX}})
+          .then(() => {
+            flush(() => {
+              const button = element.shadowRoot.querySelector(
+                  '#applyFixDialog').shadowRoot.querySelector('#confirm');
+              assert.isTrue(button.hasAttribute('disabled'));
+              assert.equal(button.getAttribute('title'),
+                  'Fix can only be applied to the latest patchset');
+              done();
+            });
+          });
+    });
   });
 
   test('next button state updated when suggestions changed', done => {
@@ -167,6 +219,11 @@ suite('gr-apply-fix-dialog tests', () => {
       assert.isTrue(Gerrit.Nav.navigateToChange.calledWithExactly({
         _number: '1',
         project: 'project',
+        revisions: {
+          abcd: {_number: 1},
+          efgh: {_number: 2},
+        },
+        current_revision: 'efgh',
       }, 'edit', 2));
 
       // reset gr-apply-fix-dialog and close

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfd0e490_4c48178a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-25T13:58:15Z",
+      "side": 1,
+      "message": "I assume the same applies to hashtags?",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5b1d3f4_b9a1bff2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-25T13:58:15Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "range": {
+        "startLine": 12,
+        "startChar": 72,
+        "endLine": 12,
+        "endChar": 73
+      },
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4207a066_bc53b83b",
+        "filename": "java/com/google/gerrit/exceptions/IllegalTopicException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-25T13:58:15Z",
+      "side": 1,
+      "message": "I agree with Edwin about not wanting to have a RestApiE in the server code.\n\nThere is two approaches to this problem:\n1) Validate on the outer layers (API, Git receiver) and throw a RestApiE and a GitE AND Validate at the central choke point and throw a StorageException (unrecoverable, indicating a programmer error).\n+ No need to pipe exceptions through\n- Validating twice\n- Programmer might forget to validate a new API endpoint in the future\n\nOR\n\n2) Validate at the central choke point - as you do right now\n2a) Throw a RestApiE\n+ Easy\n- Not clean because now the Git code has to handle a RestAPIE, but it has nothing to do with the RestAPI\n\n2b) Throw a IllegalTopicE\n+ Decoupled from the REST API\n- Have to pipe this through upwards for each new failure type\n- Needs to be converted to RestApiE / GitE at some point\n\n2c) Throw a ValidationException\n+ Decoupled\n+ Generic, so if you validate hashtags in the storage, you don\u0027t have to pipe through new exceptions\n- Needs to be converted to RestApiE / GitE at some point\n\nI would go with 2c, delete the IllegalTopicE and use a ValidationE instead.\n\nI looked a bit at existing code, specifically at HashTagUtil and SetHashTagOp. That throws a ValidationException as well. It also does the validation twice as suggested in (1) (it\u0027s a plugin endpoint as well which complicates things a bit).",
+      "range": {
+        "startLine": 4,
+        "startChar": 13,
+        "endLine": 4,
+        "endChar": 34
+      },
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "549360cf_770cb280",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-25T13:58:15Z",
+      "side": 1,
+      "message": "It\u0027s probably OK to convert this here because the method already throws a RestApiE, so we aren\u0027t making things worse. However, this code is also used in ReceiveCommits and itself is part of the server, so the same concerns apply.\n\nUp to you if you want to handle ValidationE in callers or convert here.",
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb8f6703_10b9819e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-25T13:58:15Z",
+      "side": 1,
+      "message": "nit: static\nnit: method ordering",
+      "range": {
+        "startLine": 358,
+        "startChar": 7,
+        "endLine": 358,
+        "endChar": 11
+      },
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

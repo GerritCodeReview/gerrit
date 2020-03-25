@@ -201,7 +201,7 @@ node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HE
 * To run the linter on all of your local changes:
 
 ```sh
-git diff --name-only master | xargs node_modules/eslint/bin/eslint.js --ext .html,.js
+git diff --name-only HEAD | xargs node_modules/eslint/bin/eslint.js --ext .html,.js
 ```
 
 We also use the `polylint` tool to lint use of Polymer. To install polylint,

@@ -54,10 +54,23 @@
       this.$.dialog.resetFocus();
     },
 
+<<<<<<< HEAD   (d0d5fe Verify hostname when sending emails via SMTP server with SMT)
     _handleConfirmTap(e) {
       e.preventDefault();
       this.dispatchEvent(new CustomEvent('confirm', {bubbles: false}));
     },
+=======
+  _computeHasChangeEdit(change) {
+    return !!change.revisions &&
+        Object.values(change.revisions).some(rev => rev._number == 'edit');
+  }
+
+  _computeUnresolvedCommentsWarning(change) {
+    const unresolvedCount = change.unresolved_comment_count;
+    const plural = unresolvedCount > 1 ? 's' : '';
+    return `Heads Up! ${unresolvedCount} unresolved comment${plural}.`;
+  }
+>>>>>>> CHANGE (a36f08 Add a warning if submitting a change with an open change edi)
 
     _handleCancelTap(e) {
       e.preventDefault();

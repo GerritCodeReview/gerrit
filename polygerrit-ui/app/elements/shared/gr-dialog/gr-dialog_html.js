@@ -71,7 +71,7 @@ export const htmlTemplate = html`
         <gr-button id="cancel" class\$="[[_computeCancelClass(cancelLabel)]]" link="" on-click="_handleCancelTap">
           [[cancelLabel]]
         </gr-button>
-        <gr-button id="confirm" link="" primary="" on-click="_handleConfirm" disabled="[[disabled]]">
+        <gr-button id="confirm" link="" primary="" on-click="_handleConfirm" disabled="[[disabled]]" title\$="[[confirmTooltip]]">
           [[confirmLabel]]
         </gr-button>
       </footer>

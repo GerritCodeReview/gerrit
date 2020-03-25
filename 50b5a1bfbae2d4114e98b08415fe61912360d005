@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "abc37ae2_ea8324c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-25T09:46:27Z",
+      "side": 1,
+      "message": "Even or revert topic, the API call to getChanges is made in gr-change-actions.\nI think it\u0027s fine to keep it consistent?\nNot sure if cherry-pick-dialog should be aware of _showActionDialog and other functionalities.",
+      "parentUuid": "e36eba10_68fa3904",
+      "range": {
+        "startLine": 1453,
+        "startChar": 4,
+        "endLine": 1463,
+        "endChar": 11
+      },
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed8a4089_be880cb4",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
         "patchSetId": 20
@@ -36,6 +60,24 @@
       "writtenOn": "2020-03-25T08:51:43Z",
       "side": 1,
       "message": "Don\u0027t fire \"confirm\", just handle it here and not in gr-change-actions.js.",
+      "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ee3ca21_e01d69d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-25T09:46:27Z",
+      "side": 1,
+      "message": "This is for single cherry pick.\nKeeping it consistent with the others?\nI thought we did special handling for the cherry-pick-topic since the dialog does not close itself.\nThat\u0027s not the case for single cherry pick.\nThe dialog closes itself as soon as you click confirm.",
+      "parentUuid": "ed8a4089_be880cb4",
       "revId": "50b5a1bfbae2d4114e98b08415fe61912360d005",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

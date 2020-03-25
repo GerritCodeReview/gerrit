@@ -62,4 +62,61 @@ limitations under the License.
       assert.notEqual(message.textContent.indexOf('my-subject'), -1);
     });
   });
+<<<<<<< HEAD   (5b35b0 Merge branch 'stable-3.0' into stable-3.1)
+=======
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('display', () => {
+    element.action = {label: 'my-label'};
+    element.change = {
+      subject: 'my-subject',
+      revisions: {},
+    };
+    flushAsynchronousOperations();
+    const header = element.shadowRoot
+        .querySelector('.header');
+    assert.equal(header.textContent.trim(), 'my-label');
+
+    const message = element.shadowRoot
+        .querySelector('.main p');
+    assert.notEqual(message.textContent.length, 0);
+    assert.notEqual(message.textContent.indexOf('my-subject'), -1);
+  });
+
+  test('_computeUnresolvedCommentsWarning', () => {
+    const change = {unresolved_comment_count: 1};
+    assert.equal(element._computeUnresolvedCommentsWarning(change),
+        'Heads Up! 1 unresolved comment.');
+
+    const change2 = {unresolved_comment_count: 2};
+    assert.equal(element._computeUnresolvedCommentsWarning(change2),
+        'Heads Up! 2 unresolved comments.');
+  });
+
+  test('_computeHasChangeEdit', () => {
+    const change = {
+      revisions: {
+        d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: {
+          _number: 'edit',
+        },
+      },
+      unresolved_comment_count: 0,
+    };
+
+    assert.equal(element._computeHasChangeEdit(change), true);
+
+    const change2 = {
+      revisions: {
+        d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: {
+          _number: 2,
+        },
+      },
+    };
+    assert.equal(element._computeHasChangeEdit(change2), false);
+  });
+});
+>>>>>>> CHANGE (a36f08 Add a warning if submitting a change with an open change edi)
 </script>

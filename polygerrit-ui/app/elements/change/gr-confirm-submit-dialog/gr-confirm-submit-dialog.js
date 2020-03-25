@@ -53,11 +53,24 @@
       this.$.dialog.resetFocus();
     },
 
+<<<<<<< HEAD   (5b35b0 Merge branch 'stable-3.0' into stable-3.1)
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.dispatchEvent(new CustomEvent('confirm', {bubbles: false}));
     },
+=======
+  _computeHasChangeEdit(change) {
+    return !!change.revisions &&
+        Object.values(change.revisions).some(rev => rev._number == 'edit');
+  }
+
+  _computeUnresolvedCommentsWarning(change) {
+    const unresolvedCount = change.unresolved_comment_count;
+    const plural = unresolvedCount > 1 ? 's' : '';
+    return `Heads Up! ${unresolvedCount} unresolved comment${plural}.`;
+  }
+>>>>>>> CHANGE (a36f08 Add a warning if submitting a change with an open change edi)
 
     _handleCancelTap(e) {
       e.preventDefault();

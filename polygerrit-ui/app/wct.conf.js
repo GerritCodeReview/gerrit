@@ -42,8 +42,10 @@ const defaultBrowserOptions = {
 module.exports = {
   suites: ['test'],
   npm: true,
+  compile: 'never',
   moduleResolution: 'node',
   wctPackageName: 'wct-browser-legacy',
+  testTimeout: 100000,
   plugins: {
     local: {
       skipSeleniumInstall: true,

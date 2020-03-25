@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.ValidationMessage;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -138,6 +139,20 @@ public class CreateBranchIT extends AbstractDaemonTest {
           ResourceConflictException.class,
           "branch \"" + testBranch.branch() + "\" already exists");
     }
+  }
+
+  @Test
+  public void conflictingBranchAlreadyExists_Conflict() throws Exception {
+    assertCreateSucceeds(testBranch);
+    BranchNameKey testBranch2 = BranchNameKey.create(project, testBranch.branch() + "/foo/bar");
+    assertCreateFails(
+        testBranch2,
+        ResourceConflictException.class,
+        "Cannot create branch \""
+            + testBranch2.branch()
+            + "\" since it conflicts with branch \""
+            + testBranch.branch()
+            + "\"");
   }
 
   @Test
@@ -314,6 +329,22 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotCreateBranchInMagicBranchNamespace() throws Exception {
+    assertCreateFails(
+        BranchNameKey.create(project, MagicBranch.NEW_CHANGE + "foo"),
+        BadRequestException.class,
+        "not allowed to create branches under \"" + MagicBranch.NEW_CHANGE + "\"");
+  }
+
+  @Test
+  public void cannotCreateBranchWithInvalidName() throws Exception {
+    assertCreateFails(
+        BranchNameKey.create(project, RefNames.REFS_HEADS),
+        BadRequestException.class,
+        "invalid branch name \"" + RefNames.REFS_HEADS + "\"");
+  }
+
+  @Test
   public void createBranchLeadingSlashesAreRemoved() throws Exception {
     BranchNameKey expectedNameKey = BranchNameKey.create(project, "test");
 
@@ -332,6 +363,17 @@ public class CreateBranchIT extends AbstractDaemonTest {
     // verify that the branch was created without the leading slashes in the name
     assertThat(gApi.projects().name(project.get()).branch(expectedNameKey.branch()).get().ref)
         .isEqualTo(expectedNameKey.branch());
+  }
+
+  @Test
+  public void branchNameInInputMustMatchBranchNameInUrl() throws Exception {
+    BranchInput branchInput = new BranchInput();
+    branchInput.ref = "foo";
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(project.get()).branch("bar").create(branchInput));
+    assertThat(ex).hasMessageThat().isEqualTo("ref must match URL");
   }
 
   private void blockCreateReference() throws Exception {

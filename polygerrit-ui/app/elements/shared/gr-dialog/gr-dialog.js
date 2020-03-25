@@ -68,6 +68,10 @@ class GrDialog extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      confirmTooltip: {
+        type: String,
+        observer: '_handleConfirmTooltipUpdate',
+      },
     };
   }
 
@@ -75,6 +79,14 @@ class GrDialog extends mixinBehaviors( [
   ready() {
     super.ready();
     this._ensureAttribute('role', 'dialog');
+  }
+
+  _handleConfirmTooltipUpdate(confirmTooltip) {
+    if (confirmTooltip) {
+      this.$.confirm.setAttribute('has-tooltip', true);
+    } else {
+      this.$.confirm.removeAttribute('has-tooltip');
+    }
   }
 
   _handleConfirm(e) {

@@ -95,6 +95,19 @@ suite('gr-dialog tests', () => {
     assert.isTrue(focusStub.calledOnce);
   });
 
+  suite('tooltip', () => {
+    test('tooltip not added by default', () => {
+      assert.isNull(element.$.confirm.getAttribute('has-tooltip'));
+    });
+
+    test('tooltip added if confirm tooltip is passed', () => {
+      element.confirmTooltip = 'confirm tooltip';
+      flush(() => {
+        assert(element.$.confirm.getAttribute('has-tooltip'));
+      });
+    });
+  });
+
   test('empty cancel label hides cancel btn', () => {
     assert.isFalse(isHidden(element.$.cancel));
     element.cancelLabel = '';

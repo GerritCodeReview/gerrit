@@ -45,7 +45,7 @@ export const htmlTemplate = html`
       }
     </style>
     <gr-overlay id="applyFixOverlay" with-backdrop="">
-      <gr-dialog id="applyFixDialog" on-confirm="_handleApplyFix" confirm-label="[[_getApplyFixButtonLabel(_isApplyFixLoading)]]" disabled="[[_isApplyFixLoading]]" on-cancel="onCancel">
+      <gr-dialog id="applyFixDialog" on-confirm="_handleApplyFix" confirm-label="[[_getApplyFixButtonLabel(_isApplyFixLoading)]]" disabled="[[_disableApplyFixButton]]" confirm-tooltip="[[_computeTooltip(_disableApplyFixButton, change, _patchNum)]]" on-cancel="onCancel">
         <div slot="header">[[_robotId]] - [[getFixDescription(_currentFix)]]</div>
         <div slot="main">
           <template is="dom-repeat" items="[[_currentPreviews]]">

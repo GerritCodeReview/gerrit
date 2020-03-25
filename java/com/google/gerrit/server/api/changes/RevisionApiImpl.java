@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.RevisionReviewerApi;
 import com.google.gerrit.extensions.api.changes.RobotCommentApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.client.ArchiveFormat;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -70,6 +71,7 @@ import com.google.gerrit.server.restapi.change.CreateDraftComment;
 import com.google.gerrit.server.restapi.change.DraftComments;
 import com.google.gerrit.server.restapi.change.Files;
 import com.google.gerrit.server.restapi.change.Fixes;
+import com.google.gerrit.server.restapi.change.GetArchive;
 import com.google.gerrit.server.restapi.change.GetCommit;
 import com.google.gerrit.server.restapi.change.GetDescription;
 import com.google.gerrit.server.restapi.change.GetFixPreview;
@@ -96,6 +98,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.Repository;
@@ -146,6 +149,7 @@ class RevisionApiImpl implements RevisionApi {
   private final GetRelated getRelated;
   private final PutDescription putDescription;
   private final GetDescription getDescription;
+  private final Provider<GetArchive> getArchiveProvider;
   private final ApprovalsUtil approvalsUtil;
   private final AccountLoader.Factory accountLoaderFactory;
 
@@ -190,6 +194,7 @@ class RevisionApiImpl implements RevisionApi {
       GetRelated getRelated,
       PutDescription putDescription,
       GetDescription getDescription,
+      Provider<GetArchive> getArchiveProvider,
       ApprovalsUtil approvalsUtil,
       AccountLoader.Factory accountLoaderFactory,
       @Assisted RevisionResource r) {
@@ -232,6 +237,7 @@ class RevisionApiImpl implements RevisionApi {
     this.getRelated = getRelated;
     this.putDescription = putDescription;
     this.getDescription = getDescription;
+    this.getArchiveProvider = getArchiveProvider;
     this.approvalsUtil = approvalsUtil;
     this.accountLoaderFactory = accountLoaderFactory;
     this.revision = r;
@@ -648,5 +654,16 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public String etag() throws RestApiException {
     return revisionActions.getETag(revision);
+  }
+
+  @Override
+  public BinaryResult getArchive(ArchiveFormat format) throws RestApiException {
+    GetArchive getArchive = getArchiveProvider.get();
+    getArchive.setFormat(format.name().toLowerCase(Locale.US));
+    try {
+      return getArchive.apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get archive", e);
+    }
   }
 }

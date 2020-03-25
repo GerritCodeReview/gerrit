@@ -111,7 +111,7 @@ public class CreateBranch
               + "\"");
     }
 
-    final BranchNameKey name = BranchNameKey.create(rsrc.getNameKey(), ref);
+    BranchNameKey name = BranchNameKey.create(rsrc.getNameKey(), ref);
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ObjectId revid = RefUtil.parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);
@@ -130,13 +130,13 @@ public class CreateBranch
 
       createRefControl.checkCreateRef(identifiedUser, repo, name, object);
 
-      final RefUpdate u = repo.updateRef(ref);
+      RefUpdate u = repo.updateRef(ref);
       u.setExpectedOldObjectId(ObjectId.zeroId());
       u.setNewObjectId(object.copy());
       u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
       u.setRefLogMessage("created via REST from " + input.revision, false);
       refCreationValidator.validateRefOperation(rsrc.getName(), identifiedUser.get(), u);
-      final RefUpdate.Result result = u.update(rw);
+      RefUpdate.Result result = u.update(rw);
       switch (result) {
         case FAST_FORWARD:
         case NEW:

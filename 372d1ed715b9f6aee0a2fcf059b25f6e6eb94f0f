@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29a0e4a4_56048b2b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetArchiveIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-25T23:31:53Z",
+      "side": 1,
+      "message": "As a followup we could expand this message to include the format name, i.e.\n\n unknown archive format: \u0027unknownFormat\u0027",
+      "range": {
+        "startLine": 53,
+        "startChar": 49,
+        "endLine": 53,
+        "endChar": 73
+      },
+      "revId": "372d1ed715b9f6aee0a2fcf059b25f6e6eb94f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

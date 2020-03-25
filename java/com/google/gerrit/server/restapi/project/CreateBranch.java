@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 
 import com.google.common.base.Strings;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
@@ -58,8 +57,6 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 @Singleton
 public class CreateBranch
     implements RestCollectionCreateView<ProjectResource, BranchResource, BranchInput> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final Provider<IdentifiedUser> identifiedUser;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
@@ -133,69 +130,64 @@ public class CreateBranch
 
       createRefControl.checkCreateRef(identifiedUser, repo, name, object);
 
-      try {
-        final RefUpdate u = repo.updateRef(ref);
-        u.setExpectedOldObjectId(ObjectId.zeroId());
-        u.setNewObjectId(object.copy());
-        u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
-        u.setRefLogMessage("created via REST from " + input.revision, false);
-        refCreationValidator.validateRefOperation(rsrc.getName(), identifiedUser.get(), u);
-        final RefUpdate.Result result = u.update(rw);
-        switch (result) {
-          case FAST_FORWARD:
-          case NEW:
-          case NO_CHANGE:
-            referenceUpdated.fire(
-                name.project(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
-            break;
-          case LOCK_FAILURE:
-            if (repo.getRefDatabase().exactRef(ref) != null) {
-              throw new ResourceConflictException("branch \"" + ref + "\" already exists");
+      final RefUpdate u = repo.updateRef(ref);
+      u.setExpectedOldObjectId(ObjectId.zeroId());
+      u.setNewObjectId(object.copy());
+      u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
+      u.setRefLogMessage("created via REST from " + input.revision, false);
+      refCreationValidator.validateRefOperation(rsrc.getName(), identifiedUser.get(), u);
+      final RefUpdate.Result result = u.update(rw);
+      switch (result) {
+        case FAST_FORWARD:
+        case NEW:
+        case NO_CHANGE:
+          referenceUpdated.fire(
+              name.project(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
+          break;
+        case LOCK_FAILURE:
+          if (repo.getRefDatabase().exactRef(ref) != null) {
+            throw new ResourceConflictException("branch \"" + ref + "\" already exists");
+          }
+          String refPrefix = RefUtil.getRefPrefix(ref);
+          while (!Constants.R_HEADS.equals(refPrefix)) {
+            if (repo.getRefDatabase().exactRef(refPrefix) != null) {
+              throw new ResourceConflictException(
+                  "Cannot create branch \""
+                      + ref
+                      + "\" since it conflicts with branch \""
+                      + refPrefix
+                      + "\".");
             }
-            String refPrefix = RefUtil.getRefPrefix(ref);
-            while (!Constants.R_HEADS.equals(refPrefix)) {
-              if (repo.getRefDatabase().exactRef(refPrefix) != null) {
-                throw new ResourceConflictException(
-                    "Cannot create branch \""
-                        + ref
-                        + "\" since it conflicts with branch \""
-                        + refPrefix
-                        + "\".");
-              }
-              refPrefix = RefUtil.getRefPrefix(refPrefix);
-            }
-            throw new LockFailureException(String.format("Failed to create %s", ref), u);
-          case FORCED:
-          case IO_FAILURE:
-          case NOT_ATTEMPTED:
-          case REJECTED:
-          case REJECTED_CURRENT_BRANCH:
-          case RENAMED:
-          case REJECTED_MISSING_OBJECT:
-          case REJECTED_OTHER_REASON:
-          default:
-            throw new IOException(String.format("Failed to create %s: %s", ref, result.name()));
-        }
-
-        BranchInfo info = new BranchInfo();
-        info.ref = ref;
-        info.revision = revid.getName();
-
-        if (isConfigRef(name.branch())) {
-          // Never allow to delete the meta config branch.
-          info.canDelete = null;
-        } else {
-          info.canDelete =
-              permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
-                      && rsrc.getProjectState().statePermitsWrite()
-                  ? true
-                  : null;
-        }
-        return Response.created(info);
-      } catch (IOException err) {
-        logger.atSevere().withCause(err).log("Cannot create branch \"%s\"", name);
-        throw err;
+            refPrefix = RefUtil.getRefPrefix(refPrefix);
+          }
+          throw new LockFailureException(String.format("Failed to create %s", ref), u);
+        case FORCED:
+        case IO_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_OTHER_REASON:
+        default:
+          throw new IOException(String.format("Failed to create %s: %s", ref, result.name()));
       }
+
+      BranchInfo info = new BranchInfo();
+      info.ref = ref;
+      info.revision = revid.getName();
+
+      if (isConfigRef(name.branch())) {
+        // Never allow to delete the meta config branch.
+        info.canDelete = null;
+      } else {
+        info.canDelete =
+            permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
+                    && rsrc.getProjectState().statePermitsWrite()
+                ? true
+                : null;
+      }
+      return Response.created(info);
     } catch (RefUtil.InvalidRevisionException e) {
       throw new BadRequestException("invalid revision \"" + input.revision + "\"", e);
     }

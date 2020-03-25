@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7301255b_a683f39a",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-25T07:56:06Z",
+      "side": 1,
+      "message": "I don\u0027t really see the benefit of keeping this as a mixin, why can not we just export `getBaseUrl` as a pure function instead if you need to touch all the places of using it anyway ?\n\nif we still want to keep the old name space (BaseUrlBehavior for external usage), we still can do that by just referring to that function within the `BaseUrlBehavior`:\n\n```\nexport function getBaseUrl() {\n  return window.CANONICAL_PATH || \u0027\u0027;\n}\n\nBaseUrlBehavior \u003d {\n  getBaseUrl() {\n    return getBaseUrl();\n  }\n}\n```",
+      "revId": "23fc40e3d24efd91bb1894dd193d2539abaa17ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

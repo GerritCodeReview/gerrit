@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a54a26ab_cbafd6f6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-25T10:59:53Z",
+      "side": 1,
+      "message": "As discussed outside of this change, blocked all chars \u003c32 as well. I\u0027ll manually change the illegal topics.",
+      "parentUuid": "e5245b3d_3411c0ff",
+      "range": {
+        "startLine": 351,
+        "startChar": 24,
+        "endLine": 351,
+        "endChar": 45
+      },
+      "revId": "11ce40793830e0a5c96010167677f7f0d257fd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d43f66c1_d230b316",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 3

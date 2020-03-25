@@ -403,6 +403,17 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
+      // TODO(zieren): Refactor interface to signal the intent of the event instead of hard-coding
+      // it here. Due to interface limitations, this method is called from both receive commits
+      // and from main Gerrit (e.g. when publishing a change edit). This is why we need to gate the
+      // early return on REFS_CHANGES (though pushes to refs/changes are not possible).
+      String refName = receiveEvent.command.getRefName();
+      if (!refName.startsWith("refs/for/") && !refName.startsWith(RefNames.REFS_CHANGES)) {
+        // This is a direct push bypassing review. We don't need to enforce any file-count limits
+        // here.
+        return Collections.emptyList();
+      }
+
       PatchListKey patchListKey =
           PatchListKey.againstBase(
               receiveEvent.commit.getId(), receiveEvent.commit.getParentCount());

@@ -68,6 +68,11 @@ class GrConfirmSubmitDialog extends GestureEventListeners(
     this.$.dialog.resetFocus();
   }
 
+  _computeHasChangeEdit(change) {
+    return !!change.revisions &&
+        Object.values(change.revisions).some(rev => rev._number == 'edit');
+  }
+
   _computeUnresolvedCommentsWarning(change) {
     const unresolvedCount = change.unresolved_comment_count;
     const plural = unresolvedCount > 1 ? 's' : '';

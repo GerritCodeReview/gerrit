@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -119,13 +118,9 @@ public class CreateBranch
 
       if (ref.startsWith(Constants.R_HEADS)) {
         // Ensure that what we start the branch from is a commit. If we
-        // were given a tag, deference to the commit instead.
+        // were given a tag, dereference to the commit instead.
         //
-        try {
-          object = rw.parseCommit(object);
-        } catch (IncorrectObjectTypeException notCommit) {
-          throw new BadRequestException("\"" + input.revision + "\" not a commit", notCommit);
-        }
+        object = rw.parseCommit(object);
       }
 
       createRefControl.checkCreateRef(identifiedUser, repo, name, object);

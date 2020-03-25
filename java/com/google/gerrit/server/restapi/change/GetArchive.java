@@ -58,7 +58,7 @@ public class GetArchive implements RestReadView<RevisionResource> {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
-    final ArchiveFormatInternal f = allowedFormats.extensions.get("." + format);
+    ArchiveFormatInternal f = allowedFormats.extensions.get("." + format);
     if (f == null) {
       throw new BadRequestException("unknown archive format");
     }
@@ -66,9 +66,9 @@ public class GetArchive implements RestReadView<RevisionResource> {
       throw new MethodNotAllowedException("zip format is disabled");
     }
     boolean close = true;
-    final Repository repo = repoManager.openRepository(rsrc.getProject());
+    Repository repo = repoManager.openRepository(rsrc.getProject());
     try {
-      final RevCommit commit;
+      RevCommit commit;
       String name;
       try (RevWalk rw = new RevWalk(repo)) {
         commit = rw.parseCommit(rsrc.getPatchSet().commitId());

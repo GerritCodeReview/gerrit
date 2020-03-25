@@ -22,6 +22,30 @@
       "revId": "82ac1001e94ee8fd755f153bae7588761612f672",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5cee1be_0cf17723",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-25T12:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ea2b3a2_1351a38a",
+      "range": {
+        "startLine": 194,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 67
+      },
+      "revId": "82ac1001e94ee8fd755f153bae7588761612f672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

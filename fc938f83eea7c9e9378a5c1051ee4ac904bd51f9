@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dabae5b_b535e9a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-25T08:11:35Z",
+      "side": 1,
+      "message": "Compatibility with what? What is the condition for removing? Maybe add comments to the code with a TODO explaining why this is still there and when it can be removed.\n\nSame in dependent changes.",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "fc938f83eea7c9e9378a5c1051ee4ac904bd51f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -54,6 +54,7 @@ class GrConfirmSubmitDialog extends GestureEventListeners(
      * @type {{
      *    is_private: boolean,
      *    subject: string,
+     *    revisions: Object
      *  }}
      */
       change: Object,
@@ -69,6 +70,10 @@ class GrConfirmSubmitDialog extends GestureEventListeners(
 
   resetFocus(e) {
     this.$.dialog.resetFocus();
+  }
+
+  _computeHasChangeEdit(change) {
+    return Object.values(change.revisions).some(rev => rev._number == 'edit');
   }
 
   _computeUnresolvedCommentsWarning(change) {

@@ -1,4 +1,5 @@
 load(":rules.bzl", "polygerrit_bundle")
+load("//tools/js:eslint.bzl", "eslint")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -82,20 +83,21 @@ sh_test(
     ],
 )
 
-# TODO(taoalpha): alias to `npm run eslint` or just remove once CI moved to npm
-sh_test(
-    name = "lint_test",
-    size = "large",
-    srcs = ["lint_test.sh"],
-    data = [
-        ".eslintrc.json",
-        ":pg_code",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
+# Define the eslinter for polygerrit-ui app
+# The eslint macro creates 2 rules: lint_test and lint_bin
+eslint(
+    name="lint",
+    plugins=["@npm//eslint-config-google",
+             "@npm//eslint-plugin-html",
+             "@npm//eslint-plugin-import",
+             "@npm//eslint-plugin-jsdoc"],
+   extensions=[".html", ".js"],
+   config=".eslintrc-bazel.js",
+   ignore=".eslintignore",
+   srcs=[":test-srcs-fg"],
+   # The .eslintrc-bazel.js extends the .eslintrc.js config, pass it as a dependency
+   data=[".eslintrc.js"]
+
 )
 
 # Workaround for https://github.com/bazelbuild/bazel/issues/1305

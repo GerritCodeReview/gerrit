@@ -56,6 +56,10 @@ export class SrcWebSite {
     return ("/" + relativePath) as AbsoluteWebPath;
   }
 
+  public static resolveReferenceFromFile(from: AbsoluteWebPath, to: WebPath): AbsoluteWebPath {
+    return isAbsoluteWebPath(to) ? to : path.resolve(path.dirname(from), to) as AbsoluteWebPath;
+  }
+
   public static resolveReference(from: AbsoluteWebPath, to: WebPath): AbsoluteWebPath {
     return isAbsoluteWebPath(to) ? to : path.resolve(from, to) as AbsoluteWebPath;
   }

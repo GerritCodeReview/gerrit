@@ -1161,7 +1161,7 @@ suite('gr-comment tests', () => {
       });
     });
 
-    test('add 3 day delays once dismissed', done => {
+    test('add 14-day delays once dismissed', done => {
       // fake stub for storage
       const respectfulGetStub = sinon.stub();
       const respectfulSetStub = sinon.stub();
@@ -1185,7 +1185,7 @@ suite('gr-comment tests', () => {
         MockInteractions.tap(element.shadowRoot
             .querySelector('.respectfulReviewTip .close'));
         flushAsynchronousOperations();
-        assert.isTrue(respectfulSetStub.lastCall.args[0] === 3);
+        assert.isTrue(respectfulSetStub.lastCall.args[0] === 14);
         done();
       });
     });

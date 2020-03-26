@@ -186,6 +186,8 @@ class GrAppElement extends mixinBehaviors( [
 
     this.$.restAPI.getAccount().then(account => {
       this._account = account;
+      const role = account ? 'user' : 'guest';
+      this.reporting.reportLifeCycle(`Started as ${role}`);
     });
     this.$.restAPI.getConfig().then(config => {
       this._serverConfig = config;

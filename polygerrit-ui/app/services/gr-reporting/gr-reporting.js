@@ -16,43 +16,51 @@
  */
 
 // Latency reporting constants.
+
 const TIMING = {
   TYPE: 'timing-report',
-  CATEGORY_UI_LATENCY: 'UI Latency',
-  CATEGORY_RPC: 'RPC Timing',
-  // Reported events - alphabetize below.
-  APP_STARTED: 'App Started',
+  CATEGORY: {
+    UI_LATENCY: 'UI Latency',
+    RPC: 'RPC Timing',
+  },
+  EVENT: {
+    APP_STARTED: 'App Started',
+  },
 };
 
-// Plugin-related reporting constants.
-const PLUGINS = {
+const LIFECYCLE = {
   TYPE: 'lifecycle',
-  // Reported events - alphabetize below.
-  INSTALLED: 'Plugins installed',
+  CATEGORY: {
+    DEFAULT: 'Default',
+    EXTENSION_DETECTED: 'Extension detected',
+    PLUGINS_INSTALLED: 'Plugins installed',
+  },
 };
 
-// Chrome extension-related reporting constants.
-const EXTENSION = {
-  TYPE: 'lifecycle',
-  // Reported events - alphabetize below.
-  DETECTED: 'Extension detected',
+const INTERACTION = {
+  TYPE: 'interaction',
+  CATEGORY: {
+    DEFAULT: 'Default',
+    VISIBILITY: 'Visibility',
+  },
 };
 
-// Navigation reporting constants.
 const NAVIGATION = {
   TYPE: 'nav-report',
-  CATEGORY: 'Location Changed',
-  PAGE: 'Page',
+  CATEGORY: {
+    LOCATION_CHANGED: 'Location Changed',
+  },
+  EVENT: {
+    PAGE: 'Page',
+  },
 };
 
 const ERROR = {
   TYPE: 'error',
-  CATEGORY: 'exception',
-};
-
-const ERROR_DIALOG = {
-  TYPE: 'error',
-  CATEGORY: 'Error Dialog',
+  CATEGORY: {
+    EXCEPTION: 'exception',
+    ERROR_DIALOG: 'Error Dialog',
+  },
 };
 
 const TIMER = {
@@ -85,11 +93,10 @@ STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED] = 0;
 STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
 STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_LOAD_FULL] = 0;
 STARTUP_TIMERS[TIMER.STARTUP_FILE_LIST_DISPLAYED] = 0;
-STARTUP_TIMERS[TIMING.APP_STARTED] = 0;
+STARTUP_TIMERS[TIMING.EVENT.APP_STARTED] = 0;
 // WebComponentsReady timer is triggered from gr-router.
 STARTUP_TIMERS[TIMER.WEB_COMPONENTS_READY] = 0;
 
-const INTERACTION_TYPE = 'interaction';
 const DRAFT_ACTION_TIMER = 'TimeBetweenDraftActions';
 const DRAFT_ACTION_TIMER_MAX = 2 * 60 * 1000; // 2 minutes.
 const SLOW_RPC_THRESHOLD = 500;
@@ -117,7 +124,8 @@ export function initErrorReporter(appContext) {
       column,
       error,
     };
-    reportingService.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
+    reportingService.reporter(ERROR.TYPE, ERROR.CATEGORY.EXCEPTION,
+        msg, payload);
     return true;
   };
 
@@ -129,7 +137,8 @@ export function initErrorReporter(appContext) {
       const payload = {
         error: e.reason,
       };
-      reportingService.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
+      reportingService.reporter(ERROR.TYPE,
+          ERROR.CATEGORY.EXCEPTION, msg, payload);
     });
   };
 
@@ -151,7 +160,7 @@ export function initPerformanceReporter(appContext) {
           // We are interested in longtask longer than 200 ms (default is 50 ms)
           if (task.duration > 200) {
             reportingService.reporter(TIMING.TYPE,
-                TIMING.CATEGORY_UI_LATENCY, `Task ${task.name}`,
+                TIMING.CATEGORY.UI_LATENCY, `Task ${task.name}`,
                 Math.round(task.duration), {}, false);
           }
         }
@@ -165,8 +174,8 @@ export function initVisibilityReporter(appContext) {
   const reportingService = appContext.reportingService;
   document.addEventListener('visibilitychange', () => {
     const eventName = `Visibility changed to ${document.visibilityState}`;
-    reportingService.reporter(INTERACTION_TYPE, undefined, eventName,
-        undefined, {}, true);
+    reportingService.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.VISIBILITY,
+        eventName, undefined, {}, true);
   });
 }
 
@@ -219,7 +228,7 @@ export class GrReporting {
   reporter(type, category, eventName, eventValue, eventDetails, opt_noLog) {
     const eventInfo = this._createEventInfo(type, category,
         eventName, eventValue, eventDetails);
-    if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
+    if (type === ERROR.TYPE && category === ERROR.CATEGORY.EXCEPTION) {
       console.error(eventValue && eventValue.error || eventName);
     }
 
@@ -286,7 +295,7 @@ export class GrReporting {
    * User-perceived app start time, should be reported when the app is ready.
    */
   appStarted() {
-    this.timeEnd(TIMING.APP_STARTED);
+    this.timeEnd(TIMING.EVENT.APP_STARTED);
     this._reportNavResTimes();
   }
 
@@ -306,7 +315,7 @@ export class GrReporting {
       const elapsedTime = eventTiming -
           this.performanceTiming.navigationStart;
       // NavResTime - Navigation and resource timings.
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY.UI_LATENCY,
           `NavResTime - ${eventName}`, elapsedTime, eventDetails, true);
     }
   }
@@ -328,8 +337,8 @@ export class GrReporting {
   }
 
   locationChanged(page) {
-    this.reporter(
-        NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
+    this.reporter(NAVIGATION.TYPE, NAVIGATION.CATEGORY.LOCATION_CHANGED,
+        NAVIGATION.EVENT.PAGE, page);
   }
 
   dashboardDisplayed() {
@@ -418,7 +427,7 @@ export class GrReporting {
   }
 
   reportExtension(name) {
-    this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
+    this.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.EXTENSION_DETECTED, name);
   }
 
   pluginLoaded(name) {
@@ -430,7 +439,8 @@ export class GrReporting {
   pluginsLoaded(pluginsList) {
     this.timeEnd(TIMER.PLUGINS_LOADED);
     this.reporter(
-        PLUGINS.TYPE, PLUGINS.INSTALLED, PLUGINS.INSTALLED, undefined,
+        LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
+        LIFECYCLE.CATEGORY.PLUGINS_INSTALLED, undefined,
         {pluginsList: pluginsList || []}, true);
   }
 
@@ -490,7 +500,7 @@ export class GrReporting {
    * @param {Object} eventDetails non sensitive details
    */
   _reportTiming(name, time, eventDetails) {
-    this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name, time,
+    this.reporter(TIMING.TYPE, TIMING.CATEGORY.UI_LATENCY, name, time,
         eventDetails);
   }
 
@@ -550,16 +560,21 @@ export class GrReporting {
    * @param {number} elapsed The time elapsed of the RPC.
    */
   reportRpcTiming(anonymizedUrl, elapsed) {
-    this.reporter(TIMING.TYPE, TIMING.CATEGORY_RPC, 'RPC-' + anonymizedUrl,
+    this.reporter(TIMING.TYPE, TIMING.CATEGORY.RPC, 'RPC-' + anonymizedUrl,
         elapsed, {}, true);
     if (elapsed >= SLOW_RPC_THRESHOLD) {
       this._slowRpcList.push({anonymizedUrl, elapsed});
     }
   }
 
+  reportLifeCycle(eventName, details) {
+    this.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.DEFAULT, eventName,
+        undefined, details, true);
+  }
+
   reportInteraction(eventName, details) {
-    this.reporter(INTERACTION_TYPE, undefined, eventName, undefined,
-        details, true);
+    this.reporter(INTERACTION.TYPE, INTERACTION.CATEGORY.DEFAULT, eventName,
+        undefined, details, true);
   }
 
   /**
@@ -583,7 +598,7 @@ export class GrReporting {
   }
 
   reportErrorDialog(message) {
-    this.reporter(ERROR_DIALOG.TYPE, ERROR_DIALOG.CATEGORY,
+    this.reporter(ERROR.TYPE, ERROR.CATEGORY.ERROR_DIALOG,
         'ErrorDialog: ' + message, {error: new Error(message)});
   }
 

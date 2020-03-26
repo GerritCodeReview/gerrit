@@ -745,9 +745,6 @@ public class ExternalIdNotes extends VersionedMetaData {
               .map(ExternalId::accountId)
               .filter(i -> !accountsToSkip.contains(i))
               .collect(toSet())) {
-        if (accountCache != null) {
-          accountCache.evict(id);
-        }
         if (accountIndexer != null) {
           accountIndexer.get().index(id);
         }

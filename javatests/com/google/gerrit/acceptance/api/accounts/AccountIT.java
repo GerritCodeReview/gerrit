@@ -47,7 +47,6 @@ import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.github.rholder.retry.StopStrategies;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -143,7 +142,6 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.name.Named;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -217,10 +215,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
 
   @Inject protected Emails emails;
-
-  @Inject
-  @Named("accounts")
-  private LoadingCache<Account.Id, AccountState> accountsCache;
 
   @Inject private AccountOperations accountOperations;
 
@@ -2408,10 +2402,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private void assertStaleAccountAndReindex(Account.Id accountId) throws IOException {
-    // Evict account from cache to be sure that we use the index state for staleness checks. This
-    // has to happen directly on the accounts cache because AccountCacheImpl triggers a reindex for
-    // the account.
-    accountsCache.invalidate(accountId);
     assertThat(stalenessChecker.check(accountId).isStale()).isTrue();
 
     // Reindex fixes staleness

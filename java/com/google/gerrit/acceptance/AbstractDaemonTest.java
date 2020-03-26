@@ -380,8 +380,7 @@ public abstract class AbstractDaemonTest {
     initSsh();
   }
 
-  protected void evictAndReindexAccount(Account.Id accountId) {
-    accountCache.evict(accountId);
+  protected void reindexAccount(Account.Id accountId) {
     accountIndexer.index(accountId);
   }
 
@@ -436,8 +435,8 @@ public abstract class AbstractDaemonTest {
     user = accountCreator.user();
 
     // Evict and reindex accounts in case tests modify them.
-    evictAndReindexAccount(admin.id());
-    evictAndReindexAccount(user.id());
+    reindexAccount(admin.id());
+    reindexAccount(user.id());
 
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);

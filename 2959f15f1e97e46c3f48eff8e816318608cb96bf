@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e7b1b900_28de5959",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-26T04:53:05Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 41,
+        "startChar": 31,
+        "endLine": 41,
+        "endChar": 35
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa1c48b8_fb3ef5fd",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3345,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-26T04:53:05Z",
+      "side": 1,
+      "message": "optional?",
+      "range": {
+        "startLine": 3345,
+        "startChar": 29,
+        "endLine": 3345,
+        "endChar": 31
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0e0fa8a_8deec967",
         "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
         "patchSetId": 5
@@ -133,6 +179,29 @@
         "startChar": 42,
         "endLine": 123,
         "endChar": 90
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f340d25_490279ac",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-03-26T04:53:05Z",
+      "side": 1,
+      "message": "Previously this string formatting would only be done when atFine logging is enabled for this class.\n\nCan we make it so it\u0027s only done when ACL logging is needed?",
+      "range": {
+        "startLine": 392,
+        "startChar": 10,
+        "endLine": 399,
+        "endChar": 23
       },
       "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

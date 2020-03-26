@@ -19,11 +19,16 @@ import static com.google.gerrit.httpd.raw.IndexHtmlUtil.changeUrlPattern;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.computeChangeRequestsPath;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.diffUrlPattern;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
+import static com.google.template.soy.data.ordainers.GsonOrdainer.serializeObject;
 
+import com.google.gerrit.json.OutputFormat;
+import com.google.gson.Gson;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.junit.Test;
 
 public class IndexHtmlUtilTest {
@@ -136,5 +141,21 @@ public class IndexHtmlUtilTest {
   private static SanitizedContent ordain(String s) {
     return UnsafeSanitizedContentOrdainer.ordainAsSafe(
         s, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
+  }
+
+  @Test
+  public void useExperiments() throws Exception {
+    Map<String, String[]> urlParms = new HashMap<>();
+    String[] experiments = new String[] {"foo", "bar", "foo"};
+    Set<String> expected = new HashSet<>();
+    for (String exp : experiments) {
+      expected.add(exp);
+    }
+    urlParms.put("experiments", experiments);
+    Map<String, Object> data =
+        staticTemplateData(
+            "http://example.com/", null, null, urlParms, IndexHtmlUtilTest::ordain, null);
+    Gson gson = OutputFormat.JSON_COMPACT.newGson();
+    assertThat(data.get("enabledExperiments")).isEqualTo(serializeObject(gson, expected));
   }
 }

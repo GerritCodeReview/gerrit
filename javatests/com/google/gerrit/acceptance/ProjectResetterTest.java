@@ -20,9 +20,7 @@ import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -251,130 +249,6 @@ public class ProjectResetterTest {
     }
 
     verify(projectCache, only()).evict(project2);
-  }
-
-  @Test
-  public void accountEvictionIfUserBranchIsReset() throws Exception {
-    Account.Id accountId = Account.id(1);
-    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
-    Repository allUsersRepo = repoManager.createRepository(allUsers);
-    Ref userBranch = createRef(allUsersRepo, RefNames.refsUsers(accountId));
-
-    AccountCache accountCache = mock(AccountCache.class);
-    AccountIndexer accountIndexer = mock(AccountIndexer.class);
-
-    // Non-user branch because it's not in All-Users.
-    Ref nonUserBranch = createRef(RefNames.refsUsers(Account.id(2)));
-
-    try (ProjectResetter resetProject =
-        builder(null, accountCache, accountIndexer, null, null, null, null)
-            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
-      updateRef(nonUserBranch);
-      updateRef(allUsersRepo, userBranch);
-    }
-
-    verify(accountCache, only()).evict(accountId);
-    verify(accountIndexer, only()).index(accountId);
-  }
-
-  @Test
-  public void accountEvictionIfUserBranchIsDeleted() throws Exception {
-    Account.Id accountId = Account.id(1);
-    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
-    Repository allUsersRepo = repoManager.createRepository(allUsers);
-
-    AccountCache accountCache = mock(AccountCache.class);
-    AccountIndexer accountIndexer = mock(AccountIndexer.class);
-
-    try (ProjectResetter resetProject =
-        builder(null, accountCache, accountIndexer, null, null, null, null)
-            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
-      // Non-user branch because it's not in All-Users.
-      createRef(RefNames.refsUsers(Account.id(2)));
-
-      createRef(allUsersRepo, RefNames.refsUsers(accountId));
-    }
-
-    verify(accountCache, only()).evict(accountId);
-    verify(accountIndexer, only()).index(accountId);
-  }
-
-  @Test
-  public void accountEvictionIfExternalIdsBranchIsReset() throws Exception {
-    Account.Id accountId = Account.id(1);
-    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
-    Repository allUsersRepo = repoManager.createRepository(allUsers);
-    Ref externalIds = createRef(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
-    createRef(allUsersRepo, RefNames.refsUsers(accountId));
-
-    Account.Id accountId2 = Account.id(2);
-
-    AccountCache accountCache = mock(AccountCache.class);
-    AccountIndexer accountIndexer = mock(AccountIndexer.class);
-
-    // Non-user branch because it's not in All-Users.
-    Ref nonUserBranch = createRef(RefNames.refsUsers(Account.id(3)));
-
-    try (ProjectResetter resetProject =
-        builder(null, accountCache, accountIndexer, null, null, null, null)
-            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
-      updateRef(nonUserBranch);
-      updateRef(allUsersRepo, externalIds);
-      createRef(allUsersRepo, RefNames.refsUsers(accountId2));
-    }
-
-    verify(accountCache).evict(accountId);
-    verify(accountCache).evict(accountId2);
-    verify(accountIndexer).index(accountId);
-    verify(accountIndexer).index(accountId2);
-    verifyNoMoreInteractions(accountCache, accountIndexer);
-  }
-
-  @Test
-  public void accountEvictionIfExternalIdsBranchIsDeleted() throws Exception {
-    Account.Id accountId = Account.id(1);
-    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
-    Repository allUsersRepo = repoManager.createRepository(allUsers);
-    createRef(allUsersRepo, RefNames.refsUsers(accountId));
-
-    Account.Id accountId2 = Account.id(2);
-
-    AccountCache accountCache = mock(AccountCache.class);
-    AccountIndexer accountIndexer = mock(AccountIndexer.class);
-
-    // Non-user branch because it's not in All-Users.
-    Ref nonUserBranch = createRef(RefNames.refsUsers(Account.id(3)));
-
-    try (ProjectResetter resetProject =
-        builder(null, accountCache, accountIndexer, null, null, null, null)
-            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
-      updateRef(nonUserBranch);
-      createRef(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
-      createRef(allUsersRepo, RefNames.refsUsers(accountId2));
-    }
-
-    verify(accountCache).evict(accountId);
-    verify(accountCache).evict(accountId2);
-    verify(accountIndexer).index(accountId);
-    verify(accountIndexer).index(accountId2);
-    verifyNoMoreInteractions(accountCache, accountIndexer);
-  }
-
-  @Test
-  public void accountEvictionFromAccountCreatorIfUserBranchIsDeleted() throws Exception {
-    Account.Id accountId = Account.id(1);
-    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
-    Repository allUsersRepo = repoManager.createRepository(allUsers);
-
-    AccountCreator accountCreator = mock(AccountCreator.class);
-
-    try (ProjectResetter resetProject =
-        builder(accountCreator, null, null, null, null, null, null)
-            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
-      createRef(allUsersRepo, RefNames.refsUsers(accountId));
-    }
-
-    verify(accountCreator, only()).evict(ImmutableSet.of(accountId));
   }
 
   @Test

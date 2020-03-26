@@ -790,7 +790,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     for (String email : emails) {
       accountManager.link(id, AuthRequest.forEmail(email));
     }
-    accountCache.evict(id);
     accountIndexer.index(id);
   }
 

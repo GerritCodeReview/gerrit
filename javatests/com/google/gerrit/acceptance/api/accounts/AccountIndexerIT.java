@@ -86,18 +86,6 @@ public class AccountIndexerIT {
   }
 
   @Test
-  public void indexingUpdatesStaleCache() throws Exception {
-    Account.Id accountId = createAccount("foo");
-    loadAccountToCache(accountId);
-    String status = "ooo";
-    updateAccountWithoutCacheOrIndex(accountId, newAccountUpdate().setStatus(status).build());
-    assertThat(accountCache.get(accountId).get().account().status()).isNull();
-
-    accountIndexer.index(accountId);
-    assertThat(accountCache.get(accountId).get().account().status()).isEqualTo(status);
-  }
-
-  @Test
   public void reindexingStaleAccountUpdatesTheIndex() throws Exception {
     Account.Id accountId = createAccount("foo");
     String preferredEmail = "foo@example.com";
@@ -140,7 +128,6 @@ public class AccountIndexerIT {
   }
 
   private void reloadAccountToCache(Account.Id accountId) {
-    accountCache.evict(accountId);
     loadAccountToCache(accountId);
   }
 

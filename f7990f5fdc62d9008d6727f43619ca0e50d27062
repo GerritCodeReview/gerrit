@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b352c3e6_864a552d",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-26T11:15:27Z",
+      "side": 1,
+      "message": "May be add comment that this class is required only because we want to have mock GrReporting instance in tests and don\u0027t want to import GrReporting class in other files?",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 0
+      },
+      "revId": "f7990f5fdc62d9008d6727f43619ca0e50d27062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

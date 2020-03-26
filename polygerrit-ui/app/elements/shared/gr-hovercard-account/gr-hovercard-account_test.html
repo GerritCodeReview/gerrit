@@ -24,19 +24,8 @@ limitations under the License.
 
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
-<script type="module" src="../../../test/test-pre-setup.js"></script>
-<script type="module" src="../../../test/common-test-setup.js"></script>
-<script src="../../../node_modules/iron-test-helpers/mock-interactions.js" type="module"></script>
 
 <script type="module" src="./gr-hovercard-account.js"></script>
-
-<script type="module">
-  import '../../../test/test-pre-setup.js';
-  import '../../../test/common-test-setup.js';
-  import './gr-hovercard-account.js';
-
-  void (0);
-</script>
 
 <test-fixture id="basic">
   <template>
@@ -46,49 +35,48 @@ limitations under the License.
 
 
 <script type="module">
-  import '../../../test/test-pre-setup.js';
-  import '../../../test/common-test-setup.js';
-  import './gr-hovercard-account.js';
+import '../../../test/common-test-setup.js';
+import './gr-hovercard-account.js';
 
-  suite('gr-hovercard-account tests', () => {
-    let element;
-    const ACCOUNT = {
-      email: 'kermit@gmail.com',
-      username: 'kermit',
-      name: 'Kermit The Frog',
-      _account_id: '31415926535',
-    };
+suite('gr-hovercard-account tests', () => {
+  let element;
+  const ACCOUNT = {
+    email: 'kermit@gmail.com',
+    username: 'kermit',
+    name: 'Kermit The Frog',
+    _account_id: '31415926535',
+  };
 
-    setup(() => {
-      element = fixture('basic');
-      element.account = Object.assign({}, ACCOUNT);
-    });
-
-    test('account name is shown', () => {
-      assert.equal(element.shadowRoot.querySelector('.name').innerText,
-          'Kermit The Frog');
-    });
-
-    test('account status is not shown if the property is not set', () => {
-      assert.isNull(element.shadowRoot.querySelector('.status'));
-    });
-
-    test('account status is displayed', () => {
-      element.account = Object.assign({status: 'OOO'}, ACCOUNT);
-      flushAsynchronousOperations();
-      assert.equal(element.shadowRoot.querySelector('.status .value').innerText,
-          'OOO');
-    });
-
-    test('voteable div is not shown if the property is not set', () => {
-      assert.isNull(element.shadowRoot.querySelector('.voteable'));
-    });
-
-    test('voteable div is displayed', () => {
-      element.voteableText = 'CodeReview: +2';
-      flushAsynchronousOperations();
-      assert.equal(element.shadowRoot.querySelector('.voteable .value').innerText,
-          element.voteableText);
-    });
+  setup(() => {
+    element = fixture('basic');
+    element.account = Object.assign({}, ACCOUNT);
   });
+
+  test('account name is shown', () => {
+    assert.equal(element.shadowRoot.querySelector('.name').innerText,
+        'Kermit The Frog');
+  });
+
+  test('account status is not shown if the property is not set', () => {
+    assert.isNull(element.shadowRoot.querySelector('.status'));
+  });
+
+  test('account status is displayed', () => {
+    element.account = Object.assign({status: 'OOO'}, ACCOUNT);
+    flushAsynchronousOperations();
+    assert.equal(element.shadowRoot.querySelector('.status .value').innerText,
+        'OOO');
+  });
+
+  test('voteable div is not shown if the property is not set', () => {
+    assert.isNull(element.shadowRoot.querySelector('.voteable'));
+  });
+
+  test('voteable div is displayed', () => {
+    element.voteableText = 'CodeReview: +2';
+    flushAsynchronousOperations();
+    assert.equal(element.shadowRoot.querySelector('.voteable .value').innerText,
+        element.voteableText);
+  });
+});
 </script>

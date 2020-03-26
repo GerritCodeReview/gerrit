@@ -272,9 +272,6 @@ public class ProjectResetterTest {
       updateRef(nonUserBranch);
       updateRef(allUsersRepo, userBranch);
     }
-
-    verify(accountCache, only()).evict(accountId);
-    verify(accountIndexer, only()).index(accountId);
   }
 
   @Test
@@ -294,9 +291,6 @@ public class ProjectResetterTest {
 
       createRef(allUsersRepo, RefNames.refsUsers(accountId));
     }
-
-    verify(accountCache, only()).evict(accountId);
-    verify(accountIndexer, only()).index(accountId);
   }
 
   @Test
@@ -323,8 +317,6 @@ public class ProjectResetterTest {
       createRef(allUsersRepo, RefNames.refsUsers(accountId2));
     }
 
-    verify(accountCache).evict(accountId);
-    verify(accountCache).evict(accountId2);
     verify(accountIndexer).index(accountId);
     verify(accountIndexer).index(accountId2);
     verifyNoMoreInteractions(accountCache, accountIndexer);
@@ -353,8 +345,6 @@ public class ProjectResetterTest {
       createRef(allUsersRepo, RefNames.refsUsers(accountId2));
     }
 
-    verify(accountCache).evict(accountId);
-    verify(accountCache).evict(accountId2);
     verify(accountIndexer).index(accountId);
     verify(accountIndexer).index(accountId2);
     verifyNoMoreInteractions(accountCache, accountIndexer);

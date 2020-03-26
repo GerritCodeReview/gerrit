@@ -32,9 +32,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.proto.Protos;
-import com.google.gerrit.server.cache.proto.Cache.ProjectWatchKeyProto;
-import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.git.ValidationError;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -90,26 +87,6 @@ public class ProjectWatches {
     public abstract Project.NameKey project();
 
     public abstract @Nullable String filter();
-
-    enum Serializer implements CacheSerializer<ProjectWatchKey> {
-      INSTANCE;
-
-      @Override
-      public byte[] serialize(ProjectWatchKey key) {
-        ProjectWatchKeyProto.Builder proto =
-            ProjectWatchKeyProto.newBuilder().setProject(key.project().get());
-        if (key.filter() != null) {
-          proto.setFilter(key.filter());
-        }
-        return Protos.toByteArray(proto.build());
-      }
-
-      @Override
-      public ProjectWatchKey deserialize(byte[] in) {
-        ProjectWatchKeyProto proto = Protos.parseUnchecked(ProjectWatchKeyProto.parser(), in);
-        return ProjectWatchKey.create(Project.nameKey(proto.getProject()), proto.getFilter());
-      }
-    }
   }
 
   public enum NotifyType {

@@ -184,6 +184,19 @@ public class StoredPreferences {
     return cfg;
   }
 
+  /** Returns the content of the {@code preferences.config} file. */
+  String getRaw() {
+    return cfg.toText();
+  }
+
+  /**
+   * Returns the content of the {@code preferences.config} file on {@code
+   * refs/preferences/defaults}.
+   */
+  String getRawDefault() {
+    return defaultCfg.toText();
+  }
+
   private GeneralPreferencesInfo parseGeneralPreferences(@Nullable GeneralPreferencesInfo input) {
     try {
       return parseGeneralPreferences(cfg, defaultCfg, input);
@@ -224,7 +237,12 @@ public class StoredPreferences {
     }
   }
 
-  private static GeneralPreferencesInfo parseGeneralPreferences(
+  /**
+   * Returns a {@link GeneralPreferencesInfo} that is the result of parsing {@code defaultCfg} for
+   * the server's default configs and {@code cfg} for the user's config. These configs are then
+   * overlaid to inherit values (default -> user -> input (if provided).
+   */
+  static GeneralPreferencesInfo parseGeneralPreferences(
       Config cfg, @Nullable Config defaultCfg, @Nullable GeneralPreferencesInfo input)
       throws ConfigInvalidException {
     GeneralPreferencesInfo r =
@@ -247,7 +265,12 @@ public class StoredPreferences {
     return r;
   }
 
-  private static DiffPreferencesInfo parseDiffPreferences(
+  /**
+   * Returns a {@link DiffPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
+   * server's default configs and {@code cfg} for the user's config. These configs are then overlaid
+   * to inherit values (default -> user -> input (if provided).
+   */
+  static DiffPreferencesInfo parseDiffPreferences(
       Config cfg, @Nullable Config defaultCfg, @Nullable DiffPreferencesInfo input)
       throws ConfigInvalidException {
     return loadSection(
@@ -261,7 +284,12 @@ public class StoredPreferences {
         input);
   }
 
-  private static EditPreferencesInfo parseEditPreferences(
+  /**
+   * Returns a {@link EditPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
+   * server's default configs and {@code cfg} for the user's config. These configs are then overlaid
+   * to inherit values (default -> user -> input (if provided).
+   */
+  static EditPreferencesInfo parseEditPreferences(
       Config cfg, @Nullable Config defaultCfg, @Nullable EditPreferencesInfo input)
       throws ConfigInvalidException {
     return loadSection(

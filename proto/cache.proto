@@ -278,11 +278,12 @@ message PureRevertKeyProto {
   bytes claimed_revert = 3;
 }
 
-// Key for com.google.gerrit.server.account.ProjectWatches.ProjectWatcheKey.
-// Next ID: 3
-message ProjectWatchKeyProto {
+// Key for com.google.gerrit.server.account.ProjectWatches.
+// Next ID: 4
+message ProjectWatchProto {
   string project = 1;
   string filter = 2;
+  repeated string notify_type = 3;
 }
 
 // Serialized form of
@@ -297,4 +298,19 @@ message AccountProto {
   bool inactive = 6;
   string status = 7;
   string meta_id = 8;
+}
+
+// Serialized form of com.google.gerrit.server.account.AccountCacheImpl.Key.
+// Next ID: 4
+message AccountKeyProto {
+  int32 account_id = 1;
+  bytes id = 2;
+}
+
+// Serialized form of com.google.gerrit.server.account.AccountCacheImpl.CachedAccountDetails.
+// Next ID: 4
+message AccountDetailsProto {
+  AccountProto account = 1;
+  repeated ProjectWatchProto project_watch_proto = 2;
+  string user_preferences = 3;
 }

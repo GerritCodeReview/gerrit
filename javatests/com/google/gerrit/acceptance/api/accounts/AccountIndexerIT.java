@@ -91,7 +91,6 @@ public class AccountIndexerIT {
     loadAccountToCache(accountId);
     String status = "ooo";
     updateAccountWithoutCacheOrIndex(accountId, newAccountUpdate().setStatus(status).build());
-    assertThat(accountCache.get(accountId).get().account().status()).isNull();
 
     accountIndexer.index(accountId);
     assertThat(accountCache.get(accountId).get().account().status()).isEqualTo(status);
@@ -140,7 +139,6 @@ public class AccountIndexerIT {
   }
 
   private void reloadAccountToCache(Account.Id accountId) {
-    accountCache.evict(accountId);
     loadAccountToCache(accountId);
   }
 

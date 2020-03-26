@@ -340,7 +340,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
 
     private TestAccount evictAndCopy(TestAccount account) {
-      evictAndReindexAccount(account.id());
+      reindexAccount(account.id());
       return account;
     }
 

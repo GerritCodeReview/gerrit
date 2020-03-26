@@ -24,9 +24,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.DuplicateKeyException;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -106,6 +103,11 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return this;
   }
 
+  public AccountConfig load(ObjectId rev) throws IOException, ConfigInvalidException {
+    load(allUsersName, repo, rev);
+    return this;
+  }
+
   /**
    * Get the loaded account.
    *
@@ -140,36 +142,6 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
     checkLoaded();
     return projectWatches.getProjectWatches();
-  }
-
-  /**
-   * Get the general preferences of the loaded account.
-   *
-   * @return the general preferences of the loaded account
-   */
-  public GeneralPreferencesInfo getGeneralPreferences() {
-    checkLoaded();
-    return preferences.getGeneralPreferences();
-  }
-
-  /**
-   * Get the diff preferences of the loaded account.
-   *
-   * @return the diff preferences of the loaded account
-   */
-  public DiffPreferencesInfo getDiffPreferences() {
-    checkLoaded();
-    return preferences.getDiffPreferences();
-  }
-
-  /**
-   * Get the edit preferences of the loaded account.
-   *
-   * @return the edit preferences of the loaded account
-   */
-  public EditPreferencesInfo getEditPreferences() {
-    checkLoaded();
-    return preferences.getEditPreferences();
   }
 
   /**
@@ -226,6 +198,21 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   public AccountConfig setAccountUpdate(InternalAccountUpdate accountUpdate) {
     this.accountUpdate = Optional.of(accountUpdate);
     return this;
+  }
+
+  /** Returns the content of the {@code preferences.config} file. */
+  String getRawPreferences() {
+    checkLoaded();
+    return preferences.getRaw();
+  }
+
+  /**
+   * Returns the content of the {@code preferences.config} file on {@code
+   * refs/preferences/defaults}.
+   */
+  String getRawDefaultPreferences() {
+    checkLoaded();
+    return preferences.getRawDefault();
   }
 
   @Override

@@ -368,9 +368,6 @@ public class ProjectResetter implements AutoCloseable {
   }
 
   private void evictAndReindexAccount(Account.Id accountId) {
-    if (accountCache != null) {
-      accountCache.evict(accountId);
-    }
     if (groupIncludeCache != null) {
       groupIncludeCache.evictGroupsWithMember(accountId);
     }

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "83bca99b_ee1f3387",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-26T14:16:14Z",
+      "side": 1,
+      "message": "You don\u0027t have to add an undefined check for change, because there is only one parameter. If the compute method had two parameters, then Polymer 2 would start calling the compute method as soon as *one* parameter becomes defined. (That was different in Polymer 1). But this is just FYI.\n\nBut you have to check change.revisions to be defined. Object.values() throws an error otherwise. That is also why the Gerrit CI verification fails. For example this would do:\n\n  return !!change.revisions \u0026\u0026 Object.values(change.revisions).some(rev \u003d\u003e rev._number \u003d\u003d \u0027edit\u0027);\n\n!! (this is just the ! negation applied twice) forces the type to be boolean. Otherwise `return undefined \u0026\u0026 something` would return undefined, not false.",
+      "parentUuid": "473752df_a8994150",
+      "revId": "f61f732bfffb53c5438d87e8ce2f48bf2995731d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74719062_4bdc5ab3",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
         "patchSetId": 1

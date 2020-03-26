@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36b95a90_a73d5f0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-26T10:43:59Z",
+      "side": 1,
+      "message": "WIll make it a follow-up change.",
+      "parentUuid": "bfd0e490_4c48178a",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5b1d3f4_b9a1bff2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7ee7afc_a5e0dbed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-26T10:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5b1d3f4_b9a1bff2",
+      "range": {
+        "startLine": 12,
+        "startChar": 72,
+        "endLine": 12,
+        "endChar": 73
+      },
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b5f29ead_651cb85c",
+        "filename": "java/com/google/gerrit/exceptions/IllegalTopicException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-26T10:43:59Z",
+      "side": 1,
+      "message": "I just learnt that ReceiveCommits handles the conversion to GitE. Converted to RestApIE where needed.\nI did as described in 2c.",
+      "parentUuid": "4207a066_bc53b83b",
+      "range": {
+        "startLine": 4,
+        "startChar": 13,
+        "endLine": 4,
+        "endChar": 34
+      },
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "549360cf_770cb280",
         "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 4
@@ -82,6 +154,24 @@
       "writtenOn": "2020-03-25T13:58:15Z",
       "side": 1,
       "message": "It\u0027s probably OK to convert this here because the method already throws a RestApiE, so we aren\u0027t making things worse. However, this code is also used in ReceiveCommits and itself is part of the server, so the same concerns apply.\n\nUp to you if you want to handle ValidationE in callers or convert here.",
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f99da7a7_f8be2e0a",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-26T10:43:59Z",
+      "side": 1,
+      "message": "I think this is a massive clean-up that is out of scope for this change.",
+      "parentUuid": "549360cf_770cb280",
       "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -108,6 +198,30 @@
       "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eb3bd9d_e6c3c016",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-26T10:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb8f6703_10b9819e",
+      "range": {
+        "startLine": 358,
+        "startChar": 7,
+        "endLine": 358,
+        "endChar": 11
+      },
+      "revId": "18a0e5a60a68ab8ddf11b4875d9b79946d8670e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

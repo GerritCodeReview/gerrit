@@ -9,6 +9,7 @@
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.13.0",
     "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsdoc": "^19.2.0",
     "fried-twinkie": "^0.2.2",
     "polymer-cli": "^1.9.11",
@@ -19,7 +20,7 @@
     "clean": "git clean -fdx && bazel clean --expunge",
     "start": "polygerrit-ui/run-server.sh",
     "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh",
-    "eslint": "./node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app",
+    "eslint": "bazel fetch @ui_npm//:node_modules && ./node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app",
     "eslintfix": "npm run eslint -- --fix",
     "test-template": "./polygerrit-ui/app/run_template_test.sh",
     "polylint": "if [[ -z `which bazelisk 2>/dev/null` ]]; then bazel_bin=bazel; else bazel_bin=bazelisk; fi && $bazel_bin test polygerrit-ui/app:polylint_test"

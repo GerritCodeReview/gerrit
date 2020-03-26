@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a1f3974_320f5432",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsKeyReader.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f89e8a_d24ebd7c",
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99be111d_3ac795e3",
         "filename": "java/com/google/gerrit/server/account/ExternalGroupsKeyReader.java",
         "patchSetId": 11
@@ -39,6 +57,30 @@
       "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bcaef5a_8707861b",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsKeyReader.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99be111d_3ac795e3",
+      "range": {
+        "startLine": 44,
+        "startChar": 79,
+        "endLine": 44,
+        "endChar": 90
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "25471e5b_f01fb790",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55cdd403_b62a2687",
+      "range": {
+        "startLine": 80,
+        "startChar": 55,
+        "endLine": 80,
+        "endChar": 60
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bd5e1a7_c0c00737",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 11
@@ -85,6 +151,30 @@
       "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ba13d1c_c126ff9b",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bd5e1a7_c0c00737",
+      "range": {
+        "startLine": 89,
+        "startChar": 12,
+        "endLine": 89,
+        "endChar": 38
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "3cfcb9a9_d477e8f9",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Nice! I liked your idea for using Autovalue to return the hash and refs in the same call.\nDone.",
+      "parentUuid": "ae63a593_1c00e483",
+      "range": {
+        "startLine": 233,
+        "startChar": 6,
+        "endLine": 233,
+        "endChar": 12
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ca88f3e_9b90660d",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 11
@@ -131,6 +245,30 @@
       "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfacce90_2e6d4fc7",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ca88f3e_9b90660d",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 3
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "dcd32518_cf154d29",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Thanks for the tip! Done.",
+      "parentUuid": "ed466abd_3bfa904a",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 5
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ade69106_78957355",
         "filename": "java/com/google/gerrit/server/group/db/Groups.java",
         "patchSetId": 11
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "1870fc76_70f8b85f",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ade69106_78957355",
+      "range": {
+        "startLine": 90,
+        "startChar": 50,
+        "endLine": 90,
+        "endChar": 58
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbcc03b6_bec62467",
         "filename": "java/com/google/gerrit/server/group/db/VersionedGroupConfig.java",
         "patchSetId": 11
@@ -200,6 +386,30 @@
       "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8cf2dd6_e80c6de6",
+        "filename": "java/com/google/gerrit/server/group/db/VersionedGroupConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Nice! Thanks for the tip; I didn\u0027t notice the other load() methods for a specific objectId. That\u0027s much better.\nDone.",
+      "parentUuid": "bbcc03b6_bec62467",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -247,6 +457,30 @@
       "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3bba586_51127354",
+        "filename": "proto/cache.proto",
+        "patchSetId": 11
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T13:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8ce5ac_611d6873",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 33
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

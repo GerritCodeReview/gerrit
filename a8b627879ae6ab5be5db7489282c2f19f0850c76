@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "efac30d6_0fecd969",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-26T14:41:48Z",
+      "side": 1,
+      "message": "I cannot understand the usage of this autorun().\nOnce, we update the labels in the store, all computed properties should update themselves.\nWhy are we then not using the value directly from the store?\nIs this the pattern we are supposed to use?",
+      "revId": "a8b627879ae6ab5be5db7489282c2f19f0850c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70505222_e8d81080",
         "filename": "polygerrit-ui/app/store/label-store.js",
         "patchSetId": 2

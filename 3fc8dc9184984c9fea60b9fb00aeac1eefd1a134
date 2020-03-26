@@ -22,6 +22,30 @@
       "revId": "3fc8dc9184984c9fea60b9fb00aeac1eefd1a134",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d50c55db_26dbcc77",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-03-26T12:44:21Z",
+      "side": 1,
+      "message": "Done here and in the test below, but the last one also needs to do an update.",
+      "parentUuid": "943f39a3_2c8336b5",
+      "range": {
+        "startLine": 473,
+        "startChar": 3,
+        "endLine": 474,
+        "endChar": 64
+      },
+      "revId": "3fc8dc9184984c9fea60b9fb00aeac1eefd1a134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -20,6 +20,7 @@
   {@param canonicalPath: ?}
   {@param staticResourcePath: ?}
   {@param gerritInitialData: /** {string} map of REST endpoint to response for startup. */ ?}
+  {@param? enabledExperiments: /** A list of enabled experiments for current user. */ ?}
   {@param? assetsPath: ?}  /** {string} URL to static assets root, if served from CDN. */
   {@param? assetsBundle: ?}  /** {string} Assets bundle .html file, served from $assetsPath. */
   {@param? faviconPath: ?}
@@ -70,6 +71,11 @@
       // '/config/server/version' => '3.0.0-468-g0757b52a7d'
       // '/accounts/self/detail' => { 'username' : 'gerrit-user' }
       window.INITIAL_DATA = JSON.parse({$gerritInitialData});
+    {/if}
+    {if $enabledExperiments}
+      // ENABLED_EXPERIMENTS is a list of string that contains all enabled experiments
+      // for the given user.
+      window.ENABLED_EXPERIMENTS = JSON.parse($enabledExperiments);
     {/if}
   </script>{\n}
 

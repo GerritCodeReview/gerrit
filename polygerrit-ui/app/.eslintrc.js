@@ -1,4 +1,24 @@
-{
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Do not add any bazel-specific properties in this file to keep it clean.
+// Please add such properties to the .eslintrc-bazel.js file
+
+module.exports = {
   "extends": ["eslint:recommended", "google"],
   "parserOptions": {
     "ecmaVersion": 8,
@@ -23,11 +43,12 @@
   },
   "rules": {
     "no-confusing-arrow": "error",
-    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
-    "arrow-body-style": ["error", "as-needed", { "requireReturnForObjectLiteral": true }],
+    "newline-per-chained-call": ["error", {"ignoreChainWithDepth": 2}],
+    "arrow-body-style": ["error", "as-needed",
+      {"requireReturnForObjectLiteral": true}],
     "arrow-parens": ["error", "as-needed"],
     "block-spacing": ["error", "always"],
-    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "brace-style": ["error", "1tbs", {"allowSingleLine": true}],
     "camelcase": "off",
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
@@ -41,24 +62,28 @@
       "MemberExpression": 2,
       "FunctionDeclaration": {"body": 1, "parameters": 2},
       "FunctionExpression": {"body": 1, "parameters": 2},
-      "CallExpression": {"arguments": 2 },
+      "CallExpression": {"arguments": 2},
       "ArrayExpression": 1,
       "ObjectExpression": 1,
       "SwitchCase": 1
     }],
-    "keyword-spacing": ["error", { "after": true, "before": true }],
+    "keyword-spacing": ["error", {"after": true, "before": true}],
     "lines-between-class-members": ["error", "always"],
     "max-len": [
       "error",
       80,
       2,
-      {"ignoreComments": true,
-      "ignorePattern":"^import .*;$"
+      {
+        "ignoreComments": true,
+        "ignorePattern": "^import .*;$"
       }
     ],
-    "new-cap": ["error", { "capIsNewExceptions": ["Polymer", "LegacyElementMixin", "GestureEventListeners", "LegacyDataMixin"] }],
+    "new-cap": ["error", {
+      "capIsNewExceptions": ["Polymer", "LegacyElementMixin",
+        "GestureEventListeners", "LegacyDataMixin"]
+    }],
     "no-console": "off",
-    "no-multiple-empty-lines": [ "error", { "max": 1 } ],
+    "no-multiple-empty-lines": ["error", {"max": 1}],
     "no-prototype-builtins": "off",
     "no-redeclare": "off",
     "no-restricted-syntax": [
@@ -133,7 +158,16 @@
           "preventDuplicates": true
         }
       }
-    }]
+    }],
+    "import/named": 2,
+    "import/no-unresolved": 2,
+    "import/no-self-import": 2,
+    // The no-cycle rule is slow, because it doesn't cache dependencies.
+    // Disable it.
+    "import/no-cycle": 0,
+    "import/no-useless-path-segments": 2,
+    "import/no-unused-modules": 2,
+    "import/no-default-export": 2
   },
   "overrides": [
     {
@@ -151,9 +185,10 @@
   ],
   "plugins": [
     "html",
-    "jsdoc"
+    "jsdoc",
+    "import"
   ],
   "settings": {
     "html/report-bad-indent": "error"
   }
-}
+};

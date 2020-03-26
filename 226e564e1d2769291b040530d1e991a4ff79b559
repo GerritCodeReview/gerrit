@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "90abc64b_142522b9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-03-26T14:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2397085f_f7af92d8",
+      "range": {
+        "startLine": 740,
+        "startChar": 2,
+        "endLine": 740,
+        "endChar": 12
+      },
+      "revId": "226e564e1d2769291b040530d1e991a4ff79b559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5322b6b5_0388bb8b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2020-03-26T11:48:25Z",
       "side": 1,
       "message": "from the test case it seems you only need it to clear the diff content, why not just call the `this.clearDiffContent()` instead ?\n\nI am not clear what are the implications when other internal variables changed together with this call, like `_showWarning` etc, the existing behavior was reseting them before and after loading, I am not sure if you want to change it to reset when diff change as well or not",
+      "revId": "226e564e1d2769291b040530d1e991a4ff79b559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04f8026c_db2b3d76",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-03-26T14:42:19Z",
+      "side": 1,
+      "message": "That is a good point. I think it makes sense to reset everything that is file-related as the same gr-diff instance can be used to show diffs of different files or different versions of the same file. \n\nI am partially trusting the current reset behavior of _loadingChanged. We particularly care about content and _showWarning as this influences if the user sees a warning that the file is too large and clearDiffContent so that content is cleared fast when the rendering for the next diff is slow - making users see content of old diffs in the browser.\n\nBut my assumptions in detail:\n\n```\nthis.cancel() // makes sense as the construction of the diff table should stop when a new diff pair is available\nthis._blame \u003d null // blame information is also content-dependent. So I also believe it should be cleared\nthis._safetyBypass // \"If the value is null, then the safety has not been bypassed\" - I think it is file dependent\nthis._showWarning // Shows if the content is too large - should be reset as content has changed - I suppose.\nthis.clearDiffContent // Should reset as diff table will be rebuilt anyway\n```\n\nWhat do you think?",
+      "parentUuid": "5322b6b5_0388bb8b",
       "revId": "226e564e1d2769291b040530d1e991a4ff79b559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -56,6 +98,24 @@
       "revId": "226e564e1d2769291b040530d1e991a4ff79b559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9464e2f0_5e9929f1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-03-26T14:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e76b0e3_24cf6140",
+      "revId": "226e564e1d2769291b040530d1e991a4ff79b559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -298,7 +298,9 @@ class GrCommentThread extends mixinBehaviors( [
         // False if it's an unresolved comment under UNRESOLVED_EXPAND_COUNT.
         const resolvedThread = !this.unresolved ||
               this._orderedComments.length - i - 1 >= UNRESOLVED_EXPAND_COUNT;
-        comment.collapsed = !isRobotComment && resolvedThread;
+        if (typeof comment.collapsed === 'undefined') {
+          comment.collapsed = !isRobotComment && resolvedThread;
+        }
       }
     }
   }

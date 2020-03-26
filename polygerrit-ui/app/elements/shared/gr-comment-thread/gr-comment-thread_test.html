@@ -628,23 +628,39 @@ suite('comment action tests', () => {
       assert.isTrue(element.unresolved);
     });
 
-    test('_setInitialExpandedState', () => {
+    test('_setInitialExpandedState with unresolved', () => {
       element.unresolved = true;
       element._setInitialExpandedState();
       for (let i = 0; i < element.comments.length; i++) {
         assert.isFalse(element.comments[i].collapsed);
       }
+    });
+
+    test('_setInitialExpandedState without unresolved', () => {
       element.unresolved = false;
       element._setInitialExpandedState();
       for (let i = 0; i < element.comments.length; i++) {
         assert.isTrue(element.comments[i].collapsed);
       }
+    });
+
+    test('_setInitialExpandedState with robot_ids', () => {
       for (let i = 0; i < element.comments.length; i++) {
         element.comments[i].robot_id = 123;
       }
       element._setInitialExpandedState();
       for (let i = 0; i < element.comments.length; i++) {
         assert.isFalse(element.comments[i].collapsed);
+      }
+    });
+
+    test('_setInitialExpandedState with collapsed state', () => {
+      element.comments[0].collapsed = false;
+      element.unresolved = false;
+      element._setInitialExpandedState();
+      assert.isFalse(element.comments[0].collapsed);
+      for (let i = 1; i < element.comments.length; i++) {
+        assert.isTrue(element.comments[i].collapsed);
       }
     });
   });

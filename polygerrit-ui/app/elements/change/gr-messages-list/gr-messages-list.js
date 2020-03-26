@@ -52,6 +52,8 @@ class GrMessagesList extends mixinBehaviors( [
 
   static get properties() {
     return {
+      /** @type {?} */
+      change: Object,
       changeNum: Number,
       messages: {
         type: Array,
@@ -263,51 +265,55 @@ class GrMessagesList extends mixinBehaviors( [
    *     a method to get all published comments (including robot comments),
    *     which returns a Hash of arrays of comments, filename as key.
    * @param {!Object} message
-   * @return {!Object} Hash of arrays of comments, filename as key.
+   * @return {!Array} Array of comment threads.
    */
-  _computeCommentsForMessage(changeComments, message) {
+  _computeThreadsForMessage(changeComments, message) {
     if ([changeComments, message].some(arg => arg === undefined)) {
       return [];
     }
-    const comments = changeComments.getAllPublishedComments();
-    if (message._index === undefined || !comments || !this.messages) {
+
+    if (message._index === undefined || !this.messages) {
       return [];
     }
-    const messages = this.messages || [];
+
     const index = message._index;
     const authorId = message.author && message.author._account_id;
     const mDate = util.parseDate(message.date).getTime();
-    // NB: Messages array has oldest messages first.
+
+    // time of next message
     let nextMDate;
     if (index > 0) {
       for (let i = index - 1; i >= 0; i--) {
-        if (messages[i] && messages[i].author &&
-            messages[i].author._account_id === authorId) {
-          nextMDate = util.parseDate(messages[i].date).getTime();
+        if (this.messages[i] && this.messages[i].author &&
+            this.messages[i].author._account_id === authorId) {
+          nextMDate = util.parseDate(this.messages[i].date).getTime();
           break;
         }
       }
     }
-    const msgComments = {};
-    for (const file in comments) {
-      if (!comments.hasOwnProperty(file)) { continue; }
-      const fileComments = comments[file];
-      for (let i = 0; i < fileComments.length; i++) {
-        if (fileComments[i].author &&
-            fileComments[i].author._account_id !== authorId) {
-          continue;
+    const commentThreads = changeComments.getAllThreadsForChange()
+        .map(c => Object.assign({}, c));
+    return commentThreads.filter(thread =>
+      // show thread if:
+      // 1. has comment from that author
+      // 2. and comment left in the same time period
+      thread.comments.map(comment => {
+        comment.collapsed = true;
+        return comment;
+      }).some(comment => {
+        const updatedDate = util.parseDate(comment.updated).getTime();
+        const condition = updatedDate <= mDate
+         && (!nextMDate || updatedDate > nextMDate)
+         && comment.author && comment.author._account_id === authorId;
+        // since getAllThreadsForChange always return a new copy of all comments
+        // we can modify here without worrying it may pollute with other threads
+        comment.collapsed = !condition;
+        if (condition) {
+          comment.label = 'From this change log';
         }
-        const cDate = util.parseDate(fileComments[i].updated).getTime();
-        if (cDate <= mDate) {
-          if (nextMDate && cDate <= nextMDate) {
-            continue;
-          }
-          msgComments[file] = msgComments[file] || [];
-          msgComments[file].push(fileComments[i]);
-        }
-      }
-    }
-    return msgComments;
+        return condition;
+      })
+    );
   }
 
   /**

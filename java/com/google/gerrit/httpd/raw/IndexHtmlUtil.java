@@ -38,6 +38,7 @@ import com.google.template.soy.data.SanitizedContent;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -206,6 +207,20 @@ public class IndexHtmlUtil {
         data.put("changeRequestsPath", changeRequestsPath);
       }
     }
+
+    // Add experiments data
+    Gson gson = OutputFormat.JSON_COMPACT.newGson();
+    Set<SanitizedContent> enabledExperiments = new HashSet<>();
+
+    // Allow enable experiments with url
+    if (urlParameterMap.containsKey("experiments")) {
+      String[] experiments = urlParameterMap.get("experiments");
+      for (String experiment : experiments) {
+        enabledExperiments.add(experiment);
+      }
+    }
+
+    data.put("enabledExperiments", serializeObject(gson, enabledExperiments));
 
     return data.build();
   }

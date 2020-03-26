@@ -137,4 +137,16 @@ public class IndexHtmlUtilTest {
     return UnsafeSanitizedContentOrdainer.ordainAsSafe(
         s, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
   }
+
+  @Test
+  public void useExperiments() throws Exception {
+    Map<String, String[]> urlParms = new HashMap<>();
+    String[] experiments = new String[]{"foo", "bar", "foo"};
+    urlParms.put("experiments", experiments);
+    assertThat(
+            staticTemplateData(
+                "http://example.com/", null, null, urlParms, IndexHtmlUtilTest::ordain, null))
+        .containsExactly(
+            "canonicalPath", "", "staticResourcePath", ordain(""), "experiments", "[foo,bar]");
+  }
 }

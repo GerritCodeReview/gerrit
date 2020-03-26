@@ -19,15 +19,10 @@ import static com.google.gerrit.entities.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.entities.RefNames.REFS_USERS;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.proto.Protos;
-import com.google.gerrit.server.cache.proto.Cache.AccountProto;
-import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -122,42 +117,6 @@ public abstract class Account {
     @Override
     public final String toString() {
       return Integer.toString(get());
-    }
-  }
-
-  enum Serializer implements CacheSerializer<Account> {
-    INSTANCE;
-
-    @Override
-    public byte[] serialize(Account account) {
-      // We don't care about the difference of empty strings and null in the Account entity.
-      AccountProto.Builder proto =
-          AccountProto.newBuilder()
-              .setId(account.id().get())
-              .setRegisteredOn(account.registeredOn().toInstant().toEpochMilli())
-              .setInactive(account.inactive())
-              .setFullName(Strings.nullToEmpty(account.fullName()))
-              .setDisplayName(Strings.nullToEmpty(account.displayName()))
-              .setPreferredEmail(Strings.nullToEmpty(account.preferredEmail()))
-              .setStatus(Strings.nullToEmpty(account.status()))
-              .setMetaId(Strings.nullToEmpty(account.metaId()));
-      return Protos.toByteArray(proto.build());
-    }
-
-    @Override
-    public Account deserialize(byte[] in) {
-      // We don't care about the difference of empty strings and null in the Account entity.
-      AccountProto proto = Protos.parseUnchecked(AccountProto.parser(), in);
-      return Account.builder(
-              Account.id(proto.getId()),
-              Timestamp.from(Instant.ofEpochMilli(proto.getRegisteredOn())))
-          .setFullName(Strings.emptyToNull(proto.getFullName()))
-          .setDisplayName(Strings.emptyToNull(proto.getDisplayName()))
-          .setPreferredEmail(Strings.emptyToNull(proto.getPreferredEmail()))
-          .setInactive(proto.getInactive())
-          .setStatus(Strings.emptyToNull(proto.getStatus()))
-          .setMetaId(Strings.emptyToNull(proto.getMetaId()))
-          .build();
     }
   }
 

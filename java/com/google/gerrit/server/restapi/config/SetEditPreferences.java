@@ -67,7 +67,6 @@ public class SetEditPreferences implements RestModifyView<ConfigResource, EditPr
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       EditPreferencesInfo updatedPrefs = StoredPreferences.updateDefaultEditPreferences(md, input);
-      accountCache.evictAll();
       return Response.ok(updatedPrefs);
     }
   }

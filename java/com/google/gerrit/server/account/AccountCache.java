@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import java.util.Map;
 import java.util.Optional;
@@ -73,14 +72,4 @@ public interface AccountCache {
    *     exists or if loading the external ID fails {@link Optional#empty()} is returned
    */
   Optional<AccountState> getByUsername(String username);
-
-  /**
-   * Evicts the account from the cache.
-   *
-   * @param accountId account ID of the account that should be evicted
-   */
-  void evict(@Nullable Account.Id accountId);
-
-  /** Evict all accounts from the cache. */
-  void evictAll();
 }

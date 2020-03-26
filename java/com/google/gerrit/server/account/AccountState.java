@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -31,6 +32,8 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -92,12 +95,6 @@ public abstract class AccountState {
     // an open Repository instance.
     ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
         accountConfig.getProjectWatches();
-    Preferences.General generalPreferences =
-        Preferences.General.fromInfo(accountConfig.getGeneralPreferences());
-    Preferences.Diff diffPreferences =
-        Preferences.Diff.fromInfo(accountConfig.getDiffPreferences());
-    Preferences.Edit editPreferences =
-        Preferences.Edit.fromInfo(accountConfig.getEditPreferences());
 
     return Optional.of(
         new AutoValue_AccountState(
@@ -105,9 +102,8 @@ public abstract class AccountState {
             extIds,
             ExternalId.getUserName(extIds),
             projectWatches,
-            generalPreferences,
-            diffPreferences,
-            editPreferences));
+            Optional.of(accountConfig.getRawDefaultPreferences()),
+            Optional.of(accountConfig.getRawPreferences())));
   }
 
   /**
@@ -119,6 +115,27 @@ public abstract class AccountState {
    */
   public static AccountState forAccount(Account account) {
     return forAccount(account, ImmutableSet.of());
+  }
+
+  /**
+   * Creates an AccountState for a given account with no external IDs, no project watches and
+   * default preferences.
+   *
+   * @param account the account
+   * @return the account state
+   */
+  public static AccountState forCachedAccount(
+      CachedAccountDetails account, String defaultConfig, ExternalIds externalIds)
+      throws IOException {
+    ImmutableSet<ExternalId> extIds =
+        ImmutableSet.copyOf(externalIds.byAccount(account.account().id()));
+    return new AutoValue_AccountState(
+        account.account(),
+        extIds,
+        ExternalId.getUserName(extIds),
+        account.projectWatches(),
+        Optional.of(defaultConfig),
+        Optional.of(account.rawPreferences()));
   }
 
   /**
@@ -134,9 +151,8 @@ public abstract class AccountState {
         ImmutableSet.copyOf(extIds),
         ExternalId.getUserName(extIds),
         ImmutableMap.of(),
-        Preferences.General.fromInfo(GeneralPreferencesInfo.defaults()),
-        Preferences.Diff.fromInfo(DiffPreferencesInfo.defaults()),
-        Preferences.Edit.fromInfo(EditPreferencesInfo.defaults()));
+        Optional.empty(),
+        Optional.empty());
   }
 
   /** Get the cached account metadata. */
@@ -158,17 +174,26 @@ public abstract class AccountState {
 
   /** The general preferences of the account. */
   public GeneralPreferencesInfo generalPreferences() {
-    return immutableGeneralPreferences().toInfo();
+    if (!defaultPreferences().isPresent() || !userPreferences().isPresent()) {
+      return GeneralPreferencesInfo.defaults();
+    }
+    return parsePreferences(StoredPreferences::parseGeneralPreferences);
   }
 
   /** The diff preferences of the account. */
   public DiffPreferencesInfo diffPreferences() {
-    return immutableDiffPreferences().toInfo();
+    if (!defaultPreferences().isPresent() || !userPreferences().isPresent()) {
+      return DiffPreferencesInfo.defaults();
+    }
+    return parsePreferences(StoredPreferences::parseDiffPreferences);
   }
 
   /** The edit preferences of the account. */
   public EditPreferencesInfo editPreferences() {
-    return immutableEditPreferences().toInfo();
+    if (!defaultPreferences().isPresent() || !userPreferences().isPresent()) {
+      return EditPreferencesInfo.defaults();
+    }
+    return parsePreferences(StoredPreferences::parseEditPreferences);
   }
 
   @Override
@@ -178,9 +203,28 @@ public abstract class AccountState {
     return h.toString();
   }
 
-  protected abstract Preferences.General immutableGeneralPreferences();
+  /** Gerrit's default preferences as stored in {@code preferences.config}. */
+  protected abstract Optional<String> defaultPreferences();
 
-  protected abstract Preferences.Diff immutableDiffPreferences();
+  /** User preferences as stored in {@code preferences.config}. */
+  protected abstract Optional<String> userPreferences();
 
-  protected abstract Preferences.Edit immutableEditPreferences();
+  @FunctionalInterface
+  private interface PreferenceParser<T> {
+    T apply(Config defaultPreferences, Config userPreferences, T overlay)
+        throws ConfigInvalidException;
+  }
+
+  private <T> T parsePreferences(PreferenceParser<T> parser) {
+    Config userPrefs = new Config();
+    Config defaultPrefs = new Config();
+    try {
+      userPrefs.fromText(userPreferences().get());
+      defaultPrefs.fromText(defaultPreferences().get());
+      return parser.apply(userPrefs, defaultPrefs, null);
+    } catch (ConfigInvalidException e) {
+      // This is a programmer error because these Configs have been parsed before.
+      throw new StorageException(e);
+    }
+  }
 }

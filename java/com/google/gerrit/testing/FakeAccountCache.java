@@ -16,7 +16,6 @@ package com.google.gerrit.testing;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -59,18 +58,6 @@ public class FakeAccountCache implements AccountCache {
   @Override
   public synchronized Optional<AccountState> getByUsername(String username) {
     throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public synchronized void evict(@Nullable Account.Id accountId) {
-    if (byId != null) {
-      byId.remove(accountId);
-    }
-  }
-
-  @Override
-  public synchronized void evictAll() {
-    byId.clear();
   }
 
   public synchronized void put(Account account) {

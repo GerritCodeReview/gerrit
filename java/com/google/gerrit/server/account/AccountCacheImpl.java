@@ -20,12 +20,14 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.server.FanOutExecutor;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -33,34 +35,34 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 /** Caches important (but small) account state to avoid database hits. */
 @Singleton
 public class AccountCacheImpl implements AccountCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final String BYID_NAME = "accounts";
+  private static final String BYID_AND_REV_NAME = "accounts";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(BYID_NAME, Account.Id.class, new TypeLiteral<AccountState>() {})
-            .loader(ByIdLoader.class);
+        persist(BYID_AND_REV_NAME, CachedAccountDetails.Key.class, CachedAccountDetails.class)
+            .version(1)
+            .keySerializer(CachedAccountDetails.Key.Serializer.INSTANCE)
+            .valueSerializer(CachedAccountDetails.Serializer.INSTANCE)
+            .loader(Loader.class);
 
         bind(AccountCacheImpl.class);
         bind(AccountCache.class).to(AccountCacheImpl.class);
@@ -69,76 +71,60 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private final ExternalIds externalIds;
-  private final LoadingCache<Account.Id, AccountState> byId;
-  private final ExecutorService executor;
+  private final LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache;
+  private final GitRepositoryManager repoManager;
+  private final AllUsersName allUsersName;
 
   @Inject
   AccountCacheImpl(
       ExternalIds externalIds,
-      @Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
-      @FanOutExecutor ExecutorService executor) {
+      @Named(BYID_AND_REV_NAME)
+          LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache,
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName) {
     this.externalIds = externalIds;
-    this.byId = byId;
-    this.executor = executor;
+    this.accountDetailsCache = accountDetailsCache;
+    this.repoManager = repoManager;
+    this.allUsersName = allUsersName;
   }
 
   @Override
   public AccountState getEvenIfMissing(Account.Id accountId) {
-    try {
-      return byId.get(accountId);
-    } catch (ExecutionException e) {
-      if (!(e.getCause() instanceof AccountNotFoundException)) {
-        logger.atWarning().withCause(e).log("Cannot load AccountState for %s", accountId);
-      }
-      return missing(accountId);
-    }
+    return get(accountId).orElse(missing(accountId));
   }
 
   @Override
   public Optional<AccountState> get(Account.Id accountId) {
-    try {
-      return Optional.ofNullable(byId.get(accountId));
-    } catch (ExecutionException e) {
-      if (!(e.getCause() instanceof AccountNotFoundException)) {
-        logger.atWarning().withCause(e).log("Cannot load AccountState for %s", accountId);
-      }
-      return Optional.empty();
-    }
+    return Optional.ofNullable(get(Collections.singleton(accountId)).getOrDefault(accountId, null));
   }
 
   @Override
   public Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
-    Map<Account.Id, AccountState> accountStates = new HashMap<>(accountIds.size());
-    List<Callable<Optional<AccountState>>> callables = new ArrayList<>();
-    for (Account.Id accountId : accountIds) {
-      AccountState state = byId.getIfPresent(accountId);
-      if (state != null) {
-        // The value is in-memory, so we just get the state
-        accountStates.put(accountId, state);
-      } else {
-        // Queue up a callable so that we can load accounts in parallel
-        callables.add(() -> get(accountId));
-      }
-    }
-    if (callables.isEmpty()) {
-      return accountStates;
-    }
-
-    List<Future<Optional<AccountState>>> futures;
     try {
-      futures = executor.invokeAll(callables);
-    } catch (InterruptedException e) {
-      logger.atSevere().withCause(e).log("Cannot load AccountStates");
-      return ImmutableMap.of();
-    }
-    for (Future<Optional<AccountState>> f : futures) {
-      try {
-        f.get().ifPresent(s -> accountStates.put(s.account().id(), s));
-      } catch (InterruptedException | ExecutionException e) {
-        logger.atSevere().withCause(e).log("Cannot load AccountState");
+      try (Repository allUsers = repoManager.openRepository(allUsersName)) {
+        // TODO(hiesel): Cache the server's default config
+        Config defaultConfig = StoredPreferences.readDefaultConfig(allUsersName, allUsers);
+
+        ImmutableMap.Builder<Account.Id, AccountState> result = ImmutableMap.builder();
+        for (Account.Id id : accountIds) {
+          Ref userRef = allUsers.exactRef(RefNames.refsUsers(id));
+          if (userRef == null) {
+            continue;
+          }
+
+          result.put(
+              id,
+              AccountState.forCachedAccount(
+                  accountDetailsCache.get(
+                      CachedAccountDetails.Key.create(id, userRef.getObjectId())),
+                  defaultConfig.toText(),
+                  externalIds));
+        }
+        return result.build();
       }
+    } catch (IOException | ExecutionException | ConfigInvalidException e) {
+      throw new StorageException(e);
     }
-    return accountStates;
   }
 
   @Override
@@ -154,42 +140,35 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
-  @Override
-  public void evict(@Nullable Account.Id accountId) {
-    if (accountId != null) {
-      logger.atFine().log("Evict account %d", accountId.get());
-      byId.invalidate(accountId);
-    }
-  }
-
-  @Override
-  public void evictAll() {
-    logger.atFine().log("Evict all accounts");
-    byId.invalidateAll();
-  }
-
   private AccountState missing(Account.Id accountId) {
     Account.Builder account = Account.builder(accountId, TimeUtil.nowTs());
     account.setActive(false);
     return AccountState.forAccount(account.build());
   }
 
-  static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {
-    private final Accounts accounts;
+  @Singleton
+  static class Loader extends CacheLoader<CachedAccountDetails.Key, CachedAccountDetails> {
+    private final GitRepositoryManager repoManager;
+    private final AllUsersName allUsersName;
 
     @Inject
-    ByIdLoader(Accounts accounts) {
-      this.accounts = accounts;
+    Loader(GitRepositoryManager repoManager, AllUsersName allUsersName) {
+      this.repoManager = repoManager;
+      this.allUsersName = allUsersName;
     }
 
     @Override
-    public AccountState load(Account.Id who) throws Exception {
-      try (TraceTimer timer =
-          TraceContext.newTimer(
-              "Loading account", Metadata.builder().accountId(who.get()).build())) {
-        return accounts
-            .get(who)
-            .orElseThrow(() -> new AccountNotFoundException(who + " not found"));
+    public CachedAccountDetails load(CachedAccountDetails.Key key) throws Exception {
+      try (TraceTimer ignored =
+              TraceContext.newTimer(
+                  "Loading account", Metadata.builder().accountId(key.accountId().get()).build());
+          Repository repo = repoManager.openRepository(allUsersName)) {
+        AccountConfig cfg = new AccountConfig(key.accountId(), allUsersName, repo).load(key.id());
+        Account account =
+            cfg.getLoadedAccount()
+                .orElseThrow(() -> new AccountNotFoundException(key.accountId() + " not found"));
+        return CachedAccountDetails.create(
+            account, cfg.getProjectWatches(), cfg.getRawPreferences());
       }
     }
   }

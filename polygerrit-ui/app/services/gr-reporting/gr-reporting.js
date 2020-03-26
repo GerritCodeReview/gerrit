@@ -24,18 +24,11 @@ const TIMING = {
   APP_STARTED: 'App Started',
 };
 
-// Plugin-related reporting constants.
-const PLUGINS = {
+const LIFECYCLE = {
   TYPE: 'lifecycle',
   // Reported events - alphabetize below.
-  INSTALLED: 'Plugins installed',
-};
-
-// Chrome extension-related reporting constants.
-const EXTENSION = {
-  TYPE: 'lifecycle',
-  // Reported events - alphabetize below.
-  DETECTED: 'Extension detected',
+  EXTENSION_DETECTED: 'Extension detected',
+  PLUGINS_INSTALLED: 'Plugins installed',
 };
 
 // Navigation reporting constants.
@@ -418,7 +411,7 @@ export class GrReporting {
   }
 
   reportExtension(name) {
-    this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
+    this.reporter(LIFECYCLE.TYPE, LIFECYCLE.EXTENSION_DETECTED, name);
   }
 
   pluginLoaded(name) {
@@ -430,7 +423,8 @@ export class GrReporting {
   pluginsLoaded(pluginsList) {
     this.timeEnd(TIMER.PLUGINS_LOADED);
     this.reporter(
-        PLUGINS.TYPE, PLUGINS.INSTALLED, PLUGINS.INSTALLED, undefined,
+        LIFECYCLE.TYPE, LIFECYCLE.PLUGINS_INSTALLED,
+        LIFECYCLE.PLUGINS_INSTALLED, undefined,
         {pluginsList: pluginsList || []}, true);
   }
 
@@ -555,6 +549,11 @@ export class GrReporting {
     if (elapsed >= SLOW_RPC_THRESHOLD) {
       this._slowRpcList.push({anonymizedUrl, elapsed});
     }
+  }
+
+  reportLifeCycle(eventName, details) {
+    this.reporter(LIFECYCLE.TYPE, this.category, eventName, undefined,
+        details, true);
   }
 
   reportInteraction(eventName, details) {

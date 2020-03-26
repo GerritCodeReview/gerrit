@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "473752df_a8994150",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-03-26T12:35:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "450ce004_22b93f26",
+      "revId": "f61f732bfffb53c5438d87e8ce2f48bf2995731d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74719062_4bdc5ab3",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
         "patchSetId": 1
@@ -69,6 +87,24 @@
       "revId": "f61f732bfffb53c5438d87e8ce2f48bf2995731d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59093436_e508dfbe",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-03-26T12:35:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74719062_4bdc5ab3",
+      "revId": "f61f732bfffb53c5438d87e8ce2f48bf2995731d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

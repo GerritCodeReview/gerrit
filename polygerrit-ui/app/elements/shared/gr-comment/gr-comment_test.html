@@ -258,6 +258,15 @@ suite('gr-comment tests', () => {
         assert.isTrue(element._handleSave.called);
       });
     });
+
+    test('label shown if exists', () => {
+      element.comment = {id: 'abc_123', label: 'asd'};
+      flushAsynchronousOperations();
+      assert.equal(element.shadowRoot
+          .querySelector('.comment-label')
+          .textContent, 'asd');
+    });
+
     test('delete comment button for non-admins is hidden', () => {
       element._isAdmin = false;
       assert.isFalse(element.shadowRoot

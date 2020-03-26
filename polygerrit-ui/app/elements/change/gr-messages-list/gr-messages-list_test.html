@@ -109,10 +109,9 @@ suite('gr-messages-list tests', () => {
       },
       {
         message: 'message text',
-        updated: '2016-09-27 00:18:03.000000000',
-        in_reply_to: '6505d749_f0bec0aa',
+        updated: '2016-09-27 00:11:03.000000000',
         line: 62,
-        id: '6505d749_10ed44b2',
+        id: '6505d749_f0bec0aa',
         patch_set: 2,
         author,
       },
@@ -396,20 +395,38 @@ suite('gr-messages-list tests', () => {
           }
       );
       element.messages = messages;
-      const isAuthor = function(author, message) {
-        return message.author._account_id === author._account_id;
-      };
-      const isMarvin = isAuthor.bind(null, author);
       flushAsynchronousOperations();
       const messageElements = getMessages();
       assert.equal(messageElements.length, messages.length);
       assert.deepEqual(messageElements[1].message, messages[1]);
       assert.deepEqual(messageElements[2].message, messages[2]);
-      assert.deepEqual(messageElements[1].comments.file1,
-          comments.file1.filter(isMarvin));
-      assert.deepEqual(messageElements[1].comments.file2,
-          comments.file2.filter(isMarvin));
-      assert.deepEqual(messageElements[2].comments, {});
+    });
+
+    test('threads', () => {
+      const messages = [
+        {
+          _index: 5,
+          _revision_number: 4,
+          message: 'Uploaded patch set 4.',
+          date: '2016-09-28 13:36:33.000000000',
+          author,
+          id: '8c19ccc949c6d482b061be6a28e10782abf0e7af',
+        },
+      ];
+      element.messages = messages;
+      flushAsynchronousOperations();
+      const messageElements = getMessages();
+      // threads
+      assert.equal(
+          messageElements[0].commentThreads.length,
+          3);
+      // first thread contains 2 comments
+      assert.equal(
+          messageElements[0].commentThreads[0].comments.length,
+          2);
+      assert.equal(
+          messageElements[0].commentThreads[0].comments[0].label,
+          'From this change log');
     });
 
     test('messages without author do not throw', () => {

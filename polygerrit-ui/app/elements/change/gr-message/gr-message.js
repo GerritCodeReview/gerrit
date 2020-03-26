@@ -68,6 +68,8 @@ class GrMessage extends mixinBehaviors( [
 
   static get properties() {
     return {
+      /** @type {?} */
+      change: Object,
       changeNum: Number,
       /** @type {?} */
       message: Object,
@@ -75,9 +77,9 @@ class GrMessage extends mixinBehaviors( [
         type: Object,
         computed: '_computeAuthor(message)',
       },
-      comments: {
+      commentThreads: {
         type: Object,
-        observer: '_commentsChanged',
+        observer: '_commentThreadsChanged',
       },
       config: Object,
       hideAutomated: {
@@ -133,7 +135,7 @@ class GrMessage extends mixinBehaviors( [
       },
       _commentCountText: {
         type: Number,
-        computed: '_computeCommentCountText(comments)',
+        computed: '_computeCommentCountText(commentThreads)',
       },
       _loggedIn: {
         type: Boolean,
@@ -185,15 +187,9 @@ class GrMessage extends mixinBehaviors( [
     }
   }
 
-  _computeCommentCountText(comments) {
-    if (!comments) return undefined;
-    let count = 0;
-    for (const file in comments) {
-      if (comments.hasOwnProperty(file)) {
-        const commentArray = comments[file] || [];
-        count += commentArray.length;
-      }
-    }
+  _computeCommentCountText(commentThreads) {
+    if (!commentThreads) return undefined;
+    const count = commentThreads.length;
     if (count === 0) {
       return undefined;
     } else if (count === 1) {
@@ -201,6 +197,15 @@ class GrMessage extends mixinBehaviors( [
     } else {
       return `${count} comments`;
     }
+  }
+
+  _onThreadListModified() {
+    // TODO(taoalpha): this won't propogate the changes to the files
+    // should consider replacing this with either top level events
+    // or gerrit level events
+
+    // emit the event so change-view can also get updated with latest changes
+    this.fire('comment-refresh');
   }
 
   _computeMessageContentExpanded(content, tag) {
@@ -277,7 +282,7 @@ class GrMessage extends mixinBehaviors( [
    * should be true or not, then _expanded is set to true if there are
    * inline comments (otherwise false).
    */
-  _commentsChanged(value) {
+  _commentThreadsChanged(value) {
     if (this.message && this.message.expanded === undefined) {
       this.set('message.expanded', Object.keys(value || {}).length > 0);
     }

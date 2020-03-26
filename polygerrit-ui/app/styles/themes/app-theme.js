@@ -81,6 +81,7 @@ html {
 
   /* misc colors */
   --border-color: #e8e8e8;
+  --comment-box-border-color: #dadce0;
 
   /* fonts */
   --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';

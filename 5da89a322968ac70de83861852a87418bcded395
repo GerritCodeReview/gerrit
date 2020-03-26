@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a9864e44_e2a623f2",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T12:35:29Z",
+      "side": 1,
+      "message": "The other day, Ben wanted to surface reviewers and votes in dashboards (and maybe bold attention set members? - that part I am making up right now).\n\nMaking this stored is extremely cheap for us, so I\u0027d just do it now to be safe in case we need it. If we don\u0027t do that and need it later, then we\u0027d have to do another index upgrade which for us on googlesource.com tags 1-3 eng days.",
+      "parentUuid": "eabd2939_23bd5ca2",
+      "range": {
+        "startLine": 294,
+        "startChar": 48,
+        "endLine": 294,
+        "endChar": 49
+      },
+      "revId": "5da89a322968ac70de83861852a87418bcded395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0257076c_bde6b8bf",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 4

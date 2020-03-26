@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.ArchiveFormat;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -157,6 +158,15 @@ public interface RevisionApi {
 
   /** Returns votes on the revision. */
   ListMultimap<String, ApprovalInfo> votes() throws RestApiException;
+
+  /**
+   * Retrieves the revision as an archive.
+   *
+   * @param format the format of the archive
+   * @return the archive as {@link BinaryResult}
+   * @throws RestApiException
+   */
+  BinaryResult getArchive(ArchiveFormat format) throws RestApiException;
 
   abstract class MergeListRequest {
     private boolean addLinks;
@@ -390,6 +400,11 @@ public interface RevisionApi {
 
     @Override
     public String etag() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public BinaryResult getArchive(ArchiveFormat format) throws RestApiException {
       throw new NotImplementedException();
     }
   }

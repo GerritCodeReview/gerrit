@@ -29,7 +29,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ioutil.LimitedByteArrayOutputStream;
@@ -87,12 +87,12 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
-    ArchiveFormat f = allowedFormats.extensions.get("." + format);
+    ArchiveFormatInternal f = allowedFormats.extensions.get("." + format);
     if (f == null && format.equals("tgz")) {
       // Always allow tgz, even when the allowedFormats doesn't contain it.
       // Then we allow at least one format even if the list of allowed
       // formats is empty.
-      f = ArchiveFormat.TGZ;
+      f = ArchiveFormatInternal.TGZ;
     }
     if (f == null) {
       throw new BadRequestException("unknown archive format");
@@ -109,7 +109,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     return Response.ok(getBundles(rsrc, f));
   }
 
-  private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
+  private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormatInternal f)
       throws RestApiException, UpdateException, IOException, ConfigInvalidException,
           PermissionBackendException {
     IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();
@@ -138,10 +138,11 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   private static class SubmitPreviewResult extends BinaryResult {
 
     private final MergeOp mergeOp;
-    private final ArchiveFormat archiveFormat;
+    private final ArchiveFormatInternal archiveFormat;
     private final int maxBundleSize;
 
-    private SubmitPreviewResult(MergeOp mergeOp, ArchiveFormat archiveFormat, int maxBundleSize) {
+    private SubmitPreviewResult(
+        MergeOp mergeOp, ArchiveFormatInternal archiveFormat, int maxBundleSize) {
       this.mergeOp = mergeOp;
       this.archiveFormat = archiveFormat;
       this.maxBundleSize = maxBundleSize;

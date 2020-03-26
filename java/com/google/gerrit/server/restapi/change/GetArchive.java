@@ -17,12 +17,13 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -38,9 +39,12 @@ import org.kohsuke.args4j.Option;
 public class GetArchive implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
   private final AllowedFormats allowedFormats;
+  @Nullable private String format;
 
   @Option(name = "--format")
-  private String format;
+  public void setFormat(String format) {
+    this.format = format;
+  }
 
   @Inject
   GetArchive(GitRepositoryManager repoManager, AllowedFormats allowedFormats) {
@@ -54,17 +58,17 @@ public class GetArchive implements RestReadView<RevisionResource> {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
-    final ArchiveFormat f = allowedFormats.extensions.get("." + format);
+    ArchiveFormatInternal f = allowedFormats.extensions.get("." + format);
     if (f == null) {
       throw new BadRequestException("unknown archive format");
     }
-    if (f == ArchiveFormat.ZIP) {
+    if (f == ArchiveFormatInternal.ZIP) {
       throw new MethodNotAllowedException("zip format is disabled");
     }
     boolean close = true;
-    final Repository repo = repoManager.openRepository(rsrc.getProject());
+    Repository repo = repoManager.openRepository(rsrc.getProject());
     try {
-      final RevCommit commit;
+      RevCommit commit;
       String name;
       try (RevWalk rw = new RevWalk(repo)) {
         commit = rw.parseCommit(rsrc.getPatchSet().commitId());
@@ -103,7 +107,7 @@ public class GetArchive implements RestReadView<RevisionResource> {
     }
   }
 
-  private static String name(ArchiveFormat format, RevWalk rw, RevCommit commit)
+  private static String name(ArchiveFormatInternal format, RevWalk rw, RevCommit commit)
       throws IOException {
     return String.format(
         "%s%s", abbreviateName(commit, rw.getObjectReader()), format.getDefaultSuffix());

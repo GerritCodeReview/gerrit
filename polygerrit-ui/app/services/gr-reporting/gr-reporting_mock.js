@@ -16,6 +16,7 @@
  */
 export const grReportingMock = {
   reportInteraction: () => {},
+  reportLifeCycle: () => {},
   appStarted: () => {},
   dashboardDisplayed: () => {},
   changeDisplayed: () => {},
@@ -37,7 +38,6 @@ export const grReportingMock = {
   reporter: () => {},
   reportErrorDialog: () => {},
   reportRpcTiming: () => {},
-  reportExtension: () => {},
   getTimer: () => {
     return {end: () => {}};
   },

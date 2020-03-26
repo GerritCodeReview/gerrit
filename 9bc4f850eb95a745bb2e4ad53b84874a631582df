@@ -2,6 +2,207 @@
   "comments": [
     {
       "key": {
+        "uuid": "87f89e8a_d24ebd7c",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsKeyReader.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "It\u0027s better to use @Singleton here and not have non-final members\n\nI\u0027d inline a NoteDbState AutoValue class and just return that when you call currentKey():\n\n@AutoValue\nstatic abstract GroupsSnapshot {\n  /** 128-bit hash of all group ref {@link ObjectIds}. To be used as cache key. */\n  abstract String hash();\n  /** Snapshot of the state of all relevant NoteDb group refs. */\n  abstract ImmutableList\u003cRef\u003e groupRefs();\n}\n\nnit: Maybe call the class GroupsSnapshotReader and the method just \u0027get\u0027 or \u0027takeSnapshot\u0027?",
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99be111d_3ac795e3",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsKeyReader.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 44,
+        "startChar": 79,
+        "endLine": 44,
+        "endChar": 90
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55cdd403_b62a2687",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "... because the cache\u0027s value is used on every request to Gerrit- potentially many times per request - and the key computation is not trivial.",
+      "range": {
+        "startLine": 80,
+        "startChar": 55,
+        "endLine": 80,
+        "endChar": 60
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bd5e1a7_c0c00737",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "Just remove this and inject a Cache\u003c\u003e instead of a LoadingCache\u003c\u003e as the empty loader has no purpose",
+      "range": {
+        "startLine": 89,
+        "startChar": 12,
+        "endLine": 89,
+        "endChar": 38
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae63a593_1c00e483",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "The suggested AutoValue will make this code a bit easier to read.",
+      "range": {
+        "startLine": 233,
+        "startChar": 6,
+        "endLine": 233,
+        "endChar": 12
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ca88f3e_9b90660d",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "remove this.",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 3
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed466abd_3bfa904a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "Remove this and just put an @see with a reference to the doc below and state that this will load at the current revision.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 5
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ade69106_78957355",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "Loads an internal group from NoteDb at the revision provided as {@link ObjectId}. ...",
+      "range": {
+        "startLine": 90,
+        "startChar": 50,
+        "endLine": 90,
+        "endChar": 58
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbcc03b6_bec62467",
+        "filename": "java/com/google/gerrit/server/group/db/VersionedGroupConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "I would not subclass GroupConfig.\n\nGroupConfig is a VersionedMetadata which already has methods to load state at a certain object ID. In other entities we just expose this method. So instead of sublclassing, I\u0027d expose a method in GroupConfig to create it at a certain state.",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a88e3ecc_76c54aff",
         "filename": "proto/cache.proto",
         "patchSetId": 11
@@ -13,6 +214,30 @@
       "writtenOn": "2020-03-25T17:43:18Z",
       "side": 1,
       "message": "We don\u0027t need that proto anymore. I will remove it.",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 33
+      },
+      "revId": "9bc4f850eb95a745bb2e4ad53b84874a631582df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a8ce5ac_611d6873",
+        "filename": "proto/cache.proto",
+        "patchSetId": 11
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T08:40:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a88e3ecc_76c54aff",
       "range": {
         "startLine": 284,
         "startChar": 0,

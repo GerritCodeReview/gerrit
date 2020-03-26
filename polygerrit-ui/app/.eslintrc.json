@@ -133,7 +133,14 @@
           "preventDuplicates": true
         }
       }
-    }]
+    }],
+    "import/named": 2,
+    "import/no-unresolved": 2,
+    "import/no-self-import": 2,
+    "import/no-cycle": 2,
+    "import/no-useless-path-segments": 2,
+    "import/no-unused-modules": 2,
+    "import/no-default-export": 2
   },
   "overrides": [
     {
@@ -151,7 +158,8 @@
   ],
   "plugins": [
     "html",
-    "jsdoc"
+    "jsdoc",
+    "import"
   ],
   "settings": {
     "html/report-bad-indent": "error"

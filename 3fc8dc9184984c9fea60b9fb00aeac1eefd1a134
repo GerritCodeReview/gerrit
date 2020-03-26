@@ -94,6 +94,30 @@
       "revId": "3fc8dc9184984c9fea60b9fb00aeac1eefd1a134",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4034c0c_1f28428b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-26T14:09:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3b86bb5_c0ce948d",
+      "range": {
+        "startLine": 473,
+        "startChar": 3,
+        "endLine": 474,
+        "endChar": 64
+      },
+      "revId": "3fc8dc9184984c9fea60b9fb00aeac1eefd1a134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

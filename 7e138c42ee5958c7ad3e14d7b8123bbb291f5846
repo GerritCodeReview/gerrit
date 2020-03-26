@@ -22,6 +22,30 @@
       "revId": "7e138c42ee5958c7ad3e14d7b8123bbb291f5846",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bac8cbf_ad04129a",
+        "filename": "java/com/google/gerrit/server/auth/ldap/FakeLdapGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-26T21:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a33c9c48_8a4e40cd",
+      "range": {
+        "startLine": 38,
+        "startChar": 62,
+        "endLine": 38,
+        "endChar": 64
+      },
+      "revId": "7e138c42ee5958c7ad3e14d7b8123bbb291f5846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

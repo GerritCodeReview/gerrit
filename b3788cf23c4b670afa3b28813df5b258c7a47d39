@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4824af4_f6d69a32",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsKeyReader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T14:37:16Z",
+      "side": 1,
+      "message": "nit: missing .\n\nHere and in other comments.",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "b3788cf23c4b670afa3b28813df5b258c7a47d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5621d7a_0ca1639a",
+        "filename": "java/com/google/gerrit/server/account/ExternalGroupsKeyReader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T14:37:16Z",
+      "side": 1,
+      "message": "GroupsSnapshotReader?\n\nthe logic isn\u0027t specific to external groups and it\u0027s not just about the key\n\nWhen you do call this class GroupsSnapshotReader then the AutoValue can just be called Snapshot because it\u0027s always referenced with the fully qualified name GroupsSnapshotReader.Snapshot\n\nSorry for painting the bike shed here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "b3788cf23c4b670afa3b28813df5b258c7a47d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98abc716_34505c79",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T14:37:16Z",
+      "side": 1,
+      "message": "nit: we never import inner classes, but reference the full name. So import just the outer class (ExtGroupsKeyReader).",
+      "range": {
+        "startLine": 29,
+        "startChar": 64,
+        "endLine": 29,
+        "endChar": 78
+      },
+      "revId": "b3788cf23c4b670afa3b28813df5b258c7a47d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8bfe10f_44014844",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T14:37:16Z",
+      "side": 1,
+      "message": "unneeded modification",
+      "range": {
+        "startLine": 206,
+        "startChar": 2,
+        "endLine": 206,
+        "endChar": 11
+      },
+      "revId": "b3788cf23c4b670afa3b28813df5b258c7a47d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06054c6b_40c51426",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T14:37:16Z",
+      "side": 1,
+      "message": "This method could use a separate test where we directly call it:\n\nGive it a list of refs - at least one where the ObjectId is not from HEAD - and assert that the result is sane.",
+      "revId": "b3788cf23c4b670afa3b28813df5b258c7a47d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d335279d_b9276141",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T14:37:16Z",
+      "side": 1,
+      "message": "this can be null if the ref is broken. For example, I could push a \n\nrefs/groups/foo-bar\n\nwhich would make this return null and the method fail.\n\nIf you factor this out we can log a warning and continue:\n\nAccG.UUID uuid \u003d AccG.UUID.fromRef();\nif (uuid \u003d\u003d null) {\n  logger.atWarning....\n  continue;\n}\nOptional\u003c\u003e...",
+      "range": {
+        "startLine": 148,
+        "startChar": 14,
+        "endLine": 148,
+        "endChar": 67
+      },
+      "revId": "b3788cf23c4b670afa3b28813df5b258c7a47d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3d08f1f_fcfa484d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T14:37:16Z",
+      "side": 1,
+      "message": "can you assert that the List\u003cref\u003e contains exactly the groups we expect?\n\nIt\u0027s OK to make them public if that\u0027s what you need for testing them here.",
+      "revId": "b3788cf23c4b670afa3b28813df5b258c7a47d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddd60be8_d15c52dc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-26T14:37:16Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "b3788cf23c4b670afa3b28813df5b258c7a47d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

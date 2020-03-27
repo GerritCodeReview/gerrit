@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e7c640f_2a06fa16",
+        "filename": "java/com/google/gerrit/acceptance/TestAccount.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-27T10:55:11Z",
+      "side": 0,
+      "message": "Seems like Gerrit\u0027s own auhtentication process is not used in tests with HTTP.\nThere\u0027s no /a/ in the HTTP url and the user info that is set here has no effect.\nI haven\u0027t been able to figure out what the difference between test and \"real-life\" is but I haven\u0027t been that successful yet.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 44
+      },
+      "revId": "4a2109d0e0a174e86569583d8a0fc8e05215bf4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

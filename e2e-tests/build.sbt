@@ -14,5 +14,6 @@ lazy val root = (project in file("."))
       libraryDependencies ++=
           gatling ++
               Seq("io.gatling" % "gatling-core" % GatlingVersion) ++
-              Seq("io.gatling" % "gatling-app" % GatlingVersion)
+              Seq("io.gatling" % "gatling-app" % GatlingVersion),
+      scalacOptions += "-language:postfixOps"
     ) dependsOn gatlingGitExtension

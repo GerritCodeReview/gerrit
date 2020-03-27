@@ -2,7 +2,13 @@
 
 Follow the
 [setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
-where applicable.
+where applicable, the most important command is:
+
+```
+git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
+```
+
+The --recurse-submodules option is needed on git clone to ensure that the core plugins, which are included as git submodules, are also cloned.
 
 ## Installing [Bazel](https://bazel.build/)
 
@@ -46,17 +52,16 @@ All other platforms:
 
 or use [nvm - Node Version Manager](https://github.com/nvm-sh/nvm).
 
-Various steps below require installing additional npm packages. To start developing, it is enough
-to install only top-level packages with the following command: 
+### Additional packages
+
+We have several bazel commands to install packages we may need for FE development.
+
+For first time users to get the local server up, `npm start` should be enough and will take care of all of them for you.
 
 ```sh
 # Install packages from root-level packages.json
 bazel fetch @npm//:node_modules
-```
 
-All other packages are installed by bazel when needed. If you want to install them manually, run the
-following commands:
-```sh
 # Install packages from polygerrit-ui/app/packages.json
 bazel fetch @ui_npm//:node_modules
 
@@ -91,6 +96,8 @@ the command line:
 ```sh
 ./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
 ```
+
+If any issues occured, please refer to the Troubleshooting section at the bottom or contact the team!
 
 ## Running locally against production data
 
@@ -275,3 +282,21 @@ from the queue we have for FE reviewers.
 If you are willing to join the queue and help the community review changes,
 you can create an issue through Monorail and request to join the queue!
 We will review your request and start from there.
+
+## Troubleshotting & Frequently asked questions
+
+1. Local host is blank page and console shows missing files from `polymer-bridges`
+
+Its likely you missed the `polymer-bridges` submodule when you clone the `gerrit` repo.
+
+To fix that, run:
+```
+// fetch the submodule
+git submodule update --init --recursive
+
+// reset the workspace (please save your local changes before running this command)
+npm run clean
+
+// install all dependencies and start the server
+npm start
+```

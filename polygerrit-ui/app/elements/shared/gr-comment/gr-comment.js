@@ -60,11 +60,12 @@ const FILE = 'FILE';
  * All candidates tips to show, will pick randomly.
  */
 const RESPECTFUL_REVIEW_TIPS= [
-  'DO: Assume competence.',
-  'DO: Provide rationale or context.',
-  'DO: Consider how comments may be interpreted.',
-  'DON’T: Criticize the person.',
-  'DON’T: Use harsh language.',
+  'Assume competence.',
+  'Provide rationale or context.',
+  'Consider how comments may be interpreted.',
+  'Avoid harsh language.',
+  'Make your comments specific and actionable.',
+  'When disagreeing, explain the advantage of your approach.',
 ];
 
 /**
@@ -294,8 +295,8 @@ class GrComment extends mixinBehaviors( [
         'respectful-tip-dismissed',
         {tip: this._respectfulReviewTip}
     );
-    // add a 3 day delay to the tip cache
-    this.$.storage.setRespectfulTipVisibility(/* delayDays= */ 3);
+    // add a 14-day delay to the tip cache
+    this.$.storage.setRespectfulTipVisibility(/* delayDays= */ 14);
   }
 
   _onRespectfulReadMoreClick() {

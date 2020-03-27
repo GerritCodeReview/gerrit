@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7cc89d9_5d875b3b",
+        "filename": "e2e-tests/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-27T19:40:30Z",
+      "side": 1,
+      "message": "Unrelated: I tried aligning this to 3.2.0 but that image version didn\u0027t work.",
+      "range": {
+        "startLine": 1,
+        "startChar": 21,
+        "endLine": 1,
+        "endChar": 26
+      },
+      "revId": "afa08d72a4331ad987ae844c113ba4cd420b588a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

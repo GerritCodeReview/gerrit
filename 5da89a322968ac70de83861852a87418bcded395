@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "d5e77593_799fedb7",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-27T07:59:45Z",
+      "side": 1,
+      "message": "There is two options here:\n\n(1) If you just want the account ID, nothing else, you don\u0027t have to do any heavy lifting:\nYou literally just call .stored() here which does all the serialization magic for you. You also get this deserialized already and just have to set it on ChangeData. For that, please look at LuceneChangeIndex.toChangeData:\n\nif (fields.contains(ATTENTION)) {\n  decodeAttention(doc, cd);\n}\n\ndecodeAttention then is the same as all the other decode methods.\n\nThat will make it so that you can only reconstruct that when serving records solely from the index.\n\n(2) If you want to reconstruct the whole AttentionSetRecord, you have to index a separate field and serialize a Java object to JSON. I think SubmitRecords would be a good example for that.\n\nI\u0027d assume that (1) will be enough for dashboards (just knowing who is currently in the attention set), but please check with Ben. That would mean that we need a ListChangeOption.DETAILED_ATTENTION_SET that fills in timestamp \u0026 reason \u0026 status, because these can\u0027t be loaded from the index and require opening the repo or the ChangeNotes cache. That is to make searches/dashboards fast.",
+      "parentUuid": "e95a1822_19839729",
+      "range": {
+        "startLine": 294,
+        "startChar": 48,
+        "endLine": 294,
+        "endChar": 49
+      },
+      "revId": "5da89a322968ac70de83861852a87418bcded395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0257076c_bde6b8bf",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 4

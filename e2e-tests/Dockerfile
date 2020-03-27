@@ -1,6 +1,6 @@
 FROM denvazh/gatling:3.2.1
 
-ARG gatling_git_version=1.0.9
+ARG gatling_git_version=1.0.10
 RUN apk add --no-cache maven
 RUN mvn dependency:get \
         -DgroupId=com.gerritforge \

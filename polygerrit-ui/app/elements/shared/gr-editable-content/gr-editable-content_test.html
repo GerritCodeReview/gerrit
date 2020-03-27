@@ -118,14 +118,13 @@ suite('gr-editable-content tests', () => {
       dispatchSpy = sandbox.spy(element, 'dispatchEvent');
     });
 
-    test('editing toggled to true, has stored data', () => {
+    test('editing toggled to true, has current data', () => {
       sandbox.stub(element.$.storage, 'getEditableContentItem')
           .returns({message: 'stored content'});
       element.editing = true;
 
-      assert.equal(element._newContent, 'stored content');
-      assert.isTrue(dispatchSpy.called);
-      assert.equal(dispatchSpy.lastCall.args[0].type, 'show-alert');
+      assert.equal(element._newContent, 'current content');
+      assert.isFalse(dispatchSpy.called);
     });
 
     test('editing toggled to true, has no stored data', () => {

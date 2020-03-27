@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4b7ad89_2942adfe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-27T13:07:28Z",
+      "side": 1,
+      "message": "I am surprised this works for you as I thought the minimum is 4ms\n\n```\nIn modern browsers, setTimeout()/setInterval() calls are throttled to a minimum of once every 4 ms\n```\n\n\u003e https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout",
+      "range": {
+        "startLine": 125,
+        "startChar": 7,
+        "endLine": 125,
+        "endChar": 8
+      },
+      "revId": "0c0d515bede6a8da2e5325a3524f6eaa7584a053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

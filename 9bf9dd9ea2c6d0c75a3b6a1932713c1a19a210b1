@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "314aa8fe_50e3000c",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/ExternalGroupsSerializerTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-27T12:38:34Z",
+      "side": 1,
+      "message": "nit: can be static (if so, upper case GROUPS)",
+      "revId": "9bf9dd9ea2c6d0c75a3b6a1932713c1a19a210b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

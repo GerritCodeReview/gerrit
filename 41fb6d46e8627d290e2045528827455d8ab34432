@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fb9fb6c_501a56b4",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-27T12:14:31Z",
+      "side": 1,
+      "message": "make this an enum and add an INSTANCE definition. See the other cache serializers for an example.",
+      "range": {
+        "startLine": 246,
+        "startChar": 16,
+        "endLine": 246,
+        "endChar": 21
+      },
+      "revId": "41fb6d46e8627d290e2045528827455d8ab34432",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29ce5d0c_9876904e",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/ExternalGroupsSerializerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-27T12:14:31Z",
+      "side": 1,
+      "message": "make this part of the member definition and remove the @Before (possible when you added an INSTANCE to the serializer)\n\nprivate static ImmutableList\u003cAccountGroup.UUID\u003e GROUPS \u003d ImmutableList.of(..)",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 81
+      },
+      "revId": "41fb6d46e8627d290e2045528827455d8ab34432",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

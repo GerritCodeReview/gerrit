@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "97ed9605_b086b101",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-27T12:33:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fb9fb6c_501a56b4",
+      "range": {
+        "startLine": 246,
+        "startChar": 16,
+        "endLine": 246,
+        "endChar": 21
+      },
+      "revId": "41fb6d46e8627d290e2045528827455d8ab34432",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29ce5d0c_9876904e",
         "filename": "javatests/com/google/gerrit/server/cache/serialize/ExternalGroupsSerializerTest.java",
         "patchSetId": 16
@@ -45,6 +69,30 @@
       "revId": "41fb6d46e8627d290e2045528827455d8ab34432",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70ebcae2_e683b141",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/ExternalGroupsSerializerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-27T12:33:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29ce5d0c_9876904e",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 81
+      },
+      "revId": "41fb6d46e8627d290e2045528827455d8ab34432",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

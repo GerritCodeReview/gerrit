@@ -22,6 +22,30 @@
       "revId": "2ff78bd2612e0d3ef3ce29c3c194402e7a09defc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "496d4b09_cef3b0f0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-27T11:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ffdfeb1_9ecc8895",
+      "range": {
+        "startLine": 36,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "2ff78bd2612e0d3ef3ce29c3c194402e7a09defc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

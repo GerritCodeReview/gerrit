@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf30f071_1ec8abca",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-27T09:32:28Z",
+      "side": 1,
+      "message": "This would become\n\n  import {GrProvider} from \u0027../gr-provider/gr-provider.js\u0027;",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bd76718_26e8735c",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-27T09:32:28Z",
+      "side": 1,
+      "message": "This would become\n\n  this.reporting \u003d GrProvider.getReporting();",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92ab515c_561189de",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-27T09:32:28Z",
+      "side": 1,
+      "message": "What do you think about creating an application wide `Provider` class?\n\nIf we apply this pattern to all the services and stores and utilities we have, then we probably want to import just *one* such provider.",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b5a05d7_6598a9e5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-27T09:32:28Z",
+      "side": 1,
+      "message": "I would either let the provider deal with maintaining the single instance of this class (GrReporting does not care about being a singleton or not), or I would move the getInstance() logic into the constructor. I think it is possible for a JavaScript constructor to `return GrReporting.instance`.",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

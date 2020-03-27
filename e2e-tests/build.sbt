@@ -16,3 +16,5 @@ lazy val root = (project in file("."))
               Seq("io.gatling" % "gatling-core" % GatlingVersion) ++
               Seq("io.gatling" % "gatling-app" % GatlingVersion)
     ) dependsOn gatlingGitExtension
+
+scalacOptions += "-language:postfixOps"

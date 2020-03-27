@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a692899_690e3916",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-27T10:40:19Z",
+      "side": 1,
+      "message": "We are not calling this method on our deployment, so I would put your new logic in \"dynamicTemplateData\" or create a new method for it. Otherwise you have to implement everything twice.",
+      "range": {
+        "startLine": 158,
+        "startChar": 29,
+        "endLine": 158,
+        "endChar": 47
+      },
+      "revId": "62d68842bc7765278ee184edd884dfa1a5ecc3e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7920e1c_774acd6a",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-27T10:40:19Z",
+      "side": 1,
+      "message": "Please make this a private static member of the class. It\u0027s thread safe and we can spare the instantiation per request (I realize we should have done this in dynamicTemplateData, too).",
+      "revId": "62d68842bc7765278ee184edd884dfa1a5ecc3e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "654529c5_f9a10fe8",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-27T10:40:19Z",
+      "side": 1,
+      "message": "I think this should be singular, but please check the docs of ServletRequest.\n\ndomain.tld?experiment\u003da\u0026experiment\u003db\n\nwill result in\n\"experiment\" \u003d\u003e [a,b]",
+      "range": {
+        "startLine": 216,
+        "startChar": 37,
+        "endLine": 216,
+        "endChar": 48
+      },
+      "revId": "62d68842bc7765278ee184edd884dfa1a5ecc3e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

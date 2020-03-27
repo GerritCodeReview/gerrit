@@ -116,6 +116,12 @@ class GrThreadList extends GestureEventListeners(
   _updateSortedThreads(threads) {
     this._sortedThreads =
         threads.map(this._getThreadWithSortInfo).sort((c1, c2) => {
+          // threads will be sorted by:
+          // - unresolved first
+          // - with drafts
+          // - file path
+          // - line
+          // - updated time
           const c1Date = c1.__date || util.parseDate(c1.updated);
           const c2Date = c2.__date || util.parseDate(c2.updated);
           const dateCompare = c2Date - c1Date;
@@ -123,9 +129,23 @@ class GrThreadList extends GestureEventListeners(
             if (!c1.unresolved) { return 1; }
             if (!c2.unresolved) { return -1; }
           }
+
           if (c2.hasDraft || c1.hasDraft) {
             if (!c1.hasDraft) { return 1; }
             if (!c2.hasDraft) { return -1; }
+          }
+
+          if (c1.thread.path !== c2.thread.path) {
+            return c1.thread.path.localeCompare(c2.thread.path);
+          }
+
+          // TODO: may need update here once we introduce
+          // file level comments, and change message as comment
+          // they may not have or have a special line attribute
+          if (c1.thread.line
+             && c2.thread.line
+              && c1.thread.line !== c2.thread.line) {
+            return c1.thread.line - c2.thread.line;
           }
 
           if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {

@@ -114,7 +114,7 @@ suite('gr-thread-list tests', () => {
             },
             patch_set: 2,
             id: '8caddf38_44770ec1',
-            line: 4,
+            line: 8,
             updated: '2018-02-13 22:48:40.000000000',
             message: 'Another unresolved comment',
             unresolved: true,
@@ -122,7 +122,7 @@ suite('gr-thread-list tests', () => {
         ],
         patchNum: 2,
         path: '/COMMIT_MSG',
-        line: 4,
+        line: 8,
         rootId: '8caddf38_44770ec1',
         start_datetime: '2018-02-13 22:48:40.000000000',
       },
@@ -205,7 +205,7 @@ suite('gr-thread-list tests', () => {
             },
             patch_set: 4,
             id: 'rc2',
-            line: 5,
+            line: 7,
             updated: '2019-03-08 18:49:18.000000000',
             message: 'test',
             unresolved: true,
@@ -228,7 +228,7 @@ suite('gr-thread-list tests', () => {
         ],
         patchNum: 4,
         path: '/COMMIT_MSG',
-        line: 5,
+        line: 7,
         rootId: 'rc2',
         start_datetime: '2019-03-08 18:49:18.000000000',
       },
@@ -259,25 +259,26 @@ suite('gr-thread-list tests', () => {
 
   test('_computeSortedThreads', () => {
     assert.equal(element._sortedThreads.length, 7);
-    // Draft and unresolved
+    // Draft and unresolved for commit-msg at line 5
     assert.equal(element._sortedThreads[0].thread.rootId,
         'ecf0b9fa_fe1a5f62');
-    // Unresolved robot comment
+    // /COMMIT_MSG
+    // unresolved no draft at line 4
     assert.equal(element._sortedThreads[1].thread.rootId,
-        'rc2');
-    // Unresolved robot comment
+        'scaddf38_44770ec1');
+    // unresolved no draft at line 5
     assert.equal(element._sortedThreads[2].thread.rootId,
         'rc1');
-    // unresolved
+    // Unresolved no draft at line 7
     assert.equal(element._sortedThreads[3].thread.rootId,
-        'scaddf38_44770ec1');
-    // unresolved
+        'rc2');
+    // unresolved no draft at line 8
     assert.equal(element._sortedThreads[4].thread.rootId,
         '8caddf38_44770ec1');
-    // resolved and draft
+    // resolved and draft on COMMIT_MSG
     assert.equal(element._sortedThreads[5].thread.rootId,
         'zcf0b9fa_fe1a5f62');
-    // resolved
+    // resolved and on file test.txt
     assert.equal(element._sortedThreads[6].thread.rootId,
         '09a9fb0a_1484e6cf');
   });
@@ -298,19 +299,20 @@ suite('gr-thread-list tests', () => {
     assert.equal(element._sortedThreads.length, 6);
     assert.equal(element._sortedThreads[0].thread.rootId,
         'ecf0b9fa_fe1a5f62');
-    // Unresolved robot comment
+    // /COMMIT_MSG
+    // unresolved no draft at line 4
     assert.equal(element._sortedThreads[1].thread.rootId,
-        'rc1');
-    // unresolved
-    assert.equal(element._sortedThreads[2].thread.rootId,
         'scaddf38_44770ec1');
-    // unresolved
+    // unresolved no draft at line 5
+    assert.equal(element._sortedThreads[2].thread.rootId,
+        'rc1');
+    // unresolved no draft at line 8
     assert.equal(element._sortedThreads[3].thread.rootId,
         '8caddf38_44770ec1');
     // resolved and draft
     assert.equal(element._sortedThreads[4].thread.rootId,
         'zcf0b9fa_fe1a5f62');
-    // resolved
+    // resolved and on file test.txt
     assert.equal(element._sortedThreads[5].thread.rootId,
         '09a9fb0a_1484e6cf');
   });

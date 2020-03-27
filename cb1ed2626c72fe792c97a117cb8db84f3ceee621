@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f290d7d_62e16e83",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-27T13:27:05Z",
+      "side": 1,
+      "message": "Is this line obsolete?",
+      "revId": "cb1ed2626c72fe792c97a117cb8db84f3ceee621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6feec2cf_1bd33afe",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-27T13:27:05Z",
+      "side": 1,
+      "message": "Maybe add one line comments for each of the properties.",
+      "range": {
+        "startLine": 82,
+        "startChar": 1,
+        "endLine": 102,
+        "endChar": 8
+      },
+      "revId": "cb1ed2626c72fe792c97a117cb8db84f3ceee621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf32b101_8df7e7db",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-27T13:27:05Z",
+      "side": 1,
+      "message": "Why bold? Is that consistent with other components? Did Delphine spec that?",
+      "revId": "cb1ed2626c72fe792c97a117cb8db84f3ceee621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

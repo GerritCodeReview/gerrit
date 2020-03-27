@@ -109,14 +109,31 @@ suite('gr-hovercard tests', () => {
     }, TRANSITION_TIME);
   });
 
-  test('card shows on enter and hides on leave', done => {
+  test('showDelayed does not show immediately', done => {
+    element.showDelayedBy(100);
+    setTimeout(() => {
+      assert.isFalse(element._isShowing);
+      done();
+    }, 0);
+  });
+
+  test('showDelayed shows after delay', done => {
+    element.showDelayedBy(1);
+    setTimeout(() => {
+      assert.isTrue(element._isShowing);
+      done();
+    }, 2);
+  });
+
+  test('card is scheduled to show on enter and hides on leave', done => {
     const button = dom(document).querySelector('button');
     assert.isFalse(element._isShowing);
     button.addEventListener('mouseenter', event => {
-      assert.isTrue(element._isShowing);
+      assert.isTrue(element._isScheduledToShow);
       button.dispatchEvent(new CustomEvent('mouseleave'));
     });
     button.addEventListener('mouseleave', event => {
+      assert.isFalse(element._isScheduledToShow);
       assert.isFalse(element._isShowing);
       done();
     });

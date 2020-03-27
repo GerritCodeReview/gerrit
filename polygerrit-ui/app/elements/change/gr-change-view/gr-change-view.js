@@ -1759,6 +1759,7 @@ class GrChangeView extends mixinBehaviors( [
     }
 
     if (opt_isLocationChange) {
+      this._editingCommitMessage = false;
       const relatedChangesLoaded = coreDataPromise
           .then(() => this.$.relatedChanges.reload());
       allDataPromises.push(relatedChangesLoaded);

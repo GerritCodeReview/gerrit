@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7d80685_02d251df",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-03-27T15:17:02Z",
+      "side": 1,
+      "message": "development",
+      "range": {
+        "startLine": 57,
+        "startChar": 70,
+        "endLine": 57,
+        "endChar": 81
+      },
+      "revId": "86def8c3caa61c4c8348e2569a261dde1871bc17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

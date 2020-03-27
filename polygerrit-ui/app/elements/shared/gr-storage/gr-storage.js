@@ -26,8 +26,8 @@ const DURATION_DAY = 24 * 60 * 60 * 1000;
 const CLEANUP_THROTTLE_INTERVAL = DURATION_DAY;
 
 const CLEANUP_PREFIXES_MAX_AGE_MAP = {
-  // respectfultip has a 3 day expiration
-  'respectfultip:': 3 * DURATION_DAY,
+  // respectfultip has a 14-day expiration
+  'respectfultip:': 14 * DURATION_DAY,
   'draft:': DURATION_DAY,
   'editablecontent:': DURATION_DAY,
 };

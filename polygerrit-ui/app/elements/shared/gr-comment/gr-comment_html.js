@@ -282,7 +282,7 @@ export const htmlTemplate = html`
                 <a tabindex="-1" on-click="_onRespectfulReadMoreClick" href="https://testing.googleblog.com/2019/11/code-health-respectful-reviews-useful.html" target="_blank">
                   Read more
                 </a>
-                <iron-icon class="close pointer" on-click="_dismissRespectfulTip" icon="gr-icons:close"></iron-icon>
+                <a tabindex="-1" class="close pointer" on-click="_dismissRespectfulTip">Not helpful</a>
               </div>
             </div>
           </template>

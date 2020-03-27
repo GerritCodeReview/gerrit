@@ -22,6 +22,30 @@
       "revId": "0c0d515bede6a8da2e5325a3524f6eaa7584a053",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1806694f_9a62dece",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-27T16:11:58Z",
+      "side": 1,
+      "message": "Well, I don\u0027t know why it works, but it works for me locally and CI is also happy. Changed it to 10 anyway. SG?",
+      "parentUuid": "a4b7ad89_2942adfe",
+      "range": {
+        "startLine": 125,
+        "startChar": 7,
+        "endLine": 125,
+        "endChar": 8
+      },
+      "revId": "0c0d515bede6a8da2e5325a3524f6eaa7584a053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

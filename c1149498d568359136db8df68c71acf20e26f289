@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "46b66851_41899808",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-27T12:06:52Z",
+      "side": 1,
+      "message": "Thanks for the explanation. Done.",
+      "parentUuid": "f5f08ff4_b5a4e92b",
+      "revId": "c1149498d568359136db8df68c71acf20e26f289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea317e49_2706751e",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 15
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f42209d8_a851ff99",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-27T12:06:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea317e49_2706751e",
+      "range": {
+        "startLine": 218,
+        "startChar": 39,
+        "endLine": 218,
+        "endChar": 48
+      },
+      "revId": "c1149498d568359136db8df68c71acf20e26f289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b7cabc3_62e264b5",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 15
@@ -56,6 +98,24 @@
       "revId": "c1149498d568359136db8df68c71acf20e26f289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "384f8f82_553fdb36",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-27T12:06:52Z",
+      "side": 1,
+      "message": "Sorry for missing that. Added ExternalGroupsSerializerTest",
+      "parentUuid": "3b7cabc3_62e264b5",
+      "revId": "c1149498d568359136db8df68c71acf20e26f289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

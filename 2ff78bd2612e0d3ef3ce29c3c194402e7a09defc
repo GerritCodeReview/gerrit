@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ffdfeb1_9ecc8895",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-27T11:16:30Z",
+      "side": 1,
+      "message": "200ms seems very short, not sure if that will address the reported issue. I would say 500ms.\n\nFYI: https://ux.stackexchange.com/questions/109288/how-long-in-milliseconds-is-long-enough-to-decide-a-user-is-actually-hovering",
+      "range": {
+        "startLine": 36,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "2ff78bd2612e0d3ef3ce29c3c194402e7a09defc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

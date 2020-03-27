@@ -54,6 +54,14 @@ locally. Dummy values for `user` and `password` in that file can be used initial
 [warn] Credentials file ~/.sbt/sonatype_credentials does not exist
 ----
 
+The other warning below can be safely ignored, so far. Running the proposed `sbt evicted` command
+should only list `scala-java8-compat_2.12` as `[warn]`. The other dependency conflicts should show
+as `[info]`. All of the listed conflicts get usually resolved seamlessly or so.
+
+----
+[warn] There may be incompatibilities among your library dependencies; run 'evicted' to see detailed eviction warnings.
+----
+
 Every `sbt` command can include an optional log level
 link:https://www.scala-sbt.org/1.x/docs/Howto-Logging.html#Change+the+logging+level+globally[argument].
 Below, `[info]` logs are no longer shown:

@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "21c86824_99074ff5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-27T10:28:14Z",
+      "side": 1,
+      "message": "I am actually more for several providers, so class will use only ones that are needed. It will better show how much is each provider used, it will better show what actually each component needs.\n\nWhat kind of services or stores would you like to include? For example rest-api-interface is used in very limited number of components and we probably don\u0027t want each component having it in some wide Provider class.",
+      "parentUuid": "92ab515c_561189de",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b5a05d7_6598a9e5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 17
@@ -64,6 +82,24 @@
       "writtenOn": "2020-03-27T09:32:28Z",
       "side": 1,
       "message": "I would either let the provider deal with maintaining the single instance of this class (GrReporting does not care about being a singleton or not), or I would move the getInstance() logic into the constructor. I think it is possible for a JavaScript constructor to `return GrReporting.instance`.",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e1730c9_fb7924a2",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-03-27T10:28:14Z",
+      "side": 1,
+      "message": "I did it like that before (in another change), but Dmitrii didn\u0027t like it, since it is kind of surprising overloading of constructor. \n\nwith getInstance it\u0027s much more clear what we are trying to achieve. But I don\u0027t care, both solution works for me.",
+      "parentUuid": "1b5a05d7_6598a9e5",
       "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

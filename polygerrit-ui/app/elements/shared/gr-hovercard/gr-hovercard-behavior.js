@@ -30,6 +30,12 @@ const HOVER_CLASS = 'hovered';
 const DIAGONAL_OVERFLOW = 15;
 
 /**
+ * How long should be wait before showing the hovercard when the user hovers
+ * over the element?
+ */
+const SHOW_DELAY_MS = 500;
+
+/**
  * The mixin for gr-hovercard-behavior.
  *
  * @example
@@ -118,8 +124,8 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
   attached() {
     super.attached();
     if (!this._target) { this._target = this.target; }
-    this.listen(this._target, 'mouseenter', 'show');
-    this.listen(this._target, 'focus', 'show');
+    this.listen(this._target, 'mouseenter', 'showDelayed');
+    this.listen(this._target, 'focus', 'showDelayed');
     this.listen(this._target, 'mouseleave', 'hide');
     this.listen(this._target, 'blur', 'hide');
     this.listen(this._target, 'click', 'hide');
@@ -184,6 +190,10 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
    * @param {Event} e DOM Event (e.g. `mouseleave` event)
    */
   hide(e) {
+    this._isScheduledToShow = false;
+    if (!this._isShowing) {
+      return;
+    }
     const targetRect = this._target.getBoundingClientRect();
     const x = e.clientX;
     const y = e.clientY;
@@ -195,10 +205,10 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
       return;
     }
 
-    // If the hovercard is already hidden or the user is now hovering over the
-    //  hovercard or the user is returning from the hovercard but now hovering
-    //  over the target (to stop an annoying flicker effect), just return.
-    if (!this._isShowing || e.toElement === this ||
+    // If the user is now hovering over the hovercard or the user is returning
+    // from the hovercard but now hovering over the target (to stop an annoying
+    // flicker effect), just return.
+    if (e.toElement === this ||
         (e.fromElement === this && e.toElement === this._target)) {
       return;
     }
@@ -221,12 +231,31 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
   }
 
   /**
+   * Shows/opens the hovercard with a fixed delay.
+   */
+  showDelayed() {
+    this.showDelayedBy(SHOW_DELAY_MS);
+  }
+
+  /**
+   * Shows/opens the hovercard with the given delay.
+   */
+  showDelayedBy(delayMs) {
+    if (this._isShowing || this._isScheduledToShow) return;
+    this._isScheduledToShow = true;
+    setTimeout(() => {
+      // This happens when the mouse leaves the target before the delay is over.
+      if (!this._isScheduledToShow) return;
+      this._isScheduledToShow = false;
+      this.show();
+    }, delayMs);
+  }
+
+  /**
    * Shows/opens the hovercard. This occurs when the user triggers the
    * `mousenter` event on the hovercard's `target` element.
-   *
-   * @param {Event} e DOM Event (e.g., `mouseenter` event)
    */
-  show(e) {
+  show() {
     if (this._isShowing) {
       return;
     }

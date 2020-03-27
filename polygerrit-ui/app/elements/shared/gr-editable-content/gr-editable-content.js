@@ -65,6 +65,7 @@ class GrEditableContent extends mixinBehaviors( [
       content: {
         notify: true,
         type: String,
+        observer: '_contentChanged',
       },
       disabled: {
         reflectToAttribute: true,
@@ -89,6 +90,17 @@ class GrEditableContent extends mixinBehaviors( [
         observer: '_newContentChanged',
       },
     };
+  }
+
+  _contentChanged(content) {
+    /* If new commit message is loaded because of loading a change in the
+    relation chain, then the commit message should be updated for the editable
+    content
+    */
+    this.content = content;
+    this._newContent = this.removeZeroWidthSpace ?
+      content.replace(/^R=\u200B/gm, 'R=') :
+      content;
   }
 
   focusTextarea() {

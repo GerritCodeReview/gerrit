@@ -13,6 +13,6 @@ lazy val root = (project in file("."))
       name := "gerrit",
       libraryDependencies ++=
           gatling ++
-              Seq("io.gatling" % "gatling-core" % "3.1.1") ++
-              Seq("io.gatling" % "gatling-app" % "3.1.1")
+              Seq("io.gatling" % "gatling-core" % GatlingVersion) ++
+              Seq("io.gatling" % "gatling-app" % GatlingVersion)
     ) dependsOn gatlingGitExtension

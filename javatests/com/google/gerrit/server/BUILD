@@ -27,10 +27,7 @@ junit_tests(
     ),
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],
-    tags = [
-        "no_rbe",
-        "no_windows",
-    ],
+    tags = ["no_windows"],
     visibility = ["//visibility:public"],
     runtime_deps = [
         "//java/com/google/gerrit/lucene",

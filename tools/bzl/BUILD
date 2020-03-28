@@ -7,4 +7,5 @@ exports_files([
 sh_test(
     name = "always_pass_test",
     srcs = ["always_pass_test.sh"],
+    tags = ["no_rbe"],
 )

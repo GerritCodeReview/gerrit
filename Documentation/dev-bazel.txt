@@ -369,7 +369,6 @@ The following values are currently supported for the group name:
 * git-protocol-v2
 * git-upload-archive
 * notedb
-* no_rbe
 * pgm
 * rest
 * server
@@ -650,6 +649,39 @@ gcloud alpha remote-build-execution worker-pools create default \
     --machine-type=e2-standard-4 \
     --disk-size=200
 ```
+
+Due to outdated Git version in official RBE docker images, a custom RBE docker
+image must be used. To build custom docker imager, change to the directory
+`tools/platforms` and build and publish custom RBE docker image.
+
+
+```
+make build
+```
+
+To publish the custom RBE docker image, run:
+
+```
+make publish
+[...]
+latest: digest: sha256:de5186d4313630a6111f9a2449b72563d0bc59ec9fb60956f063b69a38a76834 size: 1584
+```
+
+Re-build rbe_autoconfig project conduct a new release and switch to using it
+in `WORKSPACE` file.
+
+Note, to authenticate to the gcr.io registry, the following command must be
+used:
+
+```
+gcloud auth configure-docker
+```
+
+To see the documentation, developer must be added to this group:
+https://groups.google.com/forum/#!forum/rbe-alpha-customers.
+
+Documentation can be found at:
+https://cloud.google.com/remote-build-execution/docs.
 
 To use RBE, execute
 

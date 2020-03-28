@@ -35,11 +35,11 @@ load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
 
 http_archive(
     name = "rbe_jdk11",
-    sha256 = "766796de71916118e528b9f4334c29c9c9b4e926227bf3264dee555e6a4306c8",
-    strip_prefix = "rbe_autoconfig-2.0.0",
+    sha256 = "5939e2a4e56d1fc53b6c44c6db97ee068c9f4bd18e86c762f6ab8b4fff5e294b",
+    strip_prefix = "rbe_autoconfig-3.0.0",
     urls = [
-        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v2.0.0.tar.gz",
-        "https://github.com/davido/rbe_autoconfig/archive/v2.0.0.tar.gz",
+        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v3.0.0.tar.gz",
+        "https://github.com/davido/rbe_autoconfig/archive/v3.0.0.tar.gz",
     ],
 )
 

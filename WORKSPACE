@@ -31,20 +31,21 @@ load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 
 http_archive(
     name = "bazel_toolchains",
-    sha256 = "88e818f9f03628eef609c8429c210ecf265ffe46c2af095f36c7ef8b1855fef5",
-    strip_prefix = "bazel-toolchains-92dd8a7a518a2fb7ba992d47c8b38299fe0be825",
+    sha256 = "1342f84d4324987f63307eb6a5aac2dff6d27967860a129f5cd40f8f9b6fd7dd",
+    strip_prefix = "bazel-toolchains-2.2.0",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz",
-        "https://github.com/bazelbuild/bazel-toolchains/archive/92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz",
+        "https://github.com/bazelbuild/bazel-toolchains/releases/download/2.2.0/bazel-toolchains-2.2.0.tar.gz",
     ],
 )
 
 load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 
-# Creates a default toolchain config for RBE.
-# Use this as is if you are using the rbe_ubuntu16_04 container,
-# otherwise refer to RBE docs.
-rbe_autoconfig(name = "rbe_default")
+rbe_autoconfig(
+    name = "rbe_ubuntu1804",
+    digest = "sha256:03e55fd8822bbe6ccb2b01147ccf7b57cf7a00bfb418fd780df6b8105074da4f",
+    registry = "gcr.io",
+    repository = "api-project-164060093628/rbe-ubuntu18-04",
+)
 
 # TODO(davido): Switch to upstream again, when this PR is merged:
 # https://github.com/bazelbuild/rules_closure/pull/478

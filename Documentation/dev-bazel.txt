@@ -625,12 +625,27 @@ gcloud alpha remote-build-execution worker-pools create default \
     --disk-size=200
 ```
 
+Due to outdated Git version in official RBE docker images, a custom RBE docker
+image must be used. To build custom docker imager, change to the directory
+`tools/platforms` and build and publish custom RBE docker image.
+
+Note, to authenticate to the gcr.io registry, the following command must be
+used:
+
+```
+gcloud auth configure-docker
+```
+
+To see the documentation, developer must be added to this group:
+https://groups.google.com/forum/#!forum/rbe-alpha-customers.
+
+Documentation can be found at:
+https://cloud.google.com/remote-build-execution/docs.
+
 To use RBE, execute
 
 ```
-bazel test --config=remote \
-    --remote_instance_name=projects/${PROJECT}/instances/default_instance \
-    javatests/...
+bazel test --config=remote javatests/...
 ```
 
 

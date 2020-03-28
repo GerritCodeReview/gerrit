@@ -34,6 +34,24 @@
       "revId": "eda5e57cdf7f98565af0afedf77a4547faa500a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df154211_4cfcb994",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-28T18:06:27Z",
+      "side": 1,
+      "message": "*File* level comments already exist. There are plans for *patchset* level comments.\n\nSince 0 is falsy you will skip the following comparison for file level comments, which I think you should not.",
+      "parentUuid": "8215e8c2_c3bc140b",
+      "revId": "eda5e57cdf7f98565af0afedf77a4547faa500a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

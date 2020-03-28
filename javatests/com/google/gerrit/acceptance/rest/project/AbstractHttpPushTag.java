@@ -26,6 +26,6 @@ public abstract class AbstractHttpPushTag extends AbstractPushTag {
     // clone with user to avoid inherited tag permissions of admin user
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(user.username, user.httpPassword));
-    testRepo = GitUtil.cloneProject(project, user.getHttpUrl(server) + "/" + project.get());
+    testRepo = GitUtil.cloneProject(project, user.getHttpUrl(server) + "/a/" + project.get());
   }
 }

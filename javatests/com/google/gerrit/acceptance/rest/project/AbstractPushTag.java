@@ -21,16 +21,16 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.GitUtil.updateAnnotatedTag;
 import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.ANNOTATED;
 import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.LIGHTWEIGHT;
-import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
+import java.util.Arrays;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -251,14 +251,22 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
   }
 
   private void removeAnonymousRead() throws Exception {
-    AccountGroup.UUID anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-    AccountGroup.UUID registered = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    String allRefs = RefNames.REFS + "*";
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.remove(u.getConfig(), Permission.READ, anonymous, allRefs);
-      Util.allow(u.getConfig(), Permission.READ, registered, allRefs);
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      ProjectConfig cfg = u.getConfig();
+      removeAllBranchPermissions(cfg, Permission.READ);
+      Util.allow(cfg, Permission.READ, REGISTERED_USERS, RefNames.REFS + "*");
       u.save();
     }
+  }
+
+  private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {
+    cfg.getAccessSections().stream()
+        .filter(
+            s ->
+                s.getName().startsWith("refs/heads/")
+                    || s.getName().startsWith("refs/for/")
+                    || s.getName().equals("refs/*"))
+        .forEach(s -> Arrays.stream(permissions).forEach(s::removePermission));
   }
 
   private void commit(PersonIdent ident, String subject) throws Exception {

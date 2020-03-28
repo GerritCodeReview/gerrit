@@ -16,6 +16,24 @@
       "revId": "eda5e57cdf7f98565af0afedf77a4547faa500a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8215e8c2_c3bc140b",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-28T07:15:31Z",
+      "side": 1,
+      "message": "that\u0027s exactly why I have the TODO here :) I don\u0027t want to assume anything before its actually implemented :) the TODO here and also the outcome from this should give the eng a clear clue that this part will need to revisit once those two comments implemented.",
+      "parentUuid": "4d459d47_41589e19",
+      "revId": "eda5e57cdf7f98565af0afedf77a4547faa500a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

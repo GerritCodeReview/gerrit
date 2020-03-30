@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307fb35f_dae67372",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T14:07:13Z",
+      "side": 1,
+      "message": "Is it possible to wrap content in div instead of having it separately?\nIf it is not possible, could you please add comment which content/elements has this overlay as background?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 31
+      },
+      "revId": "e4c6102af0b36cb9bae2fba42c4e159cd9725082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -87,6 +87,15 @@ Gerrit.PatchRange;
 Gerrit.ChangeFetchRequest;
 
 /**
+ * @typedef {{
+ *   is_private: boolean,
+ *   subject: string,
+ *   unresolved_comment_count: number,
+ * }}
+ */
+Gerrit.Change;
+
+/**
  * Object to describe a request for passing into _send.
  * - method is the HTTP method to use in the request.
  * - url is the URL for the request

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6f74704_e8d49d1d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-30T10:56:01Z",
+      "side": 1,
+      "message": "Done\nSorry, having a hard time with the mac weird_button+f instead of ctrl+f",
+      "parentUuid": "24fb2140_fdd3821f",
+      "range": {
+        "startLine": 859,
+        "startChar": 30,
+        "endLine": 859,
+        "endChar": 31
+      },
+      "revId": "02682da51ae6b02f925c604712935060f8578f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf8e12dd_24815536",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "02682da51ae6b02f925c604712935060f8578f14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f7a56e7_37e8443a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6183,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-30T10:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf8e12dd_24815536",
+      "range": {
+        "startLine": 6183,
+        "startChar": 0,
+        "endLine": 6183,
+        "endChar": 13
+      },
+      "revId": "02682da51ae6b02f925c604712935060f8578f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "23e54ffa_480b9843",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-30T10:56:01Z",
+      "side": 1,
+      "message": "Yes sorry - this doesn\u0027t pass tests - forgot to commit.",
+      "parentUuid": "0d63eb1c_9ea957de",
+      "range": {
+        "startLine": 382,
+        "startChar": 14,
+        "endLine": 382,
+        "endChar": 25
+      },
+      "revId": "02682da51ae6b02f925c604712935060f8578f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76022c20_b425ba99",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 2
@@ -85,6 +157,24 @@
       "revId": "02682da51ae6b02f925c604712935060f8578f14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a08b3786_6dcb9fb9",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-30T10:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76022c20_b425ba99",
+      "revId": "02682da51ae6b02f925c604712935060f8578f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "d36d44a9_79d97163",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T10:50:16Z",
+      "side": 1,
+      "message": "ah i see your point now. If that\u0027s necessary, one idea here would be export ing the `reporting` as a getter property, and when TEST enabled, it should switch to the test instance otherwise return the prod-singleton.\n\nbut is it necessary ? I mean since it\u0027s a singleton, we can just stub on the singleton when we need.\n\nIf you want to stub all methods, we can just stub all the calls from the singleton to the fake instance in tests when we need, since its the singleton, everything you add on top of will preserve through the tests, and we just need to restore whatever we add after each test. will that be an acceptable solution ?",
+      "parentUuid": "8b2f3f2f_5c13f613",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b5a05d7_6598a9e5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 17

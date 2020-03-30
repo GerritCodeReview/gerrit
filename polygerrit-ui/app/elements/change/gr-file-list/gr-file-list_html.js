@@ -296,7 +296,7 @@ export const htmlTemplate = html`
       <template is="dom-repeat" items="[[_shownFiles]]" id="files" as="file" initial-count="[[fileListIncrement]]" target-framerate="1">
         [[_reportRenderedRow(index)]]
         <div class="stickyArea">
-          <div class\$="file-row row [[_computePathClass(file.__path, _expandedFilePaths.*)]]" data-path\$="[[file.__path]]" tabindex="-1">
+          <div class\$="file-row row [[_computePathClass(file.__path, _expandedFiles.*)]]" data-file\$="[[_computeDataFile(file)]]" tabindex="-1">
               <div class\$="[[_computeClass('status', file.__path)]]" tabindex="0" title\$="[[_computeFileStatusLabel(file.status)]]" aria-label\$="[[_computeFileStatusLabel(file.status)]]">
               [[_computeFileStatus(file.status)]]
             </div>
@@ -378,14 +378,14 @@ export const htmlTemplate = html`
             </div>
             <div class="show-hide">
               <label class="show-hide" data-path\$="[[file.__path]]" data-expand="true">
-                <input type="checkbox" class="show-hide" checked\$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]" data-path\$="[[file.__path]]" data-expand="true">
-                  <iron-icon id="icon" icon="[[_computeShowHideIcon(file.__path, _expandedFilePaths.*)]]">
+                <input type="checkbox" class="show-hide" checked\$="[[_isFileExpanded(file.__path, _expandedFiles.*)]]" data-path\$="[[file.__path]]" data-expand="true">
+                  <iron-icon id="icon" icon="[[_computeShowHideIcon(file.__path, _expandedFiles.*)]]">
                   </iron-icon>
               </label>
             </div>
           </div>
-          <template is="dom-if" if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
-            <gr-diff-host no-auto-render="" show-load-failure="" display-line="[[_displayLine]]" hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]" change-num="[[changeNum]]" patch-range="[[patchRange]]" path="[[file.__path]]" prefs="[[diffPrefs]]" project-name="[[change.project]]" on-line-selected="_onLineSelected" no-render-on-prefs-change="" view-mode="[[diffViewMode]]"></gr-diff-host>
+          <template is="dom-if" if="[[_isFileExpanded(file.__path, _expandedFiles.*)]]">
+            <gr-diff-host no-auto-render="" show-load-failure="" display-line="[[_displayLine]]" hidden="[[!_isFileExpanded(file.__path, _expandedFiles.*)]]" change-num="[[changeNum]]" patch-range="[[patchRange]]" path="[[file.__path]]" prefs="[[diffPrefs]]" project-name="[[change.project]]" on-line-selected="_onLineSelected" no-render-on-prefs-change="" view-mode="[[diffViewMode]]"></gr-diff-host>
           </template>
         </div>
       </template>

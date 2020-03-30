@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e44af826_1258771b",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T14:00:40Z",
+      "side": 1,
+      "message": "May be:\nconst ATTENTION_SET_COLUMNS \u003d [\n    \u0027Comments\u0027: true,\n    \u0027Reviewers\u0027: true\n]\n.....\nif(ATTENTION_SET_COLUMNS[column]) {\n    return config.change.enable_attention_set;\n}\nreturn true;\n\nOr if more conditions expected:\n\nconst onlyWithAttentionSet \u003d config \u003d\u003e !!config.change.enable_attention_set;\nconst CONDITIONAL_COLUMNS \u003d [\n    \u0027Comments\u0027: onlyWithAttentionSet,\n    \u0027Reviewers\u0027: onlyWithAttentionSet\n]\n....\nif(ATTENTION_SET_COLUMNS[column]) {\n    return ATTENTION_SET_COLUMNS[column](config)\n}\nreturn true;\n\nIf this is only a temporary feature-flag, I am fine with existing code.",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 0
+      },
+      "revId": "1836fbc8039c3029dbe628d8a293f0e3e449032c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abfe99b1_306444f8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T14:00:40Z",
+      "side": 1,
+      "message": "May be move to utils?",
+      "range": {
+        "startLine": 251,
+        "startChar": 2,
+        "endLine": 254,
+        "endChar": 0
+      },
+      "revId": "1836fbc8039c3029dbe628d8a293f0e3e449032c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67d7555d_d9871955",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T14:00:40Z",
+      "side": 1,
+      "message": "Do you need this empty comment?",
+      "range": {
+        "startLine": 160,
+        "startChar": 99,
+        "endLine": 161,
+        "endChar": 10
+      },
+      "revId": "1836fbc8039c3029dbe628d8a293f0e3e449032c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

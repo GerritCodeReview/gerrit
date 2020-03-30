@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4ecb192f_47e3a4a2",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-30T10:06:42Z",
+      "side": 1,
+      "message": "Yeah, I was thinking the same, but then you are basically using a global variable.\n\nAnd you cannot do\n\n  export const reporting \u003d new GrReporting();\n\nYou would at least have to do\n\n  let const reporting \u003d new GrReporting();\n\nThis is required so you can use a different reporting instance for testing.\n\nMaybe we also want to instantiate lazily?",
+      "parentUuid": "e13631a0_a91cff38",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b5a05d7_6598a9e5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 17

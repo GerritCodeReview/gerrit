@@ -22,6 +22,30 @@
       "revId": "8abef1a0981a1913e1cc6be40fa84c4e4790c6b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4554f4a_fa6ac05f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractHttpPushTag.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-30T08:05:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc460f7a_7946b990",
+      "range": {
+        "startLine": 29,
+        "startChar": 73,
+        "endLine": 29,
+        "endChar": 75
+      },
+      "revId": "8abef1a0981a1913e1cc6be40fa84c4e4790c6b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

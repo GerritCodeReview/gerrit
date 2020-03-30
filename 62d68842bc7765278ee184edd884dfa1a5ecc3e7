@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c22f9ae_1dbd1db3",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T12:05:33Z",
+      "side": 1,
+      "message": "ya I thought about having this in dynamicTemplateData, but I will need to change the request for that method to get the urlParamsMap, and seems for now dynamicTemplateData is only designed to generate the initial data. I will create a separate method for it",
+      "parentUuid": "6a692899_690e3916",
+      "range": {
+        "startLine": 158,
+        "startChar": 29,
+        "endLine": 158,
+        "endChar": 47
+      },
+      "revId": "62d68842bc7765278ee184edd884dfa1a5ecc3e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7920e1c_774acd6a",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "62d68842bc7765278ee184edd884dfa1a5ecc3e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03b944a3_562463ec",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T12:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7920e1c_774acd6a",
+      "revId": "62d68842bc7765278ee184edd884dfa1a5ecc3e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "62d68842bc7765278ee184edd884dfa1a5ecc3e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a15ec33_3b857ce3",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T12:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "654529c5_f9a10fe8",
+      "range": {
+        "startLine": 216,
+        "startChar": 37,
+        "endLine": 216,
+        "endChar": 48
+      },
+      "revId": "62d68842bc7765278ee184edd884dfa1a5ecc3e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

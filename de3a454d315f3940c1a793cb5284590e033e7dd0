@@ -22,6 +22,30 @@
       "revId": "de3a454d315f3940c1a793cb5284590e033e7dd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4676454_1f9cbb0f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T14:47:40Z",
+      "side": 0,
+      "message": "Comment removed by: Dmitrii Filippov; Reason: Ivalid",
+      "parentUuid": "f0e19292_cd6fc066",
+      "range": {
+        "startLine": 197,
+        "startChar": 28,
+        "endLine": 197,
+        "endChar": 57
+      },
+      "revId": "de3a454d315f3940c1a793cb5284590e033e7dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

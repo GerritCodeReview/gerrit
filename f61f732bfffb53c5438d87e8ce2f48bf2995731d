@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "7a1cf746_f5c8d5ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-03-30T13:20:22Z",
+      "side": 1,
+      "message": "Done.\n\nI saw that CI fails, but the same test works when I run it locally. Why is that?",
+      "parentUuid": "83bca99b_ee1f3387",
+      "revId": "f61f732bfffb53c5438d87e8ce2f48bf2995731d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74719062_4bdc5ab3",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
         "patchSetId": 1

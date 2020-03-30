@@ -45,6 +45,30 @@
       "revId": "4a2109d0e0a174e86569583d8a0fc8e05215bf4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea2b5090_5248caff",
+        "filename": "java/com/google/gerrit/acceptance/TestAccount.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-03-30T07:56:21Z",
+      "side": 0,
+      "message": "Done.\nAlthough it seems like this doesn\u0027t have any effect on any test, and presumably can be removed, it\u0027s not related to this change.",
+      "parentUuid": "6c1148e2_e8c047bd",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 44
+      },
+      "revId": "4a2109d0e0a174e86569583d8a0fc8e05215bf4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

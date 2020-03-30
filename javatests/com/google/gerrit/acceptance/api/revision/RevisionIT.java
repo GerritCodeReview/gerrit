@@ -1079,6 +1079,24 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setReviewedFlagWithMultiplePatchSets() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r1 = push.to("refs/for/master");
+
+    gApi.changes().id(r1.getChangeId()).current().setReviewed(PushOneCommit.FILE_NAME, true);
+
+    /** Amending the change will result in the file being un-reviewed in the latest patchset */
+    PushOneCommit.Result r2 = amendChange(r1.getChangeId());
+
+    assertThat(gApi.changes().id(r2.getChangeId()).current().reviewed()).isEmpty();
+
+    gApi.changes().id(r2.getChangeId()).current().setReviewed(PushOneCommit.FILE_NAME, true);
+
+    assertThat(Iterables.getOnlyElement(gApi.changes().id(r2.getChangeId()).current().reviewed()))
+        .isEqualTo(PushOneCommit.FILE_NAME);
+  }
+
+  @Test
   public void setUnsetReviewedFlagByFileApi() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");

@@ -184,7 +184,8 @@ class GrFileList extends mixinBehaviors( [
        */
       _reportinShownFilesIncrement: Number,
 
-      _expandedFilePaths: {
+      /** @type !Array<{path: string, oldPath?: string}> */
+      _expandedFiles: {
         type: Array,
         value() { return []; },
       },
@@ -230,7 +231,7 @@ class GrFileList extends mixinBehaviors( [
 
   static get observers() {
     return [
-      '_expandedPathsChanged(_expandedFilePaths.splices)',
+      '_expandedFilesChanged(_expandedFiles.splices)',
       '_computeFiles(_filesByPath, changeComments, patchRange, _reviewed, ' +
         '_loading)',
     ];
@@ -409,27 +410,28 @@ class GrFileList extends mixinBehaviors( [
     return this.$.restAPI.getPreferences();
   }
 
-  _togglePathExpanded(path) {
+  _toggleFileExpanded(file) {
     // Is the path in the list of expanded diffs? IF so remove it, otherwise
     // add it to the list.
-    const pathIndex = this._expandedFilePaths.indexOf(path);
+    const pathIndex = this._expandedFiles.findIndex(f => f.path === file.path);
     if (pathIndex === -1) {
-      this.push('_expandedFilePaths', path);
+      this.push('_expandedFiles', file);
     } else {
-      this.splice('_expandedFilePaths', pathIndex, 1);
+      this.splice('_expandedFiles', pathIndex, 1);
     }
   }
 
-  _togglePathExpandedByIndex(index) {
-    this._togglePathExpanded(this._files[index].__path);
+  _toggleFileExpandedByIndex(index) {
+    const file = this._files[index];
+    this._toggleFileExpanded({path: file.__path, oldPath: file.old_path});
   }
 
   _updateDiffPreferences() {
     if (!this.diffs.length) { return; }
     // Re-render all expanded diffs sequentially.
     this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
-    this._renderInOrder(this._expandedFilePaths, this.diffs,
-        this._expandedFilePaths.length);
+    this._renderInOrder(this._expandedFiles, this.diffs,
+        this._expandedFiles.length);
   }
 
   _forEachDiff(fn) {
@@ -444,23 +446,23 @@ class GrFileList extends mixinBehaviors( [
 
     // Find the list of paths that are in the file list, but not in the
     // expanded list.
-    const newPaths = [];
+    const newFiles = [];
     let path;
     for (let i = 0; i < this._shownFiles.length; i++) {
       path = this._shownFiles[i].__path;
-      if (!this._expandedFilePaths.includes(path)) {
-        newPaths.push(path);
+      if (!this._expandedFiles.some(f => f.path === path)) {
+        newFiles.push({path, oldPath: this._shownFiles[i].old_path});
       }
     }
 
-    this.splice(...['_expandedFilePaths', 0, 0].concat(newPaths));
+    this.splice(...['_expandedFiles', 0, 0].concat(newFiles));
   }
 
   collapseAllDiffs() {
     this._showInlineDiffs = false;
-    this._expandedFilePaths = [];
+    this._expandedFiles = [];
     this.filesExpanded = this._computeExpandedFiles(
-        this._expandedFilePaths.length, this._files.length);
+        this._expandedFiles.length, this._files.length);
     this.$.diffCursor.handleDiffUpdate();
   }
 
@@ -634,7 +636,13 @@ class GrFileList extends mixinBehaviors( [
       row = row.parentElement;
     }
 
-    const path = row.dataset.path;
+    // No action needed for item without a valid file
+    if (!row.dataset.file) {
+      return;
+    }
+
+    const file = JSON.parse(row.dataset.file);
+    const path = file.path;
     // Handle checkbox mark as reviewed.
     if (e.target.classList.contains('markReviewed')) {
       e.preventDefault();
@@ -650,7 +658,17 @@ class GrFileList extends mixinBehaviors( [
     if (this.descendedFromClass(e.target, 'editFileControls')) { return; }
 
     e.preventDefault();
-    this._togglePathExpanded(path);
+    this._toggleFileExpanded(file);
+  }
+
+  _computeDataFile(file) {
+    const dataFile = {
+      path: file.__path,
+    };
+    if (file.old_path) {
+      dataFile.oldPath = file.old_path;
+    }
+    return dataFile;
   }
 
   _handleLeftPane(e) {
@@ -677,7 +695,7 @@ class GrFileList extends mixinBehaviors( [
         this.$.fileCursor.index === -1) { return; }
 
     e.preventDefault();
-    this._togglePathExpandedByIndex(this.$.fileCursor.index);
+    this._toggleFileExpandedByIndex(this.$.fileCursor.index);
   }
 
   _handleToggleAllInlineDiffs(e) {
@@ -1051,7 +1069,7 @@ class GrFileList extends mixinBehaviors( [
   }
 
   _isFileExpanded(path, expandedFilesRecord) {
-    return expandedFilesRecord.base.includes(path);
+    return expandedFilesRecord.base.some(f => f.path === path);
   }
 
   _onLineSelected(e, detail) {
@@ -1076,20 +1094,20 @@ class GrFileList extends mixinBehaviors( [
    *
    * @param {!Array} record The splice record in the expanded paths list.
    */
-  _expandedPathsChanged(record) {
+  _expandedFilesChanged(record) {
     // Clear content for any diffs that are not open so if they get re-opened
     // the stale content does not flash before it is cleared and reloaded.
     const collapsedDiffs = this.diffs.filter(diff =>
-      this._expandedFilePaths.indexOf(diff.path) === -1);
+      this._expandedFiles.findIndex(f => f.path === diff.path) === -1);
     this._clearCollapsedDiffs(collapsedDiffs);
 
     if (!record) { return; } // Happens after "Collapse all" clicked.
 
     this.filesExpanded = this._computeExpandedFiles(
-        this._expandedFilePaths.length, this._files.length);
+        this._expandedFiles.length, this._files.length);
 
     // Find the paths introduced by the new index splices:
-    const newPaths = record.indexSplices
+    const newFiles = record.indexSplices
         .map(splice => splice.object.slice(
             splice.index, splice.index + splice.addedCount))
         .reduce((acc, paths) => acc.concat(paths), []);
@@ -1099,8 +1117,8 @@ class GrFileList extends mixinBehaviors( [
 
     this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
 
-    if (newPaths.length) {
-      this._renderInOrder(newPaths, this.diffs, newPaths.length);
+    if (newFiles.length) {
+      this._renderInOrder(newFiles, this.diffs, newFiles.length);
     }
 
     this._updateDiffCursor();
@@ -1119,18 +1137,19 @@ class GrFileList extends mixinBehaviors( [
    * for each path in order, awaiting the previous render to complete before
    * continung.
    *
-   * @param  {!Array<string>} paths
+   * @param  {!Array<{path: string, oldPath: string}>} files
    * @param  {!NodeList<!Object>} diffElements (GrDiffHostElement)
    * @param  {number} initialCount The total number of paths in the pass. This
    *   is used to generate log messages.
    * @return {!Promise}
    */
-  _renderInOrder(paths, diffElements, initialCount) {
+  _renderInOrder(files, diffElements, initialCount) {
     let iter = 0;
 
     return (new Promise(resolve => {
       this.fire('reload-drafts', {resolve});
-    })).then(() => this.asyncForeach(paths, (path, cancel) => {
+    })).then(() => this.asyncForeach(files, (file, cancel) => {
+      const path = file.path;
       this._cancelForEachDiff = cancel;
 
       iter++;
@@ -1141,8 +1160,8 @@ class GrFileList extends mixinBehaviors( [
         console.warn(`Did not find <gr-diff-host> element for ${path}`);
         return Promise.resolve();
       }
-      diffElem.comments = this.changeComments.getCommentsBySideForPath(
-          path, this.patchRange, this.projectConfig);
+      diffElem.comments = this.changeComments.getCommentsBySideForFile(
+          file, this.patchRange, this.projectConfig);
       const promises = [diffElem.reload()];
       if (this._loggedIn && !this.diffPrefs.manual_review) {
         promises.push(this._reviewFile(path, true));
@@ -1188,7 +1207,7 @@ class GrFileList extends mixinBehaviors( [
   reloadCommentsForThreadWithRootId(rootId, path) {
     // Don't bother continuing if we already know that the path that contains
     // the updated comment thread is not expanded.
-    if (!this._expandedFilePaths.includes(path)) { return; }
+    if (!this._expandedFiles.some(f => f.path === path)) { return; }
     const diff = this.diffs.find(d => d.path === path);
 
     const threadEl = diff.getThreadEls().find(t => t.rootId === rootId);

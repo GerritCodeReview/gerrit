@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "8b2f3f2f_5c13f613",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-30T10:32:33Z",
+      "side": 1,
+      "message": "Yeah, I guess the pseudo-global variable is fine. But I don\u0027t understand how this works with testing. The problem is not creating the test instance in a test file, but how to make sure that the component under test uses a test instance of `reporting`.",
+      "parentUuid": "9faec577_499bfe3f",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b5a05d7_6598a9e5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 17

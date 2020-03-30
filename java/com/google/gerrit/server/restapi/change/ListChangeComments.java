@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -32,8 +33,11 @@ import com.google.gerrit.server.restapi.change.CommentJson.CommentFormatter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Singleton
 public class ListChangeComments implements RestReadView<ChangeResource> {

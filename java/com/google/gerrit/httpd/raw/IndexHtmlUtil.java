@@ -38,6 +38,7 @@ import com.google.template.soy.data.SanitizedContent;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -47,6 +48,7 @@ import java.util.regex.Pattern;
 /** Helper for generating parts of {@code index.html}. */
 @UsedAt(Project.GOOGLE)
 public class IndexHtmlUtil {
+  private static final Gson gson = OutputFormat.JSON_COMPACT.newGson();
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static final String changeCanonicalUrl = ".*/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
   public static final String basePatchNumUrlPart = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
@@ -107,8 +109,8 @@ public class IndexHtmlUtil {
       Function<String, SanitizedContent> urlInScriptTagOrdainer,
       String requestedURL)
       throws URISyntaxException, RestApiException {
-    return ImmutableMap.<String, Object>builder()
-        .putAll(
+    ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
+    data.putAll(
             staticTemplateData(
                 canonicalURL,
                 cdnPath,
@@ -116,15 +118,19 @@ public class IndexHtmlUtil {
                 urlParameterMap,
                 urlInScriptTagOrdainer,
                 requestedURL))
-        .putAll(dynamicTemplateData(gerritApi))
-        .build();
+        .putAll(dynamicTemplateData(gerritApi));
+
+    Set<String> enabledExperiments = experimentData(urlParameterMap);
+    if (!enabledExperiments.isEmpty()) {
+      data.put("enabledExperiments", serializeObject(gson, enabledExperiments));
+    }
+    return data.build();
   }
 
   /** Returns dynamic parameters of {@code index.html}. */
   public static ImmutableMap<String, Object> dynamicTemplateData(GerritApi gerritApi)
       throws RestApiException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
-    Gson gson = OutputFormat.JSON_COMPACT.newGson();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();
     initialData.put("\"/config/server/info\"", serializeObject(gson, serverApi.getInfo()));
@@ -208,6 +214,24 @@ public class IndexHtmlUtil {
     }
 
     return data.build();
+  }
+
+  /** Returns experimentData to be used in {@code index.html}. */
+  static Set<String> experimentData(Map<String, String[]> urlParameterMap)
+      throws URISyntaxException {
+    Set<String> enabledExperiments = new HashSet<>();
+
+    // Allow enable experiments with url
+    // ?experiment=a&experiment=b should result in:
+    // "experiment" => [a,b]
+    if (urlParameterMap.containsKey("experiment")) {
+      String[] experiments = urlParameterMap.get("experiment");
+      for (String exp : experiments) {
+        enabledExperiments.add(exp);
+      }
+    }
+
+    return enabledExperiments;
   }
 
   private static String computeCanonicalPath(@Nullable String canonicalURL)

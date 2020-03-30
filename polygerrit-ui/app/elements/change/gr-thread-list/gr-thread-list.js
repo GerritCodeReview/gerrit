@@ -116,6 +116,12 @@ class GrThreadList extends GestureEventListeners(
   _updateSortedThreads(threads) {
     this._sortedThreads =
         threads.map(this._getThreadWithSortInfo).sort((c1, c2) => {
+          // threads will be sorted by:
+          // - unresolved first
+          // - with drafts
+          // - file path
+          // - line
+          // - updated time
           const c1Date = c1.__date || util.parseDate(c1.updated);
           const c2Date = c2.__date || util.parseDate(c2.updated);
           const dateCompare = c2Date - c1Date;
@@ -123,9 +129,26 @@ class GrThreadList extends GestureEventListeners(
             if (!c1.unresolved) { return 1; }
             if (!c2.unresolved) { return -1; }
           }
+
           if (c2.hasDraft || c1.hasDraft) {
             if (!c1.hasDraft) { return 1; }
             if (!c2.hasDraft) { return -1; }
+          }
+
+          // TODO: Update here once we introduce patchset level comments
+          // they may not have or have a special line or path attribute
+
+          if (c1.thread.path !== c2.thread.path) {
+            return c1.thread.path.localeCompare(c2.thread.path);
+          }
+
+          // File level comments (no `line` property)
+          // should always show before any lines
+          if ([c1, c2].some(c => c.thread.line === undefined)) {
+            if (!c1.thread.line) { return -1; }
+            if (!c2.thread.line) { return 1; }
+          } else if (c1.thread.line !== c2.thread.line) {
+            return c1.thread.line - c2.thread.line;
           }
 
           if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {

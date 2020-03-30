@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11aee052_2adaf02c",
+        "filename": "tools/node_tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T14:26:44Z",
+      "side": 1,
+      "message": "maybe just be clear that this can not be `:node_modules` since that\u0027s what causes the error now, and people who read this file won\u0027t have this `diff` all the time.",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "7043396ac874061455b3d5bf723bbcfd6bbceeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a0a60c6_4f92e63f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T07:19:40Z",
+      "side": 1,
+      "message": "dddd",
+      "revId": "3f14b63c173e9ebbc3db352753b7c843cdca322a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0cea5b0_36c57628",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T07:19:40Z",
+      "side": 1,
+      "message": "comment at #15 asd",
+      "revId": "3f14b63c173e9ebbc3db352753b7c843cdca322a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bc07e34_823a4c2c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T07:19:40Z",
+      "side": 1,
+      "message": "comment at #26",
+      "revId": "3f14b63c173e9ebbc3db352753b7c843cdca322a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8946b76d_9ce66a85",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T07:19:40Z",
+      "side": 1,
+      "message": "asd",
+      "revId": "3f14b63c173e9ebbc3db352753b7c843cdca322a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

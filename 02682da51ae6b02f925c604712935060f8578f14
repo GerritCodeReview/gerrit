@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24fb2140_fdd3821f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T10:43:27Z",
+      "side": 1,
+      "message": "unintended character?",
+      "range": {
+        "startLine": 859,
+        "startChar": 30,
+        "endLine": 859,
+        "endChar": 31
+      },
+      "revId": "02682da51ae6b02f925c604712935060f8578f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf8e12dd_24815536",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6183,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T10:43:27Z",
+      "side": 1,
+      "message": "of the cherry-picked change ...",
+      "range": {
+        "startLine": 6183,
+        "startChar": 0,
+        "endLine": 6183,
+        "endChar": 13
+      },
+      "revId": "02682da51ae6b02f925c604712935060f8578f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d63eb1c_9ea957de",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T10:43:27Z",
+      "side": 1,
+      "message": "Should this be newTopic? Otherwise newTopic never gets a value assigned.",
+      "range": {
+        "startLine": 382,
+        "startChar": 14,
+        "endLine": 382,
+        "endChar": 25
+      },
+      "revId": "02682da51ae6b02f925c604712935060f8578f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76022c20_b425ba99",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T10:43:27Z",
+      "side": 1,
+      "message": "duplicated line",
+      "revId": "02682da51ae6b02f925c604712935060f8578f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

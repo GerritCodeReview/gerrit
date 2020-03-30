@@ -52,6 +52,24 @@
       "revId": "eda5e57cdf7f98565af0afedf77a4547faa500a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9851c343_60b8d7e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T07:21:50Z",
+      "side": 1,
+      "message": "oh. just tried, the `file level` comments don\u0027t have `line` property. But I think we should always show file level before any other line, will add a separate logic there",
+      "parentUuid": "df154211_4cfcb994",
+      "revId": "eda5e57cdf7f98565af0afedf77a4547faa500a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "25d033177ee5bb3a991a38e054f3bcf4011b9762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c09193b5_beadc7e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-03-30T13:37:14Z",
+      "side": 1,
+      "message": "Ack, thx",
+      "parentUuid": "80bd3a42_e16f6cc7",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 30
+      },
+      "revId": "25d033177ee5bb3a991a38e054f3bcf4011b9762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

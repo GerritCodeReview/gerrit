@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e86ad6df_8259cce7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T12:57:59Z",
+      "side": 1,
+      "message": "hmm is it possible that `disableApplyFixButton` is false while `currentPatchNum !\u003d\u003d patchNum` is true ? I thought that\u0027s what you used in the `_computeDisableApplyFixButton` ?",
+      "parentUuid": "447ad318_b24f9891",
+      "range": {
+        "startLine": 209,
+        "startChar": 12,
+        "endLine": 209,
+        "endChar": 33
+      },
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca186236_fd259c88",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
         "patchSetId": 12

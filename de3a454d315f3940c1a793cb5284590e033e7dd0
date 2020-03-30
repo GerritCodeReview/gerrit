@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0e19292_cd6fc066",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T14:46:13Z",
+      "side": 0,
+      "message": "Comment removed by: Dmitrii Filippov; Reason: Invalid",
+      "range": {
+        "startLine": 197,
+        "startChar": 28,
+        "endLine": 197,
+        "endChar": 57
+      },
+      "revId": "de3a454d315f3940c1a793cb5284590e033e7dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

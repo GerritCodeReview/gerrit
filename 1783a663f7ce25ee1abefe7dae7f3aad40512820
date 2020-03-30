@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "92c9f3b9_3c2ce084",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-30T08:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8be2d4b3_ebe72c89",
+      "revId": "1783a663f7ce25ee1abefe7dae7f3aad40512820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e774957c_b8f57247",
         "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
         "patchSetId": 20
@@ -33,6 +51,24 @@
       "revId": "1783a663f7ce25ee1abefe7dae7f3aad40512820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44708dfc_7f8deeb5",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-30T08:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e774957c_b8f57247",
+      "revId": "1783a663f7ce25ee1abefe7dae7f3aad40512820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

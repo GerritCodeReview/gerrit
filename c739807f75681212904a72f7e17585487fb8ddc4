@@ -25,6 +25,47 @@
     },
     {
       "key": {
+        "uuid": "2dadfb0a_df1768b4",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-30T13:38:27Z",
+      "side": 1,
+      "message": "+1 to Luca\u0027s formulation.",
+      "parentUuid": "670d080c_8d3f0695",
+      "range": {
+        "startLine": 270,
+        "startChar": 7,
+        "endLine": 270,
+        "endChar": 43
+      },
+      "revId": "c739807f75681212904a72f7e17585487fb8ddc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e7ccfc2_8578d90f",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-03-30T13:38:27Z",
+      "side": 1,
+      "message": "It would be good to just use one way to format the yes/no examples. It\u0027s currently not consistent.",
+      "revId": "c739807f75681212904a72f7e17585487fb8ddc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5006f851_d9c4e9be",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1

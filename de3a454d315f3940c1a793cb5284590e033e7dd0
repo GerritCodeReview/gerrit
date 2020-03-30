@@ -46,6 +46,30 @@
       "revId": "de3a454d315f3940c1a793cb5284590e033e7dd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833dabd3_8fe360bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T14:53:22Z",
+      "side": 0,
+      "message": "good to know that, another reason to remove this ... And we don\u0027t really have good cross browser support afaik, we don\u0027t have tests for that either :( and side note, IE11 is pretty much deprecated as well",
+      "parentUuid": "c4676454_1f9cbb0f",
+      "range": {
+        "startLine": 197,
+        "startChar": 28,
+        "endLine": 197,
+        "endChar": 57
+      },
+      "revId": "de3a454d315f3940c1a793cb5284590e033e7dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

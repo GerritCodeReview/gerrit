@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12599cc9_9ddfa22d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-30T07:47:15Z",
+      "side": 1,
+      "message": "Nit: I would either use a ternary here or do the `if (!c1.thread.line) { return -1; }` check without the if statement in line 147.",
+      "range": {
+        "startLine": 148,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 46
+      },
+      "revId": "a0d86ae964a788583468c257752f074cecd7c075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

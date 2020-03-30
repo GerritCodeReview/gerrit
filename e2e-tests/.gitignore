@@ -1,0 +1,13 @@
+/.idea/
+
+# mpeltonen/sbt-idea plugin
+/.idea_modules/
+
+# File-based project format
+*.iws
+
+# IntelliJ
+/out/
+
+# Scala sbt
+target/

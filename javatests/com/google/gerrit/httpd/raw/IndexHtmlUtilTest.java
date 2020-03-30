@@ -18,12 +18,15 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.changeUrlPattern;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.computeChangeRequestsPath;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.diffUrlPattern;
+import static com.google.gerrit.httpd.raw.IndexHtmlUtil.experimentData;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
 
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.junit.Test;
 
 public class IndexHtmlUtilTest {
@@ -136,5 +139,18 @@ public class IndexHtmlUtilTest {
   private static SanitizedContent ordain(String s) {
     return UnsafeSanitizedContentOrdainer.ordainAsSafe(
         s, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
+  }
+
+  @Test
+  public void useExperiments() throws Exception {
+    Map<String, String[]> urlParms = new HashMap<>();
+    String[] experiments = new String[] {"foo", "bar", "foo"};
+    Set<String> expected = new HashSet<>();
+    for (String exp : experiments) {
+      expected.add(exp);
+    }
+    urlParms.put("experiment", experiments);
+    Set<String> data = experimentData(urlParms);
+    assertThat(data).isEqualTo(expected);
   }
 }

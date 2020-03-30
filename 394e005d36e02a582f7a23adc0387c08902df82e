@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7384325e_e5c81299",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T13:52:15Z",
+      "side": 1,
+      "message": "Does word \"unresolved\" needed for each line? Is there have plan to put something else (except \"unresolved\").\nPhrase \"2 unresolved\" contains only 1 character of useful information",
+      "range": {
+        "startLine": 16,
+        "startChar": 7,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f67fa6a_cef5edc2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T13:52:15Z",
+      "side": 1,
+      "message": "The output value depends on the \u0027change\u0027 subproperty; may be use change.* instead or pass only change.unresolved_comment_count value?",
+      "range": {
+        "startLine": 158,
+        "startChar": 14,
+        "endLine": 158,
+        "endChar": 38
+      },
+      "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

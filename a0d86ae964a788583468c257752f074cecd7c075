@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb7e3c1c_22018441",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-30T08:01:22Z",
+      "side": 1,
+      "message": "Sorry, the correct path is \u0027/COMMIT_MSG\u0027.",
+      "parentUuid": "ee73d737_202a1454",
+      "revId": "a0d86ae964a788583468c257752f074cecd7c075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12599cc9_9ddfa22d",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 2

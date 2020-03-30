@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ee73d737_202a1454",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-03-30T08:00:22Z",
+      "side": 1,
+      "message": "Does this ensure that comments on /COMMIT_MESSAGE come first?\n\n(It is pretty much decided that patchset level comment will be using /PATCHSET_LEVEL as a path. So you could actually already put this in here, as well.)",
+      "revId": "a0d86ae964a788583468c257752f074cecd7c075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12599cc9_9ddfa22d",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 2

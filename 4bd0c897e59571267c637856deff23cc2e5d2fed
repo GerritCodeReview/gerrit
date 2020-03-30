@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "203c4504_e6571022",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T10:13:28Z",
+      "side": 1,
+      "message": "is this needed ? won\u0027t the second condition already cover this one ?",
+      "range": {
+        "startLine": 209,
+        "startChar": 12,
+        "endLine": 209,
+        "endChar": 33
+      },
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca186236_fd259c88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T10:13:28Z",
+      "side": 1,
+      "message": "probably don\u0027t need, the code is pretty clear here",
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7057290b_2f46276e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_html.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T10:13:28Z",
+      "side": 1,
+      "message": "it would be greatly appreciated if you can reformat this to multi-line instead",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 270
+      },
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe73fe0_f3bbe752",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog_html.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T10:13:28Z",
+      "side": 1,
+      "message": "ditto, and is this `\\$` required ?",
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02627c45_38010273",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T10:13:28Z",
+      "side": 1,
+      "message": "if you need `flush`, make it an async test (use `done`), otherwise even it fails, it won\u0027t be reported",
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

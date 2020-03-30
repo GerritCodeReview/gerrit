@@ -2056,9 +2056,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     /**
      * Note that the following 3 items have the same timestamp: comment "comment_PS2", message
-     * "Uploaded patch set 2.", and message "Patch Set 2:\n\n(1 comment)". For same change message
-     * timestamps, the matching to a specific message is not guaranteed. TODO(ghareeb) enhance the
-     * matching to ignore change messages with "auto-generated" tag
+     * "Uploaded patch set 2.", and message "Patch Set 2:\n\n(1 comment)". The comment will not be
+     * matched with the upload change message because it is auto-generated. Same goes for patch set
+     * 3.
      */
     assertThat(
             comments.stream()
@@ -2067,7 +2067,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 .changeMessageId)
         .isEqualTo(
             allMessages.stream()
-                .filter(m -> m.message.equals("Uploaded patch set 2."))
+                .filter(m -> m.message.equals("Patch Set 2:\n\n(1 comment)"))
                 .collect(MoreCollectors.onlyElement())
                 .id);
 
@@ -2078,7 +2078,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 .changeMessageId)
         .isEqualTo(
             allMessages.stream()
-                .filter(m -> m.message.equals("Uploaded patch set 3."))
+                .filter(m -> m.message.equals("Patch Set 3:\n\n(1 comment)"))
                 .collect(MoreCollectors.onlyElement())
                 .id);
   }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe7f2fb9_dbbd2e5a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-30T20:21:07Z",
+      "side": 1,
+      "message": "Mutable arrays here and next time so that we can sort",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 26
+      },
+      "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

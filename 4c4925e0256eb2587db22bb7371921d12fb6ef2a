@@ -161,6 +161,41 @@
     },
     {
       "key": {
+        "uuid": "3920e978_d8887ae5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-03-30T12:14:13Z",
+      "side": 1,
+      "message": "Some options, because you asked for my opinion. Feel free to ignore.\n\n1) Use a \"global\" variable, stub methods on that (like Tao suggests). Works okay for tests, so long as you do not forget to stub something that makes prod changes and so on. Not so great for actually configuring a different logging library.\n\n2) DI light: Have a \"app context\" which is a global variable, and have the app bootstrapping set properties on that:\n```\nexport const appContext \u003d {}\n\n// In bootstrap:\n\nappContext.reporting \u003d new GrReporting();\n\n// In tests:\nappContext.reporting \u003d new GrFakeReporting();\n```\nThis externalizes the choice of dependencies. It works for tests, but also if you want to later switching to a different reporting framework, e.g. when you want to share gr-diff with Critique and Critique wants to use it\u0027s own reporting.\n\n3) Like 2, but make it more fancy:\n\na) Instead of a single appContext that knowns all possible deps, make Angular-like module contexts, which split this up a bit, so that Critique depending on gr-diff and gr-diff depending on app context does not mean Critique now has to depend on all your services. This becomes a problem expecially when you move to TypeScript and you want the properties of appContext to be typed. You can maybe sitestep that if you use the getter approach Tao suggested instead of a central app context. Then each component only imports those files for the \"provider getter\" it needs. Ideally this would not be the same file as the actual implementation of those services, to avoid Critique having to depend on GrReporting.\n\nb) Instead of global imports try something like https://www.webcomponents.org/element/LssPolymerElements/titanium-dependency-injection - or something else - some library somebody made to do DI for webcomponents...\n\nI would probably go for one of the 3)a/b options.",
+      "parentUuid": "d36d44a9_79d97163",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0be9904_c59c404d",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-03-30T12:14:13Z",
+      "side": 1,
+      "message": "A nice pattern for those kinds of exports I find is:\n\n```\nexport const TEST_ONLY \u003d {GrReporting};\n```\n\nThen you can still use it from tests, but it\u0027s very clear at the import that this is not meant for production code.\n\nThat said, if you move to TypeScript at some point you may need to access this class, or at least it\u0027s interface, for type checking purposes...",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b5a05d7_6598a9e5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 17

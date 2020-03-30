@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ca9dc95_76b395d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T14:02:31Z",
+      "side": 1,
+      "message": "Empty comments here and bellow. Do they needed?",
+      "range": {
+        "startLine": 55,
+        "startChar": 76,
+        "endLine": 56,
+        "endChar": 6
+      },
+      "revId": "86ec4cdc5472be6310db831aab8ab050b8a191e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
